@@ -756,7 +756,10 @@ fn record_notice_for_http_failure(
     let address = listener.local_addr().expect("failure route address");
     let server = tiny_http::Server::from_listener(listener, None).expect("failure route server");
     let receiver = thread::spawn(move || {
-        let request = server.recv().expect("receive failure notice");
+        let request = server
+            .recv_timeout(Duration::from_secs(30))
+            .expect("receive failure notice")
+            .expect("failure notice did not reach fixture within 30 seconds");
         thread::sleep(response_delay);
         let _ = request.respond(tiny_http::Response::empty(response_status));
     });

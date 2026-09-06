@@ -1,0 +1,37 @@
+{
+  "issue": 707,
+  "actor": "codex:runtime-generation-a2a-repair",
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "c4aa89f61a717b4dbbdd2a0d918bd5ae86e8ff58d7e3960ac38e4a85a84646a7",
+  "reason": "Keep pre-bind validation lanes limited to executable governed targets; the live Wuji proof script is an implementation deliverable and cannot be a pre-bind target.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "config-generation-cross-binary",
+        "proof_role": "Prove deterministic install-generation handling and fail-closed artifact mismatch behavior; extend this retained target with cross-binary config identity coverage during implementation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 3000,
+        "argv": ["bash", "adl/tools/test_runtime_v3_generation_install.sh"],
+        "parallel_group": "runtime-generation",
+        "defer_reason": null
+      },
+      {
+        "lane": "format-diff",
+        "proof_role": "Reject formatting and exact-range whitespace defects before review.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check", "origin/main...HEAD"],
+        "parallel_group": "runtime-generation",
+        "defer_reason": null
+      }
+    ]
+  }
+}

@@ -247,6 +247,72 @@ impl Layer8ConversationAuthority {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
+pub fn authorize_with_profile(
+    store: &Layer8AuthorityStore,
+    profile: &ConversationAuthorityProfile,
+    authenticated_sender: &CommunicationVerifyingIdentity,
+    action: Layer8Action,
+    conversation_id: Option<String>,
+    recipients: BTreeSet<String>,
+    replay_id: String,
+    correlation_id: String,
+    now_epoch_secs: u64,
+) -> AuthorityDecision {
+    let prechecked_refusal = if authenticated_sender.principal_id != profile.evidence.principal_id
+        || authenticated_sender.polis_id != profile.evidence.polis_id
+        || authenticated_sender.signing_key_id != profile.evidence.signing_key_id
+        || authenticated_sender.credential_generation
+            != profile.evidence.current_credential_generation
+        || hex::decode(&profile.evidence.verifying_key_hex)
+            .ok()
+            .as_deref()
+            != Some(authenticated_sender.verifying_key.as_bytes())
+    {
+        Some(RefusalReason::IdentityUnavailable)
+    } else {
+        authenticated_sender.ensure_valid_at(now_epoch_secs).err()
+    };
+    let request = AuthorityRequest {
+        evidence: profile.evidence.clone(),
+        action,
+        conversation_id,
+        recipients,
+        attachment_id: None,
+        replay_id,
+        correlation_id,
+        now_epoch_secs,
+        prechecked_refusal,
+    };
+    let principal = request.evidence.derive_principal(now_epoch_secs).ok();
+    let candidate = principal.as_ref().and_then(|principal| {
+        profile.capabilities.iter().find_map(|capability| {
+            profile.agent_policies.iter().find_map(|agent_policy| {
+                profile.polis_policies.iter().find_map(|polis_policy| {
+                    candidate_matches(&request, principal, capability, agent_policy, polis_policy)
+                        .then_some((capability, agent_policy, polis_policy))
+                })
+            })
+        })
+    });
+    let Some(fallback) = profile
+        .capabilities
+        .first()
+        .zip(profile.agent_policies.first())
+        .zip(profile.polis_policies.first())
+        .map(|((capability, agent), polis)| (capability, agent, polis))
+    else {
+        return AuthorityDecision::Refused(PublicRefusal {
+            authorized: false,
+            reason: RefusalReason::CapabilityDenied,
+            retryable: false,
+            correlation_id: request.correlation_id.clone(),
+        });
+    };
+    let (capability, agent_policy, polis_policy) = candidate.unwrap_or(fallback);
+    store.authorize(request, capability, agent_policy, polis_policy)
+}
+
 fn candidate_matches(
     request: &AuthorityRequest,
     principal: &Layer8Principal,

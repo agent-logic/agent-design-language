@@ -662,6 +662,10 @@ impl RuntimeInitConfig {
 
     pub fn continuity_identity_projection(&self) -> Result<serde_json::Value, serde_json::Error> {
         let mut value = serde_json::to_value(self)?;
+        if let Some(runtime) = value.as_object_mut() {
+            runtime.remove("service_convergence");
+            runtime.remove("agent_partial_checkpoints");
+        }
         if let Some(credentials) = value
             .get_mut("credentials")
             .and_then(serde_json::Value::as_object_mut)
@@ -1374,12 +1378,22 @@ impl ResidentShepherdSetInitConfig {
             ));
         }
         let mut names = std::collections::BTreeSet::new();
+        let mut ids = std::collections::BTreeSet::new();
         for config in configs {
             config.validate()?;
             if !names.insert(config.name.as_str()) {
                 return Err(RuntimeInitError::Policy(format!(
                     "duplicate resident_shepherd.name: {}",
                     config.name
+                )));
+            }
+            let id = config
+                .name
+                .split_once('.')
+                .map_or(config.name.as_str(), |(id, _)| id);
+            if !ids.insert(id) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "resident agent identity collision for configured name: {id}"
                 )));
             }
         }

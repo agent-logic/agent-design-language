@@ -1,0 +1,10 @@
+{
+  "issue": 707,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "3e211e68a147b5f2267e8705c75afddf6f3e239ba70dd92c3aabeba506f7fae2",
+  "actor": "codex:/root",
+  "reason": "Bounded implementation, focused validation, coherent live deployment, and live A2A proof are complete; enter exact-head review.",
+  "operation": {"operation": "advance_phase", "phase": "implemented"},
+  "fail_after_backup": false
+}

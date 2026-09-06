@@ -20,6 +20,19 @@ async fn main() -> ExitCode {
             return ExitCode::from(64);
         }
     };
+    let config = if std::env::var_os("ADL_RUNTIME_V3_CONFIG_IDENTITY_CHECK").is_some() {
+        GuardianConfig {
+            args: vec![
+                "config-identity-check".to_owned(),
+                "--init".to_owned(),
+                config.args[2].clone(),
+            ],
+            restart_budget: 0,
+            ..config
+        }
+    } else {
+        config
+    };
     match run_guardian_with_os_signals(config).await {
         Ok(outcome) => {
             let terminal = outcome.terminal_state;

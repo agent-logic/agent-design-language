@@ -1,0 +1,12 @@
+flowchart LR
+  I[Runtime init] --> C[Canonical config identity]
+  C --> M[CSM]
+  C --> G[Guardian]
+  C --> K[Kernel]
+  M --> R[Atomic generation receipt]
+  G --> R
+  K --> R
+  R --> L[launchd owned Runtime]
+  L --> B[Beacon Axioma]
+  B -->|distinct A2A work item| E[Ember Axioma]
+  L -. rollback .-> P[Last-known-good generation]

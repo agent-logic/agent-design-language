@@ -63,6 +63,61 @@ async fn main() -> ExitCode {
     };
 
     match command.as_str() {
+        "config-identity-check" => {
+            let args = match ServeArgs::parse(args) {
+                Ok(args) => args,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(64);
+                }
+            };
+            let init_path = match canonical_init_path(&args.init_path) {
+                Ok(path) => path,
+                Err(error) => {
+                    eprintln!("runtime init path invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
+                Ok(config) => config,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let supplied =
+                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
+                    Ok(identity) => identity,
+                    Err(error) => {
+                        eprintln!("{error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            let binary_generation = match runtime_binary_generation(&init.binaries.kernel_path) {
+                Ok(generation) => generation,
+                Err(error) => {
+                    eprintln!("runtime kernel generation invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            if let Err(error) = validate_config_generation_identity_matches_active(
+                &init_path,
+                &binary_generation,
+                &supplied,
+            ) {
+                eprintln!("{error}");
+                return ExitCode::from(78);
+            }
+            println!(
+                "{}",
+                serde_json::json!({
+                    "schema": "adl.runtime_v3.kernel_config_identity_probe.v1",
+                    "generation": supplied.generation,
+                    "receipt_digest": supplied.receipt_digest,
+                })
+            );
+            ExitCode::SUCCESS
+        }
         "serve" => {
             let serve_args = match ServeArgs::parse(args) {
                 Ok(args) => args,
@@ -670,7 +725,17 @@ async fn main() -> ExitCode {
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
+            .with_resident_agent_bindings(&init.resident_shepherd)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
+            service = match service.with_runtime_agent_authority_store(
+                operation_state_identity.join("runtime-agent-layer8.audit.jsonl"),
+            ) {
+                Ok(service) => service,
+                Err(error) => {
+                    eprintln!("runtime agent Layer 8 authority unavailable: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let config_generation_identity =
                 match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
                     Ok(identity) => identity,
@@ -739,6 +804,10 @@ async fn main() -> ExitCode {
             });
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
+            service.set_runtime_agent_delegation_key(blake3::derive_key(
+                "adl.runtime_v3.agent_delegation.continuity.v1",
                 &continuity_secret,
             ));
             let api_policy = ControlApiPolicy::new(

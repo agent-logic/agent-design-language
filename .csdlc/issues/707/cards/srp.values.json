@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 707,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
+    "slug": "runtime-generation-coherence-a2a-deploy",
+    "version": "v0.92.1",
+    "generation": 9
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "cross-binary configuration identity\nuniform all-agent A2A communication\nsingle canonical Wuji deployment\ntwo fresh live Beacon-to-Ember deliveries\nfocused validation and publication hygiene",
+      "review_revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
+      "reviewer": "subagent:/root/review_707_final",
+      "review_prompts": [
+        "Is receipt identity byte-stable across independently resolved package graphs?",
+        "Can any mismatched init, generation, executable, or receipt pass?",
+        "Does live proof distinguish operator reply from a separately addressed and received Ember work item?",
+        "Is rollback preserved throughout deployment?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

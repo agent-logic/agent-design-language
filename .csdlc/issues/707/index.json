@@ -1,0 +1,238 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 707,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "67ad230ca41fe5451ab3c64ef33526b2cd36ad6b6f4681464680b4efbfadf9e1",
+  "phase": "published",
+  "generation": 9,
+  "digest": "b17341be99eddceb90e60d467c0da57f358a283a23f769e8e48e3b16641cdd0c",
+  "branch": "codex/707-runtime-generation-coherence-a2a-deploy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-707-runtime-generation-coherence-a2a-deploy",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_707_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
+    "scope": [
+      "cross-binary configuration identity",
+      "uniform all-agent A2A communication",
+      "single canonical Wuji deployment",
+      "two fresh live Beacon-to-Ember deliveries",
+      "focused validation and publication hygiene"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_707_final",
+    "scope": [
+      "cross-binary configuration identity",
+      "uniform all-agent A2A communication",
+      "single canonical Wuji deployment",
+      "two fresh live Beacon-to-Ember deliveries",
+      "focused validation and publication hygiene"
+    ],
+    "reviewed_revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 707,
+    "pull_request": 711,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/711",
+    "base": "main",
+    "head": "codex/707-runtime-generation-coherence-a2a-deploy",
+    "revision": "git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/707/design.md",
+  "diagram_path": ".csdlc/prepared/issues/707/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:authorized-live-repair",
+      "revision": "c7489b245a9f56f3bd65a8458fc03cc3541cdbccb2144dd6f656ae373e8bb5b0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2f52e08a7f76c9d934a30752ccc26f6e0ec6cb9a228d5774426c44b464670c4d",
+      "rendered_digest": "6e5e831eb11c8228061f40a6f241f0eabe55465de85b4d6f123d5721adc76b2a",
+      "ast_digest": "1c67609962e8e129b8ba1ef3b0272a4c986468315fb050bedfa7cab59582ab77"
+    },
+    "stp": {
+      "values_digest": "1768a252d866c6061558730ab7aca89c5a05079475b16eaa43063e1cccdf6615",
+      "rendered_digest": "1a778a5b924419266702bae6794cf48e08eb84615bbcde70a5a34ed18178a58b",
+      "ast_digest": "4a0296704bfa40277f94114a7b96d2c4a8cc8cd2dd05a9b1c609c02294991280"
+    },
+    "spp": {
+      "values_digest": "2b92be1ae942c695c5725cf90d48d996c69d009968167130e9bf8619ee2a2704",
+      "rendered_digest": "8e4ef1a85385869606f137562281d277f6aee8af41eee6355bae45b8fda361c0",
+      "ast_digest": "90d0ac48e6b17ea3ab80f7a65a050328c26116746b756c9547de03f24aa739bc"
+    },
+    "vpp": {
+      "values_digest": "24be5725ba2bdda7e0e171c796e0a0cb2303b15d108d34d0cf9ef3be349e99c9",
+      "rendered_digest": "90fe7590fad64ef873175b1ae1c48233f6aa0610722b8b105b704c4323c6c0c9",
+      "ast_digest": "adbb1032c11cb32a2e5185ad2c5b0234ccd2036902ce7b4f7ddf1683667a440e"
+    },
+    "srp": {
+      "values_digest": "543b8cc770dfc575c9cb95b573efc7906874fbe70bb97f8cff344ddf4d98cd3b",
+      "rendered_digest": "1be5e37737d1183e5710df2c744f85e122d67b2de80a06c0a1867e2656948fee",
+      "ast_digest": "680e6998cf8d6c4c1ec5ca337374b5efe16babd0e4fe0e42b8e2c5d37c05ee36"
+    },
+    "sor": {
+      "values_digest": "70e451caa1453fe84a2333ddff3561af815dd3651e4cd15611dec2ce78010314",
+      "rendered_digest": "ffaee70afec0dd28ad87f7f685d6cbb68740d00b939659de9d401c9118c9b587",
+      "ast_digest": "8a7c80e0a3077577217766c092bc03ca562dce9a0aface16b2d6b3276e163d3b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:runtime-generation-a2a-repair",
+      "reason": "Advance the operator-approved bounded repair design to execution readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Bounded implementation, focused validation, coherent live deployment, and live A2A proof are complete; enter exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the exact-head review after retaining and executing the previously missing publication-proof validator."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:runtime-generation-a2a-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:runtime-generation-a2a-repair",
+      "reason": "Advance the operator-approved bounded repair design to execution readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:runtime-generation-a2a-repair",
+      "reason": "Keep pre-bind validation lanes limited to executable governed targets; the live Wuji proof script is an implementation deliverable and cannot be a pre-bind target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"config-generation-cross-binary\",\"proof_role\":\"Prove deterministic install-generation handling and fail-closed artifact mismatch behavior; extend this retained target with cross-binary config identity coverage during implementation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_runtime_v3_generation_install.sh\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null},{\"lane\":\"format-diff\",\"proof_role\":\"Reject formatting and exact-range whitespace defects before review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"runtime-generation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record the reviewed implementation and live Wuji rollout truth before publication.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired dependency-independent Runtime configuration identity, installed one coherent reviewed CSM/Guardian/Kernel generation under the single canonical Wuji service, and delivered two distinct live Beacon-to-Ember A2A conversations.\",\"changes\":[\"Made configuration receipt identity canonical across independently resolved CSM, Guardian, and Kernel manifests while retaining fail-closed mismatch validation.\",\"Unified resident agent conversation execution so Shepherd is a role and every admitted communication-capable agent uses the same governed A2A path.\",\"Added Runtime-delegated signed identity, carried ACIP integrity, per-sender monotonic replay protection, roster eligibility, and durable Layer 8 audit.\",\"Made Contact and Continue an explicit all-to-all invariant for admitted communication-capable agents.\",\"Retired the duplicate Wuji launchd path and deployed the reviewed generation through the single canonical com.agentlogic.adl-runtime-v3 service.\"],\"artifacts\":[\"adl-runtime-kernel/src/config_generation.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/layer8_authority/mod.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tools/test_runtime_v3_cross_binary_generation.sh\",\".csdlc/evidence/707/live-a2a-results.json\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Record the focused deterministic, cross-binary, live Wuji, and exact-head review proof for publication.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/707/validate-publication-proof.sh\"],\"purpose\":\"Aggregate retained proof: A2A tests 10/10, configuration tests 37/37, real CSM-Guardian-Kernel generation parity, cargo check, diff hygiene, two fresh live Beacon-to-Ember deliveries, and publication-head review PASS.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/707/live-a2a-results.json\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Bounded implementation, focused validation, coherent live deployment, and live A2A proof are complete; enter exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover the exact-head review after retaining and executing the previously missing publication-proof validator.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -155,23 +155,35 @@ pub fn validate_active_config_generation(
     init: &Path,
     compatible_binary_generation: &str,
 ) -> Result<ConfigGenerationIdentity, String> {
-    let expected = build_config_generation_receipt(init, compatible_binary_generation)?.1;
+    validate_identifier("compatible binary generation", compatible_binary_generation)?;
+    let content_sha256 = format!(
+        "{:x}",
+        Sha256::digest(fs::read(init).map_err(|error| format!("read Runtime init: {error}"))?)
+    );
+    let expected_generation =
+        config_generation_digest(&content_sha256, compatible_binary_generation);
     let (generation, digest, receipt) = read_active_config_generation_receipt(init)?;
-    if generation != expected.generation || digest != expected.receipt_digest {
+    if generation != expected_generation {
         return Err(
             "Runtime configuration active reference does not match init content".to_owned(),
         );
     }
+    let canonical_digest = receipt_digest(&receipt)?;
+    let legacy_digest = legacy_receipt_digest(&receipt)?;
     if receipt.schema != CONFIG_GENERATION_RECEIPT_SCHEMA
         || receipt.generation != generation
+        || receipt.content_sha256 != content_sha256
         || receipt.compatible_binary_generation != compatible_binary_generation
-        || receipt_digest(&receipt)? != digest
+        || (canonical_digest != digest && legacy_digest != digest)
     {
         return Err(
             "Runtime configuration receipt identity or compatibility is invalid".to_owned(),
         );
     }
-    Ok(expected)
+    Ok(ConfigGenerationIdentity {
+        generation,
+        receipt_digest: digest,
+    })
 }
 
 pub fn validate_active_config_generation_content(
@@ -182,10 +194,12 @@ pub fn validate_active_config_generation_content(
         Sha256::digest(fs::read(init).map_err(|error| format!("read Runtime init: {error}"))?)
     );
     let (generation, digest, receipt) = read_active_config_generation_receipt(init)?;
+    let canonical_digest = receipt_digest(&receipt)?;
+    let legacy_digest = legacy_receipt_digest(&receipt)?;
     if receipt.schema != CONFIG_GENERATION_RECEIPT_SCHEMA
         || receipt.generation != generation
         || receipt.content_sha256 != content_sha256
-        || receipt_digest(&receipt)? != digest
+        || (canonical_digest != digest && legacy_digest != digest)
     {
         return Err("Runtime configuration active receipt does not match init content".to_owned());
     }
@@ -227,9 +241,15 @@ pub fn validate_config_generation_identity_matches_active(
 }
 
 pub fn receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, String> {
-    serde_json::to_vec(receipt)
+    serde_jcs::to_vec(receipt)
         .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
         .map_err(|error| format!("encode Runtime configuration receipt digest: {error}"))
+}
+
+fn legacy_receipt_digest(receipt: &ConfigGenerationReceipt) -> Result<String, String> {
+    serde_json::to_vec(receipt)
+        .map(|bytes| blake3::hash(&bytes).to_hex().to_string())
+        .map_err(|error| format!("encode legacy Runtime configuration receipt digest: {error}"))
 }
 
 fn read_active_config_generation_receipt(
@@ -316,4 +336,91 @@ fn sync_directory(path: &Path) -> Result<(), String> {
     fs::File::open(path)
         .and_then(|directory| directory.sync_all())
         .map_err(|error| format!("sync Runtime configuration directory: {error}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn configuration_receipt_digest_uses_canonical_json() {
+        let receipt = ConfigGenerationReceipt {
+            schema: CONFIG_GENERATION_RECEIPT_SCHEMA.to_owned(),
+            generation: "11".repeat(32),
+            content_sha256: "22".repeat(32),
+            config_schema: "adl.runtime_v3.init.v1".to_owned(),
+            compatible_binary_generation: "generation-a".to_owned(),
+            secret_references: BTreeMap::from([
+                (
+                    "credentials.operation_public_key_path".to_owned(),
+                    REDACTED_SECRET_REFERENCE.to_owned(),
+                ),
+                (
+                    "api.tls.private_key_path".to_owned(),
+                    REDACTED_SECRET_REFERENCE.to_owned(),
+                ),
+            ]),
+        };
+
+        assert_eq!(
+            String::from_utf8(serde_jcs::to_vec(&receipt).expect("canonical receipt"))
+                .expect("receipt is UTF-8"),
+            concat!(
+                "{\"compatible_binary_generation\":\"generation-a\",",
+                "\"config_schema\":\"adl.runtime_v3.init.v1\",",
+                "\"content_sha256\":\"2222222222222222222222222222222222222222222222222222222222222222\",",
+                "\"generation\":\"1111111111111111111111111111111111111111111111111111111111111111\",",
+                "\"schema\":\"adl.runtime_v3.config_generation.v1\",",
+                "\"secret_references\":{",
+                "\"api.tls.private_key_path\":\"[redacted-secret-reference]\",",
+                "\"credentials.operation_public_key_path\":\"[redacted-secret-reference]\"}}"
+            )
+        );
+        assert_eq!(
+            receipt_digest(&receipt).expect("receipt digest"),
+            "3c0c73f1a3d82a01bc0f983e70b5441e0941f9a99ed746b52fc227fc747d3217"
+        );
+    }
+
+    #[test]
+    fn unchanged_legacy_receipt_can_advance_to_canonical_generation() {
+        let directory = tempfile::tempdir().expect("temporary config root");
+        let init = directory.path().join("runtime-init.toml");
+        fs::write(
+            &init,
+            concat!(
+                "schema = \"adl.runtime_v3.init.v1\"\n",
+                "[credentials]\n",
+                "operation_public_key_path = \"credentials/operation.hex\"\n"
+            ),
+        )
+        .expect("write init");
+        let (receipt, identity) =
+            build_config_generation_receipt(&init, "legacy-generation").expect("build receipt");
+        let store = generation_store(&init).expect("generation store");
+        fs::create_dir_all(&store).expect("create store");
+        fs::write(
+            store.join(format!("{}.json", receipt.generation)),
+            serde_json::to_vec_pretty(&receipt).expect("legacy receipt bytes"),
+        )
+        .expect("write receipt");
+        fs::write(
+            active_generation_ref(&init).expect("active ref"),
+            format!(
+                "{} {}\n",
+                receipt.generation,
+                legacy_receipt_digest(&receipt).expect("legacy digest")
+            ),
+        )
+        .expect("write active ref");
+
+        assert_ne!(
+            identity.receipt_digest,
+            legacy_receipt_digest(&receipt).expect("legacy digest")
+        );
+        assert_eq!(
+            validate_active_config_generation_content(&init).expect("legacy content remains valid"),
+            receipt
+        );
+    }
 }

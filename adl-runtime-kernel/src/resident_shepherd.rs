@@ -282,7 +282,7 @@ impl ResidentShepherdExecutor {
             ),
             runner_nonce_sha256: None,
             elapsed_millis: started.elapsed().as_millis().try_into().unwrap_or(u64::MAX),
-            response: response.clone(),
+            response,
             response_sha256,
         })
         .map_err(|_| Self::invalid("shepherd_response_encoding_failed"))
