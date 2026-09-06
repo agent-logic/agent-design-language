@@ -1070,7 +1070,10 @@ mod tests {
     fn tracked_v3_selector_activates_only_after_origin_main_contains_it() {
         let repo = tempfile::tempdir().unwrap();
         git(repo.path(), &["init", "-b", "main"]);
-        git(repo.path(), &["config", "user.email", "test@example.invalid"]);
+        git(
+            repo.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
         git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
         let path = repo
             .path()
@@ -1084,7 +1087,10 @@ mod tests {
         git(repo.path(), &["add", "."]);
         git(repo.path(), &["commit", "-m", "v2 selector"]);
         let v2_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
-        git(repo.path(), &["update-ref", "refs/remotes/origin/main", &v2_head]);
+        git(
+            repo.path(),
+            &["update-ref", "refs/remotes/origin/main", &v2_head],
+        );
 
         fs::write(
             &path,
@@ -1098,7 +1104,10 @@ mod tests {
         git(repo.path(), &["add", "."]);
         git(repo.path(), &["commit", "-m", "v3 selector"]);
         let v3_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
-        git(repo.path(), &["update-ref", "refs/remotes/origin/main", &v3_head]);
+        git(
+            repo.path(),
+            &["update-ref", "refs/remotes/origin/main", &v3_head],
+        );
         assert_eq!(
             resolve_operator_generation(repo.path(), 505, None).unwrap(),
             Generation::V3
