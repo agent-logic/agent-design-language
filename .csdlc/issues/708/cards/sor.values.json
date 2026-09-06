@@ -7,7 +7,7 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
@@ -16,6 +16,7 @@
       "summary": "Implemented the Runtime agent orientation resource path: the Axioma Polis welcome package is loaded as a typed versioned resource, stamped per admitted agent with blake3 delivery provenance, injected ahead of model-facing task content, retained per existing agent across orientation reloads, exposed through the Runtime roster/read model, and rendered by the Observatory as non-authoritative orientation metadata.",
       "actual_changes": [
         "Added a first-class Runtime agent-orientation resource with schema, version, source path, deterministic full projection, blake3 digest over exact injected bytes, and validation that rejects disabled, malformed, unreadable, or non-welcome-package content.",
+        "Made the default canonical welcome-package path load the bundled trusted package unconditionally, so process cwd cannot shadow the default orientation source; explicit custom source paths continue to load and validate from disk.",
         "Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.",
         "Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.",
         "Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.",
@@ -44,9 +45,9 @@
             "--lib",
             "orientation"
           ],
-          "purpose": "Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, and fail-closed invalid reload.",
+          "purpose": "Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, fail-closed invalid reload, explicit custom package loading, and cwd-shadow rejection for the default bundled package.",
           "outcome": "passed",
-          "evidence_ref": "terminal:running 4 tests; 4 passed"
+          "evidence_ref": "terminal:running 6 tests; 6 passed"
         },
         {
           "command": [
@@ -127,7 +128,7 @@
           "evidence_ref": "terminal:git diff --check exited 0"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

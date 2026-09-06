@@ -28,6 +28,7 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 ## Execution
 
 - Added a first-class Runtime agent-orientation resource with schema, version, source path, deterministic full projection, blake3 digest over exact injected bytes, and validation that rejects disabled, malformed, unreadable, or non-welcome-package content.
+- Made the default canonical welcome-package path load the bundled trusted package unconditionally, so process cwd cannot shadow the default orientation source; explicit custom source paths continue to load and validate from disk.
 - Stamped resident and dynamically admitted agents with per-agent orientation delivery provenance and retained exact delivered resources so existing agents keep their original package while new admissions receive the current valid package.
 - Initialized startup residents from the configured Runtime orientation resource before dynamic admissions load, and updated config reload so valid reloads change only the active future-admission package while invalid reloads fail closed.
 - Prepended the retained per-agent welcome package before model-facing shepherd and runtime-agent conversation task content without treating the package as authority or capability.
@@ -48,9 +49,9 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
       "--lib",
       "orientation"
     ],
-    "purpose": "Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, and fail-closed invalid reload.",
+    "purpose": "Issue 708 Runtime orientation contract validation: delivered package ordering, per-agent provenance, startup initialization, reload retention, future-admission update, fail-closed invalid reload, explicit custom package loading, and cwd-shadow rejection for the default bundled package.",
     "outcome": "passed",
-    "evidence_ref": "terminal:running 4 tests; 4 passed"
+    "evidence_ref": "terminal:running 6 tests; 6 passed"
   },
   {
     "command": [
@@ -134,7 +135,7 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

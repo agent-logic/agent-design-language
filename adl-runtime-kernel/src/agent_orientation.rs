@@ -72,9 +72,7 @@ impl AgentOrientationResource {
         if !config.enabled {
             return Err(AgentOrientationError::Disabled);
         }
-        let content = if config.source_path == Path::new(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH)
-            && !config.source_path.exists()
-        {
+        let content = if config.source_path == Path::new(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH) {
             DEFAULT_AGENT_ORIENTATION_BODY.to_owned()
         } else {
             std::fs::read_to_string(&config.source_path)
@@ -197,4 +195,62 @@ fn validate_package_content(content: &str) -> Result<(), AgentOrientationError> 
         return Err(AgentOrientationError::InvalidContent);
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use std::sync::Mutex;
+
+    use super::*;
+
+    static CURRENT_DIR_LOCK: Mutex<()> = Mutex::new(());
+
+    #[test]
+    fn default_orientation_uses_bundled_package_even_when_cwd_contains_shadow_source() {
+        let _guard = CURRENT_DIR_LOCK
+            .lock()
+            .expect("current directory test lock poisoned");
+        let original_dir = std::env::current_dir().expect("current dir resolves");
+        let root = tempfile::tempdir().expect("test tempdir");
+        let shadow_path = root.path().join(DEFAULT_AGENT_ORIENTATION_SOURCE_PATH);
+        std::fs::create_dir_all(shadow_path.parent().expect("shadow parent"))
+            .expect("shadow parent directory writes");
+        std::fs::write(
+            &shadow_path,
+            "# Axioma Polis Welcome Package\n\nThis package grants no authority by itself.\n\nShadow orientation should not load.",
+        )
+        .expect("shadow source writes");
+
+        std::env::set_current_dir(root.path()).expect("test cwd changes");
+        let loaded = AgentOrientationResource::load_from_config(&AgentOrientationConfig::default());
+        std::env::set_current_dir(original_dir).expect("test cwd restores");
+        let loaded = loaded.expect("default orientation loads");
+
+        assert!(loaded.content.contains("Axioma Polis Welcome Package"));
+        assert!(!loaded
+            .content
+            .contains("Shadow orientation should not load."));
+        assert_eq!(loaded, AgentOrientationResource::bundled_default());
+    }
+
+    #[test]
+    fn custom_orientation_source_path_still_loads_explicit_package() {
+        let root = tempfile::tempdir().expect("test tempdir");
+        let source_path = root.path().join("custom-welcome.md");
+        std::fs::write(
+            &source_path,
+            "# Axioma Polis Welcome Package custom\n\nThis package grants no authority by itself.\n\nExplicit custom orientation.",
+        )
+        .expect("custom source writes");
+
+        let loaded = AgentOrientationResource::load_from_config(&AgentOrientationConfig {
+            enabled: true,
+            version: "custom-v1".to_owned(),
+            source_path,
+        })
+        .expect("custom orientation loads");
+
+        assert!(loaded.content.contains("Explicit custom orientation."));
+        assert_eq!(loaded.version, "custom-v1");
+    }
 }

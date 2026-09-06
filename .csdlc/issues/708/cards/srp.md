@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Review admission ordering, exact delivered-byte provenance, reload semantics, authority separation, Runtime projection, Observatory rendering, and source immutability.
+
 
 ## Prompts
 
