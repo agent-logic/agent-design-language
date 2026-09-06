@@ -881,6 +881,8 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     assert!(expected["observability_pipeline"]
         .get("cloudwatch")
         .is_none());
+    assert!(expected.get("service_convergence").is_none());
+    assert!(expected.get("agent_partial_checkpoints").is_none());
 
     let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
