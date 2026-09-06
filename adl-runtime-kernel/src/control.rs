@@ -879,7 +879,6 @@ pub struct ControlService<C> {
     runtime_agent_delegation_key: Mutex<[u8; 32]>,
     runtime_agent_delegation_sequences: Mutex<BTreeMap<String, u64>>,
     runtime_agent_authority_store: Option<Arc<Layer8AuthorityStore>>,
-    runtime_agent_polis_actions: RwLock<BTreeSet<Layer8Action>>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
     #[cfg(test)]
     conversation_attachment_test_hook: Mutex<Option<Arc<ConversationAttachmentTestHook>>>,
@@ -1001,10 +1000,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             )),
             runtime_agent_delegation_sequences: Mutex::new(BTreeMap::new()),
             runtime_agent_authority_store: None,
-            runtime_agent_polis_actions: RwLock::new(BTreeSet::from([
-                Layer8Action::Contact,
-                Layer8Action::Continue,
-            ])),
             api_policy: Mutex::new(None),
             #[cfg(test)]
             conversation_attachment_test_hook: Mutex::new(None),
@@ -1164,14 +1159,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Layer8AuthorityStore::open(path).map_err(|_| ControlError::Authentication)?,
         ));
         Ok(self)
-    }
-
-    #[cfg(test)]
-    fn set_runtime_agent_polis_actions(&self, actions: BTreeSet<Layer8Action>) {
-        *self
-            .runtime_agent_polis_actions
-            .write()
-            .expect("runtime agent Polis policy lock poisoned") = actions;
     }
 
     fn set_api_policy(&self, policy: ControlApiPolicy) {
@@ -1612,11 +1599,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .map(|agent| agent.id.clone())
             .collect::<BTreeSet<_>>();
         drop(population);
-        let polis_actions = self
-            .runtime_agent_polis_actions
-            .read()
-            .expect("runtime agent Polis policy lock poisoned")
-            .clone();
         let scopes = [Layer8Action::Contact, Layer8Action::Continue].map(|configured_action| {
             AuthorityScope {
                 polis_id: self.instance_id.clone(),
@@ -1662,7 +1644,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .iter()
                 .map(|scope| Layer8Policy {
                     policy_id: format!("runtime-polis:{}:{:?}", self.instance_id, scope.action),
-                    available: polis_actions.contains(&scope.action),
+                    // An admitted communication-capable resident may always
+                    // contact or continue with every other eligible resident.
+                    // This is the Polis invariant, not request-shaped policy.
+                    available: true,
                     scope: scope.clone(),
                     epoch: 1,
                 })
@@ -7409,8 +7394,35 @@ mod layer8_conversation_ingress_tests {
                 }),
                 "resident pair reply should preserve governed sender and work identity: {accepted:?}"
             );
+            let continued_work_id = format!("{work_id}-continue");
+            let continued_correlation_id = blake3::hash(continued_work_id.as_bytes())
+                .to_hex()
+                .to_string()[..32]
+                .to_owned();
+            let continued =
+                match service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
+                    sender_id,
+                    recipient_id,
+                    &format!("{turn_id}-continue"),
+                    &continued_correlation_id,
+                    &continued_work_id,
+                )) {
+                    ConversationAcceptance::Dispatch { dispatch, .. } => {
+                        service.complete_conversation_dispatch(dispatch).await
+                    }
+                    ConversationAcceptance::Response(response) => panic!(
+                        "runtime-internal {sender_id}->{recipient_id} Continue refused: {:?}",
+                        response.error
+                    ),
+                };
+            assert_eq!(continued.status, "delivered");
             {
                 let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
+                assert_eq!(
+                    tasks.len(),
+                    2,
+                    "each ordered pair must prove Contact and Continue"
+                );
                 assert!(
                     tasks.iter().any(|task| {
                         task["sender_id"] == sender_id
@@ -7468,7 +7480,7 @@ mod layer8_conversation_ingress_tests {
     }
 
     #[tokio::test]
-    async fn agent_to_agent_layer8_uses_roster_and_polis_policy_for_denials() {
+    async fn agent_to_agent_layer8_uses_authoritative_roster_for_denials() {
         let (service, kernel, _recorder, observed_tasks, layer8_root) =
             agent_initiation_service_with_layer8_sender("beacon", "ember", false, Duration::ZERO)
                 .await;
@@ -7524,62 +7536,10 @@ mod layer8_conversation_ingress_tests {
             ConversationAcceptance::Response(_)
         ));
 
-        service
-            .agent_population
-            .write()
-            .expect("agent population state poisoned")
-            .sample
-            .iter_mut()
-            .find(|agent| agent.id == "ember")
-            .expect("configured recipient")
-            .capabilities = vec!["conversation".to_owned()];
-        service.set_runtime_agent_polis_actions(BTreeSet::from([Layer8Action::Continue]));
-        let contact_denied =
-            service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
-                "beacon",
-                "ember",
-                "turn-policy-contact",
-                "88888888888888888888888888888888",
-                "a2a-work-policy-contact",
-            ));
-        assert!(matches!(
-            contact_denied,
-            ConversationAcceptance::Response(_)
-        ));
-
-        service.set_runtime_agent_polis_actions(BTreeSet::from([
-            Layer8Action::Contact,
-            Layer8Action::Continue,
-        ]));
-        let first = agent_pair_initiation_intent(
-            "beacon",
-            "ember",
-            "turn-policy-first",
-            "99999999999999999999999999999999",
-            "a2a-work-policy-first",
-        );
-        assert!(matches!(
-            service.accept_runtime_agent_initiation_intent(&first),
-            ConversationAcceptance::Dispatch { .. }
-        ));
-        service.set_runtime_agent_polis_actions(BTreeSet::from([Layer8Action::Contact]));
-        let continue_denied =
-            service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
-                "beacon",
-                "ember",
-                "turn-policy-continue",
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "a2a-work-policy-continue",
-            ));
-        assert!(matches!(
-            continue_denied,
-            ConversationAcceptance::Response(_)
-        ));
-
         assert!(observed_tasks.lock().expect("observed tasks").is_empty());
         let audit = std::fs::read_to_string(layer8_root.path().join("runtime-a2a.audit"))
             .expect("runtime A2A audit");
-        assert_eq!(audit.matches("\"authorized\":false").count(), 4);
+        assert_eq!(audit.matches("\"authorized\":false").count(), 2);
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
