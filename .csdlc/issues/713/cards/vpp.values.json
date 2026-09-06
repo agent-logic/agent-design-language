@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
     "slug": "runtime-a2a-conversation-history",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
   "status": "ready",
   "content": {
