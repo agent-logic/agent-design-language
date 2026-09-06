@@ -489,7 +489,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
         "turn_id": "turn-bounded-duplicate",
         "recipient_id": "shepherd",
         "correlation_id": "23232323232323232323232323232323",
-        "message": "delay ordered"
+        "message": "barrier cleanup"
     });
     socket
         .send(Message::Text(bounded_duplicate.to_string().into()))
@@ -498,6 +498,9 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
+    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
+        .await
+        .expect("bounded duplicate fixture did not enter in-flight execution");
     for _ in 0..64 {
         socket
             .send(Message::Text(bounded_duplicate.to_string().into()))
@@ -509,6 +512,7 @@ async fn shepherd_conversation_invokes_configured_provider_and_preserves_canonic
             next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
         assert_eq!(duplicate["error"], "conversation_in_flight", "{duplicate}");
     }
+    barrier_release.add_permits(1);
     let delivered = next_conversation_result_for_turn(&mut socket, "turn-bounded-duplicate").await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert!(
