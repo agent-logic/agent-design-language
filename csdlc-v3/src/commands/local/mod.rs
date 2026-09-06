@@ -158,21 +158,34 @@ pub fn discover_operational_local_context(
     {
         return Ok(None);
     }
-    let expected_head_sha = selector
-        .get("exact_review_sha")
-        .and_then(Value::as_str)
-        .filter(|value| !value.trim().is_empty())
-        .ok_or_else(|| {
+    if crate::authority::canonical_v3_authority(&repository_root)
+        .map_err(|error| {
             vec![finding(
                 PlanStatus::Blocked,
-                "canonical_authority_exact_head_missing",
-                "active v3 authority must bind an exact reviewed head",
+                "canonical_v3_authority_invalid",
+                &error,
             )]
         })?
-        .to_owned();
-    let approval_path = PathBuf::from(".csdlc/evidence/505/cutover-approval.json");
-    let approval_bytes = fs::read(repository_root.join(&approval_path))
-        .map_err(io_finding("cutover_approval_unreadable"))?;
+        .is_none()
+    {
+        return Ok(None);
+    }
+    let head = Command::new("git")
+        .arg("-C")
+        .arg(&repository_root)
+        .args(["rev-parse", "HEAD"])
+        .output()
+        .map_err(io_finding("repository_head_unreadable"))?;
+    if !head.status.success() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "repository_head_unreadable",
+            "operational context requires an exact checkout head",
+        )]);
+    }
+    let expected_head_sha = String::from_utf8_lossy(&head.stdout).trim().to_owned();
+    let approval_path = PathBuf::from(crate::authority::SELECTOR_PATH);
+    let approval_digest = blake3::hash(&selector_bytes).to_hex().to_string();
     let worktree_policy: Value = serde_json::from_slice(
         &fs::read(repository_root.join(".adl/worktree-policy.json"))
             .map_err(io_finding("worktree_policy_unreadable"))?,
@@ -216,20 +229,11 @@ pub fn discover_operational_local_context(
         allowed_worktree_parent,
         expected_authority_selector_digest: blake3::hash(&selector_bytes).to_hex().to_string(),
         cutover_approval_path: approval_path,
-        expected_cutover_approval_digest: blake3::hash(&approval_bytes).to_hex().to_string(),
+        expected_cutover_approval_digest: approval_digest,
         expected_head_sha,
         expected_lifecycle_digest: request.expected_lifecycle_digest.clone(),
         repository_root,
     }))
-}
-
-#[derive(Debug, Deserialize)]
-struct CutoverApprovalEvidence {
-    schema: String,
-    authority_issue: u64,
-    repository: String,
-    decision: String,
-    exact_head: String,
 }
 
 /// Result of a native local mutation or diagnostic.
@@ -1883,98 +1887,28 @@ fn validate_context(
         )]);
     }
 
-    let approval_path = &context.cutover_approval_path;
-    if approval_path.is_absolute()
-        || !approval_path.starts_with(Path::new(".csdlc/evidence/505"))
-        || approval_path.components().any(|component| {
-            matches!(
-                component,
-                std::path::Component::ParentDir
-                    | std::path::Component::RootDir
-                    | std::path::Component::Prefix(_)
-            )
-        })
+    let _authority = crate::authority::canonical_v3_authority(&repository_root)
+        .map_err(|error| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "canonical_v3_authority_invalid",
+                &error,
+            )]
+        })?
+        .ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "canonical_v3_authority_inactive",
+                "tracked v3 selector is not active on origin/main",
+            )]
+        })?;
+    if context.cutover_approval_path != Path::new(crate::authority::SELECTOR_PATH)
+        || context.expected_cutover_approval_digest != context.expected_authority_selector_digest
     {
         return Err(vec![finding(
             PlanStatus::Blocked,
-            "cutover_approval_path_not_canonical",
-            "cutover approval evidence must be a repository-relative #505 evidence path",
-        )]);
-    }
-    let approval_evidence_root = repository_root
-        .join(".csdlc/evidence/505")
-        .canonicalize()
-        .map_err(|_| {
-            vec![finding(
-                PlanStatus::Blocked,
-                "cutover_approval_missing",
-                "canonical #505 approval evidence directory is unavailable",
-            )]
-        })?;
-    let approval_file = repository_root
-        .join(approval_path)
-        .canonicalize()
-        .map_err(|_| {
-            vec![finding(
-                PlanStatus::Blocked,
-                "cutover_approval_missing",
-                "digest-bound #505 cutover approval evidence is unavailable",
-            )]
-        })?;
-    if !approval_file.starts_with(&approval_evidence_root) || !approval_file.is_file() {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "cutover_approval_path_not_canonical",
-            "cutover approval evidence must resolve inside the canonical #505 evidence directory",
-        )]);
-    }
-    let approval_bytes =
-        fs::read(&approval_file).map_err(io_finding("cutover_approval_unreadable"))?;
-    let approval_digest = blake3::hash(&approval_bytes).to_hex().to_string();
-    if context.expected_cutover_approval_digest.trim().is_empty()
-        || context.expected_cutover_approval_digest != approval_digest
-    {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "cutover_approval_digest_mismatch",
-            "serialized approval digest does not match retained #505 evidence",
-        )]);
-    }
-    let approval: CutoverApprovalEvidence =
-        serde_json::from_slice(&approval_bytes).map_err(|_| {
-            vec![finding(
-                PlanStatus::Blocked,
-                "cutover_approval_invalid",
-                "cutover approval evidence must be typed JSON",
-            )]
-        })?;
-    let expected_head = context.expected_head_sha.trim();
-    let selector_is_v2 =
-        selector.get("schema").and_then(Value::as_str) == Some("csdlc.generation_selector.v2");
-    let selector_authority_exact = selector
-        .get("operational_authority")
-        .and_then(Value::as_str)
-        == Some("csdlc-v3")
-        && selector.get("authority_issue").and_then(Value::as_u64) == Some(505)
-        && selector.get("exact_review_sha").and_then(Value::as_str) == Some(expected_head)
-        && selector
-            .get("approval_evidence_digest")
-            .and_then(Value::as_str)
-            == Some(approval_digest.as_str());
-    if approval.schema != "csdlc.v3.cutover_approval.v1"
-        || approval.authority_issue != 505
-        || approval.repository != request.repository
-        || approval.decision != "approved"
-        || approval.exact_head != expected_head
-        || !selector_is_v2
-        || !selector_authority_exact
-        || expected_head.len() != 40
-        || !expected_head.bytes().all(|byte| byte.is_ascii_hexdigit())
-    {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "cutover_approval_not_exact",
-            "typed #505 approval must bind repository, exact head, and canonical selector digest",
+            "cutover_authority_mismatch",
+            "operational context does not bind the canonical merge-derived selector authority",
         )]);
     }
     let head = Command::new("git")
@@ -1983,7 +1917,9 @@ fn validate_context(
         .args(["rev-parse", "HEAD"])
         .output()
         .map_err(io_finding("git_head_observation_failed"))?;
-    if !head.status.success() || String::from_utf8_lossy(&head.stdout).trim() != expected_head {
+    if !head.status.success()
+        || String::from_utf8_lossy(&head.stdout).trim() != context.expected_head_sha
+    {
         return Err(vec![finding(
             PlanStatus::Blocked,
             "operational_exact_head_mismatch",

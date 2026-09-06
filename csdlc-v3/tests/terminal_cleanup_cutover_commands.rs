@@ -19,6 +19,7 @@ use csdlc_v3::{
         },
     },
 };
+use fs2::FileExt;
 use std::{
     fs,
     path::{Path, PathBuf},
@@ -541,7 +542,7 @@ fn executable_cutover_cannot_bypass_request_findings() {
         &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["default_generation"], "v2");
+    assert_eq!(selector["default_generation"], "v3");
 }
 
 #[test]
@@ -562,7 +563,7 @@ fn executable_cutover_requires_authenticated_github_authority_before_mutation() 
         &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["default_generation"], "v2");
+    assert_eq!(selector["default_generation"], "v3");
 }
 
 #[test]
@@ -599,11 +600,14 @@ fn cutover_and_rollback_share_one_mutation_lock() {
     let root = fixture_root("cutover-shared-mutation-lock");
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     fs::create_dir_all(root.join(".git/csdlc-v3")).unwrap();
-    fs::write(
-        root.join(".git/csdlc-v3/cutover-mutation.lock"),
-        b"other-process",
-    )
-    .unwrap();
+    let holder = fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(root.join(".git/csdlc-v3/cutover-mutation.lock"))
+        .unwrap();
+    holder.lock_exclusive().unwrap();
     let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
 
     let blocked = execute_cutover_request(&request).expect("cutover plan");
@@ -614,6 +618,10 @@ fn cutover_and_rollback_share_one_mutation_lock() {
         .iter()
         .any(|finding| finding.code == "cutover_mutation_locked"));
     assert!(!root.join(".adl/bin/csdlc").exists());
+
+    drop(holder);
+    let retry = execute_cutover_request(&request).expect("released advisory lock permits retry");
+    assert_eq!(retry.status, TerminalRouteStatus::Ready, "{retry:#?}");
 }
 
 #[test]
@@ -679,17 +687,12 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
     assert_eq!(selector["default_generation"], "v3");
     assert_eq!(selector["operational_authority"], "csdlc-v3");
     assert_eq!(selector["authority_issue"], 505);
-    let readiness: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join(".csdlc/evidence/505/authority-readiness.json")).unwrap(),
-    )
-    .unwrap();
-    assert_eq!(selector["exact_review_sha"], readiness["selected_revision"]);
-    assert!(selector["readiness_evidence_digest"]
-        .as_str()
-        .is_some_and(|digest| digest.len() == 64));
-    assert!(selector["approval_evidence_digest"]
-        .as_str()
-        .is_some_and(|digest| digest.len() == 64));
+    assert_eq!(selector["authority_pull_request"], 591);
+    assert_eq!(selector["review_authority"], "typed-v2-exact-head");
+    assert_eq!(
+        selector["approval_authority"],
+        "merged-pr-591-closed-issue-505"
+    );
     let receipt: serde_json::Value = serde_json::from_slice(
         &fs::read(root.join(".csdlc/evidence/505/cutover-receipt.json")).unwrap(),
     )
@@ -808,7 +811,7 @@ fn cutover_rejects_intermediate_output_parent_symlink_escape() {
         &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["default_generation"], "v2");
+    assert_eq!(selector["default_generation"], "v3");
 }
 
 fn cleanup_plan(
@@ -1019,8 +1022,8 @@ fn write_terminal_receipt_at(
 fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     let root = fixture_root("post_cutover_finish");
     init_repo(&root);
-    let head = git_stdout(&root, &["rev-parse", "HEAD"]);
     write_generation_selector(&root, "v3");
+    let head = git_stdout(&root, &["rev-parse", "HEAD"]);
     let mut request = base_request();
     request.expected_head_sha = Some(head.clone());
     request.credential_names = vec!["GITHUB_TOKEN".into()];
@@ -1520,6 +1523,7 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
         &readiness,
     )
     .expect("readiness evidence");
+    write_generation_selector(root, "v3");
     blake3::hash(&readiness).to_hex().to_string()
 }
 
@@ -1689,26 +1693,15 @@ fn execute_cutover_request(
 fn write_generation_selector(repository_root: &Path, generation: &str) {
     let path = repository_root.join("csdlc-v2/operator/generation-selector.json");
     fs::create_dir_all(path.parent().unwrap()).expect("selector parent");
-    let observed_head = Command::new("git")
-        .arg("-C")
-        .arg(repository_root)
-        .args(["rev-parse", "HEAD"])
-        .output()
-        .ok()
-        .filter(|output| output.status.success())
-        .and_then(|output| String::from_utf8(output.stdout).ok())
-        .map(|head| head.trim().to_owned())
-        .filter(|head| head.len() == 40)
-        .unwrap_or_else(|| "0123456789012345678901234567890123456789".into());
     let selector = if generation == "v3" {
         serde_json::json!({
             "schema": "csdlc.generation_selector.v2",
             "default_generation": "v3",
             "operational_authority": "csdlc-v3",
             "authority_issue": 505,
-            "exact_review_sha": observed_head,
-            "readiness_evidence_digest": "fixture-readiness",
-            "approval_evidence_digest": "fixture-approval"
+            "authority_pull_request": 591,
+            "review_authority": "typed-v2-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505"
         })
     } else {
         serde_json::json!({
@@ -1718,6 +1711,21 @@ fn write_generation_selector(repository_root: &Path, generation: &str) {
         })
     };
     fs::write(path, serde_json::to_vec_pretty(&selector).unwrap()).expect("generation selector");
+    if generation == "v3" {
+        git(
+            repository_root,
+            &["add", "csdlc-v2/operator/generation-selector.json"],
+        );
+        git(
+            repository_root,
+            &["commit", "-m", "activate fixture selector"],
+        );
+        let head = git_stdout(repository_root, &["rev-parse", "HEAD"]);
+        git(
+            repository_root,
+            &["update-ref", "refs/remotes/origin/main", &head],
+        );
+    }
 }
 
 struct FakeGithubAdapter {

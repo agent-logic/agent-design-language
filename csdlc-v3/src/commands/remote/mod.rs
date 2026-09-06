@@ -1078,44 +1078,22 @@ fn verify_canonical_v3_authority(
             "expected lifecycle digest does not match the canonical authority selector",
         ));
     }
-    let selector: CanonicalAuthoritySelector = serde_json::from_slice(&bytes).map_err(|_| {
-        remote_finding(
-            "canonical_authority_selector_invalid",
-            "canonical authority selector is not valid typed JSON",
-        )
-    })?;
-    let authority_issue = selector.authority_issue.unwrap_or_default();
-    let approved_sha = selector.exact_review_sha.as_deref().unwrap_or_default();
-    let readiness_digest = selector
-        .readiness_evidence_digest
-        .as_deref()
-        .unwrap_or_default();
-    let approval_digest = selector
-        .approval_evidence_digest
-        .as_deref()
-        .unwrap_or_default();
-    if selector.schema.trim().is_empty()
-        || selector.default_generation != "v3"
-        || selector.operational_authority.as_deref() != Some("csdlc-v3")
-        || authority_issue != 505
-        || exact_review_sha.trim().is_empty()
-        || approved_sha != exact_review_sha
-        || readiness_digest.trim().is_empty()
-        || approval_digest.trim().is_empty()
-    {
-        return Err(remote_finding(
-            "canonical_v3_authority_inactive",
-            "canonical selector does not bind v3 authority to #505, exact review SHA, readiness evidence, and approval evidence",
-        ));
-    }
+    let selector = crate::authority::canonical_v3_authority(repo_root)
+        .map_err(|error| remote_finding("canonical_authority_selector_invalid", &error))?
+        .ok_or_else(|| {
+            remote_finding(
+                "canonical_v3_authority_inactive",
+                "canonical selector is not active on origin/main",
+            )
+        })?;
     Ok(CanonicalV3AuthorityEvidence {
         schema: "csdlc.v3.canonical_authority_evidence.v1".into(),
         selector_path: CANONICAL_AUTHORITY_SELECTOR_PATH.into(),
-        selector_digest,
-        authority_issue,
-        exact_review_sha: approved_sha.to_owned(),
-        readiness_evidence_digest: readiness_digest.to_owned(),
-        approval_evidence_digest: approval_digest.to_owned(),
+        selector_digest: selector_digest.clone(),
+        authority_issue: selector.authority_issue,
+        exact_review_sha: exact_review_sha.to_owned(),
+        readiness_evidence_digest: selector_digest.clone(),
+        approval_evidence_digest: selector_digest,
     })
 }
 

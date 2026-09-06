@@ -35,7 +35,9 @@ pub fn select_generation(
     issue: u64,
     requested: Option<Generation>,
 ) -> Result<Generation> {
-    if selector.schema != "csdlc.generation_selector.v1" {
+    if selector.schema != "csdlc.generation_selector.v1"
+        && selector.schema != "csdlc.generation_selector.v2"
+    {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
             "generation selector schema must be csdlc.generation_selector.v1",

@@ -1,3 +1,4 @@
+use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use std::{
     fs,
@@ -912,57 +913,11 @@ fn persist_terminal_finish(
 
 fn canonical_v3_authority(
     repository_root: &Path,
-    expected_head: Option<&str>,
+    _expected_head: Option<&str>,
 ) -> Result<bool, TerminalFinding> {
-    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
-    let metadata = match selector_path.symlink_metadata() {
-        Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
-        Err(error) => {
-            return Err(finding(
-                "generation_selector_unreadable",
-                &format!("canonical generation selector metadata is unavailable: {error}"),
-            ))
-        }
-    };
-    if !metadata.is_file() || metadata.file_type().is_symlink() {
-        return Err(finding(
-            "generation_selector_not_regular_file",
-            "canonical generation selector must be a regular file",
-        ));
-    }
-    let selector: serde_json::Value =
-        serde_json::from_slice(&fs::read(&selector_path).map_err(|error| {
-            finding(
-                "generation_selector_unreadable",
-                &format!("canonical generation selector is unreadable: {error}"),
-            )
-        })?)
-        .map_err(|_| {
-            finding(
-                "generation_selector_invalid",
-                "canonical generation selector must be typed JSON",
-            )
-        })?;
-    if selector["schema"] == "csdlc.generation_selector.v1" {
-        return Ok(false);
-    }
-    if selector["schema"] != "csdlc.generation_selector.v2" {
-        return Err(finding(
-            "generation_selector_invalid",
-            "canonical generation selector must use the evidence-bound v2 schema",
-        ));
-    }
-    Ok(selector["default_generation"] == "v3"
-        && selector["operational_authority"] == "csdlc-v3"
-        && selector["authority_issue"] == 505
-        && expected_head.is_some_and(|head| selector["exact_review_sha"] == head)
-        && selector["readiness_evidence_digest"]
-            .as_str()
-            .is_some_and(|digest| !digest.is_empty())
-        && selector["approval_evidence_digest"]
-            .as_str()
-            .is_some_and(|digest| !digest.is_empty()))
+    crate::authority::canonical_v3_authority(repository_root)
+        .map(|authority| authority.is_some())
+        .map_err(|error| finding("generation_selector_invalid", &error))
 }
 
 fn remove_registered_worktree(
@@ -1499,29 +1454,13 @@ fn execute_cutover_platform(
                 &format!("canonical generation selector must be readable: {error}"),
             )
         })?;
-        let mut selector_value: serde_json::Value = serde_json::from_slice(&prior_selector)
-            .map_err(|_| {
-                finding(
-                    "canonical_selector_invalid",
-                    "canonical generation selector must be typed JSON",
-                )
-            })?;
-        if selector_value["schema"] != "csdlc.generation_selector.v1"
-            || selector_value["default_generation"] == "v3"
-        {
+        if !canonical_v3_authority(&repository_root, None)? {
             return Err(finding(
-                "canonical_selector_not_pre_cutover",
-                "initial cutover requires the canonical v1-schema selector to be pre-v3",
+                "canonical_selector_not_merged",
+                "cutover requires the tracked v3 selector on canonical origin/main",
             ));
         }
-        apply_v3_authority_fields(
-            &mut selector_value,
-            &readiness.selected_revision,
-            &readiness.evidence_digest,
-            &readiness.approval_evidence_digest,
-        );
-        let selector_bytes = serde_json::to_vec_pretty(&selector_value)
-            .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
+        let selector_bytes = prior_selector.clone();
         let journal = CutoverReceipt {
             schema: "csdlc.v3.cutover_receipt.v2".into(),
             authority_issue: 505,
@@ -1568,12 +1507,6 @@ fn execute_cutover_platform(
             "stable v3 binary differs from the selected binary digest",
         ));
     }
-    if selector_digest == journal.cutover_selector_digest && binary_state.is_none() {
-        return Err(finding(
-            "cutover_split_authority",
-            "canonical selector activates v3 while the selected stable binary is absent",
-        ));
-    }
     if binary_state.is_none() {
         write_staged(&destination, &binary_bytes)?;
         journal.phase = CutoverPhase::BinaryInstalled;
@@ -1585,9 +1518,7 @@ fn execute_cutover_platform(
             &format!("could not apply selected binary permissions: {error}"),
         )
     })?;
-    if selector_digest == journal.prior_selector_digest {
-        write_staged(&selector, &selector_bytes)?;
-    }
+    let _ = selector_bytes;
     journal.phase = CutoverPhase::Committed;
     write_cutover_receipt(&receipt, &journal)?;
     Ok(CutoverExecution {
@@ -1597,38 +1528,55 @@ fn execute_cutover_platform(
     })
 }
 
-struct CutoverMutationLock(PathBuf);
+struct CutoverMutationLock {
+    _file: fs::File,
+}
 
 impl CutoverMutationLock {
     fn acquire(repository_root: &Path) -> Result<Self, TerminalFinding> {
-        let path = repository_root.join(".git/csdlc-v3/cutover-mutation.lock");
+        let git_common_dir = git_control_dir(repository_root).ok_or_else(|| {
+            finding(
+                "cutover_lock_failed",
+                "could not resolve the repository Git common directory",
+            )
+        })?;
+        let path = git_common_dir.join("csdlc-v3/cutover-mutation.lock");
         fs::create_dir_all(path.parent().expect("static lock parent")).map_err(|error| {
             finding(
                 "cutover_lock_failed",
                 &format!("could not create cutover lock directory: {error}"),
             )
         })?;
-        fs::OpenOptions::new()
+        let mut file = fs::OpenOptions::new()
+            .read(true)
             .write(true)
-            .create_new(true)
+            .create(true)
+            .truncate(false)
             .open(&path)
-            .and_then(|mut file| {
+            .map_err(|error| {
+                finding(
+                    "cutover_lock_failed",
+                    &format!("could not open cutover lock: {error}"),
+                )
+            })?;
+        file.try_lock_exclusive().map_err(|_| {
+            finding(
+                "cutover_mutation_locked",
+                "another cutover or rollback mutation is already active",
+            )
+        })?;
+        file.set_len(0)
+            .and_then(|()| {
                 file.write_all(std::process::id().to_string().as_bytes())?;
                 file.sync_all()
             })
-            .map_err(|_| {
+            .map_err(|error| {
                 finding(
-                    "cutover_mutation_locked",
-                    "another cutover or rollback mutation is already active",
+                    "cutover_lock_failed",
+                    &format!("could not record cutover lock holder: {error}"),
                 )
             })?;
-        Ok(Self(path))
-    }
-}
-
-impl Drop for CutoverMutationLock {
-    fn drop(&mut self) {
-        let _ = fs::remove_file(&self.0);
+        Ok(Self { _file: file })
     }
 }
 
@@ -2194,21 +2142,7 @@ fn validate_cutover_journal(
 }
 
 fn selector_bytes_from_journal(journal: &CutoverReceipt) -> Result<Vec<u8>, TerminalFinding> {
-    let mut value: serde_json::Value =
-        serde_json::from_slice(&journal.prior_selector).map_err(|_| {
-            finding(
-                "cutover_receipt_invalid",
-                "retained selector preimage is not typed JSON",
-            )
-        })?;
-    apply_v3_authority_fields(
-        &mut value,
-        &journal.selected_revision,
-        &journal.readiness_evidence_digest,
-        &journal.approval_evidence_digest,
-    );
-    let bytes = serde_json::to_vec_pretty(&value)
-        .map_err(|error| finding("selector_serialize_failed", &error.to_string()))?;
+    let bytes = journal.prior_selector.clone();
     if blake3::hash(&bytes).to_hex().to_string() != journal.cutover_selector_digest {
         return Err(finding(
             "cutover_receipt_invalid",
@@ -2216,22 +2150,6 @@ fn selector_bytes_from_journal(journal: &CutoverReceipt) -> Result<Vec<u8>, Term
         ));
     }
     Ok(bytes)
-}
-
-fn apply_v3_authority_fields(
-    value: &mut serde_json::Value,
-    exact_review_sha: &str,
-    readiness_evidence_digest: &str,
-    approval_evidence_digest: &str,
-) {
-    value["schema"] = serde_json::Value::String("csdlc.generation_selector.v2".into());
-    value["default_generation"] = serde_json::Value::String("v3".into());
-    value["operational_authority"] = serde_json::Value::String("csdlc-v3".into());
-    value["authority_issue"] = serde_json::Value::from(505);
-    value["exact_review_sha"] = serde_json::Value::String(exact_review_sha.into());
-    value["readiness_evidence_digest"] =
-        serde_json::Value::String(readiness_evidence_digest.into());
-    value["approval_evidence_digest"] = serde_json::Value::String(approval_evidence_digest.into());
 }
 
 fn read_cutover_receipt(path: &Path) -> Result<CutoverReceipt, TerminalFinding> {

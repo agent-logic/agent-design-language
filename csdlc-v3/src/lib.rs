@@ -9,6 +9,7 @@
 
 pub mod adapters;
 pub mod application;
+pub mod authority;
 pub mod commands;
 pub mod lifecycle;
 pub mod publication;

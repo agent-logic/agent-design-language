@@ -1286,82 +1286,24 @@ fn authorize_install_execution(
     if active_canonical_v3_selector(&root, install)? {
         return Ok(());
     }
-    let approval_ref = install.cutover_approval_ref.as_deref().ok_or_else(|| finding("install_typed_authority_missing", "executing install requires active canonical v3 authority or an exact typed #505 approval receipt"))?;
-    if !approval_ref.starts_with(".csdlc/evidence/505/") {
-        return Err(finding(
-            "install_approval_ref_not_canonical",
-            "typed cutover approval must be retained under .csdlc/evidence/505",
-        ));
-    }
-    let bytes = fs::read(root.join(approval_ref)).map_err(|_| {
-        finding(
-            "install_approval_unreadable",
-            "typed cutover approval receipt must be readable",
-        )
-    })?;
-    let digest = blake3::hash(&bytes).to_hex().to_string();
-    if install.cutover_approval_digest.as_deref() != Some(digest.as_str()) {
-        return Err(finding(
-            "install_approval_digest_mismatch",
-            "typed cutover approval digest must match retained evidence",
-        ));
-    }
-    let approval: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
-        finding(
-            "install_approval_invalid",
-            "typed cutover approval receipt must be valid JSON",
-        )
-    })?;
-    let exact_head_valid = install.exact_head.len() == 40
-        && install
-            .exact_head
-            .bytes()
-            .all(|byte| byte.is_ascii_hexdigit());
-    if approval["schema"] != "csdlc.v3.cutover_approval.v1"
-        || approval["authority_issue"] != 505
-        || approval["repository"] != request.repository
-        || approval["decision"] != "approved"
-        || approval["exact_head"] != install.exact_head
-        || approval["selected_binary_digest"] != install.selected_binary_digest
-        || approval["selector_metadata_digest"] != install.selector_metadata_digest
-        || !exact_head_valid
-    {
-        return Err(finding("install_approval_not_exact", "typed #505 approval must bind repository, exact head, binary digest, and selector digest"));
-    }
-    Ok(())
+    Err(finding(
+        "install_typed_authority_missing",
+        "stable install requires active canonical v3 authority or the merge-gated cutover route",
+    ))
 }
 
 fn active_canonical_v3_selector(
     root: &Path,
-    install: &InstallPlanInput,
+    _install: &InstallPlanInput,
 ) -> Result<bool, ProofRouteFinding> {
-    let Ok(bytes) = fs::read(root.join("csdlc-v2/operator/generation-selector.json")) else {
-        return Ok(false);
-    };
-    let selector: serde_json::Value = serde_json::from_slice(&bytes).map_err(|_| {
-        finding(
-            "install_canonical_selector_invalid",
-            "canonical v3 authority selector must be typed valid JSON",
-        )
-    })?;
-    if selector["schema"] != "csdlc.generation_selector.v2" {
-        return Err(finding(
-            "install_canonical_selector_mismatch",
-            "canonical v3 authority requires the evidence-bound generation-selector v2 schema",
-        ));
-    }
-    if selector["default_generation"] != "v3" {
-        return Ok(false);
-    }
-    Ok(selector["operational_authority"] == "csdlc-v3"
-        && selector["authority_issue"] == 505
-        && selector["exact_review_sha"] == install.exact_head
-        && selector["readiness_evidence_digest"]
-            .as_str()
-            .is_some_and(|digest| !digest.trim().is_empty())
-        && selector["approval_evidence_digest"]
-            .as_str()
-            .is_some_and(|digest| !digest.trim().is_empty()))
+    crate::authority::canonical_v3_authority(root)
+        .map(|authority| authority.is_some())
+        .map_err(|_| {
+            finding(
+                "install_canonical_selector_invalid",
+                "canonical v3 selector is invalid or cannot be read from origin/main",
+            )
+        })
 }
 
 fn request_root(request: &ProofRouteRequest) -> Result<PathBuf, ProofRouteFinding> {

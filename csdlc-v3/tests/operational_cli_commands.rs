@@ -83,7 +83,6 @@ fn operational_fixture(name: &str) -> OperationalFixture {
     fs::write(root.join("tracked"), "fixture\n").unwrap();
     git(&root, &["add", "tracked"]);
     git(&root, &["commit", "--quiet", "-m", "fixture"]);
-    let exact_head = git(&root, &["rev-parse", "HEAD"]);
     fs::create_dir_all(root.join(".adl")).unwrap();
     fs::create_dir_all(root.join("worktrees")).unwrap();
     fs::write(
@@ -95,31 +94,32 @@ fn operational_fixture(name: &str) -> OperationalFixture {
         .unwrap(),
     )
     .unwrap();
-    let approval_path = root.join(".csdlc/evidence/505/cutover-approval.json");
-    fs::create_dir_all(approval_path.parent().unwrap()).unwrap();
-    let approval = serde_json::to_vec_pretty(&json!({
-        "schema": "csdlc.v3.cutover_approval.v1",
-        "authority_issue": 505,
-        "repository": "agent-logic/agent-design-language",
-        "decision": "approved",
-        "exact_head": exact_head,
-        "selector_metadata_digest": "pre-cutover-selector"
-    }))
-    .unwrap();
-    fs::write(&approval_path, &approval).unwrap();
-    let approval_digest = blake3::hash(&approval).to_hex().to_string();
     let selector_path = root.join("csdlc-v2/operator/generation-selector.json");
     let selector = serde_json::to_vec_pretty(&json!({
         "schema": "csdlc.generation_selector.v2",
         "default_generation": "v3",
         "operational_authority": "csdlc-v3",
         "authority_issue": 505,
-        "exact_review_sha": exact_head,
-        "readiness_evidence_digest": "fixture-readiness",
-        "approval_evidence_digest": approval_digest
+        "authority_pull_request": 591,
+        "review_authority": "typed-v2-exact-head",
+        "approval_authority": "merged-pr-591-closed-issue-505"
     }))
     .unwrap();
     fs::write(&selector_path, &selector).unwrap();
+    git(
+        &root,
+        &[
+            "add",
+            ".adl/worktree-policy.json",
+            "csdlc-v2/operator/generation-selector.json",
+        ],
+    );
+    git(&root, &["commit", "--quiet", "-m", "activate v3"]);
+    let exact_head = git(&root, &["rev-parse", "HEAD"]);
+    git(
+        &root,
+        &["update-ref", "refs/remotes/origin/main", &exact_head],
+    );
     let request = LocalPreparationRequest {
         issue: 505,
         title: "C-SDLC v3 crash recovery".into(),
