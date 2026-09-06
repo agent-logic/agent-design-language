@@ -331,16 +331,31 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
     "purpose": "Issue 708 diff hygiene validation.",
     "outcome": "passed",
     "evidence_ref": "terminal:git diff --check exited 0"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "CI-matching Runtime v3 library validation after replacing the sleep-timed duplicate conversation in-flight assertion with the existing deterministic test barrier.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:183 tests passed; formerly failing shepherd_conversation_invokes_configured_provider_and_preserves_canonical_wss_ingress passed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
