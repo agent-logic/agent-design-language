@@ -1524,9 +1524,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         intent: &ObservatoryAgentInitiationIntent,
         require_sender_signing_identity: bool,
     ) -> ConversationAcceptance {
-        let Some(message) =
-            assemble_agent_conversation_message(intent.message.as_deref(), &intent.message_parts)
-        else {
+        if assemble_agent_conversation_message(intent.message.as_deref(), &intent.message_parts)
+            .is_none()
+        {
             return self
                 .refuse_public_agent_initiation_intent(intent, "invalid_agent_initiation_intent");
         };
@@ -1544,7 +1544,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_id: intent.turn_id.clone(),
             recipient_id: intent.recipient_id.clone(),
             correlation_id: intent.correlation_id.clone(),
-            message: Some(message),
+            message: intent.message.clone(),
             message_parts: intent.message_parts.clone(),
         };
         let outcome = |status, error| {
@@ -2035,7 +2035,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             recipient_id,
             correlation_id: digest[..32].to_owned(),
             work_id: format!("a2a-work-{}", &digest[32..48]),
-            message: Some(assembled_message),
+            message,
             message_parts,
         }))
     }
@@ -7090,14 +7090,41 @@ mod layer8_conversation_ingress_tests {
                 }));
             assert_eq!(requests[1]["request_line"], "POST /api/generate HTTP/1.1");
             assert_eq!(requests[1]["body"]["model"], "ember-model");
-            assert!(requests[1]["body"]["prompt"]
+            let recipient_prompt = requests[1]["body"]["prompt"]
                 .as_str()
-                .is_some_and(|prompt| {
-                    prompt.starts_with("Axioma Polis agent orientation package")
-                        && prompt.contains("Runtime-delivered task content follows")
-                        && prompt.contains("Ember, please answer Beacon")
-                        && prompt.contains("welcome-package orientation receipt")
-                }));
+                .expect("recipient provider prompt should be a string");
+            assert!(
+                recipient_prompt.starts_with("Axioma Polis agent orientation package"),
+                "recipient prompt should start with orientation: {recipient_prompt}"
+            );
+            assert!(
+                recipient_prompt.contains("Runtime-delivered task content follows"),
+                "recipient prompt should separate orientation from task: {recipient_prompt}"
+            );
+            assert!(
+                recipient_prompt.contains("Ember, please answer Beacon"),
+                "recipient prompt should include first multipart chunk: {recipient_prompt}"
+            );
+            assert!(
+                recipient_prompt.contains("welcome-package orientation receipt"),
+                "recipient prompt should include second multipart chunk: {recipient_prompt}"
+            );
+            assert_eq!(
+                recipient_prompt
+                    .matches("Ember, please answer Beacon through governed A2A.")
+                    .count(),
+                1,
+                "first multipart chunk must not be duplicated: {recipient_prompt}"
+            );
+            assert_eq!(
+                recipient_prompt
+                    .matches(
+                        "Include the welcome-package orientation receipt in your reasoning context.",
+                    )
+                    .count(),
+                1,
+                "second multipart chunk must not be duplicated: {recipient_prompt}"
+            );
         }
         let events = recorder.events();
         assert!(
@@ -8975,7 +9002,9 @@ fn normalize_ollama_conversation_response(
         message: operator_message,
         agent_to_agent: Some(ProviderAgentToAgentAction {
             recipient_id: recipient_id.to_owned(),
-            message: assembled_peer_message,
+            message: peer_message
+                .map(str::to_owned)
+                .unwrap_or(assembled_peer_message),
             message_parts: peer_message_parts,
         }),
     })
@@ -9115,11 +9144,12 @@ mod provider_conversation_tool_tests {
             .expect("multipart tool call should remain a first-class A2A action");
         assert_eq!(action.recipient_id, "ember");
         assert!(action.message.starts_with("Multipart handoff summary."));
-        assert!(action
-            .message
-            .contains("Please include your welcome-package receipt"));
         assert_eq!(action.message_parts.len(), 2);
         assert_eq!(action.message_parts[0].len(), 32 * 1024);
+        assert_eq!(
+            action.message_parts[1],
+            "Please include your welcome-package receipt in the reply."
+        );
     }
 
     #[test]

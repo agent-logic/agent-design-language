@@ -42,6 +42,7 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
 - Moved provider-backed agent_runtime orientation delivery into a first-class internal task envelope so the original 4 KiB user-message bound remains intact while the model-facing prompt still receives the welcome package before task content.
 - Raised bounded Runtime agent-conversation single-message and per-part payloads from 4 KiB to 32 KiB, while retaining a finite 64-part and 256 KiB aggregate cap.
 - Added first-class multipart `input_parts` and `message_parts` handling across Runtime conversation tasks, provider-selected A2A tool actions, and public output projection so larger governed resident handoffs do not flatten into an undersized single string.
+- Kept provider-selected A2A `message` as the summary/single-message field and `message_parts` as the separate multipart chunks so runtime-derived dispatch does not duplicate multipart task content when forwarding to the recipient.
 - Updated integration-test fixtures to carry explicit no-orientation state for pre-existing samples so the public roster/feed structures compile while production admissions continue to stamp real per-agent orientation delivery.
 - Exposed orientation delivery metadata through Runtime roster evidence/read-model entries and rendered it in the Observatory selected-agent details as non-authoritative provenance.
 
@@ -103,6 +104,21 @@ Implemented the Runtime agent orientation resource path: the Axioma Polis welcom
     "purpose": "Regression for provider-backed A2A delivery after moving the orientation package out of the 4 KiB user-input field and into a separate internal task envelope.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/708/runtime-orientation-a2a-envelope.log"
+  },
+  {
+    "command": [
+      "env",
+      "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "agent_to_agent_model_action_from_conversation_delivers_peer_response"
+    ],
+    "purpose": "Regression for runtime-derived provider A2A multipart forwarding: the recipient prompt receives orientation before task content, and each multipart task chunk appears exactly once after provider tool-call normalization.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:running 1 test; 1 passed"
   },
   {
     "command": [
