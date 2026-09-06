@@ -61,3 +61,4 @@
 {"sequence":61,"generation":45,"actor":"codex:issue-708-runtime-orientation","reason":"Recover stale review truth after removing transient prepared request files before the final exact-head review and republication.","operation":"recover_review"}
 {"sequence":62,"generation":45,"actor":"codex:issue-708-runtime-orientation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":63,"generation":46,"actor":"codex:issue-708-final-review-blocker-fix-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":64,"generation":47,"actor":"codex:issue-708-runtime-orientation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
