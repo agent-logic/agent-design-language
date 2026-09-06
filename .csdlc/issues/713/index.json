@@ -6,13 +6,13 @@
   "initialization_digest": "fbac5e3d9c82ff699bfcf2f6d77accb3468354591a29d9b5578530c77e3d0c7e",
   "phase": "implemented",
   "generation": 3,
-  "digest": "ae39be53be9235a26a530330bca08a5e77d634ff06ff14fd4952c5ff84b6507f",
+  "digest": "ce5d029fb7bf227c0e3e45520de61ae6899891bca24eb4bd70a7b0885c593fb0",
   "branch": "codex/713-runtime-a2a-conversation-history",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-713-runtime-a2a-conversation-history",
   "review_assignment": {
     "reviewer": "subagent:/root/review_713_a2a_history_r1",
-    "assigned_by": "codex:worker-7",
-    "revision": "git-blake3:08962230aaddc3b057db9138b29be2ee9e41fc64:2f18aeede4203087b9d116723294a54f57e24a957d38ffae54eb9b7f61e3b2f0",
+    "assigned_by": "codex:worker-7-r2",
+    "revision": "git-blake3:631a1c13b6b6ed296f40ef46b5a31fe9e615444e:113a664132401435831f259f8226ea7da837eefc42f8be8463e558c4dcceb684",
     "scope": [
       "adl-runtime-kernel/src/conversation_history.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -132,6 +132,13 @@
       "sequence": 6,
       "generation": 3,
       "actor": "codex:worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:worker-7-r2",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
     }
