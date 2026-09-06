@@ -1378,12 +1378,22 @@ impl ResidentShepherdSetInitConfig {
             ));
         }
         let mut names = std::collections::BTreeSet::new();
+        let mut ids = std::collections::BTreeSet::new();
         for config in configs {
             config.validate()?;
             if !names.insert(config.name.as_str()) {
                 return Err(RuntimeInitError::Policy(format!(
                     "duplicate resident_shepherd.name: {}",
                     config.name
+                )));
+            }
+            let id = config
+                .name
+                .split_once('.')
+                .map_or(config.name.as_str(), |(id, _)| id);
+            if !ids.insert(id) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "resident agent identity collision for configured name: {id}"
                 )));
             }
         }

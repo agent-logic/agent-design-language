@@ -948,6 +948,18 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         multi_expected
     );
 
+    let mut colliding_residents = next_cycle.clone();
+    let primary = colliding_residents.resident_shepherd.primary().clone();
+    let mut collision = primary.clone();
+    collision.name = "beacon.meridian".to_owned();
+    colliding_residents.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, collision]);
+    assert!(colliding_residents
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("resident agent identity collision"));
+
     changed_origins.observatory.allowed_origins =
         vec!["https://observatory.example.test".to_owned()];
     assert_ne!(

@@ -672,6 +672,15 @@ async fn main() -> ExitCode {
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
             .with_resident_agent_bindings(&init.resident_shepherd)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
+            service = match service.with_runtime_agent_authority_store(
+                operation_state_identity.join("runtime-agent-layer8.audit.jsonl"),
+            ) {
+                Ok(service) => service,
+                Err(error) => {
+                    eprintln!("runtime agent Layer 8 authority unavailable: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let config_generation_identity =
                 match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
                     Ok(identity) => identity,
