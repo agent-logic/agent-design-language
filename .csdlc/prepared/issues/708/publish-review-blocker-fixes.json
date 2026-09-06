@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 708,
+  "expected_generation": 43,
+  "expected_digest": "95e1c039d214cc16cfe2ddeeeaf775b32c72c1bd5a7c0e2589834f606a6dce01",
+  "actor": "codex:issue-708-runtime-agent-orientation-resource",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/708-runtime-agent-orientation-resource",
+  "title": "Runtime: inject versioned Polis welcome package into agent context",
+  "body": "Closes #708\n\n## Summary\n- Add a first-class Runtime agent-orientation resource so newly started agents receive the Axioma Polis welcome package before task-specific content.\n- Preserve Runtime-internal A2A routing and Layer8 authority while exposing non-authoritative orientation provenance in roster, feed, and Observatory surfaces.\n- Raise agent conversation text bounds from 4 KiB to 32 KiB per scalar/part, add multipart task/message inputs, and enforce a 64 logical-part / 256 KiB aggregate cap including scalar text.\n- Stabilize the duplicate in-flight conversation regression with the existing test barrier so hosted runtime CI does not race a fixed sleep against duplicate delivery assertions.\n\n## Validation\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml logical_message_parts -- --nocapture`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml conversation_task_input_accepts_32k_single_part_and_multipart_input -- --nocapture`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml provider_conversation_action_tests -- --nocapture`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml provider_conversation_tool_tests -- --nocapture`\n- Earlier same-branch proof also passed `cargo check --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib`, strict Clippy for `adl-runtime-kernel`, focused `agent_initiation`, and `agent_to_agent_model_action_from_conversation_delivers_peer_response`.\n\nNo paid-provider inference, live external communications, or AWS work was performed.",
+  "draft": false,
+  "linkage_mode": "closing",
+  "token_file": null
+}
