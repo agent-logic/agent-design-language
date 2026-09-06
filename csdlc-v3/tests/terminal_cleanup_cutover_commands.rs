@@ -11,6 +11,7 @@ use csdlc_v3::{
             ShadowGeneration, ShadowNormalizationContract,
         },
         terminal::{
+            prepare_terminal_cutover_with_github_observation,
             prepare_terminal_finish_with_github_observation, prepare_terminal_route,
             CleanupDecision, CleanupRouteRequest, CutoverDecisionRequest, CutoverOperation,
             DurableTerminalReceipt, FinishDecision, TerminalPublicationMode, TerminalRouteRequest,
@@ -544,6 +545,49 @@ fn executable_cutover_cannot_bypass_preview_findings() {
 }
 
 #[test]
+fn executable_cutover_requires_authenticated_github_authority_before_mutation() {
+    let root = fixture_root("cutover-authenticated-authority-gate");
+    let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
+    let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+
+    let blocked = prepare_terminal_route("cutover", &request).expect("blocked cutover plan");
+
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "authenticated_cutover_observation_required"));
+    assert!(!root.join(".adl/bin/csdlc").exists());
+    let selector: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(selector["default_generation"], "v2");
+}
+
+#[test]
+fn authenticated_cutover_rejects_one_principal_as_reviewer_and_operator() {
+    let root = fixture_root("cutover-distinct-authority-gate");
+    let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
+    let mut request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    let mut comments: serde_json::Value =
+        serde_json::from_str(&github_cutover_comments(&request)).unwrap();
+    comments[1]["user"]["login"] = "reviewer".into();
+    let mut adapter = FakeGithubAdapter::new([comments.to_string()]);
+
+    let blocked = prepare_terminal_cutover_with_github_observation(&request, &mut adapter)
+        .expect("blocked cutover plan");
+
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "github_cutover_authority_not_exact"));
+    assert!(!root.join(".adl/bin/csdlc").exists());
+}
+
+#[test]
 fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
     let root = fixture_root("approved_cutover_execution");
     fs::create_dir_all(root.join(".git")).expect("git marker");
@@ -590,7 +634,7 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
 
-    let plan = prepare_terminal_route("cutover", &request).expect("cutover route");
+    let plan = execute_cutover_request(&request).expect("cutover route");
     assert_eq!(plan.status, TerminalRouteStatus::Ready, "{plan:#?}");
     assert!(plan.operational_authority);
     assert!(plan.cutover.expect("cutover decision").executes_cutover);
@@ -623,7 +667,7 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
     .unwrap();
     assert_eq!(receipt["phase"], "committed");
     assert!(receipt["prior_selector"].is_array());
-    let retry = prepare_terminal_route("cutover", &request).expect("idempotent retry");
+    let retry = execute_cutover_request(&request).expect("idempotent retry");
     assert_eq!(retry.status, TerminalRouteStatus::Ready);
 }
 
@@ -693,7 +737,7 @@ fn approved_cutover_refuses_existing_receipt_before_mutation() {
     .expect("restore invalid receipt");
     let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
 
-    let blocked = prepare_terminal_route("cutover", &request).expect("cutover route");
+    let blocked = execute_cutover_request(&request).expect("cutover route");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
     assert!(blocked
         .findings
@@ -724,7 +768,7 @@ fn cutover_rejects_intermediate_output_parent_symlink_escape() {
     create_symlink(&outside, &root.join(".adl"));
     let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
 
-    let blocked = prepare_terminal_route("cutover", &request).expect("cutover plan");
+    let blocked = execute_cutover_request(&request).expect("cutover plan");
     assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
     assert!(blocked
         .findings
@@ -1053,7 +1097,7 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     let root = fixture_root("cutover_interrupted_recovery");
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
-    prepare_terminal_route("cutover", &apply).expect("initial apply");
+    execute_cutover_request(&apply).expect("initial apply");
     let receipt_path = root.join(".csdlc/evidence/505/cutover-receipt.json");
     let selector_path = root.join("csdlc-v2/operator/generation-selector.json");
     let mut receipt: serde_json::Value =
@@ -1069,18 +1113,18 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
     fs::write(&selector_path, &prior_selector).unwrap();
     fs::remove_file(root.join(".adl/bin/csdlc")).unwrap();
-    prepare_terminal_route("cutover", &apply).expect("recover after journal");
+    execute_cutover_request(&apply).expect("recover after journal");
 
     receipt = serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
     receipt["phase"] = "binary_installed".into();
     fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
     fs::write(&selector_path, &prior_selector).unwrap();
-    prepare_terminal_route("cutover", &apply).expect("recover after binary");
+    execute_cutover_request(&apply).expect("recover after binary");
 
     receipt = serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
     receipt["phase"] = "binary_installed".into();
     fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
-    prepare_terminal_route("cutover", &apply).expect("recover after selector");
+    execute_cutover_request(&apply).expect("recover after selector");
 
     fs::write(&selector_path, &prior_selector).unwrap();
     let rollback = cutover_request(&root, readiness_digest, CutoverOperation::Rollback);
@@ -1097,7 +1141,7 @@ fn rollback_fails_closed_on_stale_selector_digest() {
     let root = fixture_root("rollback_stale_selector");
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
-    prepare_terminal_route("cutover", &apply).expect("apply");
+    execute_cutover_request(&apply).expect("apply");
     fs::write(
         root.join("csdlc-v2/operator/generation-selector.json"),
         br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[999]}"#,
@@ -1446,42 +1490,6 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     let rollback_ref =
         write_proof_command_fixture(root, "rollback-readiness", "rollback-readiness", &revision);
     let rollback_digest = rollback_ref["digest"].as_str().unwrap().to_owned();
-    let review_value: serde_json::Value = serde_json::from_slice(&review).unwrap();
-    let reviewer = review_value["review"]["reviewer"].as_str().unwrap();
-    let attestation_root = root.join(".git/csdlc-v2/attestations/505").join(&revision);
-    fs::create_dir_all(&attestation_root).expect("external attestation parent");
-    let review_attestation = serde_json::to_vec(&serde_json::json!({
-        "schema": "csdlc.review.attestation.v1",
-        "producer": "csdlc-review",
-        "repository": "agent-logic/agent-design-language",
-        "issue": 505,
-        "implementer": "operator",
-        "reviewer": reviewer,
-        "reviewed_revision": revision,
-        "review_record_digest": review_record_digest
-    }))
-    .unwrap();
-    fs::write(attestation_root.join("review.json"), &review_attestation)
-        .expect("external review attestation");
-    let review_attestation_digest = blake3::hash(&review_attestation).to_hex().to_string();
-    let approval_attestation = serde_json::to_vec(&serde_json::json!({
-        "schema": "csdlc.cutover_approval.attestation.v1",
-        "producer": "csdlc-cutover-approval",
-        "repository": "agent-logic/agent-design-language",
-        "issue": 505,
-        "approved_by": "operator",
-        "exact_head": revision,
-        "selected_binary_digest": selected_binary_digest,
-        "rollback_evidence_digest": rollback_digest,
-        "review_attestation_digest": review_attestation_digest
-    }))
-    .unwrap();
-    fs::write(
-        attestation_root.join("approval.json"),
-        &approval_attestation,
-    )
-    .expect("external approval attestation");
-    let approval_attestation_digest = blake3::hash(&approval_attestation).to_hex().to_string();
     let approval = serde_json::to_vec(&serde_json::json!({
         "schema": "csdlc.v3.cutover_approval.v1",
         "authority_issue": 505,
@@ -1492,8 +1500,9 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
         "selector_metadata_digest": "pre-cutover-selector",
         "rollback_evidence_digest": rollback_digest,
         "review_record_digest": review_record_digest,
-        "review_attestation_digest": review_attestation_digest,
-        "approval_attestation_digest": approval_attestation_digest,
+        "reviewer_github_login": "reviewer",
+        "review_comment_id": 1001,
+        "approval_comment_id": 1002,
         "approved_by": "operator"
     }))
     .unwrap();
@@ -1581,7 +1590,7 @@ fn write_proof_command_fixture(
     let (normalization, argv) = if let Some(route) = route_preview {
         (
             ShadowNormalizationContract::RoutePreviewV1,
-            vec![route.into(), "--help".into()],
+            vec![route.into(), "--preview".into()],
         )
     } else {
         (
@@ -1677,6 +1686,60 @@ fn cutover_request(
         readiness_evidence_digest: Some(readiness_digest),
     });
     request
+}
+
+fn execute_cutover_request(
+    request: &TerminalRouteRequest,
+) -> Result<
+    csdlc_v3::commands::terminal::TerminalRoutePlan,
+    csdlc_v3::commands::terminal::TerminalFinding,
+> {
+    let comments = github_cutover_comments(request);
+    let mut authenticated = request.clone();
+    authenticated.credential_names = vec!["GITHUB_TOKEN".into()];
+    let mut adapter = FakeGithubAdapter::new([comments]);
+    prepare_terminal_cutover_with_github_observation(&authenticated, &mut adapter)
+}
+
+fn github_cutover_comments(request: &TerminalRouteRequest) -> String {
+    let root = request
+        .cutover
+        .as_ref()
+        .and_then(|cutover| cutover.repository_root.as_ref())
+        .expect("cutover repository root");
+    let approval: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".csdlc/evidence/505/cutover-approval.json")).unwrap(),
+    )
+    .unwrap();
+    let review: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".csdlc/issues/505/index.json")).unwrap())
+            .unwrap();
+    let review_body = serde_json::json!({
+        "schema": "csdlc.v3.github_review_attestation.v1",
+        "repository": request.repository,
+        "issue": 505,
+        "implementer": request.cutover.as_ref().unwrap().operator,
+        "reviewer_session": review["review"]["reviewer"],
+        "exact_head": approval["exact_head"],
+        "review_record_digest": approval["review_record_digest"],
+        "result": "pass"
+    });
+    let approval_body = serde_json::json!({
+        "schema": "csdlc.v3.github_cutover_approval.v1",
+        "repository": request.repository,
+        "issue": 505,
+        "exact_head": approval["exact_head"],
+        "selected_binary_digest": approval["selected_binary_digest"],
+        "rollback_evidence_digest": approval["rollback_evidence_digest"],
+        "review_record_digest": approval["review_record_digest"],
+        "review_comment_id": approval["review_comment_id"],
+        "decision": "approved"
+    });
+    serde_json::json!([
+        {"id": 1001, "user": {"login": "reviewer"}, "body": review_body.to_string()},
+        {"id": 1002, "user": {"login": "operator"}, "body": approval_body.to_string()}
+    ])
+    .to_string()
 }
 
 fn write_generation_selector(repository_root: &Path, generation: &str) {

@@ -173,23 +173,44 @@ pub fn discover_operational_local_context(
     let approval_path = PathBuf::from(".csdlc/evidence/505/cutover-approval.json");
     let approval_bytes = fs::read(repository_root.join(&approval_path))
         .map_err(io_finding("cutover_approval_unreadable"))?;
-    let allowed_worktree_parent = Path::new(&request.worktree)
-        .parent()
-        .ok_or_else(|| {
-            vec![finding(
-                PlanStatus::Blocked,
-                "worktree_parent_missing",
-                "operational worktree must have an approved parent",
-            )]
-        })?
-        .canonicalize()
-        .map_err(|_| {
-            vec![finding(
-                PlanStatus::Blocked,
-                "worktree_parent_unavailable",
-                "operational worktree parent must already exist",
-            )]
-        })?;
+    let worktree_policy: Value = serde_json::from_slice(
+        &fs::read(repository_root.join(".adl/worktree-policy.json"))
+            .map_err(io_finding("worktree_policy_unreadable"))?,
+    )
+    .map_err(|_| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "worktree_policy_invalid",
+            "tracked worktree policy must be typed JSON",
+        )]
+    })?;
+    if worktree_policy["schema"] != "adl.worktree_policy.v1" {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "worktree_policy_invalid",
+            "tracked worktree policy schema is not supported",
+        )]);
+    }
+    let allowed_worktree_parent = PathBuf::from(
+        worktree_policy["required_parent"]
+            .as_str()
+            .filter(|value| !value.trim().is_empty())
+            .ok_or_else(|| {
+                vec![finding(
+                    PlanStatus::Blocked,
+                    "worktree_policy_parent_missing",
+                    "tracked worktree policy must declare required_parent",
+                )]
+            })?,
+    )
+    .canonicalize()
+    .map_err(|_| {
+        vec![finding(
+            PlanStatus::Blocked,
+            "worktree_parent_unavailable",
+            "operational worktree parent must already exist",
+        )]
+    })?;
     Ok(Some(OperationalLocalContext {
         state_root: repository_root.join(".csdlc"),
         allowed_worktree_parent,
@@ -1637,18 +1658,23 @@ fn load_local_completion(
             "lifecycle mutation completion does not reconcile to the live issue state",
         )]);
     }
-    if route == "bind"
-        && !git_worktree_registration(
+    if route == "bind" {
+        if !git_worktree_registration(
             &context.repository_root,
             &request.branch,
             Path::new(&request.worktree),
-        )?
-    {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "local_transaction_completion_bind_mismatch",
-            "bind completion does not reconcile to the exact Git worktree registration",
-        )]);
+        )? {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_completion_bind_mismatch",
+                "bind completion does not reconcile to the exact Git worktree registration",
+            )]);
+        }
+        verify_bound_worktree(
+            &request.branch,
+            Path::new(&request.worktree),
+            &context.expected_head_sha,
+        )?;
     }
     Ok(Some(completion.result))
 }

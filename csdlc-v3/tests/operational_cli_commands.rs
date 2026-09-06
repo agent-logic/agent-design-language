@@ -84,6 +84,17 @@ fn operational_fixture(name: &str) -> OperationalFixture {
     git(&root, &["add", "tracked"]);
     git(&root, &["commit", "--quiet", "-m", "fixture"]);
     let exact_head = git(&root, &["rev-parse", "HEAD"]);
+    fs::create_dir_all(root.join(".adl")).unwrap();
+    fs::create_dir_all(root.join("worktrees")).unwrap();
+    fs::write(
+        root.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&json!({
+            "schema": "adl.worktree_policy.v1",
+            "required_parent": root.join("worktrees")
+        }))
+        .unwrap(),
+    )
+    .unwrap();
     let approval_path = root.join(".csdlc/evidence/505/cutover-approval.json");
     fs::create_dir_all(approval_path.parent().unwrap()).unwrap();
     let approval = serde_json::to_vec_pretty(&json!({
@@ -109,7 +120,6 @@ fn operational_fixture(name: &str) -> OperationalFixture {
     }))
     .unwrap();
     fs::write(&selector_path, &selector).unwrap();
-    fs::create_dir_all(root.join("worktrees")).unwrap();
     let request = LocalPreparationRequest {
         issue: 505,
         title: "C-SDLC v3 crash recovery".into(),

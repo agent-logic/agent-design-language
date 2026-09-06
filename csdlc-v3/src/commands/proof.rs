@@ -982,23 +982,38 @@ fn normalize_shadow_output(
                 "route preview must execute exactly one named route with --help",
             ));
         };
-        if generation != ShadowGeneration::V3 || help != "--help" || stdout.is_empty() {
+        if generation != ShadowGeneration::V3 || help != "--preview" || stdout.is_empty() {
             return Err(finding(
                 "route_preview_output_invalid",
                 "route preview requires successful non-empty help output from the selected v3 binary",
             ));
         }
-        std::str::from_utf8(stdout).map_err(|_| {
+        let value: serde_json::Value = serde_json::from_slice(stdout).map_err(|_| {
             finding(
                 "route_preview_output_invalid",
-                "route preview output must be UTF-8",
+                "route preview output must be typed JSON",
             )
         })?;
+        if value["schema"] != "csdlc.v3.route_semantic_preview.v1"
+            || value["command"] != *route
+            || value["performed_mutation"] != false
+            || value["category"].as_str().is_none()
+            || value["effect"].as_str().is_none()
+            || value["authority_required"].as_bool().is_none()
+        {
+            return Err(finding(
+                "route_preview_semantics_invalid",
+                "route preview must expose the selected route's typed category, effect, and authority contract without mutation",
+            ));
+        }
         return Ok(serde_json::json!({
             "contract": "route_preview.v1",
             "command": route,
             "issue": request_issue,
-            "mode": "preview"
+            "mode": "preview",
+            "category": value["category"],
+            "effect": value["effect"],
+            "authority_required": value["authority_required"]
         }));
     }
     let value: serde_json::Value = serde_json::from_slice(stdout).map_err(|_| {

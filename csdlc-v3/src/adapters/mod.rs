@@ -344,7 +344,11 @@ fn github_read_only_curl_invocation(
             truncated: false,
         });
     };
-    if !matches!(operation.as_str(), "pull-request" | "issue") || number.parse::<u64>().is_err() {
+    if !matches!(
+        operation.as_str(),
+        "pull-request" | "issue" | "issue-comments"
+    ) || number.parse::<u64>().is_err()
+    {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
@@ -355,6 +359,7 @@ fn github_read_only_curl_invocation(
     let resource = match operation.as_str() {
         "pull-request" => "pulls",
         "issue" => "issues",
+        "issue-comments" => "issues",
         _ => unreachable!("operation checked above"),
     };
     CommandInvocation::new(
@@ -368,7 +373,11 @@ fn github_read_only_curl_invocation(
             "Accept: application/vnd.github+json".to_owned(),
             "--header".to_owned(),
             "X-GitHub-Api-Version: 2022-11-28".to_owned(),
-            format!("https://api.github.com/repos/{repository}/{resource}/{number}"),
+            if operation == "issue-comments" {
+                format!("https://api.github.com/repos/{repository}/{resource}/{number}/comments?per_page=100")
+            } else {
+                format!("https://api.github.com/repos/{repository}/{resource}/{number}")
+            },
         ],
     )
     .map_err(|_| ProcessOutput {

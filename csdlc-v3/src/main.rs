@@ -18,6 +18,7 @@ use csdlc_v3::{
     },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     commands::terminal::{
+        prepare_terminal_cutover_with_github_observation,
         prepare_terminal_finish_with_github_observation, prepare_terminal_route, CleanupDecision,
         CutoverOperation, FinishDecision, TerminalRouteRequest, TerminalRouteStatus,
         TERMINAL_ROUTE_NAMES,
@@ -55,6 +56,11 @@ fn run(args: Vec<String>) -> Result<String, String> {
     let Some((command, rest)) = args.split_first() else {
         return Err(ROOT_USAGE.into());
     };
+    if rest == ["--preview"] {
+        if let Some(output) = route_semantic_preview(command) {
+            return serde_json::to_string(&output).map_err(|error| error.to_string());
+        }
+    }
     match command.as_str() {
         "--help" | "-h" => Ok(ROOT_USAGE.into()),
         "foundation" => run_foundation(rest),
@@ -68,6 +74,33 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "rollback" => run_terminal("rollback", rest),
         _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
     }
+}
+
+fn route_semantic_preview(command: &str) -> Option<serde_json::Value> {
+    let (category, effect, authority_required) = match command {
+        "bind" | "edit" | "issue" => ("local", "lifecycle_mutation", true),
+        "doctor" | "eligibility" => ("local", "lifecycle_diagnostic", false),
+        "schedule" | "shepherd" => ("local", "lifecycle_routing", true),
+        "validate" => ("local", "lifecycle_validation", false),
+        "clean" => ("terminal", "registered_worktree_removal", true),
+        "cutover" => ("terminal", "authority_transition", true),
+        "finish" => ("terminal", "terminal_reconciliation", true),
+        "github" | "github-issue" | "github-pr" | "publish" | "review" => {
+            ("remote", "authenticated_github_mutation", true)
+        }
+        "pr-state" => ("remote", "authenticated_github_readback", false),
+        "install" => ("proof", "stable_binary_install", true),
+        "proof" | "shadow" | "soak" => ("proof", "durable_evidence_write", false),
+        _ => return None,
+    };
+    Some(serde_json::json!({
+        "schema": "csdlc.v3.route_semantic_preview.v1",
+        "command": command,
+        "category": category,
+        "effect": effect,
+        "authority_required": authority_required,
+        "performed_mutation": false
+    }))
 }
 
 fn run_foundation(args: &[String]) -> Result<String, String> {
@@ -361,6 +394,10 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
         let mut adapter = RealProcessAdapter::new(EnvironmentCredentialResolver);
         prepare_terminal_finish_with_github_observation(&request, &mut adapter)
             .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
+    } else if terminal_route == "cutover" && args.observe_github {
+        let mut adapter = RealProcessAdapter::new(EnvironmentCredentialResolver);
+        prepare_terminal_cutover_with_github_observation(&request, &mut adapter)
+            .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
     } else {
         prepare_terminal_route(terminal_route, &request)
             .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?
@@ -611,7 +648,7 @@ impl TerminalArgs {
                         format!("{}; missing value for --request", terminal_usage(command))
                     })?));
                 }
-                "--observe-github" if command == "finish" => {
+                "--observe-github" if matches!(command, "finish" | "cutover" | "rollback") => {
                     if observe_github {
                         return Err("duplicate argument --observe-github".into());
                     }
