@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 707,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
+    "slug": "runtime-generation-coherence-a2a-deploy",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Cross-binary configuration-generation identity, install/start behavior, rollback safety, and live Beacon-to-Ember A2A proof only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is receipt identity byte-stable across independently resolved package graphs?",
+        "Can any mismatched init, generation, executable, or receipt pass?",
+        "Does live proof distinguish operator reply from a separately addressed and received Ember work item?",
+        "Is rollback preserved throughout deployment?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

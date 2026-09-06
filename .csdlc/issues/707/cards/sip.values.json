@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 707,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
+    "slug": "runtime-generation-coherence-a2a-deploy",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make CSM, Guardian, and Kernel agree on Runtime configuration identity and deploy the merged A2A path on Wuji.",
+      "required_outcome": "One current-source generation starts under launchd with owned readiness and Beacon delivers a distinct agent-addressed turn to Ember.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/config_generation.rs",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl/tools/runtime_v3_generation.py",
+        "focused generation and A2A tests",
+        ".csdlc/prepared/issues/707",
+        ".csdlc/issues/707"
+      ],
+      "authority_boundary": [
+        "Issue #707 owns cross-binary configuration identity and live deployment proof",
+        "Merged #693 remains authority for A2A action-selection behavior",
+        "The live init content, agent roster, and provider assignments are not changed",
+        "The known-good installed generation remains rollback authority until acceptance passes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not write tracked changes on main",
+        "Use a bound FastWork worktree",
+        "Keep Wuji on a healthy generation while source repair proceeds",
+        "Do not weaken fail-closed generation validation",
+        "Use canonical CSM and launchd only"
+      ]
+    }
+  }
+}

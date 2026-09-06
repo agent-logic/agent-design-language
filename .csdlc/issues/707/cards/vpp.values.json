@@ -1,0 +1,105 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 707,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
+    "slug": "runtime-generation-coherence-a2a-deploy",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "config-generation-cross-binary",
+          "proof_role": "Prove deterministic identity and fail-closed mismatch handling across production binary manifests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "bash",
+            "adl/tools/test_runtime_v3_generation_install.sh"
+          ],
+          "parallel_group": "runtime-generation",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-focused",
+          "proof_role": "Prove touched Runtime packages compile and focused tests pass.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "bash",
+            "adl/tools/run_owner_validation_lane.sh",
+            "runtime"
+          ],
+          "parallel_group": "runtime-generation",
+          "defer_reason": null
+        },
+        {
+          "lane": "live-wuji-a2a",
+          "proof_role": "Prove owned readiness and a distinct Beacon-to-Ember delivery after generation install.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 1200,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/707/validate-live-wuji-a2a.sh"
+          ],
+          "parallel_group": "runtime-generation-serial",
+          "defer_reason": "Created during implementation and run only after local proof and review."
+        },
+        {
+          "lane": "format-diff",
+          "proof_role": "Reject formatting and range-diff hygiene defects.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "parallel_group": "runtime-generation",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on any identity disagreement, receipt or executable mismatch, competing listener, unhealthy rollout, ambiguous A2A recipient, or unresolved review finding; roll back to the retained known-good generation on live failure.",
+      "design_ref": ".csdlc/prepared/issues/707/design.md",
+      "design_digest": "c7489b245a9f56f3bd65a8458fc03cc3541cdbccb2144dd6f656ae373e8bb5b0",
+      "diagram_ref": ".csdlc/prepared/issues/707/diagram.mmd",
+      "diagram_digest": "75c60391e6ad84271f10f460dffa80bc66b15bc93c4246795939268c6c36e752"
+    }
+  }
+}

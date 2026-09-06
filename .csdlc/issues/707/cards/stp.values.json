@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 707,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
+    "slug": "runtime-generation-coherence-a2a-deploy",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair deterministic cross-binary generation identity, prove it with focused tests, install a coherent generation, and demonstrate live Beacon-to-Ember delivery.",
+      "deliverables": [
+        "Canonical dependency-independent receipt digest",
+        "Cross-binary generation regression test",
+        "Verified three-binary generation receipt",
+        "Healthy canonical Wuji rollout",
+        "Live distinct A2A delivery evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: CSM, Guardian, and Kernel derive identical configuration generation and receipt identity for the same init and binary generation",
+        "AC-2: Generation validation remains fail closed for content, compatibility, receipt, and executable mismatch",
+        "AC-3: One release generation containing all three current-source binaries verifies and starts under launchd without restart exhaustion",
+        "AC-4: Wuji readiness, ownership identities, observability, roster eligibility, and model residency remain healthy",
+        "AC-5: Beacon emits a distinct agent-to-agent work item addressed to Ember and Ember receives it; operator reply alone is not accepted as proof",
+        "AC-6: Focused validation, diff hygiene, bounded subagent review, and typed publication pass"
+      ],
+      "dependencies": [
+        "#692 merged configuration-generation guard",
+        "#693 and PR #696 merged A2A implementation",
+        "Healthy rollback generation main-cea5219f6-20260903"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#707",
+        "agent-logic/agent-design-language#692",
+        "agent-logic/agent-design-language#693",
+        "adl-runtime-kernel/src/config_generation.rs",
+        "adl/tools/install_runtime_v3_generation.sh",
+        "docs/tooling/START_CSM_RUNBOOK.md"
+      ],
+      "non_goals": [
+        "No Runtime lifecycle redesign",
+        "No init or agent configuration changes",
+        "No provider or model changes",
+        "No Observatory visual redesign",
+        "No bypass of configuration-generation validation"
+      ]
+    }
+  }
+}

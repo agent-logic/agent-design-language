@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex:runtime-generation-a2a-repair","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:runtime-generation-a2a-repair","reason":"Advance the operator-approved bounded repair design to execution readiness.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
