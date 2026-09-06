@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 712,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
+    "slug": "runtime-startup-simplification",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove cross-binary startup receipt choreography and replace it with direct config validation, loaded-hash readiness, and atomic reload.",
+      "deliverables": [
+        "Simplified CSM start/reload path",
+        "Single-child Guardian launch path",
+        "Kernel direct validation and loaded hash reporting",
+        "Focused cold-start/restart/reload proof",
+        "Updated runbook",
+        "Reviewed PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Cold start requires only the canonical config and canonical Runtime binary",
+        "AC-2: Guardian launches exactly one Runtime child and supervises restart",
+        "AC-3: Kernel validates before serving and reports the exact loaded config hash",
+        "AC-4: Reload atomically installs a valid candidate or leaves prior config and process intact",
+        "AC-5: No prepared receipt handshake remains across CSM, Guardian, and Kernel",
+        "AC-6: Existing roster, model-backed Shepherd, all-agent A2A, API auth, signed ACIP, observability, and checkpoints remain intact",
+        "AC-7: Focused proof, live Wuji acceptance, review, and publication pass"
+      ],
+      "dependencies": [
+        "#707 implementation and live proof",
+        "Canonical com.agentlogic.adl-runtime-v3 service"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#712",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "docs/tooling/START_CSM_RUNBOOK.md"
+      ],
+      "non_goals": [
+        "No new orchestration framework",
+        "No compatibility copy of the receipt protocol",
+        "No cloud-specific Runtime fork",
+        "No unrelated provider or UI work"
+      ]
+    }
+  }
+}

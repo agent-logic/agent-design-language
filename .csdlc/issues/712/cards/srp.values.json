@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 712,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
+    "slug": "runtime-startup-simplification",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Runtime startup, supervision, direct config validation/hash reporting, atomic reload, and retained behavior only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is any receipt choreography still required for ordinary startup?",
+        "Can invalid config bind a listener?",
+        "Can reload lose the last known-good config or create two children?",
+        "Did simplification preserve real API, ACIP, identity, replay, and audit security?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

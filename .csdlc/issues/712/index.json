@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 712,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a82fe3a92bb3a06498cc389719d48bf463334badcf8473a4678d2e9e43832e89",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "d5aec297a82463383c6048a8740cfe1c5584c1d3279c9918c8ac316743074659",
+  "branch": "codex/712-runtime-startup-simplification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-712-runtime-startup-simplification",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/712/design.md",
+  "diagram_path": ".csdlc/prepared/issues/712/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:direct-simplification-contract",
+      "revision": "6060eff7a14ca1fb7b22a3a117bc1c235c03bd41ec89de981f50869dc9b321fb"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d7603abfb3e513049df4219489fb4e3ad784cc45f56c86cb03421cf7f0bea55b",
+      "rendered_digest": "11caefa459914b878b13a04ca51a48ab7ba7c2ba7b4d98648bdd81b8e1394e43",
+      "ast_digest": "06f6ee6a1ccb2587675aab58fe0b375209e112cad6fe24fd60efb3dbdf25f46a"
+    },
+    "stp": {
+      "values_digest": "ba6ac69e3fdb9e20088ec865df0647760bde0c9d98dc612f36a33b171a3be1ad",
+      "rendered_digest": "05cffc2ae92fd2977fc12b68f5d34b8e48cb4d6d630a0ccc2c7d6931c8e7d488",
+      "ast_digest": "8219b9adcd5190c6efe95eec5c428f0a7e70cf9ed35e8f1688cdaf0ff5f1f996"
+    },
+    "spp": {
+      "values_digest": "51b7b899ec5d8a34ecad3176af1d6ebbdb983e543c4f05d4605450b9428abe70",
+      "rendered_digest": "ef10b1dfd0cde2e4c7a7d6beb956b108cd7f7bb56211e817c2ef3d3a33840aba",
+      "ast_digest": "4475e3d213cf6dfbac9f23d00bb8ccfccc979f3c945595b7344722d724cb98a5"
+    },
+    "vpp": {
+      "values_digest": "f37bb47ff9dbc88697fdbd70dbc5ae2f9f4bd81a383dac04b3b0aa876c69f461",
+      "rendered_digest": "89ad39cbe1281e30ec8ea69f91effc2de186e0d5393037c7cb48b92fc285cc29",
+      "ast_digest": "07e9f0fe031429cebd9022af41a2095eb7355840bb460a4d288272db6ba99605"
+    },
+    "srp": {
+      "values_digest": "bd406c2c3d86b22d00369aa0119c4cb868080656a88774f9eb46ee2f2f67cdde",
+      "rendered_digest": "22c3c9bcd80f3bdafe7cbaf81a3f60e6d4f27983008c7af317cdce3ba17fabc7",
+      "ast_digest": "d313c8bcf2ee499aeb830473cef804129029bc10a2c93c5761970ec27a8b6a5b"
+    },
+    "sor": {
+      "values_digest": "1379351fc46c8bb7a941980db4422f75a2df2b0b9adceb83fdf139479e450ee1",
+      "rendered_digest": "7fbc2ce1dce30da7bb7e2ae0641ab932381bd5f9a4c3fc028fecfb86b793581a",
+      "ast_digest": "fb428a9c8fa107529cf42b3474e0251afaeff0621d46593f96c8c8622ae9e5e7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Operator approved the explicit simplification design and execution contract."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Operator approved the explicit simplification design and execution contract.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Use concrete repository-owned paths for execution authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config_generation.rs\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/prepared/issues/712\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Use one issue-owned focused validator; live Wuji proof is added after implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-startup-simplification\",\"proof_role\":\"Prove focused CSM, Guardian, Kernel startup and reload behavior plus range diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"],\"parallel_group\":\"runtime-startup\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Include the exact issue-owned validator in execution authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config_generation.rs\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 712,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
+    "slug": "runtime-startup-simplification",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-startup-simplification",
+          "proof_role": "Prove focused CSM, Guardian, Kernel startup and reload behavior plus range diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh"
+          ],
+          "parallel_group": "runtime-startup",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on invalid config or real security-boundary regression; preserve the current live generation for rollback.",
+      "design_ref": ".csdlc/prepared/issues/712/design.md",
+      "design_digest": "6060eff7a14ca1fb7b22a3a117bc1c235c03bd41ec89de981f50869dc9b321fb",
+      "diagram_ref": ".csdlc/prepared/issues/712/diagram.mmd",
+      "diagram_digest": "7b242f4cae90cad75edea452eb7acdd4070485a162bb0de32271b173f86a8712"
+    }
+  }
+}
