@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
     "slug": "runtime-generation-coherence-a2a-deploy",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Cross-binary configuration-generation identity, install/start behavior, rollback safety, and live Beacon-to-Ember A2A proof only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "cross-binary configuration identity\nuniform all-agent A2A communication\nsingle canonical Wuji deployment\ntwo fresh live Beacon-to-Ember deliveries\nfocused validation and publication hygiene",
+      "review_revision": "git-blake3:0681d06d580e2431df5956e5d3a132240bb8f66a:8fcd3482471ae32c1d29c07e6162e1822665baf60d93e66a3a2acc91cfb552ef",
+      "reviewer": "subagent:/root/review_707_final",
       "review_prompts": [
         "Is receipt identity byte-stable across independently resolved package graphs?",
         "Can any mismatched init, generation, executable, or receipt pass?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

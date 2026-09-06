@@ -1,0 +1,14 @@
+{
+  "issue": 707,
+  "reviewer": "subagent:/root/review_707_final",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "cross-binary configuration identity",
+    "uniform all-agent A2A communication",
+    "single canonical Wuji deployment",
+    "two fresh live Beacon-to-Ember deliveries",
+    "focused validation and publication hygiene"
+  ],
+  "expected_generation": 5,
+  "expected_digest": "b1174680abb4933e14fe90abd73fb23f29fc777fbac9ed8c4f8bfb64cfe6d2cf"
+}

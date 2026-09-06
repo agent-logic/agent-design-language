@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
     "slug": "runtime-generation-coherence-a2a-deploy",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {

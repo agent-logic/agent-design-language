@@ -1,0 +1,17 @@
+{
+  "issue": 707,
+  "card": "sor",
+  "actor": "codex:/root",
+  "reason": "Record the focused deterministic, cross-binary, live Wuji, and exact-head review proof for publication.",
+  "expected_generation": 3,
+  "expected_digest": "58c002dd08db64f26c84c9779db9de7fb1f71c5c399a4cf9e2ae25cf49a624c2",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", ".csdlc/prepared/issues/707/validate-publication-proof.sh"],
+      "outcome": "passed",
+      "purpose": "Aggregate retained proof: A2A tests 10/10, configuration tests 37/37, real CSM-Guardian-Kernel generation parity, cargo check, diff hygiene, two fresh live Beacon-to-Ember deliveries, and publication-head review PASS.",
+      "evidence_ref": ".csdlc/evidence/707/live-a2a-results.json"
+    }
+  }
+}
