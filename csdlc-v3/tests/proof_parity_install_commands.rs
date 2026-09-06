@@ -11,7 +11,7 @@ use std::os::unix::fs::PermissionsExt;
 
 use serde_json::{json, Value};
 
-const SHADOW_TARGET_ISSUE: u64 = 505;
+const SHADOW_TARGET_ISSUE: u64 = 631;
 
 struct ScratchGuard {
     _lock: MutexGuard<'static, ()>,
@@ -223,10 +223,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
 }
 
 fn v3_doctor_spec() -> Value {
-    v3_doctor_spec_for(
-        SHADOW_TARGET_ISSUE,
-        "[v0.92.1][V3-F] C-SDLC v3 authority transition decision",
-    )
+    v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
 }
 
 fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
@@ -264,7 +261,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
         ],
         "request_ref": request_ref,
         "timeout_millis": 120_000,
-        "side_effect_boundary_refs": [".csdlc/issues/505/index.json"],
+        "side_effect_boundary_refs": [format!(".csdlc/issues/{issue}/index.json")],
         "provider_side_effects": false
     })
 }

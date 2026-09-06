@@ -860,11 +860,13 @@ fn execute_shadow_command(
         })?;
     let before = snapshot_boundaries(root, &spec.side_effect_boundary_refs)?;
     let started = Instant::now();
+    let tool_path = std::env::var_os("PATH")
+        .unwrap_or_else(|| std::ffi::OsString::from("/usr/bin:/bin"));
     let mut child = Command::new(&binary)
         .current_dir(root)
         .args(&spec.argv)
         .env_clear()
-        .env("PATH", "/usr/bin:/bin")
+        .env("PATH", tool_path)
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
