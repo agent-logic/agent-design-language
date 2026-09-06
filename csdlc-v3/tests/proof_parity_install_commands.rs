@@ -17,6 +17,7 @@ struct ScratchGuard {
     _lock: MutexGuard<'static, ()>,
     evidence_dir: PathBuf,
     target_dir: PathBuf,
+    canonical_evidence: Vec<(PathBuf, Option<PathBuf>)>,
 }
 
 impl ScratchGuard {
@@ -39,10 +40,28 @@ impl ScratchGuard {
         let _ = fs::remove_dir_all(&evidence_dir);
         let _ = fs::remove_dir_all(&target_dir);
         fs::create_dir_all(&target_dir).expect("target scratch dir");
+        let canonical_evidence = [
+            binary_repo_root().join(".csdlc/evidence/505/v3-shadow"),
+            binary_repo_root().join(".csdlc/evidence/505/v3-soak"),
+            binary_repo_root().join(".csdlc/evidence/631/v3-proof"),
+        ]
+        .into_iter()
+        .enumerate()
+        .map(|(index, path)| {
+            let backup = path
+                .exists()
+                .then(|| target_dir.join(format!("evidence-{index}")));
+            if let Some(backup) = &backup {
+                fs::rename(&path, backup).expect("preserve existing canonical evidence");
+            }
+            (path, backup)
+        })
+        .collect();
         Self {
             _lock: lock,
             evidence_dir,
             target_dir,
+            canonical_evidence,
         }
     }
 }
@@ -50,6 +69,15 @@ impl ScratchGuard {
 impl Drop for ScratchGuard {
     fn drop(&mut self) {
         let _ = fs::remove_dir_all(&self.evidence_dir);
+        for (path, backup) in &self.canonical_evidence {
+            let _ = fs::remove_dir_all(path);
+            if let Some(backup) = backup {
+                if let Some(parent) = path.parent() {
+                    let _ = fs::create_dir_all(parent);
+                }
+                let _ = fs::rename(backup, path);
+            }
+        }
         let _ = fs::remove_dir_all(&self.target_dir);
     }
 }
@@ -757,7 +785,7 @@ fn install_route_is_one_binary_plan_gated_by_505() {
             "executes_install": true
           }
         }),
-        "install_canonical_selector_mismatch",
+        "install_typed_authority_missing",
     );
     let scratch_root = scratch().join("caller-controlled-evidence-root");
     fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))
