@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d879a959a182540167faf475c7b334cbd83526edf7fb49164fb4cacba4f5cd0b",
-  "phase": "implemented",
-  "generation": 45,
-  "digest": "5b003b334bc8623de07a5fd9b043e2785c66bb20560ef41ae93b3e15dd0ad066",
+  "phase": "reviewed",
+  "generation": 46,
+  "digest": "e7201f05864cb88ebd9f68d698ee1de6c4b0a4aa3fbdf8f5b9822e601382c7ee",
   "branch": "codex/708-runtime-agent-orientation-resource",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource",
   "review_assignment": {
@@ -19,7 +19,22 @@
       "adl-runtime-kernel/src/conversation_sessions_tests.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:issue-708-final-review-blocker-fix-review",
+    "scope": [
+      "adl-runtime-kernel/src/agent_orientation.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:f3fe957f3993fcbd0720316bb31cad5fde017a5f:faf973509dceb1132dddfbd9a659892ef0fc31da25fe01e7417859273d9feec7",
+    "findings": [],
+    "residual_risks": [
+      "Focused review covered PR #709 review-blocker fixes: durable dynamic-agent orientation persistence, parts-only provider A2A multipart normalization, configured source-path loading, and deterministic cleanup-race test synchronization.",
+      "Review did not perform live provider inference, paid Runtime execution, external communications, or broad non-runtime validation; local proof remains the worktree-local Rust/Node validation recorded in SOR."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d380aa1e43f015445b1ea975e9389f9b37bb5bf9bd77752fb933963a473822f1",
+      "values_digest": "9abc4c78eedf51249e883f1fe87b9409e3e4fbe8833185a2b4fa9fbe3235d506",
       "rendered_digest": "37dde456a105dc5549cffe757f7afb94f7a4ded717fea78eb9d7be4559b06402",
       "ast_digest": "fb443d89805a921bb66f4b279e2c1672cfed1729cfd94cc027bb23c8e82193a4"
     },
     "stp": {
-      "values_digest": "c97684e47c6dac1a4ab0bece0bbc194018dd8e694c932e27ff923431870b72f5",
+      "values_digest": "9505d6ea5af6d12f1ae5b0252009fc2252646be8219faddf5ca84af10eac1e0d",
       "rendered_digest": "bf699ae104b8632b0e3e9d3b5a1988487542a4bc483f0a7b43ec36b6443e48fe",
       "ast_digest": "24e8a614d52f441083d780bc9bda3f33f80e75edc4300c4f911adea2a864b598"
     },
     "spp": {
-      "values_digest": "37b97560141deee09753ed879ac5a47945f54b5602393a3bbd88e55ff3f0ccd0",
+      "values_digest": "1f431ed53d3a999bab37ab5c4c3a8f40d347a0cdad1919725a4fe008cbe98df3",
       "rendered_digest": "4b5f1a6420be861bf339cb63a6e74af6dd10f72cf04f272779bfe354d8c979e2",
       "ast_digest": "2de4a4a20d2d10f88b1f701f52eefaa2532a9e371e34c0f30dc19075c8fed67f"
     },
     "vpp": {
-      "values_digest": "e9c5d6d081c42c1051362bb3c4887449536a5737a8a4c97593c82e5e51884390",
+      "values_digest": "5194a37dfa038827c2b0567bb20d2937e6d07094ee5b6448924161672d28f13a",
       "rendered_digest": "5f71ab4cfedccbeaf858127fe5c5c61d8a33e66422d46f59647389c2afa888cf",
       "ast_digest": "7be59cfe50c3c14cc3b7b5f52192ff5224c77a00b9eddc1fc580ccdc5dee12df"
     },
     "srp": {
-      "values_digest": "de57d58d4ebaa50187dee11bcde64261e67bc4c0d20a5c8a58feb6b1990f4fa6",
-      "rendered_digest": "4c0b6529e4e48a629767a46ed4ce383327a722989057784e82b17bf12c5f6ec9",
-      "ast_digest": "1e72291e818101b7fefde3bb48fbbc5dee25310aadf4bad0377abcedbd26e7d2"
+      "values_digest": "e4b7f047b4180febcb1f6c549171d2f53f84343b8032a47b3a8b24ef5d6bce23",
+      "rendered_digest": "ead1ebe73f620d786558b3a4bb30520605af0650a9778c201132e837980204ba",
+      "ast_digest": "1bb9b88cc4ef04c69c5908f18278143039fc1594a2daf59d0120fd4609ca62bb"
     },
     "sor": {
-      "values_digest": "23356e379f1dbe2d5757d16128339e725fe5fc69482906cedf76c4ec94aba698",
+      "values_digest": "05379c067ecd416895a380bbb4a03a7771eca70a7e95c871690659bb31518e4d",
       "rendered_digest": "bea6e7a64646263f47981c7a381bfc626b3f125717c1fa241130de81a82f7b98",
       "ast_digest": "002ee819c9cd238da6d800b8e8fe5c96b743228ce56e9919bc9ee888b0822ed3"
     }
@@ -253,6 +268,13 @@
       "to": "implemented",
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "Recover stale review after the #708 review-blocker fix review metadata tail so a current-head review can be assigned before republishing PR #709."
+    },
+    {
+      "sequence": 28,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-708-final-review-blocker-fix-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -689,6 +711,13 @@
       "actor": "codex:issue-708-runtime-orientation",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 46,
+      "actor": "codex:issue-708-final-review-blocker-fix-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
