@@ -7,7 +7,7 @@
     "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
     "slug": "runtime-versioned-agent-orientation-resource",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 20
   },
   "status": "pre_phase",
   "content": {
@@ -151,18 +151,33 @@
             "env",
             "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
             "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml"
+          ],
+          "purpose": "Full adl-runtime-kernel regression validation after orienting provider-backed A2A envelopes and the governed resident Shepherd READY probe.",
+          "outcome": "passed",
+          "evidence_ref": "terminal:all adl-runtime-kernel unit, integration, and doc tests passed"
+        },
+        {
+          "command": [
+            "env",
+            "TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp",
+            "cargo",
             "clippy",
             "--locked",
             "--manifest-path",
             "adl-runtime-kernel/Cargo.toml",
             "--lib",
+            "--bins",
+            "--tests",
             "--",
             "-D",
             "warnings"
           ],
-          "purpose": "Strict lint validation for the touched Runtime library surface.",
+          "purpose": "Strict lint validation for the touched Runtime library, binary, and test surfaces.",
           "outcome": "passed",
-          "evidence_ref": "terminal:cargo clippy --lib -D warnings finished"
+          "evidence_ref": "terminal:cargo clippy --lib --bins --tests -D warnings finished"
         },
         {
           "command": [
