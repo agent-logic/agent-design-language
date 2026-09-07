@@ -1,0 +1,17 @@
+{
+  "issue": 712,
+  "expected_generation": 6,
+  "expected_digest": "77dd41300767ff0820e83579dea70b973ddc188edc3868ca2960aff50ce9e0cf",
+  "actor": "codex:/root",
+  "reason": "Record read-only live Wuji service-definition compatibility before deployment.",
+  "card": "sor",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "run", "--manifest-path", "adl/Cargo.toml", "--bin", "csm", "--", "runtime-v3", "status", "--init", "/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/runtime-init.toml", "--plist", "/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/launchd/com.agentlogic.adl-runtime-v3.plist", "--label", "com.agentlogic.adl-runtime-v3", "--json"],
+      "purpose": "Prove the simplified CSM accepts the live canonical Guardian, init, and Kernel topology and reports owned readiness without receipt fields.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:service_loaded true, listener_ready true, observability_ready true"
+    }
+  }
+}

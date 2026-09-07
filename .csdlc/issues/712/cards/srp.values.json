@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
     "slug": "runtime-startup-simplification",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
