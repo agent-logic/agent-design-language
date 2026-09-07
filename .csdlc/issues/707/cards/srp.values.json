@@ -7,24 +7,37 @@
     "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
     "slug": "runtime-generation-coherence-a2a-deploy",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/long_lived_agent/tests.rs\nadl/tests/csm_runtime_v3_generation.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/control.rs\nadl/src/long_lived_agent/tests.rs\nadl/tests/csm_runtime_v3_generation.rs",
+      "review_revision": "git-blake3:58d80fb0a647f179493f7a1b9cfd9107cb7f61f2:dc4e7284bbcb2dd9818f03baeb1ad7b1f13550b79971b171e9814857c28f4559",
+      "reviewer": "subagent:/root/review_711_restacked_head",
       "review_prompts": [
         "Is receipt identity byte-stable across independently resolved package graphs?",
         "Can any mismatched init, generation, executable, or receipt pass?",
         "Does live proof distinguish operator reply from a separately addressed and received Ember work item?",
         "Is rollback preserved throughout deployment?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "711-p1-multipart-a2a-checkpoint-loss",
+          "severity": "p1",
+          "summary": "Parent conversation checkpoints persisted only the optional legacy A2A message and could lose multipart or parts-only delegated content across restore.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Multipart A2A checkpoint and restore behavior requires correction and exact-head re-review."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

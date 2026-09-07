@@ -2862,7 +2862,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             initiated_work_id: Some(
                                                 delegated.intent.work_id.clone(),
                                             ),
-                                            initiated_message: delegated.intent.message.clone(),
+                                            initiated_message: assemble_agent_conversation_message(
+                                                delegated.intent.message.as_deref(),
+                                                &delegated.intent.message_parts,
+                                            ),
                                             initiated_reply: initiated.reply,
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
@@ -7427,8 +7430,8 @@ mod layer8_conversation_ingress_tests {
                                     "name": "initiate_agent",
                                     "arguments": {
                                         "recipient_id": "ember",
-                                        "message": "Multipart governed handoff follows.",
                                         "message_parts": [
+                                            "Multipart governed handoff follows.",
                                             "Ember, please answer Beacon through governed A2A.",
                                             "Include the welcome-package orientation receipt in your reasoning context."
                                         ]
@@ -7830,6 +7833,42 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(
             initiated_history.records[0].causal_id, initiated_history.records[1].causal_id,
             "direct initiated history must preserve one causal id across outbound and reply"
+        );
+        let parent_checkpoint = service
+            .agent_conversation_checkpoint("beacon")
+            .expect("checkpoint parent Beacon conversation");
+        let checkpointed_turn = &parent_checkpoint[0].turns[0];
+        assert_eq!(
+            checkpointed_turn.initiated_message.as_deref(),
+            Some(concat!(
+                "Multipart governed handoff follows.\n\n",
+                "Ember, please answer Beacon through governed A2A.\n\n",
+                "Include the welcome-package orientation receipt in your reasoning context."
+            )),
+            "parts-only provider A2A action must checkpoint the assembled outbound body"
+        );
+        let restored_service = ControlService::new_with_observatory_config_and_agents(
+            "runtime-restored-test",
+            RuntimeRecorder::new(16),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            AgentPopulationFeed::resident_shepherd(),
+        );
+        restored_service
+            .restore_conversation_history("beacon", &parent_checkpoint)
+            .expect("restore parent-only Beacon checkpoint");
+        let restored_history = restored_service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: intent.conversation_id.clone(),
+                page_size: 16,
+            })
+            .expect("restored parent checkpoint projects complete A2A history");
+        assert_eq!(
+            restored_history.records[2].body, history.records[2].body,
+            "restart must preserve the complete multipart A2A outbound body"
         );
         let history_wire = serde_json::to_string(&history).expect("A2A history serializes");
         for forbidden in [
