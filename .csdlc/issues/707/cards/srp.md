@@ -12,11 +12,8 @@ Status: draft
 
 ## Scope
 
-cross-binary configuration identity
-uniform all-agent A2A communication
-single canonical Wuji deployment
-two fresh live Beacon-to-Ember deliveries
-focused validation and publication hygiene
+adl/src/long_lived_agent/tests.rs
+adl/tests/csm_runtime_v3_generation.rs
 
 ## Prompts
 
@@ -39,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:fb07080129a5da2e70a4d85c3bf60126fc51381d:62cc9964a9a5d1f59f985bba5c352fe9c3ea79cf0297e8911594cbeb487c1e12")
+Revision: None
 
-Reviewer: Some("subagent:/root/review_707_final")
+Reviewer: None
 
-Result: pass
+Result: pre_review

@@ -11,3 +11,5 @@
 {"sequence":11,"generation":7,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":8,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":14,"generation":10,"actor":"codex:/root","reason":"PR #711 exact-head review freshness recovery: final substantive test-fix commit 45e38af followed the recorded review.","operation":"recover_review"}
+{"sequence":15,"generation":10,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
