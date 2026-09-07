@@ -1,0 +1,30 @@
+{
+  "schema": "csdlc.v3.terminal_cleanup_cutover.v1",
+  "command": "cutover",
+  "read_only": true,
+  "requested_mutation": false,
+  "performed_mutation": false,
+  "operational_authority": false,
+  "cutover_issue": 505,
+  "result": {
+    "route": "cutover",
+    "issue": 505,
+    "repository": "agent-logic/agent-design-language",
+    "status": "blocked",
+    "operational_authority": false,
+    "findings": [
+      {
+        "code": "missing_operator",
+        "message": "cutover decision requires explicit operator"
+      },
+      {
+        "code": "missing_operator_approval",
+        "message": "cutover decision requires explicit approval"
+      },
+      {
+        "code": "missing_505_approval",
+        "message": "cutover approval must explicitly cite #505"
+      }
+    ]
+  }
+}

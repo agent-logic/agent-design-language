@@ -1,0 +1,18 @@
+{
+  "action": "issue_read",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "worker-6-v3-sprint-readiness-live-issue-536-20260901",
+  "token_file": null,
+  "issue": 536,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

@@ -1,0 +1,36 @@
+{
+  "canonical_match": false,
+  "immutable_receipt_overwrite_allowed": false,
+  "issue": 570,
+  "local_projection": {
+    "digest": "380377ef9b0faa7b40949706c0c5980837933c2487d3bb97e62e68758b6f315f",
+    "generation": 4,
+    "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
+    "issue": 570,
+    "phase": "ready",
+    "repository": "agent-logic/agent-design-language"
+  },
+  "next_action": "this worktree projection is stale; switch to the worktree/revision that produced the cached terminal generation before cleanup or closeout",
+  "schema": "csdlc.cached_terminal_diagnostic.v1",
+  "status": "stale_projection_terminal_exists",
+  "terminal": {
+    "approved_reason": null,
+    "canonical_digest": "3bc9f5e4993acaa52d91b6bc684688ad3cde32893330e96a845706d440eb343a",
+    "canonical_generation": 26,
+    "digest": "ab8f6013b3a00123baba194f5ea5b0f307c4e676c649682a763284a52d26b066",
+    "disposition": "merged",
+    "head_sha": "ee8b32201b8efaaed6040eacf3b017193f43d110",
+    "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
+    "issue": 570,
+    "issue_state": "closed_by_merged_pr",
+    "merge_sha": "989d536af37455f1657be88af5d4d8c82d21b0b1",
+    "mutable_fresh_until_unix_seconds": null,
+    "observed_unix_seconds": 1788137906,
+    "pr_state": "closed",
+    "pull_request": 584,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.derived_terminal.v1",
+    "source": "live_github"
+  },
+  "terminal_cache_path": "/Users/daniel/git/agent-design-language/.git/csdlc-v2/derived-terminal/570.json"
+}

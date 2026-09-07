@@ -1,0 +1,115 @@
+{
+  "action": "pr_update",
+  "comment_id": null,
+  "issue": null,
+  "operation_key": "worker-6-pr591-gemini-remediation-20260901",
+  "pr_state": {
+    "base_ref": "main",
+    "body": "Part-Of #505\n\nRemediates the Sprint 5/6 v3 cutover review findings while keeping C-SDLC v2 as the live lifecycle authority until #505 receives explicit operator approval and terminal reconciliation.\n\nWhat changed:\n- Adds a single-binary `csdlc remote` pre-cutover bridge verifier for typed v3 remote-delivery evidence. It parses PVF, accepted-review, publication-intent, PR-readback, issue-readback, and cleanup-inspection JSON instead of trusting caller strings.\n- Keeps v3 remote output non-authoritative before cutover: `operational_authority=false` and `trusted_authority=false` remain explicit in retained trial evidence.\n- Hardens v3 cleanup identity by checking both sides of Git worktree registration before deriving cleanup eligibility.\n- Extends v3 local preparation output with deterministic six-card render-manifest evidence from the active prompt registry.\n- Adds `csdlc-finish --diagnose-cached-issue` so stale terminal-cache projections for #570/#571 are diagnosed without mutating receipts.\n- Reopens failed or prematurely terminalized sprint issues #501, #502, #503, #504, #533, and #596 through typed C-SDLC v2 issue transport, with readback evidence retained.\n- Retains Sprint 5/Sprint 6 membership v5 evidence and records the records-hygiene finding that #596 remains ready/pre-execution locally despite the earlier PR merge.\n- Adds Gemini-assisted review evidence for the remediation branch and records the follow-up disposition of Gemini's concerns.\n\nValidation run locally:\n- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml` — PASS, 69 tests.\n- `cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings` — PASS.\n- `cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check` — PASS.\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate_finish` — PASS, 19 tests.\n- `bash .csdlc/prepared/issues/505/run-v3-local-trial.sh` — PASS.\n- `bash .csdlc/prepared/issues/505/run-v3-remote-bridge-trial.sh` — PASS, pre-cutover verification only.\n- `ruby .csdlc/prepared/issues/505/validate-authority-transition-prep.rb` — PASS.\n- `bash .csdlc/prepared/issues/596/validate-remediation-regression.sh` — PASS.\n- `./.adl/bin/csdlc-v2/csdlc-validate --root . issue --issue 505` — PASS, `ready=false` as expected before cutover.\n- `bash adl/tools/ci_path_policy.sh --event-name pull_request --base origin/main --head HEAD` — PASS and selects `csdlc_v3_standalone_required=true` for this change surface.\n- `git diff --check` — PASS.\n\nRemote-state truth:\n- #501, #502, #503, #504, #533, and #596 are intentionally open again after failed sprint review or incomplete typed lifecycle truth.\n- #505 is still the cutover decision issue; this PR must not itself switch authority, retire v2, merge/finish, or clean worktrees.\n- This PR body intentionally uses `Part-Of #505`, not a GitHub issue-closing keyword for #505.\n\n<!-- csdlc-github-operation:worker-6-pr591-gemini-remediation-20260901 -->\n",
+    "checks": [
+      {
+        "conclusion": "pending",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977545",
+        "name": "adl-coverage-runtime-hosted",
+        "required": false
+      },
+      {
+        "conclusion": "skipped",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961978514",
+        "name": "adl-coverage-workspace-fast-hosted",
+        "required": false
+      },
+      {
+        "conclusion": "pending",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977741",
+        "name": "adl-coverage-workspace-hosted",
+        "required": false
+      },
+      {
+        "conclusion": "skipped",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961978988",
+        "name": "adl-demo-proof",
+        "required": false
+      },
+      {
+        "conclusion": "success",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961865070",
+        "name": "adl-path-policy",
+        "required": false
+      },
+      {
+        "conclusion": "skipped",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961979295",
+        "name": "adl-runtime-v3-fast",
+        "required": false
+      },
+      {
+        "conclusion": "success",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977224",
+        "name": "adl-rust-fmt-clippy",
+        "required": false
+      },
+      {
+        "conclusion": "pending",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977095",
+        "name": "adl-rust-tests",
+        "required": false
+      },
+      {
+        "conclusion": "skipped",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961979257",
+        "name": "adl-slow-proof",
+        "required": false
+      },
+      {
+        "conclusion": "skipped",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961979151",
+        "name": "adl-spot-ci-and-coverage",
+        "required": false
+      },
+      {
+        "conclusion": "pending",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977272",
+        "name": "adl-tooling-contracts",
+        "required": false
+      },
+      {
+        "conclusion": "skipped",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961979027",
+        "name": "adl-v2-standalone",
+        "required": false
+      },
+      {
+        "conclusion": "pending",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977187",
+        "name": "csdlc-v2-standalone",
+        "required": false
+      },
+      {
+        "conclusion": "success",
+        "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/33539476265/job/99961977162",
+        "name": "csdlc-v3-standalone",
+        "required": false
+      }
+    ],
+    "classification": "waiting",
+    "draft": false,
+    "head_ref": "codex/505-v3-f-authority-transition-decision-exec",
+    "head_sha": "0ceb783260f1d091587a33153ecf30d74c7d04c9",
+    "linkage_source": null,
+    "linked_issue": null,
+    "merge_commit_sha": "e02c9276792429e8cdd58d102437172197767699",
+    "merge_state": "blocked",
+    "merged": false,
+    "pull_request": 591,
+    "repository": "agent-logic/agent-design-language",
+    "required_check_names": [],
+    "review_decision": "pending",
+    "schema": "csdlc.github_pr_state.v1",
+    "state": "open",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/591"
+  },
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

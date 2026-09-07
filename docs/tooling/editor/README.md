@@ -1,11 +1,17 @@
 # Task Bundle Editor
 
 > Compatibility note: this is the legacy STP/SIP/SOR task-bundle editor. The
-> current C-SDLC prompt form editor for all five cards is
+> current C-SDLC prompt form editor for all six cards, including VPP, is
 > `docs/tooling/csdlc-prompt-editor/`, backed by the SemVer prompt-template
 > registry in `docs/templates/prompts/current.json`.
 
-This directory contains the bounded editor surface for ADL task bundles and current workflow-skill handoff.
+Issue #505 / V3-F is the pending tooling changeover decision. Until that
+operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains the live lifecycle authority. Browser/editor surfaces must
+not route current lifecycle work through retired `pr` commands before cutover.
+
+This directory contains the bounded editor surface for ADL task bundles and
+historical workflow-skill handoff.
 
 Open:
 
@@ -69,7 +75,9 @@ follow the same contract as the runtime and published schema:
 
 - it does not write files directly
 - it does not provide a full browser-side editor for providers, tools, agents, tasks, workflows, and run as a complete ADL document
-- it does not replace `pr init`, `pr ready`/`pr doctor`, `pr run`, `pr finish`, `pr janitor`, or `pr closeout`
+- it does not replace the typed C-SDLC v2 lifecycle owners; historical
+  `pr init`, `pr ready`/`pr doctor`, `pr run`, `pr finish`, `pr janitor`, and
+  `pr closeout` names are not live routing guidance
 - it does not imply direct browser invocation for the authoring lifecycle
 - it does not yet provide the full SOR decision loop or acceptance workflow
 - it does not try to replace human review judgment with browser-only automation

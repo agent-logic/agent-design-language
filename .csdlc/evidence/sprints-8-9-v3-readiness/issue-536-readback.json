@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Outcome\n\nCoordinate Sprint 8 — Podcast and Observatory as one bounded execution wave without absorbing child implementation.\n\n## Current child membership\n\n- #51\n- #261\n- #262\n- #263\n- #264\n- #342\n- #511\n- #512\n\n- Membership version: `5`\n- Change reason: Rename the umbrella for its active Podcast and Observatory scope and remove deferred backlog issue #84 from active Sprint membership.\n\n## Change protocol\n\n- This roster is the current baseline, not a permanent freeze.\n- The milestone operator may add, remove, split, or reroute work through a typed issue update that records the reason and rechecks dependencies.\n- Every update must preserve one bounded result per child and must not silently drop unfinished work.\n\n## Completion gate\n\n- Every child in the current declared roster has an independently reviewed, green merge into `main` and its merge commit is ancestral to the sprint closing revision.\n- Backlog issue #84 is explicitly deferred and non-gating.\n- Typed finish and worktree cleanup are asynchronous and never gate another issue.\n\n## Concrete result\n\nOne reviewable Sprint 8 result records the current roster version, dispositions, reviewed merge heads, green checks, merge commits, and ancestry.\n\n## Non-goals\n\n- Implementing child work inside this umbrella.\n- Reactivating deferred Unity work.\n- Treating backlog, closeout, or cleanup as an execution dependency.\n\n<!-- csdlc-github-operation:v0921-wp01:sprint-8:create -->\n<!-- csdlc-github-operation:v0921-wp01:sprint-8:membership-v4-update -->\n\n<!-- csdlc-github-operation:v0921-wp01:sprint-8:membership-v5-podcast-observatory -->\n\n## Sprint 8 lane split and current podcast routing\n\nCurrent execution split:\n\n- Podcast lane: #51, #261, #342, #262, #263, #264. This session owns podcast readiness and execution routing.\n- Observatory lane: #511 then #512. A separate session owns Observatory readiness/execution.\n\nPodcast working assumption: use `The Cognitive Stack` as the working show name for Sprint 8 preparation. This assumption does not prove trademark clearance, directory availability, mailbox ownership, or public launch approval.\n\nPodcast readiness order:\n\n1. Prepare #261 and #342 first, with separated write surfaces and no production feed/deployment claim.\n2. Execute #262 only after #261 and #342 are terminal/review-ready as required by #262.\n3. Execute #263 only after #261/#262 terminal truth, with fresh official-provider instruction review.\n4. Keep #264 blocked until #263 is terminal and the operator explicitly authorizes each directory submission/public-launch action.\n\nUmbrella #536 remains coordination-only and must not absorb child implementation.\n\n<!-- csdlc-github-operation:v0921-sprint8-lane-split-podcast-routing-536-v1 -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-26T05:57:50Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "area:runtime",
+      "version:v0.92.1"
+    ],
+    "marker_present": false,
+    "milestone": 1,
+    "number": 536,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][Sprint 8] Podcast and Observatory"
+  },
+  "operation_key": "worker-6-v3-sprint-readiness-live-issue-536-20260901",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

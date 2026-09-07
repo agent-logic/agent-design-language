@@ -17,6 +17,29 @@ Status as of this branch:
   focused tests.
 - Fixed locally: v3 README/package-state ledger and locked validation command
   guidance are refreshed.
+- Fixed locally: the v3 local command emits a retained render manifest for all
+  six lifecycle cards using active-registry template refs and
+  repo-local render-manifest digests; #505 trial evidence is retained at
+  `.csdlc/evidence/505/v3-local-trial.json`.
+- Fixed locally: the v3 remote command is now exposed through the single
+  `csdlc remote` binary shape as a pre-cutover bridge verifier. It rejects
+  caller-forged refs, refuses non-JSON/schema-less evidence, fingerprints the
+  referenced repo-local evidence contents, and still reports
+  `operational_authority: false` / `trusted_authority: false` until #505
+  explicitly switches authority. Retained trial evidence is at
+  `.csdlc/evidence/505/v3-remote-bridge-trial.json`.
+- Fixed locally: cleanup identity now verifies both sides of Git's worktree
+  registration pointer (`<worktree>/.git` and
+  `<repo>/.git/worktrees/<name>/gitdir`) before accepting a cleanup identity
+  digest.
+- Fixed locally: `csdlc-finish --diagnose-cached-issue` now performs a
+  non-mutating terminal-cache diagnostic and classifies stale local projections
+  distinctly from matching, missing, or conflicting terminal authority. Real
+  #570/#571 stale prep worktrees now report
+  `stale_projection_terminal_exists`; evidence is retained at
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/terminal-cache-diagnostic-570.json`
+  and
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/terminal-cache-diagnostic-571.json`.
 - Fixed locally: CI/path-policy validation scratch is repo-contained for the
   exercised test path.
 - Added canary evidence: real issue #592 was created/read through typed v2,
@@ -37,22 +60,73 @@ Status as of this branch:
   GitHub PR owner and used to change only the PR body linkage line to
   `Part-Of #505`; readback evidence is recorded at
   `.csdlc/evidence/591/pr-state-after-remove-closes.json`.
-- Published for review: typed issue transport created tracking issue #596, and
-  typed PR transport created PR #597 from
-  `codex/sprints-5-6-cutover-fixes` to `main`. After exact-head review, PR
-  #597 now uses non-closing `Part-Of` context for #596/#505/#534 because #596
-  has not yet executed the typed bound/review/publication lifecycle.
+- Repaired remotely on 2026-09-01: #596 had been closed by remote PR merge
+  while its canonical C-SDLC truth remained `phase: ready` and its SOR remained
+  pre-execution/not-published/not-merged. Typed v2 `csdlc-github-issue`
+  reopened #596 with readback `state: open`; see
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/issue-596-reopen-readback-20260901.json`.
+- Repaired remotely on 2026-09-01: the sprint synthesis classified #501,
+  #502, #503, #504, and Sprint 5 umbrella #533 as failed/partial despite their
+  remote closed state. Typed v2 `csdlc-github-issue` reopened all five; see
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/reopened-failed-issues-20260901.json`.
+- Retained locally on 2026-09-01: Sprint 6 live umbrella membership is v5 and
+  includes #570; Sprint 5 remains membership v4 and has been reopened after the
+  sprint-review failure. See
+  `docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v5-retained-readback.json`.
+- Added records-hygiene evidence:
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/records-hygiene-sprints-5-6-20260901.yaml`.
+- Added Gemini-assisted review evidence:
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/receipt.json`
+  and
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md`.
+  Gemini confirmed the remote/cleanup/reopen slices looked repaired and flagged
+  CI, storage, projection-repair, and import-digest concerns. Current branch
+  evidence resolves those concerns as follows: CI path policy selects
+  `csdlc_v3_standalone_required=true`; `csdlc-v3/src/storage/mod.rs` and
+  `csdlc-v3/tests/transactions.rs` cover interrupted-intent recovery, failed
+  durable state replacement, and post-commit projection repair; and
+  `csdlc-v3/src/application/mod.rs` plus `csdlc-v3/tests/foundation.rs`
+  recompute and reject issue/card digest drift.
+- Fixed locally after Gemini review: the v3 `remote` CLI no longer only accepts
+  opaque repo-local evidence refs; it parses typed PVF, accepted-review,
+  publication-intent, PR-readback, issue-readback, and cleanup-inspection JSON,
+  then derives the remote delivery result from those typed observations while
+  keeping `operational_authority=false` before #505 cutover.
+- Updated remotely after Gemini remediation: PR #591 body now advertises the
+  current remediation set through typed v2 `csdlc-github-pr`, keeps
+  `Part-Of #505`, and retains readback evidence at
+  `.csdlc/evidence/591/pr-state-after-gemini-remediation.json`.
+- Added live next-sprint readiness proof: `csdlc sprint` now verifies Sprint 8
+  #536 and Sprint 9 #537 from typed v2 live issue readback artifacts, parses
+  live umbrella membership, and emits non-authoritative readiness evidence at
+  `.csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-report.json`.
+  The retained timed run completed in 13.78 seconds, under the three-minute
+  operator target, and issue-local `csdlc local` canaries reached
+  `doctor_ready` for #511 and #515.
+- Updated PR #591 again through typed v2 `csdlc-github-pr` so the public PR body
+  advertises the Sprint 8/9 readiness canary and still uses non-closing
+  `Part-Of #505`; readback evidence is retained at
+  `.csdlc/evidence/591/pr-state-after-sprint89-readiness.json`.
+- Tested real issue #604 through the v3 local-preparation canary. Typed v2 live
+  issue readback confirms #604 is open and scoped to the `csdlc-publish`
+  ready/reconcile-ready regression; non-authoritative `csdlc local` reached
+  `doctor_ready` with a six-card render plan in 0.06 seconds. Evidence is
+  retained under `.csdlc/evidence/505/issue-604-*`.
+- Historical note: typed issue transport created tracking issue #596, and typed
+  PR transport created PR #597 from `codex/sprints-5-6-cutover-fixes` to
+  `main`. PR #597 was later merged, but that merge did not itself terminalize
+  #596 because #596 never executed the typed bound/review/publication lifecycle.
 
 Remaining remote-state blocker:
 
 - No known premature remote-linkage blocker remains in PR #591. #505 still must
   not merge until review approval and explicit operator cutover authority.
-- #570/#571 are live-remote terminal, but the stale registered prep worktrees
-  need a typed diagnostic/reconciliation affordance before cutover so operators
-  do not have to manually compare common terminal-cache generations.
-- PR #597 is open and non-draft. Fresh typed PR-state readback after the
-  linkage repair reported `linked_issue: null`; #596 remains open until a
-  truthful typed lifecycle repair/adoption route exists.
+- #570/#571 are live-remote terminal, and stale registered prep worktrees now
+  have a typed, non-mutating diagnostic instead of requiring manual comparison
+  of common terminal-cache generations.
+- #501/#502/#503/#504/#533/#596 remain open until their issue-local typed
+  lifecycle truth, exact-head review, publication/readback, and sprint-level
+  result evidence are reconciled successfully.
 
 Non-claims:
 

@@ -3,6 +3,15 @@
 C-SDLC work is independent of the sunset ADL wrappers. Use the typed Rust
 binaries and operator skills under `csdlc-v2/`:
 
+Issue #505 is preparing a C-SDLC v3 tooling changeover, but this page remains
+the current workflow until that V3-F decision is explicitly approved and PR
+#591 is merged. Merge is the atomic authority cutover; terminal reconciliation
+records the completed transition afterward. C-SDLC v2 remains the live lifecycle authority
+during that transition window. Read
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before participating in the
+changeover window. The notice is informational; it does not make v3 the live
+route.
+
 1. `csdlc-issue --root <repo> create --request <json>` creates the issue-local
    state, six cards, design, and diagram from one typed request.
 2. `csdlc-edit` applies typed card edits; `csdlc-validate` validates values,

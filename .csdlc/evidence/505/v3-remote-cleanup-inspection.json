@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.cleanup_inspection.v1",
+  "preview": true,
+  "preview_receipt": false,
+  "committed_closed_out": false,
+  "terminal_receipt": false,
+  "approved_worktree_parent": "/Volumes/FastWork/adl-worktrees",
+  "registration": {
+    "repository_root": "/Users/daniel/git/agent-design-language",
+    "worktree_path": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+    "git_common_dir": "/Users/daniel/git/agent-design-language/.git/worktrees/adl-issue-505-v3-f-authority-transition-decision-exec"
+  },
+  "candidate_path": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+  "preview_identity_digest": null,
+  "dirty": true,
+  "live": true
+}

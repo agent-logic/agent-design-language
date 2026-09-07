@@ -1,0 +1,20 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "worker-6-reopen-504-sprint-review-fail-20260901",
+  "token_file": null,
+  "issue": 504,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "base": null,
+  "head": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": "open",
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}
