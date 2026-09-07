@@ -7,37 +7,26 @@
     "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
     "slug": "runtime-generation-coherence-a2a-deploy",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/control.rs\nadl/src/long_lived_agent/tests.rs\nadl/tests/csm_runtime_v3_generation.rs",
-      "review_revision": "git-blake3:58d80fb0a647f179493f7a1b9cfd9107cb7f61f2:dc4e7284bbcb2dd9818f03baeb1ad7b1f13550b79971b171e9814857c28f4559",
-      "reviewer": "subagent:/root/review_711_restacked_head",
+      "review_revision": "git-blake3:5842eb2072e8a7806037ad5f30394fb00f859a59:1b99284574e87c3d9716af7fc49b3388e356064854be0172bdb198bb95d6e8be",
+      "reviewer": "subagent:/root/review_711_multipart_restore",
       "review_prompts": [
         "Is receipt identity byte-stable across independently resolved package graphs?",
         "Can any mismatched init, generation, executable, or receipt pass?",
         "Does live proof distinguish operator reply from a separately addressed and received Ember work item?",
         "Is rollback preserved throughout deployment?"
       ],
-      "findings": [
-        {
-          "id": "711-p1-multipart-a2a-checkpoint-loss",
-          "severity": "p1",
-          "summary": "Parent conversation checkpoints persisted only the optional legacy A2A message and could lose multipart or parts-only delegated content across restore.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [
-        "Multipart A2A checkpoint and restore behavior requires correction and exact-head re-review."
+        "Review is limited to the assigned three-file semantic scope and focused checkpoint/restore regression; broader Runtime validation remains represented by the existing retained proof and CI."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

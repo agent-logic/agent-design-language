@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "67ad230ca41fe5451ab3c64ef33526b2cd36ad6b6f4681464680b4efbfadf9e1",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "a4ff118cd5cbe9286d385f6a8b424c1afaa6cc18ce41d6bf319dfec78f382484",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "9b24d6dbf3e0835888541e4c1fe501f1b8c723a25eca3dfab64ea488ed5954f5",
   "branch": "codex/707-runtime-generation-coherence-a2a-deploy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-707-runtime-generation-coherence-a2a-deploy",
   "review_assignment": {
-    "reviewer": "subagent:/root/review_711_restacked_head",
+    "reviewer": "subagent:/root/review_711_multipart_restore",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:58d80fb0a647f179493f7a1b9cfd9107cb7f61f2:dc4e7284bbcb2dd9818f03baeb1ad7b1f13550b79971b171e9814857c28f4559",
+    "revision": "git-blake3:5842eb2072e8a7806037ad5f30394fb00f859a59:1b99284574e87c3d9716af7fc49b3388e356064854be0172bdb198bb95d6e8be",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "adl/src/long_lived_agent/tests.rs",
@@ -20,27 +20,16 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:/root/review_711_restacked_head",
+    "reviewer": "subagent:/root/review_711_multipart_restore",
     "scope": [
       "adl-runtime-kernel/src/control.rs",
       "adl/src/long_lived_agent/tests.rs",
       "adl/tests/csm_runtime_v3_generation.rs"
     ],
-    "reviewed_revision": "git-blake3:58d80fb0a647f179493f7a1b9cfd9107cb7f61f2:dc4e7284bbcb2dd9818f03baeb1ad7b1f13550b79971b171e9814857c28f4559",
-    "findings": [
-      {
-        "id": "711-p1-multipart-a2a-checkpoint-loss",
-        "severity": "p1",
-        "summary": "Parent conversation checkpoints persisted only the optional legacy A2A message and could lose multipart or parts-only delegated content across restore.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:5842eb2072e8a7806037ad5f30394fb00f859a59:1b99284574e87c3d9716af7fc49b3388e356064854be0172bdb198bb95d6e8be",
+    "findings": [],
     "residual_risks": [
-      "Multipart A2A checkpoint and restore behavior requires correction and exact-head re-review."
+      "Review is limited to the assigned three-file semantic scope and focused checkpoint/restore regression; broader Runtime validation remains represented by the existing retained proof and CI."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -59,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e066791e4f64c3818f8ecc338b35638f54bf68c81e38482c266b4fe8eccbfd5f",
+      "values_digest": "4a8cb9e47b7702e8b81b2a5547dc4e9a0e2a35548daea0223c0c88e5d9746b19",
       "rendered_digest": "6e5e831eb11c8228061f40a6f241f0eabe55465de85b4d6f123d5721adc76b2a",
       "ast_digest": "1c67609962e8e129b8ba1ef3b0272a4c986468315fb050bedfa7cab59582ab77"
     },
     "stp": {
-      "values_digest": "c443a292545dd9b6962f83c4d68bc580e88abb3092624820c91f00d2b8d6a57f",
+      "values_digest": "6beba3b894eb1a14bc52dacaed4f65cc0a81f2eb65f31cbde67a659143770047",
       "rendered_digest": "1a778a5b924419266702bae6794cf48e08eb84615bbcde70a5a34ed18178a58b",
       "ast_digest": "4a0296704bfa40277f94114a7b96d2c4a8cc8cd2dd05a9b1c609c02294991280"
     },
     "spp": {
-      "values_digest": "d7e4f8d009a0a053ab2e66cfea69f3a6a29ab58f73e6ea9ead884ad762b2fd02",
+      "values_digest": "0c70269a5c9f6a36abf9ec493924889f18c999b4436bd0e65800121b8e0c92f7",
       "rendered_digest": "8e4ef1a85385869606f137562281d277f6aee8af41eee6355bae45b8fda361c0",
       "ast_digest": "90d0ac48e6b17ea3ab80f7a65a050328c26116746b756c9547de03f24aa739bc"
     },
     "vpp": {
-      "values_digest": "72dd149994e220515f93a8cfec468941703fca17efec80933ba3e4098fcf784e",
+      "values_digest": "ad37cd9f57262002b93cba99253510f612085cff7d7045ffc986939d99697070",
       "rendered_digest": "90fe7590fad64ef873175b1ae1c48233f6aa0610722b8b105b704c4323c6c0c9",
       "ast_digest": "adbb1032c11cb32a2e5185ad2c5b0234ccd2036902ce7b4f7ddf1683667a440e"
     },
     "srp": {
-      "values_digest": "55b3bb358ef2409ab5aa8af24d69e1f32fe4a010c9c391b1eb19b9e54f0e03d8",
-      "rendered_digest": "5c913d6060c0f7642b2a2f7aa7a605638e7325e8719b3a8ea5a4b8c4ff6b94f1",
-      "ast_digest": "9db6efc674ef8fbdafbd32927890663931a83e688de19a97f0ca0c817a4b929b"
+      "values_digest": "6590836451deba3b11ef705239610fece8f9a7edf6537a75e4ce554fcccd8d93",
+      "rendered_digest": "61c83771588428683c86b643cd0376db3cd0e15dc4bf87a0bea99a2018d89d11",
+      "ast_digest": "834b0259b8f724917f811cf410e078dbecdc3e55b6094c5f3e1ae8f9b1cd8c5e"
     },
     "sor": {
-      "values_digest": "2cb0f3aa3468dc61b509695db75ce0ad4a78987e2f444dd9c77a2f003f9dddb2",
+      "values_digest": "7210580d3e132a0e93561012e289169fd6dd832ff238a5c1ba3779a702d0a712",
       "rendered_digest": "4cde66062e0550a716ae55b8004e71898b8b0ddbd979c98d25ed164e34a4e80a",
       "ast_digest": "cf5ef0d68f4c921647d5b3f7f1eeb9ac4c2c1c3ffeb371f941ccac8fb9b7ea0d"
     }
@@ -145,6 +134,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "PR #711 exact-head review freshness recovery: final substantive test-fix commit 45e38af followed the recorded review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -270,6 +266,27 @@
     {
       "sequence": 18,
       "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "The recorded P1 was fixed in 5842eb207; clear the changes-required review so the corrected exact head can receive a fresh independent review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

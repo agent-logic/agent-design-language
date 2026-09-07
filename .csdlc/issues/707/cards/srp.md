@@ -25,18 +25,7 @@ adl/tests/csm_runtime_v3_generation.rs
 
 ## Findings
 
-[
-  {
-    "id": "711-p1-multipart-a2a-checkpoint-loss",
-    "severity": "p1",
-    "summary": "Parent conversation checkpoints persisted only the optional legacy A2A message and could lose multipart or parts-only delegated content across restore.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -44,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Multipart A2A checkpoint and restore behavior requires correction and exact-head re-review.
+- Review is limited to the assigned three-file semantic scope and focused checkpoint/restore regression; broader Runtime validation remains represented by the existing retained proof and CI.
 
 ## Review Result
 
-Revision: Some("git-blake3:58d80fb0a647f179493f7a1b9cfd9107cb7f61f2:dc4e7284bbcb2dd9818f03baeb1ad7b1f13550b79971b171e9814857c28f4559")
+Revision: Some("git-blake3:5842eb2072e8a7806037ad5f30394fb00f859a59:1b99284574e87c3d9716af7fc49b3388e356064854be0172bdb198bb95d6e8be")
 
-Reviewer: Some("subagent:/root/review_711_restacked_head")
+Reviewer: Some("subagent:/root/review_711_multipart_restore")
 
-Result: changes_required
+Result: pass
