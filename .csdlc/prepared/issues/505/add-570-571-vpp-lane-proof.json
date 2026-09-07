@@ -1,0 +1,35 @@
+{
+  "issue": 505,
+  "card": "vpp",
+  "expected_generation": 4,
+  "expected_digest": "e17d6c05f3942c844491974c5d16ff22932cdebf999c88cc72226a246ad430c8",
+  "claim_id": "claim-505-add-sprint6-cutover-gates-vpp",
+  "actor": "codex:worker-6",
+  "reason": "Make the #505 prebind validation lane prove the explicit #570/#571 Sprint 6 gate denominator.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "prebind-v3-f-preparation",
+        "proof_role": "Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1500,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+        ],
+        "parallel_group": "505-prebind-local",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

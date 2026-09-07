@@ -1,0 +1,12 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "issue": 505,
+  "mode": "part_of",
+  "cutover": {
+    "operator": "",
+    "approval": "",
+    "selected_binary_provenance": "pre-cutover v3 binary under csdlc-v3/target/debug/csdlc",
+    "rollback_evidence": ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
+    "undo_boundary": "fail-closed: v2 remains the live lifecycle authority until #505 is operator-approved, merged, finished, and cleaned"
+  }
+}

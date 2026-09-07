@@ -1,0 +1,28 @@
+{
+  "schema": "csdlc.v3.terminal_cleanup_cutover.v1",
+  "command": "clean",
+  "read_only": true,
+  "requested_mutation": true,
+  "performed_mutation": false,
+  "operational_authority": false,
+  "cutover_issue": 505,
+  "result": {
+    "route": "clean",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "status": "blocked",
+    "operational_authority": false,
+    "findings": [
+      {
+        "code": "cleanup_removal_denied_pre_cutover",
+        "message": "v3 clean cannot remove worktrees before #505 cutover authority"
+      }
+    ],
+    "cleanup": {
+      "decision": "removal_denied_pre_cutover",
+      "path": "/Volumes/FastWork/adl-worktrees/adl-issue-629-terminal-cleanup-canary",
+      "receipt_digest": "cf1c97a618cd0c415bc3c27c75ad23e0474e7d081aacf140efd6c736ab5ed039",
+      "reason": "v3 clean is non-authoritative before #505 cutover and must not remove worktrees"
+    }
+  }
+}

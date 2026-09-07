@@ -2,6 +2,12 @@
 
 Canonical Template Source: `docs/templates/prompts/1.0.3/sor.md`
 
+Authority notice: V3-F/#505 is the pending tooling changeover decision; until
+that operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains live authority.
+Legacy `pr` editor routes are historical/retired compatibility orientation,
+not current lifecycle authority.
+
 Execution Record Requirements:
 - The output card is a machine-auditable execution record.
 - All sections must be fully populated. Empty sections, placeholders, or implicit claims are not allowed.

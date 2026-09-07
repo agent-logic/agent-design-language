@@ -1,0 +1,12 @@
+{
+  "issue": 505,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "595bc2da595501f8484905a5baf4263835772f2bb3ccad2ad10a9f28e618d729",
+  "actor": "worker-6",
+  "reason": "Align the output card status with implemented-phase execution truth while preserving not-published, not-merged, and not-closeout states before explicit cutover approval.",
+  "operation": {
+    "operation": "advance_status",
+    "status": "ready"
+  }
+}

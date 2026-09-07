@@ -18,7 +18,7 @@ Ship/no-ship gate for the milestone. Check items only when evidence exists.
 
 ## Execution Discipline
 - [ ] New issue bundles use the target lifecycle
-  `SIP -> STP -> SPP -> SRP -> SOR`, or legacy compatibility exceptions are
+  `SIP -> STP -> SPP -> VPP -> SRP -> SOR`, or legacy compatibility exceptions are
   explicitly documented
 - [ ] Required proof artifacts are recorded in issue-local SORs or review/evidence docs
 - [ ] Draft PR opened for each issue before merge unless an explicit no-PR closeout path is recorded

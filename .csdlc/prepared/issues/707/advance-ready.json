@@ -1,0 +1,9 @@
+{
+  "issue": 707,
+  "actor": "codex:runtime-generation-a2a-repair",
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "c7a08c8d441ecfd39809241d9f6b6c5cc130da27b3f8f09caa8b4f2bb34b1502",
+  "reason": "Advance the operator-approved bounded repair design to execution readiness.",
+  "operation": {"operation": "advance_phase", "phase": "ready"}
+}

@@ -1,0 +1,25 @@
+{
+  "credential_material_retained": false,
+  "finish_reasons": [
+    "STOP"
+  ],
+  "http_status": 200,
+  "latency_ms": 24665,
+  "model": "gemini-3.1-pro-preview",
+  "model_version": "gemini-3.1-pro-preview",
+  "prompt_sha256": "f90056a2cb1d85b4f3fd07176727ac23499c7bccdc509f6a365b7c47792626e5",
+  "provider_family": "gemini",
+  "request_id_present": true,
+  "response_sha256": "9e97620f59da04e607e3531e64e0a2b28128cc54caaec2c8e841670233b42074",
+  "review_ref": ".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md",
+  "schema": "adl.csdlc_v3.sprints_5_6.gemini_review_receipt.v1",
+  "source_sha256": {
+    "SYNTHESIS.md": "5c75b88339a6f7d79735de554553a4cdd6789f2ed7b1a96c487b6cf50f7bd7e0",
+    "git-diff-stat": "de40ac8ddc2de350939a887a23b6144ddb87668fd75bfa005466df775f9cafd1",
+    "local_commands.rs.diff": "b6ff43577a4b12eeba907ab49e92a64627e35875d55c9b253d097c5fb9b3d9bd",
+    "publication.rs.diff": "c4a38e07f29cb94cc858f44c7559409a8c03d1116bd711b788f85e46b7218d80",
+    "remediation-status.diff": "ba476f7c942bef790a9e2b9633e57e28af6ec6ccc35ab0e7e0f8f235ef826732",
+    "remote.rs.diff": "18891898ce658927f6ce7b6dd7bc4df0598afc7ed2eabec52703b5b1a2bc791c",
+    "validator.diff": "f133d93cb2f9da2a5bb6db785ad8cf37f1e3710f5e1fd5405e1b20d20ec54a1e"
+  }
+}

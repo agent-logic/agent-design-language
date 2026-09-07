@@ -20,9 +20,9 @@ use adl_runtime_kernel::layer8_authority::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
-    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
-    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
-    preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    build_production_operation_executors_with_recorder,
+    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
+    monitor_until_stop, preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
     start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
@@ -677,7 +677,17 @@ async fn main() -> ExitCode {
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
+            .with_resident_agent_bindings(&init.resident_shepherd)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
+            service = match service.with_runtime_agent_authority_store(
+                operation_state_identity.join("runtime-agent-layer8.audit.jsonl"),
+            ) {
+                Ok(service) => service,
+                Err(error) => {
+                    eprintln!("runtime agent Layer 8 authority unavailable: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             if let Some((authority, exchange)) = layer8 {
                 service = service
                     .with_layer8_authority(authority)
@@ -722,6 +732,10 @@ async fn main() -> ExitCode {
             });
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
+            service.set_runtime_agent_delegation_key(blake3::derive_key(
+                "adl.runtime_v3.agent_delegation.continuity.v1",
                 &continuity_secret,
             ));
             let api_policy = ControlApiPolicy::new(

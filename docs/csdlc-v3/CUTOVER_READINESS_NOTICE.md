@@ -24,21 +24,31 @@ one binary.
 
 ## Current readiness state
 
-The v3 replacement is not cutover-ready. The current #632 evidence records:
+The v3 replacement command denominator is implemented, but authority cutover is
+deferred. The current sprint evidence records:
 
-- the current `csdlc-v3` CLI advertises the planned one-binary surface for all
-  21 v2 entrypoints, but those routes remain read-only or fail-closed
-  construction evidence before #505;
-- green construction/readiness PRs for most current V3-H lanes, with #629/#641
-  refreshed after title-readback hardening and terminal green at
-  `8ad0d56ae7db6421fcbc2016a2f1c8590094577e`;
-- a fail-closed #631 stacked PR closing-linkage defect;
-- a fresh-worktree install/startup defect that affects the three-minute issue
-  startup target;
-- a #644-derived PR title-readback defect that #629 now fixes by requiring
-  non-empty observed PR titles in authenticated readback receipts;
-- terminal finish and cleanup canary proof still pending an authorized canary
-  merge.
+- live GitHub readback shows V3-H umbrella #625 and all six child issues
+  #627-#632 closed;
+- the current `csdlc-v3` CLI exposes one `csdlc` command surface covering all
+  21 required v2 entrypoints plus helper/construction routes;
+- those routes remain construction evidence before #505 and do not make v3
+  live lifecycle authority;
+- PR #591 has consumed the current V3-H evidence, has been reconciled with
+  current `main`, and has current non-closing typed publication evidence;
+- the #505 validation DAG is current at the published head and must remain
+  current if PR #591 changes again;
+- rollback exercise evidence is now recorded in
+  `.csdlc/evidence/505/pre-cutover-rollback-exercise.json`: v3 terminal,
+  cleanup, and cutover routes stayed non-authoritative, pre-cutover cleanup
+  removal was denied, and typed v2 validation still passed afterward;
+- terminal v3 finish/cleanup canary evidence is now recorded for merged PR
+  #641 and closed issue #629: v3 observed live GitHub terminal truth, previewed
+  cleanup against a registered exact-head worktree, and refused removal before
+  #505 cutover authority;
+- #179/#180 and parity dispositions are evidence-backed in
+  `docs/csdlc-v3/authority-transition-disposition.json`;
+- explicit operator approval for #505 authority cutover remains absent and is
+  the remaining pre-merge approval gate.
 
 ## Operator guidance
 

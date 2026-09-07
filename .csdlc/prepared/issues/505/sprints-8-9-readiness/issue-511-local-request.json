@@ -1,0 +1,14 @@
+{
+  "issue": 511,
+  "title": "[v0.92.1][OBS-A] Observatory experience design",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/511-v3-readiness-canary",
+  "worktree": "adl-worktrees/adl-issue-511-v3-readiness-canary",
+  "registry_version": "1.0.3",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "plan_pvf",
+    "doctor"
+  ]
+}

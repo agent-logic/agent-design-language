@@ -646,8 +646,22 @@ pub fn resolve_operator_generation(
             "tracked generation selector must be a regular file, not a symlink",
         ));
     }
-    let selector: GenerationSelector =
-        serde_json::from_slice(&fs::read(selector_path).map_err(io_error)?)?;
+    let selector_bytes = fs::read(selector_path).map_err(io_error)?;
+    let mut selector: GenerationSelector = serde_json::from_slice(&selector_bytes)?;
+    if selector.default_generation == Generation::V3 {
+        let remote = std::process::Command::new("git")
+            .arg("-C")
+            .arg(repo)
+            .args([
+                "show",
+                "refs/remotes/origin/main:csdlc-v2/operator/generation-selector.json",
+            ])
+            .output()
+            .map_err(io_error)?;
+        if !remote.status.success() || remote.stdout != selector_bytes {
+            selector.default_generation = Generation::V2;
+        }
+    }
     select_generation(&selector, issue, requested)
 }
 
@@ -1053,6 +1067,66 @@ mod tests {
     }
 
     #[test]
+    fn tracked_v3_selector_activates_only_after_origin_main_contains_it() {
+        let repo = tempfile::tempdir().unwrap();
+        git(repo.path(), &["init", "-b", "main"]);
+        git(
+            repo.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+        let path = repo
+            .path()
+            .join("csdlc-v2/operator/generation-selector.json");
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            &path,
+            br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        git(repo.path(), &["add", "."]);
+        git(repo.path(), &["commit", "-m", "v2 selector"]);
+        let v2_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
+        git(
+            repo.path(),
+            &["update-ref", "refs/remotes/origin/main", &v2_head],
+        );
+
+        let canonical_v3 = br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-v2-exact-head","approval_authority":"merged-pr-591-closed-issue-505","opted_in_issues":[]}"#;
+        fs::write(&path, canonical_v3).unwrap();
+        assert_eq!(
+            resolve_operator_generation(repo.path(), 505, None).unwrap(),
+            Generation::V2
+        );
+        fs::write(
+            &path,
+            br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","opted_in_issues":[]}"#,
+        )
+        .unwrap();
+        git(repo.path(), &["add", "."]);
+        git(repo.path(), &["commit", "-m", "malformed v3 selector"]);
+        let malformed_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
+        git(
+            repo.path(),
+            &["update-ref", "refs/remotes/origin/main", &malformed_head],
+        );
+        assert!(resolve_operator_generation(repo.path(), 505, None).is_err());
+
+        fs::write(&path, canonical_v3).unwrap();
+        git(repo.path(), &["add", "."]);
+        git(repo.path(), &["commit", "-m", "canonical v3 selector"]);
+        let canonical_head = git_output(repo.path(), &["rev-parse", "HEAD"]);
+        git(
+            repo.path(),
+            &["update-ref", "refs/remotes/origin/main", &canonical_head],
+        );
+        assert_eq!(
+            resolve_operator_generation(repo.path(), 505, None).unwrap(),
+            Generation::V3
+        );
+    }
+
+    #[test]
     fn owner_source_digest_ignores_unrelated_commits_and_detects_owner_drift() {
         let repo = tempfile::tempdir().unwrap();
         git(repo.path(), &["init", "-b", "main"]);
@@ -1105,5 +1179,15 @@ mod tests {
             .status()
             .unwrap();
         assert!(status.success(), "git {args:?}");
+    }
+
+    fn git_output(root: &Path, args: &[&str]) -> String {
+        let output = std::process::Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .output()
+            .unwrap();
+        assert!(output.status.success(), "git {args:?}");
+        String::from_utf8(output.stdout).unwrap().trim().to_owned()
     }
 }
