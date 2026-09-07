@@ -143,6 +143,7 @@ pub struct AgentRuntimeEvidence {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+    pub orientation: Option<crate::AgentOrientationDelivery>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -204,6 +205,8 @@ pub struct AgentRosterEntry {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+    #[serde(default)]
+    pub orientation: Option<crate::AgentOrientationDelivery>,
 }
 
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -542,6 +545,21 @@ fn validate_evidence(item: &AgentRuntimeEvidence) -> Result<(), AgentRosterError
         || item.public_role.len() > 128
         || item.source_revision.is_empty()
         || item.provenance.is_empty()
+        || item.orientation.as_ref().is_some_and(|orientation| {
+            orientation.schema != crate::AGENT_ORIENTATION_DELIVERY_SCHEMA
+                || orientation.version.is_empty()
+                || orientation.version.len() > 64
+                || orientation.digest_algorithm != crate::AGENT_ORIENTATION_DIGEST_ALGORITHM
+                || orientation.digest.len() != 64
+                || !orientation
+                    .digest
+                    .bytes()
+                    .all(|byte| byte.is_ascii_hexdigit())
+                || orientation.source_path.is_empty()
+                || orientation.source_path.len() > 512
+                || orientation.projection.is_empty()
+                || orientation.projection.len() > 64
+        })
         || item.observed_at_unix_millis == 0
         || item.freshness_deadline_unix_millis <= item.observed_at_unix_millis
         || item.capabilities.len() > 32
@@ -603,5 +621,6 @@ fn project_entry(
         freshness_deadline_unix_millis: item.freshness_deadline_unix_millis,
         source_revision: item.source_revision.clone(),
         provenance: item.provenance.clone(),
+        orientation: item.orientation.clone(),
     }
 }

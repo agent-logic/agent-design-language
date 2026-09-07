@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "expected_generation": 16,
+  "expected_digest": "2ae9df53096e407aab4d60f263ae3872dfe9a5023a297ea12ecf9c5082dfec00",
+  "actor": "codex:issue-708-runtime-orientation",
+  "reason": "Recover stale review and publication truth after fixing the governed resident Shepherd READY probe orientation path."
+}

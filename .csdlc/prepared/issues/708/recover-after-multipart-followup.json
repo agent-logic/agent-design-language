@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "expected_generation": 24,
+  "expected_digest": "f904e6935206a67b29897b62f9458d4c8b8a2daa6acd0547e90191df6e2699d6",
+  "actor": "codex:issue-708-runtime-orientation",
+  "reason": "Recover stale publication truth before adding first-class multipart agent conversation message support."
+}

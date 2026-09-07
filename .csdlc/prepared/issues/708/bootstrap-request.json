@@ -1,0 +1,212 @@
+{
+  "issue": 708,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:planning-1",
+  "design_path": ".csdlc/prepared/issues/708/design.md",
+  "diagram_path": ".csdlc/prepared/issues/708/diagram.mmd",
+  "design_reviewer": "codex:planning-1:bounded-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
+    "slug": "runtime-versioned-agent-orientation-resource",
+    "version": "v0.92.1",
+    "goal": "Deliver the exact versioned Polis welcome package to every newly admitted agent before its first model turn and expose per-agent delivery provenance.",
+    "required_outcome": "A first-class Runtime orientation resource is validated, admission-injected, retained per agent by version and digest, and visible through Runtime and Observatory projections.",
+    "declared_scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/agent_orientation.test.mjs",
+      ".csdlc/prepared/issues/708/design.md",
+      ".csdlc/prepared/issues/708/diagram.mmd",
+      ".csdlc/prepared/issues/708/validate-orientation-plan.sh",
+      ".csdlc/issues/708",
+      ".csdlc/evidence/708"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#708",
+      "The welcome package is orientation only and grants no authority",
+      "Runtime policy, admission, Layer 8, and operator authority remain controlling",
+      "The source welcome-package document is not modified by this issue"
+    ],
+    "operator_constraints": [
+      "Schedule and label as v0.92.1 for ASAP execution",
+      "Do not modify docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      "Do not perform tracked work on main",
+      "Keep the implementation simple and bounded"
+    ],
+    "task_boundary": "One versioned Runtime orientation resource, admission-time injection path, per-agent provenance record/projection, and Observatory display.",
+    "deliverables": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/agent_orientation.test.mjs",
+      ".csdlc/prepared/issues/708/validate-orientation-plan.sh"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every newly admitted agent receives the active valid orientation before its first model request",
+      "AC-2: The stored digest covers the exact delivered orientation bytes and the stored version identifies that delivery",
+      "AC-3: Existing agents retain their delivered provenance while valid hot reload affects only later admissions",
+      "AC-4: Invalid resource or reload input fails closed and preserves the last valid active package",
+      "AC-5: Runtime projections and Observatory agent details expose the stored per-agent version and digest",
+      "AC-6: Orientation remains explicitly non-authoritative and cannot enlarge agent permissions",
+      "AC-7: Focused tests prove ordering, full or deterministic-projection content, provenance, reload, failure preservation, and rendering"
+    ],
+    "dependencies": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md exists as the canonical source input",
+      "Current Runtime admission and agent projection seams remain available"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#708",
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/agent_orientation.test.mjs",
+      ".csdlc/prepared/issues/708/design.md",
+      ".csdlc/prepared/issues/708/diagram.mmd",
+      ".csdlc/prepared/issues/708/validate-orientation-plan.sh"
+    ],
+    "non_goals": [
+      "Rewriting the welcome-package source document",
+      "Retrofitting or mutating already-running agents' initial context",
+      "Granting authority through orientation text",
+      "Building a general prompt-template or content-management framework"
+    ],
+    "plan_summary": "Add the smallest typed Runtime resource needed to validate and snapshot the welcome package, inject it during admission before the first model turn, retain exact per-agent delivery provenance, and expose that provenance in Runtime and Observatory surfaces.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Locate the existing configuration, admission, initial-context, agent-record, and Observatory projection seams; define the minimal typed orientation resource contract.",
+        "acceptance_ids": ["AC-2", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement fail-closed resource loading and hot reload with last-valid preservation.",
+        "acceptance_ids": ["AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Snapshot and inject exact orientation content during admission before the first model request; retain version and digest on the agent record.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Expose per-agent orientation provenance through Runtime projections and render it in Observatory agent details.",
+        "acceptance_ids": ["AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run focused behavioral, reload, fail-closed, projection, and rendering validation; obtain independent review before publication.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/agent_orientation.test.mjs",
+      ".csdlc/prepared/issues/708/design.md",
+      ".csdlc/prepared/issues/708/diagram.mmd",
+      ".csdlc/prepared/issues/708/validate-orientation-plan.sh",
+      ".csdlc/issues/708",
+      ".csdlc/evidence/708"
+    ],
+    "invariants": [
+      "The source welcome-package document remains byte-for-byte unchanged",
+      "No model turn occurs before orientation injection for a newly admitted agent",
+      "Recorded provenance describes exact delivered bytes, not mutable global state",
+      "Existing agents retain their actual delivery provenance across reload",
+      "Invalid updates cannot replace the last valid active resource",
+      "Orientation never grants authority"
+    ],
+    "risks": [
+      "A digest of source rather than delivered bytes would create false provenance",
+      "Late injection could allow a first model turn without orientation",
+      "Global-only provenance could misreport existing agents after reload",
+      "Observatory rendering could imply authority rather than orientation",
+      "Scope could drift into a general prompt framework"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Implementation would modify the canonical welcome-package source",
+      "The admission path cannot guarantee injection before the first model request",
+      "The selected projection is not deterministic and digest-bound",
+      "Implementation requires a broad prompt framework outside #708"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "runtime-orientation-contract",
+        "proof_role": "Prove resource validation, delivered-byte digesting, admission ordering, per-agent retention, and reload semantics.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 2500,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "orientation"],
+        "parallel_group": "runtime",
+        "defer_reason": "The issue-owned focused Runtime test selector will be added during implementation before PVF execution."
+      },
+      {
+        "lane": "runtime-projection-observatory",
+        "proof_role": "Prove Runtime projection and Observatory rendering of exact per-agent orientation provenance.",
+        "acceptance_ids": ["AC-5", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 1500,
+        "argv": ["node", "--test", "demos/html-observatory/tests/agent_orientation.test.mjs"],
+        "parallel_group": "observatory",
+        "defer_reason": "The issue-owned Observatory test target will be added during implementation before PVF execution."
+      },
+      {
+        "lane": "planning-contract",
+        "proof_role": "Prove the issue-owned design, diagram, and typed lifecycle records remain structurally clean.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": ["bash", ".csdlc/prepared/issues/708/validate-orientation-plan.sh"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      },
+      {
+        "lane": "source-immutability",
+        "proof_role": "Prove the canonical welcome-package source document is unchanged by the implementation.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": ["git", "diff", "--exit-code", "origin/main...HEAD", "--", "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed if orientation cannot be validated, injected before the first turn, or bound to exact per-agent delivery provenance; preserve the last valid active resource on reload failure.",
+    "review_scope": "Review admission ordering, exact delivered-byte provenance, reload semantics, authority separation, Runtime projection, Observatory rendering, and source immutability.",
+    "review_prompts": [
+      "Can any admitted agent reach its first model turn without the active orientation snapshot?",
+      "Does the recorded digest cover the exact delivered bytes rather than a mutable source or global resource?",
+      "Can reload misreport the package delivered to an existing agent?",
+      "Can invalid content replace the last valid active package?",
+      "Does any wording or control path let orientation enlarge authority?",
+      "Is the implementation smaller than a general prompt framework?"
+    ]
+  }
+}

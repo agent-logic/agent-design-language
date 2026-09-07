@@ -704,6 +704,10 @@ async fn main() -> ExitCode {
                     .with_layer8_authority(authority)
                     .with_layer8_signed_exchange(exchange);
             }
+            if let Err(error) = service.initialize_agent_orientation_from_runtime_init(&init) {
+                eprintln!("runtime agent orientation resource is invalid: {error}");
+                return ExitCode::from(78);
+            }
             if let Err(error) = service.configure_dynamic_agent_store(
                 operation_state_identity.join("dynamic-agent-admissions.json"),
             ) {
@@ -797,12 +801,18 @@ async fn main() -> ExitCode {
                 init.kernel.weather_stale_after_millis,
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
-            for shepherd in init.resident_shepherd.iter().cloned() {
+            for (shepherd_index, shepherd) in init.resident_shepherd.iter().cloned().enumerate() {
+                let orientation_service = Arc::clone(&service);
                 let health_service = Arc::clone(&service);
                 let readiness = resident_shepherd_readiness.clone();
                 let probe_adapter = shepherd_probe.clone();
                 let probe_runtime_id = instance_id.clone();
                 let shutdown = api_shutdown.child_token();
+                let shepherd_agent_id = if shepherd_index == 0 {
+                    "shepherd".to_owned()
+                } else {
+                    format!("shepherd:{}", shepherd.name)
+                };
                 tokio::spawn(async move {
                     let name = shepherd.name.clone();
                     let policy = ResidentShepherdRecoveryPolicy {
@@ -829,8 +839,14 @@ async fn main() -> ExitCode {
                             let adapter = probe_adapter.clone();
                             let runtime_id = probe_runtime_id.clone();
                             let sequence = sequence.clone();
+                            let agent_id = shepherd_agent_id.clone();
+                            let orientation_service = Arc::clone(&orientation_service);
                             async move {
-                                preload_resident_shepherd_model(&shepherd, &shutdown).await?;
+                                let orientation = orientation_service
+                                    .orientation_for_agent(&agent_id)
+                                    .ok_or("agent_orientation_missing")?;
+                                preload_resident_shepherd_model(&shepherd, &orientation, &shutdown)
+                                    .await?;
                                 let probe_sequence = sequence.fetch_add(
                                     1,
                                     std::sync::atomic::Ordering::Relaxed,
@@ -839,6 +855,8 @@ async fn main() -> ExitCode {
                                     "{}:resident-shepherd-probe:{probe_sequence}",
                                     shepherd.name
                                 );
+                                let governed_probe_prompt =
+                                    resident_shepherd_probe_prompt(&orientation);
                                 let governed_probe = OperationRequest {
                                     schema: OPERATION_REQUEST_SCHEMA.to_owned(),
                                     request_id: probe_id.clone(),
@@ -849,7 +867,7 @@ async fn main() -> ExitCode {
                                         "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),
                                         "runtime_id": runtime_id,
                                         "shepherd_name": shepherd.name,
-                                        "prompt": "Reply with READY."
+                                        "prompt": governed_probe_prompt
                                     })).expect("resident Shepherd probe request encodes"),
                                     permit: None,
                                 };
@@ -1350,6 +1368,12 @@ async fn main() -> ExitCode {
     }
 }
 
+fn resident_shepherd_probe_prompt(
+    orientation: &adl_runtime_kernel::AgentOrientationResource,
+) -> String {
+    orientation.inject_initial_context("Reply with READY.")
+}
+
 async fn bind_control_listener(
     socket_addrs: &[std::net::SocketAddr],
     attempts: u32,
@@ -1715,7 +1739,8 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability, ArchiveInFlightGuard,
+        preserve_runtime_result_after_observability, resident_shepherd_probe_prompt,
+        ArchiveInFlightGuard,
     };
     use std::sync::{atomic::AtomicBool, Arc};
 
@@ -1744,6 +1769,26 @@ mod tests {
     fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {
         assert_eq!(birthday_authority_generations(7, 0), (7, 1, 1));
         assert_eq!(birthday_authority_generations(7, 41), (7, 1, 1));
+    }
+
+    #[test]
+    fn resident_shepherd_governed_probe_prompt_includes_orientation_before_ready() {
+        let prompt = resident_shepherd_probe_prompt(
+            &adl_runtime_kernel::AgentOrientationResource::bundled_default(),
+        );
+        let orientation_index = prompt
+            .find("Axioma Polis agent orientation package")
+            .expect("probe includes orientation");
+        let ready_index = prompt
+            .find("Reply with READY.")
+            .expect("probe includes readiness instruction");
+        assert_eq!(orientation_index, 0);
+        assert!(
+            orientation_index < ready_index,
+            "orientation must precede the model-facing READY probe: {prompt}"
+        );
+        assert!(prompt.contains("grants no authority"));
+        assert!(prompt.contains("Runtime-delivered task content follows"));
     }
 
     #[test]

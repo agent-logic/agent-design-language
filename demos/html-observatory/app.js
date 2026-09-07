@@ -2220,6 +2220,31 @@ function normalizeMetricRows(metrics = {}) {
   return rows.length ? rows : [{ label: "metrics", value: "not exposed" }];
 }
 
+function normalizeAgentOrientation(orientation = null) {
+  if (!orientation || typeof orientation !== "object") return null;
+  const schema = typeof orientation.schema === "string" ? orientation.schema : "";
+  const digest = typeof orientation.digest === "string" ? orientation.digest : "";
+  const version = typeof orientation.version === "string" ? orientation.version : "";
+  const sourcePath = typeof orientation.source_path === "string" ? orientation.source_path : "";
+  const projection = typeof orientation.projection === "string" ? orientation.projection : "";
+  const digestAlgorithm = typeof orientation.digest_algorithm === "string" ? orientation.digest_algorithm : "";
+  if (schema !== "adl.runtime_v3.agent_orientation_delivery.v1" || !version || !sourcePath || !projection || digestAlgorithm !== "blake3" || !/^[a-fA-F0-9]{64}$/.test(digest)) {
+    return null;
+  }
+  return {
+    version,
+    digestAlgorithm,
+    digest: digest.toLowerCase(),
+    sourcePath,
+    projection
+  };
+}
+
+function formatAgentOrientation(orientation = null) {
+  if (!orientation) return "Not recorded";
+  return `${orientation.version} / ${orientation.digestAlgorithm}:${orientation.digest.slice(0, 12)} / ${orientation.projection} / non-authoritative`;
+}
+
 function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics = {}, events = [], packet = FALLBACK_PACKET } = {}) {
   const hasApiStatus = Object.keys(status || {}).length > 0 && !status.__load_error;
   const retainedCitizens = asArray(packet.citizens);
@@ -2277,7 +2302,8 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       observedAtUnixMillis: Number(agent.observed_at_unix_millis || 0),
       freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
       sourceRevision: agent.source_revision || "unknown",
-      provenance: agent.provenance || "unknown"
+      provenance: agent.provenance || "unknown",
+      orientation: normalizeAgentOrientation(agent.orientation)
     }));
   }
 
@@ -2494,6 +2520,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
         <div><dt>Last S3 archive</dt><dd>${escapeHtml(selected.lastArchiveAtUnixMillis ? formatTimestampLabel(selected.lastArchiveAtUnixMillis) : "Never")}</dd></div>
         <div><dt>Archive state</dt><dd>${escapeHtml(formatLabel(selected.archiveState))}${selected.pendingArchiveCount ? ` (${escapeHtml(selected.pendingArchiveCount)} pending)` : ""}</dd></div>
         <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
+        <div><dt>Orientation package</dt><dd>${escapeHtml(formatAgentOrientation(selected.orientation))}</dd></div>
         <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
       </dl>
     ` : `
@@ -3892,6 +3919,8 @@ globalThis.AdlHtmlObservatory = {
   applyRuntimeV3Config,
   isRuntimeV3ApiBase,
   normalizeTrustedRuntimeV3ApiBase,
+  normalizeAgentOrientation,
+  formatAgentOrientation,
   buildRuntimeAgentRows,
   acceptRuntimeRosterSnapshot,
   runtimeRosterCursorState,
