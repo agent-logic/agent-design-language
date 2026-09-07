@@ -4,13 +4,33 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "67ad230ca41fe5451ab3c64ef33526b2cd36ad6b6f4681464680b4efbfadf9e1",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "993f58c26d8dc2b08726945a6f07616f200a781e0ae3fb1fa13c032aca1691da",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "4c821f8bc0b22b5f98b25e41703e7bea59acefe21814a9e23d12be614190ab9d",
   "branch": "codex/707-runtime-generation-coherence-a2a-deploy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-707-runtime-generation-coherence-a2a-deploy",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_711_admission_greeting",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f3b8d952b5b6f00a5bb9e5105da3da47c4703405:5f096ec5806e6a0d4fb5390caecb0424b5ef252a9c29143cd537678a5169f7f5",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_711_admission_greeting",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs"
+    ],
+    "reviewed_revision": "git-blake3:f3b8d952b5b6f00a5bb9e5105da3da47c4703405:5f096ec5806e6a0d4fb5390caecb0424b5ef252a9c29143cd537678a5169f7f5",
+    "findings": [],
+    "residual_risks": [
+      "The focused regression invokes the greeting helper directly; HTTP scheduling and non-blocking behavior are verified by source inspection.",
+      "The fire-and-forget greeting is not durable across process termination after admission persistence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b64377d5e7deac19b744a759c505e120efe35f05072053bb88accec7b8f71c54",
+      "values_digest": "9439da1cadb7517fc2b752d916f1770e808a9e6a88efd6d5185b0c5757601a97",
       "rendered_digest": "6e5e831eb11c8228061f40a6f241f0eabe55465de85b4d6f123d5721adc76b2a",
       "ast_digest": "1c67609962e8e129b8ba1ef3b0272a4c986468315fb050bedfa7cab59582ab77"
     },
     "stp": {
-      "values_digest": "1608602bbba3b3979e354ddf9d5b8868c5204deedd3c3b61b3c29867e19609e2",
+      "values_digest": "be1eaa4b2342f10961c98bbb40be674b144dbdf9c398c43b6b4521ecf407011b",
       "rendered_digest": "1a778a5b924419266702bae6794cf48e08eb84615bbcde70a5a34ed18178a58b",
       "ast_digest": "4a0296704bfa40277f94114a7b96d2c4a8cc8cd2dd05a9b1c609c02294991280"
     },
     "spp": {
-      "values_digest": "ffcf304cb7e0208c581a0375dfd963b2ae70f02fa93df753fb968d82ef4aca98",
+      "values_digest": "06382395ceaa3386666e803eb713b7c258cc9ff76c5b35457187466b6a3e6323",
       "rendered_digest": "8e4ef1a85385869606f137562281d277f6aee8af41eee6355bae45b8fda361c0",
       "ast_digest": "90d0ac48e6b17ea3ab80f7a65a050328c26116746b756c9547de03f24aa739bc"
     },
     "vpp": {
-      "values_digest": "37ec25f3d2d4b93618d22b79a241ab6107bf9f4a8ce52f163f7ae4b1b1c7ae1e",
+      "values_digest": "ce09c62efba68debb3f468356af76e3b85c1e8cd26ae22c44d7a280b295eeb1c",
       "rendered_digest": "90fe7590fad64ef873175b1ae1c48233f6aa0610722b8b105b704c4323c6c0c9",
       "ast_digest": "adbb1032c11cb32a2e5185ad2c5b0234ccd2036902ce7b4f7ddf1683667a440e"
     },
     "srp": {
-      "values_digest": "21889ff082ae6fe848899755b65a777ea63a6d08987f04e4476d3fb510cc3053",
-      "rendered_digest": "1b5908f176b05ba510e4b2e5fd8b5d8052bd38f1862ddf025414700082aca25b",
-      "ast_digest": "e69d6ebfd04f76d73d26258605144f88366f249e427087b1335067fabc3a4e42"
+      "values_digest": "1e4e50ea5feb6a0fff470dae5e7bb95293da67b7713777aea47490d3545772e2",
+      "rendered_digest": "5c07430448a0208428b3921215551e319275db325ac9b7af8ef9ccdf176f550c",
+      "ast_digest": "49ace83ff1500cb53ac53cfc8993d1e726e07c6707cc5a5c1451779ef5de7213"
     },
     "sor": {
-      "values_digest": "a58de7349f49288f6affe454ba76d8648852038748bb451fe17f1164713f592f",
+      "values_digest": "604a7cc31869d6b87c0775af40b46426161a32e12717c4592e3bda3560091ca5",
       "rendered_digest": "4cde66062e0550a716ae55b8004e71898b8b0ddbd979c98d25ed164e34a4e80a",
       "ast_digest": "cf5ef0d68f4c921647d5b3f7f1eeb9ac4c2c1c3ffeb371f941ccac8fb9b7ea0d"
     }
@@ -132,6 +152,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Operator acceptance exposed that admission did not autonomously trigger Beacon A2A; recover the published review before adding the bounded admission greeting path."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -295,6 +322,20 @@
       "actor": "codex:/root",
       "reason": "Operator acceptance exposed that admission did not autonomously trigger Beacon A2A; recover the published review before adding the bounded admission greeting path.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
