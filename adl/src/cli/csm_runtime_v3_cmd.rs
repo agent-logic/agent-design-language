@@ -364,44 +364,49 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
     reconcile_interrupted_reload(args)?;
     let current = validated_init(&args.init)?;
-    let candidate = args
-        .candidate
-        .as_ref()
-        .map(|path| validated_init(path))
-        .transpose()?;
-    if let Some(candidate) = candidate.as_ref() {
-        validate_candidate_binary_identity(&current, candidate)?;
-    }
     run_after_preflight(
         || validate_runtime_service_definition(args, &current),
         || {
-            let Some((candidate_path, candidate)) = args.candidate.as_ref().zip(candidate.as_ref())
-            else {
+            let Some(candidate_path) = args.candidate.as_ref() else {
                 start_clean(args, &current)?;
                 return emit_status(args, &current, "reload", true);
             };
-            reload_candidate_transaction(
+            let candidate = reload_candidate_transaction(
                 &args.init,
                 candidate_path,
+                |staged| {
+                    let candidate = validated_init(staged)?;
+                    validate_candidate_binary_identity(&current, &candidate)?;
+                    Ok(candidate)
+                },
                 || stop_and_wait(args, &current),
-                || start_and_wait(args, candidate),
-                || stop_and_wait(args, candidate),
+                |candidate| start_and_wait(args, candidate),
+                |candidate| stop_and_wait(args, candidate),
                 || start_and_wait(args, &current),
             )?;
-            emit_status(args, candidate, "reload", true)
+            emit_status(args, &candidate, "reload", true)
         },
     )
 }
 
-fn reload_candidate_transaction(
+fn reload_candidate_transaction<T>(
     active: &Path,
     candidate_path: &Path,
+    validate_staged: impl FnOnce(&Path) -> Result<T>,
     stop_current: impl FnOnce() -> Result<()>,
-    start_candidate: impl FnOnce() -> Result<()>,
-    stop_candidate: impl FnOnce() -> Result<()>,
+    start_candidate: impl FnOnce(&T) -> Result<()>,
+    stop_candidate: impl FnOnce(&T) -> Result<()>,
     start_current: impl FnOnce() -> Result<()>,
-) -> Result<()> {
+) -> Result<T> {
     let (backup, staged) = prepare_config_candidate(active, candidate_path)?;
+    let candidate = match validate_staged(&staged) {
+        Ok(candidate) => candidate,
+        Err(error) => {
+            discard_prepared_candidate(active, &backup, &staged)
+                .context("discard invalid staged Runtime v3 candidate")?;
+            return Err(error);
+        }
+    };
     if let Err(stop_error) = stop_current() {
         discard_prepared_candidate(active, &backup, &staged)
             .context("discard Runtime v3 candidate after stop failed")?;
@@ -413,8 +418,9 @@ fn reload_candidate_transaction(
         start_current().context("Runtime v3 did not recover after candidate install failed")?;
         return Err(error);
     }
-    if let Err(reload_error) = start_candidate() {
-        stop_candidate().context("stop failed Runtime v3 candidate before config rollback")?;
+    if let Err(reload_error) = start_candidate(&candidate) {
+        stop_candidate(&candidate)
+            .context("stop failed Runtime v3 candidate before config rollback")?;
         restore_last_known_good(active, &backup).with_context(|| {
             format!(
                 "restore last-known-good Runtime v3 init {}",
@@ -426,7 +432,8 @@ fn reload_candidate_transaction(
             "Runtime v3 candidate reload failed and last-known-good configuration was restored: {reload_error}"
         ));
     }
-    commit_candidate(active, &backup)
+    commit_candidate(active, &backup)?;
+    Ok(candidate)
 }
 
 fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<PathBuf> {
@@ -1768,17 +1775,56 @@ mod tests {
         let error = reload_candidate_transaction(
             &active,
             &missing_candidate,
+            |_| Ok(()),
             || {
                 stopped.set(true);
                 Ok(())
             },
-            || Ok(()),
-            || Ok(()),
+            |_| Ok(()),
+            |_| Ok(()),
             || Ok(()),
         )
         .unwrap_err();
 
         assert!(error.to_string().contains("stage Runtime v3 candidate"));
+        assert!(!stopped.get());
+        assert_eq!(fs::read_to_string(&active).unwrap(), "current");
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        assert!(!backup.exists());
+        assert!(!staged.exists());
+    }
+
+    #[test]
+    fn invalid_staged_candidate_is_rejected_before_runtime_stop() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let candidate = root.path().join("candidate.toml");
+        fs::write(&active, "current").unwrap();
+        fs::write(&candidate, "untrusted replacement").unwrap();
+        let stopped = Cell::new(false);
+
+        let error = reload_candidate_transaction(
+            &active,
+            &candidate,
+            |staged| {
+                assert_eq!(fs::read_to_string(staged).unwrap(), "untrusted replacement");
+                Err::<(), _>(anyhow!("staged candidate validation failed"))
+            },
+            || {
+                stopped.set(true);
+                Ok(())
+            },
+            |_| Ok(()),
+            |_| Ok(()),
+            || Ok(()),
+        )
+        .unwrap_err();
+
+        assert!(error
+            .to_string()
+            .contains("staged candidate validation failed"));
         assert!(!stopped.get());
         assert_eq!(fs::read_to_string(&active).unwrap(), "current");
         let (backup, staged) = reload_transaction_paths(&active).unwrap();
@@ -2148,12 +2194,13 @@ mod tests {
         let error = reload_candidate_transaction(
             &active,
             &candidate,
+            |_| Ok(()),
             || {
                 stopped_current.set(true);
                 Ok(())
             },
-            || wait_for_convergence("readiness", Duration::ZERO, |_| Ok(false)),
-            || {
+            |_| wait_for_convergence("readiness", Duration::ZERO, |_| Ok(false)),
+            |_| {
                 stopped_candidate.set(true);
                 Ok(())
             },
