@@ -77,7 +77,22 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
+            let init_bytes = match std::fs::read(&init_path) {
+                Ok(bytes) => bytes,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let active_init_hash = blake3::hash(&init_bytes).to_hex().to_string();
+            let init_text = match std::str::from_utf8(&init_bytes) {
+                Ok(text) => text,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let init = match RuntimeInitConfig::from_toml_str(init_text) {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
@@ -226,13 +241,6 @@ async fn main() -> ExitCode {
                 Ok(lease) => lease,
                 Err(error) => {
                     eprintln!("runtime Guardian lease invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            let active_init_hash = match file_hash(&init_path).await {
-                Ok(hash) => hash,
-                Err(error) => {
-                    eprintln!("runtime init identity could not be hashed: {error}");
                     return ExitCode::from(78);
                 }
             };

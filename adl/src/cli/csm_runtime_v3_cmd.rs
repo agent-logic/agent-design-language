@@ -186,6 +186,63 @@ fn validated_init(path: &Path) -> Result<RuntimeInitConfig> {
     Ok(init)
 }
 
+fn canonical_current_root(init: &RuntimeInitConfig) -> Result<PathBuf> {
+    let kernel = &init.binaries.kernel_path;
+    let Some(current) = kernel.parent().and_then(Path::parent) else {
+        return Err(anyhow!("Runtime v3 init has no current generation"));
+    };
+    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
+        return Err(anyhow!("Runtime v3 init must resolve through current/bin"));
+    }
+    if kernel != &current.join("bin/adl-runtime-kernel") {
+        return Err(anyhow!(
+            "Runtime v3 kernel must be the canonical current/bin/adl-runtime-kernel"
+        ));
+    }
+    Ok(current.to_path_buf())
+}
+
+fn validate_candidate_binary_identity(
+    current: &RuntimeInitConfig,
+    candidate: &RuntimeInitConfig,
+) -> Result<()> {
+    let current_root = canonical_current_root(current)?;
+    let candidate_root = canonical_current_root(candidate)?;
+    if candidate_root != current_root
+        || candidate.binaries.kernel_path != current.binaries.kernel_path
+    {
+        return Err(anyhow!(
+            "Runtime v3 reload candidate must retain the canonical Runtime binary"
+        ));
+    }
+    Ok(())
+}
+
+fn validate_service_arguments(argv: &[String], guardian: &Path, init: &Path) -> Result<()> {
+    if argv.first().map(PathBuf::from).as_deref() != Some(guardian) {
+        return Err(anyhow!(
+            "Runtime v3 service Guardian does not resolve through the current generation"
+        ));
+    }
+    let init_positions = argv
+        .iter()
+        .enumerate()
+        .filter_map(|(index, argument)| (argument == "--init").then_some(index))
+        .collect::<Vec<_>>();
+    if init_positions.len() != 1 {
+        return Err(anyhow!(
+            "Runtime v3 service must declare exactly one --init argument"
+        ));
+    }
+    let configured = argv.get(init_positions[0] + 1).map(PathBuf::from);
+    if configured.as_deref() != Some(init) {
+        return Err(anyhow!(
+            "Runtime v3 service --init does not match the canonical init path"
+        ));
+    }
+    Ok(())
+}
+
 fn run_after_preflight<T>(
     preflight: impl FnOnce() -> Result<()>,
     service_mutation: impl FnOnce() -> Result<T>,
@@ -199,47 +256,32 @@ fn validate_runtime_service_definition(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
 ) -> Result<()> {
-    let kernel = &init.binaries.kernel_path;
-    let Some(current) = kernel.parent().and_then(Path::parent) else {
-        return Err(anyhow!("Runtime v3 launchd init has no current generation"));
-    };
-    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
-        return Err(anyhow!(
-            "Runtime v3 launchd init must resolve through current/bin"
-        ));
-    }
+    let current = canonical_current_root(init)?;
     let plist = match args.plist.as_ref() {
         Some(source) => source.clone(),
         None => installed_launchd_plist(args)?,
     };
     let expected_guardian = current.join("bin/adl-runtime-guardian");
-    let executable = launchd_program_executable(&plist)?;
-    if executable != expected_guardian {
-        return Err(anyhow!(
-            "Runtime v3 launchd Guardian does not resolve through the current generation"
-        ));
-    }
-    Ok(())
+    let argv = launchd_program_arguments(&plist)?;
+    validate_service_arguments(&argv, &expected_guardian, &args.init)
 }
 
 #[cfg(target_os = "macos")]
-fn launchd_program_executable(plist: &Path) -> Result<PathBuf> {
+fn launchd_program_arguments(plist: &Path) -> Result<Vec<String>> {
     let output = Command::new("/usr/bin/plutil")
-        .args(["-extract", "ProgramArguments.0", "raw", "-o", "-"])
+        .args(["-extract", "ProgramArguments", "json", "-o", "-"])
         .arg(plist)
         .output()
         .with_context(|| format!("parse Runtime v3 launchd definition {}", plist.display()))?;
     if !output.status.success() {
         return Err(anyhow!("Runtime v3 launchd ProgramArguments is invalid"));
     }
-    let executable = String::from_utf8(output.stdout)
-        .context("decode Runtime v3 launchd executable")?
-        .trim()
-        .to_owned();
-    if executable.is_empty() || !Path::new(&executable).is_absolute() {
-        return Err(anyhow!("Runtime v3 launchd executable is invalid"));
+    let argv: Vec<String> = serde_json::from_slice(&output.stdout)
+        .context("decode Runtime v3 launchd ProgramArguments")?;
+    if argv.is_empty() {
+        return Err(anyhow!("Runtime v3 launchd ProgramArguments is empty"));
     }
-    Ok(PathBuf::from(executable))
+    Ok(argv)
 }
 
 #[cfg(target_os = "linux")]
@@ -247,15 +289,7 @@ fn validate_runtime_service_definition(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
 ) -> Result<()> {
-    let kernel = &init.binaries.kernel_path;
-    let Some(current) = kernel.parent().and_then(Path::parent) else {
-        return Err(anyhow!("Runtime v3 systemd init has no current generation"));
-    };
-    if current.file_name().and_then(|name| name.to_str()) != Some("current") {
-        return Err(anyhow!(
-            "Runtime v3 systemd init must resolve through current/bin"
-        ));
-    }
+    let current = canonical_current_root(init)?;
     let output = Command::new("systemctl")
         .args([
             "show",
@@ -271,36 +305,32 @@ fn validate_runtime_service_definition(
     let definition =
         String::from_utf8(output.stdout).context("decode Runtime v3 systemd definition")?;
     let expected_guardian = current.join("bin/adl-runtime-guardian");
-    let executable = systemd_exec_start_executable(&definition)?;
-    if executable != expected_guardian {
-        return Err(anyhow!(
-            "Runtime v3 systemd Guardian does not resolve through the current generation"
-        ));
-    }
-    Ok(())
+    let argv = systemd_exec_start_arguments(&definition)?;
+    validate_service_arguments(&argv, &expected_guardian, &args.init)
 }
 
 #[cfg(any(target_os = "linux", test))]
-fn systemd_exec_start_executable(definition: &str) -> Result<PathBuf> {
+fn systemd_exec_start_arguments(definition: &str) -> Result<Vec<String>> {
     let trimmed = definition.trim();
-    let executable = if let Some(after_path) = trimmed.strip_prefix("{ path=") {
-        after_path
+    let argv = if let Some((_, after_argv)) = trimmed.split_once("argv[]=") {
+        after_argv
             .split_once(" ;")
-            .map(|(value, _)| value.trim())
-            .unwrap_or_else(|| after_path.split_whitespace().next().unwrap_or_default())
+            .map(|(value, _)| value)
+            .unwrap_or(after_argv)
+            .split_whitespace()
+            .map(str::to_owned)
+            .collect::<Vec<_>>()
     } else {
         trimmed
             .trim_start_matches('{')
             .split_whitespace()
-            .next()
-            .unwrap_or_default()
+            .map(str::to_owned)
+            .collect::<Vec<_>>()
     };
-    if executable.is_empty() || !Path::new(executable).is_absolute() {
-        return Err(anyhow!(
-            "Runtime v3 systemd ExecStart executable is invalid"
-        ));
+    if argv.is_empty() || !Path::new(&argv[0]).is_absolute() {
+        return Err(anyhow!("Runtime v3 systemd ExecStart is invalid"));
     }
-    Ok(PathBuf::from(executable))
+    Ok(argv)
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
@@ -339,6 +369,9 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
         .as_ref()
         .map(|path| validated_init(path))
         .transpose()?;
+    if let Some(candidate) = candidate.as_ref() {
+        validate_candidate_binary_identity(&current, candidate)?;
+    }
     run_after_preflight(
         || validate_runtime_service_definition(args, &current),
         || {
@@ -368,14 +401,18 @@ fn reload_candidate_transaction(
     stop_candidate: impl FnOnce() -> Result<()>,
     start_current: impl FnOnce() -> Result<()>,
 ) -> Result<()> {
-    stop_current()?;
-    let backup = match replace_config_with_candidate(active, candidate_path) {
-        Ok(backup) => backup,
-        Err(error) => {
-            start_current().context("Runtime v3 did not recover after candidate install failed")?;
-            return Err(error);
-        }
-    };
+    let (backup, staged) = prepare_config_candidate(active, candidate_path)?;
+    if let Err(stop_error) = stop_current() {
+        discard_prepared_candidate(active, &backup, &staged)
+            .context("discard Runtime v3 candidate after stop failed")?;
+        return Err(stop_error);
+    }
+    if let Err(error) = install_prepared_candidate(active, &staged) {
+        restore_last_known_good(active, &backup)
+            .context("restore Runtime v3 config after candidate install failed")?;
+        start_current().context("Runtime v3 did not recover after candidate install failed")?;
+        return Err(error);
+    }
     if let Err(reload_error) = start_candidate() {
         stop_candidate().context("stop failed Runtime v3 candidate before config rollback")?;
         restore_last_known_good(active, &backup).with_context(|| {
@@ -393,6 +430,15 @@ fn reload_candidate_transaction(
 }
 
 fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<PathBuf> {
+    let (backup, staged) = prepare_config_candidate(active, candidate)?;
+    if let Err(error) = install_prepared_candidate(active, &staged) {
+        restore_last_known_good(active, &backup)?;
+        return Err(error);
+    }
+    Ok(backup)
+}
+
+fn prepare_config_candidate(active: &Path, candidate: &Path) -> Result<(PathBuf, PathBuf)> {
     if active == candidate {
         return Err(anyhow!(
             "Runtime v3 reload candidate must differ from the active init path"
@@ -418,21 +464,37 @@ fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<Path
             active.display()
         )
     })?;
-    sync_parent(active)?;
     if let Err(error) = copy_create_new(candidate, &staged)
-        .and_then(|_| fs::rename(&staged, active))
         .map_err(anyhow::Error::from)
         .and_then(|_| sync_parent(active))
     {
-        let _ = restore_last_known_good(active, &backup);
-        return Err(error).with_context(|| {
-            format!(
-                "atomically install Runtime v3 candidate {}",
-                candidate.display()
-            )
-        });
+        let _ = discard_prepared_candidate(active, &backup, &staged);
+        return Err(error)
+            .with_context(|| format!("stage Runtime v3 candidate {}", candidate.display()));
     }
-    Ok(backup)
+    Ok((backup, staged))
+}
+
+fn install_prepared_candidate(active: &Path, staged: &Path) -> Result<()> {
+    fs::rename(staged, active).with_context(|| {
+        format!(
+            "atomically install Runtime v3 candidate {}",
+            staged.display()
+        )
+    })?;
+    sync_parent(active)
+}
+
+fn discard_prepared_candidate(active: &Path, backup: &Path, staged: &Path) -> Result<()> {
+    if staged.exists() {
+        fs::remove_file(staged)
+            .with_context(|| format!("remove staged Runtime v3 candidate {}", staged.display()))?;
+    }
+    if backup.exists() {
+        fs::remove_file(backup)
+            .with_context(|| format!("remove Runtime v3 reload backup {}", backup.display()))?;
+    }
+    sync_parent(active)
 }
 
 fn copy_create_new(source: &Path, destination: &Path) -> io::Result<()> {
@@ -1487,14 +1549,40 @@ mod tests {
 
     #[test]
     fn service_definition_preflight_parsers_require_exact_executable_position() {
-        let expected = "/runtime/current/bin/adl-runtime-guardian";
-        let systemd = format!("{{ path=/old/guardian ; argv[]=/old/guardian {expected} ; }}");
+        let guardian = "/runtime/current/bin/adl-runtime-guardian";
+        let init = "/runtime/runtime-init.toml";
+        let systemd =
+            format!("{{ path={guardian} ; argv[]={guardian} --init {init} ; ignore_errors=no ; }}");
         assert_eq!(
-            systemd_exec_start_executable(&systemd).unwrap(),
-            Path::new("/old/guardian")
+            systemd_exec_start_arguments(&systemd).unwrap(),
+            vec![guardian, "--init", init]
         );
-        let ambiguous_systemd = format!("ENV_path={expected} {{ path=/old/guardian ; }}");
-        assert!(systemd_exec_start_executable(&ambiguous_systemd).is_err());
+        validate_service_arguments(
+            &systemd_exec_start_arguments(&systemd).unwrap(),
+            Path::new(guardian),
+            Path::new(init),
+        )
+        .unwrap();
+        let ambiguous_systemd = format!("ENV_path={guardian} {{ path=/old/guardian ; }}");
+        assert!(systemd_exec_start_arguments(&ambiguous_systemd).is_err());
+        assert!(validate_service_arguments(
+            &[guardian.into(), "--init".into(), "/other/init.toml".into()],
+            Path::new(guardian),
+            Path::new(init),
+        )
+        .is_err());
+        assert!(validate_service_arguments(
+            &[
+                guardian.into(),
+                "--init".into(),
+                init.into(),
+                "--init".into(),
+                init.into(),
+            ],
+            Path::new(guardian),
+            Path::new(init),
+        )
+        .is_err());
     }
 
     #[cfg(target_os = "macos")]
@@ -1504,13 +1592,28 @@ mod tests {
         let plist = root.path().join("commented.plist");
         fs::write(
             &plist,
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><!-- <key>ProgramArguments</key><array><string>/runtime/current/bin/adl-runtime-guardian</string></array> --><key>ProgramArguments</key><array><string>/old/guardian</string></array></dict></plist>",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plist version=\"1.0\"><dict><!-- <key>ProgramArguments</key><array><string>/runtime/current/bin/adl-runtime-guardian</string></array> --><key>ProgramArguments</key><array><string>/old/guardian</string><string>--init</string><string>/old/init.toml</string></array></dict></plist>",
         )
         .unwrap();
         assert_eq!(
-            launchd_program_executable(&plist).unwrap(),
-            Path::new("/old/guardian")
+            launchd_program_arguments(&plist).unwrap(),
+            vec!["/old/guardian", "--init", "/old/init.toml"]
         );
+    }
+
+    #[test]
+    fn reload_candidate_must_retain_canonical_runtime_binary() {
+        let root = tempfile::tempdir().unwrap();
+        let (_, mut current) = write_valid_init(root.path());
+        let mut candidate = current.clone();
+        current.binaries.kernel_path = "/runtime/current/bin/adl-runtime-kernel".into();
+        candidate.binaries.kernel_path = current.binaries.kernel_path.clone();
+        validate_candidate_binary_identity(&current, &candidate).unwrap();
+
+        candidate.binaries.kernel_path = "/runtime/current/bin/not-the-runtime".into();
+        assert!(validate_candidate_binary_identity(&current, &candidate).is_err());
+        candidate.binaries.kernel_path = "/runtime/next/bin/adl-runtime-kernel".into();
+        assert!(validate_candidate_binary_identity(&current, &candidate).is_err());
     }
 
     #[test]
@@ -1650,6 +1753,37 @@ mod tests {
 
         assert_eq!(fs::read_to_string(&active).unwrap(), "candidate");
         assert_eq!(fs::read_to_string(backup).unwrap(), "current");
+    }
+
+    #[test]
+    fn candidate_staging_failure_does_not_stop_the_running_runtime() {
+        use std::cell::Cell;
+
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let missing_candidate = root.path().join("missing.toml");
+        fs::write(&active, "current").unwrap();
+        let stopped = Cell::new(false);
+
+        let error = reload_candidate_transaction(
+            &active,
+            &missing_candidate,
+            || {
+                stopped.set(true);
+                Ok(())
+            },
+            || Ok(()),
+            || Ok(()),
+            || Ok(()),
+        )
+        .unwrap_err();
+
+        assert!(error.to_string().contains("stage Runtime v3 candidate"));
+        assert!(!stopped.get());
+        assert_eq!(fs::read_to_string(&active).unwrap(), "current");
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        assert!(!backup.exists());
+        assert!(!staged.exists());
     }
 
     #[test]
