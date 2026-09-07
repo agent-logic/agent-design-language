@@ -1820,7 +1820,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         };
         let now = now_unix_millis() / 1_000;
         let signing_key = SigningKey::from_bytes(
-            &*self
+            &self
                 .runtime_agent_delegation_key
                 .lock()
                 .expect("runtime agent delegation key mutex poisoned"),
@@ -8087,14 +8087,16 @@ mod layer8_conversation_ingress_tests {
                 "delivered"
             );
         }
-        let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
-        let sequences = tasks
-            .iter()
-            .map(|task| {
-                let bytes = hex::decode(task["acip_carrier_hex"].as_str().unwrap()).unwrap();
-                decode_acip_envelope(&bytes).unwrap().monotonic_sequence
-            })
-            .collect::<Vec<_>>();
+        let sequences = {
+            let tasks = observed_tasks.lock().expect("observed task mutex poisoned");
+            tasks
+                .iter()
+                .map(|task| {
+                    let bytes = hex::decode(task["acip_carrier_hex"].as_str().unwrap()).unwrap();
+                    decode_acip_envelope(&bytes).unwrap().monotonic_sequence
+                })
+                .collect::<Vec<_>>()
+        };
         assert_eq!(sequences, vec![1, 2]);
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
@@ -8125,24 +8127,25 @@ mod layer8_conversation_ingress_tests {
             ));
         assert!(matches!(sender_denied, ConversationAcceptance::Response(_)));
 
-        let mut population = service
-            .agent_population
-            .write()
-            .expect("agent population state poisoned");
-        population
-            .sample
-            .iter_mut()
-            .find(|agent| agent.id == "beacon")
-            .expect("configured sender")
-            .capabilities = vec!["conversation".to_owned()];
-        population
-            .sample
-            .iter_mut()
-            .find(|agent| agent.id == "ember")
-            .expect("configured recipient")
-            .capabilities
-            .clear();
-        drop(population);
+        {
+            let mut population = service
+                .agent_population
+                .write()
+                .expect("agent population state poisoned");
+            population
+                .sample
+                .iter_mut()
+                .find(|agent| agent.id == "beacon")
+                .expect("configured sender")
+                .capabilities = vec!["conversation".to_owned()];
+            population
+                .sample
+                .iter_mut()
+                .find(|agent| agent.id == "ember")
+                .expect("configured recipient")
+                .capabilities
+                .clear();
+        }
         let recipient_denied =
             service.accept_runtime_agent_initiation_intent(&agent_pair_initiation_intent(
                 "beacon",
