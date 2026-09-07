@@ -264,6 +264,11 @@ async fn incompatible_identity_and_service_schema_refuse_recovery() {
         .await
         .unwrap();
 
+    coordinator
+        .load(1, "topology-a", "config-b", &schemas(1), &trusted)
+        .await
+        .expect("config drift alone must not prevent restoring a compatible topology");
+
     let identity = coordinator
         .load(1, "topology-b", "config-a", &schemas(1), &trusted)
         .await;

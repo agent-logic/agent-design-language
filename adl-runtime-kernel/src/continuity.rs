@@ -238,7 +238,7 @@ impl CheckpointCoordinator {
         &self,
         generation: u64,
         topology_hash: &str,
-        config_hash: &str,
+        _config_hash: &str,
         service_schemas: &BTreeMap<String, String>,
         trusted_keys: &BTreeMap<String, VerifyingKey>,
     ) -> Result<LoadedCheckpoint, ContinuityError> {
@@ -265,7 +265,7 @@ impl CheckpointCoordinator {
                 signed: manifest.generation,
             });
         }
-        if manifest.topology_hash != topology_hash || manifest.config_hash != config_hash {
+        if manifest.topology_hash != topology_hash {
             return Err(ContinuityError::IdentityMismatch);
         }
 
