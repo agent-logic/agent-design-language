@@ -20,9 +20,9 @@ use adl_runtime_kernel::layer8_authority::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
-    build_production_operation_executors_with_recorder,
-    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
-    monitor_until_stop, preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
+    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
     start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,

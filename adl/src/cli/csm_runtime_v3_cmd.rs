@@ -436,6 +436,7 @@ fn reload_candidate_transaction<T>(
     Ok(candidate)
 }
 
+#[cfg(test)]
 fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<PathBuf> {
     let (backup, staged) = prepare_config_candidate(active, candidate)?;
     if let Err(error) = install_prepared_candidate(active, &staged) {
