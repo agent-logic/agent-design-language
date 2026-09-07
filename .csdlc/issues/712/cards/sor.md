@@ -85,11 +85,11 @@ Simplified Runtime startup to one canonical init, one canonical Kernel binary, a
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
