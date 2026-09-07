@@ -1,0 +1,15 @@
+{
+  "issue": 707,
+  "expected_generation": 5,
+  "expected_digest": "fc61e3b35adf56f7d90bc1b12227b889f7e737e6b8e1e13ba6913a2b7062a182",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "subagent:/root/review_707_final",
+    "reviewed_revision": "git-blake3:0681d06d580e2431df5956e5d3a132240bb8f66a:8fcd3482471ae32c1d29c07e6162e1822665baf60d93e66a3a2acc91cfb552ef",
+    "scope": ["cross-binary configuration identity","uniform all-agent A2A communication","single canonical Wuji deployment","two fresh live Beacon-to-Ember deliveries","focused validation and publication hygiene"],
+    "completed": true,
+    "findings": [],
+    "residual_risks": [],
+    "non_substantive_proof": null
+  }
+}

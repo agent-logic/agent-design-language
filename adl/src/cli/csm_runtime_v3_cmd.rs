@@ -120,7 +120,7 @@ struct RuntimeReadinessProbe {
 pub(crate) fn real_runtime_v3_service(args: &[String]) -> Result<()> {
     let Some(operation) = args.first().map(String::as_str) else {
         return Err(anyhow!(
-            "csm runtime-v3 requires subcommand: start | stop | status | reload"
+            "csm runtime-v3 requires subcommand: start | stop | status | reload | prepare-config"
         ));
     };
     if matches!(operation, "--help" | "-h" | "help") {
@@ -133,10 +133,31 @@ pub(crate) fn real_runtime_v3_service(args: &[String]) -> Result<()> {
         "reload" => reload(&parsed),
         "stop" => stop(&parsed),
         "status" => status(&parsed, "status"),
+        "prepare-config" => prepare_config(&parsed),
         other => Err(anyhow!(
-            "unknown csm runtime-v3 subcommand '{other}' (expected start, stop, status, or reload)"
+            "unknown csm runtime-v3 subcommand '{other}' (expected start, stop, status, reload, or prepare-config)"
         )),
     }
+}
+
+fn prepare_config(args: &RuntimeV3ServiceArgs) -> Result<()> {
+    if args.candidate.is_some() {
+        return Err(anyhow!(
+            "--candidate is not valid with runtime-v3 prepare-config"
+        ));
+    }
+    let init = validated_init(&args.init)?;
+    let binary_generation = validate_runtime_generation(&init)?;
+    let identity = prepare_active_config_generation(&args.init, &binary_generation)?;
+    println!(
+        "{}",
+        serde_json::json!({
+            "schema": "adl.runtime_v3.config_identity_probe.v1",
+            "generation": identity.generation,
+            "receipt_digest": identity.receipt_digest,
+        })
+    );
+    Ok(())
 }
 
 fn parse_args(args: &[String]) -> Result<RuntimeV3ServiceArgs> {
@@ -1658,7 +1679,7 @@ fn platform_name() -> &'static str {
 }
 
 pub(crate) fn usage() -> &'static str {
-    "csm runtime-v3 start|stop|status|reload --init <absolute-runtime-init.toml> [--candidate <absolute-candidate-init.toml>] [--plist <absolute-launchd-plist>] [--label <service-label>] [--json]"
+    "csm runtime-v3 start|stop|status|reload|prepare-config --init <absolute-runtime-init.toml> [--candidate <absolute-candidate-init.toml>] [--plist <absolute-launchd-plist>] [--label <service-label>] [--json]"
 }
 
 #[cfg(test)]

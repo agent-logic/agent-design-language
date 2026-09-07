@@ -162,7 +162,7 @@ fn post_pointer_mismatch_fails_closed_before_authority() {
     )
     .expect("tamper active ref");
     let error = validate_active_config_generation(&init, "runtime-generation-one").unwrap_err();
-    assert!(error.contains("active reference does not match init content"));
+    assert!(error.contains("receipt identity or compatibility is invalid"));
 }
 
 #[test]
