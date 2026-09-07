@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime][bug] Make installed Runtime generations coherent and deploy merged A2A",
     "slug": "runtime-generation-coherence-a2a-deploy",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/control.rs\nadl/src/long_lived_agent/tests.rs\nadl/tests/csm_runtime_v3_generation.rs",
-      "review_revision": "git-blake3:5842eb2072e8a7806037ad5f30394fb00f859a59:1b99284574e87c3d9716af7fc49b3388e356064854be0172bdb198bb95d6e8be",
-      "reviewer": "subagent:/root/review_711_multipart_restore",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is receipt identity byte-stable across independently resolved package graphs?",
         "Can any mismatched init, generation, executable, or receipt pass?",
@@ -23,10 +23,8 @@
         "Is rollback preserved throughout deployment?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Review is limited to the assigned three-file semantic scope and focused checkpoint/restore regression; broader Runtime validation remains represented by the existing retained proof and CI."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -48,11 +48,11 @@ Repaired dependency-independent Runtime configuration identity, installed one co
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

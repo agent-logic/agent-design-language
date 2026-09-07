@@ -1963,7 +1963,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         accepted
     }
 
-    #[cfg(test)]
     fn accept_runtime_agent_initiation_intent(
         &self,
         intent: &ObservatoryAgentInitiationIntent,
@@ -1985,6 +1984,57 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Ok(delegated) => self.accept_runtime_delegated_agent_initiation(&delegated),
             Err(error) => self.refuse_public_agent_initiation_intent(intent, error),
         }
+    }
+
+    async fn complete_admission_greeting(
+        &self,
+        agent_id: &str,
+    ) -> Option<ObservatoryConversationResult> {
+        if agent_id == "beacon" {
+            return None;
+        }
+        let (display_name, admitted_at_unix_millis) = self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .find(|agent| agent.id == agent_id)
+            .map(|agent| (agent.label.clone(), agent.observed_at_unix_millis))?;
+        let digest = blake3::hash(
+            format!("{}:{agent_id}:{admitted_at_unix_millis}", self.instance_id).as_bytes(),
+        )
+        .to_hex()
+        .to_string();
+        let suffix = &digest[..20];
+        let intent = ObservatoryAgentInitiationIntent {
+            schema: OBSERVATORY_WS_AGENT_INITIATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: format!("admission-beacon-{suffix}"),
+            turn_id: format!("welcome-{suffix}"),
+            sender_id: "beacon".to_owned(),
+            recipient_id: agent_id.to_owned(),
+            correlation_id: digest[..32].to_owned(),
+            work_id: format!("a2a-welcome-{suffix}"),
+            message: None,
+            message_parts: vec![
+                format!("Welcome to the polis, {display_name}. I am Beacon Axioma."),
+                "Your admission is complete. Please reply with your name and readiness.".to_owned(),
+            ],
+        };
+        let accepted = self.accept_runtime_agent_initiation_intent(&intent);
+        Some(match accepted {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                self.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                self.recorder.emit_correlated(
+                    Some(ComponentId::new("agent_initiation")),
+                    RuntimeEvent::AgentToAgentFailed,
+                    Some(&intent.correlation_id),
+                );
+                response
+            }
+        })
     }
 
     fn verify_runtime_delegated_agent_sender(
@@ -2911,9 +2961,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.initiated_work_id.clone()),
-                                        initiated_message: dispatch.intent.message.clone().filter(
-                                            |value| {
-                                                dispatch.initiation.is_some() && !value.is_empty()
+                                        initiated_message: dispatch.initiation.as_ref().and_then(
+                                            |_| {
+                                                assemble_agent_conversation_message(
+                                                    dispatch.intent.message.as_deref(),
+                                                    &dispatch.intent.message_parts,
+                                                )
                                             },
                                         ),
                                         initiated_reply: None,
@@ -4979,7 +5032,19 @@ async fn agent_admission_handler<C: LifecycleControl + 'static>(
             .into_response();
     }
     match service.admit_agent(request).await {
-        Ok(response) => (StatusCode::OK, Json(response)).into_response(),
+        Ok(response) => {
+            if response.status == "admitted" && response.agent_id != "beacon" {
+                let agent_id = response.agent_id.clone();
+                let greeting_service = service.clone();
+                tokio::spawn(async move {
+                    greeting_service.refresh_dynamic_agent_health().await;
+                    let _ = greeting_service
+                        .complete_admission_greeting(&agent_id)
+                        .await;
+                });
+            }
+            (StatusCode::OK, Json(response)).into_response()
+        }
         Err(AgentAdmissionFailure::Invalid(reason)) => (
             StatusCode::UNPROCESSABLE_ENTITY,
             Json(serde_json::json!({"error":reason})),
@@ -7514,6 +7579,53 @@ mod layer8_conversation_ingress_tests {
             }),
             "Observatory feed should expose authoritative correlated initiation activity: {events:?}"
         );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn newly_admitted_agent_receives_one_runtime_triggered_beacon_greeting() {
+        let (service, kernel, recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+
+        let delivered = service
+            .complete_admission_greeting("ember")
+            .await
+            .expect("non-Beacon admission produces a greeting");
+        assert_eq!(delivered.status, "delivered");
+        assert_eq!(delivered.sender_id.as_deref(), Some("beacon"));
+        assert_eq!(delivered.recipient_id, "ember");
+        assert!(delivered
+            .initiated_message
+            .as_deref()
+            .is_some_and(|message| message.contains("Welcome to the polis, Ember Axioma")));
+        assert_eq!(
+            observed_tasks.lock().unwrap().len(),
+            1,
+            "admission greeting must dispatch one governed recipient turn"
+        );
+        assert!(recorder.events().iter().any(|event| {
+            event.event == "agent_to_agent_completed"
+                && event
+                    .component
+                    .as_ref()
+                    .is_some_and(|component| component.as_str() == "agent_initiation")
+        }));
+
+        let replay = service
+            .complete_admission_greeting("ember")
+            .await
+            .expect("replayed admission greeting returns its terminal result");
+        assert_eq!(replay, delivered);
+        assert_eq!(
+            observed_tasks.lock().unwrap().len(),
+            1,
+            "the same admission observation must not dispatch a duplicate greeting"
+        );
+        assert!(service
+            .complete_admission_greeting("beacon")
+            .await
+            .is_none());
+
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
