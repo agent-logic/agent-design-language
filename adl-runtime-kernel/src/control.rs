@@ -2082,7 +2082,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             initiated_work_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
-            initiated_message: Some(intent.message.clone())
+            initiated_message: intent
+                .message
+                .clone()
                 .filter(|value| initiation.is_some() && !value.is_empty()),
             initiated_reply: None,
             reply: None,
@@ -2205,7 +2207,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_work_id.clone()),
-            initiated_message: Some(dispatch.intent.message.clone())
+            initiated_message: dispatch
+                .intent
+                .message
+                .clone()
                 .filter(|value| dispatch.initiation.is_some() && !value.is_empty()),
             initiated_reply: None,
             reply: None,
@@ -2407,7 +2412,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             initiated_turn_id: Some(intent.turn_id),
                                             initiated_correlation_id: Some(intent.correlation_id),
                                             initiated_work_id: Some(intent.work_id),
-                                            initiated_message: Some(intent.message),
+                                            initiated_message: intent.message,
                                             initiated_reply: initiated.reply,
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
@@ -2453,10 +2458,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.initiated_work_id.clone()),
-                                        initiated_message: Some(dispatch.intent.message.clone())
-                                            .filter(|value| {
+                                        initiated_message: dispatch.intent.message.clone().filter(
+                                            |value| {
                                                 dispatch.initiation.is_some() && !value.is_empty()
-                                            }),
+                                            },
+                                        ),
                                         initiated_reply: None,
                                         reply: Some(reply),
                                         accepted_sequence: Some(result.accepted_sequence),
@@ -7302,7 +7308,10 @@ mod layer8_conversation_ingress_tests {
             "turn-operator-asks-beacon:outbound"
         );
         assert_eq!(history.records[0].speaker_id, "operator");
-        assert_eq!(history.records[0].body, intent.message);
+        assert_eq!(
+            history.records[0].body,
+            intent.message.as_deref().expect("operator message")
+        );
         assert_eq!(
             history.records[1].message_id,
             "turn-operator-asks-beacon:reply"
@@ -7323,7 +7332,7 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(history.records[2].work_id, delivered.initiated_work_id);
         assert_eq!(
             history.records[2].body,
-            "Ember, please answer Beacon through governed A2A."
+            "Multipart governed handoff follows.\n\nEmber, please answer Beacon through governed A2A.\n\nInclude the welcome-package orientation receipt in your reasoning context."
         );
         assert_eq!(history.records[3].a2a_role.as_deref(), Some("reply"));
         assert_eq!(history.records[3].speaker_id, "agent:ember");
@@ -7349,7 +7358,7 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(initiated_history.records[0].speaker_id, "agent:beacon");
         assert_eq!(
             initiated_history.records[0].body,
-            "Ember, please answer Beacon through governed A2A."
+            "Multipart governed handoff follows.\n\nEmber, please answer Beacon through governed A2A.\n\nInclude the welcome-package orientation receipt in your reasoning context."
         );
         assert_eq!(initiated_history.records[1].speaker_id, "agent:ember");
         assert_eq!(
