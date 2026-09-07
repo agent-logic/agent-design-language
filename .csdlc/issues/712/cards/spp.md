@@ -16,7 +16,7 @@ Delete receipt choreography, make direct config validation authoritative, simpli
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 

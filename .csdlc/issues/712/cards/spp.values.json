@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
     "slug": "runtime-startup-simplification",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 15
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Delete receipt choreography, make direct config validation authoritative, simplify Guardian launch, implement atomic reload, prove behavior, deploy, and publish.",
       "steps": [
         {
@@ -65,7 +65,8 @@
         "adl/src/cli/csm_runtime_v3_cmd.rs",
         "adl-runtime/src/bin/adl-runtime-guardian.rs",
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-        "adl-runtime-kernel/src/config_generation.rs",
+        "adl-runtime-kernel/src/continuity.rs",
+        "adl-runtime-kernel/src/live_continuity.rs",
         "docs/tooling/START_CSM_RUNBOOK.md",
         ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh"
       ],
