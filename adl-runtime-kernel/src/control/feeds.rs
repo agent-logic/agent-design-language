@@ -57,8 +57,6 @@ pub struct RuntimeReadinessReport {
     pub runtime_process_id: u32,
     pub guardian_process_id: u32,
     pub active_init_hash: String,
-    pub config_generation: String,
-    pub config_receipt_digest: String,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub degraded_reasons: Vec<String>,
 }
