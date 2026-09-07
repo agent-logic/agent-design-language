@@ -11,9 +11,12 @@ use crate::{
 };
 
 pub const CONVERSATION_HISTORY_MESSAGE_PREFIX: &str = "history-message-jcs-hex:";
+pub const CONVERSATION_HISTORY_A2A_EXCHANGE_PREFIX: &str = "history-a2a-exchange-jcs-hex:";
 pub const CONVERSATION_HISTORY_REDACTION_PREFIX: &str = "history-redaction-jcs-hex:";
 pub const CONVERSATION_HISTORY_CURSOR_PREFIX: &str = "history-cursor-jcs-hex:";
 pub const CONVERSATION_HISTORY_SCHEMA: &str = "adl.runtime.conversation_history.v1";
+pub const CONVERSATION_HISTORY_A2A_EXCHANGE_SCHEMA: &str =
+    "adl.runtime.conversation_history.a2a_exchange.v1";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -24,6 +27,25 @@ pub struct ConversationHistoryMessage {
     pub speaker_id: String,
     pub body: String,
     pub created_at_epoch_ms: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ConversationHistoryA2aExchange {
+    pub schema: String,
+    pub conversation_id: String,
+    pub exchange_id: String,
+    pub sender_id: String,
+    pub recipient_id: String,
+    pub outbound_message_id: String,
+    pub outbound_body: String,
+    pub outbound_created_at_epoch_ms: u64,
+    pub reply_message_id: String,
+    pub reply_body: String,
+    pub reply_created_at_epoch_ms: u64,
+    pub status: String,
+    pub causal_id: String,
+    pub work_id: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -86,6 +108,18 @@ pub struct ConversationHistoryRecord {
     pub journal_sequence: u64,
     pub redacted: bool,
     pub redaction_reason: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub history_kind: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub a2a_role: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub causal_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sender_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recipient_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub work_id: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -166,6 +200,39 @@ impl ConversationHistoryStore {
                     hex::encode(payload)
                 )),
                 created_at_epoch_ms: message.created_at_epoch_ms,
+            })
+            .map_err(Into::into)
+    }
+
+    pub fn append_a2a_exchange(
+        &self,
+        principal_id: impl Into<String>,
+        authority_audit_hash: impl Into<String>,
+        exchange: ConversationHistoryA2aExchange,
+    ) -> ConversationHistoryResult<ConversationJournalRecord> {
+        validate_a2a_exchange(&exchange)?;
+        let principal_id = principal_id.into();
+        let authority_audit_hash = authority_audit_hash.into();
+        require_non_empty(&principal_id, "principal_id")?;
+        require_digest(&authority_audit_hash, "authority_audit_hash")?;
+        let payload = serde_jcs::to_vec(&exchange)
+            .map_err(|_| ConversationHistoryError::InvalidRequest("payload"))?;
+        let payload_hash = blake3::hash(&payload).to_hex().to_string();
+        self.journal
+            .append_event(ConversationJournalEvent {
+                event_id: format!(
+                    "history-a2a:{}:{}",
+                    exchange.conversation_id, exchange.exchange_id
+                ),
+                conversation_id: exchange.conversation_id,
+                principal_id,
+                authority_audit_hash,
+                payload_hash,
+                receipt_ref: Some(format!(
+                    "{CONVERSATION_HISTORY_A2A_EXCHANGE_PREFIX}{}",
+                    hex::encode(payload)
+                )),
+                created_at_epoch_ms: exchange.outbound_created_at_epoch_ms,
             })
             .map_err(Into::into)
     }
@@ -330,6 +397,7 @@ fn visible_records(
         return Ok(Vec::new());
     }
     let redactions = history_redactions(snapshot, conversation_id);
+    let mut projected_a2a = BTreeSet::new();
     let mut records = Vec::new();
     for record in &snapshot.records {
         let crate::ConversationJournalEntry::Event(event) = &record.entry else {
@@ -338,23 +406,78 @@ fn visible_records(
         if event.conversation_id != conversation_id || event.principal_id != policy.principal_id {
             continue;
         }
-        let Some(message) = decode_history_message(event) else {
+        if let Some(message) = decode_history_message(event) {
+            let redaction = redactions.get(&message.message_id);
+            records.push(ConversationHistoryRecord {
+                conversation_id: message.conversation_id,
+                message_id: message.message_id,
+                speaker_id: message.speaker_id,
+                body: if redaction.is_some() {
+                    "[redacted]".to_string()
+                } else {
+                    message.body
+                },
+                created_at_epoch_ms: message.created_at_epoch_ms,
+                journal_sequence: record.sequence.saturating_mul(2).saturating_sub(1),
+                redacted: redaction.is_some(),
+                redaction_reason: redaction.map(|value| value.reason.clone()),
+                history_kind: Some("conversation_turn".to_string()),
+                a2a_role: None,
+                causal_id: None,
+                sender_id: None,
+                recipient_id: None,
+                work_id: None,
+            });
+            continue;
+        }
+        let Some(exchange) = decode_history_a2a_exchange(event) else {
             continue;
         };
-        let redaction = redactions.get(&message.message_id);
+        if !projected_a2a.insert(exchange.exchange_id.clone()) {
+            continue;
+        }
+        let base_sequence = record.sequence.saturating_mul(2).saturating_sub(1);
+        let outbound_redaction = redactions.get(&exchange.outbound_message_id);
         records.push(ConversationHistoryRecord {
-            conversation_id: message.conversation_id,
-            message_id: message.message_id,
-            speaker_id: message.speaker_id,
-            body: if redaction.is_some() {
+            conversation_id: exchange.conversation_id.clone(),
+            message_id: exchange.outbound_message_id.clone(),
+            speaker_id: format!("agent:{}", exchange.sender_id),
+            body: if outbound_redaction.is_some() {
                 "[redacted]".to_string()
             } else {
-                message.body
+                exchange.outbound_body.clone()
             },
-            created_at_epoch_ms: message.created_at_epoch_ms,
-            journal_sequence: record.sequence,
-            redacted: redaction.is_some(),
-            redaction_reason: redaction.map(|value| value.reason.clone()),
+            created_at_epoch_ms: exchange.outbound_created_at_epoch_ms,
+            journal_sequence: base_sequence,
+            redacted: outbound_redaction.is_some(),
+            redaction_reason: outbound_redaction.map(|value| value.reason.clone()),
+            history_kind: Some("agent_to_agent_turn".to_string()),
+            a2a_role: Some("outbound".to_string()),
+            causal_id: Some(exchange.causal_id.clone()),
+            sender_id: Some(exchange.sender_id.clone()),
+            recipient_id: Some(exchange.recipient_id.clone()),
+            work_id: Some(exchange.work_id.clone()),
+        });
+        let reply_redaction = redactions.get(&exchange.reply_message_id);
+        records.push(ConversationHistoryRecord {
+            conversation_id: exchange.conversation_id,
+            message_id: exchange.reply_message_id,
+            speaker_id: format!("agent:{}", exchange.recipient_id),
+            body: if reply_redaction.is_some() {
+                "[redacted]".to_string()
+            } else {
+                exchange.reply_body
+            },
+            created_at_epoch_ms: exchange.reply_created_at_epoch_ms,
+            journal_sequence: base_sequence.saturating_add(1),
+            redacted: reply_redaction.is_some(),
+            redaction_reason: reply_redaction.map(|value| value.reason.clone()),
+            history_kind: Some("agent_to_agent_turn".to_string()),
+            a2a_role: Some("reply".to_string()),
+            causal_id: Some(exchange.causal_id),
+            sender_id: Some(exchange.sender_id),
+            recipient_id: Some(exchange.recipient_id),
+            work_id: Some(exchange.work_id),
         });
     }
     Ok(records)
@@ -392,6 +515,23 @@ fn decode_history_message(event: &ConversationJournalEvent) -> Option<Conversati
         && message.schema == CONVERSATION_HISTORY_SCHEMA
         && message.conversation_id == event.conversation_id)
         .then_some(message)
+}
+
+fn decode_history_a2a_exchange(
+    event: &ConversationJournalEvent,
+) -> Option<ConversationHistoryA2aExchange> {
+    let encoded = event
+        .receipt_ref
+        .as_ref()?
+        .strip_prefix(CONVERSATION_HISTORY_A2A_EXCHANGE_PREFIX)?;
+    let bytes = hex::decode(encoded).ok()?;
+    let exchange: ConversationHistoryA2aExchange = serde_json::from_slice(&bytes).ok()?;
+    let canonical = serde_jcs::to_vec(&exchange).ok()?;
+    let digest = blake3::hash(&canonical).to_hex().to_string();
+    (digest == event.payload_hash
+        && exchange.schema == CONVERSATION_HISTORY_A2A_EXCHANGE_SCHEMA
+        && exchange.conversation_id == event.conversation_id)
+        .then_some(exchange)
 }
 
 fn decode_history_redaction(
@@ -471,6 +611,29 @@ fn validate_message(message: &ConversationHistoryMessage) -> ConversationHistory
     require_non_empty(&message.message_id, "message_id")?;
     require_non_empty(&message.speaker_id, "speaker_id")?;
     require_non_empty(&message.body, "body")?;
+    Ok(())
+}
+
+fn validate_a2a_exchange(
+    exchange: &ConversationHistoryA2aExchange,
+) -> ConversationHistoryResult<()> {
+    if exchange.schema != CONVERSATION_HISTORY_A2A_EXCHANGE_SCHEMA {
+        return Err(ConversationHistoryError::InvalidRequest("schema"));
+    }
+    require_non_empty(&exchange.conversation_id, "conversation_id")?;
+    require_non_empty(&exchange.exchange_id, "exchange_id")?;
+    require_non_empty(&exchange.sender_id, "sender_id")?;
+    require_non_empty(&exchange.recipient_id, "recipient_id")?;
+    require_non_empty(&exchange.outbound_message_id, "outbound_message_id")?;
+    require_non_empty(&exchange.outbound_body, "outbound_body")?;
+    require_non_empty(&exchange.reply_message_id, "reply_message_id")?;
+    require_non_empty(&exchange.reply_body, "reply_body")?;
+    require_non_empty(&exchange.status, "status")?;
+    require_non_empty(&exchange.causal_id, "causal_id")?;
+    require_non_empty(&exchange.work_id, "work_id")?;
+    if exchange.sender_id == exchange.recipient_id {
+        return Err(ConversationHistoryError::InvalidRequest("recipient_id"));
+    }
     Ok(())
 }
 

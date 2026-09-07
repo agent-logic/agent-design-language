@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 713,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
+    "slug": "runtime-a2a-conversation-history",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/prepared/issues/713/design.md\n.csdlc/prepared/issues/713/diagram.mmd",
+      "review_revision": "git-blake3:2e629b108c6795a5b9636dc222dd88fe3f92a30b:bd6e420197c3ebf19955b54ab7357beabdfc5a042c83f167ce54481144d9f3d2",
+      "reviewer": "subagent:/root/review_713_a2a_history_r1",
+      "review_prompts": [
+        "Can both halves be reconstructed from Runtime-authoritative evidence?",
+        "Is the path identical for all agents?",
+        "Can replay, restart, or rehydration duplicate or misattribute a turn?",
+        "Does the API redact private provider and prompt data?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live Wuji Runtime/ACIP proof remains deferred unless explicitly operator-authorized with ADL_LIVE_WUJI_A2A_HISTORY=1.",
+        "The re-review scope is limited to prepared artifact whitespace cleanup and typed lifecycle metadata recovery; Runtime/Observatory product behavior was previously reviewed and unchanged by this hygiene tail."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
