@@ -138,12 +138,31 @@ impl ShutdownPolicy {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::ops::Deref;
     use std::sync::atomic::{AtomicU64, Ordering};
     use std::time::{SystemTime, UNIX_EPOCH};
 
     static FIXTURE_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
-    fn init_file() -> PathBuf {
+    struct TestInitFile(PathBuf);
+
+    impl Deref for TestInitFile {
+        type Target = PathBuf;
+
+        fn deref(&self) -> &Self::Target {
+            &self.0
+        }
+    }
+
+    impl Drop for TestInitFile {
+        fn drop(&mut self) {
+            if let Some(parent) = self.0.parent() {
+                let _ = std::fs::remove_dir_all(parent);
+            }
+        }
+    }
+
+    fn init_file() -> TestInitFile {
         init_file_with_shutdown(5_000, 10_000, 3_000, 500)
     }
 
@@ -152,7 +171,7 @@ mod tests {
         kernel_grace_millis: u64,
         api_drain_millis: u64,
         guardian_margin_millis: u64,
-    ) -> PathBuf {
+    ) -> TestInitFile {
         let unique = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("time")
@@ -200,7 +219,7 @@ configuration_exit_codes = [64]
             ),
         )
         .unwrap();
-        path
+        TestInitFile(path)
     }
 
     #[test]
