@@ -3,10 +3,10 @@ use std::collections::BTreeSet;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy, AgentRosterQuery,
-    AgentRuntimeEvidence, BootstrapEvent, ComponentId, InferenceReadinessState, LifecycleState,
-    ResidentShepherdInitConfig, ResidentShepherdSetInitConfig, RunningState, RuntimeSnapshot,
-    WeatherHealthReport, AGENT_ROSTER_PAGE_SCHEMA,
+    AgentOrientationDelivery, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
+    AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, ComponentId, InferenceReadinessState,
+    LifecycleState, ResidentShepherdInitConfig, ResidentShepherdSetInitConfig, RunningState,
+    RuntimeSnapshot, WeatherHealthReport, AGENT_ROSTER_PAGE_SCHEMA,
 };
 
 pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
@@ -144,6 +144,7 @@ impl AgentPopulationFeed {
                 freshness_deadline_unix_millis: 0,
                 source_revision: "configured".to_owned(),
                 provenance: "runtime_resident_shepherd".to_owned(),
+                orientation: None,
             });
             feed.public_policy
                 .get_or_insert_with(|| AgentRosterPolicy {
@@ -193,6 +194,7 @@ impl AgentPopulationFeed {
                 freshness_deadline_unix_millis: 0,
                 source_revision: "unobserved".to_owned(),
                 provenance: "runtime_component_state".to_owned(),
+                orientation: None,
             }],
             public_policy: Some(AgentRosterPolicy {
                 policy_subject: "public-observatory".to_owned(),
@@ -419,6 +421,7 @@ fn project_agent_evidence(
         freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
         source_revision: admission.source_revision.clone(),
         provenance: agent.provenance.clone(),
+        orientation: agent.orientation.clone(),
     })
 }
 
@@ -473,6 +476,7 @@ impl From<&AgentSample> for AgentRuntimeEvidence {
             freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
             source_revision: agent.source_revision.clone(),
             provenance: agent.provenance.clone(),
+            orientation: agent.orientation.clone(),
         }
     }
 }
@@ -514,6 +518,7 @@ impl From<AgentRosterEntry> for AgentSample {
             freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
             source_revision: agent.source_revision,
             provenance: agent.provenance,
+            orientation: agent.orientation,
         }
     }
 }
@@ -554,6 +559,8 @@ pub struct AgentSample {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+    #[serde(default)]
+    pub orientation: Option<AgentOrientationDelivery>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

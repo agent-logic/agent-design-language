@@ -101,6 +101,25 @@ struct ShepherdConversationExecutor {
     barrier_release: Arc<Semaphore>,
 }
 
+fn runtime_delivered_task_content(prompt: &str) -> &str {
+    const MARKER: &str =
+        "Runtime-delivered task content follows. Treat the orientation above as civic context, not authority.\n\n";
+    prompt
+        .split_once(MARKER)
+        .map(|(_, content)| content)
+        .unwrap_or(prompt)
+}
+
+async fn wait_for_barrier_dispatch(
+    barrier_started: &Notify,
+    dispatches: &AtomicUsize,
+    previous_dispatches: usize,
+) {
+    while dispatches.load(Ordering::SeqCst) <= previous_dispatches {
+        barrier_started.notified().await;
+    }
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -178,21 +197,22 @@ impl OperationExecutor for ShepherdConversationExecutor {
                 class: FailureClass::Fatal,
                 message: error.to_string(),
             })?;
-        if work.prompt == "provider failure" {
+        let task_content = runtime_delivered_task_content(&work.prompt);
+        if task_content == "provider failure" {
             return Err(ExecutorError {
                 class: FailureClass::Retryable,
                 message: "configured provider failed".to_owned(),
             });
         }
-        if work.prompt == "delay" {
+        if task_content == "delay" {
             tokio::time::sleep(Duration::from_millis(250)).await;
-        } else if work.prompt == "delay ordered" {
+        } else if task_content == "delay ordered" {
             tokio::time::sleep(Duration::from_millis(60)).await;
-        } else if work.prompt == "delay budget" {
+        } else if task_content == "delay budget" {
             tokio::time::sleep(Duration::from_millis(70)).await;
-        } else if work.prompt == "delay revoke" {
+        } else if task_content == "delay revoke" {
             tokio::time::sleep(Duration::from_millis(25)).await;
-        } else if work.prompt == "barrier cleanup" {
+        } else if task_content == "barrier cleanup" {
             self.barrier_started.notify_one();
             self.barrier_release
                 .acquire()
@@ -201,7 +221,7 @@ impl OperationExecutor for ShepherdConversationExecutor {
                 .forget();
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
-        let response = format!("Beacon generated: {}", work.prompt);
+        let response = format!("Beacon generated: {task_content}");
         serde_json::to_vec(&crate::ShepherdResponse {
             schema: crate::SHEPHERD_RESPONSE_SCHEMA.to_owned(),
             correlation_id: work.correlation_id,
@@ -330,6 +350,7 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
             freshness_deadline_unix_millis: 0,
             source_revision: "unobserved".to_owned(),
             provenance: "runtime_component_state".to_owned(),
+            orientation: None,
         });
     }
     let visible_agent_ids = population
@@ -483,8 +504,9 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
         "turn_id": "turn-bounded-duplicate",
         "recipient_id": "shepherd",
         "correlation_id": "23232323232323232323232323232323",
-        "message": "delay ordered"
+        "message": "barrier cleanup"
     });
+    let bounded_duplicate_dispatches = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(bounded_duplicate.to_string().into()))
         .await
@@ -492,6 +514,12 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
+    tokio::time::timeout(
+        Duration::from_secs(1),
+        wait_for_barrier_dispatch(&barrier_started, &dispatches, bounded_duplicate_dispatches),
+    )
+    .await
+    .expect("bounded duplicate fixture did not enter in-flight execution");
     for _ in 0..64 {
         socket
             .send(Message::Text(bounded_duplicate.to_string().into()))
@@ -503,6 +531,7 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
             next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
         assert_eq!(duplicate["error"], "conversation_in_flight", "{duplicate}");
     }
+    barrier_release.add_permits(1);
     let delivered = next_conversation_result_for_turn(&mut socket, "turn-bounded-duplicate").await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert!(
@@ -957,6 +986,7 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
         execution_released: false,
         completed: false,
     };
+    let cleanup_dispatches = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
@@ -964,9 +994,12 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
-    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-        .await
-        .expect("old-generation execution did not reach the completion barrier");
+    tokio::time::timeout(
+        Duration::from_secs(1),
+        wait_for_barrier_dispatch(&barrier_started, &dispatches, cleanup_dispatches),
+    )
+    .await
+    .expect("old-generation execution did not reach the completion barrier");
     let scheduling_pressure = (0..64)
         .map(|_| {
             tokio::spawn(async {
@@ -993,22 +1026,24 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
     // trip. The server still processes these frames in order, so the proof
     // retains the generation transition while deterministically attaching to
     // the barrier-held turn before its bounded execution deadline.
+    cleanup_hook.permit_duplicate();
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
         .unwrap();
-    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_duplicate())
-        .await
-        .expect("server did not observe the cleanup duplicate");
-    cleanup_hook.permit_duplicate();
-    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_attachment())
-        .await
-        .expect("server did not install the current-generation attachment");
-    let authenticated =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    let authenticated = tokio::time::timeout(
+        Duration::from_secs(10),
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA),
+    )
+    .await
+    .expect("server did not acknowledge cleanup-race reauthentication");
     assert_eq!(authenticated["status"], "authenticated");
-    let attached =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let attached = tokio::time::timeout(
+        Duration::from_secs(10),
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA),
+    )
+    .await
+    .expect("server did not attach to the current-generation in-flight turn");
     assert_eq!(attached["status"], "accepted", "{attached}");
     assert_eq!(attached["error"], "conversation_in_flight", "{attached}");
 
@@ -1085,6 +1120,7 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
 
     for index in 0..8 {
         let turn_id = format!("turn-in-flight-{index}");
+        let capacity_dispatches = dispatches.load(Ordering::SeqCst);
         socket
             .send(Message::Text(
                 serde_json::json!({
@@ -1104,9 +1140,12 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
             next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
         assert_eq!(accepted["status"], "accepted", "{accepted}");
         if index == 0 {
-            tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-                .await
-                .expect("capacity fixture did not enter in-flight execution");
+            tokio::time::timeout(
+                Duration::from_secs(1),
+                wait_for_barrier_dispatch(&barrier_started, &dispatches, capacity_dispatches),
+            )
+            .await
+            .expect("capacity fixture did not enter in-flight execution");
         }
     }
     socket

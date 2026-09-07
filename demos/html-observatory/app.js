@@ -1724,7 +1724,9 @@ const FORBIDDEN_CONVERSATION_HISTORY_FIELDS = [
   "private_key",
   "signature",
   "correlation_id",
-  "result_hash"
+  "result_hash",
+  "provider_payload",
+  "raw_provider_payload"
 ];
 
 function safeConversationHistoryText(value, fallback = "[redacted]") {
@@ -1735,6 +1737,18 @@ function safeConversationHistoryText(value, fallback = "[redacted]") {
     return fallback;
   }
   return text.slice(0, 4096);
+}
+
+function safeConversationHistoryId(value, fallback = null) {
+  const text = typeof value === "string" ? value : "";
+  if (!text.trim()) return fallback;
+  const normalized = text.slice(0, 256);
+  if (!/^[A-Za-z0-9:._@/-]+$/.test(normalized)) return fallback;
+  const lower = normalized.toLowerCase();
+  if (FORBIDDEN_CONVERSATION_HISTORY_FIELDS.some((field) => lower.includes(field))) {
+    return fallback;
+  }
+  return normalized;
 }
 
 function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
@@ -1760,16 +1774,31 @@ function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
       return { accepted: false, reason: "non_monotonic_runtime_history" };
     }
     lastSequence = sequence;
-    records.push({
+    const normalized = {
       conversation_id: history.conversation_id,
-      message_id: String(record.message_id || record.turn_id || `history-${sequence}`),
+      message_id: safeConversationHistoryId(record.message_id || record.turn_id || `history-${sequence}`, `history-${sequence}`),
       speaker_id: safeConversationHistoryText(record.speaker_id || "runtime"),
       body: record.redacted ? "[redacted]" : safeConversationHistoryText(record.body),
       status: record.redacted ? "redacted" : safeConversationHistoryText(record.status || "restored"),
       turn_sequence: sequence,
       redacted: record.redacted === true,
       redaction_reason: record.redaction_reason ? safeConversationHistoryText(record.redaction_reason) : null
-    });
+    };
+    for (const [target, source] of [
+      ["history_kind", record.history_kind],
+      ["turn_id", record.turn_id],
+      ["causal_id", record.causal_id],
+      ["sender_id", record.sender_id],
+      ["recipient_id", record.recipient_id],
+      ["work_id", record.work_id],
+      ["parent_conversation_id", record.parent_conversation_id],
+      ["parent_turn_id", record.parent_turn_id],
+      ["a2a_role", record.a2a_role]
+    ]) {
+      const safe = safeConversationHistoryId(source);
+      if (safe) normalized[target] = safe;
+    }
+    records.push(normalized);
   }
   return {
     accepted: true,
@@ -2220,6 +2249,31 @@ function normalizeMetricRows(metrics = {}) {
   return rows.length ? rows : [{ label: "metrics", value: "not exposed" }];
 }
 
+function normalizeAgentOrientation(orientation = null) {
+  if (!orientation || typeof orientation !== "object") return null;
+  const schema = typeof orientation.schema === "string" ? orientation.schema : "";
+  const digest = typeof orientation.digest === "string" ? orientation.digest : "";
+  const version = typeof orientation.version === "string" ? orientation.version : "";
+  const sourcePath = typeof orientation.source_path === "string" ? orientation.source_path : "";
+  const projection = typeof orientation.projection === "string" ? orientation.projection : "";
+  const digestAlgorithm = typeof orientation.digest_algorithm === "string" ? orientation.digest_algorithm : "";
+  if (schema !== "adl.runtime_v3.agent_orientation_delivery.v1" || !version || !sourcePath || !projection || digestAlgorithm !== "blake3" || !/^[a-fA-F0-9]{64}$/.test(digest)) {
+    return null;
+  }
+  return {
+    version,
+    digestAlgorithm,
+    digest: digest.toLowerCase(),
+    sourcePath,
+    projection
+  };
+}
+
+function formatAgentOrientation(orientation = null) {
+  if (!orientation) return "Not recorded";
+  return `${orientation.version} / ${orientation.digestAlgorithm}:${orientation.digest.slice(0, 12)} / ${orientation.projection} / non-authoritative`;
+}
+
 function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics = {}, events = [], packet = FALLBACK_PACKET } = {}) {
   const hasApiStatus = Object.keys(status || {}).length > 0 && !status.__load_error;
   const retainedCitizens = asArray(packet.citizens);
@@ -2277,7 +2331,8 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       observedAtUnixMillis: Number(agent.observed_at_unix_millis || 0),
       freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
       sourceRevision: agent.source_revision || "unknown",
-      provenance: agent.provenance || "unknown"
+      provenance: agent.provenance || "unknown",
+      orientation: normalizeAgentOrientation(agent.orientation)
     }));
   }
 
@@ -2494,6 +2549,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
         <div><dt>Last S3 archive</dt><dd>${escapeHtml(selected.lastArchiveAtUnixMillis ? formatTimestampLabel(selected.lastArchiveAtUnixMillis) : "Never")}</dd></div>
         <div><dt>Archive state</dt><dd>${escapeHtml(formatLabel(selected.archiveState))}${selected.pendingArchiveCount ? ` (${escapeHtml(selected.pendingArchiveCount)} pending)` : ""}</dd></div>
         <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
+        <div><dt>Orientation package</dt><dd>${escapeHtml(formatAgentOrientation(selected.orientation))}</dd></div>
         <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
       </dl>
     ` : `
@@ -3859,6 +3915,7 @@ globalThis.AdlHtmlObservatory = {
   normalizeRuntimeConversationHistorySnapshot,
   restoreConversationTranscriptFromRuntimeHistory,
   safeConversationHistoryText,
+  safeConversationHistoryId,
   isSafeGovernedRoomIdentifier,
   normalizeGovernedRoomParticipants,
   normalizeExplicitGovernedRoomRecipients,
@@ -3892,6 +3949,8 @@ globalThis.AdlHtmlObservatory = {
   applyRuntimeV3Config,
   isRuntimeV3ApiBase,
   normalizeTrustedRuntimeV3ApiBase,
+  normalizeAgentOrientation,
+  formatAgentOrientation,
   buildRuntimeAgentRows,
   acceptRuntimeRosterSnapshot,
   runtimeRosterCursorState,

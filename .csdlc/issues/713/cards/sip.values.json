@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 713,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
+    "slug": "runtime-a2a-conversation-history",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make complete A2A exchanges durable, recoverable, and correctly attributable.",
+      "required_outcome": "Runtime and Observatory can reconstruct both sides of every governed A2A turn after reconnect, restart, checkpoint, or rehydration.",
+      "declared_scope": [
+        "Runtime conversation and A2A history",
+        "ACIP correlation and audit projection",
+        "authenticated history API and OpenAPI",
+        "Observatory transcript recovery",
+        "focused and live tests"
+      ],
+      "authority_boundary": [
+        "#713 owns A2A transcript persistence and recovery",
+        "#707 retains ownership of its delivery and startup fixes",
+        "Runtime history remains authoritative"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "All agents use the same communication path",
+        "No Shepherd-specific behavior",
+        "Never write implementation on main",
+        "Preserve authentication, signed ACIP identity, replay protection, and redaction"
+      ]
+    }
+  }
+}
