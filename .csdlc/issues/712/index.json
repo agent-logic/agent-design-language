@@ -5,20 +5,19 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a82fe3a92bb3a06498cc389719d48bf463334badcf8473a4678d2e9e43832e89",
   "phase": "published",
-  "generation": 18,
-  "digest": "bd49abd43ad97416e5e730e0642392031928f08dd6b5e719fe89d99e8fe07318",
+  "generation": 21,
+  "digest": "75ec1daadd1140b07cb121f2adf3508b784f83783ef4906c1e6d983926ac857a",
   "branch": "codex/712-runtime-startup-simplification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-712-runtime-startup-simplification",
   "review_assignment": {
     "reviewer": "codex:/root/review_712_startup_simplification",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:4f7ea161331068d5142a922d05e68af78a85addf:81d9db568431c609e883c6115d4d8bc3cf5d608ba8ec438cf259763deaac88e1",
+    "revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
     "scope": [
       ".csdlc/prepared/issues/712/design.md",
       ".csdlc/prepared/issues/712/diagram.mmd",
       ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config_generation.rs",
       "adl-runtime-kernel/src/continuity.rs",
       "adl-runtime-kernel/src/live_continuity.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -33,7 +32,6 @@
       "adl-runtime/tests/runtime_guardian_lifecycle.rs",
       "adl/src/cli/csm_runtime_v3_cmd.rs",
       "adl/src/lib.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
       "docs/tooling/START_CSM_RUNBOOK.md"
     ]
   },
@@ -44,7 +42,6 @@
       ".csdlc/prepared/issues/712/diagram.mmd",
       ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config_generation.rs",
       "adl-runtime-kernel/src/continuity.rs",
       "adl-runtime-kernel/src/live_continuity.rs",
       "adl-runtime-kernel/src/control.rs",
@@ -59,10 +56,9 @@
       "adl-runtime/tests/runtime_guardian_lifecycle.rs",
       "adl/src/cli/csm_runtime_v3_cmd.rs",
       "adl/src/lib.rs",
-      "adl/tests/csm_runtime_v3_generation.rs",
       "docs/tooling/START_CSM_RUNBOOK.md"
     ],
-    "reviewed_revision": "git-blake3:4f7ea161331068d5142a922d05e68af78a85addf:81d9db568431c609e883c6115d4d8bc3cf5d608ba8ec438cf259763deaac88e1",
+    "reviewed_revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
     "findings": [],
     "residual_risks": [],
     "completed": true,
@@ -75,7 +71,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/716",
     "base": "main",
     "head": "codex/712-runtime-startup-simplification",
-    "revision": "git-blake3:4f7ea161331068d5142a922d05e68af78a85addf:81d9db568431c609e883c6115d4d8bc3cf5d608ba8ec438cf259763deaac88e1",
+    "revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -93,32 +89,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5ca0f23942d0bebe96250fce80b1fb3d3cef598a5b4e91d0f71b9ce473c58c94",
+      "values_digest": "18674b3554d656e8241150d9a8f585a1bc53c05de0a8d8dbe5e0afc7212bee63",
       "rendered_digest": "11caefa459914b878b13a04ca51a48ab7ba7c2ba7b4d98648bdd81b8e1394e43",
       "ast_digest": "06f6ee6a1ccb2587675aab58fe0b375209e112cad6fe24fd60efb3dbdf25f46a"
     },
     "stp": {
-      "values_digest": "77c16eadcc61f7d966bb7b8cb51ff82a0c652739f2c625f4ca1c3f39ea949583",
+      "values_digest": "de2a376c1cba0273f1c107e11f1336ee94e90d245e86064899268a3b20acecc4",
       "rendered_digest": "05cffc2ae92fd2977fc12b68f5d34b8e48cb4d6d630a0ccc2c7d6931c8e7d488",
       "ast_digest": "8219b9adcd5190c6efe95eec5c428f0a7e70cf9ed35e8f1688cdaf0ff5f1f996"
     },
     "spp": {
-      "values_digest": "21f0f84142a41da8d8d75d3bf2900bbf3fb5b57bbe5b2cb2a596d9c4bbf19ec2",
+      "values_digest": "93f515800e6d30490c25199fef33fcf73066e694a052d945c32ee96bf3cb7dcd",
       "rendered_digest": "fe7b1f4802a74c6b166e75ea70cad3c462c57e995b39dac04cf65517f113713b",
       "ast_digest": "c3febd24c60255181ff52481247577017dfabab8463f0f1f88f2441c6e542d02"
     },
     "vpp": {
-      "values_digest": "a8c1c5677d35eb6f087882b4410b649d60a0488b937219be2b10756de8f342dd",
+      "values_digest": "9cf5b8eb23e02d1a910a3327bb89b96a566f7cb135c2baa3de502004ca534070",
       "rendered_digest": "89ad39cbe1281e30ec8ea69f91effc2de186e0d5393037c7cb48b92fc285cc29",
       "ast_digest": "07e9f0fe031429cebd9022af41a2095eb7355840bb460a4d288272db6ba99605"
     },
     "srp": {
-      "values_digest": "ffcf4283a859fb59c6165094043f0e067752baeb6697d562246a73fed4447ae4",
-      "rendered_digest": "9193257b19a68ed4ea7b982ac5f52ebbd7396eb61a2faa615d45be4008dddf9d",
-      "ast_digest": "76c47dd4f8c179105c628ccac2959ed2aa6a7616b8ff43adc51c70afaf374bfb"
+      "values_digest": "d10a83bb57509a5ece92d7ff415cca2d9c1b238049ea93980c9612273dec23b2",
+      "rendered_digest": "d166f82143e23309ed5c5a891cfeb4e5d460122e48f5e4c03c456a018e823166",
+      "ast_digest": "06884a4f09953ef8ad628ea3a25b4853df6ca03fd6ea985cafff5aa977f77079"
     },
     "sor": {
-      "values_digest": "bb8adc76578007c21fb7ee6757d8eabca5f06cb20e3fa629653381d4ad2af9a6",
+      "values_digest": "7d669e48ea94d691d95847b85c0f150d43caa6986a4a04a5d3eda5a58d531ff1",
       "rendered_digest": "4ad8d429cae0644a735725acccc013872d8e56f27bf8776fff2194896a54e551",
       "ast_digest": "7090702292938c83a68f954a8251f8418f0f55e7822111cb42d1ff0d25769b82"
     }
@@ -196,6 +192,27 @@
     },
     {
       "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review truth after the origin/main merge and final strict-Clippy repair on PR #716."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_712_startup_simplification",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root",
@@ -367,6 +384,34 @@
     {
       "sequence": 24,
       "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review truth after the origin/main merge and final strict-Clippy repair on PR #716.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root/review_712_startup_simplification",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
