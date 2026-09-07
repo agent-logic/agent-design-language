@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
     "slug": "runtime-startup-simplification",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Runtime startup, supervision, direct config validation/hash reporting, atomic reload, and retained behavior only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/712/design.md\n.csdlc/prepared/issues/712/diagram.mmd\n.csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/continuity.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/continuity.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/src/lib.rs\nadl/tests/csm_runtime_v3_generation.rs\ndocs/tooling/START_CSM_RUNBOOK.md",
+      "review_revision": "git-blake3:8fbd9c9424368d3d6c14727915593462066d994f:769b67f1885b9bc66b4e85368605db36fda6c955732f1bc009e9f89905aee5a4",
+      "reviewer": "codex:/root/review_712_startup_simplification",
       "review_prompts": [
         "Is any receipt choreography still required for ordinary startup?",
         "Can invalid config bind a listener?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

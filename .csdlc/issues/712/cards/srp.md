@@ -8,11 +8,31 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Runtime startup, supervision, direct config validation/hash reporting, atomic reload, and retained behavior only.
+.csdlc/prepared/issues/712/design.md
+.csdlc/prepared/issues/712/diagram.mmd
+.csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config_generation.rs
+adl-runtime-kernel/src/continuity.rs
+adl-runtime-kernel/src/live_continuity.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/continuity.rs
+adl-runtime-kernel/tests/guardian_soak.rs
+adl-runtime-kernel/tests/parity_b_live_kernel.rs
+adl-runtime-kernel/tests/production_acip_wss.rs
+adl-runtime/src/bin/adl-runtime-guardian.rs
+adl-runtime/tests/guardian_cli.rs
+adl-runtime/tests/runtime_guardian_lifecycle.rs
+adl/src/cli/csm_runtime_v3_cmd.rs
+adl/src/lib.rs
+adl/tests/csm_runtime_v3_generation.rs
+docs/tooling/START_CSM_RUNBOOK.md
 
 ## Prompts
 
@@ -35,8 +55,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8fbd9c9424368d3d6c14727915593462066d994f:769b67f1885b9bc66b4e85368605db36fda6c955732f1bc009e9f89905aee5a4")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_712_startup_simplification")
 
-Result: pre_review
+Result: pass

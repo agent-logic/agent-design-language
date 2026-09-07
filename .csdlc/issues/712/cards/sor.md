@@ -67,12 +67,25 @@ Simplified Runtime startup to one canonical init, one canonical Kernel binary, a
     "purpose": "Prove the simplified CSM accepts the live canonical Guardian, init, and Kernel topology and reports owned readiness without receipt fields.",
     "outcome": "passed",
     "evidence_ref": "terminal:service_loaded true, listener_ready true, observability_ready true"
+  },
+  {
+    "command": [
+      "csm",
+      "runtime-v3",
+      "reload",
+      "--init",
+      "/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/runtime-init.toml",
+      "--json"
+    ],
+    "purpose": "Prove the simplified exact build relaunches under Guardian, restores signed continuity across compatible config-hash drift, reports direct active-init hash readiness, and restores the complete model-backed agent population with orientation metadata.",
+    "outcome": "passed",
+    "evidence_ref": "live-wuji: generation issue-712-8fbd9c942; service_loaded=true; listener_ready=true; observability_ready=true; six agents restored and healthy; Signal orientation digest ace402b9"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
