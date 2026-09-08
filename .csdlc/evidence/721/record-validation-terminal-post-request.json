@@ -1,0 +1,26 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "33961ba8b93ddf5effb4392ae0c05192c284cf8b9b48260c4f92e551f08cb10b",
+  "actor": "Worker #7",
+  "reason": "record post-cutover terminal authority-reporting validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "terminal_cleanup_cutover_commands",
+        "post_cutover_finish_persists_typed_state_and_receipt_idempotently"
+      ],
+      "purpose": "focused post-cutover terminal finish authority-reporting regression",
+      "outcome": "passed",
+      "evidence_ref": "terminal output 2026-09-08 in bound worktree: 1 passed"
+    }
+  }
+}

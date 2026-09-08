@@ -1,0 +1,22 @@
+{
+  "issue": 721,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "35ae1b885ac6c36b0a07ec7e1ffc5021fba78e2c303d4d391452a0be2913f039",
+  "actor": "Worker #7",
+  "reason": "repair design readiness by replacing prose affected areas with safe repository-owned paths",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/README.md",
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+    ]
+  }
+}

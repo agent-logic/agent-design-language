@@ -1,0 +1,25 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "609a7ec4037791416e624d5375d8c59af4dd7a24036d96d03db894fd4f6f3d34",
+  "actor": "Worker #7",
+  "reason": "record Rust formatting validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "purpose": "Rust formatting",
+      "outcome": "passed",
+      "evidence_ref": "terminal output 2026-09-08 in bound worktree: fmt check passed"
+    }
+  }
+}

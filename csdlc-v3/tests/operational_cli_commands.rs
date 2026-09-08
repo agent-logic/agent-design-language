@@ -8,8 +8,8 @@ use std::{
 use csdlc_v3::commands::{
     local::{required_local_commands, LocalPreparationRequest},
     remote::{
-        canonical_authority_selector_digest, OperationalRemoteDispatchRequest,
-        OperationalRemoteOperation, RemoteRouteRequest,
+        canonical_authority_selector_digest, GithubMutation, GithubMutationRequest,
+        OperationalRemoteDispatchRequest, OperationalRemoteOperation, RemoteRouteRequest,
     },
     terminal::{CutoverDecisionRequest, CutoverOperation, TerminalRouteRequest},
 };
@@ -390,6 +390,85 @@ fn remote_operational_dispatch_is_reachable_and_fails_closed_under_v2_selector()
         String::from_utf8_lossy(&output.stderr).contains("canonical_v3_authority_inactive"),
         "{}",
         String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
+fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
+    let fixture = operational_fixture("github-route-family");
+    let head = git(&fixture.root, &["rev-parse", "HEAD"]);
+    let issue_create = OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: canonical_authority_selector_digest(&fixture.root)
+            .expect("selector digest"),
+        exact_review_sha: head.clone(),
+        operation: OperationalRemoteOperation::GithubMutation(GithubMutationRequest {
+            repository: "agent-logic/agent-design-language".into(),
+            issue: 0,
+            pull_request: None,
+            cutover_issue: Some(505),
+            operator_approval: Some("test route ownership".into()),
+            expected_head_sha: head.clone(),
+            credential_names: vec!["GITHUB_TOKEN".into()],
+            mutation: GithubMutation::IssueCreate {
+                title: "new issue".into(),
+                body: "body".into(),
+                labels: vec![],
+                assignees: vec![],
+                milestone: None,
+            },
+        }),
+    };
+    let issue_path = fixture.root.join("issue-create-dispatch.json");
+    fs::write(&issue_path, serde_json::to_vec(&issue_create).unwrap()).unwrap();
+    let wrong_pr_route = run(
+        &[
+            "github-pr",
+            "--request",
+            issue_path.to_str().unwrap(),
+            "--execute",
+        ],
+        &fixture.root,
+    );
+    assert!(!wrong_pr_route.status.success(), "{wrong_pr_route:?}");
+    assert!(
+        String::from_utf8_lossy(&wrong_pr_route.stderr)
+            .contains("operational_remote_route_mismatch"),
+        "{}",
+        String::from_utf8_lossy(&wrong_pr_route.stderr)
+    );
+
+    let pr_ready = OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: canonical_authority_selector_digest(&fixture.root)
+            .expect("selector digest"),
+        exact_review_sha: head.clone(),
+        operation: OperationalRemoteOperation::GithubMutation(GithubMutationRequest {
+            repository: "agent-logic/agent-design-language".into(),
+            issue: 505,
+            pull_request: Some(591),
+            cutover_issue: Some(505),
+            operator_approval: Some("test route ownership".into()),
+            expected_head_sha: head,
+            credential_names: vec!["GITHUB_TOKEN".into()],
+            mutation: GithubMutation::PullRequestReady,
+        }),
+    };
+    let pr_path = fixture.root.join("pr-ready-dispatch.json");
+    fs::write(&pr_path, serde_json::to_vec(&pr_ready).unwrap()).unwrap();
+    let wrong_issue_route = run(
+        &[
+            "github-issue",
+            "--request",
+            pr_path.to_str().unwrap(),
+            "--execute",
+        ],
+        &fixture.root,
+    );
+    assert!(!wrong_issue_route.status.success(), "{wrong_issue_route:?}");
+    assert!(
+        String::from_utf8_lossy(&wrong_issue_route.stderr)
+            .contains("operational_remote_route_mismatch"),
+        "{}",
+        String::from_utf8_lossy(&wrong_issue_route.stderr)
     );
 }
 

@@ -1,0 +1,22 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v3-defect-proof-shadow-install-tests-20260908",
+  "issue": null,
+  "pull_request": null,
+  "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
+  "body": "## Summary\n\nThe full C-SDLC v3 validation suite is not green. A focused v3 remote test pass succeeds, but `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` fails in the proof/shadow/install integration surface.\n\n## Evidence\n\nObserved in the v3 issue-creation repair worktree `/Volumes/FastWork/adl-worktrees/adl-v3-issue-creation-docs`:\n\n```sh\ncargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets\n```\n\nFailures observed:\n\n- `tests/proof_parity_install_commands.rs::install_route_is_one_binary_plan_gated_by_505` panicked with `blocked install must return nonzero`.\n- `tests/proof_parity_install_commands.rs::proof_route_accepts_fresh_deterministic_manifest_only` failed with `shadow_output_not_json`.\n- `tests/proof_parity_install_commands.rs::proof_route_retains_a_deterministic_native_receipt` failed with `shadow_output_not_json`.\n- `tests/proof_parity_install_commands.rs::shadow_route_executes_real_typed_v2_and_v3_doctor_commands` failed with `shadow_output_not_json`.\n- `tests/proof_parity_install_commands.rs::shadow_route_fails_closed_on_real_lifecycle_mismatch_and_provider_effects` expected `shadow_normalized_mismatch` but received `shadow_output_not_json`.\n\n## Acceptance criteria\n\n- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets` is green for the proof/shadow/install surfaces.\n- Shadow route commands emit exactly one typed JSON document on stdout when the tests expect typed JSON.\n- The install route's blocked/nonzero behavior is intentional, tested, and aligned with the command contract.\n- Any generated fixture/evidence artifacts are either ignored intentionally or written to a deterministic test fixture location that does not dirty normal worktrees.\n\n## Non-goals\n\n- Do not weaken proof parity, shadow mismatch detection, or install authority gates to make the tests pass.\n- Do not remove v2 code in this issue unless the v2-removal authority issue explicitly owns that work.",
+  "labels": [
+    "track:backlog",
+    "type:bug",
+    "area:tools",
+    "version:v0.92.1"
+  ],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}
