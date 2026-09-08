@@ -3,60 +3,14 @@
   "issue": 731,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
-  "phase": "published",
-  "generation": 20,
-  "digest": "7716c379c8eb5ad5f25ea46c49049d6a23fafe705a242c4966b9858483ac0997",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "535da4285549f61500e7c94645220d7a0fe47a0131d32c0966f56df8f0b979f7",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
-  "review_assignment": {
-    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
-    "assigned_by": "codex:731-owner",
-    "revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
-    "scope": [
-      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
-      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
-      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
-      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
-      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
-      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
-      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
-      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
-      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
-    "scope": [
-      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
-      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
-      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
-      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
-      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
-      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
-      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
-      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
-      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
-    ],
-    "reviewed_revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
-    "findings": [],
-    "residual_risks": [
-      "The steady-state private GCP-D1 foundation remains deployed as the accepted #731 output; later teardown requires a separate explicit cleanup issue/authorization."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 731,
-    "pull_request": 739,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/739",
-    "base": "main",
-    "head": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
-    "revision": "git-blake3:12972c60f9acbc4624bd650dc4222d4491a761ab:12c08549581597ad5da221976860bc9b38c2a7c240da65afbac9c067cbaef28f",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -70,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "761e177922a2b8e9bc073d22c146b06da92523742827613b8bbf550b01ddb40e",
+      "values_digest": "46f6c4d780e068d65518925b410d0ec3ee046e1b94371965e09b64d31c5f4e58",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "1bd475544f969b7c35123c3d7e93164d565363f1ce2f93662f08f45e1b370ca0",
+      "values_digest": "9c2d4bb754fb5ee7f79c8b963d481d99abec0fd87014296491048bb174452ae1",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "fa60767845c68a4cd558ea50ffb33b64307aa02790ddcd54489f5fe9892ab423",
+      "values_digest": "92dc39d64b9e96fb586ac136452ce1c8e742d99661514091151c961341716bad",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "03f62e51b232ed9aeeb7db1da022d6598d5b32688977619ca4bdad0308e54c9f",
+      "values_digest": "559e39d3e16a5c901016a598f4a629f5a794fea1b5128157d3c311004281d48e",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "02018dbfb643665393c9c112ca631a9813592d6247473ffffbff75d34f06b9f5",
-      "rendered_digest": "ba8fda757bb2e7f6ca6c0bf399b44b6ebb2b5e85467dc89c70f968fe295cac83",
-      "ast_digest": "7df78f212ba0970c01f22bee55a043bcf63a1b16305f07f72212c62782a8bed1"
+      "values_digest": "ef4b655a50e0238ba47c5b9269996b03c96ed90ed075ed14f6902ee001fb22bb",
+      "rendered_digest": "48aecc3c979cd67d0e92079608493afb4e8d965ceda032ff91acb743d77c53d7",
+      "ast_digest": "3a84a48ccec71b8d194177b962b239eb5cd23b34c3e0df13b29b8c37314aad69"
     },
     "sor": {
-      "values_digest": "878050f2684f61b2be276193478fde5cc6811d5e574b13cc560a25367600389e",
-      "rendered_digest": "eeef6dd8784a3b06a8699fc02f3268d1ccdda4111cf7e9e2c4f7febaf4ffcfc4",
-      "ast_digest": "96d9b8da0e59ae7ef217cea9de9d0df143cf6122012ff6aebf0979dd5b833b2e"
+      "values_digest": "ab0cc9dd5330c29b1695b7d5a685ff5fdbfa16a5c1fd8fa66a1a208a7df8d2ef",
+      "rendered_digest": "fdad522d319e173976e3e91738d7cb20578e1fbf2c518a7afa14f4bbf4d562da",
+      "ast_digest": "698406935f007a6545e08ab4709df29ddac7e6d6705851aedba2d55fd41e7f48"
     }
   },
   "transitions": [
@@ -135,6 +89,13 @@
       "to": "published",
       "actor": "codex:731-owner",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:731-owner",
+      "reason": "Recover stale #731 review/publication truth after PR #739 exact-head review found missing fail-safe cleanup, authorization freshness/lifetime, readiness, zero-residue, foundation rollback/readback, impersonation, and exact-head review coverage blockers."
     }
   ],
   "audit": [
@@ -312,6 +273,13 @@
       "actor": "codex:731-owner",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:731-owner",
+      "reason": "Recover stale #731 review/publication truth after PR #739 exact-head review found missing fail-safe cleanup, authorization freshness/lifetime, readiness, zero-residue, foundation rollback/readback, impersonation, and exact-head review coverage blockers.",
+      "operation": "recover_review"
     }
   ]
 }

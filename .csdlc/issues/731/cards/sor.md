@@ -141,11 +141,11 @@ Under explicit operator authorization, #731 applied the bounded GCP-D1 private f
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

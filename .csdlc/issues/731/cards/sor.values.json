@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
     "slug": "gcp-d1-private-foundation-non-gpu-disposal",
     "version": "v0.92.1",
-    "generation": 20
+    "generation": 21
   },
   "status": "draft",
   "content": {
@@ -134,8 +134,8 @@
           "evidence_ref": "terminal:current worktree diff check passed; exact-range diff check deferred until the corrected evidence is committed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
