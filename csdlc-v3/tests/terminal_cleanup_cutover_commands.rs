@@ -537,7 +537,7 @@ fn executable_cutover_cannot_bypass_request_findings() {
         &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["default_generation"], "v3");
+    assert_eq!(selector["generation"], "v3");
 }
 
 #[test]
@@ -558,7 +558,7 @@ fn executable_cutover_requires_authenticated_github_authority_before_mutation() 
         &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["default_generation"], "v3");
+    assert_eq!(selector["generation"], "v3");
 }
 
 #[test]
@@ -678,12 +678,12 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
         &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["schema"], "csdlc.generation_selector.v2");
-    assert_eq!(selector["default_generation"], "v3");
+    assert_eq!(selector["schema"], "csdlc.v3.authority_selector.v1");
+    assert_eq!(selector["generation"], "v3");
     assert_eq!(selector["operational_authority"], "csdlc-v3");
     assert_eq!(selector["authority_issue"], 505);
     assert_eq!(selector["authority_pull_request"], 591);
-    assert_eq!(selector["review_authority"], "typed-v2-exact-head");
+    assert_eq!(selector["review_authority"], "typed-exact-head");
     assert_eq!(
         selector["approval_authority"],
         "merged-pr-591-closed-issue-505"
@@ -790,7 +790,9 @@ fn cutover_rejects_intermediate_output_parent_symlink_escape() {
     let readiness_digest = write_cutover_fixture(&root, b"v3-binary");
     let outside = root.parent().unwrap().join("outside-cutover-output");
     fs::create_dir_all(outside.join("bin")).expect("outside output parent");
-    fs::remove_dir_all(root.join(".adl")).expect("replace tracked policy with escape symlink");
+    if root.join(".adl").exists() {
+        fs::remove_dir_all(root.join(".adl")).expect("replace tracked policy with escape symlink");
+    }
     create_symlink(&outside, &root.join(".adl"));
     let request = cutover_request(&root, readiness_digest, CutoverOperation::Apply);
 
@@ -805,7 +807,7 @@ fn cutover_rejects_intermediate_output_parent_symlink_escape() {
         &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
-    assert_eq!(selector["default_generation"], "v3");
+    assert_eq!(selector["generation"], "v3");
 }
 
 fn cleanup_plan(
@@ -1159,7 +1161,7 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     assert_eq!(rolled_back.status, TerminalRouteStatus::Ready);
     let rolled_back_selector: serde_json::Value =
         serde_json::from_slice(&fs::read(&selector_path).unwrap()).unwrap();
-    assert_eq!(rolled_back_selector["default_generation"], "v2");
+    assert_eq!(rolled_back_selector["generation"], "rollback");
     assert!(!root.join(".adl/bin/csdlc").exists());
     let retry = prepare_terminal_route("cutover", &rollback).expect("idempotent rollback");
     assert_eq!(retry.status, TerminalRouteStatus::Ready, "{retry:#?}");
@@ -1288,6 +1290,8 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
         &review,
     )
     .expect("native review record");
+    fs::create_dir_all(root.join(".csdlc/issues/505")).expect("review state parent");
+    fs::write(root.join(".csdlc/issues/505/index.json"), &review).expect("native review state");
     let review_ref = serde_json::json!({
         "path": ".csdlc/evidence/505/native-authority-review.json",
         "digest": blake3::hash(&review).to_hex().to_string(),
