@@ -6,10 +6,11 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    monitor_until_stop, CanonicalValue, Capability, CapabilityRequirement, Component,
-    ComponentConfig, ComponentContext, ComponentError, ComponentFactory, ComponentId,
-    ComponentSpec, ConfigError, DeterminismClass, DiskWeather, FactoryRegistration,
-    FactoryRegistry, FailurePolicy, GpuWeather, LifecycleGuarantees, Observation, PortSpec,
+    monitor_until_stop, CanonicalValue, Capability, CapabilityRequirement, CheckpointAuthority,
+    CheckpointCoordinator, CheckpointParticipant, CheckpointRequest, Component, ComponentConfig,
+    ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec, ConfigError,
+    ContinuityError, DeterminismClass, DiskWeather, FactoryRegistration, FactoryRegistry,
+    FailurePolicy, GpuWeather, LifecycleGuarantees, MigrationPolicy, Observation, PortSpec,
     ResourceState, RuntimeConfig, ServiceContract, ShutdownDecision, SysinfoWeatherObserver,
     TopologyError, VertexAiProviderFailure, WeatherConfig, WeatherHealthReport, WeatherObserver,
     WeatherSample, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
@@ -1009,6 +1010,128 @@ fn continuity_compatibility_v1_allows_hot_load_policy_and_binds_security_identit
         changed_tls_identity.continuity_compatibility_projection_v1(),
         expected
     );
+}
+
+struct CompatibilityCheckpointParticipant;
+
+#[async_trait]
+impl CheckpointParticipant for CompatibilityCheckpointParticipant {
+    fn service(&self) -> &str {
+        "compatibility"
+    }
+
+    fn schema(&self) -> &str {
+        "compatibility.state.v1"
+    }
+
+    async fn quiesce(&self) -> Result<(), String> {
+        Ok(())
+    }
+
+    async fn snapshot(&self) -> Result<Vec<u8>, String> {
+        Ok(b"checkpoint-state".to_vec())
+    }
+}
+
+fn continuity_compatibility_hash(config: &adl_runtime_kernel::RuntimeInitConfig) -> String {
+    blake3::hash(&serde_json::to_vec(&config.continuity_compatibility_projection_v1()).unwrap())
+        .to_hex()
+        .to_string()
+}
+
+#[tokio::test]
+async fn signed_checkpoint_restore_allows_provider_changes_and_rejects_security_changes() {
+    let config_root = config_test_root();
+    let config = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(
+        config_root.path(),
+    ))
+    .unwrap();
+    let compatibility_hash = continuity_compatibility_hash(&config);
+    let checkpoint_root = tempfile::tempdir().unwrap();
+    let authority = CheckpointAuthority::from_bytes("compatibility-test", &[29; 32]);
+    let trusted = BTreeMap::from([("compatibility-test".to_owned(), authority.verifying_key())]);
+    let coordinator = CheckpointCoordinator::new(checkpoint_root.path(), authority);
+    coordinator
+        .checkpoint(
+            CheckpointRequest {
+                generation: 1,
+                previous_integrity: None,
+                accepted_through: 1,
+                provenance: "continuity-compatibility-v1-test".to_owned(),
+                topology_hash: "topology-v1".to_owned(),
+                config_hash: compatibility_hash.clone(),
+                migration: MigrationPolicy::Exact,
+                deadline: std::time::Duration::from_secs(1),
+                max_parallel: 1,
+            },
+            vec![Arc::new(CompatibilityCheckpointParticipant)],
+        )
+        .await
+        .unwrap();
+    let schemas = BTreeMap::from([(
+        "compatibility".to_owned(),
+        "compatibility.state.v1".to_owned(),
+    )]);
+
+    let mut provider_change = config.clone();
+    match &mut provider_change.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.model = "replacement-model".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) => {
+            shepherds[0].model = "replacement-model".to_owned();
+        }
+    }
+    coordinator
+        .load(
+            1,
+            "topology-v1",
+            &continuity_compatibility_hash(&provider_change),
+            &schemas,
+            &trusted,
+        )
+        .await
+        .expect("provider changes remain checkpoint-compatible");
+
+    let mut presentation_change = config.clone();
+    presentation_change.polis.display_name = "Renamed Polis".to_owned();
+    coordinator
+        .load(
+            1,
+            "topology-v1",
+            &continuity_compatibility_hash(&presentation_change),
+            &schemas,
+            &trusted,
+        )
+        .await
+        .expect("presentation changes remain checkpoint-compatible");
+
+    let mut incompatible = Vec::new();
+    let mut changed_state_root = config.clone();
+    changed_state_root.state_root = config_root.path().join("replacement-state");
+    incompatible.push(changed_state_root);
+    let mut changed_key = config.clone();
+    changed_key.credentials.control_key_id = "replacement-key".to_owned();
+    incompatible.push(changed_key);
+    let mut changed_tls = config;
+    changed_tls.api.tls.certificate_chain_path =
+        config_root.path().join("tls/replacement-cert.pem");
+    incompatible.push(changed_tls);
+
+    for candidate in incompatible {
+        assert!(matches!(
+            coordinator
+                .load(
+                    1,
+                    "topology-v1",
+                    &continuity_compatibility_hash(&candidate),
+                    &schemas,
+                    &trusted,
+                )
+                .await,
+            Err(ContinuityError::IdentityMismatch)
+        ));
+    }
 }
 
 #[test]

@@ -700,6 +700,42 @@ impl RuntimeInitConfig {
             },
         })
     }
+
+    /// Fields outside this projection are the only Runtime-init values applied
+    /// by the in-process reload path. Any change retained here requires restart.
+    pub fn hot_reload_static_projection_v1(&self) -> Result<serde_json::Value, serde_json::Error> {
+        let mut value = serde_json::to_value(self)?;
+        let runtime = value
+            .as_object_mut()
+            .expect("RuntimeInitConfig serializes as an object");
+        runtime.remove("agent_orientation");
+        runtime.remove("observatory");
+        if let Some(api) = runtime
+            .get_mut("api")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            api.remove("public_base_url");
+            if let Some(tls) = api
+                .get_mut("tls")
+                .and_then(serde_json::Value::as_object_mut)
+            {
+                tls.remove("server_name");
+            }
+        }
+        if let Some(polis) = runtime
+            .get_mut("polis")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            polis.remove("display_name");
+            polis.remove("public_domain");
+            polis.remove("observatory_public_origin");
+        }
+        runtime.insert(
+            "hot_reload_projection_schema".to_owned(),
+            serde_json::Value::String("adl.runtime_v3.hot_reload_static.v1".to_owned()),
+        );
+        Ok(value)
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

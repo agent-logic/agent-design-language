@@ -909,6 +909,7 @@ pub struct ControlService<C> {
     acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
     observatory_origin_policy: ObservatoryOriginPolicy,
     runtime_presentation: Arc<RwLock<RuntimePresentationState>>,
+    hot_reload_static_projection: RwLock<Option<serde_json::Value>>,
     readiness_time: Option<Arc<dyn crate::TrustedTime>>,
     agent_population: RwLock<AgentPopulationFeed>,
     agent_orientation: RwLock<AgentOrientationResource>,
@@ -1034,6 +1035,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             acip_write_bearer_digest: Mutex::new(None),
             observatory_origin_policy,
             runtime_presentation,
+            hot_reload_static_projection: RwLock::new(None),
             readiness_time: None,
             agent_population: RwLock::new(agent_population),
             agent_orientation: RwLock::new(agent_orientation),
@@ -1202,6 +1204,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub fn with_polis_identity(self, init: &crate::RuntimeInitConfig) -> Self {
+        *self
+            .hot_reload_static_projection
+            .write()
+            .expect("hot reload static projection state poisoned") = Some(
+            init.hot_reload_static_projection_v1()
+                .expect("validated Runtime init is JSON encodable"),
+        );
         let mut active = self
             .runtime_presentation
             .write()
@@ -1235,6 +1244,20 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .all(|byte| byte.is_ascii_hexdigit())
         {
             return Err("active Runtime init hash must be a BLAKE3 hex digest".to_owned());
+        }
+        let next_static_projection = init
+            .hot_reload_static_projection_v1()
+            .map_err(|error| format!("runtime reload projection could not be encoded: {error}"))?;
+        let mut static_projection = self
+            .hot_reload_static_projection
+            .write()
+            .map_err(|_| "hot reload static projection state unavailable".to_owned())?;
+        match static_projection.as_ref() {
+            Some(active) if active != &next_static_projection => {
+                return Err("runtime reload changes restart-required configuration".to_owned())
+            }
+            None => *static_projection = Some(next_static_projection),
+            Some(_) => {}
         }
         let next_orientation = AgentOrientationResource::load_from_config(&init.agent_orientation)
             .map_err(|error| error.to_string())?;

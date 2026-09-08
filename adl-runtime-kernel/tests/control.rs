@@ -66,7 +66,6 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
     .with_polis_identity(&init);
 
     let mut reload = init.clone();
-    reload.polis.id = "another-polis".to_owned();
     reload.polis.display_name = "Renamed Polis".to_owned();
     reload.polis.public_domain = "new.example.test".to_owned();
     reload.polis.observatory_public_origin = "https://observe.new.example.test".to_owned();
@@ -80,7 +79,7 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
     assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
 
     let observed = service.observatory_feed().polis_identity;
-    assert_eq!(observed.polis_id, "another-polis");
+    assert_eq!(observed.polis_id, init.polis.id);
     assert_eq!(observed.display_name, "Renamed Polis");
     assert_eq!(observed.public_domain, "new.example.test");
     assert_eq!(observed.runtime_api_base, "https://new.example.test");
@@ -116,7 +115,7 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
         .contains("https://observe.new.example.test"));
     assert!(!service.observatory_origin_policy().contains("*"));
 
-    let mut inconsistent = reload;
+    let mut inconsistent = reload.clone();
     inconsistent.polis.display_name = "Must Still Not Apply".to_owned();
     inconsistent.observatory.allowed_origins = vec!["https://different.example.test".to_owned()];
     assert!(service
@@ -130,6 +129,14 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
     assert!(!service
         .observatory_origin_policy()
         .contains("https://different.example.test"));
+
+    let mut changed_authority = reload;
+    changed_authority.credentials.control_key_id = "replacement-operator".to_owned();
+    assert!(changed_authority.validate().is_ok());
+    assert!(service
+        .apply_runtime_init_reload(&changed_authority, &"d".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
 }
 
 fn test_api_policy() -> ControlApiPolicy {
