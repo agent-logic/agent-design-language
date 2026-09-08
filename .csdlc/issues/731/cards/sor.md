@@ -109,11 +109,11 @@ After recovering stale #731 review/publication truth for PR #739, the current fo
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
