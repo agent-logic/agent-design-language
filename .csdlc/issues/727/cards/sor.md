@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Bound #727 into its FastWork issue worktree and prepared first-class pre-apply guardrails. Local readiness and static readback entrypoint checks passed without cloud mutation. A tracked authorization-template copy now makes the operator envelope reviewable, while live Terraform apply and AWS readback remain blocked until the operator supplies .adl/requests/727/operator-authorization.json naming the exact saved-plan digest and bounded mutation envelope.
+Applied the exact saved #727 Terraform account-foundation plan to the approved Agent Logic business AWS account in us-west-2 and retained redacted live readback proof. Raw logs and the saved plan remain only under the ignored issue-local request directory.
 
 ## Artifacts
 
@@ -21,6 +21,10 @@ Bound #727 into its FastWork issue worktree and prepared first-class pre-apply g
 - .adl/requests/727/operator-authorization.template.json
 - docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md
 - docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json
+- docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md
+- .adl/requests/727/account-foundation.tfplan.sha256
+- .adl/requests/727/terraform-apply.raw.log
+- .adl/requests/727/aws-readback.raw.log
 
 ## Execution
 
@@ -31,6 +35,11 @@ Bound #727 into its FastWork issue worktree and prepared first-class pre-apply g
 - Added docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json as the tracked reviewable authorization template.
 - Updated docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md to point operators from the tracked template to the ignored local authorization file consumed by the validator.
 - Updated .csdlc/prepared/issues/727/validate-issue-727-readiness.sh so the tracked template is part of local readiness proof.
+- Initialized the account-foundation S3 backend with the approved agent-logic-admin profile and selected workspace aws-d-account-foundation-live.
+- Generated and SHA-256-bound a saved Terraform plan for only #727 audit/security foundation resources.
+- Validated the issue-local operator authorization envelope against the saved plan digest and bounded resource set.
+- Applied the exact saved plan successfully: 19 added, 0 changed, 0 destroyed.
+- Added a tracked redacted proof summary for #727 live apply and readback.
 
 ## Validation
 
@@ -99,12 +108,35 @@ Bound #727 into its FastWork issue worktree and prepared first-class pre-apply g
     "purpose": "Verify the reviewed AWS-D account-foundation Terraform root remains format-clean before any backend init, plan, or apply.",
     "outcome": "passed",
     "evidence_ref": "stdout: command completed successfully with no output"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/account-foundation",
+      "apply",
+      "-input=false",
+      ".adl/requests/727/account-foundation.tfplan"
+    ],
+    "purpose": "Apply the exact saved #727 account-foundation plan after bounded operator authorization and plan allow-list review.",
+    "outcome": "passed",
+    "evidence_ref": "ignored log .adl/requests/727/terraform-apply.raw.log: Apply complete; Resources: 19 added, 0 changed, 0 destroyed"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "bash",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh",
+      "--lane=aws-readonly"
+    ],
+    "purpose": "Read back the live #727 audit/security foundation controls from AWS without committing raw account IDs, ARNs, emails, secrets, or unfiltered JSON.",
+    "outcome": "passed",
+    "evidence_ref": "stdout: cloudtrail_exact=present; cloudtrail_kms=present; config_recorder_exact=present; config_delivery_bucket_matches=true; access_analyzer_exact=active; sns_findings_topic_exact=present; eventbridge_findings_route=present; audit_bucket_kms_encryption=present; audit_bucket_retention_days_at_least=365; finding_owner_destination_tags=present; redaction=names_and_arns_not_printed"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

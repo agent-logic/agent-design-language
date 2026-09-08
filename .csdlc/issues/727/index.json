@@ -3,39 +3,13 @@
   "issue": 727,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ecec93e19c8cf854ccd7153dd0c6ea42f8daf306f478cb99cb914447e1ff3392",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "714b54e1dcc07b0c1460603aaabe2bb3caeed9c3e9df6a79d72492d91c585b3d",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "89168152e0684a1b8f43d635a3329bcb35f97212a7ae3478e9a180414b68a438",
   "branch": "codex/727-aws-d-r-apply-prove-audit-security-account-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-727-aws-d-r-apply-prove-audit-security-account-foundation",
-  "review_assignment": {
-    "reviewer": "codex-727-preapply-review",
-    "assigned_by": "codex-727-pr-publication",
-    "revision": "git-blake3:48edfc341c357e85d2162e0e017ba4addd5c063f:a961701fa4669bb78a87308de7e73db51246895de3b66ce547c1cb8d57d43f6b",
-    "scope": [
-      ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
-      ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json"
-    ]
-  },
-  "review": {
-    "reviewer": "codex-727-preapply-review",
-    "scope": [
-      ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
-      ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json"
-    ],
-    "reviewed_revision": "git-blake3:48edfc341c357e85d2162e0e017ba4addd5c063f:a961701fa4669bb78a87308de7e73db51246895de3b66ce547c1cb8d57d43f6b",
-    "findings": [],
-    "residual_risks": [
-      "Live Terraform apply and AWS readback remain deferred until explicit operator authorization supplies the exact saved-plan digest and mutation envelope.",
-      "No live AWS/Terraform mutation, backend init, plan, or apply was performed in this pre-apply package."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -50,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "41c2c5a84056a4d9b7826285b2035991ae522d7d46406026a813add519a4c88d",
+      "values_digest": "8c02bc5f2d1cc1179a3a2a081c42594e3f3a3012b398e540a1ddca559e5971c1",
       "rendered_digest": "2ad690f29df3e99bf89a3874cdd4b1fd91f978833e1dea7538103890b3066f0e",
       "ast_digest": "c430204e61ecb408302ffb789035bf4a52b891d7cec217c58bafafd0332e5f83"
     },
     "stp": {
-      "values_digest": "7c8d2839487f1b1b92e538820820cfd19ca42b39524ff1e98b5fca850162c9ea",
+      "values_digest": "0d073b89a4105ea85943ff6d35aca59815888a283c1d4cb4efc1ec18a7dd4162",
       "rendered_digest": "a7232790d5af59d8f28fa3fb71f95312225c8431cbf70be3a78ad2dece62924b",
       "ast_digest": "321bcc0a60a11f2b9039aacafd0edef51896f370a9f1923a9ecf74266265d03d"
     },
     "spp": {
-      "values_digest": "b04fd6abf54fd68c0cab8ddec5050d5f09ce6e9a69c4b4a1c6e253ba2f30c54b",
+      "values_digest": "9bd3fc24346cdc11329d788df6e7f5d8e62ffcf85c49213752ffeb28adade604",
       "rendered_digest": "9c20d76b9c66bc4e3f25bb39aa67e16fd986bd0a17a73700b4eae2c9685b0866",
       "ast_digest": "aba3961b368e12a2ee751ccb12578d094bab236dd3cd2e773e90d27ce3a5f426"
     },
     "vpp": {
-      "values_digest": "5d3bfbdb8120274dac9201cdb77bc847c8e4bd4a3ee7026520280d1f0a2201b7",
+      "values_digest": "11001bebeb469e83dcace5b95ed4482251b9fd44f038e05397af26a1449760ff",
       "rendered_digest": "3d4f24c531465a8a36bb98ac6227e9721e3e6d7a967710d13ba8edd94fd5cdc5",
       "ast_digest": "a2dddf1eb3dfdb79f544bcbc09d5c0af3a8fd25403e64179f863f5548bfcc184"
     },
     "srp": {
-      "values_digest": "c74d2bdc5fd9f6225187647518399e53536b3e9e617386ccdde43350c7444fd9",
-      "rendered_digest": "a2e2ecc1605e48aa64f915c4befa9cd871612781fea62d249d5d3f4e72a25b97",
-      "ast_digest": "3c3a52f309ce0b99dc173cb12a6b6c0cfc582388dab8b0ad9eb5d302b7060511"
+      "values_digest": "6f03a5aca9d70a57d288190960aac9b20603c2dad9d8f5c9dd4e52ea19157120",
+      "rendered_digest": "7df095f80e97196a5d13afccd287afef56f852b1e2141d3e9f0d0f8f011a7500",
+      "ast_digest": "3fbc80731fff15374869659293b422a6224c90ab04367cebd066daf6f2df0aff"
     },
     "sor": {
-      "values_digest": "50ed9388a708be23502ecab87e58b3a5da7ef02b9dd8d8ae8bdafdac30cfb94c",
-      "rendered_digest": "cbcd4d57def34ae351b73d0a3413212f03ab24f0fad80a61e5adb376af5ffeca",
-      "ast_digest": "5ae95ebde42aaff2dd0825cfe32d47b77c073480a1b9f93a5b745a82de4c07c3"
+      "values_digest": "7b8010696346ebacca9275f6074e0a8181b685536bc6bb19f34d462195cd1313",
+      "rendered_digest": "08cee4f9d9e13210fe0ac3b3947e102941d7c1e8d5248c74f17d2f3772c86d84",
+      "ast_digest": "9f895634a9e308c440aff9be8d48542c6904f77ddc9ea3d6042a325fc34becf4"
     }
   },
   "transitions": [
@@ -108,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex-727-pr-publication",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-727-pr-publication",
+      "reason": "Recover review because a substantive .gitignore safety fix was added to prevent account-foundation Terraform working-state leakage before PR publication."
     }
   ],
   "audit": [
@@ -257,6 +238,34 @@
       "actor": "codex-727-pr-publication",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex-727-pr-publication",
+      "reason": "Recover review because a substantive .gitignore safety fix was added to prevent account-foundation Terraform working-state leakage before PR publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex-727-live-apply",
+      "reason": "Record #727 live Terraform apply and redacted proof packet.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Applied the exact saved #727 Terraform account-foundation plan to the approved Agent Logic business AWS account in us-west-2 and retained redacted live readback proof. Raw logs and the saved plan remain only under the ignored issue-local request directory.\",\"changes\":[\"Initialized the account-foundation S3 backend with the approved agent-logic-admin profile and selected workspace aws-d-account-foundation-live.\",\"Generated and SHA-256-bound a saved Terraform plan for only #727 audit/security foundation resources.\",\"Validated the issue-local operator authorization envelope against the saved plan digest and bounded resource set.\",\"Applied the exact saved plan successfully: 19 added, 0 changed, 0 destroyed.\",\"Added a tracked redacted proof summary for #727 live apply and readback.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md\",\".adl/requests/727/account-foundation.tfplan.sha256\",\".adl/requests/727/terraform-apply.raw.log\",\".adl/requests/727/aws-readback.raw.log\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex-727-live-apply",
+      "reason": "Record #727 live Terraform apply validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform\",\"-chdir=infra/aws/account-foundation\",\"apply\",\"-input=false\",\".adl/requests/727/account-foundation.tfplan\"],\"purpose\":\"Apply the exact saved #727 account-foundation plan after bounded operator authorization and plan allow-list review.\",\"outcome\":\"passed\",\"evidence_ref\":\"ignored log .adl/requests/727/terraform-apply.raw.log: Apply complete; Resources: 19 added, 0 changed, 0 destroyed\"}}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex-727-live-apply",
+      "reason": "Record #727 redacted live AWS readback validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\"--lane=aws-readonly\"],\"purpose\":\"Read back the live #727 audit/security foundation controls from AWS without committing raw account IDs, ARNs, emails, secrets, or unfiltered JSON.\",\"outcome\":\"passed\",\"evidence_ref\":\"stdout: cloudtrail_exact=present; cloudtrail_kms=present; config_recorder_exact=present; config_delivery_bucket_matches=true; access_analyzer_exact=active; sns_findings_topic_exact=present; eventbridge_findings_route=present; audit_bucket_kms_encryption=present; audit_bucket_retention_days_at_least=365; finding_owner_destination_tags=present; redaction=names_and_arns_not_printed\"}}"
     }
   ]
 }

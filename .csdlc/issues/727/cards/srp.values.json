@@ -7,25 +7,22 @@
     "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
     "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 22
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh\n.csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh\ndocs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md\ndocs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json",
-      "review_revision": "git-blake3:48edfc341c357e85d2162e0e017ba4addd5c063f:a961701fa4669bb78a87308de7e73db51246895de3b66ce547c1cb8d57d43f6b",
-      "reviewer": "codex-727-preapply-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify exact resource denominator and absence of unrelated mutations.",
         "Verify redaction, rollback, cost and saved-plan binding."
       ],
       "findings": [],
-      "residual_risk": [
-        "Live Terraform apply and AWS readback remain deferred until explicit operator authorization supplies the exact saved-plan digest and mutation envelope.",
-        "No live AWS/Terraform mutation, backend init, plan, or apply was performed in this pre-apply package."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
