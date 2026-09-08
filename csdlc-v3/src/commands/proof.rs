@@ -966,10 +966,11 @@ fn execute_shadow_command(
         .and_then(Result::ok)
         .ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
     if !status.success() {
+        let diagnostic_category = shadow_diagnostic_category(&stdout);
         return Err(finding(
             "shadow_command_not_successful",
             format!(
-                "shadow command exited {:?}; stderr_blake3={}",
+                "shadow command exited {:?}; diagnostic_category={diagnostic_category}; stderr_blake3={}",
                 status.code(),
                 blake3::hash(&stderr).to_hex()
             ),
@@ -1016,6 +1017,25 @@ fn execute_shadow_command(
         elapsed_millis: started.elapsed().as_millis(),
         side_effect_boundary,
     })
+}
+
+fn shadow_diagnostic_category(stdout: &[u8]) -> &'static str {
+    if stdout.is_empty() {
+        "empty_stdout"
+    } else if serde_json::from_slice::<serde_json::Value>(stdout)
+        .ok()
+        .and_then(|value| {
+            value
+                .get("schema")
+                .and_then(serde_json::Value::as_str)
+                .map(str::to_owned)
+        })
+        .is_some()
+    {
+        "typed_json_stdout"
+    } else {
+        "non_json_stdout"
+    }
 }
 
 fn normalize_shadow_output(
@@ -1792,4 +1812,15 @@ mod tests {
         );
         fs::remove_dir_all(base).unwrap();
     }
+}
+#[test]
+fn shadow_diagnostic_category_is_redacted_and_stable() {
+    assert_eq!(shadow_diagnostic_category(b""), "empty_stdout");
+    assert_eq!(
+        shadow_diagnostic_category(
+            br#"{"schema":"csdlc.doctor.report.v1","secret":"not surfaced"}"#
+        ),
+        "typed_json_stdout"
+    );
+    assert_eq!(shadow_diagnostic_category(b"not json"), "non_json_stdout");
 }
