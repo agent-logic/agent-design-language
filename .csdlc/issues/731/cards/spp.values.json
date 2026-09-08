@@ -1,0 +1,146 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 731,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
+    "slug": "gcp-d1-private-foundation-non-gpu-disposal",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Initialize #731, confirm dependency and GCP read-only gates, review the exact saved Terraform plan, prepare the authorization packet, then only after fresh authorization apply the bounded foundation, run and destroy one private e2-micro workload, prove zero residue, record evidence, obtain exact-head review, and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap typed local state and review the issue-local design packet before execution binding.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Verify #490, GCP-B1, #492, and #493 dependency/provenance gates and inspect infra/gcp/platform without mutation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run read-only GCP preflight for project, region, APIs, quota, IAM, billing, remote state, and impersonation readiness without exposing secrets.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Generate and validate a saved Terraform plan for exactly the accepted foundation denominator and produce the fresh mutation authorization packet.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "After explicit authorization only, apply the bounded foundation and retain live redacted readback proof.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "After explicit authorization only, create exactly one labelled e2-micro private VM, prove RUNNING without external IP and one readiness observation, then destroy it and its boot disk within the authorization window.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S7",
+          "action": "Run independent zero-residue readback for the exact run labels and foundation drift/readback or rollback proof.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S8",
+          "action": "Record SOR/SRP truth, obtain exact-head independent review, publish, watch required CI, and stop before merge unless separately authorized.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "infra/gcp/platform/**",
+        "infra/gcp/platform/terraform.tfvars.example",
+        ".csdlc/prepared/issues/731/**",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh",
+        ".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh",
+        ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-review-readiness.sh",
+        ".csdlc/issues/731/**",
+        ".csdlc/evidence/731/**"
+      ],
+      "invariants": [
+        "No live GCP mutation happens before fresh explicit operator authorization.",
+        "The saved plan and live resources never exceed the exact denominator.",
+        "The disposable VM has no external IP, no GPU, no additional disk, no LB, no DNS, and no production traffic.",
+        "All workload resources are labelled with issue=493, ttl=disposable, csm=axioma, env=dev, unique run ID, and absolute cleanup deadline.",
+        "Rollback/destroy is unconditional by exact run ID and verified by independent absence readback.",
+        "Credentials and sensitive account material never enter tracked artifacts.",
+        "Root main remains inspection-only; implementation happens in the bound FastWork worktree."
+      ],
+      "risks": [
+        "GCP APIs, quota, IAM, billing, or remote state may fail read-only preflight.",
+        "The reviewed Terraform plan may drift from the #493 denominator or include unexpected resources.",
+        "Operator authorization may expire before apply/run completes.",
+        "Disposable workload cleanup could leave labelled residue requiring immediate rollback/readback.",
+        "Terraform or GCP CLI output could expose sensitive identifiers if not redacted."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Fresh mutation authorization is missing, expired, incomplete, or does not name the exact required fields.",
+        "Read-only preflight fails for required APIs, quota, IAM, billing, remote state, or impersonation readiness.",
+        "Saved plan includes unexpected replacement, public IP/route, public ingress, broad IAM, or any extra resource.",
+        "Cost estimate exceeds USD 1 proof-run cap or USD 5 foundation steady-state 30-day cap.",
+        "Any command would require printing or retaining credentials/secrets.",
+        "A disposable workload cannot be guaranteed to destroy within the authorization window.",
+        "Post-destroy readback finds any disposable workload residue."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/731/design.md",
+      "design_digest": "ad228721d1cb93e3604c5c07a4937019e12fa5c73b43aa521e9b951abc7c63ac",
+      "diagram_ref": ".csdlc/prepared/issues/731/diagram.mmd",
+      "diagram_digest": "c14a33000ee441f6c58ad66bb6c01275c2dd4e5b1328be1082ac1afbf981d5f5"
+    }
+  }
+}

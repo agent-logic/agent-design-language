@@ -1,4 +1,4 @@
-project_id  = "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+project_id  = "cs-host-377d41e71a824f92802120"
 region      = "us-west2"
 environment = "dev"
 csm_name    = "axioma"

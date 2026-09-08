@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 731,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
+    "slug": "gcp-d1-private-foundation-non-gpu-disposal",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #731 lifecycle state, infra/gcp/platform denominator proof, GCP read-only/live evidence, disposable workload run/destroy proof, zero-residue readback, SOR/SRP truth, and exact-head publication readiness only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the saved Terraform plan exactly match the #731/#493 denominator with no public exposure, broad IAM, replacement, or extra resources?",
+        "Are live operations gated by fresh explicit authorization naming every required identity, digest, deadline, and rollback command?",
+        "Does the proof use short-lived impersonation without static keys or credential exposure?",
+        "Does the disposable VM prove RUNNING without external IP, then destroy the VM and boot disk within the authorized window?",
+        "Does independent zero-residue readback cover every required resource class and exact run label?",
+        "Does the final SOR distinguish read-only preflight, live authorized mutation, cleanup, deferred CI, and non-goals truthfully?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

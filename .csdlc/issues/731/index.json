@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 731,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "de4aa7a5e046f2cdb5ae872714bcddcb1202f7934607883b00bcfbe07a4d1249",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/731/design.md",
+  "diagram_path": ".csdlc/prepared/issues/731/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:8d69163f-104d-451d-b58a-d9de043f356d",
+      "revision": "ad228721d1cb93e3604c5c07a4937019e12fa5c73b43aa521e9b951abc7c63ac"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a8611d2ff190c10d82657f1753f7a90399994484a21a01981aaf9d5f921e289f",
+      "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
+      "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
+    },
+    "stp": {
+      "values_digest": "974eac2f60ed3f7f876cd890a7c63782965aca9fee2d041352553b49c57d8268",
+      "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
+      "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
+    },
+    "spp": {
+      "values_digest": "446be63caa1e0d103847a92615e8c1ae52b14d77ffccfa97fd9fdc8a499e6412",
+      "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
+      "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
+    },
+    "vpp": {
+      "values_digest": "2d025178ce61d575d83cbddb32e9014d7ff13109ee205dc850f7e4977774eeba",
+      "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
+      "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
+    },
+    "srp": {
+      "values_digest": "f58b77fcde1f8ba7f2b557f33f653d26ac7b1b533d425966213454a38536a543",
+      "rendered_digest": "1b81702f7f5fd75d8d35f92f59ccd4499e3de6868011b3d9027ed3a4870eedad",
+      "ast_digest": "7930d0a32ecebb99e123c1d86f7ff1e4980b6fbcad56d58d3fb9972937285499"
+    },
+    "sor": {
+      "values_digest": "8109fb55874d55535d530159849eba0684e0918603f0fcad52d5fcef1868a88b",
+      "rendered_digest": "4f8c59e305e73075d68e7a9ac2ecc095a6246fb8194bf89e0c3a14038e34ecd1",
+      "ast_digest": "205b4f7bb281287a91c706cb80b77bbb603f59fbfc93ff1ee1bcdfef57ee4147"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:731-bootstrap",
+      "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:731-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:8d69163f-104d-451d-b58a-d9de043f356d",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ad228721d1cb93e3604c5c07a4937019e12fa5c73b43aa521e9b951abc7c63ac\",\"design_ref\":\".csdlc/prepared/issues/731/design.md\",\"diagram_digest\":\"c14a33000ee441f6c58ad66bb6c01275c2dd4e5b1328be1082ac1afbf981d5f5\",\"diagram_ref\":\".csdlc/prepared/issues/731/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:731-bootstrap",
+      "reason": "Make #731 initialized validation planning executable before bind by selecting only issue-owned pre-bind validators and preserving live GCP lanes as deferred execution work in the design/SPP.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"gcp-d1-static-readiness\",\"proof_role\":\"Prove #731 typed bootstrap files, design authorization gate, exact tfvars authority, and static infra/gcp/platform private-foundation denominator before bind without live GCP mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\"],\"parallel_group\":\"prebind\",\"defer_reason\":null},{\"lane\":\"terraform-plan-denominator\",\"proof_role\":\"Create and inspect a saved Terraform plan for infra/gcp/platform proving exactly the accepted foundation denominator and rejecting public IP/route, public ingress, broad IAM, replacement, or extra resources before apply.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"parallel_group\":\"preapply\",\"defer_reason\":\"Deferred until #731 is bound and exact Terraform/backend inputs are confirmed.\"},{\"lane\":\"gcp-readonly-preflight\",\"proof_role\":\"Read-only GCP proof for exact project, region, required APIs, quota, billing, IAM, remote state, and short-lived impersonation readiness without secret exposure.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\"],\"parallel_group\":\"gcp-readonly\",\"defer_reason\":\"Requires approved local GCP credential context but performs no mutation.\"},{\"lane\":\"mutation-authorization-packet\",\"proof_role\":\"Generate the fresh operator authorization packet containing exact project, region, zone, plan digest, network/subnet, run ID, instance name, cleanup deadline, impersonated identity, rollback commands, and cost caps before any apply/run.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"parallel_group\":\"preapply\",\"defer_reason\":\"Must run after saved plan digest and run identity are generated.\"},{\"lane\":\"live-foundation-apply-readback\",\"proof_role\":\"After explicit operator authorization only, apply the bounded foundation and prove private foundation, separate identities, five storage-owner boundaries, labels, and watchdog metric by redacted live readback.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\"],\"parallel_group\":\"live-authorized\",\"defer_reason\":\"Requires fresh explicit operator authorization for live GCP mutation and spend.\"},{\"lane\":\"live-disposable-workload-disposal\",\"proof_role\":\"After explicit operator authorization only, run exactly one labelled e2-micro private VM, prove RUNNING without external IP and readiness, destroy it and its boot disk within the window, and prove zero residue by independent readback.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\"],\"parallel_group\":\"live-authorized\",\"defer_reason\":\"Requires fresh explicit operator authorization for live GCP mutation and spend.\"},{\"lane\":\"gcp-d1-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene defects in the exact issue range and current worktree before design approval and bind.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":400,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\"],\"parallel_group\":\"prebind\",\"defer_reason\":null},{\"lane\":\"exact-head-review-readiness\",\"proof_role\":\"Fail closed until completed implementation evidence and SOR/SRP truth are ready for exact-head independent review before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-review-readiness.sh\"],\"parallel_group\":\"review-readiness\",\"defer_reason\":\"Deferred until implementation and evidence are complete.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:731-bootstrap",
+      "reason": "Declare exact #731 validator and tfvars paths as issue-owned so VPP bash lanes are governed before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/platform/**\",\"infra/gcp/platform/terraform.tfvars.example\",\".csdlc/prepared/issues/731/**\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-review-readiness.sh\",\".csdlc/issues/731/**\",\".csdlc/evidence/731/**\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:731-bootstrap",
+      "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
