@@ -296,7 +296,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
         json!([{
             "branch": current_branch(),
             "worktree": binary_repo_root(),
-            "primary": false
+            "primary": binary_repo_root() == primary_repo_root()
         }]),
     );
     json!({
