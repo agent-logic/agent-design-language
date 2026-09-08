@@ -249,11 +249,16 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         &route_result["lifecycle_state"]
     };
     assert_eq!(lifecycle_state["phase"], "bound");
-    assert!(lifecycle_state["findings"]
-        .as_array()
-        .expect("eligibility findings")
-        .iter()
-        .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
+    if operational {
+        assert!(lifecycle_state["findings"]
+            .as_array()
+            .expect("eligibility findings")
+            .iter()
+            .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
+    } else {
+        assert_eq!(lifecycle_state["code"], "binding_live");
+        assert_eq!(lifecycle_state["status"], "passed");
+    }
 }
 
 #[test]
