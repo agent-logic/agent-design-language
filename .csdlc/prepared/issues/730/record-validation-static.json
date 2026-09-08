@@ -1,0 +1,21 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "befd98254adf770ab444a0eaf58a6764534513fd76ceb93e7b8ba6845c1cd8c0",
+  "actor": "codex:/root",
+  "reason": "Record #730 static impersonation and bounded Terraform contract validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+        "--lane=static"
+      ],
+      "purpose": "No-mutation GCP-B1 static validation for impersonation-only Terraform contract, bounded region/project labels, Terraform fmt/init/validate, and residue scan.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 730,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+    "slug": "gcp-b1-impersonation-remote-state",
+    "version": "v0.92.1",
+    "generation": 29
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh\n.csdlc/prepared/issues/730/run-gcp-b1-proof.sh\n.csdlc/prepared/issues/730/validate-gcp-b1.sh\ndocs/operations/cloud/gcp/terraform-bootstrap/README.md\ninfra/gcp/bootstrap\n.csdlc/evidence/730",
+      "review_revision": "git-blake3:d855b73438a8bac361c9716a17b41dd64a3c1370:d1e5ff92cf857f978c09e746748e774643b03e80b091b1295ad8c22494f8ba96",
+      "reviewer": "codex-subagent:/root/review_730_prelive",
+      "review_prompts": [
+        "Can any production path still select a static key?",
+        "Can the plan or rollback touch resources outside the exact denominator?",
+        "Does recovery prove immutable content and clean backend reinitialization?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Current HEAD 9d6e67e28b3861f81f3f6e16e40e8149f68f03bc is one later lifecycle-only assignment commit on top of the reviewed substantive implementation revision."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

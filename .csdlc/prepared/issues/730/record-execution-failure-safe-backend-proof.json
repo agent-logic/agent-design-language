@@ -1,0 +1,21 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "5942f43555214785cabcec7001abbbc72a880578341b01f18662096b9757b4b0",
+  "actor": "codex:/root",
+  "reason": "Record #730 failure-safe backend proof hardening after pre-live review.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+        "--lane=static"
+      ],
+      "purpose": "Static proof after making post-apply cleanup failure-safe and requiring the clean GCS backend probe to contain the expected Terraform bucket and IAM-member resources.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; live-proof-fail-closed.stderr.log still reports exact authorization artifact required; residue-scan.log has 0 lines; diff-check.log has 0 lines"
+    }
+  }
+}

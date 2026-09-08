@@ -1,0 +1,7 @@
+{
+  "issue": 730,
+  "expected_generation": 18,
+  "expected_digest": "c36629259da9f5e2427ade4452f536f1d27c4459752a1f6c2c725a41b33aad64",
+  "actor": "codex:/root",
+  "reason": "Recover stale review after lifecycle-only review-recording tail moved HEAD beyond the reviewed substantive commit; prepare exact-current-head review before publication."
+}

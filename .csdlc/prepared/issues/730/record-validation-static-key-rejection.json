@@ -1,0 +1,21 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "cc9ac10d2cddb165cec0a2bc43a649867caa5aeeff510daece9a62df9f8d50fd",
+  "actor": "codex:/root",
+  "reason": "Record #730 static credential environment rejection proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "GOOGLE_APPLICATION_CREDENTIALS=/nope",
+        "bash",
+        ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh"
+      ],
+      "purpose": "Negative proof that saved-plan preparation rejects static service-account credential-file environment before any Terraform or cloud operation.",
+      "outcome": "blocked",
+      "evidence_ref": ".csdlc/evidence/730/static-key-rejection.stderr.log; static credential file environment is not allowed; exit code 1"
+    }
+  }
+}

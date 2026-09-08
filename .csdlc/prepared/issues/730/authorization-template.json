@@ -1,0 +1,14 @@
+{
+  "schema": "adl.gcp_b1.authorization.v1",
+  "issue": "730",
+  "project_id": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "state_bucket_name": "adl-tf-state-cs-host-377d41e71a824f92802120",
+  "bootstrap_service_account": "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+  "plan_path": ".git/csdlc-v2/gcp-b1/730.tfplan",
+  "plan_sha256": "f34d0bc7d17110d8ca969eaf7a866b639ea20cf973cba20669465eea5457abf9",
+  "spend_cap_usd_first_30_days": 5,
+  "apply_timeout_seconds": 1800,
+  "expires_at": "REPLACE_WITH_ISO_8601_UTC_WITHIN_90_MINUTES",
+  "rollback_command": "remove issue-owned bucket IAM member and delete the empty bucket before state adoption; after adoption restore the last verified object generation and stop for operator direction"
+}

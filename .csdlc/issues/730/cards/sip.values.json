@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 730,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+    "slug": "gcp-b1-impersonation-remote-state",
+    "version": "v0.92.1",
+    "generation": 29
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Correct #491 with an impersonation-only recoverable Terraform bootstrap.",
+      "required_outcome": "Short-lived impersonation creates and proves the exact private remote-state backend, recovery, and zero local-state residue.",
+      "declared_scope": [
+        "infra/gcp/bootstrap",
+        "GCP-B runbook and focused validators",
+        "gcp-b1 retained evidence"
+      ],
+      "authority_boundary": [
+        "Only project cs-host-377d41e71a824f92802120 and us-west2.",
+        "No GCP mutation without the issue's exact operator authorization.",
+        "No static service-account key is a supported execution path."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write on main.",
+        "Do not expose credentials.",
+        "Do not mutate compute, network, DNS, billing, organization, folder, project, or unrelated IAM."
+      ]
+    }
+  }
+}
