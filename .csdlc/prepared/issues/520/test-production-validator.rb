@@ -38,9 +38,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     sh!("git", "add", "."); sh!("git", "commit", "-qm", "candidate")
     candidate = `git rev-parse HEAD`.strip
     changed = `git diff --name-only #{base}...#{candidate}`.lines.map(&:strip).sort
-    blob_evidence = lambda do |path|
+    blob_evidence = lambda do |path, subject_id|
       content = `git show #{candidate}:#{path}`
-      {"path" => path, "sha256" => Digest::SHA256.hexdigest(content), "source" => "candidate", "revision" => candidate}
+      {"path" => path, "sha256" => Digest::SHA256.hexdigest(content), "source" => "candidate", "revision" => candidate, "subject_id" => subject_id, "locator" => {"path" => path, "line" => 1}}
     end
 
     root = File.join(repo, "packet")
@@ -61,14 +61,15 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       "api_receipt" => {"transport" => "github_graphql", "page_size" => 100, "page_count" => 1, "final_has_next_page" => false, "retrieved_at" => "now", "query" => query, "query_sha256" => Digest::SHA256.hexdigest(query), "response_path" => response_path, "response_sha256" => Digest::SHA256.file(response_path).hexdigest},
       "pagination_complete" => true, "next_cursor" => nil, "query_limit" => nil, "issues" => [issue]}
     write_json(File.join(root, "live-milestone-snapshot.json"), snapshot)
-    repo_rows = changed.map.with_index { |path, i| {"path" => path, "denominator_ref" => "repo:#{i}", "classification" => "code", "disposition" => "review", "review_lane" => "code", "evidence" => blob_evidence.call(path)} }
+    repo_rows = changed.map.with_index { |path, i| ref="repo:#{i}"; {"path" => path, "denominator_ref" => ref, "classification" => "code", "disposition" => "review", "review_lane" => "code", "evidence" => blob_evidence.call(path, ref)} }
     write_json(File.join(root, "repo_inventory.json"), {"rows" => repo_rows})
-    canonical = %w[documentation demo provider_cloud retained_evidence].map { |kind| {"kind" => kind, "path" => "#{kind}.txt", "denominator_ref" => "canonical:#{kind}", "evidence" => blob_evidence.call("#{kind}.txt")} }
+    canonical = %w[documentation demo provider_cloud retained_evidence].map { |kind| ref="canonical:#{kind}"; {"kind" => kind, "path" => "#{kind}.txt", "denominator_ref" => ref, "evidence" => blob_evidence.call("#{kind}.txt", ref)} }
     write_json(File.join(root, "canonical-surface-inventory.json"), {"rows" => canonical})
-    issue_row = issue.merge("planned_id" => "WP-01", "issue" => 480, "denominator_ref" => "issue:480", "retrieved_at" => "now", "disposition" => "review", "evidence" => blob_evidence.call(spec_path))
+    issue_row = issue.merge("planned_id" => "WP-01", "issue" => 480, "denominator_ref" => "issue:480", "retrieved_at" => "now", "disposition" => "review", "evidence" => blob_evidence.call(spec_path, "issue:480"))
     write_json(File.join(root, "issue_inventory.json"), {"rows" => [issue_row]})
     criterion = "observable result"
-    ac = {"planned_id" => "WP-01", "acceptance_id" => "AC-1", "criterion" => criterion, "criterion_sha256" => Digest::SHA256.hexdigest(JSON.generate(criterion)), "denominator_ref" => "ac:1", "implementation_disposition" => "implemented", "proof_disposition" => "proved", "evidence" => blob_evidence.call(spec_path)}
+    ac_evidence=blob_evidence.call(spec_path,"ac:1").merge("criterion_id"=>"WP-01:AC-1")
+    ac = {"planned_id" => "WP-01", "acceptance_id" => "AC-1", "criterion" => criterion, "criterion_sha256" => Digest::SHA256.hexdigest(JSON.generate(criterion)), "denominator_ref" => "ac:1", "implementation_disposition" => "implemented", "proof_disposition" => "proved", "evidence" => ac_evidence}
     write_json(File.join(root, "acceptance_coverage.json"), {"rows" => [ac]})
     refs = (repo_rows + canonical + [issue_row, ac]).map { |row| row.fetch("denominator_ref") }
     lanes = %w[code tests documentation security architecture provider_cloud demos retained_evidence]
@@ -76,14 +77,15 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     refs.each_with_index { |ref, i| assignments[i % assignments.length]["denominator_refs"] << ref }
     results = assignments.map do |assignment|
       report_path = File.join(root, "#{assignment.fetch('id')}.json")
-      observations = assignment.fetch("denominator_refs").map { |ref| {"ref" => ref, "evidence" => blob_evidence.call(spec_path), "conclusion" => "reviewed"} }
+      observations = assignment.fetch("denominator_refs").map { |ref| {"ref" => ref, "evidence" => blob_evidence.call(spec_path,ref), "conclusion" => "verified_no_gap", "detail" => "inspected exact candidate surface"} }
       write_json(report_path, {"candidate_sha" => candidate, "denominator_refs" => assignment.fetch("denominator_refs"), "observations" => observations, "findings" => []})
-      {"assignment_id" => assignment.fetch("id"), "lane" => assignment.fetch("lane"), "outcome" => "passed", "candidate_sha" => candidate, "reviewer" => "fixture", "evidence" => "retained", "report_path" => report_path, "report_sha256" => Digest::SHA256.file(report_path).hexdigest, "tests_run" => 1}
+      test_stdout="1 test passed\n"
+      {"assignment_id" => assignment.fetch("id"), "lane" => assignment.fetch("lane"), "outcome" => "passed", "candidate_sha" => candidate, "reviewer" => "fixture", "evidence" => "retained", "report_path" => report_path, "report_sha256" => Digest::SHA256.file(report_path).hexdigest, "test_invocation" => {"argv"=>["ruby","test.rb"],"candidate_sha"=>candidate,"exit_status"=>0,"stdout"=>test_stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(test_stdout)}}
     end
     write_json(File.join(root, "assignments.json"), {"assignments" => assignments})
     write_json(File.join(root, "lane-results.json"), {"results" => results})
     write_json(File.join(root, "findings.json"), {"candidate_sha" => candidate, "outcome" => "passed", "findings" => []})
-    %w[proof-results.json validation-results.json redaction-report.json quality-report.json].each { |name| write_json(File.join(root, name), {"candidate_sha" => candidate, "outcome" => "passed", "observations" => ["checked"]}) }
+    %w[proof-results.json validation-results.json redaction-report.json quality-report.json].each { |name| subject="artifact:#{name}"; write_json(File.join(root, name), {"candidate_sha" => candidate, "outcome" => "passed", "observations" => [{"subject_id"=>subject,"result"=>"verified","detail"=>"resolved exact candidate evidence","evidence"=>blob_evidence.call(spec_path,subject)}]}) }
     required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json]
     paths = required.map { |name| File.join(root, name) } + results.map { |row| row.fetch("report_path") } + [response_path]
     write_json(File.join(root, "packet-manifest.json"), {"entries" => paths.map { |path| {"path" => path, "sha256" => Digest::SHA256.file(path).hexdigest} }})
