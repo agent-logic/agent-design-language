@@ -1,19 +1,17 @@
 # v0.92.1 Release-tail Gap Analysis
 
-Candidate: `f3eb715560c5e7d8aff5fe874c6a117ed2f3e169`
+Candidate: `8b430826ef3e1e092fd84a2d254453f662fa8f7d`
 
-Captured-input digest: `6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de`
+Captured-input digest: `f871e29df8b5e140431bacb15ddb7a83fd339d684171af12e2c6725b9fb52552`
 
-Canonical projection digest: `19729ef575a8ad77c86e586acc26d20598ef93110b3d9b2f442a7ee54404913c`
+Canonical projection digest: `36285cdc0e1050c108fc4dfce08b11fcd0a5d5598a810bb666abe1f77cd2968d`
 
 ## Findings
 
 - **P2 consolidated-live-spec-sync-debt** — Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records. Evidence: https://github.com/agent-logic/agent-design-language/issues/480#issue-body, f9a7235866ee1a2565fe18a7399b51b2704c37dae4ed875cfec987c8050e5532, 96ab626bad8ef94a33c1d7211a98d2786e94590998ee2cbad6180124b2f33cd5, https://github.com/agent-logic/agent-design-language/issues/494#issue-body, e4a5840ac93ada0212c84353af8527b00cc38d710ec5f0bb14bbc50cf6480851, 25aeef825468013dbd959e1ebd443f9c2552a1ef526814a42cc05c2f075a9286, https://github.com/agent-logic/agent-design-language/issues/510#issue-body, fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca, 5a236113e049937ac0fd466b425d43acafabd891c2835cde80b197d55993a1e7, https://github.com/agent-logic/agent-design-language/issues/512#issue-body, 80be51e3a6ae692a23386c52cfcd8aed130b058c398c55659d1d724a79eaaa5d, 759236137cc551e220664b5528b0850882fddd4e5c1df4f1158b01d582ee02ba. Owner: release planning maintainers. Disposition: follow_up.
-- **P1 issue-725-v3-standalone-parity-gap** — Closed #721 and open PR #726 cover issue-create and reporting parity but do not remove v2 build and operational dependencies. Open #725 owns native v3 authority migration. At f3eb715560c5e7d8aff5fe874c6a117ed2f3e169, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/issues/725, 42c02056fa762b56b9376be89d7914c5d1453deec50cf1b43ba85412d9656657, https://github.com/agent-logic/agent-design-language/pull/722, https://github.com/agent-logic/agent-design-language/pull/726, 7bdcdc52b847701dda27ece1b2946fd6c2ca3f12, 6e2e49e8950729109693a4ccbd5f206d7b4f3cd3a54fbd4f8542fbc78ca528c5, e91cd644677aff555b77fad89013090c07331cfe13f3e5ad3fd14d69b9e0dd88, {"path"=>".csdlc/evidence/516/no-v2-canary-f3eb7155.json", "sha256"=>"c6d322d6caeb1df9b61e26174828ac753b7d84a8a676202db4c9c9e1e5335aff"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #725. Disposition: open.
+- **P1 issue-725-v3-standalone-parity-gap** — Merged #721 provides issue-create and reporting parity but does not remove v2 build and operational dependencies. Open #725 and PR #732 own native v3 authority migration. At 8b430826ef3e1e092fd84a2d254453f662fa8f7d, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/issues/725, 42c02056fa762b56b9376be89d7914c5d1453deec50cf1b43ba85412d9656657, https://github.com/agent-logic/agent-design-language/pull/722, https://github.com/agent-logic/agent-design-language/pull/732, 303fb01ea4b03a883508b0357322a86a35be3bf9, e0fda1f164ffb1e69354688a006dbe40b115e4f99d797fde09fb69be55360c0f, 3529b8503830b6ba3fe8d02904cc089c17b989c4a6deac89386e8262472ee03e, {"path"=>".csdlc/evidence/516/no-v2-canary-8b430826.json", "sha256"=>"f26cfc81a814a843d804fdb898b250f54de245744c2b6d2dbff074e59906f6a4"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #725. Disposition: open.
 - **P1 issue-487-semantic-implementation-gap** — AWS-D has 3 audit-confirmed unmet implementation criteria. Evidence: infra/aws/account-foundation/main.tf, .csdlc/issues/487/cards/sor.md. Owner: issue #487. Disposition: open.
-- **P1 issue-489-semantic-implementation-gap** — AWS-F has 1 audit-confirmed unmet implementation criteria. Evidence: infra/aws/runtime/private-node/main.tf, .csdlc/issues/489/cards/sor.md. Owner: issue #489. Disposition: open.
 - **P1 issue-491-semantic-implementation-gap** — GCP-B has 1 audit-confirmed unmet implementation criteria. Evidence: infra/gcp/bootstrap/main.tf, .csdlc/issues/491/cards/sor.md. Owner: issue #491. Disposition: open.
-- **P1 issue-493-semantic-implementation-gap** — GCP-D has 1 audit-confirmed unmet implementation criteria. Evidence: infra/gcp/platform/main.tf, .csdlc/issues/493/cards/sor.md. Owner: issue #493. Disposition: open.
 - **P2 semantic-criterion-proof-gaps** — Two GCP-B criteria lack live recovery/cleanup proof. Evidence: infra/gcp/bootstrap/main.tf, .csdlc/issues/491/cards/sor.md. Owner: issue #491. Disposition: follow_up.
 - **P2 accepted-semantic-amendments** — Explicit live acceptance/absorption/sequencing amendments replace the listed original criteria. Evidence: github:issue-483:closed, github:issue-497:checked-live-acceptance, github:issue-624:closed-sidecar, github:issue-507:closed, github:issue-511:closed, github:issue-512:closed. Owner: release operator. Disposition: accepted.
 - **P2 consolidated-retained-successor-proof-debt** — Some retained predecessors lack a successor with observed merged execution evidence. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/stp.md. Owner: release evidence maintainers. Disposition: follow_up.
@@ -79,8 +77,8 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 ## Backlog and retained authority
 
-- #84: `a85f2bb235a3ad812343a3517e688eebcfb14409cdd57440a2c275144e518aaf`
-- #251: `b37803d02658d65cf54f060c4200a0983f41e0839d577ebb6555c2f5c3be564e`
+- #84: `cbcf548695a4ea5c0102c93ef3bdbee0244af083292163ab21ca8ecf7511b722`
+- #251: `4054d4a69704f010b0f285dc7d710e067a5395c41e5b72bb92cab7e1518a4e3b`
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision
@@ -92,7 +90,7 @@ This is an admission decision only; it is not release approval.
 ## Revision history
 
 - Historical result at `e68c666803185c348140547e243bc3922b6a571c`: 2 P1 product blockers (#497, #721), 4 consolidated P2 proof-debt findings, and 2 routed backlog entries. Superseded after direct #497 recordless-acceptance evidence and final review.
-- Revised result: 5 P1 product blocker, 5 P2 proof-debt findings; backlog #84/#251 is excluded scope and is not counted as a finding.
+- Revised result: 3 P1 product blocker, 5 P2 proof-debt findings; backlog #84/#251 is excluded scope and is not counted as a finding.
 
 ## Complete acceptance projection
 
@@ -135,7 +133,7 @@ This is an admission decision only; it is not release approval.
 | AWS-F | #489 | AWS-F-ac-1 | proven | Runtime hosts have no direct public ingress |
 | AWS-F | #489 | AWS-F-ac-2 | proven | Shared edge network build and node states remain separated |
 | AWS-F | #489 | AWS-F-ac-3 | proven | Existing issue 122 owns public Route53 and ACM exposure |
-| AWS-F | #489 | AWS-F-ac-4 | implementation_gap | Disposable deployment and cleanup bind the exact modules |
+| AWS-F | #489 | AWS-F-ac-4 | proven | Disposable deployment and cleanup bind the exact modules |
 | GCP-A | #490 | GCP-A-ac-1 | proven | Organization folder project billing and region are exact |
 | GCP-A | #490 | GCP-A-ac-2 | proven | POC and long-term ownership are explicit |
 | GCP-A | #490 | GCP-A-ac-3 | proven | The first workload has a hard cost ceiling |
@@ -151,7 +149,7 @@ This is an admission decision only; it is not release approval.
 | GCP-D | #493 | GCP-D-ac-1 | proven | No unintended public route address or ingress exists |
 | GCP-D | #493 | GCP-D-ac-2 | proven | Human and workload identities are separate |
 | GCP-D | #493 | GCP-D-ac-3 | proven | State artifacts models continuity evidence and logs have separate owners |
-| GCP-D | #493 | GCP-D-ac-4 | implementation_gap | A disposable non-GPU workload is destroyed with zero residue |
+| GCP-D | #493 | GCP-D-ac-4 | proven | A disposable non-GPU workload is destroyed with zero residue |
 | GCP-E | #494 | GCP-E-ac-1 | proven | Paid launch has separate authorization and a USD 20 ceiling |
 | GCP-E | #494 | GCP-E-ac-2 | proven | Exact inputs and hardware are retained |
 | GCP-E | #494 | GCP-E-ac-3 | proven | GPU inference and headroom are proven |
@@ -482,5 +480,5 @@ This is an admission decision only; it is not release approval.
 
 | Issue | Disposition | Authority digest |
 |---|---|---|
-| #84 | routed_to_backlog | a85f2bb235a3ad812343a3517e688eebcfb14409cdd57440a2c275144e518aaf |
-| #251 | routed_to_backlog | b37803d02658d65cf54f060c4200a0983f41e0839d577ebb6555c2f5c3be564e |
+| #84 | routed_to_backlog | cbcf548695a4ea5c0102c93ef3bdbee0244af083292163ab21ca8ecf7511b722 |
+| #251 | routed_to_backlog | 4054d4a69704f010b0f285dc7d710e067a5395c41e5b72bb92cab7e1518a4e3b |

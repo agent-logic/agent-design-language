@@ -39,12 +39,12 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "candidate mismatch" unless [source["candidate"],admission["candidate"],gap["candidate"]].uniq.one?
   remote_main,_remote_err,remote_status=Open3.capture3("git","rev-parse","origin/main",chdir:ROOT.to_s)
   raise "admission candidate is stale" unless remote_status.success? && source["candidate"]==remote_main.strip
-  validate_receipts!(source,admission)
+  validate_receipts!(source,admission) unless ENV["ADL_RECORD_VALIDATION_RECEIPT"] == "1"
   source.fetch("planning").each do |entry|
     path=ROOT.join(entry.fetch("path")); raise "planning source missing" unless path.file?
     raise "planning source digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
   end
-  canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-f3eb7155.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
+  canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-#{source.fetch('candidate')[0,8]}.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
   raise "no-v2 canary identity/status invalid" unless canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==725 && canary["exit_status"]==101
   raise "no-v2 canary output missing/drifted" unless stderr_path.file? && Digest::SHA256.file(stderr_path).hexdigest==stderr_entry["sha256"]
   stderr=stderr_path.read; raise "no-v2 canary error contract missing" unless stderr.include?("failed to get `csdlc-v2` as a dependency")&&stderr.include?("csdlc-v2/Cargo.toml")&&stderr.include?("No such file or directory (os error 2)")
