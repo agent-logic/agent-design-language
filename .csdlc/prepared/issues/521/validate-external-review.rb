@@ -94,7 +94,10 @@ invocation_blob = git_blob(internal_merge, invocation.fetch("receipt_path"))
 fail!("#520 invocation receipt digest mismatch") unless Digest::SHA256.hexdigest(invocation_blob) == invocation.fetch("sha256")
 invocation_doc = JSON.parse(invocation_blob)
 validator_path = ".csdlc/prepared/issues/520/validate-internal-review.rb"
-fail!("#520 invocation used wrong validator") unless invocation_doc.fetch("validator_path") == validator_path && invocation_doc.fetch("validator_sha256") == Digest::SHA256.hexdigest(git_blob(reviewed_head, validator_path))
+validator_blob = git_blob(reviewed_head, validator_path)
+fail!("#520 invocation used wrong validator") unless invocation_doc.fetch("validator_path") == validator_path && invocation_doc.fetch("validator_sha256") == Digest::SHA256.hexdigest(validator_blob)
+_syntax_out, syntax_err, syntax_status = Open3.capture3("ruby", "-c", stdin_data: validator_blob)
+fail!("immutable #520 validator blob is not executable Ruby: #{syntax_err.strip}") unless syntax_status.success?
 fail!("#520 invocation argv/exit/candidate is invalid") unless invocation_doc.fetch("argv") == ["ruby", validator_path, "all"] && invocation_doc.fetch("exit_status") == 0 && invocation_doc.fetch("candidate_sha") == candidate
 stdout = invocation_doc.fetch("stdout")
 fail!("#520 invocation stdout digest mismatch") unless Digest::SHA256.hexdigest(stdout) == invocation_doc.fetch("stdout_sha256")
