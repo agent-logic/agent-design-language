@@ -1,8 +1,8 @@
 {
   "issue": 516,
   "expected_generation": 3,
-  "expected_digest": "0a07fbd1218379aa8a8900cc072b000cd80405f742dd88bac7ffed58de3a72b9",
-  "reviewer": "fresh-session:b229b448-72f6-4df5-91f4-c20c81df9525",
+  "expected_digest": "ca143cfd8c81424f2160c5f290eb38cfdecb25090de3b741619060b84c93acaa",
+  "reviewer": "fresh-session:f0268c97-6bd2-4a3d-8251-ad80f054aba2",
   "assigned_by": "codex:/root",
   "scope": [
     ".csdlc/evidence/516",
