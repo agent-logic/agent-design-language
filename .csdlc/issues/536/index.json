@@ -6,10 +6,18 @@
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
   "phase": "implemented",
   "generation": 11,
-  "digest": "450734e59f7a607176f74a3a9b480ac806956bf4230126e8ca8d439bae8df994",
+  "digest": "f06a41a8aef57200fb2dfa06d26166d20595204851d57767061abc1ec4b3a58e",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_536_closeout",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:aec66dd50f9653da21bd68966f4b92db1c86480c:e0bb45d245fc608eff44a6b1510b501b1cf766fad615ba711f13a65e46225575",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "7410e732f03c0e710d82849eaa03b33a594ede1b4a268ffad1967a9a679a1712",
-      "rendered_digest": "f9728c6b555d78265a3ecc7ea3967dcd7f89274bdc053dd755301cda3ec02e2f",
-      "ast_digest": "05d9996be469f7834734672cd227d844fcdea52cb09696b945389e6063e6d671"
+      "values_digest": "e4b9a72ad900583debdcd0e9492e0b42b92889811e190df5b28a62ae746f7fab",
+      "rendered_digest": "a6a57a883f4227a16de6bc6f70adcf62d1f49c6fa28b5d555e1bad52dcbe8de0",
+      "ast_digest": "e6e14486af6e00c119d046500bfacb5467d61245c75d7c9a91e3d070616977ac"
     },
     "sor": {
       "values_digest": "5dc5b0e43709cc2d5295154308f0f929ca0592b8bd025e7f2d5883a334b8c783",
@@ -176,6 +184,13 @@
       "actor": "codex:/root",
       "reason": "The assigned review finding was fixed at 5c87c6f33a40e9518ca46dd377a5848a9120ad56; clear stale review authority and require a fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
