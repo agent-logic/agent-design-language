@@ -2,6 +2,7 @@
 require "digest"
 require "json"
 require "open3"
+require "openssl"
 
 def fail!(message)
   abort(message)
@@ -13,6 +14,14 @@ end
 
 def nonempty?(value)
   value.respond_to?(:empty?) && !value.empty?
+end
+
+def canonical_json(value)
+  case value
+  when Hash then "{" + value.keys.sort.map { |key| JSON.generate(key) + ":" + canonical_json(value.fetch(key)) }.join(",") + "}"
+  when Array then "[" + value.map { |item| canonical_json(item) }.join(",") + "]"
+  else JSON.generate(value)
+  end
 end
 
 def git_blob(revision, path)
@@ -143,7 +152,15 @@ fail!("trusted runner receipt is unavailable") unless File.file?(runner_path)
 runner_blob = File.binread(runner_path)
 fail!("trusted runner receipt digest mismatch") unless Digest::SHA256.hexdigest(runner_blob) == manifest.fetch("trusted_runner_receipt_sha256")
 runner = JSON.parse(runner_blob)
-fail!("standard runner did not produce the retained provider exchange") unless runner.fetch("runner") == "docs/tooling/OPUS_REVIEW_RUNBOOK.md" && runner.fetch("request_sha256") == receipt.fetch("request_sha256") && runner.fetch("response_sha256") == receipt.fetch("response_sha256") && runner.fetch("provider_native_response_sha256") == receipt.fetch("provider_native_response_sha256") && runner.fetch("exit_status") == 0 && nonempty?(runner.fetch("signer_key_id")) && nonempty?(runner.fetch("signature")) && runner.fetch("provider_response_id") == native.fetch("response_id")
+trust_path = ENV.fetch("ADL_EXTERNAL_REVIEW_TRUST_ROOT")
+fail!("runner trust root must be external to the packet") if File.expand_path(trust_path).start_with?(File.expand_path(root) + File::SEPARATOR)
+trust = read_json(trust_path)
+signed_runner = runner.reject { |key, _| key == "signature" }
+expected_signature = OpenSSL::HMAC.hexdigest("SHA256", trust.fetch("hmac_key"), canonical_json(signed_runner))
+fail!("trusted runner signature is invalid") unless runner.fetch("signer_key_id") == trust.fetch("key_id") && runner.fetch("signature") == expected_signature
+fail!("standard runner did not produce the retained provider exchange") unless runner.fetch("runner") == "docs/tooling/OPUS_REVIEW_RUNBOOK.md" && runner.fetch("request_sha256") == receipt.fetch("request_sha256") && runner.fetch("response_sha256") == receipt.fetch("response_sha256") && runner.fetch("provider_native_response_sha256") == receipt.fetch("provider_native_response_sha256") && runner.fetch("exit_status") == 0 && runner.fetch("provider_response_id") == native.fetch("response_id")
+native_projection = JSON.parse(native.fetch("content"))
+fail!("provider-native response content differs from projected review") unless native_projection == {"scope_rows" => raw.fetch("scope_rows"), "findings" => raw.fetch("findings"), "limitations" => raw.fetch("limitations"), "observations" => raw.fetch("observations")}
 
 scope = docs.fetch("scope.json")
 expected_scope = scope.fetch("expected_refs")
