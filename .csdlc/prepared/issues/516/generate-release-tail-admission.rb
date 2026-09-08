@@ -56,7 +56,12 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
   end
   prs.each { |pr| pr["ancestral"] = !!(pr.dig("mergeCommit","oid") && ancestor?(pr.dig("mergeCommit","oid"),candidate)) }
   canonical = prs.select { |pr| pr["mergedAt"] && pr["ancestral"] }.max_by { |pr| [pr["mergedAt"],pr["number"]] }
-  absorbed=nil; owner_closed=false; disposition="release_blocker"
+  closure_comment=issue["comments"].find{|c|c["body"].to_s.match?(/Closed as absorbed into #(\d+)/)&&c["body"].to_s.include?("csdlc-github-operation:")}
+  absorbed=if closure_comment
+    target=closure_comment["body"].match(/Closed as absorbed into #(\d+)/)[1].to_i; target_issue=captured[target]
+    {"kind"=>"captured_absorption_closeout","comment_url"=>closure_comment["url"],"comment_body_sha256"=>Digest::SHA256.hexdigest(closure_comment["body"]),"target_issue"=>target,"target_state"=>target_issue&&target_issue["state"]&.downcase,"authority_marker"=>"csdlc-github-operation"}
+  end
+  owner_closed=absorbed&&absorbed["target_state"]=="closed"; disposition="release_blocker"
   record=ROOT.join(".csdlc/issues/#{number}"); srp=record.join("cards/srp.md"); sor=record.join("cards/sor.md")
   files=canonical ? canonical.fetch("files").map{|f|f["path"]} : []
   product=files.reject{|p|p.start_with?(".csdlc/")||p.include?("/tests/")||p.match?(/(?:^|\/)(?:test|validate)[^\/]*$/)||p.start_with?("docs/")}
@@ -71,7 +76,7 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
   review_current=reviewed_revision&&canonical&&ancestor?(reviewed_revision,canonical["headRefOid"])&&post_review.empty?
   semantic={"production_call_path_or_noncode"=>(product+noncode).uniq,"behavioral_validation"=>behavioral,"exact_head_review"=>review_files,"review_basis"=>{"reviewed_revision"=>reviewed_revision,"post_review_paths"=>post_review,"current"=>!!review_current},"docs_demo_relevance"=>docs_demo.empty? ? ["explicit:not_applicable"] : docs_demo,"successful_checks"=>successful_checks}
   semantic_complete=false
-  evidence = canonical ? [canonical.fetch("url"),canonical.fetch("headRefOid")] : (absorbed ? [absorbed.fetch("authority"), absorbed["owner"] ? "issue ##{absorbed['owner']}" : nil].compact : [])
+  evidence = canonical ? [canonical.fetch("url"),canonical.fetch("headRefOid")] : (absorbed ? [absorbed.fetch("comment_url"), "issue ##{absorbed['target_issue']}"] : [])
   evidence += [srp,sor].select(&:file?).map{|p|"#{p.relative_path_from(ROOT)}@sha256:#{sha(p)}"}
   spp_values=record.join("cards/spp.values.json")
   owned_paths = if spp_values.file?

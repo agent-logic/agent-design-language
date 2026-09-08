@@ -1,10 +1,10 @@
 # v0.92.1 Release-tail Gap Analysis
 
-Candidate: `b8e1b4483b1c345e42ec7817bfde8214469867bb`
+Candidate: `af5f8036ab7a0619751ab55fa9bd4891f377cd9d`
 
-Captured-input digest: `16e7fd50fafe6e86b53669b8df4b27b1dcbaacff06497bc8cd582ccefbfac954`
+Captured-input digest: `8bbd30d2cb59ba1f00a2a90806c52748919b29c640b1e8f7700d930ad80b3f51`
 
-Canonical projection digest: `786cdd706c6d857adba31ad7a29dbae81bbed5b65a7087309a5c46ccdc73618d`
+Canonical projection digest: `b1c092b02137537b2f4b6039a59b5839bd68a2634daaf3509678de78a22aeeea`
 
 ## Findings
 
@@ -32,7 +32,7 @@ Canonical projection digest: `786cdd706c6d857adba31ad7a29dbae81bbed5b65a7087309a
 - **P1 issue-502-review-or-terminal-gap** — V3-C / #502 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/502, .csdlc/issues/502/cards/srp.md, .csdlc/issues/502/cards/sor.md. Owner: issue #502. Disposition: open.
 - **P1 issue-503-review-or-terminal-gap** — V3-D / #503 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/503, .csdlc/issues/503/cards/srp.md, .csdlc/issues/503/cards/sor.md. Owner: issue #503. Disposition: open.
 - **P1 issue-504-review-or-terminal-gap** — V3-E / #504 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/504, .csdlc/issues/504/cards/srp.md, .csdlc/issues/504/cards/sor.md. Owner: issue #504. Disposition: open.
-- **P1 issue-505-review-or-terminal-gap** — V3-F / #505 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/505. Owner: issue #505. Disposition: open.
+- **P1 issue-505-review-or-terminal-gap** — V3-F / #505 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/505, .csdlc/issues/505/cards/srp.md, .csdlc/issues/505/cards/sor.md. Owner: issue #505. Disposition: open.
 - **P1 issue-506-review-or-terminal-gap** — DRT-A / #506 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/506, .csdlc/issues/506/cards/srp.md, .csdlc/issues/506/cards/sor.md. Owner: issue #506. Disposition: open.
 - **P1 issue-507-review-or-terminal-gap** — DRT-B / #507 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/507, .csdlc/issues/507/cards/srp.md, .csdlc/issues/507/cards/sor.md. Owner: issue #507. Disposition: open.
 - **P1 issue-508-review-or-terminal-gap** — DRT-C / #508 lacks explicit criterion-level production, behavior, validation, and exact-head review mappings. Evidence: https://github.com/agent-logic/agent-design-language/issues/508, .csdlc/issues/508/cards/srp.md, .csdlc/issues/508/cards/sor.md. Owner: issue #508. Disposition: open.
@@ -87,8 +87,8 @@ Canonical projection digest: `786cdd706c6d857adba31ad7a29dbae81bbed5b65a7087309a
 - **P1 retained-188-observed-gap** — Retained predecessor #188 lacks an explicit semantic successor mapping. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md. Owner: issue #. Disposition: open.
 - **P1 retained-190-observed-gap** — Retained predecessor #190 lacks an explicit semantic successor mapping. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/stp.md. Owner: issue #. Disposition: open.
 - **P1 retained-189-observed-gap** — Retained predecessor #189 lacks an explicit semantic successor mapping. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/stp.md. Owner: issue #. Disposition: open.
-- **P2 issue-84-operator-deferred** — [backlog][Observatory] Complete live Unity Observatory Runtime v3 integration is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}. Owner: issue #84. Disposition: routed_to_backlog.
-- **P2 issue-251-operator-deferred** — [backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}. Owner: issue #251. Disposition: routed_to_backlog.
+- **P2 issue-84-operator-deferred** — [backlog][Observatory] Complete live Unity Observatory Runtime v3 integration is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"af5f8036ab7a0619751ab55fa9bd4891f377cd9d"}. Owner: issue #84. Disposition: routed_to_backlog.
+- **P2 issue-251-operator-deferred** — [backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"af5f8036ab7a0619751ab55fa9bd4891f377cd9d"}. Owner: issue #251. Disposition: routed_to_backlog.
 - **P1 owned-path-collision-8ef215d67b9e** — Owned path infra/aws/account-foundation has multiple unresolved owners. Evidence: .csdlc/issues/485/cards/spp.values.json, .csdlc/issues/487/cards/spp.values.json. Owner: issue #485, issue #487. Disposition: open.
 - **P1 owned-path-collision-6d89dd387a94** — Owned path infra/aws/runtime has multiple unresolved owners. Evidence: .csdlc/issues/489/cards/spp.values.json, .csdlc/issues/495/cards/spp.values.json. Owner: issue #489, issue #495. Disposition: open.
 - **P1 owned-path-collision-22b51cbc8124** — Owned path csdlc-v3/src/lib.rs has multiple unresolved owners. Evidence: .csdlc/issues/500/cards/spp.values.json, .csdlc/issues/503/cards/spp.values.json. Owner: issue #500, issue #503. Disposition: open.
@@ -129,8 +129,8 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 | DRT-C | #508 | cca4f7f675241a0a473b38006c8be2eb95165028 | a1c440cc7b1e3708961680c802585d0b80e2263f | ancestor | release_blocker |
 | DRT-D | #509 | c89a584e53f152ed499a5d56d479296590044714 | 5a1109ffa795d411e0e15cdfd29adf68e2c2d953 | ancestor | release_blocker |
 | HOT-01 | #510 | fac5eaa63a82eaf50fe455df14cc22ebb08a2678 | 000fb7beb5fe4107e3e80d5de9183be224716a6d | ancestor | release_blocker |
-| OBS-A | #511 | none | none | not_proven | release_blocker |
-| OBS-B | #512 | none | none | not_proven | release_blocker |
+| OBS-A | #511 | none | none | not_applicable_absorbed | release_blocker |
+| OBS-B | #512 | e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4 | af5f8036ab7a0619751ab55fa9bd4891f377cd9d | ancestor | release_blocker |
 | DEC-01 | #513 | 489bc0f3af68b059e5c26ff22600d945b3d21db8 | 5bc84a0f27a522b6d500551d64f8d12dc2357427 | ancestor | release_blocker |
 | PROV-A | #514 | 1b0fd87496bb09200a5cb1bbb0529e8730be1b20 | 18f1c76667dc6913c2553b53228e73e8de9d11c9 | ancestor | release_blocker |
 | PROV-B | #515 | 9e6a8bd104d79f77edc4460ee5424cea83ef9cdc | 17b883e93abff7a155cd783a3d76f52ba2eabbf2 | ancestor | release_blocker |
@@ -153,8 +153,8 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 ## Backlog and retained authority
 
-- #84: `5c94385acfba95f93cd9673b30745a78a5f49f17c02f9606a9f7f220bc1af899`
-- #251: `23c4be414ab0bb57a63b0a7a8e783bc72a5523b9b0565c4250905f9fd12c2749`
+- #84: `4c0b8a4cec3741f4ebb145864fcdf02cfccf62b352e6a8a900c8ebc97385b59a`
+- #251: `4113989e3d613b8044e49c08e7ebc26be4be346fdb19db14695ec5f2b9fbcb40`
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision
@@ -555,5 +555,5 @@ This is an admission decision only; it is not release approval.
 
 | Issue | Disposition | Authority digest |
 |---|---|---|
-| #84 | routed_to_backlog | 5c94385acfba95f93cd9673b30745a78a5f49f17c02f9606a9f7f220bc1af899 |
-| #251 | routed_to_backlog | 23c4be414ab0bb57a63b0a7a8e783bc72a5523b9b0565c4250905f9fd12c2749 |
+| #84 | routed_to_backlog | 4c0b8a4cec3741f4ebb145864fcdf02cfccf62b352e6a8a900c8ebc97385b59a |
+| #251 | routed_to_backlog | 4113989e3d613b8044e49c08e7ebc26be4be346fdb19db14695ec5f2b9fbcb40 |
