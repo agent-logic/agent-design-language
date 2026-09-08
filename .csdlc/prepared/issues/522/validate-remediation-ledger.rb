@@ -54,6 +54,7 @@ reports.each do |report|
   pr_number = report.fetch("pull_request")
   merge_sha = report.fetch("merge_sha")
   fail!("source merge SHA is invalid") unless merge_sha.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{merge_sha}^{commit}")
+  system("git", "merge-base", "--is-ancestor", merge_sha, ledger_candidate) or fail!("source review merge is not ancestral to immutable ledger candidate")
   issue_out, issue_err, issue_status = Open3.capture3("gh", "issue", "view", report.fetch("issue").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,closedByPullRequestsReferences")
   fail!("cannot verify source issue: #{issue_err.strip}") unless issue_status.success?
   issue_doc = JSON.parse(issue_out)
@@ -83,6 +84,8 @@ reports.each do |report|
   fail!("source finding is stale") unless parsed_findings.all? { |finding| finding.fetch("revision") == report.fetch("reviewed_revision") }
   fail!("source finding severity or evidence is invalid") unless parsed_findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && nonempty?(finding.fetch("status")) && nonempty?(finding.fetch("evidence")) }
 end
+source_candidates = reports.map { |report| JSON.parse(git_blob(report.fetch("merge_sha"), report.fetch("path"))).fetch("candidate_sha") }
+fail!("#520 and #521 do not review the same ledger-declared candidate") unless source_candidates.uniq.length == 1 && source_doc.fetch("reviewed_candidate_sha") == source_candidates.first
 source = reports.flat_map { |report| JSON.parse(git_blob(report.fetch("merge_sha"), report.fetch("path"))).fetch("findings") }
 fail!("empty source finding census lacks affirmative zero-finding proof") if source.empty? && !nonempty?(source_doc.fetch("zero_findings_proof"))
 source_ids = source.map { |finding| finding.fetch("id") }
@@ -120,8 +123,9 @@ dispositions.each do |row|
     review = row.fetch("review")
     fail!("review authority is neither typed nor independent external") unless %w[typed_csdlc external_independent].include?(review.fetch("authority_kind")) && nonempty?(review.fetch("assignment_id")) && nonempty?(review.fetch("reviewer")) && nonempty?(review.fetch("authority_receipt_path"))
     authority_path = review.fetch("authority_receipt_path")
-    fail!("review authority receipt is outside remediation packet") unless authority_path.start_with?(root + "/") && File.file?(authority_path)
-    authority_blob = File.binread(authority_path)
+    authority_revision = review.fetch("authority_revision")
+    fail!("typed review authority revision is not ancestral to ledger candidate") unless authority_revision.match?(/\A[0-9a-f]{40}\z/) && system("git", "merge-base", "--is-ancestor", authority_revision, ledger_candidate)
+    authority_blob = git_blob(authority_revision, authority_path)
     fail!("review authority receipt digest mismatch") unless Digest::SHA256.hexdigest(authority_blob) == review.fetch("authority_receipt_sha256")
     authority_doc = JSON.parse(authority_blob)
     fail!("review authority receipt is not an exact-head pass") unless authority_doc.fetch("outcome") == "passed" && authority_doc.fetch("reviewed_sha") == head_sha && authority_doc.fetch("findings") == [] && authority_doc.fetch("blockers") == [] && authority_doc.fetch("authority_kind") == review.fetch("authority_kind")
@@ -139,6 +143,11 @@ dispositions.each do |row|
     fail!("validator invocation receipt digest mismatch") unless Digest::SHA256.file(invocation_path).hexdigest == invocation.fetch("sha256")
     invocation_doc = read_json(invocation_path)
     validator_path = invocation_doc.fetch("validator_path")
+    validation_manifest_path = invocation_doc.fetch("validation_manifest_path")
+    validation_manifest_blob = git_blob(head_sha, validation_manifest_path)
+    validation_manifest = JSON.parse(validation_manifest_blob)
+    declared_commands = validation_manifest.fetch("commands")
+    fail!("validator is not an issue-owned declared validation command") unless validation_manifest.fetch("issue") == remediation_issue && declared_commands.include?(invocation_doc.fetch("argv"))
     validator_blob = git_blob(head_sha, validator_path)
     fail!("validator blob digest mismatch") unless Digest::SHA256.hexdigest(validator_blob) == invocation_doc.fetch("validator_sha256")
     interpreter = File.extname(validator_path) == ".rb" ? "ruby" : "bash"
@@ -160,7 +169,12 @@ dispositions.each do |row|
       fail!("validation evidence digest mismatch") unless Digest::SHA256.hexdigest(evidence_blob) == validation.fetch("sha256")
       validation_doc = JSON.parse(evidence_blob)
       evidence_sha = validation_doc["candidate_sha"] || validation_doc["head_sha"] || validation_doc["revision"]
-      fail!("validation evidence does not prove pass at fixed head") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && evidence_sha == head_sha
+      observations = validation_doc.fetch("observations")
+      behavior_bound = observations.is_a?(Array) && observations.any? && observations.all? do |observation|
+        blob = git_blob(head_sha, observation.fetch("artifact_path"))
+        Digest::SHA256.hexdigest(blob) == observation.fetch("artifact_sha256") && %w[verified passed].include?(observation.fetch("result")) && nonempty?(observation.fetch("behavior"))
+      end
+      fail!("validation evidence does not prove behavior at fixed head") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && evidence_sha == head_sha && behavior_bound
     end
   when "deferred"
     fail!("deferral metadata is incomplete") unless %w[owner rationale target_milestone release_consequence].all? { |key| nonempty?(row.fetch(key)) }
@@ -187,8 +201,8 @@ fixed_review_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
 fixed_invocation_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.map { |row| row.fetch("validator_invocation").fetch("receipt_path") }
 fail!("packet manifest omits fixed-disposition validator receipts") unless fixed_invocation_paths.all? { |path| paths.include?(path) }
-fixed_authority_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.flat_map { |row| [row.fetch("review").fetch("authority_receipt_path"), *row.fetch("validation").map { |validation| validation.fetch("evidence") }] }
-fail!("packet manifest omits fixed-disposition authority or validation receipts") unless fixed_authority_paths.all? { |path| paths.include?(path) }
+fixed_validation_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.flat_map { |row| row.fetch("validation").map { |validation| validation.fetch("evidence") } }
+fail!("packet manifest omits fixed-disposition validation receipts") unless fixed_validation_paths.all? { |path| paths.include?(path) }
   {schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length}
 end
 
