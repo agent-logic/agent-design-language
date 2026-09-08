@@ -5,74 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "8c2cdd8ecd8fe81654808ea3f2920614a551e1d38a63df1208c7c72ffdabac96",
+  "generation": 9,
+  "digest": "86ce878b3eda2a632ffc5007d777cd923ad48ffac7c5a1932f1d5aaab1cf2f09",
   "branch": "codex/512-observatory-redesign-implementation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
-  "review_assignment": {
-    "reviewer": "codex:issue-512-operator-proof-review",
-    "assigned_by": "codex:issue-512-observatory-redesign",
-    "revision": "git-blake3:2a905edb805df09a46097a1353f0b30e5b970d7a:73fbeca6e74894b296c23e7d03042590ce038196e5d8622d22061955c1e9d39e",
-    "scope": [
-      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
-      ".csdlc/evidence/512/exact-browser-operator-proof.md",
-      ".csdlc/evidence/512/exact-browser-operator-screenshot.png",
-      "adl/tools/test_html_observatory.sh",
-      "demos/html-observatory/README.md",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/runtime-v3.config.json",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
-      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:issue-512-operator-proof-review",
-    "scope": [
-      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
-      ".csdlc/evidence/512/exact-browser-operator-proof.md",
-      ".csdlc/evidence/512/exact-browser-operator-screenshot.png",
-      "adl/tools/test_html_observatory.sh",
-      "demos/html-observatory/README.md",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/runtime-v3.config.json",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
-      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
-    ],
-    "reviewed_revision": "git-blake3:2a905edb805df09a46097a1353f0b30e5b970d7a:73fbeca6e74894b296c23e7d03042590ce038196e5d8622d22061955c1e9d39e",
-    "findings": [
-      {
-        "id": "512-review-executable-keyboard-proof",
-        "severity": "p1",
-        "summary": "The retained screenshot and regex-based tests did not execute or prove keyboard focus, panel selection, hash navigation, or screen-reader behavior.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "512-review-handoff-verdict-stale",
-        "severity": "p2",
-        "summary": "The review handoff retained an obsolete changes-required verdict that contradicted its current passing validation and remediation checklist.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -87,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2c3e36074930bf84ac1a090363546051cf702252fb294600bc38556e4e1e1907",
+      "values_digest": "64bf9eafd99f98c778cdcf20e08b48b924ddcf7941ea31227a1489c094c0c1ad",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "bc505fc7e607bcc42483ae516b7557ad3c4469e35ed1d12fef9a12c43a11f5a7",
+      "values_digest": "f566c0bcaece747f4b80d87d371bc938a6be7f611b5bce4b8915b5819813e5ac",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "9b703eb9622f8ad546af2b672bedf62e88cd99201c4bde3de44c570e37be8944",
+      "values_digest": "5f5836c000955a81b6e24ffef4cd3c23f876020ba409fedb1ccb7a4bfd7247c0",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "e42bb51ac22275398226e55a489dbc5fc6bb5a1d4fbb22d8b8ad4bd52c57a5af",
+      "values_digest": "f044114d5dfdb29f7632b1e7be31ac950b930a61a9d82394ed281023308b62f9",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "c2b26b0db04a82535e077487ceb8e455a6265d98a553f171c1b7cf394ba3467f",
-      "rendered_digest": "98ec6fd0e80b0a60c920eaeb70593998a3bca6be97ab1a66083d8165717d0ad2",
-      "ast_digest": "54dbf5ce0b8ca0391d1e5df636095a8d0b012e64ffc0ed8f907845031e7cd09d"
+      "values_digest": "a15aa7ead674364e978ca622334ab702a1fdcbc71988b3909de314c068814c1d",
+      "rendered_digest": "06a1470802ad6b1e7d96c4b19c764dbca62415c57ca3c92b089e98c369f139d3",
+      "ast_digest": "04d9971a0fd41fc3489c6f67c4df0cd6e352a0f12931a5d90026acd1721c10f0"
     },
     "sor": {
-      "values_digest": "def5f5232b1c97c8df24a90f618ddd682bb94c4d5a2f6ac8f0be623bdf0568f6",
+      "values_digest": "7d5f31aab2cbbf0d8d03a02913439822f73569d14abc2186988b971e05339e2f",
       "rendered_digest": "3ddfbb4054fb69168fc9e9a08adf78d8aa8c30092deb3f78c0c9f8fbee145ede",
       "ast_digest": "88c4d3b701d6127d8fb526544ef1f58607717b7d7d0413e33463d014937416c9"
     }
@@ -231,6 +169,34 @@
       "actor": "codex:issue-512-operator-proof-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after fixing the live System Time refresh, invalidating stale browser assets, and retaining the six-key operator interaction proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Remediate the exact-head proof finding with an executable advancing-clock test and a fresh exact-revision review.",
+      "operation": "recover_review"
     }
   ]
 }

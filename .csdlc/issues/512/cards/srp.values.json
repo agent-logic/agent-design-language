@@ -7,44 +7,23 @@
     "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
     "slug": "obs-b-observatory-redesign-implementation",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md\n.csdlc/evidence/512/exact-browser-operator-proof.md\n.csdlc/evidence/512/exact-browser-operator-screenshot.png\nadl/tools/test_html_observatory.sh\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/runtime-v3.config.json\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\ndemos/html-observatory/tests/agent_to_agent_activity.test.mjs\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\ndemos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      "review_revision": "git-blake3:2a905edb805df09a46097a1353f0b30e5b970d7a:73fbeca6e74894b296c23e7d03042590ce038196e5d8622d22061955c1e9d39e",
-      "reviewer": "codex:issue-512-operator-proof-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Were #511 and #536 terminal before execution?",
         "Does the UI consume authentic Runtime projections?",
         "Are recovery and accessibility cases proven rather than visually asserted?"
       ],
-      "findings": [
-        {
-          "id": "512-review-executable-keyboard-proof",
-          "severity": "p1",
-          "summary": "The retained screenshot and regex-based tests did not execute or prove keyboard focus, panel selection, hash navigation, or screen-reader behavior.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "512-review-handoff-verdict-stale",
-          "severity": "p2",
-          "summary": "The review handoff retained an obsolete changes-required verdict that contradicted its current passing validation and remediation checklist.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }
