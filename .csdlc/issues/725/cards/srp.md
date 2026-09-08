@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+AGENTS.md
+csdlc-v3
+docs/csdlc-v3/CONTRACT.md
 
 ## Prompts
 

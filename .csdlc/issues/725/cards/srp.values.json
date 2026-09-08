@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "AGENTS.md\ncsdlc-v3\ndocs/csdlc-v3/CONTRACT.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

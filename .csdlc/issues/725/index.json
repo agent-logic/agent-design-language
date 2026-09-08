@@ -5,10 +5,19 @@
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
   "generation": 18,
-  "digest": "c51e15e02b685d96068ae0dd0cfc94abdd3b306dbba84981b88db3ee1c7c268b",
+  "digest": "5722b5e79f4f13de230f4dd5c2f3dc667dac4efdd28cd595e098f40b69978682",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:review-sprint10-523-526-prep-r9",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:677692472f5b46aa83337225ad176624daaeafcb:b6f6b096bb117c72bc699fb81e1a6fd4d1d94f29d02779645d08cb57e8316195",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3/CONTRACT.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "52508ad68bc491cedaed39b00ba12ce45f65385fb699716db3c192abd3472acb",
-      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
-      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
+      "values_digest": "cc0291d364d995b962d60314cd6c925285123cb5149abeb7b73b33baef97f131",
+      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
+      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
     },
     "sor": {
       "values_digest": "319e8d12bef52d3ef54474777eedfda94ba8e186f636d1009f67bb194feb65c5",
@@ -329,6 +338,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "align PR 732 with current origin/main after merge conflict and refresh exact-head review",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 18,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
