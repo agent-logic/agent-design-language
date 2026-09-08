@@ -103,6 +103,16 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   rows=admission.fetch("execution_issues"); mapping=source.fetch("mapping")
   raise "execution denominator mismatch" unless rows.to_h{|r|[r["planned_id"],r["issue"]]}==mapping
   raise "duplicate issue mapping" unless rows.map{|r|r["issue"]}.uniq.length==rows.length
+  rows.select{|row|row["revision"]&&row.dig("review_truth","current")}.each do |row|
+    truth=row.fetch("review_truth")
+    valid_tail=truth["post_review_paths"].to_a.empty? || truth["non_substantive_tail"]==true
+    raise "review truth contradicts its evidence" unless truth["result"]=="pass" && truth["reviewed_revision"]&.match?(/\A[0-9a-f]{40}\z/) && valid_tail
+    raise "reviewed revision is not ancestral to implementation head" unless system("git","merge-base","--is-ancestor",truth["reviewed_revision"],row["revision"],chdir:ROOT.to_s,out:File::NULL,err:File::NULL)
+    post,_post_err,post_status=Open3.capture3("git","diff","--name-only","#{truth['reviewed_revision']}..#{row['revision']}",chdir:ROOT.to_s)
+    raise "review-tail inspection failed" unless post_status.success?
+    actual_post=post.lines.map(&:strip).reject(&:empty?)
+    raise "review-tail projection drift" unless actual_post==truth["post_review_paths"]
+  end
   expected_semantic=rows.flat_map{|row|row.fetch("acceptance_rows")}.to_h{|ac|[ac.fetch("id"),ac.fetch("text_digest")]}
   actual_semantic=semantic_entries.to_h{|entry|[entry.fetch("criterion_id"),entry.fetch("criterion_digest")]}
   raise "semantic criterion denominator/digest mismatch" unless actual_semantic==expected_semantic
@@ -280,14 +290,20 @@ if %w[negative all].include?(MODE)
     "stale-candidate"=>->(s,a,g,_m){s["candidate"]=a["candidate"]=g["candidate"]="0"*40;digest=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=digest},
     "stale-review-result"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"not_pass","reviewed_revision"=>row["revision"],"post_review_paths"=>[],"non_substantive_tail"=>true)},
     "forged-reviewed-sha"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"pass","reviewed_revision"=>"f"*40,"post_review_paths"=>[],"non_substantive_tail"=>true)},
-    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"pass","reviewed_revision"=>row["revision"],"post_review_paths"=>["adl/src/lib.rs"],"non_substantive_tail"=>false)},
-    "generated-evidence-blob-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["candidate_blob"]="0"*40},
-    "generated-evidence-digest-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["sha256"]="0"*64},
+    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"pass","reviewed_revision"=>row["revision"],"post_review_paths"=>["adl/src/lib.rs"],"non_substantive_tail"=>true)},
+    "generated-evidence-blob-drift"=>->(s,a,g,_m){s["generated_evidence"].first["candidate_blob"]="0"*40;d=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=d},
+    "generated-evidence-digest-drift"=>->(s,a,g,_m){s["generated_evidence"].first["sha256"]="0"*64;d=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=d},
     "markdown-omission"=>->(_s,_a,_g,m){m.replace("")}
   }
   cases.each do |name,mutation|
     s,a,g=Marshal.load(Marshal.dump([source,admission,gap])); m=markdown.dup; mutation.call(s,a,g,m)
-    begin; validate!(s,a,g,m,require_admitted:false); abort("negative fixture accepted: #{name}"); rescue RuntimeError; end
+    expected={"stale-review-result"=>"review truth contradicts its evidence","forged-reviewed-sha"=>"reviewed revision is not ancestral to implementation head","substantive-review-tail"=>"review-tail projection drift","generated-evidence-blob-drift"=>"generated evidence blob drift","generated-evidence-digest-drift"=>"generated evidence digest/size drift"}[name]
+    begin
+      validate!(s,a,g,m,require_admitted:false)
+      abort("negative fixture accepted: #{name}")
+    rescue RuntimeError => e
+      raise "negative fixture hit wrong guard: #{name}: #{e.message}" if expected && e.message!=expected
+    end
   end
 end
 validate!(source,admission,gap,markdown,require_admitted:MODE=="admitted") unless MODE=="negative"
