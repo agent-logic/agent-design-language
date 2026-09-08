@@ -12,7 +12,18 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/721/**
+.csdlc/evidence/v3-defects/backlog-requests/**
+csdlc-v3/README.md
+csdlc-v3/src/adapters/mod.rs
+csdlc-v3/src/commands/proof.rs
+csdlc-v3/src/commands/remote/mod.rs
+csdlc-v3/src/commands/remote/tests.rs
+csdlc-v3/src/commands/terminal.rs
+csdlc-v3/src/main.rs
+csdlc-v3/tests/proof_parity_install_commands.rs
+csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
+docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/**
 
 ## Prompts
 
@@ -34,8 +45,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:375067551b44afdcdc3aef19e1bf1c25632424be:abbb991f5815724a47dee4cdcfd48753753a9a81b084078d1273433b60e7baae")
 
-Reviewer: None
+Reviewer: Some("/root/review_721_ci_repair_retry")
 
-Result: pre_review
+Result: pass
