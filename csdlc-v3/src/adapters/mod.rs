@@ -346,8 +346,11 @@ fn github_read_only_curl_invocation(
     };
     if !matches!(
         operation.as_str(),
-        "pull-request" | "issue" | "issue-comments" | "issues-by-marker"
-    ) || (operation != "issues-by-marker" && number.parse::<u64>().is_err())
+        "pull-request" | "issue" | "issue-comments" | "issues-by-marker" | "pull-requests-by-head"
+    ) || (!matches!(
+        operation.as_str(),
+        "issues-by-marker" | "pull-requests-by-head"
+    ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
             && (number.is_empty()
                 || number
@@ -385,8 +388,42 @@ fn github_read_only_curl_invocation(
             truncated: false,
         });
     }
+    let head_query = if operation == "pull-requests-by-head" {
+        let parts = repository.split('/').collect::<Vec<_>>();
+        let safe_component = |value: &str| {
+            !value.is_empty()
+                && value != "."
+                && value != ".."
+                && value
+                    .chars()
+                    .all(|ch| ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.'))
+        };
+        if parts.len() != 2
+            || !parts.iter().all(|part| safe_component(part))
+            || number.starts_with('-')
+            || number.ends_with('.')
+            || number.contains("..")
+            || !number.split('/').all(|part| {
+                safe_component(part) && !part.starts_with('.') && !part.ends_with(".lock")
+            })
+        {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "github read-only adapter received unsafe repository or branch head".into(),
+                truncated: false,
+            });
+        }
+        Some(format!(
+            "https://api.github.com/repos/{repository}/pulls?state=all&head={}:{}&per_page=100",
+            parts[0],
+            number.replace('/', "%2F")
+        ))
+    } else {
+        None
+    };
     let resource = match operation.as_str() {
-        "pull-request" => "pulls",
+        "pull-request" | "pull-requests-by-head" => "pulls",
         "issue" => "issues",
         "issue-comments" => "issues",
         _ => unreachable!("operation checked above"),
@@ -402,7 +439,9 @@ fn github_read_only_curl_invocation(
             "Accept: application/vnd.github+json".to_owned(),
             "--header".to_owned(),
             "X-GitHub-Api-Version: 2022-11-28".to_owned(),
-            if operation == "issue-comments" {
+            if let Some(url) = head_query {
+                url
+            } else if operation == "issue-comments" {
                 format!("https://api.github.com/repos/{repository}/{resource}/{number}/comments?per_page=100")
             } else {
                 format!("https://api.github.com/repos/{repository}/{resource}/{number}")
@@ -770,4 +809,84 @@ fn is_sensitive_key(key: &str) -> bool {
     ]
     .iter()
     .any(|needle| key.contains(needle))
+}
+
+#[cfg(test)]
+mod read_only_github_tests {
+    use super::*;
+    // PVF: deterministic local contract test; no network or credentials; small CPU;
+    // release gate: csdlc-v3 library tests. Proves argv routing, not live readback.
+    #[test]
+    fn pull_requests_by_head_builds_owner_scoped_encoded_read_only_query() {
+        let invocation = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            [
+                "pull-requests-by-head",
+                "agent-logic/agent-design-language",
+                "codex/523-v0.92.2_planning",
+            ],
+        )
+        .unwrap();
+        let curl = github_read_only_curl_invocation(&invocation).unwrap();
+        assert_eq!(curl.program, "curl");
+        assert_eq!(curl.argv().last().unwrap(), "https://api.github.com/repos/agent-logic/agent-design-language/pulls?state=all&head=agent-logic:codex%2F523-v0.92.2_planning&per_page=100");
+        assert!(!curl
+            .argv()
+            .iter()
+            .any(|arg| arg == "--request" || arg == "--data-binary"));
+    }
+    #[test]
+    fn pull_requests_by_head_rejects_unsafe_heads_and_repository_paths() {
+        for head in [
+            "",
+            "-option",
+            "../main",
+            "codex//branch",
+            "codex/.hidden",
+            "branch.lock",
+            "branch.",
+            "owner:branch",
+            "branch?state=open",
+            "branch#fragment",
+            "branch%2Fencoded",
+            "branch&state=open",
+            "branch with spaces",
+        ] {
+            let invocation = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                ["pull-requests-by-head", "owner/repo", head],
+            )
+            .unwrap();
+            assert!(
+                github_read_only_curl_invocation(&invocation).is_err(),
+                "{head}"
+            );
+        }
+        for repository in [
+            "owner",
+            "owner/repo/extra",
+            "../repo",
+            "owner/..",
+            "owner/repo?state=open",
+            "owner//repo",
+        ] {
+            let invocation = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                ["pull-requests-by-head", repository, "main"],
+            )
+            .unwrap();
+            assert!(
+                github_read_only_curl_invocation(&invocation).is_err(),
+                "{repository}"
+            );
+        }
+        for operation in ["pull-request", "issue", "issue-comments", "unsupported"] {
+            let invocation = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [operation, "owner/repo", "codex/branch"],
+            )
+            .unwrap();
+            assert!(github_read_only_curl_invocation(&invocation).is_err());
+        }
+    }
 }

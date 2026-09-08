@@ -33,6 +33,10 @@ The native v3 issue initialization, typed edits and bind succeeded. Native `vali
 
 The native bind was invoked after the validation failure and succeeded; it does not establish card validation or publication readiness. This handoff does not accept the failed validator as a pass. The operator subsequently authorized the bounded tooling repair within #523. The validator now reads the registry-declared schema and checks actual structure instead of requiring every scaffold vocabulary line. The repaired native binary validates all six real #523 cards: `lifecycle_digest_valid` and `six_card_validation_passed`. See [native-validator-repair.md](native-validator-repair.md) for the preserved baseline defect, repair contract and proof classification.
 
+## Publication follow-through
+
+Typed publication exposed and repaired a missing real-adapter branch lookup and a PR/issue identity mismatch. Authenticated native reconciliation recovered existing PR #743 without repeating creation. See [native-publication-repair.md](native-publication-repair.md); final local native suite now passes 185 tests. The original validator and review evidence remains historical and intact.
+
 ## Next owners
 
 #523 publishes these planning corrections together with the authorized validator repair after independent review. #524 owns the successor closeout-plan result; #525 reviews the settled planning revision independently. Their preparation can overlap current closeout, but current ceremony still requires both #522 remediation and #525 final planning review. #718 implementation belongs to its own urgent execution lane, not this documentation change.
