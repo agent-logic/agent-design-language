@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.github_pr_state.v1",
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 591,
+  "base_ref": "main",
+  "head_ref": "codex/505-v3-f-authority-transition-decision-exec",
+  "head_sha": "74ddb31702482172eea4ba3d74700536eab32e49",
+  "merge_commit_sha": "d3f98ed005cf44c359ac482e271e6b8634e93f23",
+  "state": "closed",
+  "merged": true,
+  "linked_issue": 505,
+  "linkage_source": "github_closing_issues_references",
+  "url": "https://github.com/agent-logic/agent-design-language/pull/591",
+  "observation_authority": "typed-csdlc-github-pr-authenticated-readback"
+}

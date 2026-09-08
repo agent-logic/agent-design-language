@@ -26,6 +26,8 @@ struct NativeAuthorityReceipt {
     authority_pull_request: u64,
     reviewed_head: String,
     merge_commit: String,
+    pr_observation_path: PathBuf,
+    pr_observation_digest: String,
     terminal_receipt_path: PathBuf,
     terminal_receipt_digest: String,
     source_selector_schema: String,
@@ -34,6 +36,21 @@ struct NativeAuthorityReceipt {
     review_authority: String,
     approval_authority: String,
     remote_reconciliation: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct PullRequestObservation {
+    schema: String,
+    repository: String,
+    pull_request: u64,
+    base_ref: String,
+    head_sha: String,
+    merge_commit_sha: String,
+    state: String,
+    merged: bool,
+    linked_issue: u64,
+    linkage_source: String,
+    observation_authority: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -96,6 +113,9 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
         || receipt.approval_authority != selector.approval_authority
         || receipt.terminal_receipt_path != Path::new(".csdlc/evidence/505/terminal-receipt.json")
         || !is_lower_hex(&receipt.terminal_receipt_digest, 64)
+        || receipt.pr_observation_path
+            != Path::new("csdlc-v3/operator/native-authority-pr-observation.json")
+        || !is_lower_hex(&receipt.pr_observation_digest, 64)
         || receipt.remote_reconciliation != "canonical-terminal-receipt-and-git-objects"
     {
         return Ok(None);
@@ -109,12 +129,32 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
     }
     let terminal: TerminalReceipt =
         serde_json::from_slice(&terminal_bytes).map_err(|error| error.to_string())?;
+    let observation_bytes = match canonical_tracked_bytes(root, &receipt.pr_observation_path)? {
+        Some(bytes) => bytes,
+        None => return Ok(None),
+    };
+    if blake3::hash(&observation_bytes).to_hex().as_str() != receipt.pr_observation_digest {
+        return Ok(None);
+    }
+    let observation: PullRequestObservation =
+        serde_json::from_slice(&observation_bytes).map_err(|error| error.to_string())?;
     if terminal.schema != "csdlc.v3.terminal_receipt.v1"
         || terminal.repository != "agent-logic/agent-design-language"
         || terminal.issue != receipt.authority_issue
         || terminal.pull_request != receipt.authority_pull_request
         || terminal.head_sha != receipt.reviewed_head
         || terminal.disposition != "closed_out"
+        || observation.schema != "csdlc.github_pr_state.v1"
+        || observation.repository != terminal.repository
+        || observation.pull_request != receipt.authority_pull_request
+        || observation.base_ref != "main"
+        || observation.head_sha != receipt.reviewed_head
+        || observation.merge_commit_sha != receipt.merge_commit
+        || observation.state != "closed"
+        || !observation.merged
+        || observation.linked_issue != receipt.authority_issue
+        || observation.linkage_source != "github_closing_issues_references"
+        || observation.observation_authority != "typed-csdlc-github-pr-authenticated-readback"
         || !git_commit_exists(root, &receipt.reviewed_head)?
         || !git_commit_exists(root, &receipt.merge_commit)?
         || !git_is_ancestor(root, &receipt.merge_commit, "refs/remotes/origin/main")?
@@ -254,6 +294,7 @@ mod tests {
         for relative in [
             SELECTOR_PATH,
             "csdlc-v3/operator/native-authority-receipt.json",
+            "csdlc-v3/operator/native-authority-pr-observation.json",
             ".csdlc/evidence/505/terminal-receipt.json",
         ] {
             let destination = root.join(relative);
@@ -266,6 +307,7 @@ mod tests {
                 "add",
                 SELECTOR_PATH,
                 "csdlc-v3/operator/native-authority-receipt.json",
+                "csdlc-v3/operator/native-authority-pr-observation.json",
                 ".csdlc/evidence/505/terminal-receipt.json",
             ],
         );
@@ -278,10 +320,30 @@ mod tests {
         let authority = canonical_v3_authority(&root).unwrap();
         assert_eq!(authority.unwrap().operational_authority, "csdlc-v3");
 
+        let unrelated = Command::new("git")
+            .arg("-C")
+            .arg(&root)
+            .args(["rev-parse", "HEAD^"])
+            .output()
+            .unwrap();
+        assert!(unrelated.status.success());
+        let unrelated = String::from_utf8(unrelated.stdout)
+            .unwrap()
+            .trim()
+            .to_owned();
+        assert_ne!(unrelated, "74ddb31702482172eea4ba3d74700536eab32e49");
+        let terminal_path = root.join(".csdlc/evidence/505/terminal-receipt.json");
+        let mut terminal: serde_json::Value =
+            serde_json::from_slice(&fs::read(&terminal_path).unwrap()).unwrap();
+        terminal["head_sha"] = serde_json::Value::String(unrelated.clone());
+        let terminal_bytes = serde_json::to_vec_pretty(&terminal).unwrap();
+        fs::write(&terminal_path, &terminal_bytes).unwrap();
         let receipt_path = root.join("csdlc-v3/operator/native-authority-receipt.json");
         let mut receipt: serde_json::Value =
             serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
-        receipt["reviewed_head"] = serde_json::Value::String("1".repeat(40));
+        receipt["reviewed_head"] = serde_json::Value::String(unrelated);
+        receipt["terminal_receipt_digest"] =
+            serde_json::Value::String(blake3::hash(&terminal_bytes).to_hex().to_string());
         let receipt_bytes = serde_json::to_vec_pretty(&receipt).unwrap();
         fs::write(&receipt_path, &receipt_bytes).unwrap();
         let selector_path = root.join(SELECTOR_PATH);
@@ -300,6 +362,7 @@ mod tests {
                 "add",
                 SELECTOR_PATH,
                 "csdlc-v3/operator/native-authority-receipt.json",
+                ".csdlc/evidence/505/terminal-receipt.json",
             ],
         );
         run(

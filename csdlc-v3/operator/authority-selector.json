@@ -7,5 +7,5 @@
   "review_authority": "typed-exact-head",
   "approval_authority": "merged-pr-591-closed-issue-505",
   "receipt_path": "csdlc-v3/operator/native-authority-receipt.json",
-  "receipt_digest": "fcdf3e029173c6194923c1631b40adec1a513570616ef6fa9ebed588d04ca1d7"
+  "receipt_digest": "b90a7347df49264182f1d376148678f305d859c6d57b45173cd687a78e62d93f"
 }

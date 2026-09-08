@@ -4,6 +4,8 @@
   "authority_pull_request": 591,
   "reviewed_head": "74ddb31702482172eea4ba3d74700536eab32e49",
   "merge_commit": "d3f98ed005cf44c359ac482e271e6b8634e93f23",
+  "pr_observation_path": "csdlc-v3/operator/native-authority-pr-observation.json",
+  "pr_observation_digest": "118dfe57825d6d458702f74c369b97d3c655c037f545111008f5484dc34c74ed",
   "terminal_receipt_path": ".csdlc/evidence/505/terminal-receipt.json",
   "terminal_receipt_digest": "ce7fd2719247eed78a3786c414aa38528691276ac4a6f090e1c6347bd25818c1",
   "source_selector_schema": "csdlc.generation_selector.v2",
