@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md
+.csdlc/prepared/issues/536/validate-sprint-closeout.rb
 
 ## Prompts
 
