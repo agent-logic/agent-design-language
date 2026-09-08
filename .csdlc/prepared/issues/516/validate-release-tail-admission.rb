@@ -267,9 +267,9 @@ if %w[negative all].include?(MODE)
     "projection-digest-drift"=>->(_s,a,_g,_m){a["projection_digest"]="0"*64},
     "admitted-with-blocker"=>->(_s,a,g,_m){a["decision"]=g["decision"]="admitted"},
     "stale-candidate"=>->(s,a,g,_m){s["candidate"]=a["candidate"]=g["candidate"]="0"*40;digest=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=digest},
-    "stale-review-result"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"]["current"]=false},
-    "forged-reviewed-sha"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"]["reviewed_revision"]="f"*40},
-    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"]["post_review_paths"]=["adl/src/lib.rs"];row["review_truth"]["non_substantive_tail"]=false},
+    "stale-review-result"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r.dig("review_truth","current")};row["review_truth"]["current"]=false},
+    "forged-reviewed-sha"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r.dig("review_truth","current")};row["review_truth"]["reviewed_revision"]="f"*40},
+    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r.dig("review_truth","current")};row["review_truth"]["post_review_paths"]=["adl/src/lib.rs"];row["review_truth"]["non_substantive_tail"]=false},
     "generated-evidence-blob-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["candidate_blob"]="0"*40},
     "generated-evidence-digest-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["sha256"]="0"*64},
     "markdown-omission"=>->(_s,_a,_g,m){m.replace("")}
