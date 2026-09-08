@@ -40,7 +40,7 @@ def evidence_resolves?(evidence, candidate, root)
 end
 
 def validate_packet!(root:)
-required = %w[run_manifest.json reviewer-independence.json provider-request.json provider-invocation-receipt.json standard-runner-receipt.json provider-native-response.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
+required = %w[run_manifest.json reviewer-independence.json provider-request.json provider-invocation-receipt.json provider-native-response.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing external-review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -72,7 +72,7 @@ internal_entries.each do |entry|
   fail!("#520 merged artifact digest mismatch: #{path}") unless Digest::SHA256.hexdigest(git_blob(internal_merge, path)) == entry.fetch("sha256")
 end
 internal_by_name = internal_entries.to_h { |entry| [File.basename(entry.fetch("path")), entry.fetch("path")] }
-denominator_names = %w[repo_inventory.json issue_inventory.json acceptance_coverage.json]
+denominator_names = %w[repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json]
 fail!("#520 manifest omits canonical denominator artifacts") unless denominator_names.all? { |name| internal_by_name.key?(name) }
 canonical_refs = denominator_names.flat_map do |name|
   JSON.parse(git_blob(internal_merge, internal_by_name.fetch(name))).fetch("rows").map { |row| row.fetch("denominator_ref") }
@@ -135,8 +135,13 @@ native_path = File.join(root, "provider-native-response.json")
 fail!("provider-native response digest mismatch") unless Digest::SHA256.file(native_path).hexdigest == receipt.fetch("provider_native_response_sha256")
 native = docs.fetch("provider-native-response.json")
 fail!("provider-native response is not invocation-bound") unless native.fetch("provider") == receipt.fetch("provider") && native.fetch("model") == receipt.fetch("model") && native.fetch("invocation_id") == receipt.fetch("invocation_id") && nonempty?(native.fetch("response_id")) && nonempty?(native.fetch("content"))
-runner = docs.fetch("standard-runner-receipt.json")
-fail!("standard runner did not produce the retained provider exchange") unless runner.fetch("runner") == "docs/tooling/OPUS_REVIEW_RUNBOOK.md" && runner.fetch("request_sha256") == receipt.fetch("request_sha256") && runner.fetch("response_sha256") == receipt.fetch("response_sha256") && runner.fetch("provider_native_response_sha256") == receipt.fetch("provider_native_response_sha256") && runner.fetch("exit_status") == 0
+runner_path = ENV.fetch("ADL_EXTERNAL_REVIEW_TRUSTED_RUNNER_RECEIPT")
+fail!("trusted runner receipt must be external to the packet") if File.expand_path(runner_path).start_with?(File.expand_path(root) + File::SEPARATOR)
+fail!("trusted runner receipt is unavailable") unless File.file?(runner_path)
+runner_blob = File.binread(runner_path)
+fail!("trusted runner receipt digest mismatch") unless Digest::SHA256.hexdigest(runner_blob) == manifest.fetch("trusted_runner_receipt_sha256")
+runner = JSON.parse(runner_blob)
+fail!("standard runner did not produce the retained provider exchange") unless runner.fetch("runner") == "docs/tooling/OPUS_REVIEW_RUNBOOK.md" && runner.fetch("request_sha256") == receipt.fetch("request_sha256") && runner.fetch("response_sha256") == receipt.fetch("response_sha256") && runner.fetch("provider_native_response_sha256") == receipt.fetch("provider_native_response_sha256") && runner.fetch("exit_status") == 0 && nonempty?(runner.fetch("signer_key_id")) && nonempty?(runner.fetch("signature")) && runner.fetch("provider_response_id") == native.fetch("response_id")
 
 scope = docs.fetch("scope.json")
 expected_scope = scope.fetch("expected_refs")
@@ -165,7 +170,7 @@ fail!("empty limitations lack affirmative evidence") if limitations.empty? && !n
 fail!("limitation rows lack consequence and handling") unless limitations.all? { |row| nonempty?(row.fetch("description")) && nonempty?(row.fetch("consequence")) && nonempty?(row.fetch("handling")) }
 fail!("raw reviewer limitations differ from retained projection") unless raw.fetch("limitations") == limitations
 observations = raw.fetch("observations")
-fail!("raw reviewer output is content-free or cites unresolved evidence") unless observations.is_a?(Array) && observations.any? && observations.all? { |row| reviewed_scope.include?(row.fetch("ref")) && evidence_resolves?(row.fetch("evidence"), candidate, root) && nonempty?(row.fetch("conclusion")) }
+fail!("raw reviewer output is content-free, placeholder-only, or cites unresolved evidence") unless observations.is_a?(Array) && observations.any? && observations.all? { |row| reviewed_scope.include?(row.fetch("ref")) && evidence_resolves?(row.fetch("evidence"), candidate, root) && %w[finding verified_no_gap].include?(row.fetch("conclusion")) && nonempty?(row.fetch("detail")) && row.fetch("detail").length >= 20 }
 fail!("raw reviewer output omits reviewed scope") unless observations.map { |row| row.fetch("ref") }.sort == reviewed_scope.sort
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")
