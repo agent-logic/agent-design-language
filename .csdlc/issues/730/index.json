@@ -5,13 +5,13 @@
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
   "phase": "implemented",
   "generation": 24,
-  "digest": "5665c4f463b465b885790e1adcbbe8f1655b5f670e295175334a0e32eb3aa4b9",
+  "digest": "1115a10fd11f6484f5091e30cabe6e6b30a1745af132f9200ce46b37d3f535af",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
   "review_assignment": {
     "reviewer": "codex-subagent:/root/review_730_prelive",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:bb96f0bce82a9406d4b4b54e0949c0ee0a0de224:037d07a4e20152da0de3038518f3daf6a97d14ab607efbf24c1061d911bd1245",
+    "revision": "git-blake3:90f92b45ab03dd84a25402836bf8cbce03805daf:cdddbf0d32f947bd2dd3d76f46713950d3ded982cbd4813c0a72562e3b76e6bb",
     "scope": [
       ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh",
       ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
@@ -320,6 +320,13 @@
       "actor": "codex:/root",
       "reason": "Record validation that ambient CLOUDSDK_CONFIG no longer bypasses #730 repo-local Cloud SDK isolation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CLOUDSDK_CONFIG=/Users/daniel/.config/gcloud\",\"bash\",\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\"],\"purpose\":\"Regression probe for the pre-PR review finding: an ambient external CLOUDSDK_CONFIG must not bypass the issue-owned Git-common Cloud SDK config isolation.\",\"outcome\":\"blocked\",\"evidence_ref\":\"command failed closed before cloud mutation with exact authorization artifact required; scripts now force CLOUDSDK_CONFIG to Git-common gcloud-config before gcloud use\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
