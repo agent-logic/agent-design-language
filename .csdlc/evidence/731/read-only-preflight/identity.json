@@ -1,0 +1,8 @@
+{
+  "schema": "adl.gcp_d1.identity_readback.v1",
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "zone": "us-west2-a",
+  "active_account_sha256": "d9dce9dac295cd5d99d39ea00b719c8bb411eb70d9c971ad19642eb14cb45de2",
+  "active_account_domain": "agent-logic.ai"
+}

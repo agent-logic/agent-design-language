@@ -1,0 +1,20 @@
+{
+  "issue": 724,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "66a9d22cec89642671bfdee0423f1e34fc0ae91dd054ff1f9a50de64db57e5a8",
+  "actor": "codex:/root/review_sprint10_523_526_prep",
+  "reason": "Bind readiness to exact repository-owned implementation and issue paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote",
+      "csdlc-v3/tests",
+      "docs/csdlc-v3",
+      ".csdlc/prepared/issues/724",
+      ".csdlc/issues/724"
+    ]
+  }
+}

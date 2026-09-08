@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 724,
+  "expected_generation": 6,
+  "expected_digest": "68bec0a4e0514df5431a183a574a87fc5b01f3071d948e1aaa5f52552d2dc58a",
+  "reviewer": "codex:/root/remediate_v3_725",
+  "assigned_by": "codex:/root/review_sprint10_523_526_prep",
+  "scope": [
+    "csdlc-v3/src/main.rs",
+    "csdlc-v3/src/commands/remote",
+    "csdlc-v3/tests/operational_cli_commands.rs",
+    "docs/csdlc-v3/CONTRACT.md",
+    ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+    ".csdlc/evidence/724"
+  ]
+}

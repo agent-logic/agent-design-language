@@ -45,6 +45,16 @@ infra/aws/csm-public-edge/*.auto.tfvars
 infra/aws/csm-public-edge/*.tfvars
 infra/aws/csm-public-edge/*.tfplan
 !infra/aws/csm-public-edge/terraform.tfvars.example
+infra/aws/account-foundation/.terraform/
+infra/aws/account-foundation/tfplan
+infra/aws/account-foundation/terraform.tfstate
+infra/aws/account-foundation/terraform.tfstate.d/
+infra/aws/account-foundation/terraform.tfstate.backup
+infra/aws/account-foundation/terraform.tfstate.*.backup
+infra/aws/account-foundation/*.auto.tfvars
+infra/aws/account-foundation/*.tfvars
+infra/aws/account-foundation/*.tfplan
+!infra/aws/account-foundation/terraform.tfvars.example
 infra/aws/csm-runtime-spot/.terraform/
 infra/aws/csm-runtime-spot/terraform.tfstate
 infra/aws/csm-runtime-spot/terraform.tfstate.backup

@@ -1,0 +1,20 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "7cec80e499df71c479212a9c4f721624cd32acff4bddca6bb07b7aafcf60f88d",
+  "actor": "codex:/root",
+  "reason": "Record #730 saved-plan preparation success after fixing Terraform data directory isolation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh"
+      ],
+      "purpose": "No-mutation saved-plan preparation using short-lived service-account impersonation with Terraform provider data isolated outside the module tree.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/730/gcp-b1-plan-digest.json; plan_sha256 f34d0bc7d17110d8ca969eaf7a866b639ea20cf973cba20669465eea5457abf9; redacted plan .csdlc/evidence/730/gcp-b1-plan.redacted.txt"
+    }
+  }
+}

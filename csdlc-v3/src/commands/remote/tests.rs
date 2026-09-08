@@ -835,22 +835,68 @@ fn mutation_repo(name: &str, active: bool) -> PathBuf {
             .output()
             .expect("run fixture git");
         assert!(output.status.success(), "git {args:?}: {output:?}");
+        String::from_utf8(output.stdout).unwrap().trim().to_owned()
     };
     fs::create_dir_all(&root).expect("mutation fixture root");
     git(&["init", "-q"]);
     git(&["config", "user.email", "csdlc-v3@example.invalid"]);
     git(&["config", "user.name", "C-SDLC v3 tests"]);
+    fs::write(root.join("tracked"), b"fixture\n").unwrap();
+    git(&["add", "tracked"]);
+    git(&["commit", "-q", "-m", "reviewed fixture"]);
     let selector_path = root.join(super::CANONICAL_AUTHORITY_SELECTOR_PATH);
     fs::create_dir_all(selector_path.parent().expect("selector parent")).expect("selector parent");
     let selector = if active {
+        let reviewed_head = git(&["rev-parse", "HEAD"]);
+        git(&["commit", "-q", "--allow-empty", "-m", "V3-F cutover (#591)"]);
+        let merge_commit = git(&["rev-parse", "HEAD"]);
+        let terminal = serde_json::to_vec_pretty(&serde_json::json!({
+            "schema":"csdlc.v3.terminal_receipt.v1", "repository":"agent-logic/agent-design-language",
+            "issue":505, "pull_request":591, "head_sha":reviewed_head,
+            "disposition":"closed_out", "state_digest":"fixture"
+        })).unwrap();
+        fs::create_dir_all(root.join(".csdlc/evidence/505")).unwrap();
+        fs::write(
+            root.join(".csdlc/evidence/505/terminal-receipt.json"),
+            &terminal,
+        )
+        .unwrap();
+        let observation = serde_json::to_vec_pretty(&serde_json::json!({
+            "schema":"csdlc.github_pr_state.v1", "repository":"agent-logic/agent-design-language",
+            "pull_request":591, "base_ref":"main", "head_sha":reviewed_head,
+            "merge_commit_sha":merge_commit, "state":"closed", "merged":true,
+            "linked_issue":505, "linkage_source":"github_closing_issues_references",
+            "observation_authority":"typed-csdlc-github-pr-authenticated-readback"
+        }))
+        .unwrap();
+        fs::write(
+            root.join("csdlc-v3/operator/native-authority-pr-observation.json"),
+            &observation,
+        )
+        .unwrap();
+        let receipt = serde_json::to_vec_pretty(&serde_json::json!({
+            "schema": "csdlc.v3.native_authority_receipt.v1", "authority_issue": 505,
+            "authority_pull_request": 591, "reviewed_head": reviewed_head,
+            "merge_commit": merge_commit, "pr_observation_path":"csdlc-v3/operator/native-authority-pr-observation.json",
+            "pr_observation_digest":blake3::hash(&observation).to_hex().to_string(), "terminal_receipt_path": ".csdlc/evidence/505/terminal-receipt.json",
+            "terminal_receipt_digest": blake3::hash(&terminal).to_hex().to_string(), "source_selector_schema": "csdlc.generation_selector.v2",
+            "source_selector_digest": format!("sha256:{}", "3".repeat(64)),
+            "operational_authority": "csdlc-v3", "review_authority": "typed-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "remote_reconciliation": "canonical-terminal-receipt-and-git-objects"
+        })).unwrap();
+        let receipt_path = root.join("csdlc-v3/operator/native-authority-receipt.json");
+        fs::write(&receipt_path, &receipt).unwrap();
         serde_json::json!({
-            "schema": "csdlc.generation_selector.v2",
-            "default_generation": "v3",
+            "schema": "csdlc.v3.authority_selector.v1",
+            "generation": "v3",
             "operational_authority": "csdlc-v3",
             "authority_issue": 505,
             "authority_pull_request": 591,
-            "review_authority": "typed-v2-exact-head",
-            "approval_authority": "merged-pr-591-closed-issue-505"
+            "review_authority": "typed-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "receipt_path": "csdlc-v3/operator/native-authority-receipt.json",
+            "receipt_digest": blake3::hash(&receipt).to_hex().to_string()
         })
     } else {
         serde_json::json!({
@@ -865,6 +911,14 @@ fn mutation_repo(name: &str, active: bool) -> PathBuf {
     )
     .expect("write selector");
     git(&["add", super::CANONICAL_AUTHORITY_SELECTOR_PATH]);
+    if active {
+        git(&[
+            "add",
+            "csdlc-v3/operator/native-authority-receipt.json",
+            "csdlc-v3/operator/native-authority-pr-observation.json",
+            ".csdlc/evidence/505/terminal-receipt.json",
+        ]);
+    }
     git(&["commit", "-q", "-m", "fixture selector"]);
     if active {
         git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);

@@ -1,0 +1,20 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "1b61c780cbbe131e67f5a4c7f3484bbb163367bcdae9a442e6726000e9e05c3e",
+  "actor": "codex:731-owner",
+  "reason": "Record current #731 pending authorization packet validation after plan digest refresh.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh"
+      ],
+      "purpose": "Prove the live-mutation authorization packet is complete, bound to the current saved plan digest, and still pending operator approval before any apply/run.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/731/mutation-authorization-request.json plan_digest=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 operator_authorization.status=pending"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "autoCreateSubnetworks": false,
+  "creationTimestamp": "2026-09-08T02:36:56.764-07:00",
+  "id": "7386400375461538263",
+  "kind": "compute#network",
+  "name": "axioma-dev-csm-private",
+  "networkFirewallPolicyEnforcementOrder": "AFTER_CLASSIC_FIREWALL",
+  "routingConfig": {
+    "bgpBestPathSelectionMode": "LEGACY",
+    "routingMode": "REGIONAL"
+  },
+  "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+  "selfLinkWithId": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/7386400375461538263",
+  "subnetworks": [
+    "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2/subnetworks/axioma-dev-csm-private-us-west2"
+  ],
+  "x_gcloud_bgp_routing_mode": "REGIONAL",
+  "x_gcloud_subnet_mode": "CUSTOM"
+}

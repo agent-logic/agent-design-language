@@ -1,0 +1,12 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "9daa3ba0f6c73f61ce2323e65596520cd3f3fc4ee2d6b208251d62eeca5dd7a1",
+  "actor": "codex:731-owner",
+  "reason": "Advance #731 SOR from pre-phase to draft after recording bound no-mutation readiness evidence while live proof remains pending.",
+  "operation": {
+    "operation": "advance_status",
+    "status": "draft"
+  }
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "creationTimestamp": "2026-09-08T02:38:53.965-07:00",
+    "denied": [
+      {
+        "IPProtocol": "all"
+      }
+    ],
+    "description": "",
+    "destinationRanges": [
+      "0.0.0.0/0"
+    ],
+    "direction": "EGRESS",
+    "disabled": false,
+    "id": "6055180819754019138",
+    "kind": "compute#firewall",
+    "logConfig": {
+      "enable": false
+    },
+    "name": "axioma-dev-csm-private-deny-unapproved-egress",
+    "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+    "priority": 65534,
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress",
+    "targetTags": [
+      "csm-disposable"
+    ]
+  },
+  {
+    "allowed": [
+      {
+        "IPProtocol": "tcp",
+        "ports": [
+          "443"
+        ]
+      }
+    ],
+    "creationTimestamp": "2026-09-08T02:37:12.009-07:00",
+    "description": "",
+    "destinationRanges": [
+      "199.36.153.8/30"
+    ],
+    "direction": "EGRESS",
+    "disabled": false,
+    "id": "7450829948667980200",
+    "kind": "compute#firewall",
+    "logConfig": {
+      "enable": false
+    },
+    "name": "axioma-dev-csm-private-explicit-private-egress",
+    "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+    "priority": 1000,
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-explicit-private-egress",
+    "targetTags": [
+      "csm-disposable"
+    ]
+  },
+  {
+    "allowed": [
+      {
+        "IPProtocol": "tcp",
+        "ports": [
+          "22"
+        ]
+      }
+    ],
+    "creationTimestamp": "2026-09-08T02:37:12.036-07:00",
+    "description": "",
+    "direction": "INGRESS",
+    "disabled": false,
+    "id": "3483570396814535080",
+    "kind": "compute#firewall",
+    "logConfig": {
+      "enable": false
+    },
+    "name": "axioma-dev-csm-private-iap-operator-access",
+    "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+    "priority": 1000,
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-iap-operator-access",
+    "sourceRanges": [
+      "35.235.240.0/20"
+    ],
+    "targetTags": [
+      "csm-disposable"
+    ]
+  }
+]

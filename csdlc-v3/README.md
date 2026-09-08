@@ -30,6 +30,22 @@ until the explicit V3-F/#505 cutover decision approves the transition.
 ## Clean replacement target
 
 The target is a clean v3 replacement line, not permanent v2/v3 coexistence.
+
+## Native post-cutover authority
+
+After the #505 / PR #591 cutover, operational authority is rooted in
+`csdlc-v3/operator/authority-selector.json` and its digest-bound
+`native-authority-receipt.json`. Both files must be byte-identical to their
+copies on canonical `origin/main`. The receipt retains the reviewed cutover
+head, merge commit, migrated selector digest, and the authenticated-readback
+reconciliation policy. Missing, stale, malformed, or digest-mismatched
+authority evidence denies operational work.
+
+The migration is one-way for normal operation: the native receipt records the
+last v2 selector as historical provenance, while v3 no longer compiles against
+or reads from the v2 source tree. A rollback requires an explicit canonical
+native selector with `generation: rollback` and suspended authority; absence
+or corruption of the v3 selector is never rollback authorization.
 V3 work should make issue start, review, publication, finish, and cleanup easier
 to operate while preserving typed contracts, exact topology, exact-head review,
 closing-linkage proof, terminal truth, and safe cleanup boundaries.

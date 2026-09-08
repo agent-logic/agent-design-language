@@ -1,0 +1,22 @@
+{
+  "planned_bindings": [
+    {
+      "role": "roles/compute.osLogin",
+      "member_count": 1,
+      "has_operator_member": true,
+      "has_workload_service_account": false
+    },
+    {
+      "role": "roles/iap.tunnelResourceAccessor",
+      "member_count": 1,
+      "has_operator_member": true,
+      "has_workload_service_account": false
+    },
+    {
+      "role": "roles/logging.logWriter",
+      "member_count": 1,
+      "has_operator_member": false,
+      "has_workload_service_account": true
+    }
+  ]
+}

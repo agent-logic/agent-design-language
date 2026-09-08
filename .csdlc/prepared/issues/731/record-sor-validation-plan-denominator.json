@@ -1,0 +1,20 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "91458dbfce919b2e6ff312bebded5370148d17239e0eb7534b4581e76997d95f",
+  "actor": "codex:731-owner",
+  "reason": "Record #731 Terraform saved-plan denominator validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh"
+      ],
+      "purpose": "Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=8ff2e337006d137d4b85c934342d50efb83dafb3771f416747fe09cb466f3835"
+    }
+  }
+}

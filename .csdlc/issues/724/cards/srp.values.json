@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 724,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
+    "slug": "simple-gh-style-issue-create",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v3/src/main.rs\ncsdlc-v3/src/commands/remote\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/tests/operational_cli_commands.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ndocs/csdlc-v3/CONTRACT.md\n.csdlc/prepared/issues/724/validate-simple-issue-create.sh\n.csdlc/evidence/724",
+      "review_revision": "git-blake3:3945a31a74b2202325b4752a8c0d5ee64b41092b:3cbedaf78cf28ad9f6003f57c2fd34e861842abdd56db3231608071e70065bb2",
+      "reviewer": "codex:/root/execute_aws_727_728",
+      "review_prompts": [
+        "Does the convenience form use the exact shared dispatch rather than a weaker parallel path?",
+        "Can any invalid or ambiguous input reach remote mutation?",
+        "Are marker, assigned-number readback, receipt, and reconciliation proved?",
+        "Does inactive v3 authority fail before side effects?",
+        "Are docs clear without overstating cutover status?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The exact-head review was read-only; no live GitHub issue creation was performed."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

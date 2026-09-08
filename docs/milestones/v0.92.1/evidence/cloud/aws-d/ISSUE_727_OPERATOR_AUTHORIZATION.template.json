@@ -1,0 +1,53 @@
+{
+  "schema": "adl.issue_727.operator_authorization.v1",
+  "issue": 727,
+  "repository": "agent-logic/agent-design-language",
+  "purpose": "Authorize one bounded Terraform apply for the AWS-D-R audit/security account foundation after preflight and saved-plan review.",
+  "account_identity_verified": false,
+  "account_identity_evidence": {
+    "profile": "agent-logic-admin",
+    "account_id_redacted": "<redacted Agent Logic business AWS account id>",
+    "caller_arn_redacted": "<redacted caller ARN>",
+    "verification_time_utc": "<YYYY-MM-DDTHH:MM:SSZ>"
+  },
+  "region": "us-west-2",
+  "terraform_root": "infra/aws/account-foundation",
+  "terraform_workspace": "aws-d-account-foundation-live",
+  "state_key": "v0.92.1/aws-d/account-foundation/account-foundation.tfstate",
+  "saved_plan_digest": "<sha256 of repo-local saved plan file>",
+  "saved_plan_path": "<repo-local ignored path under .adl/requests/727/>",
+  "permitted_resources": [
+    "aws_accessanalyzer_analyzer.account[0]",
+    "aws_cloudtrail.account_activity",
+    "aws_cloudwatch_event_rule.access_analyzer_findings",
+    "aws_cloudwatch_event_target.access_analyzer_findings",
+    "aws_config_configuration_recorder.account[0]",
+    "aws_config_configuration_recorder_status.account[0]",
+    "aws_config_delivery_channel.account[0]",
+    "aws_iam_role.config[0]",
+    "aws_iam_role_policy_attachment.config[0]",
+    "aws_kms_alias.audit",
+    "aws_kms_key.audit",
+    "aws_s3_bucket.audit_logs",
+    "aws_s3_bucket_lifecycle_configuration.audit_logs",
+    "aws_s3_bucket_policy.audit_logs",
+    "aws_s3_bucket_public_access_block.audit_logs",
+    "aws_s3_bucket_server_side_encryption_configuration.audit_logs",
+    "aws_s3_bucket_versioning.audit_logs",
+    "aws_sns_topic.security_findings",
+    "aws_sns_topic_policy.security_findings"
+  ],
+  "mutation_deadline": "<YYYY-MM-DDTHH:MM:SSZ>",
+  "cost_ceiling": {
+    "currency": "USD",
+    "maximum_monthly_usd": 50,
+    "notes": "Expected services are account audit/security controls only; stop if the saved plan implies unrelated compute, public edge, GPU, runtime, GCP, or multi-account resources."
+  },
+  "rollback_destroy_disposition": "If apply fails or readback cannot prove the foundation, stop and report residue; run destroy/rollback only with a second explicit operator authorization naming exact resources and deadline.",
+  "redaction_policy": "Do not retain raw AWS JSON, account IDs, ARNs, emails, access keys, secret values, provider debug logs, Terraform state, or unfiltered CLI output.",
+  "operator_authorization": {
+    "authorized_by": "<operator name>",
+    "authorized_at_utc": "<YYYY-MM-DDTHH:MM:SSZ>",
+    "statement": "I authorize this single saved-plan apply for issue #727 only, against the verified Agent Logic business AWS account in us-west-2, with the exact saved_plan_digest above and no out-of-scope resources."
+  }
+}

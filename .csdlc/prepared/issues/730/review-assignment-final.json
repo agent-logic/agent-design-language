@@ -1,0 +1,13 @@
+{
+  "issue": 730,
+  "expected_generation": 17,
+  "expected_digest": "b7f88babecdfcfa46dfd9e780b6a0481cdd21b672367f076da81fd92daf7a34c",
+  "reviewer": "codex-subagent:/root/review_730_prelive",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "exact-head pre-PR review at 6ec6c3854585792a098d82724f814f7228157c17",
+    "GCP-B1 impersonation-only Terraform bootstrap correction",
+    "fail-closed live proof authorization and cleanup safety",
+    "static validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence"
+  ]
+}

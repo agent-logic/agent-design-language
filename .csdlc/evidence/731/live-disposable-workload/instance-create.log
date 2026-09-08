@@ -1,0 +1,4 @@
+WARNING: You have selected a disk size of under [200GB]. This may result in poor I/O performance. For more information, see: https://developers.google.com/compute/docs/disks#performance.
+Created [https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/zones/us-west2-a/instances/adl-gcp-d1-20260908t084805z-bound731].
+NAME                                  ZONE        MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
+adl-gcp-d1-20260908t084805z-bound731  us-west2-a  e2-micro                   10.42.0.2                 RUNNING

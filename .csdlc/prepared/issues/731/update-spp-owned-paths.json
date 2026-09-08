@@ -1,0 +1,27 @@
+{
+  "issue": 731,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "5bb880f16bb8a0a0e2c094b3bae0574637a097f309a43f097d5d8e1b75936472",
+  "actor": "codex:731-bootstrap",
+  "reason": "Declare exact #731 validator and tfvars paths as issue-owned so VPP bash lanes are governed before bind.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "infra/gcp/platform/**",
+      "infra/gcp/platform/terraform.tfvars.example",
+      ".csdlc/prepared/issues/731/**",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh",
+      ".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+      ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh",
+      ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-review-readiness.sh",
+      ".csdlc/issues/731/**",
+      ".csdlc/evidence/731/**"
+    ]
+  }
+}

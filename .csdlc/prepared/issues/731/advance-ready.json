@@ -1,0 +1,12 @@
+{
+  "issue": 731,
+  "card": "sip",
+  "expected_generation": 3,
+  "expected_digest": "15200d8399991148b8a3af6655d8ff30832520b665aaead20b80e74254b3f2c0",
+  "actor": "codex:731-bootstrap",
+  "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

@@ -130,7 +130,7 @@ pub fn discover_operational_local_context(
             "operational repository root must be an existing canonical directory",
         )]
     })?;
-    let selector_path = repository_root.join("csdlc-v2/operator/generation-selector.json");
+    let selector_path = repository_root.join(crate::authority::SELECTOR_PATH);
     let selector_bytes = match fs::read(&selector_path) {
         Ok(bytes) => bytes,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
@@ -149,8 +149,8 @@ pub fn discover_operational_local_context(
             "canonical generation selector must be typed JSON",
         )]
     })?;
-    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.generation_selector.v2")
-        || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
+    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.v3.authority_selector.v1")
+        || selector.get("generation").and_then(Value::as_str) != Some("v3")
         || selector
             .get("operational_authority")
             .and_then(Value::as_str)
@@ -1852,7 +1852,7 @@ fn validate_context(
 
     let selector_path = context
         .repository_root
-        .join("csdlc-v2/operator/generation-selector.json");
+        .join(crate::authority::SELECTOR_PATH);
     let selector_bytes = fs::read(&selector_path).map_err(|_| {
         vec![finding(
             PlanStatus::Blocked,
@@ -1877,8 +1877,12 @@ fn validate_context(
             "canonical generation selector must be typed JSON",
         )]
     })?;
-    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.generation_selector.v2")
-        || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
+    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.v3.authority_selector.v1")
+        || selector.get("generation").and_then(Value::as_str) != Some("v3")
+        || selector
+            .get("operational_authority")
+            .and_then(Value::as_str)
+            != Some("csdlc-v3")
     {
         return Err(vec![finding(
             PlanStatus::Blocked,

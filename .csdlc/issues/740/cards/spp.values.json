@@ -1,0 +1,100 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 740,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+    "slug": "gcp-b1-postmerge-credential-authorization-backend-proof-corrective",
+    "version": "v0.92.1",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bind #740 from current main, patch the GCP-B1 proof script to remove token-retaining backend files and shared auth cache, add focused validation, perform legacy-key disposition and Terraform-backend canary live proof, then review and publish.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Patch proof tooling so Terraform/GCloud auth is issue-run scoped, non-retained, and recovery sanitizes before retaining artifacts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "step-2",
+          "action": "Replace self-issued authorization acceptance with authenticated operator-bound approval evidence tied to exact plan/head.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "step-3",
+          "action": "Run redacted live GCP proof for legacy-key disposition, Terraform-backend canary write/recovery, and bucket readback.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "step-4",
+          "action": "Record post-merge corrective truth, validate, obtain exact-head review, publish PR, and merge only when green.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+        ".csdlc/prepared/issues/740/design.md",
+        ".csdlc/prepared/issues/740/diagram.mmd",
+        ".csdlc/prepared/issues/740/backend-canary/main.tf",
+        ".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh",
+        ".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh",
+        ".csdlc/prepared/issues/740/validate_typed_issue.sh",
+        "infra/gcp/bootstrap/main.tf",
+        "infra/gcp/bootstrap/variables.tf",
+        "infra/gcp/bootstrap/outputs.tf",
+        "docs/milestones/v0.92.1"
+      ],
+      "invariants": [
+        "No `/private/tmp` diagnostics; keep proof in repo/worktree or Git-common issue-owned paths.",
+        "No provider credential values, token contents, or key material are printed, committed, or retained.",
+        "Root main remains inspection-only.",
+        "Remote Terraform state bucket is not deleted after adoption.",
+        "All live claims are bound to exact retained redacted evidence."
+      ],
+      "risks": [
+        "Accidentally retaining short-lived OAuth tokens in generated backend or recovery files.",
+        "Mistaking a local JSON file for authenticated operator authorization.",
+        "Using raw GCS object upload proof where Terraform backend state proof is required.",
+        "Overreaching into unrelated GCP resources."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "GCP returns insufficient permission for the bounded Token Creator or key-disposition read/revoke action and no safe in-scope alternative can record a truthful time-bounded exception.",
+        "A needed change would touch unrelated issue work or resources outside the declared GCP-B1 denominator.",
+        "Validation detects retained credential material that cannot be sanitized without losing required evidence."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/740/design.md",
+      "design_digest": "d00bc8370459eb65fe3926900e715c56df7bb5088ca2662f2507a7f1f5095027",
+      "diagram_ref": ".csdlc/prepared/issues/740/diagram.mmd",
+      "diagram_digest": "a96391b12883a71c74bc78ece094ec081b9aedf166a9d18ca3c01e227b4486d8"
+    }
+  }
+}

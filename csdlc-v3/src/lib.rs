@@ -104,9 +104,13 @@ pub fn is_proportional_surface(surface: &str) -> bool {
     PROPORTIONAL_SURFACES.contains(&surface)
 }
 
-/// V3 is not operational authority during V3-A.
-pub fn operational_authority() -> &'static str {
-    "csdlc-v2"
+/// Reports native authority only when the canonical selector and receipt are valid.
+pub fn operational_authority(root: &std::path::Path) -> Result<&'static str, String> {
+    Ok(if authority::canonical_v3_authority(root)?.is_some() {
+        "csdlc-v3"
+    } else {
+        "suspended"
+    })
 }
 
 #[cfg(test)]
@@ -131,13 +135,13 @@ mod tests {
     fn contract_schema() {
         let contract = read_repo("docs/csdlc-v3/CONTRACT.md");
         assert!(contract.contains("C-SDLC v3 Contract"));
-        assert!(contract.contains("v2 remains the sole operational authority"));
+        assert!(contract.contains("v3 is the operational authority after the merged V3-F cutover"));
         assert!(contract.contains("Authority and compatibility"));
         assert!(contract.contains("Retained predecessor contract"));
         assert!(contract.contains("Construction decision"));
         assert!(contract.contains("Proportional lifecycle contract"));
         assert!(contract.contains("Rollback and fail-closed behavior"));
-        assert_eq!(operational_authority(), "csdlc-v2");
+        assert_eq!(operational_authority(&repo_root()).unwrap(), "suspended");
     }
 
     #[test]
@@ -176,14 +180,7 @@ mod tests {
     #[test]
     fn architecture_boundary() {
         let contract = read_repo("docs/csdlc-v3/CONTRACT.md");
-        let forbidden_claims = [
-            "v3 is the sole operational authority",
-            "v3 becomes the sole operational authority",
-            "v3 has operational authority",
-            "v3 approves v2 retirement",
-            "v3 authorizes v2 retirement",
-            "v3 completes v2 retirement",
-        ];
+        let forbidden_claims = ["v3 approves v2 retirement", "v3 authorizes v2 retirement"];
         let contract_lower = contract.to_lowercase();
         for claim in forbidden_claims {
             assert!(
@@ -191,8 +188,8 @@ mod tests {
                 "forbidden authority claim present: {claim}"
             );
         }
-        assert!(contract.contains("does not make v3 operational"));
-        assert!(contract.contains("v2 remains the rollback target"));
+        assert!(contract.contains("pre-cutover boundary remains historical evidence"));
+        assert!(contract.contains("v2 is the retained rollback target after V3-F"));
         assert!(contract.contains("macOS and Linux are the required #505 cutover platforms"));
     }
 

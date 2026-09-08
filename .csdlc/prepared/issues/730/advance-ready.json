@@ -1,0 +1,1 @@
+{"issue":730,"actor":"Codex GCP corrective worker","card":"spp","expected_generation":3,"expected_digest":"ecc7f56c99d57eddaf254a0c88ebacd2c7f9a320cb29d76cf998e370ab33a565","operation":{"operation":"advance_phase","phase":"ready"},"reason":"Design-time cards and governed validation lanes are execution-ready."}

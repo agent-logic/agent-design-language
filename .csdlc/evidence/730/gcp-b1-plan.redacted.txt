@@ -1,0 +1,72 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_storage_bucket.terraform_state will be created
+  + resource "google_storage_bucket" "terraform_state" {
+      + effective_labels            = {
+          + "app"                        = "adl"
+          + "goog-terraform-provisioned" = "true"
+          + "issue"                      = "730"
+          + "lane"                       = "gcp-b1"
+          + "milestone"                  = "v0-92-1"
+        }
+      + force_destroy               = false
+      + id                          = (known after apply)
+      + labels                      = {
+          + "app"       = "adl"
+          + "issue"     = "730"
+          + "lane"      = "gcp-b1"
+          + "milestone" = "v0-92-1"
+        }
+      + location                    = "US-WEST2"
+      + name                        = "adl-tf-state-cs-host-377d41e71a824f92802120"
+      + project                     = "cs-host-377d41e71a824f92802120"
+      + project_number              = (known after apply)
+      + public_access_prevention    = "enforced"
+      + rpo                         = (known after apply)
+      + self_link                   = (known after apply)
+      + storage_class               = "STANDARD"
+      + terraform_labels            = {
+          + "app"                        = "adl"
+          + "goog-terraform-provisioned" = "true"
+          + "issue"                      = "730"
+          + "lane"                       = "gcp-b1"
+          + "milestone"                  = "v0-92-1"
+        }
+      + time_created                = (known after apply)
+      + uniform_bucket_level_access = true
+      + updated                     = (known after apply)
+      + url                         = (known after apply)
+
+      + soft_delete_policy {
+          + effective_time             = (known after apply)
+          + retention_duration_seconds = 604800
+        }
+
+      + versioning {
+          + enabled = true
+        }
+
+      + website (known after apply)
+    }
+
+  # google_storage_bucket_iam_member.terraform_state_admin will be created
+  + resource "google_storage_bucket_iam_member" "terraform_state_admin" {
+      + bucket = "adl-tf-state-cs-host-377d41e71a824f92802120"
+      + etag   = (known after apply)
+      + id     = (known after apply)
+      + member = "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+      + role   = "roles/storage.admin"
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + bootstrap_service_account = "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+  + project_id                = "cs-host-377d41e71a824f92802120"
+  + state_bucket_name         = "adl-tf-state-cs-host-377d41e71a824f92802120"
+  + state_bucket_url          = (known after apply)

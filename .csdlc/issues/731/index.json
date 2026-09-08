@@ -1,0 +1,317 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 731,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
+  "phase": "published",
+  "generation": 20,
+  "digest": "7716c379c8eb5ad5f25ea46c49049d6a23fafe705a242c4966b9858483ac0997",
+  "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
+  "review_assignment": {
+    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
+    "assigned_by": "codex:731-owner",
+    "revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
+    "scope": [
+      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
+      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
+      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
+      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
+      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
+      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
+      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
+      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
+      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
+    "scope": [
+      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
+      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
+      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
+      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
+      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
+      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
+      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
+      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
+      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
+    ],
+    "reviewed_revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
+    "findings": [],
+    "residual_risks": [
+      "The steady-state private GCP-D1 foundation remains deployed as the accepted #731 output; later teardown requires a separate explicit cleanup issue/authorization."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 731,
+    "pull_request": 739,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/739",
+    "base": "main",
+    "head": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
+    "revision": "git-blake3:12972c60f9acbc4624bd650dc4222d4491a761ab:12c08549581597ad5da221976860bc9b38c2a7c240da65afbac9c067cbaef28f",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/731/design.md",
+  "diagram_path": ".csdlc/prepared/issues/731/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:8d69163f-104d-451d-b58a-d9de043f356d",
+      "revision": "ad228721d1cb93e3604c5c07a4937019e12fa5c73b43aa521e9b951abc7c63ac"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "761e177922a2b8e9bc073d22c146b06da92523742827613b8bbf550b01ddb40e",
+      "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
+      "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
+    },
+    "stp": {
+      "values_digest": "1bd475544f969b7c35123c3d7e93164d565363f1ce2f93662f08f45e1b370ca0",
+      "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
+      "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
+    },
+    "spp": {
+      "values_digest": "fa60767845c68a4cd558ea50ffb33b64307aa02790ddcd54489f5fe9892ab423",
+      "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
+      "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
+    },
+    "vpp": {
+      "values_digest": "03f62e51b232ed9aeeb7db1da022d6598d5b32688977619ca4bdad0308e54c9f",
+      "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
+      "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
+    },
+    "srp": {
+      "values_digest": "02018dbfb643665393c9c112ca631a9813592d6247473ffffbff75d34f06b9f5",
+      "rendered_digest": "ba8fda757bb2e7f6ca6c0bf399b44b6ebb2b5e85467dc89c70f968fe295cac83",
+      "ast_digest": "7df78f212ba0970c01f22bee55a043bcf63a1b16305f07f72212c62782a8bed1"
+    },
+    "sor": {
+      "values_digest": "878050f2684f61b2be276193478fde5cc6811d5e574b13cc560a25367600389e",
+      "rendered_digest": "eeef6dd8784a3b06a8699fc02f3268d1ccdda4111cf7e9e2c4f7febaf4ffcfc4",
+      "ast_digest": "96d9b8da0e59ae7ef217cea9de9d0df143cf6122012ff6aebf0979dd5b833b2e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:731-bootstrap",
+      "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:731-owner",
+      "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:731-owner",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:731-owner",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:731-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:8d69163f-104d-451d-b58a-d9de043f356d",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ad228721d1cb93e3604c5c07a4937019e12fa5c73b43aa521e9b951abc7c63ac\",\"design_ref\":\".csdlc/prepared/issues/731/design.md\",\"diagram_digest\":\"c14a33000ee441f6c58ad66bb6c01275c2dd4e5b1328be1082ac1afbf981d5f5\",\"diagram_ref\":\".csdlc/prepared/issues/731/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:731-bootstrap",
+      "reason": "Make #731 initialized validation planning executable before bind by selecting only issue-owned pre-bind validators and preserving live GCP lanes as deferred execution work in the design/SPP.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"gcp-d1-static-readiness\",\"proof_role\":\"Prove #731 typed bootstrap files, design authorization gate, exact tfvars authority, and static infra/gcp/platform private-foundation denominator before bind without live GCP mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\"],\"parallel_group\":\"prebind\",\"defer_reason\":null},{\"lane\":\"terraform-plan-denominator\",\"proof_role\":\"Create and inspect a saved Terraform plan for infra/gcp/platform proving exactly the accepted foundation denominator and rejecting public IP/route, public ingress, broad IAM, replacement, or extra resources before apply.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"parallel_group\":\"preapply\",\"defer_reason\":\"Deferred until #731 is bound and exact Terraform/backend inputs are confirmed.\"},{\"lane\":\"gcp-readonly-preflight\",\"proof_role\":\"Read-only GCP proof for exact project, region, required APIs, quota, billing, IAM, remote state, and short-lived impersonation readiness without secret exposure.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\"],\"parallel_group\":\"gcp-readonly\",\"defer_reason\":\"Requires approved local GCP credential context but performs no mutation.\"},{\"lane\":\"mutation-authorization-packet\",\"proof_role\":\"Generate the fresh operator authorization packet containing exact project, region, zone, plan digest, network/subnet, run ID, instance name, cleanup deadline, impersonated identity, rollback commands, and cost caps before any apply/run.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"parallel_group\":\"preapply\",\"defer_reason\":\"Must run after saved plan digest and run identity are generated.\"},{\"lane\":\"live-foundation-apply-readback\",\"proof_role\":\"After explicit operator authorization only, apply the bounded foundation and prove private foundation, separate identities, five storage-owner boundaries, labels, and watchdog metric by redacted live readback.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\"],\"parallel_group\":\"live-authorized\",\"defer_reason\":\"Requires fresh explicit operator authorization for live GCP mutation and spend.\"},{\"lane\":\"live-disposable-workload-disposal\",\"proof_role\":\"After explicit operator authorization only, run exactly one labelled e2-micro private VM, prove RUNNING without external IP and readiness, destroy it and its boot disk within the window, and prove zero residue by independent readback.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\"],\"parallel_group\":\"live-authorized\",\"defer_reason\":\"Requires fresh explicit operator authorization for live GCP mutation and spend.\"},{\"lane\":\"gcp-d1-diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene defects in the exact issue range and current worktree before design approval and bind.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":400,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\"],\"parallel_group\":\"prebind\",\"defer_reason\":null},{\"lane\":\"exact-head-review-readiness\",\"proof_role\":\"Fail closed until completed implementation evidence and SOR/SRP truth are ready for exact-head independent review before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":600,\"argv\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-review-readiness.sh\"],\"parallel_group\":\"review-readiness\",\"defer_reason\":\"Deferred until implementation and evidence are complete.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:731-bootstrap",
+      "reason": "Declare exact #731 validator and tfvars paths as issue-owned so VPP bash lanes are governed before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/platform/**\",\"infra/gcp/platform/terraform.tfvars.example\",\".csdlc/prepared/issues/731/**\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-review-readiness.sh\",\".csdlc/issues/731/**\",\".csdlc/evidence/731/**\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:731-bootstrap",
+      "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 bound no-mutation readiness work and live-mutation stop boundary before any apply/run.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bound #731 in its FastWork worktree, repaired the Terraform private-foundation OS Login metadata resource to the provider-supported type, captured no-mutation static/read-only readiness evidence, produced a saved Terraform plan denominator proof, and prepared a pending mutation authorization packet. No terraform apply, GCP instance creation, destroy, or other live mutation was run.\",\"changes\":[\"Confirmed bound issue worktree and committed bind state for branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.\",\"Changed infra/gcp/platform OS Login metadata from unsupported google_project_metadata_item to provider-supported google_compute_project_metadata_item.\",\"Expanded #731 static and Terraform denominator validators to prove exact private-foundation resource counts, reject forbidden public/GPU/workload resources, create a saved no-refresh Terraform plan, and record plan SHA-256 evidence.\",\"Expanded read-only GCP preflight to record redacted project, region, zone, required API, billing, quota, scoped IAM, and pre-apply target network/subnet readbacks without mutation.\",\"Created a pending mutation authorization packet with exact project, region, zone, network/subnet, saved plan digest, run id, instance name, deadline, operator identity, rollback commands, and spend caps.\"],\"artifacts\":[\"infra/gcp/platform/main.tf\",\"infra/gcp/platform/.terraform.lock.hcl\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/evidence/731/terraform-plan-denominator/status.json\",\".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan\",\".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json\",\".csdlc/evidence/731/read-only-preflight/status.json\",\".csdlc/evidence/731/read-only-preflight/identity.json\",\".csdlc/evidence/731/read-only-preflight/project.json\",\".csdlc/evidence/731/read-only-preflight/required-enabled-services.json\",\".csdlc/evidence/731/read-only-preflight/billing.json\",\".csdlc/evidence/731/read-only-preflight/scoped-iam-policy.json\",\".csdlc/evidence/731/read-only-preflight/region.json\",\".csdlc/evidence/731/read-only-preflight/zone.json\",\".csdlc/evidence/731/read-only-preflight/network.err\",\".csdlc/evidence/731/read-only-preflight/subnet.err\",\".csdlc/evidence/731/mutation-authorization-request.json\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 static no-mutation readiness validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\"],\"purpose\":\"Prove typed #731 bootstrap files, exact tfvars authority, private-foundation denominator, and forbidden public/GPU/workload resource absence before mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:PASS #731 static readiness and private-foundation denominator guard\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 Terraform saved-plan denominator validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"purpose\":\"Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=8ff2e337006d137d4b85c934342d50efb83dafb3771f416747fe09cb466f3835\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 read-only GCP preflight validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\"],\"purpose\":\"Read-only GCP preflight for exact project, region, zone, required APIs, billing, regional quota, scoped IAM readability, and pre-apply target network/subnet absence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/read-only-preflight/status.json target_network_state=absent target_subnet_state=absent mutation=none\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 pending authorization packet validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"purpose\":\"Prove the live-mutation authorization packet is complete and still pending operator approval before any apply/run.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/mutation-authorization-request.json operator_authorization.status=pending\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\"],\"purpose\":\"Prove exact issue diff hygiene for current worktree changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:PASS #731 diff hygiene\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:731-owner",
+      "reason": "Record current saved plan digest after rerun overwrote the no-mutation Terraform plan evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"The saved Terraform plan was rerun during final no-mutation validation. The current retained binary plan digest is 7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 and the current plan JSON digest is 0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48. The pending mutation authorization packet was updated to this current saved plan digest. No apply or GCP mutation was run.\",\"changes\":[\"Updated .csdlc/evidence/731/mutation-authorization-request.json plan_digest to the current retained saved Terraform plan SHA-256.\",\"Preserved the no-mutation boundary: the plan was created with refresh=false and was not applied.\"],\"artifacts\":[\".csdlc/evidence/731/terraform-plan-denominator/status.json\",\".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan\",\".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json\",\".csdlc/evidence/731/mutation-authorization-request.json\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:731-owner",
+      "reason": "Record current retained #731 saved-plan denominator validation after final rerun.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"purpose\":\"Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 plan_json_sha256=0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:731-owner",
+      "reason": "Record current #731 pending authorization packet validation after plan digest refresh.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"purpose\":\"Prove the live-mutation authorization packet is complete, bound to the current saved plan digest, and still pending operator approval before any apply/run.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/mutation-authorization-request.json plan_digest=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 operator_authorization.status=pending\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:731-owner",
+      "reason": "Advance #731 SOR from pre-phase to draft after recording bound no-mutation readiness evidence while live proof remains pending.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"draft\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:731-owner",
+      "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:731-owner",
+      "reason": "Replace the earlier no-mutation checkpoint SOR with the authorized live #731 completion truth after GCP foundation apply and disposable workload disposal proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Under explicit operator authorization, #731 applied the bounded GCP-D1 private foundation in project cs-host-377d41e71a824f92802120, proved the private network/subnet/firewall/IAM/storage/logging denominator by live readback, ran exactly one labelled private e2-micro disposable VM with no external IP, destroyed it with its auto-delete standard boot disk, and proved zero residual instances, run-labelled instances, disks, or addresses. Earlier live apply attempts exposed credential, stale-plan, IPv4/IPv6 firewall, and nonexistent-group IAM defects; those were repaired narrowly before the successful authorized apply.\",\"changes\":[\"Repaired the Terraform OS Login metadata resource to the provider-supported google_compute_project_metadata_item type.\",\"Changed the operator IAM input from a nonexistent group binding to the active operator member user:daniel@agent-logic.ai and updated tfvars/static validators accordingly.\",\"Changed the deny-egress firewall rule to the provider-valid IPv4 destination range 0.0.0.0/0 instead of mixing IPv4 and IPv6 ranges in one Compute firewall rule.\",\"Expanded #731 static, Terraform denominator, authorization-packet, read-only GCP preflight, foundation apply/readback, disposable workload disposal, and diff-hygiene validators/evidence surfaces.\",\"Recorded approved operator authorization in .csdlc/evidence/731/mutation-authorization-request.json with run id gcp-d1-20260908t084805z-bound731, instance adl-gcp-d1-20260908t084805z-bound731, cleanup deadline 2026-09-08T10:48:05Z, and applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.\",\"Applied the bounded foundation with Terraform and retained redacted live readbacks for the VPC, subnet, three firewall rules, OS Login metadata, operator/workload IAM, five buckets, bucket IAM, log writer, and logging metric.\",\"Created exactly one labelled private e2-micro workload in us-west2-a, proved RUNNING without an external IP, deleted it, and retained independent post-delete readbacks proving zero residual instances, run-labelled instances, disks, or addresses.\"],\"artifacts\":[\"infra/gcp/platform/main.tf\",\"infra/gcp/platform/variables.tf\",\"infra/gcp/platform/terraform.tfvars.example\",\"infra/gcp/platform/.terraform.lock.hcl\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\",\".csdlc/evidence/731/mutation-authorization-request.json\",\".csdlc/evidence/731/terraform-plan-denominator/status.json\",\".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan\",\".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json\",\".csdlc/evidence/731/read-only-preflight/status.json\",\".csdlc/evidence/731/read-only-preflight/identity.json\",\".csdlc/evidence/731/read-only-preflight/project.json\",\".csdlc/evidence/731/read-only-preflight/required-enabled-services.json\",\".csdlc/evidence/731/read-only-preflight/billing.json\",\".csdlc/evidence/731/read-only-preflight/scoped-iam-policy.json\",\".csdlc/evidence/731/read-only-preflight/region.json\",\".csdlc/evidence/731/read-only-preflight/zone.json\",\".csdlc/evidence/731/read-only-preflight/network.json\",\".csdlc/evidence/731/read-only-preflight/network.err\",\".csdlc/evidence/731/read-only-preflight/subnet.json\",\".csdlc/evidence/731/read-only-preflight/subnet.err\",\".csdlc/evidence/731/live-foundation-apply/status.json\",\".csdlc/evidence/731/live-foundation-apply/terraform-apply.log\",\".csdlc/evidence/731/live-foundation-apply/terraform-output.json\",\".csdlc/evidence/731/live-foundation-apply/network.json\",\".csdlc/evidence/731/live-foundation-apply/subnet.json\",\".csdlc/evidence/731/live-foundation-apply/firewalls.json\",\".csdlc/evidence/731/live-foundation-apply/scoped-iam-policy.json\",\".csdlc/evidence/731/live-foundation-apply/logging-metric.json\",\".csdlc/evidence/731/live-disposable-workload/status.json\",\".csdlc/evidence/731/live-disposable-workload/instance-create.log\",\".csdlc/evidence/731/live-disposable-workload/instance-running.json\",\".csdlc/evidence/731/live-disposable-workload/instance-delete.log\",\".csdlc/evidence/731/live-disposable-workload/post-instances.json\",\".csdlc/evidence/731/live-disposable-workload/post-run-instances.json\",\".csdlc/evidence/731/live-disposable-workload/post-disks.json\",\".csdlc/evidence/731/live-disposable-workload/post-addresses.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\"],\"purpose\":\"Prove typed #731 bootstrap files, exact tfvars authority, private-foundation denominator, and forbidden public/GPU/workload resource absence.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:PASS #731 static readiness and private-foundation denominator guard\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"purpose\":\"Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before the successful apply.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df plan_json_sha256=fc68aee4b9b3bc6f34169880d03c173d4dce1f4a4ba971f1b6cc90f504a16b8c\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"purpose\":\"Prove the live-mutation authorization packet is approved and bound to the exact applied Terraform plan digest before live mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/mutation-authorization-request.json operator_authorization.status=approved plan_digest=e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\"],\"purpose\":\"Apply the approved bounded GCP-D1 private foundation and prove the live resource denominator by redacted readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/live-foundation-apply/status.json applied_plan_sha256=e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\"],\"purpose\":\"Create exactly one private e2-micro disposable VM, prove RUNNING without external IP, destroy it with auto-delete standard boot disk, and prove zero residue.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/live-disposable-workload/status.json residue.instances=0 residue.run_labelled_instances=0 residue.disks=0 residue.addresses=0\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\"],\"purpose\":\"Post-apply read-only GCP preflight for exact project, region, zone, APIs, billing, quota, scoped IAM readability, and target network/subnet presence without mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/read-only-preflight/status.json target_network_state=present target_subnet_state=present mutation=none\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker defects in the current worktree before committing live completion evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:current worktree diff check passed; exact-range diff check deferred until the corrected evidence is committed\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:731-owner",
+      "reason": "Recover the stale no-mutation checkpoint review assignment after authorized live GCP completion evidence replaced the SOR; a fresh exact-head implementation review is required.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:731-owner",
+      "reason": "Recover the review assignment after the reviewer returned findings about exact-head routing and misread the required GCP resource label; a fresh assignment will explicitly scope metadata-tail handling and #731/#493 label authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:731-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:731-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

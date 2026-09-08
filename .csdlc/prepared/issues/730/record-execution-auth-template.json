@@ -1,0 +1,18 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "c7dd9db9164e210d407ca08f49e100eea31a037cc01898ca9ec5d1c793975841",
+  "actor": "codex:/root",
+  "reason": "Record #730 exact authorization template artifact for the live apply gate.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added a tracked #730 authorization template for the exact saved-plan apply gate.",
+    "changes": [
+      "Added an authorization template carrying the exact project, region, bucket, service account, plan path, current saved-plan digest, spend cap, apply timeout, and rollback command required by the live proof script."
+    ],
+    "artifacts": [
+      ".csdlc/prepared/issues/730/authorization-template.json"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "3e3c3330596847cbe1f4338a57c930bdedb5c2d49d40e9986039f13cfaa00c8f",
+  "actor": "codex:/root",
+  "reason": "Record #730 saved-plan preparation blocked on non-interactive gcloud reauthentication.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh"
+      ],
+      "purpose": "No-mutation saved-plan preparation using short-lived service-account impersonation before operator-reviewed apply authorization.",
+      "outcome": "blocked",
+      "evidence_ref": ".csdlc/evidence/730/prepare-plan.stderr.log; gcloud auth reauthentication failed because non-interactive execution cannot prompt"
+    }
+  }
+}

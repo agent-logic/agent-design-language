@@ -1,0 +1,11 @@
+{
+  "issue": 731,
+  "base_branch": "origin/main",
+  "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
+  "expected_generation": 4,
+  "expected_digest": "de4aa7a5e046f2cdb5ae872714bcddcb1202f7934607883b00bcfbe07a4d1249",
+  "expected_head": "493f59c942dd6f0a9dd7c7d99617ec8f80a1ac53",
+  "expected_repository": "agent-logic/agent-design-language",
+  "actor": "codex:731-bind"
+}

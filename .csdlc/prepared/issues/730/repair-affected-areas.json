@@ -1,0 +1,19 @@
+{
+  "issue": 730,
+  "actor": "Codex GCP corrective worker",
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "0179a2bcb8808f7db6c104c976accce242619947c5b102b76724924367848c93",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "infra/gcp/bootstrap/**",
+      "docs/operations/cloud/gcp/terraform-bootstrap/**",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/**",
+      ".csdlc/prepared/issues/730/**",
+      ".csdlc/issues/730/**"
+    ]
+  },
+  "reason": "Use safe repository-owned paths for execution readiness."
+}

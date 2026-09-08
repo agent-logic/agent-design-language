@@ -1,0 +1,124 @@
+{
+  "base_ref": "main",
+  "body": "Closes #505\n\nCompletes the C-SDLC v3 authority transition. Merging this PR is the operator-approved atomic cutover: the tracked generation selector becomes canonical on `main`, while feature branches remain on v2 until their selector matches canonical `origin/main`.\n\nThe final implementation uses one shared authority contract across v2 dispatch and v3 local, remote, terminal, and install routes; removes repository-writable approval fallbacks; uses an advisory lock in the Git common directory; preserves durable rollback from a fresh linked worktree; and keeps focused proof execution credential-sanitized, repository-bounded, and fail-closed.\n\nC-SDLC v2 remains authoritative before merge. Terminal reconciliation records the completed transition after merge; it is not a second activation gate. V2 retirement remains separate post-cutover work.\n\nRequired before merge: a passing independent exact-head review and green required hosted checks.",
+  "checks": [
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101463830768",
+      "name": "adl-ci",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101466027155",
+      "name": "adl-coverage",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101465974812",
+      "name": "adl-coverage-hosted",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855410",
+      "name": "adl-coverage-runtime-hosted",
+      "required": false
+    },
+    {
+      "conclusion": "skipped",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462856526",
+      "name": "adl-coverage-workspace-fast-hosted",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855460",
+      "name": "adl-coverage-workspace-hosted",
+      "required": false
+    },
+    {
+      "conclusion": "skipped",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462856173",
+      "name": "adl-demo-proof",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462807544",
+      "name": "adl-path-policy",
+      "required": false
+    },
+    {
+      "conclusion": "skipped",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462856312",
+      "name": "adl-runtime-v3-fast",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855471",
+      "name": "adl-rust-fmt-clippy",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855433",
+      "name": "adl-rust-tests",
+      "required": false
+    },
+    {
+      "conclusion": "skipped",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462856038",
+      "name": "adl-slow-proof",
+      "required": false
+    },
+    {
+      "conclusion": "skipped",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462856025",
+      "name": "adl-spot-ci-and-coverage",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855420",
+      "name": "adl-tooling-contracts",
+      "required": false
+    },
+    {
+      "conclusion": "skipped",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462856314",
+      "name": "adl-v2-standalone",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855408",
+      "name": "csdlc-v2-standalone",
+      "required": false
+    },
+    {
+      "conclusion": "success",
+      "details_url": "https://github.com/agent-logic/agent-design-language/actions/runs/34024406131/job/101462855424",
+      "name": "csdlc-v3-standalone",
+      "required": false
+    }
+  ],
+  "classification": "waiting",
+  "draft": false,
+  "head_ref": "codex/505-v3-f-authority-transition-decision-exec",
+  "head_sha": "74ddb31702482172eea4ba3d74700536eab32e49",
+  "linkage_source": "github_closing_issues_references",
+  "linked_issue": 505,
+  "merge_commit_sha": "d3f98ed005cf44c359ac482e271e6b8634e93f23",
+  "merge_state": "unknown",
+  "merged": true,
+  "pull_request": 591,
+  "repository": "agent-logic/agent-design-language",
+  "required_check_names": [],
+  "review_decision": "pending",
+  "schema": "csdlc.github_pr_state.v1",
+  "state": "closed",
+  "url": "https://github.com/agent-logic/agent-design-language/pull/591"
+}
