@@ -14,7 +14,9 @@ Status: draft
 
 csdlc-v3/src/main.rs
 csdlc-v3/src/commands/remote
+csdlc-v3/src/commands/proof.rs
 csdlc-v3/tests/operational_cli_commands.rs
+csdlc-v3/tests/proof_parity_install_commands.rs
 docs/csdlc-v3/CONTRACT.md
 .csdlc/prepared/issues/724/validate-simple-issue-create.sh
 .csdlc/evidence/724
@@ -37,12 +39,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The exact-head review was read-only and relied on the retained focused validation; it did not perform a live GitHub mutation.
+- The exact-head review was read-only; no live GitHub issue creation was performed.
 
 ## Review Result
 
-Revision: Some("git-blake3:3f6f4307ac2fab48b42742540636e7c364b6d166:86172148c6de86b4863031ed728e7ae0bc6a3a1cd52ca321d39445c093ce7d2e")
+Revision: Some("git-blake3:3945a31a74b2202325b4752a8c0d5ee64b41092b:3cbedaf78cf28ad9f6003f57c2fd34e861842abdd56db3231608071e70065bb2")
 
-Reviewer: Some("codex:/root/remediate_v3_725")
+Reviewer: Some("codex:/root/execute_aws_727_728")
 
 Result: pass
