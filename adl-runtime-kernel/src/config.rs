@@ -715,12 +715,6 @@ impl RuntimeInitConfig {
             .and_then(serde_json::Value::as_object_mut)
         {
             api.remove("public_base_url");
-            if let Some(tls) = api
-                .get_mut("tls")
-                .and_then(serde_json::Value::as_object_mut)
-            {
-                tls.remove("server_name");
-            }
         }
         if let Some(polis) = runtime
             .get_mut("polis")

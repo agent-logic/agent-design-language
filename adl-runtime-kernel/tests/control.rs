@@ -65,12 +65,17 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
     .with_runtime_ownership(4242, "0".repeat(64))
     .with_polis_identity(&init);
 
+    let mut restart_required = init.clone();
+    restart_required.api.tls.server_name = "new.example.test".to_owned();
+    assert!(service
+        .apply_runtime_init_reload(&restart_required, &"f".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "0".repeat(64));
+
     let mut reload = init.clone();
     reload.polis.display_name = "Renamed Polis".to_owned();
-    reload.polis.public_domain = "new.example.test".to_owned();
     reload.polis.observatory_public_origin = "https://observe.new.example.test".to_owned();
-    reload.api.public_base_url = "https://new.example.test".to_owned();
-    reload.api.tls.server_name = "new.example.test".to_owned();
+    reload.api.public_base_url = "https://localhost/reloaded".to_owned();
     reload.observatory.allowed_origins = vec!["https://observe.new.example.test".to_owned()];
     reload.observatory.additional_allowed_origins.clear();
     service
@@ -81,15 +86,15 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
     let observed = service.observatory_feed().polis_identity;
     assert_eq!(observed.polis_id, init.polis.id);
     assert_eq!(observed.display_name, "Renamed Polis");
-    assert_eq!(observed.public_domain, "new.example.test");
-    assert_eq!(observed.runtime_api_base, "https://new.example.test");
+    assert_eq!(observed.public_domain, "localhost");
+    assert_eq!(observed.runtime_api_base, "https://localhost/reloaded");
     assert_eq!(
         observed.observatory_public_origin,
         "https://observe.new.example.test"
     );
     assert_eq!(
         service.observatory_feed().control.public_base_url,
-        "https://new.example.test"
+        "https://localhost/reloaded"
     );
     assert!(service
         .observatory_origin_policy()
@@ -108,7 +113,7 @@ fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomi
     assert_eq!(service.observatory_feed().polis_identity, observed);
     assert_eq!(
         service.observatory_feed().control.public_base_url,
-        "https://new.example.test"
+        "https://localhost/reloaded"
     );
     assert!(service
         .observatory_origin_policy()
