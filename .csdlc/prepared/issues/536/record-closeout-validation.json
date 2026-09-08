@@ -1,0 +1,18 @@
+{
+  "issue": 536,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "280b6795c0ee815752c7685afdb02c11e1a73e98b4398fefce1039e73c3bcd36",
+  "claim_id": "csdlc-issue-536-20260908t063225z",
+  "actor": "codex:sprint8-closeout",
+  "reason": "Record focused aggregate closeout proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"],
+      "purpose": "Prove exact membership, no-PR dispositions, #671 residual routing, and ancestry of all six merged child PRs.",
+      "outcome": "passed",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md"
+    }
+  }
+}

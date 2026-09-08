@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 536,
+  "expected_generation": 11,
+  "expected_digest": "450734e59f7a607176f74a3a9b480ac806956bf4230126e8ca8d439bae8df994",
+  "reviewer": "codex:/root/review_536_closeout",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+    ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+  ]
+}

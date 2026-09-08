@@ -1,0 +1,12 @@
+{
+  "issue": 536,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "907f5afcd9975cab54aec5c59645883348ba2e8d067f9636d5900856d028190a",
+  "actor": "codex:sprint8-closeout",
+  "reason": "Advance #536 after its issue-owned deterministic validation target and approved design pass doctor readiness.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "issue": 536,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "b9741a05eb205219d2a43c91025e7314d98de8271ae65e2b11a48534fc03644f",
+  "claim_id": "csdlc-issue-536-20260908t063225z",
+  "actor": "codex:sprint8-closeout",
+  "reason": "Aggregate closeout evidence and focused deterministic proof are complete; enter exact-head review.",
+  "operation": {"operation": "advance_phase", "phase": "implemented"}
+}

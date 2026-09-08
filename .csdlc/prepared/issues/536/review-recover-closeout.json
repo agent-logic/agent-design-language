@@ -1,0 +1,7 @@
+{
+  "issue": 536,
+  "expected_generation": 10,
+  "expected_digest": "340e112143bd5ba310331906ed23abbfabdd4be63363bf9f94eead006af36b75",
+  "actor": "codex:/root",
+  "reason": "The assigned review finding was fixed at 5c87c6f33a40e9518ca46dd377a5848a9120ad56; clear stale review authority and require a fresh exact-head review."
+}

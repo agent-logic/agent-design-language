@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 536,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Sprint 8 Product lanes",
+    "slug": "sprint8-product-lanes",
+    "version": "v0.92.1",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "sprint8-closeout",
+          "proof_role": "Verify exact Sprint 8 membership, explicit no-PR dispositions, residual routing, and ancestry of every merged child before aggregate closeout.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+          ],
+          "parallel_group": "sprint8-docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing child readiness, ownership overlap, unmet serial gates, operator-authority gaps, or unsupported completion claims.",
+      "design_ref": ".csdlc/prepared/issues/536/design.md",
+      "design_digest": "59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9",
+      "diagram_ref": ".csdlc/prepared/issues/536/diagram.mmd",
+      "diagram_digest": "8079306bf86fe585ac4b92901f08f9bc24ed7a3c84303f5eafa3f2c06664bb1a"
+    }
+  }
+}

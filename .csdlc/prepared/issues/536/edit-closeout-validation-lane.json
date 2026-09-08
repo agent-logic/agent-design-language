@@ -1,0 +1,25 @@
+{
+  "issue": 536,
+  "card": "vpp",
+  "expected_generation": 4,
+  "expected_digest": "6e592a856d4bd0c668ba1c99f0c76ced7c26a1f60b780875189ebec135cb39d9",
+  "actor": "codex:sprint8-closeout",
+  "reason": "Use a focused closeout proof over retained child dispositions and merge ancestry instead of deleted pre-execution card directories.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "sprint8-closeout",
+        "proof_role": "Verify exact Sprint 8 membership, explicit no-PR dispositions, residual routing, and ancestry of every merged child before aggregate closeout.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 2000,
+        "argv": ["ruby", ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"],
+        "parallel_group": "sprint8-docs",
+        "defer_reason": null
+      }
+    ]
+  }
+}
