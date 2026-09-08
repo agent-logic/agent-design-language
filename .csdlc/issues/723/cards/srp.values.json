@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 723,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
+    "slug": "restore-green-proof-shadow-install-tests",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Only issue 723 proof/shadow/install implementation and tests.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify stderr fallback accepts only one typed document and preserves nonzero exit.",
+        "Verify install authorization binds exact head and digests."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

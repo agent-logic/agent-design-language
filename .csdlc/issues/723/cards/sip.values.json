@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 723,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
+    "slug": "restore-green-proof-shadow-install-tests",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Restore the complete C-SDLC v3 proof, shadow, and install integration suite.",
+      "required_outcome": "All csdlc-v3 all-target tests pass with typed output, fail-closed mismatch detection, and intentional install authority behavior.",
+      "declared_scope": [
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-723"
+      ],
+      "authority_boundary": [
+        "v2 remains live authority",
+        "do not weaken proof parity or #505 install gate",
+        "no v2 removal"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "root main inspection only",
+        "bounded issue 723 fixes",
+        "deterministic fixtures must not dirty worktrees"
+      ]
+    }
+  }
+}

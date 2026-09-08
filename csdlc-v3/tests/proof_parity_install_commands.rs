@@ -104,6 +104,24 @@ fn binary_repo_root() -> PathBuf {
         .to_path_buf()
 }
 
+fn primary_repo_root() -> PathBuf {
+    let output = Command::new("git")
+        .current_dir(binary_repo_root())
+        .args(["worktree", "list", "--porcelain"])
+        .output()
+        .expect("list worktrees");
+    assert!(
+        output.status.success(),
+        "worktree topology should be observable"
+    );
+    let worktrees = String::from_utf8_lossy(&output.stdout);
+    let first = worktrees
+        .lines()
+        .find_map(|line| line.strip_prefix("worktree "))
+        .expect("primary worktree");
+    PathBuf::from(first)
+}
+
 fn scoped_evidence_ref(name: &str) -> String {
     format!(
         ".csdlc/evidence/631/proof-route-tests/{}/{}",
@@ -132,6 +150,38 @@ fn issue_phase(issue: u64) -> String {
         .as_str()
         .expect("issue phase")
         .to_string()
+}
+
+fn issue_repository(issue: u64) -> String {
+    issue_index(issue)["repository"]
+        .as_str()
+        .expect("issue repository")
+        .to_string()
+}
+
+fn issue_branch(issue: u64) -> String {
+    issue_index(issue)["branch"]
+        .as_str()
+        .expect("issue branch")
+        .to_string()
+}
+
+fn issue_worktree(issue: u64) -> String {
+    issue_index(issue)["worktree"]
+        .as_str()
+        .expect("issue worktree")
+        .to_string()
+}
+
+fn current_head() -> String {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(binary_repo_root())
+        .args(["rev-parse", "HEAD"])
+        .output()
+        .expect("observe current head");
+    assert!(output.status.success(), "current head should be observable");
+    String::from_utf8_lossy(&output.stdout).trim().to_owned()
 }
 
 fn write_evidence(name: &str, body: &[u8]) -> (PathBuf, String, String) {
@@ -227,15 +277,14 @@ fn v3_doctor_spec() -> Value {
 }
 
 fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
-    let root = binary_repo_root();
     let request_ref = write_typed_request(
         "v3-doctor-request.json",
         json!({
             "issue": issue,
             "title": title,
-            "repository": "agent-logic/agent-design-language",
-            "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": root,
+            "repository": issue_repository(issue),
+            "branch": issue_branch(issue),
+            "worktree": issue_worktree(issue),
             "registry_version": "1.0.3",
             "expected_lifecycle_digest": issue_digest(issue),
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
@@ -245,8 +294,8 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
     let registrations_ref = write_typed_request(
         "v3-doctor-registrations.json",
         json!([{
-            "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": binary_repo_root(),
+            "branch": issue_branch(issue),
+            "worktree": issue_worktree(issue),
             "primary": false
         }]),
     );
@@ -257,7 +306,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "doctor", "--request", request_ref,
             "--registry", "docs/templates/prompts/current.json",
             "--registrations", registrations_ref,
-            "--repo-root", "."
+            "--repo-root", primary_repo_root().to_string_lossy()
         ],
         "request_ref": request_ref,
         "timeout_millis": 120_000,
@@ -349,7 +398,7 @@ fn assert_blocked_value(route: &str, body: Value, code: &str) {
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("proof.json", br#"{"ok":true}"#);
-    let command = v3_doctor_spec_for(631, "proof command fixture");
+    let command = v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture");
     assert_ready_value(
         "proof",
         json!({
@@ -385,7 +434,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "observed_digest": "def456",
             "stale": true,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(631, "proof command fixture")
+            "command": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
           }
         }),
         "proof_lane_not_deterministic",
@@ -407,7 +456,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "observed_digest": "caller-forged",
             "stale": false,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(631, "proof command fixture")
+            "command": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
           }
         }),
         "proof_observed_digest_mismatch",
@@ -418,7 +467,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 fn proof_route_retains_a_deterministic_native_receipt() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("native-proof.json", br#"{"ok":true}"#);
-    let command = v3_doctor_spec_for(631, "proof command fixture");
+    let command = v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture");
     let value = run_route_value(
         "proof",
         json!({
@@ -458,7 +507,7 @@ fn proof_route_retains_a_deterministic_native_receipt() {
             "observed_digest": digest,
             "stale": false,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(631, "proof command fixture")
+            "command": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
           }
         }),
     );
@@ -518,7 +567,7 @@ fn shadow_route_fails_closed_on_real_lifecycle_mismatch_and_provider_effects() {
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
             "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
-            "v3": v3_doctor_spec_for(210, "[v0.91.6] Shadow parity ready issue fixture"),
+            "v3": v3_doctor_spec_for(632, "Shadow parity mismatch issue fixture"),
             "broad_equivalence_claim": false
           }
         }),
@@ -783,6 +832,117 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           }
         }),
         "install_typed_authority_missing",
+    );
+    let approval_ref = scoped_evidence_ref("install/cutover-approval.json");
+    let approval = serde_json::to_vec(&json!({
+        "schema": "csdlc.v3.cutover_approval.v1",
+        "authority_issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "decision": "approved",
+        "exact_head": current_head(),
+        "selected_binary_digest": artifact_digest,
+        "selector_metadata_digest": selector_digest,
+        "approved_by": "operator"
+    }))
+    .unwrap();
+    fs::write(root.join(&approval_ref), &approval).expect("write cutover approval fixture");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:no-approval",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": true,
+            "exact_head": current_head(),
+            "cutover_approval_ref": approval_ref,
+            "cutover_approval_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        }),
+        "install_cutover_approval_digest_mismatch",
+    );
+    let forged_approval_ref = scoped_evidence_ref("install/forged-cutover-approval.json");
+    let forged_approval =
+        br#"{"schema":"csdlc.v3.install_provenance.v1","source":"not-cutover-approval"}"#;
+    fs::write(root.join(&forged_approval_ref), forged_approval)
+        .expect("write forged approval fixture");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:no-approval",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": true,
+            "exact_head": current_head(),
+            "cutover_approval_ref": forged_approval_ref,
+            "cutover_approval_digest": blake3::hash(forged_approval).to_hex().to_string()
+          }
+        }),
+        "install_cutover_approval_invalid",
+    );
+    let stale_head = "0000000000000000000000000000000000000000";
+    let stale_approval_ref = scoped_evidence_ref("install/stale-head-cutover-approval.json");
+    let stale_approval = serde_json::to_vec(&json!({
+        "schema": "csdlc.v3.cutover_approval.v1",
+        "authority_issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "decision": "approved",
+        "exact_head": stale_head,
+        "selected_binary_digest": artifact_digest,
+        "selector_metadata_digest": selector_digest,
+        "approved_by": "operator"
+    }))
+    .unwrap();
+    fs::write(root.join(&stale_approval_ref), &stale_approval)
+        .expect("write stale approval fixture");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:no-approval",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": true,
+            "exact_head": stale_head,
+            "cutover_approval_ref": stale_approval_ref,
+            "cutover_approval_digest": blake3::hash(&stale_approval).to_hex().to_string()
+          }
+        }),
+        "install_exact_head_mismatch",
     );
     let scratch_root = scratch().join("caller-controlled-evidence-root");
     fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))

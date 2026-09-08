@@ -202,6 +202,7 @@ pub fn classify_route(
         "install" => match request.install.as_ref() {
             Some(install) => validate_install(
                 request.evidence_root.as_deref(),
+                &request.repository,
                 request.cutover_issue,
                 install,
                 &mut findings,
@@ -463,6 +464,7 @@ fn validate_command_spec(
 
 fn validate_install(
     evidence_root: Option<&str>,
+    repository: &str,
     cutover_issue: Option<u64>,
     install: &InstallPlanInput,
     findings: &mut Vec<ProofRouteFinding>,
@@ -562,6 +564,39 @@ fn validate_install(
             None => findings.push(finding(
                 "install_source_provenance_invalid",
                 "install source provenance evidence must be typed JSON with a source string",
+            )),
+        }
+    }
+    if install.executes_install {
+        match (
+            install.cutover_approval_ref.as_deref(),
+            install.cutover_approval_digest.as_deref(),
+        ) {
+            (Some(reference), Some(digest))
+                if !reference.trim().is_empty()
+                    && digest.len() == 64
+                    && digest.chars().all(|ch| ch.is_ascii_hexdigit()) =>
+            {
+                if let Some(bytes) = observed_ref_bytes(evidence_root, reference, findings) {
+                    let observed = blake3::hash(&bytes).to_hex().to_string();
+                    if observed != digest {
+                        findings.push(finding(
+                            "install_cutover_approval_digest_mismatch",
+                            "install cutover approval digest must match referenced typed evidence",
+                        ));
+                    } else if !cutover_approval_matches_install(
+                        &bytes, install, repository, reference, digest,
+                    ) {
+                        findings.push(finding(
+                            "install_cutover_approval_invalid",
+                            "install cutover approval evidence must be typed #505 approval for the selected exact head and artifact",
+                        ));
+                    }
+                }
+            }
+            _ => findings.push(finding(
+                "install_typed_authority_missing",
+                "stable install execution requires typed cutover approval evidence",
             )),
         }
     }
@@ -1035,16 +1070,25 @@ fn normalize_shadow_output(
             (value.get("issue"), value.get("phase"))
         }
         (ShadowGeneration::V3, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
-            if value["schema"] != "csdlc.v3.local_preparation.v1" || value["command"] != "doctor" {
+            let local_preparation = value["schema"] == "csdlc.v3.local_preparation.v1";
+            let operational_local = value["schema"] == "csdlc.v3.operational_local.v1";
+            if (!local_preparation && !operational_local) || value["command"] != "doctor" {
                 return Err(finding(
                     "shadow_output_schema_mismatch",
-                    "v3 doctor output must use the typed local preparation schema",
+                    "v3 doctor output must use a typed local doctor schema",
                 ));
             }
-            (
-                value.pointer("/result/issue"),
-                value.pointer("/result/lifecycle_state/phase"),
-            )
+            if operational_local {
+                (
+                    value.pointer("/result/issue"),
+                    value.pointer("/result/phase"),
+                )
+            } else {
+                (
+                    value.pointer("/result/issue"),
+                    value.pointer("/result/lifecycle_state/phase"),
+                )
+            }
         }
         (_, ShadowNormalizationContract::RoutePreviewV1) => unreachable!("handled above"),
     };
@@ -1285,6 +1329,21 @@ fn authorize_install_execution(
     install: &InstallPlanInput,
 ) -> Result<(), ProofRouteFinding> {
     let root = request_root(request)?;
+    if !install.exact_head.chars().all(|ch| ch.is_ascii_hexdigit())
+        || install.exact_head.len() != 40
+    {
+        return Err(finding(
+            "install_exact_head_missing",
+            "stable install execution requires an exact 40-character head SHA",
+        ));
+    }
+    let observed_head = current_git_head(&root)?;
+    if observed_head != install.exact_head {
+        return Err(finding(
+            "install_exact_head_mismatch",
+            "stable install execution requires exact_head to match the current checkout head",
+        ));
+    }
     if active_canonical_v3_selector(&root, install)? {
         return Ok(());
     }
@@ -1292,6 +1351,48 @@ fn authorize_install_execution(
         "install_typed_authority_missing",
         "stable install requires active canonical v3 authority or the merge-gated cutover route",
     ))
+}
+
+fn current_git_head(root: &Path) -> Result<String, ProofRouteFinding> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["rev-parse", "HEAD"])
+        .output()
+        .map_err(|_| {
+            finding(
+                "install_exact_head_unavailable",
+                "stable install execution requires the current checkout head to be observable",
+            )
+        })?;
+    if !output.status.success() {
+        return Err(finding(
+            "install_exact_head_unavailable",
+            "stable install execution requires the current checkout head to be observable",
+        ));
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).trim().to_owned())
+}
+
+fn cutover_approval_matches_install(
+    bytes: &[u8],
+    install: &InstallPlanInput,
+    repository: &str,
+    approval_ref: &str,
+    approval_digest: &str,
+) -> bool {
+    let Ok(value) = serde_json::from_slice::<serde_json::Value>(bytes) else {
+        return false;
+    };
+    value["schema"] == "csdlc.v3.cutover_approval.v1"
+        && value["authority_issue"] == 505
+        && value["decision"] == "approved"
+        && value["repository"] == repository
+        && value["exact_head"] == install.exact_head
+        && value["selected_binary_digest"] == install.selected_binary_digest
+        && value["selector_metadata_digest"] == install.selector_metadata_digest
+        && !approval_ref.trim().is_empty()
+        && !approval_digest.trim().is_empty()
 }
 
 fn active_canonical_v3_selector(

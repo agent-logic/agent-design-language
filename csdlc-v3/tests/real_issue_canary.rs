@@ -31,6 +31,23 @@ fn repo_root() -> PathBuf {
         .to_path_buf()
 }
 
+fn primary_repo_root(root: &Path) -> PathBuf {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["worktree", "list", "--porcelain"])
+        .output()
+        .expect("worktree topology should be observable");
+    assert!(output.status.success(), "worktree list failed: {output:?}");
+    let topology = String::from_utf8(output.stdout).expect("worktree list should be utf8");
+    PathBuf::from(
+        topology
+            .lines()
+            .find_map(|line| line.strip_prefix("worktree "))
+            .expect("primary worktree"),
+    )
+}
+
 fn git_common_dir(root: &Path) -> PathBuf {
     let output = Command::new("git")
         .arg("-C")
@@ -219,22 +236,27 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         .arg("--registrations")
         .arg(&registrations_path)
         .arg("--repo-root")
-        .arg(&root)
+        .arg(primary_repo_root(&root))
         .output()
         .expect("run eligibility canary against real bound issue");
     assert!(output.status.success(), "{output:?}");
     assert!(output.stderr.is_empty(), "{output:?}");
     let value: serde_json::Value =
         serde_json::from_slice(&output.stdout).expect("eligibility emits machine JSON");
+    assert_eq!(value["schema"], "csdlc.v3.operational_local.v1");
     assert_eq!(value["command"], "eligibility");
-    assert_eq!(value["operational_authority"], false);
-    assert_eq!(value["route_status"]["code"], "ready_to_execute");
-    assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
-    assert_eq!(value["route_result"]["kind"], "eligibility");
-    assert_eq!(value["route_result"]["ready_to_execute"], true);
-    assert_eq!(value["route_result"]["issue_start_minutes_max"], 3);
-    assert_eq!(value["result"]["lifecycle_state"]["issue"], 5853);
-    assert_eq!(value["result"]["lifecycle_state"]["ready_to_execute"], true);
+    assert_eq!(value["operational_authority"], true);
+    assert_eq!(value["read_only"], true);
+    assert_eq!(value["writes_v3_state"], false);
+    assert_eq!(value["result"]["route"], "eligibility");
+    assert_eq!(value["result"]["issue"], 5853);
+    assert_eq!(value["result"]["phase"], "bound");
+    assert_eq!(value["result"]["mutated"], false);
+    assert!(value["result"]["findings"]
+        .as_array()
+        .expect("eligibility findings")
+        .iter()
+        .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
 }
 
 #[test]

@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 723,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
+    "slug": "restore-green-proof-shadow-install-tests",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Proof shadow install test restoration only.",
+      "deliverables": [
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs"
+      ],
+      "acceptance_criteria": [
+        "AC-1 all-target v3 suite green",
+        "AC-2 shadow emits or normalizes exactly one typed JSON document",
+        "AC-3 install blocked/nonzero behavior is intentional and gated",
+        "AC-4 generated fixtures are deterministic and clean"
+      ],
+      "dependencies": [
+        "#505 authority contract",
+        "unmerged #721 bounded proof/install patch as source evidence"
+      ],
+      "repo_inputs": [
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs"
+      ],
+      "non_goals": [
+        "weaken mismatch detection",
+        "remove v2",
+        "absorb unrelated #721 changes"
+      ]
+    }
+  }
+}
