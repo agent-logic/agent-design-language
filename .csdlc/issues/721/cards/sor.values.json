@@ -7,7 +7,7 @@
     "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
     "slug": "csdlc-v3-issue-create-parity",
     "version": "v0.92.1",
-    "generation": 25
+    "generation": 27
   },
   "status": "pre_phase",
   "content": {
@@ -142,8 +142,8 @@
           "evidence_ref": "terminal output 2026-09-08 in bound worktree: no whitespace errors"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

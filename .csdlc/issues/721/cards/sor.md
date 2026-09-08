@@ -149,11 +149,11 @@ Implemented v3 GitHub issue-create parity, corrected post-cutover terminal finis
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
