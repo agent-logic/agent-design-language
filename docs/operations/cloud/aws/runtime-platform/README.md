@@ -46,6 +46,82 @@ AWS_PROFILE=agent-logic-admin terraform plan -out aws-f-runtime-alb.tfplan
 This creates or updates only the replaceable Runtime ALB origin. It does not
 own CloudFront, WAF, API Gateway, or public Route53 authority.
 
+## Issue #728 disposable proof runner
+
+Issue #728 uses one governed shell entrypoint:
+
+```bash
+docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+```
+
+The runner is staged because the Terraform roots are intentionally separate:
+the node needs the ALB security group output, and the final ALB attachment needs
+the node instance id. Each mutation stage requires an explicit authorization
+file under `.csdlc/evidence/728/` or
+`docs/milestones/v0.92.1/evidence/cloud/aws-f/`.
+
+Set these variables for every stage:
+
+```bash
+export AWS_PROFILE=agent-logic-admin
+export AWS_REGION=us-west-2
+export ISSUE_728_EXPECTED_ACCOUNT_ID=<agent-logic-aws-account-id>
+export ISSUE_728_AUTHORIZATION_FILE=.csdlc/evidence/728/authorization.env
+export ISSUE_728_ALB_ROOT=infra/aws/runtime/alb-origin
+export ISSUE_728_NODE_ROOT=infra/aws/runtime/private-node
+export ISSUE_728_ALB_WORKSPACE=aws-f-runtime-alb-origin-dev
+export ISSUE_728_NODE_WORKSPACE=aws-f-runtime-private-node-dev
+export ISSUE_728_ALB_BACKEND_CONFIG=.csdlc/evidence/728/alb-origin.backend.hcl
+export ISSUE_728_NODE_BACKEND_CONFIG=.csdlc/evidence/728/private-node.backend.hcl
+export ISSUE_728_ALB_VAR_FILE=.csdlc/evidence/728/alb-origin.tfvars
+export ISSUE_728_NODE_VAR_FILE=.csdlc/evidence/728/private-node.tfvars
+export ISSUE_728_ALB_PLAN=.csdlc/evidence/728/alb-origin.tfplan
+export ISSUE_728_NODE_PLAN=.csdlc/evidence/728/private-node.tfplan
+export ISSUE_728_ATTACH_PLAN=.csdlc/evidence/728/alb-attach.tfplan
+export ISSUE_728_DEADLINE_UTC=2026-09-08T23:59:00Z
+export ISSUE_728_COST_CEILING_USD=20
+export ISSUE_728_EXTERNAL_HEALTH_URL=https://example.dev.csm.agent-logic.ai/v1/health
+export ISSUE_728_EXPECTED_RECEIPT_MARKER=<instance-or-artifact-marker>
+```
+
+The authorization file is line-oriented `key=value` text. It must include at
+least:
+
+```text
+issue=728
+approved=true
+production_traffic=false
+aws_profile=agent-logic-admin
+aws_region=us-west-2
+expected_account_id=<agent-logic-aws-account-id>
+alb_root=infra/aws/runtime/alb-origin
+node_root=infra/aws/runtime/private-node
+alb_workspace=aws-f-runtime-alb-origin-dev
+node_workspace=aws-f-runtime-private-node-dev
+cost_ceiling_usd=20
+deadline_utc=2026-09-08T23:59:00Z
+alb_plan_sha256=<printed-by-plan-alb>
+node_plan_sha256=<printed-by-plan-node>
+attach_plan_sha256=<printed-by-plan-attach>
+```
+
+Run the stages in order:
+
+```bash
+ISSUE_728_MODE=plan-alb docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+ISSUE_728_MODE=apply-alb docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+ISSUE_728_MODE=plan-node docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+ISSUE_728_MODE=apply-node docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+ISSUE_728_MODE=plan-attach docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+ISSUE_728_MODE=apply-attach-prove-destroy docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh
+```
+
+The `plan-*` stages print SHA-256 digests for the saved plans. Add each digest
+to the authorization file before running the matching `apply-*` stage. The
+final stage waits for ALB target health, checks the external HTTP response for
+the expected marker, destroys the private node and ALB roots in reverse order,
+and fails if Terraform state still contains issue-owned resources.
+
 ## Phase 2: Private Runtime node
 
 From `infra/aws/runtime/private-node`, set the ALB security group from the ALB

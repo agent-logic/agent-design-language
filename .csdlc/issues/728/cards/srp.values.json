@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 728,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+    "slug": "aws-f-disposable-runtime-deployment-zero-residue",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #728 AWS-F-R disposable Runtime deployment proof, exact target receipt, reverse destroy, zero-residue evidence, and narrowly required disposable-proof safety/runbook fixes only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the proof bind the external receipt to the exact private Runtime target rather than only proving an ALB responded?",
+        "Are all mutable AWS selectors covered by explicit operator authorization and saved-plan digests?",
+        "Can any Runtime target or ALB origin be reached directly outside the approved non-production route?",
+        "Does teardown prove absence of every issue-owned disposable resource without deleting retained shared resources?",
+        "Are #489/#579/#122/#516 boundaries preserved without hidden ownership widening?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

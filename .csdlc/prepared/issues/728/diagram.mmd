@@ -1,0 +1,14 @@
+flowchart TD
+  A["#728 AWS-F-R disposable proof"] --> B["Read-only preflight"]
+  B --> C["Saved ALB/private-node plans"]
+  C --> D{"Operator authorization matches\naccount region plans inputs deadline cost"}
+  D -- no --> E["Fail closed: no apply"]
+  D -- yes --> F["Apply disposable private node + ALB origin"]
+  F --> G["Attach exact instance target"]
+  G --> H["Target health readback"]
+  H --> I["External request receipt"]
+  I --> J{"Receipt binds to exact\ninstance/artifact"}
+  J -- no --> K["Fail closed: residue blocker if cleanup incomplete"]
+  J -- yes --> L["Reverse destroy"]
+  L --> M["Zero-residue readbacks"]
+  M --> N["Fresh exact-head review + PR"]

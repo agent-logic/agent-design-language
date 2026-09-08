@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 728,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+    "slug": "aws-f-disposable-runtime-deployment-zero-residue",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented the #728 disposable AWS-F Runtime proof runner and local proof package without performing live AWS mutation.",
+      "actual_changes": [
+        "Added a fail-closed disposable proof runner that requires an explicit #728 authorization packet before any Terraform apply or destroy operation.",
+        "Split the proof workflow into staged ALB, private-node, attach, external receipt, and reverse-destroy modes using the existing AWS-F Terraform roots.",
+        "Enforced account, profile, region, backend, workspace, saved-plan digest, cost ceiling, deadline, route, and receipt-marker selectors before mutation stages.",
+        "Added a concise operator runbook section documenting the one script, required environment contract, authorization packet shape, and live proof sequence.",
+        "Added an issue-owned validator proving the #728 preparation bundle, runner gates, zero-residue cleanup surface, and AWS-F module references are present."
+      ],
+      "artifacts": [
+        "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+        "docs/operations/cloud/aws/runtime-platform/README.md",
+        ".csdlc/prepared/issues/728/validate_preparation_bundle.sh",
+        ".csdlc/prepared/issues/728/design.md",
+        ".csdlc/prepared/issues/728/diagram.mmd",
+        ".csdlc/evidence/728/readiness-preflight-20260908.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Issue 728 exact diff hygiene",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/728/validate_preparation_bundle.sh"
+          ],
+          "purpose": "Issue 728 preparation bundle validator",
+          "outcome": "passed",
+          "evidence_ref": "preparation-bundle-validator.log"
+        },
+        {
+          "command": [
+            "bash",
+            "-n",
+            "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh"
+          ],
+          "purpose": "Issue 728 runner syntax guard",
+          "outcome": "passed",
+          "evidence_ref": "runner-shell-syntax.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
