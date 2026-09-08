@@ -40,7 +40,7 @@ def validate_receipts!(source, admission)
     raise "validation receipt followed by substantive changes" unless post.lines.map(&:strip).reject(&:empty?).all?{|path|expected.key?(File.basename(path)) && path.start_with?(".csdlc/evidence/516/")}
   end
 end
-def validate!(source, admission, gap, markdown, require_admitted:)
+def validate!(source, admission, gap, markdown, require_admitted:, verify_receipts: true)
   raise "wrong source schema" unless source["schema"]=="adl.v0921.release_tail_input.v1"
   raise "wrong admission schema" unless admission["schema"]=="adl.v0921.release_tail_admission.v2"
   raise "wrong gap schema" unless gap["schema"]=="adl.gap_analysis_report.v2"
@@ -49,7 +49,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "candidate mismatch" unless [source["candidate"],admission["candidate"],gap["candidate"]].uniq.one?
   remote_main,_remote_err,remote_status=Open3.capture3("git","rev-parse","origin/main",chdir:ROOT.to_s)
   raise "admission candidate is stale" unless remote_status.success? && source["candidate"]==remote_main.strip
-  validate_receipts!(source,admission) unless ENV["ADL_RECORD_VALIDATION_RECEIPT"] == "1"
+  validate_receipts!(source,admission) if verify_receipts && ENV["ADL_RECORD_VALIDATION_RECEIPT"] != "1"
   source.fetch("planning").each do |entry|
     content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{entry.fetch('path')}",chdir:ROOT.to_s)
     raise "planning source missing at candidate" unless status.success?
@@ -299,7 +299,7 @@ if %w[negative all].include?(MODE)
     s,a,g=Marshal.load(Marshal.dump([source,admission,gap])); m=markdown.dup; mutation.call(s,a,g,m)
     expected={"stale-review-result"=>"review truth contradicts its evidence","forged-reviewed-sha"=>"reviewed revision is not ancestral to implementation head","substantive-review-tail"=>"review-tail projection drift","generated-evidence-blob-drift"=>"generated evidence blob drift","generated-evidence-digest-drift"=>"generated evidence digest/size drift"}[name]
     begin
-      validate!(s,a,g,m,require_admitted:false)
+      validate!(s,a,g,m,require_admitted:false,verify_receipts:false)
       abort("negative fixture accepted: #{name}")
     rescue RuntimeError => e
       raise "negative fixture hit wrong guard: #{name}: #{e.message}" if expected && e.message!=expected
