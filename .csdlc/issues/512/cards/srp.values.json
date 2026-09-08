@@ -7,26 +7,34 @@
     "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
     "slug": "obs-b-observatory-redesign-implementation",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md\nadl/tools/test_html_observatory.sh\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/runtime-v3.config.json\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\ndemos/html-observatory/tests/agent_to_agent_activity.test.mjs\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\ndemos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      "review_revision": "git-blake3:f431621f9dd246a918f295020cd53e3c3e265a9c:840185af0c48ad1f36bfd92b7396269c824961a77177fcf478deb838edaca74d",
-      "reviewer": "codex:issue-512-final-exact-head-review",
+      "review_revision": "git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1",
+      "reviewer": "codex:issue-512-publication-head-review",
       "review_prompts": [
         "Were #511 and #536 terminal before execution?",
         "Does the UI consume authentic Runtime projections?",
         "Are recovery and accessibility cases proven rather than visually asserted?"
       ],
-      "findings": [],
-      "residual_risk": [
-        "Interactive browser automation could not run because the in-app browser trusted RPC dependency failed to resolve; no interactive-browser pass is claimed.",
-        "The v3 mixed-mode doctor shadow is retained as blocked by an output-schema mismatch and remains non-authoritative; v2 lifecycle work remains authoritative for issue 512."
+      "findings": [
+        {
+          "id": "512-review-exact-browser-accessibility-proof",
+          "severity": "p1",
+          "summary": "The declared exact-head interactive browser and accessibility lane remains unproved because the Codex browser controller cannot initialize and the retained validator only checks static file and prose presence.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
       ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "changes_required"
     }
   }
 }

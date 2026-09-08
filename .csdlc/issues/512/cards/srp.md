@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -32,7 +32,18 @@ demos/html-observatory/tests/security_privacy_adversarial.test.mjs
 
 ## Findings
 
-[]
+[
+  {
+    "id": "512-review-exact-browser-accessibility-proof",
+    "severity": "p1",
+    "summary": "The declared exact-head interactive browser and accessibility lane remains unproved because the Codex browser controller cannot initialize and the retained validator only checks static file and prose presence.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -40,13 +51,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Interactive browser automation could not run because the in-app browser trusted RPC dependency failed to resolve; no interactive-browser pass is claimed.
-- The v3 mixed-mode doctor shadow is retained as blocked by an output-schema mismatch and remains non-authoritative; v2 lifecycle work remains authoritative for issue 512.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:f431621f9dd246a918f295020cd53e3c3e265a9c:840185af0c48ad1f36bfd92b7396269c824961a77177fcf478deb838edaca74d")
+Revision: Some("git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1")
 
-Reviewer: Some("codex:issue-512-final-exact-head-review")
+Reviewer: Some("codex:issue-512-publication-head-review")
 
-Result: pass
+Result: changes_required

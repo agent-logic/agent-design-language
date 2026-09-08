@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
-  "phase": "reviewed",
-  "generation": 2,
-  "digest": "49438900efc1cea7a5bceac31cc7972d5b125334bf520ec62a27e76c0c6e77db",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "fb2fb80da01c53f7641108f70c01c6b742a0456b54a91db3eca2dc106fa19254",
   "branch": "codex/512-observatory-redesign-implementation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
   "review_assignment": {
-    "reviewer": "codex:issue-512-final-exact-head-review",
+    "reviewer": "codex:issue-512-publication-head-review",
     "assigned_by": "codex:issue-512-observatory-redesign",
-    "revision": "git-blake3:f431621f9dd246a918f295020cd53e3c3e265a9c:840185af0c48ad1f36bfd92b7396269c824961a77177fcf478deb838edaca74d",
+    "revision": "git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1",
     "scope": [
       ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
       "adl/tools/test_html_observatory.sh",
@@ -28,7 +28,7 @@
     ]
   },
   "review": {
-    "reviewer": "codex:issue-512-final-exact-head-review",
+    "reviewer": "codex:issue-512-publication-head-review",
     "scope": [
       ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
       "adl/tools/test_html_observatory.sh",
@@ -42,12 +42,20 @@
       "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
       "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
     ],
-    "reviewed_revision": "git-blake3:f431621f9dd246a918f295020cd53e3c3e265a9c:840185af0c48ad1f36bfd92b7396269c824961a77177fcf478deb838edaca74d",
-    "findings": [],
-    "residual_risks": [
-      "Interactive browser automation could not run because the in-app browser trusted RPC dependency failed to resolve; no interactive-browser pass is claimed.",
-      "The v3 mixed-mode doctor shadow is retained as blocked by an output-schema mismatch and remains non-authoritative; v2 lifecycle work remains authoritative for issue 512."
+    "reviewed_revision": "git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1",
+    "findings": [
+      {
+        "id": "512-review-exact-browser-accessibility-proof",
+        "severity": "p1",
+        "summary": "The declared exact-head interactive browser and accessibility lane remains unproved because the Codex browser controller cannot initialize and the retained validator only checks static file and prose presence.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
     ],
+    "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
@@ -65,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d05d902968a83449793092ab43cfb2abebf4690496ed4bda7185e734a19c9a00",
+      "values_digest": "3493c6c89bdc1029dbf2f40933a0512e0300a219d5369af9325643837d0f7f10",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "f015d62ae2edc7b6be779c1e77a3ef31cf56f0860d07670c4403252cf2e9c8dd",
+      "values_digest": "9020e3b01c717d32454724ee1f68fa2e03f27cecd1d0f148b403d3d73a06e792",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "3b7a0e77c041e32ec44fac8f852c4d1c4acf4704b3b9023cae8e78ffbfd91f11",
+      "values_digest": "2ed6311928c14c5d7809ed0850d6f6bf902165e35bbc5a96bfdeeeb734aa0891",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "600d34cfb6ca81dcd841ead14e15f5c54b1703a4fcbf457065ef2ccd951281ab",
+      "values_digest": "8e6205b8e3fd83519853624bf6194fb3620fd045aa22f5fc4204af4e767d72f1",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "20ba62b6e83658f51b3c6af6ec2211b6318b45f78b28675f2119b2fde0005c8b",
-      "rendered_digest": "ae6ed141b56111c17cbe275a30f82892f364f8cf855c960ac67475d010377b08",
-      "ast_digest": "2769cdb4f5f40cbd78c939e3066273907703d9bad04c1ac70f1bae54a44bcd07"
+      "values_digest": "3f3281c3ee16868639fe19398e148b55f8316e23929dfb68647a36efe1dcf0a1",
+      "rendered_digest": "48a3ea2df5070362bac223b2707a48ae4bdfaa0f4ea6f0b374c53ee24423ad68",
+      "ast_digest": "5d2c7bf5bd35fd451163821d9d66cba3a9568dec21ed9e225f4b10209b6a3eb6"
     },
     "sor": {
-      "values_digest": "a25bb92ec61e7e158569e85f3e8ef591c70623c761731bf2b3dc8c8bd1f024a8",
-      "rendered_digest": "23e130441c590ddb0e50bc793f36c28009cdf2ccc94ba947e29b3b49d5394d93",
-      "ast_digest": "5f65ca7217661b51fc580c84fc7e10c38ded708d43b7ecbb60a9675faa7eb3f8"
+      "values_digest": "59215af6bc78ca98b3fd24a3d4f8c5454e801ededb064ba47f3d93e38f1de55f",
+      "rendered_digest": "3ddfbb4054fb69168fc9e9a08adf78d8aa8c30092deb3f78c0c9f8fbee145ede",
+      "ast_digest": "88c4d3b701d6127d8fb526544ef1f58607717b7d7d0413e33463d014937416c9"
     }
   },
   "transitions": [
@@ -123,6 +131,13 @@
       "to": "reviewed",
       "actor": "codex:issue-512-final-exact-head-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after committing the typed review record and publication request so a fresh exact-head review can cover the current publication head."
     }
   ],
   "audit": [
@@ -158,6 +173,27 @@
       "sequence": 5,
       "generation": 2,
       "actor": "codex:issue-512-final-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after committing the typed review record and publication request so a fresh exact-head review can cover the current publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:issue-512-publication-head-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }

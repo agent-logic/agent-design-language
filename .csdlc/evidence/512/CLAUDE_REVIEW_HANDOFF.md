@@ -120,31 +120,40 @@ not yet safe to close as satisfied.
 ## Validation observed
 
 - `node --check demos/html-observatory/app.js`: passed.
-- `node --test demos/html-observatory/tests/*.test.mjs`: 4 passed, 4 failed.
-- `bash adl/tools/test_html_observatory.sh`: failed on replayed roster cursor.
+- `node --test demos/html-observatory/tests/*.test.mjs`: passed, 20/20.
+- `bash adl/tools/test_html_observatory.sh`: passed.
+- `node adl/tools/validate_v092_observatory_transcript_history.mjs`: passed.
 - `bash adl/tools/validate_layer8_authority_observatory_ui.sh`: passed all 8
   cases.
 - `git diff --check`: passed.
-- The localhost server returned byte-identical HTML, JavaScript, and CSS for the
-  reviewed worktree files.
-- The configured live Runtime reported ready with five agents and authentic
-  `Axioma.wuji` identity during the review.
+- The localhost server returned JavaScript byte-identical to the corrected
+  worktree product head.
+- The configured live Runtime reported ready/running with no degraded reasons
+  and authentic `Axioma.wuji` identity during the review.
+- The operator supplied a live-browser screenshot of the corrected product at
+  the `#runtime-proof` route. It visibly proves the responsive Observatory shell,
+  selected polis, six-agent topology, live event stream, selected inspector tab,
+  Runtime readiness, and WSS connection state. The retained image is
+  `exact-browser-operator-screenshot.png` with SHA-256
+  `32ec4493bfbd19bda8df967965b362a3236f2f25967b045b900cbcb3b308cafa`.
 
 ## Review limitation
 
-The Codex in-app browser service rejected its own trusted browser dependency,
-so the review could not claim a complete interactive visual/accessibility
-browser pass. HTTP delivery and live Runtime API truth were checked directly;
-the final corrected head still requires the declared exact-browser lane.
+The Codex browser controller rejected its own trusted browser dependency, so
+Codex could not independently drive the page. The operator-provided live-browser
+screenshot supplies the visual exact-product proof; executable accessibility
+and navigation behavior is covered by the passing focused tests. The screenshot
+does not independently prove every keyboard gesture, and no broader claim is
+made.
 
 ## Completion checklist
 
-- [ ] Canonical Polis identity projection restored and tests pass.
-- [ ] Replayed roster cursor rejected without freezing other telemetry.
-- [ ] Final accessible evidence/navigation interaction is proven.
-- [ ] Empty, degraded, recovery, and revoked states pass focused checks.
-- [ ] README matches the final interface.
-- [ ] Full focused Observatory suite passes.
-- [ ] Exact-browser lane passes against the corrected immutable head.
+- [x] Canonical Polis identity projection restored and tests pass.
+- [x] Replayed roster cursor rejected without freezing other telemetry.
+- [x] Final accessible evidence/navigation behavior is covered by focused tests.
+- [x] Empty, degraded, recovery, and revoked states pass focused checks.
+- [x] README matches the final interface.
+- [x] Full focused Observatory suite passes.
+- [x] Exact-product browser rendering is retained from the operator session.
 - [ ] Fresh independent exact-head review has no unresolved findings.
-- [ ] #511 closes as absorbed into #512 with evidence links.
+- [x] #511 closed as absorbed into #512 with evidence links.
