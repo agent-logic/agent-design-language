@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b2472587481b7f3684da94eb5b1ee445cbc0e723a65a7033c165322ded36ac62",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "ea15778b3e0fbea866d025986741ee158d96671aa47a3fec029b3b7710531e13",
+  "generation": 6,
+  "digest": "24972ffab065184201961d7a91e3cd6fe6b2786726b1b0f24da8f25438408adf",
   "branch": "codex/723-restore-green-proof-shadow-install-tests",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-723-proof-shadow-install",
   "review_assignment": {
     "reviewer": "fresh-session:remediate-v3-725",
     "assigned_by": "codex-agent",
-    "revision": "git-blake3:50fd88a7db7c73d2e8b76c294a6fab86c949c2a7:e946d7b915a93aaddd6ce92005902caa495ae04e99e856391a3669092d280a25",
+    "revision": "git-blake3:4d07de39ee7c244318652511059e9d1492a7ddd5:39feac1ebe39449397a7f4f4d5e54b128fd5f8440003dc613e6b7e7d294cce33",
     "scope": [
       "csdlc-v3/src/commands/proof.rs",
       "csdlc-v3/tests/proof_parity_install_commands.rs",
@@ -33,34 +33,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8fe2d6a8e7279bcc936ee5e5a205d3257451fd4a47ca8e48b2ef03ba706ee7ba",
+      "values_digest": "057d6959c11fa9dd5a82e07c1654569cf1f8a70270bf219b8344701b558901c0",
       "rendered_digest": "61129ba8dbc6b5cf30973f037e1a59047e029659846d283775aa616fb2696023",
       "ast_digest": "3b855e4680f5de8020a1aa8b877b3aae0ac911f7862bf39fcd9acbcfa533fe91"
     },
     "stp": {
-      "values_digest": "b80c8aa4eb6a41442ac3fec38630a92a17647175dc91587dc3775d1295875bb7",
+      "values_digest": "7fc541bd0dd2bad7ab71f932897f4306db0be565ae1c85b211f86dd858d02b32",
       "rendered_digest": "d31fb075c7fe5e3f6fbe02fac3141e2db63429b723011ab8dedd70caf47545e9",
       "ast_digest": "f9d8f46b9a798d9fb70610046fe6b884207a6e5fc310255ae417d1a7f97d71fd"
     },
     "spp": {
-      "values_digest": "41300d48b321a3e306bef3d9b3a3841d963d6d1e1d4d0ce036022258df973538",
+      "values_digest": "4bb307c4c02f84d3a1e6927f4fcc3a14f188feefcff3563201801c6ecf6ff3e0",
       "rendered_digest": "a163313a1afe1a660bc1bfa15d70bff24f781964721180a575c66306ae83f2fe",
       "ast_digest": "412c10ed7e2486ff67f24a1821c770d185a9dc2fb898459dcb483304557515ab"
     },
     "vpp": {
-      "values_digest": "123b8332291a5dcc91c519370568e44170668c4dda932ff5db18ad62ffc1301f",
+      "values_digest": "3b39d3a1b4a7a6ce1925a91cfff48f0f6e9d98f5cd17c79b8e6351a6aeec0650",
       "rendered_digest": "e889184d62e813c044123fc83e4b8d3365256eee27cd35a3bf05b5b10922ce64",
       "ast_digest": "317ed635807df15d85ffb2c7d1291c551d26762cb328113aec2a0d5d9f090648"
     },
     "srp": {
-      "values_digest": "5c14cfcd83c44df913f96ad3cb3bad7a2a32d13aa2ba1be8ab6cb73969789d2c",
-      "rendered_digest": "f1759fef65a868adaf3cf289194ee0e6498f712681db3a64be83e09332920a99",
-      "ast_digest": "6d608f1c4316e66576b73bfbe90ea8f807fb1076bd08d03904948c235fc656a3"
+      "values_digest": "4e9c4e6373e5141ecc58c43b07c1faaffded9ab7e1118674194c946004462bfa",
+      "rendered_digest": "fd20471d9eb952e46ee2db4a045cc8c697d8746edc11cfd125fee268bc178918",
+      "ast_digest": "992feb55b7cb4b11247b17055c387d237561f0a5c74d9a11d03ea917eda10f26"
     },
     "sor": {
-      "values_digest": "a626272ae7e8f270791bad0231fffd7f373cb3b4b8483e35e6d01a1e9856d957",
-      "rendered_digest": "e7c1f03d3c0d30d8a34406b0b83fb999145b04068811bb39b7a9e247d80eadd3",
-      "ast_digest": "1aac8e2d901e3772d0ceaa04261d3f6193f331ab9113f1231089623de526c318"
+      "values_digest": "2a7d62869e207893fa1fc88e3b8c88ec8b9dce6d17dcc28aefd1dbeca3d8a431",
+      "rendered_digest": "658c0f200c8187931fff506e8c0f39e6cfe09fd0ec1716a9e7fe1193ada9b13f",
+      "ast_digest": "213bfc26cbe82a4b6bf23f336b8cb6dfab53c09d3febc5058c9b9b5bdde98bdd"
     }
   },
   "transitions": [
@@ -139,6 +139,20 @@
     {
       "sequence": 8,
       "generation": 5,
+      "actor": "codex-agent",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex-agent",
+      "reason": "Recover stale assignment after fixing the independent portability finding",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
       "actor": "codex-agent",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"

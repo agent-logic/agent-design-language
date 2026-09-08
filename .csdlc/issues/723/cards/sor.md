@@ -61,7 +61,7 @@ Restored install approval binding and normalized current typed doctor output for
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

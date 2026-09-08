@@ -7,9 +7,9 @@
     "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
     "slug": "restore-green-proof-shadow-install-tests",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 6
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
