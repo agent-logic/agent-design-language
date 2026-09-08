@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The broader all-target suite retains construction-era cutover fixtures outside issue #723's focused proof lane.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:c2d1770d81e5fc09ec090c5f577be885e9f19c12:80dee8d3e40d27e640884f878f4548445fb6bc587691d48708377fa94ebdc2c5")
+Revision: None
 
-Reviewer: Some("fresh-session:remediate-v3-725")
+Reviewer: None
 
-Result: pass
+Result: pre_review

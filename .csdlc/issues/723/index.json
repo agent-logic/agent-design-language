@@ -3,48 +3,23 @@
   "issue": 723,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b2472587481b7f3684da94eb5b1ee445cbc0e723a65a7033c165322ded36ac62",
-  "phase": "published",
-  "generation": 9,
-  "digest": "63a0b7f0c0f5112cf745779101d54d0df8e20b8a1d04327067b183a6b716a169",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "cd79328d7651fcf416499f9852d71a9fadcbb738cc6c8b679a4960b5a3029217",
   "branch": "codex/723-restore-green-proof-shadow-install-tests",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-723-proof-shadow-install",
   "review_assignment": {
     "reviewer": "fresh-session:remediate-v3-725",
     "assigned_by": "codex-agent",
-    "revision": "git-blake3:c2d1770d81e5fc09ec090c5f577be885e9f19c12:80dee8d3e40d27e640884f878f4548445fb6bc587691d48708377fa94ebdc2c5",
+    "revision": "git-blake3:1843bf104c6a517d0654c8e3be045639638557c1:2600dfdbe584ba2786b47b197e215ec563826ef1b372835a83dc31dd61864adb",
     "scope": [
       "csdlc-v3/src/commands/proof.rs",
       "csdlc-v3/tests/proof_parity_install_commands.rs",
       "csdlc-v3/tests/real_issue_canary.rs"
     ]
   },
-  "review": {
-    "reviewer": "fresh-session:remediate-v3-725",
-    "scope": [
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/real_issue_canary.rs"
-    ],
-    "reviewed_revision": "git-blake3:c2d1770d81e5fc09ec090c5f577be885e9f19c12:80dee8d3e40d27e640884f878f4548445fb6bc587691d48708377fa94ebdc2c5",
-    "findings": [],
-    "residual_risks": [
-      "The broader all-target suite retains construction-era cutover fixtures outside issue #723's focused proof lane."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 723,
-    "pull_request": 735,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/735",
-    "base": "main",
-    "head": "codex/723-restore-green-proof-shadow-install-tests",
-    "revision": "git-blake3:c798c922082c9d758a4f3766298766515533263f:707a8e16b8b36402f6f79abcc9aa5588d26237681c1b6702b1c441e86a52652e",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -58,34 +33,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "82834eccc770ac0d638aa6cf9f8aef84bb729d0b861c7a4376e6a8d7b525898c",
+      "values_digest": "bc59ac28994f580949ef68c92cb46dd39ff4e3e10871aa96ee6bddc262d629f7",
       "rendered_digest": "61129ba8dbc6b5cf30973f037e1a59047e029659846d283775aa616fb2696023",
       "ast_digest": "3b855e4680f5de8020a1aa8b877b3aae0ac911f7862bf39fcd9acbcfa533fe91"
     },
     "stp": {
-      "values_digest": "2b7275962d1c13de098cc6cf2cb55d7a807bd7462ede9299c3f9cc56c5ea1006",
+      "values_digest": "83791efe777b5803e9afaf4b82eee2eb14ba73844bbfe1f9bcc6d1aa5984724a",
       "rendered_digest": "d31fb075c7fe5e3f6fbe02fac3141e2db63429b723011ab8dedd70caf47545e9",
       "ast_digest": "f9d8f46b9a798d9fb70610046fe6b884207a6e5fc310255ae417d1a7f97d71fd"
     },
     "spp": {
-      "values_digest": "cf03ed42b416df37d62940c9e01b1d89747bf3f06c53ce6b4dae4db5df841a96",
+      "values_digest": "637b4d0951db549d4974b81f811ec3eddefa28025895cc737c117d7e4901e220",
       "rendered_digest": "a163313a1afe1a660bc1bfa15d70bff24f781964721180a575c66306ae83f2fe",
       "ast_digest": "412c10ed7e2486ff67f24a1821c770d185a9dc2fb898459dcb483304557515ab"
     },
     "vpp": {
-      "values_digest": "cbe4327ad20745b2be136a9eb46ee160765549b34408103fa4869b9fc599735e",
+      "values_digest": "df418212111eafc648d840a101442c02fb604febaf5bc868850a20738c1589e7",
       "rendered_digest": "e889184d62e813c044123fc83e4b8d3365256eee27cd35a3bf05b5b10922ce64",
       "ast_digest": "317ed635807df15d85ffb2c7d1291c551d26762cb328113aec2a0d5d9f090648"
     },
     "srp": {
-      "values_digest": "6b7d8b67f5532cdaf406da4ff44594e191706fc0a4631456969f50e748bcb445",
-      "rendered_digest": "60169c33dd91d2e5580e0483e4c53fbc1eb32378249eb61399236b47baab8bf4",
-      "ast_digest": "4233b646aa12615acee13eaaf023a8f28f0234510144c6a539ae9a9a90ed7ab1"
+      "values_digest": "df135d5dd1165add6c7b33b9ee9a2d0c803df3aad7f0f8ee42e3284d9fbc919c",
+      "rendered_digest": "fd20471d9eb952e46ee2db4a045cc8c697d8746edc11cfd125fee268bc178918",
+      "ast_digest": "992feb55b7cb4b11247b17055c387d237561f0a5c74d9a11d03ea917eda10f26"
     },
     "sor": {
-      "values_digest": "7565fb47b43e5165622a3121760161d7f85ab693834d69c15bfd9f908d08b456",
-      "rendered_digest": "01f2dd81823d582b4ffd1f6ca83d9ab7c5caa9c79a58120f217796e9d22b3064",
-      "ast_digest": "ccd70f2b1fc34f3682425e6213d0c0fb4ca20c4f04192740d72b804b7589364b"
+      "values_digest": "beebd7961b19325c0d4718035e1ed0d689a7173cac68e4f1695ac166deb6d4e9",
+      "rendered_digest": "658c0f200c8187931fff506e8c0f39e6cfe09fd0ec1716a9e7fe1193ada9b13f",
+      "ast_digest": "213bfc26cbe82a4b6bf23f336b8cb6dfab53c09d3febc5058c9b9b5bdde98bdd"
     }
   },
   "transitions": [
@@ -123,6 +98,13 @@
       "to": "published",
       "actor": "codex-agent",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-agent",
+      "reason": "Recover stale review and publication after fixing the hosted detached-head failure"
     }
   ],
   "audit": [
@@ -223,6 +205,20 @@
       "actor": "codex-agent",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex-agent",
+      "reason": "Recover stale review and publication after fixing the hosted detached-head failure",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex-agent",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
