@@ -7,4 +7,3 @@ reviewed saved plan precedes apply. Live proof covers bucket controls, an
 immutable-generation recovery canary, clean-directory backend reinitialization,
 and absence of local state or credential residue. Roll back an empty,
 unadopted bucket; never delete an adopted state bucket automatically.
-

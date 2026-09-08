@@ -28,6 +28,10 @@ repo_root="$PWD"
 tf_data_dir="$repo_root/.csdlc/evidence/730/tfdata-live"
 backend_probe_dir="$git_common/csdlc-v2/gcp-b1/backend-probe"
 backend_probe_data_dir="$repo_root/.csdlc/evidence/730/tfdata-backend-probe"
+generated_backend="infra/gcp/bootstrap/backend.tf"
+local_state="infra/gcp/bootstrap/terraform.tfstate"
+local_state_backup="infra/gcp/bootstrap/terraform.tfstate.backup"
+failure_recovery_dir="$git_common/csdlc-v2/gcp-b1/recovery"
 
 fail() {
   echo "$*" >&2
@@ -48,6 +52,25 @@ sha256_file() {
 
 require_tool() {
   command -v "$1" >/dev/null 2>&1 || fail "missing required tool: $1"
+}
+
+cleanup() {
+  status=$?
+  set +e
+  rm -rf "$tf_data_dir" "$backend_probe_data_dir" "$backend_probe_dir"
+  if [[ "$status" -ne 0 && -f "$local_state" ]]; then
+    mkdir -p "$failure_recovery_dir"
+    timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
+    mv "$local_state" "$failure_recovery_dir/terraform-${timestamp}.tfstate"
+    [[ ! -f "$local_state_backup" ]] || mv "$local_state_backup" "$failure_recovery_dir/terraform-${timestamp}.tfstate.backup"
+    [[ ! -f "$generated_backend" ]] || mv "$generated_backend" "$failure_recovery_dir/backend-${timestamp}.tf"
+    chmod 600 "$failure_recovery_dir"/terraform-"${timestamp}".tfstate* "$failure_recovery_dir"/backend-"${timestamp}".tf 2>/dev/null
+    echo "preserved local Terraform recovery state under $failure_recovery_dir after failed live proof" >&2
+  else
+    rm -f "$generated_backend"
+    [[ "$status" -ne 0 ]] || rm -f "$local_state" "$local_state_backup"
+  fi
+  exit "$status"
 }
 
 authorization_expected="$git_common/csdlc-v2/authorizations/730.json"
@@ -108,7 +131,7 @@ PY
 mkdir -p "$evidence_dir" "$recovery_dir"
 rm -rf "$tf_data_dir"
 rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
-trap 'rm -rf "$tf_data_dir" "$backend_probe_data_dir" "$backend_probe_dir"' EXIT
+trap cleanup EXIT
 
 gcloud auth print-access-token \
   --impersonate-service-account="$service_account" \
@@ -143,9 +166,9 @@ subprocess.run(
 PY
 rm -f "$plan_path"
 
-cp infra/gcp/bootstrap/backend.tf.example infra/gcp/bootstrap/backend.tf
+cp infra/gcp/bootstrap/backend.tf.example "$generated_backend"
 TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap init -migrate-state -force-copy -input=false >/dev/null
-rm -f infra/gcp/bootstrap/backend.tf
+rm -f "$generated_backend"
 rm -rf "$tf_data_dir"
 
 mkdir -p "$backend_probe_dir"
@@ -162,8 +185,14 @@ TF_DATA_DIR="$backend_probe_data_dir" terraform -chdir="$backend_probe_dir" init
 TF_DATA_DIR="$backend_probe_data_dir" terraform -chdir="$backend_probe_dir" state pull \
   | jq '{version, terraform_version, serial, lineage, resources: [.resources[]?.type] | sort}' \
   > "$backend_state_summary"
+jq -e '
+  (.lineage | type) == "string"
+  and (.serial | type) == "number"
+  and (.resources | index("google_storage_bucket"))
+  and (.resources | index("google_storage_bucket_iam_member"))
+' "$backend_state_summary" >/dev/null
 rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
-rm -f infra/gcp/bootstrap/terraform.tfstate infra/gcp/bootstrap/terraform.tfstate.backup
+rm -f "$local_state" "$local_state_backup"
 
 gcloud storage buckets describe "gs://$bucket" \
   --project="$project_id" \

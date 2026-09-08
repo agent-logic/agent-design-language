@@ -123,6 +123,16 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
     "purpose": "Static proof after extending the live runner to migrate bootstrap state into the impersonated GCS backend, pull backend state from a clean repo-local probe, and reject backend impersonation drift.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; residue-scan.log has 0 lines; diff-check.log has 0 lines"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+      "--lane=static"
+    ],
+    "purpose": "Static proof after making post-apply cleanup failure-safe and requiring the clean GCS backend probe to contain the expected Terraform bucket and IAM-member resources.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; live-proof-fail-closed.stderr.log still reports exact authorization artifact required; residue-scan.log has 0 lines; diff-check.log has 0 lines"
   }
 ]
 

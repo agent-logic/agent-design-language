@@ -79,13 +79,13 @@ Revision 3
 
 docs/milestones/v0.92.1/evidence/cloud/gcp-b1/design.md
 
-Digest: 2ce40953f179244b995a8c4270b40c076ca9fed41c34fe1945a5c720fffb27ff
+Digest: fe0f5f73d33d207c417e1c17f0ece19823e838b6702adbf52c5c95d46fb1b4bc
 
 ## Diagram
 
 docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd
 
-Digest: 3cc898e0127d8ab383bfd6bed7a7026f72a302170750ba89b83a09bcdf363c5c
+Digest: 9f671babdc2733ea1e03df0e59a3e1acd13a504baae17f72f3ae990807d03d08
 
 ## Stop Conditions
 
