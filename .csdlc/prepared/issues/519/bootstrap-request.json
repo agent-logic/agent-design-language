@@ -1,0 +1,37 @@
+{
+  "issue":519,"repository":"agent-logic/agent-design-language","actor":"codex:/root/sprint10_prep_517_519","design_path":".csdlc/prepared/issues/519/design.md","diagram_path":".csdlc/prepared/issues/519/diagram.mmd","design_reviewer":"codex:root-sprint10-prep-design-review","design_approved":true,
+  "initial":{
+    "title":"[v0.92.1][TAIL-03] Publication finalization","slug":"tail-03-publication-finalization","version":"v0.92.1",
+    "goal":"Produce one exact-revision publication-candidate packet without merge or release mutation.","required_outcome":"One redacted publication-candidate packet whose closing relationships and artifacts are bound to the exact revision reviewed by #518.",
+    "declared_scope":["docs/milestones/v0.92.1/evidence/release/tail-03/**",".csdlc/issues/519/**",".csdlc/prepared/issues/519/**"],
+    "authority_boundary":["Issue authority is agent-logic/agent-design-language#519","Execution starts only after #518 has a reviewed merge","The packet does not authorize merge, tag, release, or issue closure","Typed finish and cleanup of #518 are non-gating"],
+    "operator_constraints":["Never write tracked issue work on main","Bind publication linkage to the exact reviewed candidate","Redact credentials, private payloads, and machine-local paths","Do not merge, tag, release, or close issues"],
+    "task_boundary":"Issue completion is exactly one exact-revision publication-candidate packet; linkage and redaction checks are evidence inputs.",
+    "deliverables":["Exact candidate identity and artifact index","Publication linkage and closing-relationship record","Redaction validation receipt","One publication-candidate packet"],
+    "acceptance_criteria":["AC-1: The exact reviewed candidate revision and artifact digests are recorded","AC-2: Publication artifacts contain correct and unambiguous closing relationships","AC-3: The packet passes redaction and path-portability checks","AC-4: No merge, tag, release, or issue-close mutation occurs"],
+    "dependencies":["TAIL-02/#518 reviewed merge before execution"],
+    "repo_inputs":["agent-logic/agent-design-language#519","agent-logic/agent-design-language#518","docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-03","docs/milestones/v0.92.1/evidence/release/**"],
+    "non_goals":["Merge","Tag","Release","Issue closure","Product or documentation repair"],
+    "plan_summary":"After #518 merges, freeze its exact reviewed candidate, assemble publication linkage and redacted artifacts, and emit one non-mutating publication-candidate packet.",
+    "steps":[
+      {"id":"S1","action":"Verify #518 reviewed-merge authority and freeze its exact reviewed candidate revision.","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Assemble the exact artifact index and validate publication and closing relationships.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S3","action":"Run redaction and path-portability checks over the complete packet.","acceptance_ids":["AC-3"],"status":"pending"},
+      {"id":"S4","action":"Emit the single publication-candidate packet without performing merge, tag, release, or closure mutations.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"}
+    ],
+    "affected_areas":["v0.92.1 publication evidence","PR and issue linkage","artifact redaction"],
+    "invariants":["The packet revision equals the reviewed candidate","Closing relationships are explicit and unambiguous","Sensitive and machine-local data are absent","Preparation performs no release mutation"],
+    "risks":["Post-review drift could invalidate the packet","Ambiguous linkage could close the wrong issue","Evidence could expose secrets or local paths","Packet preparation could be mistaken for release authority"],
+    "planning_profile":"medium",
+    "stop_conditions":["#518 lacks a reviewed merge","The candidate changes after review","Publication linkage is ambiguous","Redaction fails","Any release mutation is requested"],
+    "validation_lanes":[
+      {"lane":"publication-linkage","proof_role":"Prove exact and unambiguous publication and closing relationships.","acceptance_ids":["AC-1","AC-2","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/519/validate-publication-candidate.rb","--linkage"],"parallel_group":"publication","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"exact-head","proof_role":"Prove the packet and artifact digests bind the exact reviewed candidate revision.","acceptance_ids":["AC-1","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1500,"argv":["ruby",".csdlc/prepared/issues/519/validate-publication-candidate.rb","--exact-head"],"parallel_group":"publication","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"artifact-redaction","proof_role":"Prove credentials, private payloads, and machine-local paths are absent.","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1500,"argv":["ruby",".csdlc/prepared/issues/519/validate-publication-candidate.rb","--redaction"],"parallel_group":"publication","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"diff-hygiene","proof_role":"Prove exact packet diff hygiene before review.","acceptance_ids":["AC-1","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
+    ],
+    "failure_policy":"Fail closed on unmet predecessor authority, revision drift, ambiguous linkage, redaction failure, or any attempted release mutation.",
+    "review_prompts":["Does the packet bind the exact revision reviewed by #518?","Are all closing relationships explicit and correct?","Does redaction exclude secrets, private payloads, and machine-local paths?","Can packet creation occur without merge, tag, release, or issue closure?"],
+    "review_scope":"The exact publication candidate, artifact digests, closing relationships, redaction proof, and no-mutation boundary."
+  }
+}

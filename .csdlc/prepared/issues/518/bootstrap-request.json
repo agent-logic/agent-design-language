@@ -1,0 +1,37 @@
+{
+  "issue":518,"repository":"agent-logic/agent-design-language","actor":"codex:/root/sprint10_prep_517_519","design_path":".csdlc/prepared/issues/518/design.md","diagram_path":".csdlc/prepared/issues/518/diagram.mmd","design_reviewer":"codex:root-sprint10-prep-design-review","design_approved":true,
+  "initial":{
+    "title":"[v0.92.1][TAIL-02] Documentation review and external-review handoff","slug":"tail-02-documentation-review-external-handoff","version":"v0.92.1",
+    "goal":"Produce one exact-revision documentation review and context-free external-review handoff for v0.92.1.","required_outcome":"One exact-revision documentation-review packet with a context-free external-review handoff, grounded claims, and explicit residual risks.",
+    "declared_scope":["docs/milestones/v0.92.1/**","docs/planning/ADL_FEATURE_LIST.md",".csdlc/issues/518/**",".csdlc/prepared/issues/518/**"],
+    "authority_boundary":["Issue authority is agent-logic/agent-design-language#518","Execution starts only after #517 has a reviewed merge","The issue reviews and repairs documentation truth but does not implement product behavior or publish","Typed finish and cleanup of #517 are non-gating"],
+    "operator_constraints":["Never write tracked issue work on main","Bind every claim and review artifact to one exact candidate revision","Use resolvable repository paths or canonical issue references","Do not publish, merge, tag, or release"],
+    "task_boundary":"Issue completion is exactly one exact-revision documentation-review and external-handoff packet; document checks are evidence inputs.",
+    "deliverables":["Canonical v0.92.1 document inventory","Findings-first documentation review","Context-free external-review handoff","Explicit residual-risk register"],
+    "acceptance_criteria":["AC-1: Every canonical v0.92.1 document is inventoried and agrees with current authority","AC-2: Links, paths, issue references, and claims are resolvable and source-grounded","AC-3: Residual risks, deferred scope, and non-claims are explicit","AC-4: The review and handoff bind one exact candidate revision"],
+    "dependencies":["TAIL-01/#517 reviewed merge before execution"],
+    "repo_inputs":["agent-logic/agent-design-language#518","agent-logic/agent-design-language#517","docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-02","docs/milestones/v0.92.1/**","docs/planning/ADL_FEATURE_LIST.md"],
+    "non_goals":["Product implementation","Publication","Release ceremony","Inventing evidence for unresolved claims"],
+    "plan_summary":"After #517 merges, freeze the candidate, inventory canonical documents, resolve documentation findings, and emit one exact-revision review plus context-free external handoff.",
+    "steps":[
+      {"id":"S1","action":"Verify #517 reviewed-merge authority and freeze the exact documentation candidate.","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"S2","action":"Build the canonical document denominator and validate every path, link, issue reference, and authority claim.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S3","action":"Resolve in-scope documentation findings and record residual risks, deferred scope, and non-claims.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"S4","action":"Emit and validate the exact-revision documentation review and context-free external handoff packet.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"}
+    ],
+    "affected_areas":["v0.92.1 milestone documentation","feature-list truth","external-review handoff"],
+    "invariants":["One exact revision anchors the packet","Every claimed input is resolvable","Documentation never overstates product or release state","The issue does not publish the candidate"],
+    "risks":["A canonical document could be omitted","A local-only path could make the handoff non-portable","Candidate drift could stale the review","Documentation could conceal a residual risk"],
+    "planning_profile":"medium",
+    "stop_conditions":["#517 lacks a reviewed merge","A release claim lacks evidence","The candidate changes during review","A required input cannot be resolved"],
+    "validation_lanes":[
+      {"lane":"canonical-doc-inventory","proof_role":"Prove the complete canonical v0.92.1 documentation denominator.","acceptance_ids":["AC-1","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/518/validate-documentation-handoff.rb","--inventory"],"parallel_group":"docs","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"link-check","proof_role":"Prove every tracked path, link, and issue reference resolves.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/518/validate-documentation-handoff.rb","--links"],"parallel_group":"docs","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"claim-audit","proof_role":"Prove claims, residual risks, deferred scope, and non-claims are source-grounded.","acceptance_ids":["AC-2","AC-3","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/518/validate-documentation-handoff.rb","--claims"],"parallel_group":"docs","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"diff-hygiene","proof_role":"Prove repository diff hygiene for the exact documentation candidate.","acceptance_ids":["AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
+    ],
+    "failure_policy":"Fail closed on an unmet predecessor, incomplete document denominator, unresolved input, unsupported claim, hidden residual risk, or candidate drift.",
+    "review_prompts":["Is the canonical document denominator complete?","Can every path, link, issue reference, and claim be resolved context-free?","Are residual risks and non-claims explicit?","Is the packet bound to one exact candidate revision?"],
+    "review_scope":"The exact documentation candidate, canonical inventory, links and claims, residual risks, and external-review handoff."
+  }
+}

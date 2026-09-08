@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "canonical-doc-inventory",
+          "proof_role": "Prove the complete canonical v0.92.1 documentation denominator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+            "--inventory"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": "The issue-owned validator is an execution deliverable."
+        },
+        {
+          "lane": "link-check",
+          "proof_role": "Prove every tracked path, link, and issue reference resolves.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+            "--links"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": "The issue-owned validator is an execution deliverable."
+        },
+        {
+          "lane": "claim-audit",
+          "proof_role": "Prove claims, residual risks, deferred scope, and non-claims are source-grounded.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+            "--claims"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": "The issue-owned validator is an execution deliverable."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove repository diff hygiene for the exact documentation candidate.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on an unmet predecessor, incomplete document denominator, unresolved input, unsupported claim, hidden residual risk, or candidate drift.",
+      "design_ref": ".csdlc/prepared/issues/518/design.md",
+      "design_digest": "8f4ca2061dfb5453165a1a01bb2c5423da24424e4ac188640d521a9914efb46b",
+      "diagram_ref": ".csdlc/prepared/issues/518/diagram.mmd",
+      "diagram_digest": "9025468b12687281f293fbcb9b0c9155d8aa6aaed3360937fb9ed29e7a5e9958"
+    }
+  }
+}

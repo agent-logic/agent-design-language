@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "After #517 merges, freeze the candidate, inventory canonical documents, resolve documentation findings, and emit one exact-revision review plus context-free external handoff.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify #517 reviewed-merge authority and freeze the exact documentation candidate.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Build the canonical document denominator and validate every path, link, issue reference, and authority claim.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Resolve in-scope documentation findings and record residual risks, deferred scope, and non-claims.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Emit and validate the exact-revision documentation review and context-free external handoff packet.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/milestones/v0.92.1/evidence/release/tail-02",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb"
+      ],
+      "invariants": [
+        "One exact revision anchors the packet",
+        "Every claimed input is resolvable",
+        "Documentation never overstates product or release state",
+        "The issue does not publish the candidate"
+      ],
+      "risks": [
+        "A canonical document could be omitted",
+        "A local-only path could make the handoff non-portable",
+        "Candidate drift could stale the review",
+        "Documentation could conceal a residual risk"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#517 lacks a reviewed merge",
+        "A release claim lacks evidence",
+        "The candidate changes during review",
+        "A required input cannot be resolved"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/518/design.md",
+      "design_digest": "8f4ca2061dfb5453165a1a01bb2c5423da24424e4ac188640d521a9914efb46b",
+      "diagram_ref": ".csdlc/prepared/issues/518/diagram.mmd",
+      "diagram_digest": "9025468b12687281f293fbcb9b0c9155d8aa6aaed3360937fb9ed29e7a5e9958"
+    }
+  }
+}
