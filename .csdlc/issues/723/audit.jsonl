@@ -14,3 +14,5 @@
 {"sequence":14,"generation":9,"actor":"codex-agent","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":15,"generation":10,"actor":"codex-agent","reason":"Recover stale review and publication after fixing the hosted detached-head failure","operation":"recover_review"}
 {"sequence":16,"generation":10,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":11,"actor":"codex-agent","reason":"Recover stale review after aligning the branch with current main and proving the detached checkout","operation":"recover_review"}
+{"sequence":18,"generation":11,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
