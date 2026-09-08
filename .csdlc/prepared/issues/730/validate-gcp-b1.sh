@@ -18,6 +18,7 @@ mkdir -p "$tf_data_dir"
 trap 'rm -rf "$tf_data_dir"' EXIT
 
 grep -Fq 'impersonate_service_account' infra/gcp/bootstrap/provider.tf
+grep -Fq 'impersonate_service_account = "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"' infra/gcp/bootstrap/backend.tf.example
 grep -Fq 'tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com' infra/gcp/bootstrap/variables.tf
 grep -Fq 'default     = "us-west2"' infra/gcp/bootstrap/variables.tf
 grep -Fq 'issue     = "730"' infra/gcp/bootstrap/variables.tf

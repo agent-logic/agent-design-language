@@ -13,12 +13,13 @@ impersonate the bootstrap service account directly. Do not configure a
 service-account key file as the runnable default.
 
 ```sh
-terraform -chdir=infra/gcp/bootstrap init -backend=false -input=false
-terraform -chdir=infra/gcp/bootstrap plan -out=.csdlc/evidence/730/gcp-b1.tfplan
+bash .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
 ```
 
-Review the saved plan digest before apply and remove the binary plan after the
-authorized run records redacted evidence.
+The binary plan is stored under `.git/csdlc-v2/gcp-b1/730.tfplan`. Review the
+saved plan digest in `.csdlc/evidence/730/gcp-b1-plan-digest.json` before
+apply. The authorized live proof removes the binary plan after it records
+redacted readback and recovery evidence.
 
 Do not commit `terraform.tfstate`, `tfplan`, `.terraform/`, credentials,
 generated `backend.tf`, or provider-generated local state. After the bucket

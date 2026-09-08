@@ -1,0 +1,21 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "671b6ac21b3941c3ac6807c0052025e1359aeceb046237e50a9ba30db2eb5985",
+  "actor": "codex:/root",
+  "reason": "Record #730 backend-adoption proof-path repair before live mutation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+        "--lane=static"
+      ],
+      "purpose": "Static proof after extending the live runner to migrate bootstrap state into the impersonated GCS backend, pull backend state from a clean repo-local probe, and reject backend impersonation drift.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; residue-scan.log has 0 lines; diff-check.log has 0 lines"
+    }
+  }
+}

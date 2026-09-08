@@ -103,6 +103,26 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
     "purpose": "Read-only pre-apply check for existing Terraform state bucket.",
     "outcome": "blocked",
     "evidence_ref": ".csdlc/evidence/730/preapply-bucket-describe.stderr.log; bucket not found 404; exit code 1"
+  },
+  {
+    "command": [
+      "GOOGLE_APPLICATION_CREDENTIALS=/nope",
+      "bash",
+      ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh"
+    ],
+    "purpose": "Negative proof that saved-plan preparation rejects static service-account credential-file environment before any Terraform or cloud operation.",
+    "outcome": "blocked",
+    "evidence_ref": ".csdlc/evidence/730/static-key-rejection.stderr.log; static credential file environment is not allowed; exit code 1"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+      "--lane=static"
+    ],
+    "purpose": "Static proof after extending the live runner to migrate bootstrap state into the impersonated GCS backend, pull backend state from a clean repo-local probe, and reject backend impersonation drift.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; residue-scan.log has 0 lines; diff-check.log has 0 lines"
   }
 ]
 

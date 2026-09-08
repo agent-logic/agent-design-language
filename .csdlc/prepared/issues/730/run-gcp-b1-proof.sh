@@ -22,9 +22,12 @@ plan_display_path=".git/csdlc-v2/gcp-b1/730.tfplan"
 plan_text="$evidence_dir/gcp-b1-plan.redacted.txt"
 readback_json="$evidence_dir/gcp-b1-readback.json"
 iam_json="$evidence_dir/gcp-b1-iam-policy.json"
+backend_state_summary="$evidence_dir/backend-state-pull.redacted.json"
 recovery_dir="$evidence_dir/recovery"
 repo_root="$PWD"
 tf_data_dir="$repo_root/.csdlc/evidence/730/tfdata-live"
+backend_probe_dir="$git_common/csdlc-v2/gcp-b1/backend-probe"
+backend_probe_data_dir="$repo_root/.csdlc/evidence/730/tfdata-backend-probe"
 
 fail() {
   echo "$*" >&2
@@ -47,11 +50,23 @@ require_tool() {
   command -v "$1" >/dev/null 2>&1 || fail "missing required tool: $1"
 }
 
+authorization_expected="$git_common/csdlc-v2/authorizations/730.json"
 [[ -n "$authorization" && -f "$authorization" ]] || fail "exact authorization artifact required"
-case "${authorization}" in
-  .git/csdlc-v2/authorizations/730.json|*/.git/csdlc-v2/authorizations/730.json) ;;
-  *) fail "authorization must be .git/csdlc-v2/authorizations/730.json" ;;
-esac
+authorization_actual="$(python3 - "$authorization" <<'PY'
+import os
+import sys
+
+print(os.path.realpath(sys.argv[1]))
+PY
+)"
+authorization_canonical="$(python3 - "$authorization_expected" <<'PY'
+import os
+import sys
+
+print(os.path.realpath(sys.argv[1]))
+PY
+)"
+[[ "$authorization_actual" == "$authorization_canonical" ]] || fail "authorization must be this worktree's git-common .git/csdlc-v2/authorizations/730.json"
 
 [[ -z "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]] || fail "static credential file environment is not allowed"
 [[ -z "${CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE:-}" ]] || fail "cloudsdk credential file override is not allowed"
@@ -92,7 +107,8 @@ PY
 
 mkdir -p "$evidence_dir" "$recovery_dir"
 rm -rf "$tf_data_dir"
-trap 'rm -rf "$tf_data_dir"' EXIT
+rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
+trap 'rm -rf "$tf_data_dir" "$backend_probe_data_dir" "$backend_probe_dir"' EXIT
 
 gcloud auth print-access-token \
   --impersonate-service-account="$service_account" \
@@ -126,7 +142,28 @@ subprocess.run(
 )
 PY
 rm -f "$plan_path"
+
+cp infra/gcp/bootstrap/backend.tf.example infra/gcp/bootstrap/backend.tf
+TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap init -migrate-state -force-copy -input=false >/dev/null
+rm -f infra/gcp/bootstrap/backend.tf
 rm -rf "$tf_data_dir"
+
+mkdir -p "$backend_probe_dir"
+cat > "$backend_probe_dir/backend.tf" <<EOF
+terraform {
+  backend "gcs" {
+    bucket                      = "$bucket"
+    prefix                      = "bootstrap"
+    impersonate_service_account = "$service_account"
+  }
+}
+EOF
+TF_DATA_DIR="$backend_probe_data_dir" terraform -chdir="$backend_probe_dir" init -input=false >/dev/null
+TF_DATA_DIR="$backend_probe_data_dir" terraform -chdir="$backend_probe_dir" state pull \
+  | jq '{version, terraform_version, serial, lineage, resources: [.resources[]?.type] | sort}' \
+  > "$backend_state_summary"
+rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
+rm -f infra/gcp/bootstrap/terraform.tfstate infra/gcp/bootstrap/terraform.tfstate.backup
 
 gcloud storage buckets describe "gs://$bucket" \
   --project="$project_id" \

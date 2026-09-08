@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
   "phase": "bound",
-  "generation": 12,
-  "digest": "cc9ac10d2cddb165cec0a2bc43a649867caa5aeeff510daece9a62df9f8d50fd",
+  "generation": 14,
+  "digest": "5942f43555214785cabcec7001abbbc72a880578341b01f18662096b9757b4b0",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "46bdd73644758c914bb1f708d4f7813759ea816adfe9d6890c66029413e26be3",
+      "values_digest": "5ffdccf1d3636941c1c3c3d125bac126bd93c9a086bab7d72aa7ce55bfc629de",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "1557845b0af3e328c821e93211a8b40c2f591cf838056619f2658422a394e9d2",
+      "values_digest": "4ea0ea64de98f59b39b06e565797310a86395168663794b14f143aee32b60d9e",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "3990040d9b603713992eb79e64063db78b02a762a2ab977928d6025f46300a61",
+      "values_digest": "14e82697d6fd2b572026b189b0ef8e3b66ab9f154e83108231052f5576bb71ea",
       "rendered_digest": "a2bd5637e4ebc4267ce4f8465060f3bbf4498e8f84fc51d0d718636d1882f5d1",
       "ast_digest": "7d5ebf872b59666ac5fe84afaa253d119724d2e7c0103ab8e219d8fc7fc14f56"
     },
     "vpp": {
-      "values_digest": "46593bbb47f8d4aec7b579363a7cc8cfbd85e7367a9de5078f45261a30c667be",
+      "values_digest": "fc41741f0dda99a3ab77dda1004934720dfc8aad93fcca70df15bd9b5dac5dd1",
       "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "3ddae91145c3b2ef04652b80c4cbe9e6507f9ae31fe6d9a07b41ed9bdcc0078f",
+      "values_digest": "621300d67e73fd558f7381f611c36d00431c114685783217a2e9fc2329537820",
       "rendered_digest": "9a1f2392cb11aeb2435734f2d260b720b0b019fa1edce6dacdec09ae85d05d62",
       "ast_digest": "933bf96b47aa68a787fc39ecfae7bfc0b4b333439de6e90b7038742e956acc62"
     },
     "sor": {
-      "values_digest": "eba1844a531d62c14d16ffc5a2cc7441561da1364651e850ac855a1071059a27",
-      "rendered_digest": "6fc5963e073e3dc4e11ba5a6cf9a6e8980df30a64a9f72ceb9fa12059131007d",
-      "ast_digest": "854a4a8eb458c868cdfc5aaa166f6f2968a5c6aa2375cd85ce5a71ce07e67bf0"
+      "values_digest": "255497737d97bef3379c530ecfc15d160e4b1954f2e56e6f0a3dfb4a2551ea60",
+      "rendered_digest": "76e6191eee03c1092b5fb157fbb02f6e51a12b7f86e23b88ad681c05ecf86934",
+      "ast_digest": "5a48de24666b65d30d8aad742d3aab3542740e864a719f55260108c0f9f9c184"
     }
   },
   "transitions": [
@@ -168,6 +168,20 @@
       "actor": "codex:/root",
       "reason": "Record #730 pre-apply read-only bucket absence.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gcloud\",\"storage\",\"buckets\",\"describe\",\"gs://adl-tf-state-cs-host-377d41e71a824f92802120\",\"--project=cs-host-377d41e71a824f92802120\",\"--format=json\"],\"purpose\":\"Read-only pre-apply check for existing Terraform state bucket.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/730/preapply-bucket-describe.stderr.log; bucket not found 404; exit code 1\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #730 static credential environment rejection proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"GOOGLE_APPLICATION_CREDENTIALS=/nope\",\"bash\",\".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh\"],\"purpose\":\"Negative proof that saved-plan preparation rejects static service-account credential-file environment before any Terraform or cloud operation.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/730/static-key-rejection.stderr.log; static credential file environment is not allowed; exit code 1\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record #730 backend-adoption proof-path repair before live mutation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh\",\"--lane=static\"],\"purpose\":\"Static proof after extending the live runner to migrate bootstrap state into the impersonated GCS backend, pull backend state from a clean repo-local probe, and reject backend impersonation drift.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; residue-scan.log has 0 lines; diff-check.log has 0 lines\"}}"
     }
   ]
 }
