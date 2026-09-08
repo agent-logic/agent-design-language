@@ -38,6 +38,11 @@ reduce those inventories. Generated or vendored surfaces may be dispositioned
 as such, but they remain counted. Any omission, unclassified row, zero-test
 lane, or missing evidence is a review finding or blocker—not a pass.
 
+The execution specification itself is read and digest-checked from the #519
+candidate. Every acceptance row retains the exact canonical criterion content
+and its digest; IDs alone are insufficient. Every issue inventory row must
+match live title, state, and closing-PR associations exactly.
+
 ## Mandatory review coverage
 
 - Review every changed production-code file for behavior, errors, recovery,
@@ -59,6 +64,11 @@ Specialist lanes may run in parallel over disjoint assignments. Each assignment
 records its exact path/issue rows, reviewer identity, candidate SHA, result,
 limitations, and raw findings. A lane may not pass with an empty assignment or
 by citing CI alone.
+
+Every lane report is content-addressed in the packet manifest, contains one
+evidenced observation for every assigned denominator reference, and contributes
+its complete raw finding set to synthesis. The validator rejects a synthesized
+register that differs from the raw lane union.
 
 ## Finding and synthesis contract
 

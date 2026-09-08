@@ -43,7 +43,9 @@ def validate_fixture!(fixture)
   fail!("fixture issue denominator differs from live snapshot") unless fixture.fetch("issue_rows").sort == live_issues.map { |row| row.fetch("number") }.sort
   fail!("fixture PR denominator differs from live snapshot") unless fixture.fetch("pr_rows").sort == live_prs
   fail!("fixture must reject empty repo/acceptance denominators") unless fixture.fetch("repo_rows").any? && fixture.fetch("acceptance_rows").any?
+  fail!("fixture acceptance rows differ from immutable specification") unless fixture.fetch("acceptance_rows") == fixture.fetch("canonical_acceptance_rows") && fixture.fetch("acceptance_content_bound") == true && fixture.fetch("spec_digest_valid") == true
   fail!("fixture must reject empty assignments/results") unless fixture.fetch("assignments").any? && fixture.fetch("results").any?
+  fail!("fixture lane reports are missing, content-free, or unsynthesized") unless fixture.fetch("lane_reports_manifested") == true && fixture.fetch("lane_reports_contentful") == true && fixture.fetch("raw_findings") == fixture.fetch("synthesized_findings")
 end
 
 if ARGV.first == "fixture"
@@ -85,7 +87,10 @@ repo_rows = docs.fetch("repo_inventory.json").fetch("rows")
 fail!("repo inventory does not exactly match changed-file denominator") unless repo_rows.map { |row| row.fetch("path") }.sort == changed
 fail!("repo inventory contains unreviewed rows") unless repo_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("classification")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("review_lane")) && nonempty?(row.fetch("evidence")) }
 
-specs = YAML.safe_load(File.read("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")).fetch("issue_specifications")
+spec_path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+spec_blob = git_blob(candidate, spec_path)
+fail!("immutable execution-spec digest mismatch") unless Digest::SHA256.hexdigest(spec_blob) == manifest.fetch("execution_spec_sha256")
+specs = YAML.safe_load(spec_blob).fetch("issue_specifications")
 planned_ids = specs.map { |row| row.fetch("id") }.sort
 issue_rows = docs.fetch("issue_inventory.json").fetch("rows")
 planned_rows = issue_rows.select { |row| nonempty?(row["planned_id"]) }
@@ -125,13 +130,26 @@ canonical_mapping = {"WP-01" => 480}.merge(creation_receipt.fetch("children").to
 planned_mapping = planned_rows.to_h { |row| [row.fetch("planned_id"), row.fetch("issue")] }
 fail!("planned-ID to live-issue mapping differs from immutable WP-01 receipt") unless planned_mapping == canonical_mapping
 fail!("issue inventory does not cover every live milestone issue") unless issue_rows.map { |row| row.fetch("issue") }.sort == live_numbers.sort
-fail!("issue inventory PR census differs from live milestone snapshot") unless issue_rows.flat_map { |row| row.fetch("pull_requests") }.sort == live_prs.sort
+live_by_number = live_issues.to_h { |row| [row.fetch("number"), row] }
+fail!("issue inventory differs from live title/state/PR authority") unless issue_rows.all? do |row|
+  live = live_by_number.fetch(row.fetch("issue"))
+  row.fetch("title") == live.fetch("title") && row.fetch("state") == live.fetch("state") && row.fetch("pull_requests").sort == live.fetch("pull_requests").sort
+end
 fail!("issue inventory has duplicate, stale, or undispositioned rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("evidence")) && row.fetch("pull_requests").is_a?(Array) }
 
 expected_acceptance = specs.flat_map { |row| row.fetch("acceptance_criteria").each_index.map { |index| "#{row.fetch('id')}:AC-#{index + 1}" } }.sort
+canonical_acceptance = specs.flat_map do |spec|
+  spec.fetch("acceptance_criteria").each_with_index.map do |criterion, index|
+    ["#{spec.fetch('id')}:AC-#{index + 1}", criterion, Digest::SHA256.hexdigest(canonical_json = JSON.generate(criterion))]
+  end
+end.to_h { |ref, criterion, digest| [ref, {"criterion" => criterion, "sha256" => digest}] }
 acceptance_rows = docs.fetch("acceptance_coverage.json").fetch("rows")
 actual_acceptance = acceptance_rows.map { |row| "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}" }.sort
 fail!("acceptance inventory does not exactly match canonical specification") unless actual_acceptance == expected_acceptance
+fail!("acceptance rows rewrite canonical criterion content") unless acceptance_rows.all? do |row|
+  ref = "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}"
+  row.fetch("criterion") == canonical_acceptance.fetch(ref).fetch("criterion") && row.fetch("criterion_sha256") == canonical_acceptance.fetch(ref).fetch("sha256")
+end
 fail!("acceptance inventory has missing implementation/proof dispositions") unless acceptance_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("implementation_disposition")) && nonempty?(row.fetch("proof_disposition")) && nonempty?(row.fetch("evidence")) }
 
 all_refs = (repo_rows + issue_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
@@ -144,7 +162,22 @@ fail!("assignments do not cover each denominator row exactly once") unless assig
 assignment_ids = assignments.map { |row| row.fetch("id") }
 fail!("assignment IDs are not unique") unless assignment_ids.uniq.length == assignment_ids.length
 fail!("lane results do not match assignments exactly") unless results.map { |row| row.fetch("assignment_id") }.sort == assignment_ids.sort
-fail!("lane result is empty, stale, or evidence-free") unless results.all? { |row| %w[passed findings].include?(row.fetch("outcome")) && row.fetch("candidate_sha") == candidate && nonempty?(row.fetch("reviewer")) && nonempty?(row.fetch("evidence")) }
+raw_findings = []
+results.each do |row|
+  fail!("lane result is empty, stale, or evidence-free") unless %w[passed findings].include?(row.fetch("outcome")) && row.fetch("candidate_sha") == candidate && nonempty?(row.fetch("reviewer")) && nonempty?(row.fetch("evidence"))
+  report_path = row.fetch("report_path")
+  fail!("lane report is missing") unless File.file?(report_path)
+  fail!("lane report digest mismatch") unless Digest::SHA256.file(report_path).hexdigest == row.fetch("report_sha256")
+  report = read_json(report_path)
+  assignment = assignments.find { |candidate_assignment| candidate_assignment.fetch("id") == row.fetch("assignment_id") }
+  fail!("lane report is not bound to its complete assignment") unless report.fetch("candidate_sha") == candidate && report.fetch("denominator_refs").sort == assignment.fetch("denominator_refs").sort
+  observations = report.fetch("observations")
+  fail!("lane report is content-free") unless observations.is_a?(Array) && observations.any? && observations.all? { |observation| nonempty?(observation.fetch("ref")) && nonempty?(observation.fetch("evidence")) && nonempty?(observation.fetch("conclusion")) }
+  fail!("lane report omits assigned review rows") unless observations.map { |observation| observation.fetch("ref") }.sort == assignment.fetch("denominator_refs").sort
+  report_findings = report.fetch("findings")
+  fail!("lane report outcome contradicts findings") unless row.fetch("outcome") == (report_findings.empty? ? "passed" : "findings")
+  raw_findings.concat(report_findings)
+end
 fail!("test lane reports zero executed tests") if results.any? { |row| row.fetch("lane").match?(/test|pvf|ci/i) && row.fetch("tests_run", 0).to_i <= 0 }
 
 findings_doc = docs.fetch("findings.json")
@@ -153,7 +186,8 @@ fail!("findings register is not exact-candidate bound") unless findings_doc.fetc
 fail!("findings outcome contradicts content") unless findings_doc.fetch("outcome") == (findings.empty? ? "passed" : "findings")
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length
-fail!("finding schema is incomplete or stale") unless findings.all? { |finding| finding.fetch("revision") == candidate && %w[severity status title impact evidence source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } }
+fail!("synthesized findings differ from raw lane union") unless findings.sort_by { |row| row.fetch("id") } == raw_findings.sort_by { |row| row.fetch("id") }
+fail!("finding schema is incomplete or stale") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status title impact evidence source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } }
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")
 entries.each do |entry|
@@ -163,5 +197,7 @@ entries.each do |entry|
 end
 manifest_paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| manifest_paths.include?(File.join(root, name)) }
+fail!("packet manifest omits lane reports") unless results.all? { |row| manifest_paths.include?(row.fetch("report_path")) }
+fail!("packet manifest omits raw milestone API response") unless manifest_paths.include?(response_path)
 
-puts JSON.generate(schema: "adl.v0921.internal_review_validation.v2", mode: mode, status: "passed", changed_paths: changed.length, issues: issue_rows.length, acceptance_surfaces: acceptance_rows.length, assignments: assignments.length, findings: findings.length)
+puts JSON.generate(schema: "adl.v0921.internal_review_validation.v2", mode: mode, status: "passed", candidate_sha: candidate, changed_paths: changed.length, issues: issue_rows.length, acceptance_surfaces: acceptance_rows.length, assignments: assignments.length, findings: findings.length)
