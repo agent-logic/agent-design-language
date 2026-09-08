@@ -44,7 +44,7 @@
           "execution": "local",
           "timeout_seconds": 60,
           "executable": "/bin/bash",
-          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh", "denominator"],
+          "argv": [".csdlc/prepared/issues/516/validate-release-tail-admission.sh", "denominator"],
           "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
         },
         {
@@ -61,7 +61,7 @@
           "execution": "local",
           "timeout_seconds": 60,
           "executable": "/bin/bash",
-          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh", "gaps"],
+          "argv": [".csdlc/prepared/issues/516/validate-release-tail-admission.sh", "gaps"],
           "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
         },
         {
@@ -78,7 +78,7 @@
           "execution": "local",
           "timeout_seconds": 60,
           "executable": "/bin/bash",
-          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh", "decision"],
+          "argv": [".csdlc/prepared/issues/516/validate-release-tail-admission.sh", "decision"],
           "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
         }
       ]

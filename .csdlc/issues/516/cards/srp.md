@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-The complete v0.92.1 expected-versus-observed denominator, implementation and execution gaps, evidence truth, ownership routing, and release-tail admission decision only.
+.csdlc/evidence/516
+.csdlc/prepared/issues/516
+docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md
+docs/milestones/v0.92.1/WBS_v0.92.1.md
+docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
+docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
+docs/milestones/v0.92.1/evidence/integration
 
 ## Prompts
 

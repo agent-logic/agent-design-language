@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-require "digest"; require "json"; require "open3"; require "pathname"; require "yaml"
+require "digest"; require "json"; require "open3"; require "pathname"; require "time"; require "yaml"
 ROOT=Pathname.new(__dir__).join("../../../..").realpath
 OUT=ROOT.join("docs/milestones/v0.92.1/evidence/integration")
 MODE=ARGV.fetch(0,"all")
+STARTED_AT=Time.now.utc.iso8601(6)
 abort("usage: #{$PROGRAM_NAME} [denominator|gaps|decision|admitted|negative|all]") unless %w[denominator gaps decision admitted negative all].include?(MODE)
 
 def load_json(path)
@@ -16,12 +17,14 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   digest=Digest::SHA256.hexdigest(JSON.generate(source))
   raise "source digest mismatch" unless admission["source_digest"]==digest && gap["source_digest"]==digest
   raise "candidate mismatch" unless [source["candidate"],admission["candidate"],gap["candidate"]].uniq.one?
+  remote_main,_remote_err,remote_status=Open3.capture3("git","rev-parse","origin/main",chdir:ROOT.to_s)
+  raise "admission candidate is stale" unless remote_status.success? && source["candidate"]==remote_main.strip
   source.fetch("planning").each do |entry|
     path=ROOT.join(entry.fetch("path")); raise "planning source missing" unless path.file?
     raise "planning source digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
   end
-  canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-af5f8036.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
-  raise "no-v2 canary identity/status invalid" unless canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==721 && canary["exit_status"]==101
+  canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-f3eb7155.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
+  raise "no-v2 canary identity/status invalid" unless canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==725 && canary["exit_status"]==101
   raise "no-v2 canary output missing/drifted" unless stderr_path.file? && Digest::SHA256.file(stderr_path).hexdigest==stderr_entry["sha256"]
   stderr=stderr_path.read; raise "no-v2 canary error contract missing" unless stderr.include?("failed to get `csdlc-v2` as a dependency")&&stderr.include?("csdlc-v2/Cargo.toml")&&stderr.include?("No such file or directory (os error 2)")
   expected_sources=["csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/commands/remote/mod.rs"]; raise "no-v2 canary source census mismatch" unless canary["source_dependencies"]==expected_sources
@@ -187,6 +190,7 @@ if %w[negative all].include?(MODE)
     "output-identity-drift"=>->(_s,a,_g,_m){a["output_identity"]="missing.json"},
     "projection-digest-drift"=>->(_s,a,_g,_m){a["projection_digest"]="0"*64},
     "admitted-with-blocker"=>->(_s,a,g,_m){a["decision"]=g["decision"]="admitted"},
+    "stale-candidate"=>->(s,a,g,_m){s["candidate"]=a["candidate"]=g["candidate"]="0"*40;digest=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=digest},
     "markdown-omission"=>->(_s,_a,_g,m){m.replace("")}
   }
   cases.each do |name,mutation|
@@ -195,4 +199,18 @@ if %w[negative all].include?(MODE)
   end
 end
 validate!(source,admission,gap,markdown,require_admitted:MODE=="admitted") unless MODE=="negative"
-puts JSON.generate(schema:"adl.v0921.release_tail_validation.v2",mode:MODE,status:"pass")
+result={schema:"adl.v0921.release_tail_validation.v2",mode:MODE,status:"pass"}
+head,_head_err,head_status=Open3.capture3("git","rev-parse","HEAD",chdir:ROOT.to_s)
+abort("cannot bind validation receipt to HEAD") unless head_status.success?
+puts JSON.generate(
+  schema:"adl.v0921.release_tail_validation_receipt.v1",
+  exact_head:head.strip,
+  candidate:source["candidate"],
+  source_digest:admission["source_digest"],
+  argv:["ruby",".csdlc/prepared/issues/516/validate-release-tail-admission.rb",MODE],
+  started_at:STARTED_AT,
+  ended_at:Time.now.utc.iso8601(6),
+  exit_code:0,
+  stdout:result,
+  stdout_sha256:Digest::SHA256.hexdigest(JSON.generate(result))
+)

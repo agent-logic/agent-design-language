@@ -1,8 +1,8 @@
 {
   "schema": "adl.v0921.no_v2_canary.v1",
   "issue": 516,
-  "gap_owner_issue": 721,
-  "candidate": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+  "gap_owner_issue": 725,
+  "candidate": "f3eb715560c5e7d8aff5fe874c6a117ed2f3e169",
   "checkout": {
     "kind": "detached_fresh_worktree",
     "tracked_removal": "csdlc-v2/**",
@@ -11,9 +11,9 @@
   "command": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v3/Cargo.toml", "--no-run"],
   "exit_status": 101,
   "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "stderr_sha256": "aef8fd359e356d9ed32c4e24695edbd1a45628b0088a7f194252cb722ca75e24",
+  "stderr_sha256": "7e960761c623e1ada7e84b95cc3d3efacef83d2f6a2c0a2dd12ee696da0698b2",
   "sanitized_stderr": {
-    "path": ".csdlc/evidence/516/no-v2-canary-af5f8036.stderr.log",
+    "path": ".csdlc/evidence/516/no-v2-canary-f3eb7155.stderr.log",
     "sha256": "7e960761c623e1ada7e84b95cc3d3efacef83d2f6a2c0a2dd12ee696da0698b2"
   },
   "observed_error": "csdlc-v3 failed to load path dependency csdlc-v2 because csdlc-v2/Cargo.toml was absent",

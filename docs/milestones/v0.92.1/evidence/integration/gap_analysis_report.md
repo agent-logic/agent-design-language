@@ -1,15 +1,15 @@
 # v0.92.1 Release-tail Gap Analysis
 
-Candidate: `af5f8036ab7a0619751ab55fa9bd4891f377cd9d`
+Candidate: `f3eb715560c5e7d8aff5fe874c6a117ed2f3e169`
 
-Captured-input digest: `f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68`
+Captured-input digest: `6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de`
 
-Canonical projection digest: `4cf896a4761525f0ad0067f7bd5a05a4c2eba4f3cc6f7012a497091ef2c78e7c`
+Canonical projection digest: `19729ef575a8ad77c86e586acc26d20598ef93110b3d9b2f442a7ee54404913c`
 
 ## Findings
 
 - **P2 consolidated-live-spec-sync-debt** — Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records. Evidence: https://github.com/agent-logic/agent-design-language/issues/480#issue-body, f9a7235866ee1a2565fe18a7399b51b2704c37dae4ed875cfec987c8050e5532, 96ab626bad8ef94a33c1d7211a98d2786e94590998ee2cbad6180124b2f33cd5, https://github.com/agent-logic/agent-design-language/issues/494#issue-body, e4a5840ac93ada0212c84353af8527b00cc38d710ec5f0bb14bbc50cf6480851, 25aeef825468013dbd959e1ebd443f9c2552a1ef526814a42cc05c2f075a9286, https://github.com/agent-logic/agent-design-language/issues/510#issue-body, fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca, 5a236113e049937ac0fd466b425d43acafabd891c2835cde80b197d55993a1e7, https://github.com/agent-logic/agent-design-language/issues/512#issue-body, 80be51e3a6ae692a23386c52cfcd8aed130b058c398c55659d1d724a79eaaa5d, 759236137cc551e220664b5528b0850882fddd4e5c1df4f1158b01d582ee02ba. Owner: release planning maintainers. Disposition: follow_up.
-- **P1 issue-725-v3-standalone-parity-gap** — Closed #721 and open PR #726 cover issue-create and reporting parity but do not remove v2 build and operational dependencies. Open #725 owns native v3 authority migration. At af5f8036 and current main, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/issues/725, 42c02056fa762b56b9376be89d7914c5d1453deec50cf1b43ba85412d9656657, https://github.com/agent-logic/agent-design-language/pull/722, https://github.com/agent-logic/agent-design-language/pull/726, bb954ca76df921e14dde5b81af8e70a856e6f39a, 08c48640de5029fcc12847f98860201968df2ae5e2af1dd5d77d01410d390209, 57c867b9694214d1e29d712af841769e025dee3494e60942d052bbe4c0f8e74e, {"path"=>".csdlc/evidence/516/no-v2-canary-af5f8036.json", "sha256"=>"4bddf1edfc51c004fb0b4ac04ffed7f4d3ff133242d3ba31c25e8ccf90e48ad7"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #725. Disposition: open.
+- **P1 issue-725-v3-standalone-parity-gap** — Closed #721 and open PR #726 cover issue-create and reporting parity but do not remove v2 build and operational dependencies. Open #725 owns native v3 authority migration. At f3eb715560c5e7d8aff5fe874c6a117ed2f3e169, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/issues/725, 42c02056fa762b56b9376be89d7914c5d1453deec50cf1b43ba85412d9656657, https://github.com/agent-logic/agent-design-language/pull/722, https://github.com/agent-logic/agent-design-language/pull/726, 7bdcdc52b847701dda27ece1b2946fd6c2ca3f12, 6e2e49e8950729109693a4ccbd5f206d7b4f3cd3a54fbd4f8542fbc78ca528c5, e91cd644677aff555b77fad89013090c07331cfe13f3e5ad3fd14d69b9e0dd88, {"path"=>".csdlc/evidence/516/no-v2-canary-f3eb7155.json", "sha256"=>"c6d322d6caeb1df9b61e26174828ac753b7d84a8a676202db4c9c9e1e5335aff"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #725. Disposition: open.
 - **P1 issue-487-semantic-implementation-gap** — AWS-D has 3 audit-confirmed unmet implementation criteria. Evidence: infra/aws/account-foundation/main.tf, .csdlc/issues/487/cards/sor.md. Owner: issue #487. Disposition: open.
 - **P1 issue-489-semantic-implementation-gap** — AWS-F has 1 audit-confirmed unmet implementation criteria. Evidence: infra/aws/runtime/private-node/main.tf, .csdlc/issues/489/cards/sor.md. Owner: issue #489. Disposition: open.
 - **P1 issue-491-semantic-implementation-gap** — GCP-B has 1 audit-confirmed unmet implementation criteria. Evidence: infra/gcp/bootstrap/main.tf, .csdlc/issues/491/cards/sor.md. Owner: issue #491. Disposition: open.
@@ -79,8 +79,8 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 ## Backlog and retained authority
 
-- #84: `4c0b8a4cec3741f4ebb145864fcdf02cfccf62b352e6a8a900c8ebc97385b59a`
-- #251: `4113989e3d613b8044e49c08e7ebc26be4be346fdb19db14695ec5f2b9fbcb40`
+- #84: `a85f2bb235a3ad812343a3517e688eebcfb14409cdd57440a2c275144e518aaf`
+- #251: `b37803d02658d65cf54f060c4200a0983f41e0839d577ebb6555c2f5c3be564e`
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision
@@ -482,5 +482,5 @@ This is an admission decision only; it is not release approval.
 
 | Issue | Disposition | Authority digest |
 |---|---|---|
-| #84 | routed_to_backlog | 4c0b8a4cec3741f4ebb145864fcdf02cfccf62b352e6a8a900c8ebc97385b59a |
-| #251 | routed_to_backlog | 4113989e3d613b8044e49c08e7ebc26be4be346fdb19db14695ec5f2b9fbcb40 |
+| #84 | routed_to_backlog | a85f2bb235a3ad812343a3517e688eebcfb14409cdd57440a2c275144e518aaf |
+| #251 | routed_to_backlog | b37803d02658d65cf54f060c4200a0983f41e0839d577ebb6555c2f5c3be564e |

@@ -6,10 +6,23 @@
   "initialization_digest": "670ffe99105f46abfdfc8e71aabafe81c8295d9ab7dbb3aed49a072b3b72ba9f",
   "phase": "implemented",
   "generation": 3,
-  "digest": "0a07fbd1218379aa8a8900cc072b000cd80405f742dd88bac7ffed58de3a72b9",
+  "digest": "ca143cfd8c81424f2160c5f290eb38cfdecb25090de3b741619060b84c93acaa",
   "branch": "codex/516-release-tail-admission",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b229b448-72f6-4df5-91f4-c20c81df9525",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:5d4662fa6328aba28e281e208b5d305c29bb9d28:3e88fae7efb51c883ac4acbaf2864e189c86da80d84ece0fef9b5e51b4e97f27",
+    "scope": [
+      ".csdlc/evidence/516",
+      ".csdlc/prepared/issues/516",
+      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/evidence/integration"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +58,9 @@
       "ast_digest": "c68cfbac01182fba8bd81cf3207f245176714e4c1652bd2aa5f9581402ec56c4"
     },
     "srp": {
-      "values_digest": "c7fcc55706208cfc44102a69f2df9564b9f3963fc176b0fbaa33d182208ae299",
-      "rendered_digest": "7ca6be23f61c2551120e91c92a8a6e60f55050971c9443638a9830e762336aa2",
-      "ast_digest": "4b92057e3cb6c85119e1d0b9cbfb2fb241d2888878fc4da54f1ed444d949dcbb"
+      "values_digest": "3f3169e1e9d50fb3caa8616ec62386478340003d20cded4d171596a2e2bde89e",
+      "rendered_digest": "947cf571f6cb20406e4c4ddc96156db1b09e99c7464f9bb090163a6878847273",
+      "ast_digest": "1b287993775c9148fef95f209eeddb84ad5f9c69d12ca3d1cc555212267e5573"
     },
     "sor": {
       "values_digest": "510b54caf566c588680b46a8ac93880553920d4a85675734d8b76b4656bf3815",
@@ -113,6 +126,13 @@
       "actor": "codex:sprint-10-release-tail-admission",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

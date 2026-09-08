@@ -3,3 +3,4 @@
 {"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":4,"generation":2,"actor":"fresh-session:b229b448-72f6-4df5-91f4-c20c81df9525","reason":"reapprove changed issue design","operation":"{\"design_digest\":\"db0ec577fae048c38580325d13095b1b989c592bd32a64eeba599511e605d6f3\",\"design_ref\":\".csdlc/prepared/issues/516/design.md\",\"diagram_digest\":\"37c5b2a401413d353795625e91e2d451103cf9bc1974f0ce0e3fee43b4e2f9d5\",\"diagram_ref\":\".csdlc/prepared/issues/516/diagram.mmd\",\"operation\":\"approve_design\"}"}
 {"sequence":5,"generation":3,"actor":"codex:sprint-10-release-tail-admission","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":6,"generation":3,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
