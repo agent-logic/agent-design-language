@@ -9,3 +9,8 @@ once as a reviewed fix or explicit owned deferral.
 
 #522 coordinates and proves dispositions. Each substantive fix remains a
 separately reviewable change; the ledger cannot erase or silently defer work.
+
+The source census is parsed from the digest-verified #520 and #521 review
+reports. A packet-authored list cannot add, omit, or rename finding IDs.
+Fixed dispositions require digest-verified machine-readable validation and
+review results that both report pass at the exact remediated head.
