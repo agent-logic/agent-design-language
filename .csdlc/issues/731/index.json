@@ -3,9 +3,9 @@
   "issue": 731,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
-  "phase": "bound",
-  "generation": 14,
-  "digest": "76febdc6db38fd51b15dcc306c879b24b60ba6c04641ba964f7f60a0f72d0354",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "238d24a90298c8a7cad0738f1faad50a2b458bf999a3140890ea5e623ae15995",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e3c68a45ce48519663b6eae532b9bb6e017fb6d1d4640b334318fefda47bbb6b",
+      "values_digest": "45e8dff9b60ce567fb48ff8a2276ca7a223342634a36549b833f058e8db6b8b1",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "b2b0a24dba5b037231eb562e9349c3cc30feeb4202055705dc8118bcaaa2676e",
+      "values_digest": "24da5b030b8a0a9ba014147e11016c42f2a973d3f5b790280616486db3df2c23",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "664dbd311745308f4c8cb39b782d044ebe2f3c4340903fe7cc2d5e801fce786d",
+      "values_digest": "52319a2be664f7cb72771418ad3894f93b1bc00f66eab766b871979e2db72e80",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "12b8fdc7a0647924e524d36624d408eb276e13caa7c7d61d83daafdb91bdc72b",
+      "values_digest": "d1897297cb49d2ba4bbb08d1937abcbd0884691045434b165e8096764a9e7813",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "925af3312d31f146d4b268526f2363cccda6fe5460dade107af1be074ffe188c",
+      "values_digest": "4926c02271a631053d4f9a9163efd17429d78ee575416d1e882013dcb8e66f99",
       "rendered_digest": "1b81702f7f5fd75d8d35f92f59ccd4499e3de6868011b3d9027ed3a4870eedad",
       "ast_digest": "7930d0a32ecebb99e123c1d86f7ff1e4980b6fbcad56d58d3fb9972937285499"
     },
     "sor": {
-      "values_digest": "c912b82fe623742ef9bd57f978160247b1e3ce444d781065fccdcdb6fad9eac1",
+      "values_digest": "9a975e53d6702d4524b1b804f50316fe5523973adbbed16feb7590dea529625c",
       "rendered_digest": "71f7cf482c0082304704524ff0fb7a9f06d23012fbb5c3d607f2e2630bb26b9e",
       "ast_digest": "0e79c2a6835fb82ccc850dd5b2f5eb2b855d845cdc063cf578a01828f3557286"
     }
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:731-owner",
+      "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization."
     }
   ],
   "audit": [
@@ -182,6 +189,13 @@
       "actor": "codex:731-owner",
       "reason": "Advance #731 SOR from pre-phase to draft after recording bound no-mutation readiness evidence while live proof remains pending.",
       "operation": "{\"operation\":\"advance_status\",\"status\":\"draft\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:731-owner",
+      "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

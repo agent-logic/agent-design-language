@@ -1,0 +1,12 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "76febdc6db38fd51b15dcc306c879b24b60ba6c04641ba964f7f60a0f72d0354",
+  "actor": "codex:731-owner",
+  "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}
