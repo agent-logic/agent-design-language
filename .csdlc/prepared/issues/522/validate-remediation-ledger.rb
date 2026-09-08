@@ -119,7 +119,9 @@ dispositions.each do |row|
     end
     review = row.fetch("review")
     fail!("review authority is neither typed nor independent external") unless %w[typed_csdlc external_independent].include?(review.fetch("authority_kind")) && nonempty?(review.fetch("assignment_id")) && nonempty?(review.fetch("reviewer")) && nonempty?(review.fetch("authority_receipt_path"))
-    authority_blob = git_blob(head_sha, review.fetch("authority_receipt_path"))
+    authority_path = review.fetch("authority_receipt_path")
+    fail!("review authority receipt is outside remediation packet") unless authority_path.start_with?(root + "/") && File.file?(authority_path)
+    authority_blob = File.binread(authority_path)
     fail!("review authority receipt digest mismatch") unless Digest::SHA256.hexdigest(authority_blob) == review.fetch("authority_receipt_sha256")
     authority_doc = JSON.parse(authority_blob)
     fail!("review authority receipt is not an exact-head pass") unless authority_doc.fetch("outcome") == "passed" && authority_doc.fetch("reviewed_sha") == head_sha && authority_doc.fetch("findings") == [] && authority_doc.fetch("blockers") == [] && authority_doc.fetch("authority_kind") == review.fetch("authority_kind")
@@ -153,7 +155,8 @@ dispositions.each do |row|
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
     validations.each do |validation|
       evidence_path = validation.fetch("evidence")
-      evidence_blob = git_blob(head_sha, evidence_path)
+      fail!("validation receipt is outside remediation packet") unless evidence_path.start_with?(root + "/") && File.file?(evidence_path)
+      evidence_blob = File.binread(evidence_path)
       fail!("validation evidence digest mismatch") unless Digest::SHA256.hexdigest(evidence_blob) == validation.fetch("sha256")
       validation_doc = JSON.parse(evidence_blob)
       evidence_sha = validation_doc["candidate_sha"] || validation_doc["head_sha"] || validation_doc["revision"]
@@ -184,6 +187,8 @@ fixed_review_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
 fixed_invocation_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.map { |row| row.fetch("validator_invocation").fetch("receipt_path") }
 fail!("packet manifest omits fixed-disposition validator receipts") unless fixed_invocation_paths.all? { |path| paths.include?(path) }
+fixed_authority_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.flat_map { |row| [row.fetch("review").fetch("authority_receipt_path"), *row.fetch("validation").map { |validation| validation.fetch("evidence") }] }
+fail!("packet manifest omits fixed-disposition authority or validation receipts") unless fixed_authority_paths.all? { |path| paths.include?(path) }
   {schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length}
 end
 
