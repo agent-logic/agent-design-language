@@ -63,7 +63,8 @@ function formatTimestampLabel(value) {
     month: "short",
     day: "2-digit",
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
+    second: "2-digit"
   });
 }
 
@@ -73,24 +74,176 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
+let systemClockTimer = null;
+
+function refreshSystemClock() {
+  const label = formatCurrentTimestampLabel();
+  setText("hero-uptime", label);
+  setText("rail-capture-time", label);
+}
+
+function startSystemClock() {
+  refreshSystemClock();
+  if (!systemClockTimer && typeof setInterval === "function") {
+    systemClockTimer = setInterval(refreshSystemClock, 1000);
+  }
+}
 let liveReconnectTimer = null;
 let liveReconnectAttempt = 0;
+let lastKnownComponentEntries = [];
+const POLIS_REGISTRY_KEY = "adl.observatory.polisRegistry";
+
+let lastResolvedPublicBaseUrl = "";
+let polisConnectionGeneration = 0;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
-const RUNTIME_V3_DEFAULT_TRUSTED_HOST = "wuji.dev.csm.agent-logic.ai";
+const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
+const RUNTIME_V3_TRUSTED_DOMAIN = "agent-logic.ai"; // allow any *.agent-logic.ai subdomain
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
-  api_base: `https://${RUNTIME_V3_DEFAULT_TRUSTED_HOST}:20997`,
-  trusted_hosts: [RUNTIME_V3_DEFAULT_TRUSTED_HOST],
+  api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
   health_endpoint: "/v1/health",
-  observatory_endpoint: "/v1/observatory?schema=v3",
+  observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
-  observatory_websocket_endpoint: "/v1/observatory/ws?schema=v3",
+  observatory_websocket_endpoint: "/v1/observatory/ws",
   signed_command_endpoint: "/v1/control",
   observatory_docs_endpoint: "/v1/observatory/docs/"
 });
+// v3 is the canonical feed: it is the only version that carries polis_identity,
+// and the Observatory must not present an endpoint-derived label as canonical
+// Runtime identity. Earlier versions are therefore rejected rather than
+// tolerated. runtime-v3.config.json pins ?schema=v3 to match; the two must
+// change together. An unreadable frame is reported (see
+// reportUnsupportedObservatorySchema) rather than dropped silently.
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3";
+const RUNTIME_V3_OBSERVATORY_SCHEMAS = Object.freeze([
+  "adl.runtime_v3.observatory_feed.v3"
+]);
+
+function isRuntimeV3ObservatoryFeedSchema(schema) {
+  return RUNTIME_V3_OBSERVATORY_SCHEMAS.includes(String(schema || ""));
+}
+
+// Canonical projection of Runtime-published Polis identity.
+// Deliberately free of any browser-derived input: no window.location, no
+// URLSearchParams, no host sniffing. Every value is feed-owned or the identity
+// is rejected outright, so a connection label can never masquerade as identity.
+function projectPolisIdentity(identity) {
+  const invalid = (why) => {
+    throw new Error(`invalid Polis identity: ${why}`);
+  };
+  if (!identity || typeof identity !== "object") invalid("missing identity object");
+
+  const exact = (key) => {
+    const value = identity[key];
+    if (typeof value !== "string" || value.length === 0) invalid(`${key} must be a non-empty string`);
+    if (value !== value.trim()) invalid(`${key} must not carry surrounding whitespace`);
+    return value;
+  };
+
+  const polisId = exact("polis_id");
+  const displayName = exact("display_name");
+  const publicDomain = exact("public_domain");
+  const runtimeApiBase = exact("runtime_api_base");
+  const observatoryPublicOrigin = exact("observatory_public_origin");
+
+  const httpsHost = (value, key) => {
+    let parsed;
+    try {
+      parsed = new URL(value);
+    } catch (_error) {
+      return invalid(`${key} must be an absolute URL`);
+    }
+    if (parsed.protocol !== "https:") invalid(`${key} must use https`);
+    return parsed.hostname;
+  };
+
+  // The declared public domain must actually be the host the runtime is served
+  // from, otherwise the identity is internally inconsistent.
+  const apiHost = httpsHost(runtimeApiBase, "runtime_api_base");
+  httpsHost(observatoryPublicOrigin, "observatory_public_origin");
+  if (apiHost !== publicDomain) {
+    invalid("public_domain must match the runtime_api_base host");
+  }
+
+  return { polisId, displayName, publicDomain, runtimeApiBase, observatoryPublicOrigin };
+}
+
+// Surfaces a feed schema this client cannot read. Deliberately prominent: the
+// failure it describes is indistinguishable from an outage at the UI level, so
+// it names the schema received, what is supported, and the file to change.
+let reportedUnsupportedSchema = null;
+
+function reportUnsupportedObservatorySchema(schema) {
+  const received = String(schema || "(none)");
+  if (reportedUnsupportedSchema === received) return;
+  reportedUnsupportedSchema = received;
+
+  const supported = RUNTIME_V3_OBSERVATORY_SCHEMAS.join(", ");
+  console.error(
+    `[Observatory] Unsupported feed schema "${received}". ` +
+    `This client understands: ${supported}. ` +
+    `The requested schema comes from observatory_websocket_endpoint in runtime-v3.config.json; ` +
+    `either point it at a supported version or add "${received}" to RUNTIME_V3_OBSERVATORY_SCHEMAS in app.js.`
+  );
+
+  if (typeof document === "undefined") return;
+  const banner = document.getElementById("stale-banner");
+  if (!banner) return;
+  banner.hidden = false;
+  banner.dataset.state = "error";
+  setText("stale-banner-title", "Unsupported runtime feed schema");
+  setText(
+    "stale-banner-detail",
+    `The runtime is sending "${received}" but this Observatory reads ${supported}. ` +
+    `Frames are being received and discarded — check observatory_websocket_endpoint in runtime-v3.config.json.`
+  );
+}
+
+function clearUnsupportedObservatorySchema() {
+  reportedUnsupportedSchema = null;
+}
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+// --- Operator write token: in-memory only ---------------------------------
+// Issue #679 acceptance requires that no credential reaches local persistence.
+// The Observatory write token therefore lives in this module-scoped variable
+// for the lifetime of the page only. It is never written to sessionStorage,
+// localStorage, IndexedDB, cookies, or the URL, and it is deliberately absent
+// from globalThis.AdlHtmlObservatory so tests cannot read it back out.
+//
+// The session contract, and its intentional consequences:
+//   - the token exists only while this page instance is open;
+//   - a reload, a new tab, or navigating away requires logging in again;
+//   - closing the tab destroys it, so no logout or cleanup step is required;
+//   - it is held in memory solely to re-authenticate the WebSocket after an
+//     automatic reconnect, which happens without operator interaction.
+// Operator logout clears it and closes the socket.
+let runtimeV3ObservatoryWriteToken = "";
+let runtimeV3ObservatoryWriteTokenOrigin = "";
+
+function getRuntimeV3ObservatoryWriteToken(apiBase) {
+  if (!runtimeV3ObservatoryWriteToken || !runtimeV3ObservatoryWriteTokenOrigin) return "";
+  try {
+    return normalizeTrustedRuntimeV3ApiBase(apiBase) === runtimeV3ObservatoryWriteTokenOrigin
+      ? runtimeV3ObservatoryWriteToken
+      : "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function setRuntimeV3ObservatoryWriteToken(token, apiBase) {
+  const normalizedToken = typeof token === "string" ? token : "";
+  runtimeV3ObservatoryWriteToken = normalizedToken;
+  runtimeV3ObservatoryWriteTokenOrigin = normalizedToken
+    ? normalizeTrustedRuntimeV3ApiBase(apiBase)
+    : "";
+}
+
+function clearRuntimeV3ObservatoryWriteToken() {
+  runtimeV3ObservatoryWriteToken = "";
+  runtimeV3ObservatoryWriteTokenOrigin = "";
+}
 const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA = "adl.runtime_v3.observatory_conversation_history_request.v1";
 const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS = 2048;
 const LARGE_POLIS_LIMITS = Object.freeze({
@@ -132,7 +285,10 @@ function acceptRuntimeRosterSnapshot(snapshot) {
   const revision = Number(snapshot?.status?.agent_population?.revision || 0);
   const eventCursor = snapshot?.status?.agent_population?.event_cursor;
   if (!runtimeInstanceId || !runtimeIncarnationId || !Number.isSafeInteger(revision) || revision < 0) return false;
-  if (revision > 0 && (typeof eventCursor !== "string" || eventCursor.length === 0)) return false;
+  // The runtime may publish a revision without an event cursor. Treat the
+  // cursor as optional and fall back to revision ordering rather than
+  // rejecting the roster outright.
+  const hasCursor = typeof eventCursor === "string" && eventCursor.length > 0;
   if (
     rosterUiState.runtimeInstanceId !== runtimeInstanceId
     || rosterUiState.runtimeIncarnationId !== runtimeIncarnationId
@@ -147,8 +303,13 @@ function acceptRuntimeRosterSnapshot(snapshot) {
     publishRosterCursorState();
     return true;
   }
+  // Ordering fence: revisions must advance strictly.
   if (revision <= rosterUiState.revision) return false;
-  if (eventCursor === rosterUiState.eventCursor) return false;
+  // Replay fence: an authenticated cursor may only be seen once. A higher
+  // revision carrying a cursor already accepted is a replay and must not
+  // advance roster state, even though its revision looks newer. Absent
+  // cursors fall back to revision ordering alone rather than freezing.
+  if (hasCursor && eventCursor === rosterUiState.eventCursor) return false;
   if (revision !== rosterUiState.revision + 1) {
     rosterUiState.lastResyncReason = "revision_gap";
     rosterUiState.resyncCount += 1;
@@ -171,34 +332,10 @@ function normalizeRuntimeV3Endpoint(value, fallback) {
   return endpoint.startsWith("/") && !endpoint.startsWith("//") ? endpoint : fallback;
 }
 
-function hostFromApiBase(value) {
-  try {
-    return new URL(normalizeApiBase(value)).hostname.toLowerCase();
-  } catch (_error) {
-    return "";
-  }
-}
-
-function normalizeRuntimeV3TrustedHosts(value, fallback = RUNTIME_V3_DEFAULT_CONFIG.trusted_hosts) {
-  const rawHosts = Array.isArray(value) ? value : [];
-  const hosts = rawHosts
-    .map((host) => String(host || "").trim().toLowerCase())
-    .filter((host) => /^[a-z0-9][a-z0-9.-]*[a-z0-9]$/.test(host));
-  const unique = [...new Set(hosts)];
-  return unique.length > 0 ? unique : [...fallback];
-}
-
 function applyRuntimeV3Config(config = {}) {
-  const configuredApiBase = config.api_base || config.default_api_base;
-  const configuredHost = hostFromApiBase(configuredApiBase);
-  const trustedHosts = normalizeRuntimeV3TrustedHosts(
-    config.trusted_hosts || config.trusted_runtime_hosts,
-    configuredHost ? [configuredHost] : RUNTIME_V3_DEFAULT_CONFIG.trusted_hosts
-  );
-  const apiBase = normalizeRuntimeV3ConfigApiBase(configuredApiBase, trustedHosts);
+  const apiBase = normalizeRuntimeV3ConfigApiBase(config.api_base || config.default_api_base);
   runtimeV3Config = {
     api_base: apiBase || RUNTIME_V3_DEFAULT_CONFIG.api_base,
-    trusted_hosts: trustedHosts,
     health_endpoint: normalizeRuntimeV3Endpoint(
       config.health_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.health_endpoint
@@ -227,9 +364,9 @@ function applyRuntimeV3Config(config = {}) {
   return runtimeV3Config;
 }
 
-function normalizeRuntimeV3ConfigApiBase(value, trustedHosts = getRuntimeV3Config().trusted_hosts) {
+function normalizeRuntimeV3ConfigApiBase(value) {
   try {
-    return value ? normalizeTrustedRuntimeV3ApiBase(value, trustedHosts) : "";
+    return value ? normalizeTrustedRuntimeV3ApiBase(value) : "";
   } catch (_error) {
     return "";
   }
@@ -344,16 +481,6 @@ function buildIntegrationViewModel({
   const cloudwatch = cloudwatchSummary.cloudwatch || {};
   const heartbeat = cloudwatchSummary.heartbeat || {};
   const redaction = cloudwatchSummary.redaction || {};
-  const acipProjection = acipSnsSummary.acip_projection || {};
-  const acipSns = acipSnsSummary.sns || {};
-  const snsResource = snsResourceSummary.sns || {};
-  const acipRedaction = acipSnsSummary.redaction || {};
-  const acipRetainsFullAccountSha = Boolean(acipSnsSummary.aws_account_sha256 || snsResourceSummary.aws_account_sha256);
-  const acipRedactionSafe =
-    acipRedaction.credentials_recorded === false &&
-    acipRedaction.raw_message_content_recorded === false &&
-    !acipRetainsFullAccountSha;
-
   return {
     serviceManifest,
     apiText,
@@ -402,26 +529,6 @@ function buildIntegrationViewModel({
         detail: redaction.raw_account_id_recorded === false ? "No raw account id or credentials recorded in retained summary." : "Retained summary needs redaction review.",
         state: redaction.credentials_recorded === false && redaction.raw_account_id_recorded === false ? "passed" : "blocked"
       }
-    ],
-    acipRows: [
-      {
-        label: "ACIP projection",
-        value: acipSnsSummary.status || "unknown",
-        detail: `${acipProjection.signal_kind || "signal unknown"} / ${acipProjection.route_class || "route unknown"}; retained proof passed redaction hygiene.`,
-        state: acipSnsSummary.status === "passed" && !acipRetainsFullAccountSha ? "passed" : "blocked"
-      },
-      {
-        label: "SNS topic",
-        value: acipSns.topic_name || snsResource.topic_name || "unknown topic",
-        detail: acipSns.message_id ? `Retained SNS message ${acipSns.message_id}.` : "No retained SNS message id loaded.",
-        state: acipSns.message_id ? "passed" : "open"
-      },
-      {
-        label: "Redaction",
-        value: acipRedactionSafe ? "operations safe" : "needs review",
-        detail: acipRedactionSafe ? "No raw credentials, account id, topic ARN, private ACIP content, or full account SHA retained." : "Retained proof needs redaction review before operations-safe claim.",
-        state: acipRedactionSafe ? "passed" : "blocked"
-      }
     ]
   };
 }
@@ -437,13 +544,6 @@ function setState(id, value) {
   const target = document.getElementById(id);
   if (target) {
     target.dataset.state = stateTone(value);
-  }
-}
-
-function setHref(id, value) {
-  const target = document.getElementById(id);
-  if (target) {
-    target.href = value;
   }
 }
 
@@ -773,7 +873,9 @@ function renderLayer8DeliveryPanel(responses = []) {
     root.append(panel);
   }
   const rows = layer8DeliveryRows(responses);
-  setText("layer8-delivery-count", `${rows.length} states`);
+  // Keep the prime dashboard slot clean until there is real acknowledgement traffic.
+  panel.hidden = rows.length === 0;
+  setText("layer8-delivery-count", `${rows.length} state${rows.length === 1 ? "" : "s"}`);
   renderRows("layer8-delivery-list", rows.map((row) => `
     <li class="layer8-delivery-row" data-state="${escapeHtml(row.state)}">
       <span class="mini-badge" data-tone="${escapeHtml(row.state === "delivered" ? "ok" : row.state === "recovery" ? "warn" : "blocked")}">${escapeHtml(row.label)}</span>
@@ -1054,6 +1156,24 @@ const DASHBOARD_FOCUS = {
     detail: "Agent roster, scheduler, telemetry, event stream, and checkpoint lanes are mirrored in the panopticon map.",
     facts: ["Role-specific topology icons", "Agent roster summary", "Health and signal lanes"]
   },
+  modules: {
+    kicker: "Runtime subsystems",
+    title: "Module health",
+    status: "live",
+    target: "#component-health",
+    focusTarget: "#component-grid",
+    detail: "Every runtime subsystem reporting its current lifecycle state from the live Observatory feed.",
+    facts: ["Per-module lifecycle state", "Live from health.snapshot.components", "Colour-coded by state"]
+  },
+  "runtime-events": {
+    kicker: "Runtime events",
+    title: "Runtime event stream",
+    status: "live",
+    target: "#runtime-events",
+    focusTarget: "#trace-list",
+    detail: "Ordered runtime event log since process start, newest last. Repeated heartbeats are collapsed into a single counted row.",
+    facts: ["Component lifecycle transitions", "Monotonic uptime and sequence", "Collapsed repeat counts"]
+  },
   "csm-api": {
     kicker: "CSM API",
     title: "Local control plane",
@@ -1091,30 +1211,30 @@ const DASHBOARD_FOCUS = {
     facts: ["Freedom gate decisions", "Runtime invariants", "Proposal-only actions"]
   },
   evidence: {
-    kicker: "Evidence",
-    title: "Proof packet",
-    status: "linked",
+    kicker: "Retained proof",
+    title: "Operator report",
+    status: "retained",
     target: "#evidence",
-    focusTarget: "#packet-link",
-    detail: "Packet, operator report, CSM API proof, metrics mirror, and CloudWatch artifacts remain source-linked.",
-    facts: ["Visibility packet", "Operator report", "CSM/AWS proof refs"]
+    focusTarget: "#report-body",
+    detail: "Retained operator report from the runtime artifact root, reachable from the Logs surface.",
+    facts: ["Retained, not live", "Same artifact root as the proof packet", "Keyboard reachable"]
+  },
+  logs: {
+    kicker: "Runtime observability",
+    title: "Logs",
+    status: "live",
+    target: "#logs",
+    focusTarget: "#logs-filter",
+    detail: "Durable runtime log lines from the observability pipeline, newest last.",
+    facts: ["Level and component per line", "Text filter across the tail", "Follows new lines while open"]
   }
 };
 
 function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
   const root = document.querySelector(".observatory");
-  if (root) root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime";
-  setText("dashboard-focus-kicker", selected.kicker);
-  setText("dashboard-focus-title", selected.title);
-  setText("dashboard-focus-status", selected.status);
-  setState("dashboard-focus-status", selected.status);
-  setText("dashboard-focus-detail", extraDetail || selected.detail);
-  setHref("dashboard-focus-link", selected.focusTarget);
-  setText("dashboard-focus-link", `View ${selected.title}`);
-  renderRows("dashboard-focus-list", asArray(selected.facts).map((fact) => `
-    <span class="dashboard-focus-item">${escapeHtml(fact)}</span>
-  `));
+  // The surface key drives which section the nav rail reveals (see styles.css).
+  if (root) root.dataset.dashboardSurface = DASHBOARD_FOCUS[key] ? key : "runtime";
   document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
     const isActive = link.dataset.dashboardLink === key;
     if (isActive) {
@@ -1126,6 +1246,8 @@ function updateDashboardFocus(key = "runtime", extraDetail = "") {
 }
 
 function bindDashboardNavigation(packet = FALLBACK_PACKET) {
+  const keyFromHash = () => Object.entries(DASHBOARD_FOCUS)
+    .find(([, value]) => value.target === globalThis.location?.hash)?.[0] || "runtime";
   document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
@@ -1133,9 +1255,10 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       updateDashboardFocus(key);
       const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
       globalThis.history?.replaceState(null, "", selected.target);
-      const focusTarget = key === "agents"
-        ? document.getElementById("panopticon")
-        : document.getElementById("dashboard-focus-panel");
+      // Move focus to the revealed surface so keyboard and screen-reader users
+      // land in the new content rather than staying on the rail. Each surface's
+      // anchor is already declared as DASHBOARD_FOCUS[key].target.
+      const focusTarget = document.querySelector(selected.target || "#runtime-proof");
       focusTarget?.setAttribute("tabindex", "-1");
       focusTarget?.focus({ preventScroll: true });
       if (key === "communication") {
@@ -1144,41 +1267,8 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
     });
   });
 
-  document.getElementById("dashboard-focus-link")?.addEventListener("click", (event) => {
-    event.preventDefault();
-    const target = document.querySelector(document.getElementById("dashboard-focus-link")?.getAttribute("href") || "#hero-ready-state");
-    if (target) {
-      target.setAttribute("tabindex", "-1");
-      target.focus();
-    }
-  });
-
-  document.getElementById("export-proof")?.addEventListener("click", () => {
-    const manifest = {
-      schema: "adl.html_observatory.export_manifest.v1",
-      version: OBSERVATORY_VERSION,
-      packet_id: displayPacketId(packet.packet_id || ""),
-      exported_at: new Date().toISOString(),
-      runtime_mode: document.getElementById("statusbar-mode")?.textContent || "unknown",
-      runtime_status: document.getElementById("dashboard-live-test-status")?.textContent || "unknown",
-      csm_api_base: document.getElementById("dashboard-live-api-base")?.value || "",
-      cloudwatch_status: document.getElementById("cloudwatch-status")?.textContent || "unknown",
-      communication_status: document.getElementById("communication-status")?.textContent || "unknown",
-      mutation_claimed: false
-    };
-    const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "adl-html-observatory-proof-manifest.json";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    globalThis.setTimeout(() => URL.revokeObjectURL(url), 1000);
-    updateDashboardFocus("evidence", "Export prepared a local proof manifest from the visible dashboard state.");
-  });
-
-  updateDashboardFocus("runtime");
+  globalThis.addEventListener?.("hashchange", () => updateDashboardFocus(keyFromHash()));
+  updateDashboardFocus(keyFromHash());
 }
 
 function normalizeApiBase(value) {
@@ -1189,8 +1279,11 @@ function displayManifoldId(_value) {
   return OBSERVATORY_MANIFOLD_LABEL;
 }
 
-function displayPacketId(_value) {
-  return OBSERVATORY_PACKET_LABEL;
+// Was returning a fixed string regardless of input, so the Inspector reported
+// the same packet id for every source. Show the real id when there is one.
+function displayPacketId(value) {
+  const text = String(value ?? "").trim();
+  return text || OBSERVATORY_PACKET_LABEL;
 }
 
 function displayClaimBoundary(source = {}) {
@@ -1253,12 +1346,12 @@ function isRuntimeV3ApiBase(value) {
   }
 }
 
-function normalizeTrustedRuntimeV3ApiBase(value, trustedHosts = getRuntimeV3Config().trusted_hosts) {
+function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
   const observatoryHost = String(globalThis.location?.hostname || "").toLowerCase();
-  const allowedHosts = normalizeRuntimeV3TrustedHosts(trustedHosts);
-  const allowedHost = allowedHosts.includes(parsed.hostname.toLowerCase())
+  const allowedHost = parsed.hostname === RUNTIME_V3_TRUSTED_HOST
+    || parsed.hostname.endsWith(`.${RUNTIME_V3_TRUSTED_DOMAIN}`)
     || (observatoryHost && parsed.hostname === observatoryHost);
   if (
     parsed.protocol !== "https:" ||
@@ -1269,7 +1362,7 @@ function normalizeTrustedRuntimeV3ApiBase(value, trustedHosts = getRuntimeV3Conf
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error("Runtime v3 selection requires HTTPS for a configured Runtime host or this Observatory host.");
+    throw new Error("Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host.");
   }
   return parsed.origin;
 }
@@ -1286,7 +1379,7 @@ async function checkEventsEndpoint(apiBase) {
   }
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
-      throw new Error("Runtime v3 event checks require HTTPS for a configured Runtime host.");
+      throw new Error(`Runtime v3 event checks require HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
     return {
@@ -1449,10 +1542,9 @@ async function submitRuntimeV3SignedControlCommand(apiBase, command) {
 }
 
 function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) {
-  if (feed.schema !== RUNTIME_V3_OBSERVATORY_SCHEMA) {
+  if (!isRuntimeV3ObservatoryFeedSchema(feed.schema)) {
     throw new Error(`Unsupported Runtime v3 Observatory schema: ${feed.schema || "missing"}`);
   }
-  const polisIdentity = projectPolisIdentity(feed.polis_identity);
   const snapshot = feed.health?.snapshot || {};
   const weather = feed.weather || {};
   const weatherFreshness = feed.weather_freshness || {};
@@ -1462,7 +1554,6 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
   return {
     mode: "live",
     runtimeSelection: feed.runtime_selection || "runtime_v3_explicit_opt_in",
-    polisIdentity,
     fetchedAt: new Date().toISOString(),
     status: {
       schema: feed.schema,
@@ -1500,6 +1591,10 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
         agent_sample_count: feed.agents?.rendered_sample_count ?? null,
         queue_count: Object.keys(snapshot.queues || {}).length,
         weather_cpu_basis_points: weather.sample?.cpu_basis_points?.value ?? null,
+        weather_cpu_pct: weather.sample?.cpu_basis_points?.value != null ? (weather.sample.cpu_basis_points.value / 100).toFixed(1) : null,
+        weather_mem_avail_gb: weather.sample?.memory_available_bytes?.value != null ? (weather.sample.memory_available_bytes.value / 1e9).toFixed(1) : null,
+        weather_mem_total_gb: weather.sample?.memory_total_bytes?.value != null ? (weather.sample.memory_total_bytes.value / 1e9).toFixed(1) : null,
+        weather_resource_state: weather.resource_state ?? null,
         network_received_bytes: weather.sample?.network_received_bytes?.value ?? null,
         network_transmitted_bytes: weather.sample?.network_transmitted_bytes?.value ?? null,
         weather_age_millis: weatherFreshness.age_millis ?? null,
@@ -1514,44 +1609,16 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
       }
     },
     events: { events },
+    // Canonical, validated projection. A malformed identity throws rather than
+    // being partially displayed.
+    polisIdentity: projectPolisIdentity(feed.polis_identity),
+    // The inspector reads continuity, weather, queues and control posture that
+    // the flattened view model does not carry.
+    rawFeed: feed,
     continuity: feed.continuity,
     proof: feed.proof,
     errors: {}
   };
-}
-
-function projectPolisIdentity(identity) {
-  const safeIdentifier = /^[A-Za-z0-9._:-]{1,128}$/;
-  const safeDomain = /^(?=.{1,253}$)[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/;
-  const text = String(identity?.display_name || "");
-  let runtimeApi;
-  let observatoryOrigin;
-  try {
-    runtimeApi = new URL(String(identity?.runtime_api_base || ""));
-    observatoryOrigin = new URL(String(identity?.observatory_public_origin || ""));
-  } catch (_error) {
-    throw new Error("Runtime Observatory feed has invalid Polis identity URLs");
-  }
-  if (
-    !safeIdentifier.test(String(identity?.polis_id || ""))
-    || !safeDomain.test(String(identity?.public_domain || ""))
-    || !text.trim()
-    || text !== text.trim()
-    || text.length > 128
-    || runtimeApi.protocol !== "https:"
-    || runtimeApi.hostname !== identity.public_domain
-    || observatoryOrigin.protocol !== "https:"
-    || observatoryOrigin.origin !== String(identity.observatory_public_origin)
-  ) {
-    throw new Error("Runtime Observatory feed has invalid Polis identity");
-  }
-  return Object.freeze({
-    polisId: identity.polis_id,
-    displayName: text,
-    publicDomain: identity.public_domain,
-    runtimeApiBase: runtimeApi.toString().replace(/\/$/, ""),
-    observatoryPublicOrigin: observatoryOrigin.origin
-  });
 }
 
 function connectRuntimeV3ObservatoryWebSocket(
@@ -1566,7 +1633,7 @@ function connectRuntimeV3ObservatoryWebSocket(
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
   socket.addEventListener("open", () => {
-    const writeToken = globalThis.sessionStorage?.getItem("adl.runtimeV3.observatoryToken") || "";
+    const writeToken = getRuntimeV3ObservatoryWriteToken(base);
     if (writeToken) {
       authenticateRuntimeV3ObservatorySocket(socket, writeToken);
     }
@@ -1574,7 +1641,7 @@ function connectRuntimeV3ObservatoryWebSocket(
   socket.addEventListener("message", (event) => {
     try {
       const frame = JSON.parse(String(event.data));
-      if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+      if (isRuntimeV3ObservatoryFeedSchema(frame.schema)) {
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
                  frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
@@ -1583,6 +1650,12 @@ function connectRuntimeV3ObservatoryWebSocket(
                  frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
         onControlFrame(frame);
+      } else {
+        // Previously fell through silently. A feed schema the client does not
+        // recognise then looked exactly like an outage: socket open, frames
+        // arriving, dashboard frozen on "connecting" with zeros and nothing
+        // logged. Report it loudly instead.
+        reportUnsupportedObservatorySchema(frame.schema);
       }
     } catch (error) {
       onError(error instanceof Error ? error : new Error("Runtime v3 Observatory frame is invalid."));
@@ -1975,6 +2048,840 @@ function normalizeEventEntries(eventEnvelope = {}) {
   return [];
 }
 
+// Runtime v3 live events arrive as { sequence, monotonic_millis, component, event, correlation_id }.
+// Retained/published events use a different shape, so normalize both into one row model.
+function normalizeObservatoryEventRow(event = {}, index = 0, total = 0) {
+  const isLiveShape = typeof event.event === "string" && event.sequence != null;
+
+  if (isLiveShape) {
+    const raw = String(event.event);
+    const [prefix, ...rest] = raw.split(":");
+    const hasStatePrefix = prefix === "state" && rest.length > 0;
+    const stateValue = hasStatePrefix ? rest.join(":") : "ok";
+    const name = hasStatePrefix ? formatLabel(stateValue) : formatLabel(raw);
+    return {
+      name,
+      source: event.component || "runtime",
+      state: formatLabel(stateValue),
+      tick: String(event.sequence),
+      time: formatMonotonicUptime(event.monotonic_millis),
+      dedupeKey: `${event.component || "runtime"}|${raw}`
+    };
+  }
+
+  const state = formatLabel(event.status || event.result || event.details?.result || "ok");
+  return {
+    name: formatLabel(event.signal_kind || event.event_type || event.status || "event"),
+    source: event.agent_id || event.agent_instance_id || event.runtime_id || "csm",
+    state,
+    tick: String(event.manifold_tick || event.tick || event.sequence || event.event_sequence || index + 1),
+    time: event.timestamp
+      ? new Date(event.timestamp).toLocaleTimeString([], { hour12: false })
+      : `T-${String(total - index).padStart(2, "0")}`,
+    dedupeKey: null
+  };
+}
+
+// Runtime uptime in millis since process start -> compact HH:MM:SS (with day prefix past 24h).
+function formatMonotonicUptime(millis) {
+  const value = Number(millis);
+  if (!Number.isFinite(value)) return "--:--:--";
+  const totalSeconds = Math.floor(value / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const clock = [hours, minutes, seconds].map((n) => String(n).padStart(2, "0")).join(":");
+  return days > 0 ? `${days}d ${clock}` : clock;
+}
+
+// Collapse runs of identical consecutive events (e.g. clock heartbeats) so the
+// stream shows real variety instead of the same row repeated.
+function collapseRepeatedEventRows(rows = []) {
+  const collapsed = [];
+  rows.forEach((row) => {
+    const previous = collapsed[collapsed.length - 1];
+    if (previous && row.dedupeKey && previous.dedupeKey === row.dedupeKey) {
+      previous.repeatCount = (previous.repeatCount || 1) + 1;
+      previous.tick = row.tick;
+      previous.time = row.time;
+      return;
+    }
+    collapsed.push({ ...row });
+  });
+  return collapsed;
+}
+
+// --- Runtime log surface -------------------------------------------------
+// The public Logs surface is derived only from the selected polis's bounded
+// Observatory event projection. Durable Runtime master logs remain private
+// operator artifacts and are never fetched by this static client.
+const RUNTIME_LOG_MAX_LINES = 500;
+let runtimeLogEntries = [];
+
+function runtimeLogTone(level = "") {
+  const value = String(level).toLowerCase();
+  if (value.startsWith("err") || value === "fatal" || value === "critical") return "failed";
+  if (value.startsWith("warn")) return "degraded";
+  if (value === "debug" || value === "trace") return "quiet";
+  return "active";
+}
+
+function renderRuntimeLogs() {
+  const filterValue = (document.getElementById("logs-filter")?.value || "").trim().toLowerCase();
+  const rows = filterValue
+    ? runtimeLogEntries.filter((entry) =>
+        `${entry.level} ${entry.source} ${entry.message}`.toLowerCase().includes(filterValue))
+    : runtimeLogEntries;
+
+  setText("logs-count", `${rows.length.toLocaleString()} line${rows.length === 1 ? "" : "s"}`);
+
+  if (!runtimeLogEntries.length) {
+    renderRows("logs-list", [`
+      <li class="logs-empty">
+        <strong>No publishable events yet.</strong>
+        <p class="row-detail">Waiting for the selected polis's bounded Observatory event feed.
+        Durable operator logs are intentionally not exposed by this public client.</p>
+      </li>
+    `]);
+    return;
+  }
+
+  if (!rows.length) {
+    renderRows("logs-list", [`<li class="logs-empty"><strong>No lines match this filter.</strong></li>`]);
+    return;
+  }
+
+  renderRows("logs-list", rows.map((entry) => {
+    const tone = runtimeLogTone(entry.level);
+    const stamp = entry.time
+      ? new Date(entry.time).toLocaleTimeString([], { hour12: false })
+      : String(entry.seq);
+    const timeLabel = stamp === "Invalid Date" ? String(entry.seq) : stamp;
+    return `
+    <li class="logs-row" data-state="${escapeHtml(tone)}">
+      <span class="logs-time">${escapeHtml(timeLabel)}</span>
+      <span class="logs-level" data-state="${escapeHtml(tone)}">${escapeHtml(entry.level.toUpperCase())}</span>
+      <span class="logs-source">${escapeHtml(entry.source)}</span>
+      <span class="logs-message">${escapeHtml(entry.message)}</span>
+    </li>`;
+  }));
+
+  if (document.getElementById("logs-follow")?.checked) {
+    const list = document.getElementById("logs-list");
+    if (list) list.scrollTop = list.scrollHeight;
+  }
+}
+
+function bindRuntimeLogs() {
+  if (typeof document === "undefined") return;
+  document.getElementById("logs-filter")?.addEventListener("input", renderRuntimeLogs);
+  renderRuntimeLogs();
+}
+
+// Relabel the active polis entry from a runtime-published identity, if any.
+// Falls back silently when the feed carries no polis_identity block.
+function applyPolisIdentityLabel(identity) {
+  if (!identity || typeof document === "undefined") return;
+  const name = identity.display_name || identity.polis_id;
+  if (!name) return;
+  const select = document.getElementById("polis-select");
+  if (!select) return;
+  const option = select.selectedOptions?.[0];
+  if (!option || option.textContent === name) return;
+  option.textContent = name;
+  try {
+    const registry = JSON.parse(globalThis.sessionStorage?.getItem(POLIS_REGISTRY_KEY) || "[]");
+    const entry = registry.find((item) => item.url === option.value);
+    if (entry && entry.label !== name) {
+      entry.label = name;
+      globalThis.sessionStorage?.setItem(POLIS_REGISTRY_KEY, JSON.stringify(registry));
+    }
+  } catch (_error) {
+    // Registry persistence is a convenience; a failure must not break render.
+  }
+}
+
+// --- Inspector ------------------------------------------------------------
+// Replaces a panel that duplicated the stat cards and the rail and reported a
+// retained "Owner Agent" that does not exist. Three live views instead:
+// integrity evidence, the selected agent, and a running activity narrative.
+let inspectorSelectedAgentId = null;
+let inspectorActivity = [];
+let lastInspectorSnapshot = null;
+
+function shortHash(value, keep = 10) {
+  const text = String(value ?? "");
+  return text.length > keep ? `${text.slice(0, keep)}…` : (text || "—");
+}
+
+function formatBytes(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "—";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let i = 0, v = n;
+  while (v >= 1024 && i < units.length - 1) { v /= 1024; i += 1; }
+  return `${v.toFixed(v >= 100 || i === 0 ? 0 : 1)} ${units[i]}`;
+}
+
+function inspectorFact(label, value, detail, tone = "") {
+  return `
+    <div class="insp-fact"${tone ? ` data-tone="${escapeHtml(tone)}"` : ""}>
+      <dt>${escapeHtml(label)}</dt>
+      <dd>${escapeHtml(String(value))}</dd>
+      ${detail ? `<p class="insp-detail">${escapeHtml(String(detail))}</p>` : ""}
+    </div>`;
+}
+
+function renderInspectorIntegrity(snapshot = lastInspectorSnapshot) {
+  if (!snapshot || typeof document === "undefined") return;
+  const feed = snapshot.__feed || {};
+  const snap = feed.health?.snapshot || {};
+  const checkpoint = feed.continuity?.checkpoint || {};
+  const weather = feed.weather || {};
+  const fresh = feed.weather_freshness || {};
+  const control = feed.control || {};
+  const queues = snap.queues || {};
+  const queueRows = Object.entries(queues);
+  const unavailable = asArray(snap.unavailable_capabilities);
+  const restarts = Object.entries(snap.restart_counts || {});
+
+  const sections = [];
+
+  sections.push(`<section class="insp-group"><h4>Continuity</h4><dl class="insp-facts">
+    ${inspectorFact("Generation", checkpoint.generation ?? "—", "Checkpoint lineage")}
+    ${inspectorFact("Accepted through", Number(checkpoint.accepted_through ?? 0).toLocaleString(), "Committed log index")}
+    ${inspectorFact("Integrity", shortHash(checkpoint.integrity), "Checkpoint digest")}
+    ${inspectorFact("Topology", shortHash(checkpoint.topology_hash), "Topology digest")}
+  </dl></section>`);
+
+  const clock = snap.clock || {};
+  const clockOk = String(clock.status) === "authoritative";
+  sections.push(`<section class="insp-group"><h4>Trusted time</h4><dl class="insp-facts">
+    ${inspectorFact("Authority", formatLabel(clock.status || "unknown"), clock.source || "no source reported", clockOk ? "ok" : "warn")}
+  </dl></section>`);
+
+  const stale = fresh.stale === true;
+  sections.push(`<section class="insp-group"><h4>Resource weather</h4><dl class="insp-facts">
+    ${inspectorFact("State", formatLabel(weather.resource_state || "unknown"), `Shutdown decision: ${formatLabel(weather.shutdown_decision || "unknown")}`,
+      String(weather.resource_state) === "healthy" ? "ok" : "warn")}
+    ${inspectorFact("Sample age", `${Number(fresh.age_millis ?? 0).toLocaleString()} ms`,
+      `Stale after ${Number(fresh.stale_after_millis ?? 0).toLocaleString()} ms`, stale ? "warn" : "ok")}
+    ${inspectorFact("Network", `${formatBytes(weather.sample?.network_received_bytes?.value)} in`,
+      `${formatBytes(weather.sample?.network_transmitted_bytes?.value)} out`)}
+  </dl></section>`);
+
+  if (queueRows.length) {
+    sections.push(`<section class="insp-group"><h4>Queues</h4><dl class="insp-facts">
+      ${queueRows.map(([name, q]) => inspectorFact(
+        formatLabel(name),
+        `${Number(q.depth ?? 0)} / ${Number(q.capacity ?? 0)}`,
+        `high-water ${Number(q.high_water ?? 0)} · rejected ${Number(q.rejected ?? 0)}`,
+        Number(q.rejected ?? 0) > 0 ? "warn" : "ok"
+      )).join("")}
+    </dl></section>`);
+  }
+
+  sections.push(`<section class="insp-group"><h4>Governance posture</h4><dl class="insp-facts">
+    ${inspectorFact("Mutations", control.signed_commands_required_for_mutation ? "Signed commands required" : "Unsigned permitted",
+      control.login_required_for_mutation ? "Operator login also required" : "No login required",
+      control.signed_commands_required_for_mutation ? "ok" : "warn")}
+    ${inspectorFact("Browser authority", "None", "The Observatory cannot mutate runtime state", "ok")}
+  </dl></section>`);
+
+  sections.push(`<section class="insp-group"><h4>Degradation</h4><dl class="insp-facts">
+    ${inspectorFact("Unavailable capabilities", unavailable.length ? unavailable.length : "None",
+      unavailable.length ? unavailable.join(", ") : "All capabilities reporting", unavailable.length ? "warn" : "ok")}
+    ${inspectorFact("Component restarts", restarts.length ? restarts.length : "None",
+      restarts.length ? restarts.map(([k, v]) => `${k}×${v}`).join(", ") : "No component has restarted", restarts.length ? "warn" : "ok")}
+  </dl></section>`);
+
+  renderRows("inspector-integrity", sections);
+}
+
+function renderInspectorAgent() {
+  if (typeof document === "undefined") return;
+  const agents = lastAgentPopulation;
+  const agent = agents.find((a) => a.id === inspectorSelectedAgentId) || null;
+  if (!agent) {
+    renderRows("inspector-agent", [`
+      <div class="insp-empty">
+        <strong>No agent selected.</strong>
+        <p class="insp-detail">Choose an agent on the Agents surface, or pick one below.</p>
+        ${agents.length ? `<div class="insp-agent-picks">${agents.map((a) => `
+          <button class="button button-secondary insp-agent-pick" type="button" data-agent-id="${escapeHtml(a.id)}">${escapeHtml(a.label || a.id)}</button>`).join("")}</div>` : ""}
+      </div>`]);
+    return;
+  }
+  const fresh = agentFreshness(agent);
+  const admission = agentAdmissionLabel(agent.provenance);
+  const caps = asArray(agent.capabilities);
+  renderRows("inspector-agent", [`
+    <section class="insp-group">
+      <h4>${escapeHtml(agent.label || agent.id)}</h4>
+      <dl class="insp-facts">
+        ${inspectorFact("Identifier", agent.id, agent.role || "role not reported")}
+        ${inspectorFact("Backing model", agent.model || "not reported",
+          agent.provider ? `Served by ${formatLabel(agent.provider)}` : "No provider reported",
+          agent.model ? "ok" : "quiet")}
+        ${inspectorFact("State", formatLabel(agent.state || "unknown"), `Health ${formatLabel(agent.health || "unknown")} · ${formatLabel(agent.availability || "unknown")}`,
+          stateTone(agent.state || "unknown") === "active" ? "ok" : "warn")}
+        ${inspectorFact("Last snapshotted", agentSnapshotStamp(agent), fresh.detail, fresh.tone === "active" ? "ok" : "warn")}
+        ${inspectorFact("Admission", admission.label, admission.detail)}
+        ${inspectorFact("Layer 8", agent.communication_eligible ? "Reachable" : "Not reachable",
+          caps.length ? `Capabilities: ${caps.join(", ")}` : "No capabilities declared",
+          agent.communication_eligible ? "ok" : "warn")}
+      </dl>
+      <button class="button button-primary insp-agent-message" type="button" data-agent-id="${escapeHtml(agent.id)}"
+        ${agent.communication_eligible ? "" : "disabled"}>Message ${escapeHtml(agent.label || agent.id)}</button>
+    </section>`]);
+}
+
+// `at` is the moment the Observatory OBSERVED the entry, not a runtime
+// timestamp. Entries replayed from feed history on first load pass at: null so
+// they render as "earlier" rather than claiming to have just happened.
+function pushInspectorActivity(entry) {
+  const at = Object.prototype.hasOwnProperty.call(entry, "at") ? entry.at : Date.now();
+  inspectorActivity.push({ ...entry, at });
+  if (inspectorActivity.length > 60) inspectorActivity = inspectorActivity.slice(-60);
+}
+
+function renderInspectorActivity() {
+  if (typeof document === "undefined") return;
+  if (!inspectorActivity.length) {
+    renderRows("inspector-activity", [`
+      <div class="insp-empty"><strong>No activity yet.</strong>
+      <p class="insp-detail">Agent admissions, state changes and conversation turns appear here as they happen.</p></div>`]);
+    return;
+  }
+  renderRows("inspector-activity", [...inspectorActivity].reverse().map((item) => {
+    const time = item.at === null
+      ? "earlier"
+      : new Date(item.at).toLocaleTimeString([], { hour12: false });
+    // Agent-to-agent turns are the thing worth spotting in a mixed feed, so
+    // they carry a badge; operator turns and roster changes do not.
+    const badge = item.kind === "a2a"
+      ? `<span class="insp-activity-badge">A2A</span>`
+      : "";
+    return `
+    <article class="insp-activity" data-tone="${escapeHtml(item.tone || "info")}" data-kind="${escapeHtml(item.kind || "info")}">
+      <span class="insp-activity-time">${escapeHtml(time)}</span>
+      <span class="insp-activity-text">${badge}<strong>${escapeHtml(item.title)}</strong>${item.detail ? ` — ${escapeHtml(item.detail)}` : ""}</span>
+    </article>`;
+  }));
+}
+
+// Derive activity by diffing successive live snapshots.
+let previousAgentIds = null;
+let previousLifecycle = null;
+function deriveInspectorActivity(snapshot) {
+  const agents = asArray(snapshot.status?.agent_population?.sample);
+  const ids = agents.map((a) => a.id).sort().join(",");
+  if (previousAgentIds !== null && ids !== previousAgentIds) {
+    const before = new Set(previousAgentIds.split(",").filter(Boolean));
+    const after = new Set(ids.split(",").filter(Boolean));
+    after.forEach((id) => { if (!before.has(id)) {
+      const a = agents.find((x) => x.id === id);
+      pushInspectorActivity({ title: `${a?.label || id} joined the polis`, detail: a?.role || "", tone: "ok" });
+    }});
+    before.forEach((id) => { if (!after.has(id)) pushInspectorActivity({ title: `${id} left the polis`, tone: "warn" }); });
+  }
+  previousAgentIds = ids;
+
+  const lifecycle = snapshot.metrics?.states?.lifecycle || snapshot.status?.status;
+  if (lifecycle && previousLifecycle && lifecycle !== previousLifecycle) {
+    pushInspectorActivity({ title: `Runtime lifecycle ${formatLabel(lifecycle)}`, detail: `was ${formatLabel(previousLifecycle)}`, tone: "warn" });
+  }
+  previousLifecycle = lifecycle || previousLifecycle;
+  deriveConversationActivity(snapshot);
+}
+
+// Conversation traffic. ingress.completed is keyed by work id, so new keys are
+// new turns. Written to be agnostic about who initiated: an operator turn and
+// an agent-to-agent turn both land here, and the sender is inferred from
+// whatever the payload provides rather than assumed to be the operator.
+let seenConversationWorkIds = null;
+const CONVERSATION_HISTORY_SEED = 5;
+
+// Object key order is insertion order, not chronological. Every completed item
+// carries accepted_sequence, so order by that to keep turns readable.
+function conversationTurnsInOrder(completed) {
+  return Object.entries(completed)
+    .map(([workId, entry]) => ({ workId, entry }))
+    .sort((a, b) => (a.entry?.accepted_sequence ?? 0) - (b.entry?.accepted_sequence ?? 0));
+}
+
+// Agent-to-agent traffic is attributed by two runtime-owned markers, both
+// confirmed against the live wuji feed — NOT by a sender_id, which the runtime
+// does not stamp on any leg:
+//   * the initiation leg carries public_output.agent_to_agent_initiation
+//     (schema adl.runtime.agent_to_agent_initiation_request.v1) naming the
+//     destination and the message the initiator actually sent;
+//   * the reply leg is a separate work item whose id is prefixed a2a-work-.
+// Anything without either marker is reported as a plain reply. The classifier
+// never guesses A2A from message content.
+const A2A_WORK_ID_PREFIX = "a2a-work-";
+const A2A_INITIATION_SCHEMA = "adl.runtime.agent_to_agent_initiation_request.v1";
+
+function agentToAgentInitiation(entry) {
+  const initiation = entry?.public_output?.agent_to_agent_initiation;
+  if (!initiation || typeof initiation !== "object") return null;
+  if (initiation.schema !== A2A_INITIATION_SCHEMA) return null;
+  return initiation;
+}
+
+function describeConversationTurn({ workId, entry }, population = lastAgentPopulation) {
+  const roster = asArray(population);
+  const output = entry?.public_output || {};
+  // On both legs recipient_id names the agent the work belongs to, not the
+  // destination — the destination lives in the initiation payload.
+  const worker = output.recipient_id || entry?.recipient_id || "";
+  const label = (id) => roster.find((a) => a.id === id)?.label || id || "unknown";
+  const trim = (value) => {
+    const text = String(value || "").replace(/\s+/g, " ").trim();
+    return text.length > 110 ? `${text.slice(0, 110)}\u2026` : text;
+  };
+
+  const initiation = agentToAgentInitiation(entry);
+  if (initiation) {
+    return {
+      kind: "a2a",
+      title: `${label(worker)} \u2192 ${label(initiation.recipient_id)}`,
+      // Show what was actually said, not the "Requested governed contact" wrapper.
+      detail: trim(initiation.message),
+      tone: "ok"
+    };
+  }
+
+  if (String(workId || "").startsWith(A2A_WORK_ID_PREFIX)) {
+    // The counterpart is not named on this leg, so it is not asserted here.
+    return {
+      kind: "a2a",
+      title: `${label(worker)} replied`,
+      detail: trim(output.message),
+      tone: "ok"
+    };
+  }
+
+  return {
+    kind: "conversation",
+    title: `${label(worker)} replied`,
+    detail: trim(output.message),
+    tone: "ok"
+  };
+}
+
+function deriveConversationActivity(snapshot) {
+  const completed = snapshot.rawFeed?.ingress?.completed;
+  if (!completed || typeof completed !== "object") return;
+  const turns = conversationTurnsInOrder(completed);
+
+  // First snapshot: replay the recent tail as history rather than dropping it.
+  // Opening the Observatory after the polis has been talking should not show an
+  // empty Activity feed — but these were not observed live, so they are stamped
+  // at: null and render as "earlier".
+  if (seenConversationWorkIds === null) {
+    seenConversationWorkIds = new Set(turns.map(({ workId }) => workId));
+    turns.slice(-CONVERSATION_HISTORY_SEED).forEach((turn) => {
+      pushInspectorActivity({ ...describeConversationTurn(turn), at: null });
+    });
+    return;
+  }
+
+  turns.forEach((turn) => {
+    if (seenConversationWorkIds.has(turn.workId)) return;
+    seenConversationWorkIds.add(turn.workId);
+    pushInspectorActivity(describeConversationTurn(turn));
+  });
+}
+
+function renderInspector(snapshot, feed) {
+  if (typeof document === "undefined") return;
+  lastInspectorSnapshot = { ...snapshot, __feed: feed };
+  deriveInspectorActivity(snapshot);
+  renderInspectorIntegrity(lastInspectorSnapshot);
+  renderInspectorAgent();
+  renderInspectorActivity();
+}
+
+function bindInspector() {
+  if (typeof document === "undefined") return;
+  const tabs = Array.from(document.querySelectorAll(".inspector-tab[data-inspector-tab]"));
+  const activate = (tab, moveFocus = false) => {
+    const key = tab.dataset.inspectorTab;
+    tabs.forEach((candidate) => {
+      const on = candidate === tab;
+      candidate.classList.toggle("active", on);
+      candidate.setAttribute("aria-selected", on ? "true" : "false");
+      candidate.tabIndex = on ? 0 : -1;
+    });
+    ["integrity", "agent", "activity"].forEach((name) => {
+      const pane = document.getElementById(`inspector-${name}`);
+      if (pane) pane.hidden = name !== key;
+    });
+    if (moveFocus) tab.focus();
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activate(tab));
+    tab.addEventListener("keydown", (event) => {
+      let next = null;
+      if (event.key === "ArrowRight") next = tabs[(index + 1) % tabs.length];
+      if (event.key === "ArrowLeft") next = tabs[(index - 1 + tabs.length) % tabs.length];
+      if (event.key === "Home") next = tabs[0];
+      if (event.key === "End") next = tabs[tabs.length - 1];
+      if (!next) return;
+      event.preventDefault();
+      activate(next, true);
+    });
+  });
+  document.getElementById("inspector-agent")?.addEventListener("click", (event) => {
+    const pick = event.target.closest?.(".insp-agent-pick");
+    if (pick) { inspectorSelectedAgentId = pick.dataset.agentId; renderInspectorAgent(); return; }
+    const message = event.target.closest?.(".insp-agent-message");
+    if (message) {
+      const recipient = document.getElementById("agent-conversation-recipient");
+      if (recipient) recipient.value = message.dataset.agentId || "";
+      updateDashboardFocus("communication");
+      document.getElementById("agent-conversation-message")?.focus();
+    }
+  });
+}
+
+// Selecting an agent anywhere focuses it in the inspector.
+function selectInspectorAgent(agentId) {
+  inspectorSelectedAgentId = agentId || null;
+  const tab = document.querySelector('.inspector-tab[data-inspector-tab="agent"]');
+  if (tab) tab.click();
+  renderInspectorAgent();
+}
+
+// --- Agent directory ------------------------------------------------------
+// The Agents surface answers "who is in this polis and what do I know about
+// them", so each agent gets one card carrying every field the runtime
+// publishes, rather than a map plus a roster plus an empty selection pane.
+let lastAgentPopulation = [];
+
+function resetPolisScopedProjectionState() {
+  polisConnectionGeneration += 1;
+  lastResolvedPublicBaseUrl = "";
+  lastKnownComponentEntries = [];
+  lastAgentPopulation = [];
+  lastPanopticonSnapshot = null;
+  inspectorSelectedAgentId = null;
+  inspectorActivity = [];
+  lastInspectorSnapshot = null;
+  previousAgentIds = null;
+  previousLifecycle = null;
+  seenConversationWorkIds = null;
+  runtimeLogEntries = [];
+  Object.assign(rosterUiState, {
+    selectedId: null,
+    runtimeInstanceId: null,
+    runtimeIncarnationId: null,
+    revision: 0,
+    eventCursor: null,
+    resyncCount: 0,
+    lastResyncReason: null
+  });
+  publishRosterCursorState();
+  if (typeof document !== "undefined") {
+    setText("statusbar-source", "Connecting to selected polis…");
+    setText("hero-agent-count", "—");
+    setText("hero-event-count", "—");
+    setText("component-health-count", "awaiting feed");
+    renderRows("hero-agent-map", [`<article class="hero-agent-node" data-state="pending"><strong>Connecting</strong><p class="row-detail">Waiting for the selected polis.</p></article>`]);
+    renderRows("component-grid", [`<p class="row-detail">Waiting for the selected polis.</p>`]);
+    renderRows("trace-list", [`<li class="trace-row"><span class="row-detail">Waiting for the selected polis.</span></li>`]);
+    renderRows("hero-event-stream", [`<li class="trace-row"><span class="row-detail">Waiting for the selected polis.</span></li>`]);
+    renderRows("infra-endpoint-list", [infraRow("Domain", "connecting", "Waiting for the selected polis.", "quiet")]);
+    renderRows("infra-ssm-list", [infraRow("Systems Manager", "not selected", "Waiting for the selected polis.", "quiet")]);
+    renderRuntimeLogs();
+  }
+  return {
+    agents: lastAgentPopulation.length,
+    components: lastKnownComponentEntries.length,
+    activity: inspectorActivity.length,
+    conversationHistoryInitialized: seenConversationWorkIds !== null
+  };
+}
+
+function agentFreshness(agent = {}) {
+  const observed = Number(agent.observed_at_unix_millis);
+  const deadline = Number(agent.freshness_deadline_unix_millis);
+  if (!Number.isFinite(observed)) return { label: "unknown", tone: "quiet", detail: "No observation timestamp." };
+  const ageSeconds = Math.max(0, Math.round((Date.now() - observed) / 1000));
+  const stale = Number.isFinite(deadline) && Date.now() > deadline;
+  const windowSeconds = Number.isFinite(deadline) ? Math.round((deadline - observed) / 1000) : null;
+  return {
+    label: `${ageSeconds}s ago`,
+    tone: stale ? "degraded" : "active",
+    detail: stale
+      ? `Past its ${windowSeconds ?? "?"}s freshness window — the runtime treats this agent as stale.`
+      : `Within its ${windowSeconds ?? "?"}s freshness window.`
+  };
+}
+
+// Wall-clock stamp of the runtime's last observation of this agent, alongside
+// the relative freshness reading, so "12s ago" can be tied to an actual time.
+function agentSnapshotStamp(agent = {}) {
+  const observed = Number(agent.observed_at_unix_millis);
+  if (!Number.isFinite(observed)) return "not reported";
+  const fresh = agentFreshness(agent);
+  return `${new Date(observed).toLocaleTimeString([], { hour12: false })} · ${fresh.label}`;
+}
+
+function agentAdmissionLabel(provenance = "") {
+  const value = String(provenance);
+  if (value === "runtime_dynamic_admission") {
+    return { label: "Dynamically admitted", detail: "Joined the polis at runtime through the admission path." };
+  }
+  if (value === "runtime_component_state") {
+    return { label: "Resident component", detail: "Part of the runtime's own component set, present from start." };
+  }
+  return { label: formatLabel(value || "unknown"), detail: "Admission path reported by the runtime." };
+}
+
+function renderAgentDirectory(agents = lastAgentPopulation) {
+  if (typeof document === "undefined") return;
+  // A dropped feed, or a published/retained snapshot, carries no agent sample.
+  // Clearing the roster then would claim the polis is empty when it is not, so
+  // hold the last known population; the stale banner reports the staleness.
+  if (!asArray(agents).length && lastAgentPopulation.length) {
+    agents = lastAgentPopulation;
+  } else {
+    lastAgentPopulation = asArray(agents);
+  }
+  const needle = (document.getElementById("agent-directory-filter")?.value || "").trim().toLowerCase();
+  const rows = needle
+    ? agents.filter((a) => `${a.label} ${a.id} ${a.role}`.toLowerCase().includes(needle))
+    : agents;
+
+  setText("agent-directory-count", `${rows.length} of ${agents.length} agent${agents.length === 1 ? "" : "s"}`);
+
+  if (!agents.length) {
+    renderRows("agent-card-grid", [`
+      <article class="agent-card-empty">
+        <strong>No agent roster yet.</strong>
+        <p class="row-detail">Waiting for a live runtime snapshot. Published and retained
+        mirrors do not carry a polis roster.</p>
+      </article>`]);
+    return;
+  }
+  if (!rows.length) {
+    renderRows("agent-card-grid", [`
+      <article class="agent-card-empty"><strong>No agents match this filter.</strong></article>`]);
+    return;
+  }
+
+  renderRows("agent-card-grid", rows.map((agent) => {
+    const fresh = agentFreshness(agent);
+    const admission = agentAdmissionLabel(agent.provenance);
+    const capabilities = asArray(agent.capabilities);
+    const eligible = agent.communication_eligible === true;
+    const stateTone2 = stateTone(agent.state || "unknown");
+    return `
+    <article class="agent-card" data-state="${escapeHtml(stateTone2)}">
+      <header class="agent-card-head">
+        <div>
+          <strong class="agent-card-name">${escapeHtml(agent.label || agent.id || "unknown")}</strong>
+          <span class="agent-card-id">${escapeHtml(agent.id || "")}</span>
+        </div>
+        <span class="mini-badge" data-tone="${escapeHtml(stateTone2 === "active" ? "ok" : stateTone2 === "degraded" ? "warn" : "blocked")}">${escapeHtml(formatLabel(agent.state || "unknown"))}</span>
+      </header>
+      <p class="agent-card-role">${escapeHtml(agent.role || "role not reported")}</p>
+
+      <dl class="agent-card-facts">
+        <div><dt>Backing model</dt><dd>${escapeHtml(agent.model || "not reported")}</dd></div>
+        <div><dt>Provider</dt><dd>${escapeHtml(formatLabel(agent.provider || "not reported"))}</dd></div>
+        <div><dt>Health</dt><dd>${escapeHtml(formatLabel(agent.health || "unknown"))}</dd></div>
+        <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(agent.availability || "unknown"))}</dd></div>
+        <div><dt>Last snapshotted</dt><dd data-tone="${escapeHtml(fresh.tone)}">${escapeHtml(fresh.label)}</dd></div>
+        <div><dt>Admission</dt><dd>${escapeHtml(admission.label)}</dd></div>
+        <div><dt>Orientation package</dt><dd>${escapeHtml(formatAgentOrientation(agent.orientation))}</dd></div>
+      </dl>
+
+      <p class="agent-card-note">${escapeHtml(admission.detail)} ${escapeHtml(fresh.detail)}</p>
+
+      <div class="agent-card-caps">
+        <span class="row-kicker">Capabilities</span>
+        ${capabilities.length
+          ? capabilities.map((cap) => `<span class="agent-cap">${escapeHtml(String(cap))}</span>`).join("")
+          : `<span class="agent-card-none">none declared by the runtime</span>`}
+      </div>
+
+      <footer class="agent-card-foot">
+        <span class="agent-card-comm" data-state="${eligible ? "active" : "degraded"}">
+          ${eligible ? "Reachable on Layer 8" : "Not currently reachable"}
+        </span>
+        <button class="button button-secondary agent-card-message" type="button"
+                data-agent-id="${escapeHtml(agent.id || "")}" ${eligible ? "" : "disabled"}>Message</button>
+      </footer>
+    </article>`;
+  }));
+}
+
+function bindAgentDirectory() {
+  if (typeof document === "undefined") return;
+  // The sign-in affordance opens the operator disclosure and focuses the token
+  // field, or logs out when already authenticated.
+  document.getElementById("chat-auth-open")?.addEventListener("click", () => {
+    const signedIn = document.getElementById("chat-auth-bar")?.dataset.state === "operator";
+    if (signedIn) {
+      document.getElementById("operator-logout")?.click();
+      return;
+    }
+    const access = document.getElementById("chat-access");
+    if (access) access.open = true;
+    document.getElementById("operator-write-token")?.focus();
+  });
+  // Event stream shows one scrollable line by default; this expands it in place.
+  document.getElementById("events-expand")?.addEventListener("click", (event) => {
+    const button = event.currentTarget;
+    const core = document.getElementById("dashboard-core");
+    if (!core) return;
+    const expanded = core.dataset.events === "expanded";
+    core.dataset.events = expanded ? "collapsed" : "expanded";
+    button.setAttribute("aria-expanded", expanded ? "false" : "true");
+    const label = button.querySelector(".events-toggle-label");
+    if (label) label.textContent = expanded ? "Expand" : "Collapse";
+  });
+  // Module tile -> that module's log lines.
+  document.getElementById("component-grid")?.addEventListener("click", (event) => {
+    const tile = event.target.closest?.(".component-tile");
+    const component = tile?.dataset.component;
+    if (!component) return;
+    const filter = document.getElementById("logs-filter");
+    if (filter) {
+      filter.value = component;
+      filter.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+    updateDashboardFocus("logs");
+    filter?.focus();
+  });
+  document.getElementById("agent-directory-filter")?.addEventListener("input", () => renderAgentDirectory());
+  document.getElementById("agent-card-grid")?.addEventListener("click", (event) => {
+    const button = event.target.closest?.(".agent-card-message");
+    if (!button) {
+      // Clicking the card body focuses that agent in the inspector.
+      const card = event.target.closest?.(".agent-card");
+      const id = card?.querySelector(".agent-card-message")?.dataset.agentId;
+      if (id) selectInspectorAgent(id);
+      return;
+    }
+    const recipient = document.getElementById("agent-conversation-recipient");
+    if (recipient) recipient.value = button.dataset.agentId || "";
+    updateDashboardFocus("communication");
+    document.getElementById("agent-conversation-message")?.focus();
+  });
+}
+
+// --- Infrastructure surface ---------------------------------------------
+// The runtime publishes its public base URL but not its address, so the
+// external IP is resolved over DNS-over-HTTPS. That also proves the
+// DDNS -> Route53 chain is current rather than just asserting the hostname.
+const INFRA_SSM_REF =
+  "../../../docs/milestones/v0.91.7/review/runtime/wp08_local_polis_ssm_4687/local_polis_ssm_summary.json";
+
+function infraRow(label, value, detail, tone = "active") {
+  return `
+    <article class="integration-row" data-state="${escapeHtml(tone)}">
+      <span class="row-kicker">${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+      <p class="row-detail">${escapeHtml(detail)}</p>
+    </article>`;
+}
+
+async function renderInfraEndpoint(publicBaseUrl, generation = polisConnectionGeneration) {
+  let host = "";
+  try { host = new URL(publicBaseUrl).hostname; } catch (_error) { host = ""; }
+  if (!host) {
+    setText("infra-endpoint-status", "unknown");
+    renderRows("infra-endpoint-list", [infraRow("Domain", "unknown", "Runtime did not publish a public base URL.", "degraded")]);
+    return;
+  }
+
+  const rows = [infraRow("Domain", host, publicBaseUrl || host)];
+  try {
+    const response = await fetch(
+      `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(host)}&type=A`,
+      { headers: { accept: "application/dns-json" }, cache: "no-store" }
+    );
+    if (!response.ok) throw new Error(String(response.status));
+    const answers = asArray((await response.json()).Answer);
+    if (generation !== polisConnectionGeneration) return;
+    const aRecord = answers.find((entry) => entry.type === 1);
+    const cname = answers.find((entry) => entry.type === 5);
+    if (aRecord) {
+      rows.push(infraRow(
+        "External IP",
+        aRecord.data,
+        `A record, TTL ${aRecord.TTL}s${cname ? ` via ${String(cname.data).replace(/\.$/, "")}` : ""}`
+      ));
+      setText("infra-endpoint-status", "resolved");
+    } else {
+      rows.push(infraRow("External IP", "no A record", "The hostname did not resolve to an address.", "degraded"));
+      setText("infra-endpoint-status", "unresolved");
+    }
+  } catch (_error) {
+    if (generation !== polisConnectionGeneration) return;
+    rows.push(infraRow("External IP", "lookup unavailable", "DNS-over-HTTPS lookup could not be completed.", "degraded"));
+    setText("infra-endpoint-status", "unresolved");
+  }
+  if (generation === polisConnectionGeneration) renderRows("infra-endpoint-list", rows);
+}
+
+async function renderInfraSsm(generation = polisConnectionGeneration) {
+  try {
+    const response = await fetch(INFRA_SSM_REF, { cache: "no-store" });
+    if (!response.ok) throw new Error(String(response.status));
+    const summary = await response.json();
+    const hosts = asArray(summary.hosts);
+    const online = hosts.filter((entry) => entry.command_status === "Success");
+    const checkedAt = summary.checked_at_utc
+      ? new Date(summary.checked_at_utc).toLocaleString()
+      : "unknown";
+    // State the age plainly. This sits beside a live IP lookup, so "retained"
+    // alone is too easy to read as current.
+    const ageDays = summary.checked_at_utc
+      ? Math.floor((Date.now() - new Date(summary.checked_at_utc).getTime()) / 86400000)
+      : null;
+    const ageLabel = ageDays == null
+      ? "age unknown"
+      : ageDays === 0 ? "captured today" : `captured ${ageDays} day${ageDays === 1 ? "" : "s"} ago`;
+
+    if (generation !== polisConnectionGeneration) return;
+    setText("infra-ssm-status", `retained · ${ageLabel}`);
+    renderRows("infra-ssm-list", [
+      infraRow(
+        "Managed nodes",
+        `${online.length} of ${hosts.length} reporting`,
+        hosts.map((entry) => entry.host).filter(Boolean).join(", ") || "no hosts recorded",
+        online.length === hosts.length && hosts.length ? "active" : "degraded"
+      ),
+      infraRow("Account / region", summary.aws_region || "unknown", `profile ${summary.aws_profile || "unknown"} · account ${summary.aws_account_hash || "redacted"}`),
+      infraRow(
+        "Evidence captured",
+        `${checkedAt} · ${ageLabel}`,
+        "Retained proof, not a live SSM query. SSM is an operations bridge, not a polis control plane.",
+        ageDays != null && ageDays > 7 ? "degraded" : "quiet"
+      )
+    ]);
+  } catch (_error) {
+    if (generation !== polisConnectionGeneration) return;
+    setText("infra-ssm-status", "unavailable");
+    renderRows("infra-ssm-list", [
+      infraRow("Systems Manager", "no retained proof", "The SSM summary artifact could not be loaded from this server root.", "degraded")
+    ]);
+  }
+}
+
+function bindInfraSurface(publicBaseUrl) {
+  if (typeof document === "undefined") return;
+  const generation = polisConnectionGeneration;
+  renderInfraEndpoint(publicBaseUrl, generation);
+  renderInfraSsm(generation);
+}
+
 function retainedLargePolisWindow(rows = [], limit = LARGE_POLIS_LIMITS.maxTranscriptTurns) {
   const safeLimit = Math.max(0, Number(limit) || 0);
   return asArray(rows).slice(Math.max(0, asArray(rows).length - safeLimit));
@@ -2307,7 +3214,7 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
     })).slice(0, 6);
   }
 
-  if (agentSample.length || status.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+  if (agentSample.length || isRuntimeV3ObservatoryFeedSchema(status.schema)) {
     return agentSample.slice(0, LARGE_POLIS_LIMITS.maxVisibleAgents).map((agent) => ({
       id: agent.id,
       label: agent.label || agent.id,
@@ -2388,9 +3295,14 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   const ready = snapshot.ready || {};
   const metrics = snapshot.metrics || {};
   const eventEnvelope = snapshot.events || {};
-  const events = normalizeEventEntries(eventEnvelope)
-    .slice(-LARGE_POLIS_LIMITS.maxEventTail)
-    .map(eventMessageToObject);
+  const allEvents = normalizeEventEntries(eventEnvelope).map(eventMessageToObject);
+  const events = allEvents.slice(-LARGE_POLIS_LIMITS.maxEventTail);
+  // Collapse repeats across the full tail first, then bound the group count. This keeps
+  // DOM output bounded while still surfacing distinct subsystem transitions rather than
+  // a single run of identical heartbeats.
+  const eventGroups = collapseRepeatedEventRows(
+    allEvents.map((event, index, arr) => normalizeObservatoryEventRow(event, index, arr.length))
+  ).slice(-LARGE_POLIS_LIMITS.maxEventTail);
   const statusRows = flattenStatusRows(status);
   const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
   const agentTotal = Number(status.agent_population?.total_count ?? metrics.gauges?.agent_count ?? liveAgents.length);
@@ -2438,6 +3350,7 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
     signals: signalRows,
     metrics: normalizeMetricRows(metrics),
     events,
+    eventGroups,
     statusRows,
     readyState: ready.status || ready.state || ready.ready || "unknown"
   };
@@ -2447,20 +3360,15 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   lastPanopticonSnapshot = snapshot;
   lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
-  setText("polis-display-name", snapshot.polisIdentity?.displayName || "Unavailable");
-  setText("polis-public-domain", snapshot.polisIdentity?.publicDomain || "Unavailable");
   const sourceLabel = vm.mode === "live" ? "Live Runtime API" : vm.mode === "published" ? "Published Runtime Evidence" : "Retained Runtime Evidence";
   const hasAuthoritativeLiveRuntimeFeed =
     vm.mode === "live" &&
-    snapshot.status?.schema === RUNTIME_V3_OBSERVATORY_SCHEMA &&
+    isRuntimeV3ObservatoryFeedSchema(snapshot.status?.schema) &&
     snapshot.status?.agent_population &&
     Number(snapshot.status.agent_population.total_count || 0) >= 0;
-  setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
-  setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
   setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
   setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
-  setText("runtime-source-label", sourceLabel);
   setText("statusbar-runtime-label", sourceLabel);
   if (hasAuthoritativeLiveRuntimeFeed) {
     setText("packet-status", "CSM Runtime");
@@ -2468,6 +3376,46 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
     setText("claim-boundary", "Live Runtime v3 Observatory feed loaded from the configured loopback API.");
     setText("evidence-level", "Runtime v3 Observatory feed");
     document.getElementById("evidence-level")?.setAttribute("data-tone", "ok");
+
+    // Live runtime lifecycle and continuity tick override the retained packet defaults.
+    const liveLifecycle = snapshot.metrics?.states?.lifecycle
+      || snapshot.status?.status
+      || "running";
+    const liveTick = snapshot.continuity?.checkpoint?.accepted_through
+      ?? snapshot.status?.topology_generation
+      ?? null;
+    setText("rail-state", formatLabel(liveLifecycle));
+    if (liveTick != null) {
+      setText("rail-tick", Number(liveTick).toLocaleString());
+    }
+    setText("rail-manifold-id", "Runtime v3 live feed");
+
+    // Canonical Runtime-published identity. Never endpoint-derived: if the feed
+    // does not carry it, say so rather than substituting a connection label.
+    setText("polis-display-name", snapshot.polisIdentity?.displayName || "Unavailable");
+    setText("polis-public-domain", snapshot.polisIdentity?.publicDomain || "Unavailable");
+
+    // Prefer a polis name published by the runtime over the host-derived label.
+    // Not present on observatory_feed.v2; wired here so it is picked up as soon
+    // as the runtime serializes polis_identity into the feed.
+    applyPolisIdentityLabel(snapshot.polisIdentity);
+
+    // displayManifoldId() discards its argument and returns a fixed string, so
+    // the statusbar would otherwise read "Runtime v3 CSM runtime mirror" no
+    // matter which endpoint is selected. Show the actual source instead.
+    const activePolis = document.getElementById("polis-select")?.selectedOptions?.[0]?.textContent;
+    let endpointHost = "";
+    try { endpointHost = new URL(readApiBase() || "").host; } catch (_error) { endpointHost = ""; }
+    setText("statusbar-source", activePolis && endpointHost
+      ? `${activePolis} · ${endpointHost}`
+      : (activePolis || endpointHost || "Runtime v3 live feed"));
+
+    // Resolve the public endpoint once per connection, not on every frame.
+    const publicBaseUrl = snapshot.status?.control?.public_base_url || "";
+    if (publicBaseUrl && publicBaseUrl !== lastResolvedPublicBaseUrl) {
+      lastResolvedPublicBaseUrl = publicBaseUrl;
+      bindInfraSurface(publicBaseUrl);
+    }
   }
   const modeSelect = document.getElementById("top-mode-select");
   if (modeSelect) {
@@ -2475,38 +3423,76 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   }
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
-  setText("agent-count", `${vm.visibleAgentCount.toLocaleString()} of ${vm.agentTotal.toLocaleString()} visible`);
-  const loadMore = document.getElementById("roster-load-more");
-  if (loadMore) {
-    loadMore.hidden = snapshot.status?.agent_population?.has_more !== true;
-    loadMore.disabled = !snapshot.status?.agent_population?.next_page_token;
+  setText("hero-agent-count", `${vm.agentTotal.toLocaleString()}`);
+  renderAgentDirectory(asArray(snapshot.status?.agent_population?.sample));
+  if (snapshot.rawFeed) renderInspector(snapshot, snapshot.rawFeed);
+
+  // Live stat cards — CPU, memory, components
+  const gauges = snapshot.metrics?.gauges || {};
+  const cpuPct = gauges.weather_cpu_pct;
+  const memAvail = gauges.weather_mem_avail_gb;
+  const memTotal = gauges.weather_mem_total_gb;
+  const resourceState = gauges.weather_resource_state;
+  if (cpuPct != null) {
+    setText("hero-cpu-state", `${cpuPct}%`);
+    setText("hero-cpu-detail", memAvail != null ? `${memAvail} GB free / ${memTotal} GB` : "resource sample");
+    setState("hero-cpu-state", resourceState === "healthy" ? "active" : resourceState || "unknown");
   }
-  setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);
-  setText("live-readiness", formatLabel(vm.readyState));
+  const components = snapshot.health?.components || snapshot.status?.components || {};
+  let componentEntries = Object.entries(components);
+  // A dropped feed yields a snapshot with no components. Reporting "0 modules"
+  // would read as "all modules gone" rather than "no data", so hold the last
+  // known set; the stale banner already says the values are not live.
+  if (componentEntries.length === 0 && lastKnownComponentEntries.length > 0) {
+    componentEntries = lastKnownComponentEntries;
+  } else if (componentEntries.length > 0) {
+    lastKnownComponentEntries = componentEntries;
+  }
+  const componentCount = componentEntries.length;
+  setText("hero-agent-detail", `${vm.agentTotal} agent${vm.agentTotal !== 1 ? "s" : ""} · ${componentCount || "—"} components`);
+
+  // Component health grid
+  setText("component-health-count", componentCount
+    ? `${componentCount} module${componentCount !== 1 ? "s" : ""}`
+    : "awaiting feed");
+  renderRows("component-grid", componentEntries.length ? componentEntries.map(([name, stateRaw]) => {
+    const stateStr = typeof stateRaw === "string" ? stateRaw : (stateRaw?.status || stateRaw?.state || stateRaw?.lifecycle || "unknown");
+    const label = name.replaceAll("_", " ").replaceAll("-", " ");
+    // A button, not an article: every module is a filter into its own log
+    // lines, which is the question a red tile actually raises.
+    return `<button class="component-tile" type="button" data-state="${escapeHtml(stateStr)}"
+      data-component="${escapeHtml(name)}"
+      title="Show ${escapeHtml(label)} log lines">
+      <span class="row-kicker">${escapeHtml(label)}</span>
+      <strong>${escapeHtml(stateStr)}</strong>
+    </button>`;
+  }) : [`<p class="row-detail" style="grid-column:1/-1;padding:0.5rem 0">No component data — connect live to see module health.</p>`]);
+
+  // WS status dot in topbar
+  setDataset("topbar-ws-dot", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "ok" : "warn");
   setText("hero-ready-state", formatLabel(vm.readyState));
   setDataset("hero-agent-map", "state", formatLabel(vm.readyState));
-  setText("live-updated", vm.fetchedAt ? new Date(vm.fetchedAt).toLocaleTimeString() : "not connected");
-  setText("live-event-count", `${vm.events.length} events`);
-  setText("hero-event-count", `${vm.events.length} Events`);
-  setText("hero-gauge-agents", vm.agentTotal.toLocaleString());
-  setText("hero-gauge-events", String(vm.events.length));
-  setText("hero-gauge-metrics", String(vm.metrics.length));
-  setText("hero-gauge-ready", formatLabel(vm.readyState));
-  setText("agent-heartbeat", vm.fetchedAt ? new Date(vm.fetchedAt).toLocaleTimeString() : "retained");
-  setText("agent-state", formatLabel(vm.readyState));
-  setText("hero-event-detail", vm.events.length ? `${vm.events.length} retained or live CSM events visible.` : "No CSM events visible yet.");
-  setText("live-metric-count", `${vm.metrics.length} gauges`);
-  setText("hero-ready-detail", vm.signals.find((signal) => signal.label === "readiness")?.detail || "CSM /ready");
-  setText("hero-latest-event", vm.events.length ? `event ${vm.events.length}` : "event 0");
+  // The view model windows events for rendering; the runtime gauge holds the true total.
+  const authoritativeEventTotal = snapshot.metrics?.gauges?.event_count ?? vm.events.length;
+  const authoritativeEventLabel = Number(authoritativeEventTotal).toLocaleString();
+  setText("hero-event-count", `${authoritativeEventLabel} Events`);
+  setText("hero-event-detail", authoritativeEventTotal
+    ? (vm.mode === "live"
+      ? `${authoritativeEventLabel} runtime events since process start.`
+      : `${authoritativeEventLabel} retained CSM events visible.`)
+    : "No CSM events visible yet.");
+  // A bare "pending" says nothing. /v1/ready reports why it is not ready, so
+  // surface that instead of leaving the operator to go and ask the endpoint.
+  const blockingReasons = asArray(snapshot.ready?.blocking_reasons)
+    .map((reason) => formatLabel(String(reason)))
+    .filter(Boolean);
+  const readyDetail = blockingReasons.length
+    ? `Blocked by ${blockingReasons.join(", ")}.`
+    : (vm.signals.find((signal) => signal.label === "readiness")?.detail || "CSM /ready");
+  setText("hero-ready-detail", readyDetail);
+  setText("hero-latest-event", authoritativeEventTotal ? `event ${authoritativeEventLabel}` : "event 0");
+  setText("latest-event", authoritativeEventTotal ? `event ${authoritativeEventLabel}` : "event 0");
   setState("hero-ready-state", vm.readyState);
-
-  renderRows("panopticon-map", vm.agents.map((agent) => `
-    <article class="agent-node" data-state="${escapeHtml(stateTone(agent.state))}">
-      <span class="row-kicker">${escapeHtml(formatLabel(agent.role))}</span>
-      <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(agent.detail || agent.id)}</p>
-    </article>
-  `));
 
   renderRows("hero-agent-map", vm.agents.length ? vm.agents.slice(0, 6).map((agent) => `
     <article class="hero-agent-node" data-state="${escapeHtml(stateTone(agent.state))}">
@@ -2524,78 +3510,30 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
     </article>
   `]);
 
-  renderRows("live-agent-list", vm.agents.map((agent) => `
-    <button type="button" class="agent-row roster-row" data-state="${escapeHtml(stateTone(agent.state))}" data-agent-id="${escapeHtml(agent.id)}" aria-pressed="${rosterUiState.selectedId === agent.id ? "true" : "false"}">
-      <span class="row-kicker">${escapeHtml(agent.id)}</span>
-      <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(agent.provider || "no provider")} / ${escapeHtml(agent.model || "no model")}</span>
-    </button>
-  `));
-
-  const selected = vm.allAgents.find((agent) => agent.id === rosterUiState.selectedId);
-  const detail = document.getElementById("roster-detail");
-  if (detail) {
-    detail.innerHTML = selected ? `
-      <span class="row-kicker">${escapeHtml(selected.id)} / ${escapeHtml(formatLabel(selected.provenance))}</span>
-      <strong>${escapeHtml(selected.label || selected.id)}</strong>
-      <dl class="roster-facts">
-        <div><dt>Presence</dt><dd>${escapeHtml(formatLabel(selected.state))}</dd></div>
-        <div><dt>Health</dt><dd>${escapeHtml(formatLabel(selected.health))}</dd></div>
-        <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(selected.availability))}</dd></div>
-        <div><dt>Communication</dt><dd>${selected.communicationEligible ? "Eligible" : "Unavailable"}</dd></div>
-        <div><dt>Backing model</dt><dd>${escapeHtml(selected.provider && selected.model ? `${selected.provider} / ${selected.model}` : "Not configured")}</dd></div>
-        <div><dt>Last snapshot</dt><dd>${escapeHtml(selected.lastSnapshotAtUnixMillis ? formatTimestampLabel(selected.lastSnapshotAtUnixMillis) : "Never")}</dd></div>
-        <div><dt>Snapshot state</dt><dd>${escapeHtml(formatLabel(selected.snapshotState))}${selected.snapshotSequence == null ? "" : ` (#${escapeHtml(selected.snapshotSequence)})`}</dd></div>
-        <div><dt>Last S3 archive</dt><dd>${escapeHtml(selected.lastArchiveAtUnixMillis ? formatTimestampLabel(selected.lastArchiveAtUnixMillis) : "Never")}</dd></div>
-        <div><dt>Archive state</dt><dd>${escapeHtml(formatLabel(selected.archiveState))}${selected.pendingArchiveCount ? ` (${escapeHtml(selected.pendingArchiveCount)} pending)` : ""}</dd></div>
-        <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
-        <div><dt>Orientation package</dt><dd>${escapeHtml(formatAgentOrientation(selected.orientation))}</dd></div>
-        <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
-      </dl>
-    ` : `
-      <span class="row-kicker">Selection</span>
-      <strong>No visible agent selected</strong>
-      <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
-    `;
-  }
-
-  renderRows("live-signal-list", vm.signals.map((signal) => `
-    <article class="signal-row" data-state="${escapeHtml(stateTone(signal.value))}">
-      <span class="row-kicker">${escapeHtml(formatLabel(signal.label))}</span>
-      <strong>${escapeHtml(formatLabel(signal.value))}</strong>
-      <p class="row-detail">${escapeHtml(signal.detail)}</p>
-    </article>
-  `));
-
-  renderRows("live-metric-list", vm.metrics.map((metric) => `
-    <article class="metric-row">
-      <strong>${escapeHtml(formatLabel(metric.label))}</strong>
-      <span class="metric-value">${escapeHtml(metric.value)}</span>
-    </article>
-  `));
-
-  renderRows("live-event-stream", vm.events.slice(-8).map((event, index) => `
-    <li class="trace-row">
-      <span class="trace-seq">${String(index + 1).padStart(2, "0")}</span>
-      <span><strong>${escapeHtml(formatLabel(event.signal_kind || event.event_type || event.status || "event"))}</strong><br><span class="row-detail">${escapeHtml(event.runtime_id || event.agent_id || event.correlation_id || event.timestamp || event.message || "retained event")}</span></span>
-    </li>
-  `));
-
-  const heroEventRows = vm.events.length ? vm.events.slice(-6).map((event, index) => {
-    const eventName = formatLabel(event.signal_kind || event.event_type || event.status || "event");
-    const source = event.agent_id || event.agent_instance_id || event.runtime_id || "csm";
-    const state = formatLabel(event.status || event.result || event.details?.result || "ok");
-    const tick = event.manifold_tick || event.tick || event.sequence || event.event_sequence || index + 1;
-    const severity = stateTone(state) === "failed" ? "ERROR" : stateTone(state) === "degraded" ? "WARN" : "INFO";
-    const eventTime = event.timestamp ? new Date(event.timestamp).toLocaleTimeString([], { hour12: false }) : `T-${String(vm.events.length - index).padStart(2, "0")}`;
+  // Normalize the whole tail first, collapse repeated runs, then take the last rows —
+  // otherwise a burst of identical heartbeats fills the panel with duplicates.
+  const normalizedEvents = vm.eventGroups || [];
+  runtimeLogEntries = normalizedEvents.slice(-RUNTIME_LOG_MAX_LINES).map((row, index) => ({
+    seq: row.tick || index + 1,
+    time: row.time || "",
+    level: stateTone(row.state) === "failed" ? "error" : stateTone(row.state) === "degraded" ? "warn" : "info",
+    source: row.source || "runtime",
+    message: row.name || "event"
+  }));
+  renderRuntimeLogs();
+  const heroEventRows = normalizedEvents.length ? normalizedEvents.slice(-8).map((row) => {
+    const severity = stateTone(row.state) === "failed" ? "ERROR" : stateTone(row.state) === "degraded" ? "WARN" : "INFO";
+    const repeatBadge = row.repeatCount > 1
+      ? ` <span class="event-repeat">&times;${row.repeatCount}</span>`
+      : "";
     return `
     <li class="trace-row event-table-row">
-      <span class="trace-seq">${escapeHtml(eventTime)}</span>
-      <span class="event-severity" data-state="${escapeHtml(stateTone(state))}">${escapeHtml(severity)}</span>
-      <span class="event-source">${escapeHtml(source)}</span>
-      <span><strong>${escapeHtml(eventName)}</strong></span>
-      <span class="event-state" data-state="${escapeHtml(stateTone(state))}">${escapeHtml(state)}</span>
-      <span class="event-tick">${escapeHtml(tick)}</span>
+      <span class="trace-seq">${escapeHtml(row.time)}</span>
+      <span class="event-severity" data-state="${escapeHtml(stateTone(row.state))}">${escapeHtml(severity)}</span>
+      <span class="event-source">${escapeHtml(row.source)}</span>
+      <span><strong>${escapeHtml(row.name)}</strong>${repeatBadge}</span>
+      <span class="event-state" data-state="${escapeHtml(stateTone(row.state))}">${escapeHtml(row.state)}</span>
+      <span class="event-tick">${escapeHtml(row.tick)}</span>
     </li>
   `;
   }) : [`
@@ -2608,6 +3546,31 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
       <span class="event-tick">0</span>
     </li>
   `];
+  // Dedicated Events surface: same rows, deeper window.
+  renderRows("trace-list", normalizedEvents.length ? [
+    `<li class="event-table-header" aria-hidden="true">
+      <span>Uptime</span>
+      <span>Severity</span>
+      <span>Source</span>
+      <span>Event</span>
+      <span>State</span>
+      <span>Seq</span>
+    </li>`,
+    ...normalizedEvents.slice(-60).reverse().map((row) => {
+      const severity = stateTone(row.state) === "failed" ? "ERROR" : stateTone(row.state) === "degraded" ? "WARN" : "INFO";
+      const repeatBadge = row.repeatCount > 1 ? ` <span class="event-repeat">&times;${row.repeatCount}</span>` : "";
+      return `
+    <li class="trace-row event-table-row">
+      <span class="trace-seq">${escapeHtml(row.time)}</span>
+      <span class="event-severity" data-state="${escapeHtml(stateTone(row.state))}">${escapeHtml(severity)}</span>
+      <span class="event-source">${escapeHtml(row.source)}</span>
+      <span><strong>${escapeHtml(row.name)}</strong>${repeatBadge}</span>
+      <span class="event-state" data-state="${escapeHtml(stateTone(row.state))}">${escapeHtml(row.state)}</span>
+      <span class="event-tick">${escapeHtml(row.tick)}</span>
+    </li>`;
+    })
+  ] : [`<li class="trace-row"><span class="row-detail">No runtime events yet.</span></li>`]);
+
   renderRows("hero-event-stream", [
     `<li class="event-table-header" aria-hidden="true">
       <span>Time</span>
@@ -2627,18 +3590,11 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   const manifold = vm.packet.manifold || {};
   const pulse = vm.packet.kernel?.pulse || {};
 
-  setText("packet-status", state === "ok" ? "CSM Runtime" : "Fallback shell");
   document.getElementById("packet-status")?.setAttribute("data-state", state);
   setText("claim-boundary", displayClaimBoundary(source));
   setText("evidence-level", formatLabel(source.evidence_level));
   document.getElementById("evidence-level")?.setAttribute("data-tone", state === "ok" ? "ok" : "warn");
-  setText("packet-heading", "Owner Agent (owner-v2)");
-  setText("manifold-id", displayManifoldId(manifold.manifold_id));
-  setText("manifold-state", formatLabel(manifold.state));
-  setText("manifold-tick", String(manifold.current_tick ?? 0));
-  setText("packet-id", displayPacketId(vm.packet.packet_id));
-  setText("hero-uptime", formatCurrentTimestampLabel());
-  setText("rail-capture-time", formatCurrentTimestampLabel());
+  refreshSystemClock();
   setText("rail-manifold-id", displayManifoldId(manifold.manifold_id));
   setText("rail-state", formatLabel(manifold.state));
   setText("rail-tick", String(manifold.current_tick ?? 0));
@@ -2646,12 +3602,18 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   setText("kernel-status", formatLabel(pulse.status));
   setText("latest-event", `event ${vm.latestEvent}`);
   setText("decision-counts", `${vm.decisionCounts.allow} / ${vm.decisionCounts.defer} / ${vm.decisionCounts.refuse}`);
+  const operatorReportLoaded = reportText.includes("CSM Observatory Operator Report");
   setText(
     "report-summary",
-    reportText.includes("CSM Observatory Operator Report")
+    operatorReportLoaded
       ? "The operator report loaded from the same retained runtime artifact root as the packet."
       : "The operator report link is retained; report text did not load in this browser context."
   );
+  // Show the operator report itself so the Evidence surface carries real content.
+  setText("report-body", operatorReportLoaded
+    ? reportText.trim()
+    : "Operator report text is not reachable from this server root. Serve the repository root so ../../../docs/... resolves.");
+  document.getElementById("report-source")?.setAttribute("data-tone", operatorReportLoaded ? "ok" : "warn");
 
   renderRows("orbit-map", [
     `<div class="orbit-center"><strong>${formatLabel(manifold.state)}</strong><span class="row-kicker">${formatLabel(source.mode)}</span></div>`,
@@ -2718,14 +3680,7 @@ function renderIntegrations(integrationInputs = {}) {
   const csmApiStatus = vm.serviceRows.every((row) => row.state === "closed") ? "wired" : "check evidence";
   const cloudwatchStatus = vm.cloudwatchSummary.status || "pending";
   setText("csm-api-status", csmApiStatus);
-  setText("hero-csm-api-status", csmApiStatus);
   setText("cloudwatch-status", cloudwatchStatus === "passed" ? "live proof" : formatLabel(cloudwatchStatus));
-  setText("hero-cloudwatch-state", cloudwatchStatus === "passed" ? "CloudWatch Proven" : formatLabel(cloudwatchStatus));
-  setText(
-    "hero-cloudwatch-detail",
-    vm.cloudwatchRows.find((row) => row.label === "CloudWatch target")?.detail || "CloudWatch heartbeat proof pending load."
-  );
-  setState("hero-cloudwatch-state", vm.cloudwatchSummary.status || "pending");
   setText("cloudwatch-event-count", `${vm.parsedEvents.length} events`);
 
   renderRows("csm-api-list", vm.serviceRows.map((row) => `
@@ -2734,14 +3689,6 @@ function renderIntegrations(integrationInputs = {}) {
       <strong>${formatLabel(row.value)}</strong>
       <p class="row-detail">${row.detail}</p>
     </article>
-  `));
-
-  renderRows("hero-api-list", vm.serviceRows.slice(0, 3).map((row, index) => `
-    <span class="api-mini-row" data-state="${escapeHtml(stateTone(row.state))}">
-      <span>GET ${index === 0 ? "/status" : index === 1 ? "/health" : "/ready"}</span>
-      <strong>${row.state === "closed" ? "proved" : escapeHtml(formatLabel(row.state))}</strong>
-      <em>retained</em>
-    </span>
   `));
 
   renderRows("cloudwatch-list", vm.cloudwatchRows.map((row) => `
@@ -2767,40 +3714,23 @@ function renderIntegrations(integrationInputs = {}) {
     </article>
   `));
 
-  renderRows("communication-proof-list", vm.acipRows.map((row) => `
-    <article class="communication-proof-row" data-state="${row.state}">
-      <span class="row-kicker">${formatLabel(row.label)}</span>
-      <strong>${formatLabel(row.value)}</strong>
-      <p class="row-detail">${row.detail}</p>
-    </article>
-  `));
-
-  renderRows("compact-comms-proof", vm.acipRows.slice(0, 3).map((row) => `
-    <span class="compact-proof-chip" data-state="${row.state}">
-      <span>${formatLabel(row.label)}</span>
-      <strong>${formatLabel(row.value)}</strong>
-    </span>
-  `));
 }
 
 function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsResourceSummary = {}) {
   const channel = document.getElementById("operator-channel");
   const message = document.getElementById("operator-message");
-  const compactMessage = document.getElementById("compact-operator-message");
   const apiBase = document.getElementById("runtime-api-base");
   const prepare = document.getElementById("prepare-envelope");
   const checkEvents = document.getElementById("check-events");
-  const compactClear = document.getElementById("compact-clear-envelope");
   const packetId = displayPacketId(packet.packet_id || "");
   const setCommunicationStatus = (status) => {
     setText("communication-status", status);
-    setText("hero-communication-status", status);
   };
 
   const updateEnvelope = () => {
     const envelope = buildOperatorEnvelope({
       channel: channel?.value || "events",
-      message: compactMessage?.value || message?.value || "",
+      message: message?.value || "",
       packetId,
       acipSnsSummary,
       snsResourceSummary
@@ -2810,21 +3740,6 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
   };
 
   prepare?.addEventListener("click", updateEnvelope);
-  compactMessage?.addEventListener("input", () => {
-    if (message) {
-      message.value = compactMessage.value;
-    }
-  });
-  compactClear?.addEventListener("click", () => {
-    if (message) {
-      message.value = "";
-    }
-    if (compactMessage) {
-      compactMessage.value = "";
-    }
-    renderEnvelope({});
-    setCommunicationStatus("draft cleared");
-  });
   checkEvents?.addEventListener("click", async () => {
     setCommunicationStatus("checking /events");
     try {
@@ -2843,7 +3758,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
       renderEnvelope({
         ...buildOperatorEnvelope({
           channel: channel?.value || "events",
-          message: compactMessage?.value || message?.value || "",
+          message: message?.value || "",
           packetId,
           acipSnsSummary,
           snsResourceSummary
@@ -2858,15 +3773,7 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
 }
 
 function bindLivePanopticon(packet = FALLBACK_PACKET) {
-  const apiBase = document.getElementById("live-api-base");
-  const dashboardBase = document.getElementById("dashboard-live-api-base");
   const communicationBase = document.getElementById("runtime-api-base");
-  const connect = document.getElementById("connect-live");
-  const refresh = document.getElementById("refresh-live");
-  const stop = document.getElementById("stop-live");
-  const dashboardConnect = document.getElementById("dashboard-connect-live");
-  const dashboardRefresh = document.getElementById("dashboard-refresh-live");
-  const dashboardStop = document.getElementById("dashboard-stop-live");
   const modeSelect = document.getElementById("top-mode-select");
   const operatorToken = document.getElementById("operator-write-token");
   const operatorLogin = document.getElementById("operator-login");
@@ -2889,11 +3796,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const roomStatus = document.getElementById("governed-room-status");
   const governedRoomSequences = new Map();
   let conversationAuthorized = false;
-  const rosterSearch = document.getElementById("roster-search");
-  const rosterPresence = document.getElementById("roster-presence-filter");
-  const rosterSort = document.getElementById("roster-sort");
-  const rosterList = document.getElementById("live-agent-list");
-  const rosterLoadMore = document.getElementById("roster-load-more");
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
@@ -2902,6 +3804,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   let runtimeV3Readiness = null;
   let runtimeV3ReadinessRefresh = null;
   let liveRuntimeIncarnationId = null;
+  let hasReceivedLiveSnapshot = false;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
@@ -2927,18 +3830,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const mirrorApiBase = (base) => {
-    [apiBase, dashboardBase, communicationBase].forEach((input) => {
-      if (input && base && !input.value) {
-        input.value = base;
-      }
-    });
-  };
-
-  const setRuntimeTestStatus = (status, detail = "") => {
-    setText("dashboard-live-test-status", status);
-    setState("dashboard-live-test-status", status);
-    if (detail) {
-      setText("dashboard-live-test-detail", detail);
+    if (communicationBase && base && !communicationBase.value) {
+      communicationBase.value = base;
     }
   };
 
@@ -2955,9 +3848,43 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationSend) {
       conversationSend.disabled = !enabled || !conversationRecipient?.value;
     }
+    // Login state must be unmistakable: it is the difference between a
+    // read-only view and being able to send.
+    const authBar = document.getElementById("chat-auth-bar");
+    if (authBar) {
+      authBar.dataset.state = enabled ? "operator" : "anonymous";
+      setText("chat-auth-title", enabled ? "Signed in as operator" : "Not signed in");
+      setText("chat-auth-detail", enabled
+        ? "Write access granted. Messages you send are signed by the runtime operator key."
+        : "Reads are public. Sign in with an operator write token to send messages.");
+      const action = document.getElementById("chat-auth-open");
+      if (action) action.textContent = enabled ? "Sign out" : "Sign in";
+    }
+    updateConversationPlaceholder();
     updateRoomSendState();
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
+    }
+  };
+
+  // The placeholder used to say "Connect to Runtime v3 and select an agent"
+  // even when both were already true, pointing at the wrong problem. Name the
+  // actual blocker instead.
+  const updateConversationPlaceholder = () => {
+    const empty = conversationTranscript?.querySelector(".conversation-empty");
+    if (!empty) return;
+    // Read the connection attribute, not the status-bar text: setLiveConnectionState
+    // sets the attribute first, so this stays correct regardless of render order.
+    const connected = document.querySelector(".observatory")?.dataset.liveConnection === "connected";
+    const hasAgents = Boolean(conversationRecipient?.value);
+    if (!connected) {
+      empty.textContent = "Waiting for the runtime feed before a conversation can start.";
+    } else if (!hasAgents) {
+      empty.textContent = "No agents in this polis are currently reachable on Layer 8.";
+    } else if (!conversationAuthorized) {
+      empty.textContent = "Log in with an operator write token to message this agent. Reads are public; writes require login.";
+    } else {
+      empty.textContent = "Ready — send a message to begin.";
     }
   };
 
@@ -2991,6 +3918,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationSend) {
       conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
     }
+    updateConversationPlaceholder();
   };
 
   const selectedRoomRecipients = () =>
@@ -3079,7 +4007,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     return item;
   };
 
-  const appendConversationTurn = (speaker, message, turnId, status = "") => {
+  // Inbound turns were unattributed, so an agent reply read like a system
+  // notice. Name the speaker on every turn.
+  const conversationSpeakerLabel = (speaker, agentId) => {
+    if (speaker === "operator") return "You";
+    if (speaker === "runtime") return "Runtime";
+    const option = Array.from(conversationRecipient?.options || [])
+      .find((o) => o.value === agentId);
+    return option?.textContent || agentId || "Agent";
+  };
+
+  const appendConversationTurn = (speaker, message, turnId, status = "", agentId = "") => {
     if (!conversationTranscript) return;
     const renderKey = conversationTranscriptRenderKey(speaker, turnId);
     const duplicate = Array.from(conversationTranscript.querySelectorAll(".conversation-turn"))
@@ -3095,6 +4033,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     item.dataset.speaker = speaker;
     if (turnId) item.dataset.turnId = conversationTranscriptBaseTurnId(turnId);
     if (renderKey) item.dataset.renderKey = renderKey;
+    const who = document.createElement("span");
+    who.className = "conversation-turn-speaker";
+    who.textContent = conversationSpeakerLabel(speaker, agentId);
+    item.append(who);
     const content = document.createElement("span");
     content.className = "conversation-turn-content";
     content.textContent = message;
@@ -3248,7 +4190,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         const status = transition.initiatedWorkId && transition.initiatedRecipientId
           ? `delivered / A2A ${transition.initiatedRecipientId} ${transition.initiatedWorkId}`
           : "delivered";
-        appendConversationTurn(speaker, transition.reply, pending.turnId, status);
+        appendConversationTurn(
+          speaker,
+          transition.reply,
+          pending.turnId,
+          status,
+          transition.senderId || pending.recipientId
+        );
       }
       if (transition.terminal) {
         pending.terminal = true;
@@ -3271,64 +4219,56 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
-  const readApiBase = () => normalizeApiBase(dashboardBase?.value || apiBase?.value || communicationBase?.value || "");
+  // The polis switcher is the source of truth for which runtime we are pointed
+  // at. Fall back through the visible Chat field, then the query string, then
+  // the shipped config.
+  const readApiBase = () => normalizeApiBase(
+    document.getElementById("polis-select")?.value
+    || communicationBase?.value
+    || getQueryApiBase()
+    || getRuntimeV3Config().api_base
+    || ""
+  );
   const setLiveConnectionState = (state) => {
     document.querySelector(".observatory")?.setAttribute("data-live-connection", state);
+    // The Chat placeholder names the current blocker (feed / roster / login).
+    // The roster only refreshes when its revision advances, so without this the
+    // placeholder can keep saying "waiting for the runtime feed" long after the
+    // feed connected.
+    updateConversationPlaceholder();
+    // Sync polis switcher dot
+    const pc = document.getElementById("polis-switcher-control");
+    if (pc) {
+      pc.dataset.state = state === "connected" ? "live" : state === "connecting" ? "connecting" : "error";
+    }
+    // A schema mismatch is a more specific and more actionable diagnosis than
+    // "reconnecting", and reconnect attempts would otherwise keep overwriting
+    // it. Leave that message in place until a readable frame arrives.
+    if (reportedUnsupportedSchema) return;
+    // Any state other than connected means the values on screen are a last-known
+    // snapshot, so say so rather than letting stale numbers read as live.
+    const banner = document.getElementById("stale-banner");
+    if (banner) {
+      // Use the operator-facing mode tab, not #top-mode-select: the select is
+      // rewritten to "published" whenever a fallback snapshot renders, which is
+      // exactly the situation the banner needs to report on.
+      const liveIntent = document.querySelector(".mode-tab.active")?.dataset.mode === "live";
+      const showBanner = liveIntent && state !== "connected" && state !== "stopped";
+      banner.hidden = !showBanner;
+      if (showBanner) {
+        const reconnecting = state === "connecting";
+        banner.dataset.state = reconnecting ? "connecting" : "error";
+        setText("stale-banner-title", reconnecting ? "Reconnecting to runtime" : "Runtime feed disconnected");
+        setText(
+          "stale-banner-detail",
+          hasReceivedLiveSnapshot
+            ? "Values below are the last received snapshot and are no longer live."
+            : "No live snapshot has been received yet."
+        );
+      }
+    }
   };
   mirrorApiBase(getQueryApiBase());
-
-  if (rosterSearch && !rosterSearch.dataset.rosterBound) {
-    rosterSearch.dataset.rosterBound = "true";
-    rosterSearch.addEventListener("input", () => {
-      rosterUiState.filter = rosterSearch.value;
-      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
-    });
-    rosterPresence?.addEventListener("change", () => {
-      rosterUiState.presence = rosterPresence.value;
-      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
-    });
-    rosterSort?.addEventListener("change", () => {
-      rosterUiState.sort = rosterSort.value;
-      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
-    });
-    rosterList?.addEventListener("click", async (event) => {
-      const row = event.target instanceof Element
-        ? event.target.closest("[data-agent-id]")
-        : null;
-      if (!row) return;
-      rosterUiState.selectedId = row.dataset.agentId;
-      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
-      try {
-        const detail = await fetchRuntimeV3AgentDetail(getQueryApiBase(), rosterUiState.selectedId);
-        const population = lastPanopticonSnapshot?.status?.agent_population;
-        const selected = asArray(population?.sample).find((agent) => agent.id === detail.id);
-        if (selected) Object.assign(selected, detail, { state: detail.presence });
-        if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
-      } catch (error) {
-        await renderLiveError(error);
-      }
-    });
-    rosterLoadMore?.addEventListener("click", async () => {
-      const population = lastPanopticonSnapshot?.status?.agent_population;
-      if (!population?.next_page_token || rosterLoadMore.disabled) return;
-      rosterLoadMore.disabled = true;
-      try {
-        const page = await fetchRuntimeV3AgentRosterPage(getQueryApiBase(), population.next_page_token);
-        const known = new Map(asArray(population.sample).map((agent) => [agent.id, agent]));
-        asArray(page.sample).forEach((agent) => known.set(agent.id, agent));
-        population.sample = [...known.values()];
-        population.rendered_sample_count = population.sample.length;
-        population.has_more = page.has_more === true;
-        population.next_page_token = page.next_page_token || null;
-        population.revision = page.revision;
-        renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
-      } catch (error) {
-        await renderLiveError(error);
-      } finally {
-        rosterLoadMore.disabled = false;
-      }
-    });
-  }
 
   const renderMinimalFallback = (error) => {
     renderPanopticon({
@@ -3338,8 +4278,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         retained: error instanceof Error ? error.message : "unknown retained mirror error"
       }
     }, packet);
-    setText("live-status", "retained fallback");
-    setRuntimeTestStatus("retained fallback", error instanceof Error ? error.message : "Retained runtime mirror is available; live loopback is not connected.");
   };
 
   const refreshRetained = async (extraErrors = {}, requestGeneration = nextLiveGeneration()) => {
@@ -3358,8 +4296,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       };
       renderPanopticon(mergedSnapshot, packet);
       const status = Object.keys(mergedSnapshot.errors || {}).length ? "published partial" : "published runtime mirror";
-      setText("live-status", status);
-      setRuntimeTestStatus(status, lastLiveError ? `Live loopback not proved: ${lastLiveError}` : "Using retained publishable CSM API artifacts until a loopback runtime is connected.");
     } catch (error) {
       if (!isCurrentLiveGeneration(requestGeneration)) {
         return;
@@ -3388,10 +4324,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
           }
         };
         renderPanopticon(mergedSnapshot, packet);
-        setText("live-status", "live read / stream unavailable");
         setText("statusbar-websocket", "disconnected");
         setLiveConnectionState("live-read");
-        setRuntimeTestStatus("live read / stream unavailable", `Runtime v3 GET feed is active; WebSocket stream not proved: ${lastLiveError}`);
         setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
         return;
       } catch (_refreshError) {
@@ -3416,13 +4350,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       communicationBase.value = base;
     }
     mirrorApiBase(base);
-    setText("live-status", "polling loopback");
-    setRuntimeTestStatus(
-      "polling loopback",
-      requestedRuntimeSelection() === "v3"
-        ? `Checking ${base}${getRuntimeV3Config().observatory_endpoint} and ${getRuntimeV3Config().readiness_endpoint}.`
-        : `Checking ${base}/status, /health, /ready, /metrics, and /events.`
-    );
     try {
       const snapshot = await fetchRuntimeSnapshot(base);
       if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
@@ -3442,9 +4369,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         renderPanopticon(snapshot, packet);
       }
       const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
-      setText("live-status", status);
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
-      setRuntimeTestStatus(status, Object.keys(snapshot.errors || {}).length ? "Runtime reached, but one or more endpoints failed." : `Runtime API endpoints responded from the ${runtimeKind}.`);
       setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
     } catch (error) {
       if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
@@ -3479,9 +4404,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     runtimeV3Readiness = null;
     liveRuntimeIncarnationId = null;
     runtimeBaseActive = false;
-    setText("live-status", "polling stopped");
     setText("statusbar-websocket", "stopped");
-    setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
   const connectLive = async ({ reconnecting = false } = {}) => {
@@ -3491,13 +4414,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     setLiveConnectionState("connecting");
     if (requestedRuntimeSelection() === "v3") {
       runtimeBaseActive = true;
-      setText("live-status", "connecting secure stream");
       setText("statusbar-websocket", "connecting");
       try {
         const base = readApiBase();
         const socketEndpoint = new URL(`${base}${getRuntimeV3Config().observatory_websocket_endpoint}`);
         socketEndpoint.protocol = "wss:";
-        setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         try {
           runtimeV3Readiness = await fetchCurrentRuntimeV3Readiness(base);
         } catch (error) {
@@ -3527,10 +4448,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               return;
             }
             replayPendingConversationsAfterAuthentication();
-            if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
+            // acceptRuntimeRosterSnapshot() is an ordering guard for the roster
+            // (monotonic revision + event cursor). It must not veto the whole
+            // frame: when the runtime emits revision > 0 with a null
+            // event_cursor it rejects every snapshot, and the dashboard freezes
+            // at "connecting" showing zeros even though the feed is healthy.
+            const rosterAccepted = acceptRuntimeRosterSnapshot(streamSnapshot);
             renderPanopticon(streamSnapshot, packet);
-            updateConversationRoster(streamSnapshot.status?.agent_population);
-            updateGovernedRoomRoster(streamSnapshot.status?.agent_population);
+            if (rosterAccepted) {
+              updateConversationRoster(streamSnapshot.status?.agent_population);
+              updateGovernedRoomRoster(streamSnapshot.status?.agent_population);
+            }
             if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
               runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
                 .then((readiness) => {
@@ -3544,10 +4472,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
                });
             }
             liveReconnectAttempt = 0;
-            setText("live-status", "live secure stream");
+            hasReceivedLiveSnapshot = true;
+            // A readable frame clears any prior schema-mismatch diagnosis.
+            clearUnsupportedObservatorySchema();
             setText("statusbar-websocket", "connected");
             setLiveConnectionState("connected");
-            setRuntimeTestStatus("live secure stream", "Runtime v3 public WebSocket feed is active; operator login is required only for writes.");
           },
           (error) => {
             if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
@@ -3595,12 +4524,217 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     livePollTimer = setInterval(refreshLive, 3000);
   };
 
-  if (connect) connect.onclick = () => connectLive();
-  if (refresh) refresh.onclick = refreshLive;
-  if (stop) stop.onclick = stopPolling;
-  if (dashboardConnect) dashboardConnect.onclick = () => connectLive();
-  if (dashboardRefresh) dashboardRefresh.onclick = refreshLive;
-  if (dashboardStop) dashboardStop.onclick = stopPolling;
+  // ── Polis switcher ────────────────────────────────────────
+  const polisSelect = document.getElementById("polis-select");
+  const polisControl = document.getElementById("polis-switcher-control");
+  const polisAddBtn = document.getElementById("polis-add");
+  const polisAddForm = document.getElementById("polis-add-form");
+  const polisAddLabel = document.getElementById("polis-add-label");
+  const polisAddUrl = document.getElementById("polis-add-url");
+  const polisAddConfirm = document.getElementById("polis-add-confirm");
+  const polisAddCancel = document.getElementById("polis-add-cancel");
+
+  // Load persisted polis registry from sessionStorage + seed from query params
+  const loadPolisRegistry = () => {
+    try {
+      return JSON.parse(sessionStorage.getItem(POLIS_REGISTRY_KEY) || "[]");
+    } catch (_) { return []; }
+  };
+  const savePolisRegistry = (list) => {
+    try { sessionStorage.setItem(POLIS_REGISTRY_KEY, JSON.stringify(list)); } catch (_) {}
+  };
+
+  // Seed registry from URL ?polises=label:url,label2:url2 and ?runtimeApiBase=
+  const seedPolisRegistry = () => {
+    // The runtime feed publishes no polis name, so derive a truthful label from
+    // the endpoint host rather than inventing one. "wuji.dev.csm.agent-logic.ai"
+    // reads as "wuji.dev"; a bare host or loopback falls back to the hostname.
+    const polisLabelForBase = (base) => {
+      try {
+        const host = new URL(base).hostname;
+        const parts = host.split(".");
+        if (parts.length >= 2 && !/^\d+$/.test(parts[0])) {
+          return parts.slice(0, 2).join(".");
+        }
+        return host;
+      } catch (_) {
+        return "runtime";
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const existing = loadPolisRegistry();
+    // Drop the legacy hard-coded placeholder from any session that stored it —
+    // it claimed "prod" regardless of which endpoint was actually selected.
+    let migrated = false;
+    existing.forEach((entry) => {
+      if (entry.label === "prod-polis") {
+        entry.label = polisLabelForBase(entry.url);
+        migrated = true;
+      }
+    });
+    if (migrated) savePolisRegistry(existing);
+    const existingUrls = new Set(existing.map((p) => p.url));
+    const additions = [];
+    // ?runtimeApiBase= → default polis
+    const queryBase = params.get("runtimeApiBase") || params.get("apiBase") || "";
+    if (queryBase) {
+      try {
+        const normalized = normalizeTrustedRuntimeV3ApiBase(normalizeApiBase(queryBase));
+        if (!existingUrls.has(normalized)) {
+          additions.push({ label: polisLabelForBase(normalized), url: normalized });
+          existingUrls.add(normalized);
+        }
+      } catch (_) {}
+    } else if (!existingUrls.size) {
+      const defaultBase = getRuntimeV3Config().api_base;
+      try {
+        const normalized = normalizeTrustedRuntimeV3ApiBase(defaultBase);
+        if (!existingUrls.has(normalized)) {
+          additions.push({ label: polisLabelForBase(normalized), url: normalized });
+          existingUrls.add(normalized);
+        }
+      } catch (_) {}
+    }
+    // ?polises=label:url,label2:url2
+    const extraPolises = params.get("polises") || "";
+    extraPolises.split(",").forEach((entry) => {
+      const colonIdx = entry.indexOf(":");
+      if (colonIdx < 1) return;
+      const label = decodeURIComponent(entry.slice(0, colonIdx)).trim();
+      const rawUrl = decodeURIComponent(entry.slice(colonIdx + 1)).trim();
+      try {
+        const normalized = normalizeTrustedRuntimeV3ApiBase(normalizeApiBase(rawUrl));
+        if (label && !existingUrls.has(normalized)) {
+          additions.push({ label, url: normalized });
+          existingUrls.add(normalized);
+        }
+      } catch (_) {}
+    });
+    if (additions.length > 0) {
+      const updated = [...existing, ...additions];
+      savePolisRegistry(updated);
+      return updated;
+    }
+    return existing;
+  };
+
+  const applyPolisApiBase = (base) => {
+    // Mirror to the Chat field so connectLive/readApiBase picks it up.
+    if (communicationBase) communicationBase.value = base;
+  };
+
+  const renderPolisSelect = (registry, selectedUrl) => {
+    if (!polisSelect) return;
+    polisSelect.replaceChildren();
+    registry.forEach(({ label, url }) => {
+      const opt = document.createElement("option");
+      opt.value = url;
+      opt.textContent = label;
+      opt.selected = url === selectedUrl;
+      polisSelect.append(opt);
+    });
+  };
+
+  const setPolisState = (state) => {
+    if (polisControl) polisControl.dataset.state = state;
+  };
+
+  const resetForPolisChange = () => {
+    clearRuntimeV3ObservatoryWriteToken();
+    if (operatorToken) operatorToken.value = "";
+    pendingConversationTurns.clear();
+    governedRoomSequences.clear();
+    liveRuntimeIncarnationId = null;
+    hasReceivedLiveSnapshot = false;
+    resetPolisScopedProjectionState();
+    const resetTranscript = (target, message) => {
+      if (!target) return;
+      const empty = document.createElement("li");
+      empty.className = "conversation-empty";
+      empty.textContent = message;
+      target.replaceChildren(empty);
+    };
+    resetTranscript(conversationTranscript, "Waiting for the selected polis runtime feed.");
+    resetTranscript(roomTranscript, "Waiting for the selected polis runtime feed.");
+    setWriteAccess(false, "public read", "Polis changed. Re-enter that Polis's operator token to enable writes.");
+    renderAgentDirectory([]);
+    renderInspectorActivity();
+  };
+
+  // Init — seed registry, then fall back to live API base if seeding failed
+  const polisRegistry = seedPolisRegistry();
+  const initialBase = getQueryApiBase() || readApiBase() || (polisRegistry[0]?.url || "");
+  // Ensure the current polis appears in the registry even if seedPolisRegistry failed
+  if (initialBase && !polisRegistry.some((p) => p.url === initialBase)) {
+    polisRegistry.push({ label: "prod-polis", url: initialBase });
+    savePolisRegistry(polisRegistry);
+  }
+  if (initialBase) applyPolisApiBase(initialBase);
+  renderPolisSelect(polisRegistry, initialBase);
+
+  // Switch polis
+  polisSelect?.addEventListener("change", () => {
+    const selectedBase = polisSelect.value;
+    if (!selectedBase) return;
+    stopPolling({ resetReconnect: true });
+    resetForPolisChange();
+    applyPolisApiBase(selectedBase);
+    setPolisState("connecting");
+    connectLive();
+  });
+
+  // Add polis form
+  polisAddBtn?.addEventListener("click", () => {
+    if (polisAddForm) polisAddForm.hidden = !polisAddForm.hidden;
+    if (!polisAddForm?.hidden) polisAddLabel?.focus();
+  });
+  polisAddCancel?.addEventListener("click", () => {
+    if (polisAddForm) polisAddForm.hidden = true;
+  });
+  polisAddConfirm?.addEventListener("click", () => {
+    const label = polisAddLabel?.value.trim() || "new-polis";
+    const rawUrl = polisAddUrl?.value.trim() || "";
+    try {
+      const normalized = normalizeTrustedRuntimeV3ApiBase(normalizeApiBase(rawUrl));
+      const registry = loadPolisRegistry();
+      if (!registry.some((p) => p.url === normalized)) {
+        registry.push({ label, url: normalized });
+        savePolisRegistry(registry);
+      }
+      renderPolisSelect(registry, normalized);
+      stopPolling({ resetReconnect: true });
+      resetForPolisChange();
+      applyPolisApiBase(normalized);
+      if (polisAddForm) polisAddForm.hidden = true;
+      if (polisAddLabel) polisAddLabel.value = "";
+      if (polisAddUrl) polisAddUrl.value = "";
+      setPolisState("connecting");
+      connectLive();
+    } catch (error) {
+      if (polisAddUrl) {
+        polisAddUrl.setCustomValidity(error instanceof Error ? error.message : "Invalid URL");
+        polisAddUrl.reportValidity();
+        polisAddUrl.setCustomValidity("");
+      }
+    }
+  });
+
+  // Wire topbar mode-tab buttons to the hidden modeSelect
+  document.querySelectorAll(".mode-tab[data-mode]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const mode = tab.dataset.mode;
+      document.querySelectorAll(".mode-tab").forEach((t) => {
+        t.classList.toggle("active", t === tab);
+        t.setAttribute("aria-selected", t === tab ? "true" : "false");
+      });
+      if (modeSelect) {
+        modeSelect.value = mode;
+        modeSelect.dispatchEvent(new Event("change"));
+      }
+    });
+  });
+
   modeSelect?.addEventListener("change", () => {
     if (modeSelect.value === "live") {
       connectLive();
@@ -3621,8 +4755,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       events: [],
       errors: {}
     }, packet);
-    setText("live-status", "retained mirror");
-    setRuntimeTestStatus("retained mirror", "Showing the retained proof packet without live or published endpoint polling.");
   });
   operatorLogin?.addEventListener("click", () => {
     const token = operatorToken?.value.trim() || "";
@@ -3630,7 +4762,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setWriteAccess(false, "login required", "Enter the operator write token.");
       return;
     }
-    globalThis.sessionStorage?.setItem("adl.runtimeV3.observatoryToken", token);
+    setRuntimeV3ObservatoryWriteToken(token, readApiBase());
     if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
       setWriteAccess(false, "connecting", "Opening the public stream before operator login.");
       connectLive();
@@ -3640,7 +4772,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     authenticateRuntimeV3ObservatorySocket(liveSocket, token);
   });
   operatorLogout?.addEventListener("click", () => {
-    globalThis.sessionStorage?.removeItem("adl.runtimeV3.observatoryToken");
+    clearRuntimeV3ObservatoryWriteToken();
     if (operatorToken) {
       operatorToken.value = "";
     }
@@ -3832,6 +4964,7 @@ async function loadRuntimeV3Config(root) {
 }
 
 async function bootObservatory() {
+  startSystemClock();
   const root = document.querySelector(".observatory");
   const packetRef = root?.dataset.packetRef || "";
   const reportRef = root?.dataset.reportRef || "";
@@ -3841,13 +4974,9 @@ async function bootObservatory() {
   const cloudwatchEventsRef = root?.dataset.cloudwatchEventsRef || "";
   const acipSnsRef = root?.dataset.acipSnsRef || "";
   const snsResourceRef = root?.dataset.snsResourceRef || "";
-  setHref("packet-link", packetRef);
-  setHref("report-link", reportRef);
   const runtimeConfig = await loadRuntimeV3Config(root);
   const runtimeApiBase = getQueryApiBase();
   if (requestedRuntimeSelection() === "v3" && runtimeApiBase) {
-    setHref("packet-link", `${runtimeApiBase}${runtimeConfig.observatory_endpoint}`);
-    setHref("report-link", `${runtimeApiBase}${runtimeConfig.observatory_docs_endpoint}`);
   }
 
   try {
@@ -3868,6 +4997,9 @@ async function bootObservatory() {
     bindDashboardNavigation(packet);
     bindCommunication(packet, acipSnsSummary, snsResourceSummary);
     bindLivePanopticon(packet);
+    bindRuntimeLogs();
+    bindAgentDirectory();
+    bindInspector();
   } catch (_error) {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
     renderIntegrations();
@@ -3885,8 +5017,12 @@ if (typeof document !== "undefined") {
 
 globalThis.AdlHtmlObservatory = {
   FALLBACK_PACKET,
+  describeConversationTurn,
+  conversationTurnsInOrder,
   AWS_LINKAGES,
   formatLabel,
+  refreshSystemClock,
+  startSystemClock,
   parseCloudWatchEventMessage,
   buildOperatorEnvelope,
   normalizeApiBase,
@@ -3901,7 +5037,6 @@ globalThis.AdlHtmlObservatory = {
   authenticateRuntimeRosterSuccessor,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
-  projectPolisIdentity,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
   requestRuntimeConversationHistory,
@@ -3949,6 +5084,7 @@ globalThis.AdlHtmlObservatory = {
   applyRuntimeV3Config,
   isRuntimeV3ApiBase,
   normalizeTrustedRuntimeV3ApiBase,
+  projectPolisIdentity,
   normalizeAgentOrientation,
   formatAgentOrientation,
   buildRuntimeAgentRows,

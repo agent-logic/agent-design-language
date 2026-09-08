@@ -1,1 +1,18 @@
 {"sequence":1,"generation":0,"actor":"codex:worker-6","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":0,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":3,"generation":1,"actor":"codex:issue-512-observatory-redesign","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":4,"generation":1,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":5,"generation":2,"actor":"codex:issue-512-final-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":6,"generation":3,"actor":"codex:issue-512-observatory-redesign","reason":"Recover review truth after committing the typed review record and publication request so a fresh exact-head review can cover the current publication head.","operation":"recover_review"}
+{"sequence":7,"generation":3,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":8,"generation":4,"actor":"codex:issue-512-publication-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":9,"generation":5,"actor":"codex:issue-512-observatory-redesign","reason":"Recover review truth after retaining the operator-provided exact-product browser proof and updating the handoff to current validation truth.","operation":"recover_review"}
+{"sequence":10,"generation":5,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":6,"actor":"codex:issue-512-operator-proof-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":7,"actor":"codex:issue-512-observatory-redesign","reason":"Recover review truth after fixing the live System Time refresh, invalidating stale browser assets, and retaining the six-key operator interaction proof.","operation":"recover_review"}
+{"sequence":13,"generation":7,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":14,"generation":8,"actor":"codex:issue-512-observatory-redesign","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":15,"generation":9,"actor":"codex:issue-512-observatory-redesign","reason":"Remediate the exact-head proof finding with an executable advancing-clock test and a fresh exact-revision review.","operation":"recover_review"}
+{"sequence":16,"generation":9,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":10,"actor":"codex:issue-512-observatory-redesign","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":18,"generation":11,"actor":"codex:issue-512-observatory-redesign","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

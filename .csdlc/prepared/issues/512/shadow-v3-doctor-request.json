@@ -1,0 +1,11 @@
+{
+  "issue": 512,
+  "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/512-observatory-redesign-implementation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
+  "registry_version": "1.0.3",
+  "expected_lifecycle_digest": "d82ec0df03be20b2d0cff905a376eabda5b46ca56b7b49567cf9dec517f17e37",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "card_updates": {}
+}

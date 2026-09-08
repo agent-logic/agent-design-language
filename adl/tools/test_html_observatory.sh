@@ -18,7 +18,14 @@ const sourceRevision = "feed-source-revision-under-test";
 
 (async () => {
 const observatoryFeed = {
-  schema: "adl.runtime_v3.observatory_feed.v2",
+  schema: "adl.runtime_v3.observatory_feed.v3",
+  polis_identity: {
+    polis_id: "runtime-v3-test-polis",
+    display_name: "Runtime V3 Test Polis",
+    public_domain: "runtime.dev.agent-logic.ai",
+    runtime_api_base: "https://runtime.dev.agent-logic.ai",
+    observatory_public_origin: "https://observatory.dev.agent-logic.ai"
+  },
   runtime_instance_id: "runtime-v3-test",
   runtime_incarnation_id: "runtime-incarnation-a",
   runtime_process_id: 12345,
@@ -115,7 +122,7 @@ const context = {
   window: { location: { search: "" } },
   fetch: async (url, options = {}) => {
     calls.push({ url: String(url), options });
-    if (String(url) === `${config.api_base}/v1/observatory`) {
+    if (String(url).split("?")[0] === `${config.api_base}/v1/observatory`) {
       return { ok: true, status: 200, json: async () => observatoryFeed };
     }
     if (String(url) === `${config.api_base}/v1/ready`) {
@@ -280,13 +287,13 @@ const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
 assert.equal(eventCheck.events[0].event, "agent_ready");
 assert.equal(api.normalizeEventEntries(eventCheck).length, 1);
-assert(calls.some((call) => call.url === `${config.api_base}/v1/observatory`), "Runtime v3 Observatory fetch must call /v1/observatory");
+assert(calls.some((call) => call.url.split("?")[0] === `${config.api_base}/v1/observatory`), "Runtime v3 Observatory fetch must call /v1/observatory");
 assert(calls.some((call) => call.url === `${config.api_base}/v1/ready`), "Runtime v3 readiness fetch must call /v1/ready");
 assert(calls.some((call) => call.url === `${config.api_base}/v1/health`), "Runtime v3 health fetch must call /v1/health");
 
 const runtimeFetch = context.fetch;
 context.fetch = async (url) => {
-  if (String(url) === `${config.api_base}/v1/observatory`) {
+  if (String(url).split("?")[0] === `${config.api_base}/v1/observatory`) {
     return { ok: true, status: 204, json: async () => observatoryFeed };
   }
   if (String(url) === `${config.api_base}/v1/ready`) {
@@ -299,7 +306,7 @@ context.fetch = async (url) => {
 };
 await assert.rejects(
   () => api.fetchRuntimeV3ObservatorySnapshot(config.api_base),
-  /\/v1\/observatory returned 204/,
+  /\/v1\/observatory(\?[^\s]*)? returned 204/,
   "Runtime v3 live mode must require exact HTTP 200 from /v1/observatory"
 );
 context.fetch = runtimeFetch;
@@ -345,17 +352,22 @@ await assert.rejects(
 });
 NODE
 
-grep -q 'id="roster-search"' "${ROOT_DIR}/demos/html-observatory/index.html"
-grep -q 'id="roster-presence-filter"' "${ROOT_DIR}/demos/html-observatory/index.html"
-grep -q 'id="roster-sort"' "${ROOT_DIR}/demos/html-observatory/index.html"
-grep -q 'id="roster-detail"' "${ROOT_DIR}/demos/html-observatory/index.html"
-grep -q 'id="roster-load-more"' "${ROOT_DIR}/demos/html-observatory/index.html"
-grep -q 'id="runtime-source-label"' "${ROOT_DIR}/demos/html-observatory/index.html"
+# Agent roster surface. The scrollable roster list with presence/sort selects was
+# replaced by an agent directory of per-agent cards; these prove the replacement,
+# not the removed markup.
+grep -q 'id="agent-directory-filter"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'id="agent-card-grid"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'agent-card-message' "${APP_JS}"
+# Runtime source labelling now lives only in the status bar.
 grep -q 'id="statusbar-runtime-label"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'Live Runtime API' "${APP_JS}"
 grep -q 'data-dashboard-surface="runtime"' "${ROOT_DIR}/demos/html-observatory/index.html"
-grep -q 'root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime"' "${APP_JS}"
+# Surface switching covers every rail key, not just an agents/runtime pair.
+grep -q 'root.dataset.dashboardSurface = DASHBOARD_FOCUS\[key\] ? key : "runtime"' "${APP_JS}"
 grep -q '\[data-dashboard-surface="agents"\] > .panopticon-shell' "${ROOT_DIR}/demos/html-observatory/styles.css"
+grep -q '\[data-dashboard-surface="logs"\] > .logs-shell' "${ROOT_DIR}/demos/html-observatory/styles.css"
+grep -q '\[data-dashboard-surface="evidence"\] > .evidence-band' "${ROOT_DIR}/demos/html-observatory/styles.css"
+grep -q '\[data-dashboard-surface="modules"\] > .component-health-shell' "${ROOT_DIR}/demos/html-observatory/styles.css"
 grep -q 'symbolic-ref", "HEAD' "${ROOT_DIR}/adl-runtime-kernel/build.rs"
 grep -q 'track_git_path(&manifest_dir, &symbolic_ref)' "${ROOT_DIR}/adl-runtime-kernel/build.rs"
 

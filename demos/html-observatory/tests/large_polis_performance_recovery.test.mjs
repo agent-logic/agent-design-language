@@ -1,8 +1,4 @@
 import assert from "node:assert/strict";
-import { mkdir, writeFile } from "node:fs/promises";
-
-const testUrl = new URL(import.meta.url);
-const repoRoot = new URL("../../../", testUrl);
 
 await import("../app.js");
 
@@ -153,13 +149,5 @@ const fakeContainer = {
 assert.equal(pruneLargePolisDomWindow(fakeContainer, ".conversation-turn"), 7);
 assert.equal(fakeContainer.dataset.retainedTurnCount, String(LARGE_POLIS_LIMITS.maxTranscriptTurns));
 assert.equal(fakeContainer.dataset.prunedTurnCount, "7");
-
-const evidenceDir = new URL(".csdlc/evidence/280/", repoRoot);
-await mkdir(evidenceDir, { recursive: true });
-await writeFile(
-  new URL("large_polis_performance_recovery_metrics.json", evidenceDir),
-  `${JSON.stringify(metrics, null, 2)}\n`,
-  "utf8"
-);
 
 console.log("WP-18C.07b large-Polis performance/recovery proof: PASS");

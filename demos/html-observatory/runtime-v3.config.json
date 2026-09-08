@@ -1,5 +1,6 @@
 {
   "schema": "adl.html_observatory.runtime_v3_config.v1",
+  "_feed_schema_note": "observatory_endpoint and observatory_websocket_endpoint pin ?schema=v3 deliberately. The pinned version MUST appear in RUNTIME_V3_OBSERVATORY_SCHEMAS in app.js; if the runtime is asked for a version this client cannot read, every frame is discarded and the Observatory reports 'Unsupported runtime feed schema'. Change both together.",
   "api_base": "https://wuji.dev.csm.agent-logic.ai:20997",
   "trusted_hosts": ["wuji.dev.csm.agent-logic.ai"],
   "health_endpoint": "/v1/health",

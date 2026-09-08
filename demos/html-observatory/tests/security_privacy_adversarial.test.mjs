@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 
 const testUrl = new URL(import.meta.url);
-const repoRoot = new URL("../../../", testUrl);
 
 const [html, app] = await Promise.all([
   readFile(new URL("../index.html", testUrl), "utf8"),
@@ -45,8 +44,19 @@ assert.match(app, /function escapeHtml\(value\)/);
 assert.match(app, /content\.textContent = message/);
 assert.match(app, /state\.textContent = status/);
 assert.match(app, /operatorToken\?\.value\.trim\(\)/);
+assert.match(app, /let runtimeV3ObservatoryWriteToken = ""/);
+assert.match(app, /let runtimeV3ObservatoryWriteTokenOrigin = ""/);
+assert.match(app, /normalizeTrustedRuntimeV3ApiBase\(apiBase\) === runtimeV3ObservatoryWriteTokenOrigin/);
+assert.match(app, /getRuntimeV3ObservatoryWriteToken\(base\)/);
+assert.match(app, /setRuntimeV3ObservatoryWriteToken\(token, readApiBase\(\)\)/);
+assert.match(app, /const resetForPolisChange = \(\) => \{[\s\S]*clearRuntimeV3ObservatoryWriteToken\(\)/);
+assert.match(app, /polisSelect\?\.addEventListener\("change",[\s\S]*resetForPolisChange\(\)/);
+assert.match(app, /polisAddConfirm\?\.addEventListener\("click",[\s\S]*resetForPolisChange\(\)/);
+assert.match(app, /function resetPolisScopedProjectionState\(\)[\s\S]*lastKnownComponentEntries = \[\][\s\S]*lastAgentPopulation = \[\][\s\S]*inspectorActivity = \[\][\s\S]*seenConversationWorkIds = null/);
 assert.doesNotMatch(app, /localStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
-assert.match(app, /sessionStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
+assert.doesNotMatch(app, /sessionStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
+assert.doesNotMatch(app, /sessionStorage\?\.getItem\("adl\.runtimeV3\.observatoryToken"/);
+assert.doesNotMatch(app, /sessionStorage\?\.removeItem\("adl\.runtimeV3\.observatoryToken"/);
 assert.doesNotMatch(app, /agent-conversation-key|conversation.*private.*key/i);
 
 const safeHistory = normalizeRuntimeConversationHistorySnapshot({
@@ -270,12 +280,12 @@ applyRuntimeV3Config({
   api_base: "https://wuji.dev.csm.agent-logic.ai:20997",
   trusted_hosts: ["wuji.dev.csm.agent-logic.ai"]
 });
-assert.deepEqual(getRuntimeV3Config().trusted_hosts, ["wuji.dev.csm.agent-logic.ai"]);
+assert.equal(getRuntimeV3Config().api_base, "https://wuji.dev.csm.agent-logic.ai:20997");
 assert.equal(normalizeTrustedRuntimeV3ApiBase("https://wuji.dev.csm.agent-logic.ai:20997"), "https://wuji.dev.csm.agent-logic.ai:20997");
+assert.equal(normalizeTrustedRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997"), "https://runtime.dev.agent-logic.ai:20997");
 for (const unsafeBase of [
   "http://wuji.dev.csm.agent-logic.ai:20997",
   "https://evil.example:20997",
-  "https://runtime.dev.agent-logic.ai:20997",
   "https://token:secret@wuji.dev.csm.agent-logic.ai:20997",
   "https://wuji.dev.csm.agent-logic.ai:20997/path",
   "https://wuji.dev.csm.agent-logic.ai:20997?token=secret"
@@ -296,23 +306,8 @@ assert.deepEqual(sent, [{
 }]);
 assert.throws(() => authenticateRuntimeV3ObservatorySocket({ readyState: WebSocket.OPEN, send() {} }, ""));
 
-const evidenceDir = new URL(".csdlc/evidence/281/", repoRoot);
-await mkdir(evidenceDir, { recursive: true });
-await writeFile(new URL("security_privacy_adversarial.json", evidenceDir), JSON.stringify({
-  schema: "adl.observatory.security_privacy_adversarial_proof.v1",
-  issue: 281,
-  source: "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-  proof: [
-    "xss_fixture_text_only",
-    "credential_token_redaction",
-    "trusted_https_origin_only",
-    "replay_confused_deputy_stale_denial_fail_closed",
-    "operator_attention_no_authority_grant"
-  ],
-  public_safe: true,
-  contains_secrets: false,
-  contains_private_cognition: false,
-  contains_raw_provider_payloads: false
-}, null, 2));
+assert.doesNotMatch(app, /runtime-log\.jsonl|master\.log\.jsonl/);
+assert.match(app, /public Logs surface is derived only from the selected polis/);
+assert.match(app, /polisConnectionGeneration/);
 
 console.log("WP-18C.07c Observatory security/privacy/adversarial proof: PASS");
