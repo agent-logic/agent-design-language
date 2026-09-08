@@ -1,0 +1,15 @@
+flowchart TD
+  A["Post-merge PR #738 review FAIL"] --> B["Issue #740 corrective lane"]
+  B --> C["Local credential-retention and auth-binding validator"]
+  B --> D["Bounded live GCP-B1 proof"]
+  C --> E["No retained tokens or static credential material"]
+  C --> F["Reject self-issued authorization"]
+  D --> G["Legacy SA key disposition"]
+  D --> H["Terraform GCS backend canary write"]
+  H --> I["Recover backend state object by generation"]
+  D --> J["Bucket posture readback"]
+  E --> K["Exact-head review and PR"]
+  F --> K
+  G --> K
+  I --> K
+  J --> K

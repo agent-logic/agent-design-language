@@ -1,0 +1,9 @@
+{
+  "schema": "adl.gcp_b1.backend_canary.v1",
+  "issue": 740,
+  "writer": "terraform-gcs-backend",
+  "state_object": "gs://adl-tf-state-cs-host-377d41e71a824f92802120/bootstrap/canary/issue-740-562f5e90-0054-41a5-aaff-f9fdc6905e14/default.tfstate",
+  "backend_canary_generation": "1788865232161971",
+  "state_sha256": "15b0494fbb350f7d597d66203d769eef8dbb2c3a03346abd8cce9b1cfa4fc168",
+  "nonce_sha256": "e528e7ce0e18a89e58f98fe7dad7f80da0f6138097075345440526de0e1ecc93"
+}
