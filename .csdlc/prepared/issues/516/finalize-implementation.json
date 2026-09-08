@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 516,
+  "expected_generation": 1,
+  "expected_digest": "40e7408fb7096e9263942d51060bc0869b9078e7366d40671016de2bfeedee01",
+  "actor": "codex:sprint-10-release-tail-admission",
+  "summary": "Generated the complete v0.92.1 release-tail admission denominator and a findings-first expected-versus-observed gap analysis bound to live GitHub and repository evidence.",
+  "changes": [
+    "Added a deterministic generator for the v0.92.1 milestone execution denominator.",
+    "Recorded exact issue, PR revision, merge ancestry, lifecycle artifact, validation, review, and closeout references for every denominator row.",
+    "Classified unresolved release blockers and explicit operator-deferred backlog work without repeating paid or disruptive validation.",
+    "Added compact machine-readable admission and gap artifacts plus a human-readable findings-first report."
+  ],
+  "artifacts": [
+    ".csdlc/prepared/issues/516/generate-release-tail-admission.rb",
+    ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "release-tail-denominator",
+          "proof_role": "Validate complete unique denominator rows and required evidence fields.",
+          "purpose": "Issue 516 denominator validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "admission",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/bin/bash",
+          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh", "denominator"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "implementation-gap-analysis",
+          "proof_role": "Validate findings schema, classifications, owners, and Markdown report structure.",
+          "purpose": "Issue 516 gap-analysis validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "admission",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/bin/bash",
+          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh", "gaps"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "admission-consistency",
+          "proof_role": "Validate decision consistency and fail-closed blocker handling.",
+          "purpose": "Issue 516 final admission decision validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["release-tail-denominator", "implementation-gap-analysis"],
+          "parallel_group": "decision",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/bin/bash",
+          "argv": ["/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh", "decision"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["release-tail-denominator", "implementation-gap-analysis", "admission-consistency"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 2, "cpu_units": 2, "memory_mib": 512, "tokens": 600},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/516",
+    "cancellation_file": null
+  }
+}
