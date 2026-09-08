@@ -139,7 +139,7 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                     match execute_operational_local_route(route, &request, &registry, &context) {
                         Ok(operational) => operational,
                         Err(findings)
-                            if can_fallback_from_invalid_operational_roots(route)
+                            if can_fallback_from_read_only_operational_context(route)
                                 && findings
                                     .iter()
                                     .any(|finding| finding.code == "invalid_operational_roots") =>
@@ -175,10 +175,10 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
             }
             Ok(None) => {}
             Err(findings)
-                if can_fallback_from_invalid_operational_roots(route)
+                if can_fallback_from_read_only_operational_context(route)
                     && findings
                         .iter()
-                        .any(|finding| finding.code == "invalid_operational_roots") => {}
+                        .any(|finding| read_only_discovery_fallback_code(&finding.code)) => {}
             Err(findings) => {
                 return Err(serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()));
             }
@@ -187,8 +187,15 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     run_local_construction_report(route, args, request, registry, registrations)
 }
 
-fn can_fallback_from_invalid_operational_roots(route: &str) -> bool {
+fn can_fallback_from_read_only_operational_context(route: &str) -> bool {
     matches!(route, "doctor" | "eligibility")
+}
+
+fn read_only_discovery_fallback_code(code: &str) -> bool {
+    matches!(
+        code,
+        "invalid_operational_roots" | "worktree_parent_unavailable"
+    )
 }
 
 fn run_local_construction_report(
