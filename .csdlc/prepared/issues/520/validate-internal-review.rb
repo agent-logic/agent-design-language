@@ -76,7 +76,7 @@ end
 root = ENV.fetch("ADL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-04")
 mode = ARGV.fetch(0, "all")
 fail!("unsupported mode: #{mode}") unless %w[all denominator findings integrity].include?(mode)
-required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json packet-manifest.json]
+required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -104,6 +104,11 @@ fail!("candidate range is unavailable") unless $?.success?
 repo_rows = docs.fetch("repo_inventory.json").fetch("rows")
 fail!("repo inventory does not exactly match changed-file denominator") unless repo_rows.map { |row| row.fetch("path") }.sort == changed
 fail!("repo inventory contains unreviewed or non-resolving rows") unless repo_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("classification")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("review_lane")) && evidence_resolves?(row.fetch("evidence"), candidate, root) }
+
+canonical_rows = docs.fetch("canonical-surface-inventory.json").fetch("rows")
+canonical_kinds = %w[documentation demo provider_cloud retained_evidence]
+fail!("canonical #519 review surfaces are incomplete") unless canonical_rows.map { |row| row.fetch("kind") }.uniq.sort == canonical_kinds.sort
+fail!("canonical surfaces are not immutable-candidate bound") unless canonical_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("path")) && evidence_resolves?(row.fetch("evidence"), candidate, root) }
 
 spec_path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
 spec_blob = git_blob(candidate, spec_path)
@@ -172,7 +177,7 @@ fail!("acceptance rows rewrite canonical criterion content") unless acceptance_r
 end
 fail!("acceptance inventory has missing or non-resolving implementation/proof dispositions") unless acceptance_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("implementation_disposition")) && nonempty?(row.fetch("proof_disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root) }
 
-all_refs = (repo_rows + issue_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
+all_refs = (repo_rows + canonical_rows + issue_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
 fail!("denominator references are not unique") unless all_refs.uniq.length == all_refs.length
 assignments = docs.fetch("assignments.json").fetch("assignments")
 results = docs.fetch("lane-results.json").fetch("results")
@@ -181,6 +186,8 @@ assigned_refs = assignments.flat_map { |row| row.fetch("denominator_refs") }
 fail!("assignments do not cover each denominator row exactly once") unless assigned_refs.sort == all_refs.sort && assigned_refs.uniq.length == assigned_refs.length
 assignment_ids = assignments.map { |row| row.fetch("id") }
 fail!("assignment IDs are not unique") unless assignment_ids.uniq.length == assignment_ids.length
+mandatory_lanes = %w[code tests documentation security architecture provider_cloud demos retained_evidence]
+fail!("mandatory specialist lane set is incomplete") unless (mandatory_lanes - assignments.map { |row| row.fetch("lane") }).empty?
 fail!("lane results do not match assignments exactly") unless results.map { |row| row.fetch("assignment_id") }.sort == assignment_ids.sort
 raw_findings = []
 results.each do |row|
@@ -207,7 +214,16 @@ fail!("findings outcome contradicts content") unless findings_doc.fetch("outcome
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length
 fail!("synthesized findings differ from raw lane union") unless findings.sort_by { |row| row.fetch("id") } == raw_findings.sort_by { |row| row.fetch("id") }
-fail!("finding schema is incomplete, stale, or cites unresolved evidence") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status title impact source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } && evidence_resolves?(finding.fetch("evidence"), candidate, root) }
+fail!("finding schema is incomplete, stale, or cites unresolved evidence") unless findings.all? do |finding|
+  locator = finding.fetch("locator")
+  concrete_locator = (nonempty?(locator["path"]) && locator["line"].is_a?(Integer) && locator["line"].positive?) || nonempty?(locator["command"])
+  %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status title impact source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } && nonempty?(finding.fetch("affected_acceptance_refs")) && finding.fetch("affected_acceptance_refs").all? { |ref| expected_acceptance.include?(ref) } && concrete_locator && evidence_resolves?(finding.fetch("evidence"), candidate, root)
+end
+
+%w[proof-results.json validation-results.json redaction-report.json quality-report.json].each do |name|
+  artifact = docs.fetch(name)
+  fail!("#{name} is not a contentful passing exact-candidate artifact") unless artifact.fetch("candidate_sha") == candidate && artifact.fetch("outcome") == "passed" && nonempty?(artifact.fetch("observations"))
+end
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")
 entries.each do |entry|
