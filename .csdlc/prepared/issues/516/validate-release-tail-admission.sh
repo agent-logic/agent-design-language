@@ -75,6 +75,7 @@ ruby -rjson -e '
     end
     abort("report decision disagrees with admission") unless gaps["decision"] == decision
     abort("report denominator disagrees with admission") unless gaps["expected_baseline"].length == admission["denominator"].length
+    abort("release-tail admission remains blocked") unless decision == "admitted"
   end
 
   puts JSON.generate({schema: "adl.v0921.release_tail_validation.v1", mode: mode, status: "pass"})
