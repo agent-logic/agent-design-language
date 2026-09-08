@@ -1,0 +1,25 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 724,
+  "expected_generation": 6,
+  "expected_digest": "d66648dcdcd1103d515cb899f5a627168f80afb59921bbdd14fdfa49a41c8173",
+  "actor": "codex:/root/review_sprint10_523_526_prep",
+  "evidence": {
+    "reviewer": "codex:/root/remediate_v3_725",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "docs/csdlc-v3/CONTRACT.md",
+      ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+      ".csdlc/evidence/724"
+    ],
+    "reviewed_revision": "git-blake3:f631cb9ca4488470349228bf70a3634fe555d43e:a86c275fbf14333c4f7287a2cb7da6506d17a4c7d8aa636fe3e35897d8d76ce5",
+    "findings": [],
+    "residual_risks": [
+      "The exact-head review was read-only and relied on the retained focused validation; it did not perform a live GitHub mutation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
