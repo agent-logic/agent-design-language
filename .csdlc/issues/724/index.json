@@ -3,11 +3,11 @@
   "issue": 724,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c1c9b38177c83ecbfd2ffee308cd8dd8ff5c49387f7452c89fa2ede6fd538bbc",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 5,
-  "digest": "6ac1cdd3dc16157f6e4c7d4dec2fc62008d9c351a95898cea020c006d5171306",
-  "branch": null,
-  "worktree": null,
+  "digest": "07da322344236d508147f4f4177fdbe85045cf12b3d089cbcf53842b32cb2db0",
+  "branch": "codex/724-simple-gh-style-issue-create",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-724-simple-gh-style-issue-create",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:/root/review_sprint10_523_526_prep",
       "reason": "Independent design review passed and the issue-owned proving lane is executable."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -105,6 +112,13 @@
       "actor": "codex:/root/review_sprint10_523_526_prep",
       "reason": "Independent design review passed and the issue-owned proving lane is executable.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }

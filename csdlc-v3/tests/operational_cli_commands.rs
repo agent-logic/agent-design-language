@@ -8,7 +8,7 @@ use std::{
 use csdlc_v3::commands::{
     local::{required_local_commands, LocalPreparationRequest},
     remote::{
-        canonical_authority_selector_digest, OperationalRemoteDispatchRequest,
+        canonical_authority_selector_digest, GithubMutation, OperationalRemoteDispatchRequest,
         OperationalRemoteOperation, RemoteRouteRequest,
     },
     terminal::{CutoverDecisionRequest, CutoverOperation, TerminalRouteRequest},
@@ -391,6 +391,161 @@ fn remote_operational_dispatch_is_reachable_and_fails_closed_under_v2_selector()
         "{}",
         String::from_utf8_lossy(&output.stderr)
     );
+}
+
+#[test]
+fn simple_issue_create_projects_github_style_flags_into_typed_dispatch() {
+    let exact_head = "0123456789012345678901234567890123456789";
+    let output = run(
+        &[
+            "github-issue",
+            "create",
+            "--repo",
+            "agent-logic/agent-design-language",
+            "--title",
+            "A bounded issue",
+            "--body",
+            "One concrete outcome",
+            "--label",
+            "type:task",
+            "--label",
+            "area:tools",
+            "--assignee",
+            "octocat",
+            "--milestone",
+            "1",
+            "--expected-head",
+            exact_head,
+        ],
+        &repo_root(),
+    );
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let dispatch: OperationalRemoteDispatchRequest =
+        serde_json::from_slice(&output.stdout).expect("typed dispatch JSON");
+    assert_eq!(dispatch.exact_review_sha, exact_head);
+    let OperationalRemoteOperation::GithubMutation(request) = dispatch.operation else {
+        panic!("simple form must produce the shared GitHub mutation operation")
+    };
+    assert_eq!(request.repository, "agent-logic/agent-design-language");
+    assert_eq!(request.issue, 0);
+    assert_eq!(request.expected_head_sha, exact_head);
+    assert_eq!(request.credential_names, ["GITHUB_TOKEN"]);
+    assert_eq!(
+        request.mutation,
+        GithubMutation::IssueCreate {
+            title: "A bounded issue".into(),
+            body: "One concrete outcome".into(),
+            labels: vec!["type:task".into(), "area:tools".into()],
+            assignees: vec!["octocat".into()],
+            milestone: Some(1),
+        }
+    );
+}
+
+#[test]
+fn simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input() {
+    let fixture = fixture("simple-issue-create-inputs");
+    let body_path = fixture.join("body.md");
+    fs::write(&body_path, "Body from file\n").unwrap();
+    let exact_head = "0123456789012345678901234567890123456789";
+    let body_file = run(
+        &[
+            "github-issue",
+            "create",
+            "--repo",
+            "agent-logic/agent-design-language",
+            "--title",
+            "File body",
+            "--body-file",
+            body_path.to_str().unwrap(),
+            "--expected-head",
+            exact_head,
+        ],
+        &repo_root(),
+    );
+    assert!(body_file.status.success(), "{body_file:?}");
+    let dispatch: OperationalRemoteDispatchRequest =
+        serde_json::from_slice(&body_file.stdout).unwrap();
+    let OperationalRemoteOperation::GithubMutation(request) = dispatch.operation else {
+        panic!("typed GitHub mutation expected")
+    };
+    assert!(
+        matches!(request.mutation, GithubMutation::IssueCreate { body, .. } if body == "Body from file\n")
+    );
+
+    for args in [
+        vec![
+            "github-issue",
+            "create",
+            "--repo",
+            "owner/repo",
+            "--title",
+            "x",
+            "--body",
+            "inline",
+            "--body-file",
+            body_path.to_str().unwrap(),
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "create",
+            "--repo",
+            "owner/repo",
+            "--title",
+            " ",
+            "--body",
+            "body",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "create",
+            "--repo",
+            "owner/repo",
+            "--title",
+            "x",
+            "--body",
+            "body",
+            "--expected-head",
+            "not-a-sha",
+        ],
+    ] {
+        let rejected = run(&args, &repo_root());
+        assert!(
+            !rejected.status.success(),
+            "invalid args accepted: {args:?}"
+        );
+    }
+}
+
+#[test]
+fn simple_issue_create_execute_fails_closed_under_v2_authority() {
+    let fixture = fixture("simple-issue-create-v2-fence");
+    let output = run(
+        &[
+            "github-issue",
+            "create",
+            "--repo",
+            "agent-logic/agent-design-language",
+            "--title",
+            "Must not be created",
+            "--body",
+            "Authority is inactive",
+            "--expected-head",
+            "0123456789012345678901234567890123456789",
+            "--execute",
+        ],
+        &fixture,
+    );
+    assert!(!output.status.success());
+    assert!(String::from_utf8_lossy(&output.stderr).contains("canonical_v3_authority_inactive"));
 }
 
 #[test]

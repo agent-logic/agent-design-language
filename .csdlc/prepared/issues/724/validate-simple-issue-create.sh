@@ -12,6 +12,7 @@ test -f csdlc-v3/tests/operational_cli_commands.rs
 cargo test --manifest-path csdlc-v3/Cargo.toml --test remote_publication_commands
 cargo test --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands
 cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest
+cargo test --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests::issue_create
 
 if rg -n 'Command::new\("gh"\)|raw gh|gh issue create' csdlc-v3/src; then
   echo "forbidden raw-gh issue creation route detected" >&2
