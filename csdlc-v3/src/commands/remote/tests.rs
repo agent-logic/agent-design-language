@@ -843,14 +843,27 @@ fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
     let selector_path = root.join(super::CANONICAL_AUTHORITY_SELECTOR_PATH);
     fs::create_dir_all(selector_path.parent().expect("selector parent")).expect("selector parent");
     let selector = if active {
+        let receipt = serde_json::to_vec_pretty(&serde_json::json!({
+            "schema": "csdlc.v3.native_authority_receipt.v1", "authority_issue": 505,
+            "authority_pull_request": 591, "reviewed_head": "1".repeat(40),
+            "merge_commit": "2".repeat(40), "source_selector_schema": "csdlc.generation_selector.v2",
+            "source_selector_digest": format!("sha256:{}", "3".repeat(64)),
+            "operational_authority": "csdlc-v3", "review_authority": "typed-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "remote_reconciliation": "authenticated-readback-required"
+        })).unwrap();
+        let receipt_path = root.join("csdlc-v3/operator/native-authority-receipt.json");
+        fs::write(&receipt_path, &receipt).unwrap();
         serde_json::json!({
-            "schema": "csdlc.generation_selector.v2",
-            "default_generation": "v3",
+            "schema": "csdlc.v3.authority_selector.v1",
+            "generation": "v3",
             "operational_authority": "csdlc-v3",
             "authority_issue": 505,
             "authority_pull_request": 591,
-            "review_authority": "typed-v2-exact-head",
-            "approval_authority": "merged-pr-591-closed-issue-505"
+            "review_authority": "typed-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "receipt_path": "csdlc-v3/operator/native-authority-receipt.json",
+            "receipt_digest": blake3::hash(&receipt).to_hex().to_string()
         })
     } else {
         serde_json::json!({
@@ -865,6 +878,9 @@ fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
     )
     .expect("write selector");
     git(&["add", super::CANONICAL_AUTHORITY_SELECTOR_PATH]);
+    if active {
+        git(&["add", "csdlc-v3/operator/native-authority-receipt.json"]);
+    }
     git(&["commit", "-q", "-m", "fixture selector"]);
     if active {
         git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);

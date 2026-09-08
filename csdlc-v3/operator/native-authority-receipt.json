@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.native_authority_receipt.v1",
+  "authority_issue": 505,
+  "authority_pull_request": 591,
+  "reviewed_head": "74ddb31702482172eea4ba3d74700536eab32e49",
+  "merge_commit": "d3f98ed005cf44c359ac482e271e6b8634e93f23",
+  "source_selector_schema": "csdlc.generation_selector.v2",
+  "source_selector_digest": "sha256:7febf37ad5c9ccac2564c32c47d61cd16993cd60d9d10a8a80e29a302aa1699c",
+  "operational_authority": "csdlc-v3",
+  "review_authority": "typed-exact-head",
+  "approval_authority": "merged-pr-591-closed-issue-505",
+  "remote_reconciliation": "authenticated-readback-required"
+}

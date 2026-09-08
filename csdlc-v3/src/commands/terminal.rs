@@ -1211,19 +1211,19 @@ struct ImmutableProofRef {
 }
 
 #[derive(Debug, Deserialize)]
-struct V2IssueReviewRecord {
+struct NativeIssueReviewRecord {
     schema: String,
     issue: u64,
     repository: String,
     phase: String,
     generation: u64,
     digest: String,
-    review_assignment: Option<V2ReviewAssignment>,
-    review: Option<V2ReviewEvidence>,
+    review_assignment: Option<NativeReviewAssignment>,
+    review: Option<NativeReviewEvidence>,
 }
 
 #[derive(Debug, Deserialize)]
-struct V2ReviewAssignment {
+struct NativeReviewAssignment {
     reviewer: String,
     assigned_by: String,
     revision: String,
@@ -1231,16 +1231,16 @@ struct V2ReviewAssignment {
 }
 
 #[derive(Debug, Deserialize)]
-struct V2ReviewEvidence {
+struct NativeReviewEvidence {
     reviewer: String,
     scope: Vec<String>,
     reviewed_revision: String,
-    findings: Vec<V2ReviewFinding>,
+    findings: Vec<NativeReviewFinding>,
     completed: bool,
 }
 
 #[derive(Debug, Deserialize)]
-struct V2ReviewFinding {
+struct NativeReviewFinding {
     actionable: bool,
     in_scope: bool,
     disposition: String,
@@ -1389,10 +1389,10 @@ fn execute_cutover_platform(
             "cutover installs only the stable repo-local .adl/bin/csdlc binary",
         ));
     }
-    if selector != repository_root.join("csdlc-v2/operator/generation-selector.json") {
+    if selector != repository_root.join(crate::authority::SELECTOR_PATH) {
         return Err(finding(
             "authority_selector_not_canonical",
-            "cutover writes only csdlc-v2/operator/generation-selector.json",
+            "cutover writes only the native v3 authority selector",
         ));
     }
     if requested_receipt != repository_root.join(".csdlc/evidence/505/cutover-receipt.json") {
@@ -1485,7 +1485,7 @@ fn execute_cutover_platform(
             readiness_evidence_digest: readiness.evidence_digest.clone(),
             approval_evidence_path: readiness.approval_evidence_path.clone(),
             approval_evidence_digest: readiness.approval_evidence_digest.clone(),
-            canonical_selector: PathBuf::from("csdlc-v2/operator/generation-selector.json"),
+            canonical_selector: PathBuf::from(crate::authority::SELECTOR_PATH),
             prior_selector_digest: blake3::hash(&prior_selector).to_hex().to_string(),
             cutover_selector_digest: blake3::hash(&selector_bytes).to_hex().to_string(),
             prior_selector,
@@ -1615,7 +1615,7 @@ fn execute_rollback(
     let mut journal = read_cutover_receipt(&receipt)?;
     if journal.schema != "csdlc.v3.cutover_receipt.v2"
         || journal.authority_issue != 505
-        || journal.canonical_selector != Path::new("csdlc-v2/operator/generation-selector.json")
+        || journal.canonical_selector != Path::new(crate::authority::SELECTOR_PATH)
         || (!request.selected_binary_provenance.is_empty()
             && request.selected_binary_provenance != format!("git:{}", journal.selected_revision))
     {
@@ -1938,10 +1938,10 @@ fn verify_independent_review(
     revision: &str,
     operator: &str,
 ) -> Result<VerifiedReviewAuthority, TerminalFinding> {
-    if proof.path != Path::new(".csdlc/issues/505/index.json") {
+    if proof.path != Path::new(".csdlc/evidence/505/native-authority-review.json") {
         return Err(finding(
-            "review_proof_not_v2_lifecycle_record",
-            "cutover review proof must be the canonical typed v2 issue record",
+            "review_proof_not_native_v3_receipt",
+            "cutover review proof must be the canonical native v3 review receipt",
         ));
     }
     let path = repo_existing_file(
@@ -1953,10 +1953,10 @@ fn verify_independent_review(
     )?;
     let bytes =
         fs::read(path).map_err(|error| finding("review_proof_unreadable", &error.to_string()))?;
-    let record: V2IssueReviewRecord = serde_json::from_slice(&bytes).map_err(|_| {
+    let record: NativeIssueReviewRecord = serde_json::from_slice(&bytes).map_err(|_| {
         finding(
             "independent_review_invalid",
-            "review proof must be the typed v2 issue record",
+            "review proof must be the typed native v3 review receipt",
         )
     })?;
     let review = record.review.as_ref();
@@ -1978,7 +1978,7 @@ fn verify_independent_review(
         "git-blake3:{revision}:{}",
         blake3::hash(revision.as_bytes()).to_hex()
     );
-    if record.schema != "csdlc.issue.index.v1"
+    if record.schema != "csdlc.v3.native_review_receipt.v1"
         || record.issue != 505
         || record.repository != "agent-logic/agent-design-language"
         || !matches!(
@@ -2015,7 +2015,7 @@ fn verify_independent_review(
     {
         return Err(finding(
             "independent_review_not_proven",
-            "typed v2 lifecycle state must retain a completed independent exact-head review with resolved findings",
+            "native v3 authority must retain a completed independent exact-head review with resolved findings",
         ));
     }
     let assignment = assignment.expect("assignment verified above");

@@ -1585,7 +1585,7 @@ mod tests {
         if root.exists() {
             fs::remove_dir_all(&root).unwrap();
         }
-        fs::create_dir_all(root.join("csdlc-v2/operator")).unwrap();
+        fs::create_dir_all(root.join("csdlc-v3/operator")).unwrap();
         fs::create_dir_all(root.join(".csdlc")).unwrap();
         let git = |args: &[&str]| {
             let output = std::process::Command::new("git")
@@ -1605,7 +1605,7 @@ mod tests {
         )
         .unwrap();
         fs::write(
-            root.join("csdlc-v2/operator/generation-selector.json"),
+            root.join("csdlc-v3/operator/authority-selector.json"),
             br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v2","opted_in_issues":[]}"#,
         )
         .unwrap();
@@ -1625,23 +1625,39 @@ mod tests {
             cutover_approval_ref: None,
             cutover_approval_digest: None,
         };
-        git(&["add", "csdlc-v2/operator/generation-selector.json"]);
+        git(&["add", "csdlc-v3/operator/authority-selector.json"]);
         git(&["commit", "-q", "-m", "v2 selector"]);
         git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
         assert!(!active_canonical_v3_selector(&root, &install).unwrap());
         fs::write(
-            root.join("csdlc-v2/operator/generation-selector.json"),
+            root.join("csdlc-v3/operator/authority-selector.json"),
             br#"{"schema":"csdlc.generation_selector.v1","default_generation":"v3","opted_in_issues":[]}"#,
         )
         .unwrap();
         assert!(!active_canonical_v3_selector(&root, &install).unwrap());
         fs::write(
-            root.join("csdlc-v2/operator/generation-selector.json"),
-            br#"{"schema":"csdlc.generation_selector.v2","default_generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-v2-exact-head","approval_authority":"merged-pr-591-closed-issue-505"}"#,
+            root.join("csdlc-v3/operator/authority-selector.json"),
+            br#"{"schema":"csdlc.v3.authority_selector.v1","generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","receipt_path":"csdlc-v3/operator/native-authority-receipt.json","receipt_digest":"PLACEHOLDER"}"#,
         )
         .unwrap();
         assert!(!active_canonical_v3_selector(&root, &install).unwrap());
-        git(&["add", "csdlc-v2/operator/generation-selector.json"]);
+        let receipt = br#"{"schema":"csdlc.v3.native_authority_receipt.v1","authority_issue":505,"authority_pull_request":591,"reviewed_head":"1111111111111111111111111111111111111111","merge_commit":"2222222222222222222222222222222222222222","source_selector_schema":"csdlc.generation_selector.v2","source_selector_digest":"sha256:3333333333333333333333333333333333333333333333333333333333333333","operational_authority":"csdlc-v3","review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","remote_reconciliation":"authenticated-readback-required"}"#;
+        fs::write(
+            root.join("csdlc-v3/operator/native-authority-receipt.json"),
+            receipt,
+        )
+        .unwrap();
+        let selector = serde_json::json!({"schema":"csdlc.v3.authority_selector.v1","generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","receipt_path":"csdlc-v3/operator/native-authority-receipt.json","receipt_digest":blake3::hash(receipt).to_hex().to_string()});
+        fs::write(
+            root.join("csdlc-v3/operator/authority-selector.json"),
+            serde_json::to_vec(&selector).unwrap(),
+        )
+        .unwrap();
+        git(&[
+            "add",
+            "csdlc-v3/operator/authority-selector.json",
+            "csdlc-v3/operator/native-authority-receipt.json",
+        ]);
         git(&["commit", "-q", "-m", "v3 selector"]);
         git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
         assert!(active_canonical_v3_selector(&root, &install).unwrap());

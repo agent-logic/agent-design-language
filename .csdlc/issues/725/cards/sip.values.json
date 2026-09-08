@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 725,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove remaining v2 authority and build dependencies after cutover",
+    "slug": "csdlc-v3-native-authority",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make C-SDLC v3 operationally and build-time standalone after cutover.",
+      "required_outcome": "C-SDLC v3 uses only native v3 authority and receipt evidence and passes a no-v2 fresh-worktree denominator.",
+      "declared_scope": [
+        "csdlc-v3 native authority selector and receipts",
+        "v3 proof install shadow and standalone tests",
+        "migration documentation"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 owns this remediation lifecycle",
+        "do not merge",
+        "do not weaken exact-head digest or remote reconciliation guards"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "use typed v2 lifecycle",
+        "fresh FastWork issue worktree",
+        "coordinate with PR 726 without modifying issue 724 UI scope"
+      ]
+    }
+  }
+}

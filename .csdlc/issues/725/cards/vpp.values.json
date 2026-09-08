@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 725,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove remaining v2 authority and build dependencies after cutover",
+    "slug": "csdlc-v3-native-authority",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v3-focused",
+          "proof_role": "focused implementation correctness",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "no-v2-fresh-worktree",
+          "proof_role": "standalone build denominator",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 2400,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "proof_parity_install_commands"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 21600,
+      "planned_validation_tokens": 100000,
+      "failure_policy": "Fail closed on stale selector receipt exact-head lifecycle digest or uncertain remote reconciliation.",
+      "design_ref": ".adl/requests/725-design.md",
+      "design_digest": "e9541aa96765297962e87486eac521bfb12c82e68c701640b32210ec6fb641cd",
+      "diagram_ref": ".adl/requests/725-diagram.md",
+      "diagram_digest": "85cb22afe120bcad0e24b0aaf5beda848f19832e29524509315ef5632e6e212b"
+    }
+  }
+}

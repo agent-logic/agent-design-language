@@ -1,0 +1,4 @@
+{"sequence":1,"generation":0,"actor":"codex-remediate-v3-725","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex-remediate-v3-725","reason":"replace unroutable proposed module paths with existing repository-owned surfaces","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/README.md\",\".github/workflows/ci.yml\"]}"}
+{"sequence":3,"generation":2,"actor":"codex-remediate-v3-725","reason":"advance issue 725 after typed doctor passed with a complete proving denominator","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}

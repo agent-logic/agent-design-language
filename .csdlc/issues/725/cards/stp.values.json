@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 725,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove remaining v2 authority and build dependencies after cutover",
+    "slug": "csdlc-v3-native-authority",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove v2 authority and build dependencies from C-SDLC v3 only.",
+      "deliverables": [
+        "native authority implementation",
+        "updated focused tests",
+        "no-v2 canary evidence",
+        "migration documentation"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Native v3 authority selector and receipt require no v2 source.",
+        "AC-2: Operational selector reads are v3-native.",
+        "AC-3: Fail-closed exact-head digest and remote reconciliation remain.",
+        "AC-4: Proof install and shadow tests prove native authority.",
+        "AC-5: Fresh no-v2 worktree compile and tests pass.",
+        "AC-6: Migration path is documented."
+      ],
+      "dependencies": [
+        "V3-F cutover is complete",
+        "PR 726 failure is evidence only and not a branch dependency"
+      ],
+      "repo_inputs": [
+        "csdlc-v3/Cargo.toml",
+        "csdlc-v3/src/commands/remote/mod.rs",
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3 tests",
+        "PR 726 standalone failure"
+      ],
+      "non_goals": [
+        "unrelated gh-style UI work in issue 724",
+        "merge or closeout",
+        "caller-controlled authority switching"
+      ]
+    }
+  }
+}

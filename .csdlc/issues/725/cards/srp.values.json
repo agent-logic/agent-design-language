@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 725,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Remove remaining v2 authority and build dependencies after cutover",
+    "slug": "csdlc-v3-native-authority",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "native v3 authority migration and no-v2 denominator",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Find any remaining runtime or Cargo dependency on csdlc-v2",
+        "Verify stale authority exact-head digest and remote reconciliation remain fail closed"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

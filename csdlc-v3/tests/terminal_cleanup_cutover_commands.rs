@@ -1,8 +1,3 @@
-use csdlc_v2::{
-    assign_review, bind_issue, edit_issue, record_review, BindRequest, BootstrapRequest, CardKind,
-    EditRequest, InitialCardInput, LifecyclePhase, PlanningProfile, ReviewAssignmentRequest,
-    ReviewEvidence, ReviewRecordRequest, SemanticOperation, Store,
-};
 use csdlc_v3::{
     adapters::{CommandInvocation, ProcessAdapter, ProcessOutput, ProcessStatus},
     commands::{
@@ -539,7 +534,7 @@ fn executable_cutover_cannot_bypass_request_findings() {
         .any(|finding| finding.code == "missing_fail_closed_undo"));
     assert!(!root.join(".adl/bin/csdlc").exists());
     let selector: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+        &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
     assert_eq!(selector["default_generation"], "v3");
@@ -560,7 +555,7 @@ fn executable_cutover_requires_authenticated_github_authority_before_mutation() 
         .any(|finding| finding.code == "authenticated_cutover_observation_required"));
     assert!(!root.join(".adl/bin/csdlc").exists());
     let selector: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+        &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
     assert_eq!(selector["default_generation"], "v3");
@@ -680,7 +675,7 @@ fn approved_cutover_atomically_installs_selector_and_rollback_receipt() {
         fs::read(env!("CARGO_BIN_EXE_csdlc")).unwrap()
     );
     let selector: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+        &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
     assert_eq!(selector["schema"], "csdlc.generation_selector.v2");
@@ -807,7 +802,7 @@ fn cutover_rejects_intermediate_output_parent_symlink_escape() {
         .any(|finding| finding.code == "cutover_path_escapes_repository"));
     assert!(!outside.join("bin/csdlc").exists());
     let selector: serde_json::Value = serde_json::from_slice(
-        &fs::read(root.join("csdlc-v2/operator/generation-selector.json")).unwrap(),
+        &fs::read(root.join("csdlc-v3/operator/authority-selector.json")).unwrap(),
     )
     .unwrap();
     assert_eq!(selector["default_generation"], "v3");
@@ -1130,7 +1125,7 @@ fn cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent() {
     let apply = cutover_request(&root, readiness_digest.clone(), CutoverOperation::Apply);
     execute_cutover_request(&apply).expect("initial apply");
     let receipt_path = root.join(".git/csdlc-v3/cutover-receipt.json");
-    let selector_path = root.join("csdlc-v2/operator/generation-selector.json");
+    let selector_path = root.join("csdlc-v3/operator/authority-selector.json");
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
     let prior_selector = receipt["prior_selector"]
@@ -1214,260 +1209,39 @@ fn tracked_selector_revert_rolls_back_from_fresh_worktree() {
     assert!(root.join(".git/csdlc-v3/cutover-receipt.json").exists());
 }
 
-fn typed_v2_review_fixture(root: &Path) -> (Vec<u8>, String, String) {
-    let repository_source = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .parent()
-        .unwrap()
-        .to_path_buf();
-    if root.join(".git").exists() {
-        fs::remove_dir_all(root.join(".git")).expect("remove placeholder git marker");
-    }
-    fs::create_dir_all(root.join("docs/templates/prompts")).unwrap();
-    fs::create_dir_all(root.join("csdlc-v2/operator")).unwrap();
-    fs::create_dir_all(root.join("docs")).unwrap();
-    fs::create_dir_all(root.join("src")).unwrap();
-    fs::create_dir_all(root.join(".adl")).unwrap();
-    let worktree_parent = root.parent().unwrap().join(format!(
-        ".{}-typed-worktrees",
-        root.file_name().unwrap().to_string_lossy()
-    ));
-    fs::create_dir_all(&worktree_parent).unwrap();
-    fs::copy(
-        repository_source.join("docs/templates/prompts/current.json"),
-        root.join("docs/templates/prompts/current.json"),
-    )
-    .unwrap();
-    fs::copy(
-        repository_source.join("csdlc-v2/operator/native-card-shape.json"),
-        root.join("csdlc-v2/operator/native-card-shape.json"),
-    )
-    .unwrap();
-    fs::write(root.join("docs/design.md"), "# reviewed design\n").unwrap();
-    fs::write(root.join("docs/diagram.mmd"), "flowchart LR\n A-->B\n").unwrap();
-    fs::write(root.join("src/lib.rs"), "// exact reviewed source\n").unwrap();
-    fs::write(root.join("src/validate.sh"), "#!/bin/sh\nexit 0\n").unwrap();
-    fs::write(
-        root.join(".adl/worktree-policy.json"),
-        serde_json::to_vec_pretty(&serde_json::json!({
-            "schema": "adl.worktree_policy.v1",
-            "required_parent": worktree_parent
-        }))
-        .unwrap(),
-    )
-    .unwrap();
-    git(root, &["init", "-b", "main"]);
-    git(root, &["config", "user.email", "test@example.invalid"]);
-    git(root, &["config", "user.name", "C-SDLC Test"]);
-    git(root, &["add", "."]);
-    git(root, &["commit", "-m", "authority fixture"]);
-
-    let bootstrap_worktree = worktree_parent.join("bootstrap-505");
-    git(
-        root,
-        &[
-            "worktree",
-            "add",
-            "-b",
-            "bootstrap-505-review-fixture",
-            bootstrap_worktree.to_str().unwrap(),
-            "main",
-        ],
+fn native_review_fixture(root: &Path) -> (Vec<u8>, String, String) {
+    let revision = git_output(root, &["rev-parse", "HEAD"]);
+    let reviewed_revision = format!(
+        "git-blake3:{revision}:{}",
+        blake3::hash(revision.as_bytes()).to_hex()
     );
-
-    let store = Store::new(&bootstrap_worktree);
-    let record = csdlc_v2::initialize_native_json(
-        &store,
-        &serde_json::to_vec(&BootstrapRequest {
-            issue: 505,
-            repository: "agent-logic/agent-design-language".into(),
-            actor: "operator".into(),
-            design_path: "docs/design.md".into(),
-            diagram_path: "docs/diagram.mmd".into(),
-            design_reviewer: "architect".into(),
-            design_approved: true,
-            initial: InitialCardInput {
-                title: "C-SDLC v3 authority transition".into(),
-                slug: "csdlc-v3-authority-transition".into(),
-                version: "v0.92.1".into(),
-                goal: "prove exact-head v3 authority readiness".into(),
-                required_outcome: "typed review authority".into(),
-                declared_scope: vec!["src".into()],
-                authority_boundary: vec!["no remote mutation".into()],
-                operator_constraints: vec!["operator approval required".into()],
-                task_boundary: "review fixture".into(),
-                deliverables: vec!["src/lib.rs".into()],
-                acceptance_criteria: vec!["exact review passes".into()],
-                dependencies: vec!["none".into()],
-                repo_inputs: vec!["src".into()],
-                non_goals: vec!["merge".into()],
-                plan_summary: "implement and independently review".into(),
-                steps: vec![csdlc_v2::cards::PlanStep {
-                    id: "review".into(),
-                    action: "review exact head".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    status: csdlc_v2::cards::StepStatus::Pending,
-                }],
-                affected_areas: vec!["src".into(), "src/validate.sh".into()],
-                invariants: vec!["exact revision".into()],
-                risks: vec!["stale review".into()],
-                planning_profile: PlanningProfile::Small,
-                stop_conditions: vec!["review stale".into()],
-                validation_lanes: vec![csdlc_v2::cards::ValidationLane {
-                    lane: "focused".into(),
-                    proof_role: "review".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    deterministic: true,
-                    resource_profile: csdlc_v2::cards::ResourceProfile::Small,
-                    budget_seconds: 60,
-                    budget_tokens: 100,
-                    argv: vec!["bash".into(), "src/validate.sh".into()],
-                    parallel_group: "local".into(),
-                    defer_reason: None,
-                }],
-                failure_policy: "fail closed".into(),
-                review_prompts: vec!["review authority boundary".into()],
-                review_scope: "src".into(),
-            },
-        })
-        .unwrap(),
-    )
-    .expect("typed v2 initialize");
-    let _ready = edit_issue(
-        &store,
-        EditRequest {
-            issue: 505,
-            card: CardKind::Sip,
-            expected_generation: record.generation,
-            expected_digest: record.digest,
-            actor: "operator".into(),
-            reason: "fixture ready".into(),
-            operation: SemanticOperation::AdvancePhase {
-                phase: LifecyclePhase::Ready,
-            },
-            fail_after_backup: false,
-        },
-    )
-    .expect("typed v2 ready");
-    git(&bootstrap_worktree, &["add", "."]);
-    git(
-        &bootstrap_worktree,
-        &["commit", "-m", "initialize typed issue"],
-    );
-    let revision = git_output(&bootstrap_worktree, &["rev-parse", "HEAD"]);
-    let review_worktree = worktree_parent.join("review-505");
-    bind_issue(
-        &store,
-        BindRequest {
-            issue: 505,
-            base_branch: "bootstrap-505-review-fixture".into(),
-            branch: "issue-505-review".into(),
-            worktree: review_worktree.to_string_lossy().into_owned(),
-            code_repository: None,
-            expected_repository: None,
-            adopt_existing: false,
-            expected_head: None,
-            expected_generation: None,
-            expected_digest: None,
-            actor: Some("operator".into()),
-        },
-    )
-    .expect("typed v2 bind");
-    let review_store = Store::new(&review_worktree);
-    let mut record = review_store.load_record(505).expect("bound typed record");
-    for operation in [
-        SemanticOperation::RecordExecution {
-            summary: "implemented".into(),
-            changes: vec!["src".into()],
-            artifacts: vec!["typed fixture".into()],
-        },
-        SemanticOperation::AdvancePhase {
-            phase: LifecyclePhase::Implemented,
-        },
-    ] {
-        let card = if matches!(operation, SemanticOperation::RecordExecution { .. }) {
-            CardKind::Sor
-        } else {
-            CardKind::Sip
-        };
-        record = edit_issue(
-            &review_store,
-            EditRequest {
-                issue: 505,
-                card,
-                expected_generation: record.generation,
-                expected_digest: record.digest,
-                actor: "operator".into(),
-                reason: "typed fixture transition".into(),
-                operation,
-                fail_after_backup: false,
-            },
-        )
-        .expect("typed v2 implementation transition");
-    }
     let reviewer = "fresh-session:11111111-2222-4333-8444-555555555555";
-    let assigned = assign_review(
-        &review_store,
-        ReviewAssignmentRequest {
-            issue: 505,
-            expected_generation: record.generation,
-            expected_digest: record.digest,
-            reviewer: reviewer.into(),
-            assigned_by: "operator".into(),
-            scope: vec!["src".into()],
+    let mut record = serde_json::json!({
+        "schema": "csdlc.v3.native_review_receipt.v1",
+        "issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "phase": "reviewed",
+        "generation": 1,
+        "digest": "",
+        "review_assignment": {
+            "reviewer": reviewer,
+            "assigned_by": "operator",
+            "revision": reviewed_revision,
+            "scope": ["src"]
         },
-    )
-    .expect("typed v2 review assignment");
-    let reviewed_revision = assigned
-        .review_assignment
-        .as_ref()
-        .unwrap()
-        .revision
-        .clone();
-    let reviewed = record_review(
-        &review_store,
-        ReviewRecordRequest {
-            issue: 505,
-            expected_generation: assigned.generation,
-            expected_digest: assigned.digest,
-            actor: "operator".into(),
-            evidence: ReviewEvidence {
-                reviewer: reviewer.into(),
-                scope: vec!["src".into()],
-                reviewed_revision,
-                findings: Vec::new(),
-                residual_risks: Vec::new(),
-                completed: true,
-                non_substantive_proof: None,
-            },
-        },
-    )
-    .expect("typed v2 review record");
-    let bytes =
-        fs::read(review_store.issue_dir(505).join("index.json")).expect("typed reviewed index");
-    git(
-        root,
-        &["merge", "--ff-only", "bootstrap-505-review-fixture"],
-    );
-    git(
-        root,
-        &[
-            "worktree",
-            "remove",
-            "--force",
-            review_worktree.to_str().unwrap(),
-        ],
-    );
-    git(
-        root,
-        &[
-            "worktree",
-            "remove",
-            "--force",
-            bootstrap_worktree.to_str().unwrap(),
-        ],
-    );
-    let _ = fs::remove_dir(&worktree_parent);
-    (bytes, reviewed.digest, revision)
+        "review": {
+            "reviewer": reviewer,
+            "scope": ["src"],
+            "reviewed_revision": reviewed_revision,
+            "findings": [],
+            "completed": true
+        }
+    });
+    let digest = blake3::hash(&serde_json::to_vec(&record).unwrap())
+        .to_hex()
+        .to_string();
+    record["digest"] = serde_json::Value::String(digest.clone());
+    (serde_json::to_vec(&record).unwrap(), digest, revision)
 }
 
 fn git_output(root: &Path, args: &[&str]) -> String {
@@ -1482,7 +1256,16 @@ fn git_output(root: &Path, args: &[&str]) -> String {
 }
 
 fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
-    fs::create_dir_all(root.join(".git")).expect("git marker");
+    if root.join(".git").exists() {
+        fs::remove_dir_all(root.join(".git")).expect("replace git marker");
+    }
+    fs::create_dir_all(root).expect("fixture root");
+    git(root, &["init", "-b", "main"]);
+    git(root, &["config", "user.email", "test@example.invalid"]);
+    git(root, &["config", "user.name", "C-SDLC Test"]);
+    fs::write(root.join("fixture-base"), "native v3 authority\n").unwrap();
+    git(root, &["add", "fixture-base"]);
+    git(root, &["commit", "-m", "authority fixture"]);
     fs::create_dir_all(root.join("build")).expect("build directory");
     fs::copy(env!("CARGO_BIN_EXE_csdlc"), root.join("build/csdlc"))
         .expect("selected real v3 binary");
@@ -1498,11 +1281,15 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     let selected_binary = fs::read(root.join("build/csdlc")).expect("selected binary bytes");
     let selected_binary_digest = blake3::hash(&selected_binary).to_hex().to_string();
     write_generation_selector(root, "v2");
-    let (review, review_record_digest, revision) = typed_v2_review_fixture(root);
-    fs::create_dir_all(root.join(".csdlc/issues/505")).expect("v2 review record parent");
-    fs::write(root.join(".csdlc/issues/505/index.json"), &review).expect("v2 review record");
+    let (review, review_record_digest, revision) = native_review_fixture(root);
+    fs::create_dir_all(root.join(".csdlc/evidence/505")).expect("native review parent");
+    fs::write(
+        root.join(".csdlc/evidence/505/native-authority-review.json"),
+        &review,
+    )
+    .expect("native review record");
     let review_ref = serde_json::json!({
-        "path": ".csdlc/issues/505/index.json",
+        "path": ".csdlc/evidence/505/native-authority-review.json",
         "digest": blake3::hash(&review).to_hex().to_string(),
         "revision": revision
     });
@@ -1682,7 +1469,7 @@ fn cutover_request(
         execute: true,
         repository_root: Some(root.to_path_buf()),
         selected_binary_path: Some(PathBuf::from("build/csdlc")),
-        authority_selector_path: Some(PathBuf::from("csdlc-v2/operator/generation-selector.json")),
+        authority_selector_path: Some(PathBuf::from("csdlc-v3/operator/authority-selector.json")),
         install_destination_path: Some(PathBuf::from(".adl/bin/csdlc")),
         rollback_receipt_path: Some(PathBuf::from(".csdlc/evidence/505/cutover-receipt.json")),
         readiness_evidence_path: Some(PathBuf::from(
@@ -1716,30 +1503,52 @@ fn execute_cutover_request(
 }
 
 fn write_generation_selector(repository_root: &Path, generation: &str) {
-    let path = repository_root.join("csdlc-v2/operator/generation-selector.json");
+    let path = repository_root.join("csdlc-v3/operator/authority-selector.json");
     fs::create_dir_all(path.parent().unwrap()).expect("selector parent");
     let selector = if generation == "v3" {
+        let receipt = serde_json::to_vec_pretty(&serde_json::json!({
+            "schema": "csdlc.v3.native_authority_receipt.v1", "authority_issue": 505,
+            "authority_pull_request": 591, "reviewed_head": "1".repeat(40),
+            "merge_commit": "2".repeat(40), "source_selector_schema": "csdlc.generation_selector.v2",
+            "source_selector_digest": format!("sha256:{}", "3".repeat(64)),
+            "operational_authority": "csdlc-v3", "review_authority": "typed-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "remote_reconciliation": "authenticated-readback-required"
+        })).unwrap();
+        fs::write(
+            repository_root.join("csdlc-v3/operator/native-authority-receipt.json"),
+            &receipt,
+        )
+        .unwrap();
         serde_json::json!({
-            "schema": "csdlc.generation_selector.v2",
-            "default_generation": "v3",
+            "schema": "csdlc.v3.authority_selector.v1",
+            "generation": "v3",
             "operational_authority": "csdlc-v3",
             "authority_issue": 505,
             "authority_pull_request": 591,
-            "review_authority": "typed-v2-exact-head",
-            "approval_authority": "merged-pr-591-closed-issue-505"
+            "review_authority": "typed-exact-head",
+            "approval_authority": "merged-pr-591-closed-issue-505",
+            "receipt_path": "csdlc-v3/operator/native-authority-receipt.json",
+            "receipt_digest": blake3::hash(&receipt).to_hex().to_string()
         })
     } else {
         serde_json::json!({
-            "schema": "csdlc.generation_selector.v1",
-            "default_generation": generation,
-            "opted_in_issues": [5293, 5294]
+            "schema": "csdlc.v3.authority_selector.v1",
+            "generation": "rollback",
+            "operational_authority": "suspended",
+            "authority_issue": 505,
+            "authority_pull_request": 591
         })
     };
     fs::write(path, serde_json::to_vec_pretty(&selector).unwrap()).expect("generation selector");
     if generation == "v3" {
         git(
             repository_root,
-            &["add", "csdlc-v2/operator/generation-selector.json"],
+            &[
+                "add",
+                "csdlc-v3/operator/authority-selector.json",
+                "csdlc-v3/operator/native-authority-receipt.json",
+            ],
         );
         git(
             repository_root,
@@ -1757,7 +1566,7 @@ fn publish_v2_rollback(repository_root: &Path) {
     write_generation_selector(repository_root, "v2");
     git(
         repository_root,
-        &["add", "csdlc-v2/operator/generation-selector.json"],
+        &["add", "csdlc-v3/operator/authority-selector.json"],
     );
     git(
         repository_root,
