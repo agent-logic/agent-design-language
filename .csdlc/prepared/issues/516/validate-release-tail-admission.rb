@@ -22,9 +22,13 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   end
   spec_path=ROOT.join("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
   specs=YAML.safe_load(spec_path.read).fetch("issue_specifications").to_h{|s|[s.fetch("id"),s]}
+  plan_path=ROOT.join("docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml"); declared=[]; walk=lambda{|x|x.is_a?(Hash) ? (declared<<x["id"] if x["id"];x.each_value{|v|walk.call(v)}) : (x.each{|v|walk.call(v)} if x.is_a?(Array))};walk.call(YAML.safe_load(plan_path.read).fetch("work_packages"))
+  catalog=ROOT.join("docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md").read; catalog_ids=catalog.scan(/^\| ([A-Z][A-Z0-9-]+) \|/).flatten.select{|id|specs.key?(id)}
+  canonical_ids=source.fetch("canonical_planned_ids")+source.fetch("tail_mapping").keys
+  raise "wave/catalog/spec planned-ID parity mismatch" unless canonical_ids.sort==specs.keys.sort && (declared&specs.keys).sort==specs.keys.sort && catalog_ids.sort==specs.keys.sort
   expected_specs=source.fetch("canonical_planned_ids").to_h{|id|spec=specs.fetch(id);[id,{"acceptance_criteria"=>spec.fetch("acceptance_criteria"),"digest"=>Digest::SHA256.hexdigest(JSON.generate(spec))}]}
   raise "spec acceptance denominator mismatch" unless source["spec_acceptance"]==expected_specs
-  raise "amendment authority incomplete" unless source.fetch("amendment_authority").all?{|id,a|source.fetch("mapping")[id]==a["issue"] && a["issue_body_sha256"]&.match?(/\A[0-9a-f]{64}\z/) && a["source"]=="explicit_INT_01_amendment_mapping"}
+  raise "amendment authority incomplete" unless source.fetch("amendment_authority").all?{|id,a|source.fetch("mapping")[id]==a["issue"] && a["url"]&.start_with?("https://github.com/") && a["issue_body_sha256"]&.match?(/\A[0-9a-f]{64}\z/) && a["source"]=="explicit_INT_01_amendment_mapping"}
   versioned=OUT.join(admission.fetch("output_identity")); raise "versioned admission missing" unless versioned.file? && versioned.read==JSON.generate(admission)+"\n"
   versioned_gap=OUT.join("gap-analysis.#{admission['candidate']}.#{digest}.json"); raise "versioned gap missing" unless versioned_gap.file? && versioned_gap.read==JSON.generate(gap)+"\n"
   rows=admission.fetch("execution_issues"); mapping=source.fetch("mapping")
@@ -34,6 +38,8 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "captured observation mismatch" unless source["observations"]==observations
   projection=rows.map{|r|r.slice("planned_id","issue","revision","merge_revision","merge_ancestry","disposition","acceptance_rows")}
   raise "gap execution projection mismatch" unless gap["execution_issues"]==projection
+  tails=admission.fetch("release_tail_stages"); raise "tail denominator mismatch" unless tails.to_h{|r|[r["planned_id"],r["issue"]]}==source.fetch("tail_mapping") && tails==source["tail_observations"] && tails==gap["release_tail_stages"]
+  raise "tail stage became circular gate" unless tails.all?{|r|r["gate_role"]=="denominator_only_not_execution_root" && %w[active_admission_work future_serial_stage].include?(r["expected_lifecycle"])}
   rows.each do |row|
     raise "empty acceptance denominator #{row['issue']}" if row.fetch("acceptance_rows").empty?
     if row["disposition"]=="satisfied"
@@ -45,7 +51,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
       raise "recorded merge is not actually ancestral" unless ancestral
     elsif row["disposition"]=="satisfied_by_explicit_no_pr_closure"
       closure=row.fetch("closure_disposition")
-      raise "explicit no-PR closure authority missing" unless closure["authority"] && closure["kind"] && closure["issue_state"]=="closed" && closure["body_sha256"]&.match?(/\A[0-9a-f]{64}\z/) && closure["comments_sha256"]&.match?(/\A[0-9a-f]{64}\z/)
+      raise "explicit no-PR closure authority missing" unless closure["authority"] && closure["kind"] && closure["issue_url"]&.start_with?("https://github.com/") && closure["issue_state"]=="closed" && closure["body_sha256"]&.match?(/\A[0-9a-f]{64}\z/) && !closure["comments"].to_a.empty? && closure["comments"].all?{|c|c["url"]&.start_with?("https://github.com/")&&c["body_sha256"]&.match?(/\A[0-9a-f]{64}\z/)}
     end
     %w[review_evidence validation_evidence].each do |key|
       next unless row[key]
@@ -58,10 +64,15 @@ def validate!(source, admission, gap, markdown, require_admitted:)
       if linked && row["canonical_pr"]
         proof=ac.fetch("proof")
         %w[production_call_path_or_noncode behavioral_validation exact_head_review docs_demo_relevance successful_checks].each{|key|raise "criterion proof missing #{key}" if proof[key].to_a.empty?}
+        %w[criterion_content criterion_validation].each do |key|
+          raise "criterion content mapping missing #{key}" if proof[key].to_a.empty?
+          proof[key].each{|ref|raise "criterion blob reference invalid" unless ref["path"] && ref["blob"]&.match?(/\A[0-9a-f]{40}\z/)}
+        end
+        raise "criterion validation status missing" unless proof["check_status"].to_a.all?{|c|c["conclusion"]=="SUCCESS"} && !proof["check_status"].empty?
         raise "criterion review is stale or followed by substantive changes" unless proof.dig("review_basis","current")==true && proof.dig("review_basis","reviewed_revision")&.match?(/\A[0-9a-f]{40}\z/) && proof.dig("review_basis","post_review_paths").to_a.all?{|p|p.start_with?(".csdlc/")}
         raise "criterion proof is vacuous" if proof.values.flatten.any?{|value|value.to_s.match?(/(?:stub|placeholder|do[-_ ]?nothing)/i)}
       end
-      explicitly_blocked=row["disposition"]=="release_blocker" && admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-not-terminal" && %w[P0 P1].include?(f["severity"])}
+      explicitly_blocked=row["disposition"]=="release_blocker" && admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-review-or-terminal-gap" && %w[P0 P1].include?(f["severity"])}
       raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless linked || explicitly_blocked
     end
   end
@@ -71,6 +82,10 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     path=ROOT.join(row.fetch("path")); raise "retained artifact missing" unless path.file?
     raise "retained digest mismatch" unless Digest::SHA256.file(path).hexdigest==row["sha256"]
     raise "retained acceptance empty" if row.fetch("acceptance_rows").empty?
+    raise "retained observed status missing" unless %w[observed_in_successor successor_proof_gap carried_into_int_01].include?(row["observed_status"])
+    if row["observed_status"]=="observed_in_successor"
+      raise "retained observed evidence incomplete" unless row["acceptance_rows"].all?{|ac|ac.dig("observed_evidence","evidence_status")=="evidence_linked" && !ac.dig("observed_evidence","criterion_content").to_a.empty? && !ac.dig("observed_evidence","criterion_validation").to_a.empty?}
+    end
   end
   raise "backlog projection mismatch" unless admission["backlog"]==gap["backlog"]
   admission.fetch("backlog").each{|r|raise "backlog authority missing" if r["disposition_authority"].to_s.empty?}
@@ -94,13 +109,14 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   end
   expected=findings.any?{|f|%w[P0 P1].include?(f["severity"])&&f["disposition"]!="resolved"} ? "blocked" : "admitted"
   raise "decision is not fail closed" unless admission["decision"]==expected && gap["decision"]==expected
-  canonical_projection={"counts"=>admission["counts"],"execution_issues"=>gap["execution_issues"],"backlog"=>admission["backlog"],"retained_predecessors"=>retained,"ownership_collisions"=>actual_collisions,"findings"=>findings,"decision"=>expected}
+  canonical_projection={"counts"=>admission["counts"],"execution_issues"=>gap["execution_issues"],"release_tail_stages"=>tails,"backlog"=>admission["backlog"],"retained_predecessors"=>retained,"ownership_collisions"=>actual_collisions,"findings"=>findings,"decision"=>expected}
   projection_digest=Digest::SHA256.hexdigest(JSON.generate(canonical_projection))
   raise "canonical projection digest mismatch" unless admission["projection_digest"]==projection_digest && gap["projection_digest"]==projection_digest
   raise "Markdown candidate mismatch" unless markdown.include?("Candidate: `#{admission['candidate']}`")
   raise "Markdown digest mismatch" unless markdown.include?("Captured-input digest: `#{digest}`")
   raise "Markdown projection mismatch" unless markdown.include?("Canonical projection digest: `#{projection_digest}`")
   rows.each{|r|raise "Markdown row omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} |")}
+  tails.each{|r|raise "Markdown tail row omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} | #{r['observed_state']} | #{r['expected_lifecycle']} |")}
   findings.each{|f|raise "Markdown finding omitted" unless markdown.include?(f["id"])}
   raise "admission remains blocked" if require_admitted && expected!="admitted"
   true
@@ -116,6 +132,8 @@ if %w[negative all].include?(MODE)
     "do-nothing"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"].first["evidence_status"]="placeholder"},
     "missing-production-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["production_call_path_or_noncode"]=[]},
     "missing-behavior-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["behavioral_validation"]=[]},
+    "missing-criterion-content"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["criterion_content"]=[]},
+    "false-validation-status"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["check_status"].first["conclusion"]="FAILURE"},
     "missing-review-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["exact_head_review"]=[]},
     "stale-review-basis"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["review_basis"]["current"]=false},
     "vacuous-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["behavioral_validation"]=["placeholder"]},

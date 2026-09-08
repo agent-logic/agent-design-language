@@ -2,24 +2,36 @@
 
 Candidate: `b8e1b4483b1c345e42ec7817bfde8214469867bb`
 
-Captured-input digest: `0d423a11ea5e84b7daa6b5bbb2e3e4a77ea1b0202fb861e63e14fce93d9e6a92`
+Captured-input digest: `ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f`
 
-Canonical projection digest: `fe865d52ca5562341475cce7c00498a700e886dedd2a6eebfc2806c8048b1b8a`
+Canonical projection digest: `bb81ed42f8c0b1b4ac107007d483cb9a212f9b98184ca4847c48001eeb63711a`
 
 ## Findings
 
-- **P1 issue-482-not-terminal** — CORP-A / #482 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/482, .csdlc/issues/482/cards/srp.md, .csdlc/issues/482/cards/sor.md. Owner: issue #482. Disposition: open.
-- **P1 issue-505-not-terminal** — V3-F / #505 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/505. Owner: issue #505. Disposition: open.
-- **P1 issue-511-not-terminal** — OBS-A / #511 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/511, .csdlc/issues/511/cards/srp.md, .csdlc/issues/511/cards/sor.md. Owner: issue #511. Disposition: open.
-- **P1 issue-512-not-terminal** — OBS-B / #512 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/512, .csdlc/issues/512/cards/srp.md, .csdlc/issues/512/cards/sor.md. Owner: issue #512. Disposition: open.
-- **P1 issue-660-not-terminal** — PODCAST-EXPOSURE-REPAIR / #660 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/660, .csdlc/issues/660/cards/srp.md, .csdlc/issues/660/cards/sor.md. Owner: issue #660. Disposition: open.
-- **P1 issue-662-not-terminal** — A2A-INITIATION / #662 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/662, .csdlc/issues/662/cards/srp.md, .csdlc/issues/662/cards/sor.md. Owner: issue #662. Disposition: open.
+- **P1 issue-482-review-or-terminal-gap** — CORP-A / #482 has a current exact-head semantic review gap. Evidence: https://github.com/agent-logic/agent-design-language/issues/482, .csdlc/issues/482/cards/srp.md, .csdlc/issues/482/cards/sor.md. Owner: issue #482. Disposition: open.
+- **P1 issue-497-review-or-terminal-gap** — CORP-C / #497 has a current exact-head semantic review gap. Evidence: https://github.com/agent-logic/agent-design-language/issues/497, .csdlc/issues/497/cards/srp.md, .csdlc/issues/497/cards/sor.md. Owner: issue #497. Disposition: open.
+- **P1 issue-505-review-or-terminal-gap** — V3-F / #505 has a current exact-head semantic review gap. Evidence: https://github.com/agent-logic/agent-design-language/issues/505. Owner: issue #505. Disposition: open.
+- **P1 issue-511-review-or-terminal-gap** — OBS-A / #511 has a current exact-head semantic review gap. Evidence: https://github.com/agent-logic/agent-design-language/issues/511, .csdlc/issues/511/cards/srp.md, .csdlc/issues/511/cards/sor.md. Owner: issue #511. Disposition: open.
+- **P1 issue-512-review-or-terminal-gap** — OBS-B / #512 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/512, .csdlc/issues/512/cards/srp.md, .csdlc/issues/512/cards/sor.md. Owner: issue #512. Disposition: open.
+- **P1 issue-660-review-or-terminal-gap** — PODCAST-EXPOSURE-REPAIR / #660 has a current exact-head semantic review gap. Evidence: https://github.com/agent-logic/agent-design-language/issues/660, .csdlc/issues/660/cards/srp.md, .csdlc/issues/660/cards/sor.md. Owner: issue #660. Disposition: open.
+- **P1 issue-662-review-or-terminal-gap** — A2A-INITIATION / #662 has a current exact-head semantic review gap. Evidence: https://github.com/agent-logic/agent-design-language/issues/662, .csdlc/issues/662/cards/srp.md, .csdlc/issues/662/cards/sor.md. Owner: issue #662. Disposition: open.
+- **P1 issue-480-spec-ac-drift** — WP-01 live acceptance criteria do not cover the exact execution specification. Evidence: https://github.com/agent-logic/agent-design-language/issues/480#issue-body, f9a7235866ee1a2565fe18a7399b51b2704c37dae4ed875cfec987c8050e5532. Owner: issue #480. Disposition: open.
+- **P1 issue-497-spec-ac-drift** — CORP-C live acceptance criteria do not cover the exact execution specification. Evidence: https://github.com/agent-logic/agent-design-language/issues/497#issue-body, 92168c2666207956df37ed6fc00dcb78ef339a8be0284bd5e9683db1b95bc43f. Owner: issue #497. Disposition: open.
+- **P1 issue-512-spec-ac-drift** — OBS-B live acceptance criteria do not cover the exact execution specification. Evidence: https://github.com/agent-logic/agent-design-language/issues/512#issue-body, 80be51e3a6ae692a23386c52cfcd8aed130b058c398c55659d1d724a79eaaa5d. Owner: issue #512. Disposition: open.
+- **P1 retained-153-observed-gap** — Retained predecessor #153 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/stp.md. Owner: issue #482. Disposition: open.
+- **P1 retained-154-observed-gap** — Retained predecessor #154 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/stp.md. Owner: issue #482. Disposition: open.
+- **P1 retained-155-observed-gap** — Retained predecessor #155 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/stp.md. Owner: issue #482. Disposition: open.
+- **P1 retained-157-observed-gap** — Retained predecessor #157 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/stp.md. Owner: issue #497. Disposition: open.
+- **P1 retained-158-observed-gap** — Retained predecessor #158 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/stp.md. Owner: issue #497. Disposition: open.
+- **P1 retained-159-observed-gap** — Retained predecessor #159 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/stp.md. Owner: issue #497. Disposition: open.
+- **P1 retained-179-observed-gap** — Retained predecessor #179 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/stp.md. Owner: issue #505. Disposition: open.
+- **P1 retained-180-observed-gap** — Retained predecessor #180 is not covered by a reviewed-green successor. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/stp.md. Owner: issue #505. Disposition: open.
 - **P2 issue-84-operator-deferred** — [backlog][Observatory] Complete live Unity Observatory Runtime v3 integration is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}. Owner: issue #84. Disposition: routed_to_backlog.
 - **P2 issue-251-operator-deferred** — [backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}. Owner: issue #251. Disposition: routed_to_backlog.
 
 ## Denominator
 
-Execution issues: 58; retained predecessors: 36; backlog dispositions: 2; acceptance rows: 524.
+Execution roots: 58; release-tail stages: 11; retained predecessors: 36; backlog dispositions: 2; acceptance rows: 558.
 
 | Planned ID | Issue | Head revision | Merge revision | Ancestry | Disposition |
 |---|---:|---|---|---|---|
@@ -47,7 +59,7 @@ Execution issues: 58; retained predecessors: 36; backlog dispositions: 2; accept
 | GCP-E | #494 | de959c6263f671fa8fe1df851ea6ae1d25686831 | dc08b5abf10682ed9ace5deefd0e1389ea6899b6 | ancestor | satisfied |
 | XCL-01 | #495 | 6177249dfb46fe3cf95fbcc996469517928f525d | c78c60f5a45a87a96159d4910a831b69b62b042c | ancestor | satisfied |
 | AWS-G | #496 | 59a3d0bd106f8bdd0def53dbe1564667ee6adac4 | 83077ca029d52c9d613ed5a373da30f1dd42d9b3 | ancestor | satisfied |
-| CORP-C | #497 | none | none | not_applicable_absorbed | satisfied_by_explicit_no_pr_closure |
+| CORP-C | #497 | none | none | not_applicable_absorbed | release_blocker |
 | CORP-D | #498 | dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8 | c51c8c7a8b51395986af8185f6e6ca2edaf4f435 | ancestor | satisfied |
 | RUST-01 | #499 | 940c42d246be5d54f34b7b300526a644cc881580 | e986de6d06aacd385de93dd033def77a718c1581 | ancestor | satisfied |
 | V3-A | #500 | d02f90008acadcc10df048b7f089cc4b98ef608f | 1dddcce35d061bc128c2431b4f31cf09e0f4d435 | ancestor | satisfied |
@@ -82,10 +94,26 @@ Execution issues: 58; retained predecessors: 36; backlog dispositions: 2; accept
 | A2A-ACTION-RELIABILITY | #693 | 1946974be9839a13df6c4736b0f3ea34f0d1debc | 0e460810e5ac78ce655283f35e8167337eb33160 | ancestor | satisfied |
 | POLIS-WELCOME-PACKAGE | #708 | 7b753133251ea8f7d01a6471ede2d40ca39d4813 | 3b3e406119568cc31a4587aa43fb5d94ce54368d | ancestor | satisfied |
 
+### Release-tail lifecycle denominator
+
+| Planned ID | Issue | Observed state | Expected lifecycle | Gate role |
+|---|---:|---|---|---|
+| INT-01 | #516 | open | active_admission_work | denominator_only_not_execution_root |
+| TAIL-01 | #517 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-02 | #518 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-03 | #519 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-04 | #520 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-05 | #521 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-06 | #522 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-07 | #523 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-08 | #524 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-09 | #525 | open | future_serial_stage | denominator_only_not_execution_root |
+| TAIL-10 | #526 | open | future_serial_stage | denominator_only_not_execution_root |
+
 ## Backlog and retained authority
 
-- #84: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}
-- #251: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}
+- #84: `5c94385acfba95f93cd9673b30745a78a5f49f17c02f9606a9f7f220bc1af899`
+- #251: `23c4be414ab0bb57a63b0a7a8e783bc72a5523b9b0565c4250905f9fd12c2749`
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision

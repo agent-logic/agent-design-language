@@ -23,6 +23,7 @@ AMENDMENTS = {
   "PODCAST-EXPOSURE-REPAIR"=>660,"SHEPHERD-PROVIDER-REPLY"=>661,"A2A-INITIATION"=>662,"CSDLC-EMERGENCY-RECOVERY"=>665,
   "A2A-ACTION-RELIABILITY"=>693,"POLIS-WELCOME-PACKAGE"=>708
 }.freeze
+TAIL = (1..10).to_h{|n|["TAIL-%02d"%n,516+n]}.merge("INT-01"=>516).freeze
 BACKLOG = {84=>"github:issue-84:track-backlog",251=>"github:issue-251:track-backlog"}.freeze
 RETAINED = {
   "CORP-A"=>[153,154,155],"CORP-B"=>[156],"CORP-C"=>[157,158,159],"CORP-D"=>[160],"V3-A"=>[161,162,163],
@@ -41,6 +42,7 @@ def capture(*argv)
   abort("#{argv.join(' ')} failed: #{err}") unless status.success?
   out
 end
+
 def sha(path)
   Digest::SHA256.file(path).hexdigest
 end
@@ -54,6 +56,12 @@ end
 def git_blob(revision,path)
   out,_err,status=Open3.capture3("git","rev-parse","#{revision}:#{path}",chdir:ROOT.to_s)
   status.success? ? out.strip : nil
+end
+def content_refs(paths,revision,text)
+  tokens=text.downcase.scan(/[a-z][a-z0-9_-]{3,}/).uniq
+  ranked=paths.map{|path|[path,tokens.count{|t|path.downcase.include?(t)}]}.sort_by{|path,score|[-score,path]}
+  selected=ranked.select{|_p,score|score>0}.first(6); selected=ranked.first(3) if selected.empty?
+  selected.map{|path,_score|{"path"=>path,"blob"=>git_blob(revision,path)}}.select{|r|r["blob"]}
 end
 def acceptance(body)
   section = body.to_s[/^## (?:Acceptance(?: Criteria| criteria)?|Exit Criteria)\s*$\n(.*?)(?=^## |\z)/m,1]
@@ -84,9 +92,10 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
   canonical = prs.select { |pr| pr["mergedAt"] && pr["ancestral"] }.max_by { |pr| [pr["mergedAt"],pr["number"]] }
   absorbed = ABSORBED[number]
   if absorbed
-    absorbed=absorbed.merge("issue_state"=>issue["state"].downcase,"body_sha256"=>Digest::SHA256.hexdigest(issue["body"]),"comments_sha256"=>Digest::SHA256.hexdigest(JSON.generate(issue["comments"])))
+    comment_proof=issue["comments"].map{|c|{"url"=>c["url"],"body_sha256"=>Digest::SHA256.hexdigest(c.fetch("body")),"author"=>c.dig("author","login")}}
+    absorbed=absorbed.merge("issue_url"=>issue["url"],"issue_state"=>issue["state"].downcase,"body_sha256"=>Digest::SHA256.hexdigest(issue["body"]),"comments"=>comment_proof,"comments_sha256"=>Digest::SHA256.hexdigest(JSON.generate(comment_proof)))
   end
-  owner_closed = absorbed && (!absorbed["owner"] || captured.fetch(absorbed.fetch("owner")).fetch("state") == "closed")
+  owner_closed = absorbed && !absorbed.fetch("comments",[]).empty? && (!absorbed["owner"] || captured.fetch(absorbed.fetch("owner")).fetch("state") == "closed")
   disposition = if absorbed then owner_closed ? "satisfied_by_explicit_no_pr_closure" : "release_blocker"
                 elsif issue["state"] == "CLOSED" && canonical then "satisfied" else "release_blocker" end
   record=ROOT.join(".csdlc/issues/#{number}"); srp=record.join("cards/srp.md"); sor=record.join("cards/sor.md")
@@ -112,7 +121,7 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
                 else [] end
   {
     "kind"=>"execution_issue","planned_id"=>planned_id,"issue"=>number,"title"=>issue["title"],"acceptance_authority"=>"#{issue['url']}#issue-body","issue_body_sha256"=>Digest::SHA256.hexdigest(issue["body"]),
-    "acceptance_rows"=>acceptance(issue["body"]).each_with_index.map{|text,i|{"id"=>"issue-#{number}-ac-#{i+1}","text"=>text,"evidence_status"=>semantic_complete||absorbed&&owner_closed ? "evidence_linked" : "missing_or_partial","evidence"=>evidence,"proof"=>semantic}},
+    "acceptance_rows"=>acceptance(issue["body"]).each_with_index.map{|text,i|{"id"=>"issue-#{number}-ac-#{i+1}","text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"evidence_status"=>semantic_complete||absorbed&&owner_closed ? "evidence_linked" : "missing_or_partial","evidence"=>evidence,"proof"=>semantic.merge("criterion_content"=>canonical ? content_refs((product+noncode).uniq,canonical["headRefOid"],text) : [],"criterion_validation"=>canonical ? content_refs(behavioral,canonical["headRefOid"],text) : [],"check_status"=>successful_checks.map{|name|{"name"=>name,"conclusion"=>"SUCCESS"}})}},
     "linked_prs"=>prs.map{|pr|{"number"=>pr["number"],"url"=>pr["url"],"head_oid"=>pr["headRefOid"],"merge_oid"=>pr.dig("mergeCommit","oid"),"merged_at"=>pr["mergedAt"],"ancestral"=>pr["ancestral"],"files_digest"=>Digest::SHA256.hexdigest(JSON.generate(pr.fetch("files").map{|f|f["path"]}.sort))}},
     "canonical_pr"=>canonical&.fetch("number",nil),"revision"=>canonical&.fetch("headRefOid",nil),"merge_revision"=>canonical&.dig("mergeCommit","oid"),
     "merge_ancestry"=>canonical ? "ancestor" : (absorbed ? "not_applicable_absorbed" : "not_proven"),
@@ -123,6 +132,20 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
   }.merge("owned_paths"=>owned_paths)
 end
 
+tail_rows=TAIL.sort_by{|_id,n|n}.map do |planned_id,number|
+  issue=JSON.parse(capture("gh","issue","view",number.to_s,"--repo",REPO,"--json","number,title,state,url,body"))
+  expected=planned_id=="INT-01" ? "active_admission_work" : "future_serial_stage"
+  {"kind"=>"release_tail_stage","planned_id"=>planned_id,"issue"=>number,"issue_url"=>issue["url"],"issue_body_sha256"=>Digest::SHA256.hexdigest(issue["body"]),"acceptance_rows"=>acceptance(issue["body"]),"observed_state"=>issue["state"].downcase,"expected_lifecycle"=>expected,"gate_role"=>"denominator_only_not_execution_root"}
+end
+
+rows.each do |row|
+  next unless spec_acceptance[row["planned_id"]]
+  expected_ac=spec_acceptance.fetch(row["planned_id"]).fetch("acceptance_criteria")
+  live=row["acceptance_rows"].map{|ac|ac["text"].downcase.gsub(/[^a-z0-9]+/," ").strip}
+  missing=expected_ac.reject{|text|needle=text.to_s.downcase.gsub(/[^a-z0-9]+/," ").strip;live.any?{|actual|actual.include?(needle)||needle.include?(actual)}}
+  row["spec_acceptance"]={"digest"=>spec_acceptance[row["planned_id"]]["digest"],"expected"=>expected_ac,"missing_from_live"=>missing,"status"=>missing.empty? ? "match" : "mismatch"}
+end
+
 backlog = BACKLOG.sort.map do |number,_authority|
   issue=captured.fetch(number); labels=issue.fetch("labels").map{|x|x["name"]}
   abort("backlog authority missing live label for ##{number}") unless labels.include?("track:backlog")
@@ -130,23 +153,29 @@ backlog = BACKLOG.sort.map do |number,_authority|
   {"kind"=>"operator_deferred_backlog","issue"=>number,"title"=>issue["title"],"disposition_authority"=>authority,"disposition"=>"routed_to_backlog","owner"=>"issue ##{number}"}
 end
 retained = RETAINED.flat_map do |planned_id,numbers|
+  owner=rows.find{|r|r["planned_id"]==planned_id}
   numbers.map do |number|
     path=ROOT.join("docs/milestones/v0.92.1/planned-issue-packets/issues/#{number}/cards/stp.md"); abort("missing retained ##{number}") unless path.file?
-    {"kind"=>"retained_predecessor","planned_id"=>planned_id,"issue"=>number,"path"=>path.relative_path_from(ROOT).to_s,"sha256"=>sha(path),
-     "acceptance_rows"=>acceptance(path.read).each_with_index.map{|text,i|{"id"=>"retained-#{number}-ac-#{i+1}","text"=>text}}}
+    status=owner ? (owner["disposition"]=="satisfied" ? "observed_in_successor" : "successor_proof_gap") : "carried_into_int_01"
+    owner_acceptance=owner&&owner["acceptance_rows"]||[]
+    {"kind"=>"retained_predecessor","planned_id"=>planned_id,"issue"=>number,"path"=>path.relative_path_from(ROOT).to_s,"sha256"=>sha(path),"observed_status"=>status,"observed_owner_issue"=>owner&&owner["issue"],"observed_revision"=>owner&&owner["revision"],
+     "acceptance_rows"=>acceptance(path.read).each_with_index.map{|text,i|mapped=owner_acceptance.empty? ? nil : owner_acceptance[i%owner_acceptance.length];{"id"=>"retained-#{number}-ac-#{i+1}","text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"observed_status"=>status,"observed_evidence"=>mapped&&{"successor_acceptance_id"=>mapped["id"],"criterion_content"=>mapped.dig("proof","criterion_content"),"criterion_validation"=>mapped.dig("proof","criterion_validation"),"evidence_status"=>mapped["evidence_status"]}}}}
   end
 end
 
 findings=rows.map do |row|
   next if %w[satisfied satisfied_by_explicit_no_pr_closure].include?(row["disposition"])
-  {"id"=>"issue-#{row['issue']}-not-terminal","type"=>"closeout_drift","severity"=>"P1","classification"=>"release_blockers",
-   "summary"=>"#{row['planned_id']} / ##{row['issue']} lacks reviewed merged ancestral authority.","evidence"=>row["artifacts"],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{row['issue']}"}
+  reason=row["closeout_state"]=="closed" ? "has a current exact-head semantic review gap" : "lacks reviewed merged ancestral authority"
+  {"id"=>"issue-#{row['issue']}-review-or-terminal-gap","type"=>"missing_evidence","severity"=>"P1","classification"=>"release_blockers",
+   "summary"=>"#{row['planned_id']} / ##{row['issue']} #{reason}.","evidence"=>row["artifacts"],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{row['issue']}"}
 end.compact
+rows.select{|r|r.dig("spec_acceptance","status")=="mismatch"}.each{|r|findings<<{"id"=>"issue-#{r['issue']}-spec-ac-drift","type"=>"docs_drift","severity"=>"P1","classification"=>"release_blockers","summary"=>"#{r['planned_id']} live acceptance criteria do not cover the exact execution specification.","evidence"=>[r["acceptance_authority"],r.dig("spec_acceptance","digest")],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{r['issue']}"}}
+retained.select{|r|r["observed_status"]=="successor_proof_gap"}.each{|r|findings<<{"id"=>"retained-#{r['issue']}-observed-gap","type"=>"missing_evidence","severity"=>"P1","classification"=>"release_blockers","summary"=>"Retained predecessor ##{r['issue']} is not covered by a reviewed-green successor.","evidence"=>[r["path"]],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{r['observed_owner_issue']}"}}
 backlog.each{|row|findings<<{"id"=>"issue-#{row['issue']}-operator-deferred","type"=>"scope_ambiguity","severity"=>"P2","classification"=>"routed_work","summary"=>"#{row['title']} is explicitly routed outside the release gate.","evidence"=>[row["disposition_authority"]],"uncertainty"=>"planning documentation requires reconciliation","disposition"=>"routed_to_backlog","owner"=>row["owner"]}}
 decision=findings.any?{|f|%w[P0 P1].include?(f["severity"])&&f["disposition"]!="resolved"} ? "blocked" : "admitted"
 observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","validation_evidence")}
-amendment_authority=AMENDMENTS.to_h{|id,n|row=rows.find{|r|r["issue"]==n};[id,{"issue"=>n,"issue_body_sha256"=>row["issue_body_sha256"],"closeout_state"=>row["closeout_state"],"source"=>"explicit_INT_01_amendment_mapping"}]}
-source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[PLAN,SPEC,CATALOG].map{|p|{"path"=>p.relative_path_from(ROOT).to_s,"sha256"=>sha(p)}},"canonical_planned_ids"=>PLANNED.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"amendment_authority"=>amendment_authority,"backlog"=>BACKLOG,"retained"=>RETAINED,"observations"=>observations,"captured_issue_count"=>captured.length,"captured_pages"=>pages.length}
+amendment_authority=AMENDMENTS.to_h{|id,n|row=rows.find{|r|r["issue"]==n};[id,{"issue"=>n,"url"=>row["acceptance_authority"].sub(/#issue-body\z/,""),"issue_body_sha256"=>row["issue_body_sha256"],"closeout_state"=>row["closeout_state"],"source"=>"explicit_INT_01_amendment_mapping"}]}
+source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[PLAN,SPEC,CATALOG].map{|p|{"path"=>p.relative_path_from(ROOT).to_s,"sha256"=>sha(p)}},"canonical_planned_ids"=>PLANNED.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>TAIL,"amendment_authority"=>amendment_authority,"backlog"=>BACKLOG,"retained"=>RETAINED,"observations"=>observations,"tail_observations"=>tail_rows,"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"criterion-content-v3"}
 digest=Digest::SHA256.hexdigest(JSON.generate(source))
 claims=Hash.new{|h,k|h[k]=[]}; rows.each{|r|r["owned_paths"].each{|path|claims[path]<<r["issue"]}}
 collisions=claims.map do |path,owners|
@@ -165,11 +194,12 @@ collisions=claims.map do |path,owners|
 end.compact
 collisions.select{|c|c["status"]=="unresolved"}.each{|c|findings<<{"id"=>"owned-path-collision-#{Digest::SHA256.hexdigest(c['path'])[0,12]}","type"=>"implementation_gap","severity"=>"P1","classification"=>"release_blockers","summary"=>"Owned path #{c['path']} has multiple unresolved owners.","evidence"=>c["owners"].map{|n|".csdlc/issues/#{n}/cards/spp.values.json"},"uncertainty"=>"none","disposition"=>"open","owner"=>c["owners"].map{|n|"issue ##{n}"}.join(", ")}}
 decision=findings.any?{|f|%w[P0 P1].include?(f["severity"])&&f["disposition"]!="resolved"} ? "blocked" : "admitted"
-counts={"execution_issues"=>rows.length,"backlog"=>backlog.length,"retained_predecessors"=>retained.length,"acceptance_rows"=>rows.sum{|r|r["acceptance_rows"].length}+retained.sum{|r|r["acceptance_rows"].length}}
+counts={"execution_issues"=>rows.length,"release_tail_stages"=>tail_rows.length,"backlog"=>backlog.length,"retained_predecessors"=>retained.length,"acceptance_rows"=>rows.sum{|r|r["acceptance_rows"].length}+retained.sum{|r|r["acceptance_rows"].length}+tail_rows.sum{|r|r["acceptance_rows"].length}}
 versioned_admission="release-tail-admission.#{candidate}.#{digest}.json"; versioned_gap="gap-analysis.#{candidate}.#{digest}.json"
-admission={"schema"=>"adl.v0921.release_tail_admission.v2","candidate"=>candidate,"source_digest"=>digest,"output_identity"=>versioned_admission,"denominator_policy"=>"canonical_plan_plus_explicit_amendments_backlog_and_retained_predecessors","counts"=>counts,"execution_issues"=>rows,"backlog"=>backlog,"retained_predecessors"=>retained,"ownership_collisions"=>collisions,"findings"=>findings,"decision"=>decision}
+admission={"schema"=>"adl.v0921.release_tail_admission.v2","candidate"=>candidate,"source_digest"=>digest,"output_identity"=>versioned_admission,"denominator_policy"=>"canonical_plan_plus_explicit_amendments_backlog_retained_and_release_tail","counts"=>counts,"execution_issues"=>rows,"release_tail_stages"=>tail_rows,"backlog"=>backlog,"retained_predecessors"=>retained,"ownership_collisions"=>collisions,"findings"=>findings,"decision"=>decision}
 gap={"schema"=>"adl.gap_analysis_report.v2","mode"=>"compare_canonical_plan_to_immutable_evidence","candidate"=>candidate,"source_digest"=>digest,"execution_issues"=>rows.map{|r|r.slice("planned_id","issue","revision","merge_revision","merge_ancestry","disposition","acceptance_rows")},"backlog"=>backlog,"retained_predecessors"=>retained,"findings"=>findings,"decision"=>decision}
-projection={"counts"=>counts,"execution_issues"=>gap["execution_issues"],"backlog"=>backlog,"retained_predecessors"=>retained,"ownership_collisions"=>collisions,"findings"=>findings,"decision"=>decision}
+gap["release_tail_stages"]=tail_rows
+projection={"counts"=>counts,"execution_issues"=>gap["execution_issues"],"release_tail_stages"=>tail_rows,"backlog"=>backlog,"retained_predecessors"=>retained,"ownership_collisions"=>collisions,"findings"=>findings,"decision"=>decision}
 projection_digest=Digest::SHA256.hexdigest(JSON.generate(projection)); admission["projection_digest"]=projection_digest; gap["projection_digest"]=projection_digest
 
 OUT.mkpath
@@ -182,7 +212,8 @@ source_json=JSON.generate(source)+"\n"; admission_json=JSON.generate(admission)+
 write_immutable.call(paths[:source],source_json); write_immutable.call(paths[:versioned_admission],admission_json); write_immutable.call(paths[:versioned_gap],gap_json)
 paths[:admission].write(admission_json); paths[:gap].write(gap_json)
 lines=rows.map{|r|"| #{r['planned_id']} | ##{r['issue']} | #{r['revision']||'none'} | #{r['merge_revision']||'none'} | #{r['merge_ancestry']} | #{r['disposition']} |"}
+tail_lines=tail_rows.map{|r|"| #{r['planned_id']} | ##{r['issue']} | #{r['observed_state']} | #{r['expected_lifecycle']} | #{r['gate_role']} |"}
 fl=findings.empty? ? ["No unresolved findings."] : findings.map{|f|"- **#{f['severity']} #{f['id']}** — #{f['summary']} Evidence: #{f['evidence'].join(', ')}. Owner: #{f['owner']}. Disposition: #{f['disposition']}."}
-md="# v0.92.1 Release-tail Gap Analysis\n\nCandidate: `#{candidate}`\n\nCaptured-input digest: `#{digest}`\n\nCanonical projection digest: `#{projection_digest}`\n\n## Findings\n\n#{fl.join("\n")}\n\n## Denominator\n\nExecution issues: #{rows.length}; retained predecessors: #{retained.length}; backlog dispositions: #{backlog.length}; acceptance rows: #{counts['acceptance_rows']}.\n\n| Planned ID | Issue | Head revision | Merge revision | Ancestry | Disposition |\n|---|---:|---|---|---|---|\n#{lines.join("\n")}\n\n## Backlog and retained authority\n\n#{backlog.map{|r|"- ##{r['issue']}: #{r['disposition_authority']}"}.join("\n")}\n- Retained predecessor packets are indexed with SHA-256 digests in `#{paths[:gap].basename}`.\n\n## Decision\n\n**#{decision.upcase}**\n\nThis is an admission decision only; it is not release approval.\n"
+md="# v0.92.1 Release-tail Gap Analysis\n\nCandidate: `#{candidate}`\n\nCaptured-input digest: `#{digest}`\n\nCanonical projection digest: `#{projection_digest}`\n\n## Findings\n\n#{fl.join("\n")}\n\n## Denominator\n\nExecution roots: #{rows.length}; release-tail stages: #{tail_rows.length}; retained predecessors: #{retained.length}; backlog dispositions: #{backlog.length}; acceptance rows: #{counts['acceptance_rows']}.\n\n| Planned ID | Issue | Head revision | Merge revision | Ancestry | Disposition |\n|---|---:|---|---|---|---|\n#{lines.join("\n")}\n\n### Release-tail lifecycle denominator\n\n| Planned ID | Issue | Observed state | Expected lifecycle | Gate role |\n|---|---:|---|---|---|\n#{tail_lines.join("\n")}\n\n## Backlog and retained authority\n\n#{backlog.map{|r|"- ##{r['issue']}: `#{Digest::SHA256.hexdigest(JSON.generate(r['disposition_authority']))}`"}.join("\n")}\n- Retained predecessor packets are indexed with SHA-256 digests in `#{paths[:gap].basename}`.\n\n## Decision\n\n**#{decision.upcase}**\n\nThis is an admission decision only; it is not release approval.\n"
 paths[:md].write(md)
 puts JSON.generate(schema:"adl.v0921.release_tail_generation.v2",status:"pass",candidate:candidate,source_digest:digest,counts:counts,decision:decision)

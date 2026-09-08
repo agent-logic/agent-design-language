@@ -4,7 +4,7 @@
   "expected_generation": 1,
   "expected_digest": "40e7408fb7096e9263942d51060bc0869b9078e7366d40671016de2bfeedee01",
   "actor": "codex:sprint-10-release-tail-admission",
-  "summary": "Prepared a fail-closed v0.92.1 admission candidate from canonical planning sources and content-addressed GitHub evidence. Finalization is prohibited: #482, #505, #511/#512, #660, and #662 currently lack current semantic review authority under the strengthened criterion-level policy.",
+  "summary": "Prepared a fail-closed complete v0.92.1 denominator, including non-gating release-tail lifecycle rows, from canonical planning sources and content-addressed GitHub evidence. Finalization is prohibited while the retained-proof, acceptance-drift, and exact-review findings in the admission record remain open.",
   "changes": [
     "Added an explicit canonical planned-ID, existing-root, amendment, backlog, and retained-predecessor mapping instead of deriving scope from issue titles.",
     "Recorded all linked PRs, canonical merged ancestry, exact head and merge revisions, acceptance rows, artifact digests, explicit absorption, and owned-path collision evidence.",
@@ -17,8 +17,8 @@
     ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
     ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
     "docs/milestones/v0.92.1/evidence/integration/release-tail-input.b8e1b4483b1c345e42ec7817bfde8214469867bb.json",
-    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.b8e1b4483b1c345e42ec7817bfde8214469867bb.0d423a11ea5e84b7daa6b5bbb2e3e4a77ea1b0202fb861e63e14fce93d9e6a92.json",
-    "docs/milestones/v0.92.1/evidence/integration/gap-analysis.b8e1b4483b1c345e42ec7817bfde8214469867bb.0d423a11ea5e84b7daa6b5bbb2e3e4a77ea1b0202fb861e63e14fce93d9e6a92.json",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap-analysis.b8e1b4483b1c345e42ec7817bfde8214469867bb.ebe7fe5d2d2a55df068e920b9517e5d7b1956d8688aeabdd300178b58c41163f.json",
     "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
     "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json",
     "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md"
