@@ -14,11 +14,18 @@ def nonempty?(value)
   value.respond_to?(:empty?) && !value.empty?
 end
 
+def validate_fixture!(fixture)
+  fail!("independence requires evidence") unless fixture.fetch("independent") == true && nonempty?(fixture.fetch("independence_evidence"))
+  canonical = fixture.fetch("internal_refs")
+  fail!("canonical #520 scope cannot be empty") unless nonempty?(canonical)
+  fail!("packet-authored expected scope differs from #520") unless fixture.fetch("expected_scope").sort == canonical.sort
+  fail!("reviewed scope differs from #520") unless fixture.fetch("reviewed_scope").sort == canonical.sort && fixture.fetch("reviewed_scope").uniq.length == canonical.length
+  fail!("zero findings require evidence") if fixture.fetch("findings").empty? && !nonempty?(fixture.fetch("zero_findings_evidence"))
+end
+
 if ARGV.first == "fixture"
   fixture = read_json(ARGV.fetch(1))
-  fail!("independence requires evidence") unless fixture.fetch("independent") == true && nonempty?(fixture.fetch("independence_evidence"))
-  fail!("scope cannot be empty") unless nonempty?(fixture.fetch("expected_scope")) && fixture.fetch("expected_scope").sort == fixture.fetch("reviewed_scope").sort
-  fail!("zero findings require evidence") if fixture.fetch("findings").empty? && !nonempty?(fixture.fetch("zero_findings_evidence"))
+  validate_fixture!(fixture)
   puts JSON.generate(status: "passed", fixture: ARGV[1])
   exit
 end
@@ -36,6 +43,19 @@ fail!("#520 packet manifest is unavailable") unless File.file?(internal_manifest
 fail!("#520 packet digest mismatch") unless Digest::SHA256.file(internal_manifest_path).hexdigest == manifest.fetch("internal_packet_manifest_sha256")
 internal_manifest = read_json(internal_manifest_path)
 fail!("candidate differs from #520 packet") unless manifest.fetch("internal_candidate_sha") == candidate && internal_manifest.fetch("candidate_sha") == candidate
+internal_entries = internal_manifest.fetch("entries")
+internal_entries.each do |entry|
+  path = entry.fetch("path")
+  fail!("#520 manifested artifact is missing: #{path}") unless File.file?(path)
+  fail!("#520 manifested artifact digest mismatch: #{path}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
+end
+internal_by_name = internal_entries.to_h { |entry| [File.basename(entry.fetch("path")), entry.fetch("path")] }
+denominator_names = %w[repo_inventory.json issue_inventory.json acceptance_coverage.json]
+fail!("#520 manifest omits canonical denominator artifacts") unless denominator_names.all? { |name| internal_by_name.key?(name) }
+canonical_refs = denominator_names.flat_map do |name|
+  read_json(internal_by_name.fetch(name)).fetch("rows").map { |row| row.fetch("denominator_ref") }
+end
+fail!("#520 canonical denominator is empty or duplicated") unless canonical_refs.any? && canonical_refs.uniq.length == canonical_refs.length
 
 independence = docs.fetch("reviewer-independence.json")
 reviewer = independence.fetch("reviewer")
@@ -46,8 +66,11 @@ fail!("external reviewer participated in implementation/internal review") if con
 scope = docs.fetch("scope.json")
 expected_scope = scope.fetch("expected_refs")
 reviewed_scope = scope.fetch("reviewed_refs")
-fail!("external review scope is empty or incomplete") unless nonempty?(expected_scope) && expected_scope.sort == reviewed_scope.sort && reviewed_scope.uniq.length == reviewed_scope.length
-fail!("scope rows lack evidence or disposition") unless scope.fetch("rows").all? { |row| expected_scope.include?(row.fetch("ref")) && nonempty?(row.fetch("evidence")) && nonempty?(row.fetch("disposition")) }
+fail!("packet-authored expected scope differs from #520") unless expected_scope.sort == canonical_refs.sort
+fail!("external review scope does not exactly cover #520") unless reviewed_scope.sort == canonical_refs.sort && reviewed_scope.uniq.length == canonical_refs.length
+scope_rows = scope.fetch("rows")
+fail!("scope rows do not exactly match reviewed scope") unless scope_rows.map { |row| row.fetch("ref") }.sort == reviewed_scope.sort
+fail!("scope rows lack exact-head evidence or disposition") unless scope_rows.all? { |row| row.fetch("candidate_sha") == candidate && nonempty?(row.fetch("evidence")) && nonempty?(row.fetch("disposition")) }
 
 findings_doc = docs.fetch("findings.json")
 findings = findings_doc.fetch("findings")
