@@ -2,32 +2,70 @@
 
 This demo is the v0.91.7 HTML Observatory integrated proof for #4690.
 
-It adapts the Magic UI Pro AI Agent Template direction, with the Magic UI
-Devtool Template used for denser dashboard composition cues, into a reviewable
-CSM polis panopticon without importing account credentials or private template
-metadata into the repository. The first-class mode is a compact control-room
-dashboard over the Runtime v3 `/v1/observatory` and `/v1/ready` browser
-surfaces, with retained CSM `/status`, `/health`, `/ready`, `/metrics`, and
-`/events` proof available as fallback. Runtime KPIs, agent graph preview, event
-tail, CSM API status, CloudWatch linkage, governance proof, and operator
-communication status remain visible in the first dashboard viewport. It
-auto-refreshes the retained publishable CSM API response artifacts from #4976 as
-a runtime mirror, and upgrades to live loopback polling when an operator
-supplies the currently running CSM API base. The retained runtime packet remains
-the fallback proof surface if the Runtime v3 feed cannot load. The page reads
-the configured Runtime v3 Observatory API base and endpoints from
-`runtime-v3.config.json`. It also consumes the retained CSM runtime Observatory
-packet and operator report from the v0.91.7 Soak 2 evidence root, plus the
-current CSM runtime administration and AWS linkage evidence.
+The Observatory is a read-only control room over a live Runtime v3 polis. It
+consumes the runtime-owned `/v1/observatory` feed over an authenticated
+WebSocket plus `/v1/ready`, and falls back to retained evidence when the live
+feed is unavailable. The browser holds no mutation authority: reads are public,
+writes require operator login, and runtime mutation remains signed-command-only
+through `/v1/control`.
 
-The primary desktop dashboard is fixed to the viewport, while narrower browser
-windows use page scrolling so controls are never clipped. Event streams and
-inspector areas retain bounded internal overflow. The visible shell uses local inline SVG icons, role-specific topology
-glyphs for owner, readiness, scheduler, telemetry, event, and checkpoint lanes,
-non-overlapping graph nodes with signal-line affordances, a compact table-style
-event stream, rail telemetry, an inspector-style CSM API/gauge stack, and a
-bottom runtime status bar to match the approved control-room mockup without
-importing external template assets.
+## Surfaces
+
+A persistent left rail selects one surface at a time. Each is a distinct
+information contract rather than a view of the same data.
+
+- **Overview** — runtime readiness, agent count, event total and host CPU as
+  live stat cards; the polis topology graph; the live event stream; and the
+  Inspector (see below).
+- **Chat** — the Layer 8 channel. The conversation leads the surface; operator
+  access, the multi-agent room, the attention inbox and signed control collapse
+  into disclosures. Login state is shown explicitly, since it is the difference
+  between a read-only view and being able to send.
+- **Agents** — a directory of who is in the polis. One card per agent carrying
+  identity, health, availability, freshness against the runtime's own window,
+  admission path (dynamically admitted versus resident component), declared
+  capabilities, and Layer 8 reachability.
+- **Modules** — every runtime subsystem reporting its lifecycle state, read
+  from `health.snapshot.components`.
+- **Events** — the ordered runtime event log. Repeated heartbeats collapse into
+  a single counted row so subsystem transitions stay visible.
+- **Infrastructure** — the public endpoint (domain from the feed, external IP
+  resolved live over DNS-over-HTTPS), retained AWS Systems Manager evidence
+  labelled with its capture age, and the CloudWatch heartbeat.
+- **Logs** — the durable JSONL runtime log, filterable by text, level or
+  component. A secondary in-content navigation reaches the retained operator
+  report at `#evidence`.
+
+### Inspector
+
+The Overview sidebar carries three tabs, all live:
+
+- **Integrity** — continuity checkpoint (generation, accepted-through,
+  integrity and topology digests), trusted time authority, resource weather
+  measured against its staleness budget, queue backpressure, governance posture
+  and degradation counters.
+- **Agent** — the detail half of a master/detail pair with the Agents surface.
+- **Activity** — agent admissions and departures, lifecycle transitions, and
+  conversation turns derived by diffing successive snapshots.
+
+## Data sources and honesty rules
+
+The feed schema is pinned to `adl.runtime_v3.observatory_feed.v3`, the only
+version carrying `polis_identity`. Polis identity is projected from
+runtime-published values and validated; it is never derived from the endpoint,
+the URL or the browser location. If the runtime does not publish it, the
+Observatory shows `Unavailable` rather than substituting a connection label.
+
+A feed schema this client cannot read is reported as an explicit error rather
+than dropped, because a silently discarded frame is indistinguishable from an
+outage.
+
+When the live feed drops, a banner states that the values on screen are the
+last received snapshot. Retained evidence is labelled as retained, with its
+capture age, so it cannot be mistaken for live data.
+
+The operator write token is held in memory for the page lifetime only and is
+never written to any browser storage (see issue #679).
 
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json`
 - `docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md`
@@ -43,29 +81,32 @@ importing external template assets.
 - `docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/acip_sns_summary.json`
 - `docs/milestones/v0.91.7/review/runtime/wp08_acip_sns_4685/sns_resource_summary.json`
 
-The CSM polis panopticon presents an auto-refreshing agent map, agent roster,
-health, readiness, metrics, and operator event stream from the retained CSM API
-mirror fallback when Runtime v3 is unavailable. When a loopback API base is
-supplied with `runtime=v2` or `csmApiBase`, it polls the running CSM API
-directly. For Runtime v3, the default path reads
-`demos/html-observatory/runtime-v3.config.json`; query parameters such as
+Runtime v3 endpoints and the pinned feed schema are read from
+`demos/html-observatory/runtime-v3.config.json`. Query parameters such as
 `?runtime=v3&runtimeApiBase=<runtime-api-base>&live=1` remain a troubleshooting
 override. The runtime API base must match the configured Runtime v3 control API
-host, port, TLS posture, and Observatory allowed-origin policy. The Runtime v3
-path consumes the runtime-owned `/v1/observatory` read feed and `/v1/ready`
-without bearer credentials. Runtime v3 control mutation remains
-signed-command-only through `/v1/control`; the browser has no unsigned
-shutdown, mutation, CloudWatch, SNS, or state authority. The CSM API panel intentionally
-presents the standalone `csm` runtime ownership boundary from #4929 when the
-retained/default mirror is selected. The CloudWatch panel presents the retained
-live heartbeat proof from WP-08 #4684. The AWS linkage lane includes #4684
-through #4688 so closed heartbeat, ACIP-SNS, and SSM lanes remain distinct from
-open full-bridge and S3 archive work. The communication rail can prepare an
-ACIP-shaped operator message envelope, mirror the retained #4685 ACIP-SNS proof,
-check the Runtime v3 event tail through `/v1/observatory` by default, and check
-a live loopback CSM `/events` endpoint when an operator supplies a Runtime v2
-API base. Live SNS/SQS mutation remains runtime/tool-owned and is not performed
-by the browser surface.
+host, port, TLS posture, and Observatory allowed-origin policy.
+
+The retained AWS lanes cover #4684 through #4688, keeping closed heartbeat,
+ACIP-SNS and SSM proof distinct from open full-bridge and S3 archive work. Live
+SNS/SQS mutation remains runtime- and tool-owned; the browser never performs it.
+
+### Serve from the repository root
+
+Retained evidence is referenced as `../../../docs/...`, so the server root must
+be the repository root, not the demo folder:
+
+```bash
+python3 -m http.server 8000
+# then open /demos/html-observatory/?runtime=v3&runtimeApiBase=<base>&live=1
+```
+
+Serving the demo folder directly returns 404 for every retained artifact, which
+degrades Infrastructure, the published mirror and the operator report.
+
+The Logs surface reads `runtime-log.jsonl` served alongside the page. Point it
+at the runtime's durable `observability/durable/master.log.jsonl` (a symlink is
+sufficient); it is gitignored deliberately, as the file runs to many megabytes.
 
 ## Run
 
@@ -145,16 +186,18 @@ Operator login is required only before the browser sends WSS-authenticated ACIP
 work. Signed Runtime v3 control envelopes can be submitted through `/v1/control`
 without putting a bearer token in the browser URL; Runtime v3 still verifies the
 signature, principal, capability, runtime identity, and command policy before
-execution. To enable WSS writes for the current browser tab, set the same token
-without putting it in the URL or repository, then reconnect:
+execution.
 
-```js
-sessionStorage.setItem("adl.runtimeV3.observatoryToken", "<operator-local-token>");
-```
+The Observatory write token is intentionally tab-local and memory-only. Enter
+it through the Operator Channel login control after the page loads. The browser
+does not write the token to `localStorage`, `sessionStorage`, URLs, checked-in
+configuration, exported proof, or retained evidence. Reloading the page,
+closing the tab, or logging out clears write authority; reconnecting as an
+operator requires entering the token again.
 
-The token elevates only that WSS connection for writes; `/v1/control` remains a
-signed-command endpoint and signature verification plus canonical ingress
-policy still apply. Transport security is ordinary server TLS, not
+The token elevates only the active WSS connection for writes; `/v1/control`
+remains a signed-command endpoint and signature verification plus canonical
+ingress policy still apply. Transport security is ordinary server TLS, not
 listener-side mTLS. The kernel terminates its Axum/Rustls connection directly
 unless an operator intentionally uses an AWS-managed TLS ingress.
 

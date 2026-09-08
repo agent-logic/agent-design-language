@@ -44,8 +44,11 @@ assert.match(app, /function escapeHtml\(value\)/);
 assert.match(app, /content\.textContent = message/);
 assert.match(app, /state\.textContent = status/);
 assert.match(app, /operatorToken\?\.value\.trim\(\)/);
+assert.match(app, /let runtimeV3ObservatoryWriteToken = ""/);
 assert.doesNotMatch(app, /localStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
-assert.match(app, /sessionStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
+assert.doesNotMatch(app, /sessionStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
+assert.doesNotMatch(app, /sessionStorage\?\.getItem\("adl\.runtimeV3\.observatoryToken"/);
+assert.doesNotMatch(app, /sessionStorage\?\.removeItem\("adl\.runtimeV3\.observatoryToken"/);
 assert.doesNotMatch(app, /agent-conversation-key|conversation.*private.*key/i);
 
 const safeHistory = normalizeRuntimeConversationHistorySnapshot({
@@ -220,12 +223,12 @@ applyRuntimeV3Config({
   api_base: "https://wuji.dev.csm.agent-logic.ai:20997",
   trusted_hosts: ["wuji.dev.csm.agent-logic.ai"]
 });
-assert.deepEqual(getRuntimeV3Config().trusted_hosts, ["wuji.dev.csm.agent-logic.ai"]);
+assert.equal(getRuntimeV3Config().api_base, "https://wuji.dev.csm.agent-logic.ai:20997");
 assert.equal(normalizeTrustedRuntimeV3ApiBase("https://wuji.dev.csm.agent-logic.ai:20997"), "https://wuji.dev.csm.agent-logic.ai:20997");
+assert.equal(normalizeTrustedRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997"), "https://runtime.dev.agent-logic.ai:20997");
 for (const unsafeBase of [
   "http://wuji.dev.csm.agent-logic.ai:20997",
   "https://evil.example:20997",
-  "https://runtime.dev.agent-logic.ai:20997",
   "https://token:secret@wuji.dev.csm.agent-logic.ai:20997",
   "https://wuji.dev.csm.agent-logic.ai:20997/path",
   "https://wuji.dev.csm.agent-logic.ai:20997?token=secret"
