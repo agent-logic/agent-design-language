@@ -3,13 +3,39 @@
   "issue": 727,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ecec93e19c8cf854ccd7153dd0c6ea42f8daf306f478cb99cb914447e1ff3392",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "c37ed8b1fc0af42c443de50cb8b3f39d8dcc5b194377784e6a092bfb4cbe1c67",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "714b54e1dcc07b0c1460603aaabe2bb3caeed9c3e9df6a79d72492d91c585b3d",
   "branch": "codex/727-aws-d-r-apply-prove-audit-security-account-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-727-aws-d-r-apply-prove-audit-security-account-foundation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-727-preapply-review",
+    "assigned_by": "codex-727-pr-publication",
+    "revision": "git-blake3:48edfc341c357e85d2162e0e017ba4addd5c063f:a961701fa4669bb78a87308de7e73db51246895de3b66ce547c1cb8d57d43f6b",
+    "scope": [
+      ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
+      ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-727-preapply-review",
+    "scope": [
+      ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
+      ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json"
+    ],
+    "reviewed_revision": "git-blake3:48edfc341c357e85d2162e0e017ba4addd5c063f:a961701fa4669bb78a87308de7e73db51246895de3b66ce547c1cb8d57d43f6b",
+    "findings": [],
+    "residual_risks": [
+      "Live Terraform apply and AWS readback remain deferred until explicit operator authorization supplies the exact saved-plan digest and mutation envelope.",
+      "No live AWS/Terraform mutation, backend init, plan, or apply was performed in this pre-apply package."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9e01ad983502c0ab7acbf510e8db9b4adc5d04730a5d8a59a0787287628c3fd9",
+      "values_digest": "41c2c5a84056a4d9b7826285b2035991ae522d7d46406026a813add519a4c88d",
       "rendered_digest": "2ad690f29df3e99bf89a3874cdd4b1fd91f978833e1dea7538103890b3066f0e",
       "ast_digest": "c430204e61ecb408302ffb789035bf4a52b891d7cec217c58bafafd0332e5f83"
     },
     "stp": {
-      "values_digest": "1beb953d8c2c565184a71e3fbc33ab820ead33a6d137b382d2902b9167384675",
+      "values_digest": "7c8d2839487f1b1b92e538820820cfd19ca42b39524ff1e98b5fca850162c9ea",
       "rendered_digest": "a7232790d5af59d8f28fa3fb71f95312225c8431cbf70be3a78ad2dece62924b",
       "ast_digest": "321bcc0a60a11f2b9039aacafd0edef51896f370a9f1923a9ecf74266265d03d"
     },
     "spp": {
-      "values_digest": "3aae084cdec767bc9be4de936059ae085f24f575ddaf327484ae0840343aa726",
+      "values_digest": "b04fd6abf54fd68c0cab8ddec5050d5f09ce6e9a69c4b4a1c6e253ba2f30c54b",
       "rendered_digest": "9c20d76b9c66bc4e3f25bb39aa67e16fd986bd0a17a73700b4eae2c9685b0866",
       "ast_digest": "aba3961b368e12a2ee751ccb12578d094bab236dd3cd2e773e90d27ce3a5f426"
     },
     "vpp": {
-      "values_digest": "2e31d877c4c80a087f2f4123d1dde94243ebe6dd5392dc7e9b8feaac7cdad764",
+      "values_digest": "5d3bfbdb8120274dac9201cdb77bc847c8e4bd4a3ee7026520280d1f0a2201b7",
       "rendered_digest": "3d4f24c531465a8a36bb98ac6227e9721e3e6d7a967710d13ba8edd94fd5cdc5",
       "ast_digest": "a2dddf1eb3dfdb79f544bcbc09d5c0af3a8fd25403e64179f863f5548bfcc184"
     },
     "srp": {
-      "values_digest": "b3586510e64c6b520bef366c9d7ddd6bfb963c668f9071e8a4d956fb812770bd",
-      "rendered_digest": "d02c8f34f65f82f8c50673795663c42ee48b7a8e0818ef24a49ef2854c456229",
-      "ast_digest": "ca9f75d29ed38f7ca4b1aba899b01a339eacfd18244f61826c2734c34fab681e"
+      "values_digest": "c74d2bdc5fd9f6225187647518399e53536b3e9e617386ccdde43350c7444fd9",
+      "rendered_digest": "a2e2ecc1605e48aa64f915c4befa9cd871612781fea62d249d5d3f4e72a25b97",
+      "ast_digest": "3c3a52f309ce0b99dc173cb12a6b6c0cfc582388dab8b0ad9eb5d302b7060511"
     },
     "sor": {
-      "values_digest": "79b20a9774350d8e842a894e11f93716e9c5d4a869e0de52fcd23d16d672b955",
+      "values_digest": "50ed9388a708be23502ecab87e58b3a5da7ef02b9dd8d8ae8bdafdac30cfb94c",
       "rendered_digest": "cbcd4d57def34ae351b73d0a3413212f03ab24f0fad80a61e5adb376af5ffeca",
       "ast_digest": "5ae95ebde42aaff2dd0825cfe32d47b77c073480a1b9f93a5b745a82de4c07c3"
     }
@@ -75,6 +101,13 @@
       "to": "implemented",
       "actor": "codex-727-pr-publication",
       "reason": "Bounded #727 implementation is the pre-apply guardrail package; live AWS/Terraform mutation remains deferred until explicit operator authorization."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-727-pr-publication",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -210,6 +243,20 @@
       "actor": "codex-727-pr-publication",
       "reason": "Bounded #727 implementation is the pre-apply guardrail package; live AWS/Terraform mutation remains deferred until explicit operator authorization.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex-727-pr-publication",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex-727-pr-publication",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
