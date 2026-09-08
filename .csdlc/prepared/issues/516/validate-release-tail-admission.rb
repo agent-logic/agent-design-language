@@ -23,6 +23,22 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-af5f8036.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
   raise "no-v2 canary identity/status invalid" unless canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==721 && canary["exit_status"]==101
   raise "no-v2 canary output missing/drifted" unless stderr_path.file? && Digest::SHA256.file(stderr_path).hexdigest==stderr_entry["sha256"]
+  stderr=stderr_path.read; raise "no-v2 canary error contract missing" unless stderr.include?("failed to get `csdlc-v2` as a dependency")&&stderr.include?("csdlc-v2/Cargo.toml")&&stderr.include?("No such file or directory (os error 2)")
+  expected_sources=["csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/commands/remote/mod.rs"]; raise "no-v2 canary source census mismatch" unless canary["source_dependencies"]==expected_sources
+  expected_sources.each{|p|raise "no-v2 source path missing" unless ROOT.join(p).file?}
+  raise "manifest no longer depends on v2" unless ROOT.join(expected_sources[0]).read.include?('csdlc-v2 = { path = "../csdlc-v2" }')
+  raise "authority selector dependency missing" unless ROOT.join(expected_sources[1]).read.include?("csdlc-v2/operator/generation-selector.json")
+  raise "remote selector dependency missing" unless ROOT.join(expected_sources[2]).read.include?("csdlc-v2/operator/generation-selector.json")
+  semantic=load_json(ROOT.join(".csdlc/evidence/516/semantic-criterion-evidence.json")); raise "semantic manifest candidate mismatch" unless semantic["candidate"]==source["candidate"]
+  semantic_source=source.fetch("semantic_evidence"); raise "semantic manifest source identity mismatch" unless semantic_source["path"]==".csdlc/evidence/516/semantic-criterion-evidence.json" && Digest::SHA256.file(ROOT.join(semantic_source["path"])).hexdigest==semantic_source["sha256"]
+  semantic_entries=semantic.fetch("entries"); raise "duplicate semantic criterion evidence" unless semantic_entries.map{|e|e["criterion_id"]}.uniq.length==semantic_entries.length
+  semantic_entries.each do |entry|
+    raise "invalid semantic classification" unless %w[proven accepted_recordless accepted_with_explicit_amendment implementation_gap proof_gap product_gap].include?(entry["classification"])
+    %w[implementation_evidence validation_evidence review_evidence docs_evidence closeout_evidence].each do |key|
+      entry.fetch(key,[]).each{|ref|next if ref.start_with?("github:","https://");raise "semantic evidence path missing: #{ref}" unless ROOT.join(ref).file?}
+    end
+    entry.fetch("semantic_mapping",[]).each{|m|raise "semantic mapping digest mismatch" unless Digest::SHA256.hexdigest(m.fetch("live_text"))==m["live_digest"]}
+  end
   spec_path=ROOT.join("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
   specs=YAML.safe_load(spec_path.read).fetch("issue_specifications").to_h{|s|[s.fetch("id"),s]}
   plan_path=ROOT.join("docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml"); declared=[]; walk=lambda{|x|x.is_a?(Hash) ? (declared<<x["id"] if x["id"];x.each_value{|v|walk.call(v)}) : (x.each{|v|walk.call(v)} if x.is_a?(Array))};walk.call(YAML.safe_load(plan_path.read).fetch("work_packages"))
@@ -37,6 +53,9 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   rows=admission.fetch("execution_issues"); mapping=source.fetch("mapping")
   raise "execution denominator mismatch" unless rows.to_h{|r|[r["planned_id"],r["issue"]]}==mapping
   raise "duplicate issue mapping" unless rows.map{|r|r["issue"]}.uniq.length==rows.length
+  expected_semantic=rows.flat_map{|row|row.fetch("acceptance_rows")}.to_h{|ac|[ac.fetch("id"),ac.fetch("text_digest")]}
+  actual_semantic=semantic_entries.to_h{|entry|[entry.fetch("criterion_id"),entry.fetch("criterion_digest")]}
+  raise "semantic criterion denominator/digest mismatch" unless actual_semantic==expected_semantic
   observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","validation_evidence")}
   raise "captured observation mismatch" unless source["observations"]==observations
   projection=rows.map{|r|r.slice("planned_id","issue","revision","merge_revision","merge_ancestry","disposition","acceptance_rows")}
@@ -64,18 +83,13 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     row["acceptance_rows"].each do |ac|
       raise "acceptance identity/text missing" if ac["id"].to_s.empty? || ac["text"].to_s.empty?
       linked=ac["evidence_status"]=="evidence_linked" && !ac.fetch("evidence").empty?
-      allowed=%w[proven accepted_recordless observed_evidence_review_debt proof_gap product_gap]
+      allowed=%w[proven accepted_recordless accepted_with_explicit_amendment implementation_gap proof_gap product_gap]
       raise "criterion classification invalid" unless allowed.include?(ac["evidence_status"])
       proof=ac.fetch("proof")
       if ac["evidence_status"]=="proven"
-        raise "proven criterion lacks exact checked live acceptance" unless ac.dig("live_exact","checked")==true
-        raise "proven criterion lacks relevant implementation" if proof["relevant_paths"].to_a.empty?
-        raise "proven criterion lacks validation" if proof["validation_paths"].to_a.empty?&&proof["successful_checks"].to_a.empty?
-        raise "proven criterion lacks current review" unless proof["review_current"]==true
-      elsif ac["evidence_status"]=="accepted_recordless"
-        raise "recordless criterion lacks accepted closeout" unless proof["closeout_kind"]=="recordless_acceptance"
-      elsif ac["evidence_status"]=="observed_evidence_review_debt"
-        raise "observed criterion lacks grounded implementation/validation" if proof["relevant_paths"].to_a.empty? || proof["successful_checks"].to_a.empty?&&proof["validation_paths"].to_a.empty? || proof["reviewed_revision"].to_s.empty?
+        raise "proven criterion lacks curated implementation/validation/review" if proof["implementation_evidence"].to_a.empty?||proof["validation_evidence"].to_a.empty?||proof["review_evidence"].to_a.empty?
+      elsif %w[accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"])
+        raise "amended criterion lacks explicit closeout/rationale" if proof["closeout_evidence"].to_a.empty?||proof["rationale"].to_s.empty?
       end
       if linked && row["canonical_pr"]
         proof=ac.fetch("proof")
@@ -89,7 +103,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
         raise "criterion proof is vacuous" if proof.values.flatten.any?{|value|value.to_s.match?(/(?:stub|placeholder|do[-_ ]?nothing)/i)}
       end
       classified=admission.fetch("findings").any?{|f|f["affected_rows"].to_a.include?(ac["id"])} || admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-execution-gap"}
-      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless].include?(ac["evidence_status"]) || linked || classified
+      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"]) || linked || classified
     end
   end
   retained=admission.fetch("retained_predecessors")

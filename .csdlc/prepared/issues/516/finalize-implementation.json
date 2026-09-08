@@ -7,7 +7,7 @@
   "summary": "Prepared a complete fail-closed v0.92.1 admission decision at candidate af5f8036ab7a0619751ab55fa9bd4891f377cd9d. The diagnostic unit is complete when this truthful blocked decision passes exact-head review; release admission remains separately prohibited while P0/P1 findings are open.",
   "changes": [
     "Derived the exact planned-ID/live-issue/tail and retained-predecessor mappings from immutable wave, catalog, specification, and exact title-token sources with no hardcoded issue map.",
-    "Recorded all linked PRs and exact ancestry, while classifying every criterion without an explicit semantic evidence mapping and every collision without explicit owner resolution as a gap.",
+    "Recorded all linked PRs and exact ancestry, and classified every criterion from the issue-owned curated semantic evidence manifest without filename, check-name, or closed-state inference.",
     "Captured pagination-safe GitHub input metadata and immutable planning digests in a candidate-versioned compact source manifest.",
     "Added semantic validation and in-memory negative fixtures for omitted roots, null revisions, false ancestry, empty acceptance, placeholder evidence, missing artifacts, projection drift, unowned findings, collisions, false admission, and Markdown omissions.",
     "Split decision validity from release admission: denominator, gaps, and decision lanes accept a truthful blocked report, while the separate admitted mode fails with any open P0/P1."
@@ -16,9 +16,12 @@
     ".csdlc/prepared/issues/516/generate-release-tail-admission.rb",
     ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
     ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
-    "docs/milestones/v0.92.1/evidence/integration/release-tail-input.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f4a3146afd03f0c7ad86168fc41123ed558798e7065df4071364ff343bd8dcfc.json",
-    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f4a3146afd03f0c7ad86168fc41123ed558798e7065df4071364ff343bd8dcfc.json",
-    "docs/milestones/v0.92.1/evidence/integration/gap-analysis.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f4a3146afd03f0c7ad86168fc41123ed558798e7065df4071364ff343bd8dcfc.json",
+    ".csdlc/evidence/516/semantic-criterion-evidence.json",
+    ".csdlc/evidence/516/no-v2-canary-af5f8036.json",
+    ".csdlc/evidence/516/no-v2-canary-af5f8036.stderr.log",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-input.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.cb71568f0a14504e79bbe210c726f6a860b9adf44f00ac23efe75213c2663f7b.json",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.cb71568f0a14504e79bbe210c726f6a860b9adf44f00ac23efe75213c2663f7b.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap-analysis.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.cb71568f0a14504e79bbe210c726f6a860b9adf44f00ac23efe75213c2663f7b.json",
     "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
     "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json",
     "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md"
