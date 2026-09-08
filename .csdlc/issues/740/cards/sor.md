@@ -94,7 +94,7 @@ Replaced the unsafe #730 live proof entrypoint with a #740 corrective wrapper, r
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

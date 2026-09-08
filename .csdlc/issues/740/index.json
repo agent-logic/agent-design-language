@@ -3,55 +3,13 @@
   "issue": 740,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4f5fcd0bf43ae16b06462df2b45a51b5d3351a55619b4480baa68da806bc4b54",
-  "phase": "reviewed",
-  "generation": 17,
-  "digest": "7ee5a3c56b299f1c0ef9abcfede73720f5019cd8d5c3402e1908494fac265488",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "444fbbe1a4dc4fe34979c1a9b3e9420755c6ee7e10562c6642d45258699196df",
   "branch": "codex/740-gcp-b1-corrective",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-740-gcp-b1-corrective",
-  "review_assignment": {
-    "reviewer": "fresh-session:199ec4dd-dc1e-4825-bb03-2a2480805e54",
-    "assigned_by": "codex:/root:issue-740-execution",
-    "revision": "git-blake3:70022de14d84e4937c8df044700ead432034dc68:db5b89d1d43d04f0fd7cfc5536359c5eb0dfc9f01a6dd43ccf6b6cda51cb5ca5",
-    "scope": [
-      "Exact committed HEAD 70022de14d84e4937c8df044700ead432034dc68",
-      "Post-merge #730/#738 GCP-B1 corrective script and evidence",
-      "Credential-retention prevention",
-      "Authorization binding",
-      "Legacy key disposition",
-      "Terraform GCS backend canary proof",
-      "No #446 scope"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:199ec4dd-dc1e-4825-bb03-2a2480805e54",
-    "scope": [
-      "Exact committed HEAD 70022de14d84e4937c8df044700ead432034dc68",
-      "Post-merge #730/#738 GCP-B1 corrective script and evidence",
-      "Credential-retention prevention",
-      "Authorization binding",
-      "Legacy key disposition",
-      "Terraform GCS backend canary proof",
-      "No #446 scope"
-    ],
-    "reviewed_revision": "git-blake3:70022de14d84e4937c8df044700ead432034dc68:db5b89d1d43d04f0fd7cfc5536359c5eb0dfc9f01a6dd43ccf6b6cda51cb5ca5",
-    "findings": [],
-    "residual_risks": [
-      "The live proof itself was run against committed candidate f08c22d124ecf3bf7689de3a3e53c82ae41f3f37, then evidence/lifecycle-only records were amended into exact reviewed head 70022de14d84e4937c8df044700ead432034dc68. The reviewer inspected the diff and accepted this as non-semantic tail because the proof script and Terraform canary config digests match the retained live proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "Evidence/lifecycle-only tail after live proof; no change to proof script or Terraform backend canary config between the live-proof commit and reviewed head.",
-      "from_revision": "f08c22d124ecf3bf7689de3a3e53c82ae41f3f37",
-      "to_revision": "70022de14d84e4937c8df044700ead432034dc68",
-      "from_commit": "f08c22d124ecf3bf7689de3a3e53c82ae41f3f37",
-      "to_commit": "70022de14d84e4937c8df044700ead432034dc68",
-      "changed_paths": [
-        ".csdlc/evidence/740/backend-canary-state.redacted.json",
-        ".csdlc/evidence/740/live-proof.redacted.json",
-        ".csdlc/issues/740/**"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -66,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dba7009058a1a9d2da1ba43903c0dbdeffe3276c64828a84477ae037798a8baf",
+      "values_digest": "052fb983471c6c8443628be032b5027139efba8f8b403ecd30eb93322870e624",
       "rendered_digest": "3fec692672af4a47f14a81828af3cd5fc444f5867f6b23c22a13e2d805d29fdc",
       "ast_digest": "75958b8c63e9a2e84df685bad94ee6181c0ac878613f9d3255d867293b4fde2b"
     },
     "stp": {
-      "values_digest": "9bc4739dbcf83e2fbe7155e7b3840e78196517544095726938deeb3439146172",
+      "values_digest": "41a930e5598fb3a3c337203f6319cb2d94b6717a40502a1100210c07bfa17b9d",
       "rendered_digest": "e03e9650ed36ec746abe1e10f5c7467d5f647314f4e9011c16f7021c520cfb39",
       "ast_digest": "8cacba3a07c48b7712746fd9553dcd91d1e0ce920614af58202aa4f63911b7fd"
     },
     "spp": {
-      "values_digest": "7fc3d02885866af1bf6ce79bb2ed3984cff52173a0de426e98750eca74b07976",
+      "values_digest": "d33812c2e5d0cd88fff073a02fee44679add11e67883c25c44bfa0277e0868aa",
       "rendered_digest": "a26aabbb1bcc80e49b9bd3dafcec533d23296cb92e704c51e45567cb148f9f71",
       "ast_digest": "45615f724dcdd3208e130ce0620db74c882ff99fdc5dd0aff9f215a1b6bc2d62"
     },
     "vpp": {
-      "values_digest": "eacd46487596fbe77f91c94925f7d1e641af8097622d8a30389ef2b9943871fc",
+      "values_digest": "1c8245d9697540caeea2f775fe125aa08fa565300a2d08384a75bb18f25b90b8",
       "rendered_digest": "f4f305f81d3484209f373310ea9f2b9859c2654f6f31f972694c9bcf2f227862",
       "ast_digest": "6130cbfc6179ecd74c3f23f896168c27e75d685368e77d7b2f1143415cddb04a"
     },
     "srp": {
-      "values_digest": "9ae1759d6acdc784cd082cdce3bd07f919ed01aabe27bd89f4590a78a4c2ee12",
-      "rendered_digest": "b8d936deb267bdd18bcc4d2f4fa574070dd63a9b52619ce1d07bc888b52efafc",
-      "ast_digest": "bb195d9f47a0c61c80ab94ff9fa767152cf69462164c8865a09f3cef891d996d"
+      "values_digest": "849c30414c02688070f05f04ff9049f7cd22a3ea4a7c93605fd7c6946f14ca13",
+      "rendered_digest": "77adf4f39bfa106bb0d465f8c072854cd1b2ae4a6ba3b746bbddf565793169f2",
+      "ast_digest": "afa918a501e32a29b543922209a580c78bf28c61fb3b8f07043b73ef7321ac79"
     },
     "sor": {
-      "values_digest": "91ec16e0917e4f4ef4ea4a49ba031e210c8a312c22aa400cc121e0b89c7c010e",
-      "rendered_digest": "b2d33bfa49d6980efc10af5f62478aff9aec7ed4225b87aea82cd3df3e7217fb",
-      "ast_digest": "2fd4b152a35af8c516885a6926eac2835fbdc636ee10675be67e5a4b4154a2fd"
+      "values_digest": "ab3f7f8bbbb3841bb8dadd8dc4ecbdf1ce26d7711761fab72ea143a2affbca6a",
+      "rendered_digest": "fc496cc6ecc8d0864d3cb05f45632dd440e67cbe49e08bcff02c4b18413910ab",
+      "ast_digest": "c7e241f9e23d3279e9a2092a13c94e67ae5482d6a3250a230977670d446b2f53"
     }
   },
   "transitions": [
@@ -124,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:/root:issue-740-execution",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Recover #740 review after committing the review/lifecycle tail changed the clean current commit identity before publication."
     }
   ],
   "audit": [
@@ -266,6 +231,13 @@
       "actor": "codex:/root:issue-740-execution",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Recover #740 review after committing the review/lifecycle tail changed the clean current commit identity before publication.",
+      "operation": "recover_review"
     }
   ]
 }
