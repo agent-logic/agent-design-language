@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "60c278424d32f34a7f68d220946490d7a04265df223323cf5604fc2097d43e71",
+  "generation": 6,
+  "digest": "8c2cdd8ecd8fe81654808ea3f2920614a551e1d38a63df1208c7c72ffdabac96",
   "branch": "codex/512-observatory-redesign-implementation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
   "review_assignment": {
@@ -29,7 +29,50 @@
       "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:issue-512-operator-proof-review",
+    "scope": [
+      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      ".csdlc/evidence/512/exact-browser-operator-proof.md",
+      ".csdlc/evidence/512/exact-browser-operator-screenshot.png",
+      "adl/tools/test_html_observatory.sh",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+    ],
+    "reviewed_revision": "git-blake3:2a905edb805df09a46097a1353f0b30e5b970d7a:73fbeca6e74894b296c23e7d03042590ce038196e5d8622d22061955c1e9d39e",
+    "findings": [
+      {
+        "id": "512-review-executable-keyboard-proof",
+        "severity": "p1",
+        "summary": "The retained screenshot and regex-based tests did not execute or prove keyboard focus, panel selection, hash navigation, or screen-reader behavior.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "512-review-handoff-verdict-stale",
+        "severity": "p2",
+        "summary": "The review handoff retained an obsolete changes-required verdict that contradicted its current passing validation and remediation checklist.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +87,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a03bdb5ebea5b2059a5efa9367d95389db1f3b751e071ee4321db59d581c0bbd",
+      "values_digest": "2c3e36074930bf84ac1a090363546051cf702252fb294600bc38556e4e1e1907",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "41340f4f89746cdc574b3131f6c1197f87893d6dedaf56a4fdefd4c049e55ac3",
+      "values_digest": "bc505fc7e607bcc42483ae516b7557ad3c4469e35ed1d12fef9a12c43a11f5a7",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "5f40c8615c52543a9a87ad69280e6c93023a6bcbe0288c44ec219edc5bd93bee",
+      "values_digest": "9b703eb9622f8ad546af2b672bedf62e88cd99201c4bde3de44c570e37be8944",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "55b74bd5cbe3c02de8d159667ea9cba5a3f9de826634a2ba7d9a71936ac6bad4",
+      "values_digest": "e42bb51ac22275398226e55a489dbc5fc6bb5a1d4fbb22d8b8ad4bd52c57a5af",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "a033c76a06f1cfcee195876b41785e292cd302dd830c65cb1bd5401c7504930a",
-      "rendered_digest": "947cc969c7d100869ccba6a947c1b5fe312ba6c3309e0b7a37cc48257b384284",
-      "ast_digest": "5967f1a4f543576af7807fca02be0249446a47cc55f445629f2496cc09781891"
+      "values_digest": "c2b26b0db04a82535e077487ceb8e455a6265d98a553f171c1b7cf394ba3467f",
+      "rendered_digest": "98ec6fd0e80b0a60c920eaeb70593998a3bca6be97ab1a66083d8165717d0ad2",
+      "ast_digest": "54dbf5ce0b8ca0391d1e5df636095a8d0b012e64ffc0ed8f907845031e7cd09d"
     },
     "sor": {
-      "values_digest": "da6760814cc503bddf15ca918427a6f30875f4c0acddd06f2ea33a52e5c61153",
+      "values_digest": "def5f5232b1c97c8df24a90f618ddd682bb94c4d5a2f6ac8f0be623bdf0568f6",
       "rendered_digest": "3ddfbb4054fb69168fc9e9a08adf78d8aa8c30092deb3f78c0c9f8fbee145ede",
       "ast_digest": "88c4d3b701d6127d8fb526544ef1f58607717b7d7d0413e33463d014937416c9"
     }
@@ -181,6 +224,13 @@
       "actor": "codex:issue-512-observatory-redesign",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:issue-512-operator-proof-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

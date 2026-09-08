@@ -139,24 +139,30 @@ not yet safe to close as satisfied.
   Runtime readiness, and WSS connection state. The retained image is
   `exact-browser-operator-screenshot.png` with SHA-256
   `32ec4493bfbd19bda8df967965b362a3236f2f25967b045b900cbcb3b308cafa`.
+- Claude exercised Right, Left, Home, and End with real key presses and settle
+  delays. Both wrap directions, panel selection, focus, roving `tabindex`, and
+  `preventDefault()` behaved correctly in all six recorded cases.
+- The follow-up corrected two browser-visible defects found during that proof:
+  the System Time display now refreshes every second instead of freezing at
+  initial render, and JavaScript/CSS share a bumped cache key so Chrome cannot
+  reuse the pre-rebase script.
 
 ## Review limitation
 
 The Codex browser controller rejected its own trusted browser dependency, so
 Codex could not independently drive the page. The operator-provided live-browser
-screenshot supplies the visual exact-product proof; executable accessibility
-and navigation behavior is covered by the passing focused tests. The screenshot
-does not independently prove every keyboard gesture, and no broader claim is
-made.
+screenshot supplies the visual exact-product proof, Claude's recorded real-key
+matrix supplies the interaction proof, and executable focused checks guard the
+associated markup and event-handling contract.
 
 ## Completion checklist
 
 - [x] Canonical Polis identity projection restored and tests pass.
 - [x] Replayed roster cursor rejected without freezing other telemetry.
-- [x] Final accessible evidence/navigation behavior is covered by focused tests.
+- [x] Final accessible navigation behavior is proven by real-key interaction and focused tests.
 - [x] Empty, degraded, recovery, and revoked states pass focused checks.
 - [x] README matches the final interface.
 - [x] Full focused Observatory suite passes.
-- [x] Exact-product browser rendering is retained from the operator session.
+- [x] Exact-product browser rendering and keyboard interaction are retained.
 - [ ] Fresh independent exact-head review has no unresolved findings.
 - [x] #511 closed as absorbed into #512 with evidence links.

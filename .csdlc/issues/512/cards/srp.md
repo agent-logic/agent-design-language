@@ -34,7 +34,28 @@ demos/html-observatory/tests/security_privacy_adversarial.test.mjs
 
 ## Findings
 
-[]
+[
+  {
+    "id": "512-review-executable-keyboard-proof",
+    "severity": "p1",
+    "summary": "The retained screenshot and regex-based tests did not execute or prove keyboard focus, panel selection, hash navigation, or screen-reader behavior.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "512-review-handoff-verdict-stale",
+    "severity": "p2",
+    "summary": "The review handoff retained an obsolete changes-required verdict that contradicted its current passing validation and remediation checklist.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -46,8 +67,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:2a905edb805df09a46097a1353f0b30e5b970d7a:73fbeca6e74894b296c23e7d03042590ce038196e5d8622d22061955c1e9d39e")
 
-Reviewer: None
+Reviewer: Some("codex:issue-512-operator-proof-review")
 
-Result: pre_review
+Result: changes_required

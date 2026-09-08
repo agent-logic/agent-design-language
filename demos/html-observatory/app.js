@@ -73,6 +73,20 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
+let systemClockTimer = null;
+
+function refreshSystemClock() {
+  const label = formatCurrentTimestampLabel();
+  setText("hero-uptime", label);
+  setText("rail-capture-time", label);
+}
+
+function startSystemClock() {
+  refreshSystemClock();
+  if (!systemClockTimer && typeof setInterval === "function") {
+    systemClockTimer = setInterval(refreshSystemClock, 1000);
+  }
+}
 let liveReconnectTimer = null;
 let liveReconnectAttempt = 0;
 let lastKnownComponentEntries = [];
@@ -3579,8 +3593,7 @@ function renderObservatory(packet, reportText = "", state = "ok") {
   setText("claim-boundary", displayClaimBoundary(source));
   setText("evidence-level", formatLabel(source.evidence_level));
   document.getElementById("evidence-level")?.setAttribute("data-tone", state === "ok" ? "ok" : "warn");
-  setText("hero-uptime", formatCurrentTimestampLabel());
-  setText("rail-capture-time", formatCurrentTimestampLabel());
+  refreshSystemClock();
   setText("rail-manifold-id", displayManifoldId(manifold.manifold_id));
   setText("rail-state", formatLabel(manifold.state));
   setText("rail-tick", String(manifold.current_tick ?? 0));
@@ -4950,6 +4963,7 @@ async function loadRuntimeV3Config(root) {
 }
 
 async function bootObservatory() {
+  startSystemClock();
   const root = document.querySelector(".observatory");
   const packetRef = root?.dataset.packetRef || "";
   const reportRef = root?.dataset.reportRef || "";
@@ -5006,6 +5020,8 @@ globalThis.AdlHtmlObservatory = {
   conversationTurnsInOrder,
   AWS_LINKAGES,
   formatLabel,
+  refreshSystemClock,
+  startSystemClock,
   parseCloudWatchEventMessage,
   buildOperatorEnvelope,
   normalizeApiBase,

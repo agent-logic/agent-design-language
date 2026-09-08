@@ -19,3 +19,23 @@ both available bundled browser-controller entrypoints, but each stopped before
 page interaction because the controller's own trusted RPC dependency could not
 resolve within its configured trusted-code roots. No Observatory failure is
 inferred from that controller initialization error.
+
+## Keyboard interaction confirmation
+
+Claude subsequently exercised the live page with real key presses and a 0.6
+second settle delay between observations. Focus, selection, the visible panel,
+roving `tabindex`, and `preventDefault()` moved together for every case:
+
+| Key | From | Selected | Panel | Result |
+| --- | --- | --- | --- | --- |
+| Right | Integrity | Agent | Agent | pass |
+| Right | Agent | Activity | Activity | pass |
+| Right | Activity | Integrity | Integrity | pass, wrapped |
+| Left | Integrity | Activity | Activity | pass, wrapped |
+| End | Activity | Activity | Activity | pass |
+| Home | Activity | Integrity | Integrity | pass |
+
+The first attempt exposed a separate cache defect: `app.js` had changed while
+its HTML cache key remained `v0921-wuji-49`, allowing Chrome to serve the
+pre-rebase script even though clicks still worked. The corrected HTML uses the
+single `v0921-wuji-56` cache key for both JavaScript and CSS.

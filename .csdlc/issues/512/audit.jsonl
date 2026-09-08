@@ -8,3 +8,4 @@
 {"sequence":8,"generation":4,"actor":"codex:issue-512-publication-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":9,"generation":5,"actor":"codex:issue-512-observatory-redesign","reason":"Recover review truth after retaining the operator-provided exact-product browser proof and updating the handoff to current validation truth.","operation":"recover_review"}
 {"sequence":10,"generation":5,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":6,"actor":"codex:issue-512-operator-proof-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
