@@ -43,6 +43,7 @@ def validate_fixture!(fixture)
   fail!("declared source content differs from parsed reviews") unless declared == parsed
   ids = parsed.map { |row| row.fetch("id") }
   fail!("source finding IDs are duplicated") unless ids.uniq.length == ids.length
+  fail!("fixture source finding severity/evidence is invalid") unless parsed.all? { |row| %w[P0 P1 P2 P3].include?(row.fetch("severity")) && nonempty?(row.fetch("status")) && nonempty?(row.fetch("evidence")) }
   fail!("source reviews are not merged exact-head outputs") unless fixture.fetch("source_reviews").all? { |row| row.fetch("merged") == true && row.fetch("reviewed_revision") == row.fetch("candidate_sha") && %w[passed findings].include?(row.fetch("outcome")) }
   fail!("empty source census requires zero-finding proof") if parsed.empty? && !nonempty?(fixture.fetch("zero_findings_proof"))
   dispositions = fixture.fetch("dispositions")
@@ -50,6 +51,11 @@ def validate_fixture!(fixture)
   fail!("dispositions do not exactly cover parsed findings") unless disposed.sort == ids.sort && disposed.uniq.length == disposed.length
   dispositions.select { |row| row.fetch("kind") == "deferred" }.each do |row|
     fail!("source-defined blocker cannot be deferred") if row.fetch("source_finding_ids").any? { |id| blocking?(parsed.find { |finding| finding.fetch("id") == id }) }
+  end
+  dispositions.select { |row| row.fetch("kind") == "fixed" }.each do |row|
+    fail!("fixed remediation lacks live PR/head/merge/ancestry authority") unless row.fetch("remediation_live_valid") == true && row.fetch("merge_ancestral") == true
+    fail!("fixed remediation evidence is not read from immutable head") unless row.fetch("artifacts_from_head") == true
+    fail!("canonical pass outcome contradicts findings or blockers") unless row.fetch("review_outcome") == "passed" && row.fetch("review_findings") == [] && row.fetch("review_blockers") == []
   end
   fixture.fetch("evidence").each do |row|
     fail!("evidence is not passing or exact-head bound") unless row.fetch("digest_valid") == true && row.fetch("outcome") == "passed" && row.fetch("evidence_sha") == row.fetch("head_sha")
@@ -91,6 +97,10 @@ reports.each do |report|
   path = report.fetch("path")
   report_blob = git_blob(merge_sha, path)
   fail!("source report digest mismatch: #{path}") unless Digest::SHA256.hexdigest(report_blob) == report.fetch("sha256")
+  source_manifest_blob = git_blob(merge_sha, report.fetch("packet_manifest_path"))
+  fail!("source packet manifest digest mismatch") unless Digest::SHA256.hexdigest(source_manifest_blob) == report.fetch("packet_manifest_sha256")
+  source_manifest = JSON.parse(source_manifest_blob)
+  fail!("source report is not a manifested merged output") unless source_manifest.fetch("entries").any? { |entry| entry.fetch("path") == path && entry.fetch("sha256") == report.fetch("sha256") }
   fail!("source report lacks exact reviewed revision") unless report.fetch("reviewed_revision").match?(/\A[0-9a-f]{40}\z/)
   report_doc = JSON.parse(report_blob)
   fail!("source report is not exact-head bound") unless report_doc.fetch("candidate_sha") == report.fetch("reviewed_revision")
@@ -103,6 +113,7 @@ reports.each do |report|
   parsed_digests = parsed_findings.to_h { |finding| [finding.fetch("id"), Digest::SHA256.hexdigest(canonical_json(finding))] }
   fail!("source report finding-content digests are false") unless report.fetch("finding_digests") == parsed_digests
   fail!("source finding is stale") unless parsed_findings.all? { |finding| finding.fetch("revision") == report.fetch("reviewed_revision") }
+  fail!("source finding severity or evidence is invalid") unless parsed_findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && nonempty?(finding.fetch("status")) && nonempty?(finding.fetch("evidence")) }
 end
 source = reports.flat_map { |report| JSON.parse(git_blob(report.fetch("merge_sha"), report.fetch("path"))).fetch("findings") }
 fail!("empty source finding census lacks affirmative zero-finding proof") if source.empty? && !nonempty?(source_doc.fetch("zero_findings_proof"))
@@ -117,24 +128,45 @@ fail!("nonempty finding census has no dispositions") if source.any? && dispositi
 dispositions.each do |row|
   case row.fetch("kind")
   when "fixed"
+    remediation = row.fetch("remediation")
+    remediation_issue = remediation.fetch("issue")
+    remediation_pr = remediation.fetch("pull_request")
+    head_sha = remediation.fetch("head_sha")
+    merge_sha = remediation.fetch("merge_sha")
+    fail!("remediation head/merge identity is invalid") unless head_sha.match?(/\A[0-9a-f]{40}\z/) && merge_sha.match?(/\A[0-9a-f]{40}\z/)
+    issue_out, issue_err, issue_status = Open3.capture3("gh", "issue", "view", remediation_issue.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,closedByPullRequestsReferences")
+    fail!("cannot verify remediation issue: #{issue_err.strip}") unless issue_status.success?
+    issue_doc = JSON.parse(issue_out)
+    fail!("remediation issue is not closed by declared PR") unless issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
+    pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", remediation_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,headRefOid,mergeCommit")
+    fail!("cannot verify remediation PR: #{pr_err.strip}") unless pr_status.success?
+    pr_doc = JSON.parse(pr_out)
+    fail!("remediation PR/head/merge identity is false") unless pr_doc.fetch("state") == "MERGED" && pr_doc.fetch("headRefOid") == head_sha && pr_doc.dig("mergeCommit", "oid") == merge_sha
+    system("git", "merge-base", "--is-ancestor", merge_sha, "HEAD") or fail!("remediation merge is not ancestral to ledger head")
+    artifacts = remediation.fetch("artifacts")
+    fail!("remediation has no immutable head artifacts") if artifacts.empty?
+    artifacts.each do |artifact|
+      blob = git_blob(head_sha, artifact.fetch("path"))
+      fail!("remediation head artifact digest mismatch") unless Digest::SHA256.hexdigest(blob) == artifact.fetch("sha256")
+    end
     review = row.fetch("review")
-    fail!("fix lacks exact current review identity") unless review.fetch("head_sha").match?(/\A[0-9a-f]{40}\z/) && review.fetch("head_sha") == review.fetch("reviewed_sha") && review.fetch("head_sha") == review.fetch("observed_pr_head_sha") && nonempty?(review.fetch("observed_at"))
+    fail!("fix lacks exact current review identity") unless review.fetch("head_sha") == head_sha && review.fetch("head_sha") == review.fetch("reviewed_sha") && review.fetch("head_sha") == review.fetch("observed_pr_head_sha") && nonempty?(review.fetch("observed_at"))
     system("git", "cat-file", "-e", "#{review.fetch('head_sha')}^{commit}") or fail!("reviewed fix commit is unavailable")
     review_path = review.fetch("report_path")
     fail!("exact-head review report is missing") unless File.file?(review_path)
     fail!("exact-head review digest mismatch") unless Digest::SHA256.file(review_path).hexdigest == review.fetch("sha256")
     review_doc = read_json(review_path)
-    fail!("review report does not prove a passing exact-head result") unless passed?(review_doc) && (review_doc["candidate_sha"] || review_doc["head_sha"]) == review.fetch("head_sha")
+    fail!("review report does not prove canonical passing exact-head result") unless review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && review_doc.fetch("blockers") == [] && (review_doc["candidate_sha"] || review_doc["head_sha"]) == head_sha
     fail!("review report does not prove these findings resolved") unless review_doc.fetch("resolved_finding_ids").sort == row.fetch("source_finding_ids").sort
     validations = row.fetch("validation")
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
     validations.each do |validation|
       evidence_path = validation.fetch("evidence")
-      fail!("validation evidence is missing") unless File.file?(evidence_path)
-      fail!("validation evidence digest mismatch") unless Digest::SHA256.file(evidence_path).hexdigest == validation.fetch("sha256")
-      validation_doc = read_json(evidence_path)
+      evidence_blob = git_blob(head_sha, evidence_path)
+      fail!("validation evidence digest mismatch") unless Digest::SHA256.hexdigest(evidence_blob) == validation.fetch("sha256")
+      validation_doc = JSON.parse(evidence_blob)
       evidence_sha = validation_doc["candidate_sha"] || validation_doc["head_sha"] || validation_doc["revision"]
-      fail!("validation evidence does not prove pass at fixed head") unless validation.fetch("outcome") == "passed" && passed?(validation_doc) && evidence_sha == review.fetch("head_sha")
+      fail!("validation evidence does not prove pass at fixed head") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && evidence_sha == head_sha
     end
   when "deferred"
     fail!("deferral metadata is incomplete") unless %w[owner rationale target_milestone release_consequence].all? { |key| nonempty?(row.fetch(key)) }
@@ -157,4 +189,6 @@ entries.each do |entry|
 end
 paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| paths.include?(File.join(root, name)) }
+fixed_review_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.map { |row| row.fetch("review").fetch("report_path") }
+fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
 puts JSON.generate(schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length)

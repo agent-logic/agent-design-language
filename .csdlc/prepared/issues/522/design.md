@@ -17,3 +17,9 @@ dispositions require digest-verified machine-readable validation and review
 results that both report pass at the exact remediated head. Deferral eligibility
 is derived from source severity, status, and release-blocking flags; a
 disposition cannot self-attest a blocker as non-blocking.
+
+Every fixed disposition resolves its remediation issue and merged PR live,
+binds the exact PR head and merge commit, proves the merge is ancestral to the
+ledger, and reads validation/remediation artifacts with `git show` from the
+immutable PR head. A canonical passing review has zero findings and zero
+blockers; outcome strings cannot override contradictory content.
