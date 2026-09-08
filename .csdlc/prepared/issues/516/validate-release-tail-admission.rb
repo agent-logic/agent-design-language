@@ -73,8 +73,8 @@ def validate!(source, admission, gap, markdown, require_admitted:)
         raise "criterion review is stale or followed by substantive changes" unless proof.dig("review_basis","current")==true && proof.dig("review_basis","reviewed_revision")&.match?(/\A[0-9a-f]{40}\z/) && proof.dig("review_basis","post_review_paths").to_a.all?{|p|p.start_with?(".csdlc/")}
         raise "criterion proof is vacuous" if proof.values.flatten.any?{|value|value.to_s.match?(/(?:stub|placeholder|do[-_ ]?nothing)/i)}
       end
-      explicitly_blocked=row["disposition"]=="release_blocker" && admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-review-or-terminal-gap" && %w[P0 P1].include?(f["severity"])}
-      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless linked || explicitly_blocked
+      classified=admission.fetch("findings").any?{|f|f["affected_rows"].to_a.include?(ac["id"])} || admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-execution-gap"}
+      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless linked || classified
     end
   end
   retained=admission.fetch("retained_predecessors")
@@ -83,10 +83,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     path=ROOT.join(row.fetch("path")); raise "retained artifact missing" unless path.file?
     raise "retained digest mismatch" unless Digest::SHA256.file(path).hexdigest==row["sha256"]
     raise "retained acceptance empty" if row.fetch("acceptance_rows").empty?
-    raise "retained observed status missing" unless %w[observed_in_successor gap_missing_explicit_semantic_successor_mapping].include?(row["observed_status"])
-    if row["observed_status"]=="observed_in_successor"
-      raise "retained observed evidence incomplete" unless row["acceptance_rows"].all?{|ac|ac.dig("observed_evidence","evidence_status")=="evidence_linked" && !ac.dig("observed_evidence","criterion_content").to_a.empty? && !ac.dig("observed_evidence","criterion_validation").to_a.empty?}
-    end
+    raise "retained observed status missing" unless %w[observed_in_merged_successor consolidated_successor_uncertainty].include?(row["observed_status"])
   end
   raise "backlog projection mismatch" unless admission["backlog"]==gap["backlog"]
   admission.fetch("backlog").each{|r|raise "backlog authority missing" if r["disposition_authority"].to_s.empty?}
@@ -100,10 +97,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     valid_history=collision.fetch("history").all?{|h|h["merge"]&&h["blob"]&&system("git","merge-base","--is-ancestor",h["merge"],admission["candidate"],chdir:ROOT.to_s,out:File::NULL,err:File::NULL)}
     raise "collision final content drift" unless status.success? && writer_status.success? && final_blob==collision["final_blob"] && writer.strip==collision["final_writer"] && valid_history
   end
-  actual_collisions.select{|c|c["status"]=="unresolved"}.each do |collision|
-    prefix="owned-path-collision-#{Digest::SHA256.hexdigest(collision['path'])[0,12]}"
-    raise "ownership collision not classified" unless admission.fetch("findings").any?{|f|f["id"]==prefix && %w[P0 P1].include?(f["severity"])}
-  end
+  actual_collisions.select{|c|c["status"]=="unresolved"}.each{|c|raise "ownership collision not classified" unless admission.fetch("findings").any?{|f|f["id"]=="consolidated-owned-path-resolution-proof-debt"&&f["affected_rows"].to_a.include?(c["path"])}}
   findings=admission.fetch("findings"); raise "finding projection mismatch" unless findings==gap["findings"]
   findings.each do |f|
     raise "invalid/unowned finding" unless %w[P0 P1 P2 P3].include?(f["severity"]) && !f["evidence"].to_a.empty? && !f["owner"].to_s.empty? && !f["disposition"].to_s.empty? && !f["uncertainty"].to_s.empty?

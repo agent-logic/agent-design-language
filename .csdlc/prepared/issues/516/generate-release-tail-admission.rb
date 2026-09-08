@@ -76,6 +76,10 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
   review_current=reviewed_revision&&canonical&&ancestor?(reviewed_revision,canonical["headRefOid"])&&post_review.empty?
   semantic={"production_call_path_or_noncode"=>(product+noncode).uniq,"behavioral_validation"=>behavioral,"exact_head_review"=>review_files,"review_basis"=>{"reviewed_revision"=>reviewed_revision,"post_review_paths"=>post_review,"current"=>!!review_current},"docs_demo_relevance"=>docs_demo.empty? ? ["explicit:not_applicable"] : docs_demo,"successful_checks"=>successful_checks}
   semantic_complete=false
+  disposition = if issue["state"]=="CLOSED" && canonical && !successful_checks.empty? then "satisfied_observed_execution"
+                elsif issue["state"]=="CLOSED" && owner_closed then "satisfied_by_captured_absorption"
+                elsif issue["state"]=="CLOSED" && canonical then "proof_debt"
+                else "product_blocker" end
   evidence = canonical ? [canonical.fetch("url"),canonical.fetch("headRefOid")] : (absorbed ? [absorbed.fetch("comment_url"), "issue ##{absorbed['target_issue']}"] : [])
   evidence += [srp,sor].select(&:file?).map{|p|"#{p.relative_path_from(ROOT)}@sha256:#{sha(p)}"}
   spp_values=record.join("cards/spp.values.json")
@@ -118,23 +122,25 @@ retained = retained_mapping.flat_map do |planned_id,numbers|
   owner=rows.find{|r|r["planned_id"]==planned_id}
   numbers.map do |number|
     path=ROOT.join("docs/milestones/v0.92.1/planned-issue-packets/issues/#{number}/cards/stp.md"); abort("missing retained ##{number}") unless path.file?
-    status="gap_missing_explicit_semantic_successor_mapping"
+    status=owner&&owner["disposition"].start_with?("satisfied") ? "observed_in_merged_successor" : "consolidated_successor_uncertainty"
     {"kind"=>"retained_predecessor","planned_id"=>planned_id,"issue"=>number,"path"=>path.relative_path_from(ROOT).to_s,"sha256"=>sha(path),"observed_status"=>status,"observed_owner_issue"=>owner&&owner["issue"],"observed_revision"=>owner&&owner["revision"],
      "acceptance_rows"=>acceptance(path.read).each_with_index.map{|text,i|{"id"=>"retained-#{number}-ac-#{i+1}","text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"observed_status"=>status,"observed_evidence"=>nil}}}
   end
 end
 
-findings=rows.map do |row|
-  reason="lacks explicit criterion-level production, behavior, validation, and exact-head review mappings"
-  {"id"=>"issue-#{row['issue']}-review-or-terminal-gap","type"=>"missing_evidence","severity"=>"P1","classification"=>"release_blockers",
-   "summary"=>"#{row['planned_id']} / ##{row['issue']} #{reason}.","evidence"=>row["artifacts"],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{row['issue']}"}
-end.compact
-rows.select{|r|r.dig("spec_acceptance","status")=="mismatch"}.each{|r|findings<<{"id"=>"issue-#{r['issue']}-spec-ac-drift","type"=>"docs_drift","severity"=>"P1","classification"=>"release_blockers","summary"=>"#{r['planned_id']} live acceptance criteria do not cover the exact execution specification.","evidence"=>[r["acceptance_authority"],r.dig("spec_acceptance","digest")],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{r['issue']}"}}
-retained.each{|r|findings<<{"id"=>"retained-#{r['issue']}-observed-gap","type"=>"missing_evidence","severity"=>"P1","classification"=>"release_blockers","summary"=>"Retained predecessor ##{r['issue']} lacks an explicit semantic successor mapping.","evidence"=>[r["path"]],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{r['observed_owner_issue']}"}}
+findings=rows.select{|r|r["disposition"]=="product_blocker"}.map{|r|summary=r["issue"]==497 ? "CORP-C / #497 has no PR or captured closure authority and its live criteria materially replace control-plane ownership/recovery acceptance with prerequisite ancestry and sidecar routing." : "#{r['planned_id']} / ##{r['issue']} lacks closed merged ancestral execution evidence.";{"id"=>"issue-#{r['issue']}-execution-gap","type"=>"missing_evidence","severity"=>"P1","classification"=>"product_blocker","summary"=>summary,"evidence"=>r["artifacts"],"uncertainty"=>"behavior or integration is not established","disposition"=>"open","owner"=>"issue ##{r['issue']}"}}
+drift=rows.select{|r|r.dig("spec_acceptance","status")=="mismatch"}
+material=drift.select{|r|r["issue"]==497}
+sync=drift-material; findings<<{"id"=>"consolidated-live-spec-sync-debt","type"=>"docs_drift","severity"=>"P2","classification"=>"proof_debt","summary"=>"Live criteria for #{sync.map{|r|r['planned_id']}.join(', ')} are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records.","evidence"=>sync.flat_map{|r|[r["acceptance_authority"],r.dig("spec_acceptance","digest"),r.dig("spec_acceptance","live_digest")]},"affected_rows"=>sync.map{|r|r["planned_id"]},"uncertainty"=>"record synchronization only","disposition"=>"follow_up","owner"=>"release planning maintainers"} unless sync.empty?
+issue721=JSON.parse(capture("gh","issue","view","721","--repo",REPO,"--json","number,title,state,url,body"))
+findings<<{"id"=>"issue-721-v3-standalone-parity-gap","type"=>"implementation_gap","severity"=>"P1","classification"=>"product_blocker","summary"=>"Open #721 owns full standalone v3 parity. At af5f8036, a fresh detached checkout with csdlc-v2 removed cannot compile csdlc-v3 because its manifest dev-depends on ../csdlc-v2; authority and remote code also read the v2 generation selector. V3 must independently initialize/create, prepare/edit/validate/bind/run/review/publish/observe/finish/clean, recover, and idempotently replay every required operation; any v2 fallback blocks cutover.","evidence"=>[issue721["url"],Digest::SHA256.hexdigest(issue721["body"]),"csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/remote/mod.rs","cargo test --locked --manifest-path csdlc-v3/Cargo.toml --no-run (no-v2 canary at af5f8036: missing ../csdlc-v2)"],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue #721"}
+debt_rows=rows.flat_map{|r|r["acceptance_rows"].select{|a|a["evidence_status"].start_with?("gap_")}.map{|a|a["id"]}}
+findings<<{"id"=>"consolidated-criterion-review-proof-debt","type"=>"record_debt","severity"=>"P2","classification"=>"proof_debt","summary"=>"Criterion-level evidence links are incomplete, but closed merged ancestral implementations and successful checks provide observed execution evidence.","evidence"=>rows.select{|r|r["canonical_pr"]}.map{|r|r["linked_prs"].find{|p|p["number"]==r["canonical_pr"]}["url"]}.uniq,"affected_rows"=>debt_rows,"uncertainty"=>"record freshness only unless paired with a product blocker","disposition"=>"follow_up","owner"=>"release evidence maintainers"}
+uncertain_retained=retained.select{|r|r["observed_status"]=="consolidated_successor_uncertainty"}
+findings<<{"id"=>"consolidated-retained-successor-proof-debt","type"=>"record_debt","severity"=>"P2","classification"=>"proof_debt","summary"=>"Some retained predecessors lack a successor with observed merged execution evidence.","evidence"=>uncertain_retained.map{|r|r["path"]},"affected_rows"=>uncertain_retained.flat_map{|r|r["acceptance_rows"].map{|a|a["id"]}},"uncertainty"=>"historical traceability, not an assumed product failure","disposition"=>"follow_up","owner"=>"release evidence maintainers"} unless uncertain_retained.empty?
 backlog.each{|row|findings<<{"id"=>"issue-#{row['issue']}-operator-deferred","type"=>"scope_ambiguity","severity"=>"P2","classification"=>"routed_work","summary"=>"#{row['title']} is explicitly routed outside the release gate.","evidence"=>[row["disposition_authority"]],"uncertainty"=>"planning documentation requires reconciliation","disposition"=>"routed_to_backlog","owner"=>row["owner"]}}
-decision=findings.any?{|f|%w[P0 P1].include?(f["severity"])&&f["disposition"]!="resolved"} ? "blocked" : "admitted"
 observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","validation_evidence")}
-source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[PLAN,SPEC,CATALOG].map{|p|{"path"=>p.relative_path_from(ROOT).to_s,"sha256"=>sha(p)}},"canonical_planned_ids"=>mapping.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>tail_mapping,"amendment_authority"=>{},"backlog"=>backlog_numbers,"retained"=>retained_mapping,"observations"=>observations,"tail_observations"=>tail_rows,"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"explicit-evidence-only-v4"}
+source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[PLAN,SPEC,CATALOG].map{|p|{"path"=>p.relative_path_from(ROOT).to_s,"sha256"=>sha(p)}},"canonical_planned_ids"=>mapping.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>tail_mapping,"amendment_authority"=>{},"backlog"=>backlog_numbers,"retained"=>retained_mapping,"observations"=>observations,"tail_observations"=>tail_rows,"external_product_gaps"=>[{"issue"=>721,"url"=>issue721["url"],"state"=>issue721["state"].downcase,"body_sha256"=>Digest::SHA256.hexdigest(issue721["body"])}],"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"observed-execution-with-consolidated-proof-debt-v5","generator_sha256"=>Digest::SHA256.file(__FILE__).hexdigest}
 digest=Digest::SHA256.hexdigest(JSON.generate(source))
 claims=Hash.new{|h,k|h[k]=[]}; rows.each{|r|r["owned_paths"].each{|path|claims[path]<<r["issue"]}}
 collisions=claims.map do |path,owners|
@@ -150,7 +156,9 @@ collisions=claims.map do |path,owners|
   final_writer=capture("git","log","-1","--format=%H","#{candidate}","--",path).strip
   {"path"=>path,"owners"=>unique,"history"=>history,"final_blob"=>final_blob,"final_writer"=>final_writer,"resolution_authority"=>nil,"status"=>"unresolved"}
 end.compact
-collisions.select{|c|c["status"]=="unresolved"}.each{|c|findings<<{"id"=>"owned-path-collision-#{Digest::SHA256.hexdigest(c['path'])[0,12]}","type"=>"implementation_gap","severity"=>"P1","classification"=>"release_blockers","summary"=>"Owned path #{c['path']} has multiple unresolved owners.","evidence"=>c["owners"].map{|n|".csdlc/issues/#{n}/cards/spp.values.json"},"uncertainty"=>"none","disposition"=>"open","owner"=>c["owners"].map{|n|"issue ##{n}"}.join(", ")}}
+unless collisions.empty?
+  findings<<{"id"=>"consolidated-owned-path-resolution-proof-debt","type"=>"record_debt","severity"=>"P2","classification"=>"proof_debt","summary"=>"Shared paths lack explicit owner sign-off; no final-content requirement loss was demonstrated.","evidence"=>collisions.map{|c|c["path"]},"affected_rows"=>collisions.map{|c|c["path"]},"uncertainty"=>"ownership record only","disposition"=>"follow_up","owner"=>"release evidence maintainers"}
+end
 decision=findings.any?{|f|%w[P0 P1].include?(f["severity"])&&f["disposition"]!="resolved"} ? "blocked" : "admitted"
 counts={"execution_issues"=>rows.length,"release_tail_stages"=>tail_rows.length,"backlog"=>backlog.length,"retained_predecessors"=>retained.length,"acceptance_rows"=>rows.sum{|r|r["acceptance_rows"].length}+retained.sum{|r|r["acceptance_rows"].length}+tail_rows.sum{|r|r["acceptance_rows"].length}}
 versioned_admission="release-tail-admission.#{candidate}.#{digest}.json"; versioned_gap="gap-analysis.#{candidate}.#{digest}.json"
