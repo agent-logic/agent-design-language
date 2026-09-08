@@ -202,6 +202,7 @@ pub fn classify_route(
         "install" => match request.install.as_ref() {
             Some(install) => validate_install(
                 request.evidence_root.as_deref(),
+                &request.repository,
                 request.cutover_issue,
                 install,
                 &mut findings,
@@ -463,6 +464,7 @@ fn validate_command_spec(
 
 fn validate_install(
     evidence_root: Option<&str>,
+    repository: &str,
     cutover_issue: Option<u64>,
     install: &InstallPlanInput,
     findings: &mut Vec<ProofRouteFinding>,
@@ -575,11 +577,19 @@ fn validate_install(
                     && digest.len() == 64
                     && digest.chars().all(|ch| ch.is_ascii_hexdigit()) =>
             {
-                if let Some(observed) = observed_ref_digest(evidence_root, reference, findings) {
+                if let Some(bytes) = observed_ref_bytes(evidence_root, reference, findings) {
+                    let observed = blake3::hash(&bytes).to_hex().to_string();
                     if observed != digest {
                         findings.push(finding(
                             "install_cutover_approval_digest_mismatch",
                             "install cutover approval digest must match referenced typed evidence",
+                        ));
+                    } else if !cutover_approval_matches_install(
+                        &bytes, install, repository, reference, digest,
+                    ) {
+                        findings.push(finding(
+                            "install_cutover_approval_invalid",
+                            "install cutover approval evidence must be typed #505 approval for the selected exact head and artifact",
                         ));
                     }
                 }
@@ -1353,6 +1363,27 @@ fn current_git_head(root: &Path) -> Result<String, ProofRouteFinding> {
         ));
     }
     Ok(String::from_utf8_lossy(&output.stdout).trim().to_owned())
+}
+
+fn cutover_approval_matches_install(
+    bytes: &[u8],
+    install: &InstallPlanInput,
+    repository: &str,
+    approval_ref: &str,
+    approval_digest: &str,
+) -> bool {
+    let Ok(value) = serde_json::from_slice::<serde_json::Value>(bytes) else {
+        return false;
+    };
+    value["schema"] == "csdlc.v3.cutover_approval.v1"
+        && value["authority_issue"] == 505
+        && value["decision"] == "approved"
+        && value["repository"] == repository
+        && value["exact_head"] == install.exact_head
+        && value["selected_binary_digest"] == install.selected_binary_digest
+        && value["selector_metadata_digest"] == install.selector_metadata_digest
+        && !approval_ref.trim().is_empty()
+        && !approval_digest.trim().is_empty()
 }
 
 fn active_canonical_v3_selector(
