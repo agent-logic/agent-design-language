@@ -40,8 +40,24 @@ def gate_errors(gate)
   errors << "gate cannot authorize mutation" unless gate["release_mutation_authorized"] == false
   rows = gate.fetch("predecessors", [])
   errors << "predecessor denominator mismatch" unless rows.map { |row| row["issue"] } == PREDECESSORS
-  errors << "predecessor proof incomplete" unless rows.all? { |row| sha?(row["merge_sha"]) && row["review_path"].to_s == ".csdlc/issues/#{row['issue']}/cards/srp.md" && sha?(row["review_sha256"], 64) && row["checks_path"].to_s.start_with?("docs/milestones/v0.92.1/evidence/release/") && sha?(row["checks_sha256"], 64) }
+  errors << "predecessor proof incomplete" unless rows.all? { |row| sha?(row["merge_sha"]) && row["review_path"].to_s == ".csdlc/issues/#{row['issue']}/cards/srp.md" && sha?(row["review_sha256"], 64) && row["checks_path"].to_s.start_with?("docs/milestones/v0.92.1/evidence/release/") && sha?(row["checks_sha256"], 64) && row["required_checks"].is_a?(Array) && !row["required_checks"].empty? && row["required_checks"] == row["required_checks"].sort.uniq }
   errors
+end
+
+def green_evidence?(bytes, row)
+  parsed = JSON.parse(bytes)
+  results = parsed["checks"]
+  return false unless parsed["schema"] == "adl.github.checks.v1"
+  return false unless parsed["issue"] == row["issue"]
+  return false unless parsed["head_sha"] == row["merge_sha"]
+  return false unless results.is_a?(Array)
+  return false unless results.map { |entry| entry["name"] }.sort == row["required_checks"]
+
+  results.all? do |entry|
+    entry.is_a?(Hash) && entry["name"].is_a?(String) && entry["conclusion"] == "success"
+  end
+rescue JSON::ParserError, TypeError
+  false
 end
 
 def receipt_errors(receipt, notes_digest, review)
@@ -79,14 +95,25 @@ if ARGV == ["--negative"]
           "preflight_argv" => BASE, "mutation_argv" => MUTATIONS.map { |flag| BASE + [flag, "--authorization-file", AUTH_REL] },
           "preflight_status" => "passed", "ceremony_test_status" => "passed"}
   gate = {"schema" => "adl.v0921.release_ceremony_gate.v1", "version" => "v0.92.1", "candidate_sha" => "a" * 40, "planning_review_revision" => "d" * 40,
-          "release_mutation_authorized" => false, "predecessors" => PREDECESSORS.map { |issue| {"issue" => issue, "merge_sha" => "c" * 40, "review_path" => ".csdlc/issues/#{issue}/cards/srp.md", "review_sha256" => "e" * 64, "checks_path" => "docs/milestones/v0.92.1/evidence/release/checks-#{issue}.json", "checks_sha256" => "f" * 64} }}
+          "release_mutation_authorized" => false, "predecessors" => PREDECESSORS.map { |issue| {"issue" => issue, "merge_sha" => "c" * 40, "review_path" => ".csdlc/issues/#{issue}/cards/srp.md", "review_sha256" => "e" * 64, "checks_path" => "docs/milestones/v0.92.1/evidence/release/checks-#{issue}.json", "checks_sha256" => "f" * 64, "required_checks" => ["adl-ci"]} }}
   mutations = [base.merge("preflight_argv" => BASE + ["--skip-sor-gate"]), base.merge("mutation_argv" => []),
                base.merge("authorized_at" => "2025-12-31T23:59:00Z"), base.merge("planning_review_revision" => "f" * 40),
                base.merge("tag_target_sha" => "f" * 40), base.merge("notes_sha256" => "f" * 64)]
   gate_mutations = [gate.merge("predecessors" => []), gate.merge("release_mutation_authorized" => true), gate.merge("planning_review_revision" => "main")]
+  evidence_row = gate.fetch("predecessors").first
+  valid_evidence = {"schema" => "adl.github.checks.v1", "issue" => evidence_row["issue"], "head_sha" => evidence_row["merge_sha"], "checks" => [{"name" => "adl-ci", "conclusion" => "success"}]}
+  evidence_mutations = [
+    valid_evidence.merge("status" => "success", "checks" => []),
+    valid_evidence.merge("issue" => evidence_row["issue"] + 1),
+    valid_evidence.merge("head_sha" => "f" * 40),
+    valid_evidence.merge("checks" => [{"name" => "adl-ci", "conclusion" => "failure"}]),
+    valid_evidence.merge("checks" => [{"name" => "different-check", "conclusion" => "success"}])
+  ]
   abort "negative receipt mutation escaped" unless mutations.all? { |row| !receipt_errors(row, "b" * 64, review).empty? }
   abort "negative gate mutation escaped" unless gate_mutations.all? { |row| !gate_errors(row).empty? }
-  puts "issue 526 negative contract passed (#{mutations.length + gate_mutations.length} mutations)"
+  abort "valid green evidence rejected" unless green_evidence?(JSON.generate(valid_evidence), evidence_row)
+  abort "negative green evidence mutation escaped" unless evidence_mutations.none? { |row| green_evidence?(JSON.generate(row), evidence_row) }
+  puts "issue 526 negative contract passed (#{mutations.length + gate_mutations.length + evidence_mutations.length} mutations)"
   exit 0
 end
 
@@ -104,7 +131,7 @@ if mode == "gate"
     review = IO.popen(["git", "-C", ROOT, "show", "#{candidate}:#{row['review_path']}"], err: File::NULL, &:read)
     errors << "review proof mismatch for ##{row['issue']}" unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(review) == row["review_sha256"] && review.include?("Result: pass")
     checks = IO.popen(["git", "-C", ROOT, "show", "#{candidate}:#{row['checks_path']}"], err: File::NULL, &:read)
-    checks_green = begin JSON.parse(checks)["status"] == "green" rescue false end
+    checks_green = green_evidence?(checks, row)
     errors << "green-check proof mismatch for ##{row['issue']}" unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(checks) == row["checks_sha256"] && checks_green
   end
   errors << "#525 reviewed revision is not ancestral" unless system("git", "-C", ROOT, "merge-base", "--is-ancestor", gate["planning_review_revision"].to_s, candidate, out: File::NULL, err: File::NULL)

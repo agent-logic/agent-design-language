@@ -30,18 +30,22 @@ def errors_for(report, expected_paths)
   checks = report.fetch("semantic_checks", {})
   errors << "semantic check denominator incomplete" unless checks.keys.sort == REQUIRED_CHECKS.sort && checks.values.all? { |value| value == "reviewed" }
   validators = report.fetch("validator_results", [])
-  errors << "validator evidence absent or failed" if validators.empty? || validators.any? { |row| row["status"] != "passed" || !row["argv"].is_a?(Array) || row["argv"].empty? || !row["evidence_path"].to_s.start_with?("docs/milestones/v0.92.1/evidence/release/tail-09/") || !row["evidence_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) }
+  errors << "validator evidence absent or failed" if validators.empty? || validators.any? { |row| row["status"] != "passed" || row["outcome"] != "pass" || row["revision"] != revision || !row["argv"].is_a?(Array) || row["argv"].empty? || !row["evidence_path"].to_s.start_with?("docs/milestones/v0.92.1/evidence/release/tail-09/") || !row["evidence_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) || !row["stdout_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) }
   findings = report.fetch("findings", [])
   findings.each_with_index do |row, index|
     errors << "finding #{index + 1} invalid severity" unless SEVERITIES.include?(row["severity"])
     errors << "finding #{index + 1} invalid owner" unless row["owner"].to_s.match?(/\A(?:issue:#(?:523|524)|operator|deferred:[A-Z0-9-]+)\z/)
     errors << "finding #{index + 1} invalid disposition" unless DISPOSITIONS.include?(row["disposition"])
     errors << "finding #{index + 1} incomplete" unless %w[id evidence].all? { |key| !row[key].to_s.strip.empty? }
+    if %w[P0 P1].include?(row["severity"]) && row["disposition"] == "fixed"
+      proof = row.fetch("fixed_proof", {})
+      errors << "finding #{index + 1} lacks fixed proof" unless proof["revision"] == revision && proof["path"].to_s.start_with?("docs/milestones/v0.92.1/evidence/release/tail-09/") && proof["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
+    end
   end
-  unresolved = findings.count { |row| row["disposition"] == "open" && %w[P0 P1].include?(row["severity"]) }
+  unresolved = findings.count { |row| %w[P0 P1].include?(row["severity"]) && row["disposition"] != "fixed" }
   errors << "unresolved blocker count mismatch" unless report["unresolved_release_blockers"] == unresolved
   errors << "invalid review outcome" unless %w[pass changes_required].include?(report["outcome"])
-  errors << "pass with open finding" if report["outcome"] == "pass" && findings.any? { |row| row["disposition"] == "open" }
+  errors << "pass with unresolved blocker" if report["outcome"] == "pass" && unresolved.positive?
   if report["outcome"] == "changes_required"
     route = report.fetch("remediation_route", {})
     target = route["target_issue"]
@@ -65,11 +69,13 @@ if ARGV == ["--negative"]
   base = {"reviewed_revision" => revision, "predecessor" => {"issue" => 524, "reviewed" => true, "merged" => true, "merge_sha" => "b" * 40},
           "independent" => true, "read_only" => true, "status" => "final", "reviewed_paths" => expected_paths,
           "path_sha256" => expected_paths.to_h { |path| [path, "c" * 64] }, "semantic_checks" => REQUIRED_CHECKS.to_h { |key| [key, "reviewed"] },
-          "validator_results" => [{"argv" => ["ruby", "validator.rb"], "status" => "passed", "evidence_path" => "docs/milestones/v0.92.1/evidence/release/tail-09/validator.log", "evidence_sha256" => "d" * 64}],
+          "validator_results" => [{"argv" => ["ruby", "validator.rb"], "status" => "passed", "outcome" => "pass", "revision" => revision, "evidence_path" => "docs/milestones/v0.92.1/evidence/release/tail-09/validator.json", "evidence_sha256" => "d" * 64, "stdout_sha256" => "e" * 64}],
           "findings" => [], "unresolved_release_blockers" => 0, "outcome" => "pass"}
   mutations = [base.merge("predecessor" => base["predecessor"].merge("merged" => false)), base.merge("reviewed_paths" => []),
                base.merge("path_sha256" => {}), base.merge("semantic_checks" => {}), base.merge("validator_results" => []),
                base.merge("status" => "superseded"), base.merge("validator_results" => [base["validator_results"].first.merge("status" => "failed")]),
+               base.merge("findings" => [{"id" => "F1", "severity" => "P1", "evidence" => "x", "owner" => "issue:#523", "disposition" => "deferred"}], "unresolved_release_blockers" => 0),
+               base.merge("findings" => [{"id" => "F1", "severity" => "P1", "evidence" => "x", "owner" => "issue:#523", "disposition" => "fixed"}]),
                base.merge("findings" => [{"id" => "F1", "severity" => "critical", "evidence" => "x", "owner" => "nobody", "disposition" => "ignored"}]),
                base.merge("outcome" => "changes_required", "findings" => [{"id" => "F1", "severity" => "P1", "evidence" => "x", "owner" => "issue:#523", "disposition" => "open"}], "unresolved_release_blockers" => 1)]
   abort "negative mutation escaped" unless mutations.all? { |row| !errors_for(row, expected_paths).empty? }
@@ -94,6 +100,21 @@ report.fetch("validator_results", []).each do |row|
   full = File.join(ROOT, path)
   errors << "validator evidence missing or empty: #{path}" unless File.file?(full) && !File.zero?(full)
   errors << "validator evidence digest mismatch: #{path}" unless File.file?(full) && Digest::SHA256.file(full).hexdigest == row["evidence_sha256"]
+  if File.file?(full)
+    begin
+      evidence = JSON.parse(File.read(full))
+      valid = evidence["argv"] == row["argv"] && evidence["revision"] == revision && evidence["status"] == "passed" && evidence["outcome"] == "pass" && !evidence["stdout"].to_s.empty? && Digest::SHA256.hexdigest(evidence["stdout"]) == row["stdout_sha256"]
+      errors << "validator evidence content mismatch: #{path}" unless valid
+    rescue JSON::ParserError
+      errors << "validator evidence is not JSON: #{path}"
+    end
+  end
+end
+report.fetch("findings", []).each do |row|
+  next unless %w[P0 P1].include?(row["severity"]) && row["disposition"] == "fixed"
+  proof = row.fetch("fixed_proof", {})
+  full = File.join(ROOT, proof["path"].to_s)
+  errors << "fixed proof missing or digest mismatch: #{row['id']}" unless File.file?(full) && !File.zero?(full) && Digest::SHA256.file(full).hexdigest == proof["sha256"]
 end
 status = IO.popen(["git", "-C", ROOT, "status", "--porcelain"], &:read)
 errors << "review validation requires a clean exact tree" unless status.empty?

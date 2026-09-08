@@ -8,7 +8,7 @@ MILESTONE = File.join(ROOT, "docs/milestones/v0.92.2")
 MANIFEST = File.join(MILESTONE, "SOURCE_DENOMINATOR_v0.92.2.json")
 TAIL = (1..10).map { |n| format("TAIL-%02d", n) }.freeze
 REQUIRED_IDS = %w[WP-01 CF-SHELL CF-ADAPTER CF-EVIDENCE CF-COG CF-GOV CF-REVIEW CF-MEMORY CF-UX CF-PROOF CF-INTEGRATE PLAT-PROVIDER PLAT-MLX PLAT-UTS PLAT-RUST OPS-AWS PUB-MEDIUM PUB-CSDLC PLAT-MEMORY SPEC-RETEST].freeze
-DISPOSITIONS = %w[delivered residual deferred excluded].freeze
+DISPOSITIONS = %w[delivered residual deferred excluded retained_existing_issue].freeze
 
 def package_digest(paths)
   Digest::SHA256.hexdigest(paths.sort.map { |path| "#{path}\0#{Digest::SHA256.file(File.join(ROOT, path)).hexdigest}\n" }.join)
@@ -42,13 +42,16 @@ def errors_for(wave, spec, text, manifest, actual_paths, source_paths)
   errors << "wrong predecessor" unless manifest.dig("predecessor", "issue") == 522 && manifest.dig("predecessor", "reviewed_merge") == true && manifest.dig("predecessor", "merge_sha").to_s.match?(/\A[0-9a-f]{40}\z/)
   errors << "#522 review authority missing" unless manifest.dig("predecessor", "review_path").to_s == ".csdlc/issues/522/cards/srp.md" && manifest.dig("predecessor", "review_sha256").to_s.match?(/\A[0-9a-f]{64}\z/)
   errors << "#522 audit authority missing" unless manifest.dig("source_audit", "path").to_s.start_with?("docs/milestones/v0.92.1/evidence/release/tail-06/") && manifest.dig("source_audit", "sha256").to_s.match?(/\A[0-9a-f]{64}\z/)
-  errors << "immutable predecessor-item denominator missing" unless manifest["predecessor_items"].is_a?(Array) && !manifest["predecessor_items"].empty?
+  errors << "invalid predecessor-item denominator" unless manifest["predecessor_items"].is_a?(Array) && manifest["predecessor_items"] == manifest["predecessor_items"].sort.uniq
+  errors << "milestone result authority missing" unless manifest.dig("milestone_result_authority", "path").to_s.start_with?("docs/milestones/v0.92.1/evidence/release/") && manifest.dig("milestone_result_authority", "sha256").to_s.match?(/\A[0-9a-f]{64}\z/)
+  errors << "invalid milestone result denominator" unless manifest["milestone_result_ids"].is_a?(Array) && manifest["milestone_result_ids"] == manifest["milestone_result_ids"].sort.uniq
   predecessor_paths = manifest.fetch("predecessor_paths", [])
   errors << "invalid predecessor path denominator" if predecessor_paths.empty? || predecessor_paths != predecessor_paths.sort.uniq
   errors << "canonical path denominator mismatch" unless manifest["canonical_paths"] == actual_paths
   source_rows = manifest.fetch("sources", [])
   errors << "source denominator mismatch" unless source_rows.map { |row| row["path"] }.sort == source_paths.sort
-  errors << "source/audit item denominator mismatch" unless source_rows.map { |row| row["audit_id"] }.sort == manifest.fetch("predecessor_items", []).sort
+  errors << "source/finding denominator mismatch" unless source_rows.flat_map { |row| Array(row["source_finding_ids"]) }.sort == manifest.fetch("predecessor_items", []).sort
+  errors << "source/result denominator mismatch" unless source_rows.flat_map { |row| Array(row["milestone_result_ids"]) }.sort == manifest.fetch("milestone_result_ids", []).sort
   errors << "invalid source disposition" unless source_rows.all? { |row| DISPOSITIONS.include?(row["disposition"]) && !row["owner"].to_s.empty? }
   before = manifest["predecessor_package_sha256"].to_s
   after = manifest["package_sha256"].to_s
@@ -69,10 +72,12 @@ if ARGV == ["--negative"]
   wave = {"work_packages" => rows, "canonical_release_tail" => TAIL}
   spec = {"specifications" => rows.map { |row| {"id" => row["id"]} }, "release_tail" => {"order" => TAIL}}
   audit_ids = source_paths.each_index.map { |index| "F-#{index + 1}" }
+  result_ids = source_paths.each_index.map { |index| "R-#{index + 1}" }
   base = {"predecessor" => {"issue" => 522, "reviewed_merge" => true, "merge_sha" => "a" * 40, "review_path" => ".csdlc/issues/522/cards/srp.md", "review_sha256" => "f" * 64},
           "source_audit" => {"path" => "docs/milestones/v0.92.1/evidence/release/tail-06/dispositions.json", "sha256" => "e" * 64}, "predecessor_items" => audit_ids,
+          "milestone_result_authority" => {"path" => "docs/milestones/v0.92.1/evidence/release/results.json", "sha256" => "d" * 64}, "milestone_result_ids" => result_ids,
           "predecessor_paths" => actual_paths, "canonical_paths" => actual_paths,
-          "sources" => source_paths.zip(audit_ids).map { |path, audit_id| {"path" => path, "audit_id" => audit_id, "disposition" => "residual", "owner" => "WP-01"} },
+          "sources" => source_paths.each_index.map { |index| {"path" => source_paths[index], "source_finding_ids" => [audit_ids[index]], "milestone_result_ids" => [result_ids[index]], "disposition" => "retained_existing_issue", "owner" => "WP-01"} },
           "predecessor_package_sha256" => "b" * 64, "package_sha256" => package_digest(actual_paths)}
   mutations = [[wave.merge("work_packages" => rows + [rows.first]), spec, "", base],
                [wave, spec.merge("specifications" => []), "", base], [wave, spec, "/Users/example/TBD.md", base],
@@ -108,6 +113,20 @@ if merge_sha
       errors << "#522 predecessor-item denominator mismatch" unless manifest["predecessor_items"] == item_ids
     rescue JSON::ParserError
       errors << "#522 source audit is not JSON"
+    end
+  end
+  result_path = manifest.dig("milestone_result_authority", "path")
+  result_bytes = IO.popen(["git", "-C", ROOT, "show", "#{merge_sha}:#{result_path}"], err: File::NULL, &:read)
+  if !$CHILD_STATUS.success? || Digest::SHA256.hexdigest(result_bytes) != manifest.dig("milestone_result_authority", "sha256")
+    errors << "immutable milestone result authority mismatch"
+  else
+    begin
+      result_doc = JSON.parse(result_bytes)
+      result_rows = result_doc["results"] || result_doc["residuals"] || result_doc["items"] || []
+      result_ids = result_rows.map { |row| row["id"] || row["result_id"] }.compact.sort
+      errors << "milestone result denominator mismatch" unless manifest["milestone_result_ids"] == result_ids
+    rescue JSON::ParserError
+      errors << "milestone result authority is not JSON"
     end
   end
   predecessor_paths = IO.popen(["git", "-C", ROOT, "ls-tree", "-r", "--name-only", merge_sha, "--", "docs/milestones/v0.92.2", "docs/planning/ADL_FEATURE_LIST.md"], err: File::NULL, &:read).lines.map(&:strip).reject(&:empty?).sort

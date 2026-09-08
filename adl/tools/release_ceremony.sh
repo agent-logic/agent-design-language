@@ -103,6 +103,21 @@ assert_tag_present_local() {
   fi
 }
 
+assert_local_tag_targets_candidate() {
+  local target candidate
+  target="$(git -C "$ROOT" rev-list -n 1 "$TAG")"
+  candidate="$(git -C "$ROOT" rev-parse HEAD)"
+  [[ "$target" == "$candidate" ]] || fail "local tag $TAG does not target authorized candidate $candidate"
+}
+
+assert_remote_tag_targets_candidate() {
+  local output target candidate
+  output="$(git -C "$ROOT" ls-remote origin "refs/tags/$TAG" "refs/tags/$TAG^{}")" || fail "could not read remote tag $TAG"
+  target="$(awk '/\^\{\}$/ {print $1; found=1} END {if (!found && NR) print first} NR==1 {first=$1}' <<<"$output" | tail -n 1)"
+  candidate="$(git -C "$ROOT" rev-parse HEAD)"
+  [[ -n "$target" && "$target" == "$candidate" ]] || fail "remote tag $TAG does not target authorized candidate $candidate"
+}
+
 assert_tag_absent_remote() {
   local status
   if git -C "$ROOT" ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
@@ -368,6 +383,10 @@ done
 [[ -n "$VERSION" ]] || fail "--version is required"
 [[ -n "$TAG" ]] || TAG="$VERSION"
 
+if [[ "$CHECK_ONLY" == "0" && ( "$ALLOW_DIRTY" == "1" || "$SKIP_SOR_GATE" == "1" ) ]]; then
+  fail "--allow-dirty and --skip-sor-gate are forbidden for release mutation"
+fi
+
 require_cmd git
 require_cmd sed
 require_cmd find
@@ -397,15 +416,21 @@ fi
 
 if [[ "$PUSH_TAG" == "1" ]]; then
   assert_tag_present_local
+  assert_local_tag_targets_candidate
   assert_tag_absent_remote
 fi
 
 if [[ "$CREATE_DRAFT_RELEASE" == "1" ]]; then
   assert_tag_present_local
+  assert_local_tag_targets_candidate
+  assert_remote_tag_targets_candidate
   assert_release_absent
 fi
 
 if [[ "$PUBLISH_RELEASE" == "1" ]]; then
+  assert_tag_present_local
+  assert_local_tag_targets_candidate
+  assert_remote_tag_targets_candidate
   assert_release_present
 fi
 

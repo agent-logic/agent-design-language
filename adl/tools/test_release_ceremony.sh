@@ -68,11 +68,18 @@ EOF_INNER
 EOF_INNER
 
   echo "fixture" >"$FIXTURE/README.md"
+  cat >"$FIXTURE/.gitignore" <<'EOF_INNER'
+.csdlc/
+.adl/bin/
+fakebin/
+remote/
+releases-state.txt
+EOF_INNER
 
   git -C "$FIXTURE" init -q --initial-branch=main
   git -C "$FIXTURE" config user.name "Test User"
   git -C "$FIXTURE" config user.email "test@example.com"
-  git -C "$FIXTURE" add README.md adl/Cargo.toml adl/tools/release_ceremony.sh \
+  git -C "$FIXTURE" add .gitignore README.md adl/Cargo.toml adl/tools/release_ceremony.sh \
     "docs/milestones/$VERSION/RELEASE_PLAN_${VERSION}.md" \
     "docs/milestones/$VERSION/RELEASE_NOTES_${VERSION}.md" \
     "docs/milestones/$VERSION/MILESTONE_CHECKLIST_${VERSION}.md"
@@ -183,7 +190,7 @@ run_release_case() {
     esac
   done
   if [[ -n "$allowed_action" && "${OMIT_AUTHORIZATION:-0}" != "1" ]]; then
-    local authorization_file="$FIXTURE/authorization.json"
+    local authorization_file="$TMP_DIR/authorization.json"
     local candidate_sha
     candidate_sha="$(git -C "$FIXTURE" rev-parse HEAD)"
     cat >"$authorization_file" <<EOF_INNER
@@ -194,10 +201,10 @@ EOF_INNER
 
   local output
   set +e
-  output="$(cd "$FIXTURE" && PATH="$FAKE_BIN:$PATH" RELEASE_STATE_FILE="$STATE_FILE" \
+  output="$(cd "$FIXTURE" && PATH="$FAKE_BIN:$PATH" RELEASE_STATE_FILE="$STATE_FILE" DOCTOR_MODE=closed \
     ADL_RELEASE_GITHUB_CMD="$FAKE_BIN/adl" ADL_RELEASE_GITHUB_REPO="owner/repo" \
     "$BASH_BIN" adl/tools/release_ceremony.sh --version "$VERSION" \
-    --skip-sor-gate --target-branch main --allow-dirty "$@" ${authorization_args[@]+"${authorization_args[@]}"} 2>&1)"
+    --target-branch main "$@" ${authorization_args[@]+"${authorization_args[@]}"} 2>&1)"
   local status=$?
   set -e
 
@@ -291,6 +298,8 @@ setup_fake_gh
 setup_closeout_gate_fixture
 
 OMIT_AUTHORIZATION=1 run_release_case "mutation without authorization fails" 1 "requires --authorization-file" --create-tag --tag "$TAG_NAME"
+run_release_case "mutation rejects dirty bypass" 1 "forbidden for release mutation" --create-tag --allow-dirty --tag "$TAG_NAME"
+run_release_case "mutation rejects closeout bypass" 1 "forbidden for release mutation" --create-tag --skip-sor-gate --tag "$TAG_NAME"
 
 run_closeout_gate_case "all milestone records closed out" closed 0 "preflight checks passed"
 run_closeout_gate_case "non-closed milestone record fails" open 1 "issue 123 is not closed_out"
@@ -321,6 +330,7 @@ sed -i.bak "s/version = \"${VERSION#v}\"/version = \"${ORIGINAL_VERSION#v}\"/" "
 rm "$FIXTURE/adl/Cargo.toml.bak"
 VERSION="$ORIGINAL_VERSION"
 TAG_NAME="$ORIGINAL_TAG_NAME"
+rm -rf "$FIXTURE/docs/milestones/v0.92.1"
 
 mv "$FIXTURE/.csdlc" "$FIXTURE/.csdlc.saved"
 run_closeout_gate_case "no milestone records fails" closed 1 "no typed C-SDLC records found for $VERSION"
@@ -339,10 +349,29 @@ git -C "$FIXTURE" tag -d "$TAG_NAME" >/dev/null 2>&1
 # Push-tag preconditions: local present and remote absent should pass.
 reset_git_state
 git -C "$FIXTURE" tag -a "$TAG_NAME" -m "release fixture"
+printf 'advance\n' >>"$FIXTURE/README.md"
+git -C "$FIXTURE" add README.md
+git -C "$FIXTURE" commit -q -m "advance candidate"
+run_release_case "push-tag rejects stale local tag target" 1 "does not target authorized candidate" --push-tag --tag "$TAG_NAME"
+reset_git_state
+git -C "$FIXTURE" tag -a "$TAG_NAME" -m "release fixture"
 run_release_case "push-tag succeeds when local tag exists and remote is absent" 0 "" --push-tag --tag "$TAG_NAME"
 assert_remote_tag_present
 
 # Draft/publish release operations delegate to the Rust/octocrab release path.
+reset_git_state
+git -C "$FIXTURE" tag -a "$TAG_NAME" -m "stale remote fixture"
+git -C "$FIXTURE" push -q origin "$TAG_NAME"
+printf 'advance remote candidate\n' >>"$FIXTURE/README.md"
+git -C "$FIXTURE" add README.md
+git -C "$FIXTURE" commit -q -m "advance remote candidate"
+git -C "$FIXTURE" tag -f -a "$TAG_NAME" -m "current local fixture" >/dev/null
+run_release_case \
+  "draft-release rejects stale remote tag target" \
+  1 \
+  "remote tag $TAG_NAME does not target authorized candidate" \
+  --draft-release --tag "$TAG_NAME"
+
 reset_git_state
 git -C "$FIXTURE" tag -a "$TAG_NAME" -m "release fixture"
 git -C "$FIXTURE" push -q origin "$TAG_NAME"
@@ -353,8 +382,6 @@ run_release_case \
   --draft-release --tag "$TAG_NAME"
 assert_release_present
 
-git -C "$FIXTURE" push -q origin ":refs/tags/$TAG_NAME" >/dev/null 2>&1 || true
-git -C "$FIXTURE" tag -d "$TAG_NAME" >/dev/null 2>&1 || true
 printf '%s\n' "$TAG_NAME" >"$STATE_FILE"
 run_release_case \
   "publish-release delegates to Rust release support" \
@@ -385,6 +412,8 @@ run_release_case \
   --draft-release --tag "$TAG_NAME"
 
 reset_git_state
+git -C "$FIXTURE" tag -a "$TAG_NAME" -m "release fixture"
+git -C "$FIXTURE" push -q origin "$TAG_NAME"
 run_release_case \
   "publish-release fails when draft release is missing" \
   1 \
