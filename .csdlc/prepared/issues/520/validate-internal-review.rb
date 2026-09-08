@@ -26,6 +26,24 @@ def git_blob(revision, path)
   output
 end
 
+def evidence_resolves?(evidence, candidate, root)
+  return false unless evidence.is_a?(Hash) && %w[path sha256 source].all? { |key| nonempty?(evidence[key]) }
+  path = evidence.fetch("path")
+  content = case evidence.fetch("source")
+            when "candidate"
+              return false unless evidence["revision"] == candidate
+              output, status = Open3.capture2("git", "show", "#{candidate}:#{path}")
+              return false unless status.success?
+              output
+            when "packet"
+              return false unless path.start_with?(root + "/") && File.file?(path)
+              File.binread(path)
+            else
+              return false
+            end
+  Digest::SHA256.hexdigest(content) == evidence.fetch("sha256")
+end
+
 def validate_fixture!(fixture)
   authority = fixture.fetch("opening_authority")
   fail!("fixture base is not derived from WP-01") unless authority == {
@@ -85,7 +103,7 @@ changed = `git diff --name-only #{base}...#{candidate}`.lines.map(&:strip).rejec
 fail!("candidate range is unavailable") unless $?.success?
 repo_rows = docs.fetch("repo_inventory.json").fetch("rows")
 fail!("repo inventory does not exactly match changed-file denominator") unless repo_rows.map { |row| row.fetch("path") }.sort == changed
-fail!("repo inventory contains unreviewed rows") unless repo_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("classification")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("review_lane")) && nonempty?(row.fetch("evidence")) }
+fail!("repo inventory contains unreviewed or non-resolving rows") unless repo_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("classification")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("review_lane")) && evidence_resolves?(row.fetch("evidence"), candidate, root) }
 
 spec_path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
 spec_blob = git_blob(candidate, spec_path)
@@ -95,6 +113,7 @@ planned_ids = specs.map { |row| row.fetch("id") }.sort
 issue_rows = docs.fetch("issue_inventory.json").fetch("rows")
 planned_rows = issue_rows.select { |row| nonempty?(row["planned_id"]) }
 fail!("issue inventory does not exactly match canonical specification") unless planned_rows.map { |row| row.fetch("planned_id") }.sort == planned_ids
+fail!("planned IDs are duplicated") unless planned_rows.map { |row| row.fetch("planned_id") }.uniq.length == planned_rows.length
 
 snapshot = docs.fetch("live-milestone-snapshot.json")
 fail!("milestone snapshot source is wrong") unless snapshot.fetch("repository") == "agent-logic/agent-design-language" && snapshot.fetch("milestone") == "v0.92.1"
@@ -128,6 +147,7 @@ creation_receipt = JSON.parse(git_blob(candidate, creation_receipt_path))
 fail!("WP-01 creation receipt is not verified") unless creation_receipt.fetch("live_verified") == true && creation_receipt.fetch("child_count") == creation_receipt.fetch("children").length
 canonical_mapping = {"WP-01" => 480}.merge(creation_receipt.fetch("children").to_h { |row| [row.fetch("planned_id"), row.fetch("issue")] })
 planned_mapping = planned_rows.to_h { |row| [row.fetch("planned_id"), row.fetch("issue")] }
+fail!("planned live issue mappings are duplicated") unless planned_mapping.values.uniq.length == planned_mapping.values.length
 fail!("planned-ID to live-issue mapping differs from immutable WP-01 receipt") unless planned_mapping == canonical_mapping
 fail!("issue inventory does not cover every live milestone issue") unless issue_rows.map { |row| row.fetch("issue") }.sort == live_numbers.sort
 live_by_number = live_issues.to_h { |row| [row.fetch("number"), row] }
@@ -135,7 +155,7 @@ fail!("issue inventory differs from live title/state/PR authority") unless issue
   live = live_by_number.fetch(row.fetch("issue"))
   row.fetch("title") == live.fetch("title") && row.fetch("state") == live.fetch("state") && row.fetch("pull_requests").sort == live.fetch("pull_requests").sort
 end
-fail!("issue inventory has duplicate, stale, or undispositioned rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("evidence")) && row.fetch("pull_requests").is_a?(Array) }
+fail!("issue inventory has duplicate, stale, undispositioned, or non-resolving rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root) && row.fetch("pull_requests").is_a?(Array) }
 
 expected_acceptance = specs.flat_map { |row| row.fetch("acceptance_criteria").each_index.map { |index| "#{row.fetch('id')}:AC-#{index + 1}" } }.sort
 canonical_acceptance = specs.flat_map do |spec|
@@ -150,7 +170,7 @@ fail!("acceptance rows rewrite canonical criterion content") unless acceptance_r
   ref = "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}"
   row.fetch("criterion") == canonical_acceptance.fetch(ref).fetch("criterion") && row.fetch("criterion_sha256") == canonical_acceptance.fetch(ref).fetch("sha256")
 end
-fail!("acceptance inventory has missing implementation/proof dispositions") unless acceptance_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("implementation_disposition")) && nonempty?(row.fetch("proof_disposition")) && nonempty?(row.fetch("evidence")) }
+fail!("acceptance inventory has missing or non-resolving implementation/proof dispositions") unless acceptance_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("implementation_disposition")) && nonempty?(row.fetch("proof_disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root) }
 
 all_refs = (repo_rows + issue_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
 fail!("denominator references are not unique") unless all_refs.uniq.length == all_refs.length
@@ -172,7 +192,7 @@ results.each do |row|
   assignment = assignments.find { |candidate_assignment| candidate_assignment.fetch("id") == row.fetch("assignment_id") }
   fail!("lane report is not bound to its complete assignment") unless report.fetch("candidate_sha") == candidate && report.fetch("denominator_refs").sort == assignment.fetch("denominator_refs").sort
   observations = report.fetch("observations")
-  fail!("lane report is content-free") unless observations.is_a?(Array) && observations.any? && observations.all? { |observation| nonempty?(observation.fetch("ref")) && nonempty?(observation.fetch("evidence")) && nonempty?(observation.fetch("conclusion")) }
+  fail!("lane report is content-free or cites unresolved evidence") unless observations.is_a?(Array) && observations.any? && observations.all? { |observation| nonempty?(observation.fetch("ref")) && evidence_resolves?(observation.fetch("evidence"), candidate, root) && nonempty?(observation.fetch("conclusion")) }
   fail!("lane report omits assigned review rows") unless observations.map { |observation| observation.fetch("ref") }.sort == assignment.fetch("denominator_refs").sort
   report_findings = report.fetch("findings")
   fail!("lane report outcome contradicts findings") unless row.fetch("outcome") == (report_findings.empty? ? "passed" : "findings")
@@ -187,7 +207,7 @@ fail!("findings outcome contradicts content") unless findings_doc.fetch("outcome
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length
 fail!("synthesized findings differ from raw lane union") unless findings.sort_by { |row| row.fetch("id") } == raw_findings.sort_by { |row| row.fetch("id") }
-fail!("finding schema is incomplete or stale") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status title impact evidence source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } }
+fail!("finding schema is incomplete, stale, or cites unresolved evidence") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status title impact source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } && evidence_resolves?(finding.fetch("evidence"), candidate, root) }
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")
 entries.each do |entry|
