@@ -20,12 +20,11 @@ use adl_runtime_kernel::layer8_authority::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
-    build_production_operation_executors_with_recorder, config_generation_identity_from_env,
-    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
-    monitor_until_stop, preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
+    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
-    start_config_reload_with_applier_and_shutdown,
-    validate_config_generation_identity_matches_active, validate_production_operation_executors,
+    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
     CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
     ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
@@ -48,6 +47,11 @@ const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 
 struct ArchiveInFlightGuard(Arc<AtomicBool>);
 
+struct ParsedRuntimeInit {
+    config: RuntimeInitConfig,
+    active_init_hash: String,
+}
+
 impl Drop for ArchiveInFlightGuard {
     fn drop(&mut self) {
         self.0.store(false, Ordering::Release);
@@ -63,61 +67,6 @@ async fn main() -> ExitCode {
     };
 
     match command.as_str() {
-        "config-identity-check" => {
-            let args = match ServeArgs::parse(args) {
-                Ok(args) => args,
-                Err(error) => {
-                    eprintln!("{error}");
-                    return ExitCode::from(64);
-                }
-            };
-            let init_path = match canonical_init_path(&args.init_path) {
-                Ok(path) => path,
-                Err(error) => {
-                    eprintln!("runtime init path invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
-                Ok(config) => config,
-                Err(error) => {
-                    eprintln!("runtime init invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            let supplied =
-                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
-                    Ok(identity) => identity,
-                    Err(error) => {
-                        eprintln!("{error}");
-                        return ExitCode::from(78);
-                    }
-                };
-            let binary_generation = match runtime_binary_generation(&init.binaries.kernel_path) {
-                Ok(generation) => generation,
-                Err(error) => {
-                    eprintln!("runtime kernel generation invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            if let Err(error) = validate_config_generation_identity_matches_active(
-                &init_path,
-                &binary_generation,
-                &supplied,
-            ) {
-                eprintln!("{error}");
-                return ExitCode::from(78);
-            }
-            println!(
-                "{}",
-                serde_json::json!({
-                    "schema": "adl.runtime_v3.kernel_config_identity_probe.v1",
-                    "generation": supplied.generation,
-                    "receipt_digest": supplied.receipt_digest,
-                })
-            );
-            ExitCode::SUCCESS
-        }
         "serve" => {
             let serve_args = match ServeArgs::parse(args) {
                 Ok(args) => args,
@@ -133,7 +82,22 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
+            let init_bytes = match std::fs::read(&init_path) {
+                Ok(bytes) => bytes,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let active_init_hash = blake3::hash(&init_bytes).to_hex().to_string();
+            let init_text = match std::str::from_utf8(&init_bytes) {
+                Ok(text) => text,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let init = match RuntimeInitConfig::from_toml_str(init_text) {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
@@ -282,13 +246,6 @@ async fn main() -> ExitCode {
                 Ok(lease) => lease,
                 Err(error) => {
                     eprintln!("runtime Guardian lease invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            let active_init_hash = match file_hash(&init_path).await {
-                Ok(hash) => hash,
-                Err(error) => {
-                    eprintln!("runtime init identity could not be hashed: {error}");
                     return ExitCode::from(78);
                 }
             };
@@ -574,13 +531,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let runtime_init_identity = match init.continuity_identity_projection() {
-                Ok(identity) => identity,
-                Err(error) => {
-                    eprintln!("runtime init identity could not be encoded: {error}");
-                    return ExitCode::from(70);
-                }
-            };
+            let runtime_init_identity = init.continuity_compatibility_projection_v1();
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": runtime_init_identity,
@@ -736,34 +687,6 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let config_generation_identity =
-                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
-                    Ok(identity) => identity,
-                    Err(error) => {
-                        eprintln!("{error}");
-                        return ExitCode::from(78);
-                    }
-                };
-            let kernel_binary_generation =
-                match runtime_binary_generation(&init.binaries.kernel_path) {
-                    Ok(generation) => generation,
-                    Err(error) => {
-                        eprintln!("runtime kernel generation invalid: {error}");
-                        return ExitCode::from(78);
-                    }
-                };
-            if let Err(error) = validate_config_generation_identity_matches_active(
-                &init_path,
-                &kernel_binary_generation,
-                &config_generation_identity,
-            ) {
-                eprintln!("{error}");
-                return ExitCode::from(78);
-            }
-            service = service.with_config_generation(
-                config_generation_identity.generation,
-                config_generation_identity.receipt_digest,
-            );
             if let Some((authority, exchange)) = layer8 {
                 service = service
                     .with_layer8_authority(authority)
@@ -959,16 +882,20 @@ async fn main() -> ExitCode {
                     .await;
                 });
             }
-            let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
-                RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
+            let reload_parser: ConfigParser<ParsedRuntimeInit> = Arc::new(|raw| {
+                let config = RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
                     ConfigReloadError::parse("runtime init rejected")
+                })?;
+                Ok(ParsedRuntimeInit {
+                    config,
+                    active_init_hash: blake3::hash(raw.as_bytes()).to_hex().to_string(),
                 })
             });
             let reload_service = Arc::clone(&service);
-            let reload_applier: ConfigApplier<RuntimeInitConfig> = Arc::new(move |next| {
+            let reload_applier: ConfigApplier<ParsedRuntimeInit> = Arc::new(move |next| {
                 reload_service
-                    .apply_runtime_init_reload(next)
+                    .apply_runtime_init_reload(&next.config, &next.active_init_hash)
                     .map_err(|error| {
                         eprintln!(
                             "{}",
@@ -1562,22 +1489,6 @@ impl ServeArgs {
 
 fn usage() -> &'static str {
     "usage: adl-runtime-kernel serve --init <absolute-runtime-init.toml>"
-}
-
-fn runtime_binary_generation(kernel: &Path) -> Result<String, String> {
-    let generation = kernel
-        .canonicalize()
-        .map_err(|error| format!("resolve Runtime kernel generation: {error}"))?
-        .parent()
-        .and_then(Path::parent)
-        .and_then(Path::file_name)
-        .and_then(|name| name.to_str())
-        .ok_or_else(|| "Runtime kernel generation identity is invalid".to_owned())?
-        .to_owned();
-    if generation.is_empty() {
-        return Err("Runtime kernel generation identity is empty".to_owned());
-    }
-    Ok(generation)
 }
 
 fn canonical_init_path(path: &Path) -> std::io::Result<PathBuf> {

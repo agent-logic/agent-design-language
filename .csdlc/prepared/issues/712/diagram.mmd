@@ -1,0 +1,6 @@
+flowchart LR
+  CSM[CSM operator control] -->|canonical config path| G[Guardian supervisor]
+  G -->|one stable binary| R[Runtime Kernel]
+  CF[(Canonical config)] --> R
+  R -->|loaded config hash + readiness| G
+  G --> CSM

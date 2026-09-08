@@ -1,0 +1,495 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 712,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a82fe3a92bb3a06498cc389719d48bf463334badcf8473a4678d2e9e43832e89",
+  "phase": "published",
+  "generation": 25,
+  "digest": "68a7c97f6931ad7aca70ad07260dfe89b26809094361a5750ac288871e41bf4a",
+  "branch": "codex/712-runtime-startup-simplification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-712-runtime-startup-simplification",
+  "review_assignment": {
+    "reviewer": "codex:/root/review_716_final2",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
+    "scope": [
+      ".csdlc/prepared/issues/712/design.md",
+      ".csdlc/prepared/issues/712/diagram.mmd",
+      ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/continuity.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/src/lib.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      "docs/tooling/START_CSM_RUNBOOK.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_716_final2",
+    "scope": [
+      ".csdlc/prepared/issues/712/design.md",
+      ".csdlc/prepared/issues/712/diagram.mmd",
+      ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/config_generation.rs",
+      "adl-runtime-kernel/src/continuity.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/continuity.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "adl-runtime-kernel/tests/production_acip_wss.rs",
+      "adl-runtime/src/bin/adl-runtime-guardian.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/src/lib.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
+      "docs/tooling/START_CSM_RUNBOOK.md"
+    ],
+    "reviewed_revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
+    "findings": [],
+    "residual_risks": [
+      "No live Runtime process or paid provider execution was performed in this exact-head review; those surfaces were outside the assigned immutable local review scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 712,
+    "pull_request": 716,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/716",
+    "base": "main",
+    "head": "codex/712-runtime-startup-simplification",
+    "revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/712/design.md",
+  "diagram_path": ".csdlc/prepared/issues/712/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:direct-simplification-contract",
+      "revision": "6060eff7a14ca1fb7b22a3a117bc1c235c03bd41ec89de981f50869dc9b321fb"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ae7edf9acafdc82dd3d7e01cf1f3253cf48596240c25347a5ebca67ecc604e8d",
+      "rendered_digest": "11caefa459914b878b13a04ca51a48ab7ba7c2ba7b4d98648bdd81b8e1394e43",
+      "ast_digest": "06f6ee6a1ccb2587675aab58fe0b375209e112cad6fe24fd60efb3dbdf25f46a"
+    },
+    "stp": {
+      "values_digest": "1d62a7f2d219a5ac417cfb125532bd030be4151e12b78ef24629154f6910014b",
+      "rendered_digest": "05cffc2ae92fd2977fc12b68f5d34b8e48cb4d6d630a0ccc2c7d6931c8e7d488",
+      "ast_digest": "8219b9adcd5190c6efe95eec5c428f0a7e70cf9ed35e8f1688cdaf0ff5f1f996"
+    },
+    "spp": {
+      "values_digest": "44f0b914a7efedf25fb76e6f7a7e3ef36aa5b296c6d80b29319c26ffc369cc5e",
+      "rendered_digest": "fe7b1f4802a74c6b166e75ea70cad3c462c57e995b39dac04cf65517f113713b",
+      "ast_digest": "c3febd24c60255181ff52481247577017dfabab8463f0f1f88f2441c6e542d02"
+    },
+    "vpp": {
+      "values_digest": "dfeafdf6e97f5a4e6dc26862968c03e4ceeec26f499c20c7dd7fe9a93a3648b8",
+      "rendered_digest": "89ad39cbe1281e30ec8ea69f91effc2de186e0d5393037c7cb48b92fc285cc29",
+      "ast_digest": "07e9f0fe031429cebd9022af41a2095eb7355840bb460a4d288272db6ba99605"
+    },
+    "srp": {
+      "values_digest": "91e83eb886258226db4e71b283a414c4e2f60c44094944637106fc8dd4617e2b",
+      "rendered_digest": "9702661aa2bde2be9cfe89901373a3b3217389c84c95ae81bfee1dbaf14ee88d",
+      "ast_digest": "118e92914bc5a5a6c5fbecd836b866b26c40bd95c78cb3352410fc383bfc6d87"
+    },
+    "sor": {
+      "values_digest": "4436da499ff68f5e7e657e53530ed656b315c561d8887bbc628ce642fa53dfaf",
+      "rendered_digest": "4ad8d429cae0644a735725acccc013872d8e56f27bf8776fff2194896a54e551",
+      "ast_digest": "7090702292938c83a68f954a8251f8418f0f55e7822111cb42d1ff0d25769b82"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Operator approved the explicit simplification design and execution contract."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The bounded implementation and issue-owned focused validation are complete and ready for typed review recording."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale review truth after the reviewed live cutover exposed and fixed compatible continuity config-hash drift at exact head 8fbd9c9424368d3d6c14727915593462066d994f."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Correct the stale deleted config_generation.rs planning path to its owned existing Kernel source module boundary before publication."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review truth after committing typed publication-readiness metadata."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review truth after the origin/main merge and final strict-Clippy repair on PR #716."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_712_startup_simplification",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale review and publication truth after substantive fixes for the exact-head review findings on PR #716."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_716_final2",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Operator approved the explicit simplification design and execution contract.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Use concrete repository-owned paths for execution authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config_generation.rs\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/prepared/issues/712\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Use one issue-owned focused validator; live Wuji proof is added after implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-startup-simplification\",\"proof_role\":\"Prove focused CSM, Guardian, Kernel startup and reload behavior plus range diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"],\"parallel_group\":\"runtime-startup\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Include the exact issue-owned validator in execution authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config_generation.rs\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record the completed bounded implementation before advancing to implemented review state.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Simplified Runtime startup to one canonical init, one canonical Kernel binary, and one Guardian supervisor; removed the cross-binary prepared-receipt handshake; retained atomic reload with direct config-hash readiness and rollback.\",\"changes\":[\"Removed config-generation and prepared-receipt startup authority from CSM, Guardian, Kernel, readiness projections, and obsolete generation tests.\",\"Made Kernel read the canonical init once, validate those exact bytes, and advertise the hash of those same bytes.\",\"Required service-manager argv to use the canonical Guardian and exactly one matching canonical --init path.\",\"Required reload candidates to retain current/bin/adl-runtime-kernel and validate the exact durably staged bytes before stopping Runtime.\",\"Preserved atomic candidate swap, owned-readiness convergence, last-known-good rollback, and interrupted-transaction recovery.\",\"Updated the canonical startup runbook and added an issue-owned focused validation command.\",\"Repaired merged A2A transcript-history compatibility needed for the current main baseline.\"],\"artifacts\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/control.rs\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record the successful issue-owned implementation validator.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"],\"purpose\":\"Prove focused CSM, Guardian, production Kernel, retained A2A history compatibility, strict lint, and range diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:issue-owned validator exited 0 at implementation head\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record read-only live Wuji service-definition compatibility before deployment.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"csm\",\"--\",\"runtime-v3\",\"status\",\"--init\",\"/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/runtime-init.toml\",\"--plist\",\"/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/launchd/com.agentlogic.adl-runtime-v3.plist\",\"--label\",\"com.agentlogic.adl-runtime-v3\",\"--json\"],\"purpose\":\"Prove the simplified CSM accepts the live canonical Guardian, init, and Kernel topology and reports owned readiness without receipt fields.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:service_loaded true, listener_ready true, observability_ready true\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "The bounded implementation and issue-owned focused validation are complete and ready for typed review recording.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover stale review truth after the reviewed live cutover exposed and fixed compatible continuity config-hash drift at exact head 8fbd9c9424368d3d6c14727915593462066d994f.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record successful exact-build Wuji cutover and restored live population acceptance.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csm\",\"runtime-v3\",\"reload\",\"--init\",\"/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/runtime-init.toml\",\"--json\"],\"purpose\":\"Prove the simplified exact build relaunches under Guardian, restores signed continuity across compatible config-hash drift, reports direct active-init hash readiness, and restores the complete model-backed agent population with orientation metadata.\",\"outcome\":\"passed\",\"evidence_ref\":\"live-wuji: generation issue-712-8fbd9c942; service_loaded=true; listener_ready=true; observability_ready=true; six agents restored and healthy; Signal orientation digest ace402b9\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Correct the stale deleted config_generation.rs planning path to its owned existing Kernel source module boundary before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Replace the stale deleted receipt-module path with the actual existing implementation paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/continuity.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"docs/tooling/START_CSM_RUNBOOK.md\",\".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Refresh exact-head review truth after committing typed publication-readiness metadata.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review truth after the origin/main merge and final strict-Clippy repair on PR #716.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root/review_712_startup_simplification",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Recover stale review and publication truth after substantive fixes for the exact-head review findings on PR #716.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover the failed exact-head review assignment after fixing TLS hostname checkpoint compatibility and the focused validator coverage gap.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:/root/review_716_final2",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

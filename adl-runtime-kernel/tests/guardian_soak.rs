@@ -12,9 +12,7 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    activate_config_generation, provision_config_generation, ControlAction, DomainWork,
-    SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, CONFIG_GENERATION_ENV, CONFIG_RECEIPT_DIGEST_ENV,
-    DOMAIN_WORK_SCHEMA,
+    ControlAction, DomainWork, SignedControlCommand, ACIP_WEBSOCKET_SCHEMA, DOMAIN_WORK_SCHEMA,
 };
 
 #[path = "support/runtime_init.rs"]
@@ -281,41 +279,8 @@ fn local_state_root(directory: &Path, name: &str) -> PathBuf {
 fn runtime_kernel_command(init: &Path, lease: &TestGuardianLease) -> Command {
     let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
     command.arg("serve").arg("--init").arg(init);
-    apply_runtime_config_generation(init, &mut command);
     lease.apply(&mut command);
     command
-}
-
-#[cfg(unix)]
-fn apply_runtime_config_generation(init: &Path, command: &mut Command) {
-    let init = init.canonicalize().unwrap();
-    let generation = runtime_kernel_generation_from_init(&init);
-    let identity = provision_config_generation(&init, &generation).unwrap();
-    activate_config_generation(&init, &identity).unwrap();
-    command
-        .env(CONFIG_GENERATION_ENV, identity.generation)
-        .env(CONFIG_RECEIPT_DIGEST_ENV, identity.receipt_digest);
-}
-
-#[cfg(unix)]
-fn runtime_kernel_generation_from_init(init: &Path) -> String {
-    let text = std::fs::read_to_string(init).unwrap();
-    let document = toml::from_str::<toml::Value>(&text).unwrap();
-    let kernel = document
-        .get("binaries")
-        .and_then(toml::Value::as_table)
-        .and_then(|table| table.get("kernel_path"))
-        .and_then(toml::Value::as_str)
-        .unwrap();
-    Path::new(kernel)
-        .canonicalize()
-        .unwrap()
-        .parent()
-        .and_then(Path::parent)
-        .and_then(Path::file_name)
-        .and_then(|name| name.to_str())
-        .unwrap()
-        .to_owned()
 }
 
 #[cfg(unix)]
@@ -373,7 +338,6 @@ async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
     let lease_token = "portable-guardian-lease-token-00000001";
     let mut command = Command::new(env!("CARGO_BIN_EXE_adl-runtime-kernel"));
     command.arg("serve").arg("--init").arg(&init);
-    apply_runtime_config_generation(&init, &mut command);
     let mut child = command
         .env(
             "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS",

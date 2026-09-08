@@ -665,49 +665,70 @@ impl RuntimeInitConfig {
         self.paths.continuity_root(&self.state_root)
     }
 
-    pub fn continuity_identity_projection(&self) -> Result<serde_json::Value, serde_json::Error> {
+    /// Stable checkpoint-restore boundary. Provider bindings, public presentation,
+    /// observability policy, retry budgets, and agent orientation are deliberately
+    /// hot-load-safe and excluded. State location, listener identity, TLS material
+    /// paths, continuity control, and every credential authority remain binding.
+    pub fn continuity_compatibility_projection_v1(&self) -> serde_json::Value {
+        serde_json::json!({
+            "schema": "adl.runtime_v3.continuity_compatibility.v1",
+            "runtime_init_schema": self.schema,
+            "state_root": self.state_root,
+            "paths": self.paths,
+            "api_address": self.api.address,
+            "api_tls_identity_paths": {
+                "server_name": self.api.tls.server_name,
+                "certificate_chain_path": self.api.tls.certificate_chain_path,
+                "private_key_path": self.api.tls.private_key_path,
+                "trust_roots_path": self.api.tls.trust_roots_path,
+            },
+            "continuity_control": self.continuity_control,
+            "credentials": {
+                "control_public_key_path": self.credentials.control_public_key_path,
+                "control_key_id": self.credentials.control_key_id,
+                "control_principal": self.credentials.control_principal,
+                "operation_public_key_path": self.credentials.operation_public_key_path,
+                "operation_key_id": self.credentials.operation_key_id,
+                "migration_decision_public_key_path": self.credentials.migration_decision_public_key_path,
+                "migration_decision_key_id": self.credentials.migration_decision_key_id,
+                "migration_decision_key_generation": self.credentials.migration_decision_key_generation,
+                "continuity_signing_key_path": self.credentials.continuity_signing_key_path,
+                "continuity_key_id": self.credentials.continuity_key_id,
+                "observatory_token_path": self.credentials.observatory_token_path,
+                "acip_write_token_path": self.credentials.acip_write_token_path,
+                "birth_witness_trust_manifest_path": self.credentials.birth_witness_trust_manifest_path,
+                "sntp_server": self.credentials.sntp_server,
+            },
+        })
+    }
+
+    /// Fields outside this projection are the only Runtime-init values applied
+    /// by the in-process reload path. Any change retained here requires restart.
+    pub fn hot_reload_static_projection_v1(&self) -> Result<serde_json::Value, serde_json::Error> {
         let mut value = serde_json::to_value(self)?;
-        if let Some(runtime) = value.as_object_mut() {
-            runtime.remove("service_convergence");
-            runtime.remove("agent_partial_checkpoints");
-        }
-        if let Some(credentials) = value
-            .get_mut("credentials")
+        let runtime = value
+            .as_object_mut()
+            .expect("RuntimeInitConfig serializes as an object");
+        runtime.remove("agent_orientation");
+        runtime.remove("observatory");
+        if let Some(api) = runtime
+            .get_mut("api")
             .and_then(serde_json::Value::as_object_mut)
         {
-            credentials.remove("continuity_min_generation");
+            api.remove("public_base_url");
         }
-        if let Some(observability) = value
-            .get_mut("observability_pipeline")
+        if let Some(polis) = runtime
+            .get_mut("polis")
             .and_then(serde_json::Value::as_object_mut)
         {
-            observability.remove("lifecycle_run");
-            observability.remove("lifecycle_cycle");
+            polis.remove("display_name");
+            polis.remove("public_domain");
+            polis.remove("observatory_public_origin");
         }
-        if let Some(observatory) = value
-            .get_mut("observatory")
-            .and_then(serde_json::Value::as_object_mut)
-        {
-            observatory.insert(
-                "additional_allowed_origins".to_owned(),
-                serde_json::Value::Array(Vec::new()),
-            );
-        }
-        if let Some(resident_shepherd) = value.get_mut("resident_shepherd") {
-            match resident_shepherd {
-                serde_json::Value::Object(shepherd) => {
-                    shepherd.remove("display_name");
-                }
-                serde_json::Value::Array(shepherds) => {
-                    for shepherd in shepherds {
-                        if let Some(shepherd) = shepherd.as_object_mut() {
-                            shepherd.remove("display_name");
-                        }
-                    }
-                }
-                _ => {}
-            }
-        }
+        runtime.insert(
+            "hot_reload_projection_schema".to_owned(),
+            serde_json::Value::String("adl.runtime_v3.hot_reload_static.v1".to_owned()),
+        );
         Ok(value)
     }
 }

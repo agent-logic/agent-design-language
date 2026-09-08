@@ -57,8 +57,6 @@ pub struct RuntimeReadinessReport {
     pub runtime_process_id: u32,
     pub guardian_process_id: u32,
     pub active_init_hash: String,
-    pub config_generation: String,
-    pub config_receipt_digest: String,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub degraded_reasons: Vec<String>,
 }
@@ -111,11 +109,12 @@ impl AgentPopulationFeed {
 
     pub fn resident_shepherds_from_config(configs: &ResidentShepherdSetInitConfig) -> Self {
         let mut feed = Self::empty();
-        for config in configs.iter() {
-            let id = config
-                .name
-                .split_once('.')
-                .map_or_else(|| config.name.clone(), |(id, _)| id.to_owned());
+        for (index, config) in configs.iter().enumerate() {
+            let id = if index == 0 {
+                "shepherd".to_owned()
+            } else {
+                format!("shepherd:{}", config.name)
+            };
             let readiness = InferenceReadinessState::ModelLoading;
             let projection = readiness.projection();
             feed.sample.push(AgentSample {
