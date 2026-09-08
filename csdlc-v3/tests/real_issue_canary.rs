@@ -256,8 +256,9 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
             .iter()
             .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
     } else {
-        assert_eq!(lifecycle_state["code"], "binding_live");
-        assert_eq!(lifecycle_state["status"], "passed");
+        assert_eq!(route_result["ready_to_execute"], true);
+        assert_eq!(lifecycle_state["code"], "local_lifecycle_state_ready");
+        assert_eq!(lifecycle_state["status"], "ready");
     }
 }
 
