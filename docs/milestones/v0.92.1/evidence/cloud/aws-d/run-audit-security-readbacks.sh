@@ -17,11 +17,6 @@ finding_owner="${AWS_D_FINDING_OWNER:-agent-logic-cloud-ops}"
 finding_destination="${AWS_D_FINDING_DESTINATION:-security-ops-sns-topic}"
 retention_days="${AWS_D_RETENTION_DAYS:-365}"
 
-if [[ "$profile" != "$required_profile" ]]; then
-  echo "AWS-D readback requires AWS_PROFILE=${required_profile}; got '${profile:-unset}'" >&2
-  exit 1
-fi
-
 case "$lane" in
   --lane=static)
     echo "aws_d_readback_lane=static"
@@ -29,6 +24,10 @@ case "$lane" in
     echo "cloud_calls=disabled"
     ;;
   --lane=aws-readonly)
+    if [[ "$profile" != "$required_profile" ]]; then
+      echo "AWS-D readback requires AWS_PROFILE=${required_profile}; got '${profile:-unset}'" >&2
+      exit 1
+    fi
     command -v aws >/dev/null 2>&1 || {
       echo "aws CLI is required for live readback" >&2
       exit 1
@@ -41,6 +40,24 @@ case "$lane" in
       echo "expected CloudTrail was not found" >&2
       exit 1
     fi
+
+    trail_multi_region="$(aws cloudtrail describe-trails \
+      --trail-name-list "$trail_name" \
+      --query 'trailList[0].IsMultiRegionTrail' \
+      --output text)"
+    [[ "$trail_multi_region" == "True" ]] || {
+      echo "expected CloudTrail is not configured as multi-region" >&2
+      exit 1
+    }
+
+    trail_logging="$(aws cloudtrail get-trail-status \
+      --name "$trail_name" \
+      --query 'IsLogging' \
+      --output text)"
+    [[ "$trail_logging" == "True" ]] || {
+      echo "expected CloudTrail is not actively logging" >&2
+      exit 1
+    }
 
     trail_kms="$(aws cloudtrail describe-trails \
       --trail-name-list "$trail_name" \
@@ -60,12 +77,48 @@ case "$lane" in
       exit 1
     }
 
+    config_recording="$(aws configservice describe-configuration-recorder-status \
+      --configuration-recorder-names "$config_recorder_name" \
+      --query 'ConfigurationRecordersStatus[0].recording' \
+      --output text)"
+    [[ "$config_recording" == "True" ]] || {
+      echo "expected AWS Config recorder is not actively recording" >&2
+      exit 1
+    }
+
     config_channel_bucket="$(aws configservice describe-delivery-channels \
       --delivery-channel-names "$config_channel_name" \
       --query 'DeliveryChannels[0].s3BucketName' \
       --output text)"
     [[ "$config_channel_bucket" == "$trail_bucket" ]] || {
       echo "AWS Config delivery channel does not target the audit bucket" >&2
+      exit 1
+    }
+
+    config_delivery_status_json="$(aws configservice describe-delivery-channel-status \
+      --delivery-channel-names "$config_channel_name" \
+      --output json)"
+    config_delivery_success="$(python3 - "$config_delivery_status_json" <<'PY'
+import json
+import sys
+
+payload = json.loads(sys.argv[1])
+statuses = payload.get("DeliveryChannelsStatus", [])
+success = False
+for status in statuses:
+    for key in (
+        "configSnapshotDeliveryInfo",
+        "configHistoryDeliveryInfo",
+        "configStreamDeliveryInfo",
+    ):
+        info = status.get(key) or {}
+        if info.get("lastStatus") == "SUCCESS":
+            success = True
+print("true" if success else "false")
+PY
+)"
+    [[ "$config_delivery_success" == "true" ]] || {
+      echo "AWS Config delivery channel has no successful delivery status" >&2
       exit 1
     }
 
@@ -112,6 +165,15 @@ case "$lane" in
       exit 1
     }
 
+    versioning_status="$(aws s3api get-bucket-versioning \
+      --bucket "$trail_bucket" \
+      --query 'Status' \
+      --output text)"
+    [[ "$versioning_status" == "Enabled" ]] || {
+      echo "audit bucket versioning is not enabled" >&2
+      exit 1
+    }
+
     lifecycle_ok="$(aws s3api get-bucket-lifecycle-configuration \
       --bucket "$trail_bucket" \
       --query "length(Rules[?Status=='Enabled' && Expiration.Days>=\`${retention_days}\`])" \
@@ -137,13 +199,18 @@ case "$lane" in
     echo "aws_d_readback_lane=aws-readonly"
     echo "required_profile=${required_profile}"
     echo "cloudtrail_exact=present"
+    echo "cloudtrail_multi_region=true"
+    echo "cloudtrail_logging=true"
     echo "cloudtrail_kms=present"
     echo "config_recorder_exact=present"
+    echo "config_recorder_recording=true"
     echo "config_delivery_bucket_matches=true"
+    echo "config_delivery_status=success"
     echo "access_analyzer_exact=active"
     echo "sns_findings_topic_exact=present"
     echo "eventbridge_findings_route=present"
     echo "audit_bucket_kms_encryption=present"
+    echo "audit_bucket_versioning=enabled"
     echo "audit_bucket_retention_days_at_least=${retention_days}"
     echo "finding_owner_destination_tags=present"
     echo "redaction=names_and_arns_not_printed"
