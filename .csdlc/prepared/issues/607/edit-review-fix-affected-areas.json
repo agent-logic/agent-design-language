@@ -1,0 +1,31 @@
+{
+  "issue": 607,
+  "card": "spp",
+  "expected_generation": 89,
+  "expected_digest": "11e1490b80b1d1cab4e2b3584d2127dc5e21ce309816a9c3a1167caddaf05709",
+  "actor": "codex-primary-issue607",
+  "reason": "Include the exact qualification and retained-proof helpers touched by the review remediation.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/build_or_prepare_issue607_warm_polis.sh",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/issue607_probe_runtime.py",
+      "adl/tools/issue607_qualify_warm_polis.sh",
+      "adl/tools/issue607_guardian_recovery_proof.sh",
+      "adl/tools/issue607_validate_saved_plan.sh",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof",
+      ".csdlc/prepared/issues/607/validate-preparation.sh",
+      ".csdlc/prepared/issues/607",
+      ".csdlc/evidence/607",
+      ".csdlc/issues/607"
+    ]
+  }
+}

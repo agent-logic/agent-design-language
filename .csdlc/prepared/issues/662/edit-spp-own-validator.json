@@ -1,0 +1,21 @@
+{
+  "issue": 662,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "af8ffbce43a3c5238a9e179ac0ce8685c6c00c8f862dd5e61dc2746a3f95097f",
+  "actor": "codex:662-bootstrap",
+  "reason": "Own the exact issue-local focused validator selected by the VPP.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/prepared/issues/662",
+      ".csdlc/issues/662"
+    ]
+  }
+}

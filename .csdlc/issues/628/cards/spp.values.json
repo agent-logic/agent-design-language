@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle command routes",
     "slug": "v3-h2-local-lifecycle",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 20
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "628-2",
@@ -32,7 +32,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "628-3",
@@ -41,7 +41,7 @@
             "AC-1",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "628-4",
@@ -50,7 +50,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "628-5",
@@ -59,7 +59,7 @@
             "AC-1",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

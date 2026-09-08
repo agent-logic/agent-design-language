@@ -1,0 +1,120 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 695,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
+    "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Define the partial schema and cadence, implement bounded local snapshots for all residents, add an asynchronous durable S3 spool and restore rules, project per-agent continuity through API and Observatory, add Terraform, prove accelerated end-to-end behavior, review, and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define configuration bounds, partial schema, lineage, redaction, atomic local storage, and restore rules.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement the bounded periodic coordinator for Shepherd and dynamic residents with deterministic roster-change and overlap behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement the durable bounded asynchronous S3 spool, idempotent archive worker, and Terraform security boundary.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Project per-agent continuity fields through roster/detail APIs and render them in Observatory.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Run accelerated production-shaped tests, focused validation, exact-head review, and typed publication.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/tests/agent_partial_checkpoint.rs",
+        "adl-runtime-kernel/tests/agent_continuity_api.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/tests/agent_continuity.test.mjs",
+        "docs/api/runtime-v3/v1/observatory.openapi.json",
+        "infra/aws/runtime/agent-checkpoint-archive",
+        "infra/aws/runtime/agent-checkpoint-archive/validate.sh",
+        "adl/tools/test_runtime_agent_partial_checkpoint.sh",
+        ".csdlc/prepared/issues/695/validate-acceptance.sh"
+      ],
+      "invariants": [
+        "Cloud unavailability never blocks or terminates Runtime",
+        "At most one partial per agent per sequence is authoritative",
+        "Every partial is bound to canonical identity and continuity lineage",
+        "The only unarchived recoverable local partial is never evicted",
+        "API and Observatory never infer checkpoint or archive success",
+        "Secrets and credentials never enter partials, projections, logs, or evidence"
+      ],
+      "risks": [
+        "Periodic serialization could contend with active conversations",
+        "Roster mutation during a cycle could skip or duplicate an agent",
+        "Upload backlog could consume unbounded disk",
+        "Restore could apply a valid partial to the wrong lineage",
+        "Public API fields could leak infrastructure details",
+        "Terraform could accidentally couple checkpoint storage to log retention"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Implementation requires synchronous cloud I/O on an agent or readiness path",
+        "A partial cannot be bound to canonical agent and continuity lineage",
+        "Local spool or retention cannot be bounded without losing the only recoverable partial",
+        "Scope expands into log archival, provider execution, A2A, or transcript recovery",
+        "Validation requires live Wuji restart or AWS resource creation",
+        "Exact-head review has unresolved findings"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/695/design.md",
+      "design_digest": "2bb94e45f8196e51920b846e1de50a8c83b60ecfc12a1505be154b3aeb5aeb6a",
+      "diagram_ref": ".csdlc/prepared/issues/695/diagram.mmd",
+      "diagram_digest": "4326f3bec5441bd45699951e2bc7da6847dbe3d7b4d8500ce2e15dc62f6a6b16"
+    }
+  }
+}

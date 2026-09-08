@@ -1,0 +1,20 @@
+flowchart LR
+  S3[(Immutable S3 artifacts)] --> PREP[Ephemeral preparation EC2\nleast privilege + IMDSv2 + SSH /32\ndeadline termination]
+  PREP --> ST[Warm-storage Terraform state]
+  ST --> RV[(Encrypted Runtime warm EBS\ndm-verity content)]
+  ST --> GV[(Encrypted GPU warm EBS\ndm-verity content)]
+  PREP --> SEAL[Versioned seal receipts]
+  PREP --> PCLEAN[Preparation cleanup receipt\nonly warm volumes remain]
+  SEAL --> TF[Compute Terraform state\nattachments only]
+  RV --> R[Runtime EC2\nGuardian + Runtime + ACC]
+  GV --> G[GPU EC2\nOllama + model store]
+  TF --> R
+  TF --> G
+  R -->|private 11434| G
+  SSH[One SSH key + operator CIDR] --> R
+  SSH --> G
+  R --> READY[Polis ready receipt]
+  G --> READY
+  TF --> CLEAN[Destroy disposable compute]
+  CLEAN -. cannot destroy .-> RV
+  CLEAN -. cannot destroy .-> GV

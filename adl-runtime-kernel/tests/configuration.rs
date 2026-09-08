@@ -233,8 +233,11 @@ observatory_public_origin = "https://observatory.example.test"
 
 [resident_shepherd]
 name = "beacon.axioma"
-display_name = "Beacon"
+display_name = "Beacon Axioma"
 office = "resident shepherd"
+provider = "ollama"
+model = "qwen3:8b"
+endpoint = "http://127.0.0.1:11434"
 
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
@@ -689,6 +692,66 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
 }
 
 #[test]
+fn service_convergence_defaults_support_slow_model_startup() {
+    let directory = config_test_root();
+    let state_root = directory.path().join("state");
+    std::fs::create_dir_all(&state_root).unwrap();
+    let state_root = state_root.canonicalize().unwrap();
+    let init =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(&state_root))
+            .unwrap();
+
+    assert_eq!(init.service_convergence.stop_timeout_millis, 300_000);
+    assert_eq!(init.service_convergence.unload_timeout_millis, 300_000);
+    assert_eq!(init.service_convergence.listener_timeout_millis, 300_000);
+    assert_eq!(init.service_convergence.readiness_timeout_millis, 900_000);
+}
+
+#[test]
+fn service_convergence_accepts_inclusive_bounds() {
+    for value in [1_000, 3_600_000] {
+        let directory = config_test_root();
+        let state_root = directory.path().join("state");
+        std::fs::create_dir_all(&state_root).unwrap();
+        let state_root = state_root.canonicalize().unwrap();
+        let text = format!(
+            "{}\n[service_convergence]\nstop_timeout_millis = {value}\nunload_timeout_millis = {value}\nlistener_timeout_millis = {value}\nreadiness_timeout_millis = {value}\n",
+            valid_runtime_init_toml(&state_root)
+        );
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&text).unwrap();
+    }
+}
+
+#[test]
+fn service_convergence_rejects_each_out_of_range_field() {
+    for field in [
+        "stop_timeout_millis",
+        "unload_timeout_millis",
+        "listener_timeout_millis",
+        "readiness_timeout_millis",
+    ] {
+        for value in [999_u64, 3_600_001] {
+            let directory = config_test_root();
+            let state_root = directory.path().join("state");
+            std::fs::create_dir_all(&state_root).unwrap();
+            let state_root = state_root.canonicalize().unwrap();
+            let text = format!(
+                "{}\n[service_convergence]\nstop_timeout_millis = 300000\nunload_timeout_millis = 300000\nlistener_timeout_millis = 300000\nreadiness_timeout_millis = 900000\n",
+                valid_runtime_init_toml(&state_root)
+            )
+            .replace(&format!("{field} = {}", if field == "readiness_timeout_millis" { 900_000 } else { 300_000 }), &format!("{field} = {value}"));
+            let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&text).unwrap_err();
+            assert!(
+                error
+                    .to_string()
+                    .contains(&format!("service_convergence.{field}")),
+                "unexpected error for {field}={value}: {error}"
+            );
+        }
+    }
+}
+
+#[test]
 fn runtime_init_rejects_migration_decision_key_aliases() {
     let directory = config_test_root();
     let state_root = directory.path().join("state");
@@ -713,6 +776,26 @@ fn runtime_init_rejects_migration_decision_key_aliases() {
             &toml_path(&state_root.join("credentials/operation-public-key.hex")),
         );
         assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&aliased).is_err());
+    }
+}
+
+#[test]
+fn runtime_init_accepts_supported_additional_origins() {
+    let cases = [
+        "[]",
+        r#"["http://localhost:8000"]"#,
+        r#"["https://wuji.dev.csm.agent-logic.ai:8765"]"#,
+        r#"["http://localhost:8000", "https://wuji.dev.csm.agent-logic.ai:8765"]"#,
+    ];
+
+    for additional_origins in cases {
+        let root = config_test_root();
+        let toml = valid_runtime_init_toml(root.path()).replace(
+            r#"additional_allowed_origins = ["http://localhost:8000"]"#,
+            &format!("additional_allowed_origins = {additional_origins}"),
+        );
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&toml)
+            .expect("supported additional Observatory origins must parse");
     }
 }
 
@@ -798,6 +881,8 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     assert!(expected["observability_pipeline"]
         .get("cloudwatch")
         .is_none());
+    assert!(expected.get("service_convergence").is_none());
+    assert!(expected.get("agent_partial_checkpoints").is_none());
 
     let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
@@ -815,6 +900,65 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         changed_origins.continuity_identity_projection().unwrap(),
         expected
     );
+
+    let mut renamed_shepherd = next_cycle.clone();
+    match &mut renamed_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.display_name = "Beacon Axioma".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_eq!(
+        renamed_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut rebound_shepherd = renamed_shepherd;
+    match &mut rebound_shepherd.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.model = "gemma4:e4b-mlx".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(_) => {
+            panic!("fixture must use one resident Shepherd")
+        }
+    }
+    assert_ne!(
+        rebound_shepherd.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut multi_shepherd = next_cycle.clone();
+    let primary = multi_shepherd.resident_shepherd.primary().clone();
+    let mut secondary = primary.clone();
+    secondary.name = "lumen.axioma".to_owned();
+    secondary.display_name = "Lumen".to_owned();
+    multi_shepherd.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, secondary]);
+    let multi_expected = multi_shepherd.continuity_identity_projection().unwrap();
+    if let adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) =
+        &mut multi_shepherd.resident_shepherd
+    {
+        shepherds[0].display_name = "Beacon Axioma".to_owned();
+        shepherds[1].display_name = "Lumen Axioma".to_owned();
+    }
+    assert_eq!(
+        multi_shepherd.continuity_identity_projection().unwrap(),
+        multi_expected
+    );
+
+    let mut colliding_residents = next_cycle.clone();
+    let primary = colliding_residents.resident_shepherd.primary().clone();
+    let mut collision = primary.clone();
+    collision.name = "beacon.meridian".to_owned();
+    colliding_residents.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, collision]);
+    assert!(colliding_residents
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("resident agent identity collision"));
 
     changed_origins.observatory.allowed_origins =
         vec!["https://observatory.example.test".to_owned()];
@@ -1428,8 +1572,59 @@ fn canonical_name_is_required_for_resident_shepherd_configuration() {
     let root = tempfile::tempdir().unwrap();
     let valid = valid_runtime_init_toml(root.path());
     let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid).unwrap();
-    assert_eq!(parsed.resident_shepherd.name, "beacon.axioma");
+    assert_eq!(parsed.resident_shepherd.primary().name, "beacon.axioma");
 
     let invalid = valid.replace("name = \"beacon.axioma\"", "name = \"Beacon\"");
     assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
+}
+
+#[test]
+fn resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set() {
+    let root = tempfile::tempdir().unwrap();
+    let valid = valid_runtime_init_toml(root.path());
+    let unavailable_provider = valid.replace("provider = \"ollama\"", "provider = \"vertex-ai\"");
+    let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&unavailable_provider)
+        .expect_err("a provider without a compiled execution adapter must fail at startup");
+    assert!(error
+        .to_string()
+        .contains("has no executable adapter in this Runtime build"));
+    let invalid_provider = valid.replace("provider = \"ollama\"", "provider = \"Vertex AI\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid_provider).is_err());
+    let gateway_provider =
+        valid.replace("provider = \"ollama\"", "provider = \"openai-compatible\"");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&gateway_provider).is_ok());
+    for invalid in [
+        valid.replace("model = \"qwen3:8b\"", "model = \"bad model\""),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://\"",
+        ),
+        valid.replace(
+            "endpoint = \"http://127.0.0.1:11434\"",
+            "endpoint = \"http://public.example\"",
+        ),
+    ] {
+        let error = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid)
+            .expect_err("invalid model and endpoint bindings must fail at startup");
+        assert!(error
+            .to_string()
+            .contains("must form a valid private provider binding"));
+    }
+
+    let duplicate = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"beacon.axioma\"\ndisplay_name = \"Duplicate\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"qwen3:8b\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&duplicate).is_err());
+
+    let two = valid
+        .replace("[resident_shepherd]", "[[resident_shepherd]]")
+        .replace(
+            "[observatory]",
+            "[[resident_shepherd]]\nname = \"lumen.axioma\"\ndisplay_name = \"Lumen\"\noffice = \"resident shepherd\"\nprovider = \"ollama\"\nmodel = \"gemma4:e4b-mlx\"\nendpoint = \"http://127.0.0.1:11434\"\n\n[observatory]",
+        );
+    let parsed = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&two).unwrap();
+    assert_eq!(parsed.resident_shepherd.iter().count(), 2);
 }

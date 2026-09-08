@@ -1,0 +1,7 @@
+{
+  "issue": 662,
+  "expected_generation": 8,
+  "expected_digest": "9775d0d33649e259a01493f5f163c03ed52aac0786b58e25adc68bcfed934b62",
+  "actor": "codex:/root:issue-662-exec",
+  "reason": "Recover #662 review truth after recording the metadata-head PASS review so a final metadata-only review can cover the current review-record commit before publication."
+}

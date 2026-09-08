@@ -78,6 +78,12 @@ variable "ttl_expires_at" {
   type        = string
 }
 
+variable "paid_deadline_epoch" {
+  description = "Absolute Unix deadline enforced by every disposable paid guest. Zero disables the issue-specific guard for reusable-module callers."
+  type        = number
+  default     = 0
+}
+
 variable "source_revision" {
   description = "Exact ADL source revision under qualification."
   type        = string
@@ -124,8 +130,76 @@ variable "ollama_startup_script" {
   type        = string
 }
 
+variable "runtime_data_disk" {
+  description = "Optional self-link of a prepared Runtime data disk to attach."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
+variable "attach_data_disks" {
+  description = "Create both optional prepared-data attachments. Disk self-links must be supplied when true."
+  type        = bool
+  default     = false
+}
+
+variable "ollama_data_disk" {
+  description = "Optional self-link of a prepared Ollama/model data disk to attach."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
+variable "runtime_data_device_name" {
+  description = "Stable guest device name for the optional Runtime data disk."
+  type        = string
+  default     = "adl-runtime-data"
+}
+
+variable "ollama_data_device_name" {
+  description = "Stable guest device name for the optional Ollama/model data disk."
+  type        = string
+  default     = "adl-ollama-data"
+}
+
+variable "artifact_generation" {
+  description = "Expected generation marker on optional prepared data disks."
+  type        = string
+  default     = ""
+}
+
+variable "runtime_content_sha256" {
+  description = "Expected Runtime generation-manifest SHA-256."
+  type        = string
+  default     = ""
+}
+
+variable "ollama_content_sha256" {
+  description = "Expected Ollama/model generation-manifest SHA-256."
+  type        = string
+  default     = ""
+}
+
 variable "labels" {
   description = "Additional labels for disposable proof resources."
   type        = map(string)
   default     = {}
+}
+
+variable "issue_id" {
+  description = "Issue identity recorded in instance labels and metadata."
+  type        = string
+  default     = "509"
+}
+
+variable "lane" {
+  description = "Workload lane recorded in instance labels and metadata."
+  type        = string
+  default     = "drt-d"
+}
+
+variable "retention" {
+  description = "Resource retention posture recorded in the ttl label."
+  type        = string
+  default     = "disposable"
 }

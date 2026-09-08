@@ -1,0 +1,17 @@
+flowchart TD
+  source["source config + secret references"] --> candidate["CSM builds immutable candidate generation"]
+  binary["active Runtime binary generation"] --> receipt["versioned receipt: config hash, schema, redacted refs, compatible binary"]
+  candidate --> receipt
+  receipt --> validate["validate complete candidate before mutation"]
+  validate --> pointer["atomic active configuration reference"]
+  pointer --> csm["CSM generation + receipt digest"]
+  csm --> guardian["Guardian child launch binding"]
+  guardian --> kernel["Runtime kernel validation"]
+  kernel --> ready["readiness/status: same generation + digest"]
+
+  txn["#589 transaction state"] --> recover{"interruption boundary"}
+  recover -->|pre-activation| prior["retain prior committed generation"]
+  recover -->|post-pointer| reconcile["validate candidate or restore prior"]
+  recover -->|candidate-ready| ownership["compare running generation + receipt digest"]
+  ownership --> commit["commit and clean backup"]
+  ownership --> prior

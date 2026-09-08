@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 689,
+  "expected_generation": 14,
+  "expected_digest": "72301ade19f3bee55d23acf9bbf0b1d4baaa9026e5810c97149b068de7e7ae4f",
+  "reviewer": "codex:/root/issue_689_final_review",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "CSMctl",
+    "adl/tools/test_csmctl_linux_backend.sh",
+    "docs/tooling/START_CSM_RUNBOOK.md",
+    ".csdlc/evidence/689"
+  ]
+}

@@ -36,3 +36,4 @@
 {"sequence":36,"generation":29,"actor":"codex:issue-544-pr-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":37,"generation":30,"actor":"fresh-session:01a03f6a-1aab-72f0-8023-173ac0bab792","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":38,"generation":31,"actor":"codex:issue-544-publish","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":39,"generation":32,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #544 from retained derived terminal PR #548.","operation":"materialize_derived_terminal"}

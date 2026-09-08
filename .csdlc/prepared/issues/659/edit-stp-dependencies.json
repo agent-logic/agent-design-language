@@ -1,0 +1,15 @@
+{
+  "issue": 659,
+  "card": "stp",
+  "expected_generation": 0,
+  "expected_digest": "a98a7ce22aead89cf22e3bd5cd1e2e6ecd5d6ba9b1a77a6223800ff8955b5a6e",
+  "actor": "codex:659-preparation",
+  "reason": "Align dependency truth with the merged atomic-generation implementation now ancestral to current main.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Issue #656 / PR #658 atomic Runtime generation installation merged and ancestral to current main cea5219f6e74b34d930d0dc39b6a607bc6303acb"
+    ]
+  }
+}

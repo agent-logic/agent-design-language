@@ -9,14 +9,15 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_mutual_tls_server_config,
+    activate_config_generation, bootstrap_reasoning_services, build_mutual_tls_server_config,
     build_production_operation_executors_with_recorder, load_identity, load_trust_roots,
-    serve_private_continuity_listener, sha256, AdapterPolicy, AuthorityMode, CanonicalIngress,
-    CatalogSigningAuthority, ContinuityControlBounds, ContinuityControlInitConfig,
-    ContinuityControlService, ContinuityControlTlsConfig, DurableContinuityJournal,
-    IngressSnapshot, LiveContinuityRegistry, LiveOperationContinuity, OperationalAdapter,
-    OperationalFactory, RuntimeInitConfig, RuntimeRecorder, SourceContinuityEffectPort,
-    TargetContinuityCoordinator, TlsIdentityPaths, PRIVATE_ALPN, REQUIRED_OPERATIONAL_ADAPTERS,
+    provision_config_generation, serve_private_continuity_listener, sha256, AdapterPolicy,
+    AuthorityMode, CanonicalIngress, CatalogSigningAuthority, ContinuityControlBounds,
+    ContinuityControlInitConfig, ContinuityControlService, ContinuityControlTlsConfig,
+    DurableContinuityJournal, IngressSnapshot, LiveContinuityRegistry, LiveOperationContinuity,
+    OperationalAdapter, OperationalFactory, RuntimeInitConfig, RuntimeRecorder,
+    SourceContinuityEffectPort, TargetContinuityCoordinator, TlsIdentityPaths, PRIVATE_ALPN,
+    REQUIRED_OPERATIONAL_ADAPTERS,
 };
 use ed25519_dalek::SigningKey;
 use tokio_util::sync::CancellationToken;
@@ -354,6 +355,12 @@ fn complete_args(kernel: &str, root: &std::path::Path) -> (Vec<String>, Continui
 
     let init_path = root.join("runtime-init.toml");
     fs::write(&init_path, toml::to_string(&init).unwrap()).unwrap();
+    let identity = provision_config_generation(
+        &init_path,
+        &test_binary_generation(&init.binaries.kernel_path),
+    )
+    .unwrap();
+    activate_config_generation(&init_path, &identity).unwrap();
     (
         vec![
             "--init".to_owned(),
@@ -394,6 +401,18 @@ fn portable_success_child(root: &std::path::Path) -> PathBuf {
         .expect("the Rust test toolchain should resolve rustc");
     assert!(status.success(), "portable child compilation failed");
     executable
+}
+
+fn test_binary_generation(kernel: &std::path::Path) -> String {
+    kernel
+        .canonicalize()
+        .unwrap()
+        .parent()
+        .and_then(std::path::Path::parent)
+        .and_then(std::path::Path::file_name)
+        .and_then(|name| name.to_str())
+        .unwrap()
+        .to_owned()
 }
 
 #[test]

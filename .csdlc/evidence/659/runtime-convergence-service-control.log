@@ -1,0 +1,15 @@
+
+running 8 tests
+test cli::csm_runtime_v3_cmd::tests::convergence_stage_normalization_preserves_non_deadline_errors ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_true_timeout_reports_exact_stage_and_deadline ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_rejects_success_observed_after_deadline ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_listener_open_is_distinct_from_full_readiness ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_hanging_stop_command_is_killed_at_deadline ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_timeout_rolls_back_candidate_and_restarts_last_known_good ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_rejects_overrun_for_every_blocking_stage ... ok
+test cli::csm_runtime_v3_cmd::tests::convergence_slow_success_completes_within_configured_deadline ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 267 filtered out; finished in 0.41s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running unittests src/main.rs (adl/target/debug/deps/adl-95942abba5907a06)

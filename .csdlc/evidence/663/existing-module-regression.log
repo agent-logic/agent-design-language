@@ -1,0 +1,6 @@
+tests/issue509_launch_contract.tftest.hcl... [37min progress[0m
+[0m  run "normal_launch_consumes_prepared_artifacts"... [32mpass[0m[0m
+tests/issue509_launch_contract.tftest.hcl... [37mtearing down[0m
+[0mtests/issue509_launch_contract.tftest.hcl... [32mpass[0m[0m
+
+[32mSuccess![0m[0m 1 passed, 0 failed.

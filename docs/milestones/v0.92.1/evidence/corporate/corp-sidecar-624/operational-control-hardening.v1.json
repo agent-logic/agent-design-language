@@ -1,0 +1,130 @@
+{
+  "schema": "adl.corporate.operational_control_hardening.v1",
+  "issue": 624,
+  "repository": "agent-logic/agent-design-language",
+  "parent_issue": 497,
+  "parent_pull_request": 613,
+  "sidecar_routing_pull_request": 634,
+  "status": "sidecar_accounting_complete_external_actions_pending_authorization",
+  "live_mutation_performed": false,
+  "ip_transfer_acceptance_reopened": false,
+  "public_record": "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+  "seed_evidence": [
+    "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.md",
+    "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/control-plane-denominator.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json",
+    "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+  ],
+  "rows": [
+    {
+      "id": "GH-ORG-RECOVERY",
+      "category": "github_ci",
+      "surface": "GitHub organization and repository recovery authority",
+      "status": "follow_on_required",
+      "owner_role": "corporate_platform_operator",
+      "action": "Read back organization owner roster, billing-plan owner, MFA posture, repository recovery route, and emergency access using redacted role labels only.",
+      "authority_gate": "explicit_operator_authorization_github_org_readback_no_mutation",
+      "closeout_condition": "Redacted receipt shows company-controlled recovery and emergency access do not depend on one personal factor.",
+      "evidence_refs": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
+        "docs/operations/corporate/control-transfer/operational-control-transfer-acceptance.v1.json"
+      ]
+    },
+    {
+      "id": "GH-CI-GUARDRAILS",
+      "category": "github_ci",
+      "surface": "GitHub Actions, environments, runner authority, required reviewers, and emergency workflow disablement",
+      "status": "follow_on_required",
+      "owner_role": "corporate_platform_operator",
+      "action": "Verify Actions policy, required reviewers, environment protection, runner authority, emergency workflow-disable procedure, and CI billing custody.",
+      "authority_gate": "explicit_operator_authorization_github_ci_admin_readback_no_mutation",
+      "closeout_condition": "CI authority receipt lists checks, environments, runners, billing custody, and emergency disable owner.",
+      "evidence_refs": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/github-ci-authority-readback.v1.json",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
+      ]
+    },
+    {
+      "id": "DNS-DELEGATION",
+      "category": "dns_certificate",
+      "surface": "Registrar custody, Route53 hosted zone, delegation, rollback, and DNS recovery",
+      "status": "follow_on_required",
+      "owner_role": "domain_operations_owner",
+      "action": "Verify registrar custody, Route53 delegation, change-freeze owner, rollback owner, and DNS recovery path.",
+      "authority_gate": "explicit_operator_authorization_dns_registrar_readback_no_mutation",
+      "closeout_condition": "Redacted DNS custody receipt binds registrar, hosted-zone, delegation, rollback, and recovery roles.",
+      "evidence_refs": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+      ]
+    },
+    {
+      "id": "CERT-RENEWAL",
+      "category": "dns_certificate",
+      "surface": "TLS certificate renewal ownership and revocation or reissue rollback",
+      "status": "follow_on_required",
+      "owner_role": "domain_operations_owner",
+      "action": "Verify issuer or ACM renewal owner, validation method, revocation or reissue authority, and recovery route for public certificates.",
+      "authority_gate": "explicit_operator_authorization_certificate_inventory_readback_no_mutation",
+      "closeout_condition": "Certificate receipt covers renewal, revocation or reissue, validation ownership, and recovery roles.",
+      "evidence_refs": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json"
+      ]
+    },
+    {
+      "id": "AWS-AUDIT-GUARDRAILS",
+      "category": "aws_guardrails",
+      "surface": "AWS business-account guardrails, audit, recovery, break-glass, and billing/contact custody",
+      "status": "follow_on_required",
+      "owner_role": "cloud_account_owner",
+      "action": "Verify billing/contact custody, root posture, MFA or identity-center posture, CloudTrail, AWS Config, IAM Access Analyzer, anomaly and budget visibility, recovery, and break-glass.",
+      "authority_gate": "explicit_operator_authorization_aws_business_account_readback_no_mutation",
+      "closeout_condition": "Redacted AWS guardrail receipt records each guardrail pass, fail, or deferred status without account identifiers.",
+      "evidence_refs": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-account-control-readback.v1.json",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/aws-identity-readback-redacted.v1.json",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
+      ]
+    },
+    {
+      "id": "DEPLOY-ROLLBACK",
+      "category": "deployment_rollback",
+      "surface": "Deployment roles, rollback authority, incident audit logging, emergency access, and recovery drill",
+      "status": "follow_on_required",
+      "owner_role": "release_operations_owner",
+      "action": "Verify deployment roles, rollback authority, incident audit logging, emergency access, and a recovery drill or approved dry-run.",
+      "authority_gate": "explicit_operator_authorization_deployment_rollback_readback_or_rehearsal",
+      "closeout_condition": "Rollback receipt proves an authorized operator can restore an approved prior posture or records a narrower blocker.",
+      "evidence_refs": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/dns-cert-deployment-readback.v1.json",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-c/live-control-plane-readonly-probe.v1.json"
+      ]
+    },
+    {
+      "id": "PRIVATE-CUSTODY",
+      "category": "private_custody",
+      "surface": "Company vault, recovery factors, payment method, executed instruments, and counsel-controlled diligence material",
+      "status": "follow_on_required",
+      "owner_role": "corporate_custody_owner",
+      "action": "Produce a redacted receipt that company vault and recovery are not controlled by one founder-local factor while keeping private materials outside the repository.",
+      "authority_gate": "explicit_operator_authorization_private_custody_readback_no_repository_disclosure",
+      "closeout_condition": "Public receipt contains only role-level custody status, digest references, and non-single-factor recovery result.",
+      "evidence_refs": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+        "docs/operations/corporate/diligence/diligence-index.v1.json"
+      ]
+    }
+  ],
+  "non_claims": [
+    "This receipt does not contain credentials, tokens, secrets, private custody artifacts, or recovery details.",
+    "This receipt does not contain AWS account identifiers, billing identifiers, root-contact details, or payment-method details.",
+    "This receipt does not mutate AWS, DNS, certificates, GitHub administration, GitHub Actions, billing, custody, deployment, production, or provider state.",
+    "This receipt does not claim DNS, certificate, GitHub, AWS, custody, or deployment hardening is already applied.",
+    "This receipt does not reopen #497 or convert #624 into a blocker for the accepted #497 IP-transfer boundary."
+  ],
+  "next_authorized_step": "After exact-head review, the operator may choose one or more follow-on rows and authorize the exact readback or mutation separately."
+}

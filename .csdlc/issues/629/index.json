@@ -1,0 +1,546 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 629,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "aaabae55b847205a1ffb3cd7a45bead707b962edb4f4e92a45112b4de76b92c6",
+  "phase": "closed_out",
+  "generation": 26,
+  "digest": "002174afc63532d533264af5d1592f29870dad51150ac86672e5e7601d5562df",
+  "branch": "codex/629-v3-h3-github-publication-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec",
+  "review_assignment": {
+    "reviewer": "codex-reviewer:review_629_title_readback",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-reviewer:review_629_title_readback",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs"
+    ],
+    "reviewed_revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 GitHub and publication routes remain non-authoritative until explicit V3-F/#505 cutover.",
+      "This change binds PR title into authenticated v3 PR readback receipts; it does not make v3 perform PR title writes before cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 629,
+    "pull_request": 641,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/641",
+    "base": "main",
+    "head": "codex/629-v3-h3-github-publication-exec",
+    "revision": "git-blake3:6e959dc51ee7e33b0ed5233fa8a12056eba5c362:e2c7218d67b81ea1fe6ab1e26d4c1585151bcf914eaa76449a8e2996eee760d9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 641,
+    "disposition": "merged",
+    "observed_sha": "8ad0d56ae7db6421fcbc2016a2f1c8590094577e",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/629.json",
+    "branch": "codex/629-v3-h3-github-publication-exec",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-629-v3-h3-github-publication-exec"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/629/design.md",
+  "diagram_path": ".csdlc/prepared/issues/629/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:sprint-625-setup",
+      "revision": "7fb92a9d1a316579eecfd3770f73944b5e0de8ad994a2c6a9b570b1b31252881"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3ac68a107c7fd843f34e4d67d452ccd9d8d940c197e23ff365cb0992ca20148e",
+      "rendered_digest": "e446948ed0ad2268373108f73463028bfa4db9d89c070b19f3efbb817893e249",
+      "ast_digest": "4441dd096f6c525cb946e18a6fc6a31f4b07b3be9a00752bfc4c2d67c4f0c2a3"
+    },
+    "stp": {
+      "values_digest": "e2c78b1fdad2e0593732b63a37a54ae237884f772cd92a4c9274ec89ccbf8822",
+      "rendered_digest": "27d53576f399af4a88d9a3a47d4928fc3d600c625480612e442939edc5cd1f4b",
+      "ast_digest": "8dda543d0b0c799e3467b5ce616ba72f9b6a7d8ae2cbb9373fe69eca07952409"
+    },
+    "spp": {
+      "values_digest": "7d91774ddc73fc73527e452af46ed703c82f648892c85737343c1a2a4b0e4478",
+      "rendered_digest": "725d87294279b126a09f67385c7a7cb7714128d1b1ce29c4fcb953f5ee86ec4f",
+      "ast_digest": "6834b14fd2e057c6167a2a7ae528883d7b52aefbcc4291307ae9440cc3a07f1c"
+    },
+    "vpp": {
+      "values_digest": "3185faca02267a85214267325c77473b4868f0891c77b2fe1e0cdc1d66fd5dfb",
+      "rendered_digest": "344816c3eaa375d6ef4366492e688f885d2536b905e94af4617b596b7fe11eb3",
+      "ast_digest": "10ea6a609b2598ac311ebfe830399842712d7cad6d8ef6e1a8d662f1149469c0"
+    },
+    "srp": {
+      "values_digest": "7e1aa8a66a2d0553a300d76724da4622324e9b913ac28b4f0fbbca4185ebe7e4",
+      "rendered_digest": "6f9bac0be31138d227821150c3029d86f180773eb84eba838fcd2298b153efb9",
+      "ast_digest": "089a3c832b2977a1965653e15661529b5b47a1466fd971db0328a81da0af27b6"
+    },
+    "sor": {
+      "values_digest": "14a40277517ecd13b2e8aab8ef1c8a807efc989956e8378a5e3280f27a657963",
+      "rendered_digest": "0fa81a6c62d7c42a973b72fbe1606364fa79375812726f9c9112fc8cc36ba040",
+      "ast_digest": "0860320d07eb2584aa467a42a713637368118edc4dca817eb1927cb4cfef4233"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #629 to ready after typed validation, issue-owned validator, and diff hygiene passed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #629 after post-publication local repairs to durable receipt path handling and authenticated remote readback route coverage. Existing PR #641 is now conflicting after #628 merged, and the current worktree has unreviewed source/test changes that must be committed, reviewed, republished, and reconciled before terminal finish."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 after synchronizing the real-issue canary with the current published #629 lifecycle state so the repaired head can receive fresh review and publication evidence."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after exact-head canary stabilization commit c9728373330f5ae6dbebbab26b0970bda0a310af."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after authenticated PR readback and CLI observation hardening through 3fa957d36cfe3df2b125f97f63615c88a6d2ffdb."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after adding unexpected GitHub closing-relation detection through c2f4ece7ca8bdffbd27afeee37464f41944f2539."
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after binding authenticated v3 PR readback receipts to non-empty PR titles at 6e959dc51d5a5343029d284fd9d586777de9f5119."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 23,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 24,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 25,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 26,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #629 from retained derived terminal PR #641."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "repair pre-bind readiness by making the #629 issue-owned validator script an exact governed affected path",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/remote\",\"csdlc-v3/src/publication\",\"csdlc-v3/src/review\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\".csdlc/prepared/issues/629\",\".csdlc/issues/629\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Advance #629 to ready after typed validation, issue-owned validator, and diff hygiene passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover #629 after post-publication local repairs to durable receipt path handling and authenticated remote readback route coverage. Existing PR #641 is now conflicting after #628 merged, and the current worktree has unreviewed source/test changes that must be committed, reviewed, republished, and reconciled before terminal finish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #629 SOR truth after tightening remote/publication routes so caller-provided GitHub and review receipt fields remain fail-closed construction evidence before #505 cutover.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the V3-H.3 GitHub, PR-state, review, and publication command surfaces as non-authoritative v3 construction routes, with the GitHub/readback and publication-authority routes intentionally fail-closed until production typed review and authenticated GitHub adapter ingestion exists.\",\"changes\":[\"Implemented #629-owned route handlers for github, github-issue, github-pr, pr-state, publish, and review under the single v3 csdlc binary.\",\"Kept every #629 route non-authoritative before #505 cutover; GitHub/readback and publication routes return fail-closed findings when authority would depend on caller-provided receipts.\",\"Added fail-closed detection for caller-forged GitHub adapter readbacks and caller-attested typed review/publication receipts.\",\"Kept credential-name redaction in route reports.\",\"Preserved the v3 command manifest truth that #629 GitHub/publication routes are fail_closed/not_live construction routes, not operational authority.\",\"Added and updated focused command-manifest, remote-publication, and real-issue canary tests for the fail-closed boundary.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/remote_publication_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/629/design.md\",\".csdlc/prepared/issues/629/diagram.mmd\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\".csdlc/issues/629\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Prove the current v3 Rust source is formatted after the fail-closed remote/publication repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_publication_commands\",\"--test\",\"real_issue_canary\"],\"purpose\":\"Prove the #629 remote/publication command routes and real-issue canaries reject caller-forged authority while preserving non-authoritative planning output.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: 11 passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\"all\"],\"purpose\":\"Run the #629 issue-owned validator for route surface, manifest, and fail-closed behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: v3 h3 github/publication validator: pass\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy across csdlc-v3 targets after the fail-closed authority changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: Finished dev profile\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove local whitespace hygiene before committing the SOR truth repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Record the exact-head #629 review finding fix for issue-number relation boundaries in v3 publication route planning.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented V3-H.3 GitHub, PR-state, review, and publication construction routes under the single non-authoritative csdlc v3 binary, with synthetic receipts and ambiguous closing references failing closed before #505.\",\"changes\":[\"Implemented #629-owned route handlers for github, github-issue, github-pr, pr-state, publish, and review under the single v3 csdlc binary.\",\"Kept every #629 route non-authoritative before #505 cutover; GitHub/readback and publication routes return fail-closed findings when authority would depend on caller-provided receipts.\",\"Added fail-closed detection for caller-forged GitHub adapter readbacks and caller-attested typed review/publication receipts.\",\"Tightened publication body relation parsing so `Closes #6290` no longer satisfies the required `Closes #629` relation.\",\"Kept credential-name redaction in route reports.\",\"Preserved the v3 command manifest truth that #629 GitHub/publication routes are fail_closed/not_live construction routes, not operational authority.\",\"Added and updated focused command-manifest, remote-publication, and real-issue canary tests for the fail-closed boundary.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/tests/remote_publication_commands.rs\",\"csdlc-v3/tests/real_issue_canary.rs\",\"docs/csdlc-v3/v3-command-manifest.json\",\".csdlc/prepared/issues/629/design.md\",\".csdlc/prepared/issues/629/diagram.mmd\",\".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh\",\".csdlc/issues/629\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Prove the current v3 Rust source is formatted after tightening publication relation parsing.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_publication_commands\"],\"purpose\":\"Prove remote publication planning rejects ambiguous closing references such as Closes #6290.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: 5 passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove local whitespace hygiene after the relation-boundary fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"console: no output\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 after synchronizing the real-issue canary with the current published #629 lifecycle state so the repaired head can receive fresh review and publication evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after exact-head canary stabilization commit c9728373330f5ae6dbebbab26b0970bda0a310af.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after authenticated PR readback and CLI observation hardening through 3fa957d36cfe3df2b125f97f63615c88a6d2ffdb.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after adding unexpected GitHub closing-relation detection through c2f4ece7ca8bdffbd27afeee37464f41944f2539.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "Recover #629 review/publication truth after binding authenticated v3 PR readback receipts to non-empty PR titles at 6e959dc51d5a5343029d284fd9d586777de9f5119.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 24,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #629 from retained derived terminal PR #641.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

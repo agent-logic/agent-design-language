@@ -1,0 +1,136 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 632,
+  "expected_generation": 0,
+  "expected_digest": "af2f11e612c2020a2119121326f3b114af7477b4c79de9cfd0e18b4efc865731",
+  "actor": "codex:worker-6",
+  "summary": "Prepared the V3-H.6 real-canary and operator-readiness packet, captured stacked publication and fresh-worktree install defects, repaired the six-card architecture invariant, and added a pre-cutover notice while preserving v2 as live authority.",
+  "changes": [
+    "Bootstrapped and bound #632 through typed C-SDLC v2 in FastWork prep and execution worktrees.",
+    "Captured DEFECT-019 for stacked PR closing-linkage and typed retarget gaps, and DEFECT-020 for fresh-worktree install/bootstrap fragility.",
+    "Added a 21-entry command-route coverage matrix that remains explicitly not cutover-ready.",
+    "Added a canary evidence index distinguishing real typed observations, non-claims, and remaining proof needs.",
+    "Added an operator-facing C-SDLC v3 cutover readiness notice and linked it from the v3 README.",
+    "Corrected the architecture invariant so the mandatory card lifecycle includes VPP."
+  ],
+  "artifacts": [
+    ".csdlc/issues/632",
+    ".csdlc/prepared/issues/632/design.md",
+    ".csdlc/prepared/issues/632/diagram.mmd",
+    ".csdlc/prepared/issues/632/command-route-coverage.json",
+    ".csdlc/prepared/issues/632/canary-evidence-index.md",
+    ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+    ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+    ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+    "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+    "csdlc-v3/README.md",
+    "docs/architecture/ADL_ARCHITECTURE.md",
+    "adl/src/cli/csmctl_cmd.rs"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "issue-632-canary-readiness",
+          "proof_role": "implementation_behavior",
+          "purpose": "Prove the #632 route coverage matrix and retained canary defect packet account for the V3-H command replacement surface without claiming cutover readiness.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue-632-guidance-scan",
+          "proof_role": "documentation_contract",
+          "purpose": "Prove docs, AGENTS guidance, architecture lifecycle text, and the v3 readiness notice preserve the pre-cutover and post-cutover authority boundary.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/632/validate-v3-guidance.sh"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue-632-sprint-review-readiness",
+          "proof_role": "review_readiness",
+          "purpose": "Prove the sprint packet still names the six child issues, keeps review out of child issue count, and retains the latest #631 publication-topology defect.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "issue-632-canary-readiness",
+        "issue-632-guidance-scan",
+        "issue-632-sprint-review-readiness"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 512,
+      "tokens": 3000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-632-v3-h6-canaries-docs-readiness-exec/.csdlc/evidence/632",
+    "cancellation_file": null
+  }
+}

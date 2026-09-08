@@ -1,0 +1,258 @@
+{
+  "issue": 665,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root/Worker-7",
+  "design_path": ".csdlc/prepared/issues/665/design.md",
+  "diagram_path": ".csdlc/prepared/issues/665/diagram.mmd",
+  "design_reviewer": "fresh-session:66500000-0000-4000-8000-000000000001",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+    "slug": "emergency-branch-adoption-defect",
+    "version": "v0.92.1",
+    "goal": "Provide a fail-closed typed C-SDLC v2 recovery operation that adopts a verified issue-owned emergency branch/worktree into lifecycle authority without weakening implementation, review, or publication gates.",
+    "required_outcome": "An operator can submit a typed adoption request for an existing issue branch/worktree; the bind owner verifies exact repository, issue, branch, worktree, HEAD, base ancestry, checkout ownership, and collision state; records immutable adoption evidence; and advances only to the truthful bound phase.",
+    "declared_scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/tests/**",
+      "docs/tooling/**",
+      ".csdlc/prepared/issues/665/**",
+      ".csdlc/issues/665/**"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#665",
+      "Typed C-SDLC v2 remains the lifecycle authority",
+      "The operation may adopt only verified issue-owned emergency branch/worktree topology",
+      "Implementation finalization, exact-head review, publication, merge, and closeout remain separate required gates",
+      "Issue #660 product changes and live AWS mutation are out of scope"
+    ],
+    "operator_constraints": [
+      "Never write tracked issue work on main",
+      "Do not reset, force checkout, rebase, merge, overwrite, or copy product work through main",
+      "Do not use raw gh as a lifecycle write workaround",
+      "Do not weaken publication or exact-head review guards",
+      "No live cloud mutation is required"
+    ],
+    "task_boundary": "One bounded typed v2 bind-owner adoption route for verified pre-existing emergency issue branches/worktrees, plus focused regression tests and operator documentation.",
+    "deliverables": [
+      "Typed v2 request/result contract for adopting a verified pre-existing issue branch and worktree",
+      "Bind-owner implementation that distinguishes safe adoption from ordinary new-worktree creation and unsafe topology",
+      "Durable adoption evidence with pre-state, exact adopted HEAD, base relationship, issue identity, worktree path, branch, actor, generation, and digest",
+      "Focused positive and negative regression coverage for the #660-shaped dead end and subsequent normal lifecycle eligibility",
+      "Operator documentation for the emergency recovery command sequence and stop conditions"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A ready-phase issue with a unique issue-named branch and registered or verifiably adoptable FastWork worktree can be adopted through one typed request without modifying commit history or tracked content.",
+      "AC-2: Adoption requires exact expected issue, repository, branch, worktree, HEAD SHA, base branch, generation, and digest; stale or mismatched input fails closed.",
+      "AC-3: Adoption rejects main, a branch/worktree owned by another issue, multiple matching worktrees, unexpected dirty state, missing base ancestry, and conflicting existing typed bindings.",
+      "AC-4: Successful adoption records durable machine-readable evidence and advances only from ready to bound; it does not claim implementation, review, publication, or merge readiness.",
+      "AC-5: The adopted issue can then use the ordinary typed PVF finalization, exact-head review, and csdlc-publish routes without manual lifecycle edits.",
+      "AC-6: Existing ordinary bind/create behavior remains unchanged.",
+      "AC-7: Focused positive and negative tests reproduce the prior dead end and prove recovery without weakening publication or exact-head review gates.",
+      "AC-8: Operator documentation gives a short recovery command sequence and makes clear that emergency product actions do not themselves grant lifecycle authority."
+    ],
+    "dependencies": [
+      "Issue #660 reproduction evidence supplied by Worker #3.1",
+      "Current C-SDLC v2 bind, store, review, and publication gates",
+      "Gate 10D2 typed v2 authority"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#665",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/tests/**"
+    ],
+    "non_goals": [
+      "Publishing directly from ready or bound",
+      "Skipping PVF finalization, exact-head review, or publication checks",
+      "Importing arbitrary branches, adopting main, or bypassing issue ownership",
+      "Reimplementing Git operations outside the typed bind owner",
+      "Changing the #660 product fix or repeating its live AWS mutation",
+      "Broad lifecycle redesign"
+    ],
+    "plan_summary": "Bootstrap #665, approve the design, bind an execution worktree, add the typed adoption request/result and bind-owner recovery path, cover positive and negative topology cases plus downstream lifecycle eligibility, document the operator sequence, then exact-head review and publish.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Add the typed adoption request/result contract and bind-owner command route.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement fail-closed topology, HEAD, base ancestry, dirty state, and collision verification without mutating adopted commits.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Record durable adoption evidence and prove adopted issues remain eligible for ordinary finalization, exact-head review, and publication gates.",
+        "acceptance_ids": [
+          "AC-4",
+          "AC-5",
+          "AC-7"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Document the emergency recovery command sequence, stop conditions, and boundary that emergency product action is not lifecycle authority.",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run focused C-SDLC v2 bind/adoption tests, issue-owned validation, and diff hygiene.",
+        "acceptance_ids": [
+          "AC-6",
+          "AC-7"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/model.rs",
+      "csdlc-v2/src/bin/csdlc-bind.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      ".csdlc/prepared/issues/665/design.md",
+      ".csdlc/prepared/issues/665/diagram.mmd",
+      ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh",
+      ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+    ],
+    "invariants": [
+      "Adoption advances only ready to bound",
+      "Adoption never mutates existing product commits or tracked content",
+      "Publication and exact-head review guards remain strict",
+      "Main remains inspection-only for implementation work",
+      "All topology identity is exact and fail-closed"
+    ],
+    "risks": [
+      "A permissive adoption path could import an unrelated branch",
+      "A stale HEAD could let reviewed evidence drift",
+      "Dirty worktree handling could accidentally hide untracked emergency evidence",
+      "Collision detection could confuse old issue-number branches with current issue ownership",
+      "Downstream publish eligibility could be overclaimed without finalization/review proof"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The implementation requires weakening review or publication gates",
+      "The operation cannot distinguish current #665 from stale branch names or other issue ownership",
+      "Recovery would require reset, force checkout, rebase, merge, overwrite, or copying through main",
+      "Validation produces zero-test proof for the adoption denominator",
+      "A live cloud mutation or raw GitHub lifecycle write would be required"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "csdlc-v2-emergency-adoption-regression",
+        "proof_role": "Prove the #660-shaped ready-phase emergency branch/worktree adoption path, fail-closed topology rejects, preservation, evidence recording, and downstream lifecycle eligibility.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 5000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate5",
+          "emergency_branch_adoption"
+        ],
+        "parallel_group": "csdlc-v2-bind",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-665-scope-denominator",
+        "proof_role": "Prove the #665 readiness packet names issue-owned bind/topology design and repository targets before implementation begins.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-4",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh"
+        ],
+        "parallel_group": "readiness",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-665-operator-docs",
+        "proof_role": "Prove the operator documentation exists and names the fail-closed ready-to-bound adoption sequence.",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+        ],
+        "parallel_group": "docs",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove whitespace and conflict-marker hygiene for the exact branch diff.",
+        "acceptance_ids": [
+          "AC-6",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on stale generation/digest, mismatched repository, unsafe branch or worktree, dirty or ambiguous topology, missing base ancestry, collision state, weakened review/publication gates, or zero-test validation.",
+    "review_prompts": [
+      "Can the adoption route import an unrelated or stale branch/worktree?",
+      "Does successful adoption advance only to bound and preserve all later lifecycle gates?",
+      "Are dirty, ambiguous, unsafe-parent, main-branch, and missing-ancestry cases rejected?",
+      "Does ordinary bind/create behavior remain unchanged?",
+      "Does documentation make clear that emergency product actions do not grant lifecycle authority?"
+    ],
+    "review_scope": "C-SDLC v2 emergency branch/worktree adoption in the bind owner, lifecycle topology guards, schema surfaces, focused tests, operator documentation, and issue-local lifecycle artifacts only."
+  }
+}

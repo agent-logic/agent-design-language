@@ -1,0 +1,13 @@
+{
+  "issue": 659,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "7a7845885570524b7959f02141e0d3724b653118d5c45a7e32627c1766f01abb",
+  "actor": "codex:659-preparation",
+  "reason": "Remove stale stacked-PR language and state the current-main implementation sequence.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "Bind from current main after the merged #656/#658 prerequisite, add one backward-compatible validated service-convergence policy, separate listener-open from full authenticated readiness, replace fixed operational waits while preserving service-manager ownership and recovery, run focused nonzero proof, then obtain exact-head review and publish the issue PR."
+  }
+}

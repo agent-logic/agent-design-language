@@ -249,6 +249,25 @@ impl LiveContinuity {
         recorder: &RuntimeRecorder,
         deadline: Duration,
     ) -> Result<CheckpointManifest, LiveContinuityError> {
+        self.checkpoint_with_provenance(recorder, deadline, "runtime-v3-live-shutdown")
+            .await
+    }
+
+    pub async fn establish_genesis(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        deadline: Duration,
+    ) -> Result<CheckpointManifest, LiveContinuityError> {
+        self.checkpoint_with_provenance(recorder, deadline, "runtime-v3-live-startup")
+            .await
+    }
+
+    async fn checkpoint_with_provenance(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        deadline: Duration,
+        provenance: &str,
+    ) -> Result<CheckpointManifest, LiveContinuityError> {
         let generation = self.generation.saturating_add(1);
         let runtime = recorder.snapshot();
         let participant = Arc::new(LiveKernelParticipant {
@@ -271,7 +290,7 @@ impl LiveContinuity {
                     generation,
                     previous_integrity: self.last_integrity.clone(),
                     accepted_through: runtime.revision,
-                    provenance: "runtime-v3-live-shutdown".to_owned(),
+                    provenance: provenance.to_owned(),
                     topology_hash: self.snapshot.topology_hash.clone(),
                     config_hash: self.snapshot.config_hash.clone(),
                     migration: MigrationPolicy::Exact,

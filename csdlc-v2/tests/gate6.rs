@@ -57,6 +57,8 @@ fn remote() -> RemotePullRequest {
         draft: intent.draft,
         state: "open".into(),
         head_sha: intent.commit_sha,
+        linked_issue: Some(intent.issue),
+        linkage_source: Some("github_closing_issues_references".into()),
     }
 }
 
@@ -172,6 +174,8 @@ fn remote_part_of_mode_is_retained_and_mixed_linkage_fails_closed() {
     let mut remote = remote();
     remote.linkage_mode = PublicationLinkageMode::PartOf;
     remote.body = intent.body.clone();
+    remote.linked_issue = None;
+    remote.linkage_source = None;
     assert!(validate_remote(&intent, &remote).is_ok());
 
     remote.body = "Part of #5236\n\nCloses #5236".into();

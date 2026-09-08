@@ -1,0 +1,11 @@
+flowchart LR
+  I["Issue 680"] --> D["Design required"]
+flowchart TD
+  issue["#680 Moonshot/Kimi K3 provider"] --> profile["kimi:k3 profile"]
+  issue --> setup["provider setup/help"]
+  issue --> adapter["existing kimi/moonshot hosted adapter"]
+  profile --> model["provider model id: kimi-k3"]
+  setup --> env["MOONSHOT_API_KEY"]
+  setup --> endpoint["https://api.moonshot.ai/v1/chat/completions"]
+  adapter --> tests["offline deterministic provider_moonshot_kimi_k3 tests"]
+  tests --> pr["typed review and PR publication"]

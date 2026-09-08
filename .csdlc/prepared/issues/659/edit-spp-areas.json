@@ -1,0 +1,21 @@
+{
+  "issue": 659,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "be9453a48fc715f4b92ef6bd821b63760329f7354be81c8d5ab8e09c2eb42046",
+  "actor": "codex:659-preparation",
+  "reason": "Include the Runtime-init configuration owner and issue-local focused validator; remove the nonexistent generic init path.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      ".csdlc/prepared/issues/659/validate-runtime-convergence.sh",
+      ".csdlc/issues/659",
+      ".csdlc/prepared/issues/659",
+      ".csdlc/evidence/659"
+    ]
+  }
+}

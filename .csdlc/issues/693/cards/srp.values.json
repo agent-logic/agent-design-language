@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 693,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+    "slug": "runtime-a2a-action-selection-reliability",
+    "version": "v0.92.1",
+    "generation": 35
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/telemetry.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\n.csdlc/evidence/693",
+      "review_revision": "git-blake3:5c4093d690b433fd67fdf42f179ab4952330b93a:652588e92961177c50f914e02375de92768dbe04e03220a8380ac5102dcedc2c",
+      "reviewer": "codex:/root/issue_693_public_a2a_review",
+      "review_prompts": [
+        "Does any path still require exact model-authored JSON?",
+        "Can model prose alone cause dispatch?",
+        "Does the Runtime preserve existing Layer8 admission replay cancellation and correlation authority?",
+        "Does the acceptance enter through production conversation ingress and use non-perfect model output?",
+        "Are A2A results distinct from operator replies and observable?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Behavioral validation used an isolated Ollama-compatible wire fixture rather than the permanent Wuji Runtime or a paid provider.",
+        "External per-agent A2A initiation remains intentionally deferred until a verifiable authority envelope exists."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

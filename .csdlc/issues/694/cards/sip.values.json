@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 694,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][Observatory][bug] Restore complete conversation transcripts from Runtime history",
+    "slug": "runtime-observatory-complete-conversation-history",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make Runtime-owned conversation history the authoritative reload source for complete ordered operator and agent transcripts.",
+      "required_outcome": "An isolated conversation can submit operator text, receive an agent reply, discard client state, and restore both halves exactly once from bounded authorized conversation_history.v1 data.",
+      "declared_scope": [
+        "Runtime conversation_history.v1 production source",
+        "operator outbound and agent reply persistence",
+        "Observatory reload restoration wiring",
+        "authorization redaction pagination replay and deduplication bounds",
+        "isolated end-to-end reload acceptance"
+      ],
+      "authority_boundary": [
+        "Runtime history is transcript authority",
+        "ingress.completed remains completion telemetry rather than the sole history source",
+        "No live Wuji Runtime mutation",
+        "No agent-to-agent redesign",
+        "No tracked edits on main"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2",
+        "Bind a dedicated FastWork worktree",
+        "Test the production history and restoration flow end to end until it passes",
+        "Use isolated fixtures or server state",
+        "Publish non-draft without merging"
+      ]
+    }
+  }
+}

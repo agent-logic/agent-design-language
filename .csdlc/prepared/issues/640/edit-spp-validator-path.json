@@ -1,0 +1,31 @@
+{
+  "issue": 640,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "5feaab5fec804510cfd9636b528abb46e3220aa1e85250153850458531f9b752",
+  "actor": "codex:/root",
+  "reason": "Own the exact issue-specific executable validator path required by the governed validation lanes.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/640/design.md",
+      ".csdlc/prepared/issues/640/diagram.mmd",
+      ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+      ".csdlc/evidence/640"
+    ]
+  }
+}

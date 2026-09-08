@@ -1,0 +1,20 @@
+{
+  "issue": 624,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "199b07206c44d0106a2ca7b571693e560f9da86cdf70f88ff319349add022688",
+  "actor": "codex:624-preparation",
+  "reason": "Declare exact issue-owned validator and output artifacts so doctor can prove the #624 denominator is executable.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+      ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+      ".csdlc/prepared/issues/624/",
+      ".csdlc/issues/624/",
+      ".csdlc/evidence/624/"
+    ]
+  }
+}

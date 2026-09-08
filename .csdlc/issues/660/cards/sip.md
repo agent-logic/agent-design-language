@@ -1,0 +1,48 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 660
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Remove the unintentionally public The Cognitive Stack podcast surface from /podcast/ and keep the current preview available only under /_preview/podcast/ until explicit public launch approval.
+
+## Required Outcome
+
+The public /podcast/ route and related feed/media objects no longer serve current podcast content; the hidden preview route serves the current The Cognitive Stack page with noindex metadata and no public feed or public media links.
+
+## Scope
+
+- demos/_preview/podcast/index.html
+- demos/_preview/podcast/assets/agent-logic-logo.svg
+- .csdlc/prepared/issues/660/delete-public-podcast-prefix.json
+- .csdlc/prepared/issues/660/validate-emergency-rollback.rb
+- .csdlc/evidence/660/emergency-exposure-rollback.json
+- docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md
+
+## Authority
+
+- Issue #660 owns only the emergency public-exposure rollback and hidden-preview correction.
+- Issue #51 remains open until #660 is closed or otherwise dispositioned and the operator separately accepts the still-blocked external provider/public-launch gate.
+- Closed issue #264 is carried forward only as source context; #660 does not perform provider submission.
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use typed C-SDLC v2 lifecycle where possible after the emergency live containment action.
+- Use the dedicated FastWork worktree for tracked edits.
+- Do not write temporary evidence to /private/tmp.
+- Do not retain credentials, verification codes, recovery material, cookies, private provider screenshots, or private account data.
+- Do not mutate podcast provider directories or make external submissions.
+- Do not delete or purge the private podcast archive bucket.
+- Do not purge S3 object versions for the public website bucket during emergency containment.

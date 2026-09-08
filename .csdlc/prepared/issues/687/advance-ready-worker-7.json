@@ -1,0 +1,12 @@
+{
+  "issue": 687,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "3b638289258f450d68bb8137c4ac0749054f0e8d777a53863fca0222217bfd54",
+  "actor": "codex:worker-7",
+  "reason": "advance design-approved initialized issue to ready before typed bind",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

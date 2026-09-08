@@ -1,0 +1,7 @@
+{
+  "issue": 662,
+  "expected_generation": 6,
+  "expected_digest": "af20bf7493bcda9669d2fd6509420552176fb2282c6f499e534e7963b2c5f8de",
+  "actor": "codex:/root:issue-662-exec",
+  "reason": "Recover #662 review truth after recording the post-sender-fix PASS review so a metadata-head review can cover the current branch head before publication."
+}

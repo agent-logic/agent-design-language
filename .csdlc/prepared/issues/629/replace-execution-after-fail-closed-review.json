@@ -1,0 +1,99 @@
+{
+  "issue": 629,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "4258b313be0222552ba516c07e44d1e4cc9abe41b55a412abadde7819c391a22",
+  "actor": "codex:worker-6",
+  "reason": "Correct #629 output truth after exact-head review found stale manifest wording; the routes are implemented only as fail-closed, non-live construction handlers before #505.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented V3-H.3 GitHub, PR-state, review, and publication construction routes under the single non-authoritative csdlc v3 binary, with synthetic publication/readback receipts failing closed before #505.",
+    "changes": [
+      "Implemented #629-owned remote/publication command handlers for github, github-issue, github-pr, pr-state, publish, and review as construction-only v3 routes.",
+      "Kept every #629 route non-authoritative before #505 cutover; no route mutates GitHub, publishes lifecycle authority, finishes, cleans, or replaces typed v2.",
+      "Fail-closed caller-minted review, publication, and GitHub readback evidence by requiring production adapter/typed review authority that does not exist before #505.",
+      "Added route planning that blocks missing review truth, stale reviewed head, missing closing linkage, caller-forged PR readback, missing GitHub readback linkage, self-review, and missing exact review revisions.",
+      "Resolved linked-worktree receipt path handling by resolving Git common-dir receipts and rejecting non-durable or repo-escaping receipt paths.",
+      "Preserved the v3 command manifest truth that #629 routes are fail_closed/not_live before cutover, rather than overclaiming live implementation authority.",
+      "Added focused command-manifest, remote-publication, and real-issue canary tests for the fail-closed construction surface."
+    ],
+    "artifacts": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/629/design.md",
+      ".csdlc/prepared/issues/629/diagram.mmd",
+      ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
+      ".csdlc/issues/629"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml"
+        ],
+        "purpose": "Format the C-SDLC v3 crate after fail-closed route repairs.",
+        "outcome": "passed",
+        "evidence_ref": "local run after aefa67a48 fail-closed repairs"
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--test",
+          "remote_publication_commands",
+          "--test",
+          "real_issue_canary"
+        ],
+        "purpose": "Prove synthetic receipts fail closed and real-issue canaries preserve pre-cutover authority boundaries.",
+        "outcome": "passed",
+        "evidence_ref": "11 passed; 0 failed"
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
+          "all"
+        ],
+        "purpose": "Run the #629 issue-owned validator against the remote/publication construction route surface.",
+        "outcome": "passed",
+        "evidence_ref": "local run after aefa67a48 fail-closed repairs"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "purpose": "Run strict Clippy across csdlc-v3 targets.",
+        "outcome": "passed",
+        "evidence_ref": "local run after aefa67a48 fail-closed repairs"
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Run branch diff hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "no findings"
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 661,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+    "slug": "runtime-shepherd-provider-reply",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Replace the Shepherd synthetic acknowledgement with governed configured-provider execution and focused success/failure proof.",
+      "deliverables": [
+        "Provider-backed Shepherd reply path",
+        "Generated-output success test",
+        "Provider-failure no-fallback test",
+        "Preserved reply schema and correlation"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Fresh Shepherd turn invokes its configured provider exactly once",
+        "AC-2: Non-empty generated content is returned",
+        "AC-3: Recipient, schema, conversation, and work correlation remain correct",
+        "AC-4: Provider failure is explicit and cannot return the acknowledgement",
+        "AC-5: Existing non-Shepherd provider-backed behavior remains valid",
+        "AC-6: Focused tests, hygiene, and exact-head review pass"
+      ],
+      "dependencies": [
+        "Merged issue #640"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#661",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "agent-logic/agent-design-language#640"
+      ],
+      "non_goals": [
+        "Agent-to-agent initiation",
+        "Observatory rendering or attribution",
+        "Provider configuration redesign",
+        "Live Runtime mutation"
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+flowchart LR
+  GCS["Private GCS immutable bundles"] --> PREP["Preparation state: staging VMs + disks"]
+  PREP --> SEAL["Quiesce, sync, unmount, detach"]
+  SEAL --> CAT["Snapshot-catalog state"]
+  CAT --> RS["Versioned Runtime snapshot"]
+  CAT --> MS["Versioned Ollama/model snapshot"]
+  RS --> VERIFY["Temporary restore + content-seal verification"]
+  MS --> VERIFY
+  VERIFY --> LAUNCHABLE["Generation launchable"]
+  LAUNCHABLE --> PREPCLEAN["Destroy preparation state"]
+
+  subgraph LAUNCH["Launch state"]
+    CTRL["Snapshot-launch controller"]
+    RD["Disposable restored Runtime PD"]
+    MD["Disposable restored model PD"]
+    RV["Runtime + Guardian VM"]
+    GV["G2 / L4 Ollama VM"]
+    READY["Full Polis ready receipt"]
+    CLEAN["Destroy VMs + restored disks"]
+    CTRL --> RD
+    CTRL --> MD
+    RD --> RV
+    MD --> GV
+    RV -->|"private Ollama API"| GV
+    RV --> READY
+    GV --> READY
+    READY --> CLEAN
+  end
+
+  RS --> RD
+  MS --> MD
+  LAUNCHABLE --> CTRL
+
+  USER["Operator via OS Login / SSH"] --> RV
+  USER --> GV
+
+  CAT -. "explicit exact-generation retirement" .-> RETIRE["Delete snapshots"]
+  classDef retained fill:#e8f5e9,stroke:#2e7d32
+  class RS,MS retained

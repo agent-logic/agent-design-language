@@ -1,0 +1,255 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 674,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3e719986764c44aa3be5f2960ecc0fb9927833afa70efe587b132f5a3ff03523",
+  "phase": "closed_out",
+  "generation": 8,
+  "digest": "f5f0e4ce8c71c971deb4d39b5087f8c877a7375c16ac033b64fc7012f04cc059",
+  "branch": "codex/674-welcome-package-docs",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package",
+  "review_assignment": {
+    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+    "scope": [
+      "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+      ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+    ],
+    "reviewed_revision": "git-blake3:dcd381bf9f9c8ce4e855401833c3ceeaa76f6314:e532734eecaf7cfd303140a0acb2c186a9cd3bd06ba64ceedf14ed07b1eb8ca2",
+    "findings": [],
+    "residual_risks": [
+      "This documentation does not prove live delivery or Runtime behavior and may require revision if the governed contracts change."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 674,
+    "pull_request": 681,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/681",
+    "base": "main",
+    "head": "codex/674-welcome-package-docs",
+    "revision": "git-blake3:98949523a917d68b9ff8f5c0a27db218ba4984a7:04e67ac9bcff90267cbf64025aacbc2f518da188abe684e7a68e0f03bcc6dce6",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 681,
+    "disposition": "merged",
+    "observed_sha": "2ba92e600b061c05f99403410c18dcc904fee0a2",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/674.json",
+    "branch": "codex/674-welcome-package-docs",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/674/design.md",
+  "diagram_path": ".csdlc/prepared/issues/674/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "revision": "f023d034a3e65718f81897b43967afad4ad0300936d8a79350f63fb675e83a92"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ca0229fa83859db43f6444cfaaf5d13b1db4e50a53bfcdbba4518924efdb62b6",
+      "rendered_digest": "1aebc584354c0ee60d8599bd7abc775a5d68bc04430b573cc9433bccd7f7191a",
+      "ast_digest": "672fa64f2ff8040019066e4431fab1f14841a388139b3307d0b99eb588565b05"
+    },
+    "stp": {
+      "values_digest": "fdc6b29875c0afbc722f33d0990da5e76430b6a43a57570f6686e0e78f8492f2",
+      "rendered_digest": "6312895eb13c3651abaf81b7a362222bbc9aa0525cef6585bf564af79296b79e",
+      "ast_digest": "5628503bbba86f1e784cfe69353934d1308d2d069aa9fec7f08235dbf8c436d2"
+    },
+    "spp": {
+      "values_digest": "924d6acfb1c22ecabbd4c72510021f16eea6650d9973a51049be982f37711904",
+      "rendered_digest": "13874d03bdd4d1e273e89960502d36640dac69daa90a9f0052192783eea0e770",
+      "ast_digest": "5a89a39428b3c87af6dae0cf31700823eeb24fce5c4150d879b45a82ea352c43"
+    },
+    "vpp": {
+      "values_digest": "cc75e8fa45a4d7bc15ea413c668629d9f8626860f09fa0eb6a67d6aaf2c74082",
+      "rendered_digest": "2f70b3d678181a6a90b3afadf18d75801c58437876fd1ddb38bcedabdfa96030",
+      "ast_digest": "b99f890269fc3fbc6243b1ab021298aa8ac4381e730c16e575043ae939722a8a"
+    },
+    "srp": {
+      "values_digest": "a416ebcadee860f406c6fe20f824445e159e0e330abe49dd91a28dea378d3b8e",
+      "rendered_digest": "af765df8811457d9b988863144e742139b1af44d2175caf3045e28d570f6f8a1",
+      "ast_digest": "24f2462c24638b8824d13f32f54d619d93143b0b220414958a18c07bae9e9be9"
+    },
+    "sor": {
+      "values_digest": "33f6e423f0736e4477d35e0f576c80423db31a34c1db17d112a5309d8abe806f",
+      "rendered_digest": "a3f6cd142295638677d5ca6dcc2705340d7aa51e0443fea8db2ee2d5d2c0a77d",
+      "ast_digest": "ecd749367190a5d45b4e1a891ab5aa0dd47601f740b46d385c2c41f54f44e1ce"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 9,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 10,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #674 from retained derived terminal PR #681."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f023d034a3e65718f81897b43967afad4ad0300936d8a79350f63fb675e83a92\",\"design_ref\":\".csdlc/prepared/issues/674/design.md\",\"diagram_digest\":\"600ab04e631c91e18ff47616f5f1342ab94f4073e5318dcdf2c02118b02dbb50\",\"diagram_ref\":\".csdlc/prepared/issues/674/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #674 from retained derived terminal PR #681.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

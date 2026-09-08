@@ -1,0 +1,12 @@
+{
+  "issue": 689,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "830940638dbbec27e2b0a5913d8b08e68c1e73803b7a173a25a013fe7ed3e851",
+  "actor": "codex:/root",
+  "reason": "advance reviewed executable design after doctor reported ready",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

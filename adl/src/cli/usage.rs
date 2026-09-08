@@ -146,6 +146,7 @@ Examples:
   adl provider setup chatgpt
   adl provider setup claude
   adl provider setup claude-opus-5
+  adl provider setup kimi
   adl provider setup openrouter
   adl provider setup bedrock
   adl provider setup z_ai

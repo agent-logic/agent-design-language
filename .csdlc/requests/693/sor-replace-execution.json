@@ -1,0 +1,105 @@
+{
+  "actor": "codex:/root/issue-693",
+  "card": "sor",
+  "expected_digest": "73991ee2c000db52f3cd7b4e35f916da904e87369da700f5d7ea79ec6bcbadde",
+  "expected_generation": 3,
+  "issue": 693,
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented Runtime-owned first-class A2A action selection for model-backed conversation ingress. Ollama-style provider chat responses now expose a provider-native initiate_agent tool channel that Runtime normalizes into the existing governed A2A initiation intent. Free-form prose remains an operator reply and cannot authorize dispatch. Legacy explicit action envelopes remain accepted through the same validation boundary.",
+    "changes": [
+      "adl-runtime-kernel/src/assembly.rs: routed initial operator-to-agent provider conversations through a typed ProviderConversationOutput while preserving existing provider-model execution for initiated peer work.",
+      "adl-runtime-kernel/src/assembly.rs: changed the model prompt from brittle exact JSON emission to a first-class initiate_agent tool contract and retained legacy JSON envelope compatibility.",
+      "adl-runtime-kernel/src/control.rs: added provider conversation output/action structs plus Ollama /api/chat tool-call invocation and fail-closed normalization.",
+      "adl-runtime-kernel/src/control.rs: added a production-ingress live-style local HTTP fixture proving Beacon selects A2A through provider-native tool output and Ember executes through the governed recipient provider route.",
+      "adl-runtime-kernel/src/control.rs: added coverage for ordinary prose as non-action, provider-native action projection, ambiguous/unknown tool-call rejection, replay/conflict/failure semantics, and runtime-internal all-resident-pair A2A."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/evidence/693/local-validation.md"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+          "provider_conversation",
+          "--",
+          "--nocapture"
+        ],
+        "evidence_ref": ".csdlc/evidence/693/local-validation.md",
+        "outcome": "passed",
+        "purpose": "Provider conversation normalization lane proving native tool-call selection, JSON-object and JSON-encoded arguments, prose non-action, ambiguous tool rejection, and legacy envelope compatibility."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+          "agent_to_agent_model_action_from_conversation_delivers_peer_response",
+          "--",
+          "--nocapture"
+        ],
+        "evidence_ref": ".csdlc/evidence/693/local-validation.md",
+        "outcome": "passed",
+        "purpose": "Production conversation ingress proof for Beacon selecting A2A through local Ollama-style /api/chat tool output, Runtime-governed dispatch, Ember provider execution, and correlated A2A activity."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+          "agent_to_agent_initiation",
+          "--",
+          "--nocapture"
+        ],
+        "evidence_ref": ".csdlc/evidence/693/local-validation.md",
+        "outcome": "passed",
+        "purpose": "Existing #662 governed A2A primitive compatibility lane covering configured provider work/activity, replay/conflict, and terminal missing/stale-recipient failures."
+      },
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "--manifest-path",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+          "--check"
+        ],
+        "evidence_ref": ".csdlc/evidence/693/local-validation.md",
+        "outcome": "passed",
+        "purpose": "Rust formatting hygiene for the touched runtime crate."
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--manifest-path",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-action-selection-reliability/adl-runtime-kernel/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "evidence_ref": ".csdlc/evidence/693/local-validation.md",
+        "outcome": "passed",
+        "purpose": "Strict lint check for the touched runtime crate and tests."
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "evidence_ref": ".csdlc/evidence/693/local-validation.md",
+        "outcome": "passed",
+        "purpose": "Whitespace and diff hygiene."
+      }
+    ]
+  },
+  "reason": "Record observed #693 implementation and local validation truth before pre-PR review/publication."
+}

@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "expected_generation": 35,
+  "expected_digest": "ce6ac981854fd6f7835873386967739c08bf689144c78951eb4bff0eb74af820",
+  "actor": "codex:issue-708-runtime-orientation",
+  "reason": "Clear stale review after the CI-race repair review metadata tail so #708 can record a current-head review before republishing PR #709."
+}

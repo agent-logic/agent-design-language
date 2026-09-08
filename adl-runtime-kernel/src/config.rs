@@ -8,8 +8,8 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 use crate::{
-    candidate_digest, BirthWitnessAttestation, BirthWitnessError, BirthWitnessPacket,
-    BirthWitnessRole, BirthdayCandidate, BirthdayDecision, ComponentId,
+    candidate_digest, AgentOrientationConfig, BirthWitnessAttestation, BirthWitnessError,
+    BirthWitnessPacket, BirthWitnessRole, BirthdayCandidate, BirthdayDecision, ComponentId,
     RuntimeBirthWitnessAuthority, RuntimeBirthWitnessService, VerifiedBirthWitnessBinding,
 };
 
@@ -369,16 +369,22 @@ pub struct RuntimeInitConfig {
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
     pub polis: PolisInitConfig,
-    pub resident_shepherd: ResidentShepherdInitConfig,
+    pub resident_shepherd: ResidentShepherdSetInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     #[serde(default)]
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
     pub credentials: RuntimeCredentialInitConfig,
     pub shutdown: RuntimeShutdownInitConfig,
+    #[serde(default)]
+    pub service_convergence: RuntimeServiceConvergenceInitConfig,
     pub guardian: RuntimeGuardianInitConfig,
     pub qualification: RuntimeQualificationInitConfig,
     pub observatory: ObservatoryInitConfig,
     pub observability_pipeline: RuntimeObservabilityInitConfig,
+    #[serde(default)]
+    pub agent_partial_checkpoints: AgentPartialCheckpointInitConfig,
+    #[serde(default)]
+    pub agent_orientation: AgentOrientationConfig,
     pub weather: WeatherConfig,
 }
 
@@ -455,6 +461,7 @@ impl RuntimeInitConfig {
         }
         self.polis.validate(public_host)?;
         self.resident_shepherd.validate()?;
+        self.service_convergence.validate()?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -602,6 +609,10 @@ impl RuntimeInitConfig {
             ));
         }
         self.observability_pipeline.validate()?;
+        self.agent_partial_checkpoints.validate()?;
+        self.agent_orientation
+            .validate()
+            .map_err(|error| RuntimeInitError::Policy(error.to_string()))?;
         self.weather
             .validate()
             .map_err(|error| RuntimeInitError::Weather(error.to_string()))?;
@@ -656,6 +667,10 @@ impl RuntimeInitConfig {
 
     pub fn continuity_identity_projection(&self) -> Result<serde_json::Value, serde_json::Error> {
         let mut value = serde_json::to_value(self)?;
+        if let Some(runtime) = value.as_object_mut() {
+            runtime.remove("service_convergence");
+            runtime.remove("agent_partial_checkpoints");
+        }
         if let Some(credentials) = value
             .get_mut("credentials")
             .and_then(serde_json::Value::as_object_mut)
@@ -678,7 +693,190 @@ impl RuntimeInitConfig {
                 serde_json::Value::Array(Vec::new()),
             );
         }
+        if let Some(resident_shepherd) = value.get_mut("resident_shepherd") {
+            match resident_shepherd {
+                serde_json::Value::Object(shepherd) => {
+                    shepherd.remove("display_name");
+                }
+                serde_json::Value::Array(shepherds) => {
+                    for shepherd in shepherds {
+                        if let Some(shepherd) = shepherd.as_object_mut() {
+                            shepherd.remove("display_name");
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
         Ok(value)
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct AgentPartialCheckpointInitConfig {
+    pub enabled: bool,
+    pub interval_seconds: u64,
+    pub snapshot_concurrency: usize,
+    pub max_partial_bytes: u64,
+    pub local_max_bytes: u64,
+    pub local_max_files: usize,
+    pub retained_partials_per_agent: usize,
+    pub spool_max_bytes: u64,
+    pub spool_max_files: usize,
+    pub s3_archive: Option<AgentPartialS3ArchiveInitConfig>,
+}
+
+impl Default for AgentPartialCheckpointInitConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            interval_seconds: 300,
+            snapshot_concurrency: 4,
+            max_partial_bytes: 16 * 1024 * 1024,
+            local_max_bytes: 2 * 1024 * 1024 * 1024,
+            local_max_files: 8_192,
+            retained_partials_per_agent: 12,
+            spool_max_bytes: 512 * 1024 * 1024,
+            spool_max_files: 4_096,
+            s3_archive: None,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct AgentPartialS3ArchiveInitConfig {
+    pub region: String,
+    pub bucket: String,
+    pub kms_key_arn: String,
+    #[serde(default)]
+    pub restore_profile: Option<String>,
+}
+
+impl AgentPartialCheckpointInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        if !(60..=86_400).contains(&self.interval_seconds) {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints.interval_seconds must be between 60 and 86400"
+                    .to_owned(),
+            ));
+        }
+        if self.snapshot_concurrency == 0 || self.snapshot_concurrency > 64 {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints.snapshot_concurrency must be between 1 and 64"
+                    .to_owned(),
+            ));
+        }
+        if self.max_partial_bytes == 0
+            || self.max_partial_bytes > 16 * 1024 * 1024
+            || self.local_max_bytes < self.max_partial_bytes
+            || self.local_max_bytes > 2 * 1024 * 1024 * 1024
+            || self.local_max_files == 0
+            || self.local_max_files > 8_192
+            || self.retained_partials_per_agent == 0
+            || self.retained_partials_per_agent > 12
+            || self.spool_max_bytes < self.max_partial_bytes
+            || self.spool_max_bytes > 512 * 1024 * 1024
+            || self.spool_max_files == 0
+            || self.spool_max_files > 4_096
+        {
+            return Err(RuntimeInitError::Policy(
+                "agent_partial_checkpoints storage bounds exceed the governed limits".to_owned(),
+            ));
+        }
+        if let Some(archive) = &self.s3_archive {
+            validate_s3_bucket_name(
+                "agent_partial_checkpoints.s3_archive.bucket",
+                &archive.bucket,
+            )?;
+            validate_non_empty_trimmed(
+                "agent_partial_checkpoints.s3_archive.region",
+                &archive.region,
+            )?;
+            if let Some(profile) = &archive.restore_profile {
+                validate_non_empty_trimmed(
+                    "agent_partial_checkpoints.s3_archive.restore_profile",
+                    profile,
+                )?;
+                if !profile
+                    .bytes()
+                    .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.'))
+                {
+                    return Err(RuntimeInitError::Policy(
+                        "agent_partial_checkpoints S3 restore profile is invalid".to_owned(),
+                    ));
+                }
+            }
+            validate_non_empty_trimmed(
+                "agent_partial_checkpoints.s3_archive.kms_key_arn",
+                &archive.kms_key_arn,
+            )?;
+            if !archive
+                .region
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+                || !archive.kms_key_arn.starts_with("arn:")
+            {
+                return Err(RuntimeInitError::Policy(
+                    "agent_partial_checkpoints S3 region or KMS key ARN is invalid".to_owned(),
+                ));
+            }
+        }
+        Ok(())
+    }
+}
+
+pub const MIN_SERVICE_CONVERGENCE_MILLIS: u64 = 1_000;
+pub const MAX_SERVICE_CONVERGENCE_MILLIS: u64 = 3_600_000;
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct RuntimeServiceConvergenceInitConfig {
+    pub stop_timeout_millis: u64,
+    pub unload_timeout_millis: u64,
+    pub listener_timeout_millis: u64,
+    pub readiness_timeout_millis: u64,
+}
+
+impl Default for RuntimeServiceConvergenceInitConfig {
+    fn default() -> Self {
+        Self {
+            stop_timeout_millis: 300_000,
+            unload_timeout_millis: 300_000,
+            listener_timeout_millis: 300_000,
+            readiness_timeout_millis: 900_000,
+        }
+    }
+}
+
+impl RuntimeServiceConvergenceInitConfig {
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        for (field, value) in [
+            (
+                "service_convergence.stop_timeout_millis",
+                self.stop_timeout_millis,
+            ),
+            (
+                "service_convergence.unload_timeout_millis",
+                self.unload_timeout_millis,
+            ),
+            (
+                "service_convergence.listener_timeout_millis",
+                self.listener_timeout_millis,
+            ),
+            (
+                "service_convergence.readiness_timeout_millis",
+                self.readiness_timeout_millis,
+            ),
+        ] {
+            if !(MIN_SERVICE_CONVERGENCE_MILLIS..=MAX_SERVICE_CONVERGENCE_MILLIS).contains(&value) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "{field} must be between {MIN_SERVICE_CONVERGENCE_MILLIS} and {MAX_SERVICE_CONVERGENCE_MILLIS}"
+                )));
+            }
+        }
+        Ok(())
     }
 }
 
@@ -1149,6 +1347,100 @@ pub struct ResidentShepherdInitConfig {
     pub name: String,
     pub display_name: String,
     pub office: String,
+    pub provider: String,
+    pub model: String,
+    pub endpoint: String,
+    #[serde(default)]
+    pub preload: ResidentShepherdPreloadConfig,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ResidentShepherdSetInitConfig {
+    One(ResidentShepherdInitConfig),
+    Many(Vec<ResidentShepherdInitConfig>),
+}
+
+impl ResidentShepherdSetInitConfig {
+    pub fn iter(&self) -> std::slice::Iter<'_, ResidentShepherdInitConfig> {
+        match self {
+            Self::One(config) => std::slice::from_ref(config).iter(),
+            Self::Many(configs) => configs.iter(),
+        }
+    }
+
+    pub fn primary(&self) -> &ResidentShepherdInitConfig {
+        self.iter()
+            .next()
+            .expect("validated Shepherd set is non-empty")
+    }
+
+    fn validate(&self) -> Result<(), RuntimeInitError> {
+        let configs = self.iter().collect::<Vec<_>>();
+        if configs.is_empty() {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd must contain at least one configured Shepherd".to_owned(),
+            ));
+        }
+        let mut names = std::collections::BTreeSet::new();
+        let mut ids = std::collections::BTreeSet::new();
+        for config in configs {
+            config.validate()?;
+            if !names.insert(config.name.as_str()) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "duplicate resident_shepherd.name: {}",
+                    config.name
+                )));
+            }
+            let id = config
+                .name
+                .split_once('.')
+                .map_or(config.name.as_str(), |(id, _)| id);
+            if !ids.insert(id) {
+                return Err(RuntimeInitError::Policy(format!(
+                    "resident agent identity collision for configured name: {id}"
+                )));
+            }
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentShepherdPreloadConfig {
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+    #[serde(default = "default_shepherd_preload_timeout_millis")]
+    pub timeout_millis: u64,
+    #[serde(default = "default_shepherd_retry_initial_millis")]
+    pub retry_initial_millis: u64,
+    #[serde(default = "default_shepherd_retry_max_millis")]
+    pub retry_max_millis: u64,
+}
+
+impl Default for ResidentShepherdPreloadConfig {
+    fn default() -> Self {
+        Self {
+            enabled: true,
+            timeout_millis: default_shepherd_preload_timeout_millis(),
+            retry_initial_millis: default_shepherd_retry_initial_millis(),
+            retry_max_millis: default_shepherd_retry_max_millis(),
+        }
+    }
+}
+
+const fn default_true() -> bool {
+    true
+}
+const fn default_shepherd_preload_timeout_millis() -> u64 {
+    15 * 60 * 1_000
+}
+const fn default_shepherd_retry_initial_millis() -> u64 {
+    5_000
+}
+const fn default_shepherd_retry_max_millis() -> u64 {
+    60_000
 }
 
 impl ResidentShepherdInitConfig {
@@ -1160,6 +1452,39 @@ impl ResidentShepherdInitConfig {
         }
         validate_non_empty_trimmed("resident_shepherd.display_name", &self.display_name)?;
         validate_non_empty_trimmed("resident_shepherd.office", &self.office)?;
+        validate_non_empty_trimmed("resident_shepherd.provider", &self.provider)?;
+        validate_non_empty_trimmed("resident_shepherd.model", &self.model)?;
+        validate_non_empty_trimmed("resident_shepherd.endpoint", &self.endpoint)?;
+        if self.provider.len() > 64
+            || !self
+                .provider
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+        {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd.provider must be a lowercase provider identifier".to_owned(),
+            ));
+        }
+        if !crate::resident_shepherd_provider_is_available(&self.provider) {
+            return Err(RuntimeInitError::Policy(format!(
+                "resident_shepherd.provider '{}' has no executable adapter in this Runtime build",
+                self.provider
+            )));
+        }
+        if crate::control::validate_private_provider_binding(&self.model, &self.endpoint).is_err() {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd model and endpoint must form a valid private provider binding"
+                    .to_owned(),
+            ));
+        }
+        if self.preload.timeout_millis < 60_000
+            || self.preload.retry_initial_millis == 0
+            || self.preload.retry_max_millis < self.preload.retry_initial_millis
+        {
+            return Err(RuntimeInitError::Policy(
+                "resident_shepherd preload and retry budgets are invalid".to_owned(),
+            ));
+        }
         Ok(())
     }
 }

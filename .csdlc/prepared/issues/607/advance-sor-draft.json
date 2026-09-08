@@ -1,0 +1,9 @@
+{
+  "actor": "codex-primary-issue607",
+  "card": "sor",
+  "expected_digest": "1b1585c364a933bb7e6b57a75b22d1e255440e16f443bd0bbf3a09114593b41d",
+  "expected_generation": 10,
+  "issue": 607,
+  "operation": {"operation": "advance_status", "status": "draft"},
+  "reason": "Implementation and local validation are recorded; paid AWS evidence, review, publication, and merge remain pending."
+}

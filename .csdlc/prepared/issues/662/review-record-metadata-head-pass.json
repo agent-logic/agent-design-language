@@ -1,0 +1,42 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 662,
+  "expected_generation": 7,
+  "expected_digest": "d49a9ee69b411ed29cfd2133e6f564f739839cb400592b7c107e22ef42d6c0f8",
+  "claim_id": "claim-662-agent-to-agent-initiation-metadata-head",
+  "actor": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+  "evidence": {
+    "reviewer": "fresh-session:review-662-agent-to-agent-initiation-metadata-head",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      ".csdlc/prepared/issues/662/design.md",
+      ".csdlc/prepared/issues/662/diagram.mmd",
+      ".csdlc/prepared/issues/662/bind.json",
+      ".csdlc/prepared/issues/662/finalize-implementation.json",
+      ".csdlc/prepared/issues/662/validate-focused.sh",
+      ".csdlc/evidence/662"
+    ],
+    "reviewed_revision": "git-blake3:32c472032f50c4e5283036dfde6e0130d8319e66:e9b91029b83a0b48606032c1301353e1aba3fa68812e983aa6ffbcc38f221d98",
+    "findings": [],
+    "residual_risks": [
+      "The metadata-head reviewer also inspected branch HEAD b3335a276a6a520f857afcca87f718d9ed37a3d4 and verified that changes after code commit 024afcd521b984f4b780ead4803507ea95a3938a are confined to typed C-SDLC metadata.",
+      "No live Runtime mutation, provider call, AWS action, paid runner, GitHub mutation, publication, merge, finish, or cleanup was performed during metadata-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:32c472032f50c4e5283036dfde6e0130d8319e66:e9b91029b83a0b48606032c1301353e1aba3fa68812e983aa6ffbcc38f221d98",
+      "to_revision": "git-blake3:b3335a276a6a520f857afcca87f718d9ed37a3d4:99fb45e2afe8450404501665434d710fbf8337a5d05add6b6362077810f0e837",
+      "from_commit": "32c472032f50c4e5283036dfde6e0130d8319e66",
+      "to_commit": "b3335a276a6a520f857afcca87f718d9ed37a3d4",
+      "changed_paths": [
+        ".csdlc/issues/662/audit.jsonl",
+        ".csdlc/issues/662/cards/srp.md",
+        ".csdlc/issues/662/cards/srp.values.json",
+        ".csdlc/issues/662/index.json",
+        ".csdlc/prepared/issues/662/review-assign-pre-pr.json"
+      ]
+    }
+  }
+}

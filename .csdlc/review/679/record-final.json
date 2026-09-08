@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 679,
+  "expected_generation": 14,
+  "expected_digest": "f5411c0990eab23cb57373a5371c6a1f7dd92aa808aaca38b99cf5b75a736516",
+  "actor": "codex:issue-679-review",
+  "evidence": {
+    "reviewer": "codex:issue-679-review",
+    "scope": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+      ".csdlc/evidence/679"
+    ],
+    "reviewed_revision": "git-blake3:9c3b4e4ae568a1f1ff083c0e07b9fadb6606bd64:ad4bf6a6e04a8a47895b8e9888dd7155f962634d4d3f873d6ca0f58b5f3bf1ac",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS plan, apply, and readback remain deferred pending explicit operator authorization."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

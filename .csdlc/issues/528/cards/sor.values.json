@@ -7,9 +7,9 @@
     "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
     "slug": "vertex-ai-gemini-provider-transport",
     "version": "v0.92.1",
-    "generation": 29
+    "generation": 30
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -260,10 +260,10 @@
           "evidence_ref": ".csdlc/evidence/528/diff-hygiene-r3-fix.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

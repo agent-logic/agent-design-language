@@ -1,0 +1,104 @@
+{
+  "issue": 665,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "eb92e13208f771125b021805e89d9fb8fa957784d1c1e6edc225f6f7b6a087a5",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Record #665 pre-PR review finding repairs and refreshed validation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Repaired pre-PR review findings for #665. Adoption now requires an exact expected repository matching the issue authority, successful adoption writes durable `.csdlc/issues/<issue>/adoption.v1.json` evidence with resulting generation and digest, and gate5 proves an adopted emergency worktree can continue through typed execution, implemented state, exact review recording, and publication-review readiness evaluation without bypassing ordinary gates.",
+    "changes": [
+      "Added `expected_repository` to `BindRequest` and fail-closed validation against the ready issue record repository.",
+      "Changed successful adoption result evidence from an audit-only reference to `.csdlc/issues/<issue>/adoption.v1.json` and added `resulting_digest` to `BindResult`.",
+      "Recorded adoption evidence with expected repository, observed HEAD, resulting lifecycle generation, and resulting lifecycle digest.",
+      "Expanded focused gate5 adoption coverage with wrong-repository rejection and downstream implemented/reviewed/publication-review readiness proof for adopted worktrees.",
+      "Updated emergency adoption operator documentation to describe the expected repository and durable adoption evidence contract."
+    ],
+    "artifacts": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate4.rs",
+      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "docs/tooling/EMERGENCY_BRANCH_ADOPTION.md",
+      ".csdlc/prepared/issues/665/record-review-finding-repairs.json"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "gate5",
+          "emergency_branch_adoption"
+        ],
+        "purpose": "Prove the emergency adoption path, wrong-repository rejection, stale/dirty/implicit-adoption rejection, ordinary bind preservation, durable adoption evidence, and downstream implemented/reviewed/publication-review readiness flow.",
+        "outcome": "passed",
+        "evidence_ref": "Local focused gate5 run at ca1238334 passed: 6 passed, 0 failed."
+      },
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--no-run"
+        ],
+        "purpose": "Compile all C-SDLC v2 test targets after extending public bind request/result structs.",
+        "outcome": "passed",
+        "evidence_ref": "Local C-SDLC v2 no-run compile completed successfully at ca1238334."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh"
+        ],
+        "purpose": "Prove the issue-owned scope validator still accepts the adoption surface.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned scope validator exited zero."
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+        ],
+        "purpose": "Prove the operator adoption documentation still names the fail-closed sequence.",
+        "outcome": "passed",
+        "evidence_ref": "Local issue-owned docs validator exited zero."
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "purpose": "Prove whitespace and conflict-marker hygiene for the exact branch diff.",
+        "outcome": "passed",
+        "evidence_ref": "Local diff hygiene exited zero."
+      },
+      {
+        "command": [
+          ".adl/bin/csdlc-v2/csdlc-install",
+          "verify",
+          "--repo",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect",
+          "--bin-dir",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect/.adl/bin/csdlc-v2",
+          "--inventory",
+          "/Volumes/FastWork/adl-worktrees/adl-issue-665-emergency-branch-adoption-defect/csdlc-v2/operator/coexistence.json"
+        ],
+        "purpose": "Prove repo-local C-SDLC v2 owner binaries are installed and v1 command surfaces remain absent.",
+        "outcome": "passed",
+        "evidence_ref": "coexistence_report.v2 pass=true with default_generation=v2 and no missing v2 binaries."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

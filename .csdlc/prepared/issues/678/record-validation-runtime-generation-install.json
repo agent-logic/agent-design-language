@@ -1,0 +1,20 @@
+{
+  "issue": 678,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "ddf0ab15b075c88f2b4d7d8d32b845edb8a559217e00d697102b9540bfbd17b0",
+  "actor": "codex:678-validation",
+  "reason": "Record #678 validation: Runtime v3 generation installer stable CSM route fixture.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/678/validate-stable-csm-route.sh"
+      ],
+      "purpose": "Runtime v3 generation installer stable CSM route fixture",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/678/runtime-v3-generation-install.log; runtime v3 generation installer: PASS"
+    }
+  }
+}

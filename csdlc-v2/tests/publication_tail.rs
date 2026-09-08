@@ -427,6 +427,8 @@ fn remote_pr(issue: u64, title: &str) -> RemotePullRequest {
         draft: false,
         state: "open".into(),
         head_sha: "fixture".into(),
+        linked_issue: Some(issue),
+        linkage_source: Some("github_closing_issues_references".into()),
     }
 }
 

@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 659,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 12,
+  "expected_digest": "ede477958cd3d678138d53ada2bb8d803c6256ca1723fb5b86c6817e5451bafe",
+  "actor": "codex:/root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/659-runtime-configurable-convergence",
+  "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+  "body": "Closes #659\n\nReplaces brittle fixed Runtime v3 service-control waits with validated, backward-compatible convergence policy. Defaults are deliberately generous: five minutes for stop, unload, and listener availability, and fifteen minutes for authenticated Runtime readiness, with validated one-second to one-hour bounds.\n\nListener availability and full owned `/v1/ready` convergence are distinct stages. Stop and interrupted-reload recovery share one end-to-end deadline across service-manager identity, command, and polling work; actual expiry reports the exact stage while preserving genuine command and state diagnostics. Candidate timeout rollback restores and restarts the last-known-good configuration.\n\nFocused proof passed without restarting the live Runtime: configuration 3/3, service convergence 8/8, strict Clippy, issue contract validation, and diff hygiene. Independent exact-revision review passed with no P0-P3 findings.",
+  "draft": false,
+  "token_file": null
+}

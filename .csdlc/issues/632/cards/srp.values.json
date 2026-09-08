@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 632,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
+    "slug": "v3-h6-real-canaries-docs-readiness",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/prepared/issues/632/design.md\n.csdlc/prepared/issues/632/diagram.mmd\n.csdlc/prepared/issues/632/bootstrap.json\n.csdlc/prepared/issues/632/command-route-coverage.json\n.csdlc/prepared/issues/632/canary-evidence-index.md\n.csdlc/prepared/issues/632/finalize-implementation.json\n.csdlc/prepared/issues/632/replace-execution-after-review-fixes.json\n.csdlc/prepared/issues/632/replace-execution-current-command-surface.json\n.csdlc/prepared/issues/632/recover-review-after-main-merge.json\n.csdlc/prepared/issues/632/validate-v3-canary-readiness.sh\n.csdlc/prepared/issues/632/validate-v3-guidance.sh\n.csdlc/prepared/issues/632/validate-sprint-review-readiness.sh\ndocs/csdlc-v3/CUTOVER_READINESS_NOTICE.md\ncsdlc-v3/README.md\ndocs/architecture/ADL_ARCHITECTURE.md\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/full-replacement-denominator.json",
+      "review_revision": "git-blake3:fd786459ea83c426f45356126836281ebbaf0519:543349d5c6b04d537bf5409baf158bb13f294bbc43ec42932e5e51c8709049a5",
+      "reviewer": "subagent:/root/review_632_after_main_merge_fd786459",
+      "review_prompts": [
+        "Does the coverage matrix account for every v3 command-equivalent route without hidden v2 fallback?",
+        "Do docs and skills warn operators before cutover while avoiding premature v3 authority claims?",
+        "Are canary defects fixed or clearly owned as cutover blockers/follow-ons?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "C-SDLC v3 remains construction/canary evidence only until explicit V3-F/#505 cutover; v2 remains live lifecycle authority before that cutover.",
+        "Merge readiness still depends on the exact live PR #647 checks finishing successfully after the final branch push.",
+        "#505 must consume current #627-#632 dependency evidence through its own exact-head review, publication, operator approval, and terminal reconciliation before cutover."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

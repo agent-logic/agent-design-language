@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 679,
+  "expected_generation": 12,
+  "expected_digest": "0b5ffc2626590484712ad68bedabdccaf12ded6ffb8cc032494d7a058997ed43",
+  "actor": "codex:issue-679-review",
+  "evidence": {
+    "reviewer": "codex:issue-679-review",
+    "scope": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+      ".csdlc/evidence/679"
+    ],
+    "reviewed_revision": "git-blake3:fac8cf1fb39ba7b561cf35203b452cba90caf6cc:b284085b255bc0f65b42eb0e749ee2b86370ad9693da1e3e69da5c2aab261405",
+    "findings": [],
+    "residual_risks": [
+      "Terraform and readback behavior were validated locally only; live AWS plan, apply, and readback remain deferred pending explicit operator authorization."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

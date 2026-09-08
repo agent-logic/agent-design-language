@@ -1,0 +1,14 @@
+flowchart TD
+  C[Parse and validate service_convergence before mutation]
+  C --> S[Service-manager-owned stop or reload]
+  S --> T[Stop convergence<br/>default 5 min]
+  T --> U[Unload convergence<br/>default 5 min]
+  U --> B[Install candidate and ask service manager to start]
+  B --> L[TCP listener-open convergence<br/>default 5 min]
+  L --> R[Authenticated full readiness convergence<br/>default 15 min]
+  R --> K[Commit candidate and retain service-manager ownership]
+  T -->|deadline| E[Exact unfinished stage and deadline<br/>recoverable state retained]
+  U -->|deadline| E
+  L -->|deadline| E
+  R -->|deadline| E
+  C -->|outside 1 sec to 1 hour| V[Reject before service mutation]

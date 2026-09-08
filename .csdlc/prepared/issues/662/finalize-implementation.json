@@ -1,0 +1,161 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 662,
+  "expected_generation": 4,
+  "expected_digest": "bd3d989d0648f4376c9ed67f4b91412c59afd38d25e07e531b1f010a7800721a",
+  "actor": "codex:/root:issue-662-exec",
+  "summary": "Implemented governed agent-to-agent initiation for Runtime Observatory WSS so Beacon Axioma can initiate a bounded turn to Ember Axioma through the existing governed conversation ingress.",
+  "changes": [
+    "Added a versioned Observatory agent-initiation intent schema with authenticated WSS handling, sender and recipient identity validation, sender authorization, recipient eligibility checks, and sender-not-recipient fencing.",
+    "Routed accepted initiations through the existing conversation session, replay, cancellation, and canonical ingress machinery while preserving the initiated work id instead of synthesizing ordinary conversation work.",
+    "Extended recipient dispatch payloads and conversation results with sender_id and initiated_work_id so configured provider execution and terminal truth remain attributable.",
+    "Emitted a correlated agent_to_agent_initiated runtime event for successful governed initiations and exposed it through the existing Observatory event feed.",
+    "Added deterministic Runtime kernel tests for delivery through the configured recipient provider, exact replay, conflict detection, unauthorized sender refusal, stale recipient refusal, cancellation, and provider failure."
+  ],
+  "artifacts": [
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    ".csdlc/prepared/issues/662/validate-focused.sh",
+    ".csdlc/prepared/issues/662/finalize-implementation.json",
+    ".csdlc/issues/662"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "runtime-agent-to-agent-initiation",
+          "proof_role": "Issue-owned governed agent-to-agent initiation proof",
+          "purpose": "Run the issue-owned focused validator for successful Beacon-to-Ember initiation, configured provider dispatch, authoritative activity, exact replay, conflicts, cancellation, stale recipient, unauthorized sender, and provider failure.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 2048,
+            "tokens": 4000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "runtime-agent-initiation",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": ".csdlc/prepared/issues/662/validate-focused.sh",
+          "argv": [],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "runtime-kernel-fmt",
+          "proof_role": "Runtime kernel formatting guard",
+          "purpose": "Reject Rust formatting drift in the changed Runtime kernel crate.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "static",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "cargo",
+          "argv": [
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--check"
+          ],
+          "evidence": {
+            "max_log_bytes": 16384,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "runtime-kernel-lib-check",
+          "proof_role": "Runtime kernel compile guard",
+          "purpose": "Confirm the changed Runtime kernel library compiles.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 2048,
+            "tokens": 1500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "static",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": [
+            "check",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib"
+          ],
+          "evidence": {
+            "max_log_bytes": 32768,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue-diff-hygiene",
+          "proof_role": "Diff whitespace guard",
+          "purpose": "Reject malformed whitespace and patch artifacts before exact-head review.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "static",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "git",
+          "argv": [
+            "diff",
+            "--check"
+          ],
+          "evidence": {
+            "max_log_bytes": 16384,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "runtime-agent-to-agent-initiation",
+        "runtime-kernel-fmt",
+        "runtime-kernel-lib-check",
+        "issue-diff-hygiene"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 2,
+      "cpu_units": 4,
+      "memory_mib": 4096,
+      "tokens": 6500
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation/.csdlc/evidence/662",
+    "cancellation_file": null
+  }
+}

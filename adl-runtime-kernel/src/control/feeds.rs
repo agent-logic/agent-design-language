@@ -3,9 +3,10 @@ use std::collections::BTreeSet;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy, AgentRosterQuery,
-    AgentRuntimeEvidence, BootstrapEvent, ComponentId, LifecycleState, ResidentShepherdInitConfig,
-    RunningState, RuntimeSnapshot, WeatherHealthReport, AGENT_ROSTER_PAGE_SCHEMA,
+    AgentOrientationDelivery, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
+    AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, ComponentId, InferenceReadinessState,
+    LifecycleState, ResidentShepherdInitConfig, ResidentShepherdSetInitConfig, RunningState,
+    RuntimeSnapshot, WeatherHealthReport, AGENT_ROSTER_PAGE_SCHEMA,
 };
 
 pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
@@ -56,6 +57,8 @@ pub struct RuntimeReadinessReport {
     pub runtime_process_id: u32,
     pub guardian_process_id: u32,
     pub active_init_hash: String,
+    pub config_generation: String,
+    pub config_receipt_digest: String,
     pub weather_freshness: Option<ObservatoryWeatherFreshness>,
     pub degraded_reasons: Vec<String>,
 }
@@ -103,7 +106,60 @@ impl AgentPopulationFeed {
     }
 
     pub fn resident_shepherd_from_config(config: &ResidentShepherdInitConfig) -> Self {
-        Self::resident_shepherd_named(&config.name, &config.display_name, &config.office)
+        Self::resident_shepherds_from_config(&ResidentShepherdSetInitConfig::One(config.clone()))
+    }
+
+    pub fn resident_shepherds_from_config(configs: &ResidentShepherdSetInitConfig) -> Self {
+        let mut feed = Self::empty();
+        for config in configs.iter() {
+            let id = config
+                .name
+                .split_once('.')
+                .map_or_else(|| config.name.clone(), |(id, _)| id.to_owned());
+            let readiness = InferenceReadinessState::ModelLoading;
+            let projection = readiness.projection();
+            feed.sample.push(AgentSample {
+                id: id.clone(),
+                name: config.name.clone(),
+                label: config.display_name.clone(),
+                role: config.office.clone(),
+                provider: Some(config.provider.clone()),
+                model: Some(config.model.clone()),
+                last_snapshot_at_unix_millis: None,
+                last_archive_at_unix_millis: None,
+                snapshot_sequence: None,
+                pending_archive_count: 0,
+                snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+                archive_state: crate::AgentArchiveState::Disabled,
+                inference_readiness: readiness,
+                state: readiness.as_str().to_owned(),
+                detail: "Provider model preload pending".to_owned(),
+                health: projection.health.to_owned(),
+                availability: projection.availability.to_owned(),
+                activity: projection.activity.map(str::to_owned),
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: projection.communication_eligible,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "configured".to_owned(),
+                provenance: "runtime_resident_shepherd".to_owned(),
+                orientation: None,
+            });
+            feed.public_policy
+                .get_or_insert_with(|| AgentRosterPolicy {
+                    policy_subject: "public-observatory".to_owned(),
+                    visible_agent_ids: BTreeSet::new(),
+                    reveal_capabilities: false,
+                    reveal_location: false,
+                })
+                .visible_agent_ids
+                .insert(id);
+        }
+        feed.total_count = feed.sample.len() as u64;
+        feed.rendered_sample_count = feed.total_count;
+        feed.population_complete = true;
+        feed
     }
 
     pub fn resident_shepherd_named(
@@ -117,6 +173,15 @@ impl AgentPopulationFeed {
                 name: name.into(),
                 label: label.into(),
                 role: role.into(),
+                provider: None,
+                model: None,
+                last_snapshot_at_unix_millis: None,
+                last_archive_at_unix_millis: None,
+                snapshot_sequence: None,
+                pending_archive_count: 0,
+                snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+                archive_state: crate::AgentArchiveState::Disabled,
+                inference_readiness: InferenceReadinessState::Unimplemented,
                 state: "unknown".to_owned(),
                 detail: "Awaiting production Runtime admission".to_owned(),
                 health: "unknown".to_owned(),
@@ -129,6 +194,7 @@ impl AgentPopulationFeed {
                 freshness_deadline_unix_millis: 0,
                 source_revision: "unobserved".to_owned(),
                 provenance: "runtime_component_state".to_owned(),
+                orientation: None,
             }],
             public_policy: Some(AgentRosterPolicy {
                 policy_subject: "public-observatory".to_owned(),
@@ -159,6 +225,36 @@ impl AgentPopulationFeed {
                 policy.visible_agent_ids.insert(item.id.clone());
             }
         }
+    }
+
+    pub(super) fn update_resident_shepherd_health(
+        &mut self,
+        name: &str,
+        state: &str,
+        detail: &str,
+    ) {
+        let Some(agent) = self.sample.iter_mut().find(|agent| agent.name == name) else {
+            return;
+        };
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_millis()
+            .try_into()
+            .unwrap_or(u64::MAX);
+        let readiness = InferenceReadinessState::from_projection_state(state);
+        let projection = readiness.projection();
+        agent.inference_readiness = readiness;
+        agent.state = readiness.as_str().to_owned();
+        agent.detail = detail.to_owned();
+        agent.health = projection.health.to_owned();
+        agent.availability = projection.availability.to_owned();
+        agent.communication_eligible = projection.communication_eligible;
+        agent.activity = projection.activity.map(str::to_owned);
+        agent.observed_at_unix_millis = now;
+        agent.freshness_deadline_unix_millis = now.saturating_add(5 * 60 * 1_000);
+        agent.source_revision = self.revision.saturating_add(1).to_string();
+        self.revision = self.revision.saturating_add(1).max(1);
     }
 
     pub(super) fn remove_dynamic(&mut self, agent_id: &str) {
@@ -271,7 +367,7 @@ fn project_agent_evidence(
     }
     let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
     let admission = snapshot.agent_admissions.get(&agent.id)?;
-    let (presence, health, availability, eligible) = match state {
+    let runtime_projection = match state {
         RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
         RunningState::Starting | RunningState::Ready => {
             (AgentPresence::Unknown, "starting", "unavailable", false)
@@ -285,15 +381,39 @@ fn project_agent_evidence(
             false,
         ),
     };
+    let provider_backed = agent.provider.is_some() || agent.model.is_some();
+    let readiness_projection = agent.inference_readiness.projection();
+    let (presence, health, availability, eligible) = if provider_backed {
+        if !runtime_projection.3 {
+            runtime_projection
+        } else {
+            (
+                readiness_projection.presence,
+                readiness_projection.health,
+                readiness_projection.availability,
+                readiness_projection.communication_eligible,
+            )
+        }
+    } else {
+        runtime_projection
+    };
+    let activity = if provider_backed && runtime_projection.3 {
+        readiness_projection.activity.map(str::to_owned)
+    } else {
+        agent.activity.clone()
+    };
     Some(AgentRuntimeEvidence {
         agent_id: agent.id.clone(),
         name: agent.name.clone(),
         display_name: agent.label.clone(),
         public_role: agent.role.clone(),
+        provider: agent.provider.clone(),
+        model: agent.model.clone(),
+        inference_readiness: agent.inference_readiness,
         presence,
         health: health.to_owned(),
         availability: availability.to_owned(),
-        activity: agent.activity.clone(),
+        activity,
         capabilities: agent.capabilities.clone(),
         location: agent.location.clone(),
         communication_eligible: eligible,
@@ -301,50 +421,91 @@ fn project_agent_evidence(
         freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
         source_revision: admission.source_revision.clone(),
         provenance: agent.provenance.clone(),
+        orientation: agent.orientation.clone(),
     })
 }
 
 impl From<&AgentSample> for AgentRuntimeEvidence {
     fn from(agent: &AgentSample) -> Self {
+        let readiness_projection = agent.inference_readiness.projection();
+        let provider_backed = agent.provider.is_some() || agent.model.is_some();
         Self {
             agent_id: agent.id.clone(),
             name: agent.name.clone(),
             display_name: agent.label.clone(),
             public_role: agent.role.clone(),
-            presence: match agent.state.as_str() {
-                "ready" => AgentPresence::Ready,
-                "busy" => AgentPresence::Busy,
-                "sleeping" => AgentPresence::Sleeping,
-                "degraded" => AgentPresence::Degraded,
-                "unreachable" => AgentPresence::Unreachable,
-                "migrating" => AgentPresence::Migrating,
-                _ => AgentPresence::Unknown,
+            provider: agent.provider.clone(),
+            model: agent.model.clone(),
+            inference_readiness: agent.inference_readiness,
+            presence: if provider_backed {
+                readiness_projection.presence
+            } else {
+                match agent.state.as_str() {
+                    "ready" => AgentPresence::Ready,
+                    "busy" => AgentPresence::Busy,
+                    "sleeping" => AgentPresence::Sleeping,
+                    "degraded" => AgentPresence::Degraded,
+                    "unreachable" => AgentPresence::Unreachable,
+                    "migrating" => AgentPresence::Migrating,
+                    _ => AgentPresence::Unknown,
+                }
             },
-            health: agent.health.clone(),
-            availability: agent.availability.clone(),
-            activity: agent.activity.clone(),
+            health: if provider_backed {
+                readiness_projection.health.to_owned()
+            } else {
+                agent.health.clone()
+            },
+            availability: if provider_backed {
+                readiness_projection.availability.to_owned()
+            } else {
+                agent.availability.clone()
+            },
+            activity: if provider_backed {
+                readiness_projection.activity.map(str::to_owned)
+            } else {
+                agent.activity.clone()
+            },
             capabilities: agent.capabilities.clone(),
             location: agent.location.clone(),
-            communication_eligible: agent.communication_eligible,
+            communication_eligible: if provider_backed {
+                readiness_projection.communication_eligible
+            } else {
+                agent.communication_eligible
+            },
             observed_at_unix_millis: agent.observed_at_unix_millis,
             freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
             source_revision: agent.source_revision.clone(),
             provenance: agent.provenance.clone(),
+            orientation: agent.orientation.clone(),
         }
     }
 }
 
 impl From<AgentRosterEntry> for AgentSample {
     fn from(agent: AgentRosterEntry) -> Self {
-        let state = serde_json::to_value(agent.presence)
-            .ok()
-            .and_then(|value| value.as_str().map(str::to_owned))
-            .unwrap_or_else(|| "unknown".to_owned());
+        let provider_backed = agent.provider.is_some() || agent.model.is_some();
+        let state = if provider_backed {
+            agent.inference_readiness.as_str().to_owned()
+        } else {
+            serde_json::to_value(agent.presence)
+                .ok()
+                .and_then(|value| value.as_str().map(str::to_owned))
+                .unwrap_or_else(|| "unknown".to_owned())
+        };
         Self {
             id: agent.id,
             name: agent.name,
             label: agent.label,
             role: agent.role,
+            provider: agent.provider,
+            model: agent.model,
+            last_snapshot_at_unix_millis: agent.last_snapshot_at_unix_millis,
+            last_archive_at_unix_millis: agent.last_archive_at_unix_millis,
+            snapshot_sequence: agent.snapshot_sequence,
+            pending_archive_count: agent.pending_archive_count,
+            snapshot_state: agent.snapshot_state,
+            archive_state: agent.archive_state,
+            inference_readiness: agent.inference_readiness,
             state,
             detail: "Runtime-authorized local roster projection".to_owned(),
             health: agent.health,
@@ -357,6 +518,7 @@ impl From<AgentRosterEntry> for AgentSample {
             freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
             source_revision: agent.source_revision,
             provenance: agent.provenance,
+            orientation: agent.orientation,
         }
     }
 }
@@ -367,6 +529,24 @@ pub struct AgentSample {
     pub name: String,
     pub label: String,
     pub role: String,
+    #[serde(default)]
+    pub provider: Option<String>,
+    #[serde(default)]
+    pub model: Option<String>,
+    #[serde(default)]
+    pub last_snapshot_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub last_archive_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub snapshot_sequence: Option<u64>,
+    #[serde(default)]
+    pub pending_archive_count: u64,
+    #[serde(default)]
+    pub snapshot_state: crate::AgentSnapshotState,
+    #[serde(default)]
+    pub archive_state: crate::AgentArchiveState,
+    #[serde(default)]
+    pub inference_readiness: InferenceReadinessState,
     pub state: String,
     pub detail: String,
     pub health: String,
@@ -379,6 +559,8 @@ pub struct AgentSample {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+    #[serde(default)]
+    pub orientation: Option<AgentOrientationDelivery>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

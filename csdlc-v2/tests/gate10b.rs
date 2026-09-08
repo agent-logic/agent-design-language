@@ -82,6 +82,11 @@ fn explicit_v2_rehearsal_rolls_back_to_unchanged_v1_default() {
     let selector = GenerationSelector {
         schema: "csdlc.generation_selector.v1".into(),
         default_generation: Generation::V1,
+        operational_authority: None,
+        authority_issue: None,
+        authority_pull_request: None,
+        review_authority: None,
+        approval_authority: None,
         opted_in_issues: BTreeSet::from([5293]),
     };
     assert_eq!(

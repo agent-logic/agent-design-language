@@ -1,0 +1,23 @@
+{
+  "issue": 693,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "0fd272a249988a4594184ddefff8356f186daece21f8176c19ded3c0fd094857",
+  "actor": "codex:/root/a2a_reliability_fix",
+  "reason": "include the tightly coupled Runtime event code required to expose correlated A2A completion separately from initiation",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/Cargo.toml",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/telemetry.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/issues/693",
+      ".csdlc/prepared/issues/693",
+      ".csdlc/evidence/693"
+    ]
+  },
+  "fail_after_backup": false
+}

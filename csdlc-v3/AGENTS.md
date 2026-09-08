@@ -47,3 +47,9 @@ rollback, publication, finish, cleanup, documentation, and operator-start proof.
 Until that V3-F decision lands, root `AGENTS.md`, onboarding, v2 operator
 skills, and installed PR skills must point to v3 as non-authoritative
 construction evidence rather than as an executable operator path.
+
+Issue #505 is that V3-F decision lane. Before any default tooling route changes,
+operators must receive the pre-change notice in
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` through the typed C-SDLC v2 GitHub
+issue owner. The notice is informational; it does not grant v3 lifecycle
+authority or retire v2.

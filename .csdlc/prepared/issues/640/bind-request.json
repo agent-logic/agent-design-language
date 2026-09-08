@@ -1,0 +1,6 @@
+{
+  "issue": 640,
+  "base_branch": "codex/640-preparation",
+  "branch": "codex/640-runtime-model-backed-resident-shepherd",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-640-runtime-model-backed-resident-shepherd"
+}

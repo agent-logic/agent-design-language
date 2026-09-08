@@ -1,0 +1,7 @@
+{
+  "issue": 631,
+  "expected_generation": 7,
+  "expected_digest": "fb2f7433bf0bfbec324c7bdb0ef90a82948af2cbbf364a36f5e83bf627aa82b8",
+  "actor": "codex:worker-6",
+  "reason": "Recover #631 after removing stacked #627 lifecycle artifacts from the branch so the #631 head can be republished against main with a real GitHub closing relation."
+}

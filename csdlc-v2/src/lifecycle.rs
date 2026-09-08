@@ -24,6 +24,18 @@ pub struct BindRequest {
     pub worktree: String,
     #[serde(default)]
     pub code_repository: Option<String>,
+    #[serde(default)]
+    pub expected_repository: Option<String>,
+    #[serde(default)]
+    pub adopt_existing: bool,
+    #[serde(default)]
+    pub expected_head: Option<String>,
+    #[serde(default)]
+    pub expected_generation: Option<u64>,
+    #[serde(default)]
+    pub expected_digest: Option<String>,
+    #[serde(default)]
+    pub actor: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -31,6 +43,12 @@ pub struct BindResult {
     pub created: bool,
     pub branch: String,
     pub worktree: String,
+    #[serde(default)]
+    pub adopted: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub evidence_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resulting_digest: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -166,6 +184,190 @@ fn branch_exists(root: &Path, branch: &str) -> bool {
         ])
         .status()
         .is_ok_and(|status| status.success())
+}
+
+fn require_bind_adoption_text(value: &Option<String>, field: &str) -> Result<String> {
+    let Some(value) = value.as_ref() else {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            format!("adoption requires {field}"),
+        ));
+    };
+    if value.trim().is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            format!("adoption requires non-empty {field}"),
+        ));
+    }
+    Ok(value.clone())
+}
+
+fn require_bind_adoption_u64(value: Option<u64>, field: &str) -> Result<u64> {
+    value.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            format!("adoption requires {field}"),
+        )
+    })
+}
+
+fn validate_bind_adoption_request(
+    record: &crate::IssueRecord,
+    request: &BindRequest,
+) -> Result<()> {
+    if !request.adopt_existing {
+        return Ok(());
+    }
+    let expected_generation =
+        require_bind_adoption_u64(request.expected_generation, "expected_generation")?;
+    let expected_digest = require_bind_adoption_text(&request.expected_digest, "expected_digest")?;
+    let expected_repository =
+        require_bind_adoption_text(&request.expected_repository, "expected_repository")?;
+    let expected_head = require_bind_adoption_text(&request.expected_head, "expected_head")?;
+    let actor = require_bind_adoption_text(&request.actor, "actor")?;
+    if expected_head.len() != 40 || !expected_head.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "adoption expected_head must be a full 40-character hex commit SHA",
+        ));
+    }
+    if actor == "csdlc-bind" {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "adoption actor must identify the requesting operator or session",
+        ));
+    }
+    if record.phase != crate::LifecyclePhase::Ready {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "adoption requires a ready unbound issue",
+        ));
+    }
+    if record.generation != expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "adoption expected_generation is stale",
+        ));
+    }
+    if record.digest != expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "adoption expected_digest is stale",
+        ));
+    }
+    if !record.repository.eq_ignore_ascii_case(&expected_repository) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption expected_repository does not match issue authority",
+        ));
+    }
+    if record.branch.is_some() || record.worktree.is_some() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption refuses an issue that already has typed Git topology",
+        ));
+    }
+    Ok(())
+}
+
+#[derive(Debug, Clone)]
+struct AdoptionObservation {
+    actor: String,
+    expected_repository: String,
+    expected_generation: u64,
+    expected_digest: String,
+    expected_head: String,
+    observed_head: String,
+    base_branch: String,
+    branch: String,
+    worktree: String,
+}
+
+fn verify_bind_adoption_topology(
+    request: &BindRequest,
+    listed: &[(String, String)],
+    wanted: &Path,
+    wanted_text: &str,
+) -> Result<Option<AdoptionObservation>> {
+    if !request.adopt_existing {
+        return Ok(None);
+    }
+    let expected_generation =
+        require_bind_adoption_u64(request.expected_generation, "expected_generation")?;
+    let expected_digest = require_bind_adoption_text(&request.expected_digest, "expected_digest")?;
+    let expected_repository =
+        require_bind_adoption_text(&request.expected_repository, "expected_repository")?;
+    let expected_head = require_bind_adoption_text(&request.expected_head, "expected_head")?;
+    let actor = require_bind_adoption_text(&request.actor, "actor")?;
+    if !wanted.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption requires a pre-existing Git worktree",
+        ));
+    }
+    let matching_branch = listed
+        .iter()
+        .filter(|(branch, _)| branch == &request.branch)
+        .count();
+    let matching_worktree = listed
+        .iter()
+        .filter(|(_, path)| fs::canonicalize(path).is_ok_and(|candidate| candidate == wanted))
+        .count();
+    let exact_match = listed.iter().any(|(branch, path)| {
+        branch == &request.branch
+            && fs::canonicalize(path).is_ok_and(|candidate| candidate == wanted)
+    });
+    if matching_branch != 1 || matching_worktree != 1 || !exact_match {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption requires exactly one registered worktree for the requested branch and path",
+        ));
+    }
+    if git::current_branch(wanted)? != request.branch {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption worktree is not on the requested branch",
+        ));
+    }
+    let observed_head = git::run(wanted, &["rev-parse", "HEAD"])?.stdout;
+    if observed_head != expected_head {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption expected_head does not match the worktree HEAD",
+        ));
+    }
+    git::run(
+        wanted,
+        &[
+            "merge-base",
+            "--is-ancestor",
+            &request.base_branch,
+            &observed_head,
+        ],
+    )
+    .map_err(|_| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption HEAD is not descended from the requested base branch",
+        )
+    })?;
+    if !git::worktree_is_clean(wanted)? {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "adoption requires a clean worktree before lifecycle materialization",
+        ));
+    }
+    Ok(Some(AdoptionObservation {
+        actor,
+        expected_repository,
+        expected_generation,
+        expected_digest,
+        expected_head,
+        observed_head,
+        base_branch: request.base_branch.clone(),
+        branch: request.branch.clone(),
+        worktree: wanted_text.to_owned(),
+    }))
 }
 
 #[derive(Debug)]
@@ -687,6 +889,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
     let current_record = store.load_record(request.issue)?;
+    validate_bind_adoption_request(&current_record, &request)?;
     let stored_worktree = current_record
         .worktree
         .as_deref()
@@ -710,6 +913,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
+    let current_record = store.load_record(request.issue)?;
+    validate_bind_adoption_request(&current_record, &request)?;
     let source_diagnosis = crate::doctor::diagnose_with_code_repository(
         store,
         request.issue,
@@ -743,6 +948,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     }
     let listed = git::worktrees(store.root())?;
     let topology_root = canonical_topology_root(store.root(), &listed)?;
+    let adoption = verify_bind_adoption_topology(&request, &listed, &wanted, &wanted_text)?;
     let mut idempotent_match = false;
     for (_, path) in &listed {
         let path = Path::new(path);
@@ -823,11 +1029,26 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             created: false,
             branch: request.branch,
             worktree: wanted_text,
+            adopted: false,
+            evidence_ref: None,
+            resulting_digest: None,
         });
     }
 
     let new_branch = !branch_exists(store.root(), &request.branch);
     let created = !wanted.exists();
+    if !request.adopt_existing && !created && !issue_local {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "pre-existing worktree adoption requires explicit adoption authority",
+        ));
+    }
+    if request.adopt_existing && created {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "adoption cannot create a missing worktree",
+        ));
+    }
     if created {
         if new_branch {
             git::run(
@@ -869,6 +1090,7 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let commit = (|| {
         let target = &materialized.store;
         let mut record = target.load_record(request.issue)?;
+        validate_bind_adoption_request(&record, &request)?;
         let expected_digest = record.digest.clone();
         if record.phase == crate::LifecyclePhase::Initialized {
             record.advance(
@@ -881,10 +1103,36 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         record.worktree = Some(wanted_text.clone());
         record.code_repository = request.code_repository.clone();
         if record.phase == crate::LifecyclePhase::Ready {
+            let reason = adoption
+                .as_ref()
+                .map(|observation| {
+                    serde_json::json!({
+                        "operation": "adopt_existing_bind",
+                        "actor": observation.actor,
+                        "issue": request.issue,
+                        "repository": record.repository,
+                        "expected_repository": observation.expected_repository,
+                        "code_repository": request.code_repository,
+                        "expected_generation": observation.expected_generation,
+                        "expected_digest": observation.expected_digest,
+                        "expected_head": observation.expected_head,
+                        "observed_head": observation.observed_head,
+                        "base_branch": observation.base_branch,
+                        "branch": observation.branch,
+                        "worktree": observation.worktree,
+                        "pre_state": "ready",
+                        "result_state": "bound"
+                    })
+                    .to_string()
+                })
+                .unwrap_or_else(|| "bound issue branch and worktree".into());
             record.advance(
                 crate::LifecyclePhase::Bound,
-                "csdlc-bind".into(),
-                "bound issue branch and worktree".into(),
+                adoption
+                    .as_ref()
+                    .map(|observation| observation.actor.clone())
+                    .unwrap_or_else(|| "csdlc-bind".into()),
+                reason,
             )?;
         } else if record.phase != crate::LifecyclePhase::Bound {
             return Err(V2Error::new(
@@ -895,39 +1143,116 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         record.audit.push(AuditEvent {
             sequence: record.audit.len() as u64 + 1,
             generation: record.generation,
-            actor: "csdlc-bind".into(),
-            reason: "record Git branch/worktree topology".into(),
-            operation: "bind".into(),
+            actor: adoption
+                .as_ref()
+                .map(|observation| observation.actor.clone())
+                .unwrap_or_else(|| "csdlc-bind".into()),
+            reason: adoption
+                .as_ref()
+                .map(|observation| {
+                    serde_json::json!({
+                        "operation": "adopt_existing_bind",
+                        "expected_generation": observation.expected_generation,
+                        "expected_repository": observation.expected_repository,
+                        "expected_digest": observation.expected_digest,
+                        "expected_head": observation.expected_head,
+                        "observed_head": observation.observed_head,
+                        "base_branch": observation.base_branch,
+                        "branch": observation.branch,
+                        "worktree": observation.worktree
+                    })
+                    .to_string()
+                })
+                .unwrap_or_else(|| "record Git branch/worktree topology".into()),
+            operation: adoption
+                .as_ref()
+                .map(|_| "adopt_existing_bind".into())
+                .unwrap_or_else(|| "bind".into()),
         });
         record.digest = crate::store::record_digest(&record)?;
-        if materialized.source_is_target {
-            target.replace_record_locked(request.issue, &expected_digest, &record)
-        } else {
-            target.replace_record(request.issue, &expected_digest, &record)
+        let mut evidence_ref = None;
+        let mut resulting_digest = None;
+        let mut issue_file = None;
+        if let Some(observation) = &adoption {
+            let ref_text = format!(".csdlc/issues/{}/adoption.v1.json", request.issue);
+            let evidence = serde_json::json!({
+                "schema": "csdlc.bind_adoption_evidence.v1",
+                "issue": request.issue,
+                "repository": record.repository.clone(),
+                "expected_repository": observation.expected_repository.clone(),
+                "code_repository": record.code_repository.clone(),
+                "actor": observation.actor.clone(),
+                "base_branch": observation.base_branch.clone(),
+                "branch": observation.branch.clone(),
+                "worktree": observation.worktree.clone(),
+                "expected_head": observation.expected_head.clone(),
+                "observed_head": observation.observed_head.clone(),
+                "pre_state": "ready",
+                "result_state": "bound",
+                "expected_generation": observation.expected_generation,
+                "resulting_generation": record.generation,
+                "expected_digest": observation.expected_digest.clone(),
+                "resulting_digest": record.digest.clone()
+            });
+            let mut bytes = serde_json::to_vec_pretty(&evidence)?;
+            bytes.push(b'\n');
+            issue_file = Some(("adoption.v1.json".to_owned(), bytes));
+            evidence_ref = Some(ref_text);
+            resulting_digest = Some(record.digest.clone());
         }
+        if let Some((relative_path, bytes)) = issue_file {
+            if materialized.source_is_target {
+                target.replace_record_locked_with_issue_file(
+                    request.issue,
+                    &expected_digest,
+                    &record,
+                    &relative_path,
+                    &bytes,
+                )?;
+            } else {
+                target.replace_record_with_issue_file(
+                    request.issue,
+                    &expected_digest,
+                    &record,
+                    &relative_path,
+                    &bytes,
+                )?;
+            }
+        } else if materialized.source_is_target {
+            target.replace_record_locked(request.issue, &expected_digest, &record)?;
+        } else {
+            target.replace_record(request.issue, &expected_digest, &record)?;
+        }
+        Ok((evidence_ref, resulting_digest))
     })();
 
-    if let Err(error) = commit {
-        materialized.rollback();
-        if target_lock_created {
-            let _ = fs::remove_file(target_lock);
-        }
-        if created {
-            let _ = git::run(
-                store.root(),
-                &["worktree", "remove", "--force", &wanted_text],
-            );
-            if new_branch {
-                let _ = git::run(store.root(), &["branch", "-D", &request.branch]);
+    let (evidence_ref, resulting_digest) = match commit {
+        Ok(result) => result,
+        Err(error) => {
+            materialized.rollback();
+            if target_lock_created {
+                let _ = fs::remove_file(target_lock);
             }
+            if created {
+                let _ = git::run(
+                    store.root(),
+                    &["worktree", "remove", "--force", &wanted_text],
+                );
+                if new_branch {
+                    let _ = git::run(store.root(), &["branch", "-D", &request.branch]);
+                }
+            }
+            return Err(error);
         }
-        return Err(error);
-    }
+    };
 
     Ok(BindResult {
         created,
         branch: request.branch,
         worktree: wanted_text,
+        adopted: adoption.is_some(),
+        evidence_ref,
+        resulting_digest,
     })
 }
 

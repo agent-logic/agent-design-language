@@ -1,0 +1,12 @@
+{
+  "issue": 687,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "3d962f166f38b8caa703771cc7902dd51f08c1012591eaf415b4277121b8b560",
+  "actor": "codex:worker-7",
+  "reason": "The bounded implementation and deterministic no-cloud validation for issue 687 are complete.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

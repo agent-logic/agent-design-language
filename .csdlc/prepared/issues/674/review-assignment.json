@@ -1,0 +1,11 @@
+{
+  "issue": 674,
+  "expected_generation": 2,
+  "expected_digest": "47d1938c157d4b808fafb18c1f58095c0e8ad926c333f9df43ee81e60bcf7b98",
+  "reviewer": "fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+    ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+  ]
+}

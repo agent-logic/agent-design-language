@@ -1,0 +1,17 @@
+{
+  "actor": "codex-primary-issue607",
+  "card": "sor",
+  "expected_digest": "823db20e7e3938901bb76e345af6a40060d762d73574363bde6babb20e163916",
+  "expected_generation": 9,
+  "issue": 607,
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"],
+      "evidence_ref": ".csdlc/evidence/607/local-validation-95efc4fd1.json",
+      "outcome": "passed",
+      "purpose": "Record the complete bounded no-paid local validation packet; live AWS snapshot and launch proof remains pending."
+    }
+  },
+  "reason": "Record only the local checks actually run at the implementation candidate."
+}

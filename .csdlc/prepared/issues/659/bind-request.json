@@ -1,0 +1,7 @@
+{
+  "issue": 659,
+  "base_branch": "codex/659-runtime-configurable-convergence-prep",
+  "branch": "codex/659-runtime-configurable-convergence",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-659-runtime-configurable-convergence",
+  "code_repository": "agent-logic/agent-design-language"
+}

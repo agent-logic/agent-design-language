@@ -6,21 +6,22 @@ locals {
     {
       app       = "adl"
       milestone = "v0-92-1"
-      issue     = "509"
-      lane      = "drt-d"
+      issue     = var.issue_id
+      lane      = var.lane
       owner     = "agent-logic"
       run_id    = local.run_id_label
-      ttl       = "disposable"
+      ttl       = var.retention
     }
   )
 
   metadata_common = {
     enable-oslogin               = var.enable_oslogin ? "TRUE" : "FALSE"
-    adl-issue                    = "509"
-    adl-lane                     = "drt-d"
+    adl-issue                    = var.issue_id
+    adl-lane                     = var.lane
     adl-run-id                   = var.run_id
     adl-source-revision          = var.source_revision
     adl-max-budget-usd           = tostring(var.max_budget_usd)
+    adl-paid-deadline-epoch      = tostring(var.paid_deadline_epoch)
     adl-resident-models          = jsonencode(var.resident_models)
     adl-artifact-bucket          = var.artifact_bucket
     adl-artifact-manifest-object = var.artifact_manifest_object
@@ -46,7 +47,7 @@ resource "google_compute_instance" "ollama" {
     auto_delete = true
     initialize_params {
       image = var.ollama_boot_image
-      size  = 200
+      size  = 50
       type  = "pd-balanced"
     }
   }
@@ -77,10 +78,20 @@ resource "google_compute_instance" "ollama" {
   }
 
   metadata = merge(local.metadata_common, {
-    adl-node-role = "ollama-gpu"
+    adl-node-role               = "ollama-gpu"
+    adl-data-device-name        = var.ollama_data_device_name
+    adl-artifact-generation     = var.artifact_generation
+    adl-content-manifest-sha256 = var.ollama_content_sha256
   })
 
   metadata_startup_script = var.ollama_startup_script
+
+  # Data disks are owned by google_compute_attached_disk below. Without this,
+  # a repeat apply treats that provider-observed attachment as inline drift and
+  # detaches the warm model volume before the attachment resource can reconcile.
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
 }
 
 resource "google_compute_instance" "runtime" {
@@ -94,7 +105,7 @@ resource "google_compute_instance" "runtime" {
     auto_delete = true
     initialize_params {
       image = var.runtime_boot_image
-      size  = 80
+      size  = 50
       type  = "pd-balanced"
     }
   }
@@ -120,9 +131,32 @@ resource "google_compute_instance" "runtime" {
   }
 
   metadata = merge(local.metadata_common, {
-    adl-node-role         = "runtime-csm"
-    adl-ollama-private-ip = google_compute_instance.ollama.network_interface[0].network_ip
+    adl-node-role               = "runtime-csm"
+    adl-ollama-private-ip       = google_compute_instance.ollama.network_interface[0].network_ip
+    adl-data-device-name        = var.runtime_data_device_name
+    adl-artifact-generation     = var.artifact_generation
+    adl-content-manifest-sha256 = var.runtime_content_sha256
   })
 
   metadata_startup_script = var.runtime_startup_script
+
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
+}
+
+resource "google_compute_attached_disk" "runtime_data" {
+  count = var.attach_data_disks ? 1 : 0
+
+  disk        = var.runtime_data_disk
+  instance    = google_compute_instance.runtime.id
+  device_name = var.runtime_data_device_name
+}
+
+resource "google_compute_attached_disk" "ollama_data" {
+  count = var.attach_data_disks ? 1 : 0
+
+  disk        = var.ollama_data_disk
+  instance    = google_compute_instance.ollama.id
+  device_name = var.ollama_data_device_name
 }

@@ -1,0 +1,23 @@
+{
+  "issue": 678,
+  "card": "sip",
+  "expected_generation": 2,
+  "expected_digest": "cb95d8330c0a4ec0d3ca3656d0fc3e91931e3811dbbb3d594a9576582bb8f754",
+  "actor": "codex:678-implementation",
+  "reason": "Record that the stable CSM route implementation owns the delegated Runtime v3 generation installer Python module as well as the shell entrypoint.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "declared_scope",
+    "values": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+      ".csdlc/prepared/issues/678/design.md",
+      ".csdlc/prepared/issues/678/diagram.mmd",
+      ".csdlc/evidence/678/runtime-v3-generation-install.log",
+      ".csdlc/evidence/678/diff-check.log"
+    ]
+  }
+}

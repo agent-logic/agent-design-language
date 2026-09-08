@@ -7,9 +7,9 @@
     "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
     "slug": "vertex-global-gemini-thinking-config",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -64,10 +64,10 @@
           "evidence_ref": "Local scan returned no matches after proof redaction."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

@@ -1,0 +1,47 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.1",
+  "sprints": [
+    {
+      "sprint": 8,
+      "umbrella_issue": 536,
+      "title": "Sprint 8",
+      "execution_mode": "hybrid",
+      "serial_gates": [
+        "#512 OBS-B waits for #511 OBS-A",
+        "#84 Unity authority remains independent and outside the current Sprint 8 membership denominator",
+        "Sprint closeout waits for independently reviewed child PRs and terminal issue truth"
+      ],
+      "umbrella_readback_ref": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-536-readback.json",
+      "child_readback_refs": {
+        "51": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-51-readback.json",
+        "261": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-261-readback.json",
+        "262": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-262-readback.json",
+        "263": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-263-readback.json",
+        "264": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-264-readback.json",
+        "342": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-342-readback.json",
+        "511": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-511-readback.json",
+        "512": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-512-readback.json"
+      }
+    },
+    {
+      "sprint": 9,
+      "umbrella_issue": 537,
+      "title": "Sprint 9",
+      "execution_mode": "sequential",
+      "serial_gates": [
+        "#516 PROV-B follows #515 PROV-A",
+        "#517 INT-01 waits for every declared root dependency",
+        "#518 and #519 tail work waits for provider-comparison/convergence truth"
+      ],
+      "umbrella_readback_ref": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-537-readback.json",
+      "child_readback_refs": {
+        "515": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-515-readback.json",
+        "516": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-516-readback.json",
+        "517": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-517-readback.json",
+        "518": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-518-readback.json",
+        "519": ".csdlc/evidence/sprints-8-9-v3-readiness/issue-519-readback.json"
+      }
+    }
+  ]
+}

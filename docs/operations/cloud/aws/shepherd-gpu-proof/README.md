@@ -84,7 +84,7 @@ Execution requires `adl.issue345.paid_run_authorization.v3`. It binds:
 - the selected subnet's effective route-table and network-ACL fingerprints;
 - Runtime and GPU instance types plus individual and combined hourly ceilings;
 - full two-node billable deadline, both disk costs, two public IPv4 costs,
-  request overhead, and total ceiling no greater than USD 20;
+  request overhead, and total ceiling no greater than the operator-authorized USD 21;
 - the exact SSH `/32` and normalized public-key SHA-256;
 - immutable manifest coordinates/digest and the complete model set.
 - the exact reviewed repository commit, restored from a run-specific versioned
@@ -188,3 +188,230 @@ deadline targeting, private-IP injection, loopback Shepherd forwarding,
 explicit six-agent task-panel rooting, mode-0600 recovery state, single-use
 authorization, exact review equality, and zero controller-owned launch
 commands.
+
+## Issue #607 warm two-node qualification
+
+Issue #607 retains the #605 network and service topology but removes builds,
+package installation, and model downloads from normal launch. It uses three
+disjoint local Terraform states:
+
+1. `infra/aws/runtime/gpu-proof/warm-storage` owns only the two encrypted,
+   retained, AZ-bound gp3 data volumes.
+2. `infra/aws/runtime/gpu-proof/warm-storage/preparation` owns the two
+   short-lived hydrator instances and their disposable infrastructure. It
+   builds the repository binaries, installs package-managed build facilities,
+   copies the exact versioned Ollama/model closure, prepares reusable Runtime
+   state, writes every volume block, and seals each content partition with
+   dm-verity. It does not survive preparation.
+3. `infra/aws/runtime/gpu-proof` owns the two normal-launch instances,
+   security/IAM/deadline resources, and warm-volume attachments. It never owns
+   or deletes the retained volumes.
+
+All generated state remains under `.adl/local/issue607` in the bound issue
+worktree. Use only `agent-logic-admin` in `us-west-2`, one existing SSH public
+key, and one exact public IPv4 `/32`.
+
+### Read-only preflight
+
+```bash
+ADL_ISSUE607_SSH_PUBLIC_KEY_FILE=/absolute/path/to/public-key.pub \
+AWS_PROFILE=agent-logic-admin AWS_REGION=us-west-2 \
+bash adl/tools/run_issue607_warm_polis.sh preflight
+```
+
+Preflight resolves and records exact AMI metadata, account/network/KMS and SSH
+identity hashes, current On-Demand prices, two retained EBS performance
+profiles, disposable root EBS, two public IPv4 addresses, S3/request allowance,
+two retained sparse data snapshots plus two prepared-image root snapshots with
+a conservative 260 GiB changed-block allowance, and
+seven days of retained storage. It fails when the aggregate
+estimate exceeds USD 21 and launches nothing.
+
+### Prepare once
+
+Run preparation first without an authorization file. The controller builds a
+local source archive, creates and validates the exact storage saved plan, writes
+`authorization-request.json`, and exits before S3 upload or AWS mutation:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh prepare \
+  --commit EXACT_REVIEWED_SHA \
+  --run-id adl-issue607-prepare-UNIQUE \
+  --storage-id adl-issue607-warm-v1 \
+  --execute
+```
+
+The operator-authorized `adl.issue607.authorization.v3` file must copy the
+request's exact action, commit, run, storage, saved-plan, preflight, action
+manifest, and campaign fields; add a unique `action_id`, future
+`expires_at`, `authorized: true`, and `single_use: true`. Execute the same
+command with `--authorization-file`. The authorization is consumed through a
+create-only S3 marker immediately before the first mutation.
+
+Successful preparation leaves two sealed 200 GiB volumes, completed immutable
+snapshots of both volumes, two prepared launch AMIs and their root snapshots,
+their storage state, and the exact AMI/facility/seal
+receipts, a GPU snapshot-to-volume availability timing receipt, and an aggregate
+campaign cost ledger. The controller also validates the issue-wide historical
+paid-action audit against every create-only S3 campaign marker and reserves a
+full action window in `.adl/local/issue607/aggregate-cost-ledger.json` before
+consuming any further authorization. Consumed reservations remain conservative
+until an attempt has authoritative termination timing and exact
+zero-disposable-residue proof. A completed attempt may then be incorporated
+into a refreshed historical paid-action audit at its measured upper bound;
+failed, live, or unreconciled attempts remain fully reserved against the USD 21
+ceiling.
+Retry-suffixed run IDs are rejected. Unused volume extents are not zero-filled, preserving sparse
+snapshot economics. The temporary restored timing volume is deleted. The
+preparation instances, ENIs, security group, IAM resources, scheduler, shared
+key pair, and root volumes must be absent according to both Terraform and live
+tag inventory.
+
+The Ubuntu 24.04 preparation guests use the distribution-packaged `python3-boto3`
+client for their bounded version-pinned S3 reads and create-only receipt writes;
+neither the unavailable `awscli` APT package nor an auto-refreshing Snap is
+installed into the prepared images. This package-manager work occurs only during
+one-time preparation; normal warm launch performs no package installation. The
+controller polls both preparation nodes together and fails after three stopped-
+instance observations when neither a success nor failure receipt exists,
+avoiding a full timeout after an early cloud-init failure on either node.
+
+Before image capture, both preparation guests clear cloud-init state and logs,
+reset machine identity, and remove SSH host keys so first launch regenerates
+per-instance state. Raw EC2 provider IDs are written immediately to
+`preparation-resources.json`, including the first data snapshot before the
+second snapshot request begins. The exit trap is active before warm-storage
+apply. Through guest hydration, receipt collection, and guest shutdown, a
+handled failure removes disposable preparation resources and incomplete warm
+storage. After both successful guest receipts exist and both guests are stopped,
+the controller preserves the exact state and resource ledger while it creates
+the retained images and snapshots. If interrupted in that preserved phase,
+resume the same preparation from the same worktree, run ID, storage ID, source
+commit, campaign, and authorization lineage:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh resume-preparation \
+  --commit EXACT_REVIEWED_SHA \
+  --run-id adl-issue607-prepare-UNIQUE \
+  --storage-id adl-issue607-warm-v1 \
+  --authorization-file EXACT_CONSUMED_AUTHORIZATION.json \
+  --execute
+```
+
+`recover-preparation` is intentionally disabled: deleting a partially consumed
+mutable Terraform state is not a safe recovery operation. Once the prepared
+generation is terminal and obsolete, use the separately authorized
+`retire-storage` action with its exact retained IDs.
+
+### Launch twice
+
+Use a unique run ID and distinct single-use authorization for each ordinal:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh launch \
+  --commit EXACT_REVIEWED_SHA \
+  --run-id adl-issue607-launch-1-UNIQUE \
+  --storage-id adl-issue607-warm-v1 \
+  --ordinal 1 --execute
+```
+
+As with preparation, the first invocation emits an exact authorization request
+and performs no mutation. Add `--authorization-file` to the identical command
+only after authorization. Repeat with ordinal `2` and another unique run ID and
+authorization.
+
+Immediately before budget reservation and authorization consumption, launch
+also compares the selected GPU shape's live vCPU requirement with the business
+account's live on-demand G-family service quota. An insufficient or unreadable
+quota fails before the single-use marker is written.
+
+If an exact-head review requires one additional live proof after both campaign
+launch slots have been consumed, use the controller-emitted, single-use
+`qualification-remediation` request. It binds the existing prepared generation,
+current controller revision, saved compute plan, historical cost-audit digest,
+and the final projected issue total. It is accepted only while the issue-wide
+ledger remains at or below USD 21:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh qualification-remediation \
+  --commit PREPARED_ARTIFACT_SHA \
+  --run-id adl-issue607-CAMPAIGNPREFIX-remediate \
+  --storage-id adl-issue607-warm-v1 --execute
+```
+
+If that authorization is consumed but AWS rejects `RunInstances` before
+creating either node, first add the exact CloudTrail zero-instance evidence and
+new remote marker to the issue-wide cost audit. After the live G-family quota
+meets the selected shape, the distinct `qualification-quota-recovery` action
+uses a new run ID, plan, marker, and authorization; it does not reuse the failed
+action:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh qualification-quota-recovery \
+  --commit PREPARED_ARTIFACT_SHA \
+  --run-id adl-issue607-CAMPAIGNPREFIX-quota-recovery \
+  --storage-id adl-issue607-warm-v1 --execute
+```
+
+Each guest boots the exact prepared launch AMI and verifies its facility inventory, volume ID,
+generation, manifest, and dm-verity root. GPU readiness requires all configured
+models resident with nonzero VRAM. The default GPU node is the one-L4
+`g6.xlarge` shape admitted by the current four-vCPU G-family quota; both
+configured model warmups start concurrently and remain loaded. Runtime readiness requires the persistent
+Guardian process to pass authenticated HTTPS and WSS probes. Each guest must
+reach its enforced local-readiness limit: 120 seconds for the GPU guest and 30
+seconds for the Runtime guest. Controller apply-to-observed readiness must
+remain within 270 seconds. The later qualification receipt separately
+requires both Shepherd model proofs, six governed Runtime-agent ACC executions,
+and restart/state/degradation/Vector/log/shutdown proof. Compute is then
+destroyed and live tag inventory must show zero disposable residue while the
+two warm volumes remain `available`.
+
+The 900-second billable-lifetime reservation covers activation, qualification,
+destroy, and verified AWS termination. The controller separately stops apply
+or receipt waits at 420 seconds and immediately
+terminates instances selected by the exact issue/run owner token before
+Terraform reconciliation, then waits for both exact instances to reach
+`terminated` before declaring cleanup complete. Both guests also schedule a seven-minute local
+shutdown; because their EC2 shutdown behavior is `terminate`, this remains a
+billable-compute failsafe if the controller becomes unavailable. Saved plans
+are bound to the exact controller revision, so controller or template changes
+require a fresh plan and authorization.
+
+### Retention decision
+
+Inspect the exact volumes and seven-day deadline without mutation:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh retention-status \
+  --storage-id adl-issue607-warm-v1
+```
+
+Extending retention or deleting the generation requires a separate
+`adl.issue607.storage_authorization.v2` that binds the controller-emitted exact
+saved plan, both volume IDs, both prepared AMIs, and all four retained snapshot
+IDs. None of these paths is reachable from compute cleanup:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh extend-retention \
+  --storage-id adl-issue607-warm-v1 \
+  --retention-until 2026-09-15T00:00:00Z --execute
+
+bash adl/tools/run_issue607_warm_polis.sh retire-storage \
+  --storage-id adl-issue607-warm-v1 --execute
+
+bash adl/tools/run_issue607_warm_polis.sh retire-snapshots \
+  --storage-id adl-issue607-warm-v1 --execute
+```
+
+Run either command once without `--authorization-file` to obtain its exact
+request, then repeat it with the separately approved file. Retirement accepts
+only a saved plan that deletes exactly the two retained EBS volumes and no
+other resource. Snapshot retirement separately deregisters the exact two
+prepared images and deletes their root snapshots plus the two sealed-data
+snapshots. Both recovery and retirement treat only an explicit AWS not-found
+result as absence; API or transport errors fail the action, and terminal success
+is emitted only after exact-ID absence readback. The preparation result stores
+both root snapshot IDs, so an interrupted snapshot retirement can resume with
+the identical already-consumed authorization and manifest even after an AMI is
+gone; a different authorization is rejected.

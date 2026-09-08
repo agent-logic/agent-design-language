@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
     "slug": "aws-access-billing-baseline",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -30,7 +30,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -40,7 +40,7 @@
             "AC-2",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -60,7 +60,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

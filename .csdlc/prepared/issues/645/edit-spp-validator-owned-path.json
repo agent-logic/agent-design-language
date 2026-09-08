@@ -1,0 +1,27 @@
+{
+  "issue": 645,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "0c552c0ae7d372661cc407a8e7f0c7179ae468fc959581ffd618e1812e3542e9",
+  "actor": "codex:/root:issue-645-readiness-repair",
+  "reason": "Declare the #645 validation wrapper as an exact affected path so doctor can match the proving lane to issue-owned work.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs",
+      ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+      ".csdlc/prepared/issues/645/design.md",
+      ".csdlc/prepared/issues/645/diagram.mmd",
+      ".csdlc/prepared/issues/645/create-request.json",
+      ".csdlc/prepared/issues/645/bind-request.json",
+      ".csdlc/prepared/issues/645/edit-vpp-issue-owned-denominator.json",
+      ".csdlc/prepared/issues/645/edit-stp-validator-deliverable.json",
+      ".csdlc/prepared/issues/645/edit-spp-validator-owned-path.json",
+      ".csdlc/issues/645/index.json"
+    ]
+  }
+}

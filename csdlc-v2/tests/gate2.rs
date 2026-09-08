@@ -779,6 +779,12 @@ fn initialized_deferred_distributed_targets_bind_only_through_exact_path_harness
                 branch: format!("codex/{issue}-distributed-deferred"),
                 worktree: worktree.to_string_lossy().into_owned(),
                 code_repository: Some("agent-logic/agent-design-language".into()),
+                expected_repository: None,
+                adopt_existing: false,
+                expected_head: None,
+                expected_generation: None,
+                expected_digest: None,
+                actor: None,
             },
         )
         .expect("bind initialized deferred targets");
@@ -2621,6 +2627,12 @@ fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
                     branch: "issue-42".into(),
                     worktree: worktree.to_string_lossy().into_owned(),
                     code_repository: None,
+                    expected_repository: None,
+                    adopt_existing: false,
+                    expected_head: None,
+                    expected_generation: None,
+                    expected_digest: None,
+                    actor: None,
                 },
             )
             .expect("bind rejection fixture");
@@ -3452,6 +3464,12 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             branch: "issue-42".into(),
             worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     )
     .expect("bind repaired issue for compatibility proof");
@@ -3718,6 +3736,12 @@ fn implemented_sip_scope_correction() {
             branch: "issue-42".into(),
             worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     )
     .expect("bind");
@@ -4422,6 +4446,12 @@ fn design_review_recovery_fixture(
             branch: format!("issue-{issue}"),
             worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
+            expected_repository: None,
+            adopt_existing: false,
+            expected_head: None,
+            expected_generation: None,
+            expected_digest: None,
+            actor: None,
         },
     )
     .expect("bind recovery fixture");

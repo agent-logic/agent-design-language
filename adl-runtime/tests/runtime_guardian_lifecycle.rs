@@ -8,6 +8,7 @@ use std::{
 use adl_runtime::guardian::{
     run_guardian, GuardianConfig, GuardianConfigError, GuardianTerminalState,
 };
+use adl_runtime_kernel::{activate_config_generation, provision_config_generation};
 use tokio::time::sleep;
 use tokio_util::sync::CancellationToken;
 
@@ -128,6 +129,18 @@ fn compile_spawn_marker_child(root: &TestRoot, marker: &Path) -> PathBuf {
         .expect("rustc must execute");
     assert!(status.success(), "marker child must compile");
     binary
+}
+
+fn test_binary_generation(kernel: &Path) -> String {
+    kernel
+        .canonicalize()
+        .expect("test kernel should canonicalize")
+        .parent()
+        .and_then(Path::parent)
+        .and_then(Path::file_name)
+        .and_then(|name| name.to_str())
+        .expect("test kernel generation should resolve")
+        .to_owned()
 }
 
 fn guardian_config(program: &Path, args: Vec<String>) -> GuardianConfig {
@@ -313,7 +326,9 @@ fn guardian_cli_rejects_oversized_durations_before_spawning_the_kernel() {
     let marker = root.path("kernel-spawned");
     let child = compile_spawn_marker_child(&root, &marker);
     let base = format!(
-        r#"[binaries]
+        r#"schema = "adl.runtime_v3.init.v1"
+
+[binaries]
 kernel_path = {child:?}
 
 [shutdown]
@@ -403,6 +418,20 @@ configuration_exit_codes = [64]
     for (index, (init_text, expected)) in cases.into_iter().enumerate() {
         let init = root.path(&format!("runtime-init-{index}.toml"));
         fs::write(&init, init_text).expect("Guardian CLI init");
+        match provision_config_generation(&init, &test_binary_generation(&child)) {
+            Ok(identity) => activate_config_generation(&init, &identity)
+                .expect("Guardian CLI active config-generation reference"),
+            Err(error) => {
+                assert!(
+                    error.contains("TOML parse error"),
+                    "only intentionally unparseable overflow fixtures skip active-generation setup: {error}"
+                );
+                assert!(
+                    expected.contains("overflows u64"),
+                    "non-overflow fixtures must provision active-generation authority: {error}"
+                );
+            }
+        };
         let output = Command::new(env!("CARGO_BIN_EXE_adl-runtime-guardian"))
             .arg("--init")
             .arg(&init)

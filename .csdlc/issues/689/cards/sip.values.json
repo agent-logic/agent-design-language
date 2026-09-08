@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 689,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
+    "slug": "runtime-canonical-service-control-runbook",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the current-generation Rust CSM route the sole documented permanent Runtime control path and prevent legacy shell commands from claiming authority.",
+      "required_outcome": "Operators receive accurate canonical start, status, stop, reload, ownership, and identity guidance, while legacy CSMctl Runtime verbs refuse with a concise migration message.",
+      "declared_scope": [
+        "START_CSM_RUNBOOK canonical command and path correction",
+        "legacy CSMctl Runtime verb refusal",
+        "Observatory-only legacy command preservation",
+        "small deterministic routing and docs guards"
+      ],
+      "authority_boundary": [
+        "No changes to canonical Rust ownership semantics",
+        "No live Runtime or launchd mutation",
+        "No cloud provider agent model edge or Observatory UI changes",
+        "No tracked edits on main"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2",
+        "Bind a FastWork issue worktree",
+        "Keep the live Runtime running",
+        "Prefer a direct refusal over delegation complexity"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+flowchart TB
+    C[Runtime configuration\nresident Shepherd identity + provider + model + preload policy]
+    B[Runtime bootstrap\nvalidate non-empty unique Shepherd set]
+    P[Provider adapter\nhealth + preload + governed inference]
+    S[Resident Shepherd\nmodel_loading -> ready -> degraded]
+    R[Bounded recovery loop\ngenerous configurable budget + backoff]
+    A[One health snapshot\nready + blocking reasons + roster/detail + Observatory]
+    O[Other resident and dynamic agents]
+
+    C --> B
+    B --> S
+    S --> P
+    P -->|preload succeeds| S
+    P -->|temporary failure| R
+    R -->|retry for Runtime lifetime| P
+    S --> A
+    O --> A
+    P -->|failure is isolated| O

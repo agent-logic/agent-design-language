@@ -1,0 +1,193 @@
+{
+  "issue": 630,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:worker-6",
+  "design_path": ".csdlc/prepared/issues/630/design.md",
+  "diagram_path": ".csdlc/prepared/issues/630/diagram.mmd",
+  "design_reviewer": "codex:worker-6-design-readiness",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][V3-H.4] Implement v3 finish, cleanup, and cutover routes",
+    "slug": "v3-h4-finish-clean-cutover-routes",
+    "version": "v0.92.1",
+    "goal": "Implement and test v3 terminal truth, safe cleanup, and cutover decision routes under the one csdlc binary.",
+    "required_outcome": "The v3 finish, clean, and cutover routes have simple fail-closed typed behavior, focused regression tests, real-issue canary coverage, and no v2 source changes.",
+    "declared_scope": [
+      "csdlc-v3/src",
+      "csdlc-v3/tests",
+      "docs/csdlc-v3",
+      ".csdlc/prepared/issues/630",
+      ".csdlc/evidence/630"
+    ],
+    "authority_boundary": [
+      "C-SDLC v2 remains live operational authority until #505 cutover",
+      "v3 routes are construction evidence only",
+      "No live GitHub mutation through v3",
+      "No live issue finish through v3",
+      "No operational worktree cleanup through v3 before cutover",
+      "No v2 source changes"
+    ],
+    "operator_constraints": [
+      "Do not merge #505",
+      "Do not perform cutover",
+      "Do not use raw gh",
+      "Do not use /private/tmp",
+      "Work only from a bound FastWork issue worktree"
+    ],
+    "task_boundary": "Implement only the V3-H.4 finish, cleanup, and cutover command routes and issue-owned proof.",
+    "deliverables": [
+      "csdlc finish route behavior and tests",
+      "csdlc clean route behavior and tests",
+      "csdlc cutover decision route behavior and tests",
+      "Real issue canary coverage for terminal and cleanup denial paths",
+      "Issue-owned validation script and retained evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Finish derives terminal truth from authenticated live PR/issue state and rejects caller-forged terminal authority.",
+      "AC-2: Cleanup derives worktree authority from actual Git worktree registration, not caller booleans or self-derived digests.",
+      "AC-3: Cleanup preserves distinct states: absent, unregistered, dirty, live, already removed, removable, and removed.",
+      "AC-4: Cutover records explicit operator approval, rollback evidence, selected binary provenance, and fail-closed rollback/undo boundaries.",
+      "AC-5: Tests include positive terminal closeout, stale/nonmerged/part-of denial, dirty/live worktree denial, symlink/path escape denial, and rollback refusal cases.",
+      "AC-6: No v2 source changes."
+    ],
+    "dependencies": [
+      "#625 sprint umbrella",
+      "#627 V3-H.1 command denominator",
+      "#629 V3-H.3 GitHub/publication lane"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#630",
+      "csdlc-v3/AGENTS.md",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote/mod.rs"
+    ],
+    "non_goals": [
+      "Perform #505 cutover",
+      "Retire v2",
+      "Merge or close #505",
+      "Mutate GitHub from v3",
+      "Change v2 source code"
+    ],
+    "plan_summary": "Add route-specific v3 finish, clean, and cutover behavior; make every authority boundary explicit; prove positive and denial cases with focused tests and issue-owned validation.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Inspect current v3 command routing and route modules from the #629 dependency head.",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement finish route as non-authoritative typed terminal derivation with fail-closed denial cases.",
+        "acceptance_ids": ["AC-1", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement clean route as Git-registration-derived classification/removal planning with distinct outcomes.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Implement cutover route as approval/provenance/rollback decision packet that cannot execute cutover.",
+        "acceptance_ids": ["AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run focused tests, issue-owned validator, typed validation, diff hygiene, and pre-PR review.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "csdlc-v3/src",
+      "csdlc-v3/tests",
+      "docs/csdlc-v3",
+      ".csdlc/prepared/issues/630",
+      ".csdlc/evidence/630"
+    ],
+    "invariants": [
+      "v2 remains live authority",
+      "v3 is fail-closed before cutover",
+      "Terminal authority must be derived, not caller-forged",
+      "Cleanup authority must come from Git worktree registration",
+      "Cutover requires explicit operator approval and rollback evidence",
+      "No v2 source changes"
+    ],
+    "risks": [
+      "Accidentally modeling caller-provided terminal truth as authority",
+      "Treating filesystem existence as worktree registration",
+      "Collapsing cleanup outcomes into a vague blocked state",
+      "Letting cutover route imply live authority before #505",
+      "Changing v2 source while wiring v3 tests"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "A required predecessor branch cannot be represented without conflicts",
+      "v3 route implementation would require live GitHub mutation",
+      "v3 route implementation would require operational cleanup before cutover",
+      "Any proposed change touches csdlc-v2 source"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "v3-terminal-clean-cutover-tests",
+        "proof_role": "Run focused Rust tests for v3 finish, clean, and cutover positive and denial behavior.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 2400,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml", "--test", "terminal_cleanup_cutover_commands"],
+        "parallel_group": "rust-focused",
+        "defer_reason": null
+      },
+      {
+        "lane": "v3-full-regression",
+        "proof_role": "Run the complete v3 test suite after route implementation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 3000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml"],
+        "parallel_group": "rust-full",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-validator",
+        "proof_role": "Run the issue-owned validator and fail on missing route coverage, weak denial assertions, v2 source diffs, or empty logs.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 1600,
+        "argv": ["bash", ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh"],
+        "parallel_group": "issue-owned",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Run exact-range diff hygiene before publication.",
+        "acceptance_ids": ["AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 400,
+        "argv": ["git", "diff", "--check", "origin/main...HEAD"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on caller-forged terminal authority, cleanup without Git registration proof, collapsed cleanup outcomes, cutover authority before #505, v2 source changes, stale/empty evidence, or missing real-issue canary coverage.",
+    "review_prompts": [
+      "Can any caller manufacture terminal, cleanup, or cutover authority without authenticated evidence?",
+      "Does cleanup actually consult Git worktree registration and preserve distinct outcomes?",
+      "Does cutover remain a non-authoritative decision packet before #505?",
+      "Are all tests and validators exercising behavior instead of strings?"
+    ],
+    "review_scope": "csdlc-v3 finish, clean, cutover routes; focused tests; issue-owned validation; no v2 source changes."
+  }
+}

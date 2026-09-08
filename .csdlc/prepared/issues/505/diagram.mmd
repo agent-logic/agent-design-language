@@ -1,0 +1,12 @@
+flowchart LR
+  A["#504 terminal, reconciled, ancestral"] -->|required before bind| B["#505 V3-F decision worktree"]
+  B --> C["Map #179 and #180"]
+  C --> D["v2-v3 parity matrix"]
+  D --> E["Migration canary"]
+  E --> F["Rollback exercise"]
+  F --> G["Observation evidence"]
+  G --> H["Explicit operator disposition"]
+  H --> I["Cutover or retain v2"]
+  J["C-SDLC v2 live authority"] -. "remains authority until approval" .-> B
+  K["No silent v2 retirement"] -. "retirement requires evidence and approval" .-> H
+  H --> L["Future PR body visibly contains Closes #505"]

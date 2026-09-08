@@ -90,7 +90,10 @@ Archive completion requires:
 ## Promote An Approved Episode
 
 Promotion requires explicit human approval of audio, metadata, artwork, and
-publication. It is a separate operation from archival storage.
+publication. It is a separate operation from archival storage. As of issue
+#660, the production launch candidate is intentionally withheld from
+`https://agent-logic.ai/podcast/`; do not run these promotion steps until a
+future issue records explicit operator approval for public launch.
 
 1. Copy the approved show page, feed, artwork, episode page, and MP3 into their
    exact branded website `podcast/` keys.

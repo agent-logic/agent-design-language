@@ -1,0 +1,76 @@
+status: findings
+target:
+  issue_number: 505
+  task_bundle_path: .csdlc/prepared/issues/505
+  branch: codex/505-v3-f-authority-transition-decision-exec
+  worktree_path: /Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec
+  version: v0.92.1
+findings:
+  - severity: blocking
+    area: status_drift
+    message: "#501, #502, #503, #504, #533, and #596 were closed despite failing sprint-review or incomplete typed lifecycle truth."
+    evidence: "Typed issue readbacks found closed states before the 2026-09-01 reopen operations; typed reopen readbacks now show open/null closed_at."
+    files:
+      - .csdlc/evidence/sprints-5-6-cutover-fixes/reopened-failed-issues-20260901.json
+    can_auto_fix: true
+  - severity: blocking
+    area: linkage_drift
+    message: "Retained sprint membership evidence stopped at v4 while live Sprint 6 issue #534 uses membership v5 with #570."
+    evidence: "Live typed issue #534 readback includes membership version 5 and child #570."
+    files:
+      - docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v5-retained-readback.json
+    can_auto_fix: true
+  - severity: blocking
+    area: integration_truth
+    message: "#596 cannot be terminal just because PR #597 merged; its typed local record remains ready/pre-execution."
+    evidence: ".csdlc/issues/596/index.json is phase ready with null review/publication/readiness/terminal; SOR remains pre-execution/not-published/not-merged."
+    files:
+      - .csdlc/issues/596/index.json
+      - .csdlc/issues/596/cards/sor.values.json
+    can_auto_fix: false
+safe_repairs_applied:
+  - file: github:agent-logic/agent-design-language#501
+    action: typed_issue_reopen
+    previous: closed
+    updated: open
+  - file: github:agent-logic/agent-design-language#502
+    action: typed_issue_reopen
+    previous: closed
+    updated: open
+  - file: github:agent-logic/agent-design-language#503
+    action: typed_issue_reopen
+    previous: closed
+    updated: open
+  - file: github:agent-logic/agent-design-language#504
+    action: typed_issue_reopen
+    previous: closed
+    updated: open
+  - file: github:agent-logic/agent-design-language#533
+    action: typed_issue_reopen
+    previous: closed
+    updated: open
+  - file: github:agent-logic/agent-design-language#596
+    action: typed_issue_reopen
+    previous: closed
+    updated: open
+  - file: docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v5-retained-readback.json
+    action: retain_live_membership_v5_readback
+    previous: no retained v5 readback
+    updated: retained Sprint 5 and Sprint 6 live membership readback
+skipped_files: []
+ambiguous_findings:
+  - area: integration_truth
+    reason: "Historical child issues need fresh issue-owned lifecycle remediation and review before they can be closed again; this #505 batch records blocker truth but does not silently rewrite their typed cards."
+    files:
+      - .csdlc/issues/596/index.json
+      - .csdlc/issues/596/cards/sor.values.json
+recommended_follow_ons:
+  - title: "Add typed failed-review reopen/reconcile command"
+    rationale: "The typed GitHub issue owner can reopen, but there is no first-class lifecycle reconciliation command that turns sprint-review FAIL into issue-local card/index truth without manual request assembly."
+validation_performed:
+  - typed csdlc-github-issue reads for #501, #502, #503, #504, #533, #534, and #596
+  - typed csdlc-github-issue updates reopening #501, #502, #503, #504, #533, and #596
+handoff_state:
+  ready_for_editor: true
+  ready_for_execution: false
+  ready_for_follow_on_implementation: true

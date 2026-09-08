@@ -1,0 +1,24 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "ff66ef0868eade4faa5f367894aafc76e3c8f7b6a0682efc7e970bd65ff1af48",
+  "actor": "codex:/root",
+  "reason": "Record focused Runtime A2A validation for the first-class live-style Beacon-to-Ember action bridge.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib",
+        "agent_to_agent"
+      ],
+      "outcome": "passed",
+      "purpose": "Prove direct A2A semantics and the new operator-to-Beacon-to-Ember model-action bridge without live provider access.",
+      "evidence_ref": "terminal://2026-09-03#issue-675-runtime-a2a-4-passed"
+    }
+  }
+}

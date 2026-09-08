@@ -1,0 +1,9 @@
+{
+  "actor": "codex-primary-issue607",
+  "card": "sor",
+  "expected_digest": "7e5e5ebce7599f798351f83700a216ede60444c32ce17329ab72a9eff6cf838b",
+  "expected_generation": 11,
+  "issue": 607,
+  "operation": {"operation": "advance_phase", "phase": "implemented"},
+  "reason": "The bounded implementation and no-paid validation are recorded; live AWS validation and exact-head review remain subsequent gates."
+}

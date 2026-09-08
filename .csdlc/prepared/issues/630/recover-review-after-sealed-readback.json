@@ -1,0 +1,7 @@
+{
+  "issue": 630,
+  "expected_generation": 4,
+  "expected_digest": "ed09ca7016215d86ffcd274a987fe301803e22f526257457ba1a4e92a31e6995",
+  "actor": "codex:worker-6",
+  "reason": "Recover stale exact-review assignment after the post-fix review found that verified terminal readback construction was still caller-forgeable and nonexistent cleanup traversal was not denied."
+}

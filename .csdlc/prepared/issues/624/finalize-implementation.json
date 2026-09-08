@@ -1,0 +1,134 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 624,
+  "expected_generation": 3,
+  "expected_digest": "3a033d3d288d012d5f2de8eddc3ab927d96d654dfbf4b2aba97b3cf6de0c9cec",
+  "actor": "codex:/root",
+  "summary": "Completed the #624 corporate operational-control hardening sidecar as a redacted, non-mutating register and machine-readable receipt. The packet separates observed retained evidence from proposed follow-on work, records explicit operator-authorization gates for GitHub/CI, DNS/certificate, AWS guardrail, deployment rollback, and private-custody hardening, and does not claim any live operational change was applied.",
+  "changes": [
+    "Added a public operational-control hardening sidecar register for issue #624 under the corporate control-transfer documentation.",
+    "Added a machine-readable v0.92.1 evidence receipt enumerating seven follow-on rows across GitHub/CI, DNS/certificate, AWS guardrails, deployment rollback, and private custody.",
+    "Recorded explicit non-claims that no live GitHub, DNS, certificate, AWS, deployment, custody, account, credential, token, billing, or production mutation occurred.",
+    "Added issue-owned validators for the redacted sidecar receipt and exact patch hygiene.",
+    "Finalized implementation through local typed PVF lanes only; external operational hardening remains gated on review and explicit operator authorization."
+  ],
+  "artifacts": [
+    "docs/operations/corporate/control-transfer/operational-control-hardening-sidecar.md",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json",
+    ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+    ".csdlc/prepared/issues/624/validate-diff-check.py",
+    ".csdlc/evidence/624"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "issue624-sidecar-receipt",
+          "proof_role": "Prove the corporate operational-control hardening sidecar denominator, redaction boundary, issue linkage, follow-on gates, and non-mutation claims.",
+          "purpose": "Run the issue-owned sidecar receipt validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "624-local-serial-01",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "python3",
+          "argv": [
+            ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue624-json-parse",
+          "proof_role": "Prove the machine-readable sidecar receipt is valid JSON.",
+          "purpose": "Parse the sidecar receipt with Python's JSON module.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "issue624-sidecar-receipt"
+          ],
+          "parallel_group": "624-local-serial-02",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "python3",
+          "argv": [
+            "-m",
+            "json.tool",
+            "docs/milestones/v0.92.1/evidence/corporate/corp-sidecar-624/operational-control-hardening.v1.json"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "issue624-diff-hygiene",
+          "proof_role": "Prove exact patch hygiene against origin/main and emit the immutable HEAD in the evidence log.",
+          "purpose": "Run the issue-owned diff-check receipt validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "issue624-json-parse"
+          ],
+          "parallel_group": "624-local-serial-03",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "python3",
+          "argv": [
+            ".csdlc/prepared/issues/624/validate-diff-check.py"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "issue624-sidecar-receipt",
+        "issue624-json-parse",
+        "issue624-diff-hygiene"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 256,
+      "tokens": 0
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-624-corporate-sidecar-operational-hardening/.csdlc/evidence/624",
+    "cancellation_file": null
+  }
+}

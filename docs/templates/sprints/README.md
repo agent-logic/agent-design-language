@@ -18,7 +18,7 @@ residual routing.
 ## Contract
 
 SEP is a sprint-level orchestration surface. It does not replace issue-local
-`SIP -> STP -> SPP -> SRP -> SOR` cards.
+`SIP -> STP -> SPP -> VPP -> SRP -> SOR` cards.
 
 Parallel and hybrid execution modes are sprint intent and coordination evidence
 until the relevant automation proves multi-active lane execution. Each child

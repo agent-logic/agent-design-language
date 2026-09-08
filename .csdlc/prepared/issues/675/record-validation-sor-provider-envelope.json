@@ -1,0 +1,24 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "385445147c9e64fbcd0dd9c1aa91a547c9ecc08d9e5e8fe4185510537e2a341e",
+  "actor": "codex:/root",
+  "reason": "Record focused proof that live provider-backed conversation work receives and validates the first-class A2A action envelope.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "--lib",
+        "provider_conversation_action"
+      ],
+      "outcome": "passed",
+      "purpose": "Prove provider conversation prompts advertise the governed A2A envelope and schema-tagged provider output projects an agent_to_agent_initiation while malformed context fails closed.",
+      "evidence_ref": "terminal://2026-09-03#issue-675-provider-conversation-action-4-passed"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 662,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+    "slug": "runtime-agent-to-agent-initiation",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-agent-to-agent-initiation",
+          "proof_role": "Prove successful governed Beacon-to-Ember initiation, distinct identity/correlation, replay behavior, cancellation, missing or stale recipient, unauthorized initiation, provider failure, and authoritative activity projection through deterministic Runtime integration tests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            ".csdlc/prepared/issues/662/validate-focused.sh"
+          ],
+          "parallel_group": "runtime-agent-initiation",
+          "defer_reason": "The exact focused test implementation is an issue #662 deliverable."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove exact branch diff whitespace hygiene.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail explicitly for unauthorized initiation, missing or stale recipient, cancellation, replay conflict, recipient failure, or provider failure; never synthesize delivery or model output success.",
+      "design_ref": ".csdlc/prepared/issues/662/design.md",
+      "design_digest": "46cef885fa9e71182d32ae68c35e4d0893191e62793e7e26c413389762b87e39",
+      "diagram_ref": ".csdlc/prepared/issues/662/diagram.mmd",
+      "diagram_digest": "5bbc2be4c2f551beafcc4ccacdd46975fbfeb14ec62d83c07b52ef2509818775"
+    }
+  }
+}

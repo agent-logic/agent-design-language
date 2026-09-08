@@ -1,0 +1,111 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 665,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+    "slug": "emergency-branch-adoption-defect",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-emergency-adoption-regression",
+          "proof_role": "Prove the #660-shaped ready-phase emergency branch/worktree adoption path, fail-closed topology rejects, preservation, evidence recording, and downstream lifecycle eligibility.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "emergency_branch_adoption"
+          ],
+          "parallel_group": "csdlc-v2-bind",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-665-scope-denominator",
+          "proof_role": "Prove the #665 readiness packet names issue-owned bind/topology design and repository targets before implementation begins.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh"
+          ],
+          "parallel_group": "readiness",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-665-operator-docs",
+          "proof_role": "Prove the operator documentation exists and names the fail-closed ready-to-bound adoption sequence.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove whitespace and conflict-marker hygiene for the exact branch diff.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale generation/digest, mismatched repository, unsafe branch or worktree, dirty or ambiguous topology, missing base ancestry, collision state, weakened review/publication gates, or zero-test validation.",
+      "design_ref": ".csdlc/prepared/issues/665/design.md",
+      "design_digest": "0d9d58bf4f6c639d9471dc59e735b973aaf4b1479ffd95853d62bed60e8b1834",
+      "diagram_ref": ".csdlc/prepared/issues/665/diagram.mmd",
+      "diagram_digest": "37669ced4633e6b67e042a92c409ec56e2c80b2ed2e858d563fda6c67fbb87f9"
+    }
+  }
+}

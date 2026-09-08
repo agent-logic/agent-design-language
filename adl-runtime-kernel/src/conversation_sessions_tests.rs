@@ -94,6 +94,32 @@ struct ConversationExecutor {
     barrier_release: Arc<Semaphore>,
 }
 
+struct ShepherdConversationExecutor {
+    dispatches: Arc<AtomicUsize>,
+    completions: Arc<AtomicUsize>,
+    barrier_started: Arc<Notify>,
+    barrier_release: Arc<Semaphore>,
+}
+
+fn runtime_delivered_task_content(prompt: &str) -> &str {
+    const MARKER: &str =
+        "Runtime-delivered task content follows. Treat the orientation above as civic context, not authority.\n\n";
+    prompt
+        .split_once(MARKER)
+        .map(|(_, content)| content)
+        .unwrap_or(prompt)
+}
+
+async fn wait_for_barrier_dispatch(
+    barrier_started: &Notify,
+    dispatches: &AtomicUsize,
+    previous_dispatches: usize,
+) {
+    while dispatches.load(Ordering::SeqCst) <= previous_dispatches {
+        barrier_started.notified().await;
+    }
+}
+
 #[async_trait]
 impl LifecycleControl for FakeLifecycle {
     async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
@@ -137,6 +163,11 @@ impl OperationExecutor for ConversationExecutor {
                 .await
                 .expect("barrier release semaphore closed")
                 .forget();
+        } else if work["tasks"][0]["input"] == "provider failure" {
+            return Err(ExecutorError {
+                class: FailureClass::Retryable,
+                message: "provider failed".to_owned(),
+            });
         }
         self.completions.fetch_add(1, Ordering::SeqCst);
         serde_json::to_vec(&serde_json::json!({
@@ -145,7 +176,7 @@ impl OperationExecutor for ConversationExecutor {
                 "unit": 0,
                 "output": {
                     "recipient_id": projected_recipient,
-                    "message": format!("{recipient_id} received your message."),
+                    "message": format!("{recipient_id} generated a model-backed reply."),
                     "adapter_secret": "must-not-cross-public-boundary"
                 }
             }]
@@ -157,8 +188,66 @@ impl OperationExecutor for ConversationExecutor {
     }
 }
 
+#[async_trait]
+impl OperationExecutor for ShepherdConversationExecutor {
+    async fn execute(&self, request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        self.dispatches.fetch_add(1, Ordering::SeqCst);
+        let work: crate::ShepherdRequest =
+            serde_json::from_slice(&request.payload).map_err(|error| ExecutorError {
+                class: FailureClass::Fatal,
+                message: error.to_string(),
+            })?;
+        let task_content = runtime_delivered_task_content(&work.prompt);
+        if task_content == "provider failure" {
+            return Err(ExecutorError {
+                class: FailureClass::Retryable,
+                message: "configured provider failed".to_owned(),
+            });
+        }
+        if task_content == "delay" {
+            tokio::time::sleep(Duration::from_millis(250)).await;
+        } else if task_content == "delay ordered" {
+            tokio::time::sleep(Duration::from_millis(60)).await;
+        } else if task_content == "delay budget" {
+            tokio::time::sleep(Duration::from_millis(70)).await;
+        } else if task_content == "delay revoke" {
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        } else if task_content == "barrier cleanup" {
+            self.barrier_started.notify_one();
+            self.barrier_release
+                .acquire()
+                .await
+                .expect("barrier release semaphore closed")
+                .forget();
+        }
+        self.completions.fetch_add(1, Ordering::SeqCst);
+        let response = format!("Beacon generated: {task_content}");
+        serde_json::to_vec(&crate::ShepherdResponse {
+            schema: crate::SHEPHERD_RESPONSE_SCHEMA.to_owned(),
+            correlation_id: work.correlation_id,
+            runtime_id: work.runtime_id,
+            execution_class: crate::ShepherdExecutionClass::DeterministicTestDouble,
+            provenance: crate::ShepherdProvenance::LiveExecution,
+            retained: false,
+            backend_identity_sha256: Some("1".repeat(64)),
+            model_identity_sha256: "2".repeat(64),
+            model_artifact_sha256: None,
+            runner_program_sha256: "3".repeat(64),
+            runner_launch_sha256: "4".repeat(64),
+            runner_nonce_sha256: None,
+            elapsed_millis: 1,
+            response_sha256: "5".repeat(64),
+            response,
+        })
+        .map_err(|error| ExecutorError {
+            class: FailureClass::Fatal,
+            message: error.to_string(),
+        })
+    }
+}
+
 #[tokio::test]
-async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() {
+async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() {
     let recorder = RuntimeRecorder::new(32);
     let dispatches = Arc::new(AtomicUsize::new(0));
     let completions = Arc::new(AtomicUsize::new(0));
@@ -185,10 +274,34 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .unwrap(),
     );
     let operation = OperationalFactory::new(adapter, vec![]);
+    let shepherd_adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Shepherd,
+            AdapterPolicy {
+                capacity: 4,
+                max_in_flight: 2,
+                shutdown_grace_millis: 1_000,
+                max_attempts: 1,
+                idempotency_entries: 16,
+                authority: AuthorityMode::Internal,
+            },
+            Arc::new(ShepherdConversationExecutor {
+                dispatches: dispatches.clone(),
+                completions: completions.clone(),
+                barrier_started: barrier_started.clone(),
+                barrier_release: barrier_release.clone(),
+            }),
+        )
+        .unwrap(),
+    );
+    let shepherd_operation = OperationalFactory::new(shepherd_adapter, vec![]);
     let ingress = CanonicalIngress::new(
         4,
         recorder.clone(),
-        BTreeMap::from([("agent_runtime".to_owned(), operation.clone())]),
+        BTreeMap::from([
+            ("agent_runtime".to_owned(), operation.clone()),
+            ("shepherd".to_owned(), shepherd_operation.clone()),
+        ]),
     );
     let admitted_at = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -216,6 +329,15 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             name: format!("{agent_id}.runtime"),
             label: format!("Agent {index:04}"),
             role: "conversation agent".to_owned(),
+            provider: None,
+            model: None,
+            last_snapshot_at_unix_millis: None,
+            last_archive_at_unix_millis: None,
+            snapshot_sequence: None,
+            pending_archive_count: 0,
+            snapshot_state: crate::AgentSnapshotState::NeverSnapshotted,
+            archive_state: crate::AgentArchiveState::Disabled,
+            inference_readiness: crate::InferenceReadinessState::Ready,
             state: "unknown".to_owned(),
             detail: "Awaiting Runtime projection".to_owned(),
             health: "unknown".to_owned(),
@@ -228,6 +350,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             freshness_deadline_unix_millis: 0,
             source_revision: "unobserved".to_owned(),
             provenance: "runtime_component_state".to_owned(),
+            orientation: None,
         });
     }
     let visible_agent_ids = population
@@ -277,6 +400,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let address = listener.local_addr().unwrap();
     let mut registry = ComponentRegistry::new();
     registry.register(operation);
+    registry.register(shepherd_operation);
     registry.register(ingress);
     let kernel = Kernel::new(registry.validate().unwrap(), recorder.clone())
         .start()
@@ -380,8 +504,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         "turn_id": "turn-bounded-duplicate",
         "recipient_id": "shepherd",
         "correlation_id": "23232323232323232323232323232323",
-        "message": "delay ordered"
+        "message": "barrier cleanup"
     });
+    let bounded_duplicate_dispatches = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(bounded_duplicate.to_string().into()))
         .await
@@ -389,6 +514,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
+    tokio::time::timeout(
+        Duration::from_secs(1),
+        wait_for_barrier_dispatch(&barrier_started, &dispatches, bounded_duplicate_dispatches),
+    )
+    .await
+    .expect("bounded duplicate fixture did not enter in-flight execution");
     for _ in 0..64 {
         socket
             .send(Message::Text(bounded_duplicate.to_string().into()))
@@ -400,6 +531,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
         assert_eq!(duplicate["error"], "conversation_in_flight", "{duplicate}");
     }
+    barrier_release.add_permits(1);
     let delivered = next_conversation_result_for_turn(&mut socket, "turn-bounded-duplicate").await;
     assert_eq!(delivered["status"], "delivered", "{delivered}");
     assert!(
@@ -484,7 +616,21 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let delivered =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(delivered["status"], "delivered");
-    assert_eq!(delivered["reply"], "shepherd received your message.");
+    assert_eq!(
+        delivered["reply"],
+        "shepherd generated a model-backed reply."
+    );
+    assert_eq!(
+        delivered["schema"],
+        OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA
+    );
+    assert_eq!(delivered["recipient_id"], "shepherd");
+    assert_eq!(delivered["conversation_id"], "conversation-shepherd");
+    assert_eq!(delivered["turn_id"], "turn-positive");
+    assert_eq!(
+        delivered["correlation_id"],
+        "0123456789abcdef0123456789abcdef"
+    );
     assert!(!delivered.to_string().contains("adapter_secret"));
     assert_eq!(dispatches.load(Ordering::SeqCst), 4);
 
@@ -697,9 +843,9 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .send(Message::Text(
             serde_json::json!({
                 "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
-                "conversation_id": "conversation-shepherd",
+                "conversation_id": "conversation-forged-output",
                 "turn_id": "turn-forged-output",
-                "recipient_id": "shepherd",
+                "recipient_id": "agent-0100",
                 "correlation_id": "11111111111111111111111111111111",
                 "message": "forge recipient"
             })
@@ -840,6 +986,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         execution_released: false,
         completed: false,
     };
+    let cleanup_dispatches = dispatches.load(Ordering::SeqCst);
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
@@ -847,9 +994,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     let accepted =
         next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
     assert_eq!(accepted["status"], "accepted", "{accepted}");
-    tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-        .await
-        .expect("old-generation execution did not reach the completion barrier");
+    tokio::time::timeout(
+        Duration::from_secs(1),
+        wait_for_barrier_dispatch(&barrier_started, &dispatches, cleanup_dispatches),
+    )
+    .await
+    .expect("old-generation execution did not reach the completion barrier");
     let scheduling_pressure = (0..64)
         .map(|_| {
             tokio::spawn(async {
@@ -876,22 +1026,24 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     // trip. The server still processes these frames in order, so the proof
     // retains the generation transition while deterministically attaching to
     // the barrier-held turn before its bounded execution deadline.
+    cleanup_hook.permit_duplicate();
     socket
         .send(Message::Text(cleanup_race.to_string().into()))
         .await
         .unwrap();
-    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_duplicate())
-        .await
-        .expect("server did not observe the cleanup duplicate");
-    cleanup_hook.permit_duplicate();
-    tokio::time::timeout(Duration::from_secs(10), cleanup_hook.wait_for_attachment())
-        .await
-        .expect("server did not install the current-generation attachment");
-    let authenticated =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA).await;
+    let authenticated = tokio::time::timeout(
+        Duration::from_secs(10),
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA),
+    )
+    .await
+    .expect("server did not acknowledge cleanup-race reauthentication");
     assert_eq!(authenticated["status"], "authenticated");
-    let attached =
-        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
+    let attached = tokio::time::timeout(
+        Duration::from_secs(10),
+        next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA),
+    )
+    .await
+    .expect("server did not attach to the current-generation in-flight turn");
     assert_eq!(attached["status"], "accepted", "{attached}");
     assert_eq!(attached["error"], "conversation_in_flight", "{attached}");
 
@@ -968,6 +1120,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
 
     for index in 0..8 {
         let turn_id = format!("turn-in-flight-{index}");
+        let capacity_dispatches = dispatches.load(Ordering::SeqCst);
         socket
             .send(Message::Text(
                 serde_json::json!({
@@ -987,9 +1140,12 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
             next_frame_with_schema(&mut socket, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA).await;
         assert_eq!(accepted["status"], "accepted", "{accepted}");
         if index == 0 {
-            tokio::time::timeout(Duration::from_secs(1), barrier_started.notified())
-                .await
-                .expect("capacity fixture did not enter in-flight execution");
+            tokio::time::timeout(
+                Duration::from_secs(1),
+                wait_for_barrier_dispatch(&barrier_started, &dispatches, capacity_dispatches),
+            )
+            .await
+            .expect("capacity fixture did not enter in-flight execution");
         }
     }
     socket
@@ -1015,6 +1171,31 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         "active turns must never be evicted to admit new work"
     );
     barrier_release.add_permits(8);
+
+    socket
+        .send(Message::Text(
+            serde_json::json!({
+                "schema": OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA,
+                "conversation_id": "conversation-provider-failure",
+                "turn_id": "turn-provider-failure",
+                "recipient_id": "shepherd",
+                "correlation_id": "99999999999999999999999999999999",
+                "message": "provider failure"
+            })
+            .to_string()
+            .into(),
+        ))
+        .await
+        .unwrap();
+    let accepted = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(accepted["status"], "accepted", "{accepted}");
+    let failed = next_conversation_result_for_turn(&mut socket, "turn-provider-failure").await;
+    assert_eq!(failed["status"], "failed", "{failed}");
+    assert_eq!(failed["error"], "conversation_failed", "{failed}");
+    assert!(
+        failed["reply"].is_null(),
+        "provider failure must not synthesize a reply: {failed}"
+    );
 
     socket.close(None).await.unwrap();
     server.abort();

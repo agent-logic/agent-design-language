@@ -1,0 +1,18 @@
+{
+  "issue": 659,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "c968a6f9901a9150cc5c84894d8b04a8c47ee5f2359265e0868f192468d21aad",
+  "actor": "codex:659-preparation",
+  "reason": "Remove an absent untracked TBD source and retain only current repository and issue authority.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "agent-logic/agent-design-language#659",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "Issue #656 / PR #658 merged prerequisite"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "issue": 679,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "bd06d9fee1cb8dba58c3299a0f9cc39f7050bbaa8e1f1491352dcf42f9e80c4b",
+  "actor": "codex:679-validation",
+  "reason": "Record local Terraform syntax and provider-schema validation without planning or applying AWS resources.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["terraform", "validate"],
+      "purpose": "Validate the standalone Observatory Terraform root locally.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/679/terraform-validate.log; configuration valid"
+    }
+  }
+}

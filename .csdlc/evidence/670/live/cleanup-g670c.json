@@ -1,0 +1,50 @@
+{
+  "schema": "adl.issue670.cleanup-receipt.v2",
+  "status": "cleaned",
+  "cleanup_request_epoch": 1788485764,
+  "cleanup_observation_epoch": 1788485777,
+  "launch_receipt": "launch-g670c.json",
+  "qualification_succeeded": false,
+  "destroy_succeeded": true,
+  "inventory_queries_succeeded": true,
+  "runtime_instance": {
+    "name": "adl-670-g670-20260903b-runtime",
+    "absent": true
+  },
+  "ollama_instance": {
+    "name": "adl-670-g670-20260903b-ollama",
+    "absent": true
+  },
+  "runtime_restored_disk": {
+    "name": "adl-670-g670-20260903b-runtime-data",
+    "absent": true
+  },
+  "ollama_restored_disk": {
+    "name": "adl-670-g670-20260903b-ollama-data",
+    "absent": true
+  },
+  "resource_absence_verified": true,
+  "residual_issue_inventory": {
+    "instances": [],
+    "disks": [],
+    "firewalls": [],
+    "images": [],
+    "addresses": []
+  },
+  "retained_snapshot_inventory": [
+    {
+      "name": "adl-663-g670-20260903b-ollama",
+      "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-ollama"
+    },
+    {
+      "name": "adl-663-g670-20260903b-runtime",
+      "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-runtime"
+    }
+  ],
+  "retained_snapshot_observed_self_links": [
+    "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-runtime",
+    "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/snapshots/adl-663-g670-20260903b-ollama"
+  ],
+  "exact_retained_snapshot_set_verified": true,
+  "snapshots_retained_verified": true
+}

@@ -1,0 +1,7 @@
+{
+  "issue": 632,
+  "expected_generation": 4,
+  "expected_digest": "71687d19ce39f5b1a40a78e1cf826f410c28780f4f41e942e6b6732455144857",
+  "actor": "codex:worker-6",
+  "reason": "Recover stale #632 review and publication truth after merging current main and correcting the command-surface readiness packet before fresh exact-head review."
+}

@@ -1,0 +1,10 @@
+
+running 3 tests
+test service_convergence_defaults_support_slow_model_startup ... ok
+test service_convergence_accepts_inclusive_bounds ... ok
+test service_convergence_rejects_each_out_of_range_field ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 33 filtered out; finished in 0.02s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running tests/configuration.rs (adl-runtime-kernel/target/debug/deps/configuration-0cf75076401dbbde)

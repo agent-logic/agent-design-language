@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 695,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
+    "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "in-flight snapshot removal fencing\nsequence-aware archive projection and degraded-state consistency\nbounded AWS CLI child execution and scheduler cleanup\nnon-mutating manifest-owned acceptance evidence\nfocused exact-head validation",
+      "review_revision": "git-blake3:466a6da85bc1fabe3165adbcf83c2e59ee5df2e9:2b0238cb99040711e1c6313ec83c309691e8cc1264214b8c358e40579fa47f34",
+      "reviewer": "fresh-session:ee27eb24-a81c-4ebd-8161-d30b4f225ed9",
+      "review_prompts": [
+        "Can a slow snapshot or S3 outage block Runtime readiness, conversations, or shutdown?",
+        "Does every resident including Shepherd receive one ordered partial per cadence without overlap?",
+        "Can any partial be replayed or restored across agent, polis, Runtime, or full-checkpoint lineage?",
+        "Can local retention discard the only unarchived recoverable state or grow without bound?",
+        "Do API and Observatory show backing model and truthful snapshot/archive freshness without infrastructure or secret leakage?",
+        "Does Terraform enforce private encrypted versioned storage and least privilege without live apply?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live AWS Terraform apply and permanent Wuji rollout remain intentionally deferred and are not claimed as issue #695 proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

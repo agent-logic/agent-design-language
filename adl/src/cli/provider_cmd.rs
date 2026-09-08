@@ -208,6 +208,18 @@ fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
             endpoint_hint: None,
             notes: "Use this for the Rust-native DeepSeek provider path. The default endpoint is DeepSeek's chat completions API; override config.endpoint only for tests or a trusted compatible endpoint.",
         },
+        "kimi" | "moonshot" | "kimi-k3" => &ProviderSetupTemplate {
+            family: "kimi",
+            profile: None,
+            kind: Some("kimi"),
+            env_var: "MOONSHOT_API_KEY",
+            provider_id: "kimi_primary",
+            agent_id: "kimi_agent",
+            model_ref: "hosted:adl-kimi:kimi-k3",
+            provider_model_id: "kimi-k3",
+            endpoint_hint: None,
+            notes: "Use this for the Rust-native Moonshot/Kimi provider path. The default endpoint is Moonshot's OpenAI-compatible chat completions API; Kimi K3 supports reasoning_effort values low, high, and max.",
+        },
         "openrouter" => &ProviderSetupTemplate {
             family: "openrouter",
             profile: None,
@@ -258,7 +270,7 @@ fn template_for_family(family: &str) -> Result<&'static ProviderSetupTemplate> {
         },
         other => {
             return Err(anyhow!(
-                "unsupported provider setup family '{other}' (supported: chatgpt, claude, claude-opus-5, openai, anthropic, gemini, deepseek, openrouter, bedrock, z_ai, http)"
+                "unsupported provider setup family '{other}' (supported: chatgpt, claude, claude-opus-5, openai, anthropic, gemini, deepseek, kimi, moonshot, openrouter, bedrock, z_ai, http)"
             ))
         }
     };
@@ -675,6 +687,8 @@ mod tests {
                 "GEMINI_API_KEY",
             ),
             ("deepseek", "type: \"deepseek\"", "DEEPSEEK_API_KEY"),
+            ("kimi", "type: \"kimi\"", "MOONSHOT_API_KEY"),
+            ("moonshot", "type: \"kimi\"", "MOONSHOT_API_KEY"),
             ("openrouter", "type: \"openrouter\"", "OPENROUTER_API_KEY"),
             ("z_ai", "type: \"z_ai\"", "ZAI_API_KEY"),
             (

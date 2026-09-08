@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 686,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Govern configuration-generation handoff across CSM, Guardian, and kernel",
+    "slug": "runtime-governed-config-generation-handoff",
+    "version": "v0.92.1",
+    "generation": 48
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Give Runtime configuration one immutable generation receipt and atomic active reference shared by CSM, Guardian, kernel, status, and readiness.",
+      "required_outcome": "Every Runtime launch and reload participant validates and reports one committed configuration generation and digest, with deterministic crash recovery and prior-generation restoration.",
+      "declared_scope": [
+        "Runtime configuration-generation receipt and atomic active reference",
+        "CSM Guardian kernel status and readiness generation propagation",
+        "isolated failpoint and prior-generation recovery tests"
+      ],
+      "authority_boundary": [
+        "No live Runtime rollout restart or mutation",
+        "No binary installer or stable-route redesign",
+        "No convergence-policy or provider behavior changes",
+        "No tracked edits on main"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Reuse merged #589 transaction primitives and #678 generation routing",
+        "Use typed C-SDLC v2",
+        "Bind a FastWork issue worktree",
+        "Use deterministic isolated fixtures only"
+      ]
+    }
+  }
+}

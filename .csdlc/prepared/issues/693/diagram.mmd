@@ -1,0 +1,14 @@
+flowchart LR
+  U["Operator message"] --> I["Production conversation ingress"]
+  I --> P["Model/provider adapter"]
+  P -->|"reply text"| R["Operator-facing reply"]
+  P -->|"typed provider-native A2A action"| N["Runtime action normalizer"]
+  N --> G["Existing governed A2A primitive"]
+  G --> A{"Layer8 + admission + eligibility + replay"}
+  A -->|"reject"| F["Explicit terminal failure"]
+  A -->|"accept"| E["Recipient provider execution"]
+  E --> T["Correlated A2A terminal result"]
+  G --> O["Authoritative Observatory/feed activity"]
+  E --> O
+  T --> O
+  P -. "free-form prose never authorizes dispatch" .-> R

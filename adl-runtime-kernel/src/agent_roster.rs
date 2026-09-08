@@ -40,12 +40,98 @@ pub enum AgentPresence {
     Unknown,
 }
 
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum InferenceReadinessState {
+    #[default]
+    Unimplemented,
+    Unavailable,
+    ModelLoading,
+    Failed,
+    Ready,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct InferenceReadinessProjection {
+    pub presence: AgentPresence,
+    pub health: &'static str,
+    pub availability: &'static str,
+    pub activity: Option<&'static str>,
+    pub communication_eligible: bool,
+}
+
+impl InferenceReadinessState {
+    pub fn from_projection_state(state: &str) -> Self {
+        match state {
+            "ready" => Self::Ready,
+            "model_loading" | "loading" | "starting" => Self::ModelLoading,
+            "failed" | "unhealthy" => Self::Failed,
+            "unavailable" | "degraded" | "recovering" | "unreachable" => Self::Unavailable,
+            "unimplemented" | "unsupported" => Self::Unimplemented,
+            _ => Self::Unimplemented,
+        }
+    }
+
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Unimplemented => "unimplemented",
+            Self::Unavailable => "unavailable",
+            Self::ModelLoading => "model_loading",
+            Self::Failed => "failed",
+            Self::Ready => "ready",
+        }
+    }
+
+    pub fn projection(self) -> InferenceReadinessProjection {
+        match self {
+            Self::Unimplemented => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "unimplemented",
+                availability: "unavailable",
+                activity: Some("adapter_unimplemented"),
+                communication_eligible: false,
+            },
+            Self::Unavailable => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "unavailable",
+                availability: "unavailable",
+                activity: Some("provider_unavailable"),
+                communication_eligible: false,
+            },
+            Self::ModelLoading => InferenceReadinessProjection {
+                presence: AgentPresence::Unknown,
+                health: "loading",
+                availability: "unavailable",
+                activity: Some("model_preload"),
+                communication_eligible: false,
+            },
+            Self::Failed => InferenceReadinessProjection {
+                presence: AgentPresence::Degraded,
+                health: "failed",
+                availability: "unavailable",
+                activity: Some("inference_probe_failed"),
+                communication_eligible: false,
+            },
+            Self::Ready => InferenceReadinessProjection {
+                presence: AgentPresence::Ready,
+                health: "healthy",
+                availability: "available",
+                activity: None,
+                communication_eligible: true,
+            },
+        }
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AgentRuntimeEvidence {
     pub agent_id: String,
     pub name: String,
     pub display_name: String,
     pub public_role: String,
+    pub provider: Option<String>,
+    pub model: Option<String>,
+    pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -57,6 +143,7 @@ pub struct AgentRuntimeEvidence {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+    pub orientation: Option<crate::AgentOrientationDelivery>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -89,6 +176,24 @@ pub struct AgentRosterEntry {
     pub name: String,
     pub label: String,
     pub role: String,
+    #[serde(default)]
+    pub provider: Option<String>,
+    #[serde(default)]
+    pub model: Option<String>,
+    #[serde(default)]
+    pub last_snapshot_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub last_archive_at_unix_millis: Option<u64>,
+    #[serde(default)]
+    pub snapshot_sequence: Option<u64>,
+    #[serde(default)]
+    pub pending_archive_count: u64,
+    #[serde(default)]
+    pub snapshot_state: AgentSnapshotState,
+    #[serde(default)]
+    pub archive_state: AgentArchiveState,
+    #[serde(default)]
+    pub inference_readiness: InferenceReadinessState,
     pub presence: AgentPresence,
     pub health: String,
     pub availability: String,
@@ -100,6 +205,29 @@ pub struct AgentRosterEntry {
     pub freshness_deadline_unix_millis: u64,
     pub source_revision: String,
     pub provenance: String,
+    #[serde(default)]
+    pub orientation: Option<crate::AgentOrientationDelivery>,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AgentSnapshotState {
+    #[default]
+    NeverSnapshotted,
+    Current,
+    Overdue,
+    Failed,
+}
+
+#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum AgentArchiveState {
+    #[default]
+    Disabled,
+    Current,
+    Pending,
+    Degraded,
+    SpoolSaturated,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -417,6 +545,21 @@ fn validate_evidence(item: &AgentRuntimeEvidence) -> Result<(), AgentRosterError
         || item.public_role.len() > 128
         || item.source_revision.is_empty()
         || item.provenance.is_empty()
+        || item.orientation.as_ref().is_some_and(|orientation| {
+            orientation.schema != crate::AGENT_ORIENTATION_DELIVERY_SCHEMA
+                || orientation.version.is_empty()
+                || orientation.version.len() > 64
+                || orientation.digest_algorithm != crate::AGENT_ORIENTATION_DIGEST_ALGORITHM
+                || orientation.digest.len() != 64
+                || !orientation
+                    .digest
+                    .bytes()
+                    .all(|byte| byte.is_ascii_hexdigit())
+                || orientation.source_path.is_empty()
+                || orientation.source_path.len() > 512
+                || orientation.projection.is_empty()
+                || orientation.projection.len() > 64
+        })
         || item.observed_at_unix_millis == 0
         || item.freshness_deadline_unix_millis <= item.observed_at_unix_millis
         || item.capabilities.len() > 32
@@ -439,6 +582,15 @@ fn project_entry(
         name: item.name.clone(),
         label: item.display_name.clone(),
         role: item.public_role.clone(),
+        provider: item.provider.clone(),
+        model: item.model.clone(),
+        last_snapshot_at_unix_millis: None,
+        last_archive_at_unix_millis: None,
+        snapshot_sequence: None,
+        pending_archive_count: 0,
+        snapshot_state: AgentSnapshotState::NeverSnapshotted,
+        archive_state: AgentArchiveState::Disabled,
+        inference_readiness: item.inference_readiness,
         presence: if stale {
             AgentPresence::Unknown
         } else {
@@ -469,5 +621,6 @@ fn project_entry(
         freshness_deadline_unix_millis: item.freshness_deadline_unix_millis,
         source_revision: item.source_revision.clone(),
         provenance: item.provenance.clone(),
+        orientation: item.orientation.clone(),
     }
 }

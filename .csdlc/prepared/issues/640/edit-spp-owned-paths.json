@@ -1,0 +1,29 @@
+{
+  "issue": 640,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "90aa1b24e96aaf507651eac91996046bcf29226985bd2a7882cf8daaf59b6c79",
+  "actor": "codex:/root",
+  "reason": "Replace semantic area labels with the exact safe repository-owned implementation and proof path denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/governed_operations.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      ".csdlc/prepared/issues/640",
+      ".csdlc/evidence/640"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "adl.issue607.final_validation.v1",
+  "issue": 607,
+  "observed_at": "2026-09-03T09:49:24Z",
+  "tested_revision": "fd4118d398c4f7c80303d492452e115d3afce471",
+  "tested_tree": "44481d1072993974d6be335999d1a3464c210d42",
+  "base_revision": "origin/main",
+  "status": "pass",
+  "checks": [
+    {
+      "command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"],
+      "outcome": "passed",
+      "result": "issue607_all=pass"
+    },
+    {
+      "command": ["cargo", "check", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--bin", "adl-runtime-kernel"],
+      "outcome": "passed",
+      "result": "dev profile finished successfully"
+    },
+    {
+      "command": [".adl/bin/csdlc-v2/csdlc-validate", "--root", ".", "issue", "--issue", "607"],
+      "outcome": "passed",
+      "result": "zero findings"
+    },
+    {
+      "command": ["git", "diff", "--check", "origin/main...HEAD"],
+      "outcome": "passed",
+      "result": "no whitespace errors"
+    }
+  ],
+  "merge_resolution": {
+    "file": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "behavior": "Retry transient resident Shepherd admission failures; on a non-retryable admission failure, report degradation and keep Runtime available."
+  },
+  "post_validation_boundary": "Only this retained evidence artifact and typed issue-607 lifecycle projections may change before the next exact-head review; any source, test, Terraform, runbook, or AWS evidence change requires fresh validation."
+}

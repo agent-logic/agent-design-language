@@ -1,0 +1,226 @@
+{
+  "issue": 662,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:662-bootstrap",
+  "design_path": ".csdlc/prepared/issues/662/design.md",
+  "diagram_path": ".csdlc/prepared/issues/662/diagram.mmd",
+  "design_reviewer": "codex:662-plan-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+    "slug": "runtime-agent-to-agent-initiation",
+    "version": "v0.92.1",
+    "goal": "Implement and prove governed agent-to-agent initiation as a Runtime-authoritative capability distinct from replying to a user.",
+    "required_outcome": "A model-backed resident Shepherd such as Beacon Axioma can initiate a governed turn addressed to another admitted resident agent such as Ember Axioma, with distinct conversation, turn, sender, recipient, work, and correlation identity; the recipient executes through its configured model/provider and terminal outcomes remain explicit.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "Observatory/Inspector activity projection surfaces only if existing authoritative events cannot render initiation truth",
+      ".csdlc/prepared/issues/662",
+      ".csdlc/issues/662"
+    ],
+    "authority_boundary": [
+      "Issue #662 owns governed agent-to-agent initiation proof, not the separate Shepherd hardcoded-reply defect",
+      "Runtime remains authoritative for admission, authorization, cancellation, bounded execution, continuity, failure, and correlation identity",
+      "Recipient execution must use configured model/provider behavior; no hardcoded acknowledgement or fixture response receives live credit",
+      "No live Runtime restart or live provider acceptance proof without separate operator authorization"
+    ],
+    "operator_constraints": [
+      "Never write tracked files on main",
+      "Use only bound FastWork worktrees under /Volumes/FastWork/adl-worktrees for tracked execution",
+      "Do not write to /private/tmp",
+      "Do not restart or mutate the live Runtime during implementation",
+      "Do not use AWS, paid runners, or live provider calls without explicit operator authorization",
+      "Do not widen into unrestricted autonomous messaging, broadcast, fan-out, or recursive unbounded conversations"
+    ],
+    "task_boundary": "Add the bounded Runtime path and deterministic proof for one governed resident agent initiating work addressed to another admitted resident agent.",
+    "deliverables": [
+      "Governed agent-to-agent initiation path",
+      "Distinct identity and correlation model for initiated work",
+      "Configured-provider recipient execution proof",
+      "Replay/idempotency or explicit rejection proof",
+      "Cancellation and missing/stale/unauthorized/provider-failure terminal proof",
+      "Observatory/Inspector activity proof using authoritative events or a minimal rendering fix if required"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A focused integration test proves a model-backed Shepherd initiates a turn to a second admitted model-backed agent",
+      "AC-2: The emitted event or work item identifies Beacon as sender and Ember as recipient using canonical agent identities",
+      "AC-3: The recipient generated result is correlated to the initiated work and cannot be confused with the Shepherd user-facing reply",
+      "AC-4: Duplicate or replayed initiation is idempotent or explicitly rejected under a documented rule",
+      "AC-5: Cancellation and recipient or provider failure produce truthful terminal state",
+      "AC-6: Observatory feed proof shows the agent-to-agent activity, with UI changes only if the existing Activity surface cannot render the authoritative event",
+      "AC-7: Exact-head independent review passes before publication"
+    ],
+    "dependencies": [
+      "Issue #661 Shepherd configured-provider reply work must remain distinct from initiation semantics",
+      "Current Runtime resident agent admission and configured-provider execution paths"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#662",
+      "agent-logic/agent-design-language#661",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+    ],
+    "non_goals": [
+      "Do not conflate initiation with the separate Shepherd hardcoded-reply defect",
+      "Do not implement unrestricted autonomous messaging",
+      "Do not implement broadcast or arbitrary fan-out",
+      "Do not implement recursive unbounded conversations",
+      "Do not restart or modify the live Runtime as part of implementation",
+      "Do not claim live provider acceptance without separate authorization"
+    ],
+    "plan_summary": "Trace existing resident-agent conversation execution and activity projection, design a bounded initiation envelope with Runtime-authoritative sender/recipient/work/correlation identity, add deterministic success/replay/cancel/failure proof, then run focused validation and exact-head independent review before publication.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Trace the existing resident-agent conversation dispatch, Shepherd provider execution, work identity, and activity projection paths.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Define and implement the narrow governed initiation path that creates distinct sender, recipient, conversation, turn, work, and correlation identity.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Preserve Runtime-authoritative authorization, admission, cancellation, continuity, bounded execution, and explicit failure semantics.",
+        "acceptance_ids": [
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Add focused deterministic integration tests for successful Beacon-to-Ember initiation, replay behavior, cancellation, missing or stale recipient, unauthorized initiation, and provider failure.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Verify Observatory and Inspector Activity can expose authoritative initiation and resulting turn truth, changing UI only if existing rendering cannot show the event.",
+        "acceptance_ids": [
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "action": "Run focused validation, hygiene checks, and exact-head independent review before publication.",
+        "acceptance_ids": [
+          "AC-7"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/shepherd.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      ".csdlc/prepared/issues/662",
+      ".csdlc/issues/662"
+    ],
+    "invariants": [
+      "Initiation is distinct from replying to a user",
+      "Sender, recipient, conversation, turn, work, and correlation identities are explicit and non-confusable",
+      "Admission and authorization remain Runtime-authoritative",
+      "Recipient execution uses configured provider behavior",
+      "Provider and recipient failures are terminal truth, not synthetic success",
+      "No live Runtime or provider mutation is required for local deterministic proof"
+    ],
+    "risks": [
+      "Conflating an initiated agent-to-agent turn with the initiating Shepherd's user-facing reply",
+      "Accidentally crediting hardcoded or fixture responses as configured-provider execution",
+      "Weak replay semantics that duplicate initiated work",
+      "Authorization or admission bypass for autonomous initiation",
+      "Activity projection that implies delivery without Runtime-authoritative evidence"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Live Runtime restart or live provider access becomes necessary",
+      "Authorization/admission semantics are unclear enough to require operator design review",
+      "Scope widens into unrestricted autonomous messaging, broadcast, fan-out, or recursive conversation loops",
+      "Observatory proof requires more than minimal authoritative-event rendering",
+      "Exact-head review returns unresolved findings"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "runtime-agent-to-agent-initiation",
+        "proof_role": "Prove successful governed Beacon-to-Ember initiation, distinct identity/correlation, replay behavior, cancellation, missing or stale recipient, unauthorized initiation, and provider failure through deterministic Runtime integration tests.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--lib",
+          "agent_to_agent_initiation"
+        ],
+        "parallel_group": "runtime-agent-initiation",
+        "defer_reason": "Focused test names are finalized after tracing the existing Runtime execution surface."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove exact branch diff whitespace hygiene.",
+        "acceptance_ids": [
+          "AC-7"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail explicitly for unauthorized initiation, missing or stale recipient, cancellation, replay conflict, recipient failure, or provider failure; never synthesize delivery or model output success.",
+    "review_prompts": [
+      "Is agent-to-agent initiation distinct from user-facing replies?",
+      "Are Beacon sender and Ember recipient identities canonical and non-confusable?",
+      "Can duplicate or replayed initiation create duplicate work without an explicit rule?",
+      "Do cancellation and provider/recipient failures produce truthful terminal state?",
+      "Does activity projection expose authoritative initiation truth without inventing delivery?"
+    ],
+    "review_scope": "Governed resident agent-to-agent initiation, deterministic Runtime proof, identity/correlation semantics, replay/cancellation/failure outcomes, and minimal authoritative activity projection only."
+  }
+}

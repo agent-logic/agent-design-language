@@ -1,0 +1,12 @@
+{
+  "issue": 679,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "889bae630a9bb57f5f320fd04f7ec8eecd3a96114a81917aca99731bad37e0c9",
+  "actor": "codex:679-init",
+  "reason": "Advance #679 to ready after typed doctor passed with the S3 deployable Observatory sidecar boundary, exact validator targets, and no-live-AWS-mutation default recorded.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

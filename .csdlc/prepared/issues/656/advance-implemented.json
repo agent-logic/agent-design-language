@@ -1,0 +1,10 @@
+{
+  "issue": 656,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "9fae4a34ce91608376b9588bdaa24abc519b02b29e37b61d7c233f7f1e9071e8",
+  "actor": "codex:656-implementation",
+  "reason": "Atomic Runtime generation installation, pre-mutation generation verification, focused tests, formatting, build check, and diff hygiene are complete; bounded exact-head review is next.",
+  "operation": {"operation":"advance_phase","phase":"implemented"},
+  "fail_after_backup": false
+}

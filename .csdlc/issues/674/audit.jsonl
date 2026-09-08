@@ -1,0 +1,12 @@
+{"sequence":1,"generation":0,"actor":"codex:/root","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4","reason":"approve completed issue design","operation":"{\"design_digest\":\"f023d034a3e65718f81897b43967afad4ad0300936d8a79350f63fb675e83a92\",\"design_ref\":\".csdlc/prepared/issues/674/design.md\",\"diagram_digest\":\"600ab04e631c91e18ff47616f5f1342ab94f4073e5318dcdf2c02118b02dbb50\",\"diagram_ref\":\".csdlc/prepared/issues/674/diagram.mmd\",\"operation\":\"approve_design\"}"}
+{"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":5,"generation":2,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":6,"generation":3,"actor":"fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":7,"generation":4,"actor":"codex:/root","reason":"Recover review assignment after committing the typed review metadata so a clean exact current revision can be reviewed for publication.","operation":"recover_review"}
+{"sequence":8,"generation":4,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":9,"generation":5,"actor":"fresh-session:77a0c879-bb12-46f3-9567-44ac27a987d4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":6,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":11,"generation":7,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":12,"generation":8,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #674 from retained derived terminal PR #681.","operation":"materialize_derived_terminal"}

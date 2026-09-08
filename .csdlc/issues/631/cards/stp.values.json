@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 631,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.5] Implement v3 proof, parity, soak, shadow, and install routes",
+    "slug": "v3-h5-proof-parity-soak-shadow-install",
+    "version": "v0.92.1",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the V3-H.5 proof, shadow, soak, and install route behavior and issue-owned proof.",
+      "deliverables": [
+        "csdlc proof route behavior and tests",
+        "csdlc shadow route behavior and tests",
+        "csdlc soak route behavior and tests",
+        "csdlc install route behavior and tests",
+        "One-binary command manifest update",
+        "Issue-owned validation script and retained evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Proof manifests validate deterministic lanes, durable evidence refs, stale evidence, and missing-manifest failures.",
+        "AC-2: Shadow compares bounded v2/v3 observations where parity is claimed and refuses broad unproven equivalence.",
+        "AC-3: Soak classifies bounded evidence without hidden state, live provider side effects, or authority claims.",
+        "AC-4: Install produces one stable csdlc artifact plan with source provenance, selected binary digest, selector metadata, and #505 cutover gating.",
+        "AC-5: Tests cover positive proof, missing manifest, stale evidence, parity mismatch, soak evidence gaps, install provenance mismatch, and fail-closed selector errors.",
+        "AC-6: No v2 source changes."
+      ],
+      "dependencies": [
+        "#625 sprint umbrella",
+        "#627 V3-H.1 command denominator"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#631",
+        "csdlc-v3/AGENTS.md",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "csdlc-v3/src/main.rs"
+      ],
+      "non_goals": [
+        "Perform #505 cutover",
+        "Retire v2",
+        "Merge or close #505",
+        "Run live provider soak",
+        "Change v2 source code"
+      ]
+    }
+  }
+}

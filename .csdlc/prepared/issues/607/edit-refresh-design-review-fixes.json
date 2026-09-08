@@ -1,0 +1,11 @@
+{
+  "issue": 607,
+  "card": "spp",
+  "expected_generation": 88,
+  "expected_digest": "3b96fdbe5ff0d2a88cf5a709c04de3ac5c5ec7a5425cc0d9f89c5229e3659eda",
+  "actor": "codex-primary-issue607",
+  "reason": "Refresh the authored design after exact-head review exposed stale preparation recovery and startup ordering claims.",
+  "operation": {
+    "operation": "refresh_authored_design_after_recovery"
+  }
+}

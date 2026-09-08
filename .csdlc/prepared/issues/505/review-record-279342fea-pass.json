@@ -1,0 +1,25 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 505,
+  "expected_generation": 49,
+  "expected_digest": "41bd104f2bf838e19038d2211a0d2123363f9e2e3969e5e3672b19563f259ab1",
+  "actor": "codex:worker-6",
+  "evidence": {
+    "reviewer": "subagent:/root/review_591_279342fea",
+    "scope": [
+      "AGENTS.md",
+      "adl/tools/test_install_adl_pr_cycle_skill.sh",
+      "csdlc-v3",
+      "docs"
+    ],
+    "reviewed_revision": "git-blake3:4bc63d390e421702607837b2e4193d0e5573321f:208bfe9d3d5b73c129c5ada4ea2f7e0fb32f7aa0ce64933ac7c2b64f9f19ddff",
+    "findings": [],
+    "residual_risks": [
+      "Actual rollback-exercise evidence remains required before operator cutover approval.",
+      "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
+      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

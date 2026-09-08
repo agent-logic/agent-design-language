@@ -1,0 +1,63 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 674,
+  "expected_generation": 1,
+  "expected_digest": "725866c3614ef726061c98f40ed742ae387bc4935be2a52e4b5c725c3ea401d8",
+  "actor": "codex:/root",
+  "summary": "Added the versioned, agent-readable Axioma Polis Welcome Package and a focused offline documentation contract.",
+  "changes": [
+    "Documented Polis context, resident identity, other residents, the model-backed Shepherd, and governed Layer 8 communication.",
+    "Documented explicit authority, privacy, credential, refusal, clarification, and escalation boundaries without claiming new Runtime behavior.",
+    "Added a focused validator for required sections, safety language, qualitative markers, and path or secret hygiene."
+  ],
+  "artifacts": [
+    "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md",
+    ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "welcome-package-docs",
+          "proof_role": "Check the required Welcome Package structure, governance and safety language, help paths, tone markers, and path or secret hygiene.",
+          "purpose": "Issue 674 documentation contract validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 100},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "docs",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "bash",
+          "argv": [".csdlc/prepared/issues/674/validate-welcome-package-docs.sh"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "diff-hygiene",
+          "proof_role": "Check whitespace hygiene across the complete issue range.",
+          "purpose": "Issue 674 exact-range diff hygiene",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 50},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "docs",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "git",
+          "argv": ["diff", "--check", "origin/main...HEAD"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["welcome-package-docs", "diff-hygiene"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 2, "cpu_units": 2, "memory_mib": 512, "tokens": 150},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-674-runtime-new-polis-citizen-welcome-package/.csdlc/evidence/674",
+    "cancellation_file": null
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "issue": 607,
+  "base_branch": "codex/607-bind-source",
+  "branch": "codex/607-aws-warm-polis-gpu-startup",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup"
+}

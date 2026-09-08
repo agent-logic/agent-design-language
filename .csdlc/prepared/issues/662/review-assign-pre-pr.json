@@ -1,0 +1,17 @@
+{
+  "issue": 662,
+  "expected_generation": 9,
+  "expected_digest": "737df2b124b954d2486e853b5213dca9e42c693419de4ba9548768605468c7fc",
+  "reviewer": "fresh-session:review-662-agent-to-agent-initiation-final-metadata-head",
+  "assigned_by": "codex:/root:issue-662-exec",
+  "scope": [
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/telemetry.rs",
+    ".csdlc/prepared/issues/662/design.md",
+    ".csdlc/prepared/issues/662/diagram.mmd",
+    ".csdlc/prepared/issues/662/bind.json",
+    ".csdlc/prepared/issues/662/finalize-implementation.json",
+    ".csdlc/prepared/issues/662/validate-focused.sh",
+    ".csdlc/evidence/662"
+  ]
+}

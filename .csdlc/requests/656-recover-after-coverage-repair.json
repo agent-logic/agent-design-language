@@ -1,0 +1,7 @@
+{
+  "issue": 656,
+  "expected_generation": 17,
+  "expected_digest": "f8089307c490fed55203d01fe7caa03e5185e9ee9fac0277bb30657be52e8813",
+  "actor": "codex:/root",
+  "reason": "Recover the published review after the test-only changed-source coverage repair at 630c7f73a5bbff13ebd701219834c4be7f526701 so focused validation and a fresh exact-head review can be recorded before republication."
+}

@@ -1,0 +1,7 @@
+{
+  "issue": 645,
+  "base_branch": "codex/645-stacked-closing-relation",
+  "branch": "codex/645-stacked-closing-relation-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-645-stacked-closing-relation-exec",
+  "code_repository": "agent-logic/agent-design-language"
+}

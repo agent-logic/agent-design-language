@@ -1,0 +1,237 @@
+{
+  "issue": 695,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:agent-partial-checkpoint-s3",
+  "design_path": ".csdlc/prepared/issues/695/design.md",
+  "diagram_path": ".csdlc/prepared/issues/695/diagram.mmd",
+  "design_reviewer": "codex:review-695-design",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][Runtime] Snapshot every resident agent every five minutes and archive partials to S3",
+    "slug": "runtime-agent-five-minute-partial-checkpoint-s3",
+    "version": "v0.92.1",
+    "goal": "Create five-minute incremental continuity for every resident agent and asynchronously archive partial checkpoints to S3 with per-agent API and Observatory visibility.",
+    "required_outcome": "Every resident, including the Shepherd, receives an atomic local partial every 300 seconds by default; an independent bounded worker archives partials to private encrypted versioned S3 without coupling cloud health to Runtime readiness.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests",
+      "demos/html-observatory",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/aws/runtime/agent-checkpoint-archive",
+      ".adl/runtime-v3/live/runtime-init.toml",
+      ".csdlc/prepared/issues/695",
+      ".csdlc/issues/695"
+    ],
+    "authority_boundary": [
+      "Issue #695 owns periodic per-agent partial checkpoints, their S3 archive, public continuity projection, and Observatory rendering",
+      "Issue #594 remains authority for Runtime log archival",
+      "Existing full terminal checkpoints and explicit dehydrate/migrate bundles remain authoritative for their own lifecycle boundaries",
+      "Live AWS apply and permanent Runtime rollout are post-review operator actions"
+    ],
+    "operator_constraints": [
+      "Default cadence is exactly 300 seconds",
+      "Never block Runtime readiness or agent execution on S3",
+      "Never embed AWS credentials or secrets",
+      "Do not restart or modify the permanent Wuji Runtime during implementation",
+      "Do not create paid cloud resources during repository implementation",
+      "Keep tracked work out of main and use a bound FastWork worktree"
+    ],
+    "task_boundary": "Implement and prove bounded local five-minute agent partials, asynchronous S3 archival, restore validation, API projection, Observatory rendering, and Terraform planning without live deployment.",
+    "deliverables": [
+      "Typed bounded periodic coordinator covering Shepherd and dynamic residents",
+      "Versioned integrity-bound partial schema and atomic local store",
+      "Durable bounded asynchronous S3 upload spool and archive worker",
+      "Validated full-checkpoint-plus-partials restore path",
+      "Roster and detail API continuity fields including provider/model and snapshot/archive status",
+      "Observatory per-agent backing-model and snapshot/archive rendering",
+      "Private encrypted versioned S3 Terraform module and least-privilege IAM",
+      "Accelerated deterministic and production-shaped isolated tests"
+      ,"adl-runtime-kernel/tests/agent_partial_checkpoint.rs"
+      ,"adl-runtime-kernel/tests/agent_continuity_api.rs"
+      ,"demos/html-observatory/tests/agent_continuity.test.mjs"
+      ,"infra/aws/runtime/agent-checkpoint-archive/validate.sh"
+      ,"adl/tools/test_runtime_agent_partial_checkpoint.sh"
+      ,".csdlc/prepared/issues/695/validate-acceptance.sh"
+    ],
+    "acceptance_criteria": [
+      "AC-1: A monotonic fixed-rate coordinator defaults to 300 seconds, accepts only 60 through 86400 seconds, starts after one full interval, and skips rather than bursts missed ticks",
+      "AC-2: Each cycle freezes an ordered resident roster including Shepherd; admission/removal, one-in-flight-per-agent, global concurrency four, and bounded no-I/O serialization cannot overlap captures or block conversations, readiness, shutdown, or other agents",
+      "AC-3: Each atomic self-contained partial is at most 16 MiB, excludes secrets and infrastructure locations, and binds stable Runtime/polis/agent identity, provider/model, per-agent and cycle sequences, parent full-checkpoint lineage, source incarnation, time, checksum, and canonical digest",
+      "AC-4: The local store is capped at 2 GiB and 8192 files and the asynchronous idempotent S3 spool at 512 MiB and 4096 files; normal retention keeps at most twelve partials plus the latest tombstone per agent, globally prunes only superseded records, coalesces pending uploads during outage, refuses growth as local_store_saturated or spool_saturated when protected newest records fill a cap, and never gates Runtime",
+      "AC-5: Terraform enforces all four S3 public-access blocks, BucketOwnerEnforced ownership, versioning, TLS-only access, customer-managed annually rotated KMS encryption, 30/7/1-day lifecycle rules, and separate prefix-scoped writer and restore IAM",
+      "AC-6: Restore composes the latest full checkpoint with the highest valid later self-contained partial per agent, accepts a differing source incarnation, allows global cadence gaps, treats identical duplicates idempotently, honors later tombstones, and rejects corruption, conflicting duplicates, rollback, or stable identity/lineage mismatch",
+      "AC-7: Roster and agent-detail APIs expose canonical name, provider, model, nullable last local snapshot and S3 archive times, nullable snapshot sequence, pending archive count, and no storage details; snapshot state is never before first due cycle, current after the latest due success, overdue while a due capture runs or is skipped, failed after the latest completed failure, with precedence failed-overdue-current-never and success recovery",
+      "AC-8: Observatory renders the authoritative per-agent API fields; archive state is disabled when unconfigured, current only when newest is receipted with no backlog, pending while queued without failure, degraded after failure/coalescing, spool_saturated after enqueue refusal, with precedence saturated-degraded-pending-current-disabled and newest receipt recovery, never inferring success",
+      "AC-9: An exact-HEAD acceptance results receipt rejects missing, failed, duplicate, stale-head, and zero-test or zero-assertion proof and maps every AC to accelerated production-shaped tests for cadence, roster mutation, slow capture, crash atomicity, saturation/coalescing, outage/retry, restore/restart, API, Observatory, and Terraform policy",
+      "AC-10: Focused validation, exact-range hygiene, and independent exact-head review pass without live Runtime or AWS mutation"
+    ],
+    "dependencies": [
+      "Current Runtime v3 continuity and agent lifecycle baseline",
+      "Issue #594 log archive is a convention input only and not modified",
+      "Live rollout depends on reviewed merge plus separate operator authorization"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#695",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "demos/html-observatory",
+      "infra/aws/runtime/log-archive"
+    ],
+    "non_goals": [
+      "No replacement of full checkpoints or migration bundles",
+      "No Runtime log archive redesign",
+      "No synchronous S3 call from agent execution",
+      "No cloud-dependent readiness",
+      "No provider, A2A, or conversation-history redesign",
+      "No live Runtime restart, AWS apply, or paid validation"
+    ],
+    "plan_summary": "Define the partial schema and cadence, implement bounded local snapshots for all residents, add an asynchronous durable S3 spool and restore rules, project per-agent continuity through API and Observatory, add Terraform, prove accelerated end-to-end behavior, review, and publish.",
+    "steps": [
+      {"id":"S1","action":"Define configuration bounds, partial schema, lineage, redaction, atomic local storage, and restore rules.","acceptance_ids":["AC-1","AC-3","AC-6"],"status":"pending"},
+      {"id":"S2","action":"Implement the bounded periodic coordinator for Shepherd and dynamic residents with deterministic roster-change and overlap behavior.","acceptance_ids":["AC-1","AC-2","AC-9"],"status":"pending"},
+      {"id":"S3","action":"Implement the durable bounded asynchronous S3 spool, idempotent archive worker, and Terraform security boundary.","acceptance_ids":["AC-4","AC-5","AC-9"],"status":"pending"},
+      {"id":"S4","action":"Project per-agent continuity fields through roster/detail APIs and render them in Observatory.","acceptance_ids":["AC-7","AC-8"],"status":"pending"},
+      {"id":"S5","action":"Run accelerated production-shaped tests, focused validation, exact-head review, and typed publication.","acceptance_ids":["AC-6","AC-9","AC-10"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_partial_checkpoint.rs",
+      "adl-runtime-kernel/tests/agent_continuity_api.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/agent_continuity.test.mjs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/aws/runtime/agent-checkpoint-archive",
+      "infra/aws/runtime/agent-checkpoint-archive/validate.sh",
+      "adl/tools/test_runtime_agent_partial_checkpoint.sh",
+      ".csdlc/prepared/issues/695/validate-acceptance.sh"
+    ],
+    "invariants": [
+      "Cloud unavailability never blocks or terminates Runtime",
+      "At most one partial per agent per sequence is authoritative",
+      "Every partial is bound to canonical identity and continuity lineage",
+      "The only unarchived recoverable local partial is never evicted",
+      "API and Observatory never infer checkpoint or archive success",
+      "Secrets and credentials never enter partials, projections, logs, or evidence"
+    ],
+    "risks": [
+      "Periodic serialization could contend with active conversations",
+      "Roster mutation during a cycle could skip or duplicate an agent",
+      "Upload backlog could consume unbounded disk",
+      "Restore could apply a valid partial to the wrong lineage",
+      "Public API fields could leak infrastructure details",
+      "Terraform could accidentally couple checkpoint storage to log retention"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "Implementation requires synchronous cloud I/O on an agent or readiness path",
+      "A partial cannot be bound to canonical agent and continuity lineage",
+      "Local spool or retention cannot be bounded without losing the only recoverable partial",
+      "Scope expands into log archival, provider execution, A2A, or transcript recovery",
+      "Validation requires live Wuji restart or AWS resource creation",
+      "Exact-head review has unresolved findings"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"runtime-agent-partial-continuity",
+        "proof_role":"Prove schema, cadence, all-resident coverage, isolation, lineage, restore, spool bounds, and S3 failure recovery with accelerated deterministic fixtures.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-6","AC-9","AC-10"],
+        "deterministic":true,
+        "resource_profile":"medium",
+        "budget_seconds":900,
+        "budget_tokens":5000,
+        "argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","agent_partial_checkpoint"],
+        "parallel_group":"agent-partials",
+        "defer_reason":"Created by #695 implementation; must select a nonzero exact integration target before review."
+      },
+      {
+        "lane":"runtime-agent-continuity-api",
+        "proof_role":"Prove roster and detail API fields, null semantics, state enums, freshness transitions, and privacy exclusions.",
+        "acceptance_ids":["AC-7","AC-10"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":2500,
+        "argv":["cargo","test","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","agent_continuity_api"],
+        "parallel_group":"agent-partials",
+        "defer_reason":"Created by #695 implementation; must select a nonzero exact API integration target before review."
+      },
+      {
+        "lane":"runtime-agent-continuity-observatory",
+        "proof_role":"Prove Observatory backing-model and snapshot/archive rendering for every declared state without inferred success.",
+        "acceptance_ids":["AC-8","AC-10"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":2500,
+        "argv":["node","demos/html-observatory/tests/agent_continuity.test.mjs"],
+        "parallel_group":"agent-partials",
+        "defer_reason":"Created by #695 implementation; must report a nonzero Node test denominator before review."
+      },
+      {
+        "lane":"runtime-agent-checkpoint-terraform",
+        "proof_role":"Prove private encrypted versioned S3, least-privilege IAM, lifecycle retention, and no live apply.",
+        "acceptance_ids":["AC-5","AC-10"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":300,
+        "budget_tokens":1500,
+        "argv":["bash","infra/aws/runtime/agent-checkpoint-archive/validate.sh"],
+        "parallel_group":"agent-partials",
+        "defer_reason":"Created by #695 implementation; must run Terraform init/validate and deterministic plan-policy assertions without apply."
+      },
+      {
+        "lane":"runtime-agent-partial-production-shape",
+        "proof_role":"Exercise multiple accelerated cycles, live roster mutation, outage recovery, restart restoration, API projection, and reject a zero-test denominator on isolated ports with a local fake S3 endpoint.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-6","AC-7","AC-9","AC-10"],
+        "deterministic":true,
+        "resource_profile":"medium",
+        "budget_seconds":900,
+        "budget_tokens":5000,
+        "argv":["bash","adl/tools/test_runtime_agent_partial_checkpoint.sh"],
+        "parallel_group":"agent-partials-serial",
+        "defer_reason":"Created by #695 implementation; must run the production-shaped isolated Runtime and fake-S3 proof before review."
+      },
+      {
+        "lane":"acceptance-denominator",
+        "proof_role":"Require one passing non-zero proving test or assertion set for every acceptance row before review.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9","AC-10"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":60,
+        "budget_tokens":500,
+        "argv":["bash",".csdlc/prepared/issues/695/validate-acceptance.sh"],
+        "parallel_group":"agent-partials-final",
+        "defer_reason":null
+      },
+      {
+        "lane":"format-and-diff",
+        "proof_role":"Reject Rust formatting and committed whitespace defects.",
+        "acceptance_ids":["AC-10"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":180,
+        "budget_tokens":500,
+        "argv":["cargo","fmt","--manifest-path","adl-runtime-kernel/Cargo.toml","--","--check"],
+        "parallel_group":"agent-partials",
+        "defer_reason":null
+      }
+    ],
+    "failure_policy": "Fail closed for invalid configuration, partial integrity or lineage mismatch, unbounded retention, overlapping authority, secret leakage, cloud-coupled readiness, zero-test proof, missing implementation validators, or unresolved exact-head findings. During S3 failure, record degraded archive health while preserving Runtime availability.",
+    "review_prompts": [
+      "Can a slow snapshot or S3 outage block Runtime readiness, conversations, or shutdown?",
+      "Does every resident including Shepherd receive one ordered partial per cadence without overlap?",
+      "Can any partial be replayed or restored across agent, polis, Runtime, or full-checkpoint lineage?",
+      "Can local retention discard the only unarchived recoverable state or grow without bound?",
+      "Do API and Observatory show backing model and truthful snapshot/archive freshness without infrastructure or secret leakage?",
+      "Does Terraform enforce private encrypted versioned storage and least privilege without live apply?"
+    ],
+    "review_scope": "Five-minute per-agent partial checkpoint cadence, local atomic storage and restore, asynchronous S3 spool/archive, per-agent Runtime API fields, Observatory rendering, Terraform security boundary, and focused tests only."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "actor": "codex:/root/issue-693",
+  "card": "spp",
+  "expected_digest": "73991ee2c000db52f3cd7b4e35f916da904e87369da700f5d7ea79ec6bcbadde",
+  "expected_generation": 3,
+  "issue": 693,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "reason": "Implementation and focused local validation are complete in the bound #693 worktree; advance before SOR execution truth update."
+}

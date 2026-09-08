@@ -1,0 +1,24 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "0223ce0f36343329c792cc7072425f0ba6f860a3d91aaad17dc6e774b1d32424",
+  "actor": "codex:/root",
+  "reason": "Record #675 implementation truth before pre-PR review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented a first-class Runtime bridge that projects provider-emitted agent_to_agent_initiation actions from ordinary conversation output into governed A2A initiation, with Runtime-owned sender attribution, queue-safe nested dispatch, and Observatory transcript metadata for sender/work identity.",
+    "changes": [
+      "Projected structured agent_to_agent_initiation requests from local agent execution public output while preserving existing conversation_reply projection.",
+      "Converted provider A2A action requests into ObservatoryAgentInitiationIntent with sender_id inferred from the active recipient agent, not trusted from provider text.",
+      "Released the initiating conversation queue slot before awaiting the nested peer dispatch to avoid self-deadlock.",
+      "Rendered sender_id and initiated_work_id metadata in the Observatory conversation transcript.",
+      "Added deterministic operator-to-Beacon-to-Ember regression coverage alongside the existing direct #662 primitive tests."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "demos/html-observatory/app.js"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "issue": 607,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "950baa8cc7ccd98b998edb3bc5edbffc657e266f3b8a7c4d8cb76f606c53dea3",
+  "actor": "codex:/root:issue-607-design-remediation",
+  "reason": "Refresh the authored design envelope after independent review findings were repaired in the initialized issue.",
+  "operation": {
+    "operation": "refresh_authored_design_after_recovery"
+  }
+}

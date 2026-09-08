@@ -27,7 +27,7 @@ Revision 2
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "implement",
@@ -39,7 +39,7 @@ Revision 2
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "validate-review",
@@ -47,7 +47,7 @@ Revision 2
     "acceptance_ids": [
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

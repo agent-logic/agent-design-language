@@ -1,0 +1,12 @@
+{
+  "issue": 665,
+  "card": "sip",
+  "expected_generation": 0,
+  "expected_digest": "02163023875c3036f71fb6964f892ea54d6929223d0393ee1ed937567154d031",
+  "actor": "codex:/root/Worker-7",
+  "reason": "Advance #665 after typed readiness doctor passed with current design approval.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

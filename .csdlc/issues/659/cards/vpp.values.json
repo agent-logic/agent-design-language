@@ -1,0 +1,146 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 659,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+    "slug": "runtime-configurable-convergence",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-convergence-preparation",
+          "proof_role": "Prove the issue plan names every configuration field, generous default and bound, separates listener-open from authenticated readiness, includes the configuration owner, and retains the fixed-wait implementation denominator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            ".csdlc/prepared/issues/659/validate-runtime-convergence.sh"
+          ],
+          "parallel_group": "659-preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-convergence-config",
+          "proof_role": "Prove backward-compatible defaults, every minimum and maximum bound, and invalid convergence configuration rejection.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "configuration",
+            "service_convergence_"
+          ],
+          "parallel_group": "659-runtime",
+          "defer_reason": "The named nonzero tests are issue #659 implementation deliverables."
+        },
+        {
+          "lane": "runtime-convergence-service-control",
+          "proof_role": "Prove deterministic slow success, exact-stage true expiry, independent listener and full-readiness gates, service-manager ownership, and rollback or recovery.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl",
+            "convergence_"
+          ],
+          "parallel_group": "659-runtime",
+          "defer_reason": "The named nonzero tests are issue #659 implementation deliverables and do not restart the live Runtime."
+        },
+        {
+          "lane": "runtime-convergence-quality",
+          "proof_role": "Prove formatting, warning-free touched targets, and diff hygiene without broad Runtime execution.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "659-quality",
+          "defer_reason": "Run after the bounded implementation is complete."
+        },
+        {
+          "lane": "runtime-convergence-diff",
+          "proof_role": "Reject whitespace and conflict-marker defects in the issue diff.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "659-quality",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on invalid convergence configuration, competing Runtime ownership, loss of recoverable service state, API-timeout scope creep, live Runtime mutation, stale stack base, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/659/design.md",
+      "design_digest": "dbe55212ed1a7be8e1ff66040e774fa0fe144abf85537398e81d9d2e1c26b19c",
+      "diagram_ref": ".csdlc/prepared/issues/659/diagram.mmd",
+      "diagram_digest": "95257e85456cc87a62c355163b700cabb00f050ad0ce18e90dd01ab6a80d177a"
+    }
+  }
+}

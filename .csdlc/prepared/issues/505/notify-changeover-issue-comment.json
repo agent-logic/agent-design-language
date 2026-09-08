@@ -1,0 +1,7 @@
+{
+  "action": "issue_comment",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 505,
+  "operation_key": "issue-505-v3-f-pre-changeover-notice",
+  "comment_body": "Pre-change notification for #505 / V3-F:\n\nADL is preparing a large C-SDLC tooling changeover from the current typed v2 owner-binary route to the v3 replacement route. This is advance notice only; it is not approval and it does not make v3 live authority.\n\nUntil #505 is reviewed, explicitly operator-approved, merged, and terminally reconciled, C-SDLC v2 remains the live lifecycle authority. Current lifecycle writes still route through `.adl/bin/csdlc-v2/*` and the typed owner skills under `csdlc-v2/operator/skills/`. C-SDLC v3 remains construction and cutover evidence only before that point.\n\nThe #505 branch updates the advance-notice surfaces before cutover: root `AGENTS.md`, `csdlc-v2/AGENTS.md`, `csdlc-v3/AGENTS.md`, `docs/default_workflow.md`, `docs/onboarding.md`, `docs/architecture/ADL_ARCHITECTURE.md`, the tracked historical `adl_pr_cycle` guidance, and `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md`.\n\nDuring the transition window, keep using typed v2 for active lifecycle work. Do not route current work through historical `adl_pr_cycle`, `pr.sh`, or `pr ready/run/finish/closeout` procedures. If v3 parity, canary, rollback, publication, finish, cleanup, or operator-approval proof is incomplete, v2 remains the rollback and live-authority target."
+}

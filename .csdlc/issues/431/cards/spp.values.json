@@ -7,7 +7,7 @@
     "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
     "slug": "v0921-initial-planning-sidecar",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-4",
             "AC-11"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -39,7 +39,7 @@
             "AC-10",
             "AC-11"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -50,7 +50,7 @@
             "AC-8",
             "AC-11"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -61,7 +61,7 @@
             "AC-9",
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

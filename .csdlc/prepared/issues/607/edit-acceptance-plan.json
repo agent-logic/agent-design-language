@@ -1,0 +1,58 @@
+{
+  "issue": 607,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "d7280d6637d8d86176bf70f9a62feb788261f8a283e24a84e2b6a7f3b3d21a36",
+  "actor": "codex:/root:issue-607-design-remediation",
+  "reason": "Reconcile the reviewed design remediation into one atomic acceptance, plan, and validation denominator.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download",
+      "AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources",
+      "AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals",
+      "AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches",
+      "AC-5: Preparation and compute plan destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue and no warm-volume KMS snapshot seal or storage-state mutation",
+      "AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident",
+      "AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt within 30 seconds and controller-monotonic apply-to-observed aggregate service_ready meets 120 seconds or remains failed",
+      "AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions",
+      "AC-9: Explicit gp3 size IOPS and throughput artifact-byte full-initialization and per-stage budgets make the 30-second path feasible and stale cross-AZ partial dirty or mismatched volumes fail closed",
+      "AC-10: Preparation launch one and launch two use separate single-use authorizations under one aggregate exact-plan USD 20 envelope with no retry reuse",
+      "AC-11: Cost proof includes preparation both launches EBS performance S3 snapshots IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action",
+      "AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication"
+    ],
+    "steps": [
+      {"id":"S1","action":"Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ and destroy-plan guards.","acceptance_ids":["AC-2","AC-4","AC-5","AC-9"],"status":"pending"},
+      {"id":"S2","action":"Build the complete immutable launch and qualification artifact closure and dm-verity sealed warm volumes.","acceptance_ids":["AC-1","AC-3","AC-4","AC-6","AC-9"],"status":"pending"},
+      {"id":"S3","action":"Implement no-install activation service and qualification receipts stage budgets and deterministic negative tests.","acceptance_ids":["AC-1","AC-6","AC-7","AC-8","AC-9","AC-12"],"status":"pending"},
+      {"id":"S4","action":"Bind three single-use authorizations and aggregate cost then prepare and launch twice proving timing full behavior and exact residue.","acceptance_ids":["AC-5","AC-7","AC-8","AC-9","AC-10","AC-11","AC-12"],"status":"pending"},
+      {"id":"S5","action":"Obtain fresh exact-head review fix every actionable finding and publish through typed lifecycle authority.","acceptance_ids":["AC-12"],"status":"pending"}
+    ],
+    "validation_lanes": [
+      {
+        "lane":"issue607-preparation-contract",
+        "proof_role":"Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before binding.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9","AC-10","AC-11","AC-12"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":60,
+        "budget_tokens":1500,
+        "argv":["bash",".csdlc/prepared/issues/607/validate-preparation.sh"],
+        "parallel_group":"readiness",
+        "defer_reason":null
+      },
+      {
+        "lane":"issue607-diff-hygiene",
+        "proof_role":"Reject preparation and later implementation diff hygiene defects.",
+        "acceptance_ids":["AC-12"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":60,
+        "budget_tokens":500,
+        "argv":["git","diff","--check"],
+        "parallel_group":"hygiene",
+        "defer_reason":null
+      }
+    ]
+  }
+}

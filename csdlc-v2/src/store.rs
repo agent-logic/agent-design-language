@@ -25,6 +25,13 @@ pub struct Store {
     root: PathBuf,
 }
 
+#[derive(Default)]
+struct CommitOptions<'a> {
+    authored_overrides: Option<&'a BTreeMap<String, String>>,
+    issue_files: Option<&'a BTreeMap<String, Vec<u8>>>,
+    verifier: Option<&'a mut dyn FnMut() -> Result<()>>,
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct ImplementationCommit {
     pub issue: u64,
@@ -381,7 +388,13 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
-        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None)
+        self.commit_with_authored(
+            issue,
+            record,
+            cards,
+            fail_after_backup,
+            CommitOptions::default(),
+        )
     }
 
     fn commit_verified(
@@ -397,8 +410,10 @@ impl Store {
             record,
             cards,
             fail_after_backup,
-            None,
-            Some(verifier),
+            CommitOptions {
+                verifier: Some(verifier),
+                ..CommitOptions::default()
+            },
         )
     }
 
@@ -408,8 +423,7 @@ impl Store {
         record: &IssueRecord,
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
-        authored_overrides: Option<&BTreeMap<String, String>>,
-        mut verifier: Option<&mut dyn FnMut() -> Result<()>>,
+        mut options: CommitOptions<'_>,
     ) -> Result<()> {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
@@ -428,6 +442,30 @@ impl Store {
             fs::remove_dir_all(&backup)?;
         }
         write_complete(&staging, record, cards)?;
+        if let Some(issue_files) = options.issue_files {
+            for (relative, contents) in issue_files {
+                let relative_path = Path::new(relative);
+                if !crate::pvf::clean_relative(relative_path) {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidInput,
+                        "issue projection extra file path must be issue-directory relative",
+                    ));
+                }
+                let destination = staging.join(relative_path);
+                if let Some(parent) = destination.parent() {
+                    fs::create_dir_all(parent)?;
+                }
+                let mut file = File::create(&destination)?;
+                file.write_all(contents)?;
+                file.sync_all()?;
+                sync_dirs_through(
+                    destination
+                        .parent()
+                        .expect("issue projection extra file parent"),
+                    &staging,
+                )?;
+            }
+        }
         // Preserve authored design artifacts when they live inside the issue
         // directory. The atomic directory swap must not discard them.
         for authored_path in [&record.design_path, &record.diagram_path] {
@@ -437,8 +475,9 @@ impl Store {
                 if let Some(parent) = destination.parent() {
                     fs::create_dir_all(parent)?;
                 }
-                if let Some(contents) =
-                    authored_overrides.and_then(|overrides| overrides.get(authored_path))
+                if let Some(contents) = options
+                    .authored_overrides
+                    .and_then(|overrides| overrides.get(authored_path))
                 {
                     let mut file = File::create(&destination)?;
                     file.write_all(contents.as_bytes())?;
@@ -453,7 +492,7 @@ impl Store {
                 )?;
             }
         }
-        if let Some(overrides) = authored_overrides {
+        if let Some(overrides) = options.authored_overrides {
             for (authored_path, contents) in overrides {
                 if !crate::pvf::clean_relative(Path::new(authored_path)) {
                     return Err(V2Error::new(
@@ -489,7 +528,7 @@ impl Store {
         }
         fs::rename(&staging, &current)?;
         sync_dir(current.parent().expect("issue parent"))?;
-        if let Some(overrides) = authored_overrides {
+        if let Some(overrides) = options.authored_overrides {
             for (authored_path, contents) in overrides {
                 let destination = self.root.join(authored_path);
                 if destination.strip_prefix(&current).is_ok() {
@@ -506,7 +545,7 @@ impl Store {
                 )?;
             }
         }
-        if let Some(verify) = verifier.as_mut() {
+        if let Some(verify) = options.verifier.as_mut() {
             if let Err(error) = verify() {
                 preserve_failed_projection_and_restore(&current, &backup, &rollback_preserved)?;
                 return Err(error);
@@ -546,6 +585,56 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    pub(crate) fn replace_record_with_issue_file(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+        issue_relative_path: &str,
+        contents: &[u8],
+    ) -> Result<()> {
+        let _lock = self.lock(issue)?;
+        self.replace_record_locked_with_issue_file(
+            issue,
+            expected_digest,
+            record,
+            issue_relative_path,
+            contents,
+        )
+    }
+
+    pub(crate) fn replace_record_locked_with_issue_file(
+        &self,
+        issue: u64,
+        expected_digest: &str,
+        record: &IssueRecord,
+        issue_relative_path: &str,
+        contents: &[u8],
+    ) -> Result<()> {
+        self.recover_if_needed(issue)?;
+        let current = self.load_record(issue)?;
+        if current.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before compare-and-swap commit",
+            ));
+        }
+        let cards = self.load_cards(issue)?;
+        verify_cards(self, &current, &cards)?;
+        let mut issue_files = BTreeMap::new();
+        issue_files.insert(issue_relative_path.to_owned(), contents.to_vec());
+        self.commit_with_authored(
+            issue,
+            record,
+            &cards,
+            false,
+            CommitOptions {
+                issue_files: Some(&issue_files),
+                ..CommitOptions::default()
+            },
+        )
     }
 
     #[allow(dead_code)] // Retained compatibility wrapper; live recovery uses descriptor-read bytes.
@@ -821,7 +910,7 @@ impl Store {
         }
         crate::finish::validate_envelope(envelope)?;
         let mut cards = self.load_cards(issue)?;
-        verify_cards(self, &record, &cards)?;
+        verify_cards_without_authored_tuple(self, &record, &cards)?;
         verify_canonical_projection_bytes(self, &record, &cards)?;
         let terminal_cards_complete = terminal_cards_match_disposition(
             &cards,
@@ -845,33 +934,6 @@ impl Store {
         let rollback_record = record.clone();
         let rollback_cards = cards.clone();
 
-        let branch = record.branch.clone();
-        let worktree = record.worktree.clone();
-        match envelope.disposition {
-            crate::finish::FinishDisposition::Merged
-            | crate::finish::FinishDisposition::ClosedUnmerged => {
-                let publication = record.publication.as_ref().ok_or_else(|| {
-                    V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "PR terminal materialization requires publication evidence",
-                    )
-                })?;
-                if Some(publication.pull_request) != envelope.pull_request {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "terminal materialization PR does not match publication evidence",
-                    ));
-                }
-            }
-            crate::finish::FinishDisposition::ClosedNoPr => {
-                if record.publication.is_some() || envelope.pull_request.is_some() {
-                    return Err(V2Error::new(
-                        ErrorCode::ReconciliationRequired,
-                        "closed-no-PR materialization cannot contain publication evidence",
-                    ));
-                }
-            }
-        }
         let design_bytes = fs::read(self.root.join(&record.design_path))?;
         let diagram_bytes = fs::read(self.root.join(&record.diagram_path))?;
         let design_digest = digest(&design_bytes);
@@ -885,20 +947,61 @@ impl Store {
                 values.design_digest = design_digest.clone();
                 values.diagram_ref = record.diagram_path.clone();
                 values.diagram_digest = diagram_digest.clone();
-                for step in &mut values.steps {
-                    step.status = StepStatus::Completed;
-                }
             }
             _ => unreachable!("SPP"),
         }
         match &mut cards.get_mut(&CardKind::Vpp).expect("VPP").content {
             CardContent::Vpp(values) => {
                 values.design_ref = record.design_path.clone();
-                values.design_digest = design_digest;
+                values.design_digest = design_digest.clone();
                 values.diagram_ref = record.diagram_path.clone();
-                values.diagram_digest = diagram_digest;
+                values.diagram_digest = diagram_digest.clone();
             }
             _ => unreachable!("VPP"),
+        }
+        crate::cards::validate_cross_card(
+            &cards,
+            &record.design_path,
+            &design_digest,
+            &record.diagram_path,
+            &diagram_digest,
+        )?;
+
+        let branch = record.branch.clone();
+        let worktree = record.worktree.clone();
+        match envelope.disposition {
+            crate::finish::FinishDisposition::Merged
+            | crate::finish::FinishDisposition::ClosedUnmerged => {
+                if let Some(publication) = record.publication.as_ref() {
+                    if Some(publication.pull_request) != envelope.pull_request {
+                        return Err(V2Error::new(
+                            ErrorCode::ReconciliationRequired,
+                            "terminal materialization PR does not match publication evidence",
+                        ));
+                    }
+                } else if envelope.source != "live_github_historical_reconciliation" {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "PR terminal materialization requires publication evidence",
+                    ));
+                }
+            }
+            crate::finish::FinishDisposition::ClosedNoPr => {
+                if record.publication.is_some() || envelope.pull_request.is_some() {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "closed-no-PR materialization cannot contain publication evidence",
+                    ));
+                }
+            }
+        }
+        match &mut cards.get_mut(&CardKind::Spp).expect("SPP").content {
+            CardContent::Spp(values) => {
+                for step in &mut values.steps {
+                    step.status = StepStatus::Completed;
+                }
+            }
+            _ => unreachable!("SPP"),
         }
 
         let (terminal_disposition, observed_state, integration_state, merge_state) =
@@ -972,6 +1075,9 @@ impl Store {
                     "observed exact PR merged",
                 ),
                 LifecyclePhase::Merged | LifecyclePhase::ClosedOut => {}
+                LifecyclePhase::Ready
+                    if record.publication.is_none()
+                        && envelope.source == "live_github_historical_reconciliation" => {}
                 _ => {
                     return Err(V2Error::new(
                         ErrorCode::InvalidTransition,
@@ -5964,6 +6070,7 @@ fn verify_record_with_options(record: &IssueRecord, allow_pre_topology_bound: bo
                 | (LifecyclePhase::MergeReady, LifecyclePhase::Merged)
                 | (LifecyclePhase::Merged, LifecyclePhase::ClosedOut)
                 | (LifecyclePhase::Reviewed, LifecyclePhase::ClosedOut)
+                | (LifecyclePhase::Ready, LifecyclePhase::ClosedOut)
         );
         let topology_migration_transition = event.actor == "csdlc-topology-migrate"
             && event.reason == "migrate pre-topology bound record"
@@ -6177,6 +6284,7 @@ fn authorize_card_operation(
                 | SemanticOperation::ReplacePlanSteps { .. }
                 | SemanticOperation::ReplacePlanningCollection {
                     field: crate::cards::PlanningCollectionField::Invariants
+                        | crate::cards::PlanningCollectionField::Risks
                         | crate::cards::PlanningCollectionField::StopConditions,
                     ..
                 },
@@ -6329,7 +6437,11 @@ fn is_implemented_card_truth_repair(
             LifecyclePhase::Implemented,
             CardKind::Spp,
             SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
-                | SemanticOperation::CorrectPlanStepsAfterRecovery { .. },
+                | SemanticOperation::CorrectPlanStepsAfterRecovery { .. }
+                | SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::Risks,
+                    ..
+                },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
@@ -6644,7 +6756,7 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
             };
             matches!(
                 value.get("field").and_then(serde_json::Value::as_str),
-                Some("affected_areas" | "non_goals")
+                Some("affected_areas" | "non_goals" | "risks")
             )
         }
         "correct_plan_summary_after_recovery"
@@ -7878,7 +7990,7 @@ mod edit_authorization_tests {
                 .expect("implemented bounded SPP remediation");
         }
 
-        let error = authorize_card_operation(
+        authorize_card_operation(
             LifecyclePhase::Implemented,
             CardKind::Spp,
             &SemanticOperation::ReplacePlanningCollection {
@@ -7886,8 +7998,7 @@ mod edit_authorization_tests {
                 values: vec!["risk".into()],
             },
         )
-        .expect_err("unbounded SPP collection remains rejected");
-        assert_eq!(error.code, ErrorCode::InvalidTransition);
+        .expect("implemented SPP risk remediation is recovery-gated");
 
         authorize_card_operation(
             LifecyclePhase::Implemented,

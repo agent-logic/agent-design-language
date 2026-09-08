@@ -1,0 +1,13 @@
+{
+  "issue": 645,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "1181df783e1258511a6623638328d688fa7c102e7451b27d6cfa05655e3612af",
+  "actor": "codex:/root:issue-645-exec",
+  "reason": "Implementation and focused local validation are complete at commit 6918a84ae; exact-review recording is next.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "fail_after_backup": false
+}

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
     "slug": "coverage-learner-replication-stability",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -31,7 +31,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -39,7 +39,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -48,7 +48,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

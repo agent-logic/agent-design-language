@@ -1,0 +1,7 @@
+tests/issue663_preparation.tftest.hcl... [37min progress[0m
+[0m  run "hydrate_both_disks_concurrently"... [32mpass[0m[0m
+  run "detach_without_deleting_staging_disks"... [32mpass[0m[0m
+tests/issue663_preparation.tftest.hcl... [37mtearing down[0m
+[0mtests/issue663_preparation.tftest.hcl... [32mpass[0m[0m
+
+[32mSuccess![0m[0m 2 passed, 0 failed.

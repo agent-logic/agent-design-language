@@ -1,0 +1,9 @@
+flowchart LR
+  B[Build three binaries] --> S[Stage immutable generation]
+  S --> V[Verify shared receipt and hashes]
+  V --> A[Atomically switch current]
+  A --> L[launchd: CSM and Guardian]
+  A --> K[Runtime init: kernel]
+  A --> P[Previous verified generation]
+  P -->|rollback| A
+  V -->|reject| U[Running service unchanged]

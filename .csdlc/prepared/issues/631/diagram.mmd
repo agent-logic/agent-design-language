@@ -1,0 +1,13 @@
+flowchart LR
+  A["csdlc proof"] --> B["Typed proof manifest"]
+  B --> C{"Fresh deterministic evidence?"}
+  C -->|yes| D["ProofPlan"]
+  C -->|no| E["FailClosed"]
+  F["csdlc shadow"] --> G["Bounded v2/v3 observations"]
+  G --> H{"Exact parity claim?"}
+  H -->|yes| I["ParityAccepted"]
+  H -->|no| J["ParityMismatch"]
+  K["csdlc soak"] --> L["Bounded soak evidence"]
+  L --> M["ClassifiedSoak"]
+  N["csdlc install"] --> O["Stable csdlc artifact + provenance"]
+  O --> P["Cutover-gated install plan"]

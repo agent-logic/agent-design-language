@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 659,
+  "expected_generation": 9,
+  "expected_digest": "a6a79bee841e3da23385360d4dc919b01b6bcf5342975ca4d3606a8c9184b090",
+  "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/tests/configuration.rs",
+    "adl/src/cli/csm_runtime_v3_cmd.rs",
+    ".csdlc/prepared/issues/659",
+    ".csdlc/evidence/659"
+  ]
+}

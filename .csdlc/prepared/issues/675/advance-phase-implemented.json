@@ -1,0 +1,12 @@
+{
+  "issue": 675,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "4c9e00f72e62cf9ede0cacb13d6d77367ec66dbf2f5c58edfc4e95825c3accc0",
+  "actor": "codex:/root",
+  "reason": "Advance #675 after implementation and local validation have been recorded.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 661,
+  "expected_generation": 12,
+  "expected_digest": "5bdc904e3de4bcc346f145eb6544b1453e2a888e6c581a248b73721b07cdb896",
+  "actor": "codex:/root/issue_661_publication",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/661-runtime-shepherd-provider-reply",
+  "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through provider",
+  "body": "Closes #661\n\nSummary:\n- Routes resident Shepherd conversation recipients through the configured Shepherd/provider adapter instead of returning a synthetic acknowledgement.\n- Carries the addressed conversation recipient id through the Shepherd request and projects only schema-, correlation-, runtime-, recipient-, and size-validated Shepherd responses into the public conversation reply contract.\n- Preserves non-conversation Shepherd ingress behavior and surfaces provider failures without fallback replies.\n\nValidation:\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply/.csdlc/tmp bash .csdlc/prepared/issues/661/validate-focused.sh`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply/.csdlc/tmp cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check`\n- `git diff --check`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-661-runtime-shepherd-provider-reply/.csdlc/tmp cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib --tests -- -D warnings`\n\nReview:\n- Exact-head source-only subagent review PASS at `git-blake3:9c33e8376abaa5748ce794b8f2bbeae98dcfe8e9:606ef0b6806691771a814e96ffc770fb8970c4036c93a8ef8d9b3fb77a189a16`.\n- Later commits are typed C-SDLC review/publication metadata only.\n\nOperational notes:\n- No live Runtime restart, external provider invocation, AWS, paid runner, or `/private/tmp` use was performed.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "remote": "origin",
+  "token_file": null
+}

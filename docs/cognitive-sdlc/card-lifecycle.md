@@ -11,7 +11,7 @@ The detailed tooling contract remains in
 ## Lifecycle
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 This is the issue-local truth order. Tooling may create stubs early, but each
@@ -54,6 +54,14 @@ It answers:
 
 `SPP` is not sprint orchestration, review-result truth, or output truth.
 
+### VPP: Validation Planning Prompt
+
+`VPP` records proof lanes, validation profile, defer/fail-closed rules,
+resource posture, and release-gate status.
+
+It answers: how will the result be proven, and what proof is explicitly
+deferred or fail-closed?
+
 ### SRP: Structured Review Prompt
 
 `SRP` records review instructions, review results, findings, dispositions, and
@@ -78,6 +86,7 @@ evidence do not support that claim.
 C-SDLC depends on the cards staying separate:
 
 - `SPP` guides execution.
+- `VPP` preserves validation-planning truth.
 - `SRP` preserves review learning.
 - `SOR` preserves outcome truth.
 

@@ -7,9 +7,9 @@
     "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
     "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -79,10 +79,10 @@
           "evidence_ref": "redaction.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

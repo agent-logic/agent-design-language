@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 695,
+  "expected_generation": 14,
+  "expected_digest": "a7a33ee9e32ca2afc5935c8fbece233b2ac38dd3b95a718f76365a6d32db2542",
+  "actor": "codex:/root",
+  "reason": "Recover review so the committed publication request and lifecycle-only commits can receive one final exact-head review before typed publication."
+}

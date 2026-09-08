@@ -1,0 +1,13 @@
+flowchart LR
+  operator[Operator] --> stable[.adl/runtime-v3/current/bin/csm]
+  stable --> command[csm runtime-v3]
+  command --> launchd[com.agentlogic.adl-runtime-v3]
+  launchd --> guardian[Guardian]
+  guardian --> runtime[Runtime kernel]
+  runtime --> ready[/v1/ready identity proof]
+
+  operator --> legacy[./CSMctl Runtime verb]
+  legacy --> refusal[Nonzero refusal plus canonical command]
+
+  operator --> observatory[./CSMctl observatory ...]
+  observatory --> static[Local static Observatory]

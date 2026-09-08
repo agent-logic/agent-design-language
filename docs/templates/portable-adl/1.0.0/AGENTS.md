@@ -12,7 +12,7 @@ authority, card/worktree policy, validation profile, and artifact boundaries.
 - Do not hand-roll lifecycle cards.
 - Use the resolved ADL checkout from `adl_project.json`.
 - Route issue execution through ADL conductor-style workflow.
-- Preserve the canonical lifecycle: `SIP -> STP -> SPP -> SRP -> SOR`.
+- Preserve the canonical lifecycle: `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.
 - Keep public artifacts free of host-local absolute paths, credentials, private
   notes, and scratch state.
 - Record what validation did and did not run.

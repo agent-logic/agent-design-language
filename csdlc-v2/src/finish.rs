@@ -2135,15 +2135,28 @@ pub fn retain_cached_terminal(root: &Path, envelope: &DerivedTerminalEnvelope) -
             FileExt::unlock(&lock)?;
             return Ok(path);
         }
-        if existing.issue != envelope.issue
-            || existing.repository != envelope.repository
-            || existing.initialization_digest != envelope.initialization_digest
-            || existing.canonical_generation != envelope.canonical_generation
-            || existing.canonical_digest != envelope.canonical_digest
-            || (existing.disposition == FinishDisposition::Merged
-                && envelope.disposition != FinishDisposition::Merged)
-            || (existing.disposition == FinishDisposition::Merged
-                && existing.merge_sha != envelope.merge_sha)
+        let historical_refresh = existing.source == "live_github_historical_reconciliation"
+            && envelope.source == "live_github_historical_reconciliation"
+            && existing.issue == envelope.issue
+            && existing.repository == envelope.repository
+            && existing.initialization_digest == envelope.initialization_digest
+            && existing.pull_request == envelope.pull_request
+            && existing.disposition == envelope.disposition
+            && existing.head_sha == envelope.head_sha
+            && existing.merge_sha == envelope.merge_sha
+            && existing.issue_state == envelope.issue_state
+            && existing.pr_state == envelope.pr_state
+            && existing.approved_reason == envelope.approved_reason;
+        if !historical_refresh
+            && (existing.issue != envelope.issue
+                || existing.repository != envelope.repository
+                || existing.initialization_digest != envelope.initialization_digest
+                || existing.canonical_generation != envelope.canonical_generation
+                || existing.canonical_digest != envelope.canonical_digest
+                || (existing.disposition == FinishDisposition::Merged
+                    && envelope.disposition != FinishDisposition::Merged)
+                || (existing.disposition == FinishDisposition::Merged
+                    && existing.merge_sha != envelope.merge_sha))
         {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,

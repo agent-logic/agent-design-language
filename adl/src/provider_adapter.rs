@@ -781,12 +781,16 @@ fn execute_hosted_minimax(
 }
 
 fn chat_completion_request_body(request: &ProviderInvocationRequestV1) -> Value {
-    json!({
+    let mut body = json!({
         "model": request.route.provider_model_id,
         "messages": [{"role": "user", "content": request.input_text.as_deref().unwrap_or_default()}],
         "max_tokens": output_token_budget_or_default(request, 2_048).min(4_096),
         "stream": false,
-    })
+    });
+    if let Some(reasoning_effort) = request.reasoning_effort.as_deref() {
+        body["reasoning_effort"] = json!(reasoning_effort.trim());
+    }
+    body
 }
 
 fn deepseek_request_body(request: &ProviderInvocationRequestV1) -> Value {

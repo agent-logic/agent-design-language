@@ -1,0 +1,96 @@
+{
+  "schema": "adl.issue607.aws_warm_qualification.v1",
+  "issue": 607,
+  "status": "passed",
+  "aws_profile": "agent-logic-admin",
+  "aws_region": "us-west-2",
+  "artifact_generation": "7be87dd22260d30a7966d1b129123e84bb761074",
+  "final_controller_revision": "31a90eccf6889428b3da384f8df69a97438b67d5",
+  "storage_id": "adl-issue607-warm-v6",
+  "prepared_images": {
+    "runtime_ami_id": "ami-0ca2409ad7e2cd1d7",
+    "gpu_ami_id": "ami-0a87737abe6bc2535"
+  },
+  "retained_volumes": {
+    "runtime_volume_id": "vol-0dba967c9de521789",
+    "gpu_volume_id": "vol-06a17b1319040bf39"
+  },
+  "launches": [
+    {
+      "ordinal": 1,
+      "run_id": "adl-issue607-e8925c1dc8b0-launch-1-retry-1",
+      "runtime_local_ready_seconds": 5.530,
+      "gpu_local_ready_seconds": 113.930,
+      "apply_to_observed_seconds": 247,
+      "runtime_guardian_restarts": 0,
+      "ollama_restarts": 0,
+      "model_count": 2,
+      "six_agent_acc_count": 6,
+      "qualification_status": "passed"
+    },
+    {
+      "ordinal": 2,
+      "run_id": "adl-issue607-e8925c1dc8b0-launch-2",
+      "runtime_local_ready_seconds": 5.220,
+      "gpu_local_ready_seconds": 112.430,
+      "apply_to_observed_seconds": 237,
+      "runtime_guardian_restarts": 0,
+      "ollama_restarts": 0,
+      "model_count": 2,
+      "six_agent_acc_count": 6,
+      "qualification_status": "passed"
+    }
+  ],
+  "assertions": {
+    "two_model_shepherd": true,
+    "six_agent_acc": true,
+    "guardian_restart": true,
+    "state_preserved": true,
+    "degradation_recovered": true,
+    "vector_recovered": true,
+    "clean_logs": true,
+    "clean_shutdown": true,
+    "zero_live_compute_residue": true,
+    "warm_volumes_retained": true
+  },
+  "cost": {
+    "authorized_ceiling_usd": 20,
+    "cumulative_conservative_usd": 16.694191,
+    "ledger_ref": ".adl/local/issue607/storage/adl-issue607-warm-v6/cost-ledger.json"
+  },
+  "durable_receipts": {
+    "bucket": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2",
+    "launch_1_prefix": "shepherd/issue-607/runs/adl-issue607-e8925c1dc8b0-launch-1-retry-1/",
+    "launch_2_prefix": "shepherd/issue-607/runs/adl-issue607-e8925c1dc8b0-launch-2/"
+  },
+  "local_validation": [
+    {
+      "command": ["bash", "adl/tools/test_issue607_warm_polis.sh", "all"],
+      "outcome": "passed",
+      "result": "issue607_all=pass"
+    },
+    {
+      "command": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "guardian", "--lib"],
+      "outcome": "passed",
+      "result": "22 passed; 0 failed"
+    },
+    {
+      "command": ["cargo", "fmt", "--check"],
+      "outcome": "passed"
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "outcome": "passed"
+    }
+  ],
+  "teardown_recovery": {
+    "observed_defect": "stop_instance_before_detaching required stopped while instance_initiated_shutdown_behavior produced terminated",
+    "remediation": "warm read-only attachments no longer request pre-detach instance stop",
+    "terraform_state_reconciled": true,
+    "targeted_live_resource_queries_empty": true,
+    "tagging_index_stale_instance_and_volume_entries_filtered_in_favor_of_authoritative_ec2_queries": true
+  },
+  "limitations": [
+    "The two successful qualifications exercised the pre-remediation teardown setting; the corrected attachment teardown is covered by focused Terraform and contract validation, while live resource absence was reconciled through authoritative EC2 queries."
+  ]
+}

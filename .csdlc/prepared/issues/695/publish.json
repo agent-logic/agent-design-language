@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 695,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 14,
+  "expected_digest": "a7a33ee9e32ca2afc5935c8fbece233b2ac38dd3b95a718f76365a6d32db2542",
+  "actor": "codex:/root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/695-runtime-agent-partial-checkpoint-s3",
+  "title": "[v0.92.1][Runtime] Snapshot resident agents every five minutes and archive partials to S3",
+  "body": "Closes #695\n\nAdds bounded five-minute partial checkpoints for every resident agent, including the Shepherd, with atomic local persistence, asynchronous S3 archival, deterministic per-agent latest pointers, and validated local or archived restoration. Cloud failure degrades archive freshness without blocking Runtime readiness.\n\nRuntime roster/detail APIs and Observatory expose backing provider/model plus truthful snapshot and archive status. Terraform defines the private versioned KMS-encrypted archive, lifecycle retention, and separate least-privilege writer and restore permissions; no AWS apply is performed by this PR.\n\nFocused proof covers 18 checkpoint tests, the ControlService multi-agent/multi-cycle/restart path, monotonic conversation restoration, 20 roster tests, 9 OpenAPI tests, Observatory rendering, Terraform validation and 11-add/0-change/0-destroy plan policy, formatting, acceptance AC-1 through AC-10, and independent exact-head review with no remaining findings.",
+  "draft": false,
+  "token_file": "/Users/daniel/keys/github.token"
+}

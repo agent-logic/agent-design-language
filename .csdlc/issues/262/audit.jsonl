@@ -58,3 +58,4 @@
 {"sequence":58,"generation":47,"actor":"codex:root/podcast-262","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":59,"generation":48,"actor":"fresh-session:43005e33-811b-442f-8235-e6bd940e39eb","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":60,"generation":49,"actor":"codex:root/podcast-262","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":61,"generation":50,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #262 from retained derived terminal PR #618.","operation":"materialize_derived_terminal"}

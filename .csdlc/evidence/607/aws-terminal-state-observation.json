@@ -1,0 +1,27 @@
+{
+  "schema": "adl.issue607.ec2_terminal_state_observation.v1",
+  "status": "pass",
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "observed_at": "2026-09-03T09:05:38Z",
+  "query": "ec2 describe-instances --instance-ids i-00da9426786754a6c i-03bb0138945501212",
+  "instances": [
+    {
+      "role": "runtime",
+      "instance_id": "i-00da9426786754a6c",
+      "launch_time": "2026-09-03T08:15:37Z",
+      "observed_state": "terminated",
+      "terminal_observation_upper_bound_seconds": 3001,
+      "state_transition_reason": "User initiated (2026-09-03 08:21:14 GMT)"
+    },
+    {
+      "role": "gpu",
+      "instance_id": "i-03bb0138945501212",
+      "launch_time": "2026-09-03T08:15:23Z",
+      "observed_state": "terminated",
+      "terminal_observation_upper_bound_seconds": 3015,
+      "state_transition_reason": "User initiated (2026-09-03 08:21:54 GMT)"
+    }
+  ],
+  "method": "Both exact instances were read as terminated in one read-only AWS response. The shared observation time, rather than either terminate-request time, is used as the conservative billable-lifetime upper bound."
+}

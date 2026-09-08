@@ -237,13 +237,13 @@
               <span class="mini-badge" id="hero-live-mode-proxy">live</span>
             </div>
             <div class="inspector-tabs" role="tablist" aria-label="Inspector view">
-              <button class="inspector-tab active" type="button" role="tab" data-inspector-tab="integrity" aria-selected="true">Integrity</button>
-              <button class="inspector-tab" type="button" role="tab" data-inspector-tab="agent" aria-selected="false">Agent</button>
-              <button class="inspector-tab" type="button" role="tab" data-inspector-tab="activity" aria-selected="false">Activity</button>
+              <button class="inspector-tab active" id="inspector-tab-integrity" type="button" role="tab" data-inspector-tab="integrity" aria-controls="inspector-integrity" aria-selected="true" tabindex="0">Integrity</button>
+              <button class="inspector-tab" id="inspector-tab-agent" type="button" role="tab" data-inspector-tab="agent" aria-controls="inspector-agent" aria-selected="false" tabindex="-1">Agent</button>
+              <button class="inspector-tab" id="inspector-tab-activity" type="button" role="tab" data-inspector-tab="activity" aria-controls="inspector-activity" aria-selected="false" tabindex="-1">Activity</button>
             </div>
-            <div class="inspector-pane" id="inspector-integrity" role="tabpanel" aria-live="polite"></div>
-            <div class="inspector-pane" id="inspector-agent" role="tabpanel" hidden></div>
-            <div class="inspector-pane" id="inspector-activity" role="tabpanel" aria-live="polite" hidden></div>
+            <div class="inspector-pane" id="inspector-integrity" role="tabpanel" aria-labelledby="inspector-tab-integrity" aria-live="polite"></div>
+            <div class="inspector-pane" id="inspector-agent" role="tabpanel" aria-labelledby="inspector-tab-agent" hidden></div>
+            <div class="inspector-pane" id="inspector-activity" role="tabpanel" aria-labelledby="inspector-tab-activity" aria-live="polite" hidden></div>
           </div>
 
         </section>

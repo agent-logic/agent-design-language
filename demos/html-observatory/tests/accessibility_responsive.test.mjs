@@ -3,9 +3,10 @@ import { readFile } from "node:fs/promises";
 
 const testUrl = new URL(import.meta.url);
 
-const [html, css] = await Promise.all([
+const [html, css, app] = await Promise.all([
   readFile(new URL("../index.html", testUrl), "utf8"),
-  readFile(new URL("../styles.css", testUrl), "utf8")
+  readFile(new URL("../styles.css", testUrl), "utf8"),
+  readFile(new URL("../app.js", testUrl), "utf8")
 ]);
 
 const requiredIds = [
@@ -53,6 +54,23 @@ assert.match(html, /id=["']governed-room-recipients["'][^>]*aria-describedby=["'
 assert.match(html, /aria-describedby=["']claim-boundary["']/, "status grid must expose the proof boundary");
 assert.match(html, /aria-labelledby=["']hero-ready-label hero-ready-state["']/, "runtime readiness stat must expose label and state");
 assert.match(html, /role=["']group["'] aria-label=["']Runtime controls["']/, "top controls must remain grouped for assistive tech");
+for (const name of ["integrity", "agent", "activity"]) {
+  assert.match(
+    html,
+    new RegExp(`id=["']inspector-tab-${name}["'][^>]*role=["']tab["'][^>]*aria-controls=["']inspector-${name}["']`),
+    `Inspector ${name} tab must identify its controlled panel`
+  );
+  assert.match(
+    html,
+    new RegExp(`id=["']inspector-${name}["'][^>]*role=["']tabpanel["'][^>]*aria-labelledby=["']inspector-tab-${name}["']`),
+    `Inspector ${name} panel must identify its tab`
+  );
+}
+assert.match(app, /event\.key === "ArrowRight"/, "Inspector tabs need right-arrow navigation");
+assert.match(app, /event\.key === "ArrowLeft"/, "Inspector tabs need left-arrow navigation");
+assert.match(app, /event\.key === "Home"/, "Inspector tabs need Home navigation");
+assert.match(app, /event\.key === "End"/, "Inspector tabs need End navigation");
+assert.match(app, /candidate\.tabIndex = on \? 0 : -1/, "Inspector tabs need roving tabindex");
 
 assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/, "reduced-motion users need explicit static behavior");
 assert.match(css, /scroll-behavior:\s*auto/, "reduced-motion mode must disable smooth scrolling");

@@ -1,0 +1,191 @@
+{
+  "issue": 679,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:679-init",
+  "design_path": ".csdlc/prepared/issues/679/design.md",
+  "diagram_path": ".csdlc/prepared/issues/679/diagram.mmd",
+  "design_reviewer": "codex:679-init-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
+    "slug": "s3-deployable-observatory",
+    "version": "v0.92.1",
+    "goal": "Prepare the S3/CloudFront/ACM/Route53 static-hosting sidecar for the #512 Observatory at observatory.csm.agent-logic.ai.",
+    "required_outcome": "A reviewed and locally validated deployment-ready AWS static-hosting contract exists for the Observatory, including CSP/CORS/WSS compatibility, redacted readbacks, rollback behavior, and truthful live-apply deferral unless the operator separately authorizes AWS mutation.",
+    "declared_scope": [
+      "infra/aws/observatory/**",
+      "docs/operations/cloud/aws/observatory/**",
+      "docs/milestones/v0.92.1/evidence/observatory/s3-deployable-observatory/**",
+      ".csdlc/prepared/issues/679/**",
+      ".csdlc/issues/679/**",
+      ".csdlc/evidence/679/**",
+      "demos/html-observatory/**"
+    ],
+    "authority_boundary": [
+      "#679 owns static AWS deployability, not #512 product UI implementation",
+      "#512 supplies the static Observatory bundle and multi-polis behavior",
+      "live AWS mutation or paid deployment requires explicit operator authorization",
+      "AWS execution/readback must use the Agent Logic business profile agent-logic-admin",
+      "closed #122 is historical context only, not a blocking lifecycle route",
+      "no credentials, tokens, private keys, or recovery material may be committed or retained in evidence"
+    ],
+    "operator_constraints": [
+      "do not write implementation on main",
+      "do not merge without authority",
+      "do not mutate live AWS unless explicitly authorized",
+      "do not weaken TLS, CORS, CSP, or WSS origin controls",
+      "do not absorb #512 product work from Claude"
+    ],
+    "task_boundary": "Prepare and validate static hosting infrastructure readiness for observatory.csm.agent-logic.ai while preserving #512 as the product bundle owner and keeping live AWS actions separately authorized.",
+    "deliverables": [
+      "static bundle deployment contract",
+      "S3 CloudFront ACM Route53 deployment-plan or Terraform surface",
+      "CSP response-header and exact-origin CORS/WSS policy",
+      "redacted AWS business-account readback scripts",
+      "rollback and invalidation plan",
+      "local validators for deployability, redaction, and no-live-mutation default"
+    ],
+    "acceptance_criteria": [
+      "AC-1: static Observatory assets use relative asset and config paths suitable for S3/CloudFront hosting",
+      "AC-2: S3 CloudFront ACM and Route53 plan names observatory.csm.agent-logic.ai and separates static hosting from Runtime API/WSS infrastructure",
+      "AC-3: exact-origin Runtime HTTPS/WSS compatibility is specified without embedding credentials or bearer tokens",
+      "AC-4: CSP and response-header policy is explicit and compatible with the static bundle and Runtime connections",
+      "AC-5: S3 versioning object ownership public access block OAC cache invalidation and rollback behavior are included",
+      "AC-6: AWS readback scripts fail closed unless agent-logic-admin or an approved equivalent is selected and retain redacted evidence only",
+      "AC-7: local validation proves no credentials or secrets are committed in bundle config URLs local persistence examples or evidence",
+      "AC-8: live AWS mutation/readback is either separately authorized and retained or truthfully deferred",
+      "AC-9: exact-head review has no unresolved actionable findings before publication"
+    ],
+    "dependencies": [
+      "#512 supplies product Observatory bundle and multi-polis behavior",
+      "operator authorization before live AWS mutation or paid/cloud deployment",
+      "Agent Logic business AWS profile agent-logic-admin for authorized AWS readbacks"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#679",
+      "agent-logic/agent-design-language#512",
+      "demos/html-observatory/**",
+      "demos/html-observatory/runtime-v3.config.json",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "agent-logic/agent-design-language#122",
+      "infra/aws/**",
+      "docs/operations/cloud/aws/**"
+    ],
+    "non_goals": [
+      "implement #512 product UI or multi-polis behavior",
+      "perform live AWS mutation without explicit operator authorization",
+      "own Runtime API/WSS server implementation or provider workloads",
+      "embed secrets credentials tokens account IDs or private keys in committed artifacts",
+      "reopen or depend on closed #122 as a lifecycle blocker"
+    ],
+    "plan_summary": "Bind a dedicated issue worktree, inspect #512 static bundle inputs, add or normalize AWS static-hosting plan artifacts, add redacted no-mutation/readback validators, prove local deployability and redaction, obtain exact-head review, then publish without merging until authorized.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind #679 to a dedicated FastWork issue worktree and preserve root main as inspection-only.",
+        "acceptance_ids": ["AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Inspect #512 static bundle inputs and define the S3/CloudFront deployment contract without editing #512 product ownership.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Add Terraform or deployment-plan artifacts for S3 CloudFront ACM Route53 CSP headers logging invalidation and rollback.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Add redacted AWS profile-gated readback scripts and local validators for redaction no-secret and no-live-mutation defaults.",
+        "acceptance_ids": ["AC-6", "AC-7", "AC-8"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Run focused local validation, exact-head review, typed publication, and leave merge/live AWS apply for explicit authority.",
+        "acceptance_ids": ["AC-7", "AC-8", "AC-9"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory",
+      "docs/milestones/v0.92.1/evidence/observatory/s3-deployable-observatory",
+      ".csdlc/prepared/issues/679",
+      ".csdlc/issues/679",
+      ".csdlc/evidence/679",
+      "demos/html-observatory"
+    ],
+    "invariants": [
+      "static Observatory assets remain credential-free",
+      "Runtime endpoints are configured as non-secret per-polis inputs",
+      "CloudFront is the public static edge and S3 is not public",
+      "live AWS mutation is never implied by readiness",
+      "all retained cloud evidence is redacted"
+    ],
+    "risks": [
+      "accidentally absorbing #512 UI behavior",
+      "mistaking dry-run or local proof for live deployed proof",
+      "leaking account identifiers or credentials in readback logs",
+      "using personal/default AWS account state",
+      "weakening CSP/CORS/WSS compatibility to make local tests pass"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "#512 bundle contract is unavailable or actively changing in conflicting ways",
+      "AWS account/profile authority is ambiguous",
+      "live AWS mutation is required but not explicitly authorized",
+      "Terraform/backend state ownership is ambiguous",
+      "secret or credential material would need to be copied into the repo"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "679-init-package",
+        "proof_role": "Prove #679 initialized package carries issue identity, S3 deployable Observatory boundaries, agent-logic-admin profile requirement, no-live-mutation default, and an executable preparation lane.",
+        "acceptance_ids": ["AC-2", "AC-6", "AC-8", "AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["python3", ".csdlc/prepared/issues/679/validate_init_package.py"],
+        "parallel_group": "679-prep",
+        "defer_reason": null
+      },
+      {
+        "lane": "679-deployability",
+        "proof_role": "Prove static bundle relativity, CSP/header policy, redaction, profile-gated readbacks, and no-live-mutation defaults after implementation.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 2000,
+        "argv": ["python3", ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py"],
+        "parallel_group": "679-impl",
+        "defer_reason": "Added after implementation creates the deployability proof surface."
+      },
+      {
+        "lane": "679-diff",
+        "proof_role": "Reject whitespace and conflict-marker drift across the exact issue diff.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "679-impl",
+        "defer_reason": "Runs after implementation."
+      }
+    ],
+    "failure_policy": "Fail closed on live AWS mutation without explicit authority, missing business-profile guard, embedded secrets, absolute dev-only bundle paths, weakened TLS/CORS/CSP/WSS controls, or stale/missing exact-head review.",
+    "review_prompts": [
+      "Does the issue keep #512 product work separate from #679 infrastructure deployability?",
+      "Does the deployment plan avoid live AWS mutation unless separately authorized and retain truthful dry-run/readback classification?",
+      "Do validators prove redaction, profile gating, static asset relativity, CSP/header behavior, and no credential persistence?"
+    ],
+    "review_scope": "S3/CloudFront/ACM/Route53 static Observatory deployability, CSP/CORS/WSS compatibility, redacted readbacks, rollback, and lifecycle truth only."
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 632,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-H.6] Prove v3 with real issue canaries and update operator readiness docs",
+    "slug": "v3-h6-real-canaries-docs-readiness",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare and execute the V3-H.6 canary/docs/readiness lane without merging #505 or claiming v3 live authority.",
+      "deliverables": [
+        "V3 real issue canary evidence index",
+        "Command-equivalent route coverage matrix",
+        "Defect register with fixed, follow-up, or cutover-blocking disposition",
+        "Docs, skills, AGENTS, and onboarding updates for the v3 cutover boundary",
+        "Operator changeover notification draft",
+        "Sprint #625 review/closeout input packet",
+        ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+        ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+        ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every v3 command-equivalent route is exercised by a real issue canary, a focused deterministic fixture, or an explicit cutover-blocking finding.",
+        "AC-2: At least one real issue reaches PR through v3 before #505 closes.",
+        "AC-3: Terminal finish and cleanup are proven after an authorized canary merge, or #505 remains blocked with the exact reason.",
+        "AC-4: All found defects are fixed in-sprint or recorded as cutover blockers/follow-ons with ownership.",
+        "AC-5: Docs and skills do not teach v2 as the future route after cutover, and do not teach v3 as current authority before #505.",
+        "AC-6: Final sprint review packet is ready for independent exact-head review.",
+        "AC-7: No raw gh lifecycle writes and no hidden v2 operational fallback are used as proof."
+      ],
+      "dependencies": [
+        "#625 sprint umbrella",
+        "#627 command denominator and one-binary CLI shell",
+        "#628 local lifecycle command routes",
+        "#629 GitHub, PR, and publication routes",
+        "#630 finish, cleanup, and cutover routes",
+        "#631 proof, parity, soak, shadow, and install routes",
+        "#505 final cutover decision remains open until proof is complete"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "csdlc-v3",
+        "docs",
+        "csdlc-v2/operator/skills",
+        ".git/csdlc-v2/requests/v0921-v3-full-command-sprint/SPRINT_EXECUTION_PACKET.md",
+        ".git/csdlc-v2/requests/v0921-v3-full-command-sprint/DEFECTS.md"
+      ],
+      "non_goals": [
+        "Do not merge #505",
+        "Do not retire v2 authority in this issue",
+        "Do not merge sibling PRs",
+        "Do not perform raw gh lifecycle writes"
+      ]
+    }
+  }
+}

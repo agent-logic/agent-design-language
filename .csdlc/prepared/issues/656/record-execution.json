@@ -1,0 +1,34 @@
+{
+  "issue": 656,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "f5d790d13166762423b2773e2f8cc35dcfd64ef8f9cc642261045b116bffc93c",
+  "actor": "codex:656-implementation",
+  "reason": "Record the bounded atomic Runtime generation implementation and focused local proof before exact-head review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented immutable matched Runtime v3 generations with one receipt, atomic current and previous references, rollback, platform and schema checks, and CSM preflight before start or reload mutation.",
+    "changes": [
+      "Added a single Runtime v3 generation command for install, verify, and rollback.",
+      "Bound CSM, Guardian, and kernel hashes plus source revision, platform, build profile, and Runtime-init schema in one receipt.",
+      "Required installed CSM, kernel, and launchd or systemd Guardian paths to resolve through the same current generation.",
+      "Moved current and candidate generation verification ahead of interrupted-transaction reconciliation and service stop paths."
+    ],
+    "artifacts": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      "adl/tests/csm_runtime_v3_generation.rs"
+    ],
+    "validation": [
+      {"command":["bash","adl/tools/test_runtime_v3_generation_install.sh"],"outcome":"passed","purpose":"prove matched staging, receipt verification, atomic activation, retained predecessor, tamper rejection, and rollback","evidence_ref":"local worktree output at implementation commit 7d97e9492 plus current uncommitted review-prep delta"},
+      {"command":["cargo","test","--manifest-path","adl/Cargo.toml","--test","csm_runtime_v3_generation"],"outcome":"passed","purpose":"prove mixed generation rejection preserves the current reference","evidence_ref":"local worktree output"},
+      {"command":["cargo","test","--manifest-path","adl/Cargo.toml","--bin","adl","preflight_"],"outcome":"passed","purpose":"prove two nonzero CSM generation and launchd preflight tests","evidence_ref":"local worktree output: 2 passed"},
+      {"command":["cargo","check","--manifest-path","adl/Cargo.toml","--bin","csm"],"outcome":"passed","purpose":"prove the production CSM binary compiles with generation preflight","evidence_ref":"local worktree output"},
+      {"command":["cargo","fmt","--manifest-path","adl/Cargo.toml","--","--check"],"outcome":"passed","purpose":"prove Rust formatting","evidence_ref":"local worktree output"},
+      {"command":["git","diff","--check"],"outcome":"passed","purpose":"reject whitespace errors","evidence_ref":"local worktree output"}
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,11 @@
+{
+  "issue": 695,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "ea08a84bf430ad21ff85b64113ea4736e3a711b712aeab9ab3ff516aa78f7c97",
+  "actor": "codex:/root",
+  "reason": "Refresh authored design and diagram bindings after the already-reviewed whitespace-only artifact normalization so typed review and publication can proceed.",
+  "operation": {
+    "operation": "refresh_authored_design_after_recovery"
+  }
+}

@@ -110,6 +110,13 @@ fn is_zai_glm_5_3_flash_route(route: &ProviderRouteV1) -> bool {
     is_zai_provider_alias(&route.provider) && route.provider_model_id == "glm-5.3-flash"
 }
 
+fn is_kimi_k3_route(route: &ProviderRouteV1) -> bool {
+    matches!(
+        route.provider.trim().to_ascii_lowercase().as_str(),
+        "kimi" | "moonshot"
+    ) && route.provider_model_id == "kimi-k3"
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ProviderAttemptStatusV1 {
@@ -674,10 +681,11 @@ pub fn validate_provider_request(request: &ProviderInvocationRequestV1) -> Resul
         if trimmed.is_empty() {
             return Err(anyhow!("reasoning_effort must not be empty when provided"));
         }
-        if is_zai_glm_5_3_flash_route(&request.route) && !matches!(trimmed, "low" | "high" | "max")
+        if (is_zai_glm_5_3_flash_route(&request.route) || is_kimi_k3_route(&request.route))
+            && !matches!(trimmed, "low" | "high" | "max")
         {
             return Err(anyhow!(
-                "reasoning_effort must be one of low, high, max for glm-5.3-flash"
+                "reasoning_effort must be one of low, high, max for this reasoning provider"
             ));
         }
     }

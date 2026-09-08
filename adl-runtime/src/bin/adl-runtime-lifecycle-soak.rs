@@ -106,6 +106,22 @@ async fn main() -> ExitCode {
             return ExitCode::from(66);
         }
     };
+    if args.prepare_only {
+        let receipt = serde_json::json!({
+            "schema": "adl.runtime_v3.prepared_state.v1",
+            "status": "prepared",
+            "state_root": fixture.local_state_root,
+            "runtime_init": fixture.init,
+            "api_address": fixture.address,
+            "source_revision": args.revision,
+        });
+        if let Err(error) = write_report(&args.report, &receipt) {
+            eprintln!("failed writing prepared-state receipt: {error}");
+            return ExitCode::from(66);
+        }
+        println!("{receipt}");
+        return ExitCode::SUCCESS;
+    }
     let execution = {
         let _qualification_lock =
             match QualificationLock::acquire(&args.init_template, fixture.address) {
@@ -141,6 +157,7 @@ struct Args {
     suite: Suite,
     pre_restart_ready_file: Option<PathBuf>,
     pre_restart_ack_file: Option<PathBuf>,
+    prepare_only: bool,
 }
 
 struct ProductionFixture {
@@ -875,6 +892,7 @@ impl Args {
         let mut suite = None;
         let mut pre_restart_ready_file = None;
         let mut pre_restart_ack_file = None;
+        let mut prepare_only = false;
         while let Some(argument) = args.next() {
             let value = |args: &mut dyn Iterator<Item = String>, name: &str| {
                 args.next()
@@ -900,6 +918,7 @@ impl Args {
                     pre_restart_ack_file =
                         Some(PathBuf::from(value(&mut args, "--pre-restart-ack-file")?))
                 }
+                "--prepare-only" => prepare_only = true,
                 "--suite" => {
                     if suite.is_some() {
                         return Err("--suite accepts exactly one value".to_owned());
@@ -1012,6 +1031,7 @@ impl Args {
             suite,
             pre_restart_ready_file,
             pre_restart_ack_file,
+            prepare_only,
         })
     }
 }

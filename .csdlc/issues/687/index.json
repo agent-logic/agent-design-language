@@ -1,0 +1,351 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 687,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b5e7a53528833f2592470603f90feb9f44272294b8ca449cc6d4ba06cab4a83c",
+  "phase": "closed_out",
+  "generation": 16,
+  "digest": "5b0f5c9156a6c54c9282a185370aef7ca5036ab79d0cb0bb607f308516bd57f3",
+  "branch": "codex/687-provider-inference-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness",
+  "review_assignment": null,
+  "review": {
+    "reviewer": "subagent:/root/review_687_prepr_r1",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/resident_shepherd.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/shepherd.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "adl-runtime/tests/support/tls.rs",
+      ".csdlc/evidence/687",
+      ".csdlc/issues/687"
+    ],
+    "reviewed_revision": "git-blake3:998fb11928ff783f4c4dc9a8354f6ee680c30044:c74401111c0fd12515ca8e0103043d0d42c5cdca4b1649b60daa0fc869e432ee",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI must rerun after republishing the repaired PR head.",
+      "No live Runtime restart, AWS action, paid cloud action, provider credential use, or live provider call was performed by this issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 687,
+    "pull_request": 691,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/691",
+    "base": "main",
+    "head": "codex/687-provider-inference-readiness",
+    "revision": "git-blake3:72819cf757525d0389363f6b88e2e879f1979bcb:27b8db69363680bbc513f94eaedce8e25773700a5d1b1da7617de4982dfc3c6a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
+  "readiness": null,
+  "terminal": {
+    "pull_request": 691,
+    "disposition": "merged",
+    "observed_sha": "a1ec53a5c5ff0eb0c16a572b9e8bbb7f85d959be",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/687.json",
+    "branch": "codex/687-provider-inference-readiness",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness"
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/687/design.md",
+  "diagram_path": ".csdlc/prepared/issues/687/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:9d6a70fa-08a4-4f15-a141-b1bd47bd05c3",
+      "revision": "8ac58078fa6608ada8d851d54f7b686840ca7aef5cc8def1c405e4eb1a039bb2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0a87a90d34b6f9275645be46863f11fd3176ec5ccfb9b8c9999f7bfdc8e0ef9a",
+      "rendered_digest": "86d07617e386282ba3ae6fc8b95d1287f282d6d7e6c97c91cfcac023257e8646",
+      "ast_digest": "3da0d2b206b357ba4c6355e383f4230251c39d0628e56ae91103e6a6cba008fe"
+    },
+    "stp": {
+      "values_digest": "6d0134b9fc788ef1af99e4a20f8c5e4cd3a66b44345b33926e92bb99b294a02e",
+      "rendered_digest": "b83164581256d4984adbc5eab058899d97ad87dfe567151a35fb08b4f0952d91",
+      "ast_digest": "2f700ba5f81e801b3b39fa80a2e4685074d0365b961254e8126c816097a7c537"
+    },
+    "spp": {
+      "values_digest": "15f90c171cf09ad4b6e17f0f845443dd0e6befd5f15ee839805ed0609d08ad55",
+      "rendered_digest": "d294eb188befb1a9f97228ab29a9fe7f3b6dbab38e79784b63df805478d68e8a",
+      "ast_digest": "5e6d83a76af0a09dad31a94c75cd3f4519cb956e777f32c88245a69f3f629baf"
+    },
+    "vpp": {
+      "values_digest": "391e3d562e69efae8e692f024ffd4a8867bef40931f03a0115e7ac304b457942",
+      "rendered_digest": "f3330544ff2d20da9a46fc927c64b45b2ad64d922f8c08119b7b04db4861ad31",
+      "ast_digest": "be9d32360805cb9dafa00b41204105c5f0ec57c331fa365ec0621c5d2a907d61"
+    },
+    "srp": {
+      "values_digest": "b30c2d26956faa28a8308a904467e6aa0f99abecb0da9c4af162fdf7a4ccac6d",
+      "rendered_digest": "580dca7bf6b334ce3b8215fe6cf4d744f4ac01bea11c23422bbe7979a831ccb6",
+      "ast_digest": "eccb27bebcc4b9281c06edc8b9246e275eb255d48a076f3d71598bb5d50d82d3"
+    },
+    "sor": {
+      "values_digest": "48fdd10891f4a9afc3ade85e04d5c11c98af8bc0511a87576d460ea30e8236ae",
+      "rendered_digest": "5da9811a0ae2e5ba02e35b4c7548f3a725ab1d6abeb54e04cb14191dd965f702",
+      "ast_digest": "5760b3541028cb019135c696156a8a91a7c0bc816cb7d942d3c7c19ff5d6ced9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-7",
+      "reason": "advance design-approved initialized issue to ready before typed bind"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:worker-7",
+      "reason": "{\"actor\":\"codex:worker-7\",\"base_branch\":\"main\",\"branch\":\"codex/687-provider-inference-readiness\",\"code_repository\":null,\"expected_digest\":\"bd7b08e2ee13325e86a2ebb28b0479a9e5fe71cf3b808953cef09518e8c5ce13\",\"expected_generation\":2,\"expected_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":687,\"observed_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "The bounded implementation and deterministic no-cloud validation for issue 687 are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-7",
+      "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "Worker #7",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #7",
+      "reason": "Recover stale published review after substantive CI-red repair at PR #691 head."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "Worker #7",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 14,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 15,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #687 from retained derived terminal PR #691."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:provider-inference-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:bcf14be2-1439-4aa5-b2ab-e9806a82a7e7",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f47e2098a323eecabc26c8bda5bb9f8c9ef3f21590e12891fa34aaebda7e0fe0\",\"design_ref\":\".csdlc/prepared/issues/687/design.md\",\"diagram_digest\":\"581fabf1dfc0f8bc16aa8fa0748b7650c44f61553d1aa34f568e5bcce2501faf\",\"diagram_ref\":\".csdlc/prepared/issues/687/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-7",
+      "reason": "advance design-approved initialized issue to ready before typed bind",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:worker-7",
+      "reason": "{\"base_branch\":\"main\",\"branch\":\"codex/687-provider-inference-readiness\",\"expected_digest\":\"bd7b08e2ee13325e86a2ebb28b0479a9e5fe71cf3b808953cef09518e8c5ce13\",\"expected_generation\":2,\"expected_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"f27c14fafe76698f0e7660082a4982a7c8692f0f\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-687-provider-inference-readiness\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "fresh-session:9d6a70fa-08a4-4f15-a141-b1bd47bd05c3",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"8ac58078fa6608ada8d851d54f7b686840ca7aef5cc8def1c405e4eb1a039bb2\",\"design_ref\":\".csdlc/prepared/issues/687/design.md\",\"diagram_digest\":\"4613d1499893bcb0f7590c0473f30f44424a5b6aca6607cd837ed6fa0b41e42e\",\"diagram_ref\":\".csdlc/prepared/issues/687/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:worker-7",
+      "reason": "Record the bounded Runtime v3 provider inference-readiness implementation before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented a provider/model inference-readiness taxonomy and routed resident Shepherd, dynamic-agent, roster, and control projections through it so component liveness no longer grants inference readiness.\",\"changes\":[\"Added explicit inference readiness states for unimplemented, unavailable, model_loading, failed, and ready with one projection denominator for presence, health, availability, activity, and communication eligibility.\",\"Changed resident Shepherd and dynamic provider-backed agent projection so only verified ready inference state is communication-eligible.\",\"Classified resident Shepherd recovery failures into unsupported adapter, unavailable provider/model, failed probe, loading, and ready states without adding live provider or cloud authority.\",\"Added deterministic no-cloud tests for roster taxonomy projection, resident Shepherd recovery, production provider placeholder rejection, and control projection compatibility.\"],\"artifacts\":[\"adl-runtime-kernel/src/agent_roster.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/resident_shepherd.rs\",\"adl-runtime-kernel/tests/agent_roster.rs\",\"adl-runtime-kernel/tests/shepherd.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/control.rs\",\".csdlc/evidence/687/validation-summary.json\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:worker-7",
+      "reason": "Record deterministic local no-cloud validation proof for the provider inference-readiness repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"see\",\".csdlc/evidence/687/validation-summary.json\"],\"purpose\":\"Retain exact local formatting, diff hygiene, compile, roster, shepherd, assembly, and control validation results without cloud/provider execution.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/687/validation-summary.json\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:worker-7",
+      "reason": "The bounded implementation and deterministic no-cloud validation for issue 687 are complete.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:worker-7",
+      "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:worker-7",
+      "reason": "Recover stale reviewed truth after the metadata-only review-record commit moved the publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "Worker #7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "Worker #7",
+      "reason": "Recover stale published review after substantive CI-red repair at PR #691 head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "subagent:/root/review_687_prepr_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "Worker #7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #687 from retained derived terminal PR #691.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 693,
+  "card": "sor",
+  "expected_generation": 21,
+  "expected_digest": "35ff4dcb62b32f9ec4d1b8b4f02fca48eaf1f99766032e8a4fed642b0efb1a33",
+  "actor": "codex:/root/issue-693",
+  "reason": "Mark SOR ready after execution, validation, CI remediation, and review-finding remediation are truthfully recorded.",
+  "operation": {
+    "operation": "advance_status",
+    "status": "ready"
+  }
+}

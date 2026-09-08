@@ -1,0 +1,26 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 689,
+  "expected_generation": 22,
+  "expected_digest": "759bc66e0be4afe7a9d147082f0befa023b1966d6e9b9119e7699e8c57b34b45",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "codex:/root/review_689_fixes",
+    "scope": [
+      "CSMctl",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      "adl/tools/test_csmctl_observatory_origins.sh",
+      "adl/tools/validate_v092_observatory_restart_reconnect.sh"
+    ],
+    "reviewed_revision": "git-blake3:dbcd20d9ffb648f9638d819201d86427d188ff90:a5c3402430b4d40da9b38d72cb4f51bfa6e7468f5e8e1e0f8c1d68e56b04ae2e",
+    "findings": [],
+    "residual_risks": [
+      "The live restart validator was migrated but not executed because issue #689 explicitly excludes live Runtime and service-manager mutation.",
+      "The separately observed Observatory schema-v2 contract mismatch remains outside the PR #690 remediation scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

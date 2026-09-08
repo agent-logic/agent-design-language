@@ -1,0 +1,10 @@
+{
+  "issue": 689,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "0dc0263676d952fb0878497368e7110d9d2a6a545afa842f3d245ae137e021d1",
+  "actor": "codex:/root",
+  "reason": "bounded implementation and focused validation are complete; enter exact-head review",
+  "operation": {"operation": "advance_phase", "phase": "implemented"},
+  "fail_after_backup": false
+}

@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 679,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Observatory][infra] S3 deployable Observatory",
+    "slug": "s3-deployable-observatory",
+    "version": "v0.92.1",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "679-init-package",
+          "proof_role": "Prove #679 initialized package carries issue identity, S3 deployable Observatory boundaries, agent-logic-admin profile requirement, no-live-mutation default, and an executable preparation lane.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-6",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/679/validate_init_package.py"
+          ],
+          "parallel_group": "679-prep",
+          "defer_reason": null
+        },
+        {
+          "lane": "679-deployability",
+          "proof_role": "Prove static bundle relativity, CSP/header policy, redaction, profile-gated readbacks, and no-live-mutation defaults after implementation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 2000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py"
+          ],
+          "parallel_group": "679-impl",
+          "defer_reason": "Added after implementation creates the deployability proof surface."
+        },
+        {
+          "lane": "679-diff",
+          "proof_role": "Reject whitespace and conflict-marker drift across the exact issue diff.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "679-impl",
+          "defer_reason": "Runs after implementation."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on live AWS mutation without explicit authority, missing business-profile guard, embedded secrets, absolute dev-only bundle paths, weakened TLS/CORS/CSP/WSS controls, or stale/missing exact-head review.",
+      "design_ref": ".csdlc/prepared/issues/679/design.md",
+      "design_digest": "a48d95127e20d9603a52e22192f6965feaf89b61b6cde6d0bcedabb22e9c2432",
+      "diagram_ref": ".csdlc/prepared/issues/679/diagram.mmd",
+      "diagram_digest": "686d6edb4bd7ee75ebb306d057030126ee366a7c6b69d759ef64d94b02d85d0c"
+    }
+  }
+}

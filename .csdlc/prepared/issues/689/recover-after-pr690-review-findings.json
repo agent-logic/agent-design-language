@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 689,
+  "expected_generation": 21,
+  "expected_digest": "fde71d8db83072d81434b62f09fe1888f331e396fb368fce49de8dd76d889ca7",
+  "actor": "codex:/root",
+  "reason": "Recover review truth after repairing all actionable PR #690 findings: retained Runtime validation now uses canonical csm runtime-v3 operations and linked-worktree guidance resolves the primary live installation."
+}

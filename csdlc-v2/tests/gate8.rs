@@ -1,6 +1,12 @@
 use std::collections::BTreeMap;
 
 use csdlc_v2::cards::{ResourceProfile, ValidationLane};
+use csdlc_v2::cleanup::{materialize_terminal, TerminalMaterializeRequest};
+use csdlc_v2::finish::{
+    derive_historical_terminal, retain_cached_terminal, FinishDisposition, HistoricalFinishRequest,
+    IssueTerminalObservation,
+};
+use csdlc_v2::github::PrStatePacket;
 use csdlc_v2::migration::ImportStatus;
 use csdlc_v2::{
     compare_shadow, generate_compatibility_view, import_legacy, CardKind, LegacyImportRequest,
@@ -68,6 +74,55 @@ fn request(legacy: &std::path::Path, output: &std::path::Path) -> LegacyImportRe
         default_cutover_unix_seconds: 1_000,
         legacy_phase: LifecyclePhase::Ready,
     }
+}
+
+fn historical_finish_request(record: &csdlc_v2::IssueRecord) -> HistoricalFinishRequest {
+    HistoricalFinishRequest {
+        schema: "csdlc.historical_finish_request.v1".into(),
+        issue: record.issue,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        actor: "closeout-sweep".into(),
+        issue_repository: record.repository.clone(),
+        disposition: FinishDisposition::Merged,
+        pr_repository: Some(record.repository.clone()),
+        pull_request: Some(99),
+        expected_head_sha: Some("a".repeat(40)),
+        expected_merge_sha: Some("b".repeat(40)),
+        approved_reason: None,
+        token_file: None,
+    }
+}
+
+fn historical_pr_packet() -> PrStatePacket {
+    PrStatePacket {
+        schema: "csdlc.github_pr_state.v1".into(),
+        repository: "example/repo".into(),
+        pull_request: 99,
+        linked_issue: Some(88),
+        linkage_source: Some("github_closing_issues_references".into()),
+        state: "closed".into(),
+        draft: false,
+        merge_state: "unknown".into(),
+        review_decision: "unknown".into(),
+        base_ref: Some("main".into()),
+        head_ref: Some("codex/88".into()),
+        head_sha: "a".repeat(40),
+        url: Some("https://github.com/example/repo/pull/99".into()),
+        body: Some("Closes example/repo#88".into()),
+        merged: true,
+        merge_commit_sha: Some("b".repeat(40)),
+        checks: Vec::new(),
+        required_check_names: Vec::new(),
+        classification: "merged".into(),
+    }
+}
+
+fn refresh_terminal_digest(envelope: &mut csdlc_v2::finish::DerivedTerminalEnvelope) {
+    envelope.digest.clear();
+    envelope.digest = blake3::hash(&serde_json::to_vec(envelope).unwrap())
+        .to_hex()
+        .to_string();
 }
 
 #[test]
@@ -180,6 +235,113 @@ fn changed_raw_source_cannot_replace_existing_migration_evidence() {
     let after = store.load_record(88).unwrap();
     assert_eq!(after.generation, before.generation);
     assert_eq!(after.migration, before.migration);
+}
+
+#[test]
+fn historical_terminal_materialization_refreshes_stale_design_refs_without_publication() {
+    let legacy = tempfile::tempdir().unwrap();
+    let output = tempfile::tempdir().unwrap();
+    import_legacy(request(legacy.path(), output.path())).unwrap();
+    let store = Store::new(output.path());
+    let source = store.load_record(88).unwrap();
+    assert_eq!(source.phase, LifecyclePhase::Ready);
+    assert!(source.publication.is_none());
+
+    std::fs::write(
+        output.path().join("docs/design.md"),
+        "# Imported design\n\nUpdated.\n",
+    )
+    .unwrap();
+    let terminal = derive_historical_terminal(
+        &source,
+        &historical_finish_request(&source),
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: Vec::new(),
+            observed_unix_seconds: 200,
+        },
+        Some(&historical_pr_packet()),
+    )
+    .unwrap();
+    retain_cached_terminal(output.path(), &terminal).unwrap();
+
+    let result = materialize_terminal(
+        output.path(),
+        &TerminalMaterializeRequest {
+            schema: "csdlc.terminal_materialize_request.v1".into(),
+            issue: source.issue,
+            expected_generation: source.generation,
+            expected_digest: source.digest.clone(),
+            actor: "closeout-sweep".into(),
+            reason: "materialize historical merged terminal".into(),
+        },
+    )
+    .unwrap();
+    assert_eq!(result.phase, LifecyclePhase::ClosedOut);
+    let closed = store.load_record(88).unwrap();
+    assert_eq!(closed.phase, LifecyclePhase::ClosedOut);
+    assert!(closed.publication.is_none());
+    assert_eq!(
+        closed
+            .terminal
+            .as_ref()
+            .and_then(|terminal| terminal.pull_request),
+        Some(99)
+    );
+    let cards = store.load_cards(88).unwrap();
+    let csdlc_v2::cards::CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP");
+    };
+    assert_eq!(
+        spp.design_digest,
+        blake3::hash(b"# Imported design\n\nUpdated.\n")
+            .to_hex()
+            .to_string()
+    );
+}
+
+#[test]
+fn historical_terminal_cache_refresh_preserves_exact_pr_merge_authority() {
+    let legacy = tempfile::tempdir().unwrap();
+    let output = tempfile::tempdir().unwrap();
+    import_legacy(request(legacy.path(), output.path())).unwrap();
+    let store = Store::new(output.path());
+    let original = store.load_record(88).unwrap();
+    let mut stale = derive_historical_terminal(
+        &original,
+        &historical_finish_request(&original),
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: Vec::new(),
+            observed_unix_seconds: 200,
+        },
+        Some(&historical_pr_packet()),
+    )
+    .unwrap();
+    stale.canonical_generation += 10;
+    stale.canonical_digest = "stale-projection".into();
+    refresh_terminal_digest(&mut stale);
+    retain_cached_terminal(output.path(), &stale).unwrap();
+
+    let refreshed = derive_historical_terminal(
+        &original,
+        &historical_finish_request(&original),
+        &IssueTerminalObservation {
+            state: "closed".into(),
+            labels: Vec::new(),
+            observed_unix_seconds: 300,
+        },
+        Some(&historical_pr_packet()),
+    )
+    .unwrap();
+    retain_cached_terminal(output.path(), &refreshed).unwrap();
+    let retained = csdlc_v2::finish::load_cached_terminal(output.path(), original.issue)
+        .unwrap()
+        .unwrap();
+    assert_eq!(retained.canonical_generation, original.generation);
+    assert_eq!(retained.canonical_digest, original.digest);
+    assert_eq!(retained.pull_request, Some(99));
+    assert_eq!(retained.merge_sha, Some("b".repeat(40)));
 }
 
 #[test]

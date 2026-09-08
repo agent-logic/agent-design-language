@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 660,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "151650b9535492e2649676e690c6ecd4b7e8735708bbb171b31e6a004615dc66",
+  "phase": "closed_out",
+  "generation": 5,
+  "digest": "017b80ea0deabf940f52d674d686c1dda0623ecb07c92023074e33cc83d5a9b5",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": {
+    "pull_request": 664,
+    "disposition": "merged",
+    "observed_sha": "fdc3356e5777addf067bbdd61a01ee3f1ccbe5e1",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/660.json",
+    "branch": null,
+    "worktree": null
+  },
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/660/design.md",
+  "diagram_path": ".csdlc/prepared/issues/660/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:fd040c3d-6ee8-45dd-9fbe-88bb931054a8",
+      "revision": "cc7338ad86109c91e2d3d058e86547cbfd72727db264441dc6ed990e652cd052"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "453f85efe673617e6294f060159c0dea059916d4b1d323033588411ad97f10bb",
+      "rendered_digest": "fcdec017fe919fb404811cf4d6dfa70860ba7f4159556182acd3a80b07cc4f67",
+      "ast_digest": "aa6620324f87c4f9b233997bc2971e419d2683aa3008438d9ce9d695267d2398"
+    },
+    "stp": {
+      "values_digest": "6a5068647ce0cd139013f645415a8c7c925d447d0d499c1fc6226d10cc015714",
+      "rendered_digest": "e964ed0e793daf204cdfa3899de1babc18bac939df77a6b84e7abd0fe61c695a",
+      "ast_digest": "2726bf912d6da521f0744075e662dd5f7d560eedf67765ce62005b71ed1a12fc"
+    },
+    "spp": {
+      "values_digest": "c1b1bcd9113c2be854894085b2a0543ba233588483a2117aec500b331844ce60",
+      "rendered_digest": "da63c97deda0b1f19c6d3cfa2ad673bafcb230c15670b8b397b78bad326b2081",
+      "ast_digest": "40cc6a459c11bfe4bc67bc77ad79c23a498e8da0eaa0409ee38d701de2c6165b"
+    },
+    "vpp": {
+      "values_digest": "322e39dc096980fc62b64c931f750e31ce1766a357a348e2b9f7a3059988ff43",
+      "rendered_digest": "8431a59f033589d66c4ad1acd0d601d6f1314c9455334f4aa7a51a9f59e5fa63",
+      "ast_digest": "02b121e214d622d92cee8b2d719899f483c9cea93d20b050887a257a39afd4c0"
+    },
+    "srp": {
+      "values_digest": "2125fa942ae772d0587d2e8e21219f2c12090433f9aafcae871c730fd75a99cb",
+      "rendered_digest": "97948a3bf88dfd28833ecf43a7983ca6d57802665113eb1eaa0882eb1157d83a",
+      "ast_digest": "f70d260fdbe9971670ffda687ceacba74cf20cc237149b5bff04ee0188d41a46"
+    },
+    "sor": {
+      "values_digest": "ce6b42e157c714b799c7312a563cba50c6df8a461cc84021d21114ffcafd73c5",
+      "rendered_digest": "24512916c6d9f34de56a8ea867dc2b08f2038ba3d37224c3517c9fcc0ac92f36",
+      "ast_digest": "517782d0c3abd1ef6c874159f003382af8972f99603f28f46670b39fe51250c9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance issue #660 after green design readiness and typed fresh-session design approval."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "closed_out",
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #660 from retained derived terminal PR #664."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:emergency-podcast-public-exposure",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Replace semantic affected areas with exact safe repository-owned paths for issue #660 readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/_preview/podcast/index.html\",\"demos/_preview/podcast/assets/agent-logic-logo.svg\",\"demos/podcast/LAUNCH_READINESS.md\",\"demos/podcast/PUBLICATION_HOLD.md\",\"demos/podcast/S3_CLOUDFRONT_RUNBOOK.md\",\".csdlc/prepared/issues/660/delete-public-podcast-prefix.json\",\".csdlc/prepared/issues/660/validate-emergency-rollback.rb\",\".csdlc/evidence/660/emergency-exposure-rollback.json\",\"docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Use the issue-local executable validator path as the validation denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-660-emergency-rollback\",\"proof_role\":\"Validate delete manifest scope, retained rollback evidence, negative authority, hidden-preview source hygiene, publication hold, and ready-but-withheld launch-candidate truth.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\".csdlc/prepared/issues/660/validate-emergency-rollback.rb\"],\"parallel_group\":\"issue-660\",\"defer_reason\":\"Run after emergency rollback evidence and preview/publication-hold source have been recorded.\"},{\"lane\":\"issue-660-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"issue-660\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:fd040c3d-6ee8-45dd-9fbe-88bb931054a8",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"cc7338ad86109c91e2d3d058e86547cbfd72727db264441dc6ed990e652cd052\",\"design_ref\":\".csdlc/prepared/issues/660/design.md\",\"diagram_digest\":\"4f3e09153e9d1e896e59e15f39f34f90bce217c8699b20cd449cd0551773d6ef\",\"diagram_ref\":\".csdlc/prepared/issues/660/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance issue #660 after green design readiness and typed fresh-session design approval.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root:v0921-closeout-sweep",
+      "reason": "Materialize terminal closeout for closed merged v0.92.1 issue #660 from retained derived terminal PR #664.",
+      "operation": "materialize_derived_terminal"
+    }
+  ]
+}

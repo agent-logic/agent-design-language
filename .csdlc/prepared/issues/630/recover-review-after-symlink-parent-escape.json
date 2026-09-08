@@ -1,0 +1,7 @@
+{
+  "issue": 630,
+  "expected_generation": 5,
+  "expected_digest": "da69dec4c3969f7883a8425529ffd67c03395d84f40ab2367667a8c2378bb011",
+  "actor": "codex:worker-6",
+  "reason": "Recover stale exact-review assignment after final review found nonexistent children under symlinked parents could classify as absent and one retained proof log was stale."
+}

@@ -1,0 +1,194 @@
+{
+  "issue": 678,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:stable-csm-active-generation-route",
+  "design_path": ".csdlc/prepared/issues/678/design.md",
+  "diagram_path": ".csdlc/prepared/issues/678/diagram.mmd",
+  "design_reviewer": "fresh-session-required-before-publication",
+  "design_approved": false,
+  "initial": {
+    "title": "Route stable CSM commands through the active Runtime generation",
+    "slug": "stable-csm-active-runtime-generation-route",
+    "version": "v0.92.1",
+    "goal": "Make the stable .adl/bin/csm operator command route through the active atomic Runtime v3 generation instead of remaining an independently stale binary.",
+    "required_outcome": ".adl/bin/csm runtime-v3 ... deterministically executes .adl/runtime-v3/current/bin/csm, so generation activation and rollback atomically switch the stable route with the Runtime CSM, Guardian, and kernel artifacts.",
+    "declared_scope": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
+      ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+      ".csdlc/prepared/issues/678/design.md",
+      ".csdlc/prepared/issues/678/diagram.mmd",
+      ".csdlc/evidence/678/runtime-v3-generation-install.log",
+      ".csdlc/evidence/678/diff-check.log"
+    ],
+    "authority_boundary": [
+      "Issue #678 owns only the stable CSM route to the active Runtime v3 generation.",
+      "Issue #678 does not change Runtime convergence policy from #659.",
+      "Issue #678 does not perform a live Runtime rollout, restart, reload, or stop.",
+      "Issue #678 does not change provider, model, agent, or Observatory behavior."
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 lifecycle authority.",
+      "Use a bound FastWork issue worktree for tracked implementation edits.",
+      "Do not restart, reload, or stop the live Runtime during local validation.",
+      "Use isolated fixture generations for installer and rollback proof."
+    ],
+    "task_boundary": "Deliver only the installer-managed stable CSM command route and focused regression proof for issue #678.",
+    "deliverables": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The stable .adl/bin/csm runtime-v3 status --init <file> --json route executes the same generation-owned CSM artifact as .adl/runtime-v3/current/bin/csm.",
+      "AC-2: .adl/bin/csm cannot silently remain an independently built Runtime-control binary after an active generation is installed.",
+      "AC-3: Generation activation and rollback atomically switch the stable command route with the complete CSM, Guardian, and kernel generation.",
+      "AC-4: A missing, incomplete, or invalid active generation fails before any service mutation.",
+      "AC-5: A deterministic regression fixture reproduces a stale stable binary beside a valid current generation and proves the stable command follows current.",
+      "AC-6: Status-path validation does not restart, reload, or stop the live Runtime."
+    ],
+    "dependencies": [
+      "Issue #656 / PR #658 atomic Runtime generation installation baseline.",
+      "Issue #659 convergence-policy work remains out of scope."
+    ],
+    "repo_inputs": [
+      "GitHub issue #678",
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+    ],
+    "non_goals": [
+      "Runtime convergence-policy changes from #659.",
+      "Provider, model, agent, or Observatory behavior changes.",
+      "Live Runtime rollout, restart, reload, or stop.",
+      "Redesign of unrelated CSMctl commands.",
+      "Replacing atomic generation installation with a second binary source of truth."
+    ],
+    "plan_summary": "Bootstrap the issue, bind a FastWork worktree, change the generation installer so .adl/bin/csm is a launcher to .adl/runtime-v3/current/bin/csm, add isolated fixture regression tests, update concise docs, validate, review, and publish.",
+    "steps": [
+      {
+        "id": "inspect-generation-installer",
+        "action": "Inspect current Runtime v3 generation installer, stable .adl/bin/csm behavior, and existing installer tests.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "implement-stable-launcher",
+        "action": "Make the installer write .adl/bin/csm as a runtime-generation launcher that execs .adl/runtime-v3/current/bin/csm.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "add-regressions",
+        "action": "Add isolated fixture tests for stale stable binary repair, activation, rollback, and missing generation failure.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "docs-and-proof",
+        "action": "Update concise operator docs and retain issue-local validation evidence.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+    ],
+    "invariants": [
+      "The active Runtime generation remains the single source of truth for CSM, Guardian, and kernel artifacts.",
+      "Activation and rollback switch the stable route atomically through .adl/runtime-v3/current.",
+      "Missing or incomplete active generations fail before service mutation.",
+      "Local validation must not restart, reload, or stop the live Runtime."
+    ],
+    "risks": [
+      "A copied stable binary can drift from the active generation and reject a healthy service.",
+      "A launcher can be too path-fragile if it assumes the caller's current working directory instead of resolving from its own path.",
+      "Tests can accidentally exercise the live Runtime if fixture boundaries are not explicit."
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The implementation requires live Runtime restart, reload, or stop.",
+      "The installer cannot determine the repository-local current generation path safely.",
+      "Existing stable command semantics outside CSM would be changed.",
+      "Validation requires provider, model, agent, or Observatory mutation."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "runtime-v3-generation-install",
+        "proof_role": "Prove installer-managed stable CSM route, stale-binary repair, activation, rollback, and missing-generation failure in an isolated fixture.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/678/validate-stable-csm-route.sh"
+        ],
+        "parallel_group": "issue-678",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before review.",
+        "acceptance_ids": [
+          "AC-6"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "issue-678",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on stale stable CSM routing, broken activation or rollback switching, missing-generation mutation risk, live Runtime mutation during validation, or exact-head review failure.",
+    "review_prompts": [
+      "Does .adl/bin/csm now route to .adl/runtime-v3/current/bin/csm without becoming a second binary source of truth?",
+      "Do activation and rollback switch the stable route atomically through the current symlink?",
+      "Do missing or incomplete active generations fail before service mutation?",
+      "Do the tests prove stale stable binary repair without touching the live Runtime?"
+    ],
+    "review_scope": "Review issue #678 installer route, stable CSM launcher behavior, isolated regression tests, and operator documentation."
+  }
+}

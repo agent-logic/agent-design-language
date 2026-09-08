@@ -16,7 +16,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      "adl:issue"       = "345"
+      "adl:issue"       = tostring(var.issue_number)
       "adl:run-id"      = var.run_id
       "adl:owner-token" = var.owner_token
       ManagedBy         = "terraform"

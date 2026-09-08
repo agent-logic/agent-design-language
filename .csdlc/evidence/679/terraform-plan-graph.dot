@@ -1,0 +1,108 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_acm_certificate.site (expand)" [label = "aws_acm_certificate.site", shape = "box"]
+		"[root] aws_acm_certificate_validation.site (expand)" [label = "aws_acm_certificate_validation.site", shape = "box"]
+		"[root] aws_cloudfront_distribution.site (expand)" [label = "aws_cloudfront_distribution.site", shape = "box"]
+		"[root] aws_cloudfront_origin_access_control.site (expand)" [label = "aws_cloudfront_origin_access_control.site", shape = "box"]
+		"[root] aws_cloudfront_response_headers_policy.site (expand)" [label = "aws_cloudfront_response_headers_policy.site", shape = "box"]
+		"[root] aws_route53_record.certificate_validation (expand)" [label = "aws_route53_record.certificate_validation", shape = "box"]
+		"[root] aws_route53_record.site_a (expand)" [label = "aws_route53_record.site_a", shape = "box"]
+		"[root] aws_route53_record.site_aaaa (expand)" [label = "aws_route53_record.site_aaaa", shape = "box"]
+		"[root] aws_s3_bucket.logs (expand)" [label = "aws_s3_bucket.logs", shape = "box"]
+		"[root] aws_s3_bucket.site (expand)" [label = "aws_s3_bucket.site", shape = "box"]
+		"[root] aws_s3_bucket_acl.logs (expand)" [label = "aws_s3_bucket_acl.logs", shape = "box"]
+		"[root] aws_s3_bucket_lifecycle_configuration.logs (expand)" [label = "aws_s3_bucket_lifecycle_configuration.logs", shape = "box"]
+		"[root] aws_s3_bucket_ownership_controls.logs (expand)" [label = "aws_s3_bucket_ownership_controls.logs", shape = "box"]
+		"[root] aws_s3_bucket_ownership_controls.site (expand)" [label = "aws_s3_bucket_ownership_controls.site", shape = "box"]
+		"[root] aws_s3_bucket_policy.site (expand)" [label = "aws_s3_bucket_policy.site", shape = "box"]
+		"[root] aws_s3_bucket_public_access_block.logs (expand)" [label = "aws_s3_bucket_public_access_block.logs", shape = "box"]
+		"[root] aws_s3_bucket_public_access_block.site (expand)" [label = "aws_s3_bucket_public_access_block.site", shape = "box"]
+		"[root] aws_s3_bucket_versioning.site (expand)" [label = "aws_s3_bucket_versioning.site", shape = "box"]
+		"[root] data.aws_canonical_user_id.current (expand)" [label = "data.aws_canonical_user_id.current", shape = "box"]
+		"[root] data.aws_cloudfront_cache_policy.disabled (expand)" [label = "data.aws_cloudfront_cache_policy.disabled", shape = "box"]
+		"[root] data.aws_cloudfront_cache_policy.optimized (expand)" [label = "data.aws_cloudfront_cache_policy.optimized", shape = "box"]
+		"[root] data.aws_iam_policy_document.site (expand)" [label = "data.aws_iam_policy_document.site", shape = "box"]
+		"[root] data.aws_route53_zone.public (expand)" [label = "data.aws_route53_zone.public", shape = "box"]
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" [label = "provider[\"registry.terraform.io/hashicorp/aws\"]", shape = "diamond"]
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1" [label = "provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1", shape = "diamond"]
+		"[root] var.artifact_version" [label = "var.artifact_version", shape = "note"]
+		"[root] var.aws_profile" [label = "var.aws_profile", shape = "note"]
+		"[root] var.aws_region" [label = "var.aws_region", shape = "note"]
+		"[root] var.hosted_zone_name" [label = "var.hosted_zone_name", shape = "note"]
+		"[root] var.observatory_fqdn" [label = "var.observatory_fqdn", shape = "note"]
+		"[root] var.runtime_connect_origins" [label = "var.runtime_connect_origins", shape = "note"]
+		"[root] var.tags" [label = "var.tags", shape = "note"]
+		"[root] aws_acm_certificate.site (expand)" -> "[root] local.tags (expand)"
+		"[root] aws_acm_certificate.site (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1"
+		"[root] aws_acm_certificate.site (expand)" -> "[root] var.observatory_fqdn (validation)"
+		"[root] aws_acm_certificate_validation.site (expand)" -> "[root] aws_route53_record.certificate_validation (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] aws_acm_certificate_validation.site (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] aws_cloudfront_origin_access_control.site (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] aws_cloudfront_response_headers_policy.site (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] aws_s3_bucket.site (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] aws_s3_bucket_acl.logs (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] data.aws_cloudfront_cache_policy.disabled (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] data.aws_cloudfront_cache_policy.optimized (expand)"
+		"[root] aws_cloudfront_distribution.site (expand)" -> "[root] var.artifact_version (validation)"
+		"[root] aws_cloudfront_origin_access_control.site (expand)" -> "[root] local.name_prefix (expand)"
+		"[root] aws_cloudfront_origin_access_control.site (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_cloudfront_response_headers_policy.site (expand)" -> "[root] local.connect_src (expand)"
+		"[root] aws_cloudfront_response_headers_policy.site (expand)" -> "[root] local.name_prefix (expand)"
+		"[root] aws_cloudfront_response_headers_policy.site (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_route53_record.certificate_validation (expand)" -> "[root] aws_acm_certificate.site (expand)"
+		"[root] aws_route53_record.certificate_validation (expand)" -> "[root] data.aws_route53_zone.public (expand)"
+		"[root] aws_route53_record.site_a (expand)" -> "[root] aws_cloudfront_distribution.site (expand)"
+		"[root] aws_route53_record.site_aaaa (expand)" -> "[root] aws_cloudfront_distribution.site (expand)"
+		"[root] aws_s3_bucket.logs (expand)" -> "[root] local.name_prefix (expand)"
+		"[root] aws_s3_bucket.logs (expand)" -> "[root] local.tags (expand)"
+		"[root] aws_s3_bucket.logs (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_s3_bucket.site (expand)" -> "[root] local.name_prefix (expand)"
+		"[root] aws_s3_bucket.site (expand)" -> "[root] local.tags (expand)"
+		"[root] aws_s3_bucket.site (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_s3_bucket_acl.logs (expand)" -> "[root] aws_s3_bucket_ownership_controls.logs (expand)"
+		"[root] aws_s3_bucket_acl.logs (expand)" -> "[root] data.aws_canonical_user_id.current (expand)"
+		"[root] aws_s3_bucket_lifecycle_configuration.logs (expand)" -> "[root] aws_s3_bucket.logs (expand)"
+		"[root] aws_s3_bucket_ownership_controls.logs (expand)" -> "[root] aws_s3_bucket.logs (expand)"
+		"[root] aws_s3_bucket_ownership_controls.site (expand)" -> "[root] aws_s3_bucket.site (expand)"
+		"[root] aws_s3_bucket_policy.site (expand)" -> "[root] data.aws_iam_policy_document.site (expand)"
+		"[root] aws_s3_bucket_public_access_block.logs (expand)" -> "[root] aws_s3_bucket.logs (expand)"
+		"[root] aws_s3_bucket_public_access_block.site (expand)" -> "[root] aws_s3_bucket.site (expand)"
+		"[root] aws_s3_bucket_versioning.site (expand)" -> "[root] aws_s3_bucket.site (expand)"
+		"[root] data.aws_canonical_user_id.current (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_cloudfront_cache_policy.disabled (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_cloudfront_cache_policy.optimized (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_iam_policy_document.site (expand)" -> "[root] aws_cloudfront_distribution.site (expand)"
+		"[root] data.aws_route53_zone.public (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_route53_zone.public (expand)" -> "[root] var.hosted_zone_name"
+		"[root] local.connect_src (expand)" -> "[root] var.runtime_connect_origins (validation)"
+		"[root] local.tags (expand)" -> "[root] var.tags"
+		"[root] output.access_log_bucket (expand)" -> "[root] aws_s3_bucket.logs (expand)"
+		"[root] output.distribution_id (expand)" -> "[root] aws_cloudfront_distribution.site (expand)"
+		"[root] output.observatory_url (expand)" -> "[root] var.observatory_fqdn (validation)"
+		"[root] output.site_bucket (expand)" -> "[root] aws_s3_bucket.site (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_route53_record.site_a (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_route53_record.site_aaaa (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_lifecycle_configuration.logs (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_ownership_controls.site (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_policy.site (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_public_access_block.logs (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_public_access_block.site (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_s3_bucket_versioning.site (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" -> "[root] var.aws_profile (validation)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" -> "[root] var.aws_region"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1 (close)" -> "[root] aws_acm_certificate_validation.site (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1" -> "[root] var.aws_profile (validation)"
+		"[root] root" -> "[root] output.access_log_bucket (expand)"
+		"[root] root" -> "[root] output.distribution_id (expand)"
+		"[root] root" -> "[root] output.observatory_url (expand)"
+		"[root] root" -> "[root] output.site_bucket (expand)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"].us_east_1 (close)"
+		"[root] var.artifact_version (validation)" -> "[root] var.artifact_version"
+		"[root] var.aws_profile (validation)" -> "[root] var.aws_profile"
+		"[root] var.observatory_fqdn (validation)" -> "[root] var.observatory_fqdn"
+		"[root] var.runtime_connect_origins (validation)" -> "[root] var.runtime_connect_origins"
+	}
+}

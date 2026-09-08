@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant O as Operator
+  participant R as Runtime history authority
+  participant A as Agent provider
+  participant UI as Fresh Observatory
+  O->>R: authenticated operator turn
+  R->>R: retain ordered operator entry
+  R->>A: governed inference
+  A-->>R: generated reply
+  R->>R: retain ordered agent entry
+  R-->>O: ingress.completed telemetry
+  UI->>R: authenticated bounded history request
+  R-->>UI: conversation_history.v1 (operator + agent)
+  UI->>UI: restore and deduplicate by stable entry identity

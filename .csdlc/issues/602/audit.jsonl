@@ -40,3 +40,4 @@
 {"sequence":40,"generation":29,"actor":"codex:issue-602-completion","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":41,"generation":30,"actor":"codex:issue-602-completion","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":42,"generation":31,"actor":"codex:issue-602-completion","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":43,"generation":32,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #602 from retained derived terminal PR #614.","operation":"materialize_derived_terminal"}

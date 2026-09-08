@@ -1,0 +1,11 @@
+{
+  "issue": 607,
+  "card": "spp",
+  "expected_generation": 90,
+  "expected_digest": "6dce515033a1db70419764aebba4d0747fc8dac4ec2685281895e65abf93b7ed",
+  "actor": "codex-primary-issue607",
+  "reason": "Refresh the authored design after the fresh reviewer identified the exact transition between handled cleanup and resumable retained-artifact creation.",
+  "operation": {
+    "operation": "refresh_authored_design_after_recovery"
+  }
+}

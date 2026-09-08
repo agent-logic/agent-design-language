@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 675,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime][bug] Make agent-to-agent initiation first-class in live Observatory",
+    "slug": "runtime-first-class-agent-to-agent-live-path",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make model-backed resident agents initiate governed agent-to-agent contact through a first-class Runtime action path.",
+      "required_outcome": "Beacon Axioma can initiate a governed turn to Ember Axioma through the live-style Observatory/Shepherd path without relying on natural-language roleplay or direct test-only primitive calls.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "demos/html-observatory/app.js",
+        "adl/src/csm_shepherd_agent.rs",
+        "adl/src/csm_resident_agents.rs",
+        ".csdlc/prepared/issues/675/**",
+        ".csdlc/issues/675/**"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#675",
+        "This is a corrective follow-up to #662/#668; #662 remains closed and is not silently rewritten",
+        "Runtime policy, Layer8 signing, admission, replay, cancellation, and recipient/provider failure remain authoritative",
+        "C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505 cutover"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Do not write to /private/tmp",
+        "Do not use AWS, paid runners, or live cloud/provider calls without explicit authorization",
+        "Do not hide A2A behind prompt wording alone"
+      ]
+    }
+  }
+}

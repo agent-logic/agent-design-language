@@ -1,0 +1,23 @@
+{
+  "issue": 679,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "7d47a7445c51011c43aa5b9942bb484245d6c09d8c8036e6f02f5a447adc47f6",
+  "actor": "codex:679-implementation",
+  "reason": "Record the local no-cloud Observatory static-edge implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Added a standalone Terraform and operator-documentation package for the private-S3 and CloudFront-hosted Observatory edge without executing AWS changes.",
+    "changes": [
+      "Added a private versioned S3 origin, CloudFront OAC distribution, us-east-1 ACM certificate, Route53 aliases, and explicit security headers.",
+      "Restricted execution to the agent-logic-admin profile and canonical observatory.csm.agent-logic.ai hostname.",
+      "Added credential-free Runtime HTTPS/WSS CSP inputs, immutable artifact versioning, invalidation, and S3 object-version rollback guidance.",
+      "Strengthened the issue validator to prove concrete resources, controls, redaction, and no-live-mutation policy."
+    ],
+    "artifacts": [
+      "infra/aws/observatory",
+      "docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
+      ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py"
+    ]
+  }
+}

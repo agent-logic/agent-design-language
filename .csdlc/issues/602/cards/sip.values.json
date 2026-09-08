@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
     "slug": "runtime-csmctl-dynamic-agent-admission",
     "version": "v0.92.1",
-    "generation": 31
+    "generation": 32
   },
   "status": "ready",
   "content": {

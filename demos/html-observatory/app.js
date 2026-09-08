@@ -203,18 +203,33 @@ const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_aut
 //     automatic reconnect, which happens without operator interaction.
 // Operator logout clears it and closes the socket.
 let runtimeV3ObservatoryWriteToken = "";
+let runtimeV3ObservatoryWriteTokenOrigin = "";
 
-function getRuntimeV3ObservatoryWriteToken() {
-  return runtimeV3ObservatoryWriteToken;
+function getRuntimeV3ObservatoryWriteToken(apiBase) {
+  if (!runtimeV3ObservatoryWriteToken || !runtimeV3ObservatoryWriteTokenOrigin) return "";
+  try {
+    return normalizeTrustedRuntimeV3ApiBase(apiBase) === runtimeV3ObservatoryWriteTokenOrigin
+      ? runtimeV3ObservatoryWriteToken
+      : "";
+  } catch (_error) {
+    return "";
+  }
 }
 
-function setRuntimeV3ObservatoryWriteToken(token) {
-  runtimeV3ObservatoryWriteToken = typeof token === "string" ? token : "";
+function setRuntimeV3ObservatoryWriteToken(token, apiBase) {
+  const normalizedToken = typeof token === "string" ? token : "";
+  runtimeV3ObservatoryWriteToken = normalizedToken;
+  runtimeV3ObservatoryWriteTokenOrigin = normalizedToken
+    ? normalizeTrustedRuntimeV3ApiBase(apiBase)
+    : "";
 }
 
 function clearRuntimeV3ObservatoryWriteToken() {
   runtimeV3ObservatoryWriteToken = "";
+  runtimeV3ObservatoryWriteTokenOrigin = "";
 }
+const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA = "adl.runtime_v3.observatory_conversation_history_request.v1";
+const RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS = 2048;
 const LARGE_POLIS_LIMITS = Object.freeze({
   maxVisibleAgents: 120,
   maxTranscriptTurns: 300,
@@ -1599,7 +1614,7 @@ function connectRuntimeV3ObservatoryWebSocket(
   endpoint.protocol = "wss:";
   const socket = new WebSocket(endpoint.toString());
   socket.addEventListener("open", () => {
-    const writeToken = getRuntimeV3ObservatoryWriteToken();
+    const writeToken = getRuntimeV3ObservatoryWriteToken(base);
     if (writeToken) {
       authenticateRuntimeV3ObservatorySocket(socket, writeToken);
     }
@@ -1611,6 +1626,7 @@ function connectRuntimeV3ObservatoryWebSocket(
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
                  frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
+                 frame.schema === OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
                  frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
                  frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
@@ -1650,6 +1666,24 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
   }));
 }
 
+function requestRuntimeConversationHistory(socket, conversationId, pageSize = RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    throw new Error("Runtime v3 Observatory WebSocket is not open.");
+  }
+  const boundedConversationId = String(conversationId || "");
+  if (!/^[A-Za-z0-9._:-]{1,128}$/.test(boundedConversationId) ||
+      !Number.isSafeInteger(pageSize) ||
+      pageSize < 1 ||
+      pageSize > RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
+    throw new Error("Conversation history request is invalid.");
+  }
+  socket.send(JSON.stringify({
+    schema: RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_REQUEST_SCHEMA,
+    conversation_id: boundedConversationId,
+    page_size: pageSize
+  }));
+}
+
 const CONVERSATION_RESULT_STATUSES = new Set([
   "accepted",
   "delivered",
@@ -1686,11 +1720,25 @@ function conversationFrameTransition(frame, pending) {
   if (frame.status === "delivered" && !reply) {
     return null;
   }
-  return {
+  const transition = {
     status: frame.status,
     terminal: frame.status !== "accepted",
     reply
   };
+  if (typeof frame.sender_id === "string" && frame.sender_id.length <= 128) {
+    transition.senderId = frame.sender_id;
+  }
+  if (typeof frame.initiated_work_id === "string" && frame.initiated_work_id.length <= 128) {
+    transition.initiatedWorkId = frame.initiated_work_id;
+  }
+  if (typeof frame.initiated_recipient_id === "string" && frame.initiated_recipient_id.length <= 128) {
+    transition.initiatedRecipientId = frame.initiated_recipient_id;
+  }
+  if (typeof frame.initiated_correlation_id === "string" &&
+      /^[0-9a-f]{32}$/.test(frame.initiated_correlation_id)) {
+    transition.initiatedCorrelationId = frame.initiated_correlation_id;
+  }
+  return transition;
 }
 
 function conversationReplyFromFrame(frame, pending) {
@@ -1730,7 +1778,9 @@ const FORBIDDEN_CONVERSATION_HISTORY_FIELDS = [
   "private_key",
   "signature",
   "correlation_id",
-  "result_hash"
+  "result_hash",
+  "provider_payload",
+  "raw_provider_payload"
 ];
 
 function safeConversationHistoryText(value, fallback = "[redacted]") {
@@ -1743,12 +1793,25 @@ function safeConversationHistoryText(value, fallback = "[redacted]") {
   return text.slice(0, 4096);
 }
 
+function safeConversationHistoryId(value, fallback = null) {
+  const text = typeof value === "string" ? value : "";
+  if (!text.trim()) return fallback;
+  const normalized = text.slice(0, 256);
+  if (!/^[A-Za-z0-9:._@/-]+$/.test(normalized)) return fallback;
+  const lower = normalized.toLowerCase();
+  if (FORBIDDEN_CONVERSATION_HISTORY_FIELDS.some((field) => lower.includes(field))) {
+    return fallback;
+  }
+  return normalized;
+}
+
 function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
   if (!history ||
       history.schema !== OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
       typeof history.conversation_id !== "string" ||
       history.conversation_id.length === 0 ||
-      !Array.isArray(history.records)) {
+      !Array.isArray(history.records) ||
+      history.records.length > RUNTIME_V3_OBSERVATORY_CONVERSATION_HISTORY_MAX_RECORDS) {
     return { accepted: false, reason: "invalid_runtime_history" };
   }
   const expectedIncarnation = feed.runtime_incarnation_id || feed.runtimeIncarnationId || "";
@@ -1765,16 +1828,31 @@ function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
       return { accepted: false, reason: "non_monotonic_runtime_history" };
     }
     lastSequence = sequence;
-    records.push({
+    const normalized = {
       conversation_id: history.conversation_id,
-      message_id: String(record.message_id || record.turn_id || `history-${sequence}`),
+      message_id: safeConversationHistoryId(record.message_id || record.turn_id || `history-${sequence}`, `history-${sequence}`),
       speaker_id: safeConversationHistoryText(record.speaker_id || "runtime"),
       body: record.redacted ? "[redacted]" : safeConversationHistoryText(record.body),
       status: record.redacted ? "redacted" : safeConversationHistoryText(record.status || "restored"),
       turn_sequence: sequence,
       redacted: record.redacted === true,
       redaction_reason: record.redaction_reason ? safeConversationHistoryText(record.redaction_reason) : null
-    });
+    };
+    for (const [target, source] of [
+      ["history_kind", record.history_kind],
+      ["turn_id", record.turn_id],
+      ["causal_id", record.causal_id],
+      ["sender_id", record.sender_id],
+      ["recipient_id", record.recipient_id],
+      ["work_id", record.work_id],
+      ["parent_conversation_id", record.parent_conversation_id],
+      ["parent_turn_id", record.parent_turn_id],
+      ["a2a_role", record.a2a_role]
+    ]) {
+      const safe = safeConversationHistoryId(source);
+      if (safe) normalized[target] = safe;
+    }
+    records.push(normalized);
   }
   return {
     accepted: true,
@@ -1796,6 +1874,22 @@ function restoreConversationTranscriptFromRuntimeHistory(history, feed = {}, app
     }
   }
   return normalized;
+}
+
+function conversationTranscriptBaseTurnId(turnId) {
+  return String(turnId || "").replace(/:(outbound|reply)$/, "");
+}
+
+function conversationTranscriptRoleKey(speaker) {
+  const value = String(speaker || "runtime");
+  if (value === "operator") return "operator";
+  if (value.startsWith("agent")) return "agent";
+  return value;
+}
+
+function conversationTranscriptRenderKey(speaker, turnId) {
+  const baseTurnId = conversationTranscriptBaseTurnId(turnId);
+  return baseTurnId ? `${conversationTranscriptRoleKey(speaker)}:${baseTurnId}` : "";
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -2488,18 +2582,32 @@ function renderInspector(snapshot, feed) {
 
 function bindInspector() {
   if (typeof document === "undefined") return;
-  document.querySelectorAll(".inspector-tab[data-inspector-tab]").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const key = tab.dataset.inspectorTab;
-      document.querySelectorAll(".inspector-tab").forEach((t) => {
-        const on = t === tab;
-        t.classList.toggle("active", on);
-        t.setAttribute("aria-selected", on ? "true" : "false");
-      });
-      ["integrity", "agent", "activity"].forEach((name) => {
-        const pane = document.getElementById(`inspector-${name}`);
-        if (pane) pane.hidden = name !== key;
-      });
+  const tabs = Array.from(document.querySelectorAll(".inspector-tab[data-inspector-tab]"));
+  const activate = (tab, moveFocus = false) => {
+    const key = tab.dataset.inspectorTab;
+    tabs.forEach((candidate) => {
+      const on = candidate === tab;
+      candidate.classList.toggle("active", on);
+      candidate.setAttribute("aria-selected", on ? "true" : "false");
+      candidate.tabIndex = on ? 0 : -1;
+    });
+    ["integrity", "agent", "activity"].forEach((name) => {
+      const pane = document.getElementById(`inspector-${name}`);
+      if (pane) pane.hidden = name !== key;
+    });
+    if (moveFocus) tab.focus();
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activate(tab));
+    tab.addEventListener("keydown", (event) => {
+      let next = null;
+      if (event.key === "ArrowRight") next = tabs[(index + 1) % tabs.length];
+      if (event.key === "ArrowLeft") next = tabs[(index - 1 + tabs.length) % tabs.length];
+      if (event.key === "Home") next = tabs[0];
+      if (event.key === "End") next = tabs[tabs.length - 1];
+      if (!next) return;
+      event.preventDefault();
+      activate(next, true);
     });
   });
   document.getElementById("inspector-agent")?.addEventListener("click", (event) => {
@@ -2528,6 +2636,35 @@ function selectInspectorAgent(agentId) {
 // them", so each agent gets one card carrying every field the runtime
 // publishes, rather than a map plus a roster plus an empty selection pane.
 let lastAgentPopulation = [];
+
+function resetPolisScopedProjectionState() {
+  lastKnownComponentEntries = [];
+  lastAgentPopulation = [];
+  lastPanopticonSnapshot = null;
+  inspectorSelectedAgentId = null;
+  inspectorActivity = [];
+  lastInspectorSnapshot = null;
+  previousAgentIds = null;
+  previousLifecycle = null;
+  seenConversationWorkIds = null;
+  runtimeLogEntries = [];
+  Object.assign(rosterUiState, {
+    selectedId: null,
+    runtimeInstanceId: null,
+    runtimeIncarnationId: null,
+    revision: 0,
+    eventCursor: null,
+    resyncCount: 0,
+    lastResyncReason: null
+  });
+  publishRosterCursorState();
+  return {
+    agents: lastAgentPopulation.length,
+    components: lastKnownComponentEntries.length,
+    activity: inspectorActivity.length,
+    conversationHistoryInitialized: seenConversationWorkIds !== null
+  };
+}
 
 function agentFreshness(agent = {}) {
   const observed = Number(agent.observed_at_unix_millis);
@@ -2621,6 +2758,7 @@ function renderAgentDirectory(agents = lastAgentPopulation) {
         <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(agent.availability || "unknown"))}</dd></div>
         <div><dt>Last snapshotted</dt><dd data-tone="${escapeHtml(fresh.tone)}">${escapeHtml(fresh.label)}</dd></div>
         <div><dt>Admission</dt><dd>${escapeHtml(admission.label)}</dd></div>
+        <div><dt>Orientation package</dt><dd>${escapeHtml(formatAgentOrientation(agent.orientation))}</dd></div>
       </dl>
 
       <p class="agent-card-note">${escapeHtml(admission.detail)} ${escapeHtml(fresh.detail)}</p>
@@ -3074,6 +3212,31 @@ function normalizeMetricRows(metrics = {}) {
   return rows.length ? rows : [{ label: "metrics", value: "not exposed" }];
 }
 
+function normalizeAgentOrientation(orientation = null) {
+  if (!orientation || typeof orientation !== "object") return null;
+  const schema = typeof orientation.schema === "string" ? orientation.schema : "";
+  const digest = typeof orientation.digest === "string" ? orientation.digest : "";
+  const version = typeof orientation.version === "string" ? orientation.version : "";
+  const sourcePath = typeof orientation.source_path === "string" ? orientation.source_path : "";
+  const projection = typeof orientation.projection === "string" ? orientation.projection : "";
+  const digestAlgorithm = typeof orientation.digest_algorithm === "string" ? orientation.digest_algorithm : "";
+  if (schema !== "adl.runtime_v3.agent_orientation_delivery.v1" || !version || !sourcePath || !projection || digestAlgorithm !== "blake3" || !/^[a-fA-F0-9]{64}$/.test(digest)) {
+    return null;
+  }
+  return {
+    version,
+    digestAlgorithm,
+    digest: digest.toLowerCase(),
+    sourcePath,
+    projection
+  };
+}
+
+function formatAgentOrientation(orientation = null) {
+  if (!orientation) return "Not recorded";
+  return `${orientation.version} / ${orientation.digestAlgorithm}:${orientation.digest.slice(0, 12)} / ${orientation.projection} / non-authoritative`;
+}
+
 function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics = {}, events = [], packet = FALLBACK_PACKET } = {}) {
   const hasApiStatus = Object.keys(status || {}).length > 0 && !status.__load_error;
   const retainedCitizens = asArray(packet.citizens);
@@ -3112,6 +3275,14 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       id: agent.id,
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
+      provider: agent.provider || null,
+      model: agent.model || null,
+      lastSnapshotAtUnixMillis: Number(agent.last_snapshot_at_unix_millis || 0),
+      lastArchiveAtUnixMillis: Number(agent.last_archive_at_unix_millis || 0),
+      snapshotSequence: agent.snapshot_sequence == null ? null : Number(agent.snapshot_sequence),
+      pendingArchiveCount: Number(agent.pending_archive_count || 0),
+      snapshotState: agent.snapshot_state || "never_snapshotted",
+      archiveState: agent.archive_state || "disabled",
       state: agent.state || primaryState,
       detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
       health: agent.health || "unknown",
@@ -3123,7 +3294,8 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
       observedAtUnixMillis: Number(agent.observed_at_unix_millis || 0),
       freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
       sourceRevision: agent.source_revision || "unknown",
-      provenance: agent.provenance || "unknown"
+      provenance: agent.provenance || "unknown",
+      orientation: normalizeAgentOrientation(agent.orientation)
     }));
   }
 
@@ -3896,11 +4068,20 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
 
   const appendConversationTurn = (speaker, message, turnId, status = "", agentId = "") => {
     if (!conversationTranscript) return;
+    const renderKey = conversationTranscriptRenderKey(speaker, turnId);
+    const duplicate = Array.from(conversationTranscript.querySelectorAll(".conversation-turn"))
+      .find((item) => item.dataset.renderKey === renderKey);
+    if (duplicate) {
+      const state = duplicate.querySelector(".conversation-turn-status");
+      if (state && status) state.textContent = status;
+      return duplicate;
+    }
     conversationTranscript.querySelector(".conversation-empty")?.remove();
     const item = document.createElement("li");
     item.className = "conversation-turn";
     item.dataset.speaker = speaker;
-    if (turnId) item.dataset.turnId = turnId;
+    if (turnId) item.dataset.turnId = conversationTranscriptBaseTurnId(turnId);
+    if (renderKey) item.dataset.renderKey = renderKey;
     const who = document.createElement("span");
     who.className = "conversation-turn-speaker";
     who.textContent = conversationSpeakerLabel(speaker, agentId);
@@ -3986,10 +4167,32 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
+  const requestAvailableConversationHistories = () => {
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
+    const recipients = new Set(
+      Array.from(conversationRecipient?.options || [])
+        .map((option) => option.value)
+        .filter(Boolean)
+    );
+    if (conversationRecipient?.value) recipients.add(conversationRecipient.value);
+    for (const recipientId of recipients) {
+      requestRuntimeConversationHistory(liveSocket, `conversation-${recipientId}`);
+    }
+  };
+
   const renderControlFrame = (frame) => {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
       replayPendingConversationsAfterAuthentication();
+      requestAvailableConversationHistories();
+      return;
+    }
+    if (frame.schema === OBSERVATORY_CONVERSATION_HISTORY_SCHEMA) {
+      restoreConversationTranscriptFromRuntimeHistory(
+        frame,
+        { runtime_incarnation_id: liveRuntimeIncarnationId },
+        appendConversationTurn
+      );
       return;
     }
     if (frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
@@ -4030,10 +4233,19 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       setConversationTurnStatus(pending, transition.status);
       if (transition.reply) {
-        // Delivery state belongs to turns the operator sent. Labelling the
-        // agent's own inbound reply "delivered" reads as clutter, so the
-        // status line is left empty for agent turns.
-        appendConversationTurn("agent", transition.reply, pending.turnId, "", pending.recipientId);
+        const speaker = transition.senderId
+          ? `agent:${transition.senderId}`
+          : "agent";
+        const status = transition.initiatedWorkId && transition.initiatedRecipientId
+          ? `delivered / A2A ${transition.initiatedRecipientId} ${transition.initiatedWorkId}`
+          : "delivered";
+        appendConversationTurn(
+          speaker,
+          transition.reply,
+          pending.turnId,
+          status,
+          transition.senderId || pending.recipientId
+        );
       }
       if (transition.terminal) {
         pending.terminal = true;
@@ -4477,6 +4689,28 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (polisControl) polisControl.dataset.state = state;
   };
 
+  const resetForPolisChange = () => {
+    clearRuntimeV3ObservatoryWriteToken();
+    if (operatorToken) operatorToken.value = "";
+    pendingConversationTurns.clear();
+    governedRoomSequences.clear();
+    liveRuntimeIncarnationId = null;
+    hasReceivedLiveSnapshot = false;
+    resetPolisScopedProjectionState();
+    const resetTranscript = (target, message) => {
+      if (!target) return;
+      const empty = document.createElement("li");
+      empty.className = "conversation-empty";
+      empty.textContent = message;
+      target.replaceChildren(empty);
+    };
+    resetTranscript(conversationTranscript, "Waiting for the selected polis runtime feed.");
+    resetTranscript(roomTranscript, "Waiting for the selected polis runtime feed.");
+    setWriteAccess(false, "public read", "Polis changed. Re-enter that Polis's operator token to enable writes.");
+    renderAgentDirectory([]);
+    renderInspectorActivity();
+  };
+
   // Init — seed registry, then fall back to live API base if seeding failed
   const polisRegistry = seedPolisRegistry();
   const initialBase = getQueryApiBase() || readApiBase() || (polisRegistry[0]?.url || "");
@@ -4492,9 +4726,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   polisSelect?.addEventListener("change", () => {
     const selectedBase = polisSelect.value;
     if (!selectedBase) return;
+    stopPolling({ resetReconnect: true });
+    resetForPolisChange();
     applyPolisApiBase(selectedBase);
     setPolisState("connecting");
-    stopPolling({ resetReconnect: true });
     connectLive();
   });
 
@@ -4517,12 +4752,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         savePolisRegistry(registry);
       }
       renderPolisSelect(registry, normalized);
+      stopPolling({ resetReconnect: true });
+      resetForPolisChange();
       applyPolisApiBase(normalized);
       if (polisAddForm) polisAddForm.hidden = true;
       if (polisAddLabel) polisAddLabel.value = "";
       if (polisAddUrl) polisAddUrl.value = "";
       setPolisState("connecting");
-      stopPolling({ resetReconnect: true });
       connectLive();
     } catch (error) {
       if (polisAddUrl) {
@@ -4575,7 +4811,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       setWriteAccess(false, "login required", "Enter the operator write token.");
       return;
     }
-    setRuntimeV3ObservatoryWriteToken(token);
+    setRuntimeV3ObservatoryWriteToken(token, readApiBase());
     if (!liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
       setWriteAccess(false, "connecting", "Opening the public stream before operator login.");
       connectLive();
@@ -4637,6 +4873,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   conversationRecipient?.addEventListener("change", () => {
     if (conversationSend) {
       conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
+    }
+    if (conversationAuthorized && conversationRecipient.value) {
+      requestRuntimeConversationHistory(liveSocket, `conversation-${conversationRecipient.value}`);
     }
   });
   roomRecipients?.addEventListener("change", updateRoomSendState);
@@ -4846,6 +5085,10 @@ globalThis.AdlHtmlObservatory = {
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
+  requestRuntimeConversationHistory,
+  conversationTranscriptBaseTurnId,
+  conversationTranscriptRoleKey,
+  conversationTranscriptRenderKey,
   conversationFrameTransition,
   conversationFrameProvesAcceptance,
   conversationReconnectIntent,
@@ -4853,6 +5096,7 @@ globalThis.AdlHtmlObservatory = {
   normalizeRuntimeConversationHistorySnapshot,
   restoreConversationTranscriptFromRuntimeHistory,
   safeConversationHistoryText,
+  safeConversationHistoryId,
   isSafeGovernedRoomIdentifier,
   normalizeGovernedRoomParticipants,
   normalizeExplicitGovernedRoomRecipients,
@@ -4887,6 +5131,8 @@ globalThis.AdlHtmlObservatory = {
   isRuntimeV3ApiBase,
   normalizeTrustedRuntimeV3ApiBase,
   projectPolisIdentity,
+  normalizeAgentOrientation,
+  formatAgentOrientation,
   buildRuntimeAgentRows,
   acceptRuntimeRosterSnapshot,
   runtimeRosterCursorState,

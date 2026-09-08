@@ -1,0 +1,12 @@
+{
+  "issue": 679,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "4a4d95b6b87291d496101b38b20a17c2a1cd2fe6b81dea23ef52d964526a1c92",
+  "actor": "codex:679-implementation",
+  "reason": "Issue #679 local no-cloud infrastructure package and focused validation are complete; advance to implemented for exact-head review.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

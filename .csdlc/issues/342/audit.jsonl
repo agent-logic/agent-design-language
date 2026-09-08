@@ -34,3 +34,4 @@
 {"sequence":34,"generation":27,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":35,"generation":28,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":36,"generation":29,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":37,"generation":30,"actor":"codex:/root:v0921-closeout-sweep","reason":"Materialize terminal closeout for closed merged v0.92.1 issue #342 from retained derived terminal PR #586.","operation":"materialize_derived_terminal"}

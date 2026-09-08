@@ -1,0 +1,20 @@
+sha=062dec3e9787ad2df27bd344bcbc5a22f0940af2
+argv=CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target cargo test --manifest-path adl/Cargo.toml --test provider_moonshot_kimi_k3
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider/adl-runtime)
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.20s
+     Running tests/provider_moonshot_kimi_k3.rs (/Volumes/FastWork/adl-cargo-target/debug/deps/provider_moonshot_kimi_k3-03cce1d9a681db2d)
+
+running 7 tests
+test issue_680_native_kimi_provider_accepts_moonshot_alias_and_preserves_capabilities ... ok
+test issue_680_kimi_k3_profile_expands_to_moonshot_native_identity ... ok
+test issue_680_kimi_k3_reasoning_effort_rejects_unknown_value ... ok
+test issue_680_provider_setup_cli_documents_kimi_family ... ok
+test issue_680_native_kimi_provider_sends_k3_reasoning_effort_and_redacts_secret ... ok
+test issue_680_runtime_adapter_routes_moonshot_kimi_k3_with_reasoning_effort ... ok
+test issue_680_native_kimi_provider_defaults_k3_reasoning_effort_to_max ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s
+
+status=0

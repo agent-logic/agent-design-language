@@ -1,0 +1,10 @@
+{
+  "issue": 689,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "44bb60f9058aede4ee22484a272ea5000337b33a58f0c364345c1ba67e44d23d",
+  "actor": "codex:/root",
+  "reason": "record completion of the legacy refusal and Observatory separation slice",
+  "operation": {"operation": "update_plan_step", "step_id": "S2", "status": "completed"},
+  "fail_after_backup": false
+}

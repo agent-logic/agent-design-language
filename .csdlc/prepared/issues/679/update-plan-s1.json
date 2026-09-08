@@ -1,0 +1,9 @@
+{
+  "issue": 679,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "8e5091a7bdec238ea491b0c9c9497b267fc288bc0d02b138cc5c8891c5f432bd",
+  "actor": "codex:679-implementation",
+  "reason": "Record focused validation and exact-head review as the active final step.",
+  "operation": {"operation": "update_plan_step", "step_id": "S5", "status": "in_progress"}
+}

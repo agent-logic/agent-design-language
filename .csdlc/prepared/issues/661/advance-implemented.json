@@ -1,0 +1,10 @@
+{
+  "issue": 661,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "e512932658e079f865697c4b89116af98c2372ff16c9d464a92129afe2658f7a",
+  "actor": "codex:661-implementation",
+  "reason": "Provider-backed Shepherd conversation replies, explicit failure behavior, focused proof, full library tests, strict lint, production binary check, formatting, and diff hygiene are complete; exact-head review is next.",
+  "operation": {"operation": "advance_phase", "phase": "implemented"},
+  "fail_after_backup": false
+}

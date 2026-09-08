@@ -18,6 +18,7 @@ const {
   conversationReconnectIntent,
   normalizeRuntimeConversationHistorySnapshot,
   safeConversationHistoryText,
+  safeConversationHistoryId,
   normalizeLayer8DeliveryState,
   hasForbiddenLayer8Disclosure,
   normalizeOperatorAttentionRequest,
@@ -45,6 +46,14 @@ assert.match(app, /content\.textContent = message/);
 assert.match(app, /state\.textContent = status/);
 assert.match(app, /operatorToken\?\.value\.trim\(\)/);
 assert.match(app, /let runtimeV3ObservatoryWriteToken = ""/);
+assert.match(app, /let runtimeV3ObservatoryWriteTokenOrigin = ""/);
+assert.match(app, /normalizeTrustedRuntimeV3ApiBase\(apiBase\) === runtimeV3ObservatoryWriteTokenOrigin/);
+assert.match(app, /getRuntimeV3ObservatoryWriteToken\(base\)/);
+assert.match(app, /setRuntimeV3ObservatoryWriteToken\(token, readApiBase\(\)\)/);
+assert.match(app, /const resetForPolisChange = \(\) => \{[\s\S]*clearRuntimeV3ObservatoryWriteToken\(\)/);
+assert.match(app, /polisSelect\?\.addEventListener\("change",[\s\S]*resetForPolisChange\(\)/);
+assert.match(app, /polisAddConfirm\?\.addEventListener\("click",[\s\S]*resetForPolisChange\(\)/);
+assert.match(app, /function resetPolisScopedProjectionState\(\)[\s\S]*lastKnownComponentEntries = \[\][\s\S]*lastAgentPopulation = \[\][\s\S]*inspectorActivity = \[\][\s\S]*seenConversationWorkIds = null/);
 assert.doesNotMatch(app, /localStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
 assert.doesNotMatch(app, /sessionStorage\?\.setItem\("adl\.runtimeV3\.observatoryToken"/);
 assert.doesNotMatch(app, /sessionStorage\?\.getItem\("adl\.runtimeV3\.observatoryToken"/);
@@ -89,6 +98,53 @@ assert.equal(safeHistory.records[1].body, "[redacted]");
 assert.equal(safeHistory.records[1].status, "[redacted]");
 assert.equal(safeHistory.records[2].body, "[redacted]");
 assert.equal(safeHistory.records[2].redacted, true);
+const a2aSafeHistory = normalizeRuntimeConversationHistorySnapshot({
+  schema: "adl.runtime.conversation_history.v1",
+  conversation_id: "conversation-sec-001",
+  runtime_incarnation_id: "incarnation-a",
+  records: [
+    {
+      journal_sequence: 1,
+      history_kind: "agent_to_agent_turn",
+      message_id: "turn-001:a2a-outbound",
+      turn_id: "turn-a2a-001",
+      causal_id: "a2a-beacon-ember:turn-a2a-001:a2a-work-001",
+      sender_id: "beacon",
+      recipient_id: "ember",
+      work_id: "a2a-work-001",
+      parent_conversation_id: "conversation-sec-001",
+      parent_turn_id: "turn-001",
+      a2a_role: "outbound",
+      speaker_id: "agent:beacon",
+      body: adversarial,
+      status: "a2a_delivered"
+    },
+    {
+      journal_sequence: 2,
+      history_kind: "agent_to_agent_turn",
+      message_id: "turn-001:a2a-reply",
+      turn_id: "turn-a2a-001",
+      causal_id: "signature:must-redact",
+      sender_id: "beacon",
+      recipient_id: "ember",
+      work_id: "private_key-work",
+      parent_conversation_id: "conversation-sec-001",
+      parent_turn_id: "turn-001",
+      a2a_role: "reply",
+      speaker_id: "agent:ember",
+      body: "provider_payload should not render",
+      status: "a2a_delivered"
+    }
+  ]
+}, {
+  runtime_incarnation_id: "incarnation-a"
+});
+assert.equal(a2aSafeHistory.accepted, true);
+assert.equal(a2aSafeHistory.records[0].body, adversarial, "A2A text stays verbatim for textContent rendering");
+assert.equal(a2aSafeHistory.records[0].causal_id, "a2a-beacon-ember:turn-a2a-001:a2a-work-001");
+assert.equal(a2aSafeHistory.records[1].body, "[redacted]");
+assert.equal(a2aSafeHistory.records[1].causal_id, undefined);
+assert.equal(a2aSafeHistory.records[1].work_id, undefined);
 assert.equal(
   normalizeRuntimeConversationHistorySnapshot({ ...safeHistory, schema: "unexpected", records: [] }).accepted,
   false,
@@ -104,6 +160,8 @@ assert.deepEqual(
   { accepted: false, reason: "stale_runtime_history" }
 );
 assert.equal(safeConversationHistoryText("signature:abcdef"), "[redacted]");
+assert.equal(safeConversationHistoryId("signature:abcdef"), null);
+assert.equal(safeConversationHistoryId("a2a-work-001"), "a2a-work-001");
 
 const pending = {
   conversationId: "conversation-sec-001",

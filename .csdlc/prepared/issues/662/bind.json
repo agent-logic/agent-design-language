@@ -1,0 +1,7 @@
+{
+  "issue": 662,
+  "base_branch": "codex/662-preparation",
+  "branch": "codex/662-agent-to-agent-initiation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-initiation",
+  "code_repository": "agent-logic/agent-design-language"
+}

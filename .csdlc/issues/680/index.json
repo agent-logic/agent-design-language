@@ -1,0 +1,328 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 680,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f318c32c1081e65a66d8e5da6b5f485eded0ea65016491ceffd7d0a03ec3d276",
+  "phase": "published",
+  "generation": 18,
+  "digest": "7c392296f2573cbf9ec19d1cf261f1b917077bd597c2710056131e79cdc451e2",
+  "branch": "codex/680-moonshot-kimi-k3-provider",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-680-moonshot-kimi-k3-provider",
+  "review_assignment": {
+    "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:589c88d578ebf9d5598a5ed81e8ca3a448bb3829:70034edda94c1af786e3a4c5334e04bfa82ba95d04190414970a76147766da1a",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:5b00b20d-9764-4bd5-8986-936c89a77d1e",
+    "scope": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/src/cli/provider_cmd.rs",
+      "adl/src/cli/usage.rs",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "adl/tests/provider_moonshot_kimi_k3.rs",
+      ".csdlc/evidence/680"
+    ],
+    "reviewed_revision": "git-blake3:589c88d578ebf9d5598a5ed81e8ca3a448bb3829:70034edda94c1af786e3a4c5334e04bfa82ba95d04190414970a76147766da1a",
+    "findings": [],
+    "residual_risks": [
+      "No live Moonshot API call was performed; #680 proof uses deterministic loopback provider tests plus setup/profile/runtime-adapter validation, with live credentials remaining operator-controlled."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 680,
+    "pull_request": 683,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/683",
+    "base": "main",
+    "head": "codex/680-moonshot-kimi-k3-provider",
+    "revision": "git-blake3:8eedcf950d1c10ff6f294567b038c3699c92f002:d7b200be34d701f6bf9c53434a5f79b36e5089d0347f2acf5c27fa55a04f565b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/680/design.md",
+  "diagram_path": ".csdlc/prepared/issues/680/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:3f5378bd-9881-40c1-ae62-4585247bfad7",
+      "revision": "a3c90cc471c42e2254bac1a0c0c7f465a3223cac5d7d3dc7d4cfcbffdd42a32b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "24a582b5c2803841e6a8c9c7d66c310ff3abeb0b2525dbb391adf2b1de4d2c3e",
+      "rendered_digest": "d1750351b69e204f5693796d85ac48cea41a42f53671b8a40ef3141fc6650f7d",
+      "ast_digest": "b5d721f64919a757cb981f72f9002db89f36b9151a6abbb4229a218a05fdb10e"
+    },
+    "stp": {
+      "values_digest": "4894db66d6971a2f092cd09ff75f2a2995ba09713dae2883ab93ad15b17bcd10",
+      "rendered_digest": "4e94e258a4ce4844db8cf3b314e19518628407a511688f782be0621958534b51",
+      "ast_digest": "16b22f9a58c2b06351c71a051baf3ee61c3749e82ecce4c996948612180fb455"
+    },
+    "spp": {
+      "values_digest": "5e363b30bff6b10ea06358aa086b20827ac71761b9bb5e0469a70891e0b81443",
+      "rendered_digest": "2d57ac5915eb29a45086bbab11caa65d1ececd23166174dc10e81de689035fe0",
+      "ast_digest": "ff9c62460f47349e06489e08d78194714960f991a7eeb0fe9a38032eeb248bbc"
+    },
+    "vpp": {
+      "values_digest": "a69160546f8b64466e21534c851d2c7e660511339931f4699db47e7ce661a725",
+      "rendered_digest": "cf19a05549becd97dd7c085e9e607f143358bcf373aa2cb971848de31ba350e1",
+      "ast_digest": "8eb02d0fda3f9ff9fae07bce4185e01ee5fe1b83e415dfd7dff7c7a6d80a6412"
+    },
+    "srp": {
+      "values_digest": "76180970881822760f9c0d6f8c4b89748fd52568414f00eaaf3495f8f1f3e271",
+      "rendered_digest": "8d97bfd73880ac4c395c77c9761847ee4fce7d474181dbedaa2a362a7afa4c4b",
+      "ast_digest": "c1a07085210b12fe83d22bfd3b24aa89a858317a4c5b3325b74723cfd30a608d"
+    },
+    "sor": {
+      "values_digest": "902b3cbb5baa1aa24770b8a21d0b4fd0f51faf0cd5fb6eafab1744a606ab05d9",
+      "rendered_digest": "ca0bdaa3afeb56306396633847293ae566d90757bc01fec3eaa5e758b194a2ee",
+      "ast_digest": "c203ba8a5e93245f754b844447c0b1820517433e0734634b72d85de5630fd0cb"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:root",
+      "reason": "advance #680 to ready after approved design, executable issue-owned preparation validator, csdlc-doctor PASS, and csdlc-validate PASS"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "advance #680 to implemented after bound worktree implementation and local focused provider validation"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "recover #680 review because the recorded non-substantive proof used an unsupported policy/to_revision shape; source, docs, tests, and evidence remain unchanged"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:root",
+      "reason": "repair pre-bind validation lane denominator for planned issue-owned provider test",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-provider\",\"proof_role\":\"Profile/setup/adapter deterministic proof for Moonshot/Kimi K3.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"parallel_group\":\"local\",\"defer_reason\":\"Issue-owned test target will be added during #680 implementation after binding.\"},{\"lane\":\"strict-clippy\",\"proof_role\":\"Strict lint for touched Rust provider surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:3f5378bd-9881-40c1-ae62-4585247bfad7",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"fe9bf1ea4dbfe41769abf11cac17d6f1cc7425ce0b6f74aa65980c41c47898a7\",\"design_ref\":\".csdlc/prepared/issues/680/design.md\",\"diagram_digest\":\"0e2221559c531ff04b6e0e228e78a71e37c540ab248db3dd61357bcb46e45fcd\",\"diagram_ref\":\".csdlc/prepared/issues/680/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:root",
+      "reason": "add available pre-bind issue-owned preparation denominator while preserving planned implementation tests",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-bundle\",\"proof_role\":\"Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/680/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"focused-provider\",\"proof_role\":\"Post-bind profile/setup/adapter deterministic proof for Moonshot/Kimi K3.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"parallel_group\":\"local\",\"defer_reason\":\"Issue-owned Rust test target will be added during #680 implementation after binding.\"},{\"lane\":\"strict-clippy\",\"proof_role\":\"Strict lint for touched Rust provider surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:3f5378bd-9881-40c1-ae62-4585247bfad7",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "{\"design_digest\":\"a3c90cc471c42e2254bac1a0c0c7f465a3223cac5d7d3dc7d4cfcbffdd42a32b\",\"design_ref\":\".csdlc/prepared/issues/680/design.md\",\"diagram_digest\":\"df55fdd651b5667f53393cb73c5f3fa98d5e722ed8b9a4c47f43bdc6c17acfc3\",\"diagram_ref\":\".csdlc/prepared/issues/680/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "keep pre-bind validation lanes limited to executable issue-owned preparation proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-bundle\",\"proof_role\":\"Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/680/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:root",
+      "reason": "rename preparation validator argv to issue-owned target path",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-bundle\",\"proof_role\":\"Pre-bind issue-owned bootstrap denominator for #680 card/design coherence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "include issue-owned preparation validator in SPP affected areas for readiness denominator",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider_adapter.rs\",\"adl/src/provider/profiles.rs\",\"adl/src/provider_substrate.rs\",\"adl/src/provider/mod.rs\",\"adl/src/cli/provider_cmd.rs\",\"docs/tooling/PROVIDER_SETUP.md\",\".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:root",
+      "reason": "advance #680 to ready after approved design, executable issue-owned preparation validator, csdlc-doctor PASS, and csdlc-validate PASS",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "record #680 bound implementation evidence before implemented transition",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented first-class Moonshot/Kimi K3 provider support in the bound issue worktree. The change adds native kimi/moonshot provider-kind routing, the kimi:k3 profile, Kimi setup generation, bounded provider documentation, runtime adapter reasoning_effort propagation, and issue-owned deterministic tests. Integration remains worktree-only pending exact review and PR publication.\",\"changes\":[\"Added native Kimi/Moonshot provider support in adl/src/provider/http_family.rs and wired it through adl/src/provider/mod.rs.\",\"Added kimi:k3 profile materialization and reasoning_effort validation in adl/src/provider/profiles.rs.\",\"Canonicalized moonshot as a Kimi provider alias in adl/src/provider_substrate.rs.\",\"Propagated Kimi runtime-adapter reasoning_effort in adl/src/provider_adapter.rs and validated Kimi K3 reasoning values in adl/src/provider_communication.rs.\",\"Added adl provider setup kimi/moonshot support in adl/src/cli/provider_cmd.rs and adl/src/cli/usage.rs.\",\"Documented Moonshot/Kimi setup in docs/tooling/PROVIDER_SETUP.md.\",\"Added issue-owned integration test target adl/tests/provider_moonshot_kimi_k3.rs.\"],\"artifacts\":[\"implementation_commit=db8994b498269ec3d29cbe491b63237ee8e1955a\",\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log sha256=3bd4f84ab979979667312256681f7414680d94a95f8941693b7e031e2596d0a6\",\".csdlc/evidence/680/strict-clippy-all-targets.log sha256=6e4b4b14f649de3418b8eec236d5c8b7b418e3466405d45200ad235a32aa2688\",\".csdlc/evidence/680/fmt-check.log sha256=257f02388635d9f01deba3c03fd79fdf5bca92fae67ddb08378aa8da0d483393\",\".csdlc/evidence/680/diff-check.log sha256=6457db7c0feffdc3b6d97aa5d989a84ff2ee7fdf2bf7c9e2369c5583971d3142\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:root",
+      "reason": "advance #680 to implemented after bound worktree implementation and local focused provider validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "record #680 implementation and validation evidence before exact review and PR publication",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented first-class Moonshot/Kimi K3 provider support in the bound issue worktree. The change adds native kimi/moonshot provider-kind routing, the kimi:k3 profile, Kimi setup generation, bounded provider documentation, runtime adapter reasoning_effort propagation, and issue-owned deterministic tests. Integration remains worktree-only pending exact review and PR publication.\",\"changes\":[\"Added native Kimi/Moonshot provider support in adl/src/provider/http_family.rs and wired it through adl/src/provider/mod.rs.\",\"Added kimi:k3 profile materialization and reasoning_effort validation in adl/src/provider/profiles.rs.\",\"Canonicalized moonshot as a Kimi provider alias in adl/src/provider_substrate.rs.\",\"Propagated Kimi runtime-adapter reasoning_effort in adl/src/provider_adapter.rs and validated Kimi K3 reasoning values in adl/src/provider_communication.rs.\",\"Added adl provider setup kimi/moonshot support in adl/src/cli/provider_cmd.rs and adl/src/cli/usage.rs.\",\"Documented Moonshot/Kimi setup in docs/tooling/PROVIDER_SETUP.md.\",\"Added issue-owned integration test target adl/tests/provider_moonshot_kimi_k3.rs.\"],\"artifacts\":[\"implementation_commit=db8994b498269ec3d29cbe491b63237ee8e1955a\",\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log sha256=3bd4f84ab979979667312256681f7414680d94a95f8941693b7e031e2596d0a6\",\".csdlc/evidence/680/strict-clippy-all-targets.log sha256=6e4b4b14f649de3418b8eec236d5c8b7b418e3466405d45200ad235a32aa2688\",\".csdlc/evidence/680/fmt-check.log sha256=257f02388635d9f01deba3c03fd79fdf5bca92fae67ddb08378aa8da0d483393\",\".csdlc/evidence/680/diff-check.log sha256=6457db7c0feffdc3b6d97aa5d989a84ff2ee7fdf2bf7c9e2369c5583971d3142\"],\"validation\":[{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"purpose\":\"Focused issue-owned Moonshot/Kimi K3 provider integration proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for touched Rust provider surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/strict-clippy-all-targets.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for touched sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git whitespace diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/diff-check.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "recover silent exact-head review assignment; reviewer returned no PASS/FAIL payload after bounded wait",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:root",
+      "reason": "record #680 exact-head remediation and validation evidence before fresh exact review and PR publication",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented first-class Moonshot/Kimi K3 provider support in the bound issue worktree and remediated exact-review findings before publication. The change adds native kimi/moonshot provider-kind routing, the kimi:k3 profile, Kimi setup generation, bounded provider documentation, runtime adapter reasoning_effort propagation, and issue-owned deterministic tests. Review remediation canonicalizes outbound Kimi reasoning_effort whitespace, follows Moonshot's documented Kimi K3 default of max when reasoning_effort is omitted, and refreshes validation evidence at the exact source head. Integration remains worktree-only pending fresh exact review and PR publication.\",\"changes\":[\"Added native Kimi/Moonshot provider support in adl/src/provider/http_family.rs and wired it through adl/src/provider/mod.rs.\",\"Added kimi:k3 profile materialization and reasoning_effort validation in adl/src/provider/profiles.rs.\",\"Canonicalized moonshot as a Kimi provider alias in adl/src/provider_substrate.rs.\",\"Propagated Kimi runtime-adapter reasoning_effort in adl/src/provider_adapter.rs and validated Kimi K3 reasoning values in adl/src/provider_communication.rs.\",\"Added adl provider setup kimi/moonshot support in adl/src/cli/provider_cmd.rs and adl/src/cli/usage.rs.\",\"Documented Moonshot/Kimi setup in docs/tooling/PROVIDER_SETUP.md.\",\"Added issue-owned integration test target adl/tests/provider_moonshot_kimi_k3.rs.\",\"Remediated review finding r5 by trimming outbound Kimi runtime reasoning_effort after validation.\",\"Remediated review finding r5 by defaulting omitted Kimi K3 reasoning_effort to max and documenting that ADL follows Moonshot's OpenAI-compatible API default.\"],\"artifacts\":[\"implementation_commit=062dec3e9787ad2df27bd344bcbc5a22f0940af2\",\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log sha256=1a15fabed16303c204c2b2ca79184a79d311687522e501911ce92a4e76bb6dc5\",\".csdlc/evidence/680/strict-clippy-all-targets.log sha256=6b4417157f9ceb3c3c6c01889fc65a54cb37699b6675376145f2e2b712980977\",\".csdlc/evidence/680/fmt-check.log sha256=4e0c3b1e9b4b1773554a6a18d85b66976a9eba1d7fbb1c1364b42c8576de2280\",\".csdlc/evidence/680/diff-check.log sha256=a8b4d8fabd86469970bb4a9c16f7a8d2f58b58056d3c575da55ae1617a17a7c3\"],\"validation\":[{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"provider_moonshot_kimi_k3\"],\"purpose\":\"Focused issue-owned Moonshot/Kimi K3 provider integration proof, including default max reasoning_effort and trimmed outbound runtime effort regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/focused-provider-moonshot-kimi-k3.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for touched Rust provider surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/strict-clippy-all-targets.log\"},{\"command\":[\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-cargo-target\",\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for touched sources and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git whitespace diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/680/diff-check.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "recover stale silent exact-head review assignment after r5 reviewer returned actionable P2 findings and #680 remediation/evidence refreshed at 67bd10d940f8d0303fe74e3bc144d2e6057415ef",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "recover #680 review because the recorded non-substantive proof used an unsupported policy/to_revision shape; source, docs, tests, and evidence remain unchanged",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

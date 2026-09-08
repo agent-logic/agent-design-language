@@ -11,13 +11,13 @@ use std::{
 
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
-    build_live_assembly, build_production_operation_executors_with_recorder, AdapterKind,
-    AdapterPolicy, AuthorityMode, ClockAuthority, Component, ComponentContext, ComponentError,
-    ComponentFactory, ComponentId, ComponentRegistry, ComponentSpec, DomainWork, ExecutorError,
-    FailureClass, FailurePolicy, InProcessOperationExecutor, LiveBindings, OperationError,
-    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
-    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
-    KERNEL_DURABLE_STATE_DB_FILE,
+    build_live_assembly, build_production_operation_executors_with_recorder,
+    resident_shepherd_provider_is_available, AdapterKind, AdapterPolicy, AuthorityMode,
+    ClockAuthority, Component, ComponentContext, ComponentError, ComponentFactory, ComponentId,
+    ComponentRegistry, ComponentSpec, DomainWork, ExecutorError, FailureClass, FailurePolicy,
+    InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor, OperationRequest,
+    OperationalAdapter, OperationalFactory, RuntimeRecorder, TimeQualificationBounds, TimeSample,
+    TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -385,6 +385,14 @@ async fn local_production_adapters_execute_real_bounded_behavior() {
         adl_runtime_kernel::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
         30_000
     );
+}
+
+#[test]
+fn resident_shepherd_provider_roster_rejects_placeholder_as_production_adapter() {
+    assert!(!resident_shepherd_provider_is_available("placeholder"));
+    assert!(!resident_shepherd_provider_is_available("anthropic"));
+    assert!(resident_shepherd_provider_is_available("ollama"));
+    assert!(resident_shepherd_provider_is_available("openai-compatible"));
 }
 
 #[tokio::test]

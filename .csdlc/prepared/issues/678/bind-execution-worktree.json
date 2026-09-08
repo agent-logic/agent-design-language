@@ -1,0 +1,12 @@
+{
+  "issue": 678,
+  "base_branch": "codex/678-bootstrap-base-r2",
+  "branch": "codex/678-stable-csm-active-generation-route",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-678-stable-csm-active-generation-route",
+  "code_repository": "agent-logic/agent-design-language",
+  "expected_repository": "agent-logic/agent-design-language",
+  "expected_head": "8e673c13a6976df052de54f2cbbcb1ee849800aa",
+  "expected_generation": 2,
+  "expected_digest": "f7fd767cc3c753d6a0e2d6b2d214c20631923f3abb8dd4df2334a72dd9a2ab20",
+  "actor": "codex:678-bind"
+}

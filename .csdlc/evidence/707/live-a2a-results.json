@@ -1,0 +1,36 @@
+{
+  "schema": "adl.issue707.live_a2a_evidence.v1",
+  "source_revision": "b5c702134900d79781ecd15e7dbf80d2df6192f9",
+  "installed_generation": "issue-707-b5c702134",
+  "config_generation": "ee087312ebcae8c341cec93351d6f839d58f64352cbe4ebf0ba8fe9a724d422e",
+  "config_receipt_digest": "983d34ffe94ff6f4da56a69e165756e22d0b7095a11d7a2ea6e119e4ea953f7e",
+  "guardian_process_id": 56838,
+  "runtime_process_id": 56839,
+  "runtime_ready": true,
+  "observability_ready": true,
+  "canonical_launchd_label": "com.agentlogic.adl-runtime-v3",
+  "attempts": [
+    {
+      "conversation_id": "conversation-707-c44920d6d8d241a6b37667aa6796ee18",
+      "sender_id": "beacon",
+      "recipient_id": "gemma-e4b",
+      "initiated_work_id": "a2a-work-0bd209dc73be97cb",
+      "status": "delivered",
+      "recipient_reply_nonempty": true
+    },
+    {
+      "conversation_id": "conversation-707-8824f27564e148e08f9670ac9a661267",
+      "sender_id": "beacon",
+      "recipient_id": "gemma-e4b",
+      "initiated_work_id": "a2a-work-d3126080526c0344",
+      "status": "delivered",
+      "recipient_reply_nonempty": true
+    }
+  ],
+  "assertions": {
+    "distinct_fresh_conversations": true,
+    "distinct_initiated_work_items": true,
+    "operator_reply_not_used_as_delivery_proof": true,
+    "beacon_to_ember_delivery": true
+  }
+}

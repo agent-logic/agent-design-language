@@ -1,0 +1,7 @@
+flowchart LR
+  Review[review route] --> Publish[publish route]
+  Publish --> PRState[pr-state readback]
+  GitHub[github adapters] --> PRState
+  Issue[github-issue route] --> PRState
+  PR[github-pr route] --> PRState
+  PRState --> Guard[#505 cutover guard]

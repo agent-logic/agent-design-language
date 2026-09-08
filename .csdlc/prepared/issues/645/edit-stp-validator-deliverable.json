@@ -1,0 +1,20 @@
+{
+  "issue": 645,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "fdbd3684c608a1543bc78f1042d27ede50970a407e717739bcaf05ef73b1334e",
+  "actor": "codex:/root:issue-645-readiness-repair",
+  "reason": "Declare the issue-owned validation wrapper as a deliverable so #645 has an executable readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Closing-mode publish guard that requires exact live closingIssuesReferences linkage",
+      "Typed publish/PR-state agreement on linked_issue, linkage_source, base, head, and linkage mode",
+      "Explicit fail-closed guidance for stacked/non-default-base closing publication without a GitHub relation",
+      "Regression test for the PR #644 shape",
+      ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+      "Focused local validation evidence"
+    ]
+  }
+}

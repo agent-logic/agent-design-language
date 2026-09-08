@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 659,
+  "expected_generation": 11,
+  "expected_digest": "22b2818c37177f0b8323d3543c790020b0a3064709cf6f6f64975053d06f1ad3",
+  "claim_id": "claim-659-configurable-convergence-final-r2",
+  "actor": "codex-subagent:/root/issue_659_design_readiness_review",
+  "evidence": {
+    "reviewer": "codex-subagent:/root/issue_659_design_readiness_review",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/evidence/659"
+    ],
+    "reviewed_revision": "git-blake3:bf17efa4769374484196a76b99a688c1bfe98951:5f12720aed7c3e94e5970f4277cb0033f4348fbabcaf1a072eae3c1beaf46faa",
+    "findings": [],
+    "residual_risks": [
+      "The focused validation intentionally did not restart or reload the live Runtime; operational rollout remains a separate operator-controlled action."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

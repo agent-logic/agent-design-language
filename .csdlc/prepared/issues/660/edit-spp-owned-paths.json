@@ -1,0 +1,23 @@
+{
+  "issue": 660,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "7ecb2c6de656201166e5153da1d4e4416e040f8a9f33bededa402f88505068c0",
+  "actor": "codex:/root",
+  "reason": "Replace semantic affected areas with exact safe repository-owned paths for issue #660 readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/_preview/podcast/index.html",
+      "demos/_preview/podcast/assets/agent-logic-logo.svg",
+      "demos/podcast/LAUNCH_READINESS.md",
+      "demos/podcast/PUBLICATION_HOLD.md",
+      "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+      ".csdlc/prepared/issues/660/delete-public-podcast-prefix.json",
+      ".csdlc/prepared/issues/660/validate-emergency-rollback.rb",
+      ".csdlc/evidence/660/emergency-exposure-rollback.json",
+      "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md"
+    ]
+  }
+}

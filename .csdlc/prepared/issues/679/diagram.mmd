@@ -1,0 +1,10 @@
+flowchart TD
+  A["#512 HTML Observatory bundle"] --> B["#679 static deployment contract"]
+  B --> C["S3 private bucket with versioning"]
+  C --> D["CloudFront distribution with OAC"]
+  E["ACM certificate"] --> D
+  F["Route53 alias observatory.csm.agent-logic.ai"] --> D
+  D --> G["Browser origin https://observatory.csm.agent-logic.ai"]
+  G --> H["Per-polis Runtime HTTPS/WSS endpoints"]
+  B --> I["Local validators and redacted AWS readbacks"]
+  I --> J["SOR truth: dry-run, deferred, or authorized live proof"]

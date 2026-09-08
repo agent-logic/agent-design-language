@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 695,
+  "expected_generation": 11,
+  "expected_digest": "e639d5cdab809e8fa0c151ca106b793182bf4ec10394da0ef97ae58e7f30b822",
+  "actor": "codex:/root",
+  "reason": "Recover the superseded review assignment so the new coordinator-cycle and restart proof can be recorded and reviewed at its exact revision."
+}

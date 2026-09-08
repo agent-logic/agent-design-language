@@ -1,0 +1,15 @@
+flowchart TD
+  A[Ready issue record] --> B[Operator adoption request]
+  B --> C{Typed bind owner verifies}
+  C -->|stale or unsafe| X[Fail closed with diagnostics]
+  C -->|exact issue branch/worktree| D[Record adoption evidence]
+  D --> E[Advance only to bound]
+  E --> F[Ordinary implementation finalization]
+  F --> G[Exact-head review]
+  G --> H[Typed publication]
+
+  C --> C1[Issue/repo/generation/digest]
+  C --> C2[Branch not main and issue-owned]
+  C --> C3[FastWork worktree topology]
+  C --> C4[Exact HEAD and base ancestry]
+  C --> C5[No collisions or existing binding]

@@ -1,0 +1,26 @@
+{
+  "schema": "adl.issue670.snapshot-verification.v1",
+  "status": "pass",
+  "project": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+  "region": "us-central1",
+  "zone": "us-central1-c",
+  "artifact_generation": "g670-20260903b",
+  "runtime": {
+    "name": "adl-663-g670-20260903b-runtime",
+    "status": "READY",
+    "creation_timestamp": "2026-09-03T15:29:36.767-07:00",
+    "disk_size_gib": 20,
+    "storage_bytes": 117435392,
+    "content_manifest_sha256": "fce41b9879159e7a1f461353045ec6353fba2b32dcb59261e90f97de6461b1b0"
+  },
+  "ollama": {
+    "name": "adl-663-g670-20260903b-ollama",
+    "status": "READY",
+    "creation_timestamp": "2026-09-03T15:29:36.520-07:00",
+    "disk_size_gib": 30,
+    "storage_bytes": 14336168576,
+    "content_manifest_sha256": "c319b14eb88b9ac529f39adae73998279baed92f64a6f353f0e4eedb64af171d"
+  },
+  "restore_verification": "ADL_ISSUE663_SNAPSHOT_VERIFY=PASS generation=g670-20260903b",
+  "snapshot_count": 2
+}

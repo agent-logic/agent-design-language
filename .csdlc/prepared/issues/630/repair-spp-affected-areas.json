@@ -1,0 +1,22 @@
+{
+  "issue": 630,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "ba1f76c4dcc1998723407822721944a4b2c8677d02d63b3746214a66bb14538d",
+  "actor": "codex:worker-6-spp-editor",
+  "reason": "Make the #630 executable validation target and changed v3 command files explicit issue-owned affected areas for readiness.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/v3-command-manifest.json",
+      ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+      ".csdlc/evidence/630/"
+    ]
+  },
+  "fail_after_backup": false
+}

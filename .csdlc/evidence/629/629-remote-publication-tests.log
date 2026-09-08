@@ -1,0 +1,11 @@
+
+running 4 tests
+test review_route_rejects_self_review_even_with_whitespace ... ok
+test publish_route_requires_current_review_and_closing_relation ... ok
+test pr_state_route_rejects_caller_forged_readback ... ok
+test remote_publication_routes_are_typed_and_non_authoritative ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-746550c1fcb9f742)

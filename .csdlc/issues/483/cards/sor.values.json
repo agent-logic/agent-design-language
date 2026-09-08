@@ -7,9 +7,9 @@
     "title": "[v0.92.1][CORP-B] Corporate account custody register",
     "slug": "v0-92-1-corp-b-corporate-account-custody-register",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -37,10 +37,10 @@
           "evidence_ref": "corp-b-custody-register.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

@@ -1,0 +1,19 @@
+{
+  "issue": 678,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "08b81dcc4d8a158ae3b240b07874ead3ace2c24159b6b80fdef02bb87d27cd1a",
+  "actor": "codex:678-implementation",
+  "reason": "Record the real implementation denominator including the delegated Runtime v3 generation Python module.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl/tools/install_runtime_v3_generation.sh",
+      "adl/tools/runtime_v3_generation.py",
+      "adl/tools/test_runtime_v3_generation_install.sh",
+      ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+      ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md"
+    ]
+  }
+}

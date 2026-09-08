@@ -1,0 +1,14 @@
+{
+  "issue": 689,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "c8fabad3d56c114bf2f97f24ba2ab523bfda57e3489917e556154172bfa31f38",
+  "actor": "codex:/root",
+  "reason": "record completion of the canonical runbook implementation slice",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  },
+  "fail_after_backup": false
+}
