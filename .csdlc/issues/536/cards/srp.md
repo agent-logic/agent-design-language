@@ -31,7 +31,7 @@ docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md
     "summary": "The closeout validator used loose substring checks instead of enforcing exact child-to-review, PR, checks, merge, and no-PR mappings.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   }
