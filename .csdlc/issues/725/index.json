@@ -3,13 +3,30 @@
   "issue": 725,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "0f2febf87b507e91863f8acb77c2663830d71067978d63857c4829ced718c42a",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "ad713f0ecef7d03654e2f7f1761c47c4dee065f51a2d290f0a41a62c4e46d3b8",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:execute-aws-727-728-r4",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:eb2598adcb1d7807e2f0fa870e9c3ddfddd4a3cf:8cc92112840a7b537d6713f78cf99add62dd1d11ed18dec0b42ad55636c7ab0f",
+    "scope": [
+      "csdlc-v3"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:execute-aws-727-728-r4",
+    "scope": [
+      "csdlc-v3"
+    ],
+    "reviewed_revision": "git-blake3:eb2598adcb1d7807e2f0fa870e9c3ddfddd4a3cf:8cc92112840a7b537d6713f78cf99add62dd1d11ed18dec0b42ad55636c7ab0f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +41,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8a6a5833c4b805662a4f12cfaecd309be6a91ab48da67b2260fca022635bf250",
+      "values_digest": "61368a8f79761375004cc45a52a96cf1505b9e16c4ad2eb646566f277a93abd4",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "b3db7526d0b20a6983db78c43094d2f930dffa025453725c0d65be14c87f4355",
+      "values_digest": "26d8a4967902ea9f6e5fd219f4510ee6a2fac37012f56862ec3be91147e7f03c",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "f30638841a30e866acc18fe0b9f4ffd3b660f0424bd742b46ac95b40d147e05b",
+      "values_digest": "62e885a4cf100c2f8abc4c5dcef770661a777df2e1347e9e0022d0664d83a339",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "005bd46a6d4eea91b7087db48de2adf6e60bb1b2b625192afb3ca24da2c83a57",
+      "values_digest": "65d61ea37b8dba91752192e532bb2f3a1a772d8e7838e6951db611cbd247fdb6",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "30dbb0c7baf4a86b602a53394fb650277167d5067ac52d19730a2cdaaeee48c2",
-      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
-      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
+      "values_digest": "cc86d602c16d02f0ead8a3f2421300b8aab3fe91c2983d37777cf3ab952a4243",
+      "rendered_digest": "2fee8a4eb3c98cf5aae3993aa27217a43ca11ef80fe8b80cfecd4b1a30108847",
+      "ast_digest": "82f2db7b85bb90336fe8f6bfec0da02615a259ffd286615a517e3f95b935062e"
     },
     "sor": {
-      "values_digest": "059972585ad3f4f7d3cfc6e158d54a6414fde908774751bb8a6c90ceac924b1a",
+      "values_digest": "eab985d34a22f0f84f90523036fce6570cf1145cff7a5794ff5f1c6513a4e212",
       "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
       "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
@@ -96,6 +113,13 @@
       "to": "implemented",
       "actor": "codex:/root/remediate_v3_725",
       "reason": "Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -189,6 +213,20 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

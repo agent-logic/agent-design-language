@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v3
 
 ## Prompts
 
@@ -33,8 +33,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:eb2598adcb1d7807e2f0fa870e9c3ddfddd4a3cf:8cc92112840a7b537d6713f78cf99add62dd1d11ed18dec0b42ad55636c7ab0f")
 
-Reviewer: None
+Reviewer: Some("fresh-session:execute-aws-727-728-r4")
 
-Result: pre_review
+Result: pass
