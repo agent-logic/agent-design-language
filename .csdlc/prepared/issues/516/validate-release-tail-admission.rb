@@ -10,6 +10,26 @@ abort("usage: #{$PROGRAM_NAME} [denominator|gaps|decision|admitted|negative|all]
 def load_json(path)
   JSON.parse(path.read)
 end
+def validate_receipts!(source, admission)
+  expected={
+    "release-tail-denominator.log"=>"denominator",
+    "implementation-gap-analysis.log"=>"gaps",
+    "admission-consistency.log"=>"decision"
+  }
+  expected.each do |name,mode|
+    receipt=load_json(ROOT.join(".csdlc/evidence/516",name))
+    raise "validation receipt schema mismatch" unless receipt["schema"]=="adl.v0921.release_tail_validation_receipt.v1"
+    raise "validation receipt candidate/source mismatch" unless receipt["candidate"]==source["candidate"] && receipt["source_digest"]==admission["source_digest"]
+    raise "validation receipt argv mismatch" unless receipt["argv"]==["ruby",".csdlc/prepared/issues/516/validate-release-tail-admission.rb",mode]
+    raise "validation receipt failed" unless receipt["exit_code"]==0 && receipt.dig("stdout","mode")==mode && receipt.dig("stdout","status")=="pass"
+    raise "validation receipt stdout digest mismatch" unless Digest::SHA256.hexdigest(JSON.generate(receipt["stdout"]))==receipt["stdout_sha256"]
+    Time.iso8601(receipt.fetch("started_at")); Time.iso8601(receipt.fetch("ended_at"))
+    raise "validation receipt head invalid" unless receipt["exact_head"]&.match?(/\A[0-9a-f]{40}\z/) && system("git","merge-base","--is-ancestor",receipt["exact_head"],"HEAD",chdir:ROOT.to_s,out:File::NULL,err:File::NULL)
+    post,_post_err,post_status=Open3.capture3("git","diff","--name-only","#{receipt['exact_head']}..HEAD",chdir:ROOT.to_s)
+    raise "validation receipt post-head inspection failed" unless post_status.success?
+    raise "validation receipt followed by substantive changes" unless post.lines.map(&:strip).reject(&:empty?).all?{|path|expected.key?(File.basename(path)) && path.start_with?(".csdlc/evidence/516/")}
+  end
+end
 def validate!(source, admission, gap, markdown, require_admitted:)
   raise "wrong source schema" unless source["schema"]=="adl.v0921.release_tail_input.v1"
   raise "wrong admission schema" unless admission["schema"]=="adl.v0921.release_tail_admission.v2"
@@ -19,6 +39,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "candidate mismatch" unless [source["candidate"],admission["candidate"],gap["candidate"]].uniq.one?
   remote_main,_remote_err,remote_status=Open3.capture3("git","rev-parse","origin/main",chdir:ROOT.to_s)
   raise "admission candidate is stale" unless remote_status.success? && source["candidate"]==remote_main.strip
+  validate_receipts!(source,admission)
   source.fetch("planning").each do |entry|
     path=ROOT.join(entry.fetch("path")); raise "planning source missing" unless path.file?
     raise "planning source digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
