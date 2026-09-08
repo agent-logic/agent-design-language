@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 525,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+    "slug": "v0921-tail09-next-milestone-review-pass",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one independent findings-first review of the complete v0.92.2 planning package at an immutable revision.",
+      "required_outcome": "One exact-revision planning review report with a complete review denominator and evidence-backed disposition for every finding.",
+      "declared_scope": [
+        "Merged #523 and #524 planning outputs",
+        "docs/milestones/v0.92.2/**",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/milestones/v0.92.1/evidence/release/tail-09/**"
+      ],
+      "authority_boundary": [
+        "The review is read-only against one immutable planning revision",
+        "Findings do not authorize remediation inside this issue",
+        "The review does not approve the current release or create successor issues"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not edit reviewed planning files",
+        "Do not begin until #524 has a reviewed merge",
+        "Report findings before summary",
+        "Do not convert green validators into semantic approval"
+      ]
+    }
+  }
+}

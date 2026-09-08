@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 526,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-10] Release ceremony",
+    "slug": "v0921-tail10-release-ceremony",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The v0.92.1 release candidate, prior-tail ancestry census, release notes, operator authorization, tag/release mutation request, and retained readback receipt.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is every included merge reviewed, green, and ancestral?",
+        "Do notes match the exact candidate without overclaiming?",
+        "Does authorization identify the exact mutation?",
+        "Do tag and release readback resolve to the same approved commit?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

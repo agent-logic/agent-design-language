@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 525,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+    "slug": "v0921-tail09-next-milestone-review-pass",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Review and report on exactly one immutable successor planning revision; make no planning or product changes.",
+      "deliverables": [
+        "Exact-revision planning review report",
+        "Complete reviewed-path denominator",
+        "Evidence-backed finding and disposition register"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Review binds the exact merged planning revision and records scope and dirt state",
+        "AC-2: The denominator covers all canonical v0.92.2 planning and feature-routing surfaces",
+        "AC-3: Review checks scope, dependencies, one-result units, deferrals, closeout order, operator gates, and non-claims",
+        "AC-4: Every finding has severity, evidence, owner, and disposition",
+        "AC-5: Any post-review planning change invalidates the result",
+        "AC-6: The final report distinguishes validator results from semantic review judgment"
+      ],
+      "dependencies": [
+        "Reviewed merge for #524 / TAIL-08",
+        "Merged #523 successor planning package"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.2/**",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/templates/RELEASE_PLAN_TEMPLATE.md",
+        "agent-logic/agent-design-language#525"
+      ],
+      "non_goals": [
+        "Remediating findings",
+        "Creating v0.92.2 issues",
+        "Approving or performing v0.92.1 release",
+        "Product implementation"
+      ]
+    }
+  }
+}

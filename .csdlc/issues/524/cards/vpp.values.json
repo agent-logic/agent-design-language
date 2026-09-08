@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 524,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+    "slug": "v0921-tail08-next-milestone-closeout-plan",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-524-tail08",
+          "proof_role": "Prove release-plan/checklist denominator parity, exact tail order, operator gates, asynchronous bookkeeping, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/524/validate-tail08.sh"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on denominator disagreement, reordered or omitted tail work, implicit release authority, or closeout-dependent execution.",
+      "design_ref": ".csdlc/prepared/issues/524/design.md",
+      "design_digest": "743cc597d0cb3d0a65bcb8f591a4ed05fe27bd3c7d8758e982967987eb8af18c",
+      "diagram_ref": ".csdlc/prepared/issues/524/diagram.mmd",
+      "diagram_digest": "ca942303fa206e075a170c0ab6ac84262740991f38f08a372865a0d23a3da201"
+    }
+  }
+}

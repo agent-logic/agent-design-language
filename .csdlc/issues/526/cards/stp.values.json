@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 526,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-10] Release ceremony",
+    "slug": "v0921-tail10-release-ceremony",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare and, only after explicit authorization, perform exactly one v0.92.1 release ceremony; no feature work or unrelated cleanup.",
+      "deliverables": [
+        "Final release notes bound to the approved candidate",
+        "Operator authorization record",
+        "Tag and release readback receipt",
+        "Tail merge and ancestry census"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every prior tail issue has a reviewed-green merge ancestral to the candidate",
+        "AC-2: Release notes describe the exact candidate without unsupported claims",
+        "AC-3: Explicit operator authorization identifies the candidate, tag, and release operation",
+        "AC-4: Tag and published release resolve to the exact approved candidate",
+        "AC-5: Live readback and immutable receipt capture notes, tag, release URL or identifier, timestamps, and hashes",
+        "AC-6: No feature implementation, unreviewed merge, or unrelated cleanup occurs"
+      ],
+      "dependencies": [
+        "Reviewed merge for #525 / TAIL-09",
+        "Reviewed-green ancestral merges for all prior v0.92.1 tail issues",
+        "Explicit operator authorization for the exact release candidate and mutation"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md",
+        "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+        "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+        "agent-logic/agent-design-language#526"
+      ],
+      "non_goals": [
+        "Feature implementation",
+        "Unreviewed merge",
+        "Successor milestone execution",
+        "Administrative finish or worktree cleanup",
+        "Release mutation before authorization"
+      ]
+    }
+  }
+}

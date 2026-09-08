@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 524,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+    "slug": "v0921-tail08-next-milestone-closeout-plan",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Define exactly one successor closeout plan; perform no closeout or release action.",
+      "deliverables": [
+        "Reconciled v0.92.2 release plan",
+        "Reconciled v0.92.2 milestone checklist",
+        "Focused closeout-contract validation evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Release plan and checklist name the same complete closeout denominator",
+        "AC-2: TAIL-01 through TAIL-10 appear in exact order with explicit dependencies",
+        "AC-3: Operator authorization gates release/tag/publication actions",
+        "AC-4: Typed finish and cleanup are asynchronous and non-gating",
+        "AC-5: The plan distinguishes product completion, reviewed merge, release ceremony, and bookkeeping",
+        "AC-6: Focused validators pass and exact-head review has no unresolved actionable findings"
+      ],
+      "dependencies": [
+        "Reviewed merge for #523 / TAIL-07",
+        "Current v0.92.2 planning package"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
+        "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
+        "docs/templates/RELEASE_PLAN_TEMPLATE.md",
+        "agent-logic/agent-design-language#524"
+      ],
+      "non_goals": [
+        "Executing v0.92.2",
+        "Current v0.92.1 release",
+        "Creating successor issues",
+        "Changing product implementation"
+      ]
+    }
+  }
+}

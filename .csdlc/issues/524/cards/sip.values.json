@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 524,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+    "slug": "v0921-tail08-next-milestone-closeout-plan",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Define one executable, reviewable v0.92.2 closeout and release-tail contract.",
+      "required_outcome": "The v0.92.2 release plan and milestone checklist agree on denominator, exact tail order, operator gates, and non-gating asynchronous bookkeeping.",
+      "declared_scope": [
+        "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
+        "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
+        "Issue-local lifecycle and validation evidence for #524"
+      ],
+      "authority_boundary": [
+        "The reviewed #523 planning merge supplies the successor denominator",
+        "Release gates depend on reviewed merges, not asynchronous finish or cleanup receipts",
+        "Operator-only actions remain explicitly operator-gated"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not execute the v0.92.2 tail",
+        "Do not perform current release actions",
+        "Do not make closeout bookkeeping a dependency",
+        "Do not begin until #523 has a reviewed merge"
+      ]
+    }
+  }
+}

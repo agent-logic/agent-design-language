@@ -1,0 +1,83 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 523,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+    "slug": "v0921-tail07-next-milestone-planning",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Reconcile the existing successor package with delivered v0.92.1 truth, repair only planning inconsistencies, validate the complete denominator, and publish one reviewed planning PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Freeze the exact delivered/deferred/open planning denominator at the post-#522 main revision.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Refresh the v0.92.2 package and feature routing without creating successor issues.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused consistency and denominator validation, obtain exact-head independent review, and publish one closing PR.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.2",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/issues/523",
+        ".csdlc/prepared/issues/523",
+        ".csdlc/evidence/523"
+      ],
+      "invariants": [
+        "Planning claims are source-grounded",
+        "Deferred work is never silently promoted",
+        "One planned item owns one concrete result",
+        "No successor issue creation"
+      ],
+      "risks": [
+        "The existing package may be stale relative to late v0.92.1 merges",
+        "Residual work may be duplicated or silently omitted",
+        "Planning prose may overstate implementation"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#522 lacks a reviewed merge",
+        "Successor ownership is ambiguous",
+        "A requested change would create or execute v0.92.2 work",
+        "The denominator cannot be reconciled from tracked and live authority"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/523/design.md",
+      "design_digest": "41bf25be8f50e48deacef0581ef18014eded9d61a421decfe0c4ccc135427c42",
+      "diagram_ref": ".csdlc/prepared/issues/523/diagram.mmd",
+      "diagram_digest": "a3c4ef86476692975539357c4920e8b7795089ecd3296378f213d5aea41e89af"
+    }
+  }
+}

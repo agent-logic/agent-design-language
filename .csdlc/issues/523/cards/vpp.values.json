@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 523,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+    "slug": "v0921-tail07-next-milestone-planning",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-523-tail07",
+          "proof_role": "Prove the complete successor planning package, dispositions, feature routing, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/523/validate-tail07.sh"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing dispositions, duplicate ownership, successor issue creation, or planning claims unsupported by current milestone truth.",
+      "design_ref": ".csdlc/prepared/issues/523/design.md",
+      "design_digest": "41bf25be8f50e48deacef0581ef18014eded9d61a421decfe0c4ccc135427c42",
+      "diagram_ref": ".csdlc/prepared/issues/523/diagram.mmd",
+      "diagram_digest": "a3c4ef86476692975539357c4920e8b7795089ecd3296378f213d5aea41e89af"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 523,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+    "slug": "v0921-tail07-next-milestone-planning",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Refresh and validate exactly one successor planning package; do not execute or open its planned work.",
+      "deliverables": [
+        "Updated v0.92.2 milestone planning package",
+        "Updated ADL feature routing where required",
+        "Retained denominator and deferred-routing validation evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The v0.92.2 scope and CodeFriend Beta 1 exit bar are explicit and internally consistent",
+        "AC-2: Every relevant v0.92.1 result or residual has a delivered, deferred, existing-issue, or planned disposition",
+        "AC-3: Deferred work remains deferred unless explicitly promoted",
+        "AC-4: The package identifies v0.95 integration intent without executing it",
+        "AC-5: No successor execution issues are created",
+        "AC-6: Focused planning validators pass and an independent review finds no unresolved actionable findings"
+      ],
+      "dependencies": [
+        "Reviewed merge for #522 / TAIL-06",
+        "Current canonical v0.92.1 milestone truth",
+        "Existing v0.92.2 planning package"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/**",
+        "docs/milestones/v0.92.2/**",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".adl/docs/TBD/**",
+        "agent-logic/agent-design-language#523"
+      ],
+      "non_goals": [
+        "Creating v0.92.2 issues",
+        "Implementing CodeFriend",
+        "Changing v0.92.1 product code",
+        "Performing release ceremony"
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+flowchart LR
+  A[Reviewed #525 merge] --> B[Tail merge ancestry census]
+  B --> C[Exact release candidate]
+  C --> D[Truthful release notes]
+  D --> E{Explicit operator authorization}
+  E -->|absent or drifted| F[Stop]
+  E -->|exact| G[Typed tag and release operation]
+  G --> H[Live readback receipt]

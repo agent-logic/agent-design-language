@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 526,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-10] Release ceremony",
+    "slug": "v0921-tail10-release-ceremony",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-526-tail10",
+          "proof_role": "Prove final notes and the retained operator-authorized ceremony/readback receipt after the typed release operation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/526/validate-tail10.sh"
+          ],
+          "parallel_group": "ceremony-proof",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed before mutation on missing ancestry, review, authorization, candidate identity, typed route, or exact readback proof.",
+      "design_ref": ".csdlc/prepared/issues/526/design.md",
+      "design_digest": "1ccc9b1dc06e67360fa0d89e2f50a2f21e8b0ba0f89cffe8cdda9bc8c73ab51e",
+      "diagram_ref": ".csdlc/prepared/issues/526/diagram.mmd",
+      "diagram_digest": "44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe"
+    }
+  }
+}

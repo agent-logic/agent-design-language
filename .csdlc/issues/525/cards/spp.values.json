@@ -1,0 +1,82 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 525,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+    "slug": "v0921-tail09-next-milestone-review-pass",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Freeze the merged planning head, construct the complete denominator, run independent findings-first review and focused validators, and retain one exact-revision report.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Record the exact merged #524 revision, worktree state, and complete planning denominator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Run independent semantic review across scope, dependencies, units, deferrals, gates, and non-claims.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Retain the findings-first report and invalidate it if the planning revision changes.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/release/tail-09",
+        ".csdlc/issues/525",
+        ".csdlc/prepared/issues/525",
+        ".csdlc/evidence/525"
+      ],
+      "invariants": [
+        "Review is independent and read-only",
+        "Exact revision and denominator are explicit",
+        "Every finding is evidence-backed",
+        "Changed planning requires fresh review"
+      ],
+      "risks": [
+        "A thin denominator may miss planning surfaces",
+        "Validator success may mask semantic gaps",
+        "Planning may change after review"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#524 lacks a reviewed merge",
+        "Successor plan changes during review",
+        "The complete denominator cannot be resolved",
+        "The reviewer is asked to remediate its own findings"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/525/design.md",
+      "design_digest": "c24818998d022d51470fdbefeb0cd322e4ce17b05f7c73445caba3fbc75e1af4",
+      "diagram_ref": ".csdlc/prepared/issues/525/diagram.mmd",
+      "diagram_digest": "89d5d63669b4265d8f17bd1d236d85ea066814ebbc5c6a22a65abe7c92fff6f1"
+    }
+  }
+}

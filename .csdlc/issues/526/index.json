@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 526,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6fecc08defa631be2edcba426b8534877938212c6bf1cfd4d79d4623677de1f6",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "6bbf56b3116c2fab3f557b7d5f6d17f7d2a01b1f9a095c0a8085980e63456943",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/526/design.md",
+  "diagram_path": ".csdlc/prepared/issues/526/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "9b6ba0b360379b81ea2d3769b0030e557ec057d07e4ea098249e4829224370ee",
+      "rendered_digest": "067b6bdb7b405573cccb9d333a82f74032a09fc771b8a5d17f0bc7c1a3389cb0",
+      "ast_digest": "3080ce7bb9bd284c66098cfa6e209418c8c48da8c4af45ae5ee7e6b9abe988b9"
+    },
+    "stp": {
+      "values_digest": "6768f19099ec4031dfe2f0d4e33bb4107e5763642a2d16b16c3a1e02410f4456",
+      "rendered_digest": "96c703710044d7a665500154fbb8a11fea4534573860193da755c20b873e83c5",
+      "ast_digest": "db034b1714074adcc9679bc290f27969a27dfd4670c0ca25a841e41cb31a0341"
+    },
+    "spp": {
+      "values_digest": "4d9236de93ae023cb75135285f73195ae4e27fe1613c35ed7b25541b3236c98e",
+      "rendered_digest": "87d10fa425d6e4d6f6eca72c92ca0333aca5e59d47669f80f5e58d260bfac39f",
+      "ast_digest": "02efde5b98fb944e8ddba0b41e6dcb7dca4f9fed5ac44737adb132cf17533ff1"
+    },
+    "vpp": {
+      "values_digest": "d5d4f9cb554ba988976d749adbf2eb65fb7271b4f2493538fcea4f371e01f431",
+      "rendered_digest": "bb5bf76de3c9e966109228c322c36952d584e3b6416cdc749318351a9c1b2b3a",
+      "ast_digest": "d5657531ac67eb634a111b1a1e22e25c69d9969f465cffa4209f6535f5bdcd5c"
+    },
+    "srp": {
+      "values_digest": "6d523a857f6e1a7c24491194cb2f74fb5afde461b2197a1c73025786be2b0283",
+      "rendered_digest": "dbf4233bdb2e1232892a3670ab2d260cef4e44646b1567caa04578d61c353ef7",
+      "ast_digest": "2e0c6f70e409ca8dffc150476ca991d4bcb0e6e41aa2fc4f534cddc0f84cfe3e"
+    },
+    "sor": {
+      "values_digest": "d298cbb15d254f5992d8066efdc48c7d33c51f27573a093b04f6264e2a501e12",
+      "rendered_digest": "7b572c864bae19e20fff07c76954f3cc5a627a53977a62ce46089331109cfcf7",
+      "ast_digest": "d493f159a8a3c562b777aa8e98143eac208f4d831b2e3d5d88ef4c73eec0066b"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "Refresh pre-bind design and diagram bindings after authoring the issue-specific preparation design.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/526/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/526/diagram.mmd\",\"new_design_digest\":\"1ccc9b1dc06e67360fa0d89e2f50a2f21e8b0ba0f89cffe8cdda9bc8c73ab51e\",\"new_diagram_digest\":\"44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe\",\"old_design_digest\":\"ece85768ec76141a2aad7cb85da78b49a8ee289e89ea683a137dd4dda82b9b40\",\"old_diagram_digest\":\"bf9a59c526c0986179b2689c3070cd13de1fe3e4819901b62ca1e75540ce4f45\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Freeze the candidate and verify every prior tail reviewed merge is ancestral.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Finalize release notes and obtain explicit operator authorization naming the exact candidate, tag, and release operation.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Perform the authorized typed release operation and retain exact live readback receipt.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "Route the full #526 denominator through one executable issue-owned post-ceremony receipt validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-526-tail10\",\"proof_role\":\"Prove final notes and the retained operator-authorized ceremony/readback receipt after the typed release operation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/526/validate-tail10.sh\"],\"parallel_group\":\"ceremony-proof\",\"defer_reason\":null}]}"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 523,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "823ffc2ad839cdeb1936cf13c117f04e68ae2cda4bd5ecad9534a77470b5eda0",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "afe7567095a3c19dafaac74c99128c851da0886c3228678680ffc1bb3165c022",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/523/design.md",
+  "diagram_path": ".csdlc/prepared/issues/523/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "2f1b6dcc440d4d698d6f53e8ce894d43646cedf4a92b8e86c0b72299bb330590",
+      "rendered_digest": "c526dc7fa934762d0b57eaf6d2d647c6b0cf6f8e8fefc163bcb85c0102bcc395",
+      "ast_digest": "529fcaf9f56551ca5b44f4db2104eb66a4de919781fd7e2a7b474f90fd5e51cd"
+    },
+    "stp": {
+      "values_digest": "cf430f526083df822aadc927cca2292b350b8b8ff8e1c076d4c06b22d376673a",
+      "rendered_digest": "c322f671f88549ead540ff814e9fe580074575d55dc32ff57aafa84ebcc05e00",
+      "ast_digest": "38759a3c0f50d810f81a4cc524576304bbfe51bddb30f6c55a31491e249840cc"
+    },
+    "spp": {
+      "values_digest": "5743f8ce90e409d6f4ad35ae7802949d4c59c27fea1c9ed01e21a4c0d1c3fe58",
+      "rendered_digest": "4db1471745c61c760249d758dee4a663b9e6ca5cce4d008862bfee1e44a3bf8c",
+      "ast_digest": "598c8d929806ab652c01be1e284c95626a52e224ec798076b6079d19a566b634"
+    },
+    "vpp": {
+      "values_digest": "87469b8bb07f951cd4e26489d4e743746bd2423a946fa5b98f64abf2ace63358",
+      "rendered_digest": "dcf4166a4ae0b90fe25ff1ae0da914d2c3dad4c3895a09d01bae3131dbf35d3d",
+      "ast_digest": "2502854721b0b4d9a158897babd6a681f32e4d3192f13653c6b10a78ba20dbad"
+    },
+    "srp": {
+      "values_digest": "2b68a04640cd2e63c2c6063e12f03fb84a586fb66bac8633c7554904611691a2",
+      "rendered_digest": "c386f074e9e8cec26706455e57883db2c6b95a27e49f39864fe31a64053d4db5",
+      "ast_digest": "9755b8c888fe5c1fc19c2e466a940f2e2a33a3ff9e5a31198f0f0cdfb9c25a48"
+    },
+    "sor": {
+      "values_digest": "c04355e17d995f02a3261b29ee007faba69f857de4276b64c7953c533f494b5b",
+      "rendered_digest": "ef2620a2ef5fd2303fa339f5e38004ddd180b59eff76c6d4c6fbff95505b9ad4",
+      "ast_digest": "47f35c38a5f8eb9ffaf726a47923cf0433c7516e46eb9ae2bc20c2cb1f9b3cdf"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "Refresh pre-bind design and diagram bindings after authoring the issue-specific preparation design.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/523/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/523/diagram.mmd\",\"new_design_digest\":\"41bf25be8f50e48deacef0581ef18014eded9d61a421decfe0c4ccc135427c42\",\"new_diagram_digest\":\"a3c4ef86476692975539357c4920e8b7795089ecd3296378f213d5aea41e89af\",\"old_design_digest\":\"93593d900040e33bfc02fdfc25c51bf28a845576c54efe57652a44fc24ca5e20\",\"old_diagram_digest\":\"3b1e37f79dd4e5539b749b4cd3cf4523b919fb1540c5ba386031fbee45592c6b\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Freeze the exact delivered/deferred/open planning denominator at the post-#522 main revision.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"action\":\"Refresh the v0.92.2 package and feature routing without creating successor issues.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Run focused consistency and denominator validation, obtain exact-head independent review, and publish one closing PR.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "Route the full #523 denominator through one executable issue-owned planning validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-523-tail07\",\"proof_role\":\"Prove the complete successor planning package, dispositions, feature routing, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/523/validate-tail07.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 523,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+    "slug": "v0921-tail07-next-milestone-planning",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The complete v0.92.2 planning package, feature routing changes, and issue #523 retained validation evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the refreshed package account for the complete delivered and residual denominator?",
+        "Are CodeFriend Beta 1 and v0.95 boundaries explicit without scope expansion?",
+        "Did any deferred item become scheduled without authority?",
+        "Are all planned units independently finishable?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

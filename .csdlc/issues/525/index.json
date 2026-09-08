@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 525,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f63237c501c89a7346c16e535204138782d1d94f16c7e9c42dd1383e9f52d3b8",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "d4bd77ef65ac555834a19ecfe0afef18fa4c5bb522d0cff05a2c52767067143e",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/525/design.md",
+  "diagram_path": ".csdlc/prepared/issues/525/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "5ff8de2d5d5825c1ccf91a50ca2278fc11da946daf77ff7ffcb6e635d0c56537",
+      "rendered_digest": "b703e119ae3df37bc84e48ce97e60c040e62ecd562faa2f364d39040a8e812e9",
+      "ast_digest": "bef93c29eff127242ca82c9d6e05297c59bb0ec86d799a8c16d76b5d9b77806e"
+    },
+    "stp": {
+      "values_digest": "33d98efa943b1587af7a130d530c38106466858e0e057ae3041150cc2d7e1b2d",
+      "rendered_digest": "69831bd8106557a3be130122fa4ba0ab3dd320f3d8b21ebc9a1448bf4d4ed412",
+      "ast_digest": "6bad37309018750969f829244de451e0973ba1738d45ab79c7c53cb3552575e2"
+    },
+    "spp": {
+      "values_digest": "f724f9525736c11315cc19c3edbb2354533fac1924404d6b849dbd8a9fdf415d",
+      "rendered_digest": "a709882359e437e2b9d76cbe4a92ef4f350700411f0238f425d2acbcbd1d42ea",
+      "ast_digest": "46a8a60e6d03372bd6ac57812c9f9cd38901086fc649464c23d9a34bb070367e"
+    },
+    "vpp": {
+      "values_digest": "a370ba07d7b017174e9ed35f6d215507b6481faf36f83c0ead884815de14b5ab",
+      "rendered_digest": "1e506e6b78a8cbcf99aad2510a1860d9a2953525138b1ded442ce110f510b21d",
+      "ast_digest": "29b9de4c392f39ea65e29ffbe919a4000894872232a4cc4f870aaca638bfbbcc"
+    },
+    "srp": {
+      "values_digest": "e10051ca4fabe965714ffd2af73a8519ec770caf2800a4233abdbe99c79a012a",
+      "rendered_digest": "47f3b47a75339686e3a96b5c828b7fae5422fc11d3df4cde8cce4acb565ceebf",
+      "ast_digest": "c32a2be69012325c05d72c746da7ff150dec51c30eacd3716bf5055d28111aed"
+    },
+    "sor": {
+      "values_digest": "7ac86151b68d24af91c5139a5e9b4849da98add11c9afeab32d6de0f22fc29bf",
+      "rendered_digest": "a8bef8cabdf21c70e97256865775f136121507198f071e18d2442183880fe3e8",
+      "ast_digest": "0e25300c4465ab4041dd5a123922d4bbd802dcc6672e28c4b40c767dc73632cc"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "Refresh pre-bind design and diagram bindings after authoring the issue-specific preparation design.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/525/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/525/diagram.mmd\",\"new_design_digest\":\"c24818998d022d51470fdbefeb0cd322e4ce17b05f7c73445caba3fbc75e1af4\",\"new_diagram_digest\":\"89d5d63669b4265d8f17bd1d236d85ea066814ebbc5c6a22a65abe7c92fff6f1\",\"old_design_digest\":\"9ff5244bceb131b20f0748aa2eb2dbc7873384d8223ae8d0594488cfc5e4eeb6\",\"old_diagram_digest\":\"e77fe2e17a79c0e583c42966d8d0cd7fd188d9fb71d9b34ac518e137ffa0f961\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Record the exact merged #524 revision, worktree state, and complete planning denominator.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"action\":\"Run independent semantic review across scope, dependencies, units, deferrals, gates, and non-claims.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Retain the findings-first report and invalidate it if the planning revision changes.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "Route the full #525 denominator through one executable issue-owned exact-review artifact validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-525-tail09\",\"proof_role\":\"Prove the retained exact-revision planning review artifact, complete package validator, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/525/validate-tail09.sh\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    }
+  ]
+}

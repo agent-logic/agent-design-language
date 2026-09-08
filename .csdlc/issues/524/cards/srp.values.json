@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 524,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+    "slug": "v0921-tail08-next-milestone-closeout-plan",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The v0.92.2 release plan, milestone checklist, and issue #524 validation evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do the release plan and checklist encode the same complete closeout denominator?",
+        "Are operator-only actions clearly gated?",
+        "Can later work proceed after reviewed merge without waiting for finish or cleanup?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
