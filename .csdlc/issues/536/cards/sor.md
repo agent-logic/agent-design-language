@@ -41,11 +41,11 @@ Prepared truthful aggregate Sprint 8 closeout evidence after all eight children 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
