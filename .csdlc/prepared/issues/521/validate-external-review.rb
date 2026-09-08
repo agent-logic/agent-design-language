@@ -62,7 +62,7 @@ if ARGV.first == "fixture"
 end
 
 root = ENV.fetch("ADL_EXTERNAL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-05")
-required = %w[run_manifest.json reviewer-independence.json provider-request.json provider-invocation-receipt.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
+required = %w[run_manifest.json reviewer-independence.json provider-request.json provider-invocation-receipt.json standard-runner-receipt.json provider-native-response.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing external-review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -100,6 +100,10 @@ canonical_refs = denominator_names.flat_map do |name|
   JSON.parse(git_blob(internal_merge, internal_by_name.fetch(name))).fetch("rows").map { |row| row.fetch("denominator_ref") }
 end
 fail!("#520 canonical denominator is empty or duplicated") unless canonical_refs.any? && canonical_refs.uniq.length == canonical_refs.length
+review_artifact_names = %w[findings.json lane-results.json proof-results.json validation-results.json redaction-report.json quality-report.json packet-manifest.json]
+fail!("#520 manifest omits full review output") unless review_artifact_names.all? { |name| internal_by_name.key?(name) || name == "packet-manifest.json" }
+review_artifact_refs = review_artifact_names.map { |name| "internal-artifact:#{name}" }
+canonical_refs = (canonical_refs + review_artifact_refs).uniq
 attestation = manifest.fetch("internal_semantic_validation")
 fail!("#520 packet manifest omits semantic-validation evidence") unless internal_entries.any? { |entry| entry.fetch("path") == attestation.fetch("evidence_path") }
 attestation_blob = git_blob(internal_merge, attestation.fetch("evidence_path"))
@@ -146,6 +150,12 @@ request_doc = docs.fetch("provider-request.json")
 end
 fail!("provider invocation request is not candidate/scope bound") unless request_doc.fetch("candidate_sha") == candidate && request_doc.fetch("scope_refs").sort == canonical_refs.sort && nonempty?(request_doc.fetch("prompt"))
 fail!("provider invocation receipt is incomplete") unless receipt.fetch("exit_status") == 0 && nonempty?(receipt.fetch("observed_at"))
+native_path = File.join(root, "provider-native-response.json")
+fail!("provider-native response digest mismatch") unless Digest::SHA256.file(native_path).hexdigest == receipt.fetch("provider_native_response_sha256")
+native = docs.fetch("provider-native-response.json")
+fail!("provider-native response is not invocation-bound") unless native.fetch("provider") == receipt.fetch("provider") && native.fetch("model") == receipt.fetch("model") && native.fetch("invocation_id") == receipt.fetch("invocation_id") && nonempty?(native.fetch("response_id")) && nonempty?(native.fetch("content"))
+runner = docs.fetch("standard-runner-receipt.json")
+fail!("standard runner did not produce the retained provider exchange") unless runner.fetch("runner") == "docs/tooling/OPUS_REVIEW_RUNBOOK.md" && runner.fetch("request_sha256") == receipt.fetch("request_sha256") && runner.fetch("response_sha256") == receipt.fetch("response_sha256") && runner.fetch("provider_native_response_sha256") == receipt.fetch("provider_native_response_sha256") && runner.fetch("exit_status") == 0
 
 scope = docs.fetch("scope.json")
 expected_scope = scope.fetch("expected_refs")
