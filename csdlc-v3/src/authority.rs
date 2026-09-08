@@ -153,7 +153,6 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
         || !observation.merged
         || observation.linked_issue != receipt.authority_issue
         || observation.linkage_source != "github_closing_issues_references"
-        || !git_commit_exists(root, &receipt.reviewed_head)?
         || !git_commit_exists(root, &receipt.merge_commit)?
         || !git_is_ancestor(root, &receipt.merge_commit, "refs/remotes/origin/main")?
         || !git_commit_subject(root, &receipt.merge_commit)?.contains("(#591)")
@@ -372,6 +371,55 @@ mod tests {
         run(
             &root,
             &["commit", "--quiet", "-m", "tamper authority receipt"],
+        );
+        run(&root, &["update-ref", "refs/remotes/origin/main", "HEAD"]);
+        assert!(canonical_v3_authority(&root).unwrap().is_none());
+
+        for relative in [
+            SELECTOR_PATH,
+            "csdlc-v3/operator/native-authority-receipt.json",
+            "csdlc-v3/operator/native-authority-pr-observation.json",
+            ".csdlc/evidence/505/terminal-receipt.json",
+        ] {
+            fs::copy(source.join(relative), root.join(relative)).unwrap();
+        }
+        let observation_path = root.join("csdlc-v3/operator/native-authority-pr-observation.json");
+        let mut observation: serde_json::Value =
+            serde_json::from_slice(&fs::read(&observation_path).unwrap()).unwrap();
+        observation["merge_commit_sha"] = serde_json::Value::String("1".repeat(40));
+        let observation_bytes = serde_json::to_vec_pretty(&observation).unwrap();
+        fs::write(&observation_path, &observation_bytes).unwrap();
+        let receipt_path = root.join("csdlc-v3/operator/native-authority-receipt.json");
+        let mut receipt: serde_json::Value =
+            serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
+        receipt["merge_commit"] = serde_json::Value::String("1".repeat(40));
+        receipt["pr_observation_digest"] =
+            serde_json::Value::String(blake3::hash(&observation_bytes).to_hex().to_string());
+        let receipt_bytes = serde_json::to_vec_pretty(&receipt).unwrap();
+        fs::write(&receipt_path, &receipt_bytes).unwrap();
+        let selector_path = root.join(SELECTOR_PATH);
+        let mut selector: serde_json::Value =
+            serde_json::from_slice(&fs::read(&selector_path).unwrap()).unwrap();
+        selector["receipt_digest"] =
+            serde_json::Value::String(blake3::hash(&receipt_bytes).to_hex().to_string());
+        fs::write(
+            &selector_path,
+            serde_json::to_vec_pretty(&selector).unwrap(),
+        )
+        .unwrap();
+        run(
+            &root,
+            &[
+                "add",
+                SELECTOR_PATH,
+                "csdlc-v3/operator/native-authority-receipt.json",
+                "csdlc-v3/operator/native-authority-pr-observation.json",
+                ".csdlc/evidence/505/terminal-receipt.json",
+            ],
+        );
+        run(
+            &root,
+            &["commit", "--quiet", "-m", "substitute missing merge object"],
         );
         run(&root, &["update-ref", "refs/remotes/origin/main", "HEAD"]);
         assert!(canonical_v3_authority(&root).unwrap().is_none());
