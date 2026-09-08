@@ -49,11 +49,11 @@ Completed four Proposed ADR candidates, preserved Deferred ADR 0069, and mapped 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
