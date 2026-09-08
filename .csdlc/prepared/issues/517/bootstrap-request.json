@@ -1,0 +1,45 @@
+{
+  "issue": 517,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root/sprint10_prep_517_519",
+  "design_path": ".csdlc/prepared/issues/517/design.md",
+  "diagram_path": ".csdlc/prepared/issues/517/diagram.mmd",
+  "design_reviewer": "codex:root-sprint10-prep-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][TAIL-01] Quality gate",
+    "slug": "tail-01-quality-gate",
+    "version": "v0.92.1",
+    "goal": "Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate.",
+    "required_outcome": "One exact-candidate quality-gate decision with every required proving lane passing and zero unowned exceptions.",
+    "declared_scope": ["docs/milestones/v0.92.1/evidence/release/tail-01/**", "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md", ".csdlc/issues/517/**", ".csdlc/prepared/issues/517/**"],
+    "authority_boundary": ["Issue authority is agent-logic/agent-design-language#517", "Execution starts only after #516 has a reviewed merge", "The issue decides the gate but does not remediate failed lanes", "Typed finish and cleanup of #516 are non-gating"],
+    "operator_constraints": ["Never write tracked issue work on main", "Reject absent, skipped, zero-test, stale, or non-proving evidence", "Do not publish, merge, tag, or release"],
+    "task_boundary": "Issue completion is exactly one quality-gate decision; individual proving lanes are evidence inputs.",
+    "deliverables": ["Exact required-lane denominator", "Machine-readable lane results", "QUALITY_GATE_v0.92.1.md decision record", "Issue-owned retained evidence"],
+    "acceptance_criteria": ["AC-1: Every required proving lane passes", "AC-2: Skipped, absent, zero-test, stale, and non-proving results fail closed", "AC-3: The exact candidate revision and complete denominator are recorded", "AC-4: Every exception has an explicit owner and no unresolved exception remains"],
+    "dependencies": ["INT-01/#516 reviewed merge before execution"],
+    "repo_inputs": ["agent-logic/agent-design-language#517", "agent-logic/agent-design-language#516", "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-01", "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"],
+    "non_goals": ["Documentation repair", "Product implementation", "Publication", "Release ceremony"],
+    "plan_summary": "After #516 merges, freeze the exact candidate, enumerate every required proving lane, fail closed on non-proving evidence, and emit one quality-gate decision.",
+    "steps": [
+      {"id":"S1","action":"Verify #516 reviewed-merge authority and freeze the exact candidate revision.","acceptance_ids":["AC-3"],"status":"pending"},
+      {"id":"S2","action":"Build the complete required proving-lane denominator and resolve retained evidence for the exact candidate.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"S3","action":"Classify every lane and exception, rejecting skipped, absent, zero-test, stale, or non-proving results.","acceptance_ids":["AC-1","AC-2","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Emit and validate the single exact-candidate quality-gate decision record.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"}
+    ],
+    "affected_areas": ["v0.92.1 quality gate", "release-tail evidence", "milestone decision truth"],
+    "invariants": ["The candidate revision remains exact", "No missing or non-proving lane is treated as passing", "Gate evaluation does not implement remediation", "One issue produces one decision"],
+    "risks": ["An incomplete denominator could create a false green", "Zero-test output could be mistaken for proof", "Candidate drift could stale the decision", "An exception could lack an owner"],
+    "planning_profile": "medium",
+    "stop_conditions": ["#516 lacks a reviewed merge", "Any required lane fails or is absent", "The candidate changes during evaluation", "An exception lacks an owner"],
+    "validation_lanes": [
+      {"lane":"quality-denominator","proof_role":"Prove the complete required-lane denominator for the exact candidate.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/517/validate-quality-gate.rb"],"parallel_group":"quality","defer_reason":"The issue-owned validator is an execution deliverable."},
+      {"lane":"zero-test-shield","proof_role":"Demonstrate fail-closed handling for skipped, absent, zero-test, stale, and insufficient evidence.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/517/validate-quality-gate.rb","--negative"],"parallel_group":"quality","defer_reason":"The issue-owned negative validator is an execution deliverable."},
+      {"lane":"exact-scope","proof_role":"Bind the decision, exceptions, and artifacts to the exact candidate.","acceptance_ids":["AC-3","AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1000,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on an unmet predecessor, incomplete denominator, non-proving lane, candidate drift, or unowned exception.",
+    "review_prompts": ["Is the complete required-lane denominator explicit?", "Can any skipped or zero-test result pass?", "Is every claim bound to the exact candidate revision?", "Does this issue remain a decision rather than remediation?"],
+    "review_scope": "The exact quality-gate decision, lane denominator, fail-closed classifications, exception ownership, and retained evidence."
+  }
+}

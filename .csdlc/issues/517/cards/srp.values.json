@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 517,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-01] Quality gate",
+    "slug": "tail-01-quality-gate",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The exact quality-gate decision, lane denominator, fail-closed classifications, exception ownership, and retained evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the complete required-lane denominator explicit?",
+        "Can any skipped or zero-test result pass?",
+        "Is every claim bound to the exact candidate revision?",
+        "Does this issue remain a decision rather than remediation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

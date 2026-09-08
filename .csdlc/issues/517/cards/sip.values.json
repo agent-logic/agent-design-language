@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 517,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-01] Quality gate",
+    "slug": "tail-01-quality-gate",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate.",
+      "required_outcome": "One exact-candidate quality-gate decision with every required proving lane passing and zero unowned exceptions.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/evidence/release/tail-01/**",
+        "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+        ".csdlc/issues/517/**",
+        ".csdlc/prepared/issues/517/**"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#517",
+        "Execution starts only after #516 has a reviewed merge",
+        "The issue decides the gate but does not remediate failed lanes",
+        "Typed finish and cleanup of #516 are non-gating"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Reject absent, skipped, zero-test, stale, or non-proving evidence",
+        "Do not publish, merge, tag, or release"
+      ]
+    }
+  }
+}

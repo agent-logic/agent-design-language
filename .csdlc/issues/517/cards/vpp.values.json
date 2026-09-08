@@ -1,0 +1,83 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 517,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-01] Quality gate",
+    "slug": "tail-01-quality-gate",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "quality-denominator",
+          "proof_role": "Prove the complete required-lane denominator for the exact candidate.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/517/validate-quality-gate.rb"
+          ],
+          "parallel_group": "quality",
+          "defer_reason": "The issue-owned validator is an execution deliverable."
+        },
+        {
+          "lane": "zero-test-shield",
+          "proof_role": "Demonstrate fail-closed handling for skipped, absent, zero-test, stale, and insufficient evidence.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/517/validate-quality-gate.rb",
+            "--negative"
+          ],
+          "parallel_group": "quality",
+          "defer_reason": "The issue-owned negative validator is an execution deliverable."
+        },
+        {
+          "lane": "exact-scope",
+          "proof_role": "Bind the decision, exceptions, and artifacts to the exact candidate.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on an unmet predecessor, incomplete denominator, non-proving lane, candidate drift, or unowned exception.",
+      "design_ref": ".csdlc/prepared/issues/517/design.md",
+      "design_digest": "97b5eefa0f8d5d6a1fe2e1264b1c74e75074c3975c4c073835a31727edd91759",
+      "diagram_ref": ".csdlc/prepared/issues/517/diagram.mmd",
+      "diagram_digest": "ad0c16ae7d0eb9be819781b7c1906954e82f8ef84338a2b4fdf709c86d26678b"
+    }
+  }
+}
