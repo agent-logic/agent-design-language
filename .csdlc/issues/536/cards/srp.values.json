@@ -7,15 +7,15 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\n.csdlc/prepared/issues/536/validate-sprint-closeout.rb",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:bb8cdf6a819466af0e6967504626d4f5e4f76dd6:6a189fe1fed93d8cb29ca4a23934ade736f46dfe01c1e40f2ccfc9d34ce9f562",
+      "reviewer": "codex:/root/review_536_closeout",
       "review_prompts": [
         "Does the packet preserve exact child ownership and dependency truth?",
         "Are the podcast and Observatory lanes genuinely independent where marked parallel?",
@@ -23,8 +23,10 @@
         "Can the umbrella close only after every current member has truthful terminal state or an explicit accepted disposition?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Public podcast launch and provider submissions remain routed to backlog #671."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -32,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Public podcast launch and provider submissions remain routed to backlog #671.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bb8cdf6a819466af0e6967504626d4f5e4f76dd6:6a189fe1fed93d8cb29ca4a23934ade736f46dfe01c1e40f2ccfc9d34ce9f562")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_536_closeout")
 
-Result: pre_review
+Result: pass
