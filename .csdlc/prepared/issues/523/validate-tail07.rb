@@ -40,11 +40,15 @@ def errors_for(wave, spec, text, manifest, actual_paths, source_paths)
   bad_adl = text.scan(%r{(?:`|\s)(\.adl/[^`\s,;)]+)}).flatten.reject { |path| path.start_with?(".adl/docs/TBD/") }
   errors << "non-provenance .adl dependency: #{bad_adl.uniq.join(', ')}" unless bad_adl.empty?
   errors << "wrong predecessor" unless manifest.dig("predecessor", "issue") == 522 && manifest.dig("predecessor", "reviewed_merge") == true && manifest.dig("predecessor", "merge_sha").to_s.match?(/\A[0-9a-f]{40}\z/)
+  errors << "#522 review authority missing" unless manifest.dig("predecessor", "review_path").to_s == ".csdlc/issues/522/cards/srp.md" && manifest.dig("predecessor", "review_sha256").to_s.match?(/\A[0-9a-f]{64}\z/)
+  errors << "#522 audit authority missing" unless manifest.dig("source_audit", "path").to_s.start_with?("docs/milestones/v0.92.1/evidence/release/tail-06/") && manifest.dig("source_audit", "sha256").to_s.match?(/\A[0-9a-f]{64}\z/)
+  errors << "immutable predecessor-item denominator missing" unless manifest["predecessor_items"].is_a?(Array) && !manifest["predecessor_items"].empty?
   predecessor_paths = manifest.fetch("predecessor_paths", [])
   errors << "invalid predecessor path denominator" if predecessor_paths.empty? || predecessor_paths != predecessor_paths.sort.uniq
   errors << "canonical path denominator mismatch" unless manifest["canonical_paths"] == actual_paths
   source_rows = manifest.fetch("sources", [])
   errors << "source denominator mismatch" unless source_rows.map { |row| row["path"] }.sort == source_paths.sort
+  errors << "source/audit item denominator mismatch" unless source_rows.map { |row| row["audit_id"] }.sort == manifest.fetch("predecessor_items", []).sort
   errors << "invalid source disposition" unless source_rows.all? { |row| DISPOSITIONS.include?(row["disposition"]) && !row["owner"].to_s.empty? }
   before = manifest["predecessor_package_sha256"].to_s
   after = manifest["package_sha256"].to_s
@@ -64,13 +68,16 @@ if ARGV == ["--negative"]
   rows = (REQUIRED_IDS + TAIL).map { |id| {"id" => id, "issue" => nil, "depends_on" => []} }
   wave = {"work_packages" => rows, "canonical_release_tail" => TAIL}
   spec = {"specifications" => rows.map { |row| {"id" => row["id"]} }, "release_tail" => {"order" => TAIL}}
-  base = {"predecessor" => {"issue" => 522, "reviewed_merge" => true, "merge_sha" => "a" * 40}, "predecessor_paths" => actual_paths, "canonical_paths" => actual_paths,
-          "sources" => source_paths.map { |path| {"path" => path, "disposition" => "residual", "owner" => "WP-01"} },
+  audit_ids = source_paths.each_index.map { |index| "F-#{index + 1}" }
+  base = {"predecessor" => {"issue" => 522, "reviewed_merge" => true, "merge_sha" => "a" * 40, "review_path" => ".csdlc/issues/522/cards/srp.md", "review_sha256" => "f" * 64},
+          "source_audit" => {"path" => "docs/milestones/v0.92.1/evidence/release/tail-06/dispositions.json", "sha256" => "e" * 64}, "predecessor_items" => audit_ids,
+          "predecessor_paths" => actual_paths, "canonical_paths" => actual_paths,
+          "sources" => source_paths.zip(audit_ids).map { |path, audit_id| {"path" => path, "audit_id" => audit_id, "disposition" => "residual", "owner" => "WP-01"} },
           "predecessor_package_sha256" => "b" * 64, "package_sha256" => package_digest(actual_paths)}
   mutations = [[wave.merge("work_packages" => rows + [rows.first]), spec, "", base],
                [wave, spec.merge("specifications" => []), "", base], [wave, spec, "/Users/example/TBD.md", base],
                [wave, spec, " `.adl/private/cache` ", base], [wave, spec, "", base.merge("canonical_paths" => actual_paths.drop(1))],
-               [wave, spec, "", base.merge("sources" => [])], [wave, spec, "", base.merge("predecessor_paths" => [])],
+               [wave, spec, "", base.merge("sources" => [])], [wave, spec, "", base.merge("predecessor_items" => [])], [wave, spec, "", base.merge("predecessor_paths" => [])],
                [wave, spec, "", base.merge("predecessor_package_sha256" => base["package_sha256"])]]
   abort "negative mutation escaped" unless mutations.all? { |w, s, t, m| !errors_for(w, s, t, m, actual_paths, source_paths).empty? }
   puts "issue 523 negative contract passed (#{mutations.length} mutations)"
@@ -86,6 +93,23 @@ errors = errors_for(wave, spec, text, manifest, actual_paths, source_paths)
 merge_sha = manifest.dig("predecessor", "merge_sha")
 errors << "#522 merge is not ancestral" unless merge_sha && system("git", "-C", ROOT, "merge-base", "--is-ancestor", merge_sha, "HEAD", out: File::NULL, err: File::NULL)
 if merge_sha
+  review_path = manifest.dig("predecessor", "review_path")
+  review_bytes = IO.popen(["git", "-C", ROOT, "show", "#{merge_sha}:#{review_path}"], err: File::NULL, &:read)
+  errors << "#522 review artifact digest mismatch" unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(review_bytes) == manifest.dig("predecessor", "review_sha256") && review_bytes.include?("Result: pass")
+  audit_path = manifest.dig("source_audit", "path")
+  audit_bytes = IO.popen(["git", "-C", ROOT, "show", "#{merge_sha}:#{audit_path}"], err: File::NULL, &:read)
+  if !$CHILD_STATUS.success? || Digest::SHA256.hexdigest(audit_bytes) != manifest.dig("source_audit", "sha256")
+    errors << "#522 source audit digest mismatch"
+  else
+    begin
+      audit = JSON.parse(audit_bytes)
+      rows = audit["dispositions"] || audit["findings"] || audit["items"] || []
+      item_ids = rows.map { |row| row["id"] || row["finding_id"] }.compact.sort
+      errors << "#522 predecessor-item denominator mismatch" unless manifest["predecessor_items"] == item_ids
+    rescue JSON::ParserError
+      errors << "#522 source audit is not JSON"
+    end
+  end
   predecessor_paths = IO.popen(["git", "-C", ROOT, "ls-tree", "-r", "--name-only", merge_sha, "--", "docs/milestones/v0.92.2", "docs/planning/ADL_FEATURE_LIST.md"], err: File::NULL, &:read).lines.map(&:strip).reject(&:empty?).sort
   errors << "predecessor path denominator mismatch" unless manifest["predecessor_paths"] == predecessor_paths
   errors << "predecessor package digest mismatch" unless revision_package_digest(merge_sha, predecessor_paths) == manifest["predecessor_package_sha256"]

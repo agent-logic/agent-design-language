@@ -13,6 +13,7 @@ CREATE_DRAFT_RELEASE=0
 PUBLISH_RELEASE=0
 ALLOW_DIRTY=0
 SKIP_SOR_GATE=0
+AUTHORIZATION_FILE=""
 RELEASE_GITHUB_CMD="${ADL_RELEASE_GITHUB_CMD:-}"
 
 PLAN_FILE=""
@@ -36,6 +37,8 @@ Mutation flags:
 Other options:
   --tag <tag>             Override tag name (default: same as --version)
   --target-branch <name>  Branch required for ceremony mutations (default: main)
+  --authorization-file <path>
+                         Required issue-owned authorization JSON for mutation
   --allow-dirty           Skip the clean-worktree check
   --skip-sor-gate         Explicitly bypass the typed local closeout gate
   -h, --help              Show this help
@@ -255,6 +258,26 @@ PY
   done
 }
 
+check_mutation_authorization() {
+  [[ "$CHECK_ONLY" == "0" ]] || return 0
+  [[ -n "$AUTHORIZATION_FILE" ]] || fail "release mutation requires --authorization-file"
+  [[ -f "$AUTHORIZATION_FILE" ]] || fail "authorization file is missing"
+  require_cmd python3
+  python3 - "$AUTHORIZATION_FILE" "$VERSION" "$TAG" "$TARGET_BRANCH" "$CREATE_TAG" "$PUSH_TAG" "$CREATE_DRAFT_RELEASE" "$PUBLISH_RELEASE" <<'PY' || fail "authorization artifact rejected"
+import json, pathlib, subprocess, sys
+p, version, tag, branch, *flags = sys.argv[1:]
+data = json.loads(pathlib.Path(p).read_text())
+requested = [name for name, value in zip(["create_tag", "push_tag", "draft_release", "publish_release"], flags) if value == "1"]
+head = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+assert data.get("schema") == "adl.release_authorization.v1"
+assert data.get("version") == version and data.get("tag") == tag
+assert data.get("target_branch") == branch and data.get("candidate_sha") == head
+assert data.get("authorized_by") and data.get("authorized_at")
+allowed = data.get("allowed_actions")
+assert isinstance(allowed, list) and all(action in allowed for action in requested)
+PY
+}
+
 print_plan() {
 cat <<EOF
 
@@ -298,6 +321,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --target-branch)
       TARGET_BRANCH="${2:-}"
+      shift 2
+      ;;
+    --authorization-file)
+      AUTHORIZATION_FILE="${2:-}"
       shift 2
       ;;
     --create-tag)
@@ -361,6 +388,7 @@ fi
 assert_branch
 check_cargo_version
 check_typed_closeout_gate
+check_mutation_authorization
 
 if [[ "$CREATE_TAG" == "1" ]]; then
   assert_tag_absent_local

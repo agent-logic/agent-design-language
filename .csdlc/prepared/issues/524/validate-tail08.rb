@@ -63,12 +63,21 @@ errors = errors_for(wave, spec, plan_ids, checklist, authority)
 merge_sha = authority["merge_sha"]
 errors << "#523 merge is not ancestral" unless merge_sha && system("git", "-C", ROOT, "merge-base", "--is-ancestor", merge_sha, "HEAD", out: File::NULL, err: File::NULL)
 review_path = authority["review_path"]
-errors << "#523 review evidence digest mismatch" unless review_path && File.file?(File.join(ROOT, review_path)) && Digest::SHA256.file(File.join(ROOT, review_path)).hexdigest == authority["review_sha256"]
-manifest_path = File.join(MILESTONE, "SOURCE_DENOMINATOR_v0.92.2.json")
-if File.file?(manifest_path)
-  errors << "#523 package digest mismatch" unless JSON.parse(File.read(manifest_path))["package_sha256"] == authority["planning_package_sha256"]
+review_bytes = IO.popen(["git", "-C", ROOT, "show", "#{merge_sha}:#{review_path}"], err: File::NULL, &:read)
+errors << "#523 review evidence digest mismatch" unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(review_bytes) == authority["review_sha256"] && review_bytes.include?("Result: pass")
+manifest_path = "docs/milestones/v0.92.2/SOURCE_DENOMINATOR_v0.92.2.json"
+manifest_bytes = IO.popen(["git", "-C", ROOT, "show", "#{merge_sha}:#{manifest_path}"], err: File::NULL, &:read)
+if $CHILD_STATUS.success?
+  manifest = JSON.parse(manifest_bytes)
+  errors << "#523 package digest mismatch" unless manifest["package_sha256"] == authority["planning_package_sha256"]
+  rows = manifest.fetch("canonical_paths", []).sort.map do |path|
+    bytes = IO.popen(["git", "-C", ROOT, "show", "#{merge_sha}:#{path}"], err: File::NULL, &:read)
+    errors << "#523 package path missing: #{path}" unless $CHILD_STATUS.success?
+    "#{path}\0#{Digest::SHA256.hexdigest(bytes)}\n"
+  end
+  errors << "#523 package recomputation mismatch" unless Digest::SHA256.hexdigest(rows.join) == authority["planning_package_sha256"]
 else
-  errors << "#523 source denominator missing"
+  errors << "#523 source denominator missing at merge"
 end
 abort errors.join("\n") unless errors.empty?
 puts "issue 524 exact release-tail map passed (#{TAIL.length} units)"

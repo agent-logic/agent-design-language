@@ -172,12 +172,32 @@ run_release_case() {
   local expected_message="$3"
   shift 3
 
+  local authorization_args=()
+  local allowed_action=""
+  for arg in "$@"; do
+    case "$arg" in
+      --create-tag) allowed_action="create_tag" ;;
+      --push-tag) allowed_action="push_tag" ;;
+      --draft-release) allowed_action="draft_release" ;;
+      --publish-release) allowed_action="publish_release" ;;
+    esac
+  done
+  if [[ -n "$allowed_action" && "${OMIT_AUTHORIZATION:-0}" != "1" ]]; then
+    local authorization_file="$FIXTURE/authorization.json"
+    local candidate_sha
+    candidate_sha="$(git -C "$FIXTURE" rev-parse HEAD)"
+    cat >"$authorization_file" <<EOF_INNER
+{"schema":"adl.release_authorization.v1","version":"$VERSION","tag":"$TAG_NAME","target_branch":"main","candidate_sha":"$candidate_sha","authorized_by":"test-operator","authorized_at":"2026-01-01T00:00:00Z","allowed_actions":["$allowed_action"]}
+EOF_INNER
+    authorization_args=(--authorization-file "$authorization_file")
+  fi
+
   local output
   set +e
   output="$(cd "$FIXTURE" && PATH="$FAKE_BIN:$PATH" RELEASE_STATE_FILE="$STATE_FILE" \
     ADL_RELEASE_GITHUB_CMD="$FAKE_BIN/adl" ADL_RELEASE_GITHUB_REPO="owner/repo" \
     "$BASH_BIN" adl/tools/release_ceremony.sh --version "$VERSION" \
-    --skip-sor-gate --target-branch main --allow-dirty "$@" 2>&1)"
+    --skip-sor-gate --target-branch main --allow-dirty "$@" ${authorization_args[@]+"${authorization_args[@]}"} 2>&1)"
   local status=$?
   set -e
 
@@ -269,6 +289,8 @@ assert_local_tag_present() {
 make_fixture
 setup_fake_gh
 setup_closeout_gate_fixture
+
+OMIT_AUTHORIZATION=1 run_release_case "mutation without authorization fails" 1 "requires --authorization-file" --create-tag --tag "$TAG_NAME"
 
 run_closeout_gate_case "all milestone records closed out" closed 0 "preflight checks passed"
 run_closeout_gate_case "non-closed milestone record fails" open 1 "issue 123 is not closed_out"

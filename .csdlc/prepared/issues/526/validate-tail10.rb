@@ -12,6 +12,7 @@ PREDECESSORS = (516..525).to_a.freeze
 BASE = ["bash", "adl/tools/release_ceremony.sh", "--version", "v0.92.1", "--target-branch", "main"].freeze
 MUTATIONS = %w[--create-tag --push-tag --draft-release --publish-release].freeze
 UNSAFE = %w[--allow-dirty --skip-sor-gate].freeze
+AUTH_REL = "docs/milestones/v0.92.1/evidence/release/tail-10/authorization.json"
 
 def sha?(value, length = 40)
   value.to_s.match?(/\A[0-9a-f]{#{length}}\z/)
@@ -23,7 +24,7 @@ def argv_errors(receipt)
   actions = receipt.fetch("mutation_argv", [])
   errors << "mutation argv denominator mismatch" unless actions.length == MUTATIONS.length
   actions.each_with_index do |argv, index|
-    errors << "noncanonical mutation argv #{index + 1}" unless argv == BASE + [MUTATIONS[index]]
+    errors << "noncanonical mutation argv #{index + 1}" unless argv == BASE + [MUTATIONS[index], "--authorization-file", AUTH_REL]
     errors << "unsafe ceremony flag" unless (Array(argv) & UNSAFE).empty?
   end
   errors << "unsafe preflight flag" unless (Array(receipt["preflight_argv"]) & UNSAFE).empty?
@@ -39,13 +40,13 @@ def gate_errors(gate)
   errors << "gate cannot authorize mutation" unless gate["release_mutation_authorized"] == false
   rows = gate.fetch("predecessors", [])
   errors << "predecessor denominator mismatch" unless rows.map { |row| row["issue"] } == PREDECESSORS
-  errors << "predecessor proof incomplete" unless rows.all? { |row| row["reviewed"] == true && row["green"] == true && sha?(row["merge_sha"]) && sha?(row["review_sha256"], 64) }
+  errors << "predecessor proof incomplete" unless rows.all? { |row| sha?(row["merge_sha"]) && row["review_path"].to_s == ".csdlc/issues/#{row['issue']}/cards/srp.md" && sha?(row["review_sha256"], 64) && row["checks_path"].to_s.start_with?("docs/milestones/v0.92.1/evidence/release/") && sha?(row["checks_sha256"], 64) }
   errors
 end
 
 def receipt_errors(receipt, notes_digest, review)
   errors = argv_errors(receipt)
-  required = %w[candidate_sha tag release_id release_url published_at authorized_by authorized_at preflight_completed_at mutation_started_at tag_target_sha release_target_sha notes_sha256 readback_at planning_review_revision]
+  required = %w[candidate_sha tag release_id release_url published_at authorized_by authorized_at preflight_completed_at mutation_started_at tag_target_sha release_target_sha notes_sha256 readback_at planning_review_revision authorization_path authorization_sha256 gate_sha256 preflight_output_path preflight_output_sha256]
   errors << "receipt fields missing" unless required.all? { |key| !receipt[key].to_s.strip.empty? }
   %w[candidate_sha tag_target_sha release_target_sha planning_review_revision].each { |key| errors << "invalid #{key}" unless sha?(receipt[key]) }
   errors << "wrong tag" unless receipt["tag"] == "v0.92.1"
@@ -55,6 +56,8 @@ def receipt_errors(receipt, notes_digest, review)
   errors << "ceremony tests absent" unless receipt["ceremony_test_status"] == "passed"
   errors << "preflight absent" unless receipt["preflight_status"] == "passed"
   errors << "#525 review revision mismatch" unless receipt["planning_review_revision"] == review["reviewed_revision"]
+  errors << "wrong authorization path" unless receipt["authorization_path"] == AUTH_REL
+  errors << "invalid bound artifact digest" unless %w[authorization_sha256 gate_sha256 preflight_output_sha256].all? { |key| sha?(receipt[key], 64) }
   begin
     preflight = Time.iso8601(receipt["preflight_completed_at"])
     authorized = Time.iso8601(receipt["authorized_at"])
@@ -71,10 +74,12 @@ if ARGV == ["--negative"]
   base = {"candidate_sha" => "a" * 40, "tag" => "v0.92.1", "release_id" => "1", "release_url" => "https://example.invalid/1",
           "published_at" => "2026-01-01T00:02:30Z", "authorized_by" => "operator", "authorized_at" => "2026-01-01T00:01:00Z", "preflight_completed_at" => "2026-01-01T00:00:00Z", "mutation_started_at" => "2026-01-01T00:02:00Z",
           "tag_target_sha" => "a" * 40, "release_target_sha" => "a" * 40, "notes_sha256" => "b" * 64, "readback_at" => "2026-01-01T00:03:00Z",
-          "planning_review_revision" => "d" * 40, "preflight_argv" => BASE, "mutation_argv" => MUTATIONS.map { |flag| BASE + [flag] },
+          "planning_review_revision" => "d" * 40, "authorization_path" => AUTH_REL, "authorization_sha256" => "e" * 64, "gate_sha256" => "f" * 64,
+          "preflight_output_path" => "docs/milestones/v0.92.1/evidence/release/tail-10/preflight.log", "preflight_output_sha256" => "1" * 64,
+          "preflight_argv" => BASE, "mutation_argv" => MUTATIONS.map { |flag| BASE + [flag, "--authorization-file", AUTH_REL] },
           "preflight_status" => "passed", "ceremony_test_status" => "passed"}
   gate = {"schema" => "adl.v0921.release_ceremony_gate.v1", "version" => "v0.92.1", "candidate_sha" => "a" * 40, "planning_review_revision" => "d" * 40,
-          "release_mutation_authorized" => false, "predecessors" => PREDECESSORS.map { |issue| {"issue" => issue, "reviewed" => true, "green" => true, "merge_sha" => "c" * 40, "review_sha256" => "e" * 64} }}
+          "release_mutation_authorized" => false, "predecessors" => PREDECESSORS.map { |issue| {"issue" => issue, "merge_sha" => "c" * 40, "review_path" => ".csdlc/issues/#{issue}/cards/srp.md", "review_sha256" => "e" * 64, "checks_path" => "docs/milestones/v0.92.1/evidence/release/checks-#{issue}.json", "checks_sha256" => "f" * 64} }}
   mutations = [base.merge("preflight_argv" => BASE + ["--skip-sor-gate"]), base.merge("mutation_argv" => []),
                base.merge("authorized_at" => "2025-12-31T23:59:00Z"), base.merge("planning_review_revision" => "f" * 40),
                base.merge("tag_target_sha" => "f" * 40), base.merge("notes_sha256" => "f" * 64)]
@@ -94,7 +99,14 @@ if mode == "gate"
   candidate = gate["candidate_sha"]
   head = IO.popen(["git", "-C", ROOT, "rev-parse", "HEAD"], &:read).strip
   errors << "gate candidate is not exact HEAD" unless candidate == head
-  gate.fetch("predecessors", []).each { |row| errors << "merge ##{row['issue']} is not ancestral" unless system("git", "-C", ROOT, "merge-base", "--is-ancestor", row["merge_sha"], candidate, out: File::NULL, err: File::NULL) }
+  gate.fetch("predecessors", []).each do |row|
+    errors << "merge ##{row['issue']} is not ancestral" unless system("git", "-C", ROOT, "merge-base", "--is-ancestor", row["merge_sha"], candidate, out: File::NULL, err: File::NULL)
+    review = IO.popen(["git", "-C", ROOT, "show", "#{candidate}:#{row['review_path']}"], err: File::NULL, &:read)
+    errors << "review proof mismatch for ##{row['issue']}" unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(review) == row["review_sha256"] && review.include?("Result: pass")
+    checks = IO.popen(["git", "-C", ROOT, "show", "#{candidate}:#{row['checks_path']}"], err: File::NULL, &:read)
+    checks_green = begin JSON.parse(checks)["status"] == "green" rescue false end
+    errors << "green-check proof mismatch for ##{row['issue']}" unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(checks) == row["checks_sha256"] && checks_green
+  end
   errors << "#525 reviewed revision is not ancestral" unless system("git", "-C", ROOT, "merge-base", "--is-ancestor", gate["planning_review_revision"].to_s, candidate, out: File::NULL, err: File::NULL)
   abort errors.join("\n") unless errors.empty?
   puts JSON.generate(schema: "adl.v0921.release_gate_validation.v1", status: "pass", candidate_sha: candidate)
@@ -110,6 +122,21 @@ abort "#525 has unresolved release blockers" unless review["outcome"] == "pass" 
 receipt = JSON.parse(File.read(RECEIPT))
 errors = receipt_errors(receipt, Digest::SHA256.file(NOTES).hexdigest, review)
 candidate = receipt["candidate_sha"]
+authorization_path = File.join(ROOT, receipt["authorization_path"].to_s)
+gate_bytes = File.file?(GATE) ? File.binread(GATE) : ""
+preflight_path = File.join(ROOT, receipt["preflight_output_path"].to_s)
+preflight_bytes = File.file?(preflight_path) ? File.binread(preflight_path) : ""
+errors << "authorization artifact digest mismatch" unless File.file?(authorization_path) && Digest::SHA256.file(authorization_path).hexdigest == receipt["authorization_sha256"]
+errors << "gate artifact digest mismatch" unless !gate_bytes.empty? && Digest::SHA256.hexdigest(gate_bytes) == receipt["gate_sha256"]
+errors << "preflight output missing or digest mismatch" unless !preflight_bytes.empty? && Digest::SHA256.hexdigest(preflight_bytes) == receipt["preflight_output_sha256"]
+if File.file?(authorization_path)
+  begin
+    authorization = JSON.parse(File.read(authorization_path))
+    errors << "authorization artifact identity mismatch" unless authorization["schema"] == "adl.release_authorization.v1" && authorization["version"] == "v0.92.1" && authorization["tag"] == "v0.92.1" && authorization["candidate_sha"] == candidate && authorization["authorized_by"] == receipt["authorized_by"] && authorization["authorized_at"] == receipt["authorized_at"] && (MUTATIONS.map { |flag| flag.delete_prefix("--").tr("-", "_") } - Array(authorization["allowed_actions"])).empty?
+  rescue JSON::ParserError
+    errors << "authorization artifact is not JSON"
+  end
+end
 errors << "#525 reviewed revision is not ancestral to candidate" unless system("git", "-C", ROOT, "merge-base", "--is-ancestor", review["reviewed_revision"].to_s, candidate.to_s, out: File::NULL, err: File::NULL)
 remote = IO.popen(["git", "-C", ROOT, "ls-remote", "origin", "refs/tags/v0.92.1", "refs/tags/v0.92.1^{}"], err: File::NULL, &:read)
 remote_target = remote.lines.find { |line| line.include?("^{}") }&.split&.first || remote.lines.first&.split&.first
