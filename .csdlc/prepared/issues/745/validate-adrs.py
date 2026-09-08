@@ -11,7 +11,7 @@ import re
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[4]
-MANIFEST = ROOT / '.csdlc/evidence/745/source-manifest.json'
+MANIFEST = ROOT / '.csdlc/prepared/issues/745/source-manifest.json'
 SECTIONS = ['Status', 'Context', 'Decision', 'Consequences', 'Alternatives Considered',
             'Supersession Relationships', 'Source Evidence', 'Validation Notes', 'Approval Boundary']
 TOPICS = ['C-SDLC v3 state, migration, compatibility authority',
@@ -60,7 +60,7 @@ def main():
     rel = 'docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md'
     original = subprocess.check_output(['git', 'show', baseline + ':' + rel], cwd=ROOT).decode()
     require((ROOT/rel).read_text().startswith(original), 'original Deferred ADR 0069 changed')
-    recovery = (ROOT/'.csdlc/evidence/745/v2-transition-recovery.md').read_text()
+    recovery = (ROOT/'.csdlc/prepared/issues/745/v2-transition-recovery.md').read_text()
     require('#744' in recovery and 'explicitly authorized' in recovery, 'missing recovery authority or defect')
     require('8dbec9dac7cebe523aff76b76932358788bbb6e3139a3dd2ef0d34c6dad0f6cf' in recovery, 'missing original intent')
     print(json.dumps({'schema':'adl.745.adr_validation.v1','status':'pass','issue':745,

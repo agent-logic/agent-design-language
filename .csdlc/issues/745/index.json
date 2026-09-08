@@ -2,10 +2,11 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 745,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3d949379ab1bdbb1a638d136b8fd052a897bc78c7117ac7c806d2cb42720eba9",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "d9541855cf49399734ede979c81d7529e4a491e7448938956f0bd7fbabcd5bbf",
+  "generation": 4,
+  "digest": "2259a912c834abedc95b9b38ebe8c049c5a301a08c65f595ef1f69799a4e602b",
   "branch": "codex/745-v0921-adr-curation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-745-v0921-adr-curation",
   "review_assignment": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8f8e86951dc3d238ef3a243af400efc5c618435a38f988fb4097bc70a65f96eb",
+      "values_digest": "2a2474f7b37654b4372a61c97d6bfd9267e1aebea0d89e324f44eb7f6fb4f81e",
       "rendered_digest": "129b77d207451f87c9c5913086687605f265e1f7fe38fb09c883cb684f24ec81",
       "ast_digest": "45a4504553bc0bd28a90dc2e944bfd48025145d2b45b5a29a8ae52d361eac21c"
     },
     "stp": {
-      "values_digest": "4356bd0eb716ffe47b1a225f421e5f2ce79712df73dabd09736b97f37f4e3369",
+      "values_digest": "a0f8c1a64525c0f3b616be991b8acb4b38c03a9c8549a754a283928d8423f036",
       "rendered_digest": "9698bd2a2cae837791e351280bb2b73c562f373cf70337e0e9d22b21c579dc45",
       "ast_digest": "e48a2ad7c06acdc556f3f0f3d0825a1ec02e24cc30811400c7d21bd33edc814d"
     },
     "spp": {
-      "values_digest": "b8a7af7f8812560be0999333c96aa1353c214d58b4e3ed6e92196fc6a0eae427",
+      "values_digest": "95584f2f54d887be08c782bcfe38096b523ee965f53901d1028ff9d2e38baff8",
       "rendered_digest": "8ea466555cff20fdade6635d0812de6b6c45ffae4d06cdffdc7adfe57b0b643f",
       "ast_digest": "72e4d8306b68f2dc6bda5d54dfcd0df6b18ef080d12fc0380c6ea16895ace6fb"
     },
     "vpp": {
-      "values_digest": "83e88aacf3caa7cafbef536bed049d3a2a1109027f9ec18b803e691ca9f23858",
+      "values_digest": "5debba1608847e85fe75f9e0e6673aa88f3f9fac9f332ba243f514b42e28d6d1",
       "rendered_digest": "631ba0f437c881d68f33119ad58fe1c8a5ff98667ede9f323cff4319342242d1",
       "ast_digest": "5306985342c88fb020f4bc2fa321d44d5680dde798e87faa95662e1c119040cf"
     },
     "srp": {
-      "values_digest": "ba42885d175de4e8f8eafafffc5187d25efddae7ef7d90c48548d1147702375b",
+      "values_digest": "915fbacd26e406f1f533b012bf891059bfeb573f70610f73d74e02280cf0a909",
       "rendered_digest": "d048d089ce35576c9e72f8b669198448ee227f1e583cacb3efe46d5dfa737e73",
       "ast_digest": "28ec680c3b17d583e90f8adada1c39bca60c8f0352c5b71c45258b8163bf3a05"
     },
     "sor": {
-      "values_digest": "e6bda1b5003447208121998d29421729a478595b87e280663855deedfb397375",
-      "rendered_digest": "d4e3910c2b57a15bec09794e9624b0bf469e5e8f2b4795b64e6b838f59545344",
-      "ast_digest": "def8c007ff9fef0354b65796e4d740d82d2dd3bab76faa97c9d6236611d8409e"
+      "values_digest": "f97da4e16883b5fada9ac93495e2d68f68386fbe166f6a40425acb03894257c5",
+      "rendered_digest": "4e325cdc6e5906bab980bd9d3cd9f8206d4bf52c9be26d9e15e7a332f067ee20",
+      "ast_digest": "9535bd6a4d8ab5e6e61d794ad8b3f017c870d11aaaebd3f80753f70a7bc74009"
     }
   },
   "transitions": [
@@ -105,6 +106,20 @@
       "actor": "codex:planning-7",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:planning-7",
+      "reason": "Record canonical PR code repository for explicitly authorized v2 transition recovery.",
+      "operation": "{\"schema\":\"csdlc.code_repository_migration_evidence.v1\",\"issue\":745,\"actor\":\"codex:planning-7\",\"reason\":\"Record canonical PR code repository for explicitly authorized v2 transition recovery.\",\"pre_generation\":2,\"pre_digest\":\"d9541855cf49399734ede979c81d7529e4a491e7448938956f0bd7fbabcd5bbf\",\"previous_code_repository\":null,\"requested_repository\":\"agent-logic/agent-design-language\",\"fetch_repositories\":[\"agent-logic/agent-design-language\"],\"push_repositories\":[\"agent-logic/agent-design-language\"],\"phase\":\"implemented\",\"branch\":\"codex/745-v0921-adr-curation\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-745-v0921-adr-curation\",\"clean_worktree\":true}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:planning-7",
+      "reason": "Retain validation inputs outside the finalize-owned output directory and record successful focused revalidation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed four Proposed ADR candidates, preserved Deferred ADR 0069, and mapped all eight v0.92.1 topics with source-bound evidence. Defect #744 and explicitly authorized typed v2 recovery are recorded. Independent review, publication, CI and terminal delivery follow separately.\",\"changes\":[\"Added ADR candidates 0072-0075 without accepting new architecture.\",\"Updated Deferred ADR 0069 and mapped existing ADRs 0066/0070 with their promotion gates.\",\"Recorded eight topic dispositions, 41 source hashes and the bounded #744 recovery.\"],\"artifacts\":[\"docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\",\"docs/architecture/adr/0072-csdlc-v3-native-authority.md\",\"docs/architecture/adr/0073-validated-configuration-snapshot-reload.md\",\"docs/architecture/adr/0074-runtime-generation-source-ownership.md\",\"docs/architecture/adr/0075-provider-profile-and-shadow-authority.md\",\"docs/architecture/adr/README.md\",\"docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/745/source-manifest.json\",\".csdlc/prepared/issues/745/v2-transition-recovery.md\",\".csdlc/prepared/issues/745/validate-adrs.py\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/745/validate-adrs.py\"],\"purpose\":\"Validate eight-topic coverage, ADR statuses, source hashes and relative links after preserving inputs outside generated evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/745/adr-docs.log\"}]}"
     }
   ]
 }

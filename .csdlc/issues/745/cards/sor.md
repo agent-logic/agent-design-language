@@ -23,8 +23,8 @@ Completed four Proposed ADR candidates, preserved Deferred ADR 0069, and mapped 
 - docs/architecture/adr/0075-provider-profile-and-shadow-authority.md
 - docs/architecture/adr/README.md
 - docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md
-- .csdlc/evidence/745/source-manifest.json
-- .csdlc/evidence/745/v2-transition-recovery.md
+- .csdlc/prepared/issues/745/source-manifest.json
+- .csdlc/prepared/issues/745/v2-transition-recovery.md
 - .csdlc/prepared/issues/745/validate-adrs.py
 
 ## Execution
@@ -38,12 +38,12 @@ Completed four Proposed ADR candidates, preserved Deferred ADR 0069, and mapped 
 [
   {
     "command": [
-      "/usr/bin/python3",
+      "python3",
       ".csdlc/prepared/issues/745/validate-adrs.py"
     ],
-    "purpose": "Issue 745 documentation validation",
+    "purpose": "Validate eight-topic coverage, ADR statuses, source hashes and relative links after preserving inputs outside generated evidence.",
     "outcome": "passed",
-    "evidence_ref": "adr-docs.log"
+    "evidence_ref": ".csdlc/evidence/745/adr-docs.log"
   }
 ]
 
