@@ -104,11 +104,11 @@ Implemented and repaired the #728 disposable AWS-F Runtime proof runner and loca
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
