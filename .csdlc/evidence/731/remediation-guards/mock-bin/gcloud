@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 printf '%s\n' "$*" >> "${ADL_GCP_D1_MOCK_GCLOUD_LOG:?}"
+expected_impersonation="axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+if test "${1:-}" != "--impersonate-service-account" || test "${2:-}" != "$expected_impersonation"; then
+  printf 'mock gcloud missing authorized impersonation: %s\n' "$*" >&2
+  exit 65
+fi
+shift 2
 case "$*" in
   auth\ print-access-token*) printf 'synthetic-access-token\n' ;;
   config\ get-value\ auth/impersonate_service_account*) printf 'axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com\n' ;;

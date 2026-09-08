@@ -115,6 +115,8 @@ bash -n .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 bash -n .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
 
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "trap cleanup_instance EXIT"
+require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "gcloud_authorized()"
+require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "--impersonate-service-account \"\$impersonated_identity\""
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "deadline-reaper.sh"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "ADL_GCP_D1_FAILPOINT_AFTER_CREATE"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "workload-readiness.json"
@@ -124,6 +126,7 @@ require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "post-storage-objects.json"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh" "post-terraform-state-run-labels.json"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh" "--impersonate-service-account"
+require_text ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh" "gcloud_authorized()"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh" "trap rollback_foundation EXIT"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh" "ADL_GCP_D1_FAILPOINT_AFTER_FOUNDATION_APPLY"
 require_text ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh" "project-info.json"
@@ -142,6 +145,12 @@ cat > "$mock_gcloud" <<'MOCK_GCLOUD'
 #!/usr/bin/env bash
 set -euo pipefail
 printf '%s\n' "$*" >> "${ADL_GCP_D1_MOCK_GCLOUD_LOG:?}"
+expected_impersonation="axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+if test "${1:-}" != "--impersonate-service-account" || test "${2:-}" != "$expected_impersonation"; then
+  printf 'mock gcloud missing authorized impersonation: %s\n' "$*" >&2
+  exit 65
+fi
+shift 2
 case "$*" in
   auth\ print-access-token*) printf 'synthetic-access-token\n' ;;
   config\ get-value\ auth/impersonate_service_account*) printf 'axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com\n' ;;

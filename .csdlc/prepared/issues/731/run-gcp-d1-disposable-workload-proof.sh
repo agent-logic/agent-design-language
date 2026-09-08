@@ -18,7 +18,7 @@ fail() {
 
 cleanup_instance() {
   if test "$created_instance" = true && test "$cleanup_complete" = false; then
-    "$gcloud_bin" compute instances delete "$instance_name" --project "$project_id" --zone "$zone" --delete-disks=all --quiet \
+    gcloud_authorized compute instances delete "$instance_name" --project "$project_id" --zone "$zone" --delete-disks=all --quiet \
       > "$out_dir/exit-cleanup.log" 2>&1 || true
     cleanup_complete=true
   fi
@@ -38,8 +38,17 @@ subnet="$(jq -r '.subnet' "$packet")"
 run_id="$(jq -r '.run_id' "$packet")"
 instance_name="$(jq -r '.instance_name' "$packet")"
 deadline_utc="$(jq -r '.cleanup_deadline_utc' "$packet")"
+impersonated_identity="$(jq -r '.impersonated_identity' "$packet")"
 deadline_label="$(printf '%s' "$deadline_utc" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_-')"
 service_account="axioma-dev-workload@${project_id}.iam.gserviceaccount.com"
+case "$impersonated_identity" in
+  *@*.iam.gserviceaccount.com) ;;
+  *) fail "impersonated identity must be a service account email" ;;
+esac
+
+gcloud_authorized() {
+  "$gcloud_bin" --impersonate-service-account "$impersonated_identity" "$@"
+}
 
 now_epoch="${ADL_GCP_D1_NOW_EPOCH:-$(date -u +%s)}"
 deadline_epoch="$(date -j -u -f '%Y-%m-%dT%H:%M:%SZ' "$deadline_utc" +%s)"
@@ -52,18 +61,18 @@ cat > "$out_dir/deadline-reaper.sh" <<REAPER
 #!/usr/bin/env bash
 set -euo pipefail
 sleep "$reaper_sleep_seconds"
-"$gcloud_bin" compute instances delete "$instance_name" --project "$project_id" --zone "$zone" --delete-disks=all --quiet
+"$gcloud_bin" --impersonate-service-account "$impersonated_identity" compute instances delete "$instance_name" --project "$project_id" --zone "$zone" --delete-disks=all --quiet
 REAPER
 chmod 700 "$out_dir/deadline-reaper.sh"
 "$out_dir/deadline-reaper.sh" > "$out_dir/deadline-reaper.log" 2>&1 &
 reaper_pid="$!"
 printf '%s\n' "$reaper_pid" > "$out_dir/deadline-reaper.pid"
 
-"$gcloud_bin" compute networks describe "$network" --project "$project_id" --format=json > "$out_dir/pre-network.json"
-"$gcloud_bin" compute networks subnets describe "$subnet" --region "$region" --project "$project_id" --format=json > "$out_dir/pre-subnet.json"
+gcloud_authorized compute networks describe "$network" --project "$project_id" --format=json > "$out_dir/pre-network.json"
+gcloud_authorized compute networks subnets describe "$subnet" --region "$region" --project "$project_id" --format=json > "$out_dir/pre-subnet.json"
 
 created_instance=true
-"$gcloud_bin" compute instances create "$instance_name" \
+gcloud_authorized compute instances create "$instance_name" \
   --project "$project_id" \
   --zone "$zone" \
   --machine-type e2-micro \
@@ -80,7 +89,7 @@ created_instance=true
   --labels "issue=493,ttl=disposable,csm=axioma,env=dev,run_id=${run_id},deadline=${deadline_label}" \
   2>&1 | tee "$out_dir/instance-create.log"
 
-"$gcloud_bin" compute instances describe "$instance_name" --project "$project_id" --zone "$zone" --format=json > "$out_dir/instance-running.json"
+gcloud_authorized compute instances describe "$instance_name" --project "$project_id" --zone "$zone" --format=json > "$out_dir/instance-running.json"
 
 jq -e '.status == "RUNNING"' "$out_dir/instance-running.json" >/dev/null || fail "instance is not RUNNING"
 jq -e '.machineType | endswith("/machineTypes/e2-micro")' "$out_dir/instance-running.json" >/dev/null || fail "instance is not e2-micro"
@@ -92,7 +101,7 @@ if test "${ADL_GCP_D1_FAILPOINT_AFTER_CREATE:-0}" = "1"; then
   fail "injected failure after instance create"
 fi
 
-"$gcloud_bin" compute ssh "$instance_name" \
+gcloud_authorized compute ssh "$instance_name" \
   --project "$project_id" \
   --zone "$zone" \
   --tunnel-through-iap \
@@ -100,25 +109,25 @@ fi
   > "$out_dir/workload-readiness.json"
 jq -e --arg service_account "$service_account" '.guest_ready == true and .metadata_service_account == $service_account' "$out_dir/workload-readiness.json" >/dev/null || fail "workload readiness or identity observation failed"
 
-"$gcloud_bin" compute instances delete "$instance_name" --project "$project_id" --zone "$zone" --delete-disks=all --quiet \
+gcloud_authorized compute instances delete "$instance_name" --project "$project_id" --zone "$zone" --delete-disks=all --quiet \
   2>&1 | tee "$out_dir/instance-delete.log"
 cleanup_complete=true
 kill "$reaper_pid" >/dev/null 2>&1 || true
 wait "$reaper_pid" >/dev/null 2>&1 || true
 
-"$gcloud_bin" compute instances list --project "$project_id" --format=json \
+gcloud_authorized compute instances list --project "$project_id" --format=json \
   | jq --arg instance "$instance_name" '[.[] | select(.name == $instance)]' > "$out_dir/post-instances.json"
-"$gcloud_bin" compute disks list --project "$project_id" --format=json \
+gcloud_authorized compute disks list --project "$project_id" --format=json \
   | jq --arg zone "$zone" --arg run_id "$run_id" '[.[] | select((.zone | endswith("/" + $zone)) and .labels.run_id == $run_id)]' > "$out_dir/post-disks.json"
-"$gcloud_bin" compute addresses list --project "$project_id" --format=json \
+gcloud_authorized compute addresses list --project "$project_id" --format=json \
   | jq --arg run_id "$run_id" '[.[] | select(.labels.run_id == $run_id)]' > "$out_dir/post-addresses.json"
-"$gcloud_bin" compute instances list --project "$project_id" --format=json \
+gcloud_authorized compute instances list --project "$project_id" --format=json \
   | jq --arg run_id "$run_id" '[.[] | select(.labels.run_id == $run_id)]' > "$out_dir/post-run-instances.json"
-"$gcloud_bin" compute forwarding-rules list --project "$project_id" --format=json \
+gcloud_authorized compute forwarding-rules list --project "$project_id" --format=json \
   | jq --arg run_id "$run_id" '[.[] | select((.labels.run_id // "") == $run_id or (.name // "" | contains($run_id)))]' > "$out_dir/post-forwarding-rules.json"
-"$gcloud_bin" compute firewall-rules list --project "$project_id" --format=json \
+gcloud_authorized compute firewall-rules list --project "$project_id" --format=json \
   | jq --arg run_id "$run_id" '[.[] | select((.labels.run_id // "") == $run_id or (.name // "" | contains($run_id)))]' > "$out_dir/post-firewall-overrides.json"
-"$gcloud_bin" projects get-iam-policy "$project_id" --format=json \
+gcloud_authorized projects get-iam-policy "$project_id" --format=json \
   | jq --arg run_id "$run_id" '[.bindings[]? | select((.condition.title // "" | contains($run_id)) or ((.members // []) | map(contains($run_id)) | any))]' > "$out_dir/post-vm-iam.json"
 if test -f "infra/gcp/platform/terraform.tfstate"; then
   jq --arg run_id "$run_id" '[.. | objects | select(((.labels? // {}) | .run_id? // "") == $run_id)]' infra/gcp/platform/terraform.tfstate > "$out_dir/post-terraform-state-run-labels.json"
@@ -141,7 +150,7 @@ fi
 while IFS= read -r bucket_name; do
   test -n "$bucket_name" || continue
   safe_bucket_name="$(printf '%s' "$bucket_name" | tr -c 'A-Za-z0-9._-' '_')"
-  "$gcloud_bin" storage objects list "gs://$bucket_name" --recursive --all-versions --format=json \
+  gcloud_authorized storage objects list "gs://$bucket_name" --recursive --all-versions --format=json \
     > "$storage_scan_dir/$safe_bucket_name.json"
 done < "$bucket_names"
 jq -s --arg run_id "$run_id" '

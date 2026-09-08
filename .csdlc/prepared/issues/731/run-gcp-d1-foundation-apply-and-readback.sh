@@ -44,11 +44,15 @@ case "$impersonated_identity" in
   *) fail "impersonated identity must be a service account email" ;;
 esac
 
+gcloud_authorized() {
+  "$gcloud_bin" --impersonate-service-account "$impersonated_identity" "$@"
+}
+
 test -f "$plan_file" || fail "missing saved Terraform plan $plan_file"
 actual_plan_digest="$(shasum -a 256 "$plan_file" | awk '{print $1}')"
 test "$actual_plan_digest" = "$plan_digest" || fail "saved plan digest mismatch"
 
-access_token="$("$gcloud_bin" auth print-access-token --project "$project_id" --impersonate-service-account "$impersonated_identity" 2>/dev/null || true)"
+access_token="$(gcloud_authorized auth print-access-token --project "$project_id" 2>/dev/null || true)"
 test -n "$access_token" || fail "could not obtain gcloud access token for Terraform"
 export GOOGLE_OAUTH_ACCESS_TOKEN="$access_token"
 
@@ -61,15 +65,15 @@ if test "${ADL_GCP_D1_FAILPOINT_AFTER_FOUNDATION_APPLY:-0}" = "1"; then
 fi
 
 "$terraform_bin" -chdir="$platform_dir" output -json > "$out_dir/terraform-output.json"
-"$gcloud_bin" auth print-access-token --project "$project_id" --impersonate-service-account "$impersonated_identity" >/dev/null
-"$gcloud_bin" config get-value auth/impersonate_service_account 2>/dev/null > "$out_dir/effective-impersonation.txt" || true
-"$gcloud_bin" compute project-info describe --project "$project_id" --format=json > "$out_dir/project-info.json"
-"$gcloud_bin" iam service-accounts describe "axioma-dev-workload@${project_id}.iam.gserviceaccount.com" --project "$project_id" --format=json > "$out_dir/workload-service-account.json"
-"$gcloud_bin" compute networks describe "$network" --project "$project_id" --format=json > "$out_dir/network.json"
-"$gcloud_bin" compute networks subnets describe "$subnet" --region "$region" --project "$project_id" --format=json > "$out_dir/subnet.json"
-"$gcloud_bin" compute firewall-rules list --project "$project_id" --filter="network:$network" --format=json > "$out_dir/firewalls.json"
-"$gcloud_bin" logging metrics describe "csm_dev_disposable_without_deadline" --project "$project_id" --format=json > "$out_dir/logging-metric.json"
-"$gcloud_bin" projects get-iam-policy "$project_id" --format=json | jq '
+gcloud_authorized auth print-access-token --project "$project_id" >/dev/null
+printf '%s\n' "$impersonated_identity" > "$out_dir/effective-impersonation.txt"
+gcloud_authorized compute project-info describe --project "$project_id" --format=json > "$out_dir/project-info.json"
+gcloud_authorized iam service-accounts describe "axioma-dev-workload@${project_id}.iam.gserviceaccount.com" --project "$project_id" --format=json > "$out_dir/workload-service-account.json"
+gcloud_authorized compute networks describe "$network" --project "$project_id" --format=json > "$out_dir/network.json"
+gcloud_authorized compute networks subnets describe "$subnet" --region "$region" --project "$project_id" --format=json > "$out_dir/subnet.json"
+gcloud_authorized compute firewall-rules list --project "$project_id" --filter="network:$network" --format=json > "$out_dir/firewalls.json"
+gcloud_authorized logging metrics describe "csm_dev_disposable_without_deadline" --project "$project_id" --format=json > "$out_dir/logging-metric.json"
+gcloud_authorized projects get-iam-policy "$project_id" --format=json | jq '
   {
     planned_bindings: [
       .bindings[]?
@@ -92,7 +96,7 @@ for bucket_owner in state artifacts models continuity-evidence logs; do
       *) bucket_name="${project_id}-dev-axioma-${bucket_owner}" ;;
     esac
   fi
-  "$gcloud_bin" storage buckets describe "gs://$bucket_name" --format=json > "$out_dir/bucket-${bucket_owner}.json"
+  gcloud_authorized storage buckets describe "gs://$bucket_name" --format=json > "$out_dir/bucket-${bucket_owner}.json"
 done
 
 jq -e --arg network "$network" '.name == $network and .autoCreateSubnetworks == false' "$out_dir/network.json" >/dev/null || fail "network readback mismatch"

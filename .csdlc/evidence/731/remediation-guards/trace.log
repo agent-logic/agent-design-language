@@ -155,6 +155,14 @@
 + local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + local 'needle=trap cleanup_instance EXIT'
 + grep -Fq -- 'trap cleanup_instance EXIT' .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh 'gcloud_authorized()'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local 'needle=gcloud_authorized()'
++ grep -Fq -- 'gcloud_authorized()' .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh '--impersonate-service-account "$impersonated_identity"'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local 'needle=--impersonate-service-account "$impersonated_identity"'
++ grep -Fq -- '--impersonate-service-account "$impersonated_identity"' .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh deadline-reaper.sh
 + local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + local needle=deadline-reaper.sh
@@ -191,6 +199,10 @@
 + local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
 + local needle=--impersonate-service-account
 + grep -Fq -- --impersonate-service-account .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh 'gcloud_authorized()'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local 'needle=gcloud_authorized()'
++ grep -Fq -- 'gcloud_authorized()' .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
 + require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh 'trap rollback_foundation EXIT'
 + local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
 + local 'needle=trap rollback_foundation EXIT'
