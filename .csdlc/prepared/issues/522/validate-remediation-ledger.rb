@@ -150,6 +150,7 @@ dispositions.each do |row|
       fail!("remediation head artifact digest mismatch") unless Digest::SHA256.hexdigest(blob) == artifact.fetch("sha256")
     end
     review = row.fetch("review")
+    fail!("review authority is neither typed nor independent external") unless %w[typed_csdlc external_independent].include?(review.fetch("authority_kind")) && nonempty?(review.fetch("assignment_id")) && nonempty?(review.fetch("reviewer"))
     fail!("fix lacks exact current review identity") unless review.fetch("head_sha") == head_sha && review.fetch("head_sha") == review.fetch("reviewed_sha") && review.fetch("head_sha") == review.fetch("observed_pr_head_sha") && nonempty?(review.fetch("observed_at"))
     system("git", "cat-file", "-e", "#{review.fetch('head_sha')}^{commit}") or fail!("reviewed fix commit is unavailable")
     review_path = review.fetch("report_path")
@@ -158,6 +159,21 @@ dispositions.each do |row|
     review_doc = read_json(review_path)
     fail!("review report does not prove canonical passing exact-head result") unless review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && review_doc.fetch("blockers") == [] && (review_doc["candidate_sha"] || review_doc["head_sha"]) == head_sha
     fail!("review report does not prove these findings resolved") unless review_doc.fetch("resolved_finding_ids").sort == row.fetch("source_finding_ids").sort
+    invocation = row.fetch("validator_invocation")
+    invocation_path = invocation.fetch("receipt_path")
+    fail!("validator invocation receipt is outside remediation packet") unless invocation_path.start_with?(root + "/") && File.file?(invocation_path)
+    fail!("validator invocation receipt digest mismatch") unless Digest::SHA256.file(invocation_path).hexdigest == invocation.fetch("sha256")
+    invocation_doc = read_json(invocation_path)
+    validator_path = invocation_doc.fetch("validator_path")
+    validator_blob = git_blob(head_sha, validator_path)
+    fail!("validator blob digest mismatch") unless Digest::SHA256.hexdigest(validator_blob) == invocation_doc.fetch("validator_sha256")
+    interpreter = File.extname(validator_path) == ".rb" ? "ruby" : "bash"
+    fail!("validator invocation argv is not canonical") unless invocation_doc.fetch("argv") == [interpreter, validator_path]
+    fail!("validator invocation exit/head is invalid") unless invocation_doc.fetch("exit_status") == 0 && invocation_doc.fetch("head_sha") == head_sha
+    invocation_stdout = invocation_doc.fetch("stdout")
+    fail!("validator invocation stdout digest mismatch") unless Digest::SHA256.hexdigest(invocation_stdout) == invocation_doc.fetch("stdout_sha256")
+    invocation_result = JSON.parse(invocation_stdout)
+    fail!("validator invocation stdout does not prove exact-head pass") unless invocation_result.fetch("outcome") == "passed" && (invocation_result["head_sha"] || invocation_result["candidate_sha"]) == head_sha && invocation_result.fetch("failures", []) == []
     validations = row.fetch("validation")
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
     validations.each do |validation|
