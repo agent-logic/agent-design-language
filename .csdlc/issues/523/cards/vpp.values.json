@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-07] Next-milestone planning",
     "slug": "v0921-tail07-next-milestone-planning",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "tail07-denominator",
-          "proof_role": "Prove the complete successor planning package and dispositions.",
+          "proof_role": "Prove the complete successor planning denominator, dependency integrity, deferrals, feature routing, and non-creation boundary.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -34,7 +34,28 @@
             ".csdlc/prepared/issues/523/validate-tail07.rb"
           ],
           "parallel_group": "docs",
-          "defer_reason": "The issue-owned validator is an execution deliverable."
+          "defer_reason": "Runs during execution against the post-#522 planning candidate."
+        },
+        {
+          "lane": "tail07-negative",
+          "proof_role": "Reject duplicate, missing, stale, machine-local, and silently promoted planning mutations.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/523/validate-tail07.rb",
+            "--negative"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
         },
         {
           "lane": "diff-hygiene",

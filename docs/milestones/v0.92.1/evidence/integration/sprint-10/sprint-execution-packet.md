@@ -40,6 +40,45 @@ child on the child's behalf.
 | #525 | Independent planning review report |
 | #526 | Operator-authorized release ceremony receipt |
 
+## Child Issue Wave
+
+The child denominator is exactly #516 through #526 as listed above. Each child
+owns its own typed record, branch, worktree, review, PR, and merge result.
+
+## Recommended Execution Order
+
+Use the strict sequence on line 12. Start the next child after the predecessor's
+reviewed green merge is live and ancestral; do not wait for finish or cleanup.
+
+## Watcher Policy
+
+Waiting PR checks remain attached to that child's watcher or janitor. A healthy
+wait never blocks preparation of disjoint later children and never transfers
+implementation into #538.
+
+## Budget And Goal Accounting
+
+Create one issue-bound session goal only after that child is bound and before
+implementation. The umbrella objective is descriptive and is not a substitute
+for child accounting.
+
+## Watcher Plan
+
+Watch only the active predecessor gate and current child PR. Escalate failed
+checks or conflicts to that child owner; do not repeatedly rescan the milestone.
+
+## Sprint Closeout Rollup Expectations
+
+The rollup records every child PR head, reviewed merge, merge ancestry, and any
+explicit deferral. Finish receipts and worktree cleanup are asynchronous. #539
+is closed provenance and owns no current child.
+
+## Review-remediation loop
+
+If #525 reports an actionable planning finding, route it to #523 or #524,
+merge the repair, and rerun #525. #526 requires a current exact-revision #525
+report with zero unresolved release-blocking findings.
+
 ## Readiness rule
 
 Preparation is complete when the issue has validated, issue-specific typed

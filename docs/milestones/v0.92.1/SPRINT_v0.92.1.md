@@ -8,7 +8,7 @@
 
 ## Sprint sequence
 
-The original execution lanes remain, with cloud move-in, cross-cloud Terraform conversion, bounded Rust refactoring, Runtime v2/v3 decoupling, provider profiles, and GCP portability admitted as explicit tracks. WP-01 creates one coordination-only umbrella for each executable Sprint 1 through Sprint 11. Sprint 0 is WP-01 itself. Each umbrella binds the exact child denominator and reviewed-green merge result without absorbing child implementation or making typed finish/cleanup a dependency.
+The original execution lanes remain, with cloud move-in, cross-cloud Terraform conversion, bounded Rust refactoring, Runtime v2/v3 decoupling, provider profiles, and GCP portability admitted as explicit tracks. WP-01 creates one coordination-only umbrella for each executable Sprint 1 through Sprint 10. Sprint 0 is WP-01 itself. Each umbrella binds the exact child denominator and reviewed-green merge result without absorbing child implementation or making typed finish/cleanup a dependency. The former Sprint 11 umbrella #539 is closed and its four children are now owned by Sprint 10 #538.
 
 1. **Sprint 0 — opening and wave creation:** #432 and the reviewed planning-package merge establish eligibility; the operator later declares v0.92.1 ready and creates WP-01; WP-01 then creates the remaining wave. #431 and #457 are consulted only as planning/provider provenance.
 2. **Sprint 1 — independent foundations (#529):** CORP-A and CORP-B run serially; HOT-01, DEC-01, PROV-A, and RUST-01 may run in parallel after the opening gate.
@@ -20,8 +20,7 @@ The original execution lanes remain, with cloud move-in, cross-cloud Terraform c
 8. **Sprint 7 — distributed Runtime qualification (#535):** DRT-A, #345, DRT-B, DRT-C, then DRT-D after GCP-E and XCL-01; every paid proof remains operator-gated.
 9. **Sprint 8 — product lanes (#536):** existing podcast #51/#261-#264/#342, Observatory OBS-A/OBS-B, and existing Unity authority #84 are owned here. #84 consumes the completed #251 and #122 cloud prerequisites; OBS-B consumes OBS-A plus that completed Unity/public-exposure convergence. #345 remains owned by Sprint 7.
 10. **Sprint 9 — provider comparison and convergence (#537):** PROV-B follows PROV-A; INT-01 waits for every root named by the issue wave, then TAIL-01, TAIL-02, TAIL-03. #188 informs convergence and quality admission.
-11. **Sprint 10 — review and remediation (#538):** TAIL-04, TAIL-05, TAIL-06, strictly serial.
-12. **Sprint 11 — handoff and release (#539):** TAIL-07 carries #190 successor intent, TAIL-08, TAIL-09, then TAIL-10 carries #189 ceremony intent.
+11. **Sprint 10 — review, remediation, handoff, and release (#538):** TAIL-04 through TAIL-10 run strictly serial. TAIL-07 carries #190 successor intent; TAIL-10 carries #189 ceremony intent. #539 is closed and retains provenance only.
 
 Each lane owns its issues, validations, review, and closeout. The conductor tracks dependencies and collisions but does not absorb implementation. The catalog is a creation plan, not evidence that any unnumbered issue exists.
 

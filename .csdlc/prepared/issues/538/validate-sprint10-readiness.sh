@@ -7,28 +7,56 @@ case "${mode}" in
   *) echo "usage: $0 [membership|readiness|all]" >&2; exit 64 ;;
 esac
 
-repo_root="$(git rev-parse --show-toplevel)"
 packet="docs/milestones/v0.92.1/evidence/integration/sprint-10/sprint-execution-packet.md"
-state="docs/milestones/v0.92.1/evidence/integration/sprint-10/state.json"
-activity="docs/milestones/v0.92.1/evidence/integration/sprint-10/activity.jsonl"
-review="docs/milestones/v0.92.1/evidence/integration/sprint-10/review.md"
+issues=(516 517 518 519 520 521 522 523 524 525 526)
 
 if [[ "${mode}" == "membership" || "${mode}" == "all" ]]; then
   test -f "${packet}"
-  for issue in 516 517 518 519 520 521 522 523 524 525 526; do
+  for issue in "${issues[@]}"; do
     rg -q "#${issue}" "${packet}"
   done
   rg -q '#516.*#517.*#518.*#519.*#520.*#521.*#522.*#523.*#524.*#525.*#526' "${packet}"
+  for heading in \
+    '## Child Issue Wave' \
+    '## Recommended Execution Order' \
+    '## Watcher Policy' \
+    '## Budget And Goal Accounting' \
+    '## Watcher Plan' \
+    '## Sprint Closeout Rollup Expectations' \
+    '## Review-remediation loop'; do
+    rg -q -F "${heading}" "${packet}"
+  done
+  if rg -q 'monolithic.*#538|#538.*monolithic' "${packet}"; then
+    echo "Sprint 10 packet must not authorize a monolithic #538 implementation PR" >&2
+    exit 1
+  fi
 fi
 
 if [[ "${mode}" == "readiness" || "${mode}" == "all" ]]; then
-  python3 adl/tools/skills/sprint-conductor/scripts/check_sprint_readiness.py \
-    --repo-root "${repo_root}" \
-    --ordered-issues 516,517,518,519,520,521,522,523,524,525,526 \
-    --execution-mode sequential \
-    --execution-packet-path "${packet}" \
-    --activity-log-path "${activity}" \
-    --review-path "${review}" \
-    --state "${state}" \
-    --print-json
+  missing=()
+  not_ready=()
+  for issue in "${issues[@]}"; do
+    index=".csdlc/issues/${issue}/index.json"
+    if [[ ! -f "${index}" ]]; then
+      missing+=("${issue}")
+      continue
+    fi
+    phase="$(jq -r '.phase' "${index}")"
+    approved="$(jq -r '(.design_review | type) == "object" and (.design_review.approved.reviewer | type) == "string"' "${index}")"
+    if [[ ! "${phase}" =~ ^(ready|bound|implemented|reviewed|published|merged|closed)$ ]] || [[ "${approved}" != "true" ]]; then
+      not_ready+=("${issue}:${phase}:design-approved=${approved}")
+    fi
+  done
+  if ((${#missing[@]} > 0 || ${#not_ready[@]} > 0)); then
+    ((${#missing[@]} == 0)) || echo "missing typed issue records: ${missing[*]}" >&2
+    ((${#not_ready[@]} == 0)) || echo "typed issue records not ready: ${not_ready[*]}" >&2
+    exit 1
+  fi
+  printf '{"schema":"adl.sprint-readiness.v1","sprint_issue":538,"status":"ready","issues":['
+  separator=''
+  for issue in "${issues[@]}"; do
+    printf '%s%s' "${separator}" "${issue}"
+    separator=','
+  done
+  printf ']}\n'
 fi

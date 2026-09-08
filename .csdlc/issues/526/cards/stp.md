@@ -23,12 +23,12 @@ Prepare and, only after explicit authorization, perform exactly one v0.92.1 rele
 
 ## Acceptance
 
-1. AC-1: Every prior tail issue has a reviewed-green merge ancestral to the candidate
+1. AC-1: Every prior tail issue has a reviewed-green merge ancestral to the candidate and the current #525 report has zero unresolved release blockers
 2. AC-2: Release notes describe the exact candidate without unsupported claims
-3. AC-3: Explicit operator authorization identifies the candidate, tag, and release operation
+3. AC-3: Explicit operator authorization identifies the candidate, tag, and release operation after canonical ceremony tests and check-only preflight pass
 4. AC-4: Tag and published release resolve to the exact approved candidate
-5. AC-5: Live readback and immutable receipt capture notes, tag, release URL or identifier, timestamps, and hashes
-6. AC-6: No feature implementation, unreviewed merge, or unrelated cleanup occurs
+5. AC-5: Live readback and immutable receipt capture notes, tag, release URL or identifier, timestamps, hashes, and preflight results
+6. AC-6: No feature implementation, unreviewed merge, skipped preflight, or unrelated cleanup occurs
 
 ## Dependencies
 

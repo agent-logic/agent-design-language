@@ -3,9 +3,9 @@
   "issue": 524,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5df0a22aadbcccec903bf1bd892971323370985650a2de88764360d193bc693c",
-  "phase": "initialized",
-  "generation": 6,
-  "digest": "472f143d2caf14a0414776a739217aaec4449fa113b56f66379bbf4186dffc0d",
+  "phase": "ready",
+  "generation": 9,
+  "digest": "b8764dd169b46efd13ccf917cd5beb634da1c5aa11d9f5c7cb508b41226d49fd",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,40 +16,53 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/524/design.md",
   "diagram_path": ".csdlc/prepared/issues/524/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a07f27-d9c5-7850-88b7-c58b54bb4f6f",
+      "revision": "743cc597d0cb3d0a65bcb8f591a4ed05fe27bd3c7d8758e982967987eb8af18c"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "4daf9be373b7083396e03015216814f6cbf2d3b058a22cd211b4043308561558",
+      "values_digest": "0e41616c604198efe337dab886dc8f102538f12507896b4b27c221dbc923748b",
       "rendered_digest": "3499a8e592466f979bb9f60acbb4441341e71eaa83aee3b840dceb8167f53d12",
       "ast_digest": "f5b4aabc11a9b704c8ef55d1ce5f5a3410321f8e8b01880821a7c5c0bd6b7506"
     },
     "stp": {
-      "values_digest": "1a372738b4df2c7cd5d1b5d994d9a7215b4ed183318dc102c72cbe88760fe6e7",
+      "values_digest": "8e34e46be3ec3babe87569a4bcd0683cf3586b3867c5ab6369b997e39c39891f",
       "rendered_digest": "549548f31c7c4c7b341c2a4ada6a4d096f9e3931278ea0f5827c40cafa4eded7",
       "ast_digest": "02c3f2a18b63f0d6a9d3abd2b87b5f44b6462bcc65f77f58f322e93a390f3771"
     },
     "spp": {
-      "values_digest": "f16abe7a519c8340ac595ae267b95b491a3e10a7f0a398b3a7d43a375f657914",
+      "values_digest": "a5806ca1218acfa7d319dc892c0349e322c2ad43f358e76a12a89033145f0619",
       "rendered_digest": "de62730eff714946aa14bed365b6550e80ec64ae478ace50fed69fab8a7bbc7d",
       "ast_digest": "4ae7e56f7701eac7d695c9ab086bf4af05fd7d7f49ff6d1555266b4c81904961"
     },
     "vpp": {
-      "values_digest": "98c7b5e6524538356789ad8c43d6027bec83a001d243183b07ebb2656ba66654",
-      "rendered_digest": "843be2f05583560cd4f011a2c69a4ed93fe5011c4ab4952b259e7074a81d98a5",
-      "ast_digest": "3570cb121baaea5750c1cc5bf524f3dc76cb45bd0a58466b8d1c536aeae3e0dc"
+      "values_digest": "1ed2b000d16d1ca8b28c9fdb861d99ee5e11c19a8cfa1cf726e59345a1f1758f",
+      "rendered_digest": "3bcda0ca4bcfce01a3be16bf7cc690af20b726b066e0fc395bf22c2d4e8130a1",
+      "ast_digest": "d8e035c1cedbb61c61fe0eb04283f5f2edcd20c025119158d49fc2e4ad5731f1"
     },
     "srp": {
-      "values_digest": "0a18034ef065c0505d63256808ee769fcb5c3f0e5336723177c63467ee13bd6b",
+      "values_digest": "9f932ef2f5c21393bccdc41383c1720cf8b0f29aa8fedeb996e84224b83d0267",
       "rendered_digest": "14c45d8d668110b1ed6ca2d136f3eceb1c04cacf93971f393b8d8e17a87fe30e",
       "ast_digest": "5903865d466f3420ffe4b580860844eeb5f28fa766fdfe21a083adf30cc5015d"
     },
     "sor": {
-      "values_digest": "a86253b3e4ca8e511f908138d3413796afbf5fc07cea6a48ac7567126139cd56",
+      "values_digest": "7832713e72fe28913c53426d1c94e5956c77b85f6976feeb1bc0998107c80e27",
       "rendered_digest": "0bfd7236fa1edd49d1692263de08f619d9b6909e78ea6b006cc65b41c47f42c2",
       "ast_digest": "591f5d01c1d77516fee3d4597e2f2ba32356928d1d9f62f4b142bdea4c4490a6"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Advance the independently reviewed, semantic-validator-backed preparation to ready without binding."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -99,6 +112,27 @@
       "actor": "codex:sprint10-prep-524",
       "reason": "Declare exact issue-owned closeout-plan outputs and validator path.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md\",\"docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md\",\".csdlc/prepared/issues/524/validate-tail08.rb\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Replace substring-only validation with semantic order, gate, parity, and negative proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail08-denominator\",\"proof_role\":\"Prove denominator parity, exact tail order, merge gates, operator gates, and asynchronous bookkeeping.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/524/validate-tail08.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":\"Runs during execution against the merged #523 package.\"},{\"lane\":\"tail08-negative\",\"proof_role\":\"Reject reordered, omitted, auto-authorized, or closeout-gated plans.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/524/validate-tail08.rb\",\"--negative\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed documentation diffs.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "fresh-session:01a07f27-d9c5-7850-88b7-c58b54bb4f6f",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"743cc597d0cb3d0a65bcb8f591a4ed05fe27bd3c7d8758e982967987eb8af18c\",\"design_ref\":\".csdlc/prepared/issues/524/design.md\",\"diagram_digest\":\"ca942303fa206e075a170c0ab6ac84262740991f38f08a372865a0d23a3da201\",\"diagram_ref\":\".csdlc/prepared/issues/524/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Advance the independently reviewed, semantic-validator-backed preparation to ready without binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

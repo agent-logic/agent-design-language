@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/526/diagram.mmd
 [
   {
     "lane": "tail10-ceremony-denominator",
-    "proof_role": "Prove ancestry, authorization, exact tag and release identity, and retained readback.",
+    "proof_role": "Prove ancestry, zero review blockers, canonical check-only preflight, authorization, exact tag and release identity, notes digest, and retained readback.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -42,7 +42,29 @@ Diagram: .csdlc/prepared/issues/526/diagram.mmd
       ".csdlc/prepared/issues/526/validate-tail10.rb"
     ],
     "parallel_group": "ceremony",
-    "defer_reason": "The issue-owned validator is an operator-gated execution deliverable."
+    "defer_reason": "Runs after the explicitly authorized ceremony."
+  },
+  {
+    "lane": "tail10-negative",
+    "proof_role": "Reject missing authorization, target drift, notes drift, skipped canonical preflight, and incomplete ancestry.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/526/validate-tail10.rb",
+      "--negative"
+    ],
+    "parallel_group": "ceremony-preflight",
+    "defer_reason": null
   },
   {
     "lane": "notes-diff-hygiene",
@@ -59,7 +81,7 @@ Diagram: .csdlc/prepared/issues/526/diagram.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "ceremony",
+    "parallel_group": "ceremony-preflight",
     "defer_reason": null
   }
 ]
@@ -77,6 +99,7 @@ Tokens: 25000
 ## Commands
 
 - `ruby .csdlc/prepared/issues/526/validate-tail10.rb`
+- `ruby .csdlc/prepared/issues/526/validate-tail10.rb --negative`
 - `git diff --check`
 
 ## Failure Semantics

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/523/diagram.mmd
 [
   {
     "lane": "tail07-denominator",
-    "proof_role": "Prove the complete successor planning package and dispositions.",
+    "proof_role": "Prove the complete successor planning denominator, dependency integrity, deferrals, feature routing, and non-creation boundary.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -42,7 +42,28 @@ Diagram: .csdlc/prepared/issues/523/diagram.mmd
       ".csdlc/prepared/issues/523/validate-tail07.rb"
     ],
     "parallel_group": "docs",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
+    "defer_reason": "Runs during execution against the post-#522 planning candidate."
+  },
+  {
+    "lane": "tail07-negative",
+    "proof_role": "Reject duplicate, missing, stale, machine-local, and silently promoted planning mutations.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-5",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/523/validate-tail07.rb",
+      "--negative"
+    ],
+    "parallel_group": "docs",
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
@@ -77,6 +98,7 @@ Tokens: 25000
 ## Commands
 
 - `ruby .csdlc/prepared/issues/523/validate-tail07.rb`
+- `ruby .csdlc/prepared/issues/523/validate-tail07.rb --negative`
 - `git diff --check`
 
 ## Failure Semantics

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-10] Release ceremony",
     "slug": "v0921-tail10-release-ceremony",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -21,12 +21,12 @@
         "Tail merge and ancestry census"
       ],
       "acceptance_criteria": [
-        "AC-1: Every prior tail issue has a reviewed-green merge ancestral to the candidate",
+        "AC-1: Every prior tail issue has a reviewed-green merge ancestral to the candidate and the current #525 report has zero unresolved release blockers",
         "AC-2: Release notes describe the exact candidate without unsupported claims",
-        "AC-3: Explicit operator authorization identifies the candidate, tag, and release operation",
+        "AC-3: Explicit operator authorization identifies the candidate, tag, and release operation after canonical ceremony tests and check-only preflight pass",
         "AC-4: Tag and published release resolve to the exact approved candidate",
-        "AC-5: Live readback and immutable receipt capture notes, tag, release URL or identifier, timestamps, and hashes",
-        "AC-6: No feature implementation, unreviewed merge, or unrelated cleanup occurs"
+        "AC-5: Live readback and immutable receipt capture notes, tag, release URL or identifier, timestamps, hashes, and preflight results",
+        "AC-6: No feature implementation, unreviewed merge, skipped preflight, or unrelated cleanup occurs"
       ],
       "dependencies": [
         "Reviewed merge for #525 / TAIL-09",

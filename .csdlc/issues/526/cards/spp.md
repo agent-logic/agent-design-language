@@ -16,14 +16,14 @@ Freeze and verify the candidate and ancestral tail census, finalize truthful not
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Freeze the candidate and verify every prior tail reviewed merge is ancestral.",
+    "action": "Verify the current #525 report has zero unresolved release blockers, freeze the candidate, and verify every prior tail reviewed merge is ancestral.",
     "acceptance_ids": [
       "AC-1"
     ],
@@ -31,7 +31,7 @@ Revision 3
   },
   {
     "id": "S2",
-    "action": "Finalize release notes and obtain explicit operator authorization naming the exact candidate, tag, and release operation.",
+    "action": "Finalize release notes; run canonical ceremony tests and check-only preflight; obtain explicit operator authorization naming the exact candidate, tag, and release operation.",
     "acceptance_ids": [
       "AC-2",
       "AC-3"
@@ -40,7 +40,7 @@ Revision 3
   },
   {
     "id": "S3",
-    "action": "Perform the authorized typed release operation and retain exact live readback receipt.",
+    "action": "Perform only the authorized canonical release operation and retain exact live tag and release readback.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
@@ -76,7 +76,7 @@ Revision 3
 
 .csdlc/prepared/issues/526/design.md
 
-Digest: 1ccc9b1dc06e67360fa0d89e2f50a2f21e8b0ba0f89cffe8cdda9bc8c73ab51e
+Digest: 6db0127b21eadfc56557ac23646e5dd9b0ae307aabb8be0f2ccdded87c83afef
 
 ## Diagram
 

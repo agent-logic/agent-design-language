@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/524/diagram.mmd
 [
   {
     "lane": "tail08-denominator",
-    "proof_role": "Prove denominator parity, tail order, operator gates, and asynchronous bookkeeping.",
+    "proof_role": "Prove denominator parity, exact tail order, merge gates, operator gates, and asynchronous bookkeeping.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -42,7 +42,29 @@ Diagram: .csdlc/prepared/issues/524/diagram.mmd
       ".csdlc/prepared/issues/524/validate-tail08.rb"
     ],
     "parallel_group": "docs",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
+    "defer_reason": "Runs during execution against the merged #523 package."
+  },
+  {
+    "lane": "tail08-negative",
+    "proof_role": "Reject reordered, omitted, auto-authorized, or closeout-gated plans.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/524/validate-tail08.rb",
+      "--negative"
+    ],
+    "parallel_group": "docs",
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
@@ -77,6 +99,7 @@ Tokens: 10000
 ## Commands
 
 - `ruby .csdlc/prepared/issues/524/validate-tail08.rb`
+- `ruby .csdlc/prepared/issues/524/validate-tail08.rb --negative`
 - `git diff --check`
 
 ## Failure Semantics

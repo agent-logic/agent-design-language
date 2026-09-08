@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-09] Next milestone review pass",
     "slug": "v0921-tail09-next-milestone-review-pass",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
         "AC-2: The denominator covers all canonical v0.92.2 planning and feature-routing surfaces",
         "AC-3: Review checks scope, dependencies, one-result units, deferrals, closeout order, operator gates, and non-claims",
         "AC-4: Every finding has severity, evidence, owner, and disposition",
-        "AC-5: Any post-review planning change invalidates the result",
+        "AC-5: Any post-review planning change invalidates the result; actionable findings route to #523 or #524 and require a fresh #525 review before #526",
         "AC-6: The final report distinguishes validator results from semantic review judgment"
       ],
       "dependencies": [

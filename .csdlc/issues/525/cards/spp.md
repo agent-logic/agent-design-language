@@ -16,7 +16,7 @@ Freeze the merged planning head, construct the complete denominator, run indepen
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -42,7 +42,7 @@ Revision 3
   },
   {
     "id": "S3",
-    "action": "Retain the findings-first report and invalidate it if the planning revision changes.",
+    "action": "Retain the findings-first report; route actionable findings to #523 or #524 and require repair plus fresh #525 review before #526.",
     "acceptance_ids": [
       "AC-5"
     ],
@@ -75,7 +75,7 @@ Revision 3
 
 .csdlc/prepared/issues/525/design.md
 
-Digest: c24818998d022d51470fdbefeb0cd322e4ce17b05f7c73445caba3fbc75e1af4
+Digest: 661be78a1e440440ea1d55e9728be1db197b2eaa610f724c433ec40dd8f68218
 
 ## Diagram
 

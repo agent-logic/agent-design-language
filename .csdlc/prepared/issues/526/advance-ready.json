@@ -1,0 +1,1 @@
+{"issue":526,"card":"spp","expected_generation":10,"expected_digest":"7416eb751ac928d3878ce8d9d294231c5a574dd6dfa5d76bb01775637e164407","actor":"codex:/root/review_sprint10_523_526_prep","reason":"Advance the independently reviewed zero-blocker operator-gated ceremony contract to ready without binding.","operation":{"operation":"advance_phase","phase":"ready"}}

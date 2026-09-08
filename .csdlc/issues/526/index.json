@@ -3,9 +3,9 @@
   "issue": 526,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6fecc08defa631be2edcba426b8534877938212c6bf1cfd4d79d4623677de1f6",
-  "phase": "initialized",
-  "generation": 6,
-  "digest": "082fe31b960766b0615f1d027e2f7284f3ade5be5875b38f1de5c30026026e2d",
+  "phase": "ready",
+  "generation": 11,
+  "digest": "39e5b19e667e2b95af2e11dd9e4a5182b799306e09b5cbd01042acdd2f9e4992",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,40 +16,53 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/526/design.md",
   "diagram_path": ".csdlc/prepared/issues/526/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a07f27-d9c5-7850-88b7-c58b54bb4f6f",
+      "revision": "6db0127b21eadfc56557ac23646e5dd9b0ae307aabb8be0f2ccdded87c83afef"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "cabf6fa55db2d92e2598bd399c104fd972261c3a9cfc007d82890d1192e2cd25",
+      "values_digest": "0233dd91e58147ed04009c01c3ea763e24bccab068049f9302853898372d8c5e",
       "rendered_digest": "067b6bdb7b405573cccb9d333a82f74032a09fc771b8a5d17f0bc7c1a3389cb0",
       "ast_digest": "3080ce7bb9bd284c66098cfa6e209418c8c48da8c4af45ae5ee7e6b9abe988b9"
     },
     "stp": {
-      "values_digest": "56829f486b8f196a7a2cd4cc8109d3458f6216696255c17409a60b05b26c81d1",
-      "rendered_digest": "96c703710044d7a665500154fbb8a11fea4534573860193da755c20b873e83c5",
-      "ast_digest": "db034b1714074adcc9679bc290f27969a27dfd4670c0ca25a841e41cb31a0341"
+      "values_digest": "d2d4a38da5fa9377baf250c842f07c164fd819c2480d97b1bc1e2b1f78f46408",
+      "rendered_digest": "47a38223408131f215ac93242992dee675fdab3b14ab1d8ab402fc7fcde775e7",
+      "ast_digest": "9c68b8754ddb3876966d1ae3d4a4cc1cf03ca9763db519bef79b12cbde81ceb5"
     },
     "spp": {
-      "values_digest": "c77841f34c4a62a033cf7f09d943295f8386b81b7a920c9b72362c667f41bc8e",
-      "rendered_digest": "68ea3665119eb8d3496c8a3b4126a5a9f4e602bc6c06a3047645f2f39f2d09cb",
-      "ast_digest": "b846952015e80f82681625c4a6adbafd2dd94d599c35fdedbf736d1011fe9906"
+      "values_digest": "a89fc77dc9c6cf23aecbb37b9ee7aa5cdb4b53fce9f1cd8e90926864f04d1736",
+      "rendered_digest": "abc6ef7ef49af8cb1a7b96e0079faa56400aca41d0b3751685385ebbefd148d4",
+      "ast_digest": "8ffddc2e95e547eadc585226732558cef10aedba07d3081589c437a73c066a36"
     },
     "vpp": {
-      "values_digest": "57f71673abb245cf0322ec3cc2195d0785dca721f98b92cc51bd4f9c12cb13b9",
-      "rendered_digest": "cef19ca35cfd337372fe1565df84f54e61f4e33b4ae8069e3c5dcd9a94a7fa6b",
-      "ast_digest": "f33c1ddd68752bc153d2358366fc5d94675c7ace1f14347005ec7be15aa4256b"
+      "values_digest": "7f2b3782fdc2e6ff2a4939ed235efcf77e2fdaece6a9fb1638b103f4712ba8b3",
+      "rendered_digest": "f491f5db78cf53c8b7caa489e736649800771bd1ae9cc4b25c79879a5bcfa299",
+      "ast_digest": "3a190815b740eaed0a1ca7dfb8a550cf2d91423af234159068a0fea4ff5fa4b9"
     },
     "srp": {
-      "values_digest": "b2eb29655b5a087c09fb9960b85e9545ece0f21b5e1ac9cb361fe2ad2a2c4945",
+      "values_digest": "cdc15fead7f31216efc3e83c1f6b158f958ee40145c213c6dc32fd511fcf1cc9",
       "rendered_digest": "dbf4233bdb2e1232892a3670ab2d260cef4e44646b1567caa04578d61c353ef7",
       "ast_digest": "2e0c6f70e409ca8dffc150476ca991d4bcb0e6e41aa2fc4f534cddc0f84cfe3e"
     },
     "sor": {
-      "values_digest": "824030642a6db6ee35306616eb2a44a7a830fadcf6aac54e7915f4becedb6d97",
+      "values_digest": "bf39b310aba8595e1fd00953d4ec6a3eb5d95877c6ff438fc95662fafb60caff",
       "rendered_digest": "7b572c864bae19e20fff07c76954f3cc5a627a53977a62ce46089331109cfcf7",
       "ast_digest": "d493f159a8a3c562b777aa8e98143eac208f4d831b2e3d5d88ef4c73eec0066b"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Advance the independently reviewed zero-blocker operator-gated ceremony contract to ready without binding."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -99,6 +112,41 @@
       "actor": "codex:sprint10-prep-526",
       "reason": "Declare exact issue-owned ceremony outputs and validator path.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md\",\"docs/milestones/v0.92.1/evidence/release/tail-10\",\".csdlc/prepared/issues/526/validate-tail10.rb\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Add zero-blocker and canonical ceremony-preflight acceptance gates.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/526/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/526/diagram.mmd\",\"new_design_digest\":\"6db0127b21eadfc56557ac23646e5dd9b0ae307aabb8be0f2ccdded87c83afef\",\"new_diagram_digest\":\"44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe\",\"old_design_digest\":\"1ccc9b1dc06e67360fa0d89e2f50a2f21e8b0ba0f89cffe8cdda9bc8c73ab51e\",\"old_diagram_digest\":\"44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Every prior tail issue has a reviewed-green merge ancestral to the candidate and the current #525 report has zero unresolved release blockers\",\"AC-2: Release notes describe the exact candidate without unsupported claims\",\"AC-3: Explicit operator authorization identifies the candidate, tag, and release operation after canonical ceremony tests and check-only preflight pass\",\"AC-4: Tag and published release resolve to the exact approved candidate\",\"AC-5: Live readback and immutable receipt capture notes, tag, release URL or identifier, timestamps, hashes, and preflight results\",\"AC-6: No feature implementation, unreviewed merge, skipped preflight, or unrelated cleanup occurs\"]}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Add canonical ceremony preflight and zero-blocker gates to the plan.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/526/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/526/diagram.mmd\",\"new_design_digest\":\"6db0127b21eadfc56557ac23646e5dd9b0ae307aabb8be0f2ccdded87c83afef\",\"new_diagram_digest\":\"44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe\",\"old_design_digest\":\"6db0127b21eadfc56557ac23646e5dd9b0ae307aabb8be0f2ccdded87c83afef\",\"old_diagram_digest\":\"44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Verify the current #525 report has zero unresolved release blockers, freeze the candidate, and verify every prior tail reviewed merge is ancestral.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Finalize release notes; run canonical ceremony tests and check-only preflight; obtain explicit operator authorization naming the exact candidate, tag, and release operation.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Perform only the authorized canonical release operation and retain exact live tag and release readback.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Replace presence-only ceremony validation with semantic receipt and negative proof; require canonical check-only preflight before mutation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail10-ceremony-denominator\",\"proof_role\":\"Prove ancestry, zero review blockers, canonical check-only preflight, authorization, exact tag and release identity, notes digest, and retained readback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/526/validate-tail10.rb\"],\"parallel_group\":\"ceremony\",\"defer_reason\":\"Runs after the explicitly authorized ceremony.\"},{\"lane\":\"tail10-negative\",\"proof_role\":\"Reject missing authorization, target drift, notes drift, skipped canonical preflight, and incomplete ancestry.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/526/validate-tail10.rb\",\"--negative\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":null},{\"lane\":\"notes-diff-hygiene\",\"proof_role\":\"Reject malformed release-note changes and unrelated residue.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "fresh-session:01a07f27-d9c5-7850-88b7-c58b54bb4f6f",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"6db0127b21eadfc56557ac23646e5dd9b0ae307aabb8be0f2ccdded87c83afef\",\"design_ref\":\".csdlc/prepared/issues/526/design.md\",\"diagram_digest\":\"44ab7e99cebcdbdeaacd2b7dda26885775d5b035f6065c84491f7c1b84d80cfe\",\"diagram_ref\":\".csdlc/prepared/issues/526/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Advance the independently reviewed zero-blocker operator-gated ceremony contract to ready without binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

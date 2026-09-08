@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-09] Next milestone review pass",
     "slug": "v0921-tail09-next-milestone-review-pass",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 11
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Freeze the merged planning head, construct the complete denominator, run independent findings-first review and focused validators, and retain one exact-revision report.",
       "steps": [
         {
@@ -37,7 +37,7 @@
         },
         {
           "id": "S3",
-          "action": "Retain the findings-first report and invalidate it if the planning revision changes.",
+          "action": "Retain the findings-first report; route actionable findings to #523 or #524 and require repair plus fresh #525 review before #526.",
           "acceptance_ids": [
             "AC-5"
           ],
@@ -72,7 +72,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/525/design.md",
-      "design_digest": "c24818998d022d51470fdbefeb0cd322e4ce17b05f7c73445caba3fbc75e1af4",
+      "design_digest": "661be78a1e440440ea1d55e9728be1db197b2eaa610f724c433ec40dd8f68218",
       "diagram_ref": ".csdlc/prepared/issues/525/diagram.mmd",
       "diagram_digest": "89d5d63669b4265d8f17bd1d236d85ea066814ebbc5c6a22a65abe7c92fff6f1"
     }

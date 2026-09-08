@@ -1,0 +1,1 @@
+{"issue":525,"card":"spp","expected_generation":10,"expected_digest":"0da24cec6c4262220ad165e3ba7395c1671ad152b881c1ab06afd8a5958d3fd7","actor":"codex:/root/review_sprint10_523_526_prep","reason":"Advance the independently reviewed planning-review contract to ready without binding.","operation":{"operation":"advance_phase","phase":"ready"}}

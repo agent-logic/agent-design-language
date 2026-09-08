@@ -20,9 +20,14 @@ unsupported claims. Validator output is supporting evidence, not approval.
 2. Run independent semantic and focused mechanical review.
 3. Record every finding with severity, evidence, owner, and disposition.
 4. Publish one immutable review report; any planning change requires re-review.
+5. If actionable findings exist, route them back to #523 or #524, merge the
+   bounded repair, and repeat #525 against the new exact revision. #526 cannot
+   start until a #525 report records zero unresolved release-blocking findings.
 
 ## Guardrails
 
 - Reviewer does not edit reviewed planning.
 - No v0.92.2 issue creation or current release approval.
 - Stop if the revision changes or #524 is not merged and reviewed.
+- A changes-required report is a valid #525 result, but it is not release
+  authority and must route through repair and fresh review before #526.

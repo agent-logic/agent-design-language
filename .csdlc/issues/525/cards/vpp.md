@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/525/diagram.mmd
 [
   {
     "lane": "tail09-review-denominator",
-    "proof_role": "Prove the retained exact-revision review artifact and complete review denominator.",
+    "proof_role": "Prove exact revision, complete path denominator, semantic checks, finding schema, dispositions, and blocker count.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -42,7 +42,28 @@ Diagram: .csdlc/prepared/issues/525/diagram.mmd
       ".csdlc/prepared/issues/525/validate-tail09.rb"
     ],
     "parallel_group": "review",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
+    "defer_reason": "Runs after the reviewed #524 merge."
+  },
+  {
+    "lane": "tail09-negative",
+    "proof_role": "Reject stale revisions, incomplete denominators, non-independent review, empty validator evidence, and blocker-count lies.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-4",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/525/validate-tail09.rb",
+      "--negative"
+    ],
+    "parallel_group": "review",
+    "defer_reason": null
   },
   {
     "lane": "exact-revision-diff-hygiene",
@@ -77,6 +98,7 @@ Tokens: 25000
 ## Commands
 
 - `ruby .csdlc/prepared/issues/525/validate-tail09.rb`
+- `ruby .csdlc/prepared/issues/525/validate-tail09.rb --negative`
 - `git diff --check`
 
 ## Failure Semantics

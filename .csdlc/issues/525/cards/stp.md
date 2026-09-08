@@ -26,7 +26,7 @@ Review and report on exactly one immutable successor planning revision; make no 
 2. AC-2: The denominator covers all canonical v0.92.2 planning and feature-routing surfaces
 3. AC-3: Review checks scope, dependencies, one-result units, deferrals, closeout order, operator gates, and non-claims
 4. AC-4: Every finding has severity, evidence, owner, and disposition
-5. AC-5: Any post-review planning change invalidates the result
+5. AC-5: Any post-review planning change invalidates the result; actionable findings route to #523 or #524 and require a fresh #525 review before #526
 6. AC-6: The final report distinguishes validator results from semantic review judgment
 
 ## Dependencies

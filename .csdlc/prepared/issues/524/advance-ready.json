@@ -1,0 +1,1 @@
+{"issue":524,"card":"spp","expected_generation":8,"expected_digest":"d68bd53821cbb101d8ddf5ce0a92e162d7dbfcbce98e5254c4f53f0f9f702aab","actor":"codex:/root/review_sprint10_523_526_prep","reason":"Advance the independently reviewed, semantic-validator-backed preparation to ready without binding.","operation":{"operation":"advance_phase","phase":"ready"}}
