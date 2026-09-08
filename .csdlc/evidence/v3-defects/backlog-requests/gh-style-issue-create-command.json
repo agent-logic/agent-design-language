@@ -1,0 +1,22 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v3-defect-gh-style-issue-create-command-20260908",
+  "issue": null,
+  "pull_request": null,
+  "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
+  "body": "## Summary\n\nC-SDLC v3 should make issue creation easy and should follow the GitHub CLI model. The current operational path is still request-file first: `csdlc github-issue --request <path> --execute`. That is typed and auditable, but it is not an easy operator-facing issue creation workflow.\n\n## Evidence\n\nCurrent help shape:\n\n```sh\ncsdlc github-issue --request <path> [--observe-github] [--execute]\n```\n\nThe request envelope is an operational dispatch JSON with nested `operation.kind = github_mutation` and `mutation.action = issue_create`. That preserves authority and receipt invariants, but operators still need to hand-author a nested payload for a common action that should feel like `gh issue create`.\n\n## Acceptance criteria\n\n- Provide a simple v3 operator command for GitHub issue creation with a GitHub-like surface, such as title/body/body-file/label/assignee/milestone flags.\n- The simple command still produces the same typed dispatch request, durable intent, authenticated readback, operation marker, and mutation receipt as the lower-level request-file route.\n- The command fails closed before v3 operational authority is active.\n- Documentation shows the simple command first and keeps the raw request-file form as an advanced/audit form.\n- Tests cover required title/body validation, optional labels/assignees/milestone, marker injection, assigned issue-number receipt, and idempotent reconciliation.\n\n## Non-goals\n\n- Do not introduce raw `gh issue create` as a lifecycle route.\n- Do not bypass typed request/receipt generation or credential-child injection.\n- Do not require v2 fallback for ordinary v3 issue creation after cutover.",
+  "labels": [
+    "track:backlog",
+    "type:feature",
+    "area:tools",
+    "version:v0.92.1"
+  ],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

@@ -93,6 +93,133 @@ cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- soak --hel
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- sprint --repo-root . --request <request.json>
 ```
 
+## Preparing local issue state with v3
+
+The v3 `issue` route initializes or updates local lifecycle state for an
+already-numbered issue. It does not create a GitHub issue.
+
+The local route needs two small JSON files:
+
+1. `request.json` describes the numbered issue and requested local commands.
+2. `registrations.json` lists the allowed worktree registration for that branch.
+
+Example local `request.json`:
+
+```json
+{
+  "issue": 503,
+  "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/503-v3-d-local-preparation-workflow-exec",
+  "worktree": "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
+  "registry_version": "1.0.3",
+  "expected_lifecycle_digest": null,
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ]
+}
+```
+
+Example `registrations.json`:
+
+```json
+[
+  {
+    "branch": "codex/503-v3-d-local-preparation-workflow-exec",
+    "worktree": "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
+    "primary": false
+  }
+]
+```
+
+Run the local route from the repository root:
+
+```sh
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- \
+  issue \
+  --request request.json \
+  --registry docs/templates/prompts/current.json \
+  --registrations registrations.json \
+  --repo-root .
+```
+
+To write and re-read local v3 lifecycle state for a canary, use an ignored
+state root and keep the same request digest on later writes:
+
+```sh
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- \
+  issue \
+  --request request.json \
+  --registry docs/templates/prompts/current.json \
+  --registrations registrations.json \
+  --repo-root . \
+  --v3-state-root .git/csdlc-v3/local-state
+```
+
+If v3 reports stale existing lifecycle state, do not delete or bypass the
+guard. Read the reported digest, put it in `expected_lifecycle_digest`, and run
+the command again only if that existing state is the state you meant to update.
+
+## Creating a GitHub issue with v3
+
+Use the `github-issue --execute` route for real GitHub issue creation after v3
+operational authority is active. The mutation follows the GitHub issue-create
+model: title and body are required; labels, assignees, and milestone are
+optional. GitHub assigns the issue number, and v3 records that assigned number
+in its authenticated mutation receipt.
+
+Example operational request:
+
+```json
+{
+  "expected_lifecycle_digest": "<current-selector-digest>",
+  "exact_review_sha": "<approved-v3-cutover-review-sha>",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "cutover_issue": 505,
+      "operator_approval": "operator approved creating this issue with v3",
+      "expected_head_sha": "<approved-v3-cutover-review-sha>",
+      "credential_names": ["GITHUB_TOKEN"],
+      "mutation": {
+        "action": "issue_create",
+        "title": "[v0.92.1] Short issue title",
+        "body": "Issue body written in the same style you would pass to gh issue create --body.",
+        "labels": ["v0.92.1"],
+        "assignees": [],
+        "milestone": null
+      }
+    }
+  }
+}
+```
+
+Execute it from the repository root:
+
+```sh
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- \
+  github-issue \
+  --request create-issue.json \
+  --execute
+```
+
+The route writes a durable intent before the external mutation, posts to
+`repos/<owner>/<repo>/issues`, validates GitHub's create response, re-reads the
+created issue by the v3 operation marker, and then writes an authenticated
+receipt under the Git control directory. If the mutation result is uncertain,
+the durable intent prevents blind replay until authenticated reconciliation
+succeeds.
+
+Before cutover, the same command fails closed instead of mutating GitHub.
+
 After the canonical evidence-bound v2 selector activates v3 authority for the
 exact reviewed #505 head, named local routes automatically enter native
 operational mode from `--repo-root`, the canonical selector, retained cutover

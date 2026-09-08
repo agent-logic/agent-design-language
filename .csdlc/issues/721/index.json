@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 721,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "08ed977bcc6b22bc229dda95e416b88f6ffe809dfbab4c705fb8a1f1f7ec9c65",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "d3e6f2add63d7845275e141338d2b478bb5e3cd470757c2efdad5a239bc7b1b4",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/design.md",
+  "diagram_path": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4f5a2bb3-0299-4c95-ad72-4bc01e1af96f",
+      "revision": "77319b8ff88b927b9d0b4e8c5419bdf3e1d745b5295a444f56a62747ff9f0773"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b234f2439a8092e08350b3a8fbbdeb0990af46979e6d25d56cfb17a6713fe551",
+      "rendered_digest": "dc2d3ef2e02bc3d822328903d2f2fb3b7b4ef0f7e09f383cfb1bf0aa95d40f08",
+      "ast_digest": "d88bd7f562c8a193cdedad6b0cba2cb896b5ecc2db85d9fa0568071bfcb40772"
+    },
+    "stp": {
+      "values_digest": "53af55474360181cc4957f1e88edefdd04da777be701815295e201302d3d3022",
+      "rendered_digest": "7c254fc2248ce63b59f81e8087e7892aa476ecb791a52169b1fa2e6109862ee7",
+      "ast_digest": "4dcaaddbd880bb3931eea6879daf31f086b9a265abd97c0ef431c969f173b90f"
+    },
+    "spp": {
+      "values_digest": "463b8649441193868d16f3f5a2f88b848e030ae85577fbc7e9263cba06e07d35",
+      "rendered_digest": "a26b115b73e2ab98c41cebcd2e0439673a5d9f7eaa4831d555163a0e638db945",
+      "ast_digest": "9b3c4eb99beb0da8825ec7dd9e6578735757b368ce029e27090437a734b7f65f"
+    },
+    "vpp": {
+      "values_digest": "4886fdec3946fd37b7a926df38742c57754070a3d90f56b7ab51fa791d56f64b",
+      "rendered_digest": "17c2a54acaefbd6803a72887dcd2262a420ed7a9f2e218db40f6b1f7e388bd8c",
+      "ast_digest": "fbc627d0656fd6b24ea9a449b8c0cfdb0ce32e49d1d7d00402982c78a397509f"
+    },
+    "srp": {
+      "values_digest": "acbffb848508f8b8b7cbece7ba1bf6451a8356a7b83f74006e9d7e2696dd7e0c",
+      "rendered_digest": "52a0bd71df41e48a44f212aa45967e00cdf0ae00e367d63d87b2810a839d1eaf",
+      "ast_digest": "54800763e7f9e2967989435eb9ab39da2357efb4230b1e10f3af1865536ad0cb"
+    },
+    "sor": {
+      "values_digest": "f9630ef6a061d6b6761b87583fe2bc101c740120e900313d244f0118b5f85195",
+      "rendered_digest": "d32facadeb2d09c23cc28e70925e56d4d0bfe39bf8ccc4745441e3ad1f743a60",
+      "ast_digest": "7fe8fcbc8d96edfc369bab6063a4beb9de8c2d8d67988f95725d4fa827f25240"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "Worker #7",
+      "reason": "advance #721 to ready after doctor passed with issue-specific validation denominator"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "Worker #7",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:4f5a2bb3-0299-4c95-ad72-4bc01e1af96f",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"77319b8ff88b927b9d0b4e8c5419bdf3e1d745b5295a444f56a62747ff9f0773\",\"design_ref\":\"docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/design.md\",\"diagram_digest\":\"0e45c5281eeeb455b4047224ddf3899f7ccfc321dc7fd20d34f7fd2cb6eddd5f\",\"diagram_ref\":\"docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "Worker #7",
+      "reason": "repair design readiness by replacing prose affected areas with safe repository-owned paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/Cargo.toml\",\"csdlc-v3/README.md\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "Worker #7",
+      "reason": "advance #721 to ready after doctor passed with issue-specific validation denominator",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

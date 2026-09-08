@@ -937,6 +937,66 @@ fn mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles() {
 }
 
 #[test]
+fn issue_create_mutation_posts_and_reconciles_assigned_issue_number() {
+    let root = mutation_repo("issue-create", REVISION, true);
+    let mut request = mutation_request(super::GithubMutation::IssueCreate {
+        title: "New v3 issue".into(),
+        body: "Create this through v3.".into(),
+        labels: vec!["v3".into()],
+        assignees: vec![],
+        milestone: None,
+    });
+    request.issue = 0;
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 12345,
+                "number": 777,
+                "title": "New v3 issue",
+                "body": format!("Create this through v3.\n\n{marker}"),
+                "labels": [{"name": "v3"}],
+                "assignees": [],
+                "milestone": null
+            }),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "items": [{
+                    "id": 12345,
+                    "number": 777,
+                    "title": "New v3 issue",
+                    "body": format!("Create this through v3.\n\n{marker}"),
+                    "labels": [{"name": "v3"}],
+                    "assignees": [],
+                    "milestone": null
+                }]
+            }),
+        ),
+    ])
+    .requiring_intent(intent_path);
+
+    let result = super::execute_github_mutation(&root, &request, &mut process)
+        .expect("issue creation reconciles assigned issue number");
+    assert_eq!(result.receipt.issue, 777);
+    assert_eq!(result.reconciliation.issue, 777);
+    assert_eq!(result.reconciliation.remote_object_id, Some(12345));
+    assert_eq!(process.invocations.len(), 2);
+    assert_eq!(process.invocations[0].argv()[0], "POST");
+    assert_eq!(
+        process.invocations[0].argv()[1],
+        "repos/agent-logic/agent-design-language/issues"
+    );
+    assert_eq!(process.invocations[1].argv()[0], "issues-by-marker");
+    assert_eq!(process.invocations[1].argv()[2], operation_digest);
+}
+
+#[test]
 fn restart_reconciles_pr_create_without_replaying_mutation() {
     let root = mutation_repo("pr-create", REVISION, true);
     let request = mutation_request(super::GithubMutation::PullRequestCreate {
@@ -1012,7 +1072,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "body": format!("updated body\n\n{issue_marker}")
             })
         ),
-        Ok((None, None))
+        Ok((505, None, Some(505)))
     );
 
     let mut update = mutation_request(super::GithubMutation::PullRequestUpdate {
@@ -1034,7 +1094,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": true
             })
         ),
-        Ok((Some(591), Some(591)))
+        Ok((591, Some(591), Some(591)))
     );
 
     update.mutation = super::GithubMutation::PullRequestReady;
@@ -1050,7 +1110,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": false
             })
         ),
-        Ok((Some(591), Some(591)))
+        Ok((591, Some(591), Some(591)))
     );
 }
 

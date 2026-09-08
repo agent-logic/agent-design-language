@@ -437,7 +437,7 @@ fn discover_binary_checkout_repo_root() -> Option<PathBuf> {
 
 fn remote_usage(command: &str) -> String {
     format!(
-        "usage: csdlc {command} --request <path> [--observe-github]\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+        "usage: csdlc {command} --request <path> [--observe-github] [--execute]\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
     )
 }
 

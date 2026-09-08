@@ -1,0 +1,120 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 721,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
+    "slug": "csdlc-v3-issue-create-parity",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-v3-remote",
+          "proof_role": "issue-create mutation parity",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--lib",
+            "commands::remote::tests"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "focused-v3-terminal",
+          "proof_role": "terminal authority reporting",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 90,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "terminal_cleanup_cutover_commands"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "format-clippy",
+          "proof_role": "Rust formatting and lint safety",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 180,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "docs-and-backlog",
+          "proof_role": "operator documentation and adjacent-defect issue recording",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale authority, stale review SHA, duplicate/uncertain issue-create reconciliation, or failed focused validation.",
+      "design_ref": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/design.md",
+      "design_digest": "77319b8ff88b927b9d0b4e8c5419bdf3e1d745b5295a444f56a62747ff9f0773",
+      "diagram_ref": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/diagram.mmd",
+      "diagram_digest": "0e45c5281eeeb455b4047224ddf3899f7ccfc321dc7fd20d34f7fd2cb6eddd5f"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 721,
+  "base_branch": "main",
+  "branch": "codex/721-csdlc-v3-issue-create-parity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-721-csdlc-v3-issue-create-parity",
+  "actor": "Worker #7",
+  "adopt_existing": true,
+  "expected_digest": "d3e6f2add63d7845275e141338d2b478bb5e3cd470757c2efdad5a239bc7b1b4",
+  "expected_generation": 3,
+  "expected_head": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+  "expected_repository": "agent-logic/agent-design-language"
+}
