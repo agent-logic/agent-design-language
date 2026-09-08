@@ -13,3 +13,5 @@
 {"sequence":13,"generation":7,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":14,"generation":8,"actor":"codex:issue-512-observatory-redesign","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":15,"generation":9,"actor":"codex:issue-512-observatory-redesign","reason":"Remediate the exact-head proof finding with an executable advancing-clock test and a fresh exact-revision review.","operation":"recover_review"}
+{"sequence":16,"generation":9,"actor":"codex:issue-512-observatory-redesign","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":17,"generation":10,"actor":"codex:issue-512-observatory-redesign","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
