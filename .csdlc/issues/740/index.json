@@ -1,0 +1,271 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 740,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4f5fcd0bf43ae16b06462df2b45a51b5d3351a55619b4480baa68da806bc4b54",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "7ee5a3c56b299f1c0ef9abcfede73720f5019cd8d5c3402e1908494fac265488",
+  "branch": "codex/740-gcp-b1-corrective",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-740-gcp-b1-corrective",
+  "review_assignment": {
+    "reviewer": "fresh-session:199ec4dd-dc1e-4825-bb03-2a2480805e54",
+    "assigned_by": "codex:/root:issue-740-execution",
+    "revision": "git-blake3:70022de14d84e4937c8df044700ead432034dc68:db5b89d1d43d04f0fd7cfc5536359c5eb0dfc9f01a6dd43ccf6b6cda51cb5ca5",
+    "scope": [
+      "Exact committed HEAD 70022de14d84e4937c8df044700ead432034dc68",
+      "Post-merge #730/#738 GCP-B1 corrective script and evidence",
+      "Credential-retention prevention",
+      "Authorization binding",
+      "Legacy key disposition",
+      "Terraform GCS backend canary proof",
+      "No #446 scope"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:199ec4dd-dc1e-4825-bb03-2a2480805e54",
+    "scope": [
+      "Exact committed HEAD 70022de14d84e4937c8df044700ead432034dc68",
+      "Post-merge #730/#738 GCP-B1 corrective script and evidence",
+      "Credential-retention prevention",
+      "Authorization binding",
+      "Legacy key disposition",
+      "Terraform GCS backend canary proof",
+      "No #446 scope"
+    ],
+    "reviewed_revision": "git-blake3:70022de14d84e4937c8df044700ead432034dc68:db5b89d1d43d04f0fd7cfc5536359c5eb0dfc9f01a6dd43ccf6b6cda51cb5ca5",
+    "findings": [],
+    "residual_risks": [
+      "The live proof itself was run against committed candidate f08c22d124ecf3bf7689de3a3e53c82ae41f3f37, then evidence/lifecycle-only records were amended into exact reviewed head 70022de14d84e4937c8df044700ead432034dc68. The reviewer inspected the diff and accepted this as non-semantic tail because the proof script and Terraform canary config digests match the retained live proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "Evidence/lifecycle-only tail after live proof; no change to proof script or Terraform backend canary config between the live-proof commit and reviewed head.",
+      "from_revision": "f08c22d124ecf3bf7689de3a3e53c82ae41f3f37",
+      "to_revision": "70022de14d84e4937c8df044700ead432034dc68",
+      "from_commit": "f08c22d124ecf3bf7689de3a3e53c82ae41f3f37",
+      "to_commit": "70022de14d84e4937c8df044700ead432034dc68",
+      "changed_paths": [
+        ".csdlc/evidence/740/backend-canary-state.redacted.json",
+        ".csdlc/evidence/740/live-proof.redacted.json",
+        ".csdlc/issues/740/**"
+      ]
+    }
+  },
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/740/design.md",
+  "diagram_path": ".csdlc/prepared/issues/740/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:a7a35fe6-3735-4aa4-8919-ddc101ae4636",
+      "revision": "d00bc8370459eb65fe3926900e715c56df7bb5088ca2662f2507a7f1f5095027"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "dba7009058a1a9d2da1ba43903c0dbdeffe3276c64828a84477ae037798a8baf",
+      "rendered_digest": "3fec692672af4a47f14a81828af3cd5fc444f5867f6b23c22a13e2d805d29fdc",
+      "ast_digest": "75958b8c63e9a2e84df685bad94ee6181c0ac878613f9d3255d867293b4fde2b"
+    },
+    "stp": {
+      "values_digest": "9bc4739dbcf83e2fbe7155e7b3840e78196517544095726938deeb3439146172",
+      "rendered_digest": "e03e9650ed36ec746abe1e10f5c7467d5f647314f4e9011c16f7021c520cfb39",
+      "ast_digest": "8cacba3a07c48b7712746fd9553dcd91d1e0ce920614af58202aa4f63911b7fd"
+    },
+    "spp": {
+      "values_digest": "7fc3d02885866af1bf6ce79bb2ed3984cff52173a0de426e98750eca74b07976",
+      "rendered_digest": "a26aabbb1bcc80e49b9bd3dafcec533d23296cb92e704c51e45567cb148f9f71",
+      "ast_digest": "45615f724dcdd3208e130ce0620db74c882ff99fdc5dd0aff9f215a1b6bc2d62"
+    },
+    "vpp": {
+      "values_digest": "eacd46487596fbe77f91c94925f7d1e641af8097622d8a30389ef2b9943871fc",
+      "rendered_digest": "f4f305f81d3484209f373310ea9f2b9859c2654f6f31f972694c9bcf2f227862",
+      "ast_digest": "6130cbfc6179ecd74c3f23f896168c27e75d685368e77d7b2f1143415cddb04a"
+    },
+    "srp": {
+      "values_digest": "9ae1759d6acdc784cd082cdce3bd07f919ed01aabe27bd89f4590a78a4c2ee12",
+      "rendered_digest": "b8d936deb267bdd18bcc4d2f4fa574070dd63a9b52619ce1d07bc888b52efafc",
+      "ast_digest": "bb195d9f47a0c61c80ab94ff9fa767152cf69462164c8865a09f3cef891d996d"
+    },
+    "sor": {
+      "values_digest": "91ec16e0917e4f4ef4ea4a49ba031e210c8a312c22aa400cc121e0b89c7c010e",
+      "rendered_digest": "b2d33bfa49d6980efc10af5f62478aff9aec7ed4225b87aea82cd3df3e7217fb",
+      "ast_digest": "2fd4b152a35af8c516885a6926eac2835fbdc636ee10675be67e5a4b4154a2fd"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root:issue-740-bootstrap",
+      "reason": "Advance #740 to ready after concrete design approval and doctor-pass issue-owned validation lanes."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Advance #740 to implemented after credential-safe script repair, retained redacted live proof, and local validation records."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "exact scoped review passed"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-740-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:a7a35fe6-3735-4aa4-8919-ddc101ae4636",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d00bc8370459eb65fe3926900e715c56df7bb5088ca2662f2507a7f1f5095027\",\"design_ref\":\".csdlc/prepared/issues/740/design.md\",\"diagram_digest\":\"a96391b12883a71c74bc78ece094ec081b9aedf166a9d18ca3c01e227b4486d8\",\"diagram_ref\":\".csdlc/prepared/issues/740/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root:issue-740-bootstrap",
+      "reason": "Tighten #740 owned paths so readiness can prove issue-owned validators without broad glob placeholders.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\",\".csdlc/prepared/issues/740/design.md\",\".csdlc/prepared/issues/740/diagram.mmd\",\".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh\",\".csdlc/prepared/issues/740/validate_typed_issue.sh\",\"infra/gcp/bootstrap/main.tf\",\"infra/gcp/bootstrap/variables.tf\",\"infra/gcp/bootstrap/outputs.tf\",\"docs/milestones/v0.92.1\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root:issue-740-bootstrap",
+      "reason": "Tighten #740 deliverables to exact issue-owned validator and proof targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh\",\".csdlc/prepared/issues/740/validate_typed_issue.sh\",\"Corrected issue-owned GCP-B1 proof tooling that avoids retained OAuth tokens.\",\"Redacted legacy service-account key disposition evidence.\",\"Redacted Terraform-backend canary live proof with generation and digest.\",\"Typed C-SDLC v2 cards and review/publication records for #740.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root:issue-740-bootstrap",
+      "reason": "Route #740 validation lanes through exact issue-owned executable targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-gcp-b1-corrective-contract\",\"proof_role\":\"Focused local validator for credential hygiene, authorization binding, Terraform-backend canary evidence shape, and post-merge truth separation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"live-gcp-b1-corrective-proof\",\"proof_role\":\"Bounded live GCP proof for legacy-key disposition, Terraform-backend canary write/recovery, and bucket posture readback.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":2400,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Live GCP proof runs after script repair and authenticated approval evidence are in place.\"},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/740/validate_typed_issue.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence and cards are current.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root:issue-740-bootstrap",
+      "reason": "Advance #740 to ready after concrete design approval and doctor-pass issue-owned validation lanes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Record #740 post-merge GCP-B1 corrective implementation and live proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced the unsafe #730 live proof entrypoint with a #740 corrective wrapper, removed retained backend access-token configuration, introduced issue/run-specific disposable gcloud and Terraform data paths, retained redacted legacy-key disposition evidence, and proved a Terraform GCS backend canary state write/recovery by immutable object generation. This is post-merge corrective proof for #730/#738, not retroactive pre-merge approval truth.\",\"changes\":[\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh now delegates to the #740 corrective proof script.\",\".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh uses an issue-specific gcloud config path and process-local GOOGLE_OAUTH_ACCESS_TOKEN only.\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh no longer expects token-embedded backend configuration.\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh performs credential-safe live proof, legacy key disposition, Terraform backend canary write/recovery, and bucket posture readback.\",\".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh proves local credential-retention and evidence-shape invariants.\",\"One legacy user-managed service-account key was revoked during the first live proof attempt; the final retained key inventory shows zero user-managed keys remaining.\"],\"artifacts\":[\".csdlc/evidence/740/live-proof.redacted.json\",\".csdlc/evidence/740/backend-canary-state.redacted.json\",\".csdlc/evidence/740/legacy-service-account-keys.redacted.json\",\".csdlc/evidence/740/legacy-key-revocation.redacted.json\",\".csdlc/evidence/740/gcp-b1-readback.redacted.json\",\".csdlc/evidence/740/gcp-b1-iam-policy.redacted.json\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Record #740 local corrective validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh\"],\"purpose\":\"Prove #740 credential-retention prevention, authorization-binding evidence shape, Terraform backend canary evidence shape, and post-merge truth separation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Passed in /Volumes/FastWork/adl-worktrees/adl-issue-740-gcp-b1-corrective; validator also scanned retained .csdlc/evidence/740 for credential material.\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Record #740 legacy #730 static validation compatibility.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh\",\"--lane=static\"],\"purpose\":\"Prove the historical #730 static validator now accepts the credential-safe wrapper and no longer expects token-embedded backend configuration.\",\"outcome\":\"passed\",\"evidence_ref\":\"Passed in the #740 bound worktree after patching #730 proof compatibility surfaces.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Record #740 live GCP corrective proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh\",\"--authorization\",\".git/csdlc-v2/authorizations/740.json\"],\"purpose\":\"Run bounded live GCP proof using short-lived impersonation, disposable run-specific gcloud config, legacy-key disposition, Terraform GCS backend canary write/recovery, and bucket posture readback.\",\"outcome\":\"passed\",\"evidence_ref\":\"Retained redacted evidence: .csdlc/evidence/740/live-proof.redacted.json; backend canary generation 1788864676812242; final key inventory contains zero USER_MANAGED keys; one legacy user-managed key revocation is recorded in .csdlc/evidence/740/legacy-key-revocation.redacted.json.\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Record #740 typed validation, hygiene, and diff checks.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/740/validate_typed_issue.sh\",\"&&\",\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Prove typed C-SDLC issue validation passes and diff hygiene is clean before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"Typed issue validation reported status pass at generation 5/phase bound before execution records; credential-hygiene grep and git diff --check origin/main...HEAD passed after live proof.\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Advance #740 to implemented after credential-safe script repair, retained redacted live proof, and local validation records.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Add the checked-in #740 Terraform backend canary config to owned affected paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\",\".csdlc/prepared/issues/740/design.md\",\".csdlc/prepared/issues/740/diagram.mmd\",\".csdlc/prepared/issues/740/backend-canary/main.tf\",\".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh\",\".csdlc/prepared/issues/740/validate_typed_issue.sh\",\"infra/gcp/bootstrap/main.tf\",\"infra/gcp/bootstrap/variables.tf\",\"infra/gcp/bootstrap/outputs.tf\",\"docs/milestones/v0.92.1\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Mark #740 implementation step 1 complete after credential-safe tooling repair.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Mark #740 implementation step 2 complete after strengthening authorization binding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Mark #740 implementation step 3 complete after live GCP proof and legacy-key disposition.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "Record #740 exact-head live proof after authorization was bound to committed candidate f08c22d124ecf3bf7689de3a3e53c82ae41f3f37 and source digests.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh\",\"--authorization\",\".git/csdlc-v2/authorizations/740.json\"],\"purpose\":\"Re-run the bounded live GCP proof after binding authorization to the committed candidate HEAD, proof script digest, and checked-in Terraform backend canary config digest.\",\"outcome\":\"passed\",\"evidence_ref\":\"Exact-head proof at f08c22d124ecf3bf7689de3a3e53c82ae41f3f37 retained in .csdlc/evidence/740/live-proof.redacted.json; Terraform backend canary generation 1788865232161971; proof_script_sha256 cde4b6665e12801793b51a8226a014fe8f1714602c5edad21287f7b3fa32a246; backend_canary_config_sha256 a52f5e95efd0d35decdeaaae1db17260db39f64e263b4658c279de83b937d20d.\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root:issue-740-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    }
+  ]
+}

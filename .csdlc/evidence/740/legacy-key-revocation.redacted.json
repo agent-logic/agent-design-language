@@ -1,0 +1,11 @@
+{
+  "schema": "adl.gcp_b1.legacy_key_revocation.v1",
+  "issue": 740,
+  "historical_issue": 730,
+  "project_id": "cs-host-377d41e71a824f92802120",
+  "bootstrap_service_account": "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+  "disposition": "revoked_user_managed_key",
+  "revoked_key_id": "d81f869dfb11f84e738bb59dba978ffe9b76b41c",
+  "revocation_observed_at": "2026-09-08T10:48:00Z",
+  "evidence_note": "The first #740 live proof attempt deleted this user-managed service-account key before a later Terraform backend canary verifier failure. The subsequent retained key inventory shows only SYSTEM_MANAGED keys."
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "adl.gcp_b1.corrective_live_proof.v1",
+  "issue": 740,
+  "historical_issue": 730,
+  "proof_class": "post_merge_corrective",
+  "project_id": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "bucket": "adl-tf-state-cs-host-377d41e71a824f92802120",
+  "bootstrap_service_account": "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+  "approved_actor": "daniel@agent-logic.ai",
+  "reviewed_pr_head": "305547e0519c3a92174bc33e20f11d948a99e016",
+  "merged_main_commit": "44aa83bd168f4bf037e1d159aac70b966827db2b",
+  "proof_script_sha256": "cde4b6665e12801793b51a8226a014fe8f1714602c5edad21287f7b3fa32a246",
+  "backend_canary_config_sha256": "a52f5e95efd0d35decdeaaae1db17260db39f64e263b4658c279de83b937d20d",
+  "public_members_absent": true,
+  "bucket_posture_reproved": true,
+  "legacy_key_disposition": {
+    "current_user_managed_keys": 0,
+    "revoked_user_managed_keys_this_run": 0
+  },
+  "terraform_backend_canary": {
+    "writer": "terraform-gcs-backend",
+    "generation": "1788865232161971",
+    "state_sha256": "15b0494fbb350f7d597d66203d769eef8dbb2c3a03346abd8cce9b1cfa4fc168"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 740,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+    "slug": "gcp-b1-postmerge-credential-authorization-backend-proof-corrective",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-gcp-b1-corrective-contract",
+          "proof_role": "Focused local validator for credential hygiene, authorization binding, Terraform-backend canary evidence shape, and post-merge truth separation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/740/validate_gcp_b1_corrective.sh"
+          ],
+          "parallel_group": "serial",
+          "defer_reason": null
+        },
+        {
+          "lane": "live-gcp-b1-corrective-proof",
+          "proof_role": "Bounded live GCP proof for legacy-key disposition, Terraform-backend canary write/recovery, and bucket posture readback.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 2400,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh"
+          ],
+          "parallel_group": "serial",
+          "defer_reason": "Live GCP proof runs after script repair and authenticated approval evidence are in place."
+        },
+        {
+          "lane": "typed-issue-validation",
+          "proof_role": "Typed lifecycle/card validation before review and publication.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/740/validate_typed_issue.sh"
+          ],
+          "parallel_group": "serial",
+          "defer_reason": "Run after implementation evidence and cards are current."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any retained credential material, self-issued authorization, missing legacy-key disposition, non-Terraform canary write, shared persistent auth/cache usage, or live readback contradiction.",
+      "design_ref": ".csdlc/prepared/issues/740/design.md",
+      "design_digest": "d00bc8370459eb65fe3926900e715c56df7bb5088ca2662f2507a7f1f5095027",
+      "diagram_ref": ".csdlc/prepared/issues/740/diagram.mmd",
+      "diagram_digest": "a96391b12883a71c74bc78ece094ec081b9aedf166a9d18ca3c01e227b4486d8"
+    }
+  }
+}

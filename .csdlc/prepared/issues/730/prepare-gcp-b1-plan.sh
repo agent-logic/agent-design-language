@@ -7,7 +7,7 @@ evidence_dir=".csdlc/evidence/730"
 git_common="$(git rev-parse --path-format=absolute --git-common-dir)"
 plan_dir="$git_common/csdlc-v2/gcp-b1"
 plan_path="$plan_dir/730.tfplan"
-gcloud_config="$git_common/csdlc-v2/gcloud-config"
+gcloud_config="$git_common/csdlc-v2/gcp-b1/730/plan-gcloud-config"
 plan_text="$evidence_dir/gcp-b1-plan.redacted.txt"
 plan_digest="$evidence_dir/gcp-b1-plan-digest.json"
 repo_root="$(git rev-parse --show-toplevel)"
@@ -41,16 +41,18 @@ trap 'rm -rf "$tf_data_dir"' EXIT
 
 bash .csdlc/prepared/issues/730/validate-gcp-b1.sh --lane=static
 
-terraform_access_token="$(gcloud auth print-access-token \
+access_token="$(gcloud auth print-access-token \
   --impersonate-service-account="$service_account" \
   --project="$project_id")"
-export GOOGLE_OAUTH_ACCESS_TOKEN="$terraform_access_token"
+export GOOGLE_OAUTH_ACCESS_TOKEN="$access_token"
 
 rm -f "$plan_path"
 TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap init -backend=false -input=false >/dev/null
 TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap plan -out="$plan_path" -input=false
 TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap show -no-color "$plan_path" > "$plan_text"
 rm -rf "$tf_data_dir"
+unset GOOGLE_OAUTH_ACCESS_TOKEN
+access_token=""
 
 plan_sha256="$(sha256_file "$plan_path")"
 jq -n \

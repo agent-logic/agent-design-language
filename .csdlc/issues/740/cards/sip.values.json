@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 740,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+    "slug": "gcp-b1-postmerge-credential-authorization-backend-proof-corrective",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Repair #730/#738 GCP-B1 proof so impersonated remote-state evidence is credential-safe, authorization-bound, legacy-key-disposition complete, and Terraform-backend proven.",
+      "required_outcome": "Issue #740 closes the post-merge #730 acceptance gaps with safe credential handling, authenticated authorization binding, legacy-key disposition, Terraform-backend canary proof, and exact-head review.",
+      "declared_scope": [
+        "Repair merged #730 GCP-B1 live proof script and evidence contract.",
+        "Add automated local validation for credential-retention prevention and backend-canary evidence shape.",
+        "Run bounded live GCP proof using short-lived impersonation and retained redacted evidence."
+      ],
+      "authority_boundary": [
+        "This is a post-merge corrective issue for #730/#738 and must not claim retroactive pre-merge review truth.",
+        "Cloud mutation remains bounded to project cs-host-377d41e71a824f92802120, region us-west2, bucket adl-tf-state-cs-host-377d41e71a824f92802120, and bootstrap service account impersonation.",
+        "No static service-account key may be created, downloaded, selected, or required.",
+        "Do not touch #446 or unrelated issue worktrees."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes.",
+        "Work in a bound FastWork issue worktree for implementation.",
+        "Use repo/worktree paths for diagnostics; do not write issue evidence to /private/tmp.",
+        "Use GCP only within the authorized #740 scope and do not expose credential contents."
+      ]
+    }
+  }
+}

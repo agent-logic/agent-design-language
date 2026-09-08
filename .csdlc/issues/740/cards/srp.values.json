@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 740,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+    "slug": "gcp-b1-postmerge-credential-authorization-backend-proof-corrective",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact committed HEAD 70022de14d84e4937c8df044700ead432034dc68\nPost-merge #730/#738 GCP-B1 corrective script and evidence\nCredential-retention prevention\nAuthorization binding\nLegacy key disposition\nTerraform GCS backend canary proof\nNo #446 scope",
+      "review_revision": "git-blake3:70022de14d84e4937c8df044700ead432034dc68:db5b89d1d43d04f0fd7cfc5536359c5eb0dfc9f01a6dd43ccf6b6cda51cb5ca5",
+      "reviewer": "fresh-session:199ec4dd-dc1e-4825-bb03-2a2480805e54",
+      "review_prompts": [
+        "Can any failure or recovery path retain an OAuth token, service-account key material, or machine-local credential path?",
+        "Can the live mutation authorization still be self-issued by writing predictable JSON into Git-common?",
+        "Does the canary proof demonstrate Terraform GCS backend write/recovery behavior rather than raw object upload?",
+        "Is the legacy service-account key disposition explicit, redacted, and acceptance-complete?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The live proof itself was run against committed candidate f08c22d124ecf3bf7689de3a3e53c82ae41f3f37, then evidence/lifecycle-only records were amended into exact reviewed head 70022de14d84e4937c8df044700ead432034dc68. The reviewer inspected the diff and accepted this as non-semantic tail because the proof script and Terraform canary config digests match the retained live proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

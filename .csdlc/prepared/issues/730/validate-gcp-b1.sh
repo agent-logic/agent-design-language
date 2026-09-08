@@ -19,17 +19,15 @@ trap 'rm -rf "$tf_data_dir"' EXIT
 
 grep -Fq 'impersonate_service_account' infra/gcp/bootstrap/provider.tf
 grep -Fq 'impersonate_service_account = "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"' infra/gcp/bootstrap/backend.tf.example
-grep -Fq 'csdlc-v2/gcloud-config' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
-grep -Fq 'csdlc-v2/gcloud-config' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+grep -Fq 'csdlc-v2/gcp-b1/730/plan-gcloud-config' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
 grep -Fq 'export CLOUDSDK_CONFIG="$gcloud_config"' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
-grep -Fq 'export CLOUDSDK_CONFIG="$gcloud_config"' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
-grep -Fq 'export GOOGLE_OAUTH_ACCESS_TOKEN="$terraform_access_token"' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
-grep -Fq 'export GOOGLE_OAUTH_ACCESS_TOKEN="$terraform_access_token"' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
-grep -Fq 'access_token = "$terraform_access_token"' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
-grep -Fq '.uniform_bucket_level_access == true' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
-grep -Fq '.public_access_prevention == "enforced"' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
-grep -Fq '.versioning_enabled == true' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
-grep -Fq '.soft_delete_policy.retentionDurationSeconds' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+grep -Fq 'export GOOGLE_OAUTH_ACCESS_TOKEN="$access_token"' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
+grep -Fq '.csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+! grep -Fq 'access_token =' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+grep -Fq '.uniform_bucket_level_access == true' .csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh
+grep -Fq '.public_access_prevention == "enforced"' .csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh
+grep -Fq '.versioning_enabled == true' .csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh
+grep -Fq '.soft_delete_policy.retentionDurationSeconds' .csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh
 grep -Fq 'tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com' infra/gcp/bootstrap/variables.tf
 grep -Fq 'default     = "us-west2"' infra/gcp/bootstrap/variables.tf
 grep -Fq 'issue     = "730"' infra/gcp/bootstrap/variables.tf
