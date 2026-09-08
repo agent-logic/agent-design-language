@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require "digest"; require "fileutils"; require "json"; require "tmpdir"
+require "openssl"; require "securerandom"
 require_relative "validate-external-review"
 def wj(p,v); FileUtils.mkdir_p(File.dirname(p)); File.write(p,JSON.generate(v)); end
 def sh!(*a); system(*a) or abort("failed #{a.join(' ')}"); end
@@ -31,9 +32,11 @@ Dir.mktmpdir("issue-521-production-",File.expand_path("../../../../.adl",__dir__
   raw["scope_rows"]=scope_rows; raw["observations"]=refs.map{|ref|{"ref"=>ref,"evidence"=>ev,"conclusion"=>"verified_no_gap","detail"=>"inspected exact retained content"}}
   raw_path=File.join(root,"raw-review-output.json"); wj(raw_path,raw)
   request={"provider"=>provider,"model"=>model,"invocation_id"=>invocation_id,"candidate_sha"=>candidate,"scope_refs"=>refs,"prompt"=>"Review every retained surface"}; request_path=File.join(root,"provider-request.json"); wj(request_path,request)
-  native={"provider"=>provider,"model"=>model,"invocation_id"=>invocation_id,"response_id"=>"r1","content"=>"reviewed"}; native_path=File.join(root,"provider-native-response.json"); wj(native_path,native)
+  native_projection={"scope_rows"=>raw["scope_rows"],"findings"=>raw["findings"],"limitations"=>raw["limitations"],"observations"=>raw["observations"]}
+  native={"provider"=>provider,"model"=>model,"invocation_id"=>invocation_id,"response_id"=>"r1","content"=>JSON.generate(native_projection)}; native_path=File.join(root,"provider-native-response.json"); wj(native_path,native)
   receipt={"provider"=>provider,"model"=>model,"invocation_id"=>invocation_id,"request_sha256"=>Digest::SHA256.file(request_path).hexdigest,"response_sha256"=>Digest::SHA256.file(raw_path).hexdigest,"provider_native_response_sha256"=>Digest::SHA256.file(native_path).hexdigest,"exit_status"=>0,"observed_at"=>"now"}; wj(File.join(root,"provider-invocation-receipt.json"),receipt)
-  runner_path=File.join(repo,"trusted-runner-receipt.json"); wj(runner_path,{"runner"=>"docs/tooling/OPUS_REVIEW_RUNBOOK.md","request_sha256"=>receipt["request_sha256"],"response_sha256"=>receipt["response_sha256"],"provider_native_response_sha256"=>receipt["provider_native_response_sha256"],"provider_response_id"=>"r1","signer_key_id"=>"fixture-key","signature"=>"fixture-signature","exit_status"=>0}); ENV["ADL_EXTERNAL_REVIEW_TRUSTED_RUNNER_RECEIPT"]=runner_path
+  trust_key=SecureRandom.hex(32); trust_path=File.join(repo,"runner-trust.json"); wj(trust_path,{"key_id"=>"fixture-key","hmac_key"=>trust_key}); ENV["ADL_EXTERNAL_REVIEW_TRUST_ROOT"]=trust_path
+  runner_path=File.join(repo,"trusted-runner-receipt.json"); runner={"runner"=>"docs/tooling/OPUS_REVIEW_RUNBOOK.md","request_sha256"=>receipt["request_sha256"],"response_sha256"=>receipt["response_sha256"],"provider_native_response_sha256"=>receipt["provider_native_response_sha256"],"provider_response_id"=>"r1","signer_key_id"=>"fixture-key","exit_status"=>0}; runner["signature"]=OpenSSL::HMAC.hexdigest("SHA256",trust_key,canonical_json(runner)); wj(runner_path,runner); ENV["ADL_EXTERNAL_REVIEW_TRUSTED_RUNNER_RECEIPT"]=runner_path
   manifest["trusted_runner_receipt_sha256"]=Digest::SHA256.file(runner_path).hexdigest; wj(File.join(root,"run_manifest.json"),manifest)
   wj(File.join(root,"reviewer-independence.json"),{"reviewer"=>"external","independent"=>true,"evidence"=>ev,"implementation_reviewers"=>[],"internal_reviewers"=>[],"raw_output_sha256"=>receipt["response_sha256"],"provider"=>provider,"model"=>model,"invocation_id"=>invocation_id,"observed_at"=>"now"})
   wj(File.join(root,"scope.json"),{"expected_refs"=>refs,"reviewed_refs"=>refs,"rows"=>scope_rows})
@@ -51,14 +54,16 @@ Dir.mktmpdir("issue-521-production-",File.expand_path("../../../../.adl",__dir__
   scope_path=File.join(root,"scope.json")
   reject.call("scope_truncation",[scope_path]){d=JSON.parse(File.read(scope_path)); d["reviewed_refs"].pop; d["rows"].pop; wj(scope_path,d)}
   receipt_path=File.join(root,"provider-invocation-receipt.json")
+  reject.call("tampered_runner_signature",[trust_path]){wj(trust_path,{"key_id"=>"fixture-key","hmac_key"=>SecureRandom.hex(32)})}
   reject.call("fabricated_provider_receipt",[receipt_path]){d=JSON.parse(File.read(receipt_path)); d["request_sha256"]="0"*64; wj(receipt_path,d)}
   independence_path=File.join(root,"reviewer-independence.json")
   reject.call("unresolved_evidence",[independence_path]){d=JSON.parse(File.read(independence_path)); d["evidence"]="claim only"; wj(independence_path,d)}
   gh_path=File.join(bin,"gh")
   reject.call("unmerged_predecessor",[gh_path]){File.write(gh_path,"#!/bin/sh\nprintf '%s' '{\"state\":\"OPEN\",\"closedByPullRequestsReferences\":[]}'\n"); FileUtils.chmod(0755,gh_path)}
   raw["observations"].each{|observation|observation["conclusion"]="reviewed";observation["detail"]="ok"}; wj(raw_path,raw); receipt["response_sha256"]=Digest::SHA256.file(raw_path).hexdigest; wj(File.join(root,"provider-invocation-receipt.json"),receipt)
+  native["content"]=JSON.generate({"scope_rows"=>raw["scope_rows"],"findings"=>raw["findings"],"limitations"=>raw["limitations"],"observations"=>raw["observations"]}); wj(native_path,native); receipt["provider_native_response_sha256"]=Digest::SHA256.file(native_path).hexdigest; wj(File.join(root,"provider-invocation-receipt.json"),receipt)
   independence=JSON.parse(File.read(independence_path)); independence["raw_output_sha256"]=receipt["response_sha256"]; wj(independence_path,independence)
-  runner_doc=JSON.parse(File.read(runner_path)); runner_doc["response_sha256"]=receipt["response_sha256"]; wj(runner_path,runner_doc); manifest_doc=JSON.parse(File.read(File.join(root,"run_manifest.json"))); manifest_doc["trusted_runner_receipt_sha256"]=Digest::SHA256.file(runner_path).hexdigest; wj(File.join(root,"run_manifest.json"),manifest_doc)
+  runner_doc=JSON.parse(File.read(runner_path)); runner_doc["response_sha256"]=receipt["response_sha256"]; runner_doc["provider_native_response_sha256"]=receipt["provider_native_response_sha256"]; runner_doc.delete("signature"); runner_doc["signature"]=OpenSSL::HMAC.hexdigest("SHA256",trust_key,canonical_json(runner_doc)); wj(runner_path,runner_doc); manifest_doc=JSON.parse(File.read(File.join(root,"run_manifest.json"))); manifest_doc["trusted_runner_receipt_sha256"]=Digest::SHA256.file(runner_path).hexdigest; wj(File.join(root,"run_manifest.json"),manifest_doc)
   packet_manifest_path=File.join(root,"packet-manifest.json"); packet_manifest=JSON.parse(File.read(packet_manifest_path)); packet_manifest.fetch("entries").each{|entry|entry["sha256"]=Digest::SHA256.file(entry.fetch("path")).hexdigest}; wj(packet_manifest_path,packet_manifest)
   begin; validate_packet!(root:root); abort("do-nothing review passed"); rescue SystemExit,KeyError; puts JSON.generate(status:"passed",production_negative:"populated_do_nothing_review"); end
  end
