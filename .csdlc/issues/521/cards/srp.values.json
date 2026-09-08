@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 521,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-05] External / third-party review",
+    "slug": "tail-05-external-third-party-review",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Independent review of the exact v0.92.1 candidate and retained #520 internal-review packet.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the reviewer genuinely independent?",
+        "Does the report bind the exact unchanged candidate and complete #520 handoff?",
+        "Are findings and limitations retained without suppression?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
