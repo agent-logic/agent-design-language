@@ -346,13 +346,42 @@ fn github_read_only_curl_invocation(
     };
     if !matches!(
         operation.as_str(),
-        "pull-request" | "issue" | "issue-comments"
-    ) || number.parse::<u64>().is_err()
+        "pull-request" | "issue" | "issue-comments" | "issues-by-marker"
+    ) || (operation != "issues-by-marker" && number.parse::<u64>().is_err())
+        || (operation == "issues-by-marker"
+            && (number.is_empty()
+                || number
+                    .chars()
+                    .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
     {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
             stderr: "github read-only adapter received unsupported request".into(),
+            truncated: false,
+        });
+    }
+    if operation == "issues-by-marker" {
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--location".to_owned(),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "--header".to_owned(),
+                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+                format!(
+                    "https://api.github.com/search/issues?q=repo:{repository}+type:issue+{number}"
+                ),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter rejected unsafe request".into(),
             truncated: false,
         });
     }

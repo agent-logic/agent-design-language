@@ -1,0 +1,26 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "246a7ab080989fce591b49e10e3b84cfae7ee557e9d8eb760cafef70f22e904a",
+  "actor": "Worker #7",
+  "reason": "record pre-cutover fail-closed terminal validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--test",
+        "terminal_cleanup_cutover_commands",
+        "pre_cutover_finish_denies_terminal_persistence"
+      ],
+      "purpose": "focused pre-cutover fail-closed terminal persistence regression",
+      "outcome": "passed",
+      "evidence_ref": "terminal output 2026-09-08 in bound worktree: 1 passed"
+    }
+  }
+}

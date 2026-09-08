@@ -1,0 +1,7 @@
+{
+  "issue": 721,
+  "expected_generation": 19,
+  "expected_digest": "3cf22ab2b69ac401022ae70394f5e9b372a8808f59854306d9f18393aba1d051",
+  "actor": "Worker #7",
+  "reason": "substantive CI-environment repair extended read-only v3 diagnostic fallback after PR #726 remained red on GitHub Actions"
+}

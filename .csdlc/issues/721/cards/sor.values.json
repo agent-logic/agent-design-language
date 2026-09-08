@@ -1,0 +1,152 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 721,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
+    "slug": "csdlc-v3-issue-create-parity",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented v3 GitHub issue-create parity, corrected post-cutover terminal finish operational-authority reporting, documented the real --execute issue-create path, recorded adjacent v3 defects as backlog issues, repaired executable install authority evidence, fixed read-only v3 diagnostic fallback for CI merge-checkout environments, and repaired executable remote authority so v3 GitHub mutations bind exact_review_sha to the checked-out Git HEAD while route-specific commands enforce issue-vs-PR mutation ownership.",
+      "actual_changes": [
+        "Added v3 IssueCreate mutation support for title, body, labels, assignees, and milestone through the existing typed GitHub mutation dispatcher.",
+        "Added operation-marker based issue-create reconciliation through a read-only issues-by-marker adapter lookup and retained the assigned GitHub issue number in reconciliation and final receipts.",
+        "Changed authenticated terminal finish reporting so post-cutover persisted terminal state reports operational_authority=true while pre-cutover persistence denial remains blocked and non-authoritative.",
+        "Documented the distinction between local v3 issue state and real GitHub issue creation in csdlc-v3/README.md, including the implemented --execute path.",
+        "Created backlog issues #723, #724, and #725 for adjacent v3 defects outside the original #721 implementation surface.",
+        "Repaired csdlc-v3 read-only doctor and eligibility route behavior so issue-worktree diagnostics fall back to non-mutating construction reports when operational roots are intentionally invalid for that worktree.",
+        "Tightened executable install authority so stable install execution verifies typed cutover approval evidence content and digest and requires exact_head to match the current checkout before invoking the canonical v3 selector/install path.",
+        "Extended the same read-only construction fallback to CI environments where the configured operational worktree parent is unavailable, preserving mutation denial while keeping proof and shadow stdout JSON-valid.",
+        "Bound executable remote authority to the actual checked-out Git HEAD by rejecting empty, malformed, unavailable, or mismatched exact_review_sha values before operational GitHub mutation dispatch.",
+        "Changed command dispatch so github-issue accepts only issue mutations, github-pr accepts only PR mutations, and the generic github route remains the broad GitHub mutation envelope.",
+        "Updated root csdlc help so github, github-issue, and github-pr advertise the implemented --execute switch alongside per-command help."
+      ],
+      "artifacts": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/src/commands/remote/mod.rs",
+        "csdlc-v3/src/adapters/mod.rs",
+        "csdlc-v3/src/commands/remote/tests.rs",
+        "csdlc-v3/src/commands/terminal.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+        "csdlc-v3/tests/operational_cli_commands.rs",
+        "csdlc-v3/tests/command_manifest.rs",
+        "csdlc-v3/README.md",
+        ".csdlc/evidence/v3-defects/backlog-requests/issue-candidates.md",
+        "https://github.com/agent-logic/agent-design-language/issues/723",
+        "https://github.com/agent-logic/agent-design-language/issues/724",
+        "https://github.com/agent-logic/agent-design-language/issues/725"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "operational_dispatcher",
+            "--lib"
+          ],
+          "purpose": "focused executable remote authority regression coverage, including active selector dispatch and forged exact_review_sha rejection",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: 2 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "operational_cli_commands",
+            "executable_github_routes_reject_wrong_mutation_family_before_dispatch"
+          ],
+          "purpose": "focused CLI route ownership regression for github-issue and github-pr executable mutation families",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: 1 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "command_manifest",
+            "help_exposes_one_binary_command_surface"
+          ],
+          "purpose": "root help regression proving github-issue and github-pr advertise --execute",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: 1 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml"
+          ],
+          "purpose": "CI-equivalent csdlc-v3 full test suite after authority-binding and route ownership repairs",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: all csdlc-v3 lib, binary, integration, and doc tests passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "purpose": "Rust formatting",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: fmt check passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Rust lint safety across v3 targets",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: clippy finished successfully"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "exact diff whitespace safety",
+          "outcome": "passed",
+          "evidence_ref": "terminal output 2026-09-08 in bound worktree: no whitespace errors"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

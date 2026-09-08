@@ -1,0 +1,21 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "d73853b0be37f54986a527327c2267ce5bb9d7f6fbed41728e0ecab4b4afe486",
+  "actor": "Worker #7",
+  "reason": "record diff whitespace validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "purpose": "exact diff whitespace safety",
+      "outcome": "passed",
+      "evidence_ref": "terminal output 2026-09-08 in bound worktree: no whitespace errors"
+    }
+  }
+}

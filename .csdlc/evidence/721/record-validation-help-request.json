@@ -1,0 +1,28 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "0c49d1a89492687d599db6259dea92926517596d9c86ba23ed7653311fb19926",
+  "actor": "Worker #7",
+  "reason": "record v3 issue-create help validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--bin",
+        "csdlc",
+        "--",
+        "github-issue",
+        "--help"
+      ],
+      "purpose": "operator-visible command help documents real --execute path",
+      "outcome": "passed",
+      "evidence_ref": "terminal output 2026-09-08 in bound worktree: usage includes [--execute]"
+    }
+  }
+}
