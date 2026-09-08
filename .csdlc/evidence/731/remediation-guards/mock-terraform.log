@@ -1,0 +1,2 @@
+-chdir=infra/gcp/platform apply -input=false -auto-approve /Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal/.csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan
+-chdir=infra/gcp/platform destroy -input=false -auto-approve -var-file=terraform.tfvars.example

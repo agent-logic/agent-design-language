@@ -1,0 +1,33 @@
+{
+  "schema": "adl.gcp_d1.mutation_authorization_request.v1",
+  "issue": 731,
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "zone": "us-west2-a",
+  "network": "axioma-dev-csm-private",
+  "subnet": "axioma-dev-csm-private-us-west2",
+  "plan_digest": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+  "plan_file": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+  "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+  "run_id": "gcp-d1-20260908t090000z-localguard",
+  "instance_name": "adl-gcp-d1-localguard",
+  "cleanup_deadline_utc": "2026-09-08T09:31:00Z",
+  "impersonated_identity": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+  "proof_run_spend_cap_usd": 1,
+  "foundation_steady_state_30d_cap_usd": 5,
+  "rollback_commands": [
+    "terraform destroy guarded",
+    "gcloud delete guarded"
+  ],
+  "operator_authorization": {
+    "status": "approved",
+    "approved_by": "operator",
+    "approved_at_utc": "2026-09-08T09:00:00Z",
+    "authorization_text": "synthetic local guard packet; no live mutation",
+    "required_before": [
+      "terraform apply",
+      "gcloud compute instances create",
+      "any live GCP mutation or spend"
+    ]
+  }
+}

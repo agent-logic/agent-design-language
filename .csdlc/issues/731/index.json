@@ -4,43 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
   "phase": "published",
-  "generation": 20,
-  "digest": "7716c379c8eb5ad5f25ea46c49049d6a23fafe705a242c4966b9858483ac0997",
+  "generation": 27,
+  "digest": "57805ecd04d3421f99b7e8e9027060bc10dbf977a90e15457b635cd68b8bb4b0",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
   "review_assignment": {
-    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
+    "reviewer": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
     "assigned_by": "codex:731-owner",
-    "revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
+    "revision": "git-blake3:ee7aa44ff956729e91a504f3d19686c34460b40d:fd737c5c36c266f5a4e4536db38347202f5844a937864a504f5a05e862ca6ebb",
     "scope": [
-      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
-      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
-      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
-      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
-      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
-      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
-      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
-      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
-      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
+      "Exact commit ee7aa44ff956729e91a504f3d19686c34460b40d on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, rebased onto origin/main after the operator merged PR #739 at cf8bc136a69501d9fd1e2f9cb5776b28f22ca763.",
+      "Follow-up remediation only: .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh, .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh, .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh, .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh, .csdlc/evidence/731/remediation-guards/**, and #731 SOR/SRP/index truth.",
+      "Verify reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 P1/P2 findings are actually resolved: every live gcloud mutation/readback/cleanup path uses the authorized impersonated service account from the packet, and SOR records the current typed validate/doctor evidence truthfully.",
+      "Verify authorization freshness, max 30-minute cleanup lifetime, expired-deadline rejection, and service-account impersonation enforcement before any live mutation path.",
+      "Verify disposable workload cleanup is armed before create, EXIT cleanup handles injected partial-create and post-create failures, the deadline reaper uses the authorized identity, success-path readiness and metadata service-account readback execute, and post-delete residue checks cover instances, disks, addresses, forwarding rules, firewall overrides, VM IAM, Terraform run labels, and storage objects/all versions.",
+      "Verify foundation apply/readback impersonation, exact project/subnet/firewall/OS Login/IAM/bucket/logging readbacks, and rollback-on-failure.",
+      "Verify retained evidence is no-live mock/local proof at the exact head; historical live GCP evidence remains historical only and no fresh live GCP mutation is claimed.",
+      "Verify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed."
     ]
   },
   "review": {
-    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
+    "reviewer": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
     "scope": [
-      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
-      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
-      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
-      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
-      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
-      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
-      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
-      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
-      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
+      "Exact commit ee7aa44ff956729e91a504f3d19686c34460b40d on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, rebased onto origin/main after the operator merged PR #739 at cf8bc136a69501d9fd1e2f9cb5776b28f22ca763.",
+      "Follow-up remediation only: .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh, .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh, .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh, .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh, .csdlc/evidence/731/remediation-guards/**, and #731 SOR/SRP/index truth.",
+      "Verify reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 P1/P2 findings are actually resolved: every live gcloud mutation/readback/cleanup path uses the authorized impersonated service account from the packet, and SOR records the current typed validate/doctor evidence truthfully.",
+      "Verify authorization freshness, max 30-minute cleanup lifetime, expired-deadline rejection, and service-account impersonation enforcement before any live mutation path.",
+      "Verify disposable workload cleanup is armed before create, EXIT cleanup handles injected partial-create and post-create failures, the deadline reaper uses the authorized identity, success-path readiness and metadata service-account readback execute, and post-delete residue checks cover instances, disks, addresses, forwarding rules, firewall overrides, VM IAM, Terraform run labels, and storage objects/all versions.",
+      "Verify foundation apply/readback impersonation, exact project/subnet/firewall/OS Login/IAM/bucket/logging readbacks, and rollback-on-failure.",
+      "Verify retained evidence is no-live mock/local proof at the exact head; historical live GCP evidence remains historical only and no fresh live GCP mutation is claimed.",
+      "Verify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed."
     ],
-    "reviewed_revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
+    "reviewed_revision": "git-blake3:ee7aa44ff956729e91a504f3d19686c34460b40d:fd737c5c36c266f5a4e4536db38347202f5844a937864a504f5a05e862ca6ebb",
     "findings": [],
     "residual_risks": [
-      "The steady-state private GCP-D1 foundation remains deployed as the accepted #731 output; later teardown requires a separate explicit cleanup issue/authorization."
+      "No fresh live GCP mutation was run for the follow-up remediation; the earlier live foundation/workload evidence remains historical and any new live rerun requires a fresh unexpired operator authorization packet.",
+      "PR #739 was merged by the operator before this remediation landed, so publication must use a follow-up PR rather than reopening the merged pull request."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -48,11 +47,11 @@
   "publication": {
     "repository": "agent-logic/agent-design-language",
     "issue": 731,
-    "pull_request": 739,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/739",
+    "pull_request": 742,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/742",
     "base": "main",
     "head": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
-    "revision": "git-blake3:12972c60f9acbc4624bd650dc4222d4491a761ab:12c08549581597ad5da221976860bc9b38c2a7c240da65afbac9c067cbaef28f",
+    "revision": "git-blake3:db68fe83ac21802e66ff261296f9da8938f51d62:5e4c142cb4320ea6ab942c10df817557f49ce4689a37289a78ad77697d73032c",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -70,34 +69,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "761e177922a2b8e9bc073d22c146b06da92523742827613b8bbf550b01ddb40e",
+      "values_digest": "7ede1f846f7d8795e7856a80add77b30bbc873bbf30d25caaf2f1749ddeff136",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "1bd475544f969b7c35123c3d7e93164d565363f1ce2f93662f08f45e1b370ca0",
+      "values_digest": "774b9d49ea0050d6d6f58e59df2a754f584429e236710dba83e9a7061a758a64",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "fa60767845c68a4cd558ea50ffb33b64307aa02790ddcd54489f5fe9892ab423",
+      "values_digest": "8d8804e2b49bc079531f3bfd4a7204c326428c8a967aff014cb3067f9bcdf185",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "03f62e51b232ed9aeeb7db1da022d6598d5b32688977619ca4bdad0308e54c9f",
+      "values_digest": "30f04dadc2b6fc02645caf850434587cfa523f6965006496902a7bf34e51b388",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "02018dbfb643665393c9c112ca631a9813592d6247473ffffbff75d34f06b9f5",
-      "rendered_digest": "ba8fda757bb2e7f6ca6c0bf399b44b6ebb2b5e85467dc89c70f968fe295cac83",
-      "ast_digest": "7df78f212ba0970c01f22bee55a043bcf63a1b16305f07f72212c62782a8bed1"
+      "values_digest": "30f9530008b6f911afb0590b06eae0aa586d413b727219730f008d40ff9e8ddd",
+      "rendered_digest": "5ff61762bd096f049c216681dcecf5fc0bfd6d47c9ffebf7d1242a2dcfdb1f54",
+      "ast_digest": "fe64a8544a14e33a8df3528826a0d6ef29177a240d24b8317611833abea221e1"
     },
     "sor": {
-      "values_digest": "878050f2684f61b2be276193478fde5cc6811d5e574b13cc560a25367600389e",
-      "rendered_digest": "eeef6dd8784a3b06a8699fc02f3268d1ccdda4111cf7e9e2c4f7febaf4ffcfc4",
-      "ast_digest": "96d9b8da0e59ae7ef217cea9de9d0df143cf6122012ff6aebf0979dd5b833b2e"
+      "values_digest": "cb76738a78aced12fa5bbb54dbadbe33b9bbb2f90eeb4e2ae02cd1526406b38f",
+      "rendered_digest": "fcceb48340bb79e55bbfbbe4f4f7a13afcf01eb4990659eb1e3dec3f6ab2b911",
+      "ast_digest": "747a9575694a553268821fb1b5b722e6ff9354c7afaea25d9b9ce9f37e8df712"
     }
   },
   "transitions": [
@@ -131,6 +130,27 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:731-owner",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:731-owner",
+      "reason": "Recover stale #731 review/publication truth after PR #739 exact-head review found missing fail-safe cleanup, authorization freshness/lifetime, readiness, zero-residue, foundation rollback/readback, impersonation, and exact-head review coverage blockers."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:731-owner",
@@ -309,6 +329,69 @@
     {
       "sequence": 25,
       "generation": 20,
+      "actor": "codex:731-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:731-owner",
+      "reason": "Recover stale #731 review/publication truth after PR #739 exact-head review found missing fail-safe cleanup, authorization freshness/lifetime, readiness, zero-residue, foundation rollback/readback, impersonation, and exact-head review coverage blockers.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:731-owner",
+      "reason": "Replace stale PR #739 review-blocker SOR truth after no-live remediation of fail-safe cleanup, authorization freshness, readiness, residue, rollback/readback, and impersonation guards.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"After recovering stale #731 review/publication truth for PR #739, the current remediation tightened the live GCP scripts and added no-live guard evidence for the review blockers: mutation authorization now fails closed on expired deadlines, approvals older than 120 minutes, cleanup windows over 30 minutes, and non-service-account impersonation identities; the disposable workload script now has an EXIT cleanup trap, independent deadline reaper, injected post-create failure guard, guest readiness/metadata identity readback, and expanded post-delete zero-residue checks; the foundation apply script now uses service-account impersonation, exact project/subnet/firewall/OS Login/IAM/bucket/logging readbacks, and rollback-on-failure. No new live GCP mutation was run during this remediation; the earlier retained live foundation/workload evidence remains historical evidence only, and any fresh live rerun requires a new unexpired operator authorization packet.\",\"changes\":[\"Recovered #731 from the stale PR #739 review/publication state before editing.\",\"Tightened .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh to require an unexpired cleanup deadline, approved_at_utc when approved, approval age no greater than 120 minutes, cleanup lifetime no greater than 30 minutes, and a service-account impersonation identity.\",\"Tightened .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh to validate authorization before mutation, arm an independent deadline reaper, trap failures after instance creation with cleanup deletion, prove guest readiness and metadata service-account identity, and check forwarding rules, firewall overrides, VM-specific IAM, storage-object, and Terraform-state run-label residue in addition to instances, disks, and addresses.\",\"Tightened .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh to obtain Terraform access through --impersonate-service-account, trap failed apply/readback with terraform destroy rollback, and assert exact project metadata, workload service account, firewall denominator, IAM, bucket labels, and logging metric readbacks.\",\"Added .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh and retained .csdlc/evidence/731/remediation-guards/** proving the new guards without live GCP mutation, including synthetic rejected packets, injected workload cleanup, and injected foundation rollback.\",\"Preserved the historical live GCP evidence directories without overwriting them during no-live mock validation.\"],\"artifacts\":[\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\",\".csdlc/evidence/731/remediation-guards/status.json\",\".csdlc/evidence/731/remediation-guards/latest.log\",\".csdlc/evidence/731/remediation-guards/trace.log\",\".csdlc/evidence/731/remediation-guards/valid.log\",\".csdlc/evidence/731/remediation-guards/expired-approval.log\",\".csdlc/evidence/731/remediation-guards/overlong-lifetime.log\",\".csdlc/evidence/731/remediation-guards/expired-deadline.log\",\".csdlc/evidence/731/remediation-guards/bad-identity.log\",\".csdlc/evidence/731/remediation-guards/workload-failpoint.log\",\".csdlc/evidence/731/remediation-guards/foundation-rollback.log\",\".csdlc/evidence/731/remediation-guards/mock-gcloud.log\",\".csdlc/evidence/731/remediation-guards/mock-terraform.log\",\".csdlc/evidence/731/mutation-authorization-request.json\",\".csdlc/evidence/731/live-foundation-apply/status.json\",\".csdlc/evidence/731/live-disposable-workload/status.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\"],\"purpose\":\"Prove the #731 PR #739 remediation fail-closed guards without live GCP mutation: fresh/expired authorization, 30-minute cleanup cap, service-account impersonation identity, injected workload cleanup, deadline reaper presence, readiness/residue coverage, and injected foundation rollback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/remediation-guards/status.json status=passed mutation=none\"},{\"command\":[\"bash\",\"-x\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\"],\"purpose\":\"Retain traced no-live remediation guard provenance for the current script state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/remediation-guards/trace.log tail=PASS\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:731-owner",
+      "reason": "Replace #731 SOR truth after exact-head follow-up review found missing behavioral proof for storage residue, success-path assertions, and partial-create cleanup.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"After recovering stale #731 review/publication truth for PR #739, the current follow-up remediation tightened the live GCP scripts and added no-live behavioral guard evidence for the review blockers. Mutation authorization fails closed on expired deadlines, approvals older than 120 minutes, cleanup windows over 30 minutes, and non-service-account impersonation identities. The disposable workload script now arms cleanup before the create attempt, uses an EXIT cleanup trap plus independent deadline reaper, proves guest readiness/metadata identity, enumerates expanded zero-residue surfaces including forwarding rules, firewall overrides, VM-specific IAM, Terraform state run labels, and storage objects/all versions, and fails closed on injected post-create, partial-create, and storage-residue cases. The foundation apply script now uses service-account impersonation, exact project/subnet/firewall/OS Login/IAM/bucket/logging readbacks, and rollback-on-failure. No new live GCP mutation was run during this remediation; earlier retained live foundation/workload evidence remains historical evidence only, and any fresh live rerun requires a new unexpired operator authorization packet.\",\"changes\":[\"Recovered #731 from the stale PR #739 review/publication state before editing.\",\"Tightened .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh to require an unexpired cleanup deadline, approved_at_utc when approved, approval age no greater than 120 minutes, cleanup lifetime no greater than 30 minutes, and a service-account impersonation identity.\",\"Tightened .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh to validate authorization before mutation, arm cleanup before the VM create attempt, arm an independent deadline reaper, trap failures with cleanup deletion, prove guest readiness and metadata service-account identity, enumerate storage objects/all versions from the accepted foundation buckets, and check forwarding rules, firewall overrides, VM-specific IAM, storage-object, and Terraform-state run-label residue in addition to instances, disks, and addresses.\",\"Tightened .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh to obtain Terraform access through --impersonate-service-account, trap failed apply/readback with terraform destroy rollback, and assert exact project metadata, workload service account, firewall denominator, IAM, bucket labels, and logging metric readbacks.\",\"Added and expanded .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh with retained .csdlc/evidence/731/remediation-guards/** proving the new guards without live GCP mutation, including synthetic rejected packets, success-path workload readiness/residue execution, storage-residue rejection, partial-create cleanup, injected post-create cleanup, foundation readback success, and injected foundation rollback.\",\"Preserved the historical live GCP evidence directories without overwriting them during no-live mock validation.\"],\"artifacts\":[\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\",\".csdlc/evidence/731/remediation-guards/status.json\",\".csdlc/evidence/731/remediation-guards/latest.log\",\".csdlc/evidence/731/remediation-guards/trace.log\",\".csdlc/evidence/731/remediation-guards/workload-success.log\",\".csdlc/evidence/731/remediation-guards/workload-storage-residue.log\",\".csdlc/evidence/731/remediation-guards/workload-create-failure-cleanup.log\",\".csdlc/evidence/731/remediation-guards/workload-failpoint.log\",\".csdlc/evidence/731/remediation-guards/foundation-success.log\",\".csdlc/evidence/731/remediation-guards/foundation-rollback.log\",\".csdlc/evidence/731/remediation-guards/mock-workload-success/status.json\",\".csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/post-storage-objects.json\",\".csdlc/evidence/731/remediation-guards/mock-gcloud.log\",\".csdlc/evidence/731/remediation-guards/mock-terraform.log\",\".csdlc/evidence/731/mutation-authorization-request.json\",\".csdlc/evidence/731/live-foundation-apply/status.json\",\".csdlc/evidence/731/live-disposable-workload/status.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\"],\"purpose\":\"Prove the #731 PR #739 remediation fail-closed guards without live GCP mutation: fresh/expired authorization, 30-minute cleanup cap, service-account impersonation identity, success-path workload readiness and expanded zero residue, storage object/all-version residue rejection, partial-create cleanup, injected post-create cleanup, foundation readback success, and injected foundation rollback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/remediation-guards/status.json status=passed mutation=none\"},{\"command\":[\"bash\",\"-x\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\"],\"purpose\":\"Retain traced no-live remediation guard provenance for the current script state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/remediation-guards/trace.log tail=PASS\"}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:731-owner",
+      "reason": "Recover the fresh #731 follow-up review assignment after reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 returned FAIL: P1 live GCP mutation/readback commands still rely on ambient gcloud identity instead of enforcing the authorized impersonated service account; P2 SOR does not record current typed validate/doctor evidence for the remediation scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:731-owner",
+      "reason": "Replace #731 SOR truth after follow-up review found missing live gcloud impersonation enforcement and missing current typed validate/doctor evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"After recovering stale #731 review/publication truth for PR #739, the current follow-up remediation tightened the live GCP scripts and added no-live behavioral guard evidence for the review blockers. Mutation authorization fails closed on expired deadlines, approvals older than 120 minutes, cleanup windows over 30 minutes, and non-service-account impersonation identities. The disposable workload script now reads the authorized impersonated identity from the packet, routes live create/delete/readback/storage/cleanup gcloud calls through that service account, arms cleanup before the create attempt, uses an EXIT cleanup trap plus independent authorized deadline reaper, proves guest readiness/metadata identity, enumerates expanded zero-residue surfaces including forwarding rules, firewall overrides, VM-specific IAM, Terraform state run labels, and storage objects/all versions, and fails closed on injected post-create, partial-create, and storage-residue cases. The foundation apply script now uses service-account impersonation both for Terraform access-token provisioning and for live gcloud readbacks of project/subnet/firewall/OS Login/IAM/bucket/logging state, with rollback-on-failure. No new live GCP mutation was run during this remediation; earlier retained live foundation/workload evidence remains historical evidence only, and any fresh live rerun requires a new unexpired operator authorization packet.\",\"changes\":[\"Recovered #731 from the stale PR #739 review/publication state before editing, and later recovered the fresh follow-up review assignment after reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 returned P1/P2 findings.\",\"Tightened .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh to require an unexpired cleanup deadline, approved_at_utc when approved, approval age no greater than 120 minutes, cleanup lifetime no greater than 30 minutes, and a service-account impersonation identity.\",\"Tightened .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh to validate authorization before mutation, read the authorized impersonated service account from the packet, route live gcloud create/delete/readback/storage/cleanup commands through --impersonate-service-account, arm cleanup before the VM create attempt, arm an independent authorized deadline reaper, trap failures with cleanup deletion, prove guest readiness and metadata service-account identity, enumerate storage objects/all versions from the accepted foundation buckets, and check forwarding rules, firewall overrides, VM-specific IAM, storage-object, and Terraform-state run-label residue in addition to instances, disks, and addresses.\",\"Tightened .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh to obtain Terraform access through an impersonated service-account token, use the same authorized identity for live gcloud readbacks, trap failed apply/readback with terraform destroy rollback, and assert exact project metadata, workload service account, firewall denominator, IAM, bucket labels, and logging metric readbacks.\",\"Expanded .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh with retained .csdlc/evidence/731/remediation-guards/** proving the new guards without live GCP mutation, including synthetic rejected packets, success-path workload readiness/residue execution, storage-residue rejection, partial-create cleanup, injected post-create cleanup, foundation readback success, injected foundation rollback, and fail-closed mock enforcement that every live gcloud command is invoked with the authorized impersonated service account.\",\"Stabilized traced mock evidence by normalizing background deadline reaper PIDs so rerun proof is deterministic.\",\"Preserved the historical live GCP evidence directories without overwriting them during no-live mock validation.\"],\"artifacts\":[\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\",\".csdlc/evidence/731/remediation-guards/status.json\",\".csdlc/evidence/731/remediation-guards/latest.log\",\".csdlc/evidence/731/remediation-guards/trace.log\",\".csdlc/evidence/731/remediation-guards/workload-success.log\",\".csdlc/evidence/731/remediation-guards/workload-storage-residue.log\",\".csdlc/evidence/731/remediation-guards/workload-create-failure-cleanup.log\",\".csdlc/evidence/731/remediation-guards/workload-failpoint.log\",\".csdlc/evidence/731/remediation-guards/foundation-success.log\",\".csdlc/evidence/731/remediation-guards/foundation-rollback.log\",\".csdlc/evidence/731/remediation-guards/mock-workload-success/status.json\",\".csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/post-storage-objects.json\",\".csdlc/evidence/731/remediation-guards/mock-gcloud.log\",\".csdlc/evidence/731/remediation-guards/mock-terraform.log\",\".csdlc/evidence/731/mutation-authorization-request.json\",\".csdlc/evidence/731/live-foundation-apply/status.json\",\".csdlc/evidence/731/live-disposable-workload/status.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\"],\"purpose\":\"Prove the #731 PR #739 remediation fail-closed guards without live GCP mutation: fresh/expired authorization, 30-minute cleanup cap, service-account impersonation identity, authorized gcloud invocation enforcement, success-path workload readiness and expanded zero residue, storage object/all-version residue rejection, partial-create cleanup, injected post-create cleanup, foundation readback success, and injected foundation rollback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/remediation-guards/status.json status=passed mutation=none\"},{\"command\":[\"bash\",\"-x\",\".csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh\"],\"purpose\":\"Retain traced no-live remediation guard provenance for the current script state with deterministic normalized mock reaper evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/remediation-guards/trace.log tail=PASS\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"731\"],\"purpose\":\"Validate typed #731 lifecycle/card state after review recovery and follow-up remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:status=pass phase=implemented generation=24 findings=[]\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"731\"],\"purpose\":\"Doctor #731 lifecycle readiness after review recovery and follow-up remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:status=pass phase=implemented generation=24 findings=[]\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and conflict-marker defects in the committed issue range before fresh exact-head review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:no output\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
       "actor": "codex:731-owner",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

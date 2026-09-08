@@ -12,15 +12,14 @@ Status: draft
 
 ## Scope
 
-Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.
-Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.
-Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.
-Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.
-Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.
-Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.
-Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.
-Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.
-Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract.
+Exact commit ee7aa44ff956729e91a504f3d19686c34460b40d on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, rebased onto origin/main after the operator merged PR #739 at cf8bc136a69501d9fd1e2f9cb5776b28f22ca763.
+Follow-up remediation only: .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh, .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh, .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh, .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh, .csdlc/evidence/731/remediation-guards/**, and #731 SOR/SRP/index truth.
+Verify reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 P1/P2 findings are actually resolved: every live gcloud mutation/readback/cleanup path uses the authorized impersonated service account from the packet, and SOR records the current typed validate/doctor evidence truthfully.
+Verify authorization freshness, max 30-minute cleanup lifetime, expired-deadline rejection, and service-account impersonation enforcement before any live mutation path.
+Verify disposable workload cleanup is armed before create, EXIT cleanup handles injected partial-create and post-create failures, the deadline reaper uses the authorized identity, success-path readiness and metadata service-account readback execute, and post-delete residue checks cover instances, disks, addresses, forwarding rules, firewall overrides, VM IAM, Terraform run labels, and storage objects/all versions.
+Verify foundation apply/readback impersonation, exact project/subnet/firewall/OS Login/IAM/bucket/logging readbacks, and rollback-on-failure.
+Verify retained evidence is no-live mock/local proof at the exact head; historical live GCP evidence remains historical only and no fresh live GCP mutation is claimed.
+Verify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed.
 
 ## Prompts
 
@@ -41,12 +40,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The steady-state private GCP-D1 foundation remains deployed as the accepted #731 output; later teardown requires a separate explicit cleanup issue/authorization.
+- No fresh live GCP mutation was run for the follow-up remediation; the earlier live foundation/workload evidence remains historical and any new live rerun requires a fresh unexpired operator authorization packet.
+- PR #739 was merged by the operator before this remediation landed, so publication must use a follow-up PR rather than reopening the merged pull request.
 
 ## Review Result
 
-Revision: Some("git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c")
+Revision: Some("git-blake3:ee7aa44ff956729e91a504f3d19686c34460b40d:fd737c5c36c266f5a4e4536db38347202f5844a937864a504f5a05e862ca6ebb")
 
-Reviewer: Some("fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a")
+Reviewer: Some("fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677")
 
 Result: pass

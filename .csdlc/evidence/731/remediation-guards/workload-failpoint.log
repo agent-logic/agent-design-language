@@ -1,0 +1,3 @@
+PASS: #731 mutation authorization packet is complete and status=approved
+Created synthetic instance
+FAIL: injected failure after instance create

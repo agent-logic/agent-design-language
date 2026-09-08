@@ -1,0 +1,13 @@
+{
+  "schema": "adl.gcp_d1.live_foundation_apply.v1",
+  "status": "passed",
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "network": "axioma-dev-csm-private",
+  "subnet": "axioma-dev-csm-private-us-west2",
+  "applied_plan_sha256": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+  "mutation": "terraform_apply_authorized",
+  "impersonation": "service_account_short_lived_access_token",
+  "rollback_on_failure": true,
+  "denominator": "1 VPC, 1 subnet, 3 firewall rules, OS Login metadata, 3 project IAM memberships, 1 workload service account, 5 buckets, 4 bucket IAM memberships, 1 logging metric"
+}

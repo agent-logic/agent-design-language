@@ -1,0 +1,4 @@
+PASS: #731 mutation authorization packet is complete and status=approved
+Created synthetic instance
+Deleted synthetic instance
+FAIL: run-labelled storage object residue exists

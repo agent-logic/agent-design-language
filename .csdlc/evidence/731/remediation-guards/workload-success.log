@@ -1,0 +1,4 @@
+PASS: #731 mutation authorization packet is complete and status=approved
+Created synthetic instance
+Deleted synthetic instance
+PASS: #731 disposable e2-micro workload created private, destroyed, and zero-residue readback passed for run_id=gcp-d1-20260908t090000z-localguard

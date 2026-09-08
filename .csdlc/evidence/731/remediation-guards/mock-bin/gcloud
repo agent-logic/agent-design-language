@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "${ADL_GCP_D1_MOCK_GCLOUD_LOG:?}"
+expected_impersonation="axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+if test "${1:-}" != "--impersonate-service-account" || test "${2:-}" != "$expected_impersonation"; then
+  printf 'mock gcloud missing authorized impersonation: %s\n' "$*" >&2
+  exit 65
+fi
+shift 2
+case "$*" in
+  auth\ print-access-token*) printf 'synthetic-access-token\n' ;;
+  config\ get-value\ auth/impersonate_service_account*) printf 'axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com\n' ;;
+  compute\ project-info\ describe*) printf '{"commonInstanceMetadata":{"items":[{"key":"enable-oslogin","value":"TRUE"}]}}\n' ;;
+  iam\ service-accounts\ describe*) printf '{"email":"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"}\n' ;;
+  compute\ networks\ describe*) printf '{"name":"axioma-dev-csm-private","autoCreateSubnetworks":false}\n' ;;
+  compute\ networks\ subnets\ describe*) printf '{"name":"axioma-dev-csm-private-us-west2","ipCidrRange":"10.42.0.0/24","privateIpGoogleAccess":true}\n' ;;
+  compute\ instances\ create*) printf 'Created synthetic instance\n'; if test "${ADL_GCP_D1_MOCK_CREATE_FAIL_AFTER_CREATE:-0}" = "1"; then exit 42; fi ;;
+  compute\ instances\ describe*) printf '{"status":"RUNNING","machineType":"zones/us-west2-a/machineTypes/e2-micro","disks":[{"boot":true,"autoDelete":true,"diskSizeGb":"10"}],"networkInterfaces":[{}],"labels":{"run_id":"gcp-d1-20260908t090000z-localguard","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  compute\ ssh*) printf '{"guest_ready":true,"metadata_service_account":"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"}\n' ;;
+  compute\ instances\ delete*) printf 'Deleted synthetic instance\n' ;;
+  compute\ instances\ list*) printf '[]\n' ;;
+  compute\ disks\ list*) printf '[]\n' ;;
+  compute\ addresses\ list*) printf '[]\n' ;;
+  compute\ forwarding-rules\ list*) printf '[]\n' ;;
+  compute\ firewall-rules\ list*) printf '[{"name":"axioma-dev-csm-private-iap-operator-access","direction":"INGRESS","sourceRanges":["35.235.240.0/20"]},{"name":"axioma-dev-csm-private-explicit-private-egress","direction":"EGRESS","targetTags":["csm-disposable"]},{"name":"axioma-dev-csm-private-deny-unapproved-egress","direction":"EGRESS","denied":[{"IPProtocol":"all"}]}]\n' ;;
+  logging\ metrics\ describe*) printf '{"metricDescriptor":{"valueType":"INT64"}}\n' ;;
+  projects\ get-iam-policy*) printf '{"bindings":[{"role":"roles/iap.tunnelResourceAccessor","members":["user:daniel@agent-logic.ai"]},{"role":"roles/compute.osLogin","members":["user:daniel@agent-logic.ai"]},{"role":"roles/logging.logWriter","members":["serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"]}]}\n' ;;
+  storage\ buckets\ describe\ gs://cs-host-377d41e71a824f92802120-dev-axioma-state*) printf '{"labels":{"owner":"state","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  storage\ buckets\ describe\ gs://cs-host-377d41e71a824f92802120-dev-axioma-artifacts*) printf '{"labels":{"owner":"artifacts","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  storage\ buckets\ describe\ gs://cs-host-377d41e71a824f92802120-dev-axioma-models*) printf '{"labels":{"owner":"models","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  storage\ buckets\ describe\ gs://cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence*) printf '{"labels":{"owner":"continuity-evidence","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  storage\ buckets\ describe\ gs://cs-host-377d41e71a824f92802120-dev-axioma-logs*) printf '{"labels":{"owner":"logs","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  storage\ objects\ list*) if test "${ADL_GCP_D1_MOCK_STORAGE_RESIDUE:-0}" = "1"; then printf '[{"name":"objects/gcp-d1-20260908t090000z-localguard/residue.txt","metadata":{"run_id":"gcp-d1-20260908t090000z-localguard"},"generation":"1"}]\n'; else printf '[]\n'; fi ;;
+  *) printf 'mock gcloud unsupported argv: %s\n' "$*" >&2; exit 64 ;;
+esac

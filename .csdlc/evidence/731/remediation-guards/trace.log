@@ -1,0 +1,340 @@
++ set -euo pipefail
+++ git rev-parse --show-toplevel
++ repo_root=/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal
++ cd /Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal
++ out_dir=.csdlc/evidence/731/remediation-guards
++ mkdir -p .csdlc/evidence/731/remediation-guards
++ valid_packet=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ old_packet=.csdlc/evidence/731/remediation-guards/expired-approval-packet.json
++ overlong_packet=.csdlc/evidence/731/remediation-guards/overlong-lifetime-packet.json
++ expired_deadline_packet=.csdlc/evidence/731/remediation-guards/expired-deadline-packet.json
++ bad_identity_packet=.csdlc/evidence/731/remediation-guards/bad-identity-packet.json
++ write_packet .csdlc/evidence/731/remediation-guards/valid-30m-packet.json 2026-09-08T09:00:00Z 2026-09-08T09:30:00Z
++ local path=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ local approved_at=2026-09-08T09:00:00Z
++ local deadline=2026-09-08T09:30:00Z
++ jq -n --arg approved_at 2026-09-08T09:00:00Z --arg deadline 2026-09-08T09:30:00Z '{
+      schema:"adl.gcp_d1.mutation_authorization_request.v1",
+      issue:731,
+      project:"cs-host-377d41e71a824f92802120",
+      region:"us-west2",
+      zone:"us-west2-a",
+      network:"axioma-dev-csm-private",
+      subnet:"axioma-dev-csm-private-us-west2",
+      plan_digest:"e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+      plan_file:".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+      plan_json:".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+      run_id:"gcp-d1-20260908t090000z-localguard",
+      instance_name:"adl-gcp-d1-localguard",
+      cleanup_deadline_utc:$deadline,
+      impersonated_identity:"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+      proof_run_spend_cap_usd:1,
+      foundation_steady_state_30d_cap_usd:5,
+      rollback_commands:["terraform destroy guarded","gcloud delete guarded"],
+      operator_authorization:{
+        status:"approved",
+        approved_by:"operator",
+        approved_at_utc:$approved_at,
+        authorization_text:"synthetic local guard packet; no live mutation",
+        required_before:["terraform apply","gcloud compute instances create","any live GCP mutation or spend"]
+      }
+    }'
++ write_packet .csdlc/evidence/731/remediation-guards/expired-approval-packet.json 2026-09-08T09:00:00Z 2026-09-08T09:30:00Z
++ local path=.csdlc/evidence/731/remediation-guards/expired-approval-packet.json
++ local approved_at=2026-09-08T09:00:00Z
++ local deadline=2026-09-08T09:30:00Z
++ jq -n --arg approved_at 2026-09-08T09:00:00Z --arg deadline 2026-09-08T09:30:00Z '{
+      schema:"adl.gcp_d1.mutation_authorization_request.v1",
+      issue:731,
+      project:"cs-host-377d41e71a824f92802120",
+      region:"us-west2",
+      zone:"us-west2-a",
+      network:"axioma-dev-csm-private",
+      subnet:"axioma-dev-csm-private-us-west2",
+      plan_digest:"e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+      plan_file:".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+      plan_json:".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+      run_id:"gcp-d1-20260908t090000z-localguard",
+      instance_name:"adl-gcp-d1-localguard",
+      cleanup_deadline_utc:$deadline,
+      impersonated_identity:"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+      proof_run_spend_cap_usd:1,
+      foundation_steady_state_30d_cap_usd:5,
+      rollback_commands:["terraform destroy guarded","gcloud delete guarded"],
+      operator_authorization:{
+        status:"approved",
+        approved_by:"operator",
+        approved_at_utc:$approved_at,
+        authorization_text:"synthetic local guard packet; no live mutation",
+        required_before:["terraform apply","gcloud compute instances create","any live GCP mutation or spend"]
+      }
+    }'
++ write_packet .csdlc/evidence/731/remediation-guards/overlong-lifetime-packet.json 2026-09-08T09:00:00Z 2026-09-08T09:31:00Z
++ local path=.csdlc/evidence/731/remediation-guards/overlong-lifetime-packet.json
++ local approved_at=2026-09-08T09:00:00Z
++ local deadline=2026-09-08T09:31:00Z
++ jq -n --arg approved_at 2026-09-08T09:00:00Z --arg deadline 2026-09-08T09:31:00Z '{
+      schema:"adl.gcp_d1.mutation_authorization_request.v1",
+      issue:731,
+      project:"cs-host-377d41e71a824f92802120",
+      region:"us-west2",
+      zone:"us-west2-a",
+      network:"axioma-dev-csm-private",
+      subnet:"axioma-dev-csm-private-us-west2",
+      plan_digest:"e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+      plan_file:".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+      plan_json:".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+      run_id:"gcp-d1-20260908t090000z-localguard",
+      instance_name:"adl-gcp-d1-localguard",
+      cleanup_deadline_utc:$deadline,
+      impersonated_identity:"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+      proof_run_spend_cap_usd:1,
+      foundation_steady_state_30d_cap_usd:5,
+      rollback_commands:["terraform destroy guarded","gcloud delete guarded"],
+      operator_authorization:{
+        status:"approved",
+        approved_by:"operator",
+        approved_at_utc:$approved_at,
+        authorization_text:"synthetic local guard packet; no live mutation",
+        required_before:["terraform apply","gcloud compute instances create","any live GCP mutation or spend"]
+      }
+    }'
++ write_packet .csdlc/evidence/731/remediation-guards/expired-deadline-packet.json 2026-09-08T09:00:00Z 2026-09-08T09:30:00Z
++ local path=.csdlc/evidence/731/remediation-guards/expired-deadline-packet.json
++ local approved_at=2026-09-08T09:00:00Z
++ local deadline=2026-09-08T09:30:00Z
++ jq -n --arg approved_at 2026-09-08T09:00:00Z --arg deadline 2026-09-08T09:30:00Z '{
+      schema:"adl.gcp_d1.mutation_authorization_request.v1",
+      issue:731,
+      project:"cs-host-377d41e71a824f92802120",
+      region:"us-west2",
+      zone:"us-west2-a",
+      network:"axioma-dev-csm-private",
+      subnet:"axioma-dev-csm-private-us-west2",
+      plan_digest:"e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+      plan_file:".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+      plan_json:".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+      run_id:"gcp-d1-20260908t090000z-localguard",
+      instance_name:"adl-gcp-d1-localguard",
+      cleanup_deadline_utc:$deadline,
+      impersonated_identity:"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+      proof_run_spend_cap_usd:1,
+      foundation_steady_state_30d_cap_usd:5,
+      rollback_commands:["terraform destroy guarded","gcloud delete guarded"],
+      operator_authorization:{
+        status:"approved",
+        approved_by:"operator",
+        approved_at_utc:$approved_at,
+        authorization_text:"synthetic local guard packet; no live mutation",
+        required_before:["terraform apply","gcloud compute instances create","any live GCP mutation or spend"]
+      }
+    }'
++ jq '.impersonated_identity = "operator@example.com"' .csdlc/evidence/731/remediation-guards/valid-30m-packet.json
+++ utc_epoch 2026-09-08T09:10:00Z
+++ date -j -u -f %Y-%m-%dT%H:%M:%SZ 2026-09-08T09:10:00Z +%s
++ valid_now=1788858600
+++ utc_epoch 2026-09-08T11:01:01Z
+++ date -j -u -f %Y-%m-%dT%H:%M:%SZ 2026-09-08T11:01:01Z +%s
++ old_now=1788865261
+++ utc_epoch 2026-09-08T09:30:01Z
+++ date -j -u -f %Y-%m-%dT%H:%M:%SZ 2026-09-08T09:30:01Z +%s
++ expired_deadline_now=1788859801
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh .csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788865261
++ bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh .csdlc/evidence/731/remediation-guards/expired-approval-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh .csdlc/evidence/731/remediation-guards/overlong-lifetime-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788859801
++ bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh .csdlc/evidence/731/remediation-guards/expired-deadline-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh .csdlc/evidence/731/remediation-guards/bad-identity-packet.json
++ bash -n .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ bash -n .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh 'trap cleanup_instance EXIT'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local 'needle=trap cleanup_instance EXIT'
++ grep -Fq -- 'trap cleanup_instance EXIT' .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh 'gcloud_authorized()'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local 'needle=gcloud_authorized()'
++ grep -Fq -- 'gcloud_authorized()' .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh '--impersonate-service-account "$impersonated_identity"'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local 'needle=--impersonate-service-account "$impersonated_identity"'
++ grep -Fq -- '--impersonate-service-account "$impersonated_identity"' .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh deadline-reaper.sh
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=deadline-reaper.sh
++ grep -Fq -- deadline-reaper.sh .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh ADL_GCP_D1_FAILPOINT_AFTER_CREATE
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=ADL_GCP_D1_FAILPOINT_AFTER_CREATE
++ grep -Fq -- ADL_GCP_D1_FAILPOINT_AFTER_CREATE .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh workload-readiness.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=workload-readiness.json
++ grep -Fq -- workload-readiness.json .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh post-forwarding-rules.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=post-forwarding-rules.json
++ grep -Fq -- post-forwarding-rules.json .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh post-firewall-overrides.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=post-firewall-overrides.json
++ grep -Fq -- post-firewall-overrides.json .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh post-vm-iam.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=post-vm-iam.json
++ grep -Fq -- post-vm-iam.json .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh post-storage-objects.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=post-storage-objects.json
++ grep -Fq -- post-storage-objects.json .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh post-terraform-state-run-labels.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ local needle=post-terraform-state-run-labels.json
++ grep -Fq -- post-terraform-state-run-labels.json .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh --impersonate-service-account
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local needle=--impersonate-service-account
++ grep -Fq -- --impersonate-service-account .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh 'gcloud_authorized()'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local 'needle=gcloud_authorized()'
++ grep -Fq -- 'gcloud_authorized()' .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh 'trap rollback_foundation EXIT'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local 'needle=trap rollback_foundation EXIT'
++ grep -Fq -- 'trap rollback_foundation EXIT' .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh ADL_GCP_D1_FAILPOINT_AFTER_FOUNDATION_APPLY
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local needle=ADL_GCP_D1_FAILPOINT_AFTER_FOUNDATION_APPLY
++ grep -Fq -- ADL_GCP_D1_FAILPOINT_AFTER_FOUNDATION_APPLY .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh project-info.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local needle=project-info.json
++ grep -Fq -- project-info.json .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh workload-service-account.json
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local needle=workload-service-account.json
++ grep -Fq -- workload-service-account.json .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ require_text .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh 'label readback mismatch'
++ local file=.csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ local 'needle=label readback mismatch'
++ grep -Fq -- 'label readback mismatch' .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ mock_bin_dir=.csdlc/evidence/731/remediation-guards/mock-bin
++ mkdir -p .csdlc/evidence/731/remediation-guards/mock-bin
++ mock_gcloud=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ mock_terraform=.csdlc/evidence/731/remediation-guards/mock-bin/terraform
++ mock_gcloud_log=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ mock_terraform_log=.csdlc/evidence/731/remediation-guards/mock-terraform.log
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log .csdlc/evidence/731/remediation-guards/mock-terraform.log
++ cat
++ chmod 700 .csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ cat
++ chmod 700 .csdlc/evidence/731/remediation-guards/mock-bin/terraform
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload-create-failure
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ ADL_GCP_D1_MOCK_CREATE_FAIL_AFTER_CREATE=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload-create-failure
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload-create-failure
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload-create-failure/deadline-reaper.pid
++ local restore_xtrace=0
++ case "$-" in
++ restore_xtrace=1
++ set +x
++ printf 'mock-reaper-pid-normalized\n'
++ :
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload-success
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload-success
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload-success
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload-success/deadline-reaper.pid
++ local restore_xtrace=0
++ case "$-" in
++ restore_xtrace=1
++ set +x
++ printf 'mock-reaper-pid-normalized\n'
++ :
++ jq -e '.readiness == "guest_metadata_identity_observed" and .residue.storage_objects == 0 and .residue.forwarding_rules == 0 and .residue.firewall_overrides == 0 and .residue.vm_iam == 0 and .residue.terraform_state_run_labels == 0' .csdlc/evidence/731/remediation-guards/mock-workload-success/status.json
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload-storage-residue
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ ADL_GCP_D1_MOCK_STORAGE_RESIDUE=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload-storage-residue
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload-storage-residue
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/deadline-reaper.pid
++ local restore_xtrace=0
++ case "$-" in
++ restore_xtrace=1
++ set +x
++ printf 'mock-reaper-pid-normalized\n'
++ :
++ grep -Fq 'run-labelled storage object residue exists' .csdlc/evidence/731/remediation-guards/workload-storage-residue.log
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ ADL_GCP_D1_FAILPOINT_AFTER_CREATE=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload/deadline-reaper.pid
++ local restore_xtrace=0
++ case "$-" in
++ restore_xtrace=1
++ set +x
++ printf 'mock-reaper-pid-normalized\n'
++ :
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log .csdlc/evidence/731/remediation-guards/mock-terraform.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_TERRAFORM_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/terraform
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-foundation-success
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_MOCK_TERRAFORM_LOG=.csdlc/evidence/731/remediation-guards/mock-terraform.log
++ bash .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ jq -e '.impersonation == "service_account_short_lived_access_token" and .rollback_on_failure == true' .csdlc/evidence/731/remediation-guards/mock-foundation-success/status.json
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log .csdlc/evidence/731/remediation-guards/mock-terraform.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_TERRAFORM_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/terraform
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-foundation
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_MOCK_TERRAFORM_LOG=.csdlc/evidence/731/remediation-guards/mock-terraform.log
++ ADL_GCP_D1_FAILPOINT_AFTER_FOUNDATION_APPLY=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ grep -Fq ' destroy ' .csdlc/evidence/731/remediation-guards/mock-terraform.log
++ jq -n --arg schema adl.gcp_d1.remediation_guards.v1 --arg status passed '{
+    schema:$schema,
+    status:$status,
+    mutation:"none",
+    authorization_guards:["valid_30m_packet_passed","expired_approval_rejected","overlong_lifetime_rejected","expired_deadline_rejected","service_account_identity_required"],
+    workload_guards:["exit_cleanup_mock_proved","deadline_reaper","partial_create_failure_cleanup_mock_proved","post_create_failpoint","guest_readiness_executed","expanded_zero_residue_executed","storage_object_all_versions_residue_rejected"],
+    foundation_guards:["service_account_impersonation","rollback_on_failure_mock_proved","exact_readback_assertions_executed"]
+  }'
++ printf 'PASS: #731 local remediation guards without live GCP mutation\n'
+PASS: #731 local remediation guards without live GCP mutation
