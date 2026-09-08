@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 521,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d539e2d44333e52ba1b69ebd21186cad20379f7b6a97171a8f016e42e1853867",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "1455f6fd168baf030d0a662c571fe7d89b20065cac40a4cafc5a4b01d656f888",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/521/design.md",
+  "diagram_path": ".csdlc/prepared/issues/521/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "b457c17dea54bc84b79360b125558bac86a637fa613dfe58781a7f9d42567a38",
+      "rendered_digest": "12fb8849e3270d1b04a26bc4fd35dcefec40ec52b0a0e6cb1822c08258d57d0f",
+      "ast_digest": "3e457362ffc852688830d479bb80cfadbbb1476ec45ebad3c81a0a3f285a881c"
+    },
+    "stp": {
+      "values_digest": "c910bacc23cba459136588d15ff702f48f43659fa9cb1c47f5e8885f2d8fd228",
+      "rendered_digest": "065a14334efdaa79b5ded08dfc072cc2807fc336eef4a6c1562ddff0d753995e",
+      "ast_digest": "21b9065c77bc8fd9b65bd04a31b5260393b6e78e3ada46a0287fbf8b9cf10c51"
+    },
+    "spp": {
+      "values_digest": "5f9ef2aef031fbc17490b32d3ee4f22dc4021abb7e4793a5cbb7da054ade0ca0",
+      "rendered_digest": "634f3f6bd2cf1167b01c604a0db2ea2e216936ad97761ef779857e5ae195ee1f",
+      "ast_digest": "1671ed53bc88257627182132831de56925dce6ae8c33abf5301f41a4a5bc785e"
+    },
+    "vpp": {
+      "values_digest": "63856e8c00bb7963ab1951f7ee3dd53c87ad3a40e67c24fa6053ecf56447b107",
+      "rendered_digest": "74d7ef0903e7619d0761248c50da676469a263e8b2aa44101852fd70c1b96cee",
+      "ast_digest": "3b0b5cf2d0e119aa7cddadad4e7ac6922b90bf3d9944c0cc7d651980677b21fa"
+    },
+    "srp": {
+      "values_digest": "0d9c220829395670518ea480eafc6acb6f6fd697e66cb76e448b2ce7d53ce0ac",
+      "rendered_digest": "e5e4095f13e91ad7038d979f08306b1e7792b724f4b60bfbbc04f04e9df7512d",
+      "ast_digest": "69637d2fc0647a6e7834882d7e9f8d3a967f880bb8b8bd4f5dbccbf3bf59295f"
+    },
+    "sor": {
+      "values_digest": "72c7f287ce56a811c4c2c2ee8e42d32224ca54872c0587da0ea033bfa7cf9700",
+      "rendered_digest": "c09f0d1d139c534fdeb6d94aa315a69844ff93d97d92c22c18b488bc62efcb47",
+      "ast_digest": "dd11cf797f33bf5f795e6ebc8d6125ef141bd79f9e7bcda1b7247b9b1e81520c"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint10-prep-521",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint10-prep-521",
+      "reason": "Replace descriptive affected areas with exact issue-owned repository paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-05\",\".csdlc/issues/521\",\".csdlc/prepared/issues/521\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint10-prep-521",
+      "reason": "Declare the exact issue-owned validation target used by the VPP lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-05\",\".csdlc/issues/521\",\".csdlc/prepared/issues/521\",\".csdlc/prepared/issues/521/validate-external-review.rb\"]}"
+    }
+  ]
+}

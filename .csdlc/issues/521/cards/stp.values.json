@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 521,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-05] External / third-party review",
+    "slug": "tail-05-external-third-party-review",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one independent external-review report; findings are rows within that report.",
+      "deliverables": [
+        "Independent reviewer identity and conflict declaration",
+        "Exact candidate and #520 packet manifest",
+        "Findings-first external report",
+        "Limitations and coverage statement",
+        "Validated report manifest"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Reviewer independence and conflicts are recorded",
+        "AC-2: Scope and limitations bind the unchanged exact candidate and #520 packet",
+        "AC-3: Every finding has severity, exact evidence, impact, and disposition route",
+        "AC-4: Missing or inaccessible evidence is a limitation or finding, never an implied pass"
+      ],
+      "dependencies": [
+        "TAIL-04/#520 reviewed green merge is live and candidate identity is unchanged"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#521",
+        "agent-logic/agent-design-language#520",
+        "docs/milestones/v0.92.1/evidence/release/tail-04/**",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-05"
+      ],
+      "non_goals": [
+        "Finding remediation",
+        "Release approval",
+        "Candidate mutation",
+        "Merge or deployment"
+      ]
+    }
+  }
+}
