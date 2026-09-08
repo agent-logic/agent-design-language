@@ -97,11 +97,11 @@ Implemented the Runtime v3 Observatory redesign with live polis switching, a res
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

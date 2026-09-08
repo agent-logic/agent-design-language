@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "433364c3086902f5d74a303df1060879554e68ecad235e1d00bcfdb6ddea25ac",
+  "phase": "published",
+  "generation": 11,
+  "digest": "3cf9ba7523bebaf5fdb5ebfd6f76c3bc6e09be80a3b5637c73f1645965320087",
   "branch": "codex/512-observatory-redesign-implementation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
   "review_assignment": {
@@ -66,7 +66,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 512,
+    "pull_request": 719,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/719",
+    "base": "main",
+    "head": "codex/512-observatory-redesign-implementation",
+    "revision": "git-blake3:452cb34e174df4c3510a1981eb739180eeb44f55:cdba7662e0bd659c50d8490a740e40bb4af0c5734ebd597e50b8ab1a8c240e9c",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +91,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8318262bd01fefda88ea4c54f3b01efd858eb92845e739ff25289c83f630e125",
+      "values_digest": "d2d3a2ee63a5498a0972a276b2b7af399647bcb185f939173a45a396182d368f",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "3c188a944c86d48c034f122cd0cd2e48d0d079274d466e0768db64c2aff68c56",
+      "values_digest": "5f231689bad3be22e103826ff225d792102367e9e4dc15d04a7e475c0815cb3b",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "fef508821f63ef03ec46bd4b34a9cc13f569a10a9f0e7abae268554715968248",
+      "values_digest": "ae602d90b5ee1a1ab36a4a18a3bccdb955f96b8fb9add1307a5716ab695b8241",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "5d9aace0cf993e832031a289468c7fb5f6118df451a7421255508d008e5fb124",
+      "values_digest": "31ba49e3a94a597d6396b3100343cc3f950e11b1442239d4f3481b6ca1c68441",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "3466767142fb248ce09e31b8e0ef6e7722accae054cb502f3a18258413124372",
+      "values_digest": "b3aa2190e4803a7e2cd8b59744170b3d7dcb42069d4d05f3ada032333bc61646",
       "rendered_digest": "b454a4a6993e4e8230dbdeaa70d202c36f35fa7326ca355a78787edcc40a064f",
       "ast_digest": "5ab3010729f4335a847b4b8b5bf72cf0b07acbb37f9e08516f4c5667e39f5321"
     },
     "sor": {
-      "values_digest": "95996b1b22e05c88c48abe85b33bcbc466e01e179ad3252444dbfc62804748ff",
-      "rendered_digest": "3ddfbb4054fb69168fc9e9a08adf78d8aa8c30092deb3f78c0c9f8fbee145ede",
-      "ast_digest": "88c4d3b701d6127d8fb526544ef1f58607717b7d7d0413e33463d014937416c9"
+      "values_digest": "e24fc954a358620e9d52c52d9e74d72311782cc896acb46e2111d38d0c9fd4ca",
+      "rendered_digest": "4b244a72291b0814d006c8734bf863bd6cabcb693a19b5dd31b620fe9b9a31f8",
+      "ast_digest": "cb3d21d395746b6ba97a3cda73bf57392423970ebb02f02f3341a59a3514c913"
     }
   },
   "transitions": [
@@ -152,6 +163,13 @@
       "to": "reviewed",
       "actor": "codex:issue-512-observatory-redesign",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -273,6 +291,13 @@
       "actor": "codex:issue-512-observatory-redesign",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
