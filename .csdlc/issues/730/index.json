@@ -3,13 +3,40 @@
   "issue": 730,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "2f46b3e4d8eab4b06168a06af8f037733cec90b256d2aa6a7f66e268742a0e10",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "986270c95b34d6fc3f342879485805d802be935a500ee929ac9b676a7f79b0ff",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:aefcc1e584d7a4912ce3e95edeebbbac01044a75:6fdac4c245792ab9457ee76153c3086a7686aec338a0ad4f5ac1d95e8a550aa3",
+    "scope": [
+      "exact-head pre-publication review at aefcc1e584d7a4912ce3e95edeebbbac01044a75",
+      "GCP-B1 impersonation-only Terraform bootstrap correction",
+      "typed recover_review metadata-tail state",
+      "fail-closed live proof authorization and cleanup safety",
+      "static validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "scope": [
+      "exact-head pre-publication review at aefcc1e584d7a4912ce3e95edeebbbac01044a75",
+      "GCP-B1 impersonation-only Terraform bootstrap correction",
+      "typed recover_review metadata-tail state",
+      "fail-closed live proof authorization and cleanup safety",
+      "static validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence"
+    ],
+    "reviewed_revision": "git-blake3:aefcc1e584d7a4912ce3e95edeebbbac01044a75:6fdac4c245792ab9457ee76153c3086a7686aec338a0ad4f5ac1d95e8a550aa3",
+    "findings": [],
+    "residual_risks": [
+      "Live GCP apply was not executed because the exact git-common authorization artifact is not present; the live lane fails closed before mutation without it."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "03c8212a19033bc57c55108965e37077369c8124b869adfec2f70d4e5c7bae25",
+      "values_digest": "39d0c8ab92953d7fb9c71162fe9c117409d1f16a5cca5adc955d2cdbff09ec02",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "08e0dbb326f30e9183e585c19fb6561794eb77f157ef7ec1581a6bd85b99df30",
+      "values_digest": "dec9d05f5ca680e326b4e908c24df23f0e650b1e3373855baff6b084d68982c0",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "81e7be469f9822543a1360fd27665b98e7dc50e898fcf10cc9625e6ec2178f3a",
+      "values_digest": "184e4ce63f81b35b8aa425606f67a0e654c67d52b703ced7ac0c2aa0b8b2c4e0",
       "rendered_digest": "48deb92716b6d76b442da6c585efebf1339045c59d34e7a1f1cc2715d7a2f31b",
       "ast_digest": "9704496969ba459d57124d72c36247258aa1f00f63299ed8f23ac6b35e8ef23e"
     },
     "vpp": {
-      "values_digest": "7c37f783edcc2de1a8d5a76f88a83cc45189372b11b84068ff970f9775e1478e",
+      "values_digest": "adf7577803011949530fc14e488e9148b63a4d1cb2868e3b1fd95fb32cbf5354",
       "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "35ea9996571044c2d032643bc565dcf237e9e22d3bd4a943bb1c80cf150143c3",
-      "rendered_digest": "d8dda4106c52307379ef238a523f79d7c51f5ffa60dc699437349565a426f0e9",
-      "ast_digest": "9bbebcd2cc61abbe00f11afcc2eeceb1848bc96d1458ff7826fff6a9d38782cc"
+      "values_digest": "1dca22532cbf37e0dc8c1850da39fe6a05efed3c3b34f915a8cfd07930d44ad6",
+      "rendered_digest": "182ce77e0d5a4fb892246423e5f3e32a7030dcbcb1f497b1dfac43aaad631ce0",
+      "ast_digest": "e11392156dcc03af4c5dc422fef99daedd467d25c2fdc4db37b1dfd314c067eb"
     },
     "sor": {
-      "values_digest": "2b29606d82395bd179450d6a9ccff6cfaeb4046fec3a620d2948a19fc44d2776",
+      "values_digest": "aaed1b67477530ee3001960ff432302bc02a83f0918469f2a54334efd3534c6c",
       "rendered_digest": "2a11bfae981d8942d08bc65d5d8c8306a560c35a395f50dc6ac1606966865ab8",
       "ast_digest": "1a228659421c0cd49bdc7989ff63339ed8aef9e6735927b6bd9fd6d6bb9b63fa"
     }
@@ -89,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale review after lifecycle-only review-recording tail moved HEAD beyond the reviewed substantive commit; prepare exact-current-head review before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/review_730_prelive",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -245,6 +279,20 @@
       "actor": "codex:/root",
       "reason": "Recover stale review after lifecycle-only review-recording tail moved HEAD beyond the reviewed substantive commit; prepare exact-current-head review before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex-subagent:/root/review_730_prelive",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
