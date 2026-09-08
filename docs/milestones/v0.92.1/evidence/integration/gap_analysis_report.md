@@ -1,10 +1,10 @@
 # v0.92.1 Release-tail Gap Analysis
 
-Candidate: `71da4802fca3879679e498c2d4c30f20ca168613`
+Candidate: `f343f481ca8ce11e6c01d5c216a16aa83c3ffb3e`
 
-Captured-input digest: `657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465`
+Captured-input digest: `c26d0f06ef49e897797ea57304b04dbfba6d071e9233b61d3bcb5c5e0392b3a5`
 
-Canonical projection digest: `30e35b9e79b38f5b63f5355fb291fdb4a4ed245d8d14c505dc5dc8b8c0b14011`
+Canonical projection digest: `6fdc0abac8f45bdb3b6d86a853f2a9e5e74fa462d49bd96425e08aba8958dcee`
 
 ## Findings
 
@@ -76,8 +76,8 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 ## Backlog and retained authority
 
-- #84: `99a91752d48d44ec366aae261b718a0761ca6dec0493c236da08a48bf80ac1f1`
-- #251: `c757524417db54b16a0924ff7c919574a170d0d1f86973d8f629ee6308a2a977`
+- #84: `63fcbc6d034c8545d60983d2d94be5023ce4a196f3d365f120445ed5cfbf0539`
+- #251: `12e04b0a14c6172f285d30b388019b3b7234d4b28107bf7d0af99d50e1213e24`
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision
@@ -479,5 +479,5 @@ This is an admission decision only; it is not release approval.
 
 | Issue | Disposition | Authority digest |
 |---|---|---|
-| #84 | routed_to_backlog | 99a91752d48d44ec366aae261b718a0761ca6dec0493c236da08a48bf80ac1f1 |
-| #251 | routed_to_backlog | c757524417db54b16a0924ff7c919574a170d0d1f86973d8f629ee6308a2a977 |
+| #84 | routed_to_backlog | 63fcbc6d034c8545d60983d2d94be5023ce4a196f3d365f120445ed5cfbf0539 |
+| #251 | routed_to_backlog | 12e04b0a14c6172f285d30b388019b3b7234d4b28107bf7d0af99d50e1213e24 |
