@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
     "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
     "version": "v0.92.1",
-    "generation": 26
+    "generation": 27
   },
   "status": "pre_phase",
   "content": {
@@ -129,8 +129,8 @@
           "evidence_ref": "stdout: cloudtrail_exact=present; cloudtrail_kms=present; config_recorder_exact=present; config_delivery_bucket_matches=true; access_analyzer_exact=active; sns_findings_topic_exact=present; eventbridge_findings_route=present; audit_bucket_kms_encryption=present; audit_bucket_retention_days_at_least=365; finding_owner_destination_tags=present; redaction=names_and_arns_not_printed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

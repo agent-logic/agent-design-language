@@ -29,3 +29,4 @@
 {"sequence":29,"generation":25,"actor":"codex-727-remediation","reason":"Recover review because substantive remediation tightened the issue #727 authorization validator, live readback script, authorization template, and durable proof packet after PR review findings.","operation":"recover_review"}
 {"sequence":30,"generation":25,"actor":"codex-727-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":26,"actor":"codex-727-remediation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":32,"generation":27,"actor":"codex-727-remediation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
