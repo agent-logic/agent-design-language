@@ -44,37 +44,7 @@ def evidence_resolves?(evidence, candidate, root)
   Digest::SHA256.hexdigest(content) == evidence.fetch("sha256")
 end
 
-def validate_fixture!(fixture)
-  authority = fixture.fetch("opening_authority")
-  fail!("fixture base is not derived from WP-01") unless authority == {
-    "issue" => 480, "pull_request" => 527,
-    "merge_sha" => fixture.fetch("opening_merge_sha"),
-    "base_sha" => fixture.fetch("base_sha")
-  }
-  fail!("fixture milestone snapshot is incomplete") unless fixture.dig("milestone_snapshot", "pagination_complete") == true
-  live_issues = fixture.dig("milestone_snapshot", "issues")
-  fail!("fixture live issue denominator is empty") unless live_issues.is_a?(Array) && live_issues.any?
-  fail!("fixture canonical planned mapping differs from WP-01 receipt") unless fixture.fetch("planned_mapping") == fixture.fetch("receipt_mapping")
-  fail!("fixture live query receipt is incomplete") unless fixture.dig("milestone_snapshot", "api_receipt", "final_has_next_page") == false && fixture.dig("milestone_snapshot", "api_receipt", "response_digest_valid") == true
-  fail!("fixture captured snapshot differs from external query result") unless live_issues == fixture.fetch("external_query_issues")
-  live_prs = live_issues.flat_map { |row| row.fetch("pull_requests") }.sort
-  fail!("fixture issue denominator differs from live snapshot") unless fixture.fetch("issue_rows").sort == live_issues.map { |row| row.fetch("number") }.sort
-  fail!("fixture PR denominator differs from live snapshot") unless fixture.fetch("pr_rows").sort == live_prs
-  fail!("fixture must reject empty repo/acceptance denominators") unless fixture.fetch("repo_rows").any? && fixture.fetch("acceptance_rows").any?
-  fail!("fixture acceptance rows differ from immutable specification") unless fixture.fetch("acceptance_rows") == fixture.fetch("canonical_acceptance_rows") && fixture.fetch("acceptance_content_bound") == true && fixture.fetch("spec_digest_valid") == true
-  fail!("fixture must reject empty assignments/results") unless fixture.fetch("assignments").any? && fixture.fetch("results").any?
-  fail!("fixture lane reports are missing, content-free, or unsynthesized") unless fixture.fetch("lane_reports_manifested") == true && fixture.fetch("lane_reports_contentful") == true && fixture.fetch("raw_findings") == fixture.fetch("synthesized_findings")
-end
-
-if ARGV.first == "fixture"
-  fixture = read_json(ARGV.fetch(1))
-  validate_fixture!(fixture)
-  puts JSON.generate(status: "passed", fixture: ARGV[1])
-  exit
-end
-
-root = ENV.fetch("ADL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-04")
-mode = ARGV.fetch(0, "all")
+def validate_packet!(root:, mode: "all")
 fail!("unsupported mode: #{mode}") unless %w[all denominator findings integrity].include?(mode)
 required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
@@ -236,4 +206,10 @@ fail!("packet manifest omits required artifacts") unless (required - ["packet-ma
 fail!("packet manifest omits lane reports") unless results.all? { |row| manifest_paths.include?(row.fetch("report_path")) }
 fail!("packet manifest omits raw milestone API response") unless manifest_paths.include?(response_path)
 
-puts JSON.generate(schema: "adl.v0921.internal_review_validation.v2", mode: mode, status: "passed", candidate_sha: candidate, changed_paths: changed.length, issues: issue_rows.length, acceptance_surfaces: acceptance_rows.length, assignments: assignments.length, findings: findings.length)
+  {schema: "adl.v0921.internal_review_validation.v2", mode: mode, status: "passed", candidate_sha: candidate, changed_paths: changed.length, issues: issue_rows.length, acceptance_surfaces: acceptance_rows.length, assignments: assignments.length, findings: findings.length}
+end
+
+if __FILE__ == $PROGRAM_NAME
+  root = ENV.fetch("ADL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-04")
+  puts JSON.generate(validate_packet!(root: root, mode: ARGV.fetch(0, "all")))
+end
