@@ -565,6 +565,31 @@ fn validate_install(
             )),
         }
     }
+    if install.executes_install {
+        match (
+            install.cutover_approval_ref.as_deref(),
+            install.cutover_approval_digest.as_deref(),
+        ) {
+            (Some(reference), Some(digest))
+                if !reference.trim().is_empty()
+                    && digest.len() == 64
+                    && digest.chars().all(|ch| ch.is_ascii_hexdigit()) =>
+            {
+                if let Some(observed) = observed_ref_digest(evidence_root, reference, findings) {
+                    if observed != digest {
+                        findings.push(finding(
+                            "install_cutover_approval_digest_mismatch",
+                            "install cutover approval digest must match referenced typed evidence",
+                        ));
+                    }
+                }
+            }
+            _ => findings.push(finding(
+                "install_typed_authority_missing",
+                "stable install execution requires typed cutover approval evidence",
+            )),
+        }
+    }
     if !install.stable_destination || install.destination.contains("/target/") {
         findings.push(finding(
             "install_destination_not_stable",
@@ -1285,27 +1310,19 @@ fn authorize_install_execution(
     install: &InstallPlanInput,
 ) -> Result<(), ProofRouteFinding> {
     let root = request_root(request)?;
-    match (
-        install.cutover_approval_ref.as_deref(),
-        install.cutover_approval_digest.as_deref(),
-    ) {
-        (Some(reference), Some(digest))
-            if !reference.trim().is_empty()
-                && digest.len() == 64
-                && digest.chars().all(|ch| ch.is_ascii_hexdigit()) => {}
-        _ => {
-            return Err(finding(
-                "install_typed_authority_missing",
-                "stable install execution requires typed cutover approval evidence",
-            ));
-        }
-    }
     if !install.exact_head.chars().all(|ch| ch.is_ascii_hexdigit())
         || install.exact_head.len() != 40
     {
         return Err(finding(
             "install_exact_head_missing",
             "stable install execution requires an exact 40-character head SHA",
+        ));
+    }
+    let observed_head = current_git_head(&root)?;
+    if observed_head != install.exact_head {
+        return Err(finding(
+            "install_exact_head_mismatch",
+            "stable install execution requires exact_head to match the current checkout head",
         ));
     }
     if active_canonical_v3_selector(&root, install)? {
@@ -1315,6 +1332,27 @@ fn authorize_install_execution(
         "install_typed_authority_missing",
         "stable install requires active canonical v3 authority or the merge-gated cutover route",
     ))
+}
+
+fn current_git_head(root: &Path) -> Result<String, ProofRouteFinding> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["rev-parse", "HEAD"])
+        .output()
+        .map_err(|_| {
+            finding(
+                "install_exact_head_unavailable",
+                "stable install execution requires the current checkout head to be observable",
+            )
+        })?;
+    if !output.status.success() {
+        return Err(finding(
+            "install_exact_head_unavailable",
+            "stable install execution requires the current checkout head to be observable",
+        ));
+    }
+    Ok(String::from_utf8_lossy(&output.stdout).trim().to_owned())
 }
 
 fn active_canonical_v3_selector(
