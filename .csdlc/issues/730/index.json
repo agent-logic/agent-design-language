@@ -1,0 +1,74 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 730,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
+  "phase": "initialized",
+  "generation": 1,
+  "digest": "094111ba4dd4ec4ce9421a6f88b089afaf423c35a62d60fb6dae73d1bb72bec5",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/design.md",
+  "diagram_path": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "2ce40953f179244b995a8c4270b40c076ca9fed41c34fe1945a5c720fffb27ff"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4f9d80d33559f96ec05329c13bc0d3e4f7a99514008cbf8c1fd0ce3871f61780",
+      "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
+      "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
+    },
+    "stp": {
+      "values_digest": "e91a7220d5dd1b810797f861ec0cc4acf42cc95d4d956c39bd9b75b4fd019f8b",
+      "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
+      "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
+    },
+    "spp": {
+      "values_digest": "c395bbd227699d205793bf5d01cc9739a4aad0b0a95916849ed44eeae77f88df",
+      "rendered_digest": "39c8fd95953e2ce09a0fabf8676ae0bbf58c0ce52fb071d788e4d4eea391e689",
+      "ast_digest": "250ae134faa238bf11777dfc3d457b463b8fabff15c44e8052b4f38397fc7be9"
+    },
+    "vpp": {
+      "values_digest": "3b5a5801723d7904298629e3f2e4c103d73a37cb6e2cb6df64e706bc59ab5e74",
+      "rendered_digest": "9a74463ed4426b7b81ca10e7485b1b884a93f9c59e2f8c5dd17c0883d8891f03",
+      "ast_digest": "c2213d60a419b713c69aaf35d9547c8252eaa08bb84f324f173f462a154c88c8"
+    },
+    "srp": {
+      "values_digest": "b8636f4855a9096230bc8afcd08c52afa38108172c2252a9d45e4d5e9d2803ef",
+      "rendered_digest": "9a1f2392cb11aeb2435734f2d260b720b0b019fa1edce6dacdec09ae85d05d62",
+      "ast_digest": "933bf96b47aa68a787fc39ecfae7bfc0b4b333439de6e90b7038742e956acc62"
+    },
+    "sor": {
+      "values_digest": "293088320a56048d951a5b9fa589bd8159c0c14b806779a485e80620e817b335",
+      "rendered_digest": "153be477fb2c21f0ef830b9967ed322c40849ea1fe0bab3454f0eb71cf077f36",
+      "ast_digest": "a0106ee18c02a760affbf0e42a61bcc7cb6c57713969271247f0ba31bc9bbc79"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "Codex GCP corrective worker",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "Codex GCP corrective worker",
+      "reason": "Use safe repository-owned paths for execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/bootstrap/**\",\"docs/operations/cloud/gcp/terraform-bootstrap/**\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b1/**\",\".csdlc/prepared/issues/730/**\",\".csdlc/issues/730/**\"]}"
+    }
+  ]
+}

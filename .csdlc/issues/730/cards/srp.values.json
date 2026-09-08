@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 730,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+    "slug": "gcp-b1-impersonation-remote-state",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "GCP-B1 Terraform, auth, live proof tooling, and evidence boundaries",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any production path still select a static key?",
+        "Can the plan or rollback touch resources outside the exact denominator?",
+        "Does recovery prove immutable content and clean backend reinitialization?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

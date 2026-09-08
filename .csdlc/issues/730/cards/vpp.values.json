@@ -1,0 +1,71 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 730,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+    "slug": "gcp-b1-impersonation-remote-state",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "gcp-b1-static",
+          "proof_role": "impersonation and bounded Terraform contract",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+            "--lane=static"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "gcp-b1-live",
+          "proof_role": "remote state recovery and cleanup",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 1800,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+            "--authorization",
+            "<artifact>"
+          ],
+          "parallel_group": "authorized-live",
+          "defer_reason": "Requires exact operator authorization after saved-plan review."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed before mutation on identity, project, region, plan, authorization, budget, recovery, or cleanup mismatch.",
+      "design_ref": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/design.md",
+      "design_digest": "2ce40953f179244b995a8c4270b40c076ca9fed41c34fe1945a5c720fffb27ff",
+      "diagram_ref": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd",
+      "diagram_digest": "3cc898e0127d8ab383bfd6bed7a7026f72a302170750ba89b83a09bcdf363c5c"
+    }
+  }
+}

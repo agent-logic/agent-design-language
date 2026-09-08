@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 730,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+    "slug": "gcp-b1-impersonation-remote-state",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One impersonation-only remote-state bootstrap and recovery proof; no platform workload work.",
+      "deliverables": [
+        "impersonation-only Terraform/provider and command path",
+        "reviewed exact saved-plan guard",
+        "remote backend recovery proof",
+        "local-state cleanup proof",
+        "redacted evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Terraform and commands use short-lived impersonation and reject static-key execution.",
+        "AC-2: The reviewed plan and apply contain exactly the approved bucket and bucket-IAM denominator.",
+        "AC-3: Live readback proves private versioned recoverable backend controls.",
+        "AC-4: An immutable-generation canary is recovered with matching digest from a clean backend initialization.",
+        "AC-5: Repository and worktree contain zero local state, plan, backend, provider-cache, or credential residue.",
+        "AC-6: Rollback and budget/time caps fail closed and exact-head review is green."
+      ],
+      "dependencies": [
+        "#490 accepted hierarchy/project/region authority",
+        "#491 and PR #575 historical provenance",
+        "approved company source identity with Token Creator"
+      ],
+      "repo_inputs": [
+        "infra/gcp/bootstrap/**",
+        ".csdlc/prepared/issues/491/**",
+        "docs/operations/cloud/gcp/terraform-bootstrap/**",
+        "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md"
+      ],
+      "non_goals": [
+        "GCP platform or workload deployment",
+        "GPU or Runtime work",
+        "broader IAM cleanup",
+        "billing or project mutation"
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+flowchart LR
+  U[Approved company source identity] -->|short-lived impersonation| S[tf-bootstrap service account]
+  S --> P[Reviewed saved Terraform plan]
+  P --> B[Private versioned GCS backend]
+  B --> R[Generation-bound recovery readback]
+  R --> C[Clean-directory backend reinit]
+  C --> Z[Local residue = zero]
+
