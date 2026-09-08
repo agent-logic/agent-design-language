@@ -2,14 +2,14 @@
 
 Candidate: `af5f8036ab7a0619751ab55fa9bd4891f377cd9d`
 
-Captured-input digest: `cb71568f0a14504e79bbe210c726f6a860b9adf44f00ac23efe75213c2663f7b`
+Captured-input digest: `5d1273293d15e464055a9d74e81c7666aff283aa1582d92f29f28ed6e34d1a71`
 
-Canonical projection digest: `a1b4647e3ad98ca68a643fc567f0d22fc6cae5d8e7d0df6eed71b99d5362a4f0`
+Canonical projection digest: `04a7e31d1c38fd8768f5bf0b88ad2a5ac870eafd359ed13113d73af1af109b07`
 
 ## Findings
 
 - **P2 consolidated-live-spec-sync-debt** — Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records. Evidence: https://github.com/agent-logic/agent-design-language/issues/480#issue-body, f9a7235866ee1a2565fe18a7399b51b2704c37dae4ed875cfec987c8050e5532, 96ab626bad8ef94a33c1d7211a98d2786e94590998ee2cbad6180124b2f33cd5, https://github.com/agent-logic/agent-design-language/issues/494#issue-body, e4a5840ac93ada0212c84353af8527b00cc38d710ec5f0bb14bbc50cf6480851, 25aeef825468013dbd959e1ebd443f9c2552a1ef526814a42cc05c2f075a9286, https://github.com/agent-logic/agent-design-language/issues/510#issue-body, fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca, 5a236113e049937ac0fd466b425d43acafabd891c2835cde80b197d55993a1e7, https://github.com/agent-logic/agent-design-language/issues/512#issue-body, 80be51e3a6ae692a23386c52cfcd8aed130b058c398c55659d1d724a79eaaa5d, 759236137cc551e220664b5528b0850882fddd4e5c1df4f1158b01d582ee02ba. Owner: release planning maintainers. Disposition: follow_up.
-- **P1 issue-721-v3-standalone-parity-gap** — #721 is incorrectly closed by JSON-only PR #722, whose body says it does not fix the issue. At af5f8036 and current main, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Full standalone v3 parity remains release-blocking. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/pull/722, 73b1821851fba12d3a70c0baec403b65fbd4eb358cb2511b0eb37e0850ad6455, 1735a38b2048021ec231a5e81e47e84adeca57c86526b4e3a563ed2e3aac6718, {"path"=>".csdlc/evidence/516/no-v2-canary-af5f8036.json", "sha256"=>"4bddf1edfc51c004fb0b4ac04ffed7f4d3ff133242d3ba31c25e8ccf90e48ad7"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #721. Disposition: open_incorrectly_closed_owner.
+- **P1 issue-725-v3-standalone-parity-gap** — Closed #721 and open PR #726 cover issue-create and reporting parity but do not remove v2 build and operational dependencies. Open #725 owns native v3 authority migration. At af5f8036 and current main, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/issues/725, 42c02056fa762b56b9376be89d7914c5d1453deec50cf1b43ba85412d9656657, https://github.com/agent-logic/agent-design-language/pull/722, https://github.com/agent-logic/agent-design-language/pull/726, bb954ca76df921e14dde5b81af8e70a856e6f39a, 08c48640de5029fcc12847f98860201968df2ae5e2af1dd5d77d01410d390209, f49eb42e32c1dca3ffc24ee49ae20d6ec4dccd3396cac25f7a6b875916611fde, {"path"=>".csdlc/evidence/516/no-v2-canary-af5f8036.json", "sha256"=>"4bddf1edfc51c004fb0b4ac04ffed7f4d3ff133242d3ba31c25e8ccf90e48ad7"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #725. Disposition: open.
 - **P1 issue-487-semantic-implementation-gap** — AWS-D has 3 audit-confirmed unmet implementation criteria. Evidence: infra/aws/account-foundation/main.tf, .csdlc/issues/487/cards/sor.md. Owner: issue #487. Disposition: open.
 - **P1 issue-489-semantic-implementation-gap** — AWS-F has 1 audit-confirmed unmet implementation criteria. Evidence: infra/aws/runtime/private-node/main.tf, .csdlc/issues/489/cards/sor.md. Owner: issue #489. Disposition: open.
 - **P1 issue-491-semantic-implementation-gap** — GCP-B has 1 audit-confirmed unmet implementation criteria. Evidence: infra/gcp/bootstrap/main.tf, .csdlc/issues/491/cards/sor.md. Owner: issue #491. Disposition: open.
@@ -21,7 +21,7 @@ Canonical projection digest: `a1b4647e3ad98ca68a643fc567f0d22fc6cae5d8e7d0df6eed
 
 ## Denominator
 
-Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog dispositions: 2; acceptance rows: 397.
+Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog dispositions: 2; acceptance rows: 393.
 
 | Planned ID | Issue | Head revision | Merge revision | Ancestry | Disposition |
 |---|---:|---|---|---|---|
@@ -461,10 +461,6 @@ This is an admission decision only; it is not release approval.
 | TAIL-01 | #188 | retained-188-ac-2 | consolidated_successor_uncertainty | Every required lane artifact and quality gate is independently recomputed or explicitly rejected. |
 | TAIL-01 | #188 | retained-188-ac-3 | consolidated_successor_uncertainty | All P1/P2 findings receive verified terminal dispositions before recommendation. |
 | TAIL-01 | #188 | retained-188-ac-4 | consolidated_successor_uncertainty | The review does not treat one lane's success as evidence for another lane. |
-| TAIL-06 | #188 | retained-188-ac-1 | consolidated_successor_uncertainty | CORP-08, V3-16, and DRT-07 are terminal and exact revisions are ancestral to the review revision. |
-| TAIL-06 | #188 | retained-188-ac-2 | consolidated_successor_uncertainty | Every required lane artifact and quality gate is independently recomputed or explicitly rejected. |
-| TAIL-06 | #188 | retained-188-ac-3 | consolidated_successor_uncertainty | All P1/P2 findings receive verified terminal dispositions before recommendation. |
-| TAIL-06 | #188 | retained-188-ac-4 | consolidated_successor_uncertainty | The review does not treat one lane's success as evidence for another lane. |
 | TAIL-07 | #190 | retained-190-ac-1 | consolidated_successor_uncertainty | The handoff cites exact terminal release evidence and every accepted residual risk. |
 | TAIL-07 | #190 | retained-190-ac-2 | consolidated_successor_uncertainty | Deferred work retains owners, dependencies, proof requirements, and routing without being presented as complete. |
 | TAIL-07 | #190 | retained-190-ac-3 | consolidated_successor_uncertainty | V3-R01 remains ineligible until rollback expiry, stability metrics, historical readability, and explicit operator approval all pass. |

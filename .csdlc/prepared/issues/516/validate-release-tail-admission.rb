@@ -82,36 +82,42 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     end
     row["acceptance_rows"].each do |ac|
       raise "acceptance identity/text missing" if ac["id"].to_s.empty? || ac["text"].to_s.empty?
-      linked=ac["evidence_status"]=="evidence_linked" && !ac.fetch("evidence").empty?
       allowed=%w[proven accepted_recordless accepted_with_explicit_amendment implementation_gap proof_gap product_gap]
       raise "criterion classification invalid" unless allowed.include?(ac["evidence_status"])
       proof=ac.fetch("proof")
       if ac["evidence_status"]=="proven"
         raise "proven criterion lacks curated implementation/validation/review" if proof["implementation_evidence"].to_a.empty?||proof["validation_evidence"].to_a.empty?||proof["review_evidence"].to_a.empty?
+        refs=proof.values_at("implementation_evidence","validation_evidence","review_evidence","docs_evidence").flatten.compact.reject{|ref|ref.start_with?("github:","https://")}.uniq
+        digests=proof.fetch("evidence_digests")
+        raise "proven evidence digest denominator mismatch" unless digests.map{|d|d["path"]}.sort==refs.sort
+        digests.each do |entry|
+          path=ROOT.join(entry.fetch("path")); raise "proven evidence missing" unless path.file?
+          raise "proven evidence is empty" unless entry.fetch("bytes")>0 && path.size==entry["bytes"]
+          raise "proven evidence digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
+          blob,_stderr,status=Open3.capture3("git","rev-parse","#{admission['candidate']}:#{entry['path']}",chdir:ROOT.to_s)
+          raise "proven evidence candidate blob mismatch" unless status.success? && entry["candidate_blob"] && entry["candidate_blob"]==blob.strip
+          normalized=path.read.strip.downcase.gsub(/[^a-z0-9]+/," ").strip
+          raise "proven evidence is vacuous: #{entry['path']}" if normalized.match?(/\A(?:stub|placeholder|do nothing|todo|tbd)(?: evidence| only)?\z/)
+        end
       elsif %w[accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"])
         raise "amended criterion lacks explicit closeout/rationale" if proof["closeout_evidence"].to_a.empty?||proof["rationale"].to_s.empty?
       end
-      if linked && row["canonical_pr"]
-        proof=ac.fetch("proof")
-        %w[production_call_path_or_noncode behavioral_validation exact_head_review docs_demo_relevance successful_checks].each{|key|raise "criterion proof missing #{key}" if proof[key].to_a.empty?}
-        %w[criterion_content criterion_validation].each do |key|
-          raise "criterion content mapping missing #{key}" if proof[key].to_a.empty?
-          proof[key].each{|ref|raise "criterion blob reference invalid" unless ref["path"] && ref["blob"]&.match?(/\A[0-9a-f]{40}\z/)}
-        end
-        raise "criterion validation status missing" unless proof["check_status"].to_a.all?{|c|c["conclusion"]=="SUCCESS"} && !proof["check_status"].empty?
-        raise "criterion review is stale or followed by substantive changes" unless proof.dig("review_basis","current")==true && proof.dig("review_basis","reviewed_revision")&.match?(/\A[0-9a-f]{40}\z/) && proof.dig("review_basis","post_review_paths").to_a.all?{|p|p.start_with?(".csdlc/")}
-        raise "criterion proof is vacuous" if proof.values.flatten.any?{|value|value.to_s.match?(/(?:stub|placeholder|do[-_ ]?nothing)/i)}
-      end
       classified=admission.fetch("findings").any?{|f|f["affected_rows"].to_a.include?(ac["id"])} || admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-execution-gap"}
-      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"]) || linked || classified
+      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"]) || classified
     end
   end
   retained=admission.fetch("retained_predecessors")
   raise "retained projection mismatch" unless retained==gap["retained_predecessors"]
+  retained_ids=retained.flat_map{|row|row.fetch("acceptance_rows").map{|ac|ac.fetch("id")}}
+  raise "duplicate retained acceptance identity" unless retained_ids.uniq.length==retained_ids.length
   retained.each do |row|
     path=ROOT.join(row.fetch("path")); raise "retained artifact missing" unless path.file?
     raise "retained digest mismatch" unless Digest::SHA256.file(path).hexdigest==row["sha256"]
-    raise "retained acceptance empty" if row.fetch("acceptance_rows").empty?
+    if row.fetch("acceptance_rows").empty?
+      raise "empty retained projection lacks duplicate authority" unless row["acceptance_projection"]=="reference_only_duplicate_predecessor" && retained.any?{|other|other["issue"]==row["issue"] && other["planned_id"]==row["canonical_projection_planned_id"] && other["acceptance_projection"]=="canonical" && !other["acceptance_rows"].empty?}
+    else
+      raise "retained canonical projection missing" unless row["acceptance_projection"]=="canonical" && row["canonical_projection_planned_id"]==row["planned_id"]
+    end
     raise "retained observed status missing" unless %w[observed_in_merged_successor consolidated_successor_uncertainty].include?(row["observed_status"])
   end
   raise "backlog projection mismatch" unless admission["backlog"]==gap["backlog"]

@@ -109,7 +109,15 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
         abort("recordless semantic mapping missing #{id}") if entry.fetch("semantic_mapping").empty?
         entry["semantic_mapping"].each{|m|abort("live mapping digest mismatch #{id}") unless Digest::SHA256.hexdigest(m.fetch("live_text"))==m["live_digest"];abort("mapped live criterion is not checked #{id}") unless live_items.any?{|x|x["text"]==m["live_text"]&&x["checked"]}}
       end
-      {"id"=>id,"text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"live_exact"=>live_items.find{|x|x["text"]==text},"evidence_status"=>entry ? entry.fetch("classification") : (disposition=="product_blocker" ? "product_gap" : "proof_gap"),"evidence"=>entry ? entry.values_at("implementation_evidence","validation_evidence","review_evidence","docs_evidence","closeout_evidence").flatten.compact : [],"proof"=>entry}
+      proof=entry&&Marshal.load(Marshal.dump(entry))
+      if proof
+        local_refs=proof.values_at("implementation_evidence","validation_evidence","review_evidence","docs_evidence").flatten.compact.reject{|ref|ref.start_with?("github:","https://")}
+        proof["evidence_digests"]=local_refs.uniq.map do |ref|
+          path=ROOT.join(ref); abort("semantic evidence path missing #{id}: #{ref}") unless path.file?
+          {"path"=>ref,"sha256"=>sha(path),"candidate_blob"=>git_blob(candidate,ref),"bytes"=>path.size}
+        end
+      end
+      {"id"=>id,"text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"live_exact"=>live_items.find{|x|x["text"]==text},"evidence_status"=>entry ? entry.fetch("classification") : (disposition=="product_blocker" ? "product_gap" : "proof_gap"),"evidence"=>entry ? entry.values_at("implementation_evidence","validation_evidence","review_evidence","docs_evidence","closeout_evidence").flatten.compact : [],"proof"=>proof}
     end,
     "linked_prs"=>prs.map{|pr|{"number"=>pr["number"],"url"=>pr["url"],"head_oid"=>pr["headRefOid"],"merge_oid"=>pr.dig("mergeCommit","oid"),"merged_at"=>pr["mergedAt"],"ancestral"=>pr["ancestral"],"files_digest"=>Digest::SHA256.hexdigest(JSON.generate(pr.fetch("files").map{|f|f["path"]}.sort))}},
     "canonical_pr"=>canonical&.fetch("number",nil),"revision"=>canonical&.fetch("headRefOid",nil),"merge_revision"=>canonical&.dig("mergeCommit","oid"),
@@ -144,13 +152,19 @@ backlog = backlog_numbers.sort.map do |number|
   authority={"source"=>"github_label_and_canonical_plan","label"=>"track:backlog","issue_body_sha256"=>Digest::SHA256.hexdigest(issue.fetch("body")),"candidate"=>candidate}
   {"kind"=>"operator_deferred_backlog","issue"=>number,"title"=>issue["title"],"disposition_authority"=>authority,"disposition"=>"routed_to_backlog","owner"=>"issue ##{number}"}
 end
+seen_retained_acceptance={}
 retained = retained_mapping.flat_map do |planned_id,numbers|
   owner=rows.find{|r|r["planned_id"]==planned_id}
   numbers.map do |number|
     path=ROOT.join("docs/milestones/v0.92.1/planned-issue-packets/issues/#{number}/cards/stp.md"); abort("missing retained ##{number}") unless path.file?
     status=owner&&%w[observed_execution_evidence satisfied_recordless_acceptance satisfied_by_captured_absorption].include?(owner["disposition"]) ? "observed_in_merged_successor" : "consolidated_successor_uncertainty"
+    duplicate=seen_retained_acceptance.key?(number)
+    acceptance_rows=duplicate ? [] : acceptance(path.read).each_with_index.map{|text,i|{"id"=>"retained-#{number}-ac-#{i+1}","text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"observed_status"=>status,"observed_evidence"=>nil}}
+    seen_retained_acceptance[number]=planned_id unless duplicate
     {"kind"=>"retained_predecessor","planned_id"=>planned_id,"issue"=>number,"path"=>path.relative_path_from(ROOT).to_s,"sha256"=>sha(path),"observed_status"=>status,"observed_owner_issue"=>owner&&owner["issue"],"observed_revision"=>owner&&owner["revision"],
-     "acceptance_rows"=>acceptance(path.read).each_with_index.map{|text,i|{"id"=>"retained-#{number}-ac-#{i+1}","text"=>text,"text_digest"=>Digest::SHA256.hexdigest(text),"observed_status"=>status,"observed_evidence"=>nil}}}
+     "acceptance_projection"=>duplicate ? "reference_only_duplicate_predecessor" : "canonical",
+     "canonical_projection_planned_id"=>duplicate ? seen_retained_acceptance.fetch(number) : planned_id,
+     "acceptance_rows"=>acceptance_rows}
   end
 end
 
@@ -159,9 +173,11 @@ drift=rows.select{|r|r.dig("spec_acceptance","status")=="mismatch"}
 material=drift.select{|r|r["issue"]==497}
 sync=drift-material; findings<<{"id"=>"consolidated-live-spec-sync-debt","type"=>"docs_drift","severity"=>"P2","classification"=>"proof_debt","summary"=>"Live criteria for #{sync.map{|r|r['planned_id']}.join(', ')} are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records.","evidence"=>sync.flat_map{|r|[r["acceptance_authority"],r.dig("spec_acceptance","digest"),r.dig("spec_acceptance","live_digest")]},"affected_rows"=>sync.map{|r|r["planned_id"]},"uncertainty"=>"record synchronization only","disposition"=>"follow_up","owner"=>"release planning maintainers"} unless sync.empty?
 issue721=JSON.parse(capture("gh","issue","view","721","--repo",REPO,"--json","number,title,state,url,body"))
+issue725=JSON.parse(capture("gh","issue","view","725","--repo",REPO,"--json","number,title,state,url,body"))
 pr722=JSON.parse(capture("gh","pr","view","722","--repo",REPO,"--json","number,url,state,mergedAt,headRefOid,mergeCommit,files,body"))
+pr726=JSON.parse(capture("gh","pr","view","726","--repo",REPO,"--json","number,url,state,headRefOid,files,statusCheckRollup,body"))
 canary=ROOT.join(".csdlc/evidence/516/no-v2-canary-af5f8036.json")
-findings<<{"id"=>"issue-721-v3-standalone-parity-gap","type"=>"implementation_gap","severity"=>"P1","classification"=>"product_blocker","summary"=>"#721 is incorrectly closed by JSON-only PR #722, whose body says it does not fix the issue. At af5f8036 and current main, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Full standalone v3 parity remains release-blocking.","evidence"=>[issue721["url"],Digest::SHA256.hexdigest(issue721["body"]),pr722["url"],Digest::SHA256.hexdigest(pr722["body"]),Digest::SHA256.hexdigest(JSON.generate(pr722["files"])),{"path"=>canary.relative_path_from(ROOT).to_s,"sha256"=>sha(canary)},"csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/commands/remote/mod.rs"],"affected_rows"=>["V3-F-ac-2"],"uncertainty"=>"none","disposition"=>"open_incorrectly_closed_owner","owner"=>"issue #721"}
+findings<<{"id"=>"issue-725-v3-standalone-parity-gap","type"=>"implementation_gap","severity"=>"P1","classification"=>"product_blocker","summary"=>"Closed #721 and open PR #726 cover issue-create and reporting parity but do not remove v2 build and operational dependencies. Open #725 owns native v3 authority migration. At af5f8036 and current main, v3 cannot compile without csdlc-v2 and still reads the v2 selector.","evidence"=>[issue721["url"],Digest::SHA256.hexdigest(issue721["body"]),issue725["url"],Digest::SHA256.hexdigest(issue725["body"]),pr722["url"],pr726["url"],pr726["headRefOid"],Digest::SHA256.hexdigest(JSON.generate(pr726["files"])),Digest::SHA256.hexdigest(JSON.generate(pr726["statusCheckRollup"])),{"path"=>canary.relative_path_from(ROOT).to_s,"sha256"=>sha(canary)},"csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/commands/remote/mod.rs"],"affected_rows"=>["V3-F-ac-2"],"uncertainty"=>"none","disposition"=>"open","owner"=>"issue #725"}
 semantic_entries.values.select{|e|e["classification"]=="implementation_gap"&&e["criterion_id"]!="V3-F-ac-2"}.group_by{|e|e["criterion_id"].split("-ac-").first}.each do |id,entries|
   n=mapping.fetch(id); findings<<{"id"=>"issue-#{n}-semantic-implementation-gap","type"=>"implementation_gap","severity"=>"P1","classification"=>"product_blocker","summary"=>"#{id} has #{entries.length} audit-confirmed unmet implementation criteria.","evidence"=>entries.flat_map{|e|e["implementation_evidence"]+e["validation_evidence"]}.uniq,"affected_rows"=>entries.map{|e|e["criterion_id"]},"uncertainty"=>"none","disposition"=>"open","owner"=>"issue ##{n}"}
 end
@@ -170,7 +186,7 @@ amended=semantic_entries.values.select{|e|%w[accepted_with_explicit_amendment ac
 uncertain_retained=retained.select{|r|r["observed_status"]=="consolidated_successor_uncertainty"}
 findings<<{"id"=>"consolidated-retained-successor-proof-debt","type"=>"record_debt","severity"=>"P2","classification"=>"proof_debt","summary"=>"Some retained predecessors lack a successor with observed merged execution evidence.","evidence"=>uncertain_retained.map{|r|r["path"]},"affected_rows"=>uncertain_retained.flat_map{|r|r["acceptance_rows"].map{|a|a["id"]}},"uncertainty"=>"historical traceability, not an assumed product failure","disposition"=>"follow_up","owner"=>"release evidence maintainers"} unless uncertain_retained.empty?
 observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","validation_evidence")}
-source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[PLAN,SPEC,CATALOG].map{|p|{"path"=>p.relative_path_from(ROOT).to_s,"sha256"=>sha(p)}},"semantic_evidence"=>{"path"=>SEMANTIC.relative_path_from(ROOT).to_s,"sha256"=>sha(SEMANTIC)},"canonical_planned_ids"=>mapping.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>tail_mapping,"amendment_authority"=>{},"backlog"=>backlog_numbers,"retained"=>retained_mapping,"observations"=>observations,"tail_observations"=>tail_rows,"external_product_gaps"=>[{"issue"=>721,"url"=>issue721["url"],"state"=>issue721["state"].downcase,"body_sha256"=>Digest::SHA256.hexdigest(issue721["body"]),"canary_path"=>canary.relative_path_from(ROOT).to_s,"canary_sha256"=>sha(canary)}],"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"curated-semantic-evidence-v6","generator_sha256"=>Digest::SHA256.file(__FILE__).hexdigest}
+source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[PLAN,SPEC,CATALOG].map{|p|{"path"=>p.relative_path_from(ROOT).to_s,"sha256"=>sha(p)}},"semantic_evidence"=>{"path"=>SEMANTIC.relative_path_from(ROOT).to_s,"sha256"=>sha(SEMANTIC)},"canonical_planned_ids"=>mapping.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>tail_mapping,"amendment_authority"=>{},"backlog"=>backlog_numbers,"retained"=>retained_mapping,"observations"=>observations,"tail_observations"=>tail_rows,"external_product_gaps"=>[{"issue"=>725,"url"=>issue725["url"],"state"=>issue725["state"].downcase,"body_sha256"=>Digest::SHA256.hexdigest(issue725["body"]),"supersedes_partial_owner"=>721,"open_pr"=>726,"open_pr_head"=>pr726["headRefOid"],"canary_path"=>canary.relative_path_from(ROOT).to_s,"canary_sha256"=>sha(canary)}],"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"curated-semantic-evidence-v7","generator_sha256"=>Digest::SHA256.file(__FILE__).hexdigest}
 digest=Digest::SHA256.hexdigest(JSON.generate(source))
 claims=Hash.new{|h,k|h[k]=[]}; rows.each{|r|r["owned_paths"].each{|path|claims[path]<<r["issue"]}}
 collisions=claims.map do |path,owners|
