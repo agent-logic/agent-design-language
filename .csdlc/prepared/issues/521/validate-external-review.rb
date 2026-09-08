@@ -21,6 +21,24 @@ def git_blob(revision, path)
   output
 end
 
+def evidence_resolves?(evidence, candidate, root)
+  return false unless evidence.is_a?(Hash) && %w[path sha256 source].all? { |key| nonempty?(evidence[key]) }
+  path = evidence.fetch("path")
+  content = case evidence.fetch("source")
+            when "candidate"
+              return false unless evidence["revision"] == candidate
+              output, status = Open3.capture2("git", "show", "#{candidate}:#{path}")
+              return false unless status.success?
+              output
+            when "packet"
+              return false unless path.start_with?(root + "/") && File.file?(path)
+              File.binread(path)
+            else
+              return false
+            end
+  Digest::SHA256.hexdigest(content) == evidence.fetch("sha256")
+end
+
 def validate_fixture!(fixture)
   fail!("independence requires evidence") unless fixture.fetch("independent") == true && nonempty?(fixture.fetch("independence_evidence"))
   canonical = fixture.fetch("internal_refs")
@@ -44,7 +62,7 @@ if ARGV.first == "fixture"
 end
 
 root = ENV.fetch("ADL_EXTERNAL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-05")
-required = %w[run_manifest.json reviewer-independence.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
+required = %w[run_manifest.json reviewer-independence.json provider-request.json provider-invocation-receipt.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing external-review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -110,7 +128,7 @@ fail!("#520 lacks passing current exact-head review authority") unless review_do
 
 independence = docs.fetch("reviewer-independence.json")
 reviewer = independence.fetch("reviewer")
-fail!("reviewer independence is not established with evidence") unless independence.fetch("independent") == true && nonempty?(reviewer) && nonempty?(independence.fetch("evidence"))
+fail!("reviewer independence is not established with evidence") unless independence.fetch("independent") == true && nonempty?(reviewer) && evidence_resolves?(independence.fetch("evidence"), candidate, root)
 conflicted_roles = independence.fetch("implementation_reviewers") + independence.fetch("internal_reviewers")
 fail!("external reviewer participated in implementation/internal review") if conflicted_roles.include?(reviewer)
 raw_path = File.join(root, "raw-review-output.json")
@@ -118,6 +136,16 @@ fail!("raw independent output digest mismatch") unless Digest::SHA256.file(raw_p
 fail!("raw reviewer provenance is incomplete") unless %w[provider model invocation_id observed_at].all? { |key| nonempty?(independence.fetch(key)) }
 raw = docs.fetch("raw-review-output.json")
 fail!("raw output identity is inconsistent") unless raw.fetch("candidate_sha") == candidate && raw.fetch("reviewer") == reviewer
+request_path = File.join(root, "provider-request.json")
+receipt = docs.fetch("provider-invocation-receipt.json")
+fail!("provider request digest mismatch") unless Digest::SHA256.file(request_path).hexdigest == receipt.fetch("request_sha256")
+fail!("provider response digest mismatch") unless Digest::SHA256.file(raw_path).hexdigest == receipt.fetch("response_sha256")
+request_doc = docs.fetch("provider-request.json")
+%w[provider model invocation_id].each do |key|
+  fail!("provider invocation provenance mismatch") unless request_doc.fetch(key) == receipt.fetch(key) && raw.fetch(key) == receipt.fetch(key) && independence.fetch(key) == receipt.fetch(key)
+end
+fail!("provider invocation request is not candidate/scope bound") unless request_doc.fetch("candidate_sha") == candidate && request_doc.fetch("scope_refs").sort == canonical_refs.sort && nonempty?(request_doc.fetch("prompt"))
+fail!("provider invocation receipt is incomplete") unless receipt.fetch("exit_status") == 0 && nonempty?(receipt.fetch("observed_at"))
 
 scope = docs.fetch("scope.json")
 expected_scope = scope.fetch("expected_refs")
@@ -126,7 +154,7 @@ fail!("packet-authored expected scope differs from #520") unless expected_scope.
 fail!("external review scope does not exactly cover #520") unless reviewed_scope.sort == canonical_refs.sort && reviewed_scope.uniq.length == canonical_refs.length
 scope_rows = scope.fetch("rows")
 fail!("scope rows do not exactly match reviewed scope") unless scope_rows.map { |row| row.fetch("ref") }.sort == reviewed_scope.sort
-fail!("scope rows lack exact-head evidence or disposition") unless scope_rows.all? { |row| row.fetch("candidate_sha") == candidate && nonempty?(row.fetch("evidence")) && nonempty?(row.fetch("disposition")) }
+fail!("scope rows lack exact-head evidence or disposition") unless scope_rows.all? { |row| row.fetch("candidate_sha") == candidate && evidence_resolves?(row.fetch("evidence"), candidate, root) && nonempty?(row.fetch("disposition")) }
 fail!("raw reviewer scope/dispositions differ from retained projection") unless raw.fetch("scope_rows").sort_by { |row| row.fetch("ref") } == scope_rows.sort_by { |row| row.fetch("ref") }
 
 findings_doc = docs.fetch("findings.json")
@@ -137,7 +165,7 @@ fail!("raw reviewer findings differ from retained projection") unless raw.fetch(
 fail!("zero findings lack affirmative review evidence") if findings.empty? && !nonempty?(findings_doc.fetch("zero_findings_evidence"))
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length
-fail!("finding schema is incomplete or stale") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status evidence impact disposition_route].all? { |key| nonempty?(finding.fetch(key)) } }
+fail!("finding schema is incomplete, stale, or cites unresolved evidence") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status impact disposition_route].all? { |key| nonempty?(finding.fetch(key)) } && evidence_resolves?(finding.fetch("evidence"), candidate, root) }
 
 limitations_doc = docs.fetch("limitations.json")
 limitations = limitations_doc.fetch("limitations")
@@ -146,7 +174,7 @@ fail!("empty limitations lack affirmative evidence") if limitations.empty? && !n
 fail!("limitation rows lack consequence and handling") unless limitations.all? { |row| nonempty?(row.fetch("description")) && nonempty?(row.fetch("consequence")) && nonempty?(row.fetch("handling")) }
 fail!("raw reviewer limitations differ from retained projection") unless raw.fetch("limitations") == limitations
 observations = raw.fetch("observations")
-fail!("raw reviewer output is content-free") unless observations.is_a?(Array) && observations.any? && observations.all? { |row| reviewed_scope.include?(row.fetch("ref")) && nonempty?(row.fetch("evidence")) && nonempty?(row.fetch("conclusion")) }
+fail!("raw reviewer output is content-free or cites unresolved evidence") unless observations.is_a?(Array) && observations.any? && observations.all? { |row| reviewed_scope.include?(row.fetch("ref")) && evidence_resolves?(row.fetch("evidence"), candidate, root) && nonempty?(row.fetch("conclusion")) }
 fail!("raw reviewer output omits reviewed scope") unless observations.map { |row| row.fetch("ref") }.sort == reviewed_scope.sort
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")
