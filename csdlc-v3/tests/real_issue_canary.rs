@@ -232,20 +232,24 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     assert_eq!(value["operational_authority"], operational);
     assert_eq!(value["read_only"], true);
     assert_eq!(value["writes_v3_state"], false);
-    let route_result = [
-        value.pointer("/result"),
-        value.pointer("/route_result"),
-        value.pointer("/result/route_result"),
-    ]
-    .into_iter()
-    .flatten()
-    .find(|candidate| candidate["route"] == "eligibility")
-    .expect("typed eligibility envelope contains its route result");
-    assert_eq!(route_result["route"], "eligibility");
+    let route_result = if operational {
+        let result = &value["result"];
+        assert_eq!(result["route"], "eligibility");
+        assert_eq!(result["mutated"], false);
+        result
+    } else {
+        let result = &value["route_result"];
+        assert_eq!(result["kind"], "eligibility");
+        result
+    };
     assert_eq!(route_result["issue"], 5853);
-    assert_eq!(route_result["phase"], "bound");
-    assert_eq!(route_result["mutated"], false);
-    assert!(route_result["findings"]
+    let lifecycle_state = if operational {
+        route_result
+    } else {
+        &route_result["lifecycle_state"]
+    };
+    assert_eq!(lifecycle_state["phase"], "bound");
+    assert!(lifecycle_state["findings"]
         .as_array()
         .expect("eligibility findings")
         .iter()
