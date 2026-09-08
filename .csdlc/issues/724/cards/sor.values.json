@@ -7,16 +7,37 @@
     "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
     "slug": "simple-gh-style-issue-create",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Implemented one GitHub-like C-SDLC v3 issue-create command that constructs the existing typed dispatch and preserves authority, intent, readback, receipt, and reconciliation behavior.",
+      "actual_changes": [
+        "Added strict title, inline-body/body-file, repeatable label/assignee, milestone, repository, credential-name, exact-head, and execute parsing.",
+        "Projected the simple flags into OperationalRemoteDispatchRequest and the existing GithubMutation::IssueCreate path without an alternate transport.",
+        "Added positive, adversarial, and inactive-authority CLI tests while retaining assigned-number and idempotent reconciliation unit proof.",
+        "Documented the simple command first and the request-file form as the advanced audit interface."
+      ],
+      "artifacts": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/tests/operational_cli_commands.rs",
+        "docs/csdlc-v3/CONTRACT.md",
+        ".csdlc/prepared/issues/724/validate-simple-issue-create.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/bin/bash",
+            ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+            "."
+          ],
+          "purpose": "Issue 724 focused implementation validation",
+          "outcome": "passed",
+          "evidence_ref": "issue-724-focused.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
