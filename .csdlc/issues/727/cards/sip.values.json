@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 727,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+    "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Apply and prove the merged AWS account audit and security foundation in the approved business account.",
+      "required_outcome": "An exact reviewed saved plan is authorized, applied, and followed by redacted readbacks proving every declared control.",
+      "declared_scope": [
+        "infra/aws/account-foundation/**",
+        "docs/operations/cloud/aws/audit-security/**",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-d/**",
+        "issue-local C-SDLC v2 records"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 lifecycle",
+        "agent-logic-admin business account only",
+        "us-west-2",
+        "operator authorization required before apply"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "never expose account ids, ARNs, or credentials",
+        "saved-plan digest must match apply",
+        "no website Runtime DDNS or unrelated resources"
+      ]
+    }
+  }
+}

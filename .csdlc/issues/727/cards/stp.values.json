@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 727,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+    "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One AWS-D account-foundation reconciliation and redacted proof packet.",
+      "deliverables": [
+        "saved Terraform plan digest",
+        "redacted preflight and operational readbacks",
+        "truthful C-SDLC cards and evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1 exact account region source backend workspace and saved-plan preflight",
+        "AC-2 explicit operator mutation envelope",
+        "AC-3 exact declared resources only",
+        "AC-4 redacted operational readbacks pass",
+        "AC-5 evidence contains digests and booleans without sensitive values",
+        "AC-6 partial failure reconciles or reports residue",
+        "AC-7 fresh exact-head review before publication"
+      ],
+      "dependencies": [
+        "#487 and PR #574 terminal",
+        "#516 release-tail admission",
+        "operator live-write authorization"
+      ],
+      "repo_inputs": [
+        "infra/aws/account-foundation",
+        "docs/operations/cloud/aws/audit-security/AWS_AUDIT_SECURITY_BASELINE.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-d"
+      ],
+      "non_goals": [
+        "rewrite #487",
+        "multi-account rollout",
+        "website Runtime DDNS public edge GCP or application security"
+      ]
+    }
+  }
+}

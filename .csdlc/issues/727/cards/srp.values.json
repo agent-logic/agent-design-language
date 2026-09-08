@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 727,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+    "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #727 AWS-D account-foundation live reconciliation only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify exact resource denominator and absence of unrelated mutations.",
+        "Verify redaction, rollback, cost and saved-plan binding."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
