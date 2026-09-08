@@ -162,7 +162,10 @@ fn issue_repository(issue: u64) -> String {
 }
 
 fn fixture_branch() -> &'static str {
-    "csdlc-v3-shadow-fixture"
+    // A single-checkout hosted clone is the primary checkout; its truthful
+    // registration branch is the primary branch even when Actions checks out
+    // the synthetic merge commit detached.
+    "main"
 }
 
 fn current_head() -> String {
