@@ -7,35 +7,24 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\n.csdlc/prepared/issues/536/validate-sprint-closeout.rb",
-      "review_revision": "git-blake3:aec66dd50f9653da21bd68966f4b92db1c86480c:e0bb45d245fc608eff44a6b1510b501b1cf766fad615ba711f13a65e46225575",
-      "reviewer": "codex:/root/review_536_closeout",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the packet preserve exact child ownership and dependency truth?",
         "Are the podcast and Observatory lanes genuinely independent where marked parallel?",
         "Are #251 and provider-submission operator gates fail-closed?",
         "Can the umbrella close only after every current member has truthful terminal state or an explicit accepted disposition?"
       ],
-      "findings": [
-        {
-          "id": "P1-closeout-validator-disposition-text",
-          "severity": "p1",
-          "summary": "The validator did not enforce the closed and independently reviewed disposition text for the six merged children.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }

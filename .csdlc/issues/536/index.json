@@ -5,42 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "02476e59d042f15801fbe4159c0aad55f5761569d94b1dd6ecb3836edf68be52",
+  "generation": 14,
+  "digest": "5cae738b8ceb1e00cc47819646606aa81fcb73c96b8156bfb2dbe3e03b1f0f22",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_536_closeout",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:aec66dd50f9653da21bd68966f4b92db1c86480c:e0bb45d245fc608eff44a6b1510b501b1cf766fad615ba711f13a65e46225575",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
-      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/review_536_closeout",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
-      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
-    ],
-    "reviewed_revision": "git-blake3:aec66dd50f9653da21bd68966f4b92db1c86480c:e0bb45d245fc608eff44a6b1510b501b1cf766fad615ba711f13a65e46225575",
-    "findings": [
-      {
-        "id": "P1-closeout-validator-disposition-text",
-        "severity": "p1",
-        "summary": "The validator did not enforce the closed and independently reviewed disposition text for the six merged children.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4482724441b4f3857c4b4eb067aa7465ce28e8ce01932ed7cab89abcbb8dc194",
+      "values_digest": "8ab925f2dccdebfd3d4e63b1156e6632f9994f0328d09f0ed5382d6771ca871e",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "a198da64cb3481814feeef3f125f02f724962033337e40aaa67d5539040b8f83",
+      "values_digest": "01efc1032872c401f57c1fbd20d186410052b89095a07cdbf3ee584ea7f86967",
       "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
       "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
     },
     "spp": {
-      "values_digest": "714195edf757ce6ce14b3d9eaf943db3f8f03e47c4e3356ac47ab32199153d25",
+      "values_digest": "5dec7ca57589df379fabbd1d814a1c6963f763a8e27a6fe9eafe5c677efacd0a",
       "rendered_digest": "bda1406af101871095a7782b16c0e78a94ecfe02b1b7a25e30bd01a33846b86a",
       "ast_digest": "d8ab373250e52855378ad2f7f6b304f60287aa40f951a2250e9a5c8c2237b98c"
     },
     "vpp": {
-      "values_digest": "bd9a0267046c729cc1d5ebe5374db89aafa5865a6fde97fc2bbc83e2690adfcf",
+      "values_digest": "4b99205eddc2212c77aad356f7acb8b765db6af6d41bff78564f5fcc11cd571f",
       "rendered_digest": "bebc327c6a85cddb82fa61c39f7bcd2eaca512861e0157c8ed99c427f5749715",
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "8f671d96042db85936e81a72239bb70d5561a4e6a78d4bd66a289d8ecbc48820",
-      "rendered_digest": "0ef842e11469a6ae41d50ddcbeb836f63c6f1e392938a9112528e203a24cdf76",
-      "ast_digest": "67616c854a55bc4d8feee7dd17e8af7ae6896c0e6c7101b540d891c2e95a31cd"
+      "values_digest": "6034168954520ae8380066cb0db89add9610e46aed4b320e2dc13f7edf5e2d0b",
+      "rendered_digest": "f9728c6b555d78265a3ecc7ea3967dcd7f89274bdc053dd755301cda3ec02e2f",
+      "ast_digest": "05d9996be469f7834734672cd227d844fcdea52cb09696b945389e6063e6d671"
     },
     "sor": {
-      "values_digest": "380a8eb8ca9a3cf7a595a2d74931287a15e2a8f42129ffa96763be4f5c3a37c2",
+      "values_digest": "12228cc6e3a757880996fc4d5d8d54af124a87ccac817e0ea116cd68a7873df5",
       "rendered_digest": "715a5005b33efee973ce79e3cbe3c004280cad340aa83b86fbf4a24c0585da3a",
       "ast_digest": "7b298866b02745de9937369b6aa75fb8ff0130d1c231de75e2d6e49d5165b7ef"
     }
@@ -220,6 +190,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Every merged child row now requires its exact closed and independently reviewed disposition text in addition to exact PR, revision, checks, and merge mappings.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"P1-closeout-validator-disposition-text\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "The second validator finding is fixed at 2323a7d6580394495fc020cf89580d48d0e3552e; require a final exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

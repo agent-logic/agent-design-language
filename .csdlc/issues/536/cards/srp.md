@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md
-.csdlc/prepared/issues/536/validate-sprint-closeout.rb
+
 
 ## Prompts
 
@@ -24,18 +23,7 @@ docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md
 
 ## Findings
 
-[
-  {
-    "id": "P1-closeout-validator-disposition-text",
-    "severity": "p1",
-    "summary": "The validator did not enforce the closed and independently reviewed disposition text for the six merged children.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -47,8 +35,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:aec66dd50f9653da21bd68966f4b92db1c86480c:e0bb45d245fc608eff44a6b1510b501b1cf766fad615ba711f13a65e46225575")
+Revision: None
 
-Reviewer: Some("codex:/root/review_536_closeout")
+Reviewer: None
 
-Result: changes_required
+Result: pre_review

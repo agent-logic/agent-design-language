@@ -1,0 +1,7 @@
+{
+  "issue": 536,
+  "expected_generation": 13,
+  "expected_digest": "f66f9ae7a1830b5e5eb7d503ad947e2ddfcb38fb5c3d6edfb97a8c3e50a3d2e3",
+  "actor": "codex:/root",
+  "reason": "The second validator finding is fixed at 2323a7d6580394495fc020cf89580d48d0e3552e; require a final exact-head review."
+}
