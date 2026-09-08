@@ -7,22 +7,24 @@
     "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
     "slug": "restore-green-proof-shadow-install-tests",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 8
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:c2d1770d81e5fc09ec090c5f577be885e9f19c12:80dee8d3e40d27e640884f878f4548445fb6bc587691d48708377fa94ebdc2c5",
+      "reviewer": "fresh-session:remediate-v3-725",
       "review_prompts": [
         "Verify stderr fallback accepts only one typed document and preserves nonzero exit.",
         "Verify install authorization binds exact head and digests."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The broader all-target suite retains construction-era cutover fixtures outside issue #723's focused proof lane."
+      ],
+      "review_result": "pass"
     }
   }
 }

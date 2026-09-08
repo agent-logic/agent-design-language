@@ -8,3 +8,6 @@
 {"sequence":8,"generation":5,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"codex-agent","reason":"Recover stale assignment after fixing the independent portability finding","operation":"recover_review"}
 {"sequence":10,"generation":6,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"codex-agent","reason":"Recover stale assignment after fixing the independent portability finding","operation":"recover_review"}
+{"sequence":12,"generation":7,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":8,"actor":"codex-agent","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
