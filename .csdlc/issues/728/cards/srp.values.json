@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
     "slug": "aws-f-disposable-runtime-deployment-zero-residue",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh\ndocs/operations/cloud/aws/runtime-platform/README.md\n.csdlc/prepared/issues/728/validate_preparation_bundle.sh\n.csdlc/prepared/issues/728/design.md\n.csdlc/prepared/issues/728/diagram.mmd\n.csdlc/evidence/728",
+      "review_revision": "git-blake3:8d69fcdfd8448b337c9befb94a5b9e2ad2d457dc:3c562acb58b9bef49fd700fb9545091796f08debc1571d2be79d282ca19b7068",
+      "reviewer": "fresh-session:6452659d-8462-476c-9206-7c267c13a57b",
       "review_prompts": [
         "Does the proof bind the external receipt to the exact private Runtime target rather than only proving an ALB responded?",
         "Are all mutable AWS selectors covered by explicit operator authorization and saved-plan digests?",
@@ -24,8 +24,11 @@
         "Are #489/#579/#122/#516 boundaries preserved without hidden ownership widening?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live AWS mutation and provider credential use were intentionally not performed by the reviewer; #728 runner refuses mutation unless an exact operator authorization packet is present.",
+        "Publication truth remains limited to the implemented runner, runbook, local validator, fail-closed authorization gate, and reviewed live-proof control path until the operator supplies the live authorization packet."
+      ],
+      "review_result": "pass"
     }
   }
 }
