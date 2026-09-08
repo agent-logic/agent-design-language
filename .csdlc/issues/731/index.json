@@ -4,24 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "00906c31424967025bb53e21d3b2fd064bc47967b1624c459b4912d8b7bf3d3a",
+  "generation": 24,
+  "digest": "6b37a774386d279501f41131face6f5d6d38a7b061c9ecb4f195ee6e3f4651a6",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
-  "review_assignment": {
-    "reviewer": "fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160",
-    "assigned_by": "codex:731-owner",
-    "revision": "git-blake3:c1eb84f9a333a83a6513dda4ebfc6fc687c8450c:da8aaf01c39cdb1c324ca8586991cff9bf18fd992dadb81f347998192b2881b1",
-    "scope": [
-      "Exact commit c1eb84f9a333a83a6513dda4ebfc6fc687c8450c on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, rebased onto origin/main after the operator merged PR #739 at cf8bc136a69501d9fd1e2f9cb5776b28f22ca763.",
-      "Follow-up remediation only: .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh, .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh, .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh, .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh, .csdlc/evidence/731/remediation-guards/**, and #731 SOR/SRP/index truth.",
-      "Verify authorization freshness, max 30-minute cleanup lifetime, expired-deadline rejection, and service-account impersonation enforcement before any live mutation path.",
-      "Verify disposable workload cleanup is armed before create, EXIT cleanup handles injected partial-create and post-create failures, the deadline reaper is present, success-path readiness and metadata service-account readback execute, and post-delete residue checks cover instances, disks, addresses, forwarding rules, firewall overrides, VM IAM, Terraform run labels, and storage objects/all versions.",
-      "Verify foundation apply/readback uses service-account impersonation, exact readbacks for project metadata, workload service account, subnet/firewall denominator, IAM, bucket labels, and logging metric, and rollback-on-failure after apply.",
-      "Verify retained evidence is no-live mock/local proof at the exact head; historical live GCP evidence remains historical only and no fresh live GCP mutation is claimed.",
-      "Verify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed."
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e83515fcbb8d5f482a001dec53c9f5f8ccf510ac92f6e17067848f2182f4d950",
+      "values_digest": "c9f39ebc4480c7ed9b200bba5d31d7c23947235a3831c1e5cd387e3a283c09a4",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "ebf4bf3004c223a6e4ceae49965e538d150e0a8c321921e08cfd928842577b2d",
+      "values_digest": "5d64da8b0f30af756bc775468510a542862337483d16bb59156ed44e1c14f516",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "1ef74363a63442ff170e36339241f8bab170fc02c935307264da25dafd308508",
+      "values_digest": "bf55de46b64194c3d7308f74d609285cbf83865e601cad074ba9cde10af022a6",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "d539d19852976495b165e0424b1ed43944257559963f01db44c2990750d9bc2d",
+      "values_digest": "4492f342289645693d1cf5b17b53d14437759570e200f6782bc7a608f60c13f9",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "fd20ebf0d33263257ecf986c59db8a930fcf4d839a7b6496420e76084f5ad712",
-      "rendered_digest": "db6462a6f78157f51cba6e48e9192ae4971e5aabfc39e1bad8792240f22c4f66",
-      "ast_digest": "2ed80f81bc759aec512dd36b46a115461b54cbc8e7bc7cc237142c9949c49f70"
+      "values_digest": "2cd70ecdd4d12f9183b04f2142f77ab9b2a094e6c1012540d49ef7efbe0edd5a",
+      "rendered_digest": "48aecc3c979cd67d0e92079608493afb4e8d965ceda032ff91acb743d77c53d7",
+      "ast_digest": "3a84a48ccec71b8d194177b962b239eb5cd23b34c3e0df13b29b8c37314aad69"
     },
     "sor": {
-      "values_digest": "f90f1a1f142f16ddc3868d6c014a2fd75b211140c884adffc6793e17b0e5834d",
+      "values_digest": "99a838c3580883bd13b959dbc79d113082675eca538ed22e8c64190c5f3c0396",
       "rendered_digest": "d178033438aae4d5d015678ec2d6f96f26cb5dd30af285971554bcba86b52a66",
       "ast_digest": "f2dc9222b694e198c4aaa7d96af846b2febcd4fa5c295b4516b79c6be9d40047"
     }
@@ -314,6 +301,13 @@
       "actor": "codex:731-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:731-owner",
+      "reason": "Recover the fresh #731 follow-up review assignment after reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 returned FAIL: P1 live GCP mutation/readback commands still rely on ambient gcloud identity instead of enforcing the authorized impersonated service account; P2 SOR does not record current typed validate/doctor evidence for the remediation scope.",
+      "operation": "recover_review"
     }
   ]
 }

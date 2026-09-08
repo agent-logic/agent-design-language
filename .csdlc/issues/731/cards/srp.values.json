@@ -7,13 +7,13 @@
     "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
     "slug": "gcp-d1-private-foundation-non-gpu-disposal",
     "version": "v0.92.1",
-    "generation": 23
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact commit c1eb84f9a333a83a6513dda4ebfc6fc687c8450c on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, rebased onto origin/main after the operator merged PR #739 at cf8bc136a69501d9fd1e2f9cb5776b28f22ca763.\nFollow-up remediation only: .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh, .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh, .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh, .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh, .csdlc/evidence/731/remediation-guards/**, and #731 SOR/SRP/index truth.\nVerify authorization freshness, max 30-minute cleanup lifetime, expired-deadline rejection, and service-account impersonation enforcement before any live mutation path.\nVerify disposable workload cleanup is armed before create, EXIT cleanup handles injected partial-create and post-create failures, the deadline reaper is present, success-path readiness and metadata service-account readback execute, and post-delete residue checks cover instances, disks, addresses, forwarding rules, firewall overrides, VM IAM, Terraform run labels, and storage objects/all versions.\nVerify foundation apply/readback uses service-account impersonation, exact readbacks for project metadata, workload service account, subnet/firewall denominator, IAM, bucket labels, and logging metric, and rollback-on-failure after apply.\nVerify retained evidence is no-live mock/local proof at the exact head; historical live GCP evidence remains historical only and no fresh live GCP mutation is claimed.\nVerify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
