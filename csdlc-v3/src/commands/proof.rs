@@ -1285,6 +1285,29 @@ fn authorize_install_execution(
     install: &InstallPlanInput,
 ) -> Result<(), ProofRouteFinding> {
     let root = request_root(request)?;
+    match (
+        install.cutover_approval_ref.as_deref(),
+        install.cutover_approval_digest.as_deref(),
+    ) {
+        (Some(reference), Some(digest))
+            if !reference.trim().is_empty()
+                && digest.len() == 64
+                && digest.chars().all(|ch| ch.is_ascii_hexdigit()) => {}
+        _ => {
+            return Err(finding(
+                "install_typed_authority_missing",
+                "stable install execution requires typed cutover approval evidence",
+            ));
+        }
+    }
+    if !install.exact_head.chars().all(|ch| ch.is_ascii_hexdigit())
+        || install.exact_head.len() != 40
+    {
+        return Err(finding(
+            "install_exact_head_missing",
+            "stable install execution requires an exact 40-character head SHA",
+        ));
+    }
     if active_canonical_v3_selector(&root, install)? {
         return Ok(());
     }

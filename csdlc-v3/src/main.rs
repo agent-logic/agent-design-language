@@ -133,25 +133,71 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
             .clone()
             .or_else(|| env::current_dir().ok())
             .ok_or_else(|| "operational repository root is unavailable".to_string())?;
-        if let Some(context) = discover_operational_local_context(&repository_root, &request)
-            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?
-        {
-            let operational = execute_operational_local_route(route, &request, &registry, &context)
-                .map_err(|findings| {
-                    serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
-                })?;
-            return serde_json::to_string(&serde_json::json!({
-                "schema": "csdlc.v3.operational_local.v1",
-                "command": route,
-                "read_only": !operational.mutated,
-                "operational_read_only": !operational.mutated,
-                "operational_authority": true,
-                "writes_v3_state": operational.mutated,
-                "result": operational,
-            }))
-            .map_err(|error| error.to_string());
+        match discover_operational_local_context(&repository_root, &request) {
+            Ok(Some(context)) => {
+                let operational =
+                    match execute_operational_local_route(route, &request, &registry, &context) {
+                        Ok(operational) => operational,
+                        Err(findings)
+                            if can_fallback_from_invalid_operational_roots(route)
+                                && findings
+                                    .iter()
+                                    .any(|finding| finding.code == "invalid_operational_roots") =>
+                        {
+                            // Read-only diagnostic routes are safe in ordinary issue worktrees
+                            // whose parent is the required bind parent.  The operational mutation
+                            // context is intentionally invalid there, but the construction report
+                            // remains useful and non-mutating.
+                            return run_local_construction_report(
+                                route,
+                                args,
+                                request,
+                                registry,
+                                registrations,
+                            );
+                        }
+                        Err(findings) => {
+                            return Err(
+                                serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
+                            );
+                        }
+                    };
+                return serde_json::to_string(&serde_json::json!({
+                    "schema": "csdlc.v3.operational_local.v1",
+                    "command": route,
+                    "read_only": !operational.mutated,
+                    "operational_read_only": !operational.mutated,
+                    "operational_authority": true,
+                    "writes_v3_state": operational.mutated,
+                    "result": operational,
+                }))
+                .map_err(|error| error.to_string());
+            }
+            Ok(None) => {}
+            Err(findings)
+                if can_fallback_from_invalid_operational_roots(route)
+                    && findings
+                        .iter()
+                        .any(|finding| finding.code == "invalid_operational_roots") => {}
+            Err(findings) => {
+                return Err(serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()));
+            }
         }
     }
+    run_local_construction_report(route, args, request, registry, registrations)
+}
+
+fn can_fallback_from_invalid_operational_roots(route: &str) -> bool {
+    matches!(route, "doctor" | "eligibility")
+}
+
+fn run_local_construction_report(
+    route: &str,
+    args: LocalArgs,
+    request: LocalPreparationRequest,
+    registry: csdlc_v3::commands::local::PromptRegistry,
+    registrations: Vec<WorktreeRegistration>,
+) -> Result<String, String> {
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
     let observed_v3_issue_state = match (route, args.v3_state_root.as_ref()) {
