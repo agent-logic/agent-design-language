@@ -34,7 +34,7 @@ issues = JSON.parse(capture(
 ))
 
 issues.select! do |issue|
-  issue["title"].start_with?("[v0.92.1]") &&
+  (issue["title"].start_with?("[v0.92.1]") || OPERATOR_DEFERRED.include?(issue["number"])) &&
     !TAIL.include?(issue["number"]) &&
     !UMBRELLAS.include?(issue["number"])
 end
