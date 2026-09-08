@@ -3,26 +3,48 @@
   "issue": 731,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "776b28650f1dc92d282368ff445b88a6ed66d0c6b1bc93aceee04bd413deb2cd",
+  "phase": "reviewed",
+  "generation": 19,
+  "digest": "01a3574ecae0b27de5f724e0b3d186a8f4b92932a4e8f1ea78830341752e9f6e",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
   "review_assignment": {
-    "reviewer": "fresh-session:821db24e-0782-4cbb-a70a-5ceec4850575",
+    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
     "assigned_by": "codex:731-owner",
-    "revision": "git-blake3:78490bd7bc8f0815914469fb4c0323d23437dd13:e815f3b87cdbcfd15e113edcc56197d3e3500936fc886af2bf7abae5d63cb3bb",
+    "revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
     "scope": [
-      "Exact commit 78490bd7bc8f0815914469fb4c0323d23437dd13 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.",
+      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
+      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
       "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
       "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
-      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
+      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
+      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
       "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
       "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
-      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 only if the live proof satisfies the issue contract."
+      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:d34c60f5-1acf-4407-93d0-3db6e62f156a",
+    "scope": [
+      "Exact current Git commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, plus uncommitted typed recovery/reassignment metadata only.",
+      "Substantive live-completion evidence commit 78490bd7bc8f0815914469fb4c0323d23437dd13 and assignment metadata commit 0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5.",
+      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
+      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
+      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to applied plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
+      "Verify that #731 intentionally labels GCP resources with issue=493 per the CSM parent resource contract; do not treat issue=493 labels as drift from #731.",
+      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
+      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
+      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 if the live proof satisfies the issue contract."
+    ],
+    "reviewed_revision": "git-blake3:0a739f44c157b26af7d2e25efe9c6ff4feb6f6f5:fbea409937136d5bb44c66d53f4c8065c798d685118c9ba84268fd734d83bf4c",
+    "findings": [],
+    "residual_risks": [
+      "The steady-state private GCP-D1 foundation remains deployed as the accepted #731 output; later teardown requires a separate explicit cleanup issue/authorization."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea9cf9f34f4e8209b595b6c95eb40060fc813dc14a56b6e62dc8c11d18d9311d",
+      "values_digest": "645d9c9250ab04e3da9b39d5e67ae4f85d4b3963fe930776415fb68866533b78",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "e057babdd210874ae195a8d57ee2778874c40690f6e3ae3faa1616621027dcac",
+      "values_digest": "afddaee901dff5f858ff9cada7823ae98c7356b950649288e3280b723191ea25",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "d80490e83da2ec10ab2e48e61ed00e1712e81204f44ac49645b47b776fd6be66",
+      "values_digest": "4efac5bdbf727d8eaf8425cfdb5cec23d1fb76c6e71446c02f267c2a3680f95d",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "07fa82d6c4c80e5d7a62e9ac584658639b5c351000a7e4a97d43e5499d9aa1b2",
+      "values_digest": "7cf262f378b12f8128ff23aacae8b65f427900590f7f9f47085986246fb6cb6e",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "2871f6f6bb92af7005f8bf87b5c7107d26e3ee384e6a57674ccf0a0c6bce05f2",
-      "rendered_digest": "dd706459c12298cd69ad4f55295314901452eb5ae1f9a6e32298a2812f128eab",
-      "ast_digest": "8afaab0a8d6a36795ffab59a465f4af29aeb2d4b386b6dedf5b07de33eec2e43"
+      "values_digest": "6849e81dc7250681e508d1f2872d7bc4d121c70b6c8cbf08c2e3723a443cccdb",
+      "rendered_digest": "ba8fda757bb2e7f6ca6c0bf399b44b6ebb2b5e85467dc89c70f968fe295cac83",
+      "ast_digest": "7df78f212ba0970c01f22bee55a043bcf63a1b16305f07f72212c62782a8bed1"
     },
     "sor": {
-      "values_digest": "8ad389ba1ad87d1c138e3383fc178fb00e7031031341e9c08a8c2ec9ccfd8d39",
+      "values_digest": "a5d44ce287407f76413db4f2a56b10eb707593d3eb4cba2b20833ee6484aed6f",
       "rendered_digest": "fdad522d319e173976e3e91738d7cb20578e1fbf2c518a7afa14f4bbf4d562da",
       "ast_digest": "698406935f007a6545e08ab4709df29ddac7e6d6705851aedba2d55fd41e7f48"
     }
@@ -88,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:731-owner",
       "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:731-owner",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -237,6 +266,27 @@
       "actor": "codex:731-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:731-owner",
+      "reason": "Recover the review assignment after the reviewer returned findings about exact-head routing and misread the required GCP resource label; a fresh assignment will explicitly scope metadata-tail handling and #731/#493 label authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:731-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
