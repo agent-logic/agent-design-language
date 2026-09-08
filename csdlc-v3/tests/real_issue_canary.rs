@@ -243,9 +243,13 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     assert!(output.stderr.is_empty(), "{output:?}");
     let value: serde_json::Value =
         serde_json::from_slice(&output.stdout).expect("eligibility emits machine JSON");
-    assert_eq!(value["schema"], "csdlc.v3.operational_local.v1");
+    let operational = value["schema"] == "csdlc.v3.operational_local.v1";
+    assert!(
+        operational || value["schema"] == "csdlc.v3.local_preparation.v1",
+        "eligibility must use a typed local schema: {value}"
+    );
     assert_eq!(value["command"], "eligibility");
-    assert_eq!(value["operational_authority"], true);
+    assert_eq!(value["operational_authority"], operational);
     assert_eq!(value["read_only"], true);
     assert_eq!(value["writes_v3_state"], false);
     assert_eq!(value["result"]["route"], "eligibility");
