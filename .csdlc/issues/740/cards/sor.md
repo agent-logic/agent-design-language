@@ -94,11 +94,11 @@ Replaced the unsafe #730 live proof entrypoint with a #740 corrective wrapper, r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

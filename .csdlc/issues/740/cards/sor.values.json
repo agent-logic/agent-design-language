@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
     "slug": "gcp-b1-postmerge-credential-authorization-backend-proof-corrective",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 20
   },
   "status": "pre_phase",
   "content": {
@@ -87,8 +87,8 @@
           "evidence_ref": "Exact-head proof at f08c22d124ecf3bf7689de3a3e53c82ae41f3f37 retained in .csdlc/evidence/740/live-proof.redacted.json; Terraform backend canary generation 1788865232161971; proof_script_sha256 cde4b6665e12801793b51a8226a014fe8f1714602c5edad21287f7b3fa32a246; backend_canary_config_sha256 a52f5e95efd0d35decdeaaae1db17260db39f64e263b4658c279de83b937d20d."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

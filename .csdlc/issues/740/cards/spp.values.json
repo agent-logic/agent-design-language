@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
     "slug": "gcp-b1-postmerge-credential-authorization-backend-proof-corrective",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 20
   },
   "status": "ready",
   "content": {
