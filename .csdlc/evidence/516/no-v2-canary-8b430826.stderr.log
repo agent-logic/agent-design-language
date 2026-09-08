@@ -1,0 +1,13 @@
+error: failed to get `csdlc-v2` as a dependency of package `csdlc-v3 v0.1.0 (<detached-checkout>/csdlc-v3)`
+
+Caused by:
+  failed to load source for dependency `csdlc-v2`
+
+Caused by:
+  Unable to update <detached-checkout>/csdlc-v2
+
+Caused by:
+  failed to read `<detached-checkout>/csdlc-v2/Cargo.toml`
+
+Caused by:
+  No such file or directory (os error 2)

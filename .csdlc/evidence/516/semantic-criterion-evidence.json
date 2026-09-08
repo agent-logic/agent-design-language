@@ -1,0 +1,3378 @@
+{
+  "schema": "adl.v0921.semantic_criterion_evidence.v1",
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "entries": [
+    {
+      "criterion_id": "AWS-A-ac-1",
+      "criterion_digest": "bdfa288ea5ff7059e0bfd9b4404ecd6bb1f520ccebab797cc106857f3a420563",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/484/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-484:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-A-ac-1 as proven: The approved business account and regions are exact"
+    },
+    {
+      "criterion_id": "AWS-A-ac-2",
+      "criterion_digest": "1629d64fa62d18537eefe74044c551d38180b236192d9ad73238449972ca8071",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/484/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-484:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-A-ac-2 as proven: Every discovered resource has an owner or frozen-unknown disposition"
+    },
+    {
+      "criterion_id": "AWS-A-ac-3",
+      "criterion_digest": "70aabe903e0d8b8cd6dbf4cf0fa6598f02d1603a954e0143046bbd1dd9ffb85a",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/484/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-484:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-A-ac-3 as proven: Website Terraform and issue evidence remain separately classified"
+    },
+    {
+      "criterion_id": "AWS-A-ac-4",
+      "criterion_digest": "452eb66157e8916d2f076c015e1c6937410f976b9db749dab6640d58ecb0e1e6",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/484/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-484:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-A-ac-4 as proven: EBS and other retained assets are not inferred disposable"
+    },
+    {
+      "criterion_id": "AWS-B-ac-1",
+      "criterion_digest": "c2ecbf1761f98a86c84e2a6fa7a1a521eb99121411da84f1d6ad37fc353f43e0",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-1 as proven: Corporate recovery does not depend on one personal factor"
+    },
+    {
+      "criterion_id": "AWS-B-ac-2",
+      "criterion_digest": "671c5aa2d767547b6716b5a5721aa6559908f3f1bf2066ea157a8e5a84ea6751",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-2 as proven: Human workload and agent-initiated identities are distinguishable"
+    },
+    {
+      "criterion_id": "AWS-B-ac-3",
+      "criterion_digest": "4954109c21d75a60d1b777b7f45380f987568d8218cc8b5ae841ba86c026a7ef",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-3 as proven: Agent Toolkit for AWS is configured for the approved Codex path with AWS CLI 2.35 or newer"
+    },
+    {
+      "criterion_id": "AWS-B-ac-4",
+      "criterion_digest": "cd58d8112f7020cdffab56e787938c9f71871f028643a16f28947a856f82d636",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-4 as proven: IAM context policies bind agent actions with read-only default posture"
+    },
+    {
+      "criterion_id": "AWS-B-ac-5",
+      "criterion_digest": "890ec9375f88f2d229f3c105b0c1fbb37cd2f0463ec073d3236d3dd7f66eb774",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-5 as proven: CloudWatch metrics and CloudTrail requests are attributable"
+    },
+    {
+      "criterion_id": "AWS-B-ac-6",
+      "criterion_digest": "3cbef1871928442f8f3d16f4e66145f60f6fc4ebeacf7ec43be72a983990071a",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-6 as proven: Billing and budget ownership is visible"
+    },
+    {
+      "criterion_id": "AWS-B-ac-7",
+      "criterion_digest": "d7847cd3873b2721a832fdfea1ae6e5ee38c2d2c8e99b508db31b83cfe37d566",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/485/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-485:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-B-ac-7 as proven: Existing administrator access remains until replacement is proven"
+    },
+    {
+      "criterion_id": "AWS-C-ac-1",
+      "criterion_digest": "1fd63799dc58945eec75325b00e8547e15dc4342daa5a0299c4094af54219754",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/486/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-486:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-C-ac-1 as proven: Existing website and DDNS states are inventoried first"
+    },
+    {
+      "criterion_id": "AWS-C-ac-2",
+      "criterion_digest": "af4ef9f3e6e0f99fad7a2cb7df99fb8f21408416bd42902a4c507874e68cb729",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/486/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-486:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-C-ac-2 as proven: The new backend is encrypted versioned locked and recoverable"
+    },
+    {
+      "criterion_id": "AWS-C-ac-3",
+      "criterion_digest": "cce94b9ce0052c36f3ded7331b7034d7ec0bded8660e5de8e550cb34c536dc08",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/486/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-486:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-C-ac-3 as proven: Deployment identity is least privilege"
+    },
+    {
+      "criterion_id": "AWS-C-ac-4",
+      "criterion_digest": "ee7e9fc0c8c6163e703d0c87535a3e4495bc30e2c27264686bbf839413ca8ab5",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/486/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-486:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-C-ac-4 as proven: No existing state is copied or dual-owned"
+    },
+    {
+      "criterion_id": "AWS-D-ac-1",
+      "criterion_digest": "134ba55a6d2d5d8e902b079ce3f16f292cf560350d6ad955334ff84f7c3828f8",
+      "classification": "implementation_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/account-foundation/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/487/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-487:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-D-ac-1 as implementation_gap: Account changes are durably observable"
+    },
+    {
+      "criterion_id": "AWS-D-ac-2",
+      "criterion_digest": "ffbf6a6eee48002a7f9869a4a7525294369bbdd3a3d07ad373ec583042974b6f",
+      "classification": "implementation_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/account-foundation/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/487/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-487:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-D-ac-2 as implementation_gap: Security findings have an owner and destination"
+    },
+    {
+      "criterion_id": "AWS-D-ac-3",
+      "criterion_digest": "78aeab2f231bcc21365d9c978512e309d56b55dc0ed8dc987ec547035d3099cf",
+      "classification": "implementation_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/account-foundation/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/487/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-487:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-D-ac-3 as implementation_gap: Retention and encryption are explicit"
+    },
+    {
+      "criterion_id": "AWS-D-ac-4",
+      "criterion_digest": "ed7a45ee1360a33a2b981aa9078a75955a4c636f1d551e52ea68ea118153912a",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/account-foundation/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/487/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-487:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-D-ac-4 as proven: Sensitive values are excluded from retained proof"
+    },
+    {
+      "criterion_id": "AWS-E-ac-1",
+      "criterion_digest": "c7757643b8454e91087e3392e7843e2566192bb8df4f58178aa79143679180ef",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/488/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-488:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-E-ac-1 as proven: Every durable resource has one management authority"
+    },
+    {
+      "criterion_id": "AWS-E-ac-2",
+      "criterion_digest": "d3091d41a122ad5eb993b6f3ea0f265e73fe770d0a2cdca64c21487578716ff7",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/488/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-488:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-E-ac-2 as proven: Website and historical evidence ownership is preserved"
+    },
+    {
+      "criterion_id": "AWS-E-ac-3",
+      "criterion_digest": "c72083f1f48b11c12b54560d873027b811f2b8556bf3b636c0bd901a52c2103c",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/488/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-488:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-E-ac-3 as proven: Cleanup requires exact non-use retention recovery and deletion authority"
+    },
+    {
+      "criterion_id": "AWS-E-ac-4",
+      "criterion_digest": "1541e95ecba51181f30d705b174900ee988289b325166d72b488f5f2c8ba248c",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/488/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-488:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-E-ac-4 as proven: Live and declared state agree"
+    },
+    {
+      "criterion_id": "AWS-F-ac-1",
+      "criterion_digest": "cbad57ef0de0959d5d3a798c7945ef7355bae99f724b7a56112a2735dac8edac",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/runtime/private-node/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/489/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-489:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-F-ac-1 as proven: Runtime hosts have no direct public ingress"
+    },
+    {
+      "criterion_id": "AWS-F-ac-2",
+      "criterion_digest": "f5568ca01222332b12b14940b0402f710cf63488f0ef4d63dd6b996e10b04691",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/runtime/private-node/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/489/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-489:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-F-ac-2 as proven: Shared edge network build and node states remain separated"
+    },
+    {
+      "criterion_id": "AWS-F-ac-3",
+      "criterion_digest": "533c24ce21c6a6012d3665c1bbca4649c5421896291d46d3b36a8b03381d6c19",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/runtime/private-node/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/489/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-489:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-F-ac-3 as proven: Existing issue 122 owns public Route53 and ACM exposure"
+    },
+    {
+      "criterion_id": "AWS-F-ac-4",
+      "criterion_digest": "01b948d817347285b9bb09e333ddcf2cdeb09e7074da7966c80f280f4329e95e",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/aws/runtime/private-node/main.tf",
+        "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/489/cards/sor.md",
+        ".csdlc/issues/728/cards/sor.md",
+        ".csdlc/evidence/728/no-auth-refusal.log"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/489/cards/srp.md",
+        ".csdlc/issues/728/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/728/cards/sor.md",
+        "docs/operations/cloud/aws/runtime-platform/README.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-489:closed",
+        "github:issue-728:closed"
+      ],
+      "rationale": "Issue #728 added the reviewed disposable AWS-F deployment runner, authorization-bound selectors, reverse teardown, Terraform-state emptiness checks, and AWS-side absence readbacks. The retained proof is intentionally no-mutation until a separately authorized live run."
+    },
+    {
+      "criterion_id": "AWS-G-ac-1",
+      "criterion_digest": "2f3c35ae9ad4de3421dcbd8256f2ae030b583949bd21215608c057c87aa526db",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/496/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-496:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-G-ac-1 as proven: Issue 194 and 268 templates are inventoried"
+    },
+    {
+      "criterion_id": "AWS-G-ac-2",
+      "criterion_digest": "8e6649bb41e4fd40d401d7eedf7be1a79d9357169b67b7a0436b157720c49c53",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/496/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-496:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-G-ac-2 as proven: Every consumer and retained evidence path has a disposition"
+    },
+    {
+      "criterion_id": "AWS-G-ac-3",
+      "criterion_digest": "4c15c0700f935cf5ff678ddf2cf704db54c7a2fbdff636c21411c5468373e55f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/496/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-496:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-G-ac-3 as proven: Retirement requires proven Terraform parity and rollback"
+    },
+    {
+      "criterion_id": "AWS-G-ac-4",
+      "criterion_digest": "b5730f0b173b954e6fb811a3329160706a418fb132e19e3c6270c2b3c2cf5877",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/496/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-496:closed"
+      ],
+      "rationale": "Independent semantic audit classified AWS-G-ac-4 as proven: No active stack is silently abandoned"
+    },
+    {
+      "criterion_id": "CORP-A-ac-1",
+      "criterion_digest": "dcfba0727c2d81928d75f6b3a1b6c0cdd7ddcdd76e063068f4fad3fabae2038f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/482/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-482:closed"
+      ],
+      "rationale": "Independent semantic audit classified CORP-A-ac-1 as proven: Every critical asset has an owner and disposition"
+    },
+    {
+      "criterion_id": "CORP-A-ac-2",
+      "criterion_digest": "a18411b2faf1a9ffbc54fd8870ee7d1babfeb3d1bb02441e0671f0dde0ceceee",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/482/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-482:closed"
+      ],
+      "rationale": "Independent semantic audit classified CORP-A-ac-2 as proven: Private instruments remain outside Git"
+    },
+    {
+      "criterion_id": "CORP-A-ac-3",
+      "criterion_digest": "091e9f774e4317433dcf2316608634336f44a1e31dce5d68deb3aa457f1d3f4c",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/482/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-482:closed"
+      ],
+      "rationale": "Independent semantic audit classified CORP-A-ac-3 as proven: Redacted receipts bind accepted instruments to the asset schedule"
+    },
+    {
+      "criterion_id": "CORP-B-ac-1",
+      "criterion_digest": "873d21ba275e849502da72f25a2887d24d26b53aafdff7246e83de4510c186de",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/483/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-483:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "CORP-B-ac-2",
+      "criterion_digest": "5f9a2a6195ece21796770622c99042b96959284f090f82e9f0025f7fb190e124",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/483/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-483:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "CORP-B-ac-3",
+      "criterion_digest": "a349d6b08cc8d76eb0f77eb7201f9a5b891fff298842d8852725f90c20eeba37",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/483/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-483:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "CORP-C-ac-1",
+      "criterion_digest": "b0f53bdd970187ee0c2613bf0ba80d252508dcaf115e32f47595d81f517a86e4",
+      "classification": "accepted_recordless",
+      "semantic_mapping": [
+        {
+          "live_text": "CORP-A, CORP-B, AWS-G, and GCP-D prerequisite issue/PR ancestry is retained.",
+          "live_digest": "a30e40ffae87403c082873fc7a23d4e31ec8786456977211a78325134f90f121"
+        },
+        {
+          "live_text": "Operational hardening residuals are explicitly routed to nonblocking sidecar #624.",
+          "live_digest": "a9e644f80c0e755e4ab7fe09524db0553b98f45e33da4a3cc2609d2f0fc6cef5"
+        }
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/497/corp-c-operational-control-acceptance.log"
+      ],
+      "validation_evidence": [
+        ".csdlc/evidence/497/validate-readiness.rb"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/497/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/497/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-497:checked-live-acceptance",
+        "github:issue-624:closed-sidecar"
+      ],
+      "rationale": "The operator accepted prerequisite ancestry as the bounded IP-transfer decision and explicitly moved residual control-plane hardening to closed sidecar #624."
+    },
+    {
+      "criterion_id": "CORP-C-ac-2",
+      "criterion_digest": "2b3c890202682260b3c7ece62bb37cb2475aedd7597dc1700d98ab29dc3758a7",
+      "classification": "accepted_recordless",
+      "semantic_mapping": [
+        {
+          "live_text": "AWS uses the approved business-account profile for #497 evidence and records only redacted account-hash readback.",
+          "live_digest": "e9d5b455f447c0f73af5317b30a14bec9d60f8cb85dd9f362e9e8eb11336adae"
+        }
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/497/corp-c-operational-control-acceptance.log"
+      ],
+      "validation_evidence": [
+        ".csdlc/evidence/497/validate-readiness.rb"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/497/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/497/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-497:checked-live-acceptance"
+      ],
+      "rationale": "The checked live criterion narrows the original account requirement to the approved business-profile evidence and redacted account-hash readback."
+    },
+    {
+      "criterion_id": "CORP-C-ac-3",
+      "criterion_digest": "2a93fffa87a6f75f4ab73d0348f7fa4c66a07a7dc83320277b0d0701991e21f1",
+      "classification": "accepted_recordless",
+      "semantic_mapping": [
+        {
+          "live_text": "Terraform bootstrap authority is company-controlled for #497 scope and the authorized AWS-C bootstrap apply/readback is retained.",
+          "live_digest": "fa03f7828f12d98a507c0e934fbc81f02e581c49b7a3a4248f8ad56ebb55c652"
+        }
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/497/corp-c-operational-control-acceptance.log"
+      ],
+      "validation_evidence": [
+        ".csdlc/evidence/497/validate-readiness.rb"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/497/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/497/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-497:checked-live-acceptance"
+      ],
+      "rationale": "The checked live criterion explicitly accepts company-controlled Terraform bootstrap authority and retained AWS-C readback for the bounded #497 scope."
+    },
+    {
+      "criterion_id": "CORP-C-ac-4",
+      "criterion_digest": "af26eb03e9611b6ddfc2a0a1d52d882254a5744be36cf7bb968ddd58ec8eaa52",
+      "classification": "accepted_recordless",
+      "semantic_mapping": [
+        {
+          "live_text": "Operational hardening residuals are explicitly routed to nonblocking sidecar #624.",
+          "live_digest": "a9e644f80c0e755e4ab7fe09524db0553b98f45e33da4a3cc2609d2f0fc6cef5"
+        }
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/497/corp-c-operational-control-acceptance.log"
+      ],
+      "validation_evidence": [
+        ".csdlc/evidence/497/validate-readiness.rb"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/497/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/497/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-624:closed-sidecar"
+      ],
+      "rationale": "The operator amended availability/recovery hardening out of the recordless #497 acceptance into #624; the sidecar is now closed."
+    },
+    {
+      "criterion_id": "CORP-D-ac-1",
+      "criterion_digest": "c5dce7a6a6bd006a6b960561a618701d599707d9f45c78d2a25f7bab1d069a03",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/498/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-498:closed"
+      ],
+      "rationale": "Independent semantic audit classified CORP-D-ac-1 as proven: Every CORP-A-C blocker has disposition"
+    },
+    {
+      "criterion_id": "CORP-D-ac-2",
+      "criterion_digest": "4334b625908796933e0530616e62b3915951a4ac706226bcb1b053ef9d8f5920",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/498/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-498:closed"
+      ],
+      "rationale": "Independent semantic audit classified CORP-D-ac-2 as proven: Counsel-controlled judgments are recorded only as bounded receipts"
+    },
+    {
+      "criterion_id": "CORP-D-ac-3",
+      "criterion_digest": "57ab048e21130bc1280a2e84ead2bf3d7c363eed3d04dc12aa43264d9095f04a",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/498/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-498:closed"
+      ],
+      "rationale": "Independent semantic audit classified CORP-D-ac-3 as proven: Corporate acceptance binds the exact diligence index"
+    },
+    {
+      "criterion_id": "DEC-01-ac-1",
+      "criterion_digest": "9e7e6832f0db1204f9d32b96cb14af5b9af7093dc57b468eed07d73d852ef970",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/513/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-513:closed"
+      ],
+      "rationale": "Independent semantic audit classified DEC-01-ac-1 as proven: Every source and reverse reference has one owner and disposition"
+    },
+    {
+      "criterion_id": "DEC-01-ac-2",
+      "criterion_digest": "b28609f9284424c29d32d3e6fc7b40547dd8b161b1568922510be79ccc136454",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/513/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-513:closed"
+      ],
+      "rationale": "Independent semantic audit classified DEC-01-ac-2 as proven: Supported behavior has compatibility proof"
+    },
+    {
+      "criterion_id": "DEC-01-ac-3",
+      "criterion_digest": "21459e7a16d17dc7b395ecba862c9df2bd436c534af3fe41654ce95ac7ef9585",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/513/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-513:closed"
+      ],
+      "rationale": "Independent semantic audit classified DEC-01-ac-3 as proven: Rollback and migration are executable"
+    },
+    {
+      "criterion_id": "DEC-01-ac-4",
+      "criterion_digest": "6769d91350d8e91185f4b375330f6d987aa290539244cb83d2c91330a932028b",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/513/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-513:closed"
+      ],
+      "rationale": "Independent semantic audit classified DEC-01-ac-4 as proven: Runtime v4 remains excluded"
+    },
+    {
+      "criterion_id": "DRT-A-ac-1",
+      "criterion_digest": "03c5125a7398e2bef1e6f1a2427bfa3da22f22ed4e954f369b74f6368176a44b",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_contract/main.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/506/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-506:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-A-ac-1 as proven: Requirements 181 and 182 are mapped"
+    },
+    {
+      "criterion_id": "DRT-A-ac-2",
+      "criterion_digest": "acabde8d21320bd4f39e3c568ed702bb2757ce218df0c1a5461048660a4a546f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_contract/main.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/506/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-506:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-A-ac-2 as proven: Identity and authority are deterministic"
+    },
+    {
+      "criterion_id": "DRT-A-ac-3",
+      "criterion_digest": "b9fb14242d2cbacbd5b8c6e7e2688e1af59b8ed6ab96b60c9f8746bc07fd0a10",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_contract/main.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/506/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-506:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-A-ac-3 as proven: Duplicate denial and replay receipts are exact"
+    },
+    {
+      "criterion_id": "DRT-B-ac-1",
+      "criterion_digest": "38670cf3ab90b5e40720559bac3e9e6e791dbcd0057f39793c1b172e44fc0e1c",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/507/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-507:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-B-ac-1 as proven: Requirements 183 and 184 are mapped"
+    },
+    {
+      "criterion_id": "DRT-B-ac-2",
+      "criterion_digest": "ef452af05a9f7ebd3502782bbf7f0a35734cea3384b277bb22bd21846aafde45",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/507/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-507:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-B-ac-2 as proven: Six distinct residents complete assigned UTS work"
+    },
+    {
+      "criterion_id": "DRT-B-ac-3",
+      "criterion_digest": "08234e4893ec01ee2fa8ab3821644680b4a1215e5a79dddd7d2a242070204164",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/507/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-507:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-B-ac-3 as proven: Dehydrate and restore preserve exact population"
+    },
+    {
+      "criterion_id": "DRT-B-ac-4",
+      "criterion_digest": "8d32f59dec2de704f795e327b748a1e2bc45cc9d2eb7e40ad2e1ac5595e559fb",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/507/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-507:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "DRT-C-ac-1",
+      "criterion_digest": "3ba86d07b8a5b9a80dcb8f51bfd64f0b1cc0bb32e32fd1b57344df4d8a2b4d15",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/508/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-508:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-C-ac-1 as proven: Requirements 185 through 187 are mapped"
+    },
+    {
+      "criterion_id": "DRT-C-ac-2",
+      "criterion_digest": "0d0b0aa211933ac965683f99c99cbd24bd494e4872326fd215cbfea3a8656509",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/508/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-508:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-C-ac-2 as proven: Identity provider and transport failures fail closed"
+    },
+    {
+      "criterion_id": "DRT-C-ac-3",
+      "criterion_digest": "f40b83c223efb28a663d3d4bef347effa9b8b009bd6980178f2203853fbc55f9",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/508/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-508:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-C-ac-3 as proven: Observatory evidence is authentic"
+    },
+    {
+      "criterion_id": "DRT-C-ac-4",
+      "criterion_digest": "1875fdf30d7e3f828d2fed0b0ca9d35dae77df7e7ef8d810618c84d8f45378ff",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/508/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-508:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-C-ac-4 as proven: Soak cleanup and synthesis bind exact revisions"
+    },
+    {
+      "criterion_id": "DRT-D-ac-1",
+      "criterion_digest": "4ba64d339543315f4394a8bba8d2458804412c628e80f013d2c169dfe20035c8",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/509/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-509:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-D-ac-1 as proven: Six identities and lineage remain exact"
+    },
+    {
+      "criterion_id": "DRT-D-ac-2",
+      "criterion_digest": "5ce6aec9e259b9c6dd78a591fcaeb1579ddd095d386f864cc40b354992d4924f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/509/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-509:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-D-ac-2 as proven: GCP account project billing and credentials are separately governed"
+    },
+    {
+      "criterion_id": "DRT-D-ac-3",
+      "criterion_digest": "174c6f10aab5e281aeeddee9e2ceb084f88c9c5b7eea1bd2a11bd66f9e5a223e",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/509/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-509:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-D-ac-3 as proven: Cost and cleanup receipts are retained"
+    },
+    {
+      "criterion_id": "DRT-D-ac-4",
+      "criterion_digest": "54eb4f29e8025798517fc352a50c06afb962405f6fa94a96ca61792b40fe7776",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/509/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-509:closed"
+      ],
+      "rationale": "Independent semantic audit classified DRT-D-ac-4 as proven: No resources remain"
+    },
+    {
+      "criterion_id": "GCP-A-ac-1",
+      "criterion_digest": "89ef0ff23e067410522bd64ddd8e0723f2b9a96f95e7eefe7070132a613d4547",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/490/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-490:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-A-ac-1 as proven: Organization folder project billing and region are exact"
+    },
+    {
+      "criterion_id": "GCP-A-ac-2",
+      "criterion_digest": "3f981c27a2e9a4143a84f31bd0c727117f1b35df266a16fb2378ba682091f7aa",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/490/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-490:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-A-ac-2 as proven: POC and long-term ownership are explicit"
+    },
+    {
+      "criterion_id": "GCP-A-ac-3",
+      "criterion_digest": "2d2d8306c6fe5c0b40cbcd19f9935aabedc51618f544d92c157bc04864f912e2",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/490/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-490:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-A-ac-3 as proven: The first workload has a hard cost ceiling"
+    },
+    {
+      "criterion_id": "GCP-A-ac-4",
+      "criterion_digest": "e2a094ebf14a4325b530ee815d2c16020a9eec78d2f93f93081ce9a4ea69596c",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/490/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-490:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-A-ac-4 as proven: Quota is not treated as capacity"
+    },
+    {
+      "criterion_id": "GCP-B-ac-1",
+      "criterion_digest": "bc59816b165d6b5a2d6e732ec027cf3c5a28a060c53a6c0c150402cd49188b8c",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/491/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-491:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-B-ac-1 as proof_gap: State is versioned private recoverable and auditable"
+    },
+    {
+      "criterion_id": "GCP-B-ac-2",
+      "criterion_digest": "b5b9ec09929c4f50d9aa0651810761a32cd759cb4d090f1cabd3f78706238c48",
+      "classification": "implementation_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/491/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-491:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-B-ac-2 as implementation_gap: Deployment uses short-lived impersonation"
+    },
+    {
+      "criterion_id": "GCP-B-ac-3",
+      "criterion_digest": "795d5efb13014e4215f390e30736acb7d081a4fc315a7cbc4bc536c7e853e068",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/491/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-491:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-B-ac-3 as proven: Provider and module versions are pinned"
+    },
+    {
+      "criterion_id": "GCP-B-ac-4",
+      "criterion_digest": "a6b9d5d9a865d6a797483ae6f856dc9ce5ff656d3c257a1a1d8f33d69e938412",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/bootstrap/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/491/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-491:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-B-ac-4 as proof_gap: Local bootstrap state is removed recoverably"
+    },
+    {
+      "criterion_id": "GCP-C-ac-1",
+      "criterion_digest": "1374ffee4ac39aa3df7657a155f262f26ee607f0e1b006a8719361787c9f646f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/492/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-492:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-C-ac-1 as proven: Every new project has corporate group ownership and cost attribution"
+    },
+    {
+      "criterion_id": "GCP-C-ac-2",
+      "criterion_digest": "007c79d6ca3340ff4af4ebfd81b6209cb6f7fc90bb908043fbb6a7a60dc4b419",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/492/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-492:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-C-ac-2 as proven: Policies are scoped and impact-reviewed"
+    },
+    {
+      "criterion_id": "GCP-C-ac-3",
+      "criterion_digest": "fa5d57c30011fee787ca558a4b4b587cbdb5ca0992729439aa596730974c6c60",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/492/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-492:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-C-ac-3 as proven: Billing export and budgets are observable"
+    },
+    {
+      "criterion_id": "GCP-C-ac-4",
+      "criterion_digest": "99cd7dd10f20dd1b2528cc02723f634cedbfe658c14e2744f7fc4413305a2202",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/492/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-492:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-C-ac-4 as proven: Existing POC resources remain unchanged unless explicitly admitted"
+    },
+    {
+      "criterion_id": "GCP-D-ac-1",
+      "criterion_digest": "42da1371843e4c72f76d446c4708f2284768cf4915c57f175c12a24703fc3a5f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/platform/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/493/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-493:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-D-ac-1 as proven: No unintended public route address or ingress exists"
+    },
+    {
+      "criterion_id": "GCP-D-ac-2",
+      "criterion_digest": "fc0dc143d0d2a4960c338d8b7ea5efe35bd1468d04ce6ca91597650b86f2f016",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/platform/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/493/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-493:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-D-ac-2 as proven: Human and workload identities are separate"
+    },
+    {
+      "criterion_id": "GCP-D-ac-3",
+      "criterion_digest": "23e3aa1255e73df824466af7ac3b70bb45946c28f34f90267842b80b854eb844",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/platform/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/493/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-493:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-D-ac-3 as proven: State artifacts models continuity evidence and logs have separate owners"
+    },
+    {
+      "criterion_id": "GCP-D-ac-4",
+      "criterion_digest": "dd0a54bdd021e20469f327b6da74cae6e8155461137a3a8e447312e1c55cdf61",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/platform/main.tf",
+        ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/493/cards/sor.md",
+        ".csdlc/issues/731/cards/sor.md",
+        ".csdlc/evidence/731/live-disposable-workload/status.json"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/493/cards/srp.md",
+        ".csdlc/issues/731/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/731/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-493:closed",
+        "github:issue-731:closed"
+      ],
+      "rationale": "Issue #731 created one authorized private e2-micro workload without an external IP, destroyed it and its auto-delete disk, and retained independent zero-residue readbacks for instances, run-labelled instances, disks, and addresses."
+    },
+    {
+      "criterion_id": "GCP-E-ac-1",
+      "criterion_digest": "10925f8da6141d028bbcf121bfd266d191fa061d621428b3d8e12058e6c148da",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/workloads/gpu-smoke-instance/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/494/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-494:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-E-ac-1 as proven: Paid launch has separate authorization and a USD 20 ceiling"
+    },
+    {
+      "criterion_id": "GCP-E-ac-2",
+      "criterion_digest": "652b70e45b23ebb3f52e61087e875166b7632d6f673e8bb74040e33022f80187",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/workloads/gpu-smoke-instance/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/494/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-494:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-E-ac-2 as proven: Exact inputs and hardware are retained"
+    },
+    {
+      "criterion_id": "GCP-E-ac-3",
+      "criterion_digest": "5548246a6a7856351cbfc714e9e66ea296ee81475b4f13830a35b396d870eec7",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/workloads/gpu-smoke-instance/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/494/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-494:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-E-ac-3 as proven: GPU inference and headroom are proven"
+    },
+    {
+      "criterion_id": "GCP-E-ac-4",
+      "criterion_digest": "72c59ac4656fa6ca3ee5294a7362a478dec6617bc6c5defeb1061f476ad3ca58",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/gcp/workloads/gpu-smoke-instance/main.tf"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/494/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-494:closed"
+      ],
+      "rationale": "Independent semantic audit classified GCP-E-ac-4 as proven: All owned resources are independently absent afterward"
+    },
+    {
+      "criterion_id": "HOT-01-ac-1",
+      "criterion_digest": "363996d445ed0f5cdd1fe3591a0b54f0a7d0805daa316dd67b09626410e938de",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime-kernel/src/config_reload.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/510/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-510:closed"
+      ],
+      "rationale": "Independent semantic audit classified HOT-01-ac-1 as proven: Reads use atomically swappable state"
+    },
+    {
+      "criterion_id": "HOT-01-ac-2",
+      "criterion_digest": "9ccdb5cfdd2c594df79ccb5f3005afcd60d7a67a222c1dbc599b928d92a9abdb",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime-kernel/src/config_reload.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/510/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-510:closed"
+      ],
+      "rationale": "Independent semantic audit classified HOT-01-ac-2 as proven: Invalid updates preserve the last valid configuration"
+    },
+    {
+      "criterion_id": "HOT-01-ac-3",
+      "criterion_digest": "39e93621ebdf61aaba33e1ed6225736ed9a6fdfbe4d756adbd6a2ad20e7f42ac",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime-kernel/src/config_reload.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/510/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-510:closed"
+      ],
+      "rationale": "Independent semantic audit classified HOT-01-ac-3 as proven: File events are debounced"
+    },
+    {
+      "criterion_id": "HOT-01-ac-4",
+      "criterion_digest": "00a0e33a44d64189a7ea9b7fea8aef4dd420b5ab92f6a900a3301f1fb347d92d",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl-runtime-kernel/src/config_reload.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/510/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-510:closed"
+      ],
+      "rationale": "Independent semantic audit classified HOT-01-ac-4 as proven: Concurrent requests observe complete configurations only"
+    },
+    {
+      "criterion_id": "OBS-A-ac-1",
+      "criterion_digest": "1cce01f1e008d9500558e049bd2e5da394002e8be245aa986cdb74dec96f173d",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/511/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-511:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "OBS-A-ac-2",
+      "criterion_digest": "7571382ba12ef34205b8b44fc759f5a6b9da8cab3669be2588654327ff153a29",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/511/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-511:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "OBS-A-ac-3",
+      "criterion_digest": "14c7225df73d1a0f980176d83fe4114c4f72bc9744767fa8f2c2b81b0cc4d1ae",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/511/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-511:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "OBS-A-ac-4",
+      "criterion_digest": "6a3bcc8d7e91a100d7aac5a28d71dc0c1242c9b5e20fa700817eda3909f152ba",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/511/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-511:closed"
+      ],
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+    },
+    {
+      "criterion_id": "OBS-B-ac-1",
+      "criterion_digest": "c2b1feb7216ee4f0344c906413ed2ed498772fd5b8ee44dd7db8d60d4a67d13c",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/exact-browser-operator-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/512/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-512:closed"
+      ],
+      "rationale": "Independent semantic audit classified OBS-B-ac-1 as proven: OBS-A contracts are implemented"
+    },
+    {
+      "criterion_id": "OBS-B-ac-2",
+      "criterion_digest": "5f03766f3f00ea799e4ac05d03406e7a6da2c83d56030050669fee32000aca24",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+
+      ],
+      "validation_evidence": [
+
+      ],
+      "review_evidence": [
+
+      ],
+      "docs_evidence": [
+
+      ],
+      "closeout_evidence": [
+        "github:issue-84:open"
+      ],
+      "rationale": "The candidate requires reviewed merged issue 84 authority, which is not present."
+    },
+    {
+      "criterion_id": "OBS-B-ac-3",
+      "criterion_digest": "13545f873e9ac982708e01a70cedd2d8bd5d6d1fd6b72a883cf627583c7c9b0f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/exact-browser-operator-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/512/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-512:closed"
+      ],
+      "rationale": "Independent semantic audit classified OBS-B-ac-3 as proven: Runtime projections are source-grounded"
+    },
+    {
+      "criterion_id": "OBS-B-ac-4",
+      "criterion_digest": "c23094f82ca606d8f3c05f1319c3e14645d311d38aae5d12247a2727250af111",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        ".csdlc/evidence/512/exact-browser-operator-proof.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/512/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-512:closed"
+      ],
+      "rationale": "Independent semantic audit classified OBS-B-ac-4 as proven: Accessibility and recovery cases pass"
+    },
+    {
+      "criterion_id": "PROV-A-ac-1",
+      "criterion_digest": "1310a94d4ada4cf602370182a178a583ed93c54b76081ef6ddbde4ed3a48ef9d",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/profiles.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/514/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-514:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-A-ac-1 as proven: Profiles bind provider model and bounded parameters"
+    },
+    {
+      "criterion_id": "PROV-A-ac-2",
+      "criterion_digest": "1a4da74aeef41f261c80e3b211a26c2e6f69a500e0c59c5abc64dd9015ed80bd",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/profiles.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/514/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-514:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-A-ac-2 as proven: Invalid profiles fail before activation"
+    },
+    {
+      "criterion_id": "PROV-A-ac-3",
+      "criterion_digest": "844270ce500a9ac3548f6f110b0736768b1fcd4b59aed71310aff5f35d5a8c12",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/profiles.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/514/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-514:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-A-ac-3 as proven: Last-known-good state is retained"
+    },
+    {
+      "criterion_id": "PROV-A-ac-4",
+      "criterion_digest": "d052713e63ee81139f685036767dee54d3e6ddc0f79570236d175884e80e7695",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/profiles.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/514/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-514:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-A-ac-4 as proven: Credentials prompts and private payloads are excluded"
+    },
+    {
+      "criterion_id": "PROV-B-ac-1",
+      "criterion_digest": "53f87fa07ef237304086cfd953b2e95ca7fd3dbfcebbbbb795bfc5f562387863",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/515/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-515:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-B-ac-1 as proven: Shadow and authority paths are distinguishable"
+    },
+    {
+      "criterion_id": "PROV-B-ac-2",
+      "criterion_digest": "b56e0c60d4e315d1578a9d462f157b562733c2c7393f5078730f0fc5eb59b3b3",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/515/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-515:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-B-ac-2 as proven: Inputs and comparison rules are exact"
+    },
+    {
+      "criterion_id": "PROV-B-ac-3",
+      "criterion_digest": "15af78f69979e7c117f7d6291b4d30c5a17eaddf7d61dae6a5ab07087c8b3f5e",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/515/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-515:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-B-ac-3 as proven: Failures preserve the authoritative result"
+    },
+    {
+      "criterion_id": "PROV-B-ac-4",
+      "criterion_digest": "4732f76285106531aad99a07a95ba3a7edebbd257319f577477906015cb92391",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/provider/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/515/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-515:closed"
+      ],
+      "rationale": "Independent semantic audit classified PROV-B-ac-4 as proven: Evidence is redacted"
+    },
+    {
+      "criterion_id": "RUST-01-ac-1",
+      "criterion_digest": "4caf185f06f7404e45a128e1c0282b2fc75ffccf88441b6eae77c4e29df43df4",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/resilience.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/499/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-499:closed"
+      ],
+      "rationale": "Independent semantic audit classified RUST-01-ac-1 as proven: Supported resilience behavior and public API remain compatible"
+    },
+    {
+      "criterion_id": "RUST-01-ac-2",
+      "criterion_digest": "67a33777abdb2b3f146e841adb0a4ad154d094ed196cbc0bfb5a69f058662003",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/resilience.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/499/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-499:closed"
+      ],
+      "rationale": "Independent semantic audit classified RUST-01-ac-2 as proven: Each extracted module has one coherent owner"
+    },
+    {
+      "criterion_id": "RUST-01-ac-3",
+      "criterion_digest": "7f84be5f88fbea22309b9a2eccac2eb7b8ce56e70362d93a35314a6a53961409",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/resilience.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/499/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-499:closed"
+      ],
+      "rationale": "Independent semantic audit classified RUST-01-ac-3 as proven: Tests remain behavior-focused and PVF-classified"
+    },
+    {
+      "criterion_id": "RUST-01-ac-4",
+      "criterion_digest": "26638cbc6ff9b7650cdc449c920ff3a194d408d260d27747357862cb74f86848",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/resilience.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/499/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-499:closed"
+      ],
+      "rationale": "Independent semantic audit classified RUST-01-ac-4 as proven: Validation-impact change is measured exactly"
+    },
+    {
+      "criterion_id": "RUST-01-ac-5",
+      "criterion_digest": "3fa07d89d76ee62819cbdb8720c401e08b194811abb460bc82d6750939aab988",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "adl/src/resilience.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/499/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-499:closed"
+      ],
+      "rationale": "Independent semantic audit classified RUST-01-ac-5 as proven: No line-count reduction quota is imposed"
+    },
+    {
+      "criterion_id": "V3-A-ac-1",
+      "criterion_digest": "e194bb90e41aa7dec0bd78b4916c2682d0bbea41921d35813f9c91cb3cb35c17",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/csdlc-v3/CONTRACT.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/500/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-500:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-A-ac-1 as proven: The v3 authority boundary and compatibility posture are explicit"
+    },
+    {
+      "criterion_id": "V3-A-ac-2",
+      "criterion_digest": "30b9392d0182cfedcf27688f80b5d44a3be1b15ae55e672336041e0356c8181d",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/csdlc-v3/CONTRACT.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/500/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-500:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-A-ac-2 as proven: Requirements 161 through 163 are mapped exactly"
+    },
+    {
+      "criterion_id": "V3-A-ac-3",
+      "criterion_digest": "faf476b43a7efc75fc71ac38c63cd3a4c2fb0bb1d74c1095b3f6d65b6d97f3be",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/csdlc-v3/CONTRACT.md"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/500/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-500:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-A-ac-3 as proven: Construction and rollback decisions are reviewable"
+    },
+    {
+      "criterion_id": "V3-B-ac-1",
+      "criterion_digest": "11f9da43787c0b13e29e1a0769f89529aeb2a8b2319be6494e725a2430f76dd2",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/repository/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/501/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-501:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-B-ac-1 as proven: State and projections are deterministic"
+    },
+    {
+      "criterion_id": "V3-B-ac-2",
+      "criterion_digest": "270b56741ae8ac14994290a524e42286180cbc6e99933ded02340d7fc5010599",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/repository/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/501/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-501:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-B-ac-2 as proven: Repository context is explicit"
+    },
+    {
+      "criterion_id": "V3-B-ac-3",
+      "criterion_digest": "ead8cd4d0f6e6f31c15f646815872dd63a79af11706f243c0c4e38ff2f964ad9",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/repository/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/501/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-501:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-B-ac-3 as proven: Requirements 164 through 167 have focused behavioral proof"
+    },
+    {
+      "criterion_id": "V3-C-ac-1",
+      "criterion_digest": "41c0a52763ba48da365ed93309664227304fdc9dd586a90dc0ac60f5945e6d96",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/lifecycle/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/502/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-502:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-C-ac-1 as proven: Transitions are capability-checked and atomic"
+    },
+    {
+      "criterion_id": "V3-C-ac-2",
+      "criterion_digest": "3249bb9dab06f25166d6efd77b94c0a03043868b007fdd95b3908c643dba9b76",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/lifecycle/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/502/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-502:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-C-ac-2 as proven: Recovery preserves audit provenance"
+    },
+    {
+      "criterion_id": "V3-C-ac-3",
+      "criterion_digest": "3f54f08fcf5482d273a5a44587e5a2fc358125104fe602d8de54c5fa1483657e",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/lifecycle/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/502/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-502:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-C-ac-3 as proven: Requirements 168 through 170 pass failure-injection tests"
+    },
+    {
+      "criterion_id": "V3-D-ac-1",
+      "criterion_digest": "ed37e00f36e208dec2be129343e749ee1d933f3505efdc65933f299834b83702",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/commands/local/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/503/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-503:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-D-ac-1 as proven: Commands consume typed contracts"
+    },
+    {
+      "criterion_id": "V3-D-ac-2",
+      "criterion_digest": "a99386ad195bab34995f619878c22b1db10843133429bb66201be9444c43444a",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/commands/local/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/503/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-503:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-D-ac-2 as proven: Bind enforces registered topology"
+    },
+    {
+      "criterion_id": "V3-D-ac-3",
+      "criterion_digest": "65a8ae2810cdb19ee254f31441beaa8b076b35d1b516fbbecfd3b1e5529977c6",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/commands/local/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/503/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-503:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-D-ac-3 as proven: Cards render from the active registry"
+    },
+    {
+      "criterion_id": "V3-D-ac-4",
+      "criterion_digest": "6db685fb46d916a44181dc880aedc116ac486fd319fd8e0cb33c60e3f8bd2a09",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/commands/local/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/503/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-503:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-D-ac-4 as proven: Requirements 171 through 173 have CLI proof"
+    },
+    {
+      "criterion_id": "V3-E-ac-1",
+      "criterion_digest": "d7cc7338719d0db53919331d6607f6976caa1be8a68f5c05f88902a6bbd08210",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/review/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/504/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-504:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-E-ac-1 as proven: Review binds exact immutable scope"
+    },
+    {
+      "criterion_id": "V3-E-ac-2",
+      "criterion_digest": "f785cf24432d5e6519a6a64c98d1faaf02f41a3a4ff9a63e53a10997f99fb580",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/review/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/504/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-504:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-E-ac-2 as proven: Publication modes are explicit"
+    },
+    {
+      "criterion_id": "V3-E-ac-3",
+      "criterion_digest": "9dc80df8ca28c17f210510c97fbfb32ae09efd297ac85aa229138ee644e40a8d",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/review/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/504/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-504:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-E-ac-3 as proven: Finish derives terminal truth"
+    },
+    {
+      "criterion_id": "V3-E-ac-4",
+      "criterion_digest": "b81e95c982b8e1b3282b31b02b131dd2bec52ffd7d1f0b9ca42f91fea66166ae",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/review/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/504/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-504:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-E-ac-4 as proven: Requirements 174 through 178 have positive and refusal proof"
+    },
+    {
+      "criterion_id": "V3-F-ac-1",
+      "criterion_digest": "ae6ae51426f7f2d553c8774aa41a1b227099ae82eafd65cf91a7da2eaab2475f",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/authority.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/505/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-505:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-F-ac-1 as proven: Requirements 179 and 180 are mapped"
+    },
+    {
+      "criterion_id": "V3-F-ac-2",
+      "criterion_digest": "d5300cdb50374f90a61869ad0cef589665b965736df64d82ffba6f503eb8674a",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/Cargo.toml",
+        "csdlc-v3/src/authority.rs",
+        "csdlc-v3/src/commands/remote/mod.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/505/cards/sor.md",
+        ".csdlc/issues/725/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/505/cards/srp.md",
+        ".csdlc/issues/725/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/725/cards/sor.md",
+        "docs/csdlc-v3/CONTRACT.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-505:closed",
+        "github:issue-725:closed"
+      ],
+      "rationale": "Issue #725 and merged PR #732 activated authenticated native v3 authority, removed the csdlc-v2 build dependency, retained exact reviewed/merge authority checks, and added fail-closed missing-object coverage."
+    },
+    {
+      "criterion_id": "V3-F-ac-3",
+      "criterion_digest": "1d54eed76b4cd45ef37a11f2fe31ea0dfee0f27385085377ec2be9764ad94307",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/authority.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/505/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-505:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-F-ac-3 as proven: Canary rollback is exercised"
+    },
+    {
+      "criterion_id": "V3-F-ac-4",
+      "criterion_digest": "42ce5c60c11cc93ef31f6dce7d49dcdfbe57b51a25d620a69e34123c0a8d45fa",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "csdlc-v3/src/authority.rs"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/505/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-505:closed"
+      ],
+      "rationale": "Independent semantic audit classified V3-F-ac-4 as proven: Cutover and retirement require operator approval"
+    },
+    {
+      "criterion_id": "WP-01-ac-1",
+      "criterion_digest": "dab0e2ab431be7bb41545b1713db52ccf027f5ed1294f5997c219f21efc15379",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/480/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-480:closed"
+      ],
+      "rationale": "Independent semantic audit classified WP-01-ac-1 as proven: Exactly 45 unique child issues are created from the reviewed package"
+    },
+    {
+      "criterion_id": "WP-01-ac-2",
+      "criterion_digest": "e42ece9a73faea386eb899dd3b4f681be2fe4870946cbe938fd03f77edb49b93",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/480/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-480:closed"
+      ],
+      "rationale": "Independent semantic audit classified WP-01-ac-2 as proven: Every child title and dependency matches canonical planning"
+    },
+    {
+      "criterion_id": "WP-01-ac-3",
+      "criterion_digest": "771a0a21f0961e37fe936446ae8fc1e7297305f0377185af3ca945ab708bdaea",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/480/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-480:closed"
+      ],
+      "rationale": "Independent semantic audit classified WP-01-ac-3 as proven: Existing or conflicting children fail closed before mutation"
+    },
+    {
+      "criterion_id": "WP-01-ac-4",
+      "criterion_digest": "a9fcec79f5e24dd5df5e26aac063a93f22682295f3aaefe383342764a1b83c88",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/480/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-480:closed"
+      ],
+      "rationale": "Independent semantic audit classified WP-01-ac-4 as proven: Partial failure resumes without duplicate creation or renumbering"
+    },
+    {
+      "criterion_id": "WP-01-ac-5",
+      "criterion_digest": "db9ea3d23f98bb58b29001c32aee543262f43815df640d818fcc4e4f7a57fcaf",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/480/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-480:closed"
+      ],
+      "rationale": "Independent semantic audit classified WP-01-ac-5 as proven: Final readback binds every planned ID to one issue number"
+    },
+    {
+      "criterion_id": "XCL-01-ac-1",
+      "criterion_digest": "d0035b840dec2dca8a359c7487a6938054fcd0fff2a890cc6f222b5a09cdce12",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/495/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-495:closed"
+      ],
+      "rationale": "Independent semantic audit classified XCL-01-ac-1 as proven: The portable workload contract is provider-neutral"
+    },
+    {
+      "criterion_id": "XCL-01-ac-2",
+      "criterion_digest": "34ab3b1c84646261c2ded1b7bc50c4060960c4cd5e02df812c1402acd3c8fbed",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/495/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-495:closed"
+      ],
+      "rationale": "Independent semantic audit classified XCL-01-ac-2 as proven: AWS and GCP modules preserve the exact admitted template behavior"
+    },
+    {
+      "criterion_id": "XCL-01-ac-3",
+      "criterion_digest": "ce6963e4e4b12f8d5ff65a62c0dc57cfce8885bf352ba2a6efe50f1b38d14f36",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/495/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-495:closed"
+      ],
+      "rationale": "Independent semantic audit classified XCL-01-ac-3 as proven: Provider identity and differences remain explicit"
+    },
+    {
+      "criterion_id": "XCL-01-ac-4",
+      "criterion_digest": "2a7e10492da5788ea87803f2bcf7609841a15de1bcb8a7774de6506f8b9b32d1",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/495/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-495:closed"
+      ],
+      "rationale": "Independent semantic audit classified XCL-01-ac-4 as proven: Neither provider silently substitutes for the other"
+    },
+    {
+      "criterion_id": "XCL-01-ac-5",
+      "criterion_digest": "cd8fbaaee88d8f35f2e798ba8d445be1971ad2f9d4c9d5770db05d7e4d5a5955",
+      "classification": "proven",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "validation_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "review_evidence": [
+        ".csdlc/issues/495/cards/srp.md"
+      ],
+      "docs_evidence": [
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "closeout_evidence": [
+        "github:issue-495:closed"
+      ],
+      "rationale": "Independent semantic audit classified XCL-01-ac-5 as proven: Existing CloudFormation remains rollback authority until AWS-G"
+    }
+  ]
+}

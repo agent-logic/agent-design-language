@@ -1,0 +1,16 @@
+{
+  "issue": 516,
+  "expected_generation": 3,
+  "expected_digest": "ca143cfd8c81424f2160c5f290eb38cfdecb25090de3b741619060b84c93acaa",
+  "reviewer": "fresh-session:f0268c97-6bd2-4a3d-8251-ad80f054aba2",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/evidence/516",
+    ".csdlc/prepared/issues/516",
+    "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+    "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+    "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+    "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+    "docs/milestones/v0.92.1/evidence/integration"
+  ]
+}

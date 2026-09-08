@@ -1,0 +1,13 @@
+   Compiling csdlc-v3 v0.1.0 (<canary-worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.08s
+  Executable unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+  Executable unittests src/main.rs (csdlc-v3/target/debug/deps/csdlc-8c2632752cd87a08)
+  Executable tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-f31ac1fd799cd4cf)
+  Executable tests/foundation.rs (csdlc-v3/target/debug/deps/foundation-4ad91646f7f0391e)
+  Executable tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-31a552ca197398e1)
+  Executable tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-2ebdcc2a29bb4021)
+  Executable tests/proof_parity_install_commands.rs (csdlc-v3/target/debug/deps/proof_parity_install_commands-02e6c4e48c9cc407)
+  Executable tests/real_issue_canary.rs (csdlc-v3/target/debug/deps/real_issue_canary-68acac0d7c397e1c)
+  Executable tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-f8a466b5853f1044)
+  Executable tests/terminal_cleanup_cutover_commands.rs (csdlc-v3/target/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
+  Executable tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-3db9e1f3f3c542ba)

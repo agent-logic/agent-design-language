@@ -1,0 +1,19 @@
+{
+  "issue": 516,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "4caad5f902735188fd61e6f5cf980850c8ea52fc4058186a4649cd74dcc15cd3",
+  "actor": "codex:516-readiness",
+  "reason": "Replace prose affected areas with exact repository-owned paths and explicitly own the issue validator used by every proving lane.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/516",
+      ".csdlc/prepared/issues/516",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      "docs/milestones/v0.92.1/evidence/integration",
+      "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md"
+    ]
+  }
+}

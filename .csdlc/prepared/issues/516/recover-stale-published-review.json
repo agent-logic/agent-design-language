@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 516,
+  "expected_generation": 6,
+  "expected_digest": "e5a9387a2ea54c55dfaff2ebc6032badb3e515b6b8a170e46289c19a73b1ca7c",
+  "actor": "codex:/root",
+  "reason": "Recover stale published review truth after current-main regeneration changed the admission candidate, semantic classifications, generated packet, validators, and retained receipts."
+}

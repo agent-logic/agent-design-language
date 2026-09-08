@@ -14,9 +14,9 @@ This is the complete issue-creation plan. The planning merge only makes the pack
 | #263 | Directory-submission runbooks | Existing podcast child |
 | #264 | Authorized directory submissions | Existing podcast child |
 | #342 | Podcast Studio first ten episodes | Existing podcast child |
-| #251 | TLS 1.2 support | Active Observatory prerequisite; may run in parallel with #122 and #345 |
+| #251 | TLS 1.2 support | Operator-deferred backlog; retained visibly but excluded from the release gate |
 | #122 | Route53/ACM public exposure | Active Observatory prerequisite; may run in parallel with #251 and #345 |
-| #84 | Unity Observatory readiness | Active lane; preparation may run in parallel, final proof consumes #251 and #122 |
+| #84 | Unity Observatory readiness | Operator-deferred backlog; retained visibly but excluded from the release gate |
 | #345 | AWS GPU Shepherd hardening | Active distributed Runtime input; may run in parallel with Observatory prerequisites |
 
 ## Milestone-opening conductor
@@ -87,7 +87,7 @@ WP-01 is deliberately number-free until milestone opening. It is not #431, and #
 
 ## Existing issues promoted into v0.92.1
 
-#251, #122, #84, and #345 are part of the active milestone denominator. WP-01 reconciles their labels and dependency links without creating replacements. #251, #122, and #345 may execute in parallel; #84 preparation may overlap them, but its final proving lane waits for #251 and #122.
+#122 and #345 remain active milestone inputs. #84 and #251 carry the canonical `track:backlog` disposition: INT-01 retains both rows and their authority evidence, but neither gates v0.92.1.
 
 ## Integration provenance
 

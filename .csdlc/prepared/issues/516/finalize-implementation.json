@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 516,
+  "expected_generation": 2,
+  "expected_digest": "037eb37327d0268cffe9816cc2215cdf32642b599a032ff8cfe835fc380980a8",
+  "actor": "codex:sprint-10-release-tail-admission",
+  "summary": "Prepared a complete fail-closed v0.92.1 admission decision at candidate af5f8036ab7a0619751ab55fa9bd4891f377cd9d. The diagnostic unit is complete when this truthful blocked decision passes exact-head review; release admission remains separately prohibited while P0/P1 findings are open.",
+  "changes": [
+    "Derived the exact planned-ID/live-issue/tail and retained-predecessor mappings from immutable wave, catalog, specification, and exact title-token sources with no hardcoded issue map.",
+    "Recorded all linked PRs and exact ancestry, and classified every criterion from the issue-owned curated semantic evidence manifest with candidate-bound non-empty evidence digests.",
+    "Captured pagination-safe GitHub input metadata and immutable planning digests in a candidate-versioned compact source manifest.",
+    "Added semantic validation and in-memory negative fixtures for omitted roots, null revisions, false ancestry, empty acceptance, duplicate retained identities, placeholder evidence, missing artifacts, projection drift, unowned findings, collisions, false admission, and Markdown omissions.",
+    "Split decision validity from release admission: denominator, gaps, and decision lanes accept a truthful blocked report, while the separate admitted mode fails with any open P0/P1."
+  ],
+  "artifacts": [
+    ".csdlc/prepared/issues/516/generate-release-tail-admission.rb",
+    ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+    ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
+    ".csdlc/evidence/516/semantic-criterion-evidence.json",
+    ".csdlc/evidence/516/no-v2-canary-af5f8036.json",
+    ".csdlc/evidence/516/no-v2-canary-af5f8036.stderr.log",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-input.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68.json",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap-analysis.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68.json",
+    "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json",
+    "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "release-tail-denominator",
+          "proof_role": "Validate complete unique denominator rows and required evidence fields.",
+          "purpose": "Issue 516 denominator validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "admission",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/bin/bash",
+          "argv": [".csdlc/prepared/issues/516/validate-release-tail-admission.sh", "denominator"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "implementation-gap-analysis",
+          "proof_role": "Validate findings schema, classifications, owners, and Markdown report structure.",
+          "purpose": "Issue 516 gap-analysis validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "admission",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/bin/bash",
+          "argv": [".csdlc/prepared/issues/516/validate-release-tail-admission.sh", "gaps"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "admission-consistency",
+          "proof_role": "Validate decision consistency and fail-closed blocker handling.",
+          "purpose": "Issue 516 final admission decision validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["release-tail-denominator", "implementation-gap-analysis"],
+          "parallel_group": "decision",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "/bin/bash",
+          "argv": [".csdlc/prepared/issues/516/validate-release-tail-admission.sh", "decision"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["release-tail-denominator", "implementation-gap-analysis", "admission-consistency"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 2, "cpu_units": 2, "memory_mib": 512, "tokens": 600},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/516",
+    "cancellation_file": null
+  }
+}

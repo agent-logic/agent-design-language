@@ -1,0 +1,38 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling serde_core v1.0.229
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.11
+   Compiling zmij v1.0.23
+   Compiling libc v0.2.189
+   Compiling serde_json v1.0.151
+   Compiling hashbrown v0.17.1
+   Compiling serde v1.0.229
+   Compiling equivalent v1.0.2
+   Compiling itoa v1.0.18
+   Compiling constant_time_eq v0.4.2
+   Compiling cfg-if v1.0.4
+   Compiling arrayvec v0.7.8
+   Compiling cc v1.4.4
+   Compiling unicode-id v0.3.6
+   Compiling memchr v2.8.3
+   Compiling markdown v1.0.0
+   Compiling indexmap v2.14.0
+   Compiling blake3 v1.8.7
+   Compiling fs2 v0.4.3
+   Compiling syn v3.0.4
+   Compiling serde_derive v1.0.229
+   Compiling csdlc-v3 v0.1.0 (<canary-worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.96s
+  Executable unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+  Executable unittests src/main.rs (csdlc-v3/target/debug/deps/csdlc-8c2632752cd87a08)
+  Executable tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-f31ac1fd799cd4cf)
+  Executable tests/foundation.rs (csdlc-v3/target/debug/deps/foundation-4ad91646f7f0391e)
+  Executable tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-31a552ca197398e1)
+  Executable tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-2ebdcc2a29bb4021)
+  Executable tests/proof_parity_install_commands.rs (csdlc-v3/target/debug/deps/proof_parity_install_commands-02e6c4e48c9cc407)
+  Executable tests/real_issue_canary.rs (csdlc-v3/target/debug/deps/real_issue_canary-68acac0d7c397e1c)
+  Executable tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-f8a466b5853f1044)
+  Executable tests/terminal_cleanup_cutover_commands.rs (csdlc-v3/target/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
+  Executable tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-3db9e1f3f3c542ba)
