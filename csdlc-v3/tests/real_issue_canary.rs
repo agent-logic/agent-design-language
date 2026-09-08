@@ -31,6 +31,23 @@ fn repo_root() -> PathBuf {
         .to_path_buf()
 }
 
+fn primary_repo_root(root: &Path) -> PathBuf {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["worktree", "list", "--porcelain"])
+        .output()
+        .expect("worktree topology should be observable");
+    assert!(output.status.success(), "worktree list failed: {output:?}");
+    let topology = String::from_utf8(output.stdout).expect("worktree list should be utf8");
+    PathBuf::from(
+        topology
+            .lines()
+            .find_map(|line| line.strip_prefix("worktree "))
+            .expect("primary worktree"),
+    )
+}
+
 fn git_common_dir(root: &Path) -> PathBuf {
     let output = Command::new("git")
         .arg("-C")
@@ -115,11 +132,11 @@ fn real_issue_request(
 }
 
 #[test]
-fn foundation_and_local_commands_accept_real_issue_596_without_v3_authority() {
+fn foundation_and_local_commands_accept_real_issue_596_with_native_v3_authority() {
     let root = repo_root();
     let context = RepositoryContext::discover(&root).expect("repository context");
     let foundation = FoundationState::load(&context).expect("foundation state loads");
-    assert_eq!(foundation.operational_authority(), "suspended");
+    assert_eq!(foundation.operational_authority(), "csdlc-v3");
     assert_eq!(foundation.issue_start_minutes_max(), 3);
 
     let projection = IssueProjection::load(&context, 596).expect("real issue projection loads");
@@ -199,22 +216,50 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         .arg("--registrations")
         .arg(&registrations_path)
         .arg("--repo-root")
-        .arg(&root)
+        .arg(primary_repo_root(&root))
         .output()
         .expect("run eligibility canary against real bound issue");
     assert!(output.status.success(), "{output:?}");
     assert!(output.stderr.is_empty(), "{output:?}");
     let value: serde_json::Value =
         serde_json::from_slice(&output.stdout).expect("eligibility emits machine JSON");
+    let operational = value["schema"] == "csdlc.v3.operational_local.v1";
+    assert!(
+        operational || value["schema"] == "csdlc.v3.local_preparation.v1",
+        "eligibility must use a typed local schema: {value}"
+    );
     assert_eq!(value["command"], "eligibility");
-    assert_eq!(value["operational_authority"], false);
-    assert_eq!(value["route_status"]["code"], "ready_to_execute");
-    assert_eq!(value["route_status"]["issue_start_minutes_max"], 3);
-    assert_eq!(value["route_result"]["kind"], "eligibility");
-    assert_eq!(value["route_result"]["ready_to_execute"], true);
-    assert_eq!(value["route_result"]["issue_start_minutes_max"], 3);
-    assert_eq!(value["result"]["lifecycle_state"]["issue"], 5853);
-    assert_eq!(value["result"]["lifecycle_state"]["ready_to_execute"], true);
+    assert_eq!(value["operational_authority"], operational);
+    assert_eq!(value["read_only"], true);
+    assert_eq!(value["writes_v3_state"], false);
+    let route_result = if operational {
+        let result = &value["result"];
+        assert_eq!(result["route"], "eligibility");
+        assert_eq!(result["mutated"], false);
+        result
+    } else {
+        let result = &value["route_result"];
+        assert_eq!(result["kind"], "eligibility");
+        result
+    };
+    assert_eq!(route_result["issue"], 5853);
+    let lifecycle_state = if operational {
+        route_result
+    } else {
+        &route_result["lifecycle_state"]
+    };
+    assert_eq!(lifecycle_state["phase"], "bound");
+    if operational {
+        assert!(lifecycle_state["findings"]
+            .as_array()
+            .expect("eligibility findings")
+            .iter()
+            .any(|finding| finding["code"] == "binding_live" && finding["status"] == "passed"));
+    } else {
+        assert_eq!(route_result["ready_to_execute"], true);
+        assert_eq!(lifecycle_state["code"], "local_lifecycle_state_ready");
+        assert_eq!(lifecycle_state["status"], "ready");
+    }
 }
 
 #[test]

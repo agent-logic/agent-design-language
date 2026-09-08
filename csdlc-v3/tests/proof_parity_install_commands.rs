@@ -11,6 +11,8 @@ use std::os::unix::fs::PermissionsExt;
 
 use serde_json::{json, Value};
 
+// Use an unbound ready issue so both real doctor implementations have a
+// topology-neutral fixture in a fresh single-checkout CI clone.
 const SHADOW_TARGET_ISSUE: u64 = 631;
 
 struct ScratchGuard {
@@ -134,6 +136,20 @@ fn issue_phase(issue: u64) -> String {
         .to_string()
 }
 
+fn issue_repository(issue: u64) -> String {
+    issue_index(issue)["repository"]
+        .as_str()
+        .expect("issue repository")
+        .to_string()
+}
+
+fn fixture_branch() -> &'static str {
+    // A single-checkout hosted clone is the primary checkout; its truthful
+    // registration branch is the primary branch even when Actions checks out
+    // the synthetic merge commit detached.
+    "main"
+}
+
 fn current_head() -> String {
     let output = Command::new("git")
         .arg("-C")
@@ -177,7 +193,7 @@ fn repo_local_v3_binary_ref() -> String {
     repo_ref(&destination)
 }
 
-fn repo_local_v2_doctor_binary_ref() -> String {
+fn retained_v2_doctor_observation_ref() -> String {
     static BINARY: OnceLock<PathBuf> = OnceLock::new();
     let binary = BINARY.get_or_init(|| {
         let binary = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -220,7 +236,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
     );
     json!({
         "generation": "v2",
-        "binary_ref": repo_local_v2_doctor_binary_ref(),
+        "binary_ref": retained_v2_doctor_observation_ref(),
         "argv": ["--repo", ".", "--issue", issue_argument.to_string()],
         "request_ref": request_ref,
         "timeout_millis": 120_000,
@@ -230,19 +246,31 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
 }
 
 fn v3_doctor_spec() -> Value {
-    v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
+    v3_doctor_spec_for(631, "proof command fixture")
 }
 
 fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
-    let root = binary_repo_root();
+    let construction_root = scratch().join(format!("v3-construction-root-{issue}"));
+    let construction_worktree = construction_root.join("worktree");
+    fs::create_dir_all(&construction_worktree).expect("construction worktree fixture");
+    let lifecycle_dir = construction_root
+        .join(".csdlc")
+        .join("issues")
+        .join(issue.to_string());
+    fs::create_dir_all(&lifecycle_dir).expect("construction lifecycle fixture");
+    fs::copy(
+        binary_repo_root().join(format!(".csdlc/issues/{issue}/index.json")),
+        lifecycle_dir.join("index.json"),
+    )
+    .expect("copy construction lifecycle index");
     let request_ref = write_typed_request(
         "v3-doctor-request.json",
         json!({
             "issue": issue,
             "title": title,
-            "repository": "agent-logic/agent-design-language",
-            "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": root,
+            "repository": issue_repository(issue),
+            "branch": fixture_branch(),
+            "worktree": construction_worktree,
             "registry_version": "1.0.3",
             "expected_lifecycle_digest": issue_digest(issue),
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
@@ -252,8 +280,8 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
     let registrations_ref = write_typed_request(
         "v3-doctor-registrations.json",
         json!([{
-            "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": binary_repo_root(),
+            "branch": fixture_branch(),
+            "worktree": construction_worktree,
             "primary": false
         }]),
     );
@@ -264,7 +292,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "local", "--request", request_ref,
             "--registry", "docs/templates/prompts/current.json",
             "--registrations", registrations_ref,
-            "--repo-root", "."
+            "--repo-root", construction_root.to_string_lossy()
         ],
         "request_ref": request_ref,
         "timeout_millis": 120_000,
@@ -356,7 +384,7 @@ fn assert_blocked_value(route: &str, body: Value, code: &str) {
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("proof.json", br#"{"ok":true}"#);
-    let command = v3_doctor_spec_for(631, "proof command fixture");
+    let command = v3_doctor_spec();
     assert_ready_value(
         "proof",
         json!({
@@ -392,7 +420,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "observed_digest": "def456",
             "stale": true,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(631, "proof command fixture")
+            "command": v3_doctor_spec()
           }
         }),
         "proof_lane_not_deterministic",
@@ -414,7 +442,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "observed_digest": "caller-forged",
             "stale": false,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(631, "proof command fixture")
+            "command": v3_doctor_spec()
           }
         }),
         "proof_observed_digest_mismatch",
@@ -425,7 +453,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 fn proof_route_retains_a_deterministic_native_receipt() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("native-proof.json", br#"{"ok":true}"#);
-    let command = v3_doctor_spec_for(631, "proof command fixture");
+    let command = v3_doctor_spec();
     let value = run_route_value(
         "proof",
         json!({
@@ -465,7 +493,7 @@ fn proof_route_retains_a_deterministic_native_receipt() {
             "observed_digest": digest,
             "stale": false,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(631, "proof command fixture")
+            "command": v3_doctor_spec()
           }
         }),
     );
@@ -474,7 +502,7 @@ fn proof_route_retains_a_deterministic_native_receipt() {
 }
 
 #[test]
-fn shadow_route_executes_real_v2_doctor_and_v3_local_preparation_commands() {
+fn shadow_route_compares_retained_v2_doctor_observation_with_v3_local_preparation() {
     let _scratch = ScratchGuard::new();
     let root = binary_repo_root();
     let value = run_route_value(
@@ -486,7 +514,7 @@ fn shadow_route_executes_real_v2_doctor_and_v3_local_preparation_commands() {
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
             "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
-            "v3": v3_doctor_spec(),
+            "v3": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture"),
             "broad_equivalence_claim": false
           }
         }),
@@ -525,7 +553,7 @@ fn shadow_route_fails_closed_on_real_lifecycle_mismatch_and_provider_effects() {
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
             "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
-            "v3": v3_doctor_spec_for(210, "[v0.91.6] Shadow parity ready issue fixture"),
+            "v3": v3_doctor_spec_for(632, "Shadow parity mismatch issue fixture"),
             "broad_equivalence_claim": false
           }
         }),

@@ -133,7 +133,7 @@ pub enum ProofRouteStatus {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct ProofRouteFinding {
     pub code: &'static str,
-    pub message: &'static str,
+    pub message: String,
 }
 
 pub fn classify_route(
@@ -686,7 +686,10 @@ fn execute_shadow(
     if v2.normalized_output != v3.normalized_output {
         return Err(finding(
             "shadow_normalized_mismatch",
-            "normalized outputs from executed v2 and v3 commands must match",
+            format!(
+                "normalized outputs from executed v2 and v3 commands must match; v2={}; v3={}",
+                v2.normalized_output, v3.normalized_output
+            ),
         ));
     }
     if v2.exit_code != Some(0) || v3.exit_code != Some(0) {
@@ -962,6 +965,17 @@ fn execute_shadow_command(
         .ok()
         .and_then(Result::ok)
         .ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
+    if !status.success() {
+        let diagnostic_category = shadow_diagnostic_category(&stdout);
+        return Err(finding(
+            "shadow_command_not_successful",
+            format!(
+                "shadow command exited {:?}; diagnostic_category={diagnostic_category}; stderr_blake3={}",
+                status.code(),
+                blake3::hash(&stderr).to_hex()
+            ),
+        ));
+    }
     let normalized_output =
         normalize_shadow_output(spec.generation, normalization, spec, request_issue, &stdout)?;
     if normalized_output
@@ -1003,6 +1017,25 @@ fn execute_shadow_command(
         elapsed_millis: started.elapsed().as_millis(),
         side_effect_boundary,
     })
+}
+
+fn shadow_diagnostic_category(stdout: &[u8]) -> &'static str {
+    if stdout.is_empty() {
+        "empty_stdout"
+    } else if serde_json::from_slice::<serde_json::Value>(stdout)
+        .ok()
+        .and_then(|value| {
+            value
+                .get("schema")
+                .and_then(serde_json::Value::as_str)
+                .map(str::to_owned)
+        })
+        .is_some()
+    {
+        "typed_json_stdout"
+    } else {
+        "non_json_stdout"
+    }
 }
 
 fn normalize_shadow_output(
@@ -1070,18 +1103,27 @@ fn normalize_shadow_output(
             (value.get("issue"), value.get("phase"))
         }
         (ShadowGeneration::V3, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
-            if value["schema"] != "csdlc.v3.local_preparation.v1"
+            let local_preparation = value["schema"] == "csdlc.v3.local_preparation.v1";
+            let operational_local = value["schema"] == "csdlc.v3.operational_local.v1";
+            if (!local_preparation && !operational_local)
                 || !matches!(value["command"].as_str(), Some("doctor" | "local"))
             {
                 return Err(finding(
                     "shadow_output_schema_mismatch",
-                    "v3 diagnostic output must use the typed local preparation schema",
+                    "v3 diagnostic output must use a typed local doctor schema",
                 ));
             }
-            (
-                value.pointer("/result/issue"),
-                value.pointer("/result/lifecycle_state/phase"),
-            )
+            if operational_local {
+                (
+                    value.pointer("/result/issue"),
+                    value.pointer("/result/phase"),
+                )
+            } else {
+                (
+                    value.pointer("/result/issue"),
+                    value.pointer("/result/lifecycle_state/phase"),
+                )
+            }
         }
         (_, ShadowNormalizationContract::RoutePreviewV1) => unreachable!("handled above"),
     };
@@ -1593,8 +1635,11 @@ fn observed_ref_bytes(
     }
 }
 
-fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
-    ProofRouteFinding { code, message }
+fn finding(code: &'static str, message: impl Into<String>) -> ProofRouteFinding {
+    ProofRouteFinding {
+        code,
+        message: message.into(),
+    }
 }
 
 #[cfg(test)]
@@ -1804,4 +1849,15 @@ mod tests {
         );
         fs::remove_dir_all(base).unwrap();
     }
+}
+#[test]
+fn shadow_diagnostic_category_is_redacted_and_stable() {
+    assert_eq!(shadow_diagnostic_category(b""), "empty_stdout");
+    assert_eq!(
+        shadow_diagnostic_category(
+            br#"{"schema":"csdlc.doctor.report.v1","secret":"not surfaced"}"#
+        ),
+        "typed_json_stdout"
+    );
+    assert_eq!(shadow_diagnostic_category(b"not json"), "non_json_stdout");
 }
