@@ -3,9 +3,9 @@
   "issue": 725,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
-  "phase": "bound",
-  "generation": 2,
-  "digest": "7df5758fe83ae9c7697824cbf89f4875c70bfc58c068ea70a54a8c9fb924553b",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "76d2ee3d6bac4f95571ff2d4b18b0a536047845380203e2e40bfad2519ea7fac",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c6a02ef1aeac55c64eea37118fa83f9f0c9b50196db7a546dbc8074b4a5da72e",
+      "values_digest": "4d9f034abc3b12df7f082e64efc33235090d01436745e69ef142383b8f902d79",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "97d6f2e0efa775ded66e660a3c0dc7cbee64436a4d8a4a897d931eb0871e859f",
+      "values_digest": "be722186596749a67b5d9433d352cf02b2e2ab318d664b643fd62d0a603dcb5d",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "de1e55b829e8f6699179eae1b9557dd28fa7b3cb079c110caac8ea932287ea3b",
+      "values_digest": "ee5d73e7e4ede54109afe9bedfb0ce5aa82f17860a582074ba2e9121506fc888",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "53ef870115fcc9e8c4dc94c005cbc7e813187e2452fc64420ba45171ddf63a45",
+      "values_digest": "25e9d8e288af0be8e1a9285a09cc90f43bb749f27bcf7c66a03d0e4a15bd2214",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "6fce270d530892b661aece6aae9e2a928d283c3518dc4004b129a12d25939e7d",
+      "values_digest": "d4268d38291d55f1d8777c2fe0e961a4af55618587eb1a338e7aefc3b7b58f07",
       "rendered_digest": "688cab9a5988f7521d6972c62d6d608d359ea5e4ddf293ca5cd714ea9a7be645",
       "ast_digest": "8785989bc640f0891d3ba852e876cb5014471adaa262e6cad5499549b78553d4"
     },
     "sor": {
-      "values_digest": "44c2ba068fa15898aa7419037d9b4972ef460f7f413cd6fef8ad1446148faeeb",
-      "rendered_digest": "2715e531599c9cbda39070bf3c0d22d5188c2c7f26305484774f4fae8bc0b791",
-      "ast_digest": "cc3eea565b131a97d7146b5b15b2d66b08183f5a0f047155415415882723f8f7"
+      "values_digest": "b1a7a5cf2daa1a5d57a2062f32708734dba44bb67b2d899eee70aa50f8e7162a",
+      "rendered_digest": "4c373bd8391b1d74616c489e6476406874c23da9d93d7e3353892936f31938c8",
+      "ast_digest": "c20da886180d97765402ac92d2c991f0346bc8a21c0fddc37a5ff0ee45567f52"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-remediate-v3-725",
+      "reason": "advance issue 725 after standalone no-v2 compile and native authority tests passed"
     }
   ],
   "audit": [
@@ -98,6 +105,34 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-remediate-v3-725",
+      "reason": "record issue 725 implementation at eaf71785c",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Migrated operational C-SDLC v3 authority to a native selector and digest-bound receipt and removed the csdlc-v2 Cargo dependency.\",\"changes\":[\"Added native v3 authority selector and cutover provenance receipt.\",\"Migrated local, remote, proof/install, and terminal authority reads to the native selector.\",\"Replaced the v2-generated exact-head review test fixture with a native typed review receipt.\",\"Removed the csdlc-v2 dev-dependency and regenerated the standalone lockfile.\",\"Documented one-way post-cutover migration and explicit fail-closed rollback.\"],\"artifacts\":[\"csdlc-v3/operator/authority-selector.json\",\"csdlc-v3/operator/native-authority-receipt.json\",\"csdlc-v3/src/authority.rs\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/README.md\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-remediate-v3-725",
+      "reason": "record true no-v2 fresh archive compilation proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"fresh archive compile with csdlc-v2 physically absent\",\"outcome\":\"passed\",\"evidence_ref\":\"repo-local .adl/canary-725 output; no-v2 all-target compile passed at eaf71785c\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-remediate-v3-725",
+      "reason": "record no-v2 native authority library proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--lib\"],\"purpose\":\"native authority, install and authenticated reconciliation behavior without v2 source\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh repo-local .adl/canary-725 checkout; 36 passed at eaf71785c\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-remediate-v3-725",
+      "reason": "advance issue 725 after standalone no-v2 compile and native authority tests passed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
