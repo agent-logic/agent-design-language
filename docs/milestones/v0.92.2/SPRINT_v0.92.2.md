@@ -28,3 +28,7 @@ Run TAIL-01 through TAIL-10 in exact order. Individual issue closeout is asynchr
 ## Scope Control
 
 Deferred connectors, autonomous mutation, public customer-scale deployment, ATE, OCI model packaging, optional modernization, and Runtime v4 require separate admission.
+
+## Existing issues outside new-wave startup
+
+#718 is urgent: start its own ready/bound work now, in parallel with predecessor closeout and this planning repair. #717 and #720 also use existing authority and do not wait for WP-01. Resolve #717/#718 overlapping welcome-package/control edits before concurrent writes. This schedules existing work; #523 does not implement those issues.

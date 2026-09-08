@@ -33,3 +33,13 @@ Status: planned ownership map.
 | Speculative-decoding decision | SPEC-RETEST | Current benchmark, equivalence, and fallback proof |
 
 No row may be marked proven from a planned demo, a zero-test invocation, or green CI that does not cover the stated behavior.
+
+## Additional admitted proof
+
+| Surface | Owner | Required proof |
+|---|---|---|
+| Shared finding/run contract | CF-EVIDENCE | Review/memory/renderer conformance fixtures and compatible-version negatives |
+| Pre-synthesis independence | CF-REVIEW | Isolated lane inputs and retained disagreements |
+| Canonical-name A2A | RT-A2A / #718 | Invalid-name/continuity tests plus two non-Shepherd agents exchanging model-generated replies |
+| Capability orientation | RT-ORIENT / #717 | First-turn delivery, complete canonical inventory, stale-entry negatives and version/digest provenance |
+| Live Observatory | OBS-LIVE / #720 | Live navigation remains functional; no retained mode, historical polling or evidence deletion |

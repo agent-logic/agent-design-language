@@ -1,6 +1,6 @@
 # v0.92.2 Planned Issue Catalog
 
-Status: number-free planning catalog. This file does not create or authorize GitHub issues.
+Status: planned catalog with three existing issue bindings. Uncreated rows remain number-free. This file does not create or authorize new GitHub issues.
 
 | Order | Planned ID | Title | Creation boundary |
 |---:|---|---|---|
@@ -14,7 +14,7 @@ Status: number-free planning catalog. This file does not create or authorize Git
 | 8 | CF-MEMORY | Longitudinal memory and second-run comparison | After CF-EVIDENCE; parallel |
 | 9 | CF-UX | Governed publication and three output formats | After CF-SHELL and CF-EVIDENCE |
 | 10 | CF-PROOF | Docs, fixtures, ADL self-review, and external OSS proof | After analysis/publication tracks |
-| 11 | CF-INTEGRATE | Complete Beta 1 integration and qualification | After all product tracks |
+| 11 | CF-INTEGRATE | Complete Beta 1 integration and qualification | After all product tracks, PLAT-PROVIDER and PLAT-MEMORY |
 | 12 | PLAT-PROVIDER | Config-driven provider definitions | After WP-01 and merged v0.92.1 issue #622 |
 | 13 | PLAT-MLX | Bounded MLX and Apple Metal provider adapter | After PLAT-PROVIDER |
 | 14 | PLAT-UTS | UTS standardization and productization | After WP-01 |
@@ -24,6 +24,9 @@ Status: number-free planning catalog. This file does not create or authorize Git
 | 18 | PUB-CSDLC | Advance one C-SDLC paper packet | After WP-01 |
 | 19 | PLAT-MEMORY | Bounded Memory Palace production integration | After CF-EVIDENCE and CF-MEMORY |
 | 20 | SPEC-RETEST | Speculative-decoding requalification | After WP-01 |
+| 20a | RT-A2A (#718) | Urgent canonical-name agent communication | Reuse existing #718; eligible independently now |
+| 20b | RT-ORIENT (#717) | Polis module and capability orientation | Reuse existing #717; verify #708/#709 baseline |
+| 20c | OBS-LIVE (#720) | Remove retained-mode live demo hazards | Reuse existing #720; independent of CodeFriend build |
 | 21 | TAIL-01 | Quality gate | After CF-INTEGRATE and all admitted supporting tracks |
 | 22 | TAIL-02 | Documentation review and external-review handoff | After TAIL-01 |
 | 23 | TAIL-03 | Publication finalization | After TAIL-02 |
@@ -35,7 +38,7 @@ Status: number-free planning catalog. This file does not create or authorize Git
 | 29 | TAIL-09 | Next-milestone planning review | After TAIL-08 |
 | 30 | TAIL-10 | Release ceremony and milestone close | After TAIL-09 |
 
-WP-01 creates exactly one bounded issue for each catalog row. Dependencies may permit parallel execution, but unrelated or merely adjacent results must not be combined. No implementation issue is to be created before the prior milestone is closed and the operator authorizes issue creation.
+WP-01 reuses existing #717/#718/#720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. Existing issue execution does not wait for new milestone issue creation or prior closeout. #718 is operator-admitted and urgent despite stale backlog wording in its captured issue body. Other backlog is excluded. New issue creation remains gated by prior-milestone closure and operator authorization; #523 creates none.
 
 ## Deferred, Not Missing
 

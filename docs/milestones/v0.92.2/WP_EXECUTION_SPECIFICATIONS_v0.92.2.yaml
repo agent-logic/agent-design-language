@@ -25,9 +25,9 @@ specifications:
     non_goals: [jira, linear, slack, broad_workspace]
   - id: CF-EVIDENCE
     outcome: Every review claim traces to stable, provenance-bound, redacted, policy-retained evidence.
-    owned_surfaces: [artifact_identity, provenance, redaction, retention]
-    acceptance: [stable_identity, immutable_provenance, fail_closed_redaction, explicit_retention]
-    pvf: [determinism, tamper_detection, redaction_negative_suite, retention_contract]
+    owned_surfaces: [artifact_identity, provenance, redaction, retention, shared_finding_run_contract, consumer_conformance_fixtures]
+    acceptance: [stable_identity, immutable_provenance, fail_closed_redaction, explicit_retention, finding_run_contract_merged_before_consumers]
+    pvf: [determinism, tamper_detection, redaction_negative_suite, retention_contract, cross_consumer_conformance]
     stop_conditions: [unredacted_secret, mutable_identity, unverifiable_provenance]
     non_goals: [public_evidence_hosting]
   - id: CF-COG
@@ -47,8 +47,8 @@ specifications:
   - id: CF-REVIEW
     outcome: Four attributed perspectives produce a deduplicated, severity-grounded review plus bounded remediation and test plans.
     owned_surfaces: [correctness, security, adversarial, constitutional, synthesis, remediation, test_planning]
-    acceptance: [perspectives_preserved, evidence_citations, severity_rationale, duplicate_control, no_silent_mutation]
-    pvf: [review_fixtures, synthesis_contract, severity_calibration, action_plan_schema]
+    acceptance: [perspectives_preserved, isolated_pre_synthesis_inputs, disagreement_preserved, evidence_citations, severity_rationale, duplicate_control, no_silent_mutation]
+    pvf: [review_fixtures, isolated_lane_inputs, synthesis_contract, severity_calibration, action_plan_schema]
     stop_conditions: [finding_without_evidence, hidden_perspective, source_mutation]
     non_goals: [security_tournament, autonomous_fixing]
   - id: CF-MEMORY
@@ -142,6 +142,32 @@ specifications:
     pvf: [reproducible_benchmark, output_equivalence, fallback_test]
     stop_conditions: [stale_fixture_only, correctness_regression, unsupported_speed_claim]
     non_goals: [productization_without_requalification]
+  - id: RT-A2A
+    outcome: Existing issue 718 delivers canonical-name A2A addressing urgently, independently of the CodeFriend build.
+    owned_surfaces: [adl-runtime-kernel/src/assembly.rs, adl-runtime-kernel/src/control.rs, adl-runtime-kernel/src/ingress.rs, canonical_roster, acip_carrier, observatory_a2a_history, welcome_package]
+    acceptance: [canonical_names_only_in_public_contract, invalid_names_rejected, model_provider_migration_identity_stable, internal_audit_ids_retained, two_ordinary_agents_exchange_model_generated_replies]
+    pvf: [schema_contract, name_resolution_negatives, continuity_identity, governed_end_to_end_model_reply]
+    stop_conditions: [ambiguous_name, weakened_acip_validation, helper_only_proof, unapproved_live_provider_use]
+    non_goals: [runtime_v4, new_cross_node_transport, changing_backing_model, shepherd_special_case]
+    issue: 718
+    priority: urgent
+    execution_boundary: Existing issue is eligible for immediate readiness/binding; implementation is not performed by issue 523.
+  - id: RT-ORIENT
+    outcome: Existing issue 717 extends the versioned welcome package with truthful module and capability orientation.
+    owned_surfaces: [docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md, adl-runtime-kernel/src/agent_orientation.rs, canonical_capability_inventory, orientation_read_models]
+    acceptance: [before_first_model_turn, freedom_gate_explained, existence_enablement_admission_authorization_distinct, version_digest_preserved, inventory_coverage]
+    pvf: [first_turn_delivery, inventory_guard, stale_inventory_negative, provenance_contract]
+    stop_conditions: [invented_capability, orientation_grants_authority, unavailable_708_baseline]
+    non_goals: [new_authority, live_provider_calls, production_runtime_mutation]
+    issue: 717
+  - id: OBS-LIVE
+    outcome: Existing issue 720 makes the live Observatory unable to silently switch to retained historical telemetry.
+    owned_surfaces: [observatory_topbar, refreshRetained, obsolete_setRuntimeTestStatus_assignments, live_ui_contract_tests]
+    acceptance: [no_published_retained_controls, no_historical_route_on_startup_navigation, no_obsolete_three_second_timer, three_unused_assignments_removed, historical_evidence_retained]
+    pvf: [live_mode_contract, navigation_negative, retained_timer_absence, evidence_preservation]
+    stop_conditions: [live_telemetry_regression, historical_evidence_deletion, widening_issue_512]
+    non_goals: [observatory_redesign, delaying_issue_512]
+    issue: 720
   - id: TAIL-01
     outcome: Integrated quality evidence is reconciled into an explicit pass, fail, or not-proven result.
     acceptance: [quality_gate_evaluated, no_unresolved_p1]
@@ -164,7 +190,7 @@ specifications:
     pvf: [external_review]
   - id: TAIL-06
     outcome: Accepted findings are remediated or explicitly deferred with ownership and risk.
-    acceptance: [accepted_findings_closed_or_deferred, quality_gate_rechecked]
+    acceptance: [accepted_findings_closed_or_deferred, quality_gate_rechecked, changed_candidate_artifacts_rebuilt, affected_proof_rerun, current_internal_external_review]
     pvf: [remediation_validation]
   - id: TAIL-07
     outcome: The successor milestone receives an evidence-backed planning package.
@@ -180,7 +206,7 @@ specifications:
     pvf: [planning_review]
   - id: TAIL-10
     outcome: Human release authority records ceremony and milestone-close truth.
-    acceptance: [release_decision_recorded, milestone_state_truthful]
+    acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1]
     pvf: [release_authority_check]
 release_tail:
   order: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]

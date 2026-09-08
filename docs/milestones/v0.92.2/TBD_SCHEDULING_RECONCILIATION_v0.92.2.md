@@ -34,3 +34,10 @@ The ignored `.adl/docs/TBD/` corpus was audited read-only in the primary checkou
 | Unity | Deferred/backlog | No v0.92.2 issue | Explicit operator direction | None for v0.92.2 |
 
 No v0.92.2 issue number, milestone, label, or execution authority is created by this reconciliation.
+
+
+## #523 correction: self-contained authority and current issue census
+
+The table above is the retained #620 source audit, not a requirement to load ignored files during execution. [Adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) now carries the selected product, shared-schema and security boundaries in tracked form; the [source digest manifest](evidence/issue-523/adopted-source-manifest.json) preserves source-version provenance. Historical local rationale does not add scope to these adopted requirements.
+
+Reuse #717/#718/#720 under [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md). #718 is explicitly admitted and urgent by current operator direction; other backlog remains excluded. Runtime v4 stays v0.93 and customer-scale CodeFriend is prioritized for the first milestone after qualified Beta 1, with the exact successor version still undecided.

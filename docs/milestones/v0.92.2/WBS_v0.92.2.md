@@ -1,20 +1,20 @@
 # v0.92.2 Work Breakdown Structure
 
-Status: planned. IDs are number-free planning identifiers; no GitHub issues are created by this document.
+Status: planned. Uncreated rows use number-free planning identifiers; three admitted rows reuse existing issues. No GitHub issues are created by this document.
 
 | WP | Work track | Primary outcome | Depends on |
 |---|---|---|---|
 | WP-01 | Milestone opening | Validate package and create the authorized execution wave | none |
 | CF-SHELL | Product shell | Setup, onboarding, run controls, status, artifact browser | WP-01 |
 | CF-ADAPTER | Adapter v2 | Portable local/GitHub/CI repository ingestion | WP-01 |
-| CF-EVIDENCE | Evidence core | Stable identity, provenance, redaction, retention | CF-ADAPTER |
+| CF-EVIDENCE | Evidence core | Stable identity, provenance, redaction, retention, shared finding/run contract and consumer fixtures | CF-ADAPTER |
 | CF-COG | Architecture cognition | Dependency, boundary, coupling, drift, blast-radius, quanta, ADR analysis | CF-EVIDENCE |
 | CF-GOV | Executable governance | Fitness functions and CI integration | CF-EVIDENCE |
 | CF-REVIEW | Review engine | Four perspectives, synthesis, remediation, test planning | CF-EVIDENCE |
 | CF-MEMORY | Longitudinal memory | Second-run comparison and compatibility handling | CF-EVIDENCE |
 | CF-UX | Publication and outputs | Human approval, claims/non-claims, manifests, Markdown/HTML/PDF | CF-SHELL, CF-EVIDENCE |
 | CF-PROOF | Docs, fixtures, and proof repos | Examples, fixtures, ADL self-review, external OSS proof | CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX |
-| CF-INTEGRATE | Beta 1 integration | One coherent product path and acceptance packet | all CF tracks |
+| CF-INTEGRATE | Beta 1 integration | One coherent product path and acceptance packet | all other CF tracks, PLAT-PROVIDER, PLAT-MEMORY |
 | PLAT-PROVIDER | Provider configuration | Separate provider behavior from editable endpoint/profile data | WP-01; merged v0.92.1 issue #622 |
 | PLAT-MLX | MLX/Metal provider | Add one bounded Apple MLX/Metal adapter over the canonical provider-definition contract | PLAT-PROVIDER |
 | PLAT-UTS | UTS productization | Standardize and package the UTS contract for supported consumers | WP-01 |
@@ -24,12 +24,19 @@ Status: planned. IDs are number-free planning identifiers; no GitHub issues are 
 | PUB-CSDLC | C-SDLC paper preparation | Advance one C-SDLC paper packet without submission | WP-01 |
 | PLAT-MEMORY | Memory Palace integration | Deliver the next bounded production Runtime/CodeFriend Memory Palace slice | CF-EVIDENCE, CF-MEMORY |
 | SPEC-RETEST | Speculative decoding requalification | Retest the retained prototype and issue an evidence-backed keep, repair, or retire decision | WP-01 |
-| TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | CF-INTEGRATE |
+| RT-A2A (#718) | Urgent existing Runtime issue | Canonical-name addressing and model-generated reply proof | Existing governed A2A/roster prerequisites; no WP-01 wait |
+| RT-ORIENT (#717) | Existing Runtime issue | Capability orientation through versioned welcome delivery | Completed #708/#709; no WP-01 wait |
+| OBS-LIVE (#720) | Existing Observatory issue | Remove retained-mode hazards from live product | Existing live UI; no WP-01 wait |
+| TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | TAIL-01 converges integration plus all admitted supporting/existing tracks |
 
 ## Parallelism
 
-CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST can start independently after WP-01. PLAT-PROVIDER also requires merged v0.92.1 issue #622; PLAT-MLX follows PLAT-PROVIDER. After the evidence contract stabilizes, cognition, governance, review, Memory Palace integration, and publication can advance in parallel. Only integration and the release tail are deliberately serial.
+CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST can start independently after WP-01. PLAT-PROVIDER also requires merged v0.92.1 issue #622; PLAT-MLX follows PLAT-PROVIDER. After the evidence contract merges, cognition, governance, review and publication can advance in parallel; Memory Palace integration additionally requires CF-MEMORY. Only integration and the release tail are deliberately serial.
 
 ## Work-Package Rule
 
-WP-01 creates exactly one bounded issue per row. Each issue owns one concrete result and its proof; rows are never combined merely to reduce issue count.
+WP-01 reconciles one bounded issue per expanded row. Reuse #717, #718 and #720; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 33 rows: 30 pre-existing planned rows plus three admitted existing issues. With the conductor resolved, 29 rows remain prospective new children and three reuse existing children. Creation requires separate operator authority and is outside #523.
+
+## Immediate existing work
+
+#718 is urgent and may start through its own typed readiness/binding now, alongside current closeout and CodeFriend planning. #717 and #718 overlap welcome-package/control surfaces: assign disjoint edits or serialize their overlapping commits, giving #718 priority. #720 must not delay #512. Other backlog issues are not admitted by this package.

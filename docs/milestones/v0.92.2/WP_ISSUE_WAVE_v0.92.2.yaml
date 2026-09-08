@@ -30,8 +30,8 @@ work_packages:
     title: Stable evidence identity, provenance, redaction, and retention
     issue: null
     depends_on: [CF-ADAPTER]
-    deliverables: [artifact_identity, provenance_manifest, redaction_policy, retention_policy]
-    proof: [identity_determinism, provenance_integrity, redaction_negative_tests, retention_tests]
+    deliverables: [artifact_identity, provenance_manifest, redaction_policy, retention_policy, shared_finding_run_contract, versioned_consumer_fixtures]
+    proof: [identity_determinism, provenance_integrity, redaction_negative_tests, retention_tests, review_memory_renderer_conformance]
   - id: CF-COG
     lane: architecture_cognition
     title: Architecture cognition and explainable change-risk analysis
@@ -52,7 +52,7 @@ work_packages:
     issue: null
     depends_on: [CF-EVIDENCE]
     deliverables: [correctness_review, security_review, adversarial_review, constitutional_review, synthesis, remediation_plan, test_plan]
-    proof: [perspective_attribution, deduplication_tests, severity_review, no_mutation_check]
+    proof: [perspective_attribution, isolated_lane_inputs, disagreement_retention, deduplication_tests, severity_review, no_mutation_check]
   - id: CF-MEMORY
     lane: longitudinal_memory
     title: Stable second-run comparison and longitudinal review memory
@@ -78,7 +78,7 @@ work_packages:
     lane: integration
     title: Integrate and qualify the complete CodeFriend Beta 1 path
     issue: null
-    depends_on: [CF-SHELL, CF-ADAPTER, CF-EVIDENCE, CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX, CF-PROOF, PLAT-PROVIDER, PLAT-MLX, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, PLAT-MEMORY, SPEC-RETEST]
+    depends_on: [CF-SHELL, CF-ADAPTER, CF-EVIDENCE, CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX, CF-PROOF, PLAT-PROVIDER, PLAT-MEMORY]
     deliverables: [integrated_beta, acceptance_packet, residual_risk_register]
     proof: [end_to_end_beta_run, failure_path_matrix, package_validator]
   - id: PLAT-PROVIDER
@@ -146,11 +146,38 @@ work_packages:
     depends_on: [WP-01]
     deliverables: [current_retest_packet, keep_repair_or_retire_decision]
     proof: [reproducible_benchmark, correctness_check, fallback_check]
+  - id: RT-A2A
+    lane: runtime_identity
+    title: Route agent-to-agent communication by canonical agent name
+    issue: 718
+    depends_on: []
+    priority: urgent
+    creation_policy: reuse_existing
+    start_gate: Existing issue authority and verified Runtime prerequisites; no WP-01 or current-closeout dependency
+    deliverables: [canonical_name_recipient_contract, roster_resolution, compatibility_boundary, durable_named_history]
+    proof: [invalid_name_negatives, identity_continuity, two_non_shepherd_agents_model_reply_roundtrip]
+  - id: RT-ORIENT
+    lane: runtime_orientation
+    title: Teach admitted agents about Polis modules and capabilities
+    issue: 717
+    depends_on: []
+    external_dependencies: [completed-issue-708-pr-709]
+    creation_policy: reuse_existing
+    deliverables: [versioned_capability_orientation, inventory_guard, orientation_provenance]
+    proof: [first_turn_delivery, freedom_gate_coverage, stale_inventory_negative]
+  - id: OBS-LIVE
+    lane: observatory
+    title: Remove retained-mode demo hazards
+    issue: 720
+    depends_on: []
+    creation_policy: reuse_existing
+    deliverables: [live_only_controls, retained_polling_isolation, obsolete_assignment_removal]
+    proof: [live_startup_navigation, no_retained_routes_or_timer, historical_evidence_preserved]
   - id: TAIL-01
     lane: release_tail
     title: Quality gate
     issue: null
-    depends_on: [CF-INTEGRATE]
+    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, RT-A2A, RT-ORIENT, OBS-LIVE]
   - id: TAIL-02
     lane: release_tail
     title: Documentation review and external-review handoff

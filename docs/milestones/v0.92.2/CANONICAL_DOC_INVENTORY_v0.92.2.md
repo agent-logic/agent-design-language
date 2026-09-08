@@ -6,6 +6,9 @@ Status: planning candidate. Inventory completeness is not execution or release p
 |---|---|
 | Entry point | [README.md](README.md) |
 | Vision | [VISION_v0.92.2.md](VISION_v0.92.2.md) |
+| Adopted shared contracts | [ADOPTED_DESIGN_CONTRACTS_v0.92.2.md](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) |
+| Existing issue reconciliation | [EXISTING_ISSUE_RECONCILIATION_v0.92.2.md](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) |
+| Planning validator | [validate_planning.py](validate_planning.py) |
 | Design | [DESIGN_v0.92.2.md](DESIGN_v0.92.2.md) |
 | Decisions | [DECISIONS_v0.92.2.md](DECISIONS_v0.92.2.md) |
 | Work breakdown | [WBS_v0.92.2.md](WBS_v0.92.2.md) |
@@ -44,4 +47,4 @@ Status: planning candidate. Inventory completeness is not execution or release p
 
 ## Validation Contract
 
-The package validator should require every inventory row, parse both YAML files, reject unresolved placeholders and machine-local paths, verify the number-free catalog, enforce the exact ten-step tail, and resolve all relative Markdown links.
+The package validator should require every inventory row, parse both YAML files, reject unresolved placeholders and machine-local paths, verify uncreated rows remain number-free and admitted existing issue bindings are reused exactly once, enforce the exact ten-step tail, and resolve all relative Markdown links.
