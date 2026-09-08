@@ -128,7 +128,13 @@ dispositions.each do |row|
     authority_blob = git_blob(authority_revision, authority_path)
     fail!("review authority receipt digest mismatch") unless Digest::SHA256.hexdigest(authority_blob) == review.fetch("authority_receipt_sha256")
     authority_doc = JSON.parse(authority_blob)
-    fail!("review authority receipt is not an exact-head pass") unless authority_doc.fetch("outcome") == "passed" && authority_doc.fetch("reviewed_sha") == head_sha && authority_doc.fetch("findings") == [] && authority_doc.fetch("blockers") == [] && authority_doc.fetch("authority_kind") == review.fetch("authority_kind")
+    selector_blob = git_blob(authority_revision, authority_doc.fetch("generation_selector_path"))
+    fail!("review authority generation selector digest mismatch") unless Digest::SHA256.hexdigest(selector_blob) == authority_doc.fetch("generation_selector_sha256")
+    selector = JSON.parse(selector_blob)
+    assignment = authority_doc.fetch("assignment")
+    audit_events = authority_doc.fetch("audit_events")
+    typed_authority = authority_doc.fetch("schema") == "adl.csdlc.review_authority.v2" && authority_doc.fetch("generation") == selector.fetch("generation") && assignment.fetch("issue") == remediation_issue && assignment.fetch("pull_request") == remediation_pr && assignment.fetch("reviewed_sha") == head_sha && assignment.fetch("reviewer") == review.fetch("reviewer") && audit_events.map { |event| event.fetch("event") }.sort == %w[assignment review_complete]
+    fail!("review authority receipt is not canonical typed exact-head authority") unless typed_authority && authority_doc.fetch("outcome") == "passed" && authority_doc.fetch("reviewed_sha") == head_sha && authority_doc.fetch("findings") == [] && authority_doc.fetch("blockers") == [] && authority_doc.fetch("authority_kind") == review.fetch("authority_kind")
     fail!("fix lacks exact current review identity") unless review.fetch("head_sha") == head_sha && review.fetch("head_sha") == review.fetch("reviewed_sha") && review.fetch("head_sha") == review.fetch("observed_pr_head_sha") && nonempty?(review.fetch("observed_at"))
     system("git", "cat-file", "-e", "#{review.fetch('head_sha')}^{commit}") or fail!("reviewed fix commit is unavailable")
     review_path = review.fetch("report_path")
@@ -147,7 +153,10 @@ dispositions.each do |row|
     validation_manifest_blob = git_blob(head_sha, validation_manifest_path)
     validation_manifest = JSON.parse(validation_manifest_blob)
     declared_commands = validation_manifest.fetch("commands")
-    fail!("validator is not an issue-owned declared validation command") unless validation_manifest.fetch("issue") == remediation_issue && declared_commands.include?(invocation_doc.fetch("argv"))
+    declared_command = declared_commands.find { |command| command.fetch("id") == invocation_doc.fetch("command_id") }
+    pvf = declared_command && declared_command.fetch("pvf")
+    pvf_complete = pvf && %w[lane_class proof_role determinism resource_profile release_gate].all? { |key| nonempty?(pvf[key]) || [true, false].include?(pvf[key]) }
+    fail!("validator is not an issue-owned PVF-classified behavioral command") unless declared_command && validation_manifest.fetch("issue") == remediation_issue && declared_command.fetch("argv") == invocation_doc.fetch("argv") && pvf_complete && declared_command.fetch("behavior_artifacts").any?
     validator_blob = git_blob(head_sha, validator_path)
     fail!("validator blob digest mismatch") unless Digest::SHA256.hexdigest(validator_blob) == invocation_doc.fetch("validator_sha256")
     interpreter = File.extname(validator_path) == ".rb" ? "ruby" : "bash"
