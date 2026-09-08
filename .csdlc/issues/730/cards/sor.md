@@ -175,11 +175,11 @@ Fixed the pre-PR review finding that repo-local Cloud SDK isolation was only a f
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

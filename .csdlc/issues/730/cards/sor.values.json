@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
     "slug": "gcp-b1-impersonation-remote-state",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
@@ -168,8 +168,8 @@
           "evidence_ref": ".csdlc/evidence/730/live-proof.redacted.json; .csdlc/evidence/730/backend-state-pull.redacted.json; .csdlc/evidence/730/gcp-b1-readback.json; .csdlc/evidence/730/gcp-b1-iam-policy.json; .csdlc/evidence/730/recovery/canary.recovered.txt"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
