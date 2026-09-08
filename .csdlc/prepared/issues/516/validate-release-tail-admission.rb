@@ -118,6 +118,17 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     if row["revision"]
       valid_tail=truth["post_review_paths"].to_a.empty? || truth["non_substantive_tail"]==true
       raise "review truth contradicts its evidence" if truth["current"] && !(truth["result"]=="pass" && truth["reviewed_revision"]&.match?(/\A[0-9a-f]{40}\z/) && valid_tail)
+      if truth["current"]
+        raise "reviewed revision is not ancestral to implementation head" unless system("git","merge-base","--is-ancestor",truth["reviewed_revision"],row["revision"],chdir:ROOT.to_s,out:File::NULL,err:File::NULL)
+        post,_post_err,post_status=Open3.capture3("git","diff","--name-only","#{truth['reviewed_revision']}..#{row['revision']}",chdir:ROOT.to_s)
+        raise "review-tail inspection failed" unless post_status.success?
+        actual_post=post.lines.map(&:strip).reject(&:empty?)
+        metadata_tail=actual_post.all? do |path|
+          path.match?(%r{\A\.csdlc/issues/#{row['issue']}/(?:audit\.jsonl|index\.json|cards/(?:srp|sor)(?:\.values)?\.(?:md|json))\z}) ||
+            path.match?(%r{\A\.csdlc/prepared/issues/#{row['issue']}/(?:publish|review|final-review)[^/]*\.json\z})
+        end
+        raise "review-tail projection drift" unless actual_post==truth["post_review_paths"] && truth["non_substantive_tail"]==metadata_tail
+      end
     end
     if row["disposition"]=="satisfied"
       raise "satisfied row lacks canonical PR" unless row["canonical_pr"] && row["revision"]&.match?(/\A[0-9a-f]{40}\z/) && row["merge_revision"]&.match?(/\A[0-9a-f]{40}\z/)
@@ -267,9 +278,9 @@ if %w[negative all].include?(MODE)
     "projection-digest-drift"=>->(_s,a,_g,_m){a["projection_digest"]="0"*64},
     "admitted-with-blocker"=>->(_s,a,g,_m){a["decision"]=g["decision"]="admitted"},
     "stale-candidate"=>->(s,a,g,_m){s["candidate"]=a["candidate"]=g["candidate"]="0"*40;digest=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=digest},
-    "stale-review-result"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r.dig("review_truth","current")};row["review_truth"]["current"]=false},
-    "forged-reviewed-sha"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r.dig("review_truth","current")};row["review_truth"]["reviewed_revision"]="f"*40},
-    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r.dig("review_truth","current")};row["review_truth"]["post_review_paths"]=["adl/src/lib.rs"];row["review_truth"]["non_substantive_tail"]=false},
+    "stale-review-result"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"not_pass","reviewed_revision"=>row["revision"],"post_review_paths"=>[],"non_substantive_tail"=>true)},
+    "forged-reviewed-sha"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"pass","reviewed_revision"=>"f"*40,"post_review_paths"=>[],"non_substantive_tail"=>true)},
+    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"].merge!("current"=>true,"result"=>"pass","reviewed_revision"=>row["revision"],"post_review_paths"=>["adl/src/lib.rs"],"non_substantive_tail"=>false)},
     "generated-evidence-blob-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["candidate_blob"]="0"*40},
     "generated-evidence-digest-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["sha256"]="0"*64},
     "markdown-omission"=>->(_s,_a,_g,m){m.replace("")}
