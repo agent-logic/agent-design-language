@@ -12,6 +12,7 @@ Status: draft
 
 ## Scope
 
+csdlc-v3/src/lib.rs
 csdlc-v3/src/commands/proof.rs
 csdlc-v3/tests/proof_parity_install_commands.rs
 csdlc-v3/tests/real_issue_canary.rs
@@ -35,7 +36,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:0a9948d46d67b05374d57177edd6f330355f5b30:c49b30715e79c994d6535c07a933353a82fc10eb4abfc8556f15eeddaecfc6f7")
+Revision: Some("git-blake3:9238399abb5160663afbcc1fa01d9177417268be:c53fb2679eb5704b6fe67c62bdaa4d81636499db8a445e768cfe833e913fb27b")
 
 Reviewer: Some("codex:/root/review_sprint10_523_526_prep")
 
