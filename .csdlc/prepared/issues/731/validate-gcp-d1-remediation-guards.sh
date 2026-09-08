@@ -21,12 +21,22 @@ require_text() {
 normalize_mock_reaper() {
   local dir="$1"
   if test -s "$dir/deadline-reaper.pid"; then
+    local restore_xtrace=0
+    case "$-" in
+      *x*)
+        restore_xtrace=1
+        set +x
+        ;;
+    esac
     local pid
     pid="$(cat "$dir/deadline-reaper.pid")"
     case "$pid" in
       *[!0-9]*|"") ;;
       *) kill "$pid" >/dev/null 2>&1 || true ;;
     esac
+    if test "$restore_xtrace" -eq 1; then
+      set -x
+    fi
   fi
   printf 'mock-reaper-pid-normalized\n' > "$dir/deadline-reaper.pid"
   : > "$dir/deadline-reaper.log"
