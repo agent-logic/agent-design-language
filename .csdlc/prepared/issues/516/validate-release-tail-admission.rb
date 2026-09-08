@@ -123,12 +123,13 @@ def validate!(source, admission, gap, markdown, require_admitted:)
         digests=proof.fetch("evidence_digests")
         raise "proven evidence digest denominator mismatch" unless digests.map{|d|d["path"]}.sort==refs.sort
         digests.each do |entry|
-          path=ROOT.join(entry.fetch("path")); raise "proven evidence missing" unless path.file?
-          raise "proven evidence is empty" unless entry.fetch("bytes")>0 && path.size==entry["bytes"]
-          raise "proven evidence digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
+          content,_content_stderr,content_status=Open3.capture3("git","show","#{admission['candidate']}:#{entry.fetch('path')}",chdir:ROOT.to_s)
+          raise "proven evidence missing" unless content_status.success?
+          raise "proven evidence is empty" unless entry.fetch("bytes")>0 && content.bytesize==entry["bytes"]
+          raise "proven evidence digest drift" unless Digest::SHA256.hexdigest(content)==entry["sha256"]
           blob,_stderr,status=Open3.capture3("git","rev-parse","#{admission['candidate']}:#{entry['path']}",chdir:ROOT.to_s)
           raise "proven evidence candidate blob mismatch" unless status.success? && entry["candidate_blob"] && entry["candidate_blob"]==blob.strip
-          normalized=path.read.strip.downcase.gsub(/[^a-z0-9]+/," ").strip
+          normalized=content.strip.downcase.gsub(/[^a-z0-9]+/," ").strip
           raise "proven evidence is vacuous: #{entry['path']}" if normalized.match?(/\A(?:stub|placeholder|do nothing|todo|tbd)(?: evidence| only)?\z/)
         end
       elsif %w[accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"])
