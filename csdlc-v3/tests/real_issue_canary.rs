@@ -252,11 +252,16 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     assert_eq!(value["operational_authority"], operational);
     assert_eq!(value["read_only"], true);
     assert_eq!(value["writes_v3_state"], false);
-    assert_eq!(value["result"]["route"], "eligibility");
-    assert_eq!(value["result"]["issue"], 5853);
-    assert_eq!(value["result"]["phase"], "bound");
-    assert_eq!(value["result"]["mutated"], false);
-    assert!(value["result"]["findings"]
+    let route_result = if operational {
+        &value["result"]
+    } else {
+        &value["route_result"]
+    };
+    assert_eq!(route_result["route"], "eligibility");
+    assert_eq!(route_result["issue"], 5853);
+    assert_eq!(route_result["phase"], "bound");
+    assert_eq!(route_result["mutated"], false);
+    assert!(route_result["findings"]
         .as_array()
         .expect("eligibility findings")
         .iter()
