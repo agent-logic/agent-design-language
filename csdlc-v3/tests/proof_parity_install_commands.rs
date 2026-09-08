@@ -159,18 +159,18 @@ fn issue_repository(issue: u64) -> String {
         .to_string()
 }
 
-fn issue_branch(issue: u64) -> String {
-    issue_index(issue)["branch"]
-        .as_str()
-        .expect("issue branch")
-        .to_string()
-}
-
-fn issue_worktree(issue: u64) -> String {
-    issue_index(issue)["worktree"]
-        .as_str()
-        .expect("issue worktree")
-        .to_string()
+fn current_branch() -> String {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(binary_repo_root())
+        .args(["branch", "--show-current"])
+        .output()
+        .expect("observe current branch");
+    assert!(
+        output.status.success(),
+        "current branch should be observable"
+    );
+    String::from_utf8_lossy(&output.stdout).trim().to_owned()
 }
 
 fn current_head() -> String {
@@ -283,8 +283,8 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "issue": issue,
             "title": title,
             "repository": issue_repository(issue),
-            "branch": issue_branch(issue),
-            "worktree": issue_worktree(issue),
+            "branch": current_branch(),
+            "worktree": binary_repo_root(),
             "registry_version": "1.0.3",
             "expected_lifecycle_digest": issue_digest(issue),
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
@@ -294,8 +294,8 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
     let registrations_ref = write_typed_request(
         "v3-doctor-registrations.json",
         json!([{
-            "branch": issue_branch(issue),
-            "worktree": issue_worktree(issue),
+            "branch": current_branch(),
+            "worktree": binary_repo_root(),
             "primary": false
         }]),
     );
