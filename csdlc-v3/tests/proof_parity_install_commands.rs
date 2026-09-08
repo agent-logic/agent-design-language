@@ -193,7 +193,7 @@ fn repo_local_v3_binary_ref() -> String {
     repo_ref(&destination)
 }
 
-fn repo_local_v2_doctor_binary_ref() -> String {
+fn retained_v2_doctor_observation_ref() -> String {
     static BINARY: OnceLock<PathBuf> = OnceLock::new();
     let binary = BINARY.get_or_init(|| {
         let binary = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -236,7 +236,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
     );
     json!({
         "generation": "v2",
-        "binary_ref": repo_local_v2_doctor_binary_ref(),
+        "binary_ref": retained_v2_doctor_observation_ref(),
         "argv": ["--repo", ".", "--issue", issue_argument.to_string()],
         "request_ref": request_ref,
         "timeout_millis": 120_000,
@@ -502,7 +502,7 @@ fn proof_route_retains_a_deterministic_native_receipt() {
 }
 
 #[test]
-fn shadow_route_executes_real_v2_doctor_and_v3_local_preparation_commands() {
+fn shadow_route_compares_retained_v2_doctor_observation_with_v3_local_preparation() {
     let _scratch = ScratchGuard::new();
     let root = binary_repo_root();
     let value = run_route_value(
