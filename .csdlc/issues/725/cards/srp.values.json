@@ -7,22 +7,22 @@
     "title": "Remove remaining v2 authority and build dependencies after cutover",
     "slug": "csdlc-v3-native-authority",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "AGENTS.md\ncsdlc-v3\ndocs/csdlc-v3/CONTRACT.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:be618995b15cee423fec9a2e24b7e08c646d6cf5:8bf32670ce2c796ba78068e42423a79ee64f191a1ed8a1b2bfc6e8f91f5972c0",
+      "reviewer": "fresh-session:review-sprint10-523-526-prep-r10",
       "review_prompts": [
         "Find any remaining runtime or Cargo dependency on csdlc-v2",
         "Verify stale authority exact-head digest and remote reconciliation remain fail closed"
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
