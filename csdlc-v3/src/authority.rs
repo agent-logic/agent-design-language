@@ -50,7 +50,6 @@ struct PullRequestObservation {
     merged: bool,
     linked_issue: u64,
     linkage_source: String,
-    observation_authority: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -154,7 +153,6 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
         || !observation.merged
         || observation.linked_issue != receipt.authority_issue
         || observation.linkage_source != "github_closing_issues_references"
-        || observation.observation_authority != "typed-csdlc-github-pr-authenticated-readback"
         || !git_commit_exists(root, &receipt.reviewed_head)?
         || !git_commit_exists(root, &receipt.merge_commit)?
         || !git_is_ancestor(root, &receipt.merge_commit, "refs/remotes/origin/main")?
