@@ -1133,6 +1133,8 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         super::GITHUB_READ_ONLY_ADAPTER
     );
     assert_eq!(result.receipt.pull_request, Some(591));
+    assert_eq!(result.receipt.issue, 505);
+    assert_eq!(result.reconciliation.issue, 505);
     assert!(result.receipt.idempotent_replay);
     assert_eq!(result.receipt.response_digest, None);
 }
@@ -1183,7 +1185,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": true
             })
         ),
-        Ok((591, Some(591), Some(591)))
+        Ok((505, Some(591), Some(591)))
     );
 
     update.mutation = super::GithubMutation::PullRequestReady;
@@ -1199,7 +1201,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": false
             })
         ),
-        Ok((591, Some(591), Some(591)))
+        Ok((505, Some(591), Some(591)))
     );
 }
 

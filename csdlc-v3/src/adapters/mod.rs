@@ -346,13 +346,21 @@ fn github_read_only_curl_invocation(
     };
     if !matches!(
         operation.as_str(),
-        "pull-request" | "issue" | "issue-comments" | "issues-by-marker"
-    ) || (operation != "issues-by-marker" && number.parse::<u64>().is_err())
+        "pull-request" | "pull-requests-by-head" | "issue" | "issue-comments" | "issues-by-marker"
+    ) || (!matches!(
+        operation.as_str(),
+        "issues-by-marker" | "pull-requests-by-head"
+    ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
             && (number.is_empty()
                 || number
                     .chars()
                     .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
+        || (operation == "pull-requests-by-head"
+            && (number.is_empty()
+                || number.chars().any(|ch| {
+                    !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/'))
+                })))
     {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
@@ -375,6 +383,38 @@ fn github_read_only_curl_invocation(
                 "X-GitHub-Api-Version: 2022-11-28".to_owned(),
                 format!(
                     "https://api.github.com/search/issues?q=repo:{repository}+type:issue+{number}"
+                ),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter rejected unsafe request".into(),
+            truncated: false,
+        });
+    }
+    if operation == "pull-requests-by-head" {
+        let Some((owner, _)) = repository.split_once('/') else {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "github read-only adapter rejected unsafe request".into(),
+                truncated: false,
+            });
+        };
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--location".to_owned(),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "--header".to_owned(),
+                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+                format!(
+                    "https://api.github.com/repos/{repository}/pulls?head={owner}%3A{number}&state=all&per_page=100"
                 ),
             ],
         )
@@ -770,4 +810,47 @@ fn is_sensitive_key(key: &str) -> bool {
     ]
     .iter()
     .any(|needle| key.contains(needle))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn github_read_only_adapter_supports_pull_request_head_reconciliation() {
+        let invocation = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            [
+                "pull-requests-by-head",
+                "agent-logic/agent-design-language",
+                "codex/517-tail-01-quality-gate",
+            ],
+        )
+        .expect("safe typed invocation");
+
+        let curl = github_read_only_curl_invocation(&invocation).expect("supported readback");
+        assert_eq!(curl.program, "curl");
+        assert_eq!(
+            curl.argv().last().map(String::as_str),
+            Some(
+                "https://api.github.com/repos/agent-logic/agent-design-language/pulls?head=agent-logic%3Acodex/517-tail-01-quality-gate&state=all&per_page=100"
+            )
+        );
+    }
+
+    #[test]
+    fn github_read_only_adapter_rejects_unsafe_pull_request_head() {
+        let invocation = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            [
+                "pull-requests-by-head",
+                "agent-logic/agent-design-language",
+                "codex/unsafe?state=open",
+            ],
+        )
+        .expect("typed invocation construction");
+
+        let rejected = github_read_only_curl_invocation(&invocation).expect_err("unsafe head");
+        assert_eq!(rejected.status, ProcessStatus::Exit(2));
+    }
 }

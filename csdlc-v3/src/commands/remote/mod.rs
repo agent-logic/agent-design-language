@@ -1657,7 +1657,11 @@ fn match_reconciled_mutation(
         | GithubMutation::PullRequestReady => matched["number"].as_u64(),
         _ => None,
     };
-    let issue = matched["number"].as_u64().unwrap_or(request.issue);
+    let issue = if matches!(request.mutation, GithubMutation::IssueCreate { .. }) {
+        matched["number"].as_u64().unwrap_or(request.issue)
+    } else {
+        request.issue
+    };
     Ok((
         issue,
         pull_request,
