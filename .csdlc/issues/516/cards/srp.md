@@ -8,17 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/516
-.csdlc/prepared/issues/516
-docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md
-docs/milestones/v0.92.1/WBS_v0.92.1.md
-docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
-docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
-docs/milestones/v0.92.1/evidence/integration
+
 
 ## Prompts
 
@@ -38,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The admission decision is intentionally blocked while its recorded P1 product gaps remain open.
-- Hosted CI remains the final integration gate before merge.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a5484bed3d9bd5fce18564fa8f980a3b8b46a280:54f0cbf23a4a4a8408c4580635dc760a6cc7d38fabba0cca7a38d02855927c01")
+Revision: None
 
-Reviewer: Some("fresh-session:66edcc5a-b723-4838-944d-5f9c86b5db8f")
+Reviewer: None
 
-Result: pass
+Result: pre_review

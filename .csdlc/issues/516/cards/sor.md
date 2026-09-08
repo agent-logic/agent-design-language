@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Prepared a complete fail-closed v0.92.1 admission decision at current-main candidate f3eb715560c5e7d8aff5fe874c6a117ed2f3e169. The diagnostic unit is complete when this truthful blocked decision passes exact-head review; release admission remains separately prohibited while P0/P1 findings are open.
+Regenerated the complete fail-closed v0.92.1 admission decision at current-main candidate 8b430826ef3e1e092fd84a2d254453f662fa8f7d. The diagnostic packet is current and validated; release admission remains blocked while its recorded P1 product gaps remain open.
 
 ## Artifacts
 
@@ -20,14 +20,14 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
 - .csdlc/prepared/issues/516/validate-release-tail-admission.sh
 - .csdlc/prepared/issues/516/validate-release-tail-admission.rb
 - .csdlc/evidence/516/semantic-criterion-evidence.json
-- .csdlc/evidence/516/no-v2-canary-f3eb7155.json
-- .csdlc/evidence/516/no-v2-canary-f3eb7155.stderr.log
+- .csdlc/evidence/516/no-v2-canary-8b430826.json
+- .csdlc/evidence/516/no-v2-canary-8b430826.stderr.log
 - .csdlc/evidence/516/release-tail-denominator.log
 - .csdlc/evidence/516/implementation-gap-analysis.log
 - .csdlc/evidence/516/admission-consistency.log
-- docs/milestones/v0.92.1/evidence/integration/release-tail-input.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json
-- docs/milestones/v0.92.1/evidence/integration/release-tail-admission.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json
-- docs/milestones/v0.92.1/evidence/integration/gap-analysis.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json
+- docs/milestones/v0.92.1/evidence/integration/release-tail-input.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json
+- docs/milestones/v0.92.1/evidence/integration/release-tail-admission.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json
+- docs/milestones/v0.92.1/evidence/integration/gap-analysis.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json
 - docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json
 - docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json
 - docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md
@@ -36,7 +36,7 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
 
 - Derived the exact planned-ID, live-issue, release-tail, and retained-predecessor mappings from canonical planning and live acceptance sources.
 - Bound every proven criterion to non-empty candidate-addressed evidence and rejected weak or duplicate denominator entries.
-- Required the admission candidate to equal captured remote main and added an adversarial stale-candidate fixture.
+- Required the admission candidate to equal captured remote main, validated evidence from candidate-addressed Git blobs, and retained an adversarial stale-candidate fixture.
 - Retained portable command receipts binding exact head, candidate, source digest, canonical argv, timestamps, exit code, and stdout digest.
 - Separated diagnostic decision validity from release admission so the report remains truthful while P0/P1 gaps block release.
 
@@ -45,8 +45,8 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
 [
   {
     "command": [
-      "/bin/bash",
-      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      "ruby",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
       "denominator"
     ],
     "purpose": "Validate the complete unique release-tail denominator and bound evidence.",
@@ -55,8 +55,8 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
   },
   {
     "command": [
-      "/bin/bash",
-      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      "ruby",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
       "gaps"
     ],
     "purpose": "Validate the gap register, classifications, owners, dispositions, and projections.",
@@ -65,8 +65,8 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
   },
   {
     "command": [
-      "/bin/bash",
-      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      "ruby",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
       "decision"
     ],
     "purpose": "Validate the fail-closed release admission decision.",
@@ -77,11 +77,11 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
