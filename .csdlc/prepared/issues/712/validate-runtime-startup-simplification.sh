@@ -38,6 +38,16 @@ cargo test --manifest-path adl-runtime-kernel/Cargo.toml \
   archived_restore_rehydrates_complete_a2a_transcript_history \
   --no-fail-fast
 
+cargo test --manifest-path adl-runtime-kernel/Cargo.toml \
+  --test configuration \
+  continuity_compatibility_v1_allows_hot_load_policy_and_binds_security_identity \
+  --no-fail-fast
+
+cargo test --manifest-path adl-runtime-kernel/Cargo.toml \
+  --test control \
+  running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomically \
+  --no-fail-fast
+
 cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml \
   --lib --bins --tests -- -D warnings
 

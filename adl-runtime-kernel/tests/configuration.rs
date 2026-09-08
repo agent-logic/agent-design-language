@@ -1113,6 +1113,9 @@ async fn signed_checkpoint_restore_allows_provider_changes_and_rejects_security_
     let mut changed_key = config.clone();
     changed_key.credentials.control_key_id = "replacement-key".to_owned();
     incompatible.push(changed_key);
+    let mut changed_tls_server_name = config.clone();
+    changed_tls_server_name.api.tls.server_name = "replacement.example.test".to_owned();
+    incompatible.push(changed_tls_server_name);
     let mut changed_tls = config;
     changed_tls.api.tls.certificate_chain_path =
         config_root.path().join("tls/replacement-cert.pem");

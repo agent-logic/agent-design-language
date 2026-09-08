@@ -677,6 +677,7 @@ impl RuntimeInitConfig {
             "paths": self.paths,
             "api_address": self.api.address,
             "api_tls_identity_paths": {
+                "server_name": self.api.tls.server_name,
                 "certificate_chain_path": self.api.tls.certificate_chain_path,
                 "private_key_path": self.api.tls.private_key_path,
                 "trust_roots_path": self.api.tls.trust_roots_path,
