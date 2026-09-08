@@ -27,8 +27,12 @@ def validate_fixture!(fixture)
   fail!("canonical #520 scope cannot be empty") unless nonempty?(canonical)
   fail!("fixture does not consume merged #520 artifacts") unless fixture.fetch("predecessor_merged") == true && fixture.fetch("artifacts_from_merge") == true
   fail!("fixture lacks passing #520 semantic attestation") unless fixture.fetch("internal_semantic_validation") == "passed"
+  fail!("fixture lacks retained #520 invocation proof") unless fixture.fetch("invocation_receipt_valid") == true
+  fail!("fixture lacks current exact-head #520 review authority") unless fixture.fetch("internal_exact_head_review") == "passed"
   fail!("packet-authored expected scope differs from #520") unless fixture.fetch("expected_scope").sort == canonical.sort
   fail!("reviewed scope differs from #520") unless fixture.fetch("reviewed_scope").sort == canonical.sort && fixture.fetch("reviewed_scope").uniq.length == canonical.length
+  fail!("fixture scope rows do not cover reviewed scope") unless fixture.fetch("scope_rows").map { |row| row.fetch("ref") }.sort == fixture.fetch("reviewed_scope").sort
+  fail!("raw independent output is missing or unreconciled") unless fixture.fetch("raw_output_digest_valid") == true && fixture.fetch("raw_scope") == fixture.fetch("scope_rows") && fixture.fetch("raw_findings") == fixture.fetch("findings")
   fail!("zero findings require evidence") if fixture.fetch("findings").empty? && !nonempty?(fixture.fetch("zero_findings_evidence"))
 end
 
@@ -40,7 +44,7 @@ if ARGV.first == "fixture"
 end
 
 root = ENV.fetch("ADL_EXTERNAL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-05")
-required = %w[run_manifest.json reviewer-independence.json scope.json findings.json limitations.json packet-manifest.json]
+required = %w[run_manifest.json reviewer-independence.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing external-review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -55,10 +59,12 @@ issue_json, issue_error, issue_status = Open3.capture3("gh", "issue", "view", "5
 fail!("cannot verify merged #520 authority: #{issue_error.strip}") unless issue_status.success?
 issue_state = JSON.parse(issue_json)
 fail!("#520 is not closed by declared PR") unless issue_state.fetch("state") == "CLOSED" && issue_state.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == predecessor.fetch("pull_request") }
-pr_json, pr_error, pr_status = Open3.capture3("gh", "pr", "view", predecessor.fetch("pull_request").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,mergedAt,mergeCommit")
+pr_json, pr_error, pr_status = Open3.capture3("gh", "pr", "view", predecessor.fetch("pull_request").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,mergedAt,mergeCommit,headRefOid")
 fail!("cannot verify #520 PR: #{pr_error.strip}") unless pr_status.success?
 pr_state = JSON.parse(pr_json)
 fail!("declared #520 output is not the exact merged PR") unless pr_state.fetch("state") == "MERGED" && nonempty?(pr_state.fetch("mergedAt")) && pr_state.dig("mergeCommit", "oid") == internal_merge
+reviewed_head = predecessor.fetch("reviewed_head_sha")
+fail!("#520 reviewed head differs from merged PR head") unless reviewed_head == pr_state.fetch("headRefOid")
 internal_manifest_path = manifest.fetch("internal_packet_manifest")
 internal_manifest_blob = git_blob(internal_merge, internal_manifest_path)
 fail!("#520 packet digest mismatch") unless Digest::SHA256.hexdigest(internal_manifest_blob) == manifest.fetch("internal_packet_manifest_sha256")
@@ -77,16 +83,41 @@ canonical_refs = denominator_names.flat_map do |name|
 end
 fail!("#520 canonical denominator is empty or duplicated") unless canonical_refs.any? && canonical_refs.uniq.length == canonical_refs.length
 attestation = manifest.fetch("internal_semantic_validation")
+fail!("#520 packet manifest omits semantic-validation evidence") unless internal_entries.any? { |entry| entry.fetch("path") == attestation.fetch("evidence_path") }
 attestation_blob = git_blob(internal_merge, attestation.fetch("evidence_path"))
 fail!("#520 semantic-validation evidence digest mismatch") unless Digest::SHA256.hexdigest(attestation_blob) == attestation.fetch("sha256")
 attestation_doc = JSON.parse(attestation_blob)
 fail!("#520 semantics were not validated at the reviewed candidate") unless attestation.fetch("outcome") == "passed" && attestation_doc.fetch("status") == "passed" && attestation_doc.fetch("candidate_sha") == candidate && attestation_doc.fetch("validator") == ".csdlc/prepared/issues/520/validate-internal-review.rb"
+invocation = manifest.fetch("internal_validation_invocation")
+fail!("#520 packet manifest omits invocation receipt") unless internal_entries.any? { |entry| entry.fetch("path") == invocation.fetch("receipt_path") }
+invocation_blob = git_blob(internal_merge, invocation.fetch("receipt_path"))
+fail!("#520 invocation receipt digest mismatch") unless Digest::SHA256.hexdigest(invocation_blob) == invocation.fetch("sha256")
+invocation_doc = JSON.parse(invocation_blob)
+validator_path = ".csdlc/prepared/issues/520/validate-internal-review.rb"
+fail!("#520 invocation used wrong validator") unless invocation_doc.fetch("validator_path") == validator_path && invocation_doc.fetch("validator_sha256") == Digest::SHA256.hexdigest(git_blob(reviewed_head, validator_path))
+fail!("#520 invocation argv/exit/candidate is invalid") unless invocation_doc.fetch("argv") == ["ruby", validator_path, "all"] && invocation_doc.fetch("exit_status") == 0 && invocation_doc.fetch("candidate_sha") == candidate
+stdout = invocation_doc.fetch("stdout")
+fail!("#520 invocation stdout digest mismatch") unless Digest::SHA256.hexdigest(stdout) == invocation_doc.fetch("stdout_sha256")
+stdout_doc = JSON.parse(stdout)
+fail!("#520 invocation stdout does not prove semantic pass") unless stdout_doc.fetch("status") == "passed" && stdout_doc.fetch("candidate_sha") == candidate
+review_authority = manifest.fetch("internal_exact_head_review")
+review_path = review_authority.fetch("receipt_path")
+fail!("#520 exact-head review receipt is outside #521 packet") unless review_path.start_with?(root + "/") && File.file?(review_path)
+review_blob = File.read(review_path)
+fail!("#520 exact-head review receipt digest mismatch") unless Digest::SHA256.hexdigest(review_blob) == review_authority.fetch("sha256")
+review_doc = JSON.parse(review_blob)
+fail!("#520 lacks passing current exact-head review authority") unless review_doc.fetch("reviewed_sha") == reviewed_head && review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && nonempty?(review_doc.fetch("reviewer"))
 
 independence = docs.fetch("reviewer-independence.json")
 reviewer = independence.fetch("reviewer")
 fail!("reviewer independence is not established with evidence") unless independence.fetch("independent") == true && nonempty?(reviewer) && nonempty?(independence.fetch("evidence"))
 conflicted_roles = independence.fetch("implementation_reviewers") + independence.fetch("internal_reviewers")
 fail!("external reviewer participated in implementation/internal review") if conflicted_roles.include?(reviewer)
+raw_path = File.join(root, "raw-review-output.json")
+fail!("raw independent output digest mismatch") unless Digest::SHA256.file(raw_path).hexdigest == independence.fetch("raw_output_sha256")
+fail!("raw reviewer provenance is incomplete") unless %w[provider model invocation_id observed_at].all? { |key| nonempty?(independence.fetch(key)) }
+raw = docs.fetch("raw-review-output.json")
+fail!("raw output identity is inconsistent") unless raw.fetch("candidate_sha") == candidate && raw.fetch("reviewer") == reviewer
 
 scope = docs.fetch("scope.json")
 expected_scope = scope.fetch("expected_refs")
@@ -96,21 +127,27 @@ fail!("external review scope does not exactly cover #520") unless reviewed_scope
 scope_rows = scope.fetch("rows")
 fail!("scope rows do not exactly match reviewed scope") unless scope_rows.map { |row| row.fetch("ref") }.sort == reviewed_scope.sort
 fail!("scope rows lack exact-head evidence or disposition") unless scope_rows.all? { |row| row.fetch("candidate_sha") == candidate && nonempty?(row.fetch("evidence")) && nonempty?(row.fetch("disposition")) }
+fail!("raw reviewer scope/dispositions differ from retained projection") unless raw.fetch("scope_rows").sort_by { |row| row.fetch("ref") } == scope_rows.sort_by { |row| row.fetch("ref") }
 
 findings_doc = docs.fetch("findings.json")
 findings = findings_doc.fetch("findings")
 fail!("external findings register is not exact-candidate bound") unless findings_doc.fetch("candidate_sha") == candidate
 fail!("external findings outcome contradicts content") unless findings_doc.fetch("outcome") == (findings.empty? ? "passed" : "findings")
+fail!("raw reviewer findings differ from retained projection") unless raw.fetch("findings").sort_by { |row| row.fetch("id") } == findings.sort_by { |row| row.fetch("id") }
 fail!("zero findings lack affirmative review evidence") if findings.empty? && !nonempty?(findings_doc.fetch("zero_findings_evidence"))
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length
-fail!("finding schema is incomplete or stale") unless findings.all? { |finding| finding.fetch("revision") == candidate && %w[severity status evidence impact disposition_route].all? { |key| nonempty?(finding.fetch(key)) } }
+fail!("finding schema is incomplete or stale") unless findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status evidence impact disposition_route].all? { |key| nonempty?(finding.fetch(key)) } }
 
 limitations_doc = docs.fetch("limitations.json")
 limitations = limitations_doc.fetch("limitations")
 fail!("limitations must be an array") unless limitations.is_a?(Array)
 fail!("empty limitations lack affirmative evidence") if limitations.empty? && !nonempty?(limitations_doc.fetch("no_limitations_evidence"))
 fail!("limitation rows lack consequence and handling") unless limitations.all? { |row| nonempty?(row.fetch("description")) && nonempty?(row.fetch("consequence")) && nonempty?(row.fetch("handling")) }
+fail!("raw reviewer limitations differ from retained projection") unless raw.fetch("limitations") == limitations
+observations = raw.fetch("observations")
+fail!("raw reviewer output is content-free") unless observations.is_a?(Array) && observations.any? && observations.all? { |row| reviewed_scope.include?(row.fetch("ref")) && nonempty?(row.fetch("evidence")) && nonempty?(row.fetch("conclusion")) }
+fail!("raw reviewer output omits reviewed scope") unless observations.map { |row| row.fetch("ref") }.sort == reviewed_scope.sort
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")
 entries.each do |entry|
@@ -120,4 +157,5 @@ entries.each do |entry|
 end
 paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| paths.include?(File.join(root, name)) }
+fail!("packet manifest omits #520 exact-head review authority") unless paths.include?(review_path)
 puts JSON.generate(schema: "adl.v0921.external_review_validation.v2", status: "passed", scope: reviewed_scope.length, findings: findings.length, limitations: limitations.length)
