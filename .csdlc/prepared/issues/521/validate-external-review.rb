@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "digest"
 require "json"
+require "open3"
 
 def fail!(message)
   abort(message)
@@ -14,10 +15,18 @@ def nonempty?(value)
   value.respond_to?(:empty?) && !value.empty?
 end
 
+def git_blob(revision, path)
+  output, error, status = Open3.capture3("git", "show", "#{revision}:#{path}")
+  fail!("merged predecessor artifact unavailable: #{path}: #{error.strip}") unless status.success?
+  output
+end
+
 def validate_fixture!(fixture)
   fail!("independence requires evidence") unless fixture.fetch("independent") == true && nonempty?(fixture.fetch("independence_evidence"))
   canonical = fixture.fetch("internal_refs")
   fail!("canonical #520 scope cannot be empty") unless nonempty?(canonical)
+  fail!("fixture does not consume merged #520 artifacts") unless fixture.fetch("predecessor_merged") == true && fixture.fetch("artifacts_from_merge") == true
+  fail!("fixture lacks passing #520 semantic attestation") unless fixture.fetch("internal_semantic_validation") == "passed"
   fail!("packet-authored expected scope differs from #520") unless fixture.fetch("expected_scope").sort == canonical.sort
   fail!("reviewed scope differs from #520") unless fixture.fetch("reviewed_scope").sort == canonical.sort && fixture.fetch("reviewed_scope").uniq.length == canonical.length
   fail!("zero findings require evidence") if fixture.fetch("findings").empty? && !nonempty?(fixture.fetch("zero_findings_evidence"))
@@ -38,24 +47,40 @@ docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
 manifest = docs.fetch("run_manifest.json")
 candidate = manifest.fetch("candidate_sha")
 fail!("candidate must be a current full git SHA") unless candidate.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{candidate}^{commit}")
+predecessor = manifest.fetch("internal_review_predecessor")
+fail!("wrong internal-review predecessor") unless predecessor.fetch("issue") == 520 && predecessor.fetch("pull_request").is_a?(Integer)
+internal_merge = predecessor.fetch("merge_sha")
+fail!("#520 merge SHA is invalid") unless internal_merge.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{internal_merge}^{commit}")
+issue_json, issue_error, issue_status = Open3.capture3("gh", "issue", "view", "520", "--repo", "agent-logic/agent-design-language", "--json", "state,closedByPullRequestsReferences")
+fail!("cannot verify merged #520 authority: #{issue_error.strip}") unless issue_status.success?
+issue_state = JSON.parse(issue_json)
+fail!("#520 is not closed by declared PR") unless issue_state.fetch("state") == "CLOSED" && issue_state.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == predecessor.fetch("pull_request") }
+pr_json, pr_error, pr_status = Open3.capture3("gh", "pr", "view", predecessor.fetch("pull_request").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,mergedAt,mergeCommit")
+fail!("cannot verify #520 PR: #{pr_error.strip}") unless pr_status.success?
+pr_state = JSON.parse(pr_json)
+fail!("declared #520 output is not the exact merged PR") unless pr_state.fetch("state") == "MERGED" && nonempty?(pr_state.fetch("mergedAt")) && pr_state.dig("mergeCommit", "oid") == internal_merge
 internal_manifest_path = manifest.fetch("internal_packet_manifest")
-fail!("#520 packet manifest is unavailable") unless File.file?(internal_manifest_path)
-fail!("#520 packet digest mismatch") unless Digest::SHA256.file(internal_manifest_path).hexdigest == manifest.fetch("internal_packet_manifest_sha256")
-internal_manifest = read_json(internal_manifest_path)
+internal_manifest_blob = git_blob(internal_merge, internal_manifest_path)
+fail!("#520 packet digest mismatch") unless Digest::SHA256.hexdigest(internal_manifest_blob) == manifest.fetch("internal_packet_manifest_sha256")
+internal_manifest = JSON.parse(internal_manifest_blob)
 fail!("candidate differs from #520 packet") unless manifest.fetch("internal_candidate_sha") == candidate && internal_manifest.fetch("candidate_sha") == candidate
 internal_entries = internal_manifest.fetch("entries")
 internal_entries.each do |entry|
   path = entry.fetch("path")
-  fail!("#520 manifested artifact is missing: #{path}") unless File.file?(path)
-  fail!("#520 manifested artifact digest mismatch: #{path}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
+  fail!("#520 merged artifact digest mismatch: #{path}") unless Digest::SHA256.hexdigest(git_blob(internal_merge, path)) == entry.fetch("sha256")
 end
 internal_by_name = internal_entries.to_h { |entry| [File.basename(entry.fetch("path")), entry.fetch("path")] }
 denominator_names = %w[repo_inventory.json issue_inventory.json acceptance_coverage.json]
 fail!("#520 manifest omits canonical denominator artifacts") unless denominator_names.all? { |name| internal_by_name.key?(name) }
 canonical_refs = denominator_names.flat_map do |name|
-  read_json(internal_by_name.fetch(name)).fetch("rows").map { |row| row.fetch("denominator_ref") }
+  JSON.parse(git_blob(internal_merge, internal_by_name.fetch(name))).fetch("rows").map { |row| row.fetch("denominator_ref") }
 end
 fail!("#520 canonical denominator is empty or duplicated") unless canonical_refs.any? && canonical_refs.uniq.length == canonical_refs.length
+attestation = manifest.fetch("internal_semantic_validation")
+attestation_blob = git_blob(internal_merge, attestation.fetch("evidence_path"))
+fail!("#520 semantic-validation evidence digest mismatch") unless Digest::SHA256.hexdigest(attestation_blob) == attestation.fetch("sha256")
+attestation_doc = JSON.parse(attestation_blob)
+fail!("#520 semantics were not validated at the reviewed candidate") unless attestation.fetch("outcome") == "passed" && attestation_doc.fetch("status") == "passed" && attestation_doc.fetch("candidate_sha") == candidate && attestation_doc.fetch("validator") == ".csdlc/prepared/issues/520/validate-internal-review.rb"
 
 independence = docs.fetch("reviewer-independence.json")
 reviewer = independence.fetch("reviewer")
@@ -74,6 +99,8 @@ fail!("scope rows lack exact-head evidence or disposition") unless scope_rows.al
 
 findings_doc = docs.fetch("findings.json")
 findings = findings_doc.fetch("findings")
+fail!("external findings register is not exact-candidate bound") unless findings_doc.fetch("candidate_sha") == candidate
+fail!("external findings outcome contradicts content") unless findings_doc.fetch("outcome") == (findings.empty? ? "passed" : "findings")
 fail!("zero findings lack affirmative review evidence") if findings.empty? && !nonempty?(findings_doc.fetch("zero_findings_evidence"))
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length

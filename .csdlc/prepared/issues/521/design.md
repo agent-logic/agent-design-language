@@ -8,7 +8,10 @@ revision.
 
 The reviewed denominator is derived from the digest-verified #520 repository,
 issue/PR, and acceptance inventories. `scope.json` may project that denominator
-for readability, but it cannot define or narrow it.
+for readability, but it cannot define or narrow it. Those artifacts are read
+from the exact merged #520 commit after live issue/PR verification; synthetic
+local files are not predecessor authority. A passing exact-candidate #520
+semantic-validation receipt is mandatory.
 
 ## Boundary
 
