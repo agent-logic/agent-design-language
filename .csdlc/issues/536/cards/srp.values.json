@@ -7,24 +7,35 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\n.csdlc/prepared/issues/536/validate-sprint-closeout.rb",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:7d37f253d206e41bfebbacbcca25f6b3a4b59907:3cc0a3751c5f291cb7830a89d39108706db5b3a49253abe2acb90ecdf1075a54",
+      "reviewer": "codex:/root/review_536_closeout",
       "review_prompts": [
         "Does the packet preserve exact child ownership and dependency truth?",
         "Are the podcast and Observatory lanes genuinely independent where marked parallel?",
         "Are #251 and provider-submission operator gates fail-closed?",
         "Can the umbrella close only after every current member has truthful terminal state or an explicit accepted disposition?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "P1-closeout-validator-loose-substrings",
+          "severity": "p1",
+          "summary": "The closeout validator used loose substring checks instead of enforcing exact child-to-review, PR, checks, merge, and no-PR mappings.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }

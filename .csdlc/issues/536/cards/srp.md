@@ -24,7 +24,18 @@ docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md
 
 ## Findings
 
-[]
+[
+  {
+    "id": "P1-closeout-validator-loose-substrings",
+    "severity": "p1",
+    "summary": "The closeout validator used loose substring checks instead of enforcing exact child-to-review, PR, checks, merge, and no-PR mappings.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -36,8 +47,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7d37f253d206e41bfebbacbcca25f6b3a4b59907:3cc0a3751c5f291cb7830a89d39108706db5b3a49253abe2acb90ecdf1075a54")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_536_closeout")
 
-Result: pre_review
+Result: changes_required
