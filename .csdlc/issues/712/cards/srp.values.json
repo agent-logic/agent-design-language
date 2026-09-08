@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
     "slug": "runtime-startup-simplification",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/712/design.md\n.csdlc/prepared/issues/712/diagram.mmd\n.csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/continuity.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/continuity.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/src/lib.rs\ndocs/tooling/START_CSM_RUNBOOK.md",
-      "review_revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
-      "reviewer": "codex:/root/review_712_startup_simplification",
+      "review_scope": ".csdlc/prepared/issues/712/design.md\n.csdlc/prepared/issues/712/diagram.mmd\n.csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/config_generation.rs\nadl-runtime-kernel/src/continuity.rs\nadl-runtime-kernel/src/live_continuity.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/continuity.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/parity_b_live_kernel.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime/src/bin/adl-runtime-guardian.rs\nadl-runtime/tests/guardian_cli.rs\nadl-runtime/tests/runtime_guardian_lifecycle.rs\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/src/lib.rs\nadl/tests/csm_runtime_v3_generation.rs\ndocs/tooling/START_CSM_RUNBOOK.md",
+      "review_revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
+      "reviewer": "codex:/root/review_716_final2",
       "review_prompts": [
         "Is any receipt choreography still required for ordinary startup?",
         "Can invalid config bind a listener?",
@@ -23,7 +23,9 @@
         "Did simplification preserve real API, ACIP, identity, replay, and audit security?"
       ],
       "findings": [],
-      "residual_risk": [],
+      "residual_risk": [
+        "No live Runtime process or paid provider execution was performed in this exact-head review; those surfaces were outside the assigned immutable local review scope."
+      ],
       "review_result": "pass"
     }
   }

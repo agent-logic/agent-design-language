@@ -5,25 +5,29 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a82fe3a92bb3a06498cc389719d48bf463334badcf8473a4678d2e9e43832e89",
   "phase": "published",
-  "generation": 21,
-  "digest": "75ec1daadd1140b07cb121f2adf3508b784f83783ef4906c1e6d983926ac857a",
+  "generation": 25,
+  "digest": "68a7c97f6931ad7aca70ad07260dfe89b26809094361a5750ac288871e41bf4a",
   "branch": "codex/712-runtime-startup-simplification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-712-runtime-startup-simplification",
   "review_assignment": {
-    "reviewer": "codex:/root/review_712_startup_simplification",
+    "reviewer": "codex:/root/review_716_final2",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
+    "revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
     "scope": [
       ".csdlc/prepared/issues/712/design.md",
       ".csdlc/prepared/issues/712/diagram.mmd",
       ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/config_generation.rs",
       "adl-runtime-kernel/src/continuity.rs",
       "adl-runtime-kernel/src/live_continuity.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/control/feeds.rs",
       "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
       "adl-runtime-kernel/tests/continuity.rs",
+      "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/guardian_soak.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
       "adl-runtime-kernel/tests/production_acip_wss.rs",
@@ -32,22 +36,27 @@
       "adl-runtime/tests/runtime_guardian_lifecycle.rs",
       "adl/src/cli/csm_runtime_v3_cmd.rs",
       "adl/src/lib.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
       "docs/tooling/START_CSM_RUNBOOK.md"
     ]
   },
   "review": {
-    "reviewer": "codex:/root/review_712_startup_simplification",
+    "reviewer": "codex:/root/review_716_final2",
     "scope": [
       ".csdlc/prepared/issues/712/design.md",
       ".csdlc/prepared/issues/712/diagram.mmd",
       ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
       "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/config_generation.rs",
       "adl-runtime-kernel/src/continuity.rs",
       "adl-runtime-kernel/src/live_continuity.rs",
       "adl-runtime-kernel/src/control.rs",
       "adl-runtime-kernel/src/control/feeds.rs",
       "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
       "adl-runtime-kernel/tests/continuity.rs",
+      "adl-runtime-kernel/tests/control.rs",
       "adl-runtime-kernel/tests/guardian_soak.rs",
       "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
       "adl-runtime-kernel/tests/production_acip_wss.rs",
@@ -56,11 +65,14 @@
       "adl-runtime/tests/runtime_guardian_lifecycle.rs",
       "adl/src/cli/csm_runtime_v3_cmd.rs",
       "adl/src/lib.rs",
+      "adl/tests/csm_runtime_v3_generation.rs",
       "docs/tooling/START_CSM_RUNBOOK.md"
     ],
-    "reviewed_revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
+    "reviewed_revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
     "findings": [],
-    "residual_risks": [],
+    "residual_risks": [
+      "No live Runtime process or paid provider execution was performed in this exact-head review; those surfaces were outside the assigned immutable local review scope."
+    ],
     "completed": true,
     "non_substantive_proof": null
   },
@@ -71,7 +83,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/716",
     "base": "main",
     "head": "codex/712-runtime-startup-simplification",
-    "revision": "git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528",
+    "revision": "git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -89,32 +101,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "18674b3554d656e8241150d9a8f585a1bc53c05de0a8d8dbe5e0afc7212bee63",
+      "values_digest": "ae7edf9acafdc82dd3d7e01cf1f3253cf48596240c25347a5ebca67ecc604e8d",
       "rendered_digest": "11caefa459914b878b13a04ca51a48ab7ba7c2ba7b4d98648bdd81b8e1394e43",
       "ast_digest": "06f6ee6a1ccb2587675aab58fe0b375209e112cad6fe24fd60efb3dbdf25f46a"
     },
     "stp": {
-      "values_digest": "de2a376c1cba0273f1c107e11f1336ee94e90d245e86064899268a3b20acecc4",
+      "values_digest": "1d62a7f2d219a5ac417cfb125532bd030be4151e12b78ef24629154f6910014b",
       "rendered_digest": "05cffc2ae92fd2977fc12b68f5d34b8e48cb4d6d630a0ccc2c7d6931c8e7d488",
       "ast_digest": "8219b9adcd5190c6efe95eec5c428f0a7e70cf9ed35e8f1688cdaf0ff5f1f996"
     },
     "spp": {
-      "values_digest": "93f515800e6d30490c25199fef33fcf73066e694a052d945c32ee96bf3cb7dcd",
+      "values_digest": "44f0b914a7efedf25fb76e6f7a7e3ef36aa5b296c6d80b29319c26ffc369cc5e",
       "rendered_digest": "fe7b1f4802a74c6b166e75ea70cad3c462c57e995b39dac04cf65517f113713b",
       "ast_digest": "c3febd24c60255181ff52481247577017dfabab8463f0f1f88f2441c6e542d02"
     },
     "vpp": {
-      "values_digest": "9cf5b8eb23e02d1a910a3327bb89b96a566f7cb135c2baa3de502004ca534070",
+      "values_digest": "dfeafdf6e97f5a4e6dc26862968c03e4ceeec26f499c20c7dd7fe9a93a3648b8",
       "rendered_digest": "89ad39cbe1281e30ec8ea69f91effc2de186e0d5393037c7cb48b92fc285cc29",
       "ast_digest": "07e9f0fe031429cebd9022af41a2095eb7355840bb460a4d288272db6ba99605"
     },
     "srp": {
-      "values_digest": "d10a83bb57509a5ece92d7ff415cca2d9c1b238049ea93980c9612273dec23b2",
-      "rendered_digest": "d166f82143e23309ed5c5a891cfeb4e5d460122e48f5e4c03c456a018e823166",
-      "ast_digest": "06884a4f09953ef8ad628ea3a25b4853df6ca03fd6ea985cafff5aa977f77079"
+      "values_digest": "91e83eb886258226db4e71b283a414c4e2f60c44094944637106fc8dd4617e2b",
+      "rendered_digest": "9702661aa2bde2be9cfe89901373a3b3217389c84c95ae81bfee1dbaf14ee88d",
+      "ast_digest": "118e92914bc5a5a6c5fbecd836b866b26c40bd95c78cb3352410fc383bfc6d87"
     },
     "sor": {
-      "values_digest": "7d669e48ea94d691d95847b85c0f150d43caa6986a4a04a5d3eda5a58d531ff1",
+      "values_digest": "4436da499ff68f5e7e657e53530ed656b315c561d8887bbc628ce642fa53dfaf",
       "rendered_digest": "4ad8d429cae0644a735725acccc013872d8e56f27bf8776fff2194896a54e551",
       "ast_digest": "7090702292938c83a68f954a8251f8418f0f55e7822111cb42d1ff0d25769b82"
     }
@@ -213,6 +225,27 @@
     },
     {
       "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale review and publication truth after substantive fixes for the exact-head review findings on PR #716."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_716_final2",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root",
@@ -412,6 +445,48 @@
     {
       "sequence": 28,
       "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Recover stale review and publication truth after substantive fixes for the exact-head review findings on PR #716.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover the failed exact-head review assignment after fixing TLS hostname checkpoint compatibility and the focused validator coverage gap.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:/root/review_716_final2",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

@@ -16,12 +16,16 @@ Status: draft
 .csdlc/prepared/issues/712/diagram.mmd
 .csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh
 adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/config_generation.rs
 adl-runtime-kernel/src/continuity.rs
 adl-runtime-kernel/src/live_continuity.rs
 adl-runtime-kernel/src/control.rs
 adl-runtime-kernel/src/control/feeds.rs
 adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/configuration.rs
 adl-runtime-kernel/tests/continuity.rs
+adl-runtime-kernel/tests/control.rs
 adl-runtime-kernel/tests/guardian_soak.rs
 adl-runtime-kernel/tests/parity_b_live_kernel.rs
 adl-runtime-kernel/tests/production_acip_wss.rs
@@ -30,6 +34,7 @@ adl-runtime/tests/guardian_cli.rs
 adl-runtime/tests/runtime_guardian_lifecycle.rs
 adl/src/cli/csm_runtime_v3_cmd.rs
 adl/src/lib.rs
+adl/tests/csm_runtime_v3_generation.rs
 docs/tooling/START_CSM_RUNBOOK.md
 
 ## Prompts
@@ -49,12 +54,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live Runtime process or paid provider execution was performed in this exact-head review; those surfaces were outside the assigned immutable local review scope.
 
 ## Review Result
 
-Revision: Some("git-blake3:40c14c2188c9c795bdc01838b09192da2d8f956e:c8440c7ac40776ff8a5138d6e93838f973c9f59b50543d2fda2cfb77f88f5528")
+Revision: Some("git-blake3:e0d80849f65503e3e24354586c78530ad816af96:41af4cd2f194ded5c1963a107f071babcc1125c5f7ff0cd71b6cb4e13dadde1f")
 
-Reviewer: Some("codex:/root/review_712_startup_simplification")
+Reviewer: Some("codex:/root/review_716_final2")
 
 Result: pass
