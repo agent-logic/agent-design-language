@@ -99,7 +99,12 @@ impl FoundationState {
         )?;
         Ok(Self {
             repository_root: context.root().to_string_lossy().into_owned(),
-            operational_authority: crate::operational_authority().to_owned(),
+            operational_authority: crate::operational_authority(context.root())
+                .map_err(|message| FoundationError::InvalidProjection {
+                    label: "native authority",
+                    message,
+                })?
+                .to_owned(),
             contract_path: context.relative_display(context.contract_path()),
             predecessor_coverage_path: context
                 .relative_display(context.predecessor_coverage_path()),

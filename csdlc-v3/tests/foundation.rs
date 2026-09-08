@@ -52,7 +52,7 @@ fn single_binary_foundation_command_is_read_only_and_explicit() {
     let stdout = String::from_utf8(output.stdout).expect("utf8 stdout");
     assert!(stdout.contains("\"schema\":\"csdlc.v3.foundation.v1\""));
     assert!(stdout.contains("\"read_only\":true"));
-    assert!(stdout.contains("\"operational_authority\":\"csdlc-v2\""));
+    assert!(stdout.contains("\"operational_authority\":\"suspended\""));
 }
 
 #[test]
@@ -218,7 +218,7 @@ fn retained_requirements_164_through_167_are_bound() {
     let state = state();
     assert_eq!(FOUNDATION_PREDECESSORS, [164, 165, 166, 167]);
     assert_eq!(state.foundation_predecessors(), [164, 165, 166, 167]);
-    assert_eq!(state.operational_authority(), "csdlc-v2");
+    assert_eq!(state.operational_authority(), "suspended");
     assert_eq!(state.requirement_proofs(), REQUIREMENT_PROOFS);
     for issue in FOUNDATION_PREDECESSORS {
         assert!(
@@ -269,7 +269,7 @@ fn issue_start_projection_preserves_three_minute_budget_without_authority_cutove
     assert_eq!(state.issue_start_minutes_max(), 3);
     let json = state.to_machine_json();
     assert!(json.contains("\"read_only\":true"));
-    assert!(json.contains("\"operational_authority\":\"csdlc-v2\""));
+    assert!(json.contains("\"operational_authority\":\"suspended\""));
     assert!(json.contains("\"key\":\"issue_start_minutes_max\",\"value\":\"3\""));
     assert!(json.contains("\"key\":\"requirement_proofs\""));
 }

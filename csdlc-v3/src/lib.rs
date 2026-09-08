@@ -104,9 +104,13 @@ pub fn is_proportional_surface(surface: &str) -> bool {
     PROPORTIONAL_SURFACES.contains(&surface)
 }
 
-/// V3 is not operational authority during V3-A.
-pub fn operational_authority() -> &'static str {
-    "csdlc-v2"
+/// Reports native authority only when the canonical selector and receipt are valid.
+pub fn operational_authority(root: &std::path::Path) -> Result<&'static str, String> {
+    Ok(if authority::canonical_v3_authority(root)?.is_some() {
+        "csdlc-v3"
+    } else {
+        "suspended"
+    })
 }
 
 #[cfg(test)]
@@ -137,7 +141,7 @@ mod tests {
         assert!(contract.contains("Construction decision"));
         assert!(contract.contains("Proportional lifecycle contract"));
         assert!(contract.contains("Rollback and fail-closed behavior"));
-        assert_eq!(operational_authority(), "csdlc-v2");
+        assert_eq!(operational_authority(&repo_root()).unwrap(), "suspended");
     }
 
     #[test]

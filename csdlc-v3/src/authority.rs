@@ -72,10 +72,13 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
     if receipt.schema != "csdlc.v3.native_authority_receipt.v1"
         || receipt.authority_issue != selector.authority_issue
         || receipt.authority_pull_request != selector.authority_pull_request
-        || receipt.reviewed_head.len() != 40
-        || receipt.merge_commit.len() != 40
+        || !is_lower_hex(&receipt.reviewed_head, 40)
+        || !is_lower_hex(&receipt.merge_commit, 40)
         || receipt.source_selector_schema != "csdlc.generation_selector.v2"
-        || !receipt.source_selector_digest.starts_with("sha256:")
+        || !receipt
+            .source_selector_digest
+            .strip_prefix("sha256:")
+            .is_some_and(|digest| is_lower_hex(digest, 64))
         || receipt.operational_authority != selector.operational_authority
         || receipt.review_authority != selector.review_authority
         || receipt.approval_authority != selector.approval_authority
@@ -84,6 +87,28 @@ pub fn canonical_v3_authority(root: &Path) -> Result<Option<CanonicalV3Authority
         return Ok(None);
     }
     Ok(Some(selector))
+}
+
+fn is_lower_hex(value: &str, len: usize) -> bool {
+    value.len() == len
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_lower_hex;
+
+    #[test]
+    fn immutable_identifiers_require_exact_lower_hex() {
+        assert!(is_lower_hex(&"a1".repeat(20), 40));
+        assert!(is_lower_hex(&"ab".repeat(32), 64));
+        assert!(!is_lower_hex(&"g".repeat(40), 40));
+        assert!(!is_lower_hex(&"A".repeat(40), 40));
+        assert!(!is_lower_hex("", 64));
+        assert!(!is_lower_hex(&"a".repeat(63), 64));
+    }
 }
 
 fn canonical_tracked_bytes(root: &Path, relative: &Path) -> Result<Option<Vec<u8>>, String> {
