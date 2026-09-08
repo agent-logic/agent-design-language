@@ -1,0 +1,27 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "592c9df4ca6fbccb1072ebff48dc15115f82ce3eab47d1e70a17dc0fcd7192b0",
+  "actor": "Worker #7",
+  "reason": "record v3 clippy validation",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "purpose": "Rust lint safety across v3 targets",
+      "outcome": "passed",
+      "evidence_ref": "terminal output 2026-09-08 in bound worktree: clippy finished successfully"
+    }
+  }
+}
