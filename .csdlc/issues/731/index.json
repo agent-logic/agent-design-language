@@ -5,10 +5,20 @@
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
   "phase": "implemented",
   "generation": 15,
-  "digest": "238d24a90298c8a7cad0738f1faad50a2b458bf999a3140890ea5e623ae15995",
+  "digest": "033fcc86e37573cfa875418f56ed28983ca84b581dc975fc901bebc3a9db3f60",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:8423326f-b1f4-4005-9691-8c371da1778a",
+    "assigned_by": "codex:731-owner",
+    "revision": "git-blake3:992d0485c593926617a9474b194fa8758ac7b64e:0ab454832451dad5aec6e118b8e2ae3fe07cee70610ce9a4c65d8076a2561f1d",
+    "scope": [
+      "Exact commit 992d0485c593926617a9474b194fa8758ac7b64e on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.",
+      "Terraform provider-correct OS Login metadata resource change in infra/gcp/platform/main.tf.",
+      "No-mutation static readiness, saved Terraform plan denominator, read-only GCP preflight, pending authorization packet, and SOR truth under .csdlc/issues/731, .csdlc/prepared/issues/731, and .csdlc/evidence/731.",
+      "Verify the PR must not claim full #731 completion, must not use a closing keyword, and must preserve the explicit live GCP apply/run stop boundary pending exact operator authorization."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "4926c02271a631053d4f9a9163efd17429d78ee575416d1e882013dcb8e66f99",
-      "rendered_digest": "1b81702f7f5fd75d8d35f92f59ccd4499e3de6868011b3d9027ed3a4870eedad",
-      "ast_digest": "7930d0a32ecebb99e123c1d86f7ff1e4980b6fbcad56d58d3fb9972937285499"
+      "values_digest": "ebc005b2364ad997bdade577c8a4140b2a4bc08370553c057e7c9944f8574537",
+      "rendered_digest": "6afc6cff27f825d496c028adc09edde3fd74cc697fa65a071cca883459b83fba",
+      "ast_digest": "ad745d1ddd4522bcc7932ef72a43124fcb74c4a78d28084c5998ba43e36d3a32"
     },
     "sor": {
       "values_digest": "9a975e53d6702d4524b1b804f50316fe5523973adbbed16feb7590dea529625c",
@@ -196,6 +206,13 @@
       "actor": "codex:731-owner",
       "reason": "Advance #731 to implemented for the no-mutation readiness checkpoint only; live GCP apply/run remains pending explicit operator authorization.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

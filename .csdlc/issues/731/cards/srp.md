@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #731 lifecycle state, infra/gcp/platform denominator proof, GCP read-only/live evidence, disposable workload run/destroy proof, zero-residue readback, SOR/SRP truth, and exact-head publication readiness only.
+Exact commit 992d0485c593926617a9474b194fa8758ac7b64e on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.
+Terraform provider-correct OS Login metadata resource change in infra/gcp/platform/main.tf.
+No-mutation static readiness, saved Terraform plan denominator, read-only GCP preflight, pending authorization packet, and SOR truth under .csdlc/issues/731, .csdlc/prepared/issues/731, and .csdlc/evidence/731.
+Verify the PR must not claim full #731 completion, must not use a closing keyword, and must preserve the explicit live GCP apply/run stop boundary pending exact operator authorization.
 
 ## Prompts
 
