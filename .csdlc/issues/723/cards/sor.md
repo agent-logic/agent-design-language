@@ -61,11 +61,11 @@ Restored install approval binding and normalized current typed doctor output for
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
