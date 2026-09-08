@@ -98,8 +98,6 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   expected_specs=source.fetch("canonical_planned_ids").to_h{|id|spec=specs.fetch(id);[id,{"acceptance_criteria"=>spec.fetch("acceptance_criteria"),"digest"=>Digest::SHA256.hexdigest(JSON.generate(spec))}]}
   raise "spec acceptance denominator mismatch" unless source["spec_acceptance"]==expected_specs
   raise "amendment authority incomplete" unless source.fetch("amendment_authority").all?{|id,a|source.fetch("mapping")[id]==a["issue"] && a["url"]&.start_with?("https://github.com/") && a["issue_body_sha256"]&.match?(/\A[0-9a-f]{64}\z/) && a["source"]=="explicit_INT_01_amendment_mapping"}
-  versioned=OUT.join(admission.fetch("output_identity")); raise "versioned admission missing" unless versioned.file? && versioned.read==JSON.generate(admission)+"\n"
-  versioned_gap=OUT.join("gap-analysis.#{admission['candidate']}.#{digest}.json"); raise "versioned gap missing" unless versioned_gap.file? && versioned_gap.read==JSON.generate(gap)+"\n"
   rows=admission.fetch("execution_issues"); mapping=source.fetch("mapping")
   raise "execution denominator mismatch" unless rows.to_h{|r|[r["planned_id"],r["issue"]]}==mapping
   raise "duplicate issue mapping" unless rows.map{|r|r["issue"]}.uniq.length==rows.length
@@ -113,6 +111,8 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     actual_post=post.lines.map(&:strip).reject(&:empty?)
     raise "review-tail projection drift" unless actual_post==truth["post_review_paths"]
   end
+  versioned=OUT.join(admission.fetch("output_identity")); raise "versioned admission missing" unless versioned.file? && versioned.read==JSON.generate(admission)+"\n"
+  versioned_gap=OUT.join("gap-analysis.#{admission['candidate']}.#{digest}.json"); raise "versioned gap missing" unless versioned_gap.file? && versioned_gap.read==JSON.generate(gap)+"\n"
   expected_semantic=rows.flat_map{|row|row.fetch("acceptance_rows")}.to_h{|ac|[ac.fetch("id"),ac.fetch("text_digest")]}
   actual_semantic=semantic_entries.to_h{|entry|[entry.fetch("criterion_id"),entry.fetch("criterion_digest")]}
   raise "semantic criterion denominator/digest mismatch" unless actual_semantic==expected_semantic
