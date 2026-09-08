@@ -3,13 +3,32 @@
   "issue": 725,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "76d2ee3d6bac4f95571ff2d4b18b0a536047845380203e2e40bfad2519ea7fac",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "b8b722d6c4f2c5e48efcb44feb13b6fc97f02723d370038101de60a339c30c52",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:execute-aws-727-728-r3",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:df22e09b28c6141c57173794f58d595117bcf79c:f7612afd8489e4dfd771a93d1754c0d4e7a76f30eaac97b394ca4b0670115f9b",
+    "scope": [
+      "csdlc-v3"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:execute-aws-727-728-r3",
+    "scope": [
+      "csdlc-v3"
+    ],
+    "reviewed_revision": "git-blake3:df22e09b28c6141c57173794f58d595117bcf79c:f7612afd8489e4dfd771a93d1754c0d4e7a76f30eaac97b394ca4b0670115f9b",
+    "findings": [],
+    "residual_risks": [
+      "Retained pre-cutover cutover and rollback fixtures remain historical compatibility surfaces; native operational and no-v2 lanes passed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +43,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4d9f034abc3b12df7f082e64efc33235090d01436745e69ef142383b8f902d79",
+      "values_digest": "6525b7f46bea9324a20495e51ab3108bf5a433155c5fd3ce38819a3c6b23a15d",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "be722186596749a67b5d9433d352cf02b2e2ab318d664b643fd62d0a603dcb5d",
+      "values_digest": "55ee6024509002fb2f1852074f3e99f6cf51c4cc295f3af1143833c39b4ad3cb",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "ee5d73e7e4ede54109afe9bedfb0ce5aa82f17860a582074ba2e9121506fc888",
+      "values_digest": "f05811bb53aaa83629ab018ed6f6b4aec0af1b65fd1f631728c974bbc77b97f0",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "25e9d8e288af0be8e1a9285a09cc90f43bb749f27bcf7c66a03d0e4a15bd2214",
+      "values_digest": "9080c9ced236849178c8878cee2d6915641f8ab728d6af9bc906dbefab8dfd50",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "d4268d38291d55f1d8777c2fe0e961a4af55618587eb1a338e7aefc3b7b58f07",
-      "rendered_digest": "688cab9a5988f7521d6972c62d6d608d359ea5e4ddf293ca5cd714ea9a7be645",
-      "ast_digest": "8785989bc640f0891d3ba852e876cb5014471adaa262e6cad5499549b78553d4"
+      "values_digest": "f764826b15dffde29759e581034044f5a8f2884e4c5459fc2be93eff0f25a7c5",
+      "rendered_digest": "dd49b324b39c3c790028aae89d7329ddeef1e26a81dd08d1f4a399e7fa9dd075",
+      "ast_digest": "33e35c29cc1869ed593ada34c0d99ad8645aa503545847eb4a5a645e459f16e7"
     },
     "sor": {
-      "values_digest": "b1a7a5cf2daa1a5d57a2062f32708734dba44bb67b2d899eee70aa50f8e7162a",
+      "values_digest": "e8fe7fb525076ddfd63573a4107d8c851fc64aa1febbb1e80484fabf1838215e",
       "rendered_digest": "4c373bd8391b1d74616c489e6476406874c23da9d93d7e3353892936f31938c8",
       "ast_digest": "c20da886180d97765402ac92d2c991f0346bc8a21c0fddc37a5ff0ee45567f52"
     }
@@ -75,6 +94,13 @@
       "to": "implemented",
       "actor": "codex-remediate-v3-725",
       "reason": "advance issue 725 after standalone no-v2 compile and native authority tests passed"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -133,6 +159,27 @@
       "actor": "codex-remediate-v3-725",
       "reason": "advance issue 725 after standalone no-v2 compile and native authority tests passed",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
