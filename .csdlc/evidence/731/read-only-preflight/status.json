@@ -1,0 +1,17 @@
+{
+  "schema": "adl.gcp_d1.readonly_preflight.v1",
+  "status": "passed",
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "zone": "us-west2-a",
+  "network": "axioma-dev-csm-private",
+  "subnet": "axioma-dev-csm-private-us-west2",
+  "target_network_state": "absent",
+  "target_subnet_state": "absent",
+  "billing_state": "enabled",
+  "required_services": "compute.googleapis.com,iam.googleapis.com,storage.googleapis.com,logging.googleapis.com",
+  "quota_checked": "INSTANCES,CPUS,DISKS_TOTAL_GB",
+  "iam_checked": "project_policy_readable,owner_for_active_operator,planned roles/compute.osLogin and roles/iap.tunnelResourceAccessor",
+  "planned_operator_binding_state": "planned_absent_before_apply",
+  "mutation": "none"
+}

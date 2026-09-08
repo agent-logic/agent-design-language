@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
   "phase": "bound",
-  "generation": 4,
-  "digest": "6bcf65e334716961891da6c6212d52cb5d115f31db0dfef2153ad6d03df0a661",
+  "generation": 14,
+  "digest": "76febdc6db38fd51b15dcc306c879b24b60ba6c04641ba964f7f60a0f72d0354",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8611d2ff190c10d82657f1753f7a90399994484a21a01981aaf9d5f921e289f",
+      "values_digest": "e3c68a45ce48519663b6eae532b9bb6e017fb6d1d4640b334318fefda47bbb6b",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "974eac2f60ed3f7f876cd890a7c63782965aca9fee2d041352553b49c57d8268",
+      "values_digest": "b2b0a24dba5b037231eb562e9349c3cc30feeb4202055705dc8118bcaaa2676e",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "446be63caa1e0d103847a92615e8c1ae52b14d77ffccfa97fd9fdc8a499e6412",
+      "values_digest": "664dbd311745308f4c8cb39b782d044ebe2f3c4340903fe7cc2d5e801fce786d",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "2d025178ce61d575d83cbddb32e9014d7ff13109ee205dc850f7e4977774eeba",
+      "values_digest": "12b8fdc7a0647924e524d36624d408eb276e13caa7c7d61d83daafdb91bdc72b",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "f58b77fcde1f8ba7f2b557f33f653d26ac7b1b533d425966213454a38536a543",
+      "values_digest": "925af3312d31f146d4b268526f2363cccda6fe5460dade107af1be074ffe188c",
       "rendered_digest": "1b81702f7f5fd75d8d35f92f59ccd4499e3de6868011b3d9027ed3a4870eedad",
       "ast_digest": "7930d0a32ecebb99e123c1d86f7ff1e4980b6fbcad56d58d3fb9972937285499"
     },
     "sor": {
-      "values_digest": "8109fb55874d55535d530159849eba0684e0918603f0fcad52d5fcef1868a88b",
-      "rendered_digest": "4f8c59e305e73075d68e7a9ac2ecc095a6246fb8194bf89e0c3a14038e34ecd1",
-      "ast_digest": "205b4f7bb281287a91c706cb80b77bbb603f59fbfc93ff1ee1bcdfef57ee4147"
+      "values_digest": "c912b82fe623742ef9bd57f978160247b1e3ce444d781065fccdcdb6fad9eac1",
+      "rendered_digest": "71f7cf482c0082304704524ff0fb7a9f06d23012fbb5c3d607f2e2630bb26b9e",
+      "ast_digest": "0e79c2a6835fb82ccc850dd5b2f5eb2b855d845cdc063cf578a01828f3557286"
     }
   },
   "transitions": [
@@ -112,6 +112,76 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 bound no-mutation readiness work and live-mutation stop boundary before any apply/run.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bound #731 in its FastWork worktree, repaired the Terraform private-foundation OS Login metadata resource to the provider-supported type, captured no-mutation static/read-only readiness evidence, produced a saved Terraform plan denominator proof, and prepared a pending mutation authorization packet. No terraform apply, GCP instance creation, destroy, or other live mutation was run.\",\"changes\":[\"Confirmed bound issue worktree and committed bind state for branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.\",\"Changed infra/gcp/platform OS Login metadata from unsupported google_project_metadata_item to provider-supported google_compute_project_metadata_item.\",\"Expanded #731 static and Terraform denominator validators to prove exact private-foundation resource counts, reject forbidden public/GPU/workload resources, create a saved no-refresh Terraform plan, and record plan SHA-256 evidence.\",\"Expanded read-only GCP preflight to record redacted project, region, zone, required API, billing, quota, scoped IAM, and pre-apply target network/subnet readbacks without mutation.\",\"Created a pending mutation authorization packet with exact project, region, zone, network/subnet, saved plan digest, run id, instance name, deadline, operator identity, rollback commands, and spend caps.\"],\"artifacts\":[\"infra/gcp/platform/main.tf\",\"infra/gcp/platform/.terraform.lock.hcl\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\",\".csdlc/evidence/731/terraform-plan-denominator/status.json\",\".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan\",\".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json\",\".csdlc/evidence/731/read-only-preflight/status.json\",\".csdlc/evidence/731/read-only-preflight/identity.json\",\".csdlc/evidence/731/read-only-preflight/project.json\",\".csdlc/evidence/731/read-only-preflight/required-enabled-services.json\",\".csdlc/evidence/731/read-only-preflight/billing.json\",\".csdlc/evidence/731/read-only-preflight/scoped-iam-policy.json\",\".csdlc/evidence/731/read-only-preflight/region.json\",\".csdlc/evidence/731/read-only-preflight/zone.json\",\".csdlc/evidence/731/read-only-preflight/network.err\",\".csdlc/evidence/731/read-only-preflight/subnet.err\",\".csdlc/evidence/731/mutation-authorization-request.json\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 static no-mutation readiness validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh\"],\"purpose\":\"Prove typed #731 bootstrap files, exact tfvars authority, private-foundation denominator, and forbidden public/GPU/workload resource absence before mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:PASS #731 static readiness and private-foundation denominator guard\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 Terraform saved-plan denominator validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"purpose\":\"Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=8ff2e337006d137d4b85c934342d50efb83dafb3771f416747fe09cb466f3835\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 read-only GCP preflight validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh\"],\"purpose\":\"Read-only GCP preflight for exact project, region, zone, required APIs, billing, regional quota, scoped IAM readability, and pre-apply target network/subnet absence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/read-only-preflight/status.json target_network_state=absent target_subnet_state=absent mutation=none\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 pending authorization packet validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"purpose\":\"Prove the live-mutation authorization packet is complete and still pending operator approval before any apply/run.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/mutation-authorization-request.json operator_authorization.status=pending\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:731-owner",
+      "reason": "Record #731 diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh\"],\"purpose\":\"Prove exact issue diff hygiene for current worktree changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:PASS #731 diff hygiene\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:731-owner",
+      "reason": "Record current saved plan digest after rerun overwrote the no-mutation Terraform plan evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"The saved Terraform plan was rerun during final no-mutation validation. The current retained binary plan digest is 7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 and the current plan JSON digest is 0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48. The pending mutation authorization packet was updated to this current saved plan digest. No apply or GCP mutation was run.\",\"changes\":[\"Updated .csdlc/evidence/731/mutation-authorization-request.json plan_digest to the current retained saved Terraform plan SHA-256.\",\"Preserved the no-mutation boundary: the plan was created with refresh=false and was not applied.\"],\"artifacts\":[\".csdlc/evidence/731/terraform-plan-denominator/status.json\",\".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan\",\".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json\",\".csdlc/evidence/731/mutation-authorization-request.json\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:731-owner",
+      "reason": "Record current retained #731 saved-plan denominator validation after final rerun.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh\"],\"purpose\":\"Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 plan_json_sha256=0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:731-owner",
+      "reason": "Record current #731 pending authorization packet validation after plan digest refresh.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh\"],\"purpose\":\"Prove the live-mutation authorization packet is complete, bound to the current saved plan digest, and still pending operator approval before any apply/run.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/731/mutation-authorization-request.json plan_digest=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 operator_authorization.status=pending\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:731-owner",
+      "reason": "Advance #731 SOR from pre-phase to draft after recording bound no-mutation readiness evidence while live proof remains pending.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"draft\"}"
     }
   ]
 }

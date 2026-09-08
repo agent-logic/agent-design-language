@@ -69,7 +69,7 @@ resource "google_compute_firewall" "deny_unapproved_egress" {
   target_tags        = ["csm-disposable"]
 }
 
-resource "google_project_metadata_item" "os_login" {
+resource "google_compute_project_metadata_item" "os_login" {
   key   = "enable-oslogin"
   value = "TRUE"
 }

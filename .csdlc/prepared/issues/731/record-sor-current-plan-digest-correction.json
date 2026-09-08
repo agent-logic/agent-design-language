@@ -1,0 +1,22 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "29293bd4fbb964020153e41f0b0184413460f3606c917e19a60ddc5c821ca0cd",
+  "actor": "codex:731-owner",
+  "reason": "Record current saved plan digest after rerun overwrote the no-mutation Terraform plan evidence.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "The saved Terraform plan was rerun during final no-mutation validation. The current retained binary plan digest is 7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 and the current plan JSON digest is 0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48. The pending mutation authorization packet was updated to this current saved plan digest. No apply or GCP mutation was run.",
+    "changes": [
+      "Updated .csdlc/evidence/731/mutation-authorization-request.json plan_digest to the current retained saved Terraform plan SHA-256.",
+      "Preserved the no-mutation boundary: the plan was created with refresh=false and was not applied."
+    ],
+    "artifacts": [
+      ".csdlc/evidence/731/terraform-plan-denominator/status.json",
+      ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+      ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+      ".csdlc/evidence/731/mutation-authorization-request.json"
+    ]
+  }
+}

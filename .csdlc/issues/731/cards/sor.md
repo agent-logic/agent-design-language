@@ -8,23 +8,116 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: draft
 
 ## Summary
 
-Pre-execution output record.
+The saved Terraform plan was rerun during final no-mutation validation. The current retained binary plan digest is 7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 and the current plan JSON digest is 0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48. The pending mutation authorization packet was updated to this current saved plan digest. No apply or GCP mutation was run.
 
 ## Artifacts
 
-- none
+- infra/gcp/platform/main.tf
+- infra/gcp/platform/.terraform.lock.hcl
+- .csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh
+- .csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh
+- .csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh
+- .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh
+- .csdlc/evidence/731/terraform-plan-denominator/status.json
+- .csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan
+- .csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json
+- .csdlc/evidence/731/read-only-preflight/status.json
+- .csdlc/evidence/731/read-only-preflight/identity.json
+- .csdlc/evidence/731/read-only-preflight/project.json
+- .csdlc/evidence/731/read-only-preflight/required-enabled-services.json
+- .csdlc/evidence/731/read-only-preflight/billing.json
+- .csdlc/evidence/731/read-only-preflight/scoped-iam-policy.json
+- .csdlc/evidence/731/read-only-preflight/region.json
+- .csdlc/evidence/731/read-only-preflight/zone.json
+- .csdlc/evidence/731/read-only-preflight/network.err
+- .csdlc/evidence/731/read-only-preflight/subnet.err
+- .csdlc/evidence/731/mutation-authorization-request.json
+- .csdlc/evidence/731/terraform-plan-denominator/status.json
+- .csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan
+- .csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json
+- .csdlc/evidence/731/mutation-authorization-request.json
 
 ## Execution
 
-- none
+- Confirmed bound issue worktree and committed bind state for branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.
+- Changed infra/gcp/platform OS Login metadata from unsupported google_project_metadata_item to provider-supported google_compute_project_metadata_item.
+- Expanded #731 static and Terraform denominator validators to prove exact private-foundation resource counts, reject forbidden public/GPU/workload resources, create a saved no-refresh Terraform plan, and record plan SHA-256 evidence.
+- Expanded read-only GCP preflight to record redacted project, region, zone, required API, billing, quota, scoped IAM, and pre-apply target network/subnet readbacks without mutation.
+- Created a pending mutation authorization packet with exact project, region, zone, network/subnet, saved plan digest, run id, instance name, deadline, operator identity, rollback commands, and spend caps.
+- Updated .csdlc/evidence/731/mutation-authorization-request.json plan_digest to the current retained saved Terraform plan SHA-256.
+- Preserved the no-mutation boundary: the plan was created with refresh=false and was not applied.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh"
+    ],
+    "purpose": "Prove typed #731 bootstrap files, exact tfvars authority, private-foundation denominator, and forbidden public/GPU/workload resource absence before mutation.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:PASS #731 static readiness and private-foundation denominator guard"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh"
+    ],
+    "purpose": "Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=8ff2e337006d137d4b85c934342d50efb83dafb3771f416747fe09cb466f3835"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh"
+    ],
+    "purpose": "Read-only GCP preflight for exact project, region, zone, required APIs, billing, regional quota, scoped IAM readability, and pre-apply target network/subnet absence.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/731/read-only-preflight/status.json target_network_state=absent target_subnet_state=absent mutation=none"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh"
+    ],
+    "purpose": "Prove the live-mutation authorization packet is complete and still pending operator approval before any apply/run.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/731/mutation-authorization-request.json operator_authorization.status=pending"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh"
+    ],
+    "purpose": "Prove exact issue diff hygiene for current worktree changes.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:PASS #731 diff hygiene"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-plan-denominator.sh"
+    ],
+    "purpose": "Prove provider-valid Terraform, saved no-refresh foundation plan, exact 20-resource denominator, no delete/replace actions, and no forbidden resources before apply.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/731/terraform-plan-denominator/status.json plan_sha256=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 plan_json_sha256=0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh"
+    ],
+    "purpose": "Prove the live-mutation authorization packet is complete, bound to the current saved plan digest, and still pending operator approval before any apply/run.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/731/mutation-authorization-request.json plan_digest=7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12 operator_authorization.status=pending"
+  }
+]
 
 ## Integration
 

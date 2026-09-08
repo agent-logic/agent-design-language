@@ -1,0 +1,6 @@
+{
+  "schema": "adl.gcp_d1.target_resource_readback.v1",
+  "resource": "network",
+  "name": "axioma-dev-csm-private",
+  "state": "absent_before_apply"
+}

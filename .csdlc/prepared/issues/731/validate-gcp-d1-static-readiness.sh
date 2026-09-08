@@ -51,7 +51,7 @@ require_text "infra/gcp/platform/main.tf" "resource \"google_compute_subnetwork\
 require_text "infra/gcp/platform/main.tf" "resource \"google_compute_firewall\" \"iap_operator_access\""
 require_text "infra/gcp/platform/main.tf" "resource \"google_compute_firewall\" \"explicit_private_egress\""
 require_text "infra/gcp/platform/main.tf" "resource \"google_compute_firewall\" \"deny_unapproved_egress\""
-require_text "infra/gcp/platform/main.tf" "resource \"google_project_metadata_item\" \"os_login\""
+require_text "infra/gcp/platform/main.tf" "resource \"google_compute_project_metadata_item\" \"os_login\""
 require_text "infra/gcp/platform/main.tf" "resource \"google_service_account\" \"workload\""
 require_text "infra/gcp/platform/main.tf" "resource \"google_storage_bucket\" \"state\""
 require_text "infra/gcp/platform/main.tf" "resource \"google_storage_bucket\" \"artifacts\""
