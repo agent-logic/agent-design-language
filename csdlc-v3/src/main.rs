@@ -143,10 +143,7 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                     match execute_operational_local_route(route, &request, &registry, &context) {
                         Ok(operational) => operational,
                         Err(findings)
-                            if can_fallback_from_invalid_operational_roots(route)
-                                && findings
-                                    .iter()
-                                    .any(|finding| finding.code == "invalid_operational_roots") =>
+                            if can_fallback_from_operational_context_findings(route, &findings) =>
                         {
                             // Read-only diagnostic routes are safe in ordinary issue worktrees
                             // whose parent is the required bind parent.  The operational mutation
@@ -178,11 +175,7 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                 .map_err(|error| error.to_string());
             }
             Ok(None) => {}
-            Err(findings)
-                if can_fallback_from_invalid_operational_roots(route)
-                    && findings
-                        .iter()
-                        .any(|finding| finding.code == "invalid_operational_roots") => {}
+            Err(findings) if can_fallback_from_operational_context_findings(route, &findings) => {}
             Err(findings) => {
                 return Err(serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()));
             }
@@ -193,6 +186,19 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
 
 fn can_fallback_from_invalid_operational_roots(route: &str) -> bool {
     matches!(route, "doctor" | "eligibility")
+}
+
+fn can_fallback_from_operational_context_findings(
+    route: &str,
+    findings: &[csdlc_v3::commands::local::DoctorFinding],
+) -> bool {
+    can_fallback_from_invalid_operational_roots(route)
+        && findings.iter().any(|finding| {
+            matches!(
+                finding.code.as_str(),
+                "invalid_operational_roots" | "worktree_parent_unavailable"
+            )
+        })
 }
 
 fn run_local_construction_report(
