@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-10] Release ceremony",
     "slug": "v0921-tail10-release-ceremony",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -16,25 +16,42 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "issue-526-tail10",
-          "proof_role": "Prove final notes and the retained operator-authorized ceremony/readback receipt after the typed release operation.",
+          "lane": "tail10-ceremony-denominator",
+          "proof_role": "Prove ancestry, authorization, exact tag and release identity, and retained readback.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/526/validate-tail10.rb"
+          ],
+          "parallel_group": "ceremony",
+          "defer_reason": "The issue-owned validator is an operator-gated execution deliverable."
+        },
+        {
+          "lane": "notes-diff-hygiene",
+          "proof_role": "Reject malformed release-note changes and unrelated residue.",
+          "acceptance_ids": [
             "AC-6"
           ],
           "deterministic": true,
           "resource_profile": "small",
-          "budget_seconds": 180,
-          "budget_tokens": 2000,
+          "budget_seconds": 60,
+          "budget_tokens": 500,
           "argv": [
-            "bash",
-            ".csdlc/prepared/issues/526/validate-tail10.sh"
+            "git",
+            "diff",
+            "--check"
           ],
-          "parallel_group": "ceremony-proof",
+          "parallel_group": "ceremony",
           "defer_reason": null
         }
       ],

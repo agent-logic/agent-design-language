@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-09] Next milestone review pass",
     "slug": "v0921-tail09-next-milestone-review-pass",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Freeze the merged planning head, construct the complete denominator, run independent findings-first review and focused validators, and retain one exact-revision report.",
       "steps": [
         {
@@ -46,9 +46,7 @@
       ],
       "affected_areas": [
         "docs/milestones/v0.92.1/evidence/release/tail-09",
-        ".csdlc/issues/525",
-        ".csdlc/prepared/issues/525",
-        ".csdlc/evidence/525"
+        ".csdlc/prepared/issues/525/validate-tail09.rb"
       ],
       "invariants": [
         "Review is independent and read-only",

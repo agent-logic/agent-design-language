@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5df0a22aadbcccec903bf1bd892971323370985650a2de88764360d193bc693c",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "227be0e697e4cb5ca62911afc1458873262f2f1867a0f042be49f9bdf9d56d17",
+  "generation": 6,
+  "digest": "472f143d2caf14a0414776a739217aaec4449fa113b56f66379bbf4186dffc0d",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "4407f46dbad2c4ca6bfd4a2eea39e438ff8c547a972567cfde341918a5372338",
+      "values_digest": "4daf9be373b7083396e03015216814f6cbf2d3b058a22cd211b4043308561558",
       "rendered_digest": "3499a8e592466f979bb9f60acbb4441341e71eaa83aee3b840dceb8167f53d12",
       "ast_digest": "f5b4aabc11a9b704c8ef55d1ce5f5a3410321f8e8b01880821a7c5c0bd6b7506"
     },
     "stp": {
-      "values_digest": "37107489232478fcbb3e39b5851c696e6fec513108045df39fc712a63ede13bd",
+      "values_digest": "1a372738b4df2c7cd5d1b5d994d9a7215b4ed183318dc102c72cbe88760fe6e7",
       "rendered_digest": "549548f31c7c4c7b341c2a4ada6a4d096f9e3931278ea0f5827c40cafa4eded7",
       "ast_digest": "02c3f2a18b63f0d6a9d3abd2b87b5f44b6462bcc65f77f58f322e93a390f3771"
     },
     "spp": {
-      "values_digest": "722f20cd0ca477c3aa94549a27c8377c3b7aa3831b706a4822666a013b115f4b",
-      "rendered_digest": "6385f5c5dbaea21c036a9280741b68ee8d79d2accccb68a4140c82c276405291",
-      "ast_digest": "0e71928ef6da965b0b7856e28508c1546020afc11b5649731f033df17fc631fa"
+      "values_digest": "f16abe7a519c8340ac595ae267b95b491a3e10a7f0a398b3a7d43a375f657914",
+      "rendered_digest": "de62730eff714946aa14bed365b6550e80ec64ae478ace50fed69fab8a7bbc7d",
+      "ast_digest": "4ae7e56f7701eac7d695c9ab086bf4af05fd7d7f49ff6d1555266b4c81904961"
     },
     "vpp": {
-      "values_digest": "632de3f083c2c84609d6b1060d4add66dc01657c9406bfab646aef559c548930",
-      "rendered_digest": "d673f404383224dd10b1e8714ddaf54300d687b27082e05aee038e41bbd755e0",
-      "ast_digest": "b483f224644772ff9280b6279d931c5355578a63b14c5403f2fbaacbd7b45acb"
+      "values_digest": "98c7b5e6524538356789ad8c43d6027bec83a001d243183b07ebb2656ba66654",
+      "rendered_digest": "843be2f05583560cd4f011a2c69a4ed93fe5011c4ab4952b259e7074a81d98a5",
+      "ast_digest": "3570cb121baaea5750c1cc5bf524f3dc76cb45bd0a58466b8d1c536aeae3e0dc"
     },
     "srp": {
-      "values_digest": "00d85e8ec999107bcf530a22514ab673eda1dce0a4378cde70f0397a270de874",
+      "values_digest": "0a18034ef065c0505d63256808ee769fcb5c3f0e5336723177c63467ee13bd6b",
       "rendered_digest": "14c45d8d668110b1ed6ca2d136f3eceb1c04cacf93971f393b8d8e17a87fe30e",
       "ast_digest": "5903865d466f3420ffe4b580860844eeb5f28fa766fdfe21a083adf30cc5015d"
     },
     "sor": {
-      "values_digest": "08cd01e36f0cc944b47fa01aa211e6ce6097b17f0e9bc6a2ad8673bd34fcdf86",
+      "values_digest": "a86253b3e4ca8e511f908138d3413796afbf5fc07cea6a48ac7567126139cd56",
       "rendered_digest": "0bfd7236fa1edd49d1692263de08f619d9b6909e78ea6b006cc65b41c47f42c2",
       "ast_digest": "591f5d01c1d77516fee3d4597e2f2ba32356928d1d9f62f4b142bdea4c4490a6"
     }
@@ -71,6 +71,34 @@
       "actor": "codex:sprint10-prep-524",
       "reason": "Route the full #524 denominator through one executable issue-owned closeout-plan validator.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-524-tail08\",\"proof_role\":\"Prove release-plan/checklist denominator parity, exact tail order, operator gates, asynchronous bookkeeping, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/524/validate-tail08.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint10-prep-524",
+      "reason": "Classify the issue-owned validator truthfully as an execution deliverable during pre-bind preparation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-524-tail08\",\"proof_role\":\"Prove release-plan/checklist denominator parity, exact tail order, operator gates, asynchronous bookkeeping, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/524/validate-tail08.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":\"The issue-owned validator is completed and run during issue execution after the predecessor merge.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint10-prep-524",
+      "reason": "Restore the existing governed planning validator and diff-hygiene denominator for pre-bind readiness.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v0922-closeout-contract\",\"proof_role\":\"Prove exact tail order, shared denominator, explicit operator gates, and non-gating bookkeeping.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed documentation diffs.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:sprint10-prep-524",
+      "reason": "Declare the issue-owned validator as an execution deliverable and retain governed diff hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail08-denominator\",\"proof_role\":\"Prove denominator parity, tail order, operator gates, and asynchronous bookkeeping.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/524/validate-tail08.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":\"The issue-owned validator is an execution deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed documentation diffs.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint10-prep-524",
+      "reason": "Declare exact issue-owned closeout-plan outputs and validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md\",\"docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md\",\".csdlc/prepared/issues/524/validate-tail08.rb\"]}"
     }
   ]
 }

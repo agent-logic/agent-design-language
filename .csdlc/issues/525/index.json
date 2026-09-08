@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f63237c501c89a7346c16e535204138782d1d94f16c7e9c42dd1383e9f52d3b8",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "d4bd77ef65ac555834a19ecfe0afef18fa4c5bb522d0cff05a2c52767067143e",
+  "generation": 6,
+  "digest": "7f0d824c4ed982b1db3460327683fe6a37331c80ba2d78165cb7b9f49e07c140",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "5ff8de2d5d5825c1ccf91a50ca2278fc11da946daf77ff7ffcb6e635d0c56537",
+      "values_digest": "0a44c54f5f7b2f242a3f8605cef605b3effa93e1c6ccb5e907c8d54ebe3d6b41",
       "rendered_digest": "b703e119ae3df37bc84e48ce97e60c040e62ecd562faa2f364d39040a8e812e9",
       "ast_digest": "bef93c29eff127242ca82c9d6e05297c59bb0ec86d799a8c16d76b5d9b77806e"
     },
     "stp": {
-      "values_digest": "33d98efa943b1587af7a130d530c38106466858e0e057ae3041150cc2d7e1b2d",
+      "values_digest": "b6aeb9d400633619df7b9afdfed0dee69c6b4d1cf3c4d68555e9786ea2919355",
       "rendered_digest": "69831bd8106557a3be130122fa4ba0ab3dd320f3d8b21ebc9a1448bf4d4ed412",
       "ast_digest": "6bad37309018750969f829244de451e0973ba1738d45ab79c7c53cb3552575e2"
     },
     "spp": {
-      "values_digest": "f724f9525736c11315cc19c3edbb2354533fac1924404d6b849dbd8a9fdf415d",
-      "rendered_digest": "a709882359e437e2b9d76cbe4a92ef4f350700411f0238f425d2acbcbd1d42ea",
-      "ast_digest": "46a8a60e6d03372bd6ac57812c9f9cd38901086fc649464c23d9a34bb070367e"
+      "values_digest": "502d271d6c2e6027857c737e822591c899c5724989e28033c5cb833f3f239b39",
+      "rendered_digest": "e1a92eab68f3c044e8a587635070351e501337501d41f76308889413bfaeba53",
+      "ast_digest": "3e18fc9f904d813648c9ec0cc665eccedeb0fe19fe42b421d3e2ee2dd0ef9661"
     },
     "vpp": {
-      "values_digest": "a370ba07d7b017174e9ed35f6d215507b6481faf36f83c0ead884815de14b5ab",
-      "rendered_digest": "1e506e6b78a8cbcf99aad2510a1860d9a2953525138b1ded442ce110f510b21d",
-      "ast_digest": "29b9de4c392f39ea65e29ffbe919a4000894872232a4cc4f870aaca638bfbbcc"
+      "values_digest": "fe14d2e5f348ef755818f2a434f311906e55ae2b5737df51e20ae4821875be8f",
+      "rendered_digest": "67ef31cb2db98f109cd4df02e1733beff845d33d492acd8878bc8e81057a002e",
+      "ast_digest": "ddbfabe44934717338df0fb70ccaacd8a79a8e7113395ad7cb6e03144550292c"
     },
     "srp": {
-      "values_digest": "e10051ca4fabe965714ffd2af73a8519ec770caf2800a4233abdbe99c79a012a",
+      "values_digest": "0a7b063947bfa659e928fe3c5ca735792b3c805ae3edb0223ac9abb26400c2c5",
       "rendered_digest": "47f3b47a75339686e3a96b5c828b7fae5422fc11d3df4cde8cce4acb565ceebf",
       "ast_digest": "c32a2be69012325c05d72c746da7ff150dec51c30eacd3716bf5055d28111aed"
     },
     "sor": {
-      "values_digest": "7ac86151b68d24af91c5139a5e9b4849da98add11c9afeab32d6de0f22fc29bf",
+      "values_digest": "5eb1844863a66d80ba3ca7a5c279fb1213a1b112913a5cc6d4a103bea7157aff",
       "rendered_digest": "a8bef8cabdf21c70e97256865775f136121507198f071e18d2442183880fe3e8",
       "ast_digest": "0e25300c4465ab4041dd5a123922d4bbd802dcc6672e28c4b40c767dc73632cc"
     }
@@ -71,6 +71,34 @@
       "actor": "codex:sprint10-prep-525",
       "reason": "Route the full #525 denominator through one executable issue-owned exact-review artifact validator.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-525-tail09\",\"proof_role\":\"Prove the retained exact-revision planning review artifact, complete package validator, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/525/validate-tail09.sh\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "Classify the issue-owned validator truthfully as an execution deliverable during pre-bind preparation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-525-tail09\",\"proof_role\":\"Prove the retained exact-revision planning review artifact, complete package validator, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/525/validate-tail09.sh\"],\"parallel_group\":\"review\",\"defer_reason\":\"The issue-owned validator is completed and run during issue execution after the predecessor merge.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "Restore the existing governed review input and exact-revision hygiene denominator for pre-bind readiness.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"planning-package-validator\",\"proof_role\":\"Run the focused planning validator as evidence input, not semantic approval.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"parallel_group\":\"review\",\"defer_reason\":null},{\"lane\":\"exact-revision-diff-hygiene\",\"proof_role\":\"Bind diff hygiene to the immutable review range.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "Declare the issue-owned review-artifact validator as an execution deliverable and retain governed diff hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail09-review-denominator\",\"proof_role\":\"Prove the retained exact-revision review artifact and complete review denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/525/validate-tail09.rb\"],\"parallel_group\":\"review\",\"defer_reason\":\"The issue-owned validator is an execution deliverable.\"},{\"lane\":\"exact-revision-diff-hygiene\",\"proof_role\":\"Bind diff hygiene to the immutable review range.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint10-prep-525",
+      "reason": "Declare exact issue-owned review outputs and validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-09\",\".csdlc/prepared/issues/525/validate-tail09.rb\"]}"
     }
   ]
 }

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-07] Next-milestone planning",
     "slug": "v0921-tail07-next-milestone-planning",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Reconcile the existing successor package with delivered v0.92.1 truth, repair only planning inconsistencies, validate the complete denominator, and publish one reviewed planning PR.",
       "steps": [
         {
@@ -47,9 +47,7 @@
       "affected_areas": [
         "docs/milestones/v0.92.2",
         "docs/planning/ADL_FEATURE_LIST.md",
-        ".csdlc/issues/523",
-        ".csdlc/prepared/issues/523",
-        ".csdlc/evidence/523"
+        ".csdlc/prepared/issues/523/validate-tail07.rb"
       ],
       "invariants": [
         "Planning claims are source-grounded",

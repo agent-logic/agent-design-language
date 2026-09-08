@@ -24,23 +24,40 @@ Diagram: .csdlc/prepared/issues/523/diagram.mmd
 
 [
   {
-    "lane": "issue-523-tail07",
-    "proof_role": "Prove the complete successor planning package, dispositions, feature routing, and diff hygiene.",
+    "lane": "tail07-denominator",
+    "proof_role": "Prove the complete successor planning package and dispositions.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5",
-      "AC-6"
+      "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 180,
     "budget_tokens": 2000,
     "argv": [
-      "bash",
-      ".csdlc/prepared/issues/523/validate-tail07.sh"
+      "ruby",
+      ".csdlc/prepared/issues/523/validate-tail07.rb"
+    ],
+    "parallel_group": "docs",
+    "defer_reason": "The issue-owned validator is an execution deliverable."
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Reject malformed planning diffs.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check"
     ],
     "parallel_group": "docs",
     "defer_reason": null
@@ -59,7 +76,8 @@ Tokens: 25000
 
 ## Commands
 
-- `bash .csdlc/prepared/issues/523/validate-tail07.sh`
+- `ruby .csdlc/prepared/issues/523/validate-tail07.rb`
+- `git diff --check`
 
 ## Failure Semantics
 

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6fecc08defa631be2edcba426b8534877938212c6bf1cfd4d79d4623677de1f6",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "6bbf56b3116c2fab3f557b7d5f6d17f7d2a01b1f9a095c0a8085980e63456943",
+  "generation": 6,
+  "digest": "082fe31b960766b0615f1d027e2f7284f3ade5be5875b38f1de5c30026026e2d",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "9b6ba0b360379b81ea2d3769b0030e557ec057d07e4ea098249e4829224370ee",
+      "values_digest": "cabf6fa55db2d92e2598bd399c104fd972261c3a9cfc007d82890d1192e2cd25",
       "rendered_digest": "067b6bdb7b405573cccb9d333a82f74032a09fc771b8a5d17f0bc7c1a3389cb0",
       "ast_digest": "3080ce7bb9bd284c66098cfa6e209418c8c48da8c4af45ae5ee7e6b9abe988b9"
     },
     "stp": {
-      "values_digest": "6768f19099ec4031dfe2f0d4e33bb4107e5763642a2d16b16c3a1e02410f4456",
+      "values_digest": "56829f486b8f196a7a2cd4cc8109d3458f6216696255c17409a60b05b26c81d1",
       "rendered_digest": "96c703710044d7a665500154fbb8a11fea4534573860193da755c20b873e83c5",
       "ast_digest": "db034b1714074adcc9679bc290f27969a27dfd4670c0ca25a841e41cb31a0341"
     },
     "spp": {
-      "values_digest": "4d9236de93ae023cb75135285f73195ae4e27fe1613c35ed7b25541b3236c98e",
-      "rendered_digest": "87d10fa425d6e4d6f6eca72c92ca0333aca5e59d47669f80f5e58d260bfac39f",
-      "ast_digest": "02efde5b98fb944e8ddba0b41e6dcb7dca4f9fed5ac44737adb132cf17533ff1"
+      "values_digest": "c77841f34c4a62a033cf7f09d943295f8386b81b7a920c9b72362c667f41bc8e",
+      "rendered_digest": "68ea3665119eb8d3496c8a3b4126a5a9f4e602bc6c06a3047645f2f39f2d09cb",
+      "ast_digest": "b846952015e80f82681625c4a6adbafd2dd94d599c35fdedbf736d1011fe9906"
     },
     "vpp": {
-      "values_digest": "d5d4f9cb554ba988976d749adbf2eb65fb7271b4f2493538fcea4f371e01f431",
-      "rendered_digest": "bb5bf76de3c9e966109228c322c36952d584e3b6416cdc749318351a9c1b2b3a",
-      "ast_digest": "d5657531ac67eb634a111b1a1e22e25c69d9969f465cffa4209f6535f5bdcd5c"
+      "values_digest": "57f71673abb245cf0322ec3cc2195d0785dca721f98b92cc51bd4f9c12cb13b9",
+      "rendered_digest": "cef19ca35cfd337372fe1565df84f54e61f4e33b4ae8069e3c5dcd9a94a7fa6b",
+      "ast_digest": "f33c1ddd68752bc153d2358366fc5d94675c7ace1f14347005ec7be15aa4256b"
     },
     "srp": {
-      "values_digest": "6d523a857f6e1a7c24491194cb2f74fb5afde461b2197a1c73025786be2b0283",
+      "values_digest": "b2eb29655b5a087c09fb9960b85e9545ece0f21b5e1ac9cb361fe2ad2a2c4945",
       "rendered_digest": "dbf4233bdb2e1232892a3670ab2d260cef4e44646b1567caa04578d61c353ef7",
       "ast_digest": "2e0c6f70e409ca8dffc150476ca991d4bcb0e6e41aa2fc4f534cddc0f84cfe3e"
     },
     "sor": {
-      "values_digest": "d298cbb15d254f5992d8066efdc48c7d33c51f27573a093b04f6264e2a501e12",
+      "values_digest": "824030642a6db6ee35306616eb2a44a7a830fadcf6aac54e7915f4becedb6d97",
       "rendered_digest": "7b572c864bae19e20fff07c76954f3cc5a627a53977a62ce46089331109cfcf7",
       "ast_digest": "d493f159a8a3c562b777aa8e98143eac208f4d831b2e3d5d88ef4c73eec0066b"
     }
@@ -71,6 +71,34 @@
       "actor": "codex:sprint10-prep-526",
       "reason": "Route the full #526 denominator through one executable issue-owned post-ceremony receipt validator.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-526-tail10\",\"proof_role\":\"Prove final notes and the retained operator-authorized ceremony/readback receipt after the typed release operation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/526/validate-tail10.sh\"],\"parallel_group\":\"ceremony-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "Classify the issue-owned validator truthfully as an operator-gated execution deliverable during pre-bind preparation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-526-tail10\",\"proof_role\":\"Prove final notes and the retained operator-authorized ceremony/readback receipt after the typed release operation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/526/validate-tail10.sh\"],\"parallel_group\":\"ceremony-proof\",\"defer_reason\":\"The issue-owned validator runs only during operator-authorized ceremony execution after the predecessor merge.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "Restore the truthful mixed ceremony denominator with governed local hygiene and explicitly deferred exact-candidate gates.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail-merge-census\",\"proof_role\":\"Prove all prior tail merges are reviewed, green, and ancestral to the exact candidate.\",\"acceptance_ids\":[\"AC-1\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"git\",\"merge-base\",\"--is-ancestor\",\"<tail-merge>\",\"<approved-candidate>\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":\"Exact merge and candidate SHAs are resolved only at ceremony time.\"},{\"lane\":\"notes-diff-hygiene\",\"proof_role\":\"Reject malformed release-note changes.\",\"acceptance_ids\":[\"AC-2\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":null},{\"lane\":\"tag-release-readback\",\"proof_role\":\"Prove the live tag and release resolve to the exact authorized candidate and notes.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"csdlc-github-pr\",\"release-readback\",\"--request\",\"<issue-owned-request>\"],\"parallel_group\":\"operator-gated\",\"defer_reason\":\"Live release readback is operator-gated and runs only after explicit authorization.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "Declare the operator-gated ceremony validator as an execution deliverable and retain governed diff hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail10-ceremony-denominator\",\"proof_role\":\"Prove ancestry, authorization, exact tag and release identity, and retained readback.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/526/validate-tail10.rb\"],\"parallel_group\":\"ceremony\",\"defer_reason\":\"The issue-owned validator is an operator-gated execution deliverable.\"},{\"lane\":\"notes-diff-hygiene\",\"proof_role\":\"Reject malformed release-note changes and unrelated residue.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"ceremony\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint10-prep-526",
+      "reason": "Declare exact issue-owned ceremony outputs and validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md\",\"docs/milestones/v0.92.1/evidence/release/tail-10\",\".csdlc/prepared/issues/526/validate-tail10.rb\"]}"
     }
   ]
 }

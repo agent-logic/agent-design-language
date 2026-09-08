@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-10] Release ceremony",
     "slug": "v0921-tail10-release-ceremony",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Freeze and verify the candidate and ancestral tail census, finalize truthful notes, obtain exact operator authorization, perform the typed ceremony route, and retain live tag/release readback.",
       "steps": [
         {
@@ -45,11 +45,9 @@
         }
       ],
       "affected_areas": [
-        "docs/milestones/v0.92.1/evidence/release/tail-10",
         "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
-        ".csdlc/issues/526",
-        ".csdlc/prepared/issues/526",
-        ".csdlc/evidence/526"
+        "docs/milestones/v0.92.1/evidence/release/tail-10",
+        ".csdlc/prepared/issues/526/validate-tail10.rb"
       ],
       "invariants": [
         "Release identity is exact and immutable",

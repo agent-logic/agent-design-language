@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-09] Next milestone review pass",
     "slug": "v0921-tail09-next-milestone-review-pass",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 6
   },
   "status": "ready",
   "content": {
@@ -16,14 +16,13 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "issue-525-tail09",
-          "proof_role": "Prove the retained exact-revision planning review artifact, complete package validator, and diff hygiene.",
+          "lane": "tail09-review-denominator",
+          "proof_role": "Prove the retained exact-revision review artifact and complete review denominator.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
             "AC-4",
-            "AC-5",
             "AC-6"
           ],
           "deterministic": true,
@@ -31,8 +30,26 @@
           "budget_seconds": 180,
           "budget_tokens": 2000,
           "argv": [
-            "bash",
-            ".csdlc/prepared/issues/525/validate-tail09.sh"
+            "ruby",
+            ".csdlc/prepared/issues/525/validate-tail09.rb"
+          ],
+          "parallel_group": "review",
+          "defer_reason": "The issue-owned validator is an execution deliverable."
+        },
+        {
+          "lane": "exact-revision-diff-hygiene",
+          "proof_role": "Bind diff hygiene to the immutable review range.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
           ],
           "parallel_group": "review",
           "defer_reason": null

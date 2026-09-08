@@ -16,7 +16,7 @@ Freeze and verify the candidate and ancestral tail census, finalize truthful not
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

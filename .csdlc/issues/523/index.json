@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "823ffc2ad839cdeb1936cf13c117f04e68ae2cda4bd5ecad9534a77470b5eda0",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "afe7567095a3c19dafaac74c99128c851da0886c3228678680ffc1bb3165c022",
+  "generation": 6,
+  "digest": "79e501341e06f23993c89e99dbf668277b0959f51431d182fcf6a693666e621b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "2f1b6dcc440d4d698d6f53e8ce894d43646cedf4a92b8e86c0b72299bb330590",
+      "values_digest": "127a3b2be271bc53c0ef4480a8e6611cd9d118679cc176d847a38f42a772c5e6",
       "rendered_digest": "c526dc7fa934762d0b57eaf6d2d647c6b0cf6f8e8fefc163bcb85c0102bcc395",
       "ast_digest": "529fcaf9f56551ca5b44f4db2104eb66a4de919781fd7e2a7b474f90fd5e51cd"
     },
     "stp": {
-      "values_digest": "cf430f526083df822aadc927cca2292b350b8b8ff8e1c076d4c06b22d376673a",
+      "values_digest": "d2a06afa22ab99030e7d4b818166af6c61d67c0debcbf41cc43fc972b36909a6",
       "rendered_digest": "c322f671f88549ead540ff814e9fe580074575d55dc32ff57aafa84ebcc05e00",
       "ast_digest": "38759a3c0f50d810f81a4cc524576304bbfe51bddb30f6c55a31491e249840cc"
     },
     "spp": {
-      "values_digest": "5743f8ce90e409d6f4ad35ae7802949d4c59c27fea1c9ed01e21a4c0d1c3fe58",
-      "rendered_digest": "4db1471745c61c760249d758dee4a663b9e6ca5cce4d008862bfee1e44a3bf8c",
-      "ast_digest": "598c8d929806ab652c01be1e284c95626a52e224ec798076b6079d19a566b634"
+      "values_digest": "02197b4ce484b06866533ce6174fb89907b4204b70f97752252fc7485605456e",
+      "rendered_digest": "5c81d19fff8ea3b003a3d2b2295bb3acb2c138d7b7b46a68ed387ccd312b6fed",
+      "ast_digest": "b7d59474820947320e7f19313010e07c7b4e53976d5d4decf7cf108b126d6456"
     },
     "vpp": {
-      "values_digest": "87469b8bb07f951cd4e26489d4e743746bd2423a946fa5b98f64abf2ace63358",
-      "rendered_digest": "dcf4166a4ae0b90fe25ff1ae0da914d2c3dad4c3895a09d01bae3131dbf35d3d",
-      "ast_digest": "2502854721b0b4d9a158897babd6a681f32e4d3192f13653c6b10a78ba20dbad"
+      "values_digest": "be65b60db5685645591ede48818a5db88307dc64a61b8793e6d47cae7cb52f4a",
+      "rendered_digest": "7a0273e230a27e388d162905f3d49efda00bb8ecf068f6e48c4f3cca9d65e625",
+      "ast_digest": "ac1e8d1932aa01d4b5e360a9063dc56bc35ab3e0c6e5bd849dea9f0829f79fef"
     },
     "srp": {
-      "values_digest": "2b68a04640cd2e63c2c6063e12f03fb84a586fb66bac8633c7554904611691a2",
+      "values_digest": "ae3b801d07e1b8f661288830f1c3e3e436f744c674adab64e58dade28d87009e",
       "rendered_digest": "c386f074e9e8cec26706455e57883db2c6b95a27e49f39864fe31a64053d4db5",
       "ast_digest": "9755b8c888fe5c1fc19c2e466a940f2e2a33a3ff9e5a31198f0f0cdfb9c25a48"
     },
     "sor": {
-      "values_digest": "c04355e17d995f02a3261b29ee007faba69f857de4276b64c7953c533f494b5b",
+      "values_digest": "120b4026f6fb1f0b8d63d9f077be6ce8ddfb72346c01bb22a89e3563da3f47b8",
       "rendered_digest": "ef2620a2ef5fd2303fa339f5e38004ddd180b59eff76c6d4c6fbff95505b9ad4",
       "ast_digest": "47f35c38a5f8eb9ffaf726a47923cf0433c7516e46eb9ae2bc20c2cb1f9b3cdf"
     }
@@ -71,6 +71,34 @@
       "actor": "codex:sprint10-prep-523",
       "reason": "Route the full #523 denominator through one executable issue-owned planning validator.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-523-tail07\",\"proof_role\":\"Prove the complete successor planning package, dispositions, feature routing, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/523/validate-tail07.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "Classify the issue-owned validator truthfully as an execution deliverable during pre-bind preparation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-523-tail07\",\"proof_role\":\"Prove the complete successor planning package, dispositions, feature routing, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/523/validate-tail07.sh\"],\"parallel_group\":\"docs\",\"defer_reason\":\"The issue-owned validator is completed and run during issue execution after the predecessor merge.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "Restore the existing governed planning validator and diff-hygiene denominator for pre-bind readiness.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v0922-package-consistency\",\"proof_role\":\"Prove successor package structure, identifiers, dependencies, and source dispositions are internally consistent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed planning diffs.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "Declare the issue-owned validator as an execution deliverable and retain governed diff hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tail07-denominator\",\"proof_role\":\"Prove the complete successor planning package and dispositions.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/523/validate-tail07.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":\"The issue-owned validator is an execution deliverable.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed planning diffs.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint10-prep-523",
+      "reason": "Declare exact issue-owned planning outputs and validator path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/523/validate-tail07.rb\"]}"
     }
   ]
 }
