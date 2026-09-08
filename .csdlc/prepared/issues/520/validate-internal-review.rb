@@ -19,10 +19,26 @@ def nonempty?(value)
   value.respond_to?(:empty?) && !value.empty?
 end
 
+def validate_fixture!(fixture)
+  authority = fixture.fetch("opening_authority")
+  fail!("fixture base is not derived from WP-01") unless authority == {
+    "issue" => 480, "pull_request" => 527,
+    "merge_sha" => fixture.fetch("opening_merge_sha"),
+    "base_sha" => fixture.fetch("base_sha")
+  }
+  fail!("fixture milestone snapshot is incomplete") unless fixture.dig("milestone_snapshot", "pagination_complete") == true
+  live_issues = fixture.dig("milestone_snapshot", "issues")
+  fail!("fixture live issue denominator is empty") unless live_issues.is_a?(Array) && live_issues.any?
+  live_prs = live_issues.flat_map { |row| row.fetch("pull_requests") }.sort
+  fail!("fixture issue denominator differs from live snapshot") unless fixture.fetch("issue_rows").sort == live_issues.map { |row| row.fetch("number") }.sort
+  fail!("fixture PR denominator differs from live snapshot") unless fixture.fetch("pr_rows").sort == live_prs
+  fail!("fixture must reject empty repo/acceptance denominators") unless fixture.fetch("repo_rows").any? && fixture.fetch("acceptance_rows").any?
+  fail!("fixture must reject empty assignments/results") unless fixture.fetch("assignments").any? && fixture.fetch("results").any?
+end
+
 if ARGV.first == "fixture"
   fixture = read_json(ARGV.fetch(1))
-  fail!("fixture must reject empty denominators") unless fixture.fetch("repo_rows").any? && fixture.fetch("issue_rows").any? && fixture.fetch("acceptance_rows").any?
-  fail!("fixture must reject empty assignments/results") unless fixture.fetch("assignments").any? && fixture.fetch("results").any?
+  validate_fixture!(fixture)
   puts JSON.generate(status: "passed", fixture: ARGV[1])
   exit
 end
@@ -30,7 +46,7 @@ end
 root = ENV.fetch("ADL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-04")
 mode = ARGV.fetch(0, "all")
 fail!("unsupported mode: #{mode}") unless %w[all denominator findings integrity].include?(mode)
-required = %w[run_manifest.json repo_inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json packet-manifest.json]
+required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -40,12 +56,16 @@ base = manifest.fetch("base_sha")
 candidate = manifest.fetch("candidate_sha")
 fail!("base/candidate must be full distinct git SHAs") unless full_sha?(base) && full_sha?(candidate) && base != candidate
 fail!("candidate is not the canonical #519 merge") unless manifest.fetch("candidate_source_issue") == 519 && manifest.fetch("candidate_merge_sha") == candidate
-fail!("base source is not immutable") unless nonempty?(manifest.fetch("base_ref")) && manifest.fetch("base_ref_sha") == base
+opening = manifest.fetch("opening_authority")
+fail!("base authority is not canonical WP-01/#480/PR #527") unless opening.fetch("issue") == 480 && opening.fetch("pull_request") == 527
+opening_merge = opening.fetch("merge_sha")
+fail!("opening merge must be a full SHA") unless full_sha?(opening_merge)
 system("git", "cat-file", "-e", "#{base}^{commit}") or fail!("base commit is unavailable")
 system("git", "cat-file", "-e", "#{candidate}^{commit}") or fail!("candidate commit is unavailable")
+system("git", "cat-file", "-e", "#{opening_merge}^{commit}") or fail!("opening merge is unavailable")
+opening_parents = `git show -s --format=%P #{opening_merge}`.split
+fail!("base must be the sole parent of the immutable WP-01 merge") unless opening_parents == [base] && opening.fetch("base_sha") == base
 system("git", "merge-base", "--is-ancestor", base, candidate) or fail!("base is not ancestral to candidate")
-resolved_base = `git rev-parse #{manifest.fetch('base_ref')}^{commit}`.strip
-fail!("base ref does not resolve to retained base SHA") unless $?.success? && resolved_base == base
 live_519 = manifest.fetch("tail_03_observation")
 fail!("#519 live observation does not prove the candidate") unless live_519.fetch("issue") == 519 && live_519.fetch("state") == "CLOSED" && live_519.fetch("merge_sha") == candidate && nonempty?(live_519.fetch("retrieved_at"))
 
@@ -59,7 +79,19 @@ specs = YAML.safe_load(File.read("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICA
 planned_ids = specs.map { |row| row.fetch("id") }.sort
 issue_rows = docs.fetch("issue_inventory.json").fetch("rows")
 fail!("issue inventory does not exactly match canonical specification") unless issue_rows.map { |row| row.fetch("planned_id") }.sort == planned_ids
-fail!("issue inventory has duplicate, stale, or undispositioned rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("evidence")) }
+
+snapshot = docs.fetch("live-milestone-snapshot.json")
+fail!("milestone snapshot source is wrong") unless snapshot.fetch("repository") == "agent-logic/agent-design-language" && snapshot.fetch("milestone") == "v0.92.1"
+fail!("milestone snapshot is capped or incomplete") unless snapshot.fetch("pagination_complete") == true && snapshot.fetch("next_cursor").nil? && snapshot.fetch("query_limit").nil?
+live_issues = snapshot.fetch("issues")
+fail!("live milestone snapshot is empty") unless live_issues.any?
+live_numbers = live_issues.map { |row| row.fetch("number") }
+fail!("live milestone snapshot duplicates issues") unless live_numbers.uniq.length == live_numbers.length
+live_prs = live_issues.flat_map { |row| row.fetch("pull_requests") }
+fail!("live milestone snapshot duplicates PRs") unless live_prs.uniq.length == live_prs.length
+fail!("issue inventory does not cover every live milestone issue") unless issue_rows.map { |row| row.fetch("issue") }.sort == live_numbers.sort
+fail!("issue inventory PR census differs from live milestone snapshot") unless issue_rows.flat_map { |row| row.fetch("pull_requests") }.sort == live_prs.sort
+fail!("issue inventory has duplicate, stale, or undispositioned rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("evidence")) && row.fetch("pull_requests").is_a?(Array) }
 
 expected_acceptance = specs.flat_map { |row| row.fetch("acceptance_criteria").each_index.map { |index| "#{row.fetch('id')}:AC-#{index + 1}" } }.sort
 acceptance_rows = docs.fetch("acceptance_coverage.json").fetch("rows")

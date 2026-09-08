@@ -9,20 +9,26 @@ does not freeze a candidate or claim review work has begun.
 ## Exact denominator
 
 At execution time, retain full base and candidate SHAs. The candidate is the
-exact TAIL-03/#519 reviewed merge on `main`; the base is the release-plan base
-for v0.92.1. Build and retain these complete, machine-readable inventories:
+exact TAIL-03/#519 reviewed merge on `main`. The base is not operator-entered:
+it is derived as the sole parent of the immutable WP-01 authority merge,
+issue #480 / PR #527. The run manifest records all three SHAs and the validator
+recomputes that parent relationship. Build and retain these complete,
+machine-readable inventories:
 
 1. every tracked path in `base...candidate`, classified as production code,
    test/proof, documentation, lifecycle/evidence, generated, vendored, or
    other;
-2. every GitHub issue assigned to v0.92.1 and every associated PR, including
+2. a pagination-complete live GitHub snapshot of every issue assigned to
+   v0.92.1 and every associated PR, plus an inventory that matches that
+   snapshot exactly, including
    open, closed, merged, deferred, duplicate, and superseded dispositions;
 3. every v0.92.1 acceptance surface and planned work package, mapped to its
    implementation, proof, documentation, or explicit unresolved gap;
 4. every canonical release document, demo claim, provider/cloud boundary, and
    retained release-tail artifact cited by #519.
 
-No global cap, sample, search-result truncation, or representative subset may
+The live snapshot must record completion of cursor pagination and must not
+declare a query cap. No global cap, sample, search-result truncation, or representative subset may
 reduce those inventories. Generated or vendored surfaces may be dispositioned
 as such, but they remain counted. Any omission, unclassified row, zero-test
 lane, or missing evidence is a review finding or blocker—not a pass.
