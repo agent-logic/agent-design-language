@@ -7,22 +7,22 @@
     "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
     "slug": "restore-green-proof-shadow-install-tests",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:e3fa669f16e45bae8e5beeff53fc16ef26935057:9b4bd6c90af640e25fc31023f31d57a5cd92edee48888b3412b030a2c7d153b4",
+      "reviewer": "codex:/root/review_sprint10_523_526_prep",
       "review_prompts": [
         "Verify stderr fallback accepts only one typed document and preserves nonzero exit.",
         "Verify install authorization binds exact head and digests."
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

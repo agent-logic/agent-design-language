@@ -16,3 +16,5 @@
 {"sequence":16,"generation":10,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":11,"actor":"codex-agent","reason":"Recover stale review after aligning the branch with current main and proving the detached checkout","operation":"recover_review"}
 {"sequence":18,"generation":11,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":19,"generation":11,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":20,"generation":12,"actor":"codex-agent","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
