@@ -3,46 +3,14 @@
   "issue": 725,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
-  "phase": "published",
-  "generation": 20,
-  "digest": "65defe1e503bcbc5e64768bb07679345008db2433198af26036621676921a516",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "66148091baeb01e2309048b74169ee2600da99b50cb8159bb2fdd7704550ae29",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:review-sprint10-523-526-prep-r9",
-    "assigned_by": "codex:/root/remediate_v3_725",
-    "revision": "git-blake3:677692472f5b46aa83337225ad176624daaeafcb:b6f6b096bb117c72bc699fb81e1a6fd4d1d94f29d02779645d08cb57e8316195",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v3",
-      "docs/csdlc-v3/CONTRACT.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:review-sprint10-523-526-prep-r9",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v3",
-      "docs/csdlc-v3/CONTRACT.md"
-    ],
-    "reviewed_revision": "git-blake3:677692472f5b46aa83337225ad176624daaeafcb:b6f6b096bb117c72bc699fb81e1a6fd4d1d94f29d02779645d08cb57e8316195",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 725,
-    "pull_request": 732,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/732",
-    "base": "main",
-    "head": "codex/725-csdlc-v3-native-authority",
-    "revision": "git-blake3:e5686a5c1f2aeefc976584cb874efbfe8823fce5:f865e2521da9a15f21d292dc5eb6bb21a86aca8ffb0e6f40e9c8b613ca87a447",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -56,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8959ce5bbeff2f0e8caa209332a0a3650547eaecf16414f5b0aef0172a1c181b",
+      "values_digest": "9ec9e938d160d4f5b7f57a724b671cba6fabc501c9b862ec326930154c03628b",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "4e8a5f5dbfa21a81b398f4660da45e5fbca165d12c9813c0f0637c9dd5fdfd95",
+      "values_digest": "22490c9cfa4e174e81858e9a097d8fe85a93a79eb48cb02ff4299550d565bb31",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "2ee11f31b942544f3dc2b173ed2fec2cdb73cbd5b0844929d111d192e848abac",
+      "values_digest": "2de80f3099ee35a989d1f56e6c3f9fdf451fc137fb6ec6cf258521a1ed9745ae",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "fa4df4e53c47ed45cc58bb559721c8f770a1854b798af647cf5673a967bceb29",
+      "values_digest": "263219f7352b951a8f6f68c6adf21d62ac0b45a08274a90b14e1f829b009d9d2",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "49848bea7e30b3f2a1a65971982f17f43027ec1ee18b9eb62206d00251fd8367",
-      "rendered_digest": "e3c40ed0bca693f5ba26dcdca37f85aa0dcd62ffd0cfd8f9f446b4ed3b90d180",
-      "ast_digest": "ec8cc6ccdc054024d498f94df5ec54118c17f2ecf6b6114a5fcb1453e6dbcc95"
+      "values_digest": "6954b4f83e280827daad5123d953d47289b75ee526707a3861871f864c8348b6",
+      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
+      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
     },
     "sor": {
-      "values_digest": "d74cb31fc5d877dfca0b12a88e2e0d95a4430ad3f61f0a284cacf8513d9d24c5",
-      "rendered_digest": "2f2196f130bb0f7246737de259689bc7b7eda42671fb1837d4d709cd05dbca61",
-      "ast_digest": "aa9881a54fd24242342597ceb8790f0573c2eb4ea82fb384e8b222100413b8b0"
+      "values_digest": "008e9f832094479f03074f0cdd89cb42cd22dbbfdd65cb956896b29d187319e0",
+      "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
+      "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
   },
   "transitions": [
@@ -184,6 +152,13 @@
       "to": "published",
       "actor": "codex:/root/remediate_v3_725",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair hosted standalone fixture for closed PR reviewed head absent from fresh clone and add missing merge object fail-closed proof"
     }
   ],
   "audit": [
@@ -396,6 +371,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair hosted standalone fixture for closed PR reviewed head absent from fresh clone and add missing merge object fail-closed proof",
+      "operation": "recover_review"
     }
   ]
 }
