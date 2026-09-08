@@ -79,6 +79,7 @@ let lastKnownComponentEntries = [];
 const POLIS_REGISTRY_KEY = "adl.observatory.polisRegistry";
 
 let lastResolvedPublicBaseUrl = "";
+let polisConnectionGeneration = 0;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
@@ -1230,6 +1231,8 @@ function updateDashboardFocus(key = "runtime", extraDetail = "") {
 }
 
 function bindDashboardNavigation(packet = FALLBACK_PACKET) {
+  const keyFromHash = () => Object.entries(DASHBOARD_FOCUS)
+    .find(([, value]) => value.target === globalThis.location?.hash)?.[0] || "runtime";
   document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
@@ -1249,7 +1252,8 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
     });
   });
 
-  updateDashboardFocus("runtime");
+  globalThis.addEventListener?.("hashchange", () => updateDashboardFocus(keyFromHash()));
+  updateDashboardFocus(keyFromHash());
 }
 
 function normalizeApiBase(value) {
@@ -2094,65 +2098,11 @@ function collapseRepeatedEventRows(rows = []) {
 }
 
 // --- Runtime log surface -------------------------------------------------
-// The runtime writes a durable JSONL master log but exposes no HTTP endpoint
-// for it, so the Observatory reads a file served alongside this page. Point
-// RUNTIME_LOG_PATH at that file (a symlink to the live master.log.jsonl works).
-const RUNTIME_LOG_PATH = "./runtime-log.jsonl";
+// The public Logs surface is derived only from the selected polis's bounded
+// Observatory event projection. Durable Runtime master logs remain private
+// operator artifacts and are never fetched by this static client.
 const RUNTIME_LOG_MAX_LINES = 500;
-const RUNTIME_LOG_TAIL_BYTES = 512 * 1024;
-const RUNTIME_LOG_POLL_MILLIS = 4000;
 let runtimeLogEntries = [];
-let runtimeLogTimer = null;
-let runtimeLogPollMillis = RUNTIME_LOG_POLL_MILLIS;
-
-function restartRuntimeLogTimer() {
-  if (runtimeLogTimer) clearInterval(runtimeLogTimer);
-  runtimeLogTimer = setInterval(refreshRuntimeLogs, runtimeLogPollMillis);
-}
-
-// Component arrives as Rust debug output, e.g. Some(ComponentId("cloud_bridge"))
-// or the literal string "None". Pull out the inner identifier.
-function unwrapLogComponent(value) {
-  const text = String(value ?? "").trim();
-  if (!text || text === "None" || text === "null") return "";
-  const quoted = text.match(/"([^"]+)"/);
-  if (quoted) return quoted[1];
-  const inner = text.match(/^Some\((.*)\)$/);
-  if (inner) return unwrapLogComponent(inner[1]);
-  return text;
-}
-
-function parseRuntimeLogJsonl(text = "") {
-  const lines = String(text).split("\n").map((line) => line.trim()).filter(Boolean);
-  return lines.slice(-RUNTIME_LOG_MAX_LINES).map((line, index) => {
-    try {
-      const parsed = JSON.parse(line);
-      const fields = parsed.fields || {};
-      const level = String(
-        parsed.level || parsed.severity || parsed.severity_text || "info"
-      ).toLowerCase();
-      // master_log_record.v1 keeps the generic text in `message` ("runtime event")
-      // and the specific thing that happened in `event` / `operation`.
-      const headline = fields.event || parsed.operation || parsed.reason
-        || fields.message || parsed.message || parsed.msg || line;
-      const source = unwrapLogComponent(parsed.component)
-        || unwrapLogComponent(fields.component)
-        || parsed.target || parsed.source || parsed.logger || "runtime";
-      return {
-        seq: parsed.sequence ?? fields.sequence ?? index,
-        time: parsed.timestamp || parsed.time || parsed.ts || "",
-        level,
-        source,
-        message: String(headline),
-        polisId: fields.polis_id || parsed.polis_id || "",
-        raw: line
-      };
-    } catch (_error) {
-      // Not JSON — surface the raw line rather than dropping it.
-      return { seq: index, time: "", level: "info", source: "runtime", message: line, polisId: "", raw: line };
-    }
-  });
-}
 
 function runtimeLogTone(level = "") {
   const value = String(level).toLowerCase();
@@ -2174,10 +2124,9 @@ function renderRuntimeLogs() {
   if (!runtimeLogEntries.length) {
     renderRows("logs-list", [`
       <li class="logs-empty">
-        <strong>No runtime log is being served.</strong>
-        <p class="row-detail">The runtime writes a durable JSONL log but does not expose it over HTTP.
-        Serve it next to this page as <code>runtime-log.jsonl</code> — a symlink to the runtime's
-        <code>observability/durable/master.log.jsonl</code> is enough — and it will appear here.</p>
+        <strong>No publishable events yet.</strong>
+        <p class="row-detail">Waiting for the selected polis's bounded Observatory event feed.
+        Durable operator logs are intentionally not exposed by this public client.</p>
       </li>
     `]);
     return;
@@ -2195,7 +2144,7 @@ function renderRuntimeLogs() {
       : String(entry.seq);
     const timeLabel = stamp === "Invalid Date" ? String(entry.seq) : stamp;
     return `
-    <li class="logs-row" data-state="${escapeHtml(tone)}" title="${escapeHtml(entry.raw)}">
+    <li class="logs-row" data-state="${escapeHtml(tone)}">
       <span class="logs-time">${escapeHtml(timeLabel)}</span>
       <span class="logs-level" data-state="${escapeHtml(tone)}">${escapeHtml(entry.level.toUpperCase())}</span>
       <span class="logs-source">${escapeHtml(entry.source)}</span>
@@ -2209,50 +2158,10 @@ function renderRuntimeLogs() {
   }
 }
 
-async function refreshRuntimeLogs() {
-  // Only poll while the Logs surface is on screen. The master log runs to many
-  // megabytes and re-fetching it every few seconds in the background is pure
-  // waste when nobody is looking at it.
-  const surface = document.querySelector(".observatory")?.dataset.dashboardSurface;
-  if (surface !== "logs" && runtimeLogEntries.length) return;
-
-  try {
-    // Ask for the tail only. Servers without range support answer 200 with the
-    // whole body, which still parses correctly.
-    const response = await fetch(`${RUNTIME_LOG_PATH}?t=${Date.now()}`, {
-      cache: "no-store",
-      headers: { Range: `bytes=-${RUNTIME_LOG_TAIL_BYTES}` }
-    });
-    if (!response.ok && response.status !== 206) throw new Error(`log fetch failed: ${response.status}`);
-    let text = await response.text();
-    // A ranged read almost certainly starts mid-line; drop the partial first line.
-    if (response.status === 206 && !text.startsWith("{")) {
-      text = text.slice(text.indexOf("\n") + 1);
-    }
-    // Without range support the whole file arrives each time. Back the poll off
-    // for large logs so repeated multi-megabyte reads cannot starve the
-    // WebSocket feed sharing the same connection pool.
-    if (response.status !== 206 && text.length > 2_000_000) {
-      runtimeLogPollMillis = Math.min(30_000, Math.max(RUNTIME_LOG_POLL_MILLIS, Math.round(text.length / 500_000) * 5_000));
-      restartRuntimeLogTimer();
-    }
-    runtimeLogEntries = parseRuntimeLogJsonl(text);
-    // The runtime stamps its polis_id on health heartbeats. Until the observatory
-    // feed carries polis_identity, this is the only authoritative name available.
-    const named = runtimeLogEntries.findLast?.((entry) => entry.polisId)
-      || [...runtimeLogEntries].reverse().find((entry) => entry.polisId);
-    if (named?.polisId) applyPolisIdentityLabel({ polis_id: named.polisId });
-  } catch (_error) {
-    runtimeLogEntries = [];
-  }
-  renderRuntimeLogs();
-}
-
 function bindRuntimeLogs() {
   if (typeof document === "undefined") return;
   document.getElementById("logs-filter")?.addEventListener("input", renderRuntimeLogs);
-  refreshRuntimeLogs();
-  restartRuntimeLogTimer();
+  renderRuntimeLogs();
 }
 
 // Relabel the active polis entry from a runtime-published identity, if any.
@@ -2638,6 +2547,8 @@ function selectInspectorAgent(agentId) {
 let lastAgentPopulation = [];
 
 function resetPolisScopedProjectionState() {
+  polisConnectionGeneration += 1;
+  lastResolvedPublicBaseUrl = "";
   lastKnownComponentEntries = [];
   lastAgentPopulation = [];
   lastPanopticonSnapshot = null;
@@ -2658,6 +2569,19 @@ function resetPolisScopedProjectionState() {
     lastResyncReason: null
   });
   publishRosterCursorState();
+  if (typeof document !== "undefined") {
+    setText("statusbar-source", "Connecting to selected polis…");
+    setText("hero-agent-count", "—");
+    setText("hero-event-count", "—");
+    setText("component-health-count", "awaiting feed");
+    renderRows("hero-agent-map", [`<article class="hero-agent-node" data-state="pending"><strong>Connecting</strong><p class="row-detail">Waiting for the selected polis.</p></article>`]);
+    renderRows("component-grid", [`<p class="row-detail">Waiting for the selected polis.</p>`]);
+    renderRows("trace-list", [`<li class="trace-row"><span class="row-detail">Waiting for the selected polis.</span></li>`]);
+    renderRows("hero-event-stream", [`<li class="trace-row"><span class="row-detail">Waiting for the selected polis.</span></li>`]);
+    renderRows("infra-endpoint-list", [infraRow("Domain", "connecting", "Waiting for the selected polis.", "quiet")]);
+    renderRows("infra-ssm-list", [infraRow("Systems Manager", "not selected", "Waiting for the selected polis.", "quiet")]);
+    renderRuntimeLogs();
+  }
   return {
     agents: lastAgentPopulation.length,
     components: lastKnownComponentEntries.length,
@@ -2852,7 +2776,7 @@ function infraRow(label, value, detail, tone = "active") {
     </article>`;
 }
 
-async function renderInfraEndpoint(publicBaseUrl) {
+async function renderInfraEndpoint(publicBaseUrl, generation = polisConnectionGeneration) {
   let host = "";
   try { host = new URL(publicBaseUrl).hostname; } catch (_error) { host = ""; }
   if (!host) {
@@ -2869,6 +2793,7 @@ async function renderInfraEndpoint(publicBaseUrl) {
     );
     if (!response.ok) throw new Error(String(response.status));
     const answers = asArray((await response.json()).Answer);
+    if (generation !== polisConnectionGeneration) return;
     const aRecord = answers.find((entry) => entry.type === 1);
     const cname = answers.find((entry) => entry.type === 5);
     if (aRecord) {
@@ -2883,13 +2808,14 @@ async function renderInfraEndpoint(publicBaseUrl) {
       setText("infra-endpoint-status", "unresolved");
     }
   } catch (_error) {
+    if (generation !== polisConnectionGeneration) return;
     rows.push(infraRow("External IP", "lookup unavailable", "DNS-over-HTTPS lookup could not be completed.", "degraded"));
     setText("infra-endpoint-status", "unresolved");
   }
-  renderRows("infra-endpoint-list", rows);
+  if (generation === polisConnectionGeneration) renderRows("infra-endpoint-list", rows);
 }
 
-async function renderInfraSsm() {
+async function renderInfraSsm(generation = polisConnectionGeneration) {
   try {
     const response = await fetch(INFRA_SSM_REF, { cache: "no-store" });
     if (!response.ok) throw new Error(String(response.status));
@@ -2908,6 +2834,7 @@ async function renderInfraSsm() {
       ? "age unknown"
       : ageDays === 0 ? "captured today" : `captured ${ageDays} day${ageDays === 1 ? "" : "s"} ago`;
 
+    if (generation !== polisConnectionGeneration) return;
     setText("infra-ssm-status", `retained · ${ageLabel}`);
     renderRows("infra-ssm-list", [
       infraRow(
@@ -2925,6 +2852,7 @@ async function renderInfraSsm() {
       )
     ]);
   } catch (_error) {
+    if (generation !== polisConnectionGeneration) return;
     setText("infra-ssm-status", "unavailable");
     renderRows("infra-ssm-list", [
       infraRow("Systems Manager", "no retained proof", "The SSM summary artifact could not be loaded from this server root.", "degraded")
@@ -2934,8 +2862,9 @@ async function renderInfraSsm() {
 
 function bindInfraSurface(publicBaseUrl) {
   if (typeof document === "undefined") return;
-  renderInfraEndpoint(publicBaseUrl);
-  renderInfraSsm();
+  const generation = polisConnectionGeneration;
+  renderInfraEndpoint(publicBaseUrl, generation);
+  renderInfraSsm(generation);
 }
 
 function retainedLargePolisWindow(rows = [], limit = LARGE_POLIS_LIMITS.maxTranscriptTurns) {
@@ -3569,6 +3498,14 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   // Normalize the whole tail first, collapse repeated runs, then take the last rows —
   // otherwise a burst of identical heartbeats fills the panel with duplicates.
   const normalizedEvents = vm.eventGroups || [];
+  runtimeLogEntries = normalizedEvents.slice(-RUNTIME_LOG_MAX_LINES).map((row, index) => ({
+    seq: row.tick || index + 1,
+    time: row.time || "",
+    level: stateTone(row.state) === "failed" ? "error" : stateTone(row.state) === "degraded" ? "warn" : "info",
+    source: row.source || "runtime",
+    message: row.name || "event"
+  }));
+  renderRuntimeLogs();
   const heroEventRows = normalizedEvents.length ? normalizedEvents.slice(-8).map((row) => {
     const severity = stateTone(row.state) === "failed" ? "ERROR" : stateTone(row.state) === "degraded" ? "WARN" : "INFO";
     const repeatBadge = row.repeatCount > 1

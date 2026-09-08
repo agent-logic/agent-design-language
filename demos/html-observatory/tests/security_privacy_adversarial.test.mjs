@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 
 const testUrl = new URL(import.meta.url);
-const repoRoot = new URL("../../../", testUrl);
 
 const [html, app] = await Promise.all([
   readFile(new URL("../index.html", testUrl), "utf8"),
@@ -307,23 +306,8 @@ assert.deepEqual(sent, [{
 }]);
 assert.throws(() => authenticateRuntimeV3ObservatorySocket({ readyState: WebSocket.OPEN, send() {} }, ""));
 
-const evidenceDir = new URL(".csdlc/evidence/281/", repoRoot);
-await mkdir(evidenceDir, { recursive: true });
-await writeFile(new URL("security_privacy_adversarial.json", evidenceDir), JSON.stringify({
-  schema: "adl.observatory.security_privacy_adversarial_proof.v1",
-  issue: 281,
-  source: "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-  proof: [
-    "xss_fixture_text_only",
-    "credential_token_redaction",
-    "trusted_https_origin_only",
-    "replay_confused_deputy_stale_denial_fail_closed",
-    "operator_attention_no_authority_grant"
-  ],
-  public_safe: true,
-  contains_secrets: false,
-  contains_private_cognition: false,
-  contains_raw_provider_payloads: false
-}, null, 2));
+assert.doesNotMatch(app, /runtime-log\.jsonl|master\.log\.jsonl/);
+assert.match(app, /public Logs surface is derived only from the selected polis/);
+assert.match(app, /polisConnectionGeneration/);
 
 console.log("WP-18C.07c Observatory security/privacy/adversarial proof: PASS");

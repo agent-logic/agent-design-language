@@ -1,0 +1,34 @@
+WP-18C.07a Observatory accessibility/responsive proof: PASS
+✔ demos/html-observatory/tests/accessibility_responsive.test.mjs (69.113833ms)
+agent continuity observatory projection: PASS
+✔ demos/html-observatory/tests/agent_continuity.test.mjs (65.091833ms)
+✔ issue 708 orientation source and Observatory surface are present (2.69625ms)
+✔ Observatory preserves exact per-agent orientation provenance (5.132375ms)
+✔ initiation leg is A2A, named end-to-end, and shows the message actually sent (0.851708ms)
+✔ a2a-work reply leg is A2A without asserting an unnamed counterpart (0.067708ms)
+✔ an initiation payload with the wrong schema is not trusted as A2A (0.048584ms)
+✔ an ordinary operator turn is never labelled A2A (0.045625ms)
+✔ an id absent from the roster falls back to the raw id, not a guess (0.044875ms)
+✔ turns are ordered by accepted_sequence, not object key order (0.644834ms)
+✔ long turns are truncated for the activity row (0.079208ms)
+✔ history replayed on first load is not stamped with a live clock time (3.93525ms)
+✔ A2A rows are visually distinguished in the stylesheet (0.547791ms)
+WP-18C.01 Observatory conversation contract: PASS
+✔ demos/html-observatory/tests/conversation_sessions.test.mjs (71.374042ms)
+WP-18C.07b large-Polis performance/recovery proof: PASS
+✔ demos/html-observatory/tests/large_polis_performance_recovery.test.mjs (146.569708ms)
+WP-18C.06 Observatory operator attention inbox: PASS
+✔ demos/html-observatory/tests/operator_attention_inbox.test.mjs (76.729541ms)
+✔ polis identity projection accepts only feed-owned canonical values (1.446417ms)
+✔ HTML has no hard-coded production Polis fallback (3.358542ms)
+✔ v3 snapshot requires explicit Polis identity and rejects legacy schemas (1.09275ms)
+WP-18C.07c Observatory security/privacy/adversarial proof: PASS
+✔ demos/html-observatory/tests/security_privacy_adversarial.test.mjs (96.28875ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 155.757292

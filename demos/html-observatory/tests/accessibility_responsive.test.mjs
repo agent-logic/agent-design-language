@@ -71,6 +71,8 @@ assert.match(app, /event\.key === "ArrowLeft"/, "Inspector tabs need left-arrow 
 assert.match(app, /event\.key === "Home"/, "Inspector tabs need Home navigation");
 assert.match(app, /event\.key === "End"/, "Inspector tabs need End navigation");
 assert.match(app, /candidate\.tabIndex = on \? 0 : -1/, "Inspector tabs need roving tabindex");
+assert.match(app, /hashchange/, "URL hash navigation must update the visible surface");
+assert.match(app, /keyFromHash/, "initial navigation must honor the requested surface hash");
 
 assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/, "reduced-motion users need explicit static behavior");
 assert.match(css, /scroll-behavior:\s*auto/, "reduced-motion mode must disable smooth scrolling");

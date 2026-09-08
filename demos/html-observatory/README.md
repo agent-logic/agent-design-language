@@ -104,9 +104,9 @@ python3 -m http.server 8000
 Serving the demo folder directly returns 404 for every retained artifact, which
 degrades Infrastructure, the published mirror and the operator report.
 
-The Logs surface reads `runtime-log.jsonl` served alongside the page. Point it
-at the runtime's durable `observability/durable/master.log.jsonl` (a symlink is
-sufficient); it is gitignored deliberately, as the file runs to many megabytes.
+The Logs surface is a bounded projection of the selected polis's public
+Observatory event feed. The browser never fetches or publishes the Runtime's
+durable master log; that operator-only artifact remains outside the static site.
 
 ## Run
 

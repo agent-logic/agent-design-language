@@ -1,0 +1,127 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 512,
+  "expected_generation": 0,
+  "expected_digest": "3ccb1e66960aecbbea335e877389dd4ce907f328cd7726ec962b78061305c716",
+  "actor": "codex:issue-512-observatory-redesign",
+  "summary": "Implemented the Runtime v3 Observatory redesign with live polis switching, a responsive Panopticon and agent directory, chronological conversation and A2A activity, operator-access controls, recovery states, and exact per-agent orientation provenance.",
+  "changes": [
+    "Reworked the Observatory information architecture, responsive styling, navigation, event stream, Panopticon, agent directory, inspector, and chat surfaces.",
+    "Added Runtime v3 polis switching with polis-scoped token, roster, conversation, inspector, event, and component state isolation.",
+    "Added accessible inspector tab semantics and keyboard navigation while preserving existing Runtime v3 orientation and Layer 8 projections.",
+    "Added focused JavaScript tests for accessibility, responsive behavior, continuity, orientation, A2A activity, conversation sessions, recovery, operator attention, polis identity, and security/privacy boundaries."
+  ],
+  "artifacts": [
+    ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+    "adl/tools/test_html_observatory.sh",
+    "demos/html-observatory/README.md",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/runtime-v3.config.json",
+    "demos/html-observatory/styles.css",
+    "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+    "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+    "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "observatory-node-suite",
+          "proof_role": "Prove the redesigned Observatory behavior, security boundaries, continuity, orientation, accessibility, recovery, and activity projections.",
+          "purpose": "Issue 512 complete Observatory JavaScript suite",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 400},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "observatory",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 180,
+          "executable": "node",
+          "argv": ["--test", "demos/html-observatory/tests/accessibility_responsive.test.mjs", "demos/html-observatory/tests/agent_continuity.test.mjs", "demos/html-observatory/tests/agent_orientation.test.mjs", "demos/html-observatory/tests/agent_to_agent_activity.test.mjs", "demos/html-observatory/tests/conversation_sessions.test.mjs", "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs", "demos/html-observatory/tests/operator_attention_inbox.test.mjs", "demos/html-observatory/tests/polis_identity.test.mjs", "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"],
+          "evidence": {"max_log_bytes": 131072, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "observatory-runtime-v3-contract",
+          "proof_role": "Prove the Runtime v3 feed, signed-command, and roster projection contract used by the redesigned client.",
+          "purpose": "Issue 512 Runtime v3 Observatory contract",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 200},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["observatory-node-suite"],
+          "parallel_group": "observatory",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 180,
+          "executable": "bash",
+          "argv": ["adl/tools/test_html_observatory.sh"],
+          "evidence": {"max_log_bytes": 131072, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "observatory-transcript-history",
+          "proof_role": "Prove production transcript reload and bounded replay behavior remains intact.",
+          "purpose": "Issue 512 transcript history compatibility",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 100},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["observatory-runtime-v3-contract"],
+          "parallel_group": "observatory",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "node",
+          "argv": ["adl/tools/validate_v092_observatory_transcript_history.mjs"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "observatory-layer8-authority",
+          "proof_role": "Prove Layer 8 terminal states, recovery, keyboard live-region behavior, and non-disclosure remain correctly projected.",
+          "purpose": "Issue 512 Layer 8 Observatory compatibility",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 100},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["observatory-transcript-history"],
+          "parallel_group": "observatory",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "bash",
+          "argv": ["adl/tools/validate_layer8_authority_observatory_ui.sh"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "diff-hygiene",
+          "proof_role": "Prove whitespace hygiene across the exact issue diff against current main.",
+          "purpose": "Issue 512 exact-range diff hygiene",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 50},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["observatory-layer8-authority"],
+          "parallel_group": "hygiene",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "git",
+          "argv": ["diff", "--check", "origin/main...HEAD"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["observatory-node-suite", "observatory-runtime-v3-contract", "observatory-transcript-history", "observatory-layer8-authority", "diff-hygiene"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 1, "cpu_units": 1, "memory_mib": 512, "tokens": 850},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation/.csdlc/evidence/512",
+    "cancellation_file": null
+  }
+}
