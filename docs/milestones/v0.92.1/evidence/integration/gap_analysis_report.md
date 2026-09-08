@@ -2,14 +2,20 @@
 
 Candidate: `b8e1b4483b1c345e42ec7817bfde8214469867bb`
 
-Captured-input digest: `377400956960742fb7db88d150b73c1888e5679687ca6210608ce51da8ba6f5e`
+Captured-input digest: `0d423a11ea5e84b7daa6b5bbb2e3e4a77ea1b0202fb861e63e14fce93d9e6a92`
+
+Canonical projection digest: `fe865d52ca5562341475cce7c00498a700e886dedd2a6eebfc2806c8048b1b8a`
 
 ## Findings
 
+- **P1 issue-482-not-terminal** — CORP-A / #482 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/482, .csdlc/issues/482/cards/srp.md, .csdlc/issues/482/cards/sor.md. Owner: issue #482. Disposition: open.
+- **P1 issue-505-not-terminal** — V3-F / #505 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/505. Owner: issue #505. Disposition: open.
 - **P1 issue-511-not-terminal** — OBS-A / #511 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/511, .csdlc/issues/511/cards/srp.md, .csdlc/issues/511/cards/sor.md. Owner: issue #511. Disposition: open.
 - **P1 issue-512-not-terminal** — OBS-B / #512 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/512, .csdlc/issues/512/cards/srp.md, .csdlc/issues/512/cards/sor.md. Owner: issue #512. Disposition: open.
-- **P2 issue-84-operator-deferred** — [backlog][Observatory] Complete live Unity Observatory Runtime v3 integration is explicitly routed outside the release gate. Evidence: github:issue-84:track-backlog. Owner: issue #84. Disposition: routed_to_backlog.
-- **P2 issue-251-operator-deferred** — [backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity is explicitly routed outside the release gate. Evidence: github:issue-251:track-backlog. Owner: issue #251. Disposition: routed_to_backlog.
+- **P1 issue-660-not-terminal** — PODCAST-EXPOSURE-REPAIR / #660 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/660, .csdlc/issues/660/cards/srp.md, .csdlc/issues/660/cards/sor.md. Owner: issue #660. Disposition: open.
+- **P1 issue-662-not-terminal** — A2A-INITIATION / #662 lacks reviewed merged ancestral authority. Evidence: https://github.com/agent-logic/agent-design-language/issues/662, .csdlc/issues/662/cards/srp.md, .csdlc/issues/662/cards/sor.md. Owner: issue #662. Disposition: open.
+- **P2 issue-84-operator-deferred** — [backlog][Observatory] Complete live Unity Observatory Runtime v3 integration is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}. Owner: issue #84. Disposition: routed_to_backlog.
+- **P2 issue-251-operator-deferred** — [backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}. Owner: issue #251. Disposition: routed_to_backlog.
 
 ## Denominator
 
@@ -26,7 +32,7 @@ Execution issues: 58; retained predecessors: 36; backlog dispositions: 2; accept
 | POD-STUDIO | #342 | 822c81e9d0ad15e479960de542d419e64c80e1f9 | b381edce8020567c4ac5af03f5df062157f55a16 | ancestor | satisfied |
 | AWS-GPU-SIDECAR | #345 | ae702043682e18783a07234673150e3f1fd692f5 | 663792105abd977b7f9225d981200a8ed5749adb | ancestor | satisfied |
 | WP-01 | #480 | 23856abbc7cde90dd9d1c6467dd6c61aca1bc274 | 001c270beda2b35b60e0be04f3c3bd331a156c48 | ancestor | satisfied |
-| CORP-A | #482 | 2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c | e2c1d1649b0c930a5a1254575a07ef2a4496d48d | ancestor | satisfied |
+| CORP-A | #482 | 2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c | e2c1d1649b0c930a5a1254575a07ef2a4496d48d | ancestor | release_blocker |
 | CORP-B | #483 | a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239 | 4a0b49c0071bacdaab19d6d9eb8c44380beb51be | ancestor | satisfied |
 | AWS-A | #484 | e9fdf5b07bdcbde235511c52c40fb8c626cc95a7 | e5f30c60c68a60d43f51c70b4615065197a34404 | ancestor | satisfied |
 | AWS-B | #485 | 2a5d25239853499b6ac73b37d968d2b97e75a586 | a71d699d52831b32bb68ed9c7c7e837925949de4 | ancestor | satisfied |
@@ -49,7 +55,7 @@ Execution issues: 58; retained predecessors: 36; backlog dispositions: 2; accept
 | V3-C | #502 | ed6f01c1e33b8057142491fca3028641ce5efc74 | 76de907734ab69efe00b5bc0bf24f066002d0131 | ancestor | satisfied |
 | V3-D | #503 | 974abc520454690f0b392162b9ced783e8584017 | 5692d95ee6e4ee632833be348fa5601ddccbca1a | ancestor | satisfied |
 | V3-E | #504 | 9ef650bc174a81849ffb09ae4d21b699fee1368d | f68ca996541b8825090261fd70845bf1c406b410 | ancestor | satisfied |
-| V3-F | #505 | 74ddb31702482172eea4ba3d74700536eab32e49 | d3f98ed005cf44c359ac482e271e6b8634e93f23 | ancestor | satisfied |
+| V3-F | #505 | 74ddb31702482172eea4ba3d74700536eab32e49 | d3f98ed005cf44c359ac482e271e6b8634e93f23 | ancestor | release_blocker |
 | DRT-A | #506 | 4676aef4189376b3f64d17efdb717732274e3240 | badcf9067da6eb46fc9f59e9da8b11a41e2f24f6 | ancestor | satisfied |
 | DRT-B | #507 | cca85d6fd4976e2b2358d0d130b8291a88cb1c95 | d022d6c198669bcbc10cd98bee4d7c8520f9c4d4 | ancestor | satisfied |
 | DRT-C | #508 | cca4f7f675241a0a473b38006c8be2eb95165028 | a1c440cc7b1e3708961680c802585d0b80e2263f | ancestor | satisfied |
@@ -69,17 +75,17 @@ Execution issues: 58; retained predecessors: 36; backlog dispositions: 2; accept
 | CANONICAL-AGENT-NAMES | #617 | 5b53a153ae9720d45a867409b08924459946c27c | c7f01661d00f7eec0e0a2c9266b18064e43d7133 | ancestor | satisfied |
 | RUNTIME-ATOMIC-GENERATION | #656 | 05e93e7173fcde3cb6a55c2dcbde8d2f59742c78 | fef0e4f4657dadca389dc0c3ed315a88a15905f4 | ancestor | satisfied |
 | RUNTIME-CONVERGENCE-DEADLINE | #659 | 30716d4806f350d4fd6aeb6c2e58b4cb9ce9d6f2 | db476f118ab11729d35d47ce20d4b59cc904fc01 | ancestor | satisfied |
-| PODCAST-EXPOSURE-REPAIR | #660 | fdc3356e5777addf067bbdd61a01ee3f1ccbe5e1 | 549f1b6a51ee644a6563c9d02ad63cf49af0d3b6 | ancestor | satisfied |
+| PODCAST-EXPOSURE-REPAIR | #660 | fdc3356e5777addf067bbdd61a01ee3f1ccbe5e1 | 549f1b6a51ee644a6563c9d02ad63cf49af0d3b6 | ancestor | release_blocker |
 | SHEPHERD-PROVIDER-REPLY | #661 | f7211e3bba9d6759d7cae18511e397dd33e8ecee | 5fe80903ac847b08d82aabd0d30ac168b2e0bf70 | ancestor | satisfied |
-| A2A-INITIATION | #662 | f2d09fa64efed868b043809387efe573eee54941 | cea5219f6e74b34d930d0dc39b6a607bc6303acb | ancestor | satisfied |
+| A2A-INITIATION | #662 | f2d09fa64efed868b043809387efe573eee54941 | cea5219f6e74b34d930d0dc39b6a607bc6303acb | ancestor | release_blocker |
 | CSDLC-EMERGENCY-RECOVERY | #665 | 8e3648f0268107e8d842887b623d6972587c8cb5 | 0d6423644e7b1ee77e5729ec86d016203c9732fd | ancestor | satisfied |
 | A2A-ACTION-RELIABILITY | #693 | 1946974be9839a13df6c4736b0f3ea34f0d1debc | 0e460810e5ac78ce655283f35e8167337eb33160 | ancestor | satisfied |
 | POLIS-WELCOME-PACKAGE | #708 | 7b753133251ea8f7d01a6471ede2d40ca39d4813 | 3b3e406119568cc31a4587aa43fb5d94ce54368d | ancestor | satisfied |
 
 ## Backlog and retained authority
 
-- #84: github:issue-84:track-backlog
-- #251: github:issue-251:track-backlog
+- #84: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}
+- #251: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"b8e1b4483b1c345e42ec7817bfde8214469867bb"}
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision

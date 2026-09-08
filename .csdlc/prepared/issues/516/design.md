@@ -38,4 +38,3 @@ material gap has no owner.
 #516 identifies, classifies, and routes gaps. It does not implement child
 repairs, create duplicate issues, approve the release, or turn missing evidence
 into success.
-
