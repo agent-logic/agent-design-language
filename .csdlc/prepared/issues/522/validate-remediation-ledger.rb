@@ -37,41 +37,7 @@ def git_blob(revision, path)
   output
 end
 
-def validate_fixture!(fixture)
-  parsed = fixture.fetch("parsed_source_findings")
-  declared = fixture.fetch("source_findings")
-  fail!("declared source content differs from parsed reviews") unless declared == parsed
-  ids = parsed.map { |row| row.fetch("id") }
-  fail!("source finding IDs are duplicated") unless ids.uniq.length == ids.length
-  fail!("fixture source finding severity/evidence is invalid") unless parsed.all? { |row| %w[P0 P1 P2 P3].include?(row.fetch("severity")) && nonempty?(row.fetch("status")) && nonempty?(row.fetch("evidence")) }
-  fail!("source reviews are not merged exact-head outputs") unless fixture.fetch("source_reviews").all? { |row| row.fetch("merged") == true && row.fetch("reviewed_revision") == row.fetch("candidate_sha") && %w[passed findings].include?(row.fetch("outcome")) }
-  fail!("empty source census requires zero-finding proof") if parsed.empty? && !nonempty?(fixture.fetch("zero_findings_proof"))
-  dispositions = fixture.fetch("dispositions")
-  disposed = dispositions.flat_map { |row| row.fetch("source_finding_ids") }
-  fail!("dispositions do not exactly cover parsed findings") unless disposed.sort == ids.sort && disposed.uniq.length == disposed.length
-  dispositions.select { |row| row.fetch("kind") == "deferred" }.each do |row|
-    fail!("source-defined blocker cannot be deferred") if row.fetch("source_finding_ids").any? { |id| blocking?(parsed.find { |finding| finding.fetch("id") == id }) }
-  end
-  dispositions.select { |row| row.fetch("kind") == "fixed" }.each do |row|
-    fail!("fixed remediation lacks live PR/head/merge/ancestry authority") unless row.fetch("remediation_live_valid") == true && row.fetch("merge_ancestral") == true
-    fail!("fixed remediation evidence is not read from immutable head") unless row.fetch("artifacts_from_head") == true
-    fail!("canonical pass outcome contradicts findings or blockers") unless row.fetch("review_outcome") == "passed" && row.fetch("review_findings") == [] && row.fetch("review_blockers") == []
-  end
-  fixture.fetch("evidence").each do |row|
-    fail!("evidence is not passing or exact-head bound") unless row.fetch("digest_valid") == true && row.fetch("outcome") == "passed" && row.fetch("evidence_sha") == row.fetch("head_sha")
-  end
-  fail!("release blockers remain") unless fixture.fetch("unresolved_blockers") == []
-end
-
-if ARGV.first == "fixture"
-  fixture = read_json(ARGV.fetch(1))
-  validate_fixture!(fixture)
-  puts JSON.generate(status: "passed", fixture: ARGV[1])
-  exit
-end
-
-root = ENV.fetch("ADL_REMEDIATION_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-06")
-mode = ARGV.fetch(0, "all")
+def validate_packet!(root:, mode: "all")
 fail!("unsupported mode: #{mode}") unless %w[all census dispositions].include?(mode)
 required = %w[source-findings.json dispositions.json release-blockers.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
@@ -216,4 +182,12 @@ paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| paths.include?(File.join(root, name)) }
 fixed_review_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.map { |row| row.fetch("review").fetch("report_path") }
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
-puts JSON.generate(schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length)
+fixed_invocation_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.map { |row| row.fetch("validator_invocation").fetch("receipt_path") }
+fail!("packet manifest omits fixed-disposition validator receipts") unless fixed_invocation_paths.all? { |path| paths.include?(path) }
+  {schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length}
+end
+
+if __FILE__ == $PROGRAM_NAME
+  root = ENV.fetch("ADL_REMEDIATION_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-06")
+  puts JSON.generate(validate_packet!(root: root, mode: ARGV.fetch(0, "all")))
+end
