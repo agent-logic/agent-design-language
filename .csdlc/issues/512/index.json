@@ -4,13 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
-  "phase": "implemented",
-  "generation": 1,
-  "digest": "d3367f42e946ae394cc61de66df0b68482ea0b7924ffa28f9010027d23cfc068",
+  "phase": "reviewed",
+  "generation": 2,
+  "digest": "49438900efc1cea7a5bceac31cc7972d5b125334bf520ec62a27e76c0c6e77db",
   "branch": "codex/512-observatory-redesign-implementation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:issue-512-final-exact-head-review",
+    "assigned_by": "codex:issue-512-observatory-redesign",
+    "revision": "git-blake3:f431621f9dd246a918f295020cd53e3c3e265a9c:840185af0c48ad1f36bfd92b7396269c824961a77177fcf478deb838edaca74d",
+    "scope": [
+      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      "adl/tools/test_html_observatory.sh",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:issue-512-final-exact-head-review",
+    "scope": [
+      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      "adl/tools/test_html_observatory.sh",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+    ],
+    "reviewed_revision": "git-blake3:f431621f9dd246a918f295020cd53e3c3e265a9c:840185af0c48ad1f36bfd92b7396269c824961a77177fcf478deb838edaca74d",
+    "findings": [],
+    "residual_risks": [
+      "Interactive browser automation could not run because the in-app browser trusted RPC dependency failed to resolve; no interactive-browser pass is claimed.",
+      "The v3 mixed-mode doctor shadow is retained as blocked by an output-schema mismatch and remains non-authoritative; v2 lifecycle work remains authoritative for issue 512."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "07f5b0228327f683785fcafa2007d76a09f568f4ac8427a51881b1c793ed1268",
+      "values_digest": "d05d902968a83449793092ab43cfb2abebf4690496ed4bda7185e734a19c9a00",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "5d9be150e428cdcde1594784fa128c413fda5b558a27d64c47462884ecf9af41",
+      "values_digest": "f015d62ae2edc7b6be779c1e77a3ef31cf56f0860d07670c4403252cf2e9c8dd",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "9e52ea703cef69f080e465c7ab70b94cbd575c3f98cd829867d66e97627ea7cd",
+      "values_digest": "3b7a0e77c041e32ec44fac8f852c4d1c4acf4704b3b9023cae8e78ffbfd91f11",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "4c084bfb4d65b5fc433f60273579fbe143254ecd443e4cf3ae4109ab83ba8d58",
+      "values_digest": "600d34cfb6ca81dcd841ead14e15f5c54b1703a4fcbf457065ef2ccd951281ab",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "7a9b27fa2d7b793208199790f747fd25b16aee05530fca3c599a701536f3ef4c",
-      "rendered_digest": "f3bee1055693f67b17a51fd6e9c2653e817add9f3697293670d398cb0fcbef73",
-      "ast_digest": "18689cd0e6509d7d7699ca13a6bb7194d87a4271921bfb08e2829ff9e18a4072"
+      "values_digest": "20ba62b6e83658f51b3c6af6ec2211b6318b45f78b28675f2119b2fde0005c8b",
+      "rendered_digest": "ae6ed141b56111c17cbe275a30f82892f364f8cf855c960ac67475d010377b08",
+      "ast_digest": "2769cdb4f5f40cbd78c939e3066273907703d9bad04c1ac70f1bae54a44bcd07"
     },
     "sor": {
-      "values_digest": "6f209375d2150e36ec77b31f1e459cab3144b51db963cfbde603c6630d31f9e2",
+      "values_digest": "a25bb92ec61e7e158569e85f3e8ef591c70623c761731bf2b3dc8c8bd1f024a8",
       "rendered_digest": "23e130441c590ddb0e50bc793f36c28009cdf2ccc94ba947e29b3b49d5394d93",
       "ast_digest": "5f65ca7217661b51fc580c84fc7e10c38ded708d43b7ecbb60a9675faa7eb3f8"
     }
@@ -76,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:issue-512-observatory-redesign",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-512-final-exact-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -99,6 +146,20 @@
       "actor": "codex:issue-512-observatory-redesign",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-512-final-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
