@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 536,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "276adfdb05c94b9cd3d1ed63980481bd8cd258e1c583921c7d5723457cae5e5b",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/536/design.md",
+  "diagram_path": ".csdlc/prepared/issues/536/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:a5ec631e-35d1-4bf8-94aa-aaba32fddcb2",
+      "revision": "59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "322dd6910569bf8b224f8e95ed1fb6a10379fd86e469584b52272c69d12244c7",
+      "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
+      "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
+    },
+    "stp": {
+      "values_digest": "07cd545f6ea7343e62878a7d38ace6c070b08329d24a8d1f9217108cba24dfef",
+      "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
+      "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
+    },
+    "spp": {
+      "values_digest": "50a8ea56220c574669b1c4180be37b931d34be5783068a356f09d3fb1948fc4f",
+      "rendered_digest": "e4f3de85dea14aadb17b792aa1b885e5ca562a16bccd627e35b1030f35feea4e",
+      "ast_digest": "98d5e9fcd2bdf7f9c12cc516fdd004a2893ed5fbc4a244a842b5a4fb18c95df1"
+    },
+    "vpp": {
+      "values_digest": "4837d147bb3e5402a596f11c2f3792151cb160d28806474f7a51cc2d2747254d",
+      "rendered_digest": "62ea9a4054eaed6d23d478b76e21acf6dc8409c33312bde64126a1e1f66b2453",
+      "ast_digest": "43ed48049618f0924f2d365526a246885fa31bb9932826295a4b3f2134c074ce"
+    },
+    "srp": {
+      "values_digest": "6e3cefb5bce88a73c526776d1b28d4a0f8e3428f755c9c2570420620576921f0",
+      "rendered_digest": "5979ff30b96e42f0dd583718a236f88cb6ff15087c798664b4f6f3d380701603",
+      "ast_digest": "67f48f121a3f884ad8441d84a27261acfda9b809e6db98e259551503eb557d2f"
+    },
+    "sor": {
+      "values_digest": "719aacb56150a68155876c5d162950ae0c8d98673f1b43bab1ac521112120f48",
+      "rendered_digest": "35b4bb0d8f241ad7e79e7901dc218dc9c8e843d16d6669612b06d252a7721ce8",
+      "ast_digest": "3f717976e4a27fbd6dc432694ed4fa6b640a492c85303b4bc5b264fdf58ec431"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:sprint8-closeout",
+      "reason": "Advance #536 after its issue-owned deterministic validation target and approved design pass doctor readiness."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint8-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:a5ec631e-35d1-4bf8-94aa-aaba32fddcb2",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9\",\"design_ref\":\".csdlc/prepared/issues/536/design.md\",\"diagram_digest\":\"8079306bf86fe585ac4b92901f08f9bc24ed7a3c84303f5eafa3f2c06664bb1a\",\"diagram_ref\":\".csdlc/prepared/issues/536/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Declare the issue-owned deterministic validator already selected by the VPP.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/536\",\".csdlc/prepared/issues/536\",\".csdlc/evidence/536\",\"adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py\",\".csdlc/prepared/issues/536/validate-sprint-readiness.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Advance #536 after its issue-owned deterministic validation target and approved design pass doctor readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

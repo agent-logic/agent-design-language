@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.edit.request.v1",
+  "issue": 536,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "382c337680ff30a856cd5a05cc8cee34fb18f6ae72adea2aca507ccac29a3e74",
+  "actor": "codex:sprint8-closeout",
+  "reason": "Declare the issue-owned deterministic validator already selected by the VPP.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/536",
+      ".csdlc/prepared/issues/536",
+      ".csdlc/evidence/536",
+      "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
+      ".csdlc/prepared/issues/536/validate-sprint-readiness.rb"
+    ]
+  }
+}
