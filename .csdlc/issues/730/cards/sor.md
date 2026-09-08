@@ -138,7 +138,7 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
