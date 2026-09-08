@@ -1,0 +1,10 @@
+{
+  "version": 4,
+  "terraform_version": "1.15.3",
+  "serial": 4,
+  "lineage": "9e8f7e55-7925-40a7-3875-c924b3fd2790",
+  "resources": [
+    "google_storage_bucket",
+    "google_storage_bucket_iam_member"
+  ]
+}

@@ -8,7 +8,10 @@ This runbook starts the recoverable Terraform backend for ADL in the company GCP
 - Region/location: `us-west2`
 - Bootstrap service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`
 - Default Terraform auth mode: short-lived impersonation from an approved
-  company human or federated source identity.
+  company human or federated source identity. The governed #730 scripts mint a
+  short-lived impersonated OAuth access token with `gcloud` and pass that token
+  to Terraform for provider and backend operations, avoiding static keys and
+  avoiding Terraform's stale user-credential reauth path.
 
 Do not create, select, require, paste, print, commit, or retain a
 service-account key. Historical static-key bootstrap evidence is retired
@@ -46,7 +49,9 @@ gcloud auth print-access-token \
 The repo-local Cloud SDK config mirrors the #491/#608 proof pattern: credential
 cache/log writes stay under Git common storage and are not committed. The
 selected identity still must be an approved company human or federated source
-identity with Token Creator on the bootstrap service account.
+identity with Token Creator on the bootstrap service account. If Terraform
+reports `invalid_rapt`, do not fall back to a static key; use the governed
+short-lived token handoff in the #730 scripts.
 
 ## Bootstrap apply under #730 authorization
 

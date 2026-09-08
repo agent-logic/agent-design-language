@@ -159,6 +159,17 @@ Fixed the pre-PR review finding that repo-local Cloud SDK isolation was only a f
     "purpose": "Regression probe for the pre-PR review finding: an ambient external CLOUDSDK_CONFIG must not bypass the issue-owned Git-common Cloud SDK config isolation.",
     "outcome": "blocked",
     "evidence_ref": "command failed closed before cloud mutation with exact authorization artifact required; scripts now force CLOUDSDK_CONFIG to Git-common gcloud-config before gcloud use"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+      "--authorization",
+      ".git/csdlc-v2/authorizations/730.json"
+    ],
+    "purpose": "Authorized GCP-B1 live proof for the issue-owned Terraform state bucket: create bucket and IAM member from the reviewed saved plan, migrate bootstrap state into GCS, pull backend state from a clean probe, verify bucket/IAM posture, and prove versioned canary recovery.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/730/live-proof.redacted.json; .csdlc/evidence/730/backend-state-pull.redacted.json; .csdlc/evidence/730/gcp-b1-readback.json; .csdlc/evidence/730/gcp-b1-iam-policy.json; .csdlc/evidence/730/recovery/canary.recovered.txt"
   }
 ]
 

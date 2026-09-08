@@ -135,9 +135,10 @@ rm -rf "$tf_data_dir"
 rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
 trap cleanup EXIT
 
-gcloud auth print-access-token \
+terraform_access_token="$(gcloud auth print-access-token \
   --impersonate-service-account="$service_account" \
-  --project="$project_id" >/dev/null
+  --project="$project_id")"
+export GOOGLE_OAUTH_ACCESS_TOKEN="$terraform_access_token"
 
 [[ -f "$plan_path" ]] || fail "reviewed saved plan is missing"
 actual_plan_sha="$(sha256_file "$plan_path")"
@@ -168,7 +169,15 @@ subprocess.run(
 PY
 rm -f "$plan_path"
 
-cp infra/gcp/bootstrap/backend.tf.example "$generated_backend"
+cat > "$generated_backend" <<EOF
+terraform {
+  backend "gcs" {
+    bucket       = "$bucket"
+    prefix       = "bootstrap"
+    access_token = "$terraform_access_token"
+  }
+}
+EOF
 TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap init -migrate-state -force-copy -input=false >/dev/null
 rm -f "$generated_backend"
 rm -rf "$tf_data_dir"
@@ -177,9 +186,9 @@ mkdir -p "$backend_probe_dir"
 cat > "$backend_probe_dir/backend.tf" <<EOF
 terraform {
   backend "gcs" {
-    bucket                      = "$bucket"
-    prefix                      = "bootstrap"
-    impersonate_service_account = "$service_account"
+    bucket       = "$bucket"
+    prefix       = "bootstrap"
+    access_token = "$terraform_access_token"
   }
 }
 EOF
@@ -206,10 +215,10 @@ gcloud storage buckets get-iam-policy "gs://$bucket" \
 jq -e '
   .name == "adl-tf-state-cs-host-377d41e71a824f92802120"
   and .location == "US-WEST2"
-  and .iamConfiguration.uniformBucketLevelAccess.enabled == true
-  and .iamConfiguration.publicAccessPrevention == "enforced"
-  and .versioning.enabled == true
-  and (.softDeletePolicy.retentionDurationSeconds | tostring) == "604800"
+  and .uniform_bucket_level_access == true
+  and .public_access_prevention == "enforced"
+  and .versioning_enabled == true
+  and (.soft_delete_policy.retentionDurationSeconds | tostring) == "604800"
 ' "$readback_json" >/dev/null
 jq -e '
   [

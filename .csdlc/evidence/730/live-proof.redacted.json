@@ -1,0 +1,11 @@
+{
+  "schema": "adl.gcp_b1.live_proof.v1",
+  "issue": 730,
+  "project_id": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "bucket": "adl-tf-state-cs-host-377d41e71a824f92802120",
+  "plan_sha256": "f34d0bc7d17110d8ca969eaf7a866b639ea20cf973cba20669465eea5457abf9",
+  "public_members_absent": true,
+  "canary_generation": "1788860402478136",
+  "canary_sha256": "57b630ed224dc65d8eb460b9d076f25fa429e385de585595ab711fba32d3d2b3"
+}

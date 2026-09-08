@@ -9,8 +9,9 @@ Bootstrap service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gser
 Issue #730 replaces the historical static-key bootstrap with short-lived
 service-account impersonation. Terraform must authenticate from an approved
 company human or federated source identity and the Google provider must
-impersonate the bootstrap service account directly. Do not configure a
-service-account key file as the runnable default.
+operate as the bootstrap service account through a short-lived impersonated
+OAuth access token minted by `gcloud`. Do not configure a service-account key
+file as the runnable default.
 
 ```sh
 bash .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh

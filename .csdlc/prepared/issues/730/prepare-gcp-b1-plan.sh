@@ -41,9 +41,10 @@ trap 'rm -rf "$tf_data_dir"' EXIT
 
 bash .csdlc/prepared/issues/730/validate-gcp-b1.sh --lane=static
 
-gcloud auth print-access-token \
+terraform_access_token="$(gcloud auth print-access-token \
   --impersonate-service-account="$service_account" \
-  --project="$project_id" >/dev/null
+  --project="$project_id")"
+export GOOGLE_OAUTH_ACCESS_TOKEN="$terraform_access_token"
 
 rm -f "$plan_path"
 TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap init -backend=false -input=false >/dev/null

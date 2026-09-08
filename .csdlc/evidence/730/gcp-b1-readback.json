@@ -1,0 +1,25 @@
+{
+  "creation_time": "2026-09-08T09:34:04+0000",
+  "default_storage_class": "STANDARD",
+  "generation": 1788860044188904500,
+  "labels": {
+    "app": "adl",
+    "goog-terraform-provisioned": "true",
+    "issue": "730",
+    "lane": "gcp-b1",
+    "milestone": "v0-92-1"
+  },
+  "location": "US-WEST2",
+  "location_type": "region",
+  "metageneration": 2,
+  "name": "adl-tf-state-cs-host-377d41e71a824f92802120",
+  "public_access_prevention": "enforced",
+  "soft_delete_policy": {
+    "effectiveTime": "2026-09-08T09:34:04.395000+00:00",
+    "retentionDurationSeconds": "604800"
+  },
+  "storage_url": "gs://adl-tf-state-cs-host-377d41e71a824f92802120/",
+  "uniform_bucket_level_access": true,
+  "update_time": "2026-09-08T09:34:06+0000",
+  "versioning_enabled": true
+}
