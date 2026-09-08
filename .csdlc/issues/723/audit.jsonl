@@ -56,3 +56,7 @@
 {"sequence":56,"generation":38,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":57,"generation":39,"actor":"codex-agent","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":58,"generation":40,"actor":"codex-agent","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":59,"generation":41,"actor":"codex-agent","reason":"Recover stale review after matching the exact construction readiness observation shape","operation":"recover_review"}
+{"sequence":60,"generation":41,"actor":"codex-agent","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":61,"generation":42,"actor":"codex-agent","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":62,"generation":43,"actor":"codex-agent","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
