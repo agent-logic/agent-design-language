@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 512,
+  "expected_generation": 2,
+  "expected_digest": "49438900efc1cea7a5bceac31cc7972d5b125334bf520ec62a27e76c0c6e77db",
+  "actor": "codex:issue-512-observatory-redesign",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/512-observatory-redesign-implementation",
+  "title": "[v0.92.1][OBS-B] Implement the redesigned Observatory",
+  "body": "Closes #512\n\n## Summary\n\n- Implements the redesigned Runtime v3 Observatory with multi-polis selection, hash-addressable views, responsive layout, and accessible inspector navigation.\n- Keeps polis-scoped state isolated across endpoint switches and prevents stale asynchronous results from rendering into a newly selected polis.\n- Removes browser exposure of durable master logs; the Logs view is derived from the bounded selected-polis Observatory event projection.\n- Preserves Runtime orientation-package visibility and documents the local/public deployment configuration.\n\n## Validation\n\n- `node --check demos/html-observatory/app.js` — passed.\n- `node --test demos/html-observatory/tests/*.test.mjs` — passed, 20/20.\n- `bash adl/tools/test_html_observatory.sh` — passed.\n- `node adl/tools/validate_v092_observatory_transcript_history.mjs` — passed.\n- `bash adl/tools/validate_layer8_authority_observatory_ui.sh` — passed, 8/8.\n- `git diff --check` — passed.\n- Live Runtime v3 readiness endpoint reported ready/running with no degraded reasons.\n\n## Review\n\n- Independent exact-head review passed with no P0-P3 findings at `f431621f9dd246a918f295020cd53e3c3e265a9c`.\n- Interactive browser automation was unavailable because its trusted RPC dependency failed to resolve; no automated interactive-browser pass is claimed. The operator has separately inspected the running site.\n\n## Mixed-mode shadow\n\n- Typed v2 remains authoritative for this issue.\n- A v3 doctor shadow was attempted and retained as non-authoritative evidence; it is blocked by a v3 shadow-normalizer/output-schema mismatch and did not perform provider side effects.\n",
+  "linkage_mode": "closing",
+  "draft": false,
+  "remote": "origin",
+  "token_file": "/Users/daniel/keys/github.token"
+}
