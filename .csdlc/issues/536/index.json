@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 536,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
-  "phase": "ready",
-  "generation": 3,
-  "digest": "276adfdb05c94b9cd3d1ed63980481bd8cd258e1c583921c7d5723457cae5e5b",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "f64ffe6ab39637bc19acb4bbdb40e1c40a6c4cce2c4c0865fca9508f58e658cb",
+  "branch": "codex/536-sprint8-closeout",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "322dd6910569bf8b224f8e95ed1fb6a10379fd86e469584b52272c69d12244c7",
+      "values_digest": "b3fab84a33c35d9a65d2c6da38479a6724048e1e3bee97a7364bf76327d55c91",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "07cd545f6ea7343e62878a7d38ace6c070b08329d24a8d1f9217108cba24dfef",
+      "values_digest": "f186e558aaf2ae5aa085755fa2e8b89b3afd5f36868ea56b7122683ed6b86bc3",
       "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
       "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
     },
     "spp": {
-      "values_digest": "50a8ea56220c574669b1c4180be37b931d34be5783068a356f09d3fb1948fc4f",
-      "rendered_digest": "e4f3de85dea14aadb17b792aa1b885e5ca562a16bccd627e35b1030f35feea4e",
-      "ast_digest": "98d5e9fcd2bdf7f9c12cc516fdd004a2893ed5fbc4a244a842b5a4fb18c95df1"
+      "values_digest": "e08bfc97abf5ec96e722ebe2a350e1e487e7095ac107da7c9bb4593bbad8ec57",
+      "rendered_digest": "bda1406af101871095a7782b16c0e78a94ecfe02b1b7a25e30bd01a33846b86a",
+      "ast_digest": "d8ab373250e52855378ad2f7f6b304f60287aa40f951a2250e9a5c8c2237b98c"
     },
     "vpp": {
-      "values_digest": "4837d147bb3e5402a596f11c2f3792151cb160d28806474f7a51cc2d2747254d",
-      "rendered_digest": "62ea9a4054eaed6d23d478b76e21acf6dc8409c33312bde64126a1e1f66b2453",
-      "ast_digest": "43ed48049618f0924f2d365526a246885fa31bb9932826295a4b3f2134c074ce"
+      "values_digest": "b13c684316f077b13a62c3d34ca977d552531818761e9ee15843ab2f1f971553",
+      "rendered_digest": "bebc327c6a85cddb82fa61c39f7bcd2eaca512861e0157c8ed99c427f5749715",
+      "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "6e3cefb5bce88a73c526776d1b28d4a0f8e3428f755c9c2570420620576921f0",
+      "values_digest": "244c7ed92daea9c011148c434e5957c6394e81e593b4f63fa9acea96d9c3bf71",
       "rendered_digest": "5979ff30b96e42f0dd583718a236f88cb6ff15087c798664b4f6f3d380701603",
       "ast_digest": "67f48f121a3f884ad8441d84a27261acfda9b809e6db98e259551503eb557d2f"
     },
     "sor": {
-      "values_digest": "719aacb56150a68155876c5d162950ae0c8d98673f1b43bab1ac521112120f48",
-      "rendered_digest": "35b4bb0d8f241ad7e79e7901dc218dc9c8e843d16d6669612b06d252a7721ce8",
-      "ast_digest": "3f717976e4a27fbd6dc432694ed4fa6b640a492c85303b4bc5b264fdf58ec431"
+      "values_digest": "6191eeeef3306fad796561c60c1c775337826d8fa0b94301da55a61bea92a9f3",
+      "rendered_digest": "26a4804d3a51daa6d2faf23665279c122e35405ab27a07e13d05382b851c832e",
+      "ast_digest": "547ccba567bc6cbd6e45ce6e2495a8cff910fe0e94f05db795c9a2d0c36d94c8"
     }
   },
   "transitions": [
@@ -61,6 +62,20 @@
       "to": "ready",
       "actor": "codex:sprint8-closeout",
       "reason": "Advance #536 after its issue-owned deterministic validation target and approved design pass doctor readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:sprint8-closeout",
+      "reason": "{\"actor\":\"codex:sprint8-closeout\",\"base_branch\":\"main\",\"branch\":\"codex/536-sprint8-closeout\",\"code_repository\":\"agent-logic/agent-design-language\",\"expected_digest\":\"276adfdb05c94b9cd3d1ed63980481bd8cd258e1c583921c7d5723457cae5e5b\",\"expected_generation\":3,\"expected_head\":\"7072c91bfca939aa88b1c184754fd766e99472a1\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":536,\"observed_head\":\"7072c91bfca939aa88b1c184754fd766e99472a1\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:sprint8-closeout",
+      "reason": "Aggregate closeout evidence and focused deterministic proof are complete; enter exact-head review."
     }
   ],
   "audit": [
@@ -91,6 +106,48 @@
       "actor": "codex:sprint8-closeout",
       "reason": "Advance #536 after its issue-owned deterministic validation target and approved design pass doctor readiness.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:sprint8-closeout",
+      "reason": "{\"base_branch\":\"main\",\"branch\":\"codex/536-sprint8-closeout\",\"expected_digest\":\"276adfdb05c94b9cd3d1ed63980481bd8cd258e1c583921c7d5723457cae5e5b\",\"expected_generation\":3,\"expected_head\":\"7072c91bfca939aa88b1c184754fd766e99472a1\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"7072c91bfca939aa88b1c184754fd766e99472a1\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Replace obsolete pre-execution readiness proof with the issue-owned aggregate closeout validator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/536\",\".csdlc/prepared/issues/536\",\".csdlc/evidence/536\",\"docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\",\".csdlc/prepared/issues/536/validate-sprint-closeout.rb\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Use a focused closeout proof over retained child dispositions and merge ancestry instead of deleted pre-execution card directories.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"sprint8-closeout\",\"proof_role\":\"Verify exact Sprint 8 membership, explicit no-PR dispositions, residual routing, and ancestry of every merged child before aggregate closeout.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/536/validate-sprint-closeout.rb\"],\"parallel_group\":\"sprint8-docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Record the bounded Sprint 8 aggregate closeout work.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Prepared truthful aggregate Sprint 8 closeout evidence after all eight children reached reviewed terminal outcomes or explicit operator-approved no-PR dispositions.\",\"changes\":[\"Recorded exact child dispositions and merged PR evidence for Sprint 8 membership v5.\",\"Kept remaining podcast public-launch and provider-submission work routed to backlog #671.\",\"Added a focused deterministic closeout validator for membership, dispositions, and merge ancestry.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\",\".csdlc/prepared/issues/536/validate-sprint-closeout.rb\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Record focused aggregate closeout proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/536/validate-sprint-closeout.rb\"],\"purpose\":\"Prove exact membership, no-PR dispositions, #671 residual routing, and ancestry of all six merged child PRs.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:sprint8-closeout",
+      "reason": "Aggregate closeout evidence and focused deterministic proof are complete; enter exact-head review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

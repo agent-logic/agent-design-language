@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/536/diagram.mmd
 
 [
   {
-    "lane": "sprint8-readiness",
-    "proof_role": "Exact membership, dependency graph, child card readiness, operator gates, and coordination-only authority",
+    "lane": "sprint8-closeout",
+    "proof_role": "Verify exact Sprint 8 membership, explicit no-PR dispositions, residual routing, and ancestry of every merged child before aggregate closeout.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -36,11 +36,11 @@ Diagram: .csdlc/prepared/issues/536/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 5000,
+    "budget_seconds": 120,
+    "budget_tokens": 2000,
     "argv": [
       "ruby",
-      ".csdlc/prepared/issues/536/validate-sprint-readiness.rb"
+      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
     ],
     "parallel_group": "sprint8-docs",
     "defer_reason": null
@@ -59,7 +59,7 @@ Tokens: 25000
 
 ## Commands
 
-- `ruby .csdlc/prepared/issues/536/validate-sprint-readiness.rb`
+- `ruby .csdlc/prepared/issues/536/validate-sprint-closeout.rb`
 
 ## Failure Semantics
 

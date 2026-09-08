@@ -7,16 +7,33 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Prepared truthful aggregate Sprint 8 closeout evidence after all eight children reached reviewed terminal outcomes or explicit operator-approved no-PR dispositions.",
+      "actual_changes": [
+        "Recorded exact child dispositions and merged PR evidence for Sprint 8 membership v5.",
+        "Kept remaining podcast public-launch and provider-submission work routed to backlog #671.",
+        "Added a focused deterministic closeout validator for membership, dispositions, and merge ancestry."
+      ],
+      "artifacts": [
+        "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+        ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+          ],
+          "purpose": "Prove exact membership, no-PR dispositions, #671 residual routing, and ancestry of all six merged child PRs.",
+          "outcome": "passed",
+          "evidence_ref": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

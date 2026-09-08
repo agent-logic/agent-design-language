@@ -1,0 +1,19 @@
+{
+  "issue": 536,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "f3397dcc0bfec650d5467d1ecb136a0ab4091bcb5d969771e4ffd75b5f4c3616",
+  "actor": "codex:sprint8-closeout",
+  "reason": "Replace obsolete pre-execution readiness proof with the issue-owned aggregate closeout validator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/536",
+      ".csdlc/prepared/issues/536",
+      ".csdlc/evidence/536",
+      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+    ]
+  }
+}

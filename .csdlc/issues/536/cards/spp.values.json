@@ -7,13 +7,13 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 8
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Initialize the exact child batch, validate design-time cards, then hand dependency-safe lanes to separate issue sessions and retain integrated closeout truth.",
       "steps": [
         {
@@ -50,8 +50,8 @@
         ".csdlc/issues/536",
         ".csdlc/prepared/issues/536",
         ".csdlc/evidence/536",
-        "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
-        ".csdlc/prepared/issues/536/validate-sprint-readiness.rb"
+        "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+        ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
       ],
       "invariants": [
         "Child issues retain all implementation and proof authority",

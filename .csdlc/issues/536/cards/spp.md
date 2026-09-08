@@ -16,7 +16,7 @@ Initialize the exact child batch, validate design-time cards, then hand dependen
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
