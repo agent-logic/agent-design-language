@@ -3,6 +3,8 @@ milestone: v0.92.2
 status: planned
 conductor_issue: null
 issue_creation_authority: WP-01
+issue_creation_exceptions:
+  dedicated_SIM_sprint_launch: [SIM-UMBRELLA, SIM-01, SIM-02, SIM-03, SIM-04, SIM-05, SIM-06, SIM-07]
 work_packages:
   - id: WP-01
     lane: milestone_opening
@@ -173,11 +175,84 @@ work_packages:
     creation_policy: reuse_existing
     deliverables: [live_only_controls, retained_polling_isolation, obsolete_assignment_removal]
     proof: [live_startup_navigation, no_retained_routes_or_timer, historical_evidence_preserved]
+  - id: SIM-UMBRELLA
+    lane: "csdlc_simplification_sprint"
+    title: "Coordinate the first C-SDLC simplification sprint"
+    issue: null
+    depends_on: ["SIM-07"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Own disjoint assignment, dependency ordering, scorecard and final evidence aggregation; complete after SIM-07."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+    coordination_start: "Open before SIM-01; dependency denotes completion after SIM-07, not coordination startup."
+  - id: SIM-01
+    lane: "csdlc_simplification_sprint"
+    title: "Read-only diagnostics and baseline journeys"
+    issue: null
+    depends_on: []
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Reproduce S1 using isolated fixtures, then separate observation from mutation/recovery. Move state-directory creation and mutation locks out of read-only paths. Freeze the installed baseline and historical public-journey corpus; introduce attempt/outcome measurement here."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+  - id: SIM-02
+    lane: "csdlc_simplification_sprint"
+    title: "One current installed command contract"
+    issue: null
+    depends_on: ["SIM-01"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Define the single current command contract and separate historical construction fixtures/guidance from operational discovery. Preserve historical bytes where they are retained proof."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+  - id: SIM-03
+    lane: "csdlc_simplification_sprint"
+    title: "Typed evidence and intent-oriented commands"
+    issue: null
+    depends_on: ["SIM-02"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Add validated evidence types and canonical context resolution; implement the intent-oriented CLI against the existing operational behavior first."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+  - id: SIM-04
+    lane: "csdlc_simplification_sprint"
+    title: "One semantic issue transaction owner"
+    issue: null
+    depends_on: ["SIM-03"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Extend the existing lifecycle/transaction owner to hold the complete semantic issue record; route local transitions and verified remote/terminal outcomes through it."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+  - id: SIM-05
+    lane: "csdlc_simplification_sprint"
+    title: "Derived cards and precise evidence invalidation"
+    issue: null
+    depends_on: ["SIM-04"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Derive the six cards and separate semantic versus projection integrity. Provide explicit projection rebuild through the transaction/application owner."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+  - id: SIM-06
+    lane: "csdlc_simplification_sprint"
+    title: "Conversion rehearsal and writer fencing"
+    issue: null
+    depends_on: ["SIM-05"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Implement explicit conversion, transition manifest, writer fencing, and restore tooling. Rehearse the coordinated breaking change on copies of representative active records."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
+  - id: SIM-07
+    lane: "csdlc_simplification_sprint"
+    title: "Independent qualification and authorized transition"
+    issue: null
+    depends_on: ["SIM-06"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
+    deliverables: ["Independently review the complete candidate, qualify the journey evidence accumulated since SIM-01, and prepare the deployment runbook and prospective measurement protocol. Activate only in the separately authorized pause."]
+    proof: ["installed_journey_contract", "attempt_outcome_measurement", "independent_exact_head_review"]
   - id: TAIL-01
     lane: release_tail
     title: Quality gate
     issue: null
-    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, RT-A2A, RT-ORIENT, OBS-LIVE]
+    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, RT-A2A, RT-ORIENT, OBS-LIVE, SIM-UMBRELLA]
   - id: TAIL-02
     lane: release_tail
     title: Documentation review and external-review handoff

@@ -40,3 +40,7 @@ Typed publication exposed and repaired a missing real-adapter branch lookup and 
 ## Next owners
 
 #523 publishes these planning corrections together with the authorized validator repair after independent review. #524 owns the successor closeout-plan result; #525 reviews the settled planning revision independently. Their preparation can overlap current closeout, but current ceremony still requires both #522 remediation and #525 final planning review. #718 implementation belongs to its own urgent execution lane, not this documentation change.
+
+## Subsequent operator addition
+
+The operator added the [C-SDLC simplification plan](../../cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md) as the first coherent sprint alongside Runtime. The current denominator is 41 rows and the planning validator has nine negative fixtures; earlier 33-row review and validation records above remain historical evidence. See [simplification-addition.md](simplification-addition.md).

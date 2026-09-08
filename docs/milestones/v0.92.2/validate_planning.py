@@ -25,8 +25,8 @@ def check(wave, specs):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 33 or len(set(ids)) != 33:
-        failures.append("Expected 33 unique work packages")
+    if len(ids) != 41 or len(set(ids)) != 41:
+        failures.append("Expected 41 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
     expected_existing = {"RT-A2A": 718, "RT-ORIENT": 717, "OBS-LIVE": 720}
@@ -41,6 +41,16 @@ def check(wave, specs):
             failures.append(f"{key} specification lost existing identity")
     if by_id.get("RT-A2A", {}).get("priority") != "urgent":
         failures.append("#718 urgency missing")
+    for n in range(1, 8):
+        key = f"SIM-{n:02}"
+        expected = [] if n == 1 else [f"SIM-{n-1:02}"]
+        row = by_id.get(key, {})
+        if row.get("depends_on") != expected or row.get("startup_policy") != "dedicated_sprint_own_readiness_parallel_runtime":
+            failures.append(f"{key} must preserve first-sprint ordering and independent Runtime-parallel startup")
+    if by_id.get("SIM-UMBRELLA", {}).get("depends_on") != ["SIM-07"]:
+        failures.append("SIM umbrella completion must follow SIM-07")
+    if "SIM-UMBRELLA" in by_id["CF-INTEGRATE"]["depends_on"]:
+        failures.append("SIM sprint must not gate product integration")
     visiting, visited = set(), set()
 
     def visit(key):
@@ -70,7 +80,7 @@ def check(wave, specs):
     if set(by_id["CF-INTEGRATE"]["depends_on"]) != product | {"PLAT-PROVIDER", "PLAT-MEMORY"}:
         failures.append("Product integration prerequisites differ")
     support = {"PLAT-MLX", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
-    if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE"}:
+    if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
     obligations = {
         "CF-EVIDENCE": {"finding_run_contract_merged_before_consumers"},
@@ -104,12 +114,21 @@ def negative_checks(wave, specs):
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "PLAT-RUST")["issue"] = 999999
     cases.append(("unadmitted extra issue", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "SIM-01")["depends_on"] = ["WP-01"]
+    cases.append(("SIM sprint waits for CodeFriend startup", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "SIM-04")["depends_on"] = []
+    cases.append(("SIM sprint loses internal sequence", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].remove("SIM-UMBRELLA")
+    cases.append(("SIM result omitted from milestone convergence", broken, specs))
     return [name for name, w, s in cases if not check(w, s)], len(cases)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--self-test", action="store_true", help="Also prove rejection of six bad planning fixtures")
+    parser.add_argument("--self-test", action="store_true", help="Also prove rejection of bad planning fixtures")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
     wave = read_yaml(root / "WP_ISSUE_WAVE_v0.92.2.yaml")
@@ -131,7 +150,7 @@ def main():
     if args.self_test:
         missed, rejected = negative_checks(wave, specs)
         failures.extend("Negative fixture not rejected: " + x for x in missed)
-    print(json.dumps({"status": "fail" if failures else "pass", "work_packages": 33,
+    print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
                       "existing_issues": [717, 718, 720], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))
     return bool(failures)

@@ -10,6 +10,7 @@ Beta 1 must provide the product shell and onboarding; portable repository ingest
 
 ## Canonical Package
 
+- [C-SDLC v3 simplification sprint](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md)
 - [Vision](VISION_v0.92.2.md)
 - [Design](DESIGN_v0.92.2.md)
 - [Decisions](DECISIONS_v0.92.2.md)
@@ -41,4 +42,4 @@ The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope
 
 Reuse **#718 (urgent)** for canonical-name A2A routing, #717 for capability orientation, and #720 for live Observatory cleanup. These existing issues may proceed through their own readiness gates alongside current closeout; #718 must not wait for the main CodeFriend build or WP-01. Other backlog is excluded. See [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) and [adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md).
 
-The work denominator is 33 rows including the three existing issues. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+The first coherent sprint is the eight-issue C-SDLC simplification program, with SIM-01 through SIM-07 ordered internally and able to proceed alongside Runtime work. It does not wait for CodeFriend startup. The complete work denominator is 41 rows including the three existing issues and eight SIM program rows. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.

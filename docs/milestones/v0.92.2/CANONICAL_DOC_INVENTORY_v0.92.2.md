@@ -4,6 +4,11 @@ Status: planning candidate. Inventory completeness is not execution or release p
 
 | Surface | File |
 |---|---|
+| C-SDLC simplification first sprint | [C_SDLC_V3_SIMPLIFICATION_PLAN.md](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md) |
+| Statistical study | [REPORT.md](cognitive-sdlc/statistical-review-2026-09-08/REPORT.md) |
+| Study methods | [METHODS.md](cognitive-sdlc/statistical-review-2026-09-08/METHODS.md) |
+| Study recommendations | [RECOMMENDATIONS.md](cognitive-sdlc/statistical-review-2026-09-08/RECOMMENDATIONS.md) |
+| Source provenance | [source-promotion-manifest.json](cognitive-sdlc/source-promotion-manifest.json) |
 | Entry point | [README.md](README.md) |
 | Vision | [VISION_v0.92.2.md](VISION_v0.92.2.md) |
 | Adopted shared contracts | [ADOPTED_DESIGN_CONTRACTS_v0.92.2.md](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) |

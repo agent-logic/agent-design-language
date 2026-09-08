@@ -1306,7 +1306,7 @@ pub fn execute_operational_local_route(
     }
     validate_contract(request)?;
     plan_cards(request.issue, &request.registry_version, registry)?;
-    validate_context(request, context)?;
+    validate_context(route, request, context)?;
     let _issue_lock = acquire_issue_mutation_lock(&context.state_root, request.issue)?;
     recover_pending_local_transaction(context, request.issue)?;
     let request_digest = local_request_digest(request)?;
@@ -1822,6 +1822,7 @@ fn local_transaction_failpoint(name: &str) {
 }
 
 fn validate_context(
+    route: &str,
     request: &LocalPreparationRequest,
     context: &OperationalLocalContext,
 ) -> Result<(), Vec<DoctorFinding>> {
@@ -1851,11 +1852,70 @@ fn validate_context(
     if repository_root == context.allowed_worktree_parent
         || repository_root.starts_with(&context.allowed_worktree_parent)
     {
-        return Err(vec![finding(
-            PlanStatus::Failed,
-            "invalid_operational_roots",
-            "repository root and worktree parent must be distinct",
-        )]);
+        // Once Git has registered the issue checkout, local state belongs there.
+        // Do not force edits and validation back into the primary checkout.
+        let mut binding_paths =
+            vec![state_root.join(format!("issues/{}/index.json", request.issue))];
+        let journal_path = local_transaction_journal_path(context, request.issue);
+        if journal_path.exists() {
+            let journal: Option<LocalMutationJournal> = fs::read(&journal_path)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice(&bytes).ok());
+            let Some(journal) = journal.filter(|journal| {
+                journal.schema == "csdlc.v3.local_mutation_journal.v1"
+                    && journal.issue == request.issue
+                    && journal.route == "edit"
+                    && journal.bind_branch.is_none()
+                    && journal.bind_worktree.is_none()
+                    && journal.request_digest.len() == 64
+                    && journal
+                        .request_digest
+                        .bytes()
+                        .all(|byte| byte.is_ascii_hexdigit())
+            }) else {
+                return Err(vec![finding(
+                    PlanStatus::Blocked,
+                    "local_transaction_journal_invalid",
+                    "bound checkout can only recover its verified pending edit",
+                )]);
+            };
+            let (stage, backup, _) =
+                local_transaction_paths(context, request.issue, "edit", &journal.request_digest);
+            binding_paths.extend([backup.join("index.json"), stage.join("index.json")]);
+        }
+        let binding_matches = binding_paths.iter().any(|path| {
+            if !canonical_existing_ancestor_local(path)
+                .is_some_and(|ancestor| ancestor.starts_with(state_root))
+            {
+                return false;
+            }
+            let index: Option<Value> = fs::read(path)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice(&bytes).ok());
+            index.is_some_and(|value| {
+                value["schema"] == "csdlc.v3.local_state.v1"
+                    && value["issue"] == request.issue
+                    && value["phase"] == "bound"
+                    && value["repository"] == request.repository
+                    && value["branch"] == request.branch
+                    && value["worktree"] == request.worktree
+            })
+        });
+        let bound_checkout = !matches!(route, "issue" | "bind")
+            && binding_matches
+            && repository_root != context.allowed_worktree_parent
+            && repository_root.join(".git").is_file()
+            && Path::new(&request.worktree)
+                .canonicalize()
+                .is_ok_and(|path| path == repository_root)
+            && git_worktree_registration(&repository_root, &request.branch, &repository_root)?;
+        if !bound_checkout {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "invalid_operational_roots",
+                "a root under the worktree parent must be the exact registered issue checkout",
+            )]);
+        }
     }
     if request.expected_lifecycle_digest != context.expected_lifecycle_digest {
         return Err(vec![finding(

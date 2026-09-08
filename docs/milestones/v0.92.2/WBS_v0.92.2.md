@@ -27,15 +27,23 @@ Status: planned. Uncreated rows use number-free planning identifiers; three admi
 | RT-A2A (#718) | Urgent existing Runtime issue | Canonical-name addressing and model-generated reply proof | Existing governed A2A/roster prerequisites; no WP-01 wait |
 | RT-ORIENT (#717) | Existing Runtime issue | Capability orientation through versioned welcome delivery | Completed #708/#709; no WP-01 wait |
 | OBS-LIVE (#720) | Existing Observatory issue | Remove retained-mode hazards from live product | Existing live UI; no WP-01 wait |
+| SIM-UMBRELLA | C-SDLC first sprint | Coordinate the first C-SDLC simplification sprint | Completes after SIM-07; coordination opens before SIM-01 |
+| SIM-01 | C-SDLC first sprint | Read-only diagnostics and baseline journeys | Own readiness; parallel Runtime; no WP-01 wait |
+| SIM-02 | C-SDLC first sprint | One current installed command contract | SIM-01 |
+| SIM-03 | C-SDLC first sprint | Typed evidence and intent-oriented commands | SIM-02 |
+| SIM-04 | C-SDLC first sprint | One semantic issue transaction owner | SIM-03 |
+| SIM-05 | C-SDLC first sprint | Derived cards and precise evidence invalidation | SIM-04 |
+| SIM-06 | C-SDLC first sprint | Conversion rehearsal and writer fencing | SIM-05 |
+| SIM-07 | C-SDLC first sprint | Independent qualification and authorized transition | SIM-06 |
 | TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | TAIL-01 converges integration plus all admitted supporting/existing tracks |
 
 ## Parallelism
 
-CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST can start independently after WP-01. PLAT-PROVIDER also requires merged v0.92.1 issue #622; PLAT-MLX follows PLAT-PROVIDER. After the evidence contract merges, cognition, governance, review and publication can advance in parallel; Memory Palace integration additionally requires CF-MEMORY. Only integration and the release tail are deliberately serial.
+CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST can start independently after WP-01. PLAT-PROVIDER also requires merged v0.92.1 issue #622; PLAT-MLX follows PLAT-PROVIDER. After the evidence contract merges, cognition, governance, review and publication can advance in parallel; Memory Palace integration additionally requires CF-MEMORY. The SIM sprint has its own serial implementation order, beginning first alongside Runtime; product integration and the release tail retain their stated convergence gates.
 
 ## Work-Package Rule
 
-WP-01 reconciles one bounded issue per expanded row. Reuse #717, #718 and #720; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 33 rows: 30 pre-existing planned rows plus three admitted existing issues. With the conductor resolved, 29 rows remain prospective new children and three reuse existing children. Creation requires separate operator authority and is outside #523.
+The milestone inventory reconciles one bounded issue per expanded row. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched eight-issue sprint. Reuse #717, #718 and #720; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 41 rows: the original 30 planning rows, three admitted existing issues and the eight-issue SIM sprint. With WP-01 resolved, 37 rows remain prospective creations and three reuse existing issues. Eight prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority and is outside #523.
 
 ## Immediate existing work
 

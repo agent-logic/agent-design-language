@@ -4,6 +4,14 @@ Status: planned catalog with three existing issue bindings. Uncreated rows remai
 
 | Order | Planned ID | Title | Creation boundary |
 |---:|---|---|---|
+| S0 | SIM-UMBRELLA | Coordinate the first C-SDLC simplification sprint | Dedicated first sprint; coordination opens before SIM-01; closes after SIM-07 |
+| S1 | SIM-01 | Read-only diagnostics and baseline journeys | Dedicated first sprint; own readiness, parallel Runtime |
+| S2 | SIM-02 | One current installed command contract | Dedicated first sprint; after SIM-01 |
+| S3 | SIM-03 | Typed evidence and intent-oriented commands | Dedicated first sprint; after SIM-02 |
+| S4 | SIM-04 | One semantic issue transaction owner | Dedicated first sprint; after SIM-03 |
+| S5 | SIM-05 | Derived cards and precise evidence invalidation | Dedicated first sprint; after SIM-04 |
+| S6 | SIM-06 | Conversion rehearsal and writer fencing | Dedicated first sprint; after SIM-05 |
+| S7 | SIM-07 | Independent qualification and authorized transition | Dedicated first sprint; after SIM-06 |
 | 1 | WP-01 | Publish and open the v0.92.2 CodeFriend Beta 1 execution wave | Milestone setup authority |
 | 2 | CF-SHELL | Product shell, setup, onboarding, and operator controls | After WP-01 |
 | 3 | CF-ADAPTER | Portable Adapter v2 and repository ingestion | After WP-01; parallel with CF-SHELL |
@@ -38,7 +46,7 @@ Status: planned catalog with three existing issue bindings. Uncreated rows remai
 | 29 | TAIL-09 | Next-milestone planning review | After TAIL-08 |
 | 30 | TAIL-10 | Release ceremony and milestone close | After TAIL-09 |
 
-WP-01 reuses existing #717/#718/#720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. Existing issue execution does not wait for new milestone issue creation or prior closeout. #718 is operator-admitted and urgent despite stale backlog wording in its captured issue body. Other backlog is excluded. New issue creation remains gated by prior-milestone closure and operator authorization; #523 creates none.
+WP-01 reuses existing #717/#718/#720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. Existing issue execution does not wait for new milestone issue creation or prior closeout. #718 is operator-admitted and urgent despite stale backlog wording in its captured issue body. Other backlog is excluded. CodeFriend new-wave creation retains its prior-milestone closure gate. The operator-selected SIM sprint can launch first through its dedicated authority and own readiness alongside Runtime, without WP-01 or unrelated closeout. Creating its eight issue identities is a separate launch operation; #523 creates none.
 
 ## Deferred, Not Missing
 

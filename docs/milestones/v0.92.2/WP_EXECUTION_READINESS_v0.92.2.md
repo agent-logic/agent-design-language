@@ -24,3 +24,7 @@ Execution pauses for missing issue authority, scope conflict, unavailable eviden
 ## Early contract and existing-issue gates
 
 CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #718 starts first among ready existing work; #717 and #720 are independent except for explicit owned-path collision checks. Their linked issue acceptance remains authoritative, including #718 model-generated reply proof and its separately bounded provider authorization. A missing GitHub milestone assignment alone does not reclassify an explicitly admitted issue as backlog.
+
+## First SIM sprint
+
+SIM-01 has its own readiness and can start alongside Runtime without WP-01 or unrelated prior closeout. SIM-02 through SIM-07 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-07. Dedicated sprint issue creation and disjoint owner assignment precede execution. The CodeFriend opening gates above do not apply to this independently admitted sprint. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.
