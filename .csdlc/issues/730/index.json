@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
   "phase": "bound",
-  "generation": 11,
-  "digest": "78219b48e66d429eeeea299259b581e246bff5864617b00e693cbf0b0236d216",
+  "generation": 12,
+  "digest": "cc9ac10d2cddb165cec0a2bc43a649867caa5aeeff510daece9a62df9f8d50fd",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "888c111649c77c1bfe90ffd6e13ae6c64a4372379f0c1ca76f403de4af3e9039",
+      "values_digest": "46bdd73644758c914bb1f708d4f7813759ea816adfe9d6890c66029413e26be3",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "ddbfdc71c1c76f1e2cfe391ee7261f657f6b2fb247a138c6190e5f59fe07a98c",
+      "values_digest": "1557845b0af3e328c821e93211a8b40c2f591cf838056619f2658422a394e9d2",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "15cf995f66c21b1a597786a14389bc0798df76d08e7911672aae2bbba1b5d442",
+      "values_digest": "3990040d9b603713992eb79e64063db78b02a762a2ab977928d6025f46300a61",
       "rendered_digest": "a2bd5637e4ebc4267ce4f8465060f3bbf4498e8f84fc51d0d718636d1882f5d1",
       "ast_digest": "7d5ebf872b59666ac5fe84afaa253d119724d2e7c0103ab8e219d8fc7fc14f56"
     },
     "vpp": {
-      "values_digest": "833294ad3439b3bd6b0c92c16e67d935c7a4bf6b1e54c58463677ade93d0c066",
+      "values_digest": "46593bbb47f8d4aec7b579363a7cc8cfbd85e7367a9de5078f45261a30c667be",
       "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "35a9028e5d525ae3e2632c01bb92dacbe9f22b20002c02a7ceb5ac7a2f825c13",
+      "values_digest": "3ddae91145c3b2ef04652b80c4cbe9e6507f9ae31fe6d9a07b41ed9bdcc0078f",
       "rendered_digest": "9a1f2392cb11aeb2435734f2d260b720b0b019fa1edce6dacdec09ae85d05d62",
       "ast_digest": "933bf96b47aa68a787fc39ecfae7bfc0b4b333439de6e90b7038742e956acc62"
     },
     "sor": {
-      "values_digest": "3a324bd12ec93aab51d69fb26c81970fa36907f7953b796d79c9fb15eff6afd7",
-      "rendered_digest": "8eb6c5e9d9394574f96081e6c6ebcc429fc863e7a40fa950297389ef6b309892",
-      "ast_digest": "b561eb1c8f2dec35bcb0eca939c66fdcf1248bd0598be238d9d2a709c0f235e9"
+      "values_digest": "eba1844a531d62c14d16ffc5a2cc7441561da1364651e850ac855a1071059a27",
+      "rendered_digest": "6fc5963e073e3dc4e11ba5a6cf9a6e8980df30a64a9f72ceb9fa12059131007d",
+      "ast_digest": "854a4a8eb458c868cdfc5aaa166f6f2968a5c6aa2375cd85ce5a71ce07e67bf0"
     }
   },
   "transitions": [
@@ -161,6 +161,13 @@
       "actor": "codex:/root",
       "reason": "Record #730 exact authorization template artifact for the live apply gate.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a tracked #730 authorization template for the exact saved-plan apply gate.\",\"changes\":[\"Added an authorization template carrying the exact project, region, bucket, service account, plan path, current saved-plan digest, spend cap, apply timeout, and rollback command required by the live proof script.\"],\"artifacts\":[\".csdlc/prepared/issues/730/authorization-template.json\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record #730 pre-apply read-only bucket absence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gcloud\",\"storage\",\"buckets\",\"describe\",\"gs://adl-tf-state-cs-host-377d41e71a824f92802120\",\"--project=cs-host-377d41e71a824f92802120\",\"--format=json\"],\"purpose\":\"Read-only pre-apply check for existing Terraform state bucket.\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/730/preapply-bucket-describe.stderr.log; bucket not found 404; exit code 1\"}}"
     }
   ]
 }

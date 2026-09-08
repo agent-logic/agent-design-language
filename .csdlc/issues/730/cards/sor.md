@@ -89,6 +89,20 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
     "purpose": "No-mutation saved-plan preparation using short-lived service-account impersonation with Terraform provider data isolated outside the module tree.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/730/gcp-b1-plan-digest.json; plan_sha256 f34d0bc7d17110d8ca969eaf7a866b639ea20cf973cba20669465eea5457abf9; redacted plan .csdlc/evidence/730/gcp-b1-plan.redacted.txt"
+  },
+  {
+    "command": [
+      "gcloud",
+      "storage",
+      "buckets",
+      "describe",
+      "gs://adl-tf-state-cs-host-377d41e71a824f92802120",
+      "--project=cs-host-377d41e71a824f92802120",
+      "--format=json"
+    ],
+    "purpose": "Read-only pre-apply check for existing Terraform state bucket.",
+    "outcome": "blocked",
+    "evidence_ref": ".csdlc/evidence/730/preapply-bucket-describe.stderr.log; bucket not found 404; exit code 1"
   }
 ]
 

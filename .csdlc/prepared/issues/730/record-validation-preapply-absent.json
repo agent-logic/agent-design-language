@@ -1,0 +1,25 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "78219b48e66d429eeeea299259b581e246bff5864617b00e693cbf0b0236d216",
+  "actor": "codex:/root",
+  "reason": "Record #730 pre-apply read-only bucket absence.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "gcloud",
+        "storage",
+        "buckets",
+        "describe",
+        "gs://adl-tf-state-cs-host-377d41e71a824f92802120",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--format=json"
+      ],
+      "purpose": "Read-only pre-apply check for existing Terraform state bucket.",
+      "outcome": "blocked",
+      "evidence_ref": ".csdlc/evidence/730/preapply-bucket-describe.stderr.log; bucket not found 404; exit code 1"
+    }
+  }
+}
