@@ -7,34 +7,23 @@
     "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
     "slug": "obs-b-observatory-redesign-implementation",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 5
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md\nadl/tools/test_html_observatory.sh\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/runtime-v3.config.json\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\ndemos/html-observatory/tests/agent_to_agent_activity.test.mjs\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\ndemos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      "review_revision": "git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1",
-      "reviewer": "codex:issue-512-publication-head-review",
+      "review_scope": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md\n.csdlc/evidence/512/exact-browser-operator-proof.md\n.csdlc/evidence/512/exact-browser-operator-screenshot.png\nadl/tools/test_html_observatory.sh\ndemos/html-observatory/README.md\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/runtime-v3.config.json\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\ndemos/html-observatory/tests/agent_to_agent_activity.test.mjs\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\ndemos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Were #511 and #536 terminal before execution?",
         "Does the UI consume authentic Runtime projections?",
         "Are recovery and accessibility cases proven rather than visually asserted?"
       ],
-      "findings": [
-        {
-          "id": "512-review-exact-browser-accessibility-proof",
-          "severity": "p1",
-          "summary": "The declared exact-head interactive browser and accessibility lane remains unproved because the Codex browser controller cannot initialize and the retained validator only checks static file and prose presence.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }

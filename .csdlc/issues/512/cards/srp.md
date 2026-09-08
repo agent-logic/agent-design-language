@@ -13,6 +13,8 @@ Status: draft
 ## Scope
 
 .csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md
+.csdlc/evidence/512/exact-browser-operator-proof.md
+.csdlc/evidence/512/exact-browser-operator-screenshot.png
 adl/tools/test_html_observatory.sh
 demos/html-observatory/README.md
 demos/html-observatory/app.js
@@ -32,18 +34,7 @@ demos/html-observatory/tests/security_privacy_adversarial.test.mjs
 
 ## Findings
 
-[
-  {
-    "id": "512-review-exact-browser-accessibility-proof",
-    "severity": "p1",
-    "summary": "The declared exact-head interactive browser and accessibility lane remains unproved because the Codex browser controller cannot initialize and the retained validator only checks static file and prose presence.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -55,8 +46,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1")
+Revision: None
 
-Reviewer: Some("codex:issue-512-publication-head-review")
+Reviewer: None
 
-Result: changes_required
+Result: pre_review

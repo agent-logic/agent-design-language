@@ -1,11 +1,14 @@
 # Claude review handoff: issues #511 and #512
 
-## Verdict
+## Remediation status
 
-**Changes required.** Issue #511 is substantively absorbed into the #512
-implementation and does not need a separate implementation path, but its design
-contract is not yet fully satisfied because required identity, ordering, and
-accessibility checks are red.
+The original review below requested changes. Its identity, ordering, recovery,
+redaction, and focused accessibility findings are now remediated and the focused
+suite passes. Issue #511 was substantively absorbed into #512 and closed. The
+remaining publication review question is limited to whether the retained
+operator browser capture plus executable focused checks satisfies the declared
+exact-browser proof boundary; this document does not convert that judgment into
+a passing independent review.
 
 ## Review target
 

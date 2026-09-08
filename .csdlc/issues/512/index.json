@@ -5,16 +5,18 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "fb2fb80da01c53f7641108f70c01c6b742a0456b54a91db3eca2dc106fa19254",
+  "generation": 5,
+  "digest": "60c278424d32f34a7f68d220946490d7a04265df223323cf5604fc2097d43e71",
   "branch": "codex/512-observatory-redesign-implementation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
   "review_assignment": {
-    "reviewer": "codex:issue-512-publication-head-review",
+    "reviewer": "codex:issue-512-operator-proof-review",
     "assigned_by": "codex:issue-512-observatory-redesign",
-    "revision": "git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1",
+    "revision": "git-blake3:2a905edb805df09a46097a1353f0b30e5b970d7a:73fbeca6e74894b296c23e7d03042590ce038196e5d8622d22061955c1e9d39e",
     "scope": [
       ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      ".csdlc/evidence/512/exact-browser-operator-proof.md",
+      ".csdlc/evidence/512/exact-browser-operator-screenshot.png",
       "adl/tools/test_html_observatory.sh",
       "demos/html-observatory/README.md",
       "demos/html-observatory/app.js",
@@ -27,38 +29,7 @@
       "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
     ]
   },
-  "review": {
-    "reviewer": "codex:issue-512-publication-head-review",
-    "scope": [
-      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
-      "adl/tools/test_html_observatory.sh",
-      "demos/html-observatory/README.md",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/runtime-v3.config.json",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
-      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
-    ],
-    "reviewed_revision": "git-blake3:3b12d2a0cf55e9b180ee3f9b90025e2e2c2e72fb:f0b2be7ef11d73ca6ced44a952e0c1b013494ebeb97113a5021cfe01e87f87a1",
-    "findings": [
-      {
-        "id": "512-review-exact-browser-accessibility-proof",
-        "severity": "p1",
-        "summary": "The declared exact-head interactive browser and accessibility lane remains unproved because the Codex browser controller cannot initialize and the retained validator only checks static file and prose presence.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -73,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3493c6c89bdc1029dbf2f40933a0512e0300a219d5369af9325643837d0f7f10",
+      "values_digest": "a03bdb5ebea5b2059a5efa9367d95389db1f3b751e071ee4321db59d581c0bbd",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "9020e3b01c717d32454724ee1f68fa2e03f27cecd1d0f148b403d3d73a06e792",
+      "values_digest": "41340f4f89746cdc574b3131f6c1197f87893d6dedaf56a4fdefd4c049e55ac3",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "2ed6311928c14c5d7809ed0850d6f6bf902165e35bbc5a96bfdeeeb734aa0891",
+      "values_digest": "5f40c8615c52543a9a87ad69280e6c93023a6bcbe0288c44ec219edc5bd93bee",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "8e6205b8e3fd83519853624bf6194fb3620fd045aa22f5fc4204af4e767d72f1",
+      "values_digest": "55b74bd5cbe3c02de8d159667ea9cba5a3f9de826634a2ba7d9a71936ac6bad4",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "3f3281c3ee16868639fe19398e148b55f8316e23929dfb68647a36efe1dcf0a1",
-      "rendered_digest": "48a3ea2df5070362bac223b2707a48ae4bdfaa0f4ea6f0b374c53ee24423ad68",
-      "ast_digest": "5d2c7bf5bd35fd451163821d9d66cba3a9568dec21ed9e225f4b10209b6a3eb6"
+      "values_digest": "a033c76a06f1cfcee195876b41785e292cd302dd830c65cb1bd5401c7504930a",
+      "rendered_digest": "947cc969c7d100869ccba6a947c1b5fe312ba6c3309e0b7a37cc48257b384284",
+      "ast_digest": "5967f1a4f543576af7807fca02be0249446a47cc55f445629f2496cc09781891"
     },
     "sor": {
-      "values_digest": "59215af6bc78ca98b3fd24a3d4f8c5454e801ededb064ba47f3d93e38f1de55f",
+      "values_digest": "da6760814cc503bddf15ca918427a6f30875f4c0acddd06f2ea33a52e5c61153",
       "rendered_digest": "3ddfbb4054fb69168fc9e9a08adf78d8aa8c30092deb3f78c0c9f8fbee145ede",
       "ast_digest": "88c4d3b701d6127d8fb526544ef1f58607717b7d7d0413e33463d014937416c9"
     }
@@ -196,6 +167,20 @@
       "actor": "codex:issue-512-publication-head-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after retaining the operator-provided exact-product browser proof and updating the handoff to current validation truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
