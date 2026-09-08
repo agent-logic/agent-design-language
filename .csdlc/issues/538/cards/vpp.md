@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/538/diagram.mmd
 [
   {
     "lane": "sprint-10-membership",
-    "proof_role": "Prove canonical and live Sprint 10 membership and order agree.",
+    "proof_role": "Prove canonical full Sprint 10 membership and order while preserving coordination-only ownership.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -44,8 +44,8 @@ Diagram: .csdlc/prepared/issues/538/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "sprint-10-readiness",
-    "proof_role": "Run the declared sprint-conductor readiness gate over the full eleven-child denominator.",
+    "lane": "sprint-10-scoped-readiness",
+    "proof_role": "Prove typed readiness for the #523-#526 preparation tranche and report, without synthesizing, absent full-sprint sibling records.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -59,7 +59,7 @@ Diagram: .csdlc/prepared/issues/538/diagram.mmd
     "argv": [
       "bash",
       ".csdlc/prepared/issues/538/validate-sprint10-readiness.sh",
-      "readiness"
+      "all"
     ],
     "parallel_group": "readiness",
     "defer_reason": null
@@ -97,7 +97,7 @@ Tokens: 25000
 ## Commands
 
 - `bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh membership`
-- `bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh readiness`
+- `bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh all`
 - `git diff --check`
 
 ## Failure Semantics

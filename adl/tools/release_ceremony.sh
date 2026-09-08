@@ -214,11 +214,15 @@ import json, pathlib, sys
 print(json.loads(pathlib.Path(sys.argv[1]).read_text()).get("validator", ""))
 PY
 )"
-    [[ "$validator" == .csdlc/prepared/issues/*/validate-release-evidence.rb ]] || fail "milestone ceremony gate has an invalid validator path"
+    [[ "$validator" == .csdlc/prepared/issues/*/validate-release-evidence.rb || "$validator" == ".csdlc/prepared/issues/526/validate-tail10.rb" ]] || fail "milestone ceremony gate has an invalid validator path"
     [[ -f "$ROOT/$validator" ]] || fail "milestone ceremony validator is missing: $validator"
     info "running merge-based milestone ceremony gate for $VERSION"
     ruby "$ROOT/$validator" gate "$milestone_gate"
     return 0
+  fi
+
+  if [[ "$VERSION" == "v0.92.1" ]]; then
+    fail "v0.92.1 requires its merge-based milestone ceremony gate; closed_out fallback is not permitted"
   fi
 
   require_cmd python3

@@ -9,6 +9,7 @@ esac
 
 packet="docs/milestones/v0.92.1/evidence/integration/sprint-10/sprint-execution-packet.md"
 issues=(516 517 518 519 520 521 522 523 524 525 526)
+scoped_issues=(523 524 525 526)
 
 if [[ "${mode}" == "membership" || "${mode}" == "all" ]]; then
   test -f "${packet}"
@@ -35,7 +36,7 @@ fi
 if [[ "${mode}" == "readiness" || "${mode}" == "all" ]]; then
   missing=()
   not_ready=()
-  for issue in "${issues[@]}"; do
+  for issue in "${scoped_issues[@]}"; do
     index=".csdlc/issues/${issue}/index.json"
     if [[ ! -f "${index}" ]]; then
       missing+=("${issue}")
@@ -52,9 +53,19 @@ if [[ "${mode}" == "readiness" || "${mode}" == "all" ]]; then
     ((${#not_ready[@]} == 0)) || echo "typed issue records not ready: ${not_ready[*]}" >&2
     exit 1
   fi
-  printf '{"schema":"adl.sprint-readiness.v1","sprint_issue":538,"status":"ready","issues":['
-  separator=''
+  absent_full_sprint=()
   for issue in "${issues[@]}"; do
+    [[ -f ".csdlc/issues/${issue}/index.json" ]] || absent_full_sprint+=("${issue}")
+  done
+  printf '{"schema":"adl.sprint-readiness.v1","sprint_issue":538,"scope_status":"ready","full_sprint_status":"%s","scoped_issues":[' "$([[ ${#absent_full_sprint[@]} -eq 0 ]] && echo ready || echo incomplete)"
+  separator=''
+  for issue in "${scoped_issues[@]}"; do
+    printf '%s%s' "${separator}" "${issue}"
+    separator=','
+  done
+  printf '],"absent_full_sprint_records":['
+  separator=''
+  for issue in "${absent_full_sprint[@]}"; do
     printf '%s%s' "${separator}" "${issue}"
     separator=','
   done

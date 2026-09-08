@@ -1,39 +1,74 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-TAIL = (1..10).map { |n| format("TAIL-%02d", n) }.freeze
+require "yaml"
+require "json"
+require "digest"
 ROOT = File.expand_path("../../../..", __dir__)
+MILESTONE = File.join(ROOT, "docs/milestones/v0.92.2")
+AUTHORITY = File.join(ROOT, ".csdlc/evidence/524/predecessor.json")
+TAIL = (1..10).map { |n| format("TAIL-%02d", n) }.freeze
 
-def errors_for(plan, checklist)
+def numbered_ids(text)
+  text.lines.filter_map { |line| match = line.match(/\A\s*(\d+)\.\s+(TAIL-\d{2})\s+—/); [match[1].to_i, match[2]] if match }.sort.map(&:last)
+end
+
+def checklist_ids(text)
+  text.lines.filter_map { |line| match = line.match(/\A- \[ \] (TAIL-\d{2})\b/); match[1] if match }
+end
+
+def errors_for(wave, spec, plan_ids, checklist, authority)
+  rows = wave.fetch("work_packages")
+  tail_rows = rows.select { |row| row.fetch("id").start_with?("TAIL-") }
+  map = tail_rows.to_h { |row| [row.fetch("id"), Array(row["depends_on"])] }
+  expected_map = TAIL.each_with_index.to_h { |id, index| [id, [index.zero? ? "CF-INTEGRATE" : TAIL[index - 1]]] }
   errors = []
-  [plan, checklist].each_with_index do |text, index|
-    errors << "tail sequence mismatch in document #{index + 1}" unless text.scan(/TAIL-\d{2}/).uniq == TAIL
-  end
-  errors << "merge gate missing" unless plan.match?(/merge-based|reviewed.*merge/im)
-  errors << "asynchronous closeout boundary missing" unless [plan, checklist].all? { |text| text.match?(/closeout.*asynchronous|asynchronous.*closeout/im) }
-  errors << "operator release gate missing" unless plan.match?(/human release approval|operator authorization/im)
-  errors << "completion states not distinguished" unless plan.match?(/candidate is not a release/i)
+  errors << "release-tail denominator mismatch" unless tail_rows.map { |row| row.fetch("id") } == TAIL
+  errors << "release-tail dependency map mismatch" unless map == expected_map
+  errors << "execution-spec denominator mismatch" unless spec.fetch("specifications").map { |row| row.fetch("id") } == rows.map { |row| row.fetch("id") }
+  errors << "execution-spec tail mismatch" unless spec.dig("release_tail", "order") == TAIL
+  errors << "release-plan tail mismatch" unless plan_ids == TAIL
+  errors << "checklist tail mismatch" unless checklist == TAIL
+  errors << "wrong predecessor authority" unless authority["issue"] == 523 && authority["reviewed"] == true && authority["merged"] == true
+  errors << "invalid predecessor merge" unless authority["merge_sha"].to_s.match?(/\A[0-9a-f]{40}\z/)
+  errors << "planning digest missing" unless authority["planning_package_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
+  errors << "review evidence identity missing" unless authority["review_path"].to_s.start_with?(".csdlc/issues/523/") && authority["review_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
   errors
 end
 
 if ARGV == ["--negative"]
-  list = TAIL.map.with_index(1) { |id, n| "#{n}. #{id}" }.join("\n")
-  plan = "candidate is not a release\nreviewed merge-based gate\nasynchronous closeout\nhuman release approval\n#{list}"
-  checklist = "asynchronous closeout\n#{list}"
-  mutations = [
-    [plan.sub("4. TAIL-04", "4. TAIL-05").sub("5. TAIL-05", "5. TAIL-04"), checklist],
-    [plan.sub("TAIL-10", "TAIL-09"), checklist],
-    [plan.sub("human release approval", "automatic release"), checklist],
-    [plan, checklist.sub("asynchronous closeout", "closeout gates execution")]
+  rows = [
+    {"id" => "CF-INTEGRATE", "depends_on" => []},
+    *TAIL.each_with_index.map { |id, index| {"id" => id, "depends_on" => [index.zero? ? "CF-INTEGRATE" : TAIL[index - 1]]} }
   ]
+  wave = {"work_packages" => rows}
+  spec = {"specifications" => rows.map { |row| {"id" => row["id"]} }, "release_tail" => {"order" => TAIL}}
+  authority = {"issue" => 523, "reviewed" => true, "merged" => true, "merge_sha" => "a" * 40, "planning_package_sha256" => "b" * 64,
+               "review_path" => ".csdlc/issues/523/cards/srp.md", "review_sha256" => "c" * 64}
+  mutations = [[wave.merge("work_packages" => rows.map(&:dup).tap { |r| r.last["depends_on"] = ["TAIL-01"] }), spec, TAIL, TAIL, authority],
+               [wave, spec.merge("release_tail" => {"order" => TAIL.reverse}), TAIL, TAIL, authority],
+               [wave, spec, TAIL.drop(1), TAIL, authority], [wave, spec, TAIL, TAIL.reverse, authority],
+               [wave, spec, TAIL, TAIL, authority.merge("merged" => false)], [wave, spec, TAIL, TAIL, authority.merge("merge_sha" => "main")]]
   abort "negative mutation escaped" unless mutations.all? { |args| !errors_for(*args).empty? }
   puts "issue 524 negative contract passed (#{mutations.length} mutations)"
   exit 0
 end
 
-paths = %w[RELEASE_PLAN_v0.92.2.md MILESTONE_CHECKLIST_v0.92.2.md].map { |name| File.join(ROOT, "docs/milestones/v0.92.2", name) }
-abort "missing closeout artifact" unless paths.all? { |path| File.file?(path) && !File.zero?(path) }
-errors = errors_for(*paths.map { |path| File.read(path) })
+abort "missing #523 reviewed-merge authority" unless File.file?(AUTHORITY)
+wave = YAML.safe_load(File.read(File.join(MILESTONE, "WP_ISSUE_WAVE_v0.92.2.yaml")), aliases: false)
+spec = YAML.safe_load(File.read(File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml")), aliases: false)
+authority = JSON.parse(File.read(AUTHORITY))
+plan_ids = numbered_ids(File.read(File.join(MILESTONE, "RELEASE_PLAN_v0.92.2.md")))
+checklist = checklist_ids(File.read(File.join(MILESTONE, "MILESTONE_CHECKLIST_v0.92.2.md")))
+errors = errors_for(wave, spec, plan_ids, checklist, authority)
+merge_sha = authority["merge_sha"]
+errors << "#523 merge is not ancestral" unless merge_sha && system("git", "-C", ROOT, "merge-base", "--is-ancestor", merge_sha, "HEAD", out: File::NULL, err: File::NULL)
+review_path = authority["review_path"]
+errors << "#523 review evidence digest mismatch" unless review_path && File.file?(File.join(ROOT, review_path)) && Digest::SHA256.file(File.join(ROOT, review_path)).hexdigest == authority["review_sha256"]
+manifest_path = File.join(MILESTONE, "SOURCE_DENOMINATOR_v0.92.2.json")
+if File.file?(manifest_path)
+  errors << "#523 package digest mismatch" unless JSON.parse(File.read(manifest_path))["package_sha256"] == authority["planning_package_sha256"]
+else
+  errors << "#523 source denominator missing"
+end
 abort errors.join("\n") unless errors.empty?
-abort "successor package semantics failed" unless system("ruby", ".csdlc/prepared/issues/523/validate-tail07.rb")
-abort "diff hygiene failed" unless system("git", "diff", "--check")
-puts "issue 524 closeout-plan semantics passed"
+puts "issue 524 exact release-tail map passed (#{TAIL.length} units)"

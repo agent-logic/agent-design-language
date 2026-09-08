@@ -15,6 +15,10 @@ The #538 umbrella coordinates readiness only. It does not contain child
 implementation and must not bind, implement, publish, merge, finish, or clean a
 child on the child's behalf.
 
+This coordination branch proves only the #523–#526 preparation tranche. The
+readiness helper reports the complete Sprint 10 record set separately and never
+synthesizes absent sibling records or calls the full eleven-child bundle ready.
+
 ## Current handoff
 
 - #4 owns #512 and #536 outside this child chain.

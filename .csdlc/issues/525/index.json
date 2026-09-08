@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f63237c501c89a7346c16e535204138782d1d94f16c7e9c42dd1383e9f52d3b8",
   "phase": "ready",
-  "generation": 11,
-  "digest": "b56f0878d73f95ac6171b2919e4e38fbd7bc42260c7fb04248c489a642baf8fd",
+  "generation": 12,
+  "digest": "e7c040c007638686fac283c8df8b4b17d788afe03c8a0aa3546ad4b436571661",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4317e580d03565edeb57115a6fd0f9fdc06cb733fe0f7aa3a1c0f0f5d6fb5eb6",
+      "values_digest": "8083eebb278933f2f23ddf6f6ea860d593540f79d539d03cdd62e0e46b72afa4",
       "rendered_digest": "b703e119ae3df37bc84e48ce97e60c040e62ecd562faa2f364d39040a8e812e9",
       "ast_digest": "bef93c29eff127242ca82c9d6e05297c59bb0ec86d799a8c16d76b5d9b77806e"
     },
     "stp": {
-      "values_digest": "5e695ab04bff0d460e071b9d6fd6d83e5b11b77ed75807ad5967ffa125ce2446",
+      "values_digest": "e19b1fa5c7d9f12a5f50c3ab21d9098f1e5aabb8b9e4207be5eaa8d95cbc00f3",
       "rendered_digest": "50d6b0efaa9e617096536a34724e941b5fd22e2a94dbc499800bda76e19ff9f7",
       "ast_digest": "cffc941bbbe70cb4a8b08fb888718d7555b2f32e6491125bf8fafbe92a57b84b"
     },
     "spp": {
-      "values_digest": "9b18e6cf60e7ff300ac8e949ffd4cbf73ca97d237030afbe3161e2a8a96ab6fe",
-      "rendered_digest": "c64d795e0f0dd8bcb1004d79088f3742edec86a439750398a4dd73bde0cce172",
-      "ast_digest": "c71e2e94a1d26c543355ab7d6222a7034269be5db21f532f264c121c6f4b6338"
+      "values_digest": "ad1f8280ec7b16d1765e41484d82b886c80b9ea34b88c258519a36309b5b1f05",
+      "rendered_digest": "a83a690a0fd212b8e17309c28082182ae8377f6927f96648480612acd2c6890f",
+      "ast_digest": "17b000cbb29baf5fe1d0fb92248390f03c7286689575123809801af9aeefdab6"
     },
     "vpp": {
-      "values_digest": "a3fb4a1360de7610019270687dec7c8c7f861739287e6bbf6a4d896d237dbe20",
+      "values_digest": "895cc504a1d4446b977636397e189f2e33505d619b0b821d0a2f89f60d13ca20",
       "rendered_digest": "7aa0f161f789abcbd31147d2ba8b6265e7c4b63232485aaa05fc8eaabfa76237",
       "ast_digest": "b6a3b2b49d5b7684588379abb6456c54e7c09097c6c683b59f589c98d573bbe8"
     },
     "srp": {
-      "values_digest": "4105b397784494072ee6efc6a7c44c37ff1cd6f4359bf9ba9de96b01be48b8c5",
+      "values_digest": "7decbd86b21d905bb2c0b6113ef6d775159d2841c7f83372c33e516cd2a05e24",
       "rendered_digest": "47f3b47a75339686e3a96b5c828b7fae5422fc11d3df4cde8cce4acb565ceebf",
       "ast_digest": "c32a2be69012325c05d72c746da7ff150dec51c30eacd3716bf5055d28111aed"
     },
     "sor": {
-      "values_digest": "36d3d76938eec2d990498627ab5460dd79489323708801e9bea70e98b5050a7b",
+      "values_digest": "40be1f6c5ad081cdfa2349948e761d8e82a37cb943ba448048bfe748b09d912b",
       "rendered_digest": "a8bef8cabdf21c70e97256865775f136121507198f071e18d2442183880fe3e8",
       "ast_digest": "0e25300c4465ab4041dd5a123922d4bbd802dcc6672e28c4b40c767dc73632cc"
     }
@@ -147,6 +147,13 @@
       "actor": "codex:/root/review_sprint10_523_526_prep",
       "reason": "Advance the independently reviewed planning-review contract to ready without binding.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Own the strict review report and executable typed remediation request surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-09\",\".csdlc/evidence/525\",\".csdlc/prepared/issues/525/validate-tail09.rb\"]}"
     }
   ]
 }

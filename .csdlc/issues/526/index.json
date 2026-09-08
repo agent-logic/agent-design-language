@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6fecc08defa631be2edcba426b8534877938212c6bf1cfd4d79d4623677de1f6",
   "phase": "ready",
-  "generation": 11,
-  "digest": "39e5b19e667e2b95af2e11dd9e4a5182b799306e09b5cbd01042acdd2f9e4992",
+  "generation": 14,
+  "digest": "063f338b3b0e66e04afdfe8fc00f3ce39a64426a9e4bde7b4bccaddb2439f78b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0233dd91e58147ed04009c01c3ea763e24bccab068049f9302853898372d8c5e",
+      "values_digest": "2302c4b88b135c42387142597e8f1ca3c196c4b55d0da156da0dbb992d9b0bd2",
       "rendered_digest": "067b6bdb7b405573cccb9d333a82f74032a09fc771b8a5d17f0bc7c1a3389cb0",
       "ast_digest": "3080ce7bb9bd284c66098cfa6e209418c8c48da8c4af45ae5ee7e6b9abe988b9"
     },
     "stp": {
-      "values_digest": "d2d4a38da5fa9377baf250c842f07c164fd819c2480d97b1bc1e2b1f78f46408",
+      "values_digest": "c49ef91683fe81da5fe3c94189bec89e74e9f8db37427ed473c828f5daea378b",
       "rendered_digest": "47a38223408131f215ac93242992dee675fdab3b14ab1d8ab402fc7fcde775e7",
       "ast_digest": "9c68b8754ddb3876966d1ae3d4a4cc1cf03ca9763db519bef79b12cbde81ceb5"
     },
     "spp": {
-      "values_digest": "a89fc77dc9c6cf23aecbb37b9ee7aa5cdb4b53fce9f1cd8e90926864f04d1736",
-      "rendered_digest": "abc6ef7ef49af8cb1a7b96e0079faa56400aca41d0b3751685385ebbefd148d4",
-      "ast_digest": "8ffddc2e95e547eadc585226732558cef10aedba07d3081589c437a73c066a36"
+      "values_digest": "4b8031b7ae1376149e761e65a78b91c243fe549225a091731cc7f09417eef3c0",
+      "rendered_digest": "15e1411c19f01b3fe5c57084b42527c843be46c25dc6b30645645f4a30dd323e",
+      "ast_digest": "9c42f5d8ffaabd8bab4857af62afef738f1f04ab4f820f07cf124acc3c582b99"
     },
     "vpp": {
-      "values_digest": "7f2b3782fdc2e6ff2a4939ed235efcf77e2fdaece6a9fb1638b103f4712ba8b3",
-      "rendered_digest": "f491f5db78cf53c8b7caa489e736649800771bd1ae9cc4b25c79879a5bcfa299",
-      "ast_digest": "3a190815b740eaed0a1ca7dfb8a550cf2d91423af234159068a0fea4ff5fa4b9"
+      "values_digest": "6b6c6e61c124983424f2e72c4d6fe845ac4405c2400da8fab9db2de59dcfe028",
+      "rendered_digest": "55e4373537a427d2180e5a79195cd90a69b26fd657a81c6acd5927a4e972cdb5",
+      "ast_digest": "11391c44fbbfe448b4d0c6b802478f377bdafd45863b0a70b177c8ba79daebf7"
     },
     "srp": {
-      "values_digest": "cdc15fead7f31216efc3e83c1f6b158f958ee40145c213c6dc32fd511fcf1cc9",
+      "values_digest": "401452ce91d8f1885aa291b39728b0c5dd894e85ac6e8a5df5a71f9db6d9d59c",
       "rendered_digest": "dbf4233bdb2e1232892a3670ab2d260cef4e44646b1567caa04578d61c353ef7",
       "ast_digest": "2e0c6f70e409ca8dffc150476ca991d4bcb0e6e41aa2fc4f534cddc0f84cfe3e"
     },
     "sor": {
-      "values_digest": "bf39b310aba8595e1fd00953d4ec6a3eb5d95877c6ff438fc95662fafb60caff",
+      "values_digest": "b50b4028082b9cd8f848bd4a0e9e004a1548eba15e22a6c3ad9a36ef77129d0b",
       "rendered_digest": "7b572c864bae19e20fff07c76954f3cc5a627a53977a62ce46089331109cfcf7",
       "ast_digest": "d493f159a8a3c562b777aa8e98143eac208f4d831b2e3d5d88ef4c73eec0066b"
     }
@@ -147,6 +147,27 @@
       "actor": "codex:/root/review_sprint10_523_526_prep",
       "reason": "Advance the independently reviewed zero-blocker operator-gated ceremony contract to ready without binding.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Own the v0.92.1 merge-based ceremony gate, canonical script guard, focused test, and live receipt validator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_CEREMONY_GATE_v0.92.1.json\",\"docs/milestones/v0.92.1/evidence/release/tail-10\",\"adl/tools/release_ceremony.sh\",\"adl/tools/test_release_ceremony.sh\",\".csdlc/prepared/issues/526/validate-tail10.rb\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Declare the issue-owned wrapper that runs canonical ceremony tests and the safe check-only command without weakening argv validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md\",\"docs/milestones/v0.92.1/RELEASE_CEREMONY_GATE_v0.92.1.json\",\"docs/milestones/v0.92.1/evidence/release/tail-10\",\"adl/tools/release_ceremony.sh\",\"adl/tools/test_release_ceremony.sh\",\".csdlc/prepared/issues/526/validate-tail10.rb\",\".csdlc/prepared/issues/526/validate-ceremony-preflight.sh\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Run canonical tests and safe check-only ceremony through an issue-owned wrapper, then prove live readback and adversarial rejection.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"ceremony-preflight\",\"proof_role\":\"Run canonical release ceremony tests and the safe check-only v0.92.1 command against the exact clean main candidate and merge-based gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":360,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/526/validate-ceremony-preflight.sh\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":\"Runs after the gate file and exact candidate are frozen.\"},{\"lane\":\"tail10-live-readback\",\"proof_role\":\"Prove live remote tag and published GitHub release identity plus receipt, notes, review-revision, ordering, and ancestry parity.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/526/validate-tail10.rb\",\"receipt\"],\"parallel_group\":\"ceremony\",\"defer_reason\":\"Runs after explicitly authorized mutation.\"},{\"lane\":\"tail10-adversarial\",\"proof_role\":\"Reject unsafe flags, malformed argv, stale review binding, ordering violations, tag drift, and incomplete merge gates.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/526/validate-tail10.rb\",\"--negative\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":null},{\"lane\":\"notes-diff-hygiene\",\"proof_role\":\"Reject malformed release-note changes and unrelated residue.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"ceremony-preflight\",\"defer_reason\":null}]}"
     }
   ]
 }

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
     "slug": "v0921-tail08-next-milestone-closeout-plan",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Compare the two successor closeout surfaces, repair their shared denominator and gates, validate exact order and authority, then publish one reviewed documentation PR.",
       "steps": [
         {
@@ -47,6 +47,7 @@
       "affected_areas": [
         "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md",
         "docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md",
+        ".csdlc/evidence/524/predecessor.json",
         ".csdlc/prepared/issues/524/validate-tail08.rb"
       ],
       "invariants": [

@@ -275,6 +275,31 @@ run_closeout_gate_case "non-closed milestone record fails" open 1 "issue 123 is 
 run_closeout_gate_case "doctor error fails closed" error 1 "csdlc-doctor rejected issue 123"
 run_closeout_gate_case "malformed doctor JSON fails closed" malformed 1 "csdlc-doctor returned malformed JSON for issue 123"
 
+ORIGINAL_VERSION="$VERSION"
+ORIGINAL_TAG_NAME="$TAG_NAME"
+VERSION="v0.92.1"
+TAG_NAME="$VERSION"
+mkdir -p "$FIXTURE/docs/milestones/$VERSION"
+cp "$FIXTURE/docs/milestones/$ORIGINAL_VERSION/RELEASE_PLAN_${ORIGINAL_VERSION}.md" "$FIXTURE/docs/milestones/$VERSION/RELEASE_PLAN_${VERSION}.md"
+cp "$FIXTURE/docs/milestones/$ORIGINAL_VERSION/RELEASE_NOTES_${ORIGINAL_VERSION}.md" "$FIXTURE/docs/milestones/$VERSION/RELEASE_NOTES_${VERSION}.md"
+cp "$FIXTURE/docs/milestones/$ORIGINAL_VERSION/MILESTONE_CHECKLIST_${ORIGINAL_VERSION}.md" "$FIXTURE/docs/milestones/$VERSION/MILESTONE_CHECKLIST_${VERSION}.md"
+sed -i.bak "s/version = \"${ORIGINAL_VERSION#v}\"/version = \"${VERSION#v}\"/" "$FIXTURE/adl/Cargo.toml"
+rm "$FIXTURE/adl/Cargo.toml.bak"
+run_closeout_gate_case "v0.92.1 rejects closed_out fallback" closed 1 "requires its merge-based milestone ceremony gate"
+mkdir -p "$FIXTURE/.csdlc/prepared/issues/526"
+cat >"$FIXTURE/.csdlc/prepared/issues/526/validate-tail10.rb" <<'EOF_INNER'
+#!/usr/bin/env ruby
+abort "wrong gate invocation" unless ARGV.length == 2 && ARGV[0] == "gate" && File.file?(ARGV[1])
+EOF_INNER
+cat >"$FIXTURE/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json" <<'EOF_INNER'
+{"validator":".csdlc/prepared/issues/526/validate-tail10.rb"}
+EOF_INNER
+run_closeout_gate_case "v0.92.1 uses merge-based gate" closed 0 "running merge-based milestone ceremony gate"
+sed -i.bak "s/version = \"${VERSION#v}\"/version = \"${ORIGINAL_VERSION#v}\"/" "$FIXTURE/adl/Cargo.toml"
+rm "$FIXTURE/adl/Cargo.toml.bak"
+VERSION="$ORIGINAL_VERSION"
+TAG_NAME="$ORIGINAL_TAG_NAME"
+
 mv "$FIXTURE/.csdlc" "$FIXTURE/.csdlc.saved"
 run_closeout_gate_case "no milestone records fails" closed 1 "no typed C-SDLC records found for $VERSION"
 mv "$FIXTURE/.csdlc.saved" "$FIXTURE/.csdlc"

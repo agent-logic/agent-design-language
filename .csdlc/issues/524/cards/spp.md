@@ -16,7 +16,7 @@ Compare the two successor closeout surfaces, repair their shared denominator and
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
