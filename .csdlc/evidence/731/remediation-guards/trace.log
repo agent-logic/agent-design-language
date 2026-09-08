@@ -231,6 +231,7 @@
 + ADL_GCP_D1_FAILPOINT_AFTER_CREATE=1
 + bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ printf 'mock-reaper-pid-normalized\n'
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
 + ADL_GCP_D1_NOW_EPOCH=1788858600
 + ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud

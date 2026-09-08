@@ -161,6 +161,7 @@ if ADL_GCP_D1_PACKET="$valid_packet" \
   fail "workload failpoint was accepted"
 fi
 grep -Fq "compute instances delete adl-gcp-d1-localguard" "$mock_gcloud_log" || fail "workload failpoint did not run cleanup delete"
+printf 'mock-reaper-pid-normalized\n' > "$out_dir/mock-workload/deadline-reaper.pid"
 
 if ADL_GCP_D1_PACKET="$valid_packet" \
   ADL_GCP_D1_NOW_EPOCH="$valid_now" \
