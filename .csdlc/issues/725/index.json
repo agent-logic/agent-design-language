@@ -5,10 +5,19 @@
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
   "generation": 21,
-  "digest": "66148091baeb01e2309048b74169ee2600da99b50cb8159bb2fdd7704550ae29",
+  "digest": "d668c55253e5491d9259439f7722e94f418766add1d6722562b98b1f81a3068e",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:review-sprint10-523-526-prep-r10",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:be618995b15cee423fec9a2e24b7e08c646d6cf5:8bf32670ce2c796ba78068e42423a79ee64f191a1ed8a1b2bfc6e8f91f5972c0",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3/CONTRACT.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "6954b4f83e280827daad5123d953d47289b75ee526707a3861871f864c8348b6",
-      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
-      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
+      "values_digest": "bfb5eb604c1e083867752c4ca44b2a39dd6d71e00971283121762edd1caed91a",
+      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
+      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
     },
     "sor": {
       "values_digest": "008e9f832094479f03074f0cdd89cb42cd22dbbfdd65cb956896b29d187319e0",
@@ -378,6 +387,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "repair hosted standalone fixture for closed PR reviewed head absent from fresh clone and add missing merge object fail-closed proof",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 21,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
