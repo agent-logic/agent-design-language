@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #728 AWS-F-R disposable Runtime deployment proof, exact target receipt, reverse destroy, zero-residue evidence, and narrowly required disposable-proof safety/runbook fixes only.
+
 
 ## Prompts
 

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
     "slug": "aws-f-disposable-runtime-deployment-zero-residue",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #728 AWS-F-R disposable Runtime deployment proof, exact target receipt, reverse destroy, zero-residue evidence, and narrowly required disposable-proof safety/runbook fixes only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

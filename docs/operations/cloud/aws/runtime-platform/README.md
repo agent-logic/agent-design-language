@@ -98,6 +98,16 @@ alb_root=infra/aws/runtime/alb-origin
 node_root=infra/aws/runtime/private-node
 alb_workspace=aws-f-runtime-alb-origin-dev
 node_workspace=aws-f-runtime-private-node-dev
+alb_backend_config=.csdlc/evidence/728/alb-origin.backend.hcl
+node_backend_config=.csdlc/evidence/728/private-node.backend.hcl
+alb_var_file=.csdlc/evidence/728/alb-origin.tfvars
+node_var_file=.csdlc/evidence/728/private-node.tfvars
+alb_plan=.csdlc/evidence/728/alb-origin.tfplan
+node_plan=.csdlc/evidence/728/private-node.tfplan
+attach_plan=.csdlc/evidence/728/alb-attach.tfplan
+external_health_url=https://example.dev.csm.agent-logic.ai/v1/health
+expected_receipt_marker=<instance-or-artifact-marker>
+receipt_file=.csdlc/evidence/728/disposable-proof-receipt.txt
 cost_ceiling_usd=20
 deadline_utc=2026-09-08T23:59:00Z
 alb_plan_sha256=<printed-by-plan-alb>
@@ -120,7 +130,8 @@ The `plan-*` stages print SHA-256 digests for the saved plans. Add each digest
 to the authorization file before running the matching `apply-*` stage. The
 final stage waits for ALB target health, checks the external HTTP response for
 the expected marker, destroys the private node and ALB roots in reverse order,
-and fails if Terraform state still contains issue-owned resources.
+and fails if Terraform state or AWS readbacks still show the exact instance,
+target registration, listener, target group, load balancer, or security groups.
 
 ## Phase 2: Private Runtime node
 

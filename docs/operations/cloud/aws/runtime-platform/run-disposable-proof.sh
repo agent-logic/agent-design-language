@@ -158,6 +158,43 @@ require_empty_terraform_state() {
   test -z "$state_listing" || fail "$label Terraform state still has resources after destroy"
 }
 
+require_instance_absent() {
+  local instance_id="$1"
+  local live
+  live="$(aws ec2 describe-instances \
+    --instance-ids "$instance_id" \
+    --query "Reservations[].Instances[?State.Name!='terminated'].InstanceId" \
+    --output text 2>/dev/null || true)"
+  test -z "$live" || fail "instance still exists outside terminated state: $instance_id"
+  note "aws_absent_instance=$instance_id"
+}
+
+require_security_group_absent() {
+  local security_group_id="$1"
+  if aws ec2 describe-security-groups --group-ids "$security_group_id" >/dev/null 2>&1; then
+    fail "security group still exists: $security_group_id"
+  fi
+  note "aws_absent_security_group=$security_group_id"
+}
+
+require_elbv2_resource_absent() {
+  local label="$1"
+  shift
+  if aws elbv2 "$@" >/dev/null 2>&1; then
+    fail "$label still exists"
+  fi
+  note "aws_absent_$label=true"
+}
+
+require_target_registration_absent() {
+  local target_group_arn="$1"
+  local instance_id="$2"
+  if aws elbv2 describe-target-health --target-group-arn "$target_group_arn" --targets "Id=$instance_id" >/dev/null 2>&1; then
+    fail "target registration still exists for $instance_id"
+  fi
+  note "aws_absent_target_registration=$instance_id"
+}
+
 wait_target_healthy() {
   local target_group_arn="$1"
   local instance_id="$2"
@@ -234,6 +271,18 @@ require_authorization_file() {
   require_auth_value node_root "$ISSUE_728_NODE_ROOT"
   require_auth_value alb_workspace "$ISSUE_728_ALB_WORKSPACE"
   require_auth_value node_workspace "$ISSUE_728_NODE_WORKSPACE"
+  require_auth_value alb_backend_config "$ISSUE_728_ALB_BACKEND_CONFIG"
+  require_auth_value node_backend_config "$ISSUE_728_NODE_BACKEND_CONFIG"
+  require_auth_value alb_var_file "$ISSUE_728_ALB_VAR_FILE"
+  require_auth_value node_var_file "$ISSUE_728_NODE_VAR_FILE"
+  require_auth_value alb_plan "$ISSUE_728_ALB_PLAN"
+  require_auth_value node_plan "$ISSUE_728_NODE_PLAN"
+  require_auth_value attach_plan "$ISSUE_728_ATTACH_PLAN"
+  require_auth_value external_health_url "$ISSUE_728_EXTERNAL_HEALTH_URL"
+  require_auth_value expected_receipt_marker "$ISSUE_728_EXPECTED_RECEIPT_MARKER"
+  if [[ -n "${ISSUE_728_RECEIPT_FILE:-}" ]]; then
+    require_auth_value receipt_file "$ISSUE_728_RECEIPT_FILE"
+  fi
   require_auth_value cost_ceiling_usd "$ISSUE_728_COST_CEILING_USD"
   require_auth_value deadline_utc "$ISSUE_728_DEADLINE_UTC"
 }
@@ -353,9 +402,17 @@ apply_attach_prove_destroy() {
 
   terraform_workspace "$ISSUE_728_ALB_ROOT" "$ISSUE_728_ALB_WORKSPACE"
   terraform_workspace "$ISSUE_728_NODE_ROOT" "$ISSUE_728_NODE_WORKSPACE"
-  local response target_group_arn instance_id
+  local response target_group_arn instance_id listener_arn alb_arn alb_security_group_id node_security_group_id
   target_group_arn="$(output_raw "$ISSUE_728_ALB_ROOT" target_group_arn)"
   instance_id="$(output_raw "$ISSUE_728_NODE_ROOT" instance_id)"
+  listener_arn="$(output_raw "$ISSUE_728_ALB_ROOT" listener_arn)"
+  alb_security_group_id="$(output_raw "$ISSUE_728_ALB_ROOT" alb_security_group_id)"
+  node_security_group_id="$(output_raw "$ISSUE_728_NODE_ROOT" security_group_id)"
+  alb_arn="$(aws elbv2 describe-target-groups \
+    --target-group-arns "$target_group_arn" \
+    --query 'TargetGroups[0].LoadBalancerArns[0]' \
+    --output text)"
+  test -n "$alb_arn" && test "$alb_arn" != "None" || fail "missing ALB ARN for zero-residue readback"
   wait_target_healthy "$target_group_arn" "$instance_id"
 
   response="$(curl --fail --silent --show-error "$ISSUE_728_EXTERNAL_HEALTH_URL")"
@@ -368,10 +425,17 @@ apply_attach_prove_destroy() {
   terraform_destroy_stack "$ISSUE_728_ALB_ROOT" "$ISSUE_728_ALB_WORKSPACE" "$ISSUE_728_ALB_VAR_FILE" -var "target_instance_id=null"
   require_empty_terraform_state "$ISSUE_728_NODE_ROOT" "$ISSUE_728_NODE_WORKSPACE" "private-node"
   require_empty_terraform_state "$ISSUE_728_ALB_ROOT" "$ISSUE_728_ALB_WORKSPACE" "alb-origin"
+  require_target_registration_absent "$target_group_arn" "$instance_id"
+  require_elbv2_resource_absent listener describe-listeners --listener-arns "$listener_arn"
+  require_elbv2_resource_absent target_group describe-target-groups --target-group-arns "$target_group_arn"
+  require_elbv2_resource_absent load_balancer describe-load-balancers --load-balancer-arns "$alb_arn"
+  require_security_group_absent "$node_security_group_id"
+  require_security_group_absent "$alb_security_group_id"
+  require_instance_absent "$instance_id"
   disarm_cleanup_trap
 
   note "PASS #728 reverse destroy requested"
-  note "zero_residue_readback=terraform_state_empty"
+  note "zero_residue_readback=terraform_state_empty_and_aws_absence"
 }
 
 if [[ -z "$authorization_file" ]]; then

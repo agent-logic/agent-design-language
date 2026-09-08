@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and repaired the #728 disposable AWS-F Runtime proof runner and local proof package without performing live AWS mutation. Post-review repair keeps failure cleanup armed until successful ALB/node output capture and restores the retained readiness evidence referenced by SOR.
+Implemented and repaired the #728 disposable AWS-F Runtime proof runner and local proof package without performing live AWS mutation. The runner now binds mutable backend/input/route/receipt selectors to the authorization file and pairs Terraform-state cleanup with AWS-side absence readbacks for exact deployed selectors.
 
 ## Artifacts
 
@@ -28,10 +28,11 @@ Implemented and repaired the #728 disposable AWS-F Runtime proof runner and loca
 
 - Added a fail-closed disposable proof runner that requires an explicit #728 authorization packet before any Terraform apply or destroy operation.
 - Split the proof workflow into staged ALB, private-node, attach, external receipt, and reverse-destroy modes using the existing AWS-F Terraform roots.
-- Enforced account, profile, region, backend, workspace, saved-plan digest, cost ceiling, deadline, route, and receipt-marker selectors before mutation stages.
+- Enforced account, profile, region, roots, workspaces, backend config paths, tfvars paths, saved-plan paths and digests, external health URL, expected receipt marker, optional receipt path, cost ceiling, and deadline before mutation stages.
 - Kept mutation-stage cleanup armed through post-apply output/readback capture so failures after successful apply still route to cleanup.
+- Captured exact ALB, target group, listener, instance, and security-group selectors before destroy, then checked Terraform state emptiness and AWS describe/readback absence after destroy.
 - Added a concise operator runbook section documenting the one script, required environment contract, authorization packet shape, and live proof sequence.
-- Added an issue-owned validator proving the #728 preparation bundle, runner gates, zero-residue cleanup surface, and AWS-F module references are present.
+- Tightened .csdlc/prepared/issues/728/validate_preparation_bundle.sh so selector authorization and AWS absence-readback strings are mechanically checked.
 - Retained readiness and no-authorization refusal evidence under .csdlc/evidence/728 without credentials or secret material.
 
 ## Validation
@@ -52,9 +53,9 @@ Implemented and repaired the #728 disposable AWS-F Runtime proof runner and loca
       "bash",
       ".csdlc/prepared/issues/728/validate_preparation_bundle.sh"
     ],
-    "purpose": "Prove the #728 issue-owned preparation bundle, runner gates, zero-residue cleanup surface, and AWS-F module references are present.",
+    "purpose": "Prove the #728 issue-owned preparation bundle, runner gates, mutable selector authorization checks, zero-residue cleanup surface, AWS absence-readback strings, and AWS-F module references are present.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/728/preparation-bundle-validator.log"
+    "evidence_ref": "local command output: PASS #728 preparation bundle validator"
   },
   {
     "command": [
@@ -72,7 +73,7 @@ Implemented and repaired the #728 disposable AWS-F Runtime proof runner and loca
     ],
     "purpose": "Reject whitespace and conflict-marker defects in the bound worktree.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/728/diff-hygiene.log"
+    "evidence_ref": "local command output: exit 0"
   },
   {
     "command": [
@@ -82,15 +83,28 @@ Implemented and repaired the #728 disposable AWS-F Runtime proof runner and loca
       "--issue",
       "728"
     ],
-    "purpose": "Verify typed lifecycle/card state is structurally clean after the post-review repair.",
+    "purpose": "Verify typed lifecycle/card state is structurally clean after review recovery and the P1 remediation.",
     "outcome": "passed",
-    "evidence_ref": "local command output: status pass, phase implemented, generation 6"
+    "evidence_ref": "local command output: status pass, phase implemented, generation 8"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-728-aws-f-disposable-runtime-deployment-zero-residue",
+      "issue",
+      "--issue",
+      "728"
+    ],
+    "purpose": "Verify typed issue validation passes after review recovery and the P1 remediation.",
+    "outcome": "passed",
+    "evidence_ref": "local command output: status pass, phase implemented, generation 8"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
