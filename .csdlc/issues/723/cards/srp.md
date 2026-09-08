@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Only issue 723 proof/shadow/install implementation and tests.
+csdlc-v3/src/commands/proof.rs
+csdlc-v3/tests/proof_parity_install_commands.rs
+csdlc-v3/tests/real_issue_canary.rs
 
 ## Prompts
 

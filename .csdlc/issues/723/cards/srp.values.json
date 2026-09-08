@@ -7,13 +7,13 @@
     "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
     "slug": "restore-green-proof-shadow-install-tests",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Only issue 723 proof/shadow/install implementation and tests.",
+      "review_scope": "csdlc-v3/src/commands/proof.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/real_issue_canary.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
