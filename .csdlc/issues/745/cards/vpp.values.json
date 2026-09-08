@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "adr-docs",
+          "proof_role": "Prove documentation and review/publication contract readiness locally; actual independent review, CI and terminal delivery remain separate gates.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/745/validate-adrs.py"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing topics, broken links, unsupported authority claims, stale proof, review findings, or red CI.",
+      "design_ref": ".csdlc/prepared/issues/745/design.md",
+      "design_digest": "a9956cdd37d14c49e07d235efbf070238223af515fa1921b6cbd75bf4c7ab6fd",
+      "diagram_ref": ".csdlc/prepared/issues/745/diagram.mmd",
+      "diagram_digest": "6cb1b67911038c13dd9e2351f6695b0d1a61655c9467cbc4bcff2ec9a84eb428"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Completed four Proposed ADR candidates, preserved Deferred ADR 0069, and mapped all eight v0.92.1 topics with source-bound evidence. Defect #744 and explicitly authorized typed v2 recovery are recorded. Independent review, publication, CI and terminal delivery follow separately.",
+      "actual_changes": [
+        "Added ADR candidates 0072-0075 without accepting new architecture.",
+        "Updated Deferred ADR 0069 and mapped existing ADRs 0066/0070 with their promotion gates.",
+        "Recorded eight topic dispositions, 41 source hashes and the bounded #744 recovery."
+      ],
+      "artifacts": [
+        "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+        "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+        "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+        "docs/architecture/adr/0074-runtime-generation-source-ownership.md",
+        "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+        "docs/architecture/adr/README.md",
+        "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md",
+        ".csdlc/evidence/745/source-manifest.json",
+        ".csdlc/evidence/745/v2-transition-recovery.md",
+        ".csdlc/prepared/issues/745/validate-adrs.py"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/usr/bin/python3",
+            ".csdlc/prepared/issues/745/validate-adrs.py"
+          ],
+          "purpose": "Issue 745 documentation validation",
+          "outcome": "passed",
+          "evidence_ref": "adr-docs.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

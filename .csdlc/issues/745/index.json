@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 745,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3d949379ab1bdbb1a638d136b8fd052a897bc78c7117ac7c806d2cb42720eba9",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "d9541855cf49399734ede979c81d7529e4a491e7448938956f0bd7fbabcd5bbf",
+  "branch": "codex/745-v0921-adr-curation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-745-v0921-adr-curation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/745/design.md",
+  "diagram_path": ".csdlc/prepared/issues/745/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:review_adr_packet",
+      "revision": "a9956cdd37d14c49e07d235efbf070238223af515fa1921b6cbd75bf4c7ab6fd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8f8e86951dc3d238ef3a243af400efc5c618435a38f988fb4097bc70a65f96eb",
+      "rendered_digest": "129b77d207451f87c9c5913086687605f265e1f7fe38fb09c883cb684f24ec81",
+      "ast_digest": "45a4504553bc0bd28a90dc2e944bfd48025145d2b45b5a29a8ae52d361eac21c"
+    },
+    "stp": {
+      "values_digest": "4356bd0eb716ffe47b1a225f421e5f2ce79712df73dabd09736b97f37f4e3369",
+      "rendered_digest": "9698bd2a2cae837791e351280bb2b73c562f373cf70337e0e9d22b21c579dc45",
+      "ast_digest": "e48a2ad7c06acdc556f3f0f3d0825a1ec02e24cc30811400c7d21bd33edc814d"
+    },
+    "spp": {
+      "values_digest": "b8a7af7f8812560be0999333c96aa1353c214d58b4e3ed6e92196fc6a0eae427",
+      "rendered_digest": "8ea466555cff20fdade6635d0812de6b6c45ffae4d06cdffdc7adfe57b0b643f",
+      "ast_digest": "72e4d8306b68f2dc6bda5d54dfcd0df6b18ef080d12fc0380c6ea16895ace6fb"
+    },
+    "vpp": {
+      "values_digest": "83e88aacf3caa7cafbef536bed049d3a2a1109027f9ec18b803e691ca9f23858",
+      "rendered_digest": "631ba0f437c881d68f33119ad58fe1c8a5ff98667ede9f323cff4319342242d1",
+      "ast_digest": "5306985342c88fb020f4bc2fa321d44d5680dde798e87faa95662e1c119040cf"
+    },
+    "srp": {
+      "values_digest": "ba42885d175de4e8f8eafafffc5187d25efddae7ef7d90c48548d1147702375b",
+      "rendered_digest": "d048d089ce35576c9e72f8b669198448ee227f1e583cacb3efe46d5dfa737e73",
+      "ast_digest": "28ec680c3b17d583e90f8adada1c39bca60c8f0352c5b71c45258b8163bf3a05"
+    },
+    "sor": {
+      "values_digest": "e6bda1b5003447208121998d29421729a478595b87e280663855deedfb397375",
+      "rendered_digest": "d4e3910c2b57a15bec09794e9624b0bf469e5e8f2b4795b64e6b838f59545344",
+      "ast_digest": "def8c007ff9fef0354b65796e4d740d82d2dd3bab76faa97c9d6236611d8409e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning-7",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning-7",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:planning-7",
+      "reason": "Explicitly own the issue-local documentation validator for PVF readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/architecture/adr/0072-csdlc-v3-native-authority.md\",\"docs/architecture/adr/0073-validated-configuration-snapshot-reload.md\",\"docs/architecture/adr/0074-runtime-generation-source-ownership.md\",\"docs/architecture/adr/0075-provider-profile-and-shadow-authority.md\",\"docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\",\"docs/architecture/adr/README.md\",\"docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md\",\".csdlc/prepared/issues/745\",\".csdlc/issues/745\",\".csdlc/evidence/745\",\".csdlc/prepared/issues/745/validate-adrs.py\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:planning-7",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

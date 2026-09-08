@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue-bound documentation implementation and terminal delivery.",
+      "deliverables": [
+        "Four new candidate ADRs and one deferred update",
+        "ADR index and eight-topic dispositions",
+        "Source manifest, focused proof, review, and #744 recovery record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: All eight milestone topics have explicit ADR or deferred dispositions.",
+        "AC-2: Four source-grounded Proposed ADRs and the Deferred ADR 0069 update preserve architecture authority and existing statuses.",
+        "AC-3: Documentation links, source evidence, and focused validation pass.",
+        "AC-4: Defect #744 and authorized v2 recovery are retained without changing default authority.",
+        "AC-5: Independent review passes, typed PR closes #745, and required CI and terminal delivery complete."
+      ],
+      "dependencies": [
+        "Reviewed preparatory packet from Planning #7; source baseline bf617859982f8b9613737344400626eb90768930."
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md",
+        "docs/adr/README.md",
+        "docs/architecture/adr/README.md"
+      ],
+      "non_goals": [
+        "Accepting new architecture",
+        "Runtime or cloud behavior changes",
+        "Repairing #744 implementation"
+      ]
+    }
+  }
+}

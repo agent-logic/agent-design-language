@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Complete source-grounded v0.92.1 ADR curation and document native-v3 defect #744.",
+      "required_outcome": "Four new Proposed ADRs, one Deferred ADR update, complete eight-topic mapping, reviewed and merged documentation PR.",
+      "declared_scope": [
+        "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+        "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+        "docs/architecture/adr/0074-runtime-generation-source-ownership.md",
+        "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+        "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+        "docs/architecture/adr/README.md",
+        "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md",
+        ".csdlc/prepared/issues/745",
+        ".csdlc/issues/745",
+        ".csdlc/evidence/745"
+      ],
+      "authority_boundary": [
+        "Operator explicitly authorized bounded typed v2 recovery after native-v3 issue-create failure.",
+        "Native v3 remains default; #744 owns retained-intent repair.",
+        "ADR publication does not grant architecture acceptance or release admission."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Preserve the native v3 intent and concurrent work.",
+        "No runtime, cloud, provider, or credential-value changes."
+      ]
+    }
+  }
+}

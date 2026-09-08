@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The declared documentation, evidence, and issue-local validation paths.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do all eight topics map to existing decisions or justified new/deferred records?",
+        "Are status, supersession, source claims and proof limits truthful?",
+        "Does v2 recovery remain bounded and linked to #744?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
