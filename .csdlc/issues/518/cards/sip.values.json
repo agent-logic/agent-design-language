@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one exact-revision documentation review and context-free external-review handoff for v0.92.1.",
+      "required_outcome": "One exact-revision documentation-review packet with a context-free external-review handoff, grounded claims, and explicit residual risks.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/**",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/issues/518/**",
+        ".csdlc/prepared/issues/518/**"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#518",
+        "Execution starts only after #517 has a reviewed merge",
+        "The issue reviews and repairs documentation truth but does not implement product behavior or publish",
+        "Typed finish and cleanup of #517 are non-gating"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Bind every claim and review artifact to one exact candidate revision",
+        "Use resolvable repository paths or canonical issue references",
+        "Do not publish, merge, tag, or release"
+      ]
+    }
+  }
+}

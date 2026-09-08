@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 518,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "0af1904c23fa1142e0d483c84cd5f0477c3ccc48bf33d3fcdd38dc5fbbf07487",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/518/design.md",
+  "diagram_path": ".csdlc/prepared/issues/518/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:root-sprint10-prep-design-review",
+      "revision": "8f4ca2061dfb5453165a1a01bb2c5423da24424e4ac188640d521a9914efb46b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "aaedd022657fa0e5c8c8b37cd2b974ebf5049f3df9a8e34f3a61c1fd125939da",
+      "rendered_digest": "1c4bad821336ea8a137fbeed6943b59f5093cc4591a1099a467e3ef7a976c295",
+      "ast_digest": "e8840a533d14d7bbc47d7315dd2c14684fb299557011eea04f230b2ede0a04fa"
+    },
+    "stp": {
+      "values_digest": "50d5e320cb5f56c9be97dca815f1df104768b46da3f1cdb63f89b011e37c4709",
+      "rendered_digest": "6d083fdea1cdf64511353ad94afb3b4cb07e3381674c372197b73f85af251be6",
+      "ast_digest": "4c0eb847117d2374468b03c75cc49bfcfd9765b007b6076e8ab8e54bab44b8d3"
+    },
+    "spp": {
+      "values_digest": "15b981028e5b0677cbdb8cf2a21a3b7271fc4f08022d584658354c7b119dd64e",
+      "rendered_digest": "1cbfbd47d4b298e05eabd61179a806230315fc5438714c30bbdb8266c71ecbf1",
+      "ast_digest": "422a2360b2f9bf0ba7d406abaa86c78bde3c298bc1f563e5766fcdf340fcc520"
+    },
+    "vpp": {
+      "values_digest": "a688e867485bcde91a55147e61ff80dc30d962402be40707dd79ff03b7950ebb",
+      "rendered_digest": "cd2a1d8d9d43f8bff6e1c4802650f2122f509da05d3c7b057786e4061d1ca858",
+      "ast_digest": "3ff114f5a38a965322d6520ce42c00e66c77f846e05f6b1439323f2215c775f3"
+    },
+    "srp": {
+      "values_digest": "d25af92f32ae26964b6070ae955c7a1dc98e14bcc6c2407229f24d16b2c809ba",
+      "rendered_digest": "68a5206a895ed4f034ce8e93d776d31519a9c77b6e4e432ff7354a82e2978fb4",
+      "ast_digest": "dfe1977a91466e8dff1b6a7a4b84780dd9d406d6e350046849fbf1bc5e112ebd"
+    },
+    "sor": {
+      "values_digest": "2884ed90aa53e601190152371b09eb19a2c632d59a9a2ac762ccf82b560cbc45",
+      "rendered_digest": "67366e7a9ae98b2ae58742a1af092caf186e5f90f233be6623e293c46147b1a8",
+      "ast_digest": "2fbe078dfe959c5afa236434f82016bb7abddeae96879aa0dcf11d51ead22296"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Issue-specific six-card bundle, exact owned paths, deferred validator contract, and qualitative readiness review are complete; stop before execution binding."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Replace glob and descriptive affected areas with exact safe repository-owned documentation and validator paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.92.1/evidence/release/tail-02\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Make the deferred issue-owned documentation validator and exact packet paths explicit for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-02\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Issue-specific six-card bundle, exact owned paths, deferred validator contract, and qualitative readiness review are complete; stop before execution binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

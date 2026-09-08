@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 517,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-01] Quality gate",
+    "slug": "tail-01-quality-gate",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one quality-gate decision; individual proving lanes are evidence inputs.",
+      "deliverables": [
+        "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+        "docs/milestones/v0.92.1/evidence/release/tail-01",
+        ".csdlc/prepared/issues/517/validate-quality-gate.rb"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every required proving lane passes",
+        "AC-2: Skipped, absent, zero-test, stale, and non-proving results fail closed",
+        "AC-3: The exact candidate revision and complete denominator are recorded",
+        "AC-4: Every exception has an explicit owner and no unresolved exception remains"
+      ],
+      "dependencies": [
+        "INT-01/#516 reviewed merge before execution"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#517",
+        "agent-logic/agent-design-language#516",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-01",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"
+      ],
+      "non_goals": [
+        "Documentation repair",
+        "Product implementation",
+        "Publication",
+        "Release ceremony"
+      ]
+    }
+  }
+}

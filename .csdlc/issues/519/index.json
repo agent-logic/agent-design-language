@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 519,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "56c6a0a0f27c894cf9534389e91aa8405cec4df9b2d6f42fa9e6dfcdb341d23f",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "65f02aa5811616eafebe8d14009f3636c1fc7ba36ca249c0990fa39864008e1e",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/519/design.md",
+  "diagram_path": ".csdlc/prepared/issues/519/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:root-sprint10-prep-design-review",
+      "revision": "d57e1f849698fa6840961dc6b30e2e11b05073a49ca61cef6d65312ebc861070"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4045280f5202524dd773609b86c4738b19b679fa6f0d47b4f363f8858f5fc042",
+      "rendered_digest": "b2fa2f7b15a4c61df8b9edcfeafd841383511101c29cfdf4f4ca8b649c366b02",
+      "ast_digest": "fe6aa80ee56a8b755654c7f1d54971f1c5eaeea2af74c3e10c2a147c4d2b06a8"
+    },
+    "stp": {
+      "values_digest": "b418d12226a61fff435ce36bdebb96609edf75a025fc4b4c33d2cb99035ff94f",
+      "rendered_digest": "85ec37ac22fa0926a6cb048c2e8df6ccbc453844c4ed5d8f486b086dfb416e6b",
+      "ast_digest": "428082e9bfbe12920b2b9090ce74bbecde5661f0718e8b04c98bbad501c9120f"
+    },
+    "spp": {
+      "values_digest": "e47c3ace042569e8dc4486e7863f4175dde62227f9a16aef2b0aff434d4a3d34",
+      "rendered_digest": "cb415b30ab578bbe482a4f355441c306b9d53822568d8afbdb54c28c529fbd5d",
+      "ast_digest": "843a27a35540754146eb1a2d819a17912cd5ceb05f46a2e160ed25e4dbd673b2"
+    },
+    "vpp": {
+      "values_digest": "7e95a1f87720f760d90aad1fbd1923b58fedf20486d51cd59907d198397783ff",
+      "rendered_digest": "8d125006f39dfb17974e2cf184f2a9c06ed788b5af158d85526a93fbfec0d40d",
+      "ast_digest": "e3fd40ad5afb4e5ca1891cca3ad424d93e60d583d3c05d8f8a5b3617ff632d42"
+    },
+    "srp": {
+      "values_digest": "5fa87c5df2c5b6ba2b6cbce8eabf71b082e8a40f59a16d78f0af0892fa51b46b",
+      "rendered_digest": "5cddf2baa41cceb58b34851a1a9c2e13fd826e809090023c364070a5423d7808",
+      "ast_digest": "b9f52dfb8e8e03f965c983822b0f65a05b643af7f135e137acb9cc789f4af39b"
+    },
+    "sor": {
+      "values_digest": "2042961f6487286ddf2b93d97c224fd2228b9fae817e3edca3c99a86acbb1c66",
+      "rendered_digest": "81592ec4462436531be25855a5679a6b2fc46633af6748191039f9df9f33a3f6",
+      "ast_digest": "eaef5528cd176f451f065065aab199db907c2fad1a8ff6816880cb4a509ff7b2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Issue-specific six-card bundle, exact owned paths, deferred validator contract, and qualitative readiness review are complete; stop before execution binding."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Replace glob and descriptive affected areas with exact safe repository-owned packet and validator paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-03\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Make the deferred issue-owned publication validator and exact packet path explicit for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-03\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Issue-specific six-card bundle, exact owned paths, deferred validator contract, and qualitative readiness review are complete; stop before execution binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
