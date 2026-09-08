@@ -4,11 +4,23 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "50aa7cde55e674087b335db744ce251a72f05fb4141ee557610d7a5830b93964",
+  "generation": 24,
+  "digest": "5665c4f463b465b885790e1adcbbe8f1655b5f670e295175334a0e32eb3aa4b9",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:bb96f0bce82a9406d4b4b54e0949c0ee0a0de224:037d07a4e20152da0de3038518f3daf6a97d14ab607efbf24c1061d911bd1245",
+    "scope": [
+      ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh",
+      ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+      ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+      "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "infra/gcp/bootstrap",
+      ".csdlc/evidence/730"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72aed72a061f1b14601aeae9a577d37d8a1449d56ba4d3107ced43da53a62144",
+      "values_digest": "4e7919128b67461e8dc6d61d458e5a80dba490683324ce0a91c3851e48ce53a9",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "4ed30e72f624cbec44fc31ffdcde907f6a4bef77fe6ee8ff1224419dbf2432bc",
+      "values_digest": "5f881243ded872029cb7fc67056122aa30f508b767d2f0f2631b9e28096340c9",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "e7bdc8a76779254567fcd1df4f618c0259fa75683bffc604e0999c1df571e6d4",
+      "values_digest": "3fbf7027383b6064a0c0c58002cc0ded4a44515f96d2bcd6689e82b01406f1f6",
       "rendered_digest": "48deb92716b6d76b442da6c585efebf1339045c59d34e7a1f1cc2715d7a2f31b",
       "ast_digest": "9704496969ba459d57124d72c36247258aa1f00f63299ed8f23ac6b35e8ef23e"
     },
     "vpp": {
-      "values_digest": "e1523c8db3666ca3a76e955438cbd15fe807c8df12c45e8fe91dfd5ec1e171a8",
+      "values_digest": "b25e03a3fbf731332e5f33da1edc2fa3a20f2d32939a5ce86826289413b0bbba",
       "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "c3fb1c0d936e6e1e97d72982c2c793a07bed8feae8c8c8f88ea8f604efcaa22d",
-      "rendered_digest": "d8dda4106c52307379ef238a523f79d7c51f5ffa60dc699437349565a426f0e9",
-      "ast_digest": "9bbebcd2cc61abbe00f11afcc2eeceb1848bc96d1458ff7826fff6a9d38782cc"
+      "values_digest": "20ec60de3be5726d537c9ca3debeb852e332f269ea49ac3cc1616ca3acd6e667",
+      "rendered_digest": "dda7a338e05130eebf5da82224294face5d4b205e0fd7055d951e937250c70a6",
+      "ast_digest": "251b4f1902de05e346553811d987b22e68879be626c72ed26f5560a9f2d4474c"
     },
     "sor": {
-      "values_digest": "b1426439e6d506c71212ce911032df3582b9a554ca7c9d727b70b488048969f3",
-      "rendered_digest": "b896ce72f4b1136c758d58cb70b43bee6a6205881d6e0b69368645e0b6f90e7a",
-      "ast_digest": "73a9f02e623abec526aa4e8f611c9863c7c24121291f9b88b761fc7943b11dbf"
+      "values_digest": "952482db9c6d94871a3a03ed9a61175bcf44a3378670c191a0848485d52adda3",
+      "rendered_digest": "218e971050ea9660a6752433502bb86ba10f32e40c8d5a2978930d62852d86ed",
+      "ast_digest": "4bdfd354cf352afd8d620e80b14d4e365b59954190ebc139763a504d3af03843"
     }
   },
   "transitions": [
@@ -287,6 +299,27 @@
       "actor": "codex:/root",
       "reason": "Record #730 repo-local Cloud SDK config isolation aligned with prior GCP proof issues.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh\",\"--lane=static\"],\"purpose\":\"Static proof after aligning #730 plan/live scripts with the prior #491/#608 repo-local Cloud SDK config pattern so gcloud cache/log writes stay under Git-common storage while static credential-file execution remains rejected.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; live-proof-fail-closed.stderr.log still reports exact authorization artifact required; residue-scan.log has 0 lines; diff-check.log has 0 lines\"}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Record remediation for the pre-PR review finding on ambient CLOUDSDK_CONFIG bypass.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed the pre-PR review finding that repo-local Cloud SDK isolation was only a fallback. The #730 plan and live proof scripts now force CLOUDSDK_CONFIG to the Git-common gcloud-config directory so ambient shell settings cannot route Cloud SDK cache, logs, or credential state outside the issue-owned proof area.\",\"changes\":[\"Changed prepare-gcp-b1-plan.sh to export CLOUDSDK_CONFIG directly to the Git-common gcloud-config directory.\",\"Changed run-gcp-b1-proof.sh to export CLOUDSDK_CONFIG directly to the Git-common gcloud-config directory.\",\"Strengthened validate-gcp-b1.sh to require the direct CLOUDSDK_CONFIG export in both scripts.\"],\"artifacts\":[\".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh\",\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Record validation that ambient CLOUDSDK_CONFIG no longer bypasses #730 repo-local Cloud SDK isolation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"CLOUDSDK_CONFIG=/Users/daniel/.config/gcloud\",\"bash\",\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\"],\"purpose\":\"Regression probe for the pre-PR review finding: an ambient external CLOUDSDK_CONFIG must not bypass the issue-owned Git-common Cloud SDK config isolation.\",\"outcome\":\"blocked\",\"evidence_ref\":\"command failed closed before cloud mutation with exact authorization artifact required; scripts now force CLOUDSDK_CONFIG to Git-common gcloud-config before gcloud use\"}}"
     }
   ]
 }

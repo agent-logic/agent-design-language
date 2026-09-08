@@ -7,13 +7,13 @@
     "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
     "slug": "gcp-b1-impersonation-remote-state",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh\n.csdlc/prepared/issues/730/run-gcp-b1-proof.sh\n.csdlc/prepared/issues/730/validate-gcp-b1.sh\ndocs/operations/cloud/gcp/terraform-bootstrap/README.md\ninfra/gcp/bootstrap\n.csdlc/evidence/730",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

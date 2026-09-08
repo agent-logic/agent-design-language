@@ -130,7 +130,7 @@ if delta > 90 * 60:
 PY
 
 mkdir -p "$evidence_dir" "$recovery_dir" "$gcloud_config"
-export CLOUDSDK_CONFIG="${CLOUDSDK_CONFIG:-$gcloud_config}"
+export CLOUDSDK_CONFIG="$gcloud_config"
 rm -rf "$tf_data_dir"
 rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
 trap cleanup EXIT

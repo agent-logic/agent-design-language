@@ -21,6 +21,8 @@ grep -Fq 'impersonate_service_account' infra/gcp/bootstrap/provider.tf
 grep -Fq 'impersonate_service_account = "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"' infra/gcp/bootstrap/backend.tf.example
 grep -Fq 'csdlc-v2/gcloud-config' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
 grep -Fq 'csdlc-v2/gcloud-config' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+grep -Fq 'export CLOUDSDK_CONFIG="$gcloud_config"' .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
+grep -Fq 'export CLOUDSDK_CONFIG="$gcloud_config"' .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
 grep -Fq 'tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com' infra/gcp/bootstrap/variables.tf
 grep -Fq 'default     = "us-west2"' infra/gcp/bootstrap/variables.tf
 grep -Fq 'issue     = "730"' infra/gcp/bootstrap/variables.tf

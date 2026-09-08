@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Added a tracked #730 authorization template for the exact saved-plan apply gate.
+Fixed the pre-PR review finding that repo-local Cloud SDK isolation was only a fallback. The #730 plan and live proof scripts now force CLOUDSDK_CONFIG to the Git-common gcloud-config directory so ambient shell settings cannot route Cloud SDK cache, logs, or credential state outside the issue-owned proof area.
 
 ## Artifacts
 
@@ -30,6 +30,9 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
 - .csdlc/evidence/730/diff-check.log
 - .csdlc/evidence/730/residue-scan.log
 - .csdlc/prepared/issues/730/authorization-template.json
+- .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
+- .csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+- .csdlc/prepared/issues/730/validate-gcp-b1.sh
 
 ## Execution
 
@@ -40,6 +43,9 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
 - Added a prepare-gcp-b1-plan script that creates the reviewed saved plan under Git common storage and retains only redacted/digest evidence in the worktree.
 - Replaced the live proof placeholder with fail-closed authorization, impersonation, reviewed-plan digest, bounded plan, apply-timeout, readback, canary recovery, and residue checks.
 - Added an authorization template carrying the exact project, region, bucket, service account, plan path, current saved-plan digest, spend cap, apply timeout, and rollback command required by the live proof script.
+- Changed prepare-gcp-b1-plan.sh to export CLOUDSDK_CONFIG directly to the Git-common gcloud-config directory.
+- Changed run-gcp-b1-proof.sh to export CLOUDSDK_CONFIG directly to the Git-common gcloud-config directory.
+- Strengthened validate-gcp-b1.sh to require the direct CLOUDSDK_CONFIG export in both scripts.
 
 ## Validation
 
@@ -143,6 +149,16 @@ Added a tracked #730 authorization template for the exact saved-plan apply gate.
     "purpose": "Static proof after aligning #730 plan/live scripts with the prior #491/#608 repo-local Cloud SDK config pattern so gcloud cache/log writes stay under Git-common storage while static credential-file execution remains rejected.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; live-proof-fail-closed.stderr.log still reports exact authorization artifact required; residue-scan.log has 0 lines; diff-check.log has 0 lines"
+  },
+  {
+    "command": [
+      "CLOUDSDK_CONFIG=/Users/daniel/.config/gcloud",
+      "bash",
+      ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh"
+    ],
+    "purpose": "Regression probe for the pre-PR review finding: an ambient external CLOUDSDK_CONFIG must not bypass the issue-owned Git-common Cloud SDK config isolation.",
+    "outcome": "blocked",
+    "evidence_ref": "command failed closed before cloud mutation with exact authorization artifact required; scripts now force CLOUDSDK_CONFIG to Git-common gcloud-config before gcloud use"
   }
 ]
 

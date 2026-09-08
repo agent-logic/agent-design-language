@@ -35,7 +35,7 @@ command -v jq >/dev/null 2>&1 || fail "missing required tool: jq"
 [[ -z "${GCP_B_KEY_FILE:-}" ]] || fail "GCP_B_KEY_FILE is not allowed"
 
 mkdir -p "$evidence_dir" "$plan_dir" "$gcloud_config"
-export CLOUDSDK_CONFIG="${CLOUDSDK_CONFIG:-$gcloud_config}"
+export CLOUDSDK_CONFIG="$gcloud_config"
 rm -rf "$tf_data_dir"
 trap 'rm -rf "$tf_data_dir"' EXIT
 
