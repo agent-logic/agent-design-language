@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review the exact sprint record, design, diagram, Sprint Execution Packet, child membership and cards, parallel-lane independence, serial gates, operator authority, activity log, and closeout rule.",
+      "review_scope": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\n.csdlc/prepared/issues/536/validate-sprint-closeout.rb",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-Review the exact sprint record, design, diagram, Sprint Execution Packet, child membership and cards, parallel-lane independence, serial gates, operator authority, activity log, and closeout rule.
+docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md
+.csdlc/prepared/issues/536/validate-sprint-closeout.rb
 
 ## Prompts
 

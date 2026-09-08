@@ -6,10 +6,18 @@
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
   "phase": "implemented",
   "generation": 8,
-  "digest": "f64ffe6ab39637bc19acb4bbdb40e1c40a6c4cce2c4c0865fca9508f58e658cb",
+  "digest": "032e26a45050d24d9ce114b0c5e6606bab1e7cfc68cabaed8d6b3e002fd91351",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_536_closeout",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:7d37f253d206e41bfebbacbcca25f6b3a4b59907:3cc0a3751c5f291cb7830a89d39108706db5b3a49253abe2acb90ecdf1075a54",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +53,9 @@
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "244c7ed92daea9c011148c434e5957c6394e81e593b4f63fa9acea96d9c3bf71",
-      "rendered_digest": "5979ff30b96e42f0dd583718a236f88cb6ff15087c798664b4f6f3d380701603",
-      "ast_digest": "67f48f121a3f884ad8441d84a27261acfda9b809e6db98e259551503eb557d2f"
+      "values_digest": "2590cfe0660b3a204ff3fcab5f36ed74c0682bf65a44af8de729add0657357c1",
+      "rendered_digest": "9dbe995c30c09250104bf6a6139181c613ae9d930ea99b4297efd7f435cb3630",
+      "ast_digest": "127706fabc8d80b19e5a3ea6ea7aadb89eae1b7e55acbfc4a8c28af9538da991"
     },
     "sor": {
       "values_digest": "6191eeeef3306fad796561c60c1c775337826d8fa0b94301da55a61bea92a9f3",
@@ -148,6 +156,13 @@
       "actor": "codex:sprint8-closeout",
       "reason": "Aggregate closeout evidence and focused deterministic proof are complete; enter exact-head review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
