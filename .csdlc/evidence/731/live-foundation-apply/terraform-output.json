@@ -1,0 +1,68 @@
+{
+  "iap_tcp_forwarding_cidr": {
+    "sensitive": false,
+    "type": "string",
+    "value": "35.235.240.0/20"
+  },
+  "network_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "axioma-dev-csm-private"
+  },
+  "required_labels": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "app": "string",
+        "csm": "string",
+        "env": "string",
+        "issue": "string",
+        "lane": "string",
+        "milestone": "string",
+        "owner": "string",
+        "ttl": "string"
+      }
+    ],
+    "value": {
+      "app": "adl",
+      "csm": "axioma",
+      "env": "dev",
+      "issue": "493",
+      "lane": "gcp-d",
+      "milestone": "v0-92-1",
+      "owner": "agent-logic",
+      "ttl": "disposable"
+    }
+  },
+  "storage_owner_buckets": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "artifacts": "string",
+        "continuity_evidence": "string",
+        "logs": "string",
+        "models": "string",
+        "state": "string"
+      }
+    ],
+    "value": {
+      "artifacts": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+      "continuity_evidence": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+      "logs": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+      "models": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+      "state": "cs-host-377d41e71a824f92802120-dev-axioma-state"
+    }
+  },
+  "subnet_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "axioma-dev-csm-private-us-west2"
+  },
+  "workload_service_account_email": {
+    "sensitive": false,
+    "type": "string",
+    "value": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "369cf41971e8846e6b759953ca50fd0acdd754c4f3812e1ebdcf582a98e9380c",
+  "actor": "codex:731-owner",
+  "reason": "Advance #731 SOR to ready after recording authorized live foundation apply, disposable workload disposal, and zero-residue evidence while publication and merge remain pending.",
+  "operation": {
+    "operation": "advance_status",
+    "status": "ready"
+  }
+}

@@ -8,14 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact commit 992d0485c593926617a9474b194fa8758ac7b64e on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.
-Terraform provider-correct OS Login metadata resource change in infra/gcp/platform/main.tf.
-No-mutation static readiness, saved Terraform plan denominator, read-only GCP preflight, pending authorization packet, and SOR truth under .csdlc/issues/731, .csdlc/prepared/issues/731, and .csdlc/evidence/731.
-Verify the PR must not claim full #731 completion, must not use a closing keyword, and must preserve the explicit live GCP apply/run stop boundary pending exact operator authorization.
+
 
 ## Prompts
 

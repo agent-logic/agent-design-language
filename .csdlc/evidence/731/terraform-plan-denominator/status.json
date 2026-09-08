@@ -8,9 +8,9 @@
   "mutation": "none",
   "refresh": false,
   "plan_file": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
-  "plan_sha256": "7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12",
+  "plan_sha256": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
   "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
-  "plan_json_sha256": "0c560cba2afde5b0551906c3af176ee21cd85ac0596a79ac8ac1bc6d6fc57f48",
+  "plan_json_sha256": "fc68aee4b9b3bc6f34169880d03c173d4dce1f4a4ba971f1b6cc90f504a16b8c",
   "expected_resource_count": 20,
   "forbidden_resource_count": 0
 }

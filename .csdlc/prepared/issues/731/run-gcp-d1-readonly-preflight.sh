@@ -85,8 +85,8 @@ printf '%s' "$iam_readback" | jq --arg active_member "user:$account" '
     readable: true,
     scoped_binding_counts: {
       owner_for_active_operator: ([.bindings[]? | select(.role == "roles/owner") | .members[]? | select(. == $active_member)] | length),
-      planned_operator_os_login: ([.bindings[]? | select(.role == "roles/compute.osLogin") | .members[]? | select(. == "group:gcp-admins@agent-logic.ai")] | length),
-      planned_operator_iap_tunnel: ([.bindings[]? | select(.role == "roles/iap.tunnelResourceAccessor") | .members[]? | select(. == "group:gcp-admins@agent-logic.ai")] | length)
+      planned_operator_os_login: ([.bindings[]? | select(.role == "roles/compute.osLogin") | .members[]? | select(. == $active_member)] | length),
+      planned_operator_iap_tunnel: ([.bindings[]? | select(.role == "roles/iap.tunnelResourceAccessor") | .members[]? | select(. == $active_member)] | length)
     }
   }
 ' > "$out_dir/scoped-iam-policy.json"
@@ -98,6 +98,12 @@ gcloud compute networks describe "$network" --project "$project_id" --format=jso
   > "$out_dir/network.json" 2> "$out_dir/network.err" || true
 gcloud compute networks subnets describe "$subnet" --region "$region" --project "$project_id" --format=json \
   > "$out_dir/subnet.json" 2> "$out_dir/subnet.err" || true
+if test -s "$out_dir/network.json" && ! test -s "$out_dir/network.err"; then
+  printf 'no stderr\n' > "$out_dir/network.err"
+fi
+if test -s "$out_dir/subnet.json" && ! test -s "$out_dir/subnet.err"; then
+  printf 'no stderr\n' > "$out_dir/subnet.err"
+fi
 if ! test -s "$out_dir/network.json"; then
   write_json "$out_dir/network.json" \
     --arg schema "adl.gcp_d1.target_resource_readback.v1" \

@@ -29,7 +29,8 @@ jq -e '
   (.proof_run_spend_cap_usd == 1) and
   (.foundation_steady_state_30d_cap_usd == 5) and
   (.rollback_commands | type == "array" and length >= 2) and
-  (.operator_authorization.status == "pending")
+  (.operator_authorization.status == "pending" or .operator_authorization.status == "approved")
 ' "$packet" >/dev/null || fail "authorization packet is incomplete or outside #731 bounds"
 
-printf 'PASS: #731 mutation authorization packet is complete and pending operator approval\n'
+status="$(jq -r '.operator_authorization.status' "$packet")"
+printf 'PASS: #731 mutation authorization packet is complete and status=%s\n' "$status"

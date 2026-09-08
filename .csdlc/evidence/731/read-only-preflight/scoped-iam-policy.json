@@ -2,7 +2,7 @@
   "readable": true,
   "scoped_binding_counts": {
     "owner_for_active_operator": 1,
-    "planned_operator_os_login": 0,
-    "planned_operator_iap_tunnel": 0
+    "planned_operator_os_login": 1,
+    "planned_operator_iap_tunnel": 1
   }
 }

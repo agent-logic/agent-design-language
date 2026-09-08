@@ -1,0 +1,35 @@
+[0m[1mgoogle_project_iam_member.operator_iap_tunnel: Creating...[0m[0m
+[0m[1mgoogle_project_iam_member.operator_os_login: Creating...[0m[0m
+[0m[1mgoogle_compute_firewall.deny_unapproved_egress: Creating...[0m[0m
+[0m[1mgoogle_project_iam_member.operator_os_login: Still creating... [00m10s elapsed][0m[0m
+[0m[1mgoogle_project_iam_member.operator_iap_tunnel: Still creating... [00m10s elapsed][0m[0m
+[0m[1mgoogle_compute_firewall.deny_unapproved_egress: Still creating... [00m10s elapsed][0m[0m
+[0m[1mgoogle_project_iam_member.operator_os_login: Creation complete after 15s [id=cs-host-377d41e71a824f92802120/roles/compute.osLogin/user:daniel@agent-logic.ai][0m
+[0m[1mgoogle_project_iam_member.operator_iap_tunnel: Creation complete after 15s [id=cs-host-377d41e71a824f92802120/roles/iap.tunnelResourceAccessor/user:daniel@agent-logic.ai][0m
+[0m[1mgoogle_compute_firewall.deny_unapproved_egress: Creation complete after 18s [id=projects/cs-host-377d41e71a824f92802120/global/firewalls/axioma-dev-csm-private-deny-unapproved-egress][0m
+[0m[1m[32m
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0miap_tcp_forwarding_cidr = "35.235.240.0/20"
+network_name = "axioma-dev-csm-private"
+required_labels = {
+  "app" = "adl"
+  "csm" = "axioma"
+  "env" = "dev"
+  "issue" = "493"
+  "lane" = "gcp-d"
+  "milestone" = "v0-92-1"
+  "owner" = "agent-logic"
+  "ttl" = "disposable"
+}
+storage_owner_buckets = {
+  "artifacts" = "cs-host-377d41e71a824f92802120-dev-axioma-artifacts"
+  "continuity_evidence" = "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence"
+  "logs" = "cs-host-377d41e71a824f92802120-dev-axioma-logs"
+  "models" = "cs-host-377d41e71a824f92802120-dev-axioma-models"
+  "state" = "cs-host-377d41e71a824f92802120-dev-axioma-state"
+}
+subnet_name = "axioma-dev-csm-private-us-west2"
+workload_service_account_email = "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"

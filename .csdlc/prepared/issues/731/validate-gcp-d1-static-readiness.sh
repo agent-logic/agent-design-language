@@ -71,6 +71,7 @@ require_text "infra/gcp/platform/terraform.tfvars.example" "csm_name    = \"axio
 require_text "infra/gcp/platform/terraform.tfvars.example" "network_name = \"axioma-dev-csm-private\""
 require_text "infra/gcp/platform/terraform.tfvars.example" "subnet_name  = \"axioma-dev-csm-private-us-west2\""
 require_text "infra/gcp/platform/terraform.tfvars.example" "subnet_cidr  = \"10.42.0.0/24\""
+require_text "infra/gcp/platform/terraform.tfvars.example" "operator_member = \"user:daniel@agent-logic.ai\""
 
 reject_text "infra/gcp/platform/main.tf" "google_compute_instance"
 reject_text "infra/gcp/platform/main.tf" "google_compute_address"

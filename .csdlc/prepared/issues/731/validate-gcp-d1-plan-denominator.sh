@@ -27,6 +27,7 @@ grep -Fq 'csm_name    = "axioma"' "$tfvars" || fail "tfvars CSM is not axioma"
 grep -Fq 'network_name = "axioma-dev-csm-private"' "$tfvars" || fail "tfvars network is not the #731 private VPC"
 grep -Fq 'subnet_name  = "axioma-dev-csm-private-us-west2"' "$tfvars" || fail "tfvars subnet is not the #731 private subnet"
 grep -Fq 'subnet_cidr  = "10.42.0.0/24"' "$tfvars" || fail "tfvars subnet CIDR drifted"
+grep -Fq 'operator_member = "user:daniel@agent-logic.ai"' "$tfvars" || fail "tfvars operator member is not the authorized active user"
 
 terraform -chdir="$platform_dir" fmt -check -diff
 terraform -chdir="$platform_dir" init -backend=false -input=false

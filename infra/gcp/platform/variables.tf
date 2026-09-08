@@ -45,10 +45,10 @@ variable "iap_tcp_forwarding_cidr" {
   default     = "35.235.240.0/20"
 }
 
-variable "operator_group_email" {
-  description = "Corporate group allowed to use IAP and OS Login for operator access."
+variable "operator_member" {
+  description = "IAM member allowed to use IAP and OS Login for operator access."
   type        = string
-  default     = "gcp-admins@agent-logic.ai"
+  default     = "user:daniel@agent-logic.ai"
 }
 
 variable "allowed_private_egress_cidrs" {

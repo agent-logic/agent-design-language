@@ -1,0 +1,29 @@
+{
+  "creation_time": "2026-09-08T09:36:57+0000",
+  "default_storage_class": "STANDARD",
+  "generation": 1788860216891233391,
+  "labels": {
+    "app": "adl",
+    "csm": "axioma",
+    "env": "dev",
+    "goog-terraform-provisioned": "true",
+    "issue": "493",
+    "lane": "gcp-d",
+    "milestone": "v0-92-1",
+    "owner": "state",
+    "ttl": "disposable"
+  },
+  "location": "US-WEST2",
+  "location_type": "region",
+  "metageneration": 1,
+  "name": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+  "public_access_prevention": "inherited",
+  "soft_delete_policy": {
+    "effectiveTime": "2026-09-08T09:36:57.760000+00:00",
+    "retentionDurationSeconds": "604800"
+  },
+  "storage_url": "gs://cs-host-377d41e71a824f92802120-dev-axioma-state/",
+  "uniform_bucket_level_access": true,
+  "update_time": "2026-09-08T09:36:57+0000",
+  "versioning_enabled": true
+}

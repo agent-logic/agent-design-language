@@ -1,0 +1,18 @@
+{
+  "schema": "adl.gcp_d1.disposable_workload_proof.v1",
+  "status": "passed",
+  "project": "cs-host-377d41e71a824f92802120",
+  "zone": "us-west2-a",
+  "run_id": "gcp-d1-20260908t084805z-bound731",
+  "instance": "adl-gcp-d1-20260908t084805z-bound731",
+  "machine_type": "e2-micro",
+  "external_ip": false,
+  "boot_disk": "pd-standard <=10GiB auto-delete",
+  "mutation": "authorized_create_then_delete",
+  "residue": {
+    "instances": 0,
+    "run_labelled_instances": 0,
+    "disks": 0,
+    "addresses": 0
+  }
+}

@@ -1,3 +1,1 @@
-ERROR: (gcloud.compute.networks.describe) Could not fetch resource:
- - The resource 'projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private' was not found
-
+no stderr

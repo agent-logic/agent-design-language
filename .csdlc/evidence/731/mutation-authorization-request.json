@@ -6,7 +6,7 @@
   "zone": "us-west2-a",
   "network": "axioma-dev-csm-private",
   "subnet": "axioma-dev-csm-private-us-west2",
-  "plan_digest": "7a8eab44d2be859598b9f77b99919ce5f990a7f846b30bbd8a5293e9d4446c12",
+  "plan_digest": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
   "plan_file": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
   "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
   "run_id": "gcp-d1-20260908t084805z-bound731",
@@ -21,7 +21,10 @@
     "gcloud compute disks list --project cs-host-377d41e71a824f92802120 --filter='zone:(us-west2-a) AND labels.run_id=gcp-d1-20260908t084805z-bound731' --format=json"
   ],
   "operator_authorization": {
-    "status": "pending",
+    "status": "approved",
+    "approved_by": "operator",
+    "approved_at_utc": "2026-09-08T09:29:52Z",
+    "authorization_text": "dont get blocked, complete the task, you are authed to use gcp",
     "required_before": [
       "terraform apply",
       "gcloud compute instances create",

@@ -1,0 +1,16 @@
+{
+  "createTime": "2026-09-08T09:36:57.092169308Z",
+  "description": "Watchdog/readback command support: counts disposable workload log entries missing deadline labels.",
+  "filter": "resource.type=\"gce_instance\" AND labels.issue=\"493\" AND labels.ttl=\"disposable\" AND -labels.deadline:*",
+  "metricDescriptor": {
+    "description": "Watchdog/readback command support: counts disposable workload log entries missing deadline labels.",
+    "metricKind": "DELTA",
+    "name": "projects/cs-host-377d41e71a824f92802120/metricDescriptors/logging.googleapis.com/user/csm_dev_disposable_without_deadline",
+    "type": "logging.googleapis.com/user/csm_dev_disposable_without_deadline",
+    "unit": "1",
+    "valueType": "INT64"
+  },
+  "name": "csm_dev_disposable_without_deadline",
+  "resourceName": "projects/cs-host-377d41e71a824f92802120/metrics/csm_dev_disposable_without_deadline",
+  "updateTime": "2026-09-08T09:36:57.092169308Z"
+}

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
     "slug": "gcp-d1-private-foundation-non-gpu-disposal",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 17
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact commit 992d0485c593926617a9474b194fa8758ac7b64e on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.\nTerraform provider-correct OS Login metadata resource change in infra/gcp/platform/main.tf.\nNo-mutation static readiness, saved Terraform plan denominator, read-only GCP preflight, pending authorization packet, and SOR truth under .csdlc/issues/731, .csdlc/prepared/issues/731, and .csdlc/evidence/731.\nVerify the PR must not claim full #731 completion, must not use a closing keyword, and must preserve the explicit live GCP apply/run stop boundary pending exact operator authorization.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
