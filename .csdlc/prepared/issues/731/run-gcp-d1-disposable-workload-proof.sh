@@ -62,6 +62,7 @@ printf '%s\n' "$reaper_pid" > "$out_dir/deadline-reaper.pid"
 "$gcloud_bin" compute networks describe "$network" --project "$project_id" --format=json > "$out_dir/pre-network.json"
 "$gcloud_bin" compute networks subnets describe "$subnet" --region "$region" --project "$project_id" --format=json > "$out_dir/pre-subnet.json"
 
+created_instance=true
 "$gcloud_bin" compute instances create "$instance_name" \
   --project "$project_id" \
   --zone "$zone" \
@@ -78,7 +79,6 @@ printf '%s\n' "$reaper_pid" > "$out_dir/deadline-reaper.pid"
   --tags csm-disposable \
   --labels "issue=493,ttl=disposable,csm=axioma,env=dev,run_id=${run_id},deadline=${deadline_label}" \
   2>&1 | tee "$out_dir/instance-create.log"
-created_instance=true
 
 "$gcloud_bin" compute instances describe "$instance_name" --project "$project_id" --zone "$zone" --format=json > "$out_dir/instance-running.json"
 
@@ -124,7 +124,34 @@ if test -f "infra/gcp/platform/terraform.tfstate"; then
 else
   printf '[]\n' > "$out_dir/post-terraform-state-run-labels.json"
 fi
-printf '[]\n' > "$out_dir/post-storage-objects.json"
+storage_scan_dir="$out_dir/post-storage-object-scan"
+mkdir -p "$storage_scan_dir"
+bucket_names="$storage_scan_dir/buckets.txt"
+if test -f ".csdlc/evidence/731/live-foundation-apply/terraform-output.json"; then
+  jq -r '.storage_owner_buckets.value[]? // empty' .csdlc/evidence/731/live-foundation-apply/terraform-output.json > "$bucket_names"
+else
+  for owner in state artifacts models continuity-evidence logs; do
+    case "$owner" in
+      continuity-evidence) printf '%s-dev-axioma-continuity-evidence\n' "$project_id" ;;
+      *) printf '%s-dev-axioma-%s\n' "$project_id" "$owner" ;;
+    esac
+  done > "$bucket_names"
+fi
+while IFS= read -r bucket_name; do
+  test -n "$bucket_name" || continue
+  safe_bucket_name="$(printf '%s' "$bucket_name" | tr -c 'A-Za-z0-9._-' '_')"
+  "$gcloud_bin" storage objects list "gs://$bucket_name" --recursive --all-versions --format=json \
+    > "$storage_scan_dir/$safe_bucket_name.json"
+done < "$bucket_names"
+jq -s --arg run_id "$run_id" '
+  [ .[][]?
+    | select(
+        ((.metadata.run_id // .customMetadata.run_id // .labels.run_id // "") == $run_id)
+        or ((.name // "") | contains($run_id))
+        or ((.url // "") | contains($run_id))
+      )
+  ]
+' "$storage_scan_dir"/*.json > "$out_dir/post-storage-objects.json"
 
 jq -e 'length == 0' "$out_dir/post-instances.json" >/dev/null || fail "instance name still exists after delete"
 jq -e 'length == 0' "$out_dir/post-run-instances.json" >/dev/null || fail "run-labelled instance residue exists"

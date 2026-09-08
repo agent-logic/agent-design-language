@@ -1,0 +1,1 @@
+{"status":"RUNNING","machineType":"zones/us-west2-a/machineTypes/e2-micro","disks":[{"boot":true,"autoDelete":true,"diskSizeGb":"10"}],"networkInterfaces":[{}],"labels":{"run_id":"gcp-d1-20260908t090000z-localguard","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}

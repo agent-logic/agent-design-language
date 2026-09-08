@@ -12,13 +12,15 @@
   "workload_guards": [
     "exit_cleanup_mock_proved",
     "deadline_reaper",
+    "partial_create_failure_cleanup_mock_proved",
     "post_create_failpoint",
-    "guest_readiness",
-    "expanded_zero_residue"
+    "guest_readiness_executed",
+    "expanded_zero_residue_executed",
+    "storage_object_all_versions_residue_rejected"
   ],
   "foundation_guards": [
     "service_account_impersonation",
     "rollback_on_failure_mock_proved",
-    "exact_readback_assertions"
+    "exact_readback_assertions_executed"
   ]
 }

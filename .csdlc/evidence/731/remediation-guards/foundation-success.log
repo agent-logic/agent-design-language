@@ -1,0 +1,3 @@
+PASS: #731 mutation authorization packet is complete and status=approved
+Synthetic terraform apply
+PASS: #731 live foundation apply/readback completed for project=cs-host-377d41e71a824f92802120 network=axioma-dev-csm-private subnet=axioma-dev-csm-private-us-west2

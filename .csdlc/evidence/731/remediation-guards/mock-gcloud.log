@@ -1,6 +1,2 @@
-compute networks describe axioma-dev-csm-private --project cs-host-377d41e71a824f92802120 --format=json
-compute networks subnets describe axioma-dev-csm-private-us-west2 --region us-west2 --project cs-host-377d41e71a824f92802120 --format=json
-compute instances create adl-gcp-d1-localguard --project cs-host-377d41e71a824f92802120 --zone us-west2-a --machine-type e2-micro --subnet axioma-dev-csm-private-us-west2 --no-address --boot-disk-size 10GB --boot-disk-type pd-standard --boot-disk-auto-delete --image-family debian-12 --image-project debian-cloud --service-account axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com --scopes logging-write,storage-ro --tags csm-disposable --labels issue=493,ttl=disposable,csm=axioma,env=dev,run_id=gcp-d1-20260908t090000z-localguard,deadline=2026-09-08t093000z
-compute instances describe adl-gcp-d1-localguard --project cs-host-377d41e71a824f92802120 --zone us-west2-a --format=json
-compute instances delete adl-gcp-d1-localguard --project cs-host-377d41e71a824f92802120 --zone us-west2-a --delete-disks=all --quiet
 auth print-access-token --project cs-host-377d41e71a824f92802120 --impersonate-service-account axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com
+compute instances delete adl-gcp-d1-localguard --project cs-host-377d41e71a824f92802120 --zone us-west2-a --delete-disks=all --quiet

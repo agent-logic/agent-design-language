@@ -225,6 +225,37 @@
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
 + ADL_GCP_D1_NOW_EPOCH=1788858600
 + ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload-create-failure
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ ADL_GCP_D1_MOCK_CREATE_FAIL_AFTER_CREATE=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ printf 'mock-reaper-pid-normalized\n'
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload-success
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ printf 'mock-reaper-pid-normalized\n'
++ jq -e '.readiness == "guest_metadata_identity_observed" and .residue.storage_objects == 0 and .residue.forwarding_rules == 0 and .residue.firewall_overrides == 0 and .residue.vm_iam == 0 and .residue.terraform_state_run_labels == 0' .csdlc/evidence/731/remediation-guards/mock-workload-success/status.json
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload-storage-residue
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
++ ADL_GCP_D1_MOCK_STORAGE_RESIDUE=1
++ bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ printf 'mock-reaper-pid-normalized\n'
++ grep -Fq 'run-labelled storage object residue exists' .csdlc/evidence/731/remediation-guards/workload-storage-residue.log
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
 + ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-workload
 + ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
 + ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
@@ -232,6 +263,17 @@
 + bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
 + printf 'mock-reaper-pid-normalized\n'
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log .csdlc/evidence/731/remediation-guards/mock-terraform.log
++ ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
++ ADL_GCP_D1_NOW_EPOCH=1788858600
++ ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
++ ADL_GCP_D1_TERRAFORM_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/terraform
++ ADL_GCP_D1_OUT_DIR=.csdlc/evidence/731/remediation-guards/mock-foundation-success
++ ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ ADL_GCP_D1_MOCK_TERRAFORM_LOG=.csdlc/evidence/731/remediation-guards/mock-terraform.log
++ bash .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh
++ jq -e '.impersonation == "service_account_short_lived_access_token" and .rollback_on_failure == true' .csdlc/evidence/731/remediation-guards/mock-foundation-success/status.json
++ rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log .csdlc/evidence/731/remediation-guards/mock-terraform.log
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
 + ADL_GCP_D1_NOW_EPOCH=1788858600
 + ADL_GCP_D1_GCLOUD_BIN=.csdlc/evidence/731/remediation-guards/mock-bin/gcloud
@@ -247,8 +289,8 @@
     status:$status,
     mutation:"none",
     authorization_guards:["valid_30m_packet_passed","expired_approval_rejected","overlong_lifetime_rejected","expired_deadline_rejected","service_account_identity_required"],
-    workload_guards:["exit_cleanup_mock_proved","deadline_reaper","post_create_failpoint","guest_readiness","expanded_zero_residue"],
-    foundation_guards:["service_account_impersonation","rollback_on_failure_mock_proved","exact_readback_assertions"]
+    workload_guards:["exit_cleanup_mock_proved","deadline_reaper","partial_create_failure_cleanup_mock_proved","post_create_failpoint","guest_readiness_executed","expanded_zero_residue_executed","storage_object_all_versions_residue_rejected"],
+    foundation_guards:["service_account_impersonation","rollback_on_failure_mock_proved","exact_readback_assertions_executed"]
   }'
 + printf 'PASS: #731 local remediation guards without live GCP mutation\n'
 PASS: #731 local remediation guards without live GCP mutation

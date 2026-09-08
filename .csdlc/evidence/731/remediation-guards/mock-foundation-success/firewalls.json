@@ -1,0 +1,1 @@
+[{"name":"axioma-dev-csm-private-iap-operator-access","direction":"INGRESS","sourceRanges":["35.235.240.0/20"]},{"name":"axioma-dev-csm-private-explicit-private-egress","direction":"EGRESS","targetTags":["csm-disposable"]},{"name":"axioma-dev-csm-private-deny-unapproved-egress","direction":"EGRESS","denied":[{"IPProtocol":"all"}]}]
