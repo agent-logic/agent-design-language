@@ -5,44 +5,24 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
   "phase": "reviewed",
-  "generation": 17,
-  "digest": "9d881e5f3c5f7043ce8c8203b9786a8f227e0e6e9a69dc92db691a4494c61cc2",
+  "generation": 19,
+  "digest": "037b8c16c9348abf2b309445a3514c1e14ef741983f6be7f310a40a365321700",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_536_closeout",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:bb8cdf6a819466af0e6967504626d4f5e4f76dd6:6a189fe1fed93d8cb29ca4a23934ade736f46dfe01c1e40f2ccfc9d34ce9f562",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
-      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
-    ]
-  },
+  "review_assignment": null,
   "review": {
     "reviewer": "codex:/root/review_536_closeout",
     "scope": [
       "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
       ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
     ],
-    "reviewed_revision": "git-blake3:bb8cdf6a819466af0e6967504626d4f5e4f76dd6:6a189fe1fed93d8cb29ca4a23934ade736f46dfe01c1e40f2ccfc9d34ce9f562",
+    "reviewed_revision": "git-blake3:e8eb2a451cd83dbd24714bc89c1abc6768345b81:acc85b942a4fb71dcf03fdf6dd991b6ace3e91cd9dc44f633ffa21f47f3a0a14",
     "findings": [],
     "residual_risks": [
       "Public podcast launch and provider submissions remain routed to backlog #671."
     ],
     "completed": true,
-    "non_substantive_proof": {
-      "policy": "metadata_only_review_projection",
-      "from_revision": "git-blake3:bb8cdf6a819466af0e6967504626d4f5e4f76dd6:6a189fe1fed93d8cb29ca4a23934ade736f46dfe01c1e40f2ccfc9d34ce9f562",
-      "to_revision": "git-blake3:57af467451f4cba1f66047b1f6b6a536efdaa749:c20aa1d447d216575dfc91d6d76ada4b4e258c977bca56abcb16f99c88cc0c37",
-      "from_commit": "bb8cdf6a819466af0e6967504626d4f5e4f76dd6",
-      "to_commit": "57af467451f4cba1f66047b1f6b6a536efdaa749",
-      "changed_paths": [
-        ".csdlc/issues/536/audit.jsonl",
-        ".csdlc/issues/536/cards/srp.md",
-        ".csdlc/issues/536/cards/srp.values.json",
-        ".csdlc/issues/536/index.json"
-      ]
-    }
+    "non_substantive_proof": null
   },
   "publication": null,
   "readiness": null,
@@ -58,32 +38,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5176a93df70198be834aa194277abca4fe40fbf602be4eac46929e73672e3ec3",
+      "values_digest": "486a86be7f35476d889b1a4f87c94b892819ff3a4c10be1b73d716362230c5c6",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "5cc2eba2bfcd57b890781a510a8c7859e57bb27a5241bfcf4b76e714740b956c",
+      "values_digest": "32046e7bf8201466618f2ab5988f989e4174166902d2a4ae0698d573b8689730",
       "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
       "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
     },
     "spp": {
-      "values_digest": "d80219ec3787f59683c5932cc8b8b64300fcb66d9a1e0eff71672a81dabed3b2",
+      "values_digest": "345b0b0852157eaa0795cad5f64bc8859887583662d64bb247c36a56b457df2c",
       "rendered_digest": "bda1406af101871095a7782b16c0e78a94ecfe02b1b7a25e30bd01a33846b86a",
       "ast_digest": "d8ab373250e52855378ad2f7f6b304f60287aa40f951a2250e9a5c8c2237b98c"
     },
     "vpp": {
-      "values_digest": "d8efdd7e7afe615e13b4f979bb87628ac06d0f0b1bd547b3dcb05af6c25c5df0",
+      "values_digest": "57d6ef42953b9dc4d0a3912af6cb49097aca5b6d5b0c43509ed843356126591c",
       "rendered_digest": "bebc327c6a85cddb82fa61c39f7bcd2eaca512861e0157c8ed99c427f5749715",
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "84f6b3fc4792168aa90df95ddc82bbecb5a3dece509508f58deeba2d69ee9e66",
-      "rendered_digest": "5eda2ea7a900ef265c22c2d47f552a4a304bf1c2c674ecc190b7db3347030af6",
-      "ast_digest": "acc780c0095bdd3d699fb406b2c2c6c428e12b60fb479614f31ce610aaf08cef"
+      "values_digest": "2286d77a1cbb20ccf916fb02fd2f78b9699c87e618cd5b762f5abc76c9997e54",
+      "rendered_digest": "fb48a5f40d792cb9fce3d7a7c84f54fb8d37f22070fd4ecd4811954b06db058b",
+      "ast_digest": "ff6f53b8f9006fc9c7b46d37c9f507b6f5876445448ae1387f4b84ddf123847d"
     },
     "sor": {
-      "values_digest": "eb8a2492d45ecc5758cfad8557586c40993b5902ab19a14feb78854a8a186606",
+      "values_digest": "7699f13c954d8092999148cd55220263d2423399a4e64982b47b43bbbd740f1d",
       "rendered_digest": "715a5005b33efee973ce79e3cbe3c004280cad340aa83b86fbf4a24c0585da3a",
       "ast_digest": "7b298866b02745de9937369b6aa75fb8ff0130d1c231de75e2d6e49d5165b7ef"
     }
@@ -126,6 +106,20 @@
     },
     {
       "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Correct the invalid metadata-proof policy token and retain the already completed review without requesting another review."
+    },
+    {
+      "sequence": 8,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:/root",
@@ -290,6 +284,20 @@
     {
       "sequence": 23,
       "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Correct the invalid metadata-proof policy token and retain the already completed review without requesting another review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

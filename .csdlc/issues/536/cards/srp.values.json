@@ -7,14 +7,14 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md\n.csdlc/prepared/issues/536/validate-sprint-closeout.rb",
-      "review_revision": "git-blake3:bb8cdf6a819466af0e6967504626d4f5e4f76dd6:6a189fe1fed93d8cb29ca4a23934ade736f46dfe01c1e40f2ccfc9d34ce9f562",
+      "review_revision": "git-blake3:e8eb2a451cd83dbd24714bc89c1abc6768345b81:acc85b942a4fb71dcf03fdf6dd991b6ace3e91cd9dc44f633ffa21f47f3a0a14",
       "reviewer": "codex:/root/review_536_closeout",
       "review_prompts": [
         "Does the packet preserve exact child ownership and dependency truth?",
