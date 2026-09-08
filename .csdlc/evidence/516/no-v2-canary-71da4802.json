@@ -1,0 +1,27 @@
+{
+  "schema": "adl.v0921.no_v2_canary.v2",
+  "candidate": "71da4802fca3879679e498c2d4c30f20ca168613",
+  "gap_owner_issue": 725,
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--manifest-path",
+    "csdlc-v3/Cargo.toml",
+    "--no-run"
+  ],
+  "csdlc_v2_present_during_command": false,
+  "exit_status": 0,
+  "started_at": "2026-09-08T11:15:08.345242Z",
+  "ended_at": "2026-09-08T11:15:14.331296Z",
+  "source_dependencies": [
+    "csdlc-v3/Cargo.toml",
+    "csdlc-v3/src/authority.rs",
+    "csdlc-v3/src/commands/remote/mod.rs"
+  ],
+  "sanitized_stderr": {
+    "path": ".csdlc/evidence/516/no-v2-canary-71da4802.stderr.log",
+    "sha256": "80a21f08e7f47106c0bf978a2c373f0c6e29479823288fd17edf7fb8547c0609",
+    "bytes": 2038
+  }
+}

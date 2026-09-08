@@ -1,15 +1,14 @@
 # v0.92.1 Release-tail Gap Analysis
 
-Candidate: `8b430826ef3e1e092fd84a2d254453f662fa8f7d`
+Candidate: `71da4802fca3879679e498c2d4c30f20ca168613`
 
-Captured-input digest: `1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8`
+Captured-input digest: `657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465`
 
-Canonical projection digest: `cdd8dbb24eeaf340ce4a74418b3a29db8526ba72a5f46e96db1ab6f0ec8cbb62`
+Canonical projection digest: `30e35b9e79b38f5b63f5355fb291fdb4a4ed245d8d14c505dc5dc8b8c0b14011`
 
 ## Findings
 
 - **P2 consolidated-live-spec-sync-debt** — Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records. Evidence: https://github.com/agent-logic/agent-design-language/issues/480#issue-body, f9a7235866ee1a2565fe18a7399b51b2704c37dae4ed875cfec987c8050e5532, 96ab626bad8ef94a33c1d7211a98d2786e94590998ee2cbad6180124b2f33cd5, https://github.com/agent-logic/agent-design-language/issues/494#issue-body, e4a5840ac93ada0212c84353af8527b00cc38d710ec5f0bb14bbc50cf6480851, 25aeef825468013dbd959e1ebd443f9c2552a1ef526814a42cc05c2f075a9286, https://github.com/agent-logic/agent-design-language/issues/510#issue-body, fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca, 5a236113e049937ac0fd466b425d43acafabd891c2835cde80b197d55993a1e7, https://github.com/agent-logic/agent-design-language/issues/512#issue-body, 80be51e3a6ae692a23386c52cfcd8aed130b058c398c55659d1d724a79eaaa5d, 759236137cc551e220664b5528b0850882fddd4e5c1df4f1158b01d582ee02ba. Owner: release planning maintainers. Disposition: follow_up.
-- **P1 issue-725-v3-standalone-parity-gap** — Merged #721 provides issue-create and reporting parity but does not remove v2 build and operational dependencies. Open #725 and PR #732 own native v3 authority migration. At 8b430826ef3e1e092fd84a2d254453f662fa8f7d, v3 cannot compile without csdlc-v2 and still reads the v2 selector. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, https://github.com/agent-logic/agent-design-language/issues/725, 42c02056fa762b56b9376be89d7914c5d1453deec50cf1b43ba85412d9656657, https://github.com/agent-logic/agent-design-language/pull/722, https://github.com/agent-logic/agent-design-language/pull/732, 9ec7a8295b52251e1826956e0ea7f70a87149589, aa6aa89c2d45ce23f185e47d8f788728df494bbf67cd0af8870ec1b4468ce9ad, 3494576244a3a43bc606019ea7fe108a51a180b301adff25ab42285a78fc2443, {"path"=>".csdlc/evidence/516/no-v2-canary-8b430826.json", "sha256"=>"f26cfc81a814a843d804fdb898b250f54de245744c2b6d2dbff074e59906f6a4"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #725. Disposition: open.
 - **P1 issue-487-semantic-implementation-gap** — AWS-D has 3 audit-confirmed unmet implementation criteria. Evidence: infra/aws/account-foundation/main.tf, .csdlc/issues/487/cards/sor.md. Owner: issue #487. Disposition: open.
 - **P1 issue-491-semantic-implementation-gap** — GCP-B has 1 audit-confirmed unmet implementation criteria. Evidence: infra/gcp/bootstrap/main.tf, .csdlc/issues/491/cards/sor.md. Owner: issue #491. Disposition: open.
 - **P2 semantic-criterion-proof-gaps** — Two GCP-B criteria lack live recovery/cleanup proof. Evidence: infra/gcp/bootstrap/main.tf, .csdlc/issues/491/cards/sor.md. Owner: issue #491. Disposition: follow_up.
@@ -77,8 +76,8 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 ## Backlog and retained authority
 
-- #84: `cbcf548695a4ea5c0102c93ef3bdbee0244af083292163ab21ca8ecf7511b722`
-- #251: `4054d4a69704f010b0f285dc7d710e067a5395c41e5b72bb92cab7e1518a4e3b`
+- #84: `99a91752d48d44ec366aae261b718a0761ca6dec0493c236da08a48bf80ac1f1`
+- #251: `c757524417db54b16a0924ff7c919574a170d0d1f86973d8f629ee6308a2a977`
 - Retained predecessor packets are indexed with SHA-256 digests in `gap_analysis_report.json`.
 
 ## Decision
@@ -90,7 +89,7 @@ This is an admission decision only; it is not release approval.
 ## Revision history
 
 - Historical result at `e68c666803185c348140547e243bc3922b6a571c`: 2 P1 product blockers (#497, #721), 4 consolidated P2 proof-debt findings, and 2 routed backlog entries. Superseded after direct #497 recordless-acceptance evidence and final review.
-- Revised result: 3 P1 product blocker, 5 P2 proof-debt findings; backlog #84/#251 is excluded scope and is not counted as a finding.
+- Revised result: 2 P1 product blocker, 5 P2 proof-debt findings; backlog #84/#251 is excluded scope and is not counted as a finding.
 
 ## Complete acceptance projection
 
@@ -193,7 +192,7 @@ This is an admission decision only; it is not release approval.
 | V3-E | #504 | V3-E-ac-3 | proven | Finish derives terminal truth |
 | V3-E | #504 | V3-E-ac-4 | proven | Requirements 174 through 178 have positive and refusal proof |
 | V3-F | #505 | V3-F-ac-1 | proven | Requirements 179 and 180 are mapped |
-| V3-F | #505 | V3-F-ac-2 | implementation_gap | v2-v3 parity is measured |
+| V3-F | #505 | V3-F-ac-2 | proven | v2-v3 parity is measured |
 | V3-F | #505 | V3-F-ac-3 | proven | Canary rollback is exercised |
 | V3-F | #505 | V3-F-ac-4 | proven | Cutover and retirement require operator approval |
 | DRT-A | #506 | DRT-A-ac-1 | proven | Requirements 181 and 182 are mapped |
@@ -480,5 +479,5 @@ This is an admission decision only; it is not release approval.
 
 | Issue | Disposition | Authority digest |
 |---|---|---|
-| #84 | routed_to_backlog | cbcf548695a4ea5c0102c93ef3bdbee0244af083292163ab21ca8ecf7511b722 |
-| #251 | routed_to_backlog | 4054d4a69704f010b0f285dc7d710e067a5395c41e5b72bb92cab7e1518a4e3b |
+| #84 | routed_to_backlog | 99a91752d48d44ec366aae261b718a0761ca6dec0493c236da08a48bf80ac1f1 |
+| #251 | routed_to_backlog | c757524417db54b16a0924ff7c919574a170d0d1f86973d8f629ee6308a2a977 |

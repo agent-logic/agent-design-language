@@ -31,6 +31,15 @@ updates = {
     "docs_evidence" => [".csdlc/issues/731/cards/sor.md"],
     "closeout_evidence" => ["github:issue-493:closed", "github:issue-731:closed"],
     "rationale" => "Issue #731 created one authorized private e2-micro workload without an external IP, destroyed it and its auto-delete disk, and retained independent zero-residue readbacks for instances, run-labelled instances, disks, and addresses."
+  },
+  "V3-F-ac-2" => {
+    "classification" => "proven",
+    "implementation_evidence" => ["csdlc-v3/Cargo.toml", "csdlc-v3/src/authority.rs", "csdlc-v3/src/commands/remote/mod.rs"],
+    "validation_evidence" => [".csdlc/issues/505/cards/sor.md", ".csdlc/issues/725/cards/sor.md"],
+    "review_evidence" => [".csdlc/issues/505/cards/srp.md", ".csdlc/issues/725/cards/srp.md"],
+    "docs_evidence" => [".csdlc/issues/725/cards/sor.md", "docs/csdlc-v3/CONTRACT.md"],
+    "closeout_evidence" => ["github:issue-505:closed", "github:issue-725:closed"],
+    "rationale" => "Issue #725 and merged PR #732 activated authenticated native v3 authority, removed the csdlc-v2 build dependency, retained exact reviewed/merge authority checks, and added fail-closed missing-object coverage."
   }
 }
 

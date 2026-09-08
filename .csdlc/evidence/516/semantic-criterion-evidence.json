@@ -1,6 +1,6 @@
 {
   "schema": "adl.v0921.semantic_criterion_evidence.v1",
-  "candidate": "8b430826ef3e1e092fd84a2d254453f662fa8f7d",
+  "candidate": "71da4802fca3879679e498c2d4c30f20ca168613",
   "entries": [
     {
       "criterion_id": "AWS-A-ac-1",
@@ -3059,26 +3059,32 @@
     {
       "criterion_id": "V3-F-ac-2",
       "criterion_digest": "d5300cdb50374f90a61869ad0cef589665b965736df64d82ffba6f503eb8674a",
-      "classification": "implementation_gap",
+      "classification": "proven",
       "semantic_mapping": [
 
       ],
       "implementation_evidence": [
-        "csdlc-v3/src/authority.rs"
+        "csdlc-v3/Cargo.toml",
+        "csdlc-v3/src/authority.rs",
+        "csdlc-v3/src/commands/remote/mod.rs"
       ],
       "validation_evidence": [
-        ".csdlc/issues/505/cards/sor.md"
+        ".csdlc/issues/505/cards/sor.md",
+        ".csdlc/issues/725/cards/sor.md"
       ],
       "review_evidence": [
-        ".csdlc/issues/505/cards/srp.md"
+        ".csdlc/issues/505/cards/srp.md",
+        ".csdlc/issues/725/cards/srp.md"
       ],
       "docs_evidence": [
-        ".csdlc/issues/505/cards/sor.md"
+        ".csdlc/issues/725/cards/sor.md",
+        "docs/csdlc-v3/CONTRACT.md"
       ],
       "closeout_evidence": [
-        "github:issue-505:closed"
+        "github:issue-505:closed",
+        "github:issue-725:closed"
       ],
-      "rationale": "Independent semantic audit classified V3-F-ac-2 as implementation_gap: v2-v3 parity is measured"
+      "rationale": "Issue #725 and merged PR #732 activated authenticated native v3 authority, removed the csdlc-v2 build dependency, retained exact reviewed/merge authority checks, and added fail-closed missing-object coverage."
     },
     {
       "criterion_id": "V3-F-ac-3",

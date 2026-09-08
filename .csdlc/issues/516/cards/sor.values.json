@@ -7,13 +7,13 @@
     "title": "[v0.92.1][INT-01] Release-tail admission",
     "slug": "release-tail-admission",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Regenerated the complete fail-closed v0.92.1 admission decision at current-main candidate 8b430826ef3e1e092fd84a2d254453f662fa8f7d. The diagnostic packet is current and validated; release admission remains blocked while its recorded P1 product gaps remain open.",
+      "summary": "Regenerated the complete fail-closed v0.92.1 admission decision at current-main candidate 71da4802fca3879679e498c2d4c30f20ca168613. The diagnostic packet records the merged native-v3 authority/no-v2 proof and remains blocked only by its remaining recorded P1 product gaps.",
       "actual_changes": [
         "Derived the exact planned-ID, live-issue, release-tail, and retained-predecessor mappings from canonical planning and live acceptance sources.",
         "Bound every proven criterion to non-empty candidate-addressed evidence and rejected weak or duplicate denominator entries.",
@@ -26,14 +26,14 @@
         ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
         ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
         ".csdlc/evidence/516/semantic-criterion-evidence.json",
-        ".csdlc/evidence/516/no-v2-canary-8b430826.json",
-        ".csdlc/evidence/516/no-v2-canary-8b430826.stderr.log",
+        ".csdlc/evidence/516/no-v2-canary-71da4802.json",
+        ".csdlc/evidence/516/no-v2-canary-71da4802.stderr.log",
         ".csdlc/evidence/516/release-tail-denominator.log",
         ".csdlc/evidence/516/implementation-gap-analysis.log",
         ".csdlc/evidence/516/admission-consistency.log",
-        "docs/milestones/v0.92.1/evidence/integration/release-tail-input.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json",
-        "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json",
-        "docs/milestones/v0.92.1/evidence/integration/gap-analysis.8b430826ef3e1e092fd84a2d254453f662fa8f7d.1745ba83d8922eedfe9791256833f067eea836a631ed92829f92d960052c06d8.json",
+        "docs/milestones/v0.92.1/evidence/integration/release-tail-input.71da4802fca3879679e498c2d4c30f20ca168613.657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465.json",
+        "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.71da4802fca3879679e498c2d4c30f20ca168613.657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465.json",
+        "docs/milestones/v0.92.1/evidence/integration/gap-analysis.71da4802fca3879679e498c2d4c30f20ca168613.657f177f73f8497cec3ca1b1765b2dd41cb6f81ba1635311736026b38a2ad465.json",
         "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
         "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json",
         "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md"
