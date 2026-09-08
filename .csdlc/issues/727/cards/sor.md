@@ -136,11 +136,11 @@ Applied the exact saved #727 Terraform account-foundation plan to the approved A
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

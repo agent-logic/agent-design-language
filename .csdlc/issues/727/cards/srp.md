@@ -13,9 +13,12 @@ Status: draft
 ## Scope
 
 .gitignore
+.csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh
+.csdlc/prepared/issues/727/validate-issue-727-readiness.sh
 docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md
 docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json
 docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md
+docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh
 
 ## Prompts
 
@@ -32,13 +35,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Raw Terraform plan/apply/readback logs are retained only under ignored .adl/requests/727; tracked proof is deliberately redacted and hash-bound.
-- Terraform backend currently uses deprecated dynamodb_table locking parameter; warning observed but apply/readback succeeded.
+- Raw Terraform plan/apply/readback logs and account identity evidence are retained only under ignored .adl/requests/727; tracked proof is deliberately redacted and hash-bound.
+- C-SDLC issue records are self-staling under review assignment/record/publication and are excluded from the exact review scope by typed tooling policy; lifecycle truth is validated separately by csdlc-validate/doctor and the typed review/publish guards.
+- No additional Terraform apply was performed during remediation; live AWS interaction was read-only readback using the approved agent-logic-admin profile.
 
 ## Review Result
 
-Revision: Some("git-blake3:03e9de180e75e87c4deddaa0a28d5a7ce3aafc45:22ac7d77d8000dacad6faf7a093b215a20b168f594c8d9caf2d6c9bbd6b659c5")
+Revision: Some("git-blake3:f6c30b020de6faf5c84a967f097d37d3892cafaa:1d007b72f4b6236acaaefdee756a433623ea0958c35e99e4d65c7c52836c0e50")
 
-Reviewer: Some("codex-727-live-review")
+Reviewer: Some("codex-727-remediation-review")
 
 Result: pass
