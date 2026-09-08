@@ -314,7 +314,7 @@ impl FixtureRepo {
         fs::create_dir_all(&docs).expect("v3 docs dir");
         fs::write(
             docs.join("CONTRACT.md"),
-            "v2 remains the sole operational authority",
+            "v3 is the operational authority after the merged V3-F cutover",
         )
         .expect("contract");
         fs::write(

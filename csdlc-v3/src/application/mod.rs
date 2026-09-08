@@ -84,7 +84,7 @@ impl FoundationState {
             })?;
         require_contains(
             &contract,
-            "v2 remains the sole operational authority",
+            "v3 is the operational authority after the merged V3-F cutover",
             "contract authority boundary",
         )?;
         require_contains(

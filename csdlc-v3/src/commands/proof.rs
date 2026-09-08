@@ -1595,6 +1595,7 @@ mod tests {
                 .output()
                 .unwrap();
             assert!(output.status.success(), "git {args:?}: {output:?}");
+            String::from_utf8(output.stdout).unwrap().trim().to_owned()
         };
         git(&["init", "-q"]);
         git(&["config", "user.email", "csdlc-v3@example.invalid"]);
@@ -1641,13 +1642,23 @@ mod tests {
         )
         .unwrap();
         assert!(!active_canonical_v3_selector(&root, &install).unwrap());
-        let receipt = br#"{"schema":"csdlc.v3.native_authority_receipt.v1","authority_issue":505,"authority_pull_request":591,"reviewed_head":"1111111111111111111111111111111111111111","merge_commit":"2222222222222222222222222222222222222222","source_selector_schema":"csdlc.generation_selector.v2","source_selector_digest":"sha256:3333333333333333333333333333333333333333333333333333333333333333","operational_authority":"csdlc-v3","review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","remote_reconciliation":"authenticated-readback-required"}"#;
+        let reviewed_head = git(&["rev-parse", "HEAD"]);
+        git(&["commit", "-q", "--allow-empty", "-m", "V3-F cutover (#591)"]);
+        let merge_commit = git(&["rev-parse", "HEAD"]);
+        let terminal = serde_json::to_vec(&serde_json::json!({"schema":"csdlc.v3.terminal_receipt.v1","repository":"agent-logic/agent-design-language","issue":505,"pull_request":591,"head_sha":reviewed_head,"disposition":"closed_out","state_digest":"fixture"})).unwrap();
+        fs::create_dir_all(root.join(".csdlc/evidence/505")).unwrap();
         fs::write(
-            root.join("csdlc-v3/operator/native-authority-receipt.json"),
-            receipt,
+            root.join(".csdlc/evidence/505/terminal-receipt.json"),
+            &terminal,
         )
         .unwrap();
-        let selector = serde_json::json!({"schema":"csdlc.v3.authority_selector.v1","generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","receipt_path":"csdlc-v3/operator/native-authority-receipt.json","receipt_digest":blake3::hash(receipt).to_hex().to_string()});
+        let receipt = serde_json::to_vec(&serde_json::json!({"schema":"csdlc.v3.native_authority_receipt.v1","authority_issue":505,"authority_pull_request":591,"reviewed_head":reviewed_head,"merge_commit":merge_commit,"terminal_receipt_path":".csdlc/evidence/505/terminal-receipt.json","terminal_receipt_digest":blake3::hash(&terminal).to_hex().to_string(),"source_selector_schema":"csdlc.generation_selector.v2","source_selector_digest":format!("sha256:{}", "3".repeat(64)),"operational_authority":"csdlc-v3","review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","remote_reconciliation":"canonical-terminal-receipt-and-git-objects"})).unwrap();
+        fs::write(
+            root.join("csdlc-v3/operator/native-authority-receipt.json"),
+            &receipt,
+        )
+        .unwrap();
+        let selector = serde_json::json!({"schema":"csdlc.v3.authority_selector.v1","generation":"v3","operational_authority":"csdlc-v3","authority_issue":505,"authority_pull_request":591,"review_authority":"typed-exact-head","approval_authority":"merged-pr-591-closed-issue-505","receipt_path":"csdlc-v3/operator/native-authority-receipt.json","receipt_digest":blake3::hash(&receipt).to_hex().to_string()});
         fs::write(
             root.join("csdlc-v3/operator/authority-selector.json"),
             serde_json::to_vec(&selector).unwrap(),
@@ -1657,6 +1668,7 @@ mod tests {
             "add",
             "csdlc-v3/operator/authority-selector.json",
             "csdlc-v3/operator/native-authority-receipt.json",
+            ".csdlc/evidence/505/terminal-receipt.json",
         ]);
         git(&["commit", "-q", "-m", "v3 selector"]);
         git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);

@@ -3,42 +3,14 @@
   "issue": 725,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
-  "phase": "published",
-  "generation": 11,
-  "digest": "99d0d67f64a070d7e6147430cab60b6383c273e80c69897dc451f4cb145f8a03",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "0ec97e93f2c4cbeb53a33473859ade6d8259f59c05d98271f92f1d14d8a195d8",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:execute-aws-727-728-r4",
-    "assigned_by": "codex:/root/remediate_v3_725",
-    "revision": "git-blake3:eb2598adcb1d7807e2f0fa870e9c3ddfddd4a3cf:8cc92112840a7b537d6713f78cf99add62dd1d11ed18dec0b42ad55636c7ab0f",
-    "scope": [
-      "csdlc-v3"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:execute-aws-727-728-r4",
-    "scope": [
-      "csdlc-v3"
-    ],
-    "reviewed_revision": "git-blake3:eb2598adcb1d7807e2f0fa870e9c3ddfddd4a3cf:8cc92112840a7b537d6713f78cf99add62dd1d11ed18dec0b42ad55636c7ab0f",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 725,
-    "pull_request": 732,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/732",
-    "base": "main",
-    "head": "codex/725-csdlc-v3-native-authority",
-    "revision": "git-blake3:b5506a1438ef0cdd520ebbc83ceedf72209a5b57:39f2e1bfac25ac07f15ba3f4df4dad1fea5e2de010231e8fe4661f84d3092fc8",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -52,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "af5e65a036924bce59e9be858c533f118f5045fad783a928f408d03108682a8e",
+      "values_digest": "3172c729ca77517ae84afb77c825f4b813043321cb78e885f979748a9b326af2",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "adc262a427c1898c5e7562cbe1f43d1537bade440b3db246caf6587c8e9c5640",
+      "values_digest": "d64e732417dc5d53bf4b55780c31d2b7b8ad39606593fd5ab52ebf259a1ca2ec",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "9134d87d7f67738029c4460bfc510b7b7fdfd43f8be89696dcbe6b5e0760b4f0",
+      "values_digest": "f3e292ca6a14a868f92ec0aad8c131b1db3cfa7a3e5f3360aa9cfd787aa9a516",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "2fe0d0c0a2aec8cf48e385e59f98cbb43251ee8edbc47545a81ad7a5eda67668",
+      "values_digest": "02f23e59e359ac914d6e7149dfa9bf97fb8fee225b0561d4739b650e5ea3f1ac",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "a223082bb0b33a81cbbc302b3326f1195f20bd827447201f905d78b035ff00f4",
-      "rendered_digest": "2fee8a4eb3c98cf5aae3993aa27217a43ca11ef80fe8b80cfecd4b1a30108847",
-      "ast_digest": "82f2db7b85bb90336fe8f6bfec0da02615a259ffd286615a517e3f95b935062e"
+      "values_digest": "93964f94c083f5c4863b750ed33f48a481c64b257f7a09855c59b8000323073b",
+      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
+      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
     },
     "sor": {
-      "values_digest": "bc37fb833aaf693376a2b1094d56129322b73faa5d442840d498a6d4d3624cce",
-      "rendered_digest": "2f2196f130bb0f7246737de259689bc7b7eda42671fb1837d4d709cd05dbca61",
-      "ast_digest": "aa9881a54fd24242342597ceb8790f0573c2eb4ea82fb384e8b222100413b8b0"
+      "values_digest": "e28e8f2784e5591d75e4a25023216293eb23c4498f0f6dbf2979e73ca545b334",
+      "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
+      "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
   },
   "transitions": [
@@ -138,6 +110,13 @@
       "to": "published",
       "actor": "codex:/root/remediate_v3_725",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair exact-head review findings: authenticate native authority provenance, align post-cutover contract surfaces, and add checked-in activation proof"
     }
   ],
   "audit": [
@@ -252,6 +231,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair exact-head review findings: authenticate native authority provenance, align post-cutover contract surfaces, and add checked-in activation proof",
+      "operation": "recover_review"
     }
   ]
 }

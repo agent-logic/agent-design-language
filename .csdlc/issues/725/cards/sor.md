@@ -64,11 +64,11 @@ Migrated operational C-SDLC v3 authority to a native selector and digest-bound r
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

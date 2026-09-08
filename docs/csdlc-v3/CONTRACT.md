@@ -1,17 +1,18 @@
 # C-SDLC v3 Contract — V3-A
 
-Status: construction input for v0.92.1 issue #500.
+Status: accepted construction history plus the post-cutover operational contract.
 
-This contract defines the C-SDLC v3 construction boundary accepted by V3-A. It
-does not make v3 operational. C-SDLC v2 remains the sole operational authority
-for issue lifecycle state, GitHub writes, review, publication, finish, cleanup,
-and recovery until a later operator-reviewed V3-F authority-transition decision
-explicitly says otherwise.
+This contract began as the C-SDLC v3 construction boundary accepted by V3-A.
+That pre-cutover boundary remains historical evidence. PR #591 merged the
+operator-reviewed V3-F/#505 decision on 2026-09-07; v3 is the operational authority after the merged V3-F cutover when its canonical native selector,
+receipt, terminal reconciliation, and Git-object checks all validate. Missing or
+stale proof suspends authority rather than falling back to v2.
 
 ## Authority and compatibility
 
-- v2 remains the sole operational authority throughout V3-A, V3-B, V3-C, V3-D,
-  and V3-E.
+- v2 was the sole operational authority throughout V3-A through V3-E.
+- v3 is the post-cutover operational authority; v2 is retained only for an
+  explicitly authorized rollback or bounded transition remediation.
 - v3 artifacts created by V3-A are design, schema, and construction-decision
   inputs only.
 - v3 cannot bind worktrees, mutate issue state, publish pull requests, finish
@@ -110,9 +111,10 @@ digest choreography are not acceptable as the default operator experience.
 
 ## Rollback and fail-closed behavior
 
-- v2 remains the rollback target until V3-F grants authority.
-- If v3 parity, migration, or state durability proof is incomplete, v3 remains
-  a non-authoritative construction artifact.
+- v2 is the retained rollback target after V3-F; rollback requires explicit
+  operator authorization and changes the native selector to `rollback`.
+- If native authority proof is missing, stale, or malformed, v3 reports
+  suspended authority without silently activating v2.
 - Rollback must preserve exact revision identity, audit provenance, publication
   linkage, terminal finish truth, and cleanup safety.
 - macOS and Linux are the required #505 cutover platforms. Windows operational

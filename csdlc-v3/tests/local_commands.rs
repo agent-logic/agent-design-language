@@ -878,14 +878,38 @@ fn operational_authority_fixture(
     fs::create_dir_all(selector_path.parent().expect("selector parent"))
         .expect("selector parent directory");
     let selector = if generation == "v3" {
+        let reviewed_head = run_git(&repository_root, &["rev-parse", "HEAD"]);
+        run_git(
+            &repository_root,
+            &[
+                "commit",
+                "--quiet",
+                "--allow-empty",
+                "-m",
+                "V3-F cutover (#591)",
+            ],
+        );
+        let merge_commit = run_git(&repository_root, &["rev-parse", "HEAD"]);
+        let terminal = serde_json::to_vec_pretty(&serde_json::json!({
+            "schema":"csdlc.v3.terminal_receipt.v1", "repository":"agent-logic/agent-design-language",
+            "issue":505, "pull_request":591, "head_sha":reviewed_head,
+            "disposition":"closed_out", "state_digest":"fixture"
+        })).unwrap();
+        fs::create_dir_all(repository_root.join(".csdlc/evidence/505")).unwrap();
+        fs::write(
+            repository_root.join(".csdlc/evidence/505/terminal-receipt.json"),
+            &terminal,
+        )
+        .unwrap();
         let receipt = serde_json::to_vec_pretty(&serde_json::json!({
             "schema": "csdlc.v3.native_authority_receipt.v1", "authority_issue": 505,
-            "authority_pull_request": 591, "reviewed_head": "1".repeat(40),
-            "merge_commit": "2".repeat(40), "source_selector_schema": "csdlc.generation_selector.v2",
+            "authority_pull_request": 591, "reviewed_head": reviewed_head,
+            "merge_commit": merge_commit, "terminal_receipt_path": ".csdlc/evidence/505/terminal-receipt.json",
+            "terminal_receipt_digest": blake3::hash(&terminal).to_hex().to_string(), "source_selector_schema": "csdlc.generation_selector.v2",
             "source_selector_digest": format!("sha256:{}", "3".repeat(64)),
             "operational_authority": "csdlc-v3", "review_authority": "typed-exact-head",
             "approval_authority": "merged-pr-591-closed-issue-505",
-            "remote_reconciliation": "authenticated-readback-required"
+            "remote_reconciliation": "canonical-terminal-receipt-and-git-objects"
         })).unwrap();
         fs::write(
             repository_root.join("csdlc-v3/operator/native-authority-receipt.json"),
@@ -921,7 +945,11 @@ fn operational_authority_fixture(
     if generation == "v3" {
         run_git(
             &repository_root,
-            &["add", "csdlc-v3/operator/native-authority-receipt.json"],
+            &[
+                "add",
+                "csdlc-v3/operator/native-authority-receipt.json",
+                ".csdlc/evidence/505/terminal-receipt.json",
+            ],
         );
     }
     run_git(
