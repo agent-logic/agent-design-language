@@ -36,10 +36,17 @@ bash .csdlc/prepared/issues/730/validate-gcp-b1.sh --lane=static
 This reads metadata only and must stay scoped to the accepted project and service account:
 
 ```sh
+CLOUDSDK_CONFIG="$(git rev-parse --path-format=absolute --git-common-dir)/csdlc-v2/gcloud-config"
+export CLOUDSDK_CONFIG
 gcloud auth print-access-token \
   --impersonate-service-account=tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com \
   --project=cs-host-377d41e71a824f92802120 >/dev/null
 ```
+
+The repo-local Cloud SDK config mirrors the #491/#608 proof pattern: credential
+cache/log writes stay under Git common storage and are not committed. The
+selected identity still must be an approved company human or federated source
+identity with Token Creator on the bootstrap service account.
 
 ## Bootstrap apply under #730 authorization
 

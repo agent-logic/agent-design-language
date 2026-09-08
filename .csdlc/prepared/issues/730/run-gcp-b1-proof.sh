@@ -18,6 +18,7 @@ rollback_command="remove issue-owned bucket IAM member and delete the empty buck
 evidence_dir=".csdlc/evidence/730"
 git_common="$(git rev-parse --path-format=absolute --git-common-dir)"
 plan_path="$git_common/csdlc-v2/gcp-b1/730.tfplan"
+gcloud_config="$git_common/csdlc-v2/gcloud-config"
 plan_display_path=".git/csdlc-v2/gcp-b1/730.tfplan"
 plan_text="$evidence_dir/gcp-b1-plan.redacted.txt"
 readback_json="$evidence_dir/gcp-b1-readback.json"
@@ -128,7 +129,8 @@ if delta > 90 * 60:
     raise SystemExit("authorization exceeds 90-minute window")
 PY
 
-mkdir -p "$evidence_dir" "$recovery_dir"
+mkdir -p "$evidence_dir" "$recovery_dir" "$gcloud_config"
+export CLOUDSDK_CONFIG="${CLOUDSDK_CONFIG:-$gcloud_config}"
 rm -rf "$tf_data_dir"
 rm -rf "$backend_probe_data_dir" "$backend_probe_dir"
 trap cleanup EXIT

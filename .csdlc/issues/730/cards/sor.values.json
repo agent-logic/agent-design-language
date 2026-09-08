@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
     "slug": "gcp-b1-impersonation-remote-state",
     "version": "v0.92.1",
-    "generation": 20
+    "generation": 22
   },
   "status": "pre_phase",
   "content": {
@@ -127,6 +127,16 @@
             "--lane=static"
           ],
           "purpose": "Static proof after making post-apply cleanup failure-safe and requiring the clean GCS backend probe to contain the expected Terraform bucket and IAM-member resources.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; live-proof-fail-closed.stderr.log still reports exact authorization artifact required; residue-scan.log has 0 lines; diff-check.log has 0 lines"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+            "--lane=static"
+          ],
+          "purpose": "Static proof after aligning #730 plan/live scripts with the prior #491/#608 repo-local Cloud SDK config pattern so gcloud cache/log writes stay under Git-common storage while static credential-file execution remains rejected.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/730/static-validation.log; gcp-b1 static validation passed; live-proof-fail-closed.stderr.log still reports exact authorization artifact required; residue-scan.log has 0 lines; diff-check.log has 0 lines"
         }

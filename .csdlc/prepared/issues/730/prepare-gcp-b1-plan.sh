@@ -7,6 +7,7 @@ evidence_dir=".csdlc/evidence/730"
 git_common="$(git rev-parse --path-format=absolute --git-common-dir)"
 plan_dir="$git_common/csdlc-v2/gcp-b1"
 plan_path="$plan_dir/730.tfplan"
+gcloud_config="$git_common/csdlc-v2/gcloud-config"
 plan_text="$evidence_dir/gcp-b1-plan.redacted.txt"
 plan_digest="$evidence_dir/gcp-b1-plan-digest.json"
 repo_root="$(git rev-parse --show-toplevel)"
@@ -33,7 +34,8 @@ command -v jq >/dev/null 2>&1 || fail "missing required tool: jq"
 [[ -z "${CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE:-}" ]] || fail "cloudsdk credential file override is not allowed"
 [[ -z "${GCP_B_KEY_FILE:-}" ]] || fail "GCP_B_KEY_FILE is not allowed"
 
-mkdir -p "$evidence_dir" "$plan_dir"
+mkdir -p "$evidence_dir" "$plan_dir" "$gcloud_config"
+export CLOUDSDK_CONFIG="${CLOUDSDK_CONFIG:-$gcloud_config}"
 rm -rf "$tf_data_dir"
 trap 'rm -rf "$tf_data_dir"' EXIT
 
