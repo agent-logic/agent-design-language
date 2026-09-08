@@ -29,6 +29,7 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     sh!("git", "commit", "-qm", "opening")
     opening = `git rev-parse HEAD`.strip
 
+    File.write("test.rb", "puts '1 test passed'\n")
     specs = {"issue_specifications" => [{"id" => "WP-01", "acceptance_criteria" => ["observable result"]}]}
     spec_path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
     FileUtils.mkdir_p(File.dirname(spec_path)); File.write(spec_path, specs.to_yaml)
@@ -80,7 +81,7 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       observations = assignment.fetch("denominator_refs").map { |ref| {"ref" => ref, "evidence" => blob_evidence.call(spec_path,ref), "conclusion" => "verified_no_gap", "detail" => "inspected exact candidate surface"} }
       write_json(report_path, {"candidate_sha" => candidate, "denominator_refs" => assignment.fetch("denominator_refs"), "observations" => observations, "findings" => []})
       test_stdout="1 test passed\n"
-      {"assignment_id" => assignment.fetch("id"), "lane" => assignment.fetch("lane"), "outcome" => "passed", "candidate_sha" => candidate, "reviewer" => "fixture", "evidence" => "retained", "report_path" => report_path, "report_sha256" => Digest::SHA256.file(report_path).hexdigest, "test_invocation" => {"argv"=>["ruby","test.rb"],"candidate_sha"=>candidate,"exit_status"=>0,"stdout"=>test_stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(test_stdout)}}
+      {"assignment_id" => assignment.fetch("id"), "lane" => assignment.fetch("lane"), "outcome" => "passed", "candidate_sha" => candidate, "reviewer" => "fixture", "evidence" => "retained", "report_path" => report_path, "report_sha256" => Digest::SHA256.file(report_path).hexdigest, "test_invocation" => {"argv"=>["ruby","test.rb"],"working_directory"=>".","command_artifacts"=>[{"path"=>"test.rb","sha256"=>Digest::SHA256.file("test.rb").hexdigest}],"candidate_sha"=>candidate,"exit_status"=>0,"stdout"=>test_stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(test_stdout)}}
     end
     write_json(File.join(root, "assignments.json"), {"assignments" => assignments})
     write_json(File.join(root, "lane-results.json"), {"results" => results})
@@ -117,6 +118,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     end
 
     issue_path = File.join(root, "issue_inventory.json")
+    reject_mutation.call("mutated_test_command", ["test.rb", File.join(root, "packet-manifest.json")]) do
+      File.write("test.rb", "puts 'fabricated pass'\n")
+    end
     reject_mutation.call("non_resolving_evidence", [issue_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(issue_path)); doc.fetch("rows").first["evidence"] = "looks convincing"; write_json(issue_path, doc)
     end

@@ -181,7 +181,11 @@ end
 results.select { |row| row.fetch("lane").match?(/test|pvf|ci/i) }.each do |row|
   invocation = row.fetch("test_invocation")
   stdout = invocation.fetch("stdout")
-  fail!("test lane lacks immutable successful invocation receipt") unless nonempty?(invocation.fetch("argv")) && invocation.fetch("candidate_sha") == candidate && invocation.fetch("exit_status") == 0 && Digest::SHA256.hexdigest(stdout) == invocation.fetch("stdout_sha256") && nonempty?(stdout)
+  argv = invocation.fetch("argv")
+  artifacts = invocation.fetch("command_artifacts")
+  artifacts_valid = artifacts.any? && artifacts.all? { |artifact| Digest::SHA256.hexdigest(git_blob(candidate, artifact.fetch("path"))) == artifact.fetch("sha256") && Digest::SHA256.file(artifact.fetch("path")).hexdigest == artifact.fetch("sha256") }
+  fresh_stdout, fresh_stderr, fresh_status = Open3.capture3(*argv, chdir: invocation.fetch("working_directory"))
+  fail!("test lane lacks replayed immutable successful invocation proof: #{fresh_stderr.strip}") unless nonempty?(argv) && invocation.fetch("candidate_sha") == candidate && invocation.fetch("exit_status") == 0 && Digest::SHA256.hexdigest(stdout) == invocation.fetch("stdout_sha256") && nonempty?(stdout) && artifacts_valid && fresh_status.exitstatus == invocation.fetch("exit_status") && fresh_stdout == stdout
 end
 
 findings_doc = docs.fetch("findings.json")
