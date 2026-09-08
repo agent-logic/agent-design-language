@@ -5,42 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "340e112143bd5ba310331906ed23abbfabdd4be63363bf9f94eead006af36b75",
+  "generation": 11,
+  "digest": "450734e59f7a607176f74a3a9b480ac806956bf4230126e8ca8d439bae8df994",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_536_closeout",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:7d37f253d206e41bfebbacbcca25f6b3a4b59907:3cc0a3751c5f291cb7830a89d39108706db5b3a49253abe2acb90ecdf1075a54",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
-      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/review_536_closeout",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
-      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
-    ],
-    "reviewed_revision": "git-blake3:7d37f253d206e41bfebbacbcca25f6b3a4b59907:3cc0a3751c5f291cb7830a89d39108706db5b3a49253abe2acb90ecdf1075a54",
-    "findings": [
-      {
-        "id": "P1-closeout-validator-loose-substrings",
-        "severity": "p1",
-        "summary": "The closeout validator used loose substring checks instead of enforcing exact child-to-review, PR, checks, merge, and no-PR mappings.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e2c1b4c0bac8f03e6fda1380edb5346cc4f994ced6de5d322110bae95818e350",
+      "values_digest": "84f5173d2631bdd76a0d84dc05c51151243db41efb77906a45599e4aee96e696",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "b91fb7ced424baa524794de8e360ce27b5273d033ed273a8c1eaf2cbdadb4a42",
+      "values_digest": "588572eb5070a84e2cb3261c67c176b5872d1de4c7a1fb28f517af50210bc05d",
       "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
       "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
     },
     "spp": {
-      "values_digest": "66c9abf55d3259919d1130c26f60fcac706e87476f91f7b507dabba8b135261a",
+      "values_digest": "c4c6b97eb498cf6ed943df412c73d54f48fa0ce3b43d99f61e5d16f606018baf",
       "rendered_digest": "bda1406af101871095a7782b16c0e78a94ecfe02b1b7a25e30bd01a33846b86a",
       "ast_digest": "d8ab373250e52855378ad2f7f6b304f60287aa40f951a2250e9a5c8c2237b98c"
     },
     "vpp": {
-      "values_digest": "8545f7cdfdfda046b3f255e515164dfb4b802a59f251fe6f86bba4322f89d249",
+      "values_digest": "8e0344b274165feb3d3dcdd171a547591cc7f6b13ae28bb83fe2fedfb8b9b559",
       "rendered_digest": "bebc327c6a85cddb82fa61c39f7bcd2eaca512861e0157c8ed99c427f5749715",
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "742ffcf1834a79d0b65064e896bf499f896828b25b65a8bcd9ce557ffe79956a",
-      "rendered_digest": "5b3e15b38591d40903d667bd15652ad23d6a55bb3ee66a86f27a9490d2baa13e",
-      "ast_digest": "88f0f0a5b54b1397c9f211d54e3d32437db2c4bccb78965c770017a83920c2ee"
+      "values_digest": "7410e732f03c0e710d82849eaa03b33a594ede1b4a268ffad1967a9a679a1712",
+      "rendered_digest": "f9728c6b555d78265a3ecc7ea3967dcd7f89274bdc053dd755301cda3ec02e2f",
+      "ast_digest": "05d9996be469f7834734672cd227d844fcdea52cb09696b945389e6063e6d671"
     },
     "sor": {
-      "values_digest": "0fb130b752d25f4d364b94af1f482751139ab289ddee97b3231e536e2329c044",
-      "rendered_digest": "26a4804d3a51daa6d2faf23665279c122e35405ab27a07e13d05382b851c832e",
-      "ast_digest": "547ccba567bc6cbd6e45ce6e2495a8cff910fe0e94f05db795c9a2d0c36d94c8"
+      "values_digest": "5dc5b0e43709cc2d5295154308f0f929ca0592b8bd025e7f2d5883a334b8c783",
+      "rendered_digest": "715a5005b33efee973ce79e3cbe3c004280cad340aa83b86fbf4a24c0585da3a",
+      "ast_digest": "7b298866b02745de9937369b6aa75fb8ff0130d1c231de75e2d6e49d5165b7ef"
     }
   },
   "transitions": [
@@ -199,6 +169,13 @@
       "actor": "codex:/root",
       "reason": "The validator now parses exactly eight rows and binds every child to its exact no-PR or PR/review/head/check/merge mapping; focused validation passes.",
       "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"P1-closeout-validator-loose-substrings\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "The assigned review finding was fixed at 5c87c6f33a40e9518ca46dd377a5848a9120ad56; clear stale review authority and require a fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

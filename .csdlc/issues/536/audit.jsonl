@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":10,"actor":"codex:/root","reason":"The validator now parses exactly eight rows and binds every child to its exact no-PR or PR/review/head/check/merge mapping; focused validation passes.","operation":"{\"operation\":\"dispose_finding\",\"finding_id\":\"P1-closeout-validator-loose-substrings\",\"disposition\":\"fixed\"}"}
+{"sequence":14,"generation":11,"actor":"codex:/root","reason":"The assigned review finding was fixed at 5c87c6f33a40e9518ca46dd377a5848a9120ad56; clear stale review authority and require a fresh exact-head review.","operation":"recover_review"}

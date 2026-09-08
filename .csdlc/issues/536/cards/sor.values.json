@@ -7,7 +7,7 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
@@ -34,7 +34,7 @@
           "evidence_ref": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

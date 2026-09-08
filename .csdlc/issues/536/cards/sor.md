@@ -41,7 +41,7 @@ Prepared truthful aggregate Sprint 8 closeout evidence after all eight children 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
