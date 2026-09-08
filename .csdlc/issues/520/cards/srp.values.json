@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 520,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-04] Internal review",
+    "slug": "tail-04-internal-review",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The complete final v0.92.1 base-to-candidate change set, milestone issue/PR roster, acceptance surfaces, canonical documentation, proof, demos, lifecycle truth, and release claims.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the review inventory every changed production and test file rather than sample?",
+        "Does every acceptance surface map to implementation and meaningful proof?",
+        "Are half-work, inert paths, do-nothing behavior, and unsupported claims explicit findings?",
+        "Do all findings and zero-finding lane results bind the exact candidate?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

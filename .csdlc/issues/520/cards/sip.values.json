@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 520,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-04] Internal review",
+    "slug": "tail-04-internal-review",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one findings-first internal review register for the exact final v0.92.1 milestone candidate.",
+      "required_outcome": "A complete review denominator and canonical finding register expose every gap, partial implementation, inert path, unsupported claim, and release blocker at one exact candidate revision.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/evidence/release/tail-04/**",
+        ".csdlc/issues/520/**",
+        ".csdlc/prepared/issues/520/**"
+      ],
+      "authority_boundary": [
+        "Issue #520 owns review artifacts only",
+        "TAIL-03/#519 supplies the immutable candidate",
+        "Product remediation belongs to TAIL-06/#522",
+        "External review belongs to TAIL-05/#521"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Do not execute before #519 has a reviewed green merge",
+        "Review complete denominators rather than samples",
+        "Do not merge, deploy, restart Runtime, or spend provider/cloud funds"
+      ]
+    }
+  }
+}

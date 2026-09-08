@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 520,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-04] Internal review",
+    "slug": "tail-04-internal-review",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "review-denominator",
+          "proof_role": "Prove every changed path, milestone issue/PR, acceptance surface, and mandatory lane is inventoried and dispositioned.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/520/validate-internal-review.rb",
+            "denominator"
+          ],
+          "parallel_group": "packet",
+          "defer_reason": "Validator and packet are #520 execution deliverables."
+        },
+        {
+          "lane": "finding-schema",
+          "proof_role": "Prove raw findings, canonical register, synthesis, and acceptance matrix agree exactly.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/520/validate-internal-review.rb",
+            "findings"
+          ],
+          "parallel_group": "packet",
+          "defer_reason": "Validator and packet are #520 execution deliverables."
+        },
+        {
+          "lane": "exact-revision-integrity",
+          "proof_role": "Prove candidate identity, ancestry, artifact digests, portability, and redaction.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/520/validate-internal-review.rb",
+            "integrity"
+          ],
+          "parallel_group": "packet",
+          "defer_reason": "Validator and packet are #520 execution deliverables."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed tracked changes.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 300,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on dependency, candidate, denominator, evidence, redaction, schema, review, or exact-revision drift; retain limitations and never convert missing proof into a pass.",
+      "design_ref": ".csdlc/prepared/issues/520/design.md",
+      "design_digest": "a92ee174e71d477315c1979f5f78c713ce37679b869f04317b9ab313740c7555",
+      "diagram_ref": ".csdlc/prepared/issues/520/diagram.mmd",
+      "diagram_digest": "d8ccec569a47ba807da9754860256420256dbcc147c2a3df123752c668f34fdb"
+    }
+  }
+}
