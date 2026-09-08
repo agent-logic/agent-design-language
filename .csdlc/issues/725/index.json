@@ -4,20 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "2624a716b98d32f4b7455b7e4ee6c93f6bbbf6eeb1ec0c132c5dee70303f4672",
+  "generation": 15,
+  "digest": "b717373e6dd779c731cfcde72a6946eaada0637f5a3b25fa89023fea3b594d97",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:review-sprint10-523-526-prep-r7",
-    "assigned_by": "codex:/root/remediate_v3_725",
-    "revision": "git-blake3:c972e179df5f7b6d380c4891e8e7cbd9dea6d9c7:8b993ae25c68392830009f650d9222e890bf9dce0b55756682260d166000bfbf",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v3",
-      "docs/csdlc-v3/CONTRACT.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -33,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6a3e4fa0a06190c4b24d6ff48238a5be061882b264f017e4d7cb87088885d09c",
+      "values_digest": "ae8089334c1fe0199b65aa1b6cc9c6efeee96c37b1b63b49406d8017bd2bc186",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "66b7441614764dcecaa52d6b306a4e959247896341b39972ebd5a45bc48825cd",
+      "values_digest": "04d134b5874abf3c9face0c23118db2041f171b67b21e21a55cfb2f170b6e1a5",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "f573b6e058be2ed3263ea783f9e4a49c0ff47bfa27b7fb6b37b3b00083a9c758",
+      "values_digest": "e1e21791acc9c9eba907e7c649744def019263c61bb1c990ee9e7824321c5fcf",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "2a688d6f95b96cf531e4321c1b5a28ace1514592fde9e40bf6156e69f4fbf53e",
+      "values_digest": "c9ab996d06f6ec01b51095cc2516e05dd8618d9aba90c9a1424c2462cefd4725",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "0d37925a2cbadd4c454e31539c6b6c9d516bc20ee1bfc8cc1e3ba25e14b55db3",
-      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
-      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
+      "values_digest": "225900a47bfdf00a033c64a1d96d0d15f3eaa54c773773b2bd5806c7da533c75",
+      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
+      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
     },
     "sor": {
-      "values_digest": "c344ecb639db9d28817d14c57f44f26012cd64c92afc99bd9d194d9eaae333cd",
+      "values_digest": "75cde003369f85e6f74476006ecb8d69698a86e094180ec2e9d4f961c0fda0e4",
       "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
       "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
@@ -282,6 +273,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "refresh review after test-only post-merge clone no-op commit portability correction",
+      "operation": "recover_review"
     }
   ]
 }
