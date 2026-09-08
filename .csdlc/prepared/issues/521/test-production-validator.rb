@@ -6,14 +6,14 @@ def sh!(*a); system(*a) or abort("failed #{a.join(' ')}"); end
 Dir.mktmpdir("issue-521-production-",File.expand_path("../../../../.adl",__dir__)) do |repo|
  Dir.chdir(repo) do
   sh!("git","init","-q"); sh!("git","config","user.email","f@invalid"); sh!("git","config","user.name","fixture")
-  FileUtils.mkdir_p(".csdlc/prepared/issues/520"); validator_path=".csdlc/prepared/issues/520/validate-internal-review.rb"; File.write(validator_path,"puts({status:'passed',candidate_sha:ARGV[0]}.to_json)\n")
+  FileUtils.mkdir_p(".csdlc/prepared/issues/520"); validator_path=".csdlc/prepared/issues/520/validate-internal-review.rb"; File.write(validator_path,"require 'json'; puts JSON.generate(status:'passed',candidate_sha:ENV.fetch('ADL_INTERNAL_REVIEW_CANDIDATE'))\n")
   File.write("subject.txt","candidate\n"); sh!("git","add","."); sh!("git","commit","-qm","candidate"); candidate=`git rev-parse HEAD`.strip
   internal_root="docs/internal"; FileUtils.mkdir_p(internal_root)
   denominator_names=%w[repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json]
   denominator_names.each_with_index{|n,i| wj(File.join(internal_root,n),{"rows"=>[{"denominator_ref"=>"ref:#{i}"}]})}
   %w[findings.json lane-results.json proof-results.json validation-results.json redaction-report.json quality-report.json].each{|n| wj(File.join(internal_root,n),{"candidate_sha"=>candidate,"outcome"=>"passed","findings"=>[]})}
   validation_path=File.join(internal_root,"semantic.json"); wj(validation_path,{"status"=>"passed","candidate_sha"=>candidate,"validator"=>validator_path})
-  stdout=JSON.generate({"status"=>"passed","candidate_sha"=>candidate})
+  stdout=JSON.generate({"status"=>"passed","candidate_sha"=>candidate})+"\n"
   invocation_path=File.join(internal_root,"invocation.json"); wj(invocation_path,{"validator_path"=>validator_path,"validator_sha256"=>Digest::SHA256.file(validator_path).hexdigest,"argv"=>["ruby",validator_path,"all"],"exit_status"=>0,"candidate_sha"=>candidate,"stdout"=>stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(stdout)})
   names=%w[repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json findings.json lane-results.json proof-results.json validation-results.json redaction-report.json quality-report.json semantic.json invocation.json]
   entries=names.map{|n| p=File.join(internal_root,n);{"path"=>p,"sha256"=>Digest::SHA256.file(p).hexdigest}}

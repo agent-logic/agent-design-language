@@ -96,13 +96,15 @@ invocation_doc = JSON.parse(invocation_blob)
 validator_path = ".csdlc/prepared/issues/520/validate-internal-review.rb"
 validator_blob = git_blob(reviewed_head, validator_path)
 fail!("#520 invocation used wrong validator") unless invocation_doc.fetch("validator_path") == validator_path && invocation_doc.fetch("validator_sha256") == Digest::SHA256.hexdigest(validator_blob)
-_syntax_out, syntax_err, syntax_status = Open3.capture3("ruby", "-c", stdin_data: validator_blob)
-fail!("immutable #520 validator blob is not executable Ruby: #{syntax_err.strip}") unless syntax_status.success?
 fail!("#520 invocation argv/exit/candidate is invalid") unless invocation_doc.fetch("argv") == ["ruby", validator_path, "all"] && invocation_doc.fetch("exit_status") == 0 && invocation_doc.fetch("candidate_sha") == candidate
 stdout = invocation_doc.fetch("stdout")
 fail!("#520 invocation stdout digest mismatch") unless Digest::SHA256.hexdigest(stdout) == invocation_doc.fetch("stdout_sha256")
 stdout_doc = JSON.parse(stdout)
 fail!("#520 invocation stdout does not prove semantic pass") unless stdout_doc.fetch("status") == "passed" && stdout_doc.fetch("candidate_sha") == candidate
+execution_env = {"ADL_REVIEW_PACKET_ROOT" => File.dirname(internal_manifest_path), "ADL_INTERNAL_REVIEW_CANDIDATE" => candidate}
+fresh_stdout, fresh_stderr, fresh_status = Open3.capture3(execution_env, "ruby", "-e", validator_blob, "all")
+fail!("exact immutable #520 validator did not execute successfully: #{fresh_stderr.strip}") unless fresh_status.success?
+fail!("fresh #520 validator execution differs from retained receipt") unless fresh_stdout == stdout
 review_authority = manifest.fetch("internal_exact_head_review")
 review_path = review_authority.fetch("receipt_path")
 fail!("#520 exact-head review receipt is outside #521 packet") unless review_path.start_with?(root + "/") && File.file?(review_path)
