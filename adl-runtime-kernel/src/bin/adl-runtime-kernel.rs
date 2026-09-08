@@ -47,6 +47,11 @@ const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 
 struct ArchiveInFlightGuard(Arc<AtomicBool>);
 
+struct ParsedRuntimeInit {
+    config: RuntimeInitConfig,
+    active_init_hash: String,
+}
+
 impl Drop for ArchiveInFlightGuard {
     fn drop(&mut self) {
         self.0.store(false, Ordering::Release);
@@ -526,13 +531,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let runtime_init_identity = match init.continuity_identity_projection() {
-                Ok(identity) => identity,
-                Err(error) => {
-                    eprintln!("runtime init identity could not be encoded: {error}");
-                    return ExitCode::from(70);
-                }
-            };
+            let runtime_init_identity = init.continuity_compatibility_projection_v1();
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": runtime_init_identity,
@@ -883,16 +882,20 @@ async fn main() -> ExitCode {
                     .await;
                 });
             }
-            let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
-                RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
+            let reload_parser: ConfigParser<ParsedRuntimeInit> = Arc::new(|raw| {
+                let config = RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
                     ConfigReloadError::parse("runtime init rejected")
+                })?;
+                Ok(ParsedRuntimeInit {
+                    config,
+                    active_init_hash: blake3::hash(raw.as_bytes()).to_hex().to_string(),
                 })
             });
             let reload_service = Arc::clone(&service);
-            let reload_applier: ConfigApplier<RuntimeInitConfig> = Arc::new(move |next| {
+            let reload_applier: ConfigApplier<ParsedRuntimeInit> = Arc::new(move |next| {
                 reload_service
-                    .apply_runtime_init_reload(next)
+                    .apply_runtime_init_reload(&next.config, &next.active_init_hash)
                     .map_err(|error| {
                         eprintln!(
                             "{}",

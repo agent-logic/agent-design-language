@@ -869,27 +869,29 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
-fn continuity_identity_excludes_non_stateful_runtime_policy() {
+fn continuity_compatibility_v1_allows_hot_load_policy_and_binds_security_identity() {
     let root = config_test_root();
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
     let mut legacy_config = config.clone();
     legacy_config.observatory.additional_allowed_origins.clear();
-    let expected = legacy_config.continuity_identity_projection().unwrap();
-    assert_eq!(config.continuity_identity_projection().unwrap(), expected);
-    assert!(expected["observability_pipeline"]
-        .get("cloudwatch")
-        .is_none());
-    assert!(expected.get("service_convergence").is_none());
-    assert!(expected.get("agent_partial_checkpoints").is_none());
+    let expected = legacy_config.continuity_compatibility_projection_v1();
+    assert_eq!(config.continuity_compatibility_projection_v1(), expected);
+    assert_eq!(
+        expected["schema"],
+        "adl.runtime_v3.continuity_compatibility.v1"
+    );
+    assert!(expected.get("resident_shepherd").is_none());
+    assert!(expected.get("observatory").is_none());
+    assert!(expected.get("observability_pipeline").is_none());
 
     let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
     next_cycle.observability_pipeline.lifecycle_run = "run-2".to_owned();
     next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();
     assert_eq!(
-        next_cycle.continuity_identity_projection().unwrap(),
+        next_cycle.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -897,7 +899,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     changed_origins.observatory.additional_allowed_origins =
         vec!["http://localhost:8000".to_owned()];
     assert_eq!(
-        changed_origins.continuity_identity_projection().unwrap(),
+        changed_origins.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -911,7 +913,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         }
     }
     assert_eq!(
-        renamed_shepherd.continuity_identity_projection().unwrap(),
+        renamed_shepherd.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -924,8 +926,8 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
             panic!("fixture must use one resident Shepherd")
         }
     }
-    assert_ne!(
-        rebound_shepherd.continuity_identity_projection().unwrap(),
+    assert_eq!(
+        rebound_shepherd.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -936,7 +938,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     secondary.display_name = "Lumen".to_owned();
     multi_shepherd.resident_shepherd =
         adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, secondary]);
-    let multi_expected = multi_shepherd.continuity_identity_projection().unwrap();
+    let multi_expected = multi_shepherd.continuity_compatibility_projection_v1();
     if let adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) =
         &mut multi_shepherd.resident_shepherd
     {
@@ -944,7 +946,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         shepherds[1].display_name = "Lumen Axioma".to_owned();
     }
     assert_eq!(
-        multi_shepherd.continuity_identity_projection().unwrap(),
+        multi_shepherd.continuity_compatibility_projection_v1(),
         multi_expected
     );
 
@@ -962,8 +964,8 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
 
     changed_origins.observatory.allowed_origins =
         vec!["https://observatory.example.test".to_owned()];
-    assert_ne!(
-        changed_origins.continuity_identity_projection().unwrap(),
+    assert_eq!(
+        changed_origins.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -974,21 +976,43 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
             log_group: "/agent-logic/runtime-v3/axioma-wuji-dev".to_owned(),
             log_stream: "wuji".to_owned(),
         });
-    assert_ne!(
-        cloudwatch_enabled.continuity_identity_projection().unwrap(),
+    assert_eq!(
+        cloudwatch_enabled.continuity_compatibility_projection_v1(),
         expected
     );
 
     let mut changed_runtime = config;
     changed_runtime.api.address = "127.0.0.1:20998".to_owned();
     assert_ne!(
-        changed_runtime.continuity_identity_projection().unwrap(),
+        changed_runtime.continuity_compatibility_projection_v1(),
+        expected
+    );
+
+    let mut changed_state_root = legacy_config.clone();
+    changed_state_root.state_root = root.path().join("different-state");
+    assert_ne!(
+        changed_state_root.continuity_compatibility_projection_v1(),
+        expected
+    );
+
+    let mut changed_control_key = legacy_config.clone();
+    changed_control_key.credentials.control_key_id = "replacement-control-key".to_owned();
+    assert_ne!(
+        changed_control_key.continuity_compatibility_projection_v1(),
+        expected
+    );
+
+    let mut changed_tls_identity = legacy_config;
+    changed_tls_identity.api.tls.certificate_chain_path =
+        root.path().join("tls/replacement-cert.pem");
+    assert_ne!(
+        changed_tls_identity.continuity_compatibility_projection_v1(),
         expected
     );
 }
 
 #[test]
-fn runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity() {
+fn runtime_init_accepts_s3_archive_identity_without_binding_checkpoint_restore() {
     let root = config_test_root();
     let toml = valid_runtime_init_toml(root.path()).replace(
         "\n[weather]\n",
@@ -1017,9 +1041,9 @@ runtime_id = "wuji"
     let without_archive =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
-    assert_ne!(
-        config.continuity_identity_projection().unwrap(),
-        without_archive.continuity_identity_projection().unwrap()
+    assert_eq!(
+        config.continuity_compatibility_projection_v1(),
+        without_archive.continuity_compatibility_projection_v1()
     );
 }
 

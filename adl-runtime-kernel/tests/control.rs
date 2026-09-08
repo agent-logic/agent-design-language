@@ -41,7 +41,7 @@ use tls_support::TestPki;
 mod runtime_init_support;
 
 #[test]
-fn polis_identity_reload_atomically_updates_every_parameter() {
+fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomically() {
     let evidence_root = std::path::Path::new("../.csdlc/evidence/551/control-tests");
     std::fs::create_dir_all(evidence_root).unwrap();
     let root = tempfile::tempdir_in(evidence_root.canonicalize().unwrap()).unwrap();
@@ -62,6 +62,7 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
         authority(&key, [ControlCapability::Stop]),
         8,
     )
+    .with_runtime_ownership(4242, "0".repeat(64))
     .with_polis_identity(&init);
 
     let mut reload = init.clone();
@@ -73,7 +74,10 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
     reload.api.tls.server_name = "new.example.test".to_owned();
     reload.observatory.allowed_origins = vec!["https://observe.new.example.test".to_owned()];
     reload.observatory.additional_allowed_origins.clear();
-    service.apply_runtime_init_reload(&reload).unwrap();
+    service
+        .apply_runtime_init_reload(&reload, &"a".repeat(64))
+        .unwrap();
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
 
     let observed = service.observatory_feed().polis_identity;
     assert_eq!(observed.polis_id, "another-polis");
@@ -98,7 +102,10 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
     let mut invalid = reload.clone();
     invalid.polis.display_name = "Must Not Apply".to_owned();
     invalid.observatory.allowed_origins = vec!["*".to_owned()];
-    assert!(service.apply_runtime_init_reload(&invalid).is_err());
+    assert!(service
+        .apply_runtime_init_reload(&invalid, &"b".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
     assert_eq!(service.observatory_feed().polis_identity, observed);
     assert_eq!(
         service.observatory_feed().control.public_base_url,
@@ -112,7 +119,10 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
     let mut inconsistent = reload;
     inconsistent.polis.display_name = "Must Still Not Apply".to_owned();
     inconsistent.observatory.allowed_origins = vec!["https://different.example.test".to_owned()];
-    assert!(service.apply_runtime_init_reload(&inconsistent).is_err());
+    assert!(service
+        .apply_runtime_init_reload(&inconsistent, &"c".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
     assert_eq!(service.observatory_feed().polis_identity, observed);
     assert!(service
         .observatory_origin_policy()

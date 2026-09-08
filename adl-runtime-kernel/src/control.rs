@@ -895,7 +895,6 @@ pub struct ControlService<C> {
     instance_id: String,
     runtime_incarnation_id: String,
     guardian_process_id: u32,
-    active_init_hash: String,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
@@ -1007,6 +1006,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             public_base_url: "https://localhost".to_owned(),
             polis_identity,
             observatory_allowed_origins: Arc::new(origins),
+            active_init_hash: blake3::hash(b"").to_hex().to_string(),
         }));
         let observatory_origin_policy =
             ObservatoryOriginPolicy::from_state(Arc::clone(&runtime_presentation));
@@ -1014,7 +1014,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             instance_id,
             runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
             guardian_process_id: std::process::id(),
-            active_init_hash: blake3::hash(b"").to_hex().to_string(),
             recorder,
             lifecycle,
             authority,
@@ -1084,7 +1083,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "active Runtime init hash must be a BLAKE3 hex digest"
         );
         self.guardian_process_id = guardian_process_id;
-        self.active_init_hash = active_init_hash;
+        self.runtime_presentation
+            .write()
+            .expect("runtime presentation state poisoned")
+            .active_init_hash = active_init_hash;
         self
     }
 
@@ -1221,8 +1223,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self
     }
 
-    pub fn apply_runtime_init_reload(&self, init: &crate::RuntimeInitConfig) -> Result<(), String> {
+    pub fn apply_runtime_init_reload(
+        &self,
+        init: &crate::RuntimeInitConfig,
+        active_init_hash: &str,
+    ) -> Result<(), String> {
         init.validate().map_err(|error| error.to_string())?;
+        if active_init_hash.len() != 64
+            || !active_init_hash
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit())
+        {
+            return Err("active Runtime init hash must be a BLAKE3 hex digest".to_owned());
+        }
         let next_orientation = AgentOrientationResource::load_from_config(&init.agent_orientation)
             .map_err(|error| error.to_string())?;
         let next_identity = PolisIdentityFeed {
@@ -1236,17 +1249,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             init.observatory_allowed_origins(),
             true,
         )?);
+        let mut orientation = self
+            .agent_orientation
+            .write()
+            .map_err(|_| "agent orientation state unavailable".to_owned())?;
         let mut active = self
             .runtime_presentation
             .write()
             .map_err(|_| "runtime presentation state unavailable".to_owned())?;
+        *orientation = next_orientation;
         active.public_base_url = init.api.public_base_url.clone();
         active.polis_identity = next_identity;
         active.observatory_allowed_origins = next_origins;
-        *self
-            .agent_orientation
-            .write()
-            .map_err(|_| "agent orientation state unavailable".to_owned())? = next_orientation;
+        active.active_init_hash = active_init_hash.to_owned();
         Ok(())
     }
 
@@ -4521,7 +4536,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             runtime_incarnation_id: feed.runtime_incarnation_id,
             runtime_process_id: feed.runtime_process_id,
             guardian_process_id: self.guardian_process_id,
-            active_init_hash: self.active_init_hash.clone(),
+            active_init_hash: self
+                .runtime_presentation
+                .read()
+                .expect("runtime presentation state poisoned")
+                .active_init_hash
+                .clone(),
             weather_freshness,
             degraded_reasons,
         }
@@ -6409,6 +6429,7 @@ struct RuntimePresentationState {
     public_base_url: String,
     polis_identity: PolisIdentityFeed,
     observatory_allowed_origins: Arc<BTreeSet<String>>,
+    active_init_hash: String,
 }
 
 #[derive(Clone, Debug)]
@@ -6424,6 +6445,7 @@ impl ObservatoryOriginPolicy {
                 public_base_url: "https://localhost".to_owned(),
                 polis_identity: PolisIdentityFeed::unavailable("local_runtime"),
                 observatory_allowed_origins: origins,
+                active_init_hash: blake3::hash(b"").to_hex().to_string(),
             },
         ))))
     }
@@ -11124,7 +11146,7 @@ mod orientation_tests {
         init.agent_orientation.source_path = v2_path;
 
         service
-            .apply_runtime_init_reload(&init)
+            .apply_runtime_init_reload(&init, &"a".repeat(64))
             .expect("valid orientation reload applies");
         let v2_digest = service.active_agent_orientation().digest;
         assert_ne!(v2_digest, original_active_digest);
@@ -11142,7 +11164,9 @@ mod orientation_tests {
         init.agent_orientation.version = "v3".to_owned();
         init.agent_orientation.source_path = invalid_path;
 
-        assert!(service.apply_runtime_init_reload(&init).is_err());
+        assert!(service
+            .apply_runtime_init_reload(&init, &"b".repeat(64))
+            .is_err());
         assert_eq!(service.active_agent_orientation().digest, v2_digest);
     }
 }
