@@ -40,7 +40,7 @@ def validate_receipts!(source, admission)
     raise "validation receipt followed by substantive changes" unless post.lines.map(&:strip).reject(&:empty?).all?{|path|expected.key?(File.basename(path)) && path.start_with?(".csdlc/evidence/516/")}
   end
 end
-def validate!(source, admission, gap, markdown, require_admitted:, verify_receipts: true)
+def validate!(source, admission, gap, markdown, require_admitted:, verify_receipts: true, verify_projection_files: true)
   raise "wrong source schema" unless source["schema"]=="adl.v0921.release_tail_input.v1"
   raise "wrong admission schema" unless admission["schema"]=="adl.v0921.release_tail_admission.v2"
   raise "wrong gap schema" unless gap["schema"]=="adl.gap_analysis_report.v2"
@@ -111,8 +111,10 @@ def validate!(source, admission, gap, markdown, require_admitted:, verify_receip
     actual_post=post.lines.map(&:strip).reject(&:empty?)
     raise "review-tail projection drift" unless actual_post==truth["post_review_paths"]
   end
-  versioned=OUT.join(admission.fetch("output_identity")); raise "versioned admission missing" unless versioned.file? && versioned.read==JSON.generate(admission)+"\n"
-  versioned_gap=OUT.join("gap-analysis.#{admission['candidate']}.#{digest}.json"); raise "versioned gap missing" unless versioned_gap.file? && versioned_gap.read==JSON.generate(gap)+"\n"
+  if verify_projection_files
+    versioned=OUT.join(admission.fetch("output_identity")); raise "versioned admission missing" unless versioned.file? && versioned.read==JSON.generate(admission)+"\n"
+    versioned_gap=OUT.join("gap-analysis.#{admission['candidate']}.#{digest}.json"); raise "versioned gap missing" unless versioned_gap.file? && versioned_gap.read==JSON.generate(gap)+"\n"
+  end
   expected_semantic=rows.flat_map{|row|row.fetch("acceptance_rows")}.to_h{|ac|[ac.fetch("id"),ac.fetch("text_digest")]}
   actual_semantic=semantic_entries.to_h{|entry|[entry.fetch("criterion_id"),entry.fetch("criterion_digest")]}
   raise "semantic criterion denominator/digest mismatch" unless actual_semantic==expected_semantic
@@ -225,6 +227,7 @@ def validate!(source, admission, gap, markdown, require_admitted:, verify_receip
   claims=Hash.new{|h,k|h[k]=[]}; rows.each{|r|r.fetch("owned_paths").each{|path|claims[path]<<r["issue"]}}
   actual_collisions=admission.fetch("ownership_collisions")
   raise "ownership collision denominator mismatch" unless actual_collisions.map{|c|[c["path"],c["owners"]]}==claims.map{|path,owners|[path,owners.uniq] if owners.uniq.length>1}.compact
+  raise "ownership collision status invalid" unless actual_collisions.all?{|c|c["status"]=="unresolved"}
   actual_collisions.select{|c|c["status"]=="resolved_by_ordered_content"}.each do |collision|
     final_blob,_err,status=Open3.capture3("git","rev-parse","#{admission['candidate']}:#{collision['path']}",chdir:ROOT.to_s)
     final_blob=final_blob.strip
@@ -271,19 +274,30 @@ end
 
 admission=load_json(OUT.join("release-tail-admission.json")); source_path=OUT.join("release-tail-input.#{admission.fetch('candidate')}.#{admission.fetch('source_digest')}.json"); source=load_json(source_path); gap=load_json(OUT.join("gap_analysis_report.json")); markdown=OUT.join("gap_analysis_report.md").read
 if %w[negative all].include?(MODE)
+  sync_source=lambda do |s,a,g|
+    digest=Digest::SHA256.hexdigest(JSON.generate(s)); a["source_digest"]=g["source_digest"]=digest
+  end
+  sync_observation=lambda do |s,row,*keys|
+    observation=s.fetch("observations").find{|item|item["issue"]==row["issue"]}
+    keys.each{|key|observation[key]=Marshal.load(Marshal.dump(row[key]))}
+  end
+  sync_gap_row=lambda do |g,row|
+    gap_row=g.fetch("execution_issues").find{|item|item["issue"]==row["issue"]}
+    gap_row["acceptance_rows"]=Marshal.load(Marshal.dump(row["acceptance_rows"]))
+  end
   cases={
-    "omitted-root"=>->(s,_a,_g,_m){s["mapping"].delete(s["mapping"].keys.first)},
-    "empty-acceptance"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"]=[]},
-    "do-nothing"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"].first["evidence_status"]="placeholder"},
-    "invented-criterion-link"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"].first["evidence_status"]="evidence_linked"},
-    "invented-no-pr-authority"=>->(_s,a,_g,_m){a["execution_issues"].first["closure_disposition"]={"kind"=>"absorbed","authority"=>"invented"}},
-    "missing-artifact"=>->(_s,a,_g,_m){a["retained_predecessors"].first["path"]="missing"},
-    "invented-retained-mapping"=>->(_s,a,_g,_m){a["retained_predecessors"].first["acceptance_rows"].first["observed_status"]="observed_in_successor"},
+    "omitted-root"=>->(s,a,g,_m){s["mapping"].delete(s["mapping"].keys.first);sync_source.call(s,a,g)},
+    "empty-acceptance"=>->(s,a,g,_m){row=a["execution_issues"].first;row["acceptance_rows"]=[];sync_observation.call(s,row,"acceptance_rows");sync_source.call(s,a,g)},
+    "do-nothing"=>->(s,a,g,_m){row=a["execution_issues"].first;row["acceptance_rows"].first["evidence_status"]="placeholder";sync_observation.call(s,row,"acceptance_rows");sync_gap_row.call(g,row);sync_source.call(s,a,g)},
+    "invented-criterion-link"=>->(s,a,g,_m){row=a["execution_issues"].first;row["acceptance_rows"].first["evidence_status"]="evidence_linked";sync_observation.call(s,row,"acceptance_rows");sync_gap_row.call(g,row);sync_source.call(s,a,g)},
+    "invented-no-pr-authority"=>->(s,a,g,_m){row=a["execution_issues"].find{|r|r["closure_disposition"]};row["disposition"]="satisfied_by_explicit_no_pr_closure";row["closure_disposition"]={"kind"=>"absorbed","authority"=>"invented"};sync_observation.call(s,row,"closure_disposition");gap_row=g["execution_issues"].find{|item|item["issue"]==row["issue"]};gap_row["disposition"]=row["disposition"];sync_source.call(s,a,g)},
+    "missing-artifact"=>->(_s,a,g,_m){a["retained_predecessors"].first["path"]="missing";g["retained_predecessors"]=Marshal.load(Marshal.dump(a["retained_predecessors"]))},
+    "invented-retained-mapping"=>->(_s,a,g,_m){a["retained_predecessors"].first["acceptance_rows"].first["observed_status"]="criterion_mapped_to_candidate_evidence";g["retained_predecessors"]=Marshal.load(Marshal.dump(a["retained_predecessors"]))},
     "gap-mismatch"=>->(_s,_a,g,_m){g["execution_issues"]=[]},
     "unowned-finding"=>->(_s,a,g,_m){a["findings"].first["owner"]="";g["findings"]=a["findings"]},
     "collision"=>->(_s,a,_g,_m){a["ownership_collisions"]<<{"path"=>"x"}},
     "false-collision-resolution"=>->(_s,a,_g,_m){a["ownership_collisions"].first["status"]="resolved_by_ordered_content"},
-    "spec-acceptance-drift"=>->(s,_a,_g,_m){s["spec_acceptance"].values.first["acceptance_criteria"]=[]},
+    "spec-acceptance-drift"=>->(s,a,g,_m){s["spec_acceptance"].values.first["acceptance_criteria"]=[];sync_source.call(s,a,g)},
     "output-identity-drift"=>->(_s,a,_g,_m){a["output_identity"]="missing.json"},
     "projection-digest-drift"=>->(_s,a,_g,_m){a["projection_digest"]="0"*64},
     "admitted-with-blocker"=>->(_s,a,g,_m){a["decision"]=g["decision"]="admitted"},
@@ -295,14 +309,16 @@ if %w[negative all].include?(MODE)
     "generated-evidence-digest-drift"=>->(s,a,g,_m){s["generated_evidence"].first["sha256"]="0"*64;d=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=d},
     "markdown-omission"=>->(_s,_a,_g,m){m.replace("")}
   }
+  expected={
+    "omitted-root"=>"execution denominator mismatch","empty-acceptance"=>"semantic criterion denominator/digest mismatch","do-nothing"=>"criterion classification invalid","invented-criterion-link"=>"criterion classification invalid","invented-no-pr-authority"=>"explicit no-PR closure authority missing","missing-artifact"=>"retained artifact missing at candidate","invented-retained-mapping"=>"retained criterion cannot be observed without evidence","gap-mismatch"=>"gap execution projection mismatch","unowned-finding"=>"invalid/unowned finding","collision"=>"ownership collision denominator mismatch","false-collision-resolution"=>"ownership collision status invalid","spec-acceptance-drift"=>"spec acceptance denominator mismatch","output-identity-drift"=>"versioned admission missing","projection-digest-drift"=>"canonical projection digest mismatch","admitted-with-blocker"=>"decision is not fail closed","stale-candidate"=>"admission candidate is stale","stale-review-result"=>"review truth contradicts its evidence","forged-reviewed-sha"=>"reviewed revision is not ancestral to implementation head","substantive-review-tail"=>"review-tail projection drift","generated-evidence-blob-drift"=>"generated evidence blob drift","generated-evidence-digest-drift"=>"generated evidence digest/size drift","markdown-omission"=>"Markdown candidate mismatch"
+  }
   cases.each do |name,mutation|
     s,a,g=Marshal.load(Marshal.dump([source,admission,gap])); m=markdown.dup; mutation.call(s,a,g,m)
-    expected={"stale-review-result"=>"review truth contradicts its evidence","forged-reviewed-sha"=>"reviewed revision is not ancestral to implementation head","substantive-review-tail"=>"review-tail projection drift","generated-evidence-blob-drift"=>"generated evidence blob drift","generated-evidence-digest-drift"=>"generated evidence digest/size drift"}[name]
     begin
-      validate!(s,a,g,m,require_admitted:false,verify_receipts:false)
+      validate!(s,a,g,m,require_admitted:false,verify_receipts:false,verify_projection_files:name=="output-identity-drift")
       abort("negative fixture accepted: #{name}")
     rescue RuntimeError => e
-      raise "negative fixture hit wrong guard: #{name}: #{e.message}" if expected && e.message!=expected
+      raise "negative fixture hit wrong guard: #{name}: #{e.message}" if e.message!=expected.fetch(name)
     end
   end
 end

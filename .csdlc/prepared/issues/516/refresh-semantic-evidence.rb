@@ -56,9 +56,20 @@ end
 # reviewed merged authority.
 spec_text = `git -C #{root.shellescape} show #{candidate}:docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml`
 obs_b_criteria = YAML.safe_load(spec_text).fetch("issue_specifications").find { |spec| spec.fetch("id") == "OBS-B" }.fetch("acceptance_criteria")
-old_runtime_projection = entries.fetch("OBS-B-ac-2").dup
-old_accessibility = entries.fetch("OBS-B-ac-3").dup
-entries["OBS-B-ac-2"] = {
+new_gap_digest = Digest::SHA256.hexdigest(obs_b_criteria.fetch(1))
+runtime_digest = Digest::SHA256.hexdigest(obs_b_criteria.fetch(2))
+accessibility_digest = Digest::SHA256.hexdigest(obs_b_criteria.fetch(3))
+already_migrated = entries.dig("OBS-B-ac-2", "criterion_digest") == new_gap_digest &&
+  entries.dig("OBS-B-ac-3", "criterion_digest") == runtime_digest &&
+  entries.dig("OBS-B-ac-4", "criterion_digest") == accessibility_digest
+needs_migration = entries.dig("OBS-B-ac-2", "criterion_digest") == runtime_digest &&
+  entries.dig("OBS-B-ac-3", "criterion_digest") == accessibility_digest
+abort "unexpected OBS-B criterion identities; refusing destructive migration" unless already_migrated || needs_migration
+
+if needs_migration
+  old_runtime_projection = entries.fetch("OBS-B-ac-2").dup
+  old_accessibility = entries.fetch("OBS-B-ac-3").dup
+  entries["OBS-B-ac-2"] = {
   "criterion_id" => "OBS-B-ac-2",
   "criterion_digest" => Digest::SHA256.hexdigest(obs_b_criteria.fetch(1)),
   "classification" => "proof_gap",
@@ -69,17 +80,18 @@ entries["OBS-B-ac-2"] = {
   "docs_evidence" => [],
   "closeout_evidence" => ["github:issue-84:open"],
   "rationale" => "The candidate requires reviewed merged issue 84 authority, which is not present."
-}
-entries["OBS-B-ac-3"] = old_runtime_projection.merge(
+  }
+  entries["OBS-B-ac-3"] = old_runtime_projection.merge(
   "criterion_id" => "OBS-B-ac-3",
   "criterion_digest" => Digest::SHA256.hexdigest(obs_b_criteria.fetch(2)),
   "rationale" => "Independent semantic audit classified OBS-B-ac-3 as proven: Runtime projections are source-grounded"
-)
-entries["OBS-B-ac-4"] = old_accessibility.merge(
+  )
+  entries["OBS-B-ac-4"] = old_accessibility.merge(
   "criterion_id" => "OBS-B-ac-4",
   "criterion_digest" => Digest::SHA256.hexdigest(obs_b_criteria.fetch(3)),
   "rationale" => "Independent semantic audit classified OBS-B-ac-4 as proven: Accessibility and recovery cases pass"
-)
+  )
+end
 
 # Closed issue markers are closeout evidence, not authority to amend planned
 # acceptance. Keep unmapped amendments visible as proof gaps.
