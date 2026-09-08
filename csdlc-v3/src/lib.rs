@@ -141,7 +141,7 @@ mod tests {
         assert!(contract.contains("Construction decision"));
         assert!(contract.contains("Proportional lifecycle contract"));
         assert!(contract.contains("Rollback and fail-closed behavior"));
-        assert_eq!(operational_authority(&repo_root()).unwrap(), "suspended");
+        assert_eq!(operational_authority(&repo_root()).unwrap(), "csdlc-v3");
     }
 
     #[test]
