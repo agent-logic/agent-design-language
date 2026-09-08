@@ -4,20 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "1019126af97b2bf9f0cf13797dd1baf35a61d28eb7ff963d032e6faff9ef17e4",
+  "generation": 14,
+  "digest": "057464dbf77677ab1f8bcb8223136813dd043d82c28ccae1f25b16412432acea",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:review-sprint10-523-526-prep-r6",
-    "assigned_by": "codex:/root/remediate_v3_725",
-    "revision": "git-blake3:1831882ff1c6c19674427004993e941d13530975:b65ce882c95d3f1002ae503009b69e5eae9ace5051872dfa455d767ea767521b",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v3",
-      "docs/csdlc-v3/CONTRACT.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -33,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "859753ad1fcf5bbd6abbd4a105db1cef409ded09d82b98b290df649f4b1ca95d",
+      "values_digest": "6a3e4fa0a06190c4b24d6ff48238a5be061882b264f017e4d7cb87088885d09c",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "fc923e366329bed63a5c15743271a537f7ac0eddcf56793710952b36140ed179",
+      "values_digest": "66b7441614764dcecaa52d6b306a4e959247896341b39972ebd5a45bc48825cd",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "f7a8d1685a83406b5c6785016d7be8885b39e0ca5dbdb5cf7acf721539771c19",
+      "values_digest": "f573b6e058be2ed3263ea783f9e4a49c0ff47bfa27b7fb6b37b3b00083a9c758",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "e70f8e0eed39aaf75172f1f4aa770bef99dc0dd4b5fc549d5976c9cddf487e8f",
+      "values_digest": "2a688d6f95b96cf531e4321c1b5a28ace1514592fde9e40bf6156e69f4fbf53e",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "ed3de1a03097c375bac850ce6d8c83308d5ff017e684c075e0f6cc4da80627c9",
-      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
-      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
+      "values_digest": "4684836f112eff239e0eee63b614721166fc77e062746cca568fba52de904d57",
+      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
+      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
     },
     "sor": {
-      "values_digest": "b4418773837aff2fe1b440a5da421c73ff829a1e1fc17a361e4170f7f7d55f98",
+      "values_digest": "c344ecb639db9d28817d14c57f44f26012cd64c92afc99bd9d194d9eaae333cd",
       "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
       "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
@@ -268,6 +259,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "replace summarized PR provenance with exact authenticated typed csdlc-github-pr state bytes before final review",
+      "operation": "recover_review"
     }
   ]
 }
