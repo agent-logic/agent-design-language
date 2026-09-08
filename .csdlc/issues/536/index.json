@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "f06a41a8aef57200fb2dfa06d26166d20595204851d57767061abc1ec4b3a58e",
+  "generation": 12,
+  "digest": "02476e59d042f15801fbe4159c0aad55f5761569d94b1dd6ecb3836edf68be52",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
   "review_assignment": {
@@ -18,7 +18,29 @@
       ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_536_closeout",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+    ],
+    "reviewed_revision": "git-blake3:aec66dd50f9653da21bd68966f4b92db1c86480c:e0bb45d245fc608eff44a6b1510b501b1cf766fad615ba711f13a65e46225575",
+    "findings": [
+      {
+        "id": "P1-closeout-validator-disposition-text",
+        "severity": "p1",
+        "summary": "The validator did not enforce the closed and independently reviewed disposition text for the six merged children.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "84f5173d2631bdd76a0d84dc05c51151243db41efb77906a45599e4aee96e696",
+      "values_digest": "4482724441b4f3857c4b4eb067aa7465ce28e8ce01932ed7cab89abcbb8dc194",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "588572eb5070a84e2cb3261c67c176b5872d1de4c7a1fb28f517af50210bc05d",
+      "values_digest": "a198da64cb3481814feeef3f125f02f724962033337e40aaa67d5539040b8f83",
       "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
       "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
     },
     "spp": {
-      "values_digest": "c4c6b97eb498cf6ed943df412c73d54f48fa0ce3b43d99f61e5d16f606018baf",
+      "values_digest": "714195edf757ce6ce14b3d9eaf943db3f8f03e47c4e3356ac47ab32199153d25",
       "rendered_digest": "bda1406af101871095a7782b16c0e78a94ecfe02b1b7a25e30bd01a33846b86a",
       "ast_digest": "d8ab373250e52855378ad2f7f6b304f60287aa40f951a2250e9a5c8c2237b98c"
     },
     "vpp": {
-      "values_digest": "8e0344b274165feb3d3dcdd171a547591cc7f6b13ae28bb83fe2fedfb8b9b559",
+      "values_digest": "bd9a0267046c729cc1d5ebe5374db89aafa5865a6fde97fc2bbc83e2690adfcf",
       "rendered_digest": "bebc327c6a85cddb82fa61c39f7bcd2eaca512861e0157c8ed99c427f5749715",
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "e4b9a72ad900583debdcd0e9492e0b42b92889811e190df5b28a62ae746f7fab",
-      "rendered_digest": "a6a57a883f4227a16de6bc6f70adcf62d1f49c6fa28b5d555e1bad52dcbe8de0",
-      "ast_digest": "e6e14486af6e00c119d046500bfacb5467d61245c75d7c9a91e3d070616977ac"
+      "values_digest": "8f671d96042db85936e81a72239bb70d5561a4e6a78d4bd66a289d8ecbc48820",
+      "rendered_digest": "0ef842e11469a6ae41d50ddcbeb836f63c6f1e392938a9112528e203a24cdf76",
+      "ast_digest": "67616c854a55bc4d8feee7dd17e8af7ae6896c0e6c7101b540d891c2e95a31cd"
     },
     "sor": {
-      "values_digest": "5dc5b0e43709cc2d5295154308f0f929ca0592b8bd025e7f2d5883a334b8c783",
+      "values_digest": "380a8eb8ca9a3cf7a595a2d74931287a15e2a8f42129ffa96763be4f5c3a37c2",
       "rendered_digest": "715a5005b33efee973ce79e3cbe3c004280cad340aa83b86fbf4a24c0585da3a",
       "ast_digest": "7b298866b02745de9937369b6aa75fb8ff0130d1c231de75e2d6e49d5165b7ef"
     }
@@ -191,6 +213,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
