@@ -121,6 +121,24 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     reject_mutation.call("duplicate_planned_mapping", [issue_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(issue_path)); doc.fetch("rows") << doc.fetch("rows").first.dup; write_json(issue_path, doc)
     end
+    snapshot_path = File.join(root, "live-milestone-snapshot.json")
+    reject_mutation.call("omitted_live_pr", [snapshot_path, response_path, File.join(root, "packet-manifest.json")]) do
+      snap = JSON.parse(File.read(snapshot_path)); snap.fetch("issues").first["pull_requests"] = []; write_json(snapshot_path, snap)
+      write_json(response_path, {"issues" => snap.fetch("issues")}); snap.fetch("api_receipt")["response_sha256"] = Digest::SHA256.file(response_path).hexdigest; write_json(snapshot_path, snap)
+    end
+    reject_mutation.call("incomplete_pagination", [snapshot_path, File.join(root, "packet-manifest.json")]) do
+      snap = JSON.parse(File.read(snapshot_path)); snap["pagination_complete"] = false; snap.fetch("api_receipt")["final_has_next_page"] = true; write_json(snapshot_path, snap)
+    end
+    manifest_path = File.join(root, "run_manifest.json")
+    reject_mutation.call("self_authored_mutable_base", [manifest_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(manifest_path)); doc["base_sha"] = candidate; doc.fetch("opening_authority")["base_sha"] = candidate; write_json(manifest_path, doc)
+    end
+    acceptance_path = File.join(root, "acceptance_coverage.json")
+    assignments_path = File.join(root, "assignments.json")
+    reject_mutation.call("jointly_omitted_acceptance", [acceptance_path, assignments_path, File.join(root, "packet-manifest.json")]) do
+      write_json(acceptance_path, {"rows" => []})
+      doc = JSON.parse(File.read(assignments_path)); doc.fetch("assignments").each { |row| row.fetch("denominator_refs").delete("ac:1") }; write_json(assignments_path, doc)
+    end
     report_path = results.first.fetch("report_path")
     reject_mutation.call("content_free_lane", [report_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(report_path)); doc["observations"] = []; write_json(report_path, doc)
