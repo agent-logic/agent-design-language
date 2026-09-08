@@ -38,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The admission decision is intentionally blocked while its recorded P1 product gaps remain open.
+- Hosted CI remains the final integration gate before merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a5484bed3d9bd5fce18564fa8f980a3b8b46a280:54f0cbf23a4a4a8408c4580635dc760a6cc7d38fabba0cca7a38d02855927c01")
 
-Reviewer: None
+Reviewer: Some("fresh-session:66edcc5a-b723-4838-944d-5f9c86b5db8f")
 
-Result: pre_review
+Result: pass

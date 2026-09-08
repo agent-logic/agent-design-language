@@ -77,11 +77,11 @@ Prepared a complete fail-closed v0.92.1 admission decision at current-main candi
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
