@@ -311,7 +311,13 @@ mod tests {
         );
         run(
             &root,
-            &["commit", "--quiet", "-m", "post-merge native authority"],
+            &[
+                "commit",
+                "--quiet",
+                "--allow-empty",
+                "-m",
+                "post-merge native authority",
+            ],
         );
         run(&root, &["update-ref", "refs/remotes/origin/main", "HEAD"]);
 
