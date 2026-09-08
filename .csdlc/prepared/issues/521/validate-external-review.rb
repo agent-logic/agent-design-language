@@ -39,29 +39,7 @@ def evidence_resolves?(evidence, candidate, root)
   Digest::SHA256.hexdigest(content) == evidence.fetch("sha256")
 end
 
-def validate_fixture!(fixture)
-  fail!("independence requires evidence") unless fixture.fetch("independent") == true && nonempty?(fixture.fetch("independence_evidence"))
-  canonical = fixture.fetch("internal_refs")
-  fail!("canonical #520 scope cannot be empty") unless nonempty?(canonical)
-  fail!("fixture does not consume merged #520 artifacts") unless fixture.fetch("predecessor_merged") == true && fixture.fetch("artifacts_from_merge") == true
-  fail!("fixture lacks passing #520 semantic attestation") unless fixture.fetch("internal_semantic_validation") == "passed"
-  fail!("fixture lacks retained #520 invocation proof") unless fixture.fetch("invocation_receipt_valid") == true
-  fail!("fixture lacks current exact-head #520 review authority") unless fixture.fetch("internal_exact_head_review") == "passed"
-  fail!("packet-authored expected scope differs from #520") unless fixture.fetch("expected_scope").sort == canonical.sort
-  fail!("reviewed scope differs from #520") unless fixture.fetch("reviewed_scope").sort == canonical.sort && fixture.fetch("reviewed_scope").uniq.length == canonical.length
-  fail!("fixture scope rows do not cover reviewed scope") unless fixture.fetch("scope_rows").map { |row| row.fetch("ref") }.sort == fixture.fetch("reviewed_scope").sort
-  fail!("raw independent output is missing or unreconciled") unless fixture.fetch("raw_output_digest_valid") == true && fixture.fetch("raw_scope") == fixture.fetch("scope_rows") && fixture.fetch("raw_findings") == fixture.fetch("findings")
-  fail!("zero findings require evidence") if fixture.fetch("findings").empty? && !nonempty?(fixture.fetch("zero_findings_evidence"))
-end
-
-if ARGV.first == "fixture"
-  fixture = read_json(ARGV.fetch(1))
-  validate_fixture!(fixture)
-  puts JSON.generate(status: "passed", fixture: ARGV[1])
-  exit
-end
-
-root = ENV.fetch("ADL_EXTERNAL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-05")
+def validate_packet!(root:)
 required = %w[run_manifest.json reviewer-independence.json provider-request.json provider-invocation-receipt.json standard-runner-receipt.json provider-native-response.json raw-review-output.json scope.json findings.json limitations.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing external-review artifacts: #{missing.join(', ')}") unless missing.empty?
@@ -196,4 +174,10 @@ end
 paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| paths.include?(File.join(root, name)) }
 fail!("packet manifest omits #520 exact-head review authority") unless paths.include?(review_path)
-puts JSON.generate(schema: "adl.v0921.external_review_validation.v2", status: "passed", scope: reviewed_scope.length, findings: findings.length, limitations: limitations.length)
+  {schema: "adl.v0921.external_review_validation.v2", status: "passed", scope: reviewed_scope.length, findings: findings.length, limitations: limitations.length}
+end
+
+if __FILE__ == $PROGRAM_NAME
+  root = ENV.fetch("ADL_EXTERNAL_REVIEW_PACKET_ROOT", "docs/milestones/v0.92.1/evidence/release/tail-05")
+  puts JSON.generate(validate_packet!(root: root))
+end
