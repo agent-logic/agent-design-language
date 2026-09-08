@@ -11,7 +11,9 @@ use std::os::unix::fs::PermissionsExt;
 
 use serde_json::{json, Value};
 
-const SHADOW_TARGET_ISSUE: u64 = 631;
+// Use an unbound ready issue so both real doctor implementations have a
+// topology-neutral fixture in a fresh single-checkout CI clone.
+const SHADOW_TARGET_ISSUE: u64 = 210;
 
 struct ScratchGuard {
     _lock: MutexGuard<'static, ()>,
@@ -263,7 +265,7 @@ fn v2_doctor_spec(issue_argument: u64) -> Value {
 }
 
 fn v3_doctor_spec() -> Value {
-    v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
+    v3_doctor_spec_for(631, "proof command fixture")
 }
 
 fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
@@ -388,7 +390,7 @@ fn assert_blocked_value(route: &str, body: Value, code: &str) {
 fn proof_route_accepts_fresh_deterministic_manifest_only() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("proof.json", br#"{"ok":true}"#);
-    let command = v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture");
+    let command = v3_doctor_spec();
     assert_ready_value(
         "proof",
         json!({
@@ -424,7 +426,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "observed_digest": "def456",
             "stale": true,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
+            "command": v3_doctor_spec()
           }
         }),
         "proof_lane_not_deterministic",
@@ -446,7 +448,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
             "observed_digest": "caller-forged",
             "stale": false,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
+            "command": v3_doctor_spec()
           }
         }),
         "proof_observed_digest_mismatch",
@@ -457,7 +459,7 @@ fn proof_route_accepts_fresh_deterministic_manifest_only() {
 fn proof_route_retains_a_deterministic_native_receipt() {
     let _scratch = ScratchGuard::new();
     let (root, proof_ref, digest) = write_evidence("native-proof.json", br#"{"ok":true}"#);
-    let command = v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture");
+    let command = v3_doctor_spec();
     let value = run_route_value(
         "proof",
         json!({
@@ -497,7 +499,7 @@ fn proof_route_retains_a_deterministic_native_receipt() {
             "observed_digest": digest,
             "stale": false,
             "normalization": "doctor_issue_phase_v1",
-            "command": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture")
+            "command": v3_doctor_spec()
           }
         }),
     );
@@ -518,7 +520,7 @@ fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
           "shadow": {
             "normalization": "doctor_issue_phase_v1",
             "v2": v2_doctor_spec(SHADOW_TARGET_ISSUE),
-            "v3": v3_doctor_spec(),
+            "v3": v3_doctor_spec_for(SHADOW_TARGET_ISSUE, "proof command fixture"),
             "broad_equivalence_claim": false
           }
         }),

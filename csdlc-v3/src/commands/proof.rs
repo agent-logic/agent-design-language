@@ -686,7 +686,10 @@ fn execute_shadow(
     if v2.normalized_output != v3.normalized_output {
         return Err(finding(
             "shadow_normalized_mismatch",
-            "normalized outputs from executed v2 and v3 commands must match",
+            format!(
+                "normalized outputs from executed v2 and v3 commands must match; v2={}; v3={}",
+                v2.normalized_output, v3.normalized_output
+            ),
         ));
     }
     if v2.exit_code != Some(0) || v3.exit_code != Some(0) {
