@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Prepared a complete fail-closed v0.92.1 admission decision at candidate af5f8036ab7a0619751ab55fa9bd4891f377cd9d. The diagnostic unit is complete when this truthful blocked decision passes exact-head review; release admission remains separately prohibited while P0/P1 findings are open.
+Prepared a complete fail-closed v0.92.1 admission decision at current-main candidate f3eb715560c5e7d8aff5fe874c6a117ed2f3e169. The diagnostic unit is complete when this truthful blocked decision passes exact-head review; release admission remains separately prohibited while P0/P1 findings are open.
 
 ## Artifacts
 
@@ -20,22 +20,25 @@ Prepared a complete fail-closed v0.92.1 admission decision at candidate af5f8036
 - .csdlc/prepared/issues/516/validate-release-tail-admission.sh
 - .csdlc/prepared/issues/516/validate-release-tail-admission.rb
 - .csdlc/evidence/516/semantic-criterion-evidence.json
-- .csdlc/evidence/516/no-v2-canary-af5f8036.json
-- .csdlc/evidence/516/no-v2-canary-af5f8036.stderr.log
-- docs/milestones/v0.92.1/evidence/integration/release-tail-input.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68.json
-- docs/milestones/v0.92.1/evidence/integration/release-tail-admission.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68.json
-- docs/milestones/v0.92.1/evidence/integration/gap-analysis.af5f8036ab7a0619751ab55fa9bd4891f377cd9d.f1e0f887d24d775c69f609dcb11605e2d16823ab4c24316b9e4a5c7b02256d68.json
+- .csdlc/evidence/516/no-v2-canary-f3eb7155.json
+- .csdlc/evidence/516/no-v2-canary-f3eb7155.stderr.log
+- .csdlc/evidence/516/release-tail-denominator.log
+- .csdlc/evidence/516/implementation-gap-analysis.log
+- .csdlc/evidence/516/admission-consistency.log
+- docs/milestones/v0.92.1/evidence/integration/release-tail-input.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json
+- docs/milestones/v0.92.1/evidence/integration/release-tail-admission.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json
+- docs/milestones/v0.92.1/evidence/integration/gap-analysis.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json
 - docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json
 - docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json
 - docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md
 
 ## Execution
 
-- Derived the exact planned-ID/live-issue/tail and retained-predecessor mappings from immutable wave, catalog, specification, and exact title-token sources with no hardcoded issue map.
-- Recorded all linked PRs and exact ancestry, and classified every criterion from the issue-owned curated semantic evidence manifest with candidate-bound non-empty evidence digests.
-- Captured pagination-safe GitHub input metadata and immutable planning digests in a candidate-versioned compact source manifest.
-- Added semantic validation and in-memory negative fixtures for omitted roots, null revisions, false ancestry, empty acceptance, duplicate retained identities, placeholder evidence, missing artifacts, projection drift, unowned findings, collisions, false admission, and Markdown omissions.
-- Split decision validity from release admission: denominator, gaps, and decision lanes accept a truthful blocked report, while the separate admitted mode fails with any open P0/P1.
+- Derived the exact planned-ID, live-issue, release-tail, and retained-predecessor mappings from canonical planning and live acceptance sources.
+- Bound every proven criterion to non-empty candidate-addressed evidence and rejected weak or duplicate denominator entries.
+- Required the admission candidate to equal captured remote main and added an adversarial stale-candidate fixture.
+- Retained portable command receipts binding exact head, candidate, source digest, canonical argv, timestamps, exit code, and stdout digest.
+- Separated diagnostic decision validity from release admission so the report remains truthful while P0/P1 gaps block release.
 
 ## Validation
 
@@ -43,32 +46,32 @@ Prepared a complete fail-closed v0.92.1 admission decision at candidate af5f8036
   {
     "command": [
       "/bin/bash",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh",
-      "decision"
-    ],
-    "purpose": "Issue 516 final admission decision validation",
-    "outcome": "passed",
-    "evidence_ref": "admission-consistency.log"
-  },
-  {
-    "command": [
-      "/bin/bash",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh",
-      "gaps"
-    ],
-    "purpose": "Issue 516 gap-analysis validation",
-    "outcome": "passed",
-    "evidence_ref": "implementation-gap-analysis.log"
-  },
-  {
-    "command": [
-      "/bin/bash",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec/.csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
       "denominator"
     ],
-    "purpose": "Issue 516 denominator validation",
+    "purpose": "Validate the complete unique release-tail denominator and bound evidence.",
     "outcome": "passed",
-    "evidence_ref": "release-tail-denominator.log"
+    "evidence_ref": ".csdlc/evidence/516/release-tail-denominator.log"
+  },
+  {
+    "command": [
+      "/bin/bash",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      "gaps"
+    ],
+    "purpose": "Validate the gap register, classifications, owners, dispositions, and projections.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/516/implementation-gap-analysis.log"
+  },
+  {
+    "command": [
+      "/bin/bash",
+      ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+      "decision"
+    ],
+    "purpose": "Validate the fail-closed release admission decision.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/516/admission-consistency.log"
   }
 ]
 

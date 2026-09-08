@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "670ffe99105f46abfdfc8e71aabafe81c8295d9ab7dbb3aed49a072b3b72ba9f",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "ca143cfd8c81424f2160c5f290eb38cfdecb25090de3b741619060b84c93acaa",
+  "generation": 4,
+  "digest": "d16d5f0e91df22ae8d6a2d883e2dd1e057b600d24d9abcf9d90e598596adcc1b",
   "branch": "codex/516-release-tail-admission",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-516-release-tail-admission-exec",
   "review_assignment": {
-    "reviewer": "fresh-session:b229b448-72f6-4df5-91f4-c20c81df9525",
+    "reviewer": "fresh-session:fd5d3c53-ca9b-4a24-85b0-c0c37140154c",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:5d4662fa6328aba28e281e208b5d305c29bb9d28:3e88fae7efb51c883ac4acbaf2864e189c86da80d84ece0fef9b5e51b4e97f27",
+    "revision": "git-blake3:07a13c8ecead3d06d16b994cde27dd77faf00ad7:0765b4158c5533968186b1d5fd490e44bf7732343d05a1779cc4e4abaaeedf80",
     "scope": [
       ".csdlc/evidence/516",
       ".csdlc/prepared/issues/516",
@@ -38,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "84ad29ff985be830198966a1b3bbb5e3f10986cf8b7655202955ca9923569fe0",
+      "values_digest": "c3560e1803ff652f59ed2e5bc484b531823391fa4059181c2ff85c8acb88f0b8",
       "rendered_digest": "0b45c599ee5bab16a0883ba5440e1202d44800fb0346c1bbee4a60f2686588ed",
       "ast_digest": "cbd68d251e7811fddc96006a4eb78e6fbf972d81a5ca5bc801c5c4393d2c21c4"
     },
     "stp": {
-      "values_digest": "7ca3c261626ad35546c670c0b002a6538cdcefa0912e6aeb1fa6b89d01a1f2bf",
+      "values_digest": "be8333259a995cdf48884908a399f0a501e191a220d249afc2f479e591cac4c3",
       "rendered_digest": "fe7a7dcff1d751596cec5f7e32fcb49526e1bdce9e5960b6d4f82133e7001e31",
       "ast_digest": "91fb89a215dbe713a320158df7e333c6251f0e37d90c6bb0a580e81bbeb2820f"
     },
     "spp": {
-      "values_digest": "3ece7ecb9501835692f37757eefc3742f6b10008df1a9325c6af4944eebed939",
+      "values_digest": "c39e587bc2415170423ecdabab83da1002a638164279ce330016ead7fc3e9b03",
       "rendered_digest": "bb5bf1a00975c20dcd494d2b797cdcafea5442173738a154c49b39311f8759c6",
       "ast_digest": "3b22082dc87139df9495987acba9f3c3ed8c8535a5eb899c3eeaf5f5b7280cd2"
     },
     "vpp": {
-      "values_digest": "1fab443337dd7627b937b9566064c1d4a831528038e5dbab2f6ef77148c04c4d",
+      "values_digest": "e40ac06b82fd95ab75826922eef23ed88c36979a09daf112ccd1b1d6bb55e345",
       "rendered_digest": "83c20533a1664ad1726b99f2e96235f77e74c0f4c790794b65e6b3c699f9928c",
       "ast_digest": "c68cfbac01182fba8bd81cf3207f245176714e4c1652bd2aa5f9581402ec56c4"
     },
     "srp": {
-      "values_digest": "3f3169e1e9d50fb3caa8616ec62386478340003d20cded4d171596a2e2bde89e",
+      "values_digest": "b222031753b8261ff6389f6876e86db1beb30e51218b64ec483d6447479fee83",
       "rendered_digest": "947cf571f6cb20406e4c4ddc96156db1b09e99c7464f9bb090163a6878847273",
       "ast_digest": "1b287993775c9148fef95f209eeddb84ad5f9c69d12ca3d1cc555212267e5573"
     },
     "sor": {
-      "values_digest": "510b54caf566c588680b46a8ac93880553920d4a85675734d8b76b4656bf3815",
-      "rendered_digest": "861a504071359f534415bea96e465990bae79d36fd98d4d105f36b594e0ae0ab",
-      "ast_digest": "cd527f91caab450f8818d5e0008599642a39a1c63f3c91c3a5702f6bac4ea27a"
+      "values_digest": "10c8dbad857f4cf6953a8828e4b03addcb822759554f8a40929bd10220014f40",
+      "rendered_digest": "ae2723f77620235f1ccca7c17a5c4b6b2eb8ea97714631c75ecaa9e022c86bca",
+      "ast_digest": "d5852e07b39c4a696ae4969c6a785e1185f6616c1be2bbf01cd77ce872ae710b"
     }
   },
   "transitions": [
@@ -133,6 +133,27 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Align the canonical SOR with the current-main admission candidate and portable retained validation receipts.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared a complete fail-closed v0.92.1 admission decision at current-main candidate f3eb715560c5e7d8aff5fe874c6a117ed2f3e169. The diagnostic unit is complete when this truthful blocked decision passes exact-head review; release admission remains separately prohibited while P0/P1 findings are open.\",\"changes\":[\"Derived the exact planned-ID, live-issue, release-tail, and retained-predecessor mappings from canonical planning and live acceptance sources.\",\"Bound every proven criterion to non-empty candidate-addressed evidence and rejected weak or duplicate denominator entries.\",\"Required the admission candidate to equal captured remote main and added an adversarial stale-candidate fixture.\",\"Retained portable command receipts binding exact head, candidate, source digest, canonical argv, timestamps, exit code, and stdout digest.\",\"Separated diagnostic decision validity from release admission so the report remains truthful while P0/P1 gaps block release.\"],\"artifacts\":[\".csdlc/prepared/issues/516/generate-release-tail-admission.rb\",\".csdlc/prepared/issues/516/validate-release-tail-admission.sh\",\".csdlc/prepared/issues/516/validate-release-tail-admission.rb\",\".csdlc/evidence/516/semantic-criterion-evidence.json\",\".csdlc/evidence/516/no-v2-canary-f3eb7155.json\",\".csdlc/evidence/516/no-v2-canary-f3eb7155.stderr.log\",\".csdlc/evidence/516/release-tail-denominator.log\",\".csdlc/evidence/516/implementation-gap-analysis.log\",\".csdlc/evidence/516/admission-consistency.log\",\"docs/milestones/v0.92.1/evidence/integration/release-tail-input.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json\",\"docs/milestones/v0.92.1/evidence/integration/release-tail-admission.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json\",\"docs/milestones/v0.92.1/evidence/integration/gap-analysis.f3eb715560c5e7d8aff5fe874c6a117ed2f3e169.6fe8c52fc94ebeab7a6d845e2cf0372ab91538b8a4ea2dde63c544c3b31f80de.json\",\"docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json\",\"docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.json\",\"docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md\"],\"validation\":[{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/516/validate-release-tail-admission.sh\",\"denominator\"],\"purpose\":\"Validate the complete unique release-tail denominator and bound evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/516/release-tail-denominator.log\"},{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/516/validate-release-tail-admission.sh\",\"gaps\"],\"purpose\":\"Validate the gap register, classifications, owners, dispositions, and projections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/516/implementation-gap-analysis.log\"},{\"command\":[\"/bin/bash\",\".csdlc/prepared/issues/516/validate-release-tail-admission.sh\",\"decision\"],\"purpose\":\"Validate the fail-closed release admission decision.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/516/admission-consistency.log\"}]}"
     }
   ]
 }
