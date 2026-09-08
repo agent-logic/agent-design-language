@@ -48,6 +48,15 @@ fn request() -> LocalPreparationRequest {
 
 fn registry() -> PromptRegistry {
     PromptRegistry {
+        structure_schema_paths: ["sip", "stp", "spp", "vpp", "srp", "sor"]
+            .into_iter()
+            .map(|kind| {
+                (
+                    kind.into(),
+                    format!("docs/templates/prompts/1.0.3/schemas/{kind}.structure.json"),
+                )
+            })
+            .collect(),
         version: "1.0.3".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
@@ -171,6 +180,7 @@ fn card_roundtrip_uses_active_registry_denominator() {
     assert_eq!(plan.card_kinds, ["sip", "stp", "spp", "vpp", "srp", "sor"]);
 
     let incomplete = PromptRegistry {
+        structure_schema_paths: BTreeMap::new(),
         version: "1.0.3".into(),
         card_kinds: ["sip", "stp"].into_iter().map(str::to_string).collect(),
         template_paths: BTreeMap::new(),
@@ -846,13 +856,25 @@ fn operational_registry(root: &Path) -> PromptRegistry {
         fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
         fs::write(
             schema_root.join(format!("{kind}.structure.json")),
-            serde_json::to_vec(&serde_json::json!({"scaffold_lines": [format!("# {kind}")]}))
+            serde_json::to_vec(&serde_json::json!({"schema":"adl.csdlc.prompt_card_structure.v1", "template_set":"1.0.3", "card_kind":kind, "headings":[{"level":1,"text":kind}],"fenced_blocks":[],"locked_lines":[],"frontmatter_keys":[], "scaffold_lines":[],"scaffold_line_prefixes":[],"rendered_value_line_prefixes":[],"editable_sections":[]}))
                 .unwrap(),
         )
         .expect("structure schema fixture");
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
     }
     PromptRegistry {
+        structure_schema_paths: ["sip", "stp", "spp", "vpp", "srp", "sor"]
+            .into_iter()
+            .map(|kind| {
+                (
+                    kind.to_owned(),
+                    schema_root
+                        .join(format!("{kind}.structure.json"))
+                        .to_string_lossy()
+                        .into_owned(),
+                )
+            })
+            .collect(),
         version: "1.0.3".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
@@ -1268,4 +1290,45 @@ fn operational_local_authority_rejects_state_root_symlink_escape() {
     let findings = execute_operational_local_route("issue", &request(), &registry, &context)
         .expect_err("state root symlink escape must fail closed");
     assert_eq!(findings[0].code, "state_root_outside_repository");
+}
+
+// PVF: deterministic local contract proof, small local Git fixture, no network.
+// Release gate: csdlc-v3 local_commands; proves active schema/render parity and CAS.
+#[test]
+fn operational_validation_accepts_active_six_cards_and_rejects_stale_values() {
+    let (_, _, mut context, _) = operational_authority_fixture("active-card-validation", "v3");
+    let root = repo_root();
+    let mut registry = PromptRegistry::from_current_json(
+        &fs::read(root.join("docs/templates/prompts/current.json")).unwrap(),
+    )
+    .unwrap();
+    for path in registry
+        .template_paths
+        .values_mut()
+        .chain(registry.structure_schema_paths.values_mut())
+    {
+        *path = root.join(&*path).to_string_lossy().into_owned();
+    }
+    let mut request = request();
+    let initialized =
+        execute_operational_local_route("issue", &request, &registry, &context).unwrap();
+    request.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+    let validated =
+        execute_operational_local_route("validate", &request, &registry, &context).unwrap();
+    assert!(
+        validated
+            .findings
+            .iter()
+            .any(|finding| finding.code == "six_card_validation_passed"),
+        "{validated:?}"
+    );
+    let values_path = context.state_root.join("issues/503/cards/sor.values.json");
+    let mut values: serde_json::Value =
+        serde_json::from_slice(&fs::read(&values_path).unwrap()).unwrap();
+    values["slug"] = serde_json::json!("changed-after-render");
+    fs::write(values_path, serde_json::to_vec(&values).unwrap()).unwrap();
+    let findings = execute_operational_local_route("validate", &request, &registry, &context)
+        .expect_err("stale typed values must invalidate CAS");
+    assert_eq!(findings[0].code, "stale_local_lifecycle_digest");
 }

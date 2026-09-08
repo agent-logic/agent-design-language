@@ -284,6 +284,7 @@ pub struct WorktreeRegistration {
 /// Prompt registry observation used by the card-rendering plan.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PromptRegistry {
+    pub structure_schema_paths: BTreeMap<String, String>,
     pub version: String,
     pub card_kinds: BTreeSet<String>,
     pub template_paths: BTreeMap<String, String>,
@@ -484,6 +485,7 @@ impl PromptRegistry {
                 )]
             })?;
         let mut template_paths = BTreeMap::new();
+        let mut structure_schema_paths = BTreeMap::new();
         for (kind, entry) in templates {
             let Some(path) = entry.get("path").and_then(Value::as_str) else {
                 return Err(vec![finding(
@@ -492,12 +494,25 @@ impl PromptRegistry {
                     "active registry template entries must declare paths",
                 )]);
             };
+            let Some(schema_path) = entry
+                .get("structure_schema_path")
+                .and_then(Value::as_str)
+                .filter(|path| !path.is_empty())
+            else {
+                return Err(vec![finding(
+                    PlanStatus::Blocked,
+                    "registry_structure_schema_missing",
+                    "active registry template entries must declare structure_schema_path",
+                )]);
+            };
+            structure_schema_paths.insert(kind.clone(), schema_path.to_owned());
             template_paths.insert(kind.clone(), path.to_owned());
         }
         Ok(Self {
             version: version.into(),
             card_kinds: templates.keys().cloned().collect(),
             template_paths,
+            structure_schema_paths,
         })
     }
 }
@@ -2152,6 +2167,7 @@ fn bind_operational_issue(
         version: registry_version.to_owned(),
         card_kinds: BTreeSet::new(),
         template_paths: BTreeMap::new(),
+        structure_schema_paths: BTreeMap::new(),
     };
     let generation = observed.generation.unwrap_or(1) + 1;
     let (generation, digest) = persist_index(&stage, request, &registry, "bound", generation)?;
@@ -2556,32 +2572,16 @@ fn validation_findings(
     findings
 }
 
+mod structure;
+
 fn structure_valid(registry: &PromptRegistry, kind: &str, markdown: &str) -> bool {
-    let Some(template_path) = registry.template_paths.get(kind) else {
-        return false;
-    };
-    let schema_path = PathBuf::from(template_path)
-        .parent()
-        .and_then(Path::parent)
-        .map(|root| root.join(format!("schemas/{kind}.structure.json")));
-    let Some(schema_path) = schema_path else {
+    let Some(schema_path) = registry.structure_schema_paths.get(kind) else {
         return false;
     };
     let Ok(bytes) = fs::read(schema_path) else {
         return false;
     };
-    let Ok(schema) = serde_json::from_slice::<Value>(&bytes) else {
-        return false;
-    };
-    schema
-        .get("scaffold_lines")
-        .and_then(Value::as_array)
-        .is_some_and(|lines| {
-            lines
-                .iter()
-                .filter_map(Value::as_str)
-                .all(|line| markdown.lines().any(|candidate| candidate.trim() == line))
-        })
+    structure::validate(&bytes, &registry.version, kind, markdown)
 }
 
 fn persist_index(
