@@ -282,14 +282,17 @@ apply_alb() {
   require_authorization_file
   require_plan_digest alb_plan_sha256 "$ISSUE_728_ALB_PLAN"
   check_deadline
+  local alb_security_group_id target_group_arn
   arm_cleanup_trap
   terraform_init_stack "$ISSUE_728_ALB_ROOT" "$ISSUE_728_ALB_BACKEND_CONFIG"
   terraform_apply_plan "$ISSUE_728_ALB_ROOT" "$ISSUE_728_ALB_WORKSPACE" "$ISSUE_728_ALB_PLAN"
-  disarm_cleanup_trap
+  alb_security_group_id="$(output_raw "$ISSUE_728_ALB_ROOT" alb_security_group_id)"
+  target_group_arn="$(output_raw "$ISSUE_728_ALB_ROOT" target_group_arn)"
   note "PASS #728 apply-alb"
-  note "alb_security_group_id=$(output_raw "$ISSUE_728_ALB_ROOT" alb_security_group_id)"
-  note "target_group_arn=$(output_raw "$ISSUE_728_ALB_ROOT" target_group_arn)"
+  note "alb_security_group_id=$alb_security_group_id"
+  note "target_group_arn=$target_group_arn"
   note "next_mode=plan-node"
+  disarm_cleanup_trap
 }
 
 plan_node() {
@@ -311,13 +314,15 @@ apply_node() {
   require_authorization_file
   require_plan_digest node_plan_sha256 "$ISSUE_728_NODE_PLAN"
   check_deadline
+  local instance_id
   arm_cleanup_trap
   terraform_init_stack "$ISSUE_728_NODE_ROOT" "$ISSUE_728_NODE_BACKEND_CONFIG"
   terraform_apply_plan "$ISSUE_728_NODE_ROOT" "$ISSUE_728_NODE_WORKSPACE" "$ISSUE_728_NODE_PLAN"
-  disarm_cleanup_trap
+  instance_id="$(output_raw "$ISSUE_728_NODE_ROOT" instance_id)"
   note "PASS #728 apply-node"
-  note "instance_id=$(output_raw "$ISSUE_728_NODE_ROOT" instance_id)"
+  note "instance_id=$instance_id"
   note "next_mode=plan-attach"
+  disarm_cleanup_trap
 }
 
 plan_attach() {

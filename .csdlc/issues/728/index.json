@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe97ec263bf2d7fe9240ada0cbb83294f83133ed97eef7ce51667cae7d16aae6",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "e3077a84310cfc905765bfabd115b03928f9da680ab361fbc18eba4f49293691",
+  "generation": 7,
+  "digest": "1d6550263c516829dbbf158525867a6dea6aa2339dbf296b9399f99f85cf5897",
   "branch": "codex/728-aws-f-disposable-runtime-deployment-zero-residue",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-728-aws-f-disposable-runtime-deployment-zero-residue",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5cb5f2e49056d75c633005c99f2b5624ae03e8b63566b87cf47060ee15138b2e",
+      "values_digest": "e1e81ad6190d2ccb54858fc56122c71a8f33843d1839bd35d2684b9c7491616c",
       "rendered_digest": "fefa53c45547aa03bbe2c96dc6d675d1b77c5fb2bfaf8d760895f4d448cc11cf",
       "ast_digest": "c89a82ae8a2c75dbb516142a9c4b6a461d774330b9e224e1f4c13579d106ce24"
     },
     "stp": {
-      "values_digest": "07b43ac4032c953cd0ddec72846423e3dc24977aeeccea6457332e688fff5a9a",
+      "values_digest": "6c5502161fe7555690937e9414926e6e0568189500cb53b1106f29493335ea15",
       "rendered_digest": "9465dc681d4602872efa54333a9ca6556a17bb4728319d78c90088e76e37fe5d",
       "ast_digest": "9365244bb5e348ca74ee6e7f6b4080ae0059fdaafca4812292d14b82dc458bea"
     },
     "spp": {
-      "values_digest": "3098d7f8125aedc3e271d12ec4f2ef2f9ba8a7157b39ab0837cb8ac014b8b444",
+      "values_digest": "7d6d5b97bfa0539aa5969f99531f2646ca2e7cbcb5fa076e72fd760737c05c7b",
       "rendered_digest": "9311df3d0df8e195fa3f40f07454def1de77a67d15d913bc73170b417b19d0a5",
       "ast_digest": "34e9d05a6ce42d6b4ca848e14e021487a256973329e256e209793171e6a29456"
     },
     "vpp": {
-      "values_digest": "d7b5e29057ce7be632455abd55c37639e1c80dac9a9a0b716d9a16412d662291",
+      "values_digest": "3f4cdcb11a1513570efa1e9a3ab41c3d01f9653068665f773ff230aaaa471c93",
       "rendered_digest": "6ea025cafa02093ba375f4c2148ec2f5c7149b7d9c997f46e1c85989fb861d84",
       "ast_digest": "1ced5c1ac6a7348b856988b63ef4bc8360460cc5e81cd1b5d2ba696692b7163f"
     },
     "srp": {
-      "values_digest": "bdca4b911edb4fbead683a57a11e0fa14fbefd9d045a81895996f0afc8431dda",
+      "values_digest": "e017303be824eb949f2ede22316189453001bb73092559a15c6dbbd42f0ca955",
       "rendered_digest": "d11985548c246f14c94954500fe45434f8680fa4d44668a0e31f3c53c3b6bf59",
       "ast_digest": "e68a24592fcd5e2710be2810b315b7b74a9dfbd1a31027edade19b67e7df51dd"
     },
     "sor": {
-      "values_digest": "cf1871e55ab63ff8aeb4b8e22e45e408ed30db114dac47dbd4eccc6434893dcb",
-      "rendered_digest": "db84f6510a0897d08011079aaf7ef0e6d62293dcf3f4f941e64756ac8e53ba4c",
-      "ast_digest": "042274c94887c25111fd63bfa3d86995ff381577a71e9110a4013d51e2215b2b"
+      "values_digest": "f4b614bc7b10079899eac4e85f3428fcd639f4d7372fa329294cd552c9d6504d",
+      "rendered_digest": "53cb796b15146498566f217950daf93563c4b14f1db1cb5ee364cd04ec886669",
+      "ast_digest": "d1106991e0ec579a850a70452e511336be28753273dfa1fe6f7f7bd07cef6fcd"
     }
   },
   "transitions": [
@@ -133,6 +133,13 @@
       "actor": "codex:/root/issue-728",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/issue-728",
+      "reason": "Update #728 implemented-phase execution truth after fixing the review-identified cleanup trap timing and restoring the referenced readiness evidence artifact.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and repaired the #728 disposable AWS-F Runtime proof runner and local proof package without performing live AWS mutation. Post-review repair keeps failure cleanup armed until successful ALB/node output capture and restores the retained readiness evidence referenced by SOR.\",\"changes\":[\"Added a fail-closed disposable proof runner that requires an explicit #728 authorization packet before any Terraform apply or destroy operation.\",\"Split the proof workflow into staged ALB, private-node, attach, external receipt, and reverse-destroy modes using the existing AWS-F Terraform roots.\",\"Enforced account, profile, region, backend, workspace, saved-plan digest, cost ceiling, deadline, route, and receipt-marker selectors before mutation stages.\",\"Kept mutation-stage cleanup armed through post-apply output/readback capture so failures after successful apply still route to cleanup.\",\"Added a concise operator runbook section documenting the one script, required environment contract, authorization packet shape, and live proof sequence.\",\"Added an issue-owned validator proving the #728 preparation bundle, runner gates, zero-residue cleanup surface, and AWS-F module references are present.\",\"Retained readiness and no-authorization refusal evidence under .csdlc/evidence/728 without credentials or secret material.\"],\"artifacts\":[\"docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh\",\"docs/operations/cloud/aws/runtime-platform/README.md\",\".csdlc/prepared/issues/728/validate_preparation_bundle.sh\",\".csdlc/prepared/issues/728/design.md\",\".csdlc/prepared/issues/728/diagram.mmd\",\".csdlc/evidence/728/readiness-preflight-20260908.md\",\".csdlc/evidence/728/no-auth-refusal.log\"],\"validation\":[{\"command\":[\"bash\",\"-n\",\"docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh\"],\"purpose\":\"Prove the disposable proof runner shell syntax before any AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output: exit 0\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/728/validate_preparation_bundle.sh\"],\"purpose\":\"Prove the #728 issue-owned preparation bundle, runner gates, zero-residue cleanup surface, and AWS-F module references are present.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/728/preparation-bundle-validator.log\"},{\"command\":[\"docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh\"],\"purpose\":\"Prove the runner refuses live AWS mutation when the exact authorization packet is absent.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/728/no-auth-refusal.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker defects in the bound worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/728/diff-hygiene.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-728-aws-f-disposable-runtime-deployment-zero-residue\",\"--issue\",\"728\"],\"purpose\":\"Verify typed lifecycle/card state is structurally clean after the post-review repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output: status pass, phase implemented, generation 6\"}]}"
     }
   ]
 }
