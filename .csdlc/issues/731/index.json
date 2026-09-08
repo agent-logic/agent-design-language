@@ -3,11 +3,11 @@
   "issue": 731,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 4,
-  "digest": "de4aa7a5e046f2cdb5ae872714bcddcb1202f7934607883b00bcfbe07a4d1249",
-  "branch": null,
-  "worktree": null,
+  "digest": "6bcf65e334716961891da6c6212d52cb5d115f31db0dfef2153ad6d03df0a661",
+  "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:731-bootstrap",
       "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -98,6 +105,13 @@
       "actor": "codex:731-bootstrap",
       "reason": "Advance #731 to ready/unbound after typed doctor pass, current design approval, issue-owned VPP lanes, and static no-mutation validation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
