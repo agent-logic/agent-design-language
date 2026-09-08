@@ -45,11 +45,11 @@ Implemented one GitHub-like C-SDLC v3 issue-create command that constructs the e
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

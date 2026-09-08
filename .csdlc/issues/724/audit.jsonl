@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"codex:/root/review_sprint10_523_526_prep","reason":"Recover reviewed state after committing the typed assignment and review record advanced HEAD; refresh independent review at the exact metadata-only head before publication.","operation":"recover_review"}
 {"sequence":12,"generation":8,"actor":"codex:/root/review_sprint10_523_526_prep","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root/review_sprint10_523_526_prep","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":10,"actor":"codex:/root/review_sprint10_523_526_prep","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
