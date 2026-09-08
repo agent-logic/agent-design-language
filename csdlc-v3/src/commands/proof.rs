@@ -133,7 +133,7 @@ pub enum ProofRouteStatus {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct ProofRouteFinding {
     pub code: &'static str,
-    pub message: &'static str,
+    pub message: String,
 }
 
 pub fn classify_route(
@@ -962,6 +962,16 @@ fn execute_shadow_command(
         .ok()
         .and_then(Result::ok)
         .ok_or_else(|| finding("shadow_stderr_unreadable", "shadow stderr capture failed"))?;
+    if !status.success() {
+        return Err(finding(
+            "shadow_command_not_successful",
+            format!(
+                "shadow command exited {:?}; stderr_blake3={}",
+                status.code(),
+                blake3::hash(&stderr).to_hex()
+            ),
+        ));
+    }
     let normalized_output =
         normalize_shadow_output(spec.generation, normalization, spec, request_issue, &stdout)?;
     if normalized_output
@@ -1600,8 +1610,11 @@ fn observed_ref_bytes(
     }
 }
 
-fn finding(code: &'static str, message: &'static str) -> ProofRouteFinding {
-    ProofRouteFinding { code, message }
+fn finding(code: &'static str, message: impl Into<String>) -> ProofRouteFinding {
+    ProofRouteFinding {
+        code,
+        message: message.into(),
+    }
 }
 
 #[cfg(test)]
