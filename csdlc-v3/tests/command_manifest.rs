@@ -53,6 +53,8 @@ fn help_exposes_one_binary_command_surface() {
             "help should expose implemented remote/publication route {command}"
         );
     }
+    assert!(stdout.contains("github-issue --request <path> [--observe-github] [--execute]"));
+    assert!(stdout.contains("github-pr --request <path> [--observe-github] [--execute]"));
     for command in IMPLEMENTED_TERMINAL_COMMANDS {
         assert!(
             stdout.contains(&format!("{command} --request <path>")),

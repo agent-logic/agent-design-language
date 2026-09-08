@@ -13,6 +13,7 @@ use crate::review::{
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
@@ -141,6 +142,16 @@ pub struct ObservedRemoteRouteRequest {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "action", rename_all = "snake_case")]
 pub enum GithubMutation {
+    IssueCreate {
+        title: String,
+        body: String,
+        #[serde(default)]
+        labels: Vec<String>,
+        #[serde(default)]
+        assignees: Vec<String>,
+        #[serde(default)]
+        milestone: Option<u64>,
+    },
     IssueComment {
         body: String,
     },
@@ -166,6 +177,7 @@ pub enum GithubMutation {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GithubMutationRequest {
     pub repository: String,
+    #[serde(default)]
     pub issue: u64,
     #[serde(default)]
     pub pull_request: Option<u64>,
@@ -982,6 +994,9 @@ pub fn execute_github_mutation(
         })?;
     let output = process.run(invocation.clone());
     let _ = fs::remove_file(&input_path);
+    if output.status == ProcessStatus::Exit(0) && !output.truncated {
+        validate_mutation_response(request, &output.stdout)?;
+    }
     let response_digest = (!output.stdout.is_empty()).then(|| stable_digest(&[&output.stdout]));
 
     let (reconciliation, _) = reconcile_github_mutation(
@@ -1063,6 +1078,13 @@ fn verify_canonical_v3_authority(
     expected_lifecycle_digest: Option<&str>,
     exact_review_sha: &str,
 ) -> Result<CanonicalV3AuthorityEvidence, RemoteRouteFinding> {
+    let exact_review_sha = exact_review_sha.trim();
+    if !is_full_git_sha(exact_review_sha) {
+        return Err(remote_finding(
+            "canonical_exact_review_sha_invalid",
+            "operational v3 authority requires a full 40-character exact review SHA",
+        ));
+    }
     let bytes = read_canonical_authority_selector(repo_root)?;
     let selector_digest = stable_digest(&[std::str::from_utf8(&bytes).map_err(|_| {
         remote_finding(
@@ -1086,6 +1108,13 @@ fn verify_canonical_v3_authority(
                 "canonical selector is not active on origin/main",
             )
         })?;
+    let current_head = git_head(repo_root)?;
+    if current_head != exact_review_sha {
+        return Err(remote_finding(
+            "canonical_exact_review_sha_mismatch",
+            "operational v3 authority requires exact_review_sha to match the checked-out Git HEAD",
+        ));
+    }
     Ok(CanonicalV3AuthorityEvidence {
         schema: "csdlc.v3.canonical_authority_evidence.v1".into(),
         selector_path: CANONICAL_AUTHORITY_SELECTOR_PATH.into(),
@@ -1095,6 +1124,45 @@ fn verify_canonical_v3_authority(
         readiness_evidence_digest: selector_digest.clone(),
         approval_evidence_digest: selector_digest,
     })
+}
+
+fn is_full_git_sha(value: &str) -> bool {
+    value.len() == 40 && value.as_bytes().iter().all(u8::is_ascii_hexdigit)
+}
+
+fn git_head(repo_root: &Path) -> Result<String, RemoteRouteFinding> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(repo_root)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+        .map_err(|_| {
+            remote_finding(
+                "canonical_exact_head_unavailable",
+                "unable to read the checked-out Git HEAD for operational v3 authority",
+            )
+        })?;
+    if !output.status.success() {
+        return Err(remote_finding(
+            "canonical_exact_head_unavailable",
+            "unable to read the checked-out Git HEAD for operational v3 authority",
+        ));
+    }
+    let head = String::from_utf8(output.stdout).map_err(|_| {
+        remote_finding(
+            "canonical_exact_head_unavailable",
+            "checked-out Git HEAD output was not valid UTF-8",
+        )
+    })?;
+    let head = head.trim();
+    if !is_full_git_sha(head) {
+        return Err(remote_finding(
+            "canonical_exact_head_unavailable",
+            "checked-out Git HEAD did not resolve to a full 40-character SHA",
+        ));
+    }
+    Ok(head.to_owned())
 }
 
 fn mutation_credential_name(request: &GithubMutationRequest) -> Result<String, RemoteRouteFinding> {
@@ -1147,10 +1215,10 @@ fn github_mutation_reconciliation_digest(
 }
 
 fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteFinding> {
-    if request.issue == 0 {
+    if request.issue == 0 && !matches!(request.mutation, GithubMutation::IssueCreate { .. }) {
         return Err(remote_finding(
             "github_issue_invalid",
-            "issue number must be non-zero",
+            "issue number must be non-zero except for issue creation",
         ));
     }
     if request.expected_head_sha.trim().is_empty() {
@@ -1160,6 +1228,18 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
         ));
     }
     match &request.mutation {
+        GithubMutation::IssueCreate { title, body, .. }
+            if title.trim().is_empty() || body.trim().is_empty() || request.pull_request.is_some() =>
+        {
+            Err(remote_finding(
+                "github_issue_create_invalid",
+                "issue create requires non-empty title/body, issue 0, and no PR number",
+            ))
+        }
+        GithubMutation::IssueCreate { .. } if request.issue != 0 => Err(remote_finding(
+            "github_issue_create_target_invalid",
+            "issue create must use issue 0 because GitHub assigns the issue number",
+        )),
         GithubMutation::IssueComment { body } if body.trim().is_empty() => Err(remote_finding(
             "github_body_missing",
             "issue comment body must not be empty",
@@ -1205,6 +1285,7 @@ fn github_mutation_invocation(
     input_path: &Path,
 ) -> Result<CommandInvocation, RemoteRouteFinding> {
     let endpoint = match request.mutation {
+        GithubMutation::IssueCreate { .. } => format!("repos/{}/issues", request.repository),
         GithubMutation::IssueComment { .. } => format!(
             "repos/{}/issues/{}/comments",
             request.repository, request.issue
@@ -1285,6 +1366,21 @@ fn write_mutation_input(
     })?;
     let path = dir.join(format!("github-mutation-{digest}.json"));
     let value = match &request.mutation {
+        GithubMutation::IssueCreate {
+            title,
+            body,
+            labels,
+            assignees,
+            milestone,
+        } => {
+            serde_json::json!({
+                "title": title,
+                "body": body_with_operation_marker(body, operation_marker),
+                "labels": labels,
+                "assignees": assignees,
+                "milestone": milestone
+            })
+        }
         GithubMutation::IssueComment { body } => {
             serde_json::json!({"body": body_with_operation_marker(body, operation_marker)})
         }
@@ -1346,6 +1442,12 @@ fn validate_mutation_response(
         )
     })?;
     match request.mutation {
+        GithubMutation::IssueCreate { .. } if value["number"].as_u64().is_none() => {
+            Err(remote_finding(
+                "github_issue_readback_missing",
+                "created issue response did not include its assigned number",
+            ))
+        }
         GithubMutation::IssueComment { .. } if value["id"].as_u64().is_none() => {
             Err(remote_finding(
                 "github_comment_readback_missing",
@@ -1383,7 +1485,7 @@ fn reconcile_github_mutation(
     process: &mut impl ProcessAdapter,
 ) -> Result<(GithubMutationReconciliationReceipt, CommandInvocation), RemoteRouteFinding> {
     let credential_name = mutation_credential_name(request)?;
-    let invocation = github_mutation_reconciliation_invocation(request)?
+    let invocation = github_mutation_reconciliation_invocation(request, operation_digest)?
         .with_child_credential(credential_name)
         .map_err(|_| {
             remote_finding(
@@ -1404,7 +1506,7 @@ fn reconcile_github_mutation(
             "authenticated GitHub reconciliation returned non-JSON output",
         )
     })?;
-    let (pull_request, remote_object_id) =
+    let (issue, pull_request, remote_object_id) =
         match_reconciled_mutation(request, operation_marker, &value)?;
     let canonical = serde_json::to_string(&value).map_err(|_| {
         remote_finding(
@@ -1418,7 +1520,7 @@ fn reconcile_github_mutation(
             operation_digest: operation_digest.to_owned(),
             operation_marker: operation_marker.to_owned(),
             repository: request.repository.clone(),
-            issue: request.issue,
+            issue,
             pull_request,
             remote_object_id,
             expected_head_sha: request.expected_head_sha.clone(),
@@ -1432,8 +1534,14 @@ fn reconcile_github_mutation(
 
 fn github_mutation_reconciliation_invocation(
     request: &GithubMutationRequest,
+    operation_digest: &str,
 ) -> Result<CommandInvocation, RemoteRouteFinding> {
     let argv = match &request.mutation {
+        GithubMutation::IssueCreate { .. } => vec![
+            "issues-by-marker".into(),
+            request.repository.clone(),
+            operation_digest.to_owned(),
+        ],
         GithubMutation::IssueComment { .. } => vec![
             "issue-comments".into(),
             request.repository.clone(),
@@ -1467,11 +1575,28 @@ fn match_reconciled_mutation(
     request: &GithubMutationRequest,
     operation_marker: &str,
     value: &serde_json::Value,
-) -> Result<(Option<u64>, Option<u64>), RemoteRouteFinding> {
+) -> Result<(u64, Option<u64>, Option<u64>), RemoteRouteFinding> {
     let candidates = github_readback_candidates(value);
     let matched = candidates
         .into_iter()
         .find(|candidate| match &request.mutation {
+            GithubMutation::IssueCreate {
+                title,
+                body,
+                labels,
+                assignees,
+                milestone,
+            } => {
+                candidate["number"].as_u64().is_some()
+                    && candidate["title"].as_str() == Some(title.as_str())
+                    && candidate["body"].as_str()
+                        == Some(body_with_operation_marker(body, operation_marker).as_str())
+                    && json_string_array_contains_all(&candidate["labels"], labels)
+                    && json_string_array_contains_all(&candidate["assignees"], assignees)
+                    && milestone.is_none_or(|milestone| {
+                        candidate["milestone"]["number"].as_u64() == Some(milestone)
+                    })
+            }
             GithubMutation::IssueComment { body } => {
                 candidate["id"].as_u64().is_some()
                     && candidate["body"].as_str()
@@ -1532,7 +1657,24 @@ fn match_reconciled_mutation(
         | GithubMutation::PullRequestReady => matched["number"].as_u64(),
         _ => None,
     };
-    Ok((pull_request, matched["id"].as_u64().or(pull_request)))
+    let issue = matched["number"].as_u64().unwrap_or(request.issue);
+    Ok((
+        issue,
+        pull_request,
+        matched["id"].as_u64().or(pull_request).or(Some(issue)),
+    ))
+}
+
+fn json_string_array_contains_all(value: &serde_json::Value, expected: &[String]) -> bool {
+    expected.iter().all(|expected| {
+        github_readback_candidates(value)
+            .into_iter()
+            .any(|candidate| {
+                candidate.as_str() == Some(expected.as_str())
+                    || candidate["name"].as_str() == Some(expected.as_str())
+                    || candidate["login"].as_str() == Some(expected.as_str())
+            })
+    })
 }
 
 fn github_readback_candidates(value: &serde_json::Value) -> Vec<&serde_json::Value> {
@@ -1650,7 +1792,7 @@ fn finalize_mutation_receipt(
     GithubMutationReceipt {
         schema: "csdlc.v3.github_mutation_receipt.v2".into(),
         repository: request.repository.clone(),
-        issue: request.issue,
+        issue: reconciliation.issue,
         pull_request: reconciliation.pull_request.or(request.pull_request),
         expected_head_sha: request.expected_head_sha.clone(),
         operation_digest: operation_digest.to_owned(),

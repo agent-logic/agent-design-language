@@ -1,0 +1,12 @@
+{
+  "issue": 721,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "1533140dfe48dba0a9d23282336e58c4bf45ca999eb367ca479620ef21bfdcd0",
+  "actor": "Worker #7",
+  "reason": "advance #721 to ready after doctor passed with issue-specific validation denominator",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

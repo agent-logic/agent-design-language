@@ -1037,6 +1037,7 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
         let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter)
             .expect("post-cutover finish");
         assert_eq!(plan.status, TerminalRouteStatus::Ready);
+        assert!(plan.operational_authority);
     }
     let state: serde_json::Value =
         serde_json::from_slice(&fs::read(root.join(".csdlc/v3/issues/630/terminal.json")).unwrap())
@@ -1074,6 +1075,7 @@ fn pre_cutover_finish_denies_terminal_persistence() {
     ]);
     let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
     assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert!(!plan.operational_authority);
     assert!(plan
         .findings
         .iter()

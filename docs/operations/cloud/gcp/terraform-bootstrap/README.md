@@ -5,12 +5,23 @@ This runbook starts the recoverable Terraform backend for ADL in the company GCP
 ## Identity
 
 - Project: `cs-host-377d41e71a824f92802120`
+- Region/location: `us-west2`
 - Bootstrap service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`
-- Default Terraform auth mode for this sprint: approved service-account key under `$HOME/keys`, passed only as command-scoped source credentials.
-- Operator-approved local key path: `/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json`
-- Future preferred auth: company-controlled non-key identity such as Workload Identity Federation once the provider path is ready.
+- Default Terraform auth mode: short-lived impersonation from an approved
+  company human or federated source identity. The governed #730 scripts mint a
+  short-lived impersonated OAuth access token with `gcloud` and pass that token
+  to Terraform for provider and backend operations, avoiding static keys and
+  avoiding Terraform's stale user-credential reauth path.
 
-Never paste, print, commit, or retain the JSON key contents.
+Do not create, select, require, paste, print, commit, or retain a
+service-account key. Historical static-key bootstrap evidence is retired
+break-glass provenance only, not a runnable default.
+
+`US-WEST2` is a supported Cloud Storage bucket region in the public GCS
+location catalog. If the company organization policy, project policy, quota, or
+service-account permissions reject `us-west2` during the authorized plan/apply,
+stop and amend the issue plus authorization packet before using a different
+location.
 
 ## Local checks
 
@@ -20,40 +31,51 @@ bash .csdlc/prepared/issues/491/run-gcp-b-readbacks.sh --lane=static
 terraform -chdir=infra/gcp/bootstrap fmt -check
 terraform -chdir=infra/gcp/bootstrap init -backend=false
 terraform -chdir=infra/gcp/bootstrap validate
+bash .csdlc/prepared/issues/730/validate-gcp-b1.sh --lane=static
 ```
 
-## Read-only identity proof
+## Read-only impersonation proof
 
 This reads metadata only and must stay scoped to the accepted project and service account:
 
 ```sh
-CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json \
-  bash .csdlc/prepared/issues/491/run-gcp-b-readbacks.sh --lane=identity-readonly
+CLOUDSDK_CONFIG="$(git rev-parse --path-format=absolute --git-common-dir)/csdlc-v2/gcloud-config"
+export CLOUDSDK_CONFIG
+gcloud auth print-access-token \
+  --impersonate-service-account=tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com \
+  --project=cs-host-377d41e71a824f92802120 >/dev/null
 ```
 
-## Bootstrap apply
+The repo-local Cloud SDK config mirrors the #491/#608 proof pattern: credential
+cache/log writes stay under Git common storage and are not committed. The
+selected identity still must be an approved company human or federated source
+identity with Token Creator on the bootstrap service account. If Terraform
+reports `invalid_rapt`, do not fall back to a static key; use the governed
+short-lived token handoff in the #730 scripts.
 
-Create and review a saved plan before apply:
+## Bootstrap apply under #730 authorization
+
+Create a request under `.git/csdlc-v2/authorizations/730.json` that names the
+exact project, bucket, service account, reviewed saved-plan digest, rollback
+command, 90-minute expiry, USD 5 first-month spend cap, and 30-minute apply
+timeout. Prepare the no-mutation saved plan first:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json \
-  terraform -chdir=infra/gcp/bootstrap plan -out=tfplan
-terraform -chdir=infra/gcp/bootstrap show -no-color tfplan > docs/milestones/v0.92.1/evidence/cloud/gcp-b/tfplan.redacted.txt
+bash .csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
 ```
 
-Apply only after the reviewed plan is accepted:
+The binary plan is stored under `.git/csdlc-v2/gcp-b1/730.tfplan`; the
+worktree retains only the redacted plan text and digest evidence. After the
+operator authorizes that exact digest, copy
+`.csdlc/prepared/issues/730/authorization-template.json` to
+`.git/csdlc-v2/authorizations/730.json`, replace `expires_at` with an
+ISO-8601 UTC timestamp no more than 90 minutes in the future, and run:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json \
-  terraform -chdir=infra/gcp/bootstrap apply tfplan
+bash .csdlc/prepared/issues/730/run-gcp-b1-proof.sh \
+  --authorization .git/csdlc-v2/authorizations/730.json
 ```
 
-Then migrate to the GCS backend:
-
-```sh
-cp infra/gcp/bootstrap/backend.tf.example infra/gcp/bootstrap/backend.tf
-GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json \
-  terraform -chdir=infra/gcp/bootstrap init -migrate-state
-```
-
-Local state files must not remain as normal working files after migration; move them into a private, non-repo recovery location or delete them only after independent readback proves the remote state bucket is versioned and accessible.
+The script fails closed before mutation if the authorization, source identity,
+plan digest, plan denominator, rollback command, expiry, budget, or local
+residue checks do not match #730.

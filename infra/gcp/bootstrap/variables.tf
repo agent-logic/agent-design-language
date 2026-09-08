@@ -12,7 +12,12 @@ variable "project_id" {
 variable "region" {
   description = "Default region for bootstrap-managed regional resources."
   type        = string
-  default     = "us-central1"
+  default     = "us-west2"
+
+  validation {
+    condition     = var.region == "us-west2"
+    error_message = "GCP-B is scoped only to us-west2."
+  }
 }
 
 variable "state_bucket_name" {
@@ -38,7 +43,7 @@ variable "labels" {
   default = {
     app       = "adl"
     milestone = "v0-92-1"
-    issue     = "491"
-    lane      = "gcp-b"
+    issue     = "730"
+    lane      = "gcp-b1"
   }
 }

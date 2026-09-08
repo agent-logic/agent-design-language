@@ -1,0 +1,207 @@
+{
+  "issue": 721,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "Worker #7",
+  "design_path": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/design.md",
+  "diagram_path": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/diagram.mmd",
+  "design_reviewer": "operator",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
+    "slug": "csdlc-v3-issue-create-parity",
+    "version": "v0.92.1",
+    "goal": "Fix C-SDLC v3 terminal authority reporting and add typed GitHub issue-create parity.",
+    "required_outcome": "v3 reports operational terminal authority truthfully after cutover and can create GitHub issues through the v3 typed mutation path with durable intent, authenticated readback, and receipt binding.",
+    "declared_scope": [
+      "csdlc-v3 terminal finish authority reporting",
+      "csdlc-v3 GitHub mutation model",
+      "csdlc-v3 GitHub adapters",
+      "csdlc-v3 command documentation and tests"
+    ],
+    "authority_boundary": [
+      "Do not weaken canonical selector checks or caller-authored authority rejection.",
+      "Do not introduce raw gh issue create as a lifecycle route.",
+      "Do not delete v2 code in this issue; v2 removal is tracked separately."
+    ],
+    "operator_constraints": [
+      "Never write on main.",
+      "Follow the GitHub issue-create model for title/body/labels/assignees/milestone.",
+      "No fake commands."
+    ],
+    "task_boundary": "Implement the #721 v3 parity and reporting defects only; record adjacent v3 defects as backlog issues.",
+    "deliverables": [
+      "v3 IssueCreate mutation support",
+      "authenticated issue-create reconciliation and receipt of the assigned issue number",
+      "truthful terminal authority reporting tests and implementation",
+      "operator documentation showing the real v3 issue-create path",
+      "backlog issue records for adjacent defects"
+    ],
+    "acceptance_criteria": [
+      "AC-1: csdlc-v3 finish --observe-github reports operational authority truthfully after cutover when it persists terminal state.",
+      "AC-2: Pre-cutover denial remains fail-closed and non-mutating.",
+      "AC-3: v3 GitHub issue-create supports title, body, labels, assignees, and milestone with structured argv, credential-child injection, operation marker, reconciliation, and idempotent replay.",
+      "AC-4: The issue-create receipt records GitHub's assigned issue number.",
+      "AC-5: Documentation distinguishes local issue-state preparation from real GitHub issue creation and shows a non-fake operational command.",
+      "AC-6: Adjacent v3 defects discovered during execution are recorded as backlog issues."
+    ],
+    "dependencies": [
+      "#505 v3 cutover authority state on main",
+      "#723 proof/shadow/install test defect",
+      "#724 simple gh-style issue-create UX follow-up",
+      "#725 native v3 authority after v2 removal follow-up"
+    ],
+    "repo_inputs": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/README.md",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "csdlc-v3/src/commands/remote/tests.rs"
+    ],
+    "non_goals": [
+      "Do not remove v2 code.",
+      "Do not implement the simplified gh-style front-end command; that is #724.",
+      "Do not fix proof/shadow/install validation failures; that is #723.",
+      "Do not replace v2 authority dependencies after cutover; that is #725."
+    ],
+    "plan_summary": "Initialize #721 lifecycle state, complete v3 issue-create parity, fix terminal authority reporting, document the real operator path, validate focused v3 surfaces, and publish for review.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm #721 scope and preserve existing issue-create parity patch in the bound worktree.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Fix terminal finish authority reporting and add focused regression coverage.",
+        "acceptance_ids": ["AC-1", "AC-2"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Run focused remote, terminal, docs/help, fmt, and clippy validation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Record adjacent v3 defects as backlog issues and update execution truth.",
+        "acceptance_ids": ["AC-6"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "csdlc-v3 terminal route",
+      "csdlc-v3 remote GitHub route",
+      "csdlc-v3 adapter boundary",
+      "operator documentation"
+    ],
+    "invariants": [
+      "No raw gh lifecycle writes.",
+      "No main-branch implementation edits.",
+      "Remote mutation must write durable intent before external mutation.",
+      "Uncertain mutation outcome must reconcile before replay.",
+      "Pre-cutover behavior must fail closed."
+    ],
+    "risks": [
+      "Authority-reporting changes can overstate operational authority if not tied to persisted terminal state.",
+      "Issue-create reconciliation can duplicate issues if marker search or receipt replay is weak.",
+      "Simplifying the operator path can accidentally bypass typed receipts."
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Canonical authority checks would need to be weakened.",
+      "Validation shows issue-create can duplicate issues under retry.",
+      "Terminal authority reporting cannot be fixed without widening into v2 removal."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "focused-v3-remote",
+        "proof_role": "issue-create mutation parity",
+        "acceptance_ids": ["AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--lib",
+          "commands::remote::tests"
+        ],
+        "parallel_group": "local",
+        "defer_reason": null
+      },
+      {
+        "lane": "focused-v3-terminal",
+        "proof_role": "terminal authority reporting",
+        "acceptance_ids": ["AC-1", "AC-2"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 1000,
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--test",
+          "terminal_cleanup_cutover_commands"
+        ],
+        "parallel_group": "local",
+        "defer_reason": null
+      },
+      {
+        "lane": "format-clippy",
+        "proof_role": "Rust formatting and lint safety",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 180,
+        "budget_tokens": 1000,
+        "argv": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--manifest-path",
+          "csdlc-v3/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "parallel_group": "local",
+        "defer_reason": null
+      },
+      {
+        "lane": "docs-and-backlog",
+        "proof_role": "operator documentation and adjacent-defect issue recording",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "local",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on stale authority, stale review SHA, duplicate/uncertain issue-create reconciliation, or failed focused validation.",
+    "review_prompts": [
+      "Review whether issue-create can duplicate live issues under retry, timeout, or marker search failure.",
+      "Review whether terminal authority reporting is truthful only when canonical v3 authority actually allowed persistence.",
+      "Review whether docs expose a real command path without suggesting raw gh lifecycle writes."
+    ],
+    "review_scope": "csdlc-v3 remote GitHub mutation, terminal authority reporting, adapter readback, and README command docs"
+  }
+}

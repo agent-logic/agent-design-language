@@ -1,0 +1,7 @@
+{
+  "issue": 721,
+  "expected_generation": 15,
+  "expected_digest": "dde860a07f58b245a0961606d2409322cf34f26d21f2d9d6a39af9d13ae1de23",
+  "actor": "Worker #7",
+  "reason": "substantive post-publication CI repair changed #721 exact-head review scope; recover to implemented before recording fresh review"
+}

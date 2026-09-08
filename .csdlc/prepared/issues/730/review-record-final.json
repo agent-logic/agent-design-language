@@ -1,0 +1,22 @@
+{
+  "issue": 730,
+  "expected_generation": 17,
+  "expected_digest": "2aa157083d8a3d66db5a86751a1aec34fb541b2a4e6f06d34d04a902e42c4262",
+  "actor": "codex-subagent:/root/review_730_prelive",
+  "evidence": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "reviewed_revision": "git-blake3:6ec6c3854585792a098d82724f814f7228157c17:10402944fac66f4a6dc2580a1b89c1b32d6096383ab71edbb5c0c39edf607a51",
+    "scope": [
+      "exact-head pre-PR review at 6ec6c3854585792a098d82724f814f7228157c17",
+      "GCP-B1 impersonation-only Terraform bootstrap correction",
+      "fail-closed live proof authorization and cleanup safety",
+      "static validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence"
+    ],
+    "completed": true,
+    "findings": [],
+    "residual_risks": [
+      "Live GCP apply was not executed because the exact git-common authorization artifact is not present; the live lane fails closed before mutation without it."
+    ],
+    "non_substantive_proof": null
+  }
+}

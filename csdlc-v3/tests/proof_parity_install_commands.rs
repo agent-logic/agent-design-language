@@ -134,6 +134,17 @@ fn issue_phase(issue: u64) -> String {
         .to_string()
 }
 
+fn current_head() -> String {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(binary_repo_root())
+        .args(["rev-parse", "HEAD"])
+        .output()
+        .expect("observe current head");
+    assert!(output.status.success(), "current head should be observable");
+    String::from_utf8_lossy(&output.stdout).trim().to_owned()
+}
+
 fn write_evidence(name: &str, body: &[u8]) -> (PathBuf, String, String) {
     let root = binary_repo_root();
     let ref_path = scoped_evidence_ref(name);
@@ -779,6 +790,117 @@ fn install_route_is_one_binary_plan_gated_by_505() {
           }
         }),
         "install_typed_authority_missing",
+    );
+    let approval_ref = scoped_evidence_ref("install/cutover-approval.json");
+    let approval = serde_json::to_vec(&json!({
+        "schema": "csdlc.v3.cutover_approval.v1",
+        "authority_issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "decision": "approved",
+        "exact_head": current_head(),
+        "selected_binary_digest": artifact_digest,
+        "selector_metadata_digest": selector_digest,
+        "approved_by": "operator"
+    }))
+    .unwrap();
+    fs::write(root.join(&approval_ref), &approval).expect("write cutover approval fixture");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:no-approval",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": true,
+            "exact_head": current_head(),
+            "cutover_approval_ref": approval_ref,
+            "cutover_approval_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        }),
+        "install_cutover_approval_digest_mismatch",
+    );
+    let forged_approval_ref = scoped_evidence_ref("install/forged-cutover-approval.json");
+    let forged_approval =
+        br#"{"schema":"csdlc.v3.install_provenance.v1","source":"not-cutover-approval"}"#;
+    fs::write(root.join(&forged_approval_ref), forged_approval)
+        .expect("write forged approval fixture");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:no-approval",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": true,
+            "exact_head": current_head(),
+            "cutover_approval_ref": forged_approval_ref,
+            "cutover_approval_digest": blake3::hash(forged_approval).to_hex().to_string()
+          }
+        }),
+        "install_cutover_approval_invalid",
+    );
+    let stale_head = "0000000000000000000000000000000000000000";
+    let stale_approval_ref = scoped_evidence_ref("install/stale-head-cutover-approval.json");
+    let stale_approval = serde_json::to_vec(&json!({
+        "schema": "csdlc.v3.cutover_approval.v1",
+        "authority_issue": 505,
+        "repository": "agent-logic/agent-design-language",
+        "decision": "approved",
+        "exact_head": stale_head,
+        "selected_binary_digest": artifact_digest,
+        "selector_metadata_digest": selector_digest,
+        "approved_by": "operator"
+    }))
+    .unwrap();
+    fs::write(root.join(&stale_approval_ref), &stale_approval)
+        .expect("write stale approval fixture");
+    assert_blocked_value(
+        "install",
+        json!({
+          "issue": 631,
+          "repository": "agent-logic/agent-design-language",
+          "cutover_issue": 505,
+          "evidence_root": root,
+          "install": {
+            "artifact_name": "csdlc",
+            "artifact_ref": artifact_ref,
+            "source_provenance_ref": provenance_ref,
+            "selector_metadata_ref": selector_ref,
+            "source_provenance": "git:no-approval",
+            "selected_binary_digest": artifact_digest,
+            "observed_binary_digest": artifact_digest,
+            "selector_metadata_digest": selector_digest,
+            "destination": ".adl/bin/csdlc",
+            "stable_destination": true,
+            "executes_install": true,
+            "exact_head": stale_head,
+            "cutover_approval_ref": stale_approval_ref,
+            "cutover_approval_digest": blake3::hash(&stale_approval).to_hex().to_string()
+          }
+        }),
+        "install_exact_head_mismatch",
     );
     let scratch_root = scratch().join("caller-controlled-evidence-root");
     fs::create_dir_all(scratch_root.join(".csdlc/evidence/631/install"))

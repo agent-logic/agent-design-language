@@ -12,9 +12,9 @@ use csdlc_v3::{
     commands::proof::{classify_route, ProofRouteRequest, ProofRouteStatus, PROOF_ROUTE_NAMES},
     commands::remote::{
         dispatch_operational_remote, load_remote_route_receipts, observe_github_pr_readback,
-        prepare_remote_publication_route_with_receipts, OperationalRemoteDispatchRequest,
-        OperationalRemoteOperation, RemoteRouteReceipts, RemoteRouteRequest,
-        REMOTE_PUBLICATION_ROUTE_NAMES,
+        prepare_remote_publication_route_with_receipts, GithubMutation,
+        OperationalRemoteDispatchRequest, OperationalRemoteOperation, RemoteRouteReceipts,
+        RemoteRouteRequest, REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     commands::terminal::{
@@ -28,7 +28,7 @@ use csdlc_v3::{
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -133,25 +133,78 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
             .clone()
             .or_else(|| env::current_dir().ok())
             .ok_or_else(|| "operational repository root is unavailable".to_string())?;
-        if let Some(context) = discover_operational_local_context(&repository_root, &request)
-            .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?
-        {
-            let operational = execute_operational_local_route(route, &request, &registry, &context)
-                .map_err(|findings| {
-                    serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
-                })?;
-            return serde_json::to_string(&serde_json::json!({
-                "schema": "csdlc.v3.operational_local.v1",
-                "command": route,
-                "read_only": !operational.mutated,
-                "operational_read_only": !operational.mutated,
-                "operational_authority": true,
-                "writes_v3_state": operational.mutated,
-                "result": operational,
-            }))
-            .map_err(|error| error.to_string());
+        match discover_operational_local_context(&repository_root, &request) {
+            Ok(Some(context)) => {
+                let operational =
+                    match execute_operational_local_route(route, &request, &registry, &context) {
+                        Ok(operational) => operational,
+                        Err(findings)
+                            if can_fallback_from_read_only_operational_context(route)
+                                && findings
+                                    .iter()
+                                    .any(|finding| finding.code == "invalid_operational_roots") =>
+                        {
+                            // Read-only diagnostic routes are safe in ordinary issue worktrees
+                            // whose parent is the required bind parent.  The operational mutation
+                            // context is intentionally invalid there, but the construction report
+                            // remains useful and non-mutating.
+                            return run_local_construction_report(
+                                route,
+                                args,
+                                request,
+                                registry,
+                                registrations,
+                            );
+                        }
+                        Err(findings) => {
+                            return Err(
+                                serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into())
+                            );
+                        }
+                    };
+                return serde_json::to_string(&serde_json::json!({
+                    "schema": "csdlc.v3.operational_local.v1",
+                    "command": route,
+                    "read_only": !operational.mutated,
+                    "operational_read_only": !operational.mutated,
+                    "operational_authority": true,
+                    "writes_v3_state": operational.mutated,
+                    "result": operational,
+                }))
+                .map_err(|error| error.to_string());
+            }
+            Ok(None) => {}
+            Err(findings)
+                if can_fallback_from_read_only_operational_context(route)
+                    && findings
+                        .iter()
+                        .any(|finding| read_only_discovery_fallback_code(&finding.code)) => {}
+            Err(findings) => {
+                return Err(serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()));
+            }
         }
     }
+    run_local_construction_report(route, args, request, registry, registrations)
+}
+
+fn can_fallback_from_read_only_operational_context(route: &str) -> bool {
+    matches!(route, "doctor" | "eligibility")
+}
+
+fn read_only_discovery_fallback_code(code: &str) -> bool {
+    matches!(
+        code,
+        "invalid_operational_roots" | "worktree_parent_unavailable"
+    )
+}
+
+fn run_local_construction_report(
+    route: &str,
+    args: LocalArgs,
+    request: LocalPreparationRequest,
+    registry: csdlc_v3::commands::local::PromptRegistry,
+    registrations: Vec<WorktreeRegistration>,
+) -> Result<String, String> {
     let mut result = prepare_local_workflow(&request, &registry, &registrations)
         .map_err(|findings| serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()))?;
     let observed_v3_issue_state = match (route, args.v3_state_root.as_ref()) {
@@ -323,16 +376,39 @@ fn validate_operational_remote_route(
         (command, operation),
         ("review", OperationalRemoteOperation::Review(_))
             | ("publish", OperationalRemoteOperation::Publish(_))
-            | (
-                "github" | "github-issue" | "github-pr",
-                OperationalRemoteOperation::GithubMutation(_)
-            )
     ) {
         Ok(())
+    } else if let OperationalRemoteOperation::GithubMutation(mutation) = operation {
+        if github_mutation_route_matches(command, &mutation.mutation) {
+            Ok(())
+        } else {
+            Err(format!(
+                "operational_remote_route_mismatch: {command} does not own the requested operation"
+            ))
+        }
     } else {
         Err(format!(
             "operational_remote_route_mismatch: {command} does not own the requested operation"
         ))
+    }
+}
+
+fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bool {
+    match command {
+        "github" => true,
+        "github-issue" => matches!(
+            mutation,
+            GithubMutation::IssueCreate { .. }
+                | GithubMutation::IssueComment { .. }
+                | GithubMutation::IssueEdit { .. }
+        ),
+        "github-pr" => matches!(
+            mutation,
+            GithubMutation::PullRequestCreate { .. }
+                | GithubMutation::PullRequestUpdate { .. }
+                | GithubMutation::PullRequestReady
+        ),
+        _ => false,
     }
 }
 
@@ -437,7 +513,7 @@ fn discover_binary_checkout_repo_root() -> Option<PathBuf> {
 
 fn remote_usage(command: &str) -> String {
     format!(
-        "usage: csdlc {command} --request <path> [--observe-github]\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+        "usage: csdlc {command} --request <path> [--observe-github] [--execute]\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
     )
 }
 

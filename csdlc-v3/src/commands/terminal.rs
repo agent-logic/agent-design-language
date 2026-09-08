@@ -409,12 +409,14 @@ pub fn prepare_terminal_finish_with_github_observation(
     } else {
         TerminalRouteStatus::Blocked
     };
+    let operational_authority =
+        status == TerminalRouteStatus::Ready && request.terminal_state.is_some();
     Ok(TerminalRoutePlan {
         route: "finish".to_owned(),
         issue: request.issue,
         repository: request.repository.clone(),
         status,
-        operational_authority: false,
+        operational_authority,
         findings,
         finish,
         cleanup: None,

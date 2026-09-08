@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 721,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
+    "slug": "csdlc-v3-issue-create-parity",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Fix C-SDLC v3 terminal authority reporting and add typed GitHub issue-create parity.",
+      "required_outcome": "v3 reports operational terminal authority truthfully after cutover and can create GitHub issues through the v3 typed mutation path with durable intent, authenticated readback, and receipt binding.",
+      "declared_scope": [
+        "csdlc-v3 terminal finish authority reporting",
+        "csdlc-v3 GitHub mutation model",
+        "csdlc-v3 GitHub adapters",
+        "csdlc-v3 command documentation and tests"
+      ],
+      "authority_boundary": [
+        "Do not weaken canonical selector checks or caller-authored authority rejection.",
+        "Do not introduce raw gh issue create as a lifecycle route.",
+        "Do not delete v2 code in this issue; v2 removal is tracked separately."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write on main.",
+        "Follow the GitHub issue-create model for title/body/labels/assignees/milestone.",
+        "No fake commands."
+      ]
+    }
+  }
+}

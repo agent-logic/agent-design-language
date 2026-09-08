@@ -1,0 +1,22 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v3-defect-remove-v2-authority-dependencies-20260908",
+  "issue": null,
+  "pull_request": null,
+  "title": "[backlog][csdlc-v3] Remove remaining v2 authority and build dependencies after cutover",
+  "body": "## Summary\n\nIf the repository is removing C-SDLC v2 code, v3 needs a standalone post-cutover authority model. Today, v3 still references v2 authority artifacts and compiles against v2 surfaces during validation.\n\n## Evidence\n\nObserved during v3 issue-creation repair and validation:\n\n- `csdlc-v3/src/commands/remote/mod.rs` verifies operational remote mutation through `csdlc-v2/operator/generation-selector.json` and #505 cutover evidence.\n- `csdlc-v3/src/commands/proof.rs` and related proof/install tests still use v2 selector and parity concepts.\n- Running v3 validation compiles `csdlc-v2 v0.92.0` as part of the current test/build graph.\n- The operator direction is that v2 code is being removed, so v3 cannot rely on retained v2 source or selector semantics as its long-term authority substrate.\n\n## Acceptance criteria\n\n- Define the post-cutover native v3 authority selector and receipt model without requiring retained v2 source code.\n- Replace or migrate v2 selector reads in v3 operational paths with the native v3 authority source.\n- Preserve fail-closed behavior for stale authority, stale exact-head approval, stale lifecycle digest, and uncertain remote mutation reconciliation.\n- Update proof/install/shadow tests so they prove native v3 authority rather than v2 parity once v2 is removed.\n- Document the migration path from v2-backed cutover evidence to native v3 authority evidence.\n\n## Non-goals\n\n- Do not delete v2 code without a passing native v3 replacement denominator.\n- Do not weaken exact-head review, durable receipt, or authenticated readback requirements.\n- Do not create a caller-controlled authority switch.",
+  "labels": [
+    "track:backlog",
+    "type:task",
+    "area:tools",
+    "version:v0.92.1"
+  ],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

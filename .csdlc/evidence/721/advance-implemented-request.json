@@ -1,0 +1,12 @@
+{
+  "issue": 721,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "8b131fc2fc7af76ffe39e23449faa72316f51b180676f15918c2ec831ef45c9c",
+  "actor": "Worker #7",
+  "reason": "advance #721 to implemented after focused execution and validation records",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}
