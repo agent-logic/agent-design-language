@@ -231,7 +231,16 @@
 + ADL_GCP_D1_MOCK_CREATE_FAIL_AFTER_CREATE=1
 + bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload-create-failure
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload-create-failure
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload-create-failure/deadline-reaper.pid
++ local pid
+++ cat .csdlc/evidence/731/remediation-guards/mock-workload-create-failure/deadline-reaper.pid
++ pid=13315
++ case "$pid" in
++ kill 13315
 + printf 'mock-reaper-pid-normalized\n'
++ :
 + rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
 + ADL_GCP_D1_NOW_EPOCH=1788858600
@@ -240,7 +249,17 @@
 + ADL_GCP_D1_MOCK_GCLOUD_LOG=.csdlc/evidence/731/remediation-guards/mock-gcloud.log
 + ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
 + bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload-success
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload-success
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload-success/deadline-reaper.pid
++ local pid
+++ cat .csdlc/evidence/731/remediation-guards/mock-workload-success/deadline-reaper.pid
++ pid=13354
++ case "$pid" in
++ kill 13354
++ true
 + printf 'mock-reaper-pid-normalized\n'
++ :
 + jq -e '.readiness == "guest_metadata_identity_observed" and .residue.storage_objects == 0 and .residue.forwarding_rules == 0 and .residue.firewall_overrides == 0 and .residue.vm_iam == 0 and .residue.terraform_state_run_labels == 0' .csdlc/evidence/731/remediation-guards/mock-workload-success/status.json
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
 + ADL_GCP_D1_NOW_EPOCH=1788858600
@@ -250,7 +269,17 @@
 + ADL_GCP_D1_REAPER_SLEEP_SECONDS=1
 + ADL_GCP_D1_MOCK_STORAGE_RESIDUE=1
 + bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload-storage-residue
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload-storage-residue
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/deadline-reaper.pid
++ local pid
+++ cat .csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/deadline-reaper.pid
++ pid=13449
++ case "$pid" in
++ kill 13449
++ true
 + printf 'mock-reaper-pid-normalized\n'
++ :
 + grep -Fq 'run-labelled storage object residue exists' .csdlc/evidence/731/remediation-guards/workload-storage-residue.log
 + rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
@@ -262,7 +291,16 @@
 + ADL_GCP_D1_FAILPOINT_AFTER_CREATE=1
 + bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh
 + grep -Fq 'compute instances delete adl-gcp-d1-localguard' .csdlc/evidence/731/remediation-guards/mock-gcloud.log
++ normalize_mock_reaper .csdlc/evidence/731/remediation-guards/mock-workload
++ local dir=.csdlc/evidence/731/remediation-guards/mock-workload
++ test -s .csdlc/evidence/731/remediation-guards/mock-workload/deadline-reaper.pid
++ local pid
+++ cat .csdlc/evidence/731/remediation-guards/mock-workload/deadline-reaper.pid
++ pid=13551
++ case "$pid" in
++ kill 13551
 + printf 'mock-reaper-pid-normalized\n'
++ :
 + rm -f .csdlc/evidence/731/remediation-guards/mock-gcloud.log .csdlc/evidence/731/remediation-guards/mock-terraform.log
 + ADL_GCP_D1_PACKET=.csdlc/evidence/731/remediation-guards/valid-30m-packet.json
 + ADL_GCP_D1_NOW_EPOCH=1788858600

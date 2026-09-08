@@ -1,5 +1,4 @@
 PASS: #731 mutation authorization packet is complete and status=approved
 Created synthetic instance
 Deleted synthetic instance
-.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh: line 109:  9675 Terminated: 15          "$out_dir/deadline-reaper.sh" > "$out_dir/deadline-reaper.log" 2>&1
 FAIL: run-labelled storage object residue exists

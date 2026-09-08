@@ -104,6 +104,7 @@ jq -e --arg service_account "$service_account" '.guest_ready == true and .metada
   2>&1 | tee "$out_dir/instance-delete.log"
 cleanup_complete=true
 kill "$reaper_pid" >/dev/null 2>&1 || true
+wait "$reaper_pid" >/dev/null 2>&1 || true
 
 "$gcloud_bin" compute instances list --project "$project_id" --format=json \
   | jq --arg instance "$instance_name" '[.[] | select(.name == $instance)]' > "$out_dir/post-instances.json"

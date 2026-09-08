@@ -18,6 +18,20 @@ require_text() {
   grep -Fq -- "$needle" "$file" || fail "missing expected text in $file: $needle"
 }
 
+normalize_mock_reaper() {
+  local dir="$1"
+  if test -s "$dir/deadline-reaper.pid"; then
+    local pid
+    pid="$(cat "$dir/deadline-reaper.pid")"
+    case "$pid" in
+      *[!0-9]*|"") ;;
+      *) kill "$pid" >/dev/null 2>&1 || true ;;
+    esac
+  fi
+  printf 'mock-reaper-pid-normalized\n' > "$dir/deadline-reaper.pid"
+  : > "$dir/deadline-reaper.log"
+}
+
 utc_epoch() {
   date -j -u -f '%Y-%m-%dT%H:%M:%SZ' "$1" +%s 2>/dev/null || return 1
 }
@@ -171,7 +185,7 @@ if ADL_GCP_D1_PACKET="$valid_packet" \
   fail "workload create failure was accepted"
 fi
 grep -Fq "compute instances delete adl-gcp-d1-localguard" "$mock_gcloud_log" || fail "workload create failure did not run cleanup delete"
-printf 'mock-reaper-pid-normalized\n' > "$out_dir/mock-workload-create-failure/deadline-reaper.pid"
+normalize_mock_reaper "$out_dir/mock-workload-create-failure"
 
 rm -f "$mock_gcloud_log"
 ADL_GCP_D1_PACKET="$valid_packet" \
@@ -181,7 +195,7 @@ ADL_GCP_D1_PACKET="$valid_packet" \
   ADL_GCP_D1_MOCK_GCLOUD_LOG="$mock_gcloud_log" \
   ADL_GCP_D1_REAPER_SLEEP_SECONDS=1 \
   bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh > "$out_dir/workload-success.log" 2>&1
-printf 'mock-reaper-pid-normalized\n' > "$out_dir/mock-workload-success/deadline-reaper.pid"
+normalize_mock_reaper "$out_dir/mock-workload-success"
 jq -e '.readiness == "guest_metadata_identity_observed" and .residue.storage_objects == 0 and .residue.forwarding_rules == 0 and .residue.firewall_overrides == 0 and .residue.vm_iam == 0 and .residue.terraform_state_run_labels == 0' "$out_dir/mock-workload-success/status.json" >/dev/null || fail "workload success path did not prove readiness and expanded zero residue"
 
 if ADL_GCP_D1_PACKET="$valid_packet" \
@@ -194,7 +208,7 @@ if ADL_GCP_D1_PACKET="$valid_packet" \
   bash .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh > "$out_dir/workload-storage-residue.log" 2>&1; then
   fail "workload storage residue was accepted"
 fi
-printf 'mock-reaper-pid-normalized\n' > "$out_dir/mock-workload-storage-residue/deadline-reaper.pid"
+normalize_mock_reaper "$out_dir/mock-workload-storage-residue"
 grep -Fq "run-labelled storage object residue exists" "$out_dir/workload-storage-residue.log" || fail "workload storage residue did not fail closed at storage residue assertion"
 
 rm -f "$mock_gcloud_log"
@@ -209,7 +223,7 @@ if ADL_GCP_D1_PACKET="$valid_packet" \
   fail "workload failpoint was accepted"
 fi
 grep -Fq "compute instances delete adl-gcp-d1-localguard" "$mock_gcloud_log" || fail "workload failpoint did not run cleanup delete"
-printf 'mock-reaper-pid-normalized\n' > "$out_dir/mock-workload/deadline-reaper.pid"
+normalize_mock_reaper "$out_dir/mock-workload"
 
 rm -f "$mock_gcloud_log" "$mock_terraform_log"
 ADL_GCP_D1_PACKET="$valid_packet" \
