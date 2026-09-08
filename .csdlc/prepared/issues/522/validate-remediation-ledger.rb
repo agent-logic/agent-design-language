@@ -77,6 +77,8 @@ required = %w[source-findings.json dispositions.json release-blockers.json packe
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing remediation artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
+ledger_candidate = docs.fetch("source-findings.json").fetch("ledger_candidate_sha")
+fail!("ledger candidate is not an immutable commit") unless ledger_candidate.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{ledger_candidate}^{commit}")
 
 source_doc = docs.fetch("source-findings.json")
 reports = source_doc.fetch("reports")
@@ -142,7 +144,7 @@ dispositions.each do |row|
     fail!("cannot verify remediation PR: #{pr_err.strip}") unless pr_status.success?
     pr_doc = JSON.parse(pr_out)
     fail!("remediation PR/head/merge identity is false") unless pr_doc.fetch("state") == "MERGED" && pr_doc.fetch("headRefOid") == head_sha && pr_doc.dig("mergeCommit", "oid") == merge_sha
-    system("git", "merge-base", "--is-ancestor", merge_sha, "HEAD") or fail!("remediation merge is not ancestral to ledger head")
+    system("git", "merge-base", "--is-ancestor", merge_sha, ledger_candidate) or fail!("remediation merge is not ancestral to immutable ledger candidate")
     artifacts = remediation.fetch("artifacts")
     fail!("remediation has no immutable head artifacts") if artifacts.empty?
     artifacts.each do |artifact|
@@ -150,7 +152,11 @@ dispositions.each do |row|
       fail!("remediation head artifact digest mismatch") unless Digest::SHA256.hexdigest(blob) == artifact.fetch("sha256")
     end
     review = row.fetch("review")
-    fail!("review authority is neither typed nor independent external") unless %w[typed_csdlc external_independent].include?(review.fetch("authority_kind")) && nonempty?(review.fetch("assignment_id")) && nonempty?(review.fetch("reviewer"))
+    fail!("review authority is neither typed nor independent external") unless %w[typed_csdlc external_independent].include?(review.fetch("authority_kind")) && nonempty?(review.fetch("assignment_id")) && nonempty?(review.fetch("reviewer")) && nonempty?(review.fetch("authority_receipt_path"))
+    authority_blob = git_blob(head_sha, review.fetch("authority_receipt_path"))
+    fail!("review authority receipt digest mismatch") unless Digest::SHA256.hexdigest(authority_blob) == review.fetch("authority_receipt_sha256")
+    authority_doc = JSON.parse(authority_blob)
+    fail!("review authority receipt is not an exact-head pass") unless authority_doc.fetch("outcome") == "passed" && authority_doc.fetch("reviewed_sha") == head_sha && authority_doc.fetch("findings") == [] && authority_doc.fetch("blockers") == [] && authority_doc.fetch("authority_kind") == review.fetch("authority_kind")
     fail!("fix lacks exact current review identity") unless review.fetch("head_sha") == head_sha && review.fetch("head_sha") == review.fetch("reviewed_sha") && review.fetch("head_sha") == review.fetch("observed_pr_head_sha") && nonempty?(review.fetch("observed_at"))
     system("git", "cat-file", "-e", "#{review.fetch('head_sha')}^{commit}") or fail!("reviewed fix commit is unavailable")
     review_path = review.fetch("report_path")
@@ -174,6 +180,9 @@ dispositions.each do |row|
     fail!("validator invocation stdout digest mismatch") unless Digest::SHA256.hexdigest(invocation_stdout) == invocation_doc.fetch("stdout_sha256")
     invocation_result = JSON.parse(invocation_stdout)
     fail!("validator invocation stdout does not prove exact-head pass") unless invocation_result.fetch("outcome") == "passed" && (invocation_result["head_sha"] || invocation_result["candidate_sha"]) == head_sha && invocation_result.fetch("failures", []) == []
+    executed_stdout, executed_stderr, executed_status = Open3.capture3(interpreter, "-e", validator_blob, *invocation_doc.fetch("arguments", []))
+    fail!("declared validator does not actually execute successfully: #{executed_stderr.strip}") unless executed_status.success?
+    fail!("retained validator stdout differs from fresh execution") unless executed_stdout == invocation_stdout
     validations = row.fetch("validation")
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
     validations.each do |validation|
