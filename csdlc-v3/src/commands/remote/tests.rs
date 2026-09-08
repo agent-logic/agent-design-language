@@ -816,7 +816,7 @@ fn process_output(
     }
 }
 
-fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
+fn mutation_repo(name: &str, active: bool) -> PathBuf {
     let id = NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst);
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("target")
@@ -869,18 +869,35 @@ fn mutation_repo(name: &str, exact_review_sha: &str, active: bool) -> PathBuf {
     if active {
         git(&["update-ref", "refs/remotes/origin/main", "HEAD"]);
     }
-    let _ = exact_review_sha;
     root
 }
 
-fn mutation_request(mutation: super::GithubMutation) -> super::GithubMutationRequest {
+fn mutation_head(root: &std::path::Path) -> String {
+    let output = std::process::Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+        .expect("run fixture git rev-parse");
+    assert!(output.status.success(), "git rev-parse HEAD: {output:?}");
+    String::from_utf8(output.stdout)
+        .expect("fixture git head is utf8")
+        .trim()
+        .to_owned()
+}
+
+fn mutation_request(
+    exact_head_sha: &str,
+    mutation: super::GithubMutation,
+) -> super::GithubMutationRequest {
     super::GithubMutationRequest {
         repository: "agent-logic/agent-design-language".into(),
         issue: 505,
         pull_request: None,
         cutover_issue: None,
         operator_approval: Some("caller-forged operator approval for #505".into()),
-        expected_head_sha: REVISION.into(),
+        expected_head_sha: exact_head_sha.into(),
         credential_names: vec!["GITHUB_TOKEN".into()],
         mutation,
     }
@@ -888,10 +905,14 @@ fn mutation_request(mutation: super::GithubMutation) -> super::GithubMutationReq
 
 #[test]
 fn mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles() {
-    let root = mutation_repo("comment", REVISION, true);
-    let request = mutation_request(super::GithubMutation::IssueComment {
-        body: "durable comment".into(),
-    });
+    let root = mutation_repo("comment", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "durable comment".into(),
+        },
+    );
     let operation_digest = super::github_mutation_operation_digest(&request);
     let marker = super::github_mutation_operation_marker(&operation_digest);
     let intent_path =
@@ -938,14 +959,18 @@ fn mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles() {
 
 #[test]
 fn issue_create_mutation_posts_and_reconciles_assigned_issue_number() {
-    let root = mutation_repo("issue-create", REVISION, true);
-    let mut request = mutation_request(super::GithubMutation::IssueCreate {
-        title: "New v3 issue".into(),
-        body: "Create this through v3.".into(),
-        labels: vec!["v3".into()],
-        assignees: vec![],
-        milestone: None,
-    });
+    let root = mutation_repo("issue-create", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueCreate {
+            title: "New v3 issue".into(),
+            body: "Create this through v3.".into(),
+            labels: vec!["v3".into()],
+            assignees: vec![],
+            milestone: None,
+        },
+    );
     request.issue = 0;
     let operation_digest = super::github_mutation_operation_digest(&request);
     let marker = super::github_mutation_operation_marker(&operation_digest);
@@ -998,14 +1023,18 @@ fn issue_create_mutation_posts_and_reconciles_assigned_issue_number() {
 
 #[test]
 fn restart_reconciles_pr_create_without_replaying_mutation() {
-    let root = mutation_repo("pr-create", REVISION, true);
-    let request = mutation_request(super::GithubMutation::PullRequestCreate {
-        base: "main".into(),
-        head: "codex/505".into(),
-        title: "Issue 505".into(),
-        body: "Closes #505".into(),
-        draft: false,
-    });
+    let root = mutation_repo("pr-create", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::PullRequestCreate {
+            base: "main".into(),
+            head: "codex/505".into(),
+            title: "Issue 505".into(),
+            body: "Closes #505".into(),
+            draft: false,
+        },
+    );
     let operation_digest = super::github_mutation_operation_digest(&request);
     let marker = super::github_mutation_operation_marker(&operation_digest);
     let intent_path =
@@ -1035,7 +1064,7 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         crate::adapters::ProcessStatus::Exit(0),
         serde_json::json!([{
             "number": 591,
-            "head": {"sha": REVISION, "ref": "codex/505"},
+            "head": {"sha": head, "ref": "codex/505"},
             "base": {"ref": "main"},
             "title": "Issue 505",
             "body": format!("Closes #505\n\n{marker}"),
@@ -1056,10 +1085,13 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
 
 #[test]
 fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
-    let issue_edit = mutation_request(super::GithubMutation::IssueEdit {
-        title: Some("updated issue".into()),
-        body: Some("updated body".into()),
-    });
+    let issue_edit = mutation_request(
+        REVISION,
+        super::GithubMutation::IssueEdit {
+            title: Some("updated issue".into()),
+            body: Some("updated body".into()),
+        },
+    );
     let issue_digest = super::github_mutation_operation_digest(&issue_edit);
     let issue_marker = super::github_mutation_operation_marker(&issue_digest);
     assert_eq!(
@@ -1075,10 +1107,13 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
         Ok((505, None, Some(505)))
     );
 
-    let mut update = mutation_request(super::GithubMutation::PullRequestUpdate {
-        title: Some("updated PR".into()),
-        body: None,
-    });
+    let mut update = mutation_request(
+        REVISION,
+        super::GithubMutation::PullRequestUpdate {
+            title: Some("updated PR".into()),
+            body: None,
+        },
+    );
     update.pull_request = Some(591);
     let update_digest = super::github_mutation_operation_digest(&update);
     let update_marker = super::github_mutation_operation_marker(&update_digest);
@@ -1116,7 +1151,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
 
 #[test]
 fn operational_dispatcher_fails_pre_cutover_and_serializes_review_result() {
-    let blocked_root = mutation_repo("dispatcher-blocked", REVISION, false);
+    let blocked_root = mutation_repo("dispatcher-blocked", false);
     let route_request = super::RemoteRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
         issue: 505,
@@ -1157,12 +1192,17 @@ fn operational_dispatcher_fails_pre_cutover_and_serializes_review_result() {
         "canonical_v3_authority_inactive"
     );
 
-    let active_root = mutation_repo("dispatcher-active", REVISION, true);
+    let active_root = mutation_repo("dispatcher-active", true);
+    let active_head = mutation_head(&active_root);
+    let mut active_route_request = route_request.clone();
+    active_route_request.review_revision = Some(active_head.clone());
+    active_route_request.expected_head_sha = Some(active_head.clone());
+    active_route_request.head_sha = Some(active_head.clone());
     let dispatch = super::OperationalRemoteDispatchRequest {
         expected_lifecycle_digest: super::canonical_authority_selector_digest(&active_root)
             .expect("selector digest"),
-        exact_review_sha: REVISION.into(),
-        operation: super::OperationalRemoteOperation::Review(route_request),
+        exact_review_sha: active_head,
+        operation: super::OperationalRemoteOperation::Review(active_route_request),
     };
     let result = super::dispatch_operational_remote(&active_root, &dispatch, &mut no_process)
         .expect("active canonical selector dispatches review");
@@ -1170,4 +1210,31 @@ fn operational_dispatcher_fails_pre_cutover_and_serializes_review_result() {
     assert_eq!(value["schema"], "csdlc.v3.operational_remote_dispatch.v1");
     assert_eq!(value["authority"]["authority_issue"], 505);
     assert_eq!(value["outcome"]["kind"], "review");
+}
+
+#[test]
+fn operational_dispatcher_rejects_forged_exact_review_sha() {
+    let active_root = mutation_repo("dispatcher-forged-head", true);
+    let actual_head = mutation_head(&active_root);
+    assert_ne!(actual_head, REVISION);
+    let request = mutation_request(
+        &actual_head,
+        super::GithubMutation::IssueComment {
+            body: "must not post under forged review head".into(),
+        },
+    );
+    let dispatch = super::OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: super::canonical_authority_selector_digest(&active_root)
+            .expect("selector digest"),
+        exact_review_sha: REVISION.into(),
+        operation: super::OperationalRemoteOperation::GithubMutation(request),
+    };
+    let mut process = SequencedProcessAdapter::new(vec![]);
+    assert_eq!(
+        super::dispatch_operational_remote(&active_root, &dispatch, &mut process)
+            .expect_err("forged exact review SHA is not authority")
+            .code,
+        "canonical_exact_review_sha_mismatch"
+    );
+    assert!(process.invocations.is_empty());
 }

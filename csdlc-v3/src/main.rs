@@ -29,7 +29,7 @@ use csdlc_v3::{
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -143,7 +143,10 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                     match execute_operational_local_route(route, &request, &registry, &context) {
                         Ok(operational) => operational,
                         Err(findings)
-                            if can_fallback_from_operational_context_findings(route, &findings) =>
+                            if can_fallback_from_read_only_operational_context(route)
+                                && findings.iter().any(|finding| {
+                                    read_only_discovery_fallback_code(&finding.code)
+                                }) =>
                         {
                             // Read-only diagnostic routes are safe in ordinary issue worktrees
                             // whose parent is the required bind parent.  The operational mutation
@@ -175,7 +178,11 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
                 .map_err(|error| error.to_string());
             }
             Ok(None) => {}
-            Err(findings) if can_fallback_from_operational_context_findings(route, &findings) => {}
+            Err(findings)
+                if can_fallback_from_read_only_operational_context(route)
+                    && findings
+                        .iter()
+                        .any(|finding| read_only_discovery_fallback_code(&finding.code)) => {}
             Err(findings) => {
                 return Err(serde_json::to_string(&findings).unwrap_or_else(|_| "[]".into()));
             }
@@ -184,21 +191,15 @@ fn run_local_report(route: &str, args: &[String]) -> Result<String, String> {
     run_local_construction_report(route, args, request, registry, registrations)
 }
 
-fn can_fallback_from_invalid_operational_roots(route: &str) -> bool {
+fn can_fallback_from_read_only_operational_context(route: &str) -> bool {
     matches!(route, "doctor" | "eligibility")
 }
 
-fn can_fallback_from_operational_context_findings(
-    route: &str,
-    findings: &[csdlc_v3::commands::local::DoctorFinding],
-) -> bool {
-    can_fallback_from_invalid_operational_roots(route)
-        && findings.iter().any(|finding| {
-            matches!(
-                finding.code.as_str(),
-                "invalid_operational_roots" | "worktree_parent_unavailable"
-            )
-        })
+fn read_only_discovery_fallback_code(code: &str) -> bool {
+    matches!(
+        code,
+        "invalid_operational_roots" | "worktree_parent_unavailable"
+    )
 }
 
 fn run_local_construction_report(
@@ -447,16 +448,39 @@ fn validate_operational_remote_route(
         (command, operation),
         ("review", OperationalRemoteOperation::Review(_))
             | ("publish", OperationalRemoteOperation::Publish(_))
-            | (
-                "github" | "github-issue" | "github-pr",
-                OperationalRemoteOperation::GithubMutation(_)
-            )
     ) {
         Ok(())
+    } else if let OperationalRemoteOperation::GithubMutation(mutation) = operation {
+        if github_mutation_route_matches(command, &mutation.mutation) {
+            Ok(())
+        } else {
+            Err(format!(
+                "operational_remote_route_mismatch: {command} does not own the requested operation"
+            ))
+        }
     } else {
         Err(format!(
             "operational_remote_route_mismatch: {command} does not own the requested operation"
         ))
+    }
+}
+
+fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bool {
+    match command {
+        "github" => true,
+        "github-issue" => matches!(
+            mutation,
+            GithubMutation::IssueCreate { .. }
+                | GithubMutation::IssueComment { .. }
+                | GithubMutation::IssueEdit { .. }
+        ),
+        "github-pr" => matches!(
+            mutation,
+            GithubMutation::PullRequestCreate { .. }
+                | GithubMutation::PullRequestUpdate { .. }
+                | GithubMutation::PullRequestReady
+        ),
+        _ => false,
     }
 }
 

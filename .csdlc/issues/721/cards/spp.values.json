@@ -7,7 +7,7 @@
     "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
     "slug": "csdlc-v3-issue-create-parity",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 27
   },
   "status": "ready",
   "content": {
