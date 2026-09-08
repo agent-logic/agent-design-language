@@ -106,24 +106,6 @@ fn binary_repo_root() -> PathBuf {
         .to_path_buf()
 }
 
-fn primary_repo_root() -> PathBuf {
-    let output = Command::new("git")
-        .current_dir(binary_repo_root())
-        .args(["worktree", "list", "--porcelain"])
-        .output()
-        .expect("list worktrees");
-    assert!(
-        output.status.success(),
-        "worktree topology should be observable"
-    );
-    let worktrees = String::from_utf8_lossy(&output.stdout);
-    let first = worktrees
-        .lines()
-        .find_map(|line| line.strip_prefix("worktree "))
-        .expect("primary worktree");
-    PathBuf::from(first)
-}
-
 fn scoped_evidence_ref(name: &str) -> String {
     format!(
         ".csdlc/evidence/631/proof-route-tests/{}/{}",
@@ -272,6 +254,19 @@ fn v3_doctor_spec() -> Value {
 }
 
 fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
+    let construction_root = scratch().join(format!("v3-construction-root-{issue}"));
+    let construction_worktree = construction_root.join("worktree");
+    fs::create_dir_all(&construction_worktree).expect("construction worktree fixture");
+    let lifecycle_dir = construction_root
+        .join(".csdlc")
+        .join("issues")
+        .join(issue.to_string());
+    fs::create_dir_all(&lifecycle_dir).expect("construction lifecycle fixture");
+    fs::copy(
+        binary_repo_root().join(format!(".csdlc/issues/{issue}/index.json")),
+        lifecycle_dir.join("index.json"),
+    )
+    .expect("copy construction lifecycle index");
     let request_ref = write_typed_request(
         "v3-doctor-request.json",
         json!({
@@ -279,7 +274,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "title": title,
             "repository": issue_repository(issue),
             "branch": fixture_branch(),
-            "worktree": binary_repo_root(),
+            "worktree": construction_worktree,
             "registry_version": "1.0.3",
             "expected_lifecycle_digest": issue_digest(issue),
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
@@ -290,8 +285,8 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
         "v3-doctor-registrations.json",
         json!([{
             "branch": fixture_branch(),
-            "worktree": binary_repo_root(),
-            "primary": binary_repo_root() == primary_repo_root()
+            "worktree": construction_worktree,
+            "primary": false
         }]),
     );
     json!({
@@ -301,7 +296,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "doctor", "--request", request_ref,
             "--registry", "docs/templates/prompts/current.json",
             "--registrations", registrations_ref,
-            "--repo-root", primary_repo_root().to_string_lossy()
+            "--repo-root", construction_root.to_string_lossy()
         ],
         "request_ref": request_ref,
         "timeout_millis": 120_000,
