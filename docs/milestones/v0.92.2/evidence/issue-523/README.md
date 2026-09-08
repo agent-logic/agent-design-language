@@ -35,7 +35,7 @@ The native bind was invoked after the validation failure and succeeded; it does 
 
 ## Publication follow-through
 
-Typed publication exposed and repaired a missing real-adapter branch lookup and a PR/issue identity mismatch. Authenticated native reconciliation recovered existing PR #743 without repeating creation. See [native-publication-repair.md](native-publication-repair.md); final local native suite now passes 185 tests. The original validator and review evidence remains historical and intact.
+Typed publication exposed and repaired a missing real-adapter branch lookup and a PR/issue identity mismatch. Authenticated native reconciliation recovered existing PR #743 without repeating creation. See [native-publication-repair.md](native-publication-repair.md); that repair passed 185 tests. The subsequent [ready-command repair](native-ready-repair.md) uses the documented GitHub mutation with authenticated identity checks; the final native suite passes 190 tests. The original validator and review evidence remains historical and intact.
 
 ## Next owners
 

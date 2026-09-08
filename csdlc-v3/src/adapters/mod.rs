@@ -10,6 +10,15 @@ use std::os::unix::fs::OpenOptionsExt;
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
+pub(crate) const MARK_PULL_REQUEST_READY_QUERY: &str = "mutation($pullRequestId: ID!) { markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) { pullRequest { id number isDraft headRefOid repository { nameWithOwner } } } }";
+
+pub(crate) fn safe_github_node_id(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 256
+        && value.bytes().all(|byte| {
+            byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'-' | b'+' | b'/' | b'=')
+        })
+}
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct CommandInvocation {
@@ -468,11 +477,12 @@ fn github_operational_curl_invocation(
         });
     };
     if !matches!(method.as_str(), "POST" | "PATCH")
-        || !endpoint.starts_with("repos/")
-        || endpoint.contains("..")
-        || endpoint
-            .chars()
-            .any(|ch| !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/')))
+        || (endpoint != "graphql"
+            && (!endpoint.starts_with("repos/")
+                || endpoint.contains("..")
+                || endpoint.chars().any(|ch| {
+                    !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/'))
+                })))
     {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
@@ -489,6 +499,25 @@ fn github_operational_curl_invocation(
             stderr: "github operational adapter requires an existing absolute input file".into(),
             truncated: false,
         });
+    }
+    if endpoint == "graphql" {
+        let payload = fs::read(input)
+            .ok()
+            .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok());
+        let valid = payload.as_ref().is_some_and(|value| {
+            method == "POST"
+                && value.as_object().is_some_and(|object| object.len() == 2)
+                && value["query"].as_str() == Some(MARK_PULL_REQUEST_READY_QUERY)
+                && value["variables"]
+                    .as_object()
+                    .is_some_and(|object| object.len() == 1)
+                && value["variables"]["pullRequestId"]
+                    .as_str()
+                    .is_some_and(safe_github_node_id)
+        });
+        if !valid {
+            return Err(ProcessOutput { status: ProcessStatus::Exit(2), stdout: String::new(), stderr: "github operational adapter only permits the declared ready mutation over GraphQL".into(), truncated: false });
+        }
     }
     CommandInvocation::new(
         "curl",
@@ -888,5 +917,42 @@ mod read_only_github_tests {
             .unwrap();
             assert!(github_read_only_curl_invocation(&invocation).is_err());
         }
+    }
+}
+
+#[cfg(test)]
+mod ready_graphql_adapter_tests {
+    use super::*;
+    // PVF: deterministic local argv/payload contract, no network/credentials, tiny file;
+    // release gate: csdlc-v3 library tests.
+    #[test]
+    fn ready_graphql_adapter_accepts_only_fixed_mutation_payload() {
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target")
+            .join(format!("graphql-adapter-{}", std::process::id()));
+        fs::create_dir_all(&root).unwrap();
+        let input = root.join("ready.json");
+        let valid = serde_json::json!({"query":MARK_PULL_REQUEST_READY_QUERY,"variables":{"pullRequestId":"PR_example123"}});
+        fs::write(&input, serde_json::to_vec(&valid).unwrap()).unwrap();
+        let invocation = CommandInvocation::new(
+            GITHUB_OPERATIONAL_ADAPTER,
+            ["POST", "graphql", input.to_str().unwrap()],
+        )
+        .unwrap();
+        let curl = github_operational_curl_invocation(&invocation).unwrap();
+        assert_eq!(
+            curl.argv().last().unwrap(),
+            "https://api.github.com/graphql"
+        );
+        assert!(curl.argv().contains(&format!("@{}", input.display())));
+        for invalid in [
+            serde_json::json!({"query":"mutation { deleteRepository(input: {}) { clientMutationId } }","variables":{"pullRequestId":"PR_example123"}}),
+            serde_json::json!({"query":MARK_PULL_REQUEST_READY_QUERY,"variables":{"pullRequestId":""}}),
+            serde_json::json!({"query":MARK_PULL_REQUEST_READY_QUERY,"variables":{"pullRequestId":"PR_example123","other":"injected"}}),
+        ] {
+            fs::write(&input, serde_json::to_vec(&invalid).unwrap()).unwrap();
+            assert!(github_operational_curl_invocation(&invocation).is_err());
+        }
+        fs::remove_file(input).unwrap();
     }
 }
