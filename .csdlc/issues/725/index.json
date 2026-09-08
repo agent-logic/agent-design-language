@@ -4,20 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "1ce7e64602619e473b344f146db342adbbba190f25cbac96fd6dd7d4fa11de84",
+  "generation": 13,
+  "digest": "8d09b49672f7a9b0a12865647d30e714d204f30637df52a983dd56f48593069b",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:execute-aws-727-728-r5",
-    "assigned_by": "codex:/root/remediate_v3_725",
-    "revision": "git-blake3:be6823c601030d714e45a09c8d0b5e8c138c378a:bd56f7b5bb2b8c9f4c1ea9e31ee62cd7a7d572ccdb4e0bcef086374ec7e21d9b",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v3",
-      "docs/csdlc-v3/CONTRACT.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -33,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3172c729ca77517ae84afb77c825f4b813043321cb78e885f979748a9b326af2",
+      "values_digest": "859753ad1fcf5bbd6abbd4a105db1cef409ded09d82b98b290df649f4b1ca95d",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "d64e732417dc5d53bf4b55780c31d2b7b8ad39606593fd5ab52ebf259a1ca2ec",
+      "values_digest": "fc923e366329bed63a5c15743271a537f7ac0eddcf56793710952b36140ed179",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "f3e292ca6a14a868f92ec0aad8c131b1db3cfa7a3e5f3360aa9cfd787aa9a516",
+      "values_digest": "f7a8d1685a83406b5c6785016d7be8885b39e0ca5dbdb5cf7acf721539771c19",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "02f23e59e359ac914d6e7149dfa9bf97fb8fee225b0561d4739b650e5ea3f1ac",
+      "values_digest": "e70f8e0eed39aaf75172f1f4aa770bef99dc0dd4b5fc549d5976c9cddf487e8f",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "c1fc7a2b75c864eb5b4e531fe9fe18a92f18074626becbf1cea79ed4f2447475",
-      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
-      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
+      "values_digest": "f88709c830188927e04f19cc88397cf3fb6252a1172148998291a69153af5574",
+      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
+      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
     },
     "sor": {
-      "values_digest": "e28e8f2784e5591d75e4a25023216293eb23c4498f0f6dbf2979e73ca545b334",
+      "values_digest": "b4418773837aff2fe1b440a5da421c73ff829a1e1fc17a361e4170f7f7d55f98",
       "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
       "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
@@ -254,6 +245,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair review P1 by binding reviewed head and merge commit to a canonical authenticated PR 591 observation and rejecting a different real commit",
+      "operation": "recover_review"
     }
   ]
 }
