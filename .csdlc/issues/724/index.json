@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 724,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c1c9b38177c83ecbfd2ffee308cd8dd8ff5c49387f7452c89fa2ede6fd538bbc",
+  "phase": "ready",
+  "generation": 5,
+  "digest": "6ac1cdd3dc16157f6e4c7d4dec2fc62008d9c351a95898cea020c006d5171306",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/724/design.md",
+  "diagram_path": ".csdlc/prepared/issues/724/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "9f70832f8e8ebe716f4762a37a2dbd06fed82a0904a9ada33818166a8991f7d2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "baee01c573ad54fe2ef02ee898b57e8dd3eb566d0d28061452c51b2bbef77274",
+      "rendered_digest": "34ec01f810c9e77a98bebc945623c08d8821d0f67df1809f907c0ecc26c997c7",
+      "ast_digest": "61a35ea7a1c13c45aeb7b30eb119805e8f894bdd20171d6fe192940272b2ae9a"
+    },
+    "stp": {
+      "values_digest": "ef9a6f10f87b1c2334ab205412d699944ccbd734a313d8cd83270aaa5db56a81",
+      "rendered_digest": "1180df3dd3b4c230b91efea3bd1dca95c04bd4203bce72c5c86cced76bc47146",
+      "ast_digest": "aeddd34f4fa4d92cdcd8ceedccce96e76eab27700cbddc3cb78460e33cc37ed4"
+    },
+    "spp": {
+      "values_digest": "8960abbee82c4120ba48dbcaa7f52db1946859fad16a1e19b79620f7b07051ac",
+      "rendered_digest": "7f965babf18d8038a78ec35014e743b92e46411ea16c7e126d6314874771ee7d",
+      "ast_digest": "33b655fd5e7e0c879c851be5f1fc7e57f362b109137251b0eb9fbea572484623"
+    },
+    "vpp": {
+      "values_digest": "9204db9c94bdf55e2c99828600a3c671b5cfa9226afe757983010134c9f26fad",
+      "rendered_digest": "03326d5d3dad3646e56b78efab6f82a8384adc754201d11440c58d1f917c9d04",
+      "ast_digest": "a2a328fe8838e0090b2f25746e16d548e7cdd4d2e4f616aa967eea750de696c8"
+    },
+    "srp": {
+      "values_digest": "867144ff019638e900f662827596fb1eedad7b3e6eceae2a6fc5a2f565ff79b3",
+      "rendered_digest": "671d2a918fe47bb01f37e46cd04434f8b127c4f33abb8462a6c092168867ba71",
+      "ast_digest": "6ff8793efb644d15d677b36b12f8807f534dfcd205bb0d881f540aca9fd39b04"
+    },
+    "sor": {
+      "values_digest": "7d55b333ae88283cd84f17f63e6da8bf78f4add2d5f7bd6d6260e73abc3a6ae4",
+      "rendered_digest": "f7bd5859e9256f33150eb1cd4c3cfdf81ac1c82696f836bea8bf269978269fc5",
+      "ast_digest": "3ee90118519d24e64177f8ac609e7f7913dcd5d7add5f159fc04f639eec874b5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Independent design review passed and the issue-owned proving lane is executable."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Bind readiness to exact repository-owned implementation and issue paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/remote\",\"csdlc-v3/tests\",\"docs/csdlc-v3\",\".csdlc/prepared/issues/724\",\".csdlc/issues/724\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Use one executable issue-owned focused validator that proves all declared command behaviors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-724-focused\",\"proof_role\":\"Prove strict parsing, typed shared dispatch, fail-closed authority, marker/readback/receipt/reconciliation behavior, command manifest compatibility, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/724/validate-simple-issue-create.sh\",\".\"],\"parallel_group\":\"issue-724\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"9f70832f8e8ebe716f4762a37a2dbd06fed82a0904a9ada33818166a8991f7d2\",\"design_ref\":\".csdlc/prepared/issues/724/design.md\",\"diagram_digest\":\"0de98c5c80c32970c592ce2b55e761fb9b1a148e25027858ce833f7ff46bb3ee\",\"diagram_ref\":\".csdlc/prepared/issues/724/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Name the issue-owned executable validator as an exact governed path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/remote\",\"csdlc-v3/tests\",\"docs/csdlc-v3\",\".csdlc/prepared/issues/724/validate-simple-issue-create.sh\",\".csdlc/issues/724\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Independent design review passed and the issue-owned proving lane is executable.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

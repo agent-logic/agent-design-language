@@ -1,0 +1,96 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 724,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
+    "slug": "simple-gh-style-issue-create",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Stack on #721, add a narrow flag parser and typed request builder that reuses the existing issue-create dispatch, prove fail-closed and receipt behavior, document both interfaces, and publish a reviewed stacked PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm the exact #721 dependency and shared dispatch invariants.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement strict simple-form parsing and typed dispatch projection without an alternate transport.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused positive and adversarial command tests, including inactive-authority refusal and reconciliation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Document the simple form first and request-file form as advanced/audit, then obtain exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/remote",
+        "csdlc-v3/tests",
+        "docs/csdlc-v3",
+        ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+        ".csdlc/issues/724"
+      ],
+      "invariants": [
+        "Both CLI forms reach the same operational dispatch",
+        "No remote side effect occurs before authority and input validation",
+        "Receipts and readback remain mandatory",
+        "No credential is accepted in ordinary issue-content flags"
+      ],
+      "risks": [
+        "Convenience parsing could create a second weaker execution path",
+        "Ambiguous body flags could yield unintended content",
+        "Authority metadata could be guessed instead of resolved",
+        "Tests could prove parsing without proving shared dispatch"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#721 semantics are unavailable or change incompatibly",
+        "The implementation requires raw gh or bypassing typed dispatch",
+        "Authority binding cannot be resolved exactly",
+        "Focused proof cannot exercise the shared dispatch"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/724/design.md",
+      "design_digest": "9f70832f8e8ebe716f4762a37a2dbd06fed82a0904a9ada33818166a8991f7d2",
+      "diagram_ref": ".csdlc/prepared/issues/724/diagram.mmd",
+      "diagram_digest": "0de98c5c80c32970c592ce2b55e761fb9b1a148e25027858ce833f7ff46bb3ee"
+    }
+  }
+}

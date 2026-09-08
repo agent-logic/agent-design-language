@@ -1,0 +1,20 @@
+{
+  "issue": 724,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "9e38248021e800eb26c1cd2d3eab11600f7d0dd1ffd149bc695f0d4c2f213cc3",
+  "actor": "codex:/root/review_sprint10_523_526_prep",
+  "reason": "Name the issue-owned executable validator as an exact governed path.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote",
+      "csdlc-v3/tests",
+      "docs/csdlc-v3",
+      ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+      ".csdlc/issues/724"
+    ]
+  }
+}

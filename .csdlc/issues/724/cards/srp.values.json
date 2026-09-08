@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 724,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
+    "slug": "simple-gh-style-issue-create",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #724 CLI parser, typed dispatch projection, focused tests, docs, and lifecycle records only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the convenience form use the exact shared dispatch rather than a weaker parallel path?",
+        "Can any invalid or ambiguous input reach remote mutation?",
+        "Are marker, assigned-number readback, receipt, and reconciliation proved?",
+        "Does inactive v3 authority fail before side effects?",
+        "Are docs clear without overstating cutover status?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

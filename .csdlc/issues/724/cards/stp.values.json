@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 724,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
+    "slug": "simple-gh-style-issue-create",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One CLI convenience surface and its focused tests and documentation; no remote mutation is needed for local proof.",
+      "deliverables": [
+        "Simple github-issue create argument surface",
+        "Typed projection into the existing operational dispatch",
+        "Focused positive and adversarial tests",
+        "Operator documentation showing simple and advanced forms"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Title and exactly one body source are validated",
+        "AC-2: Labels, assignees, and milestone project into the shared typed request",
+        "AC-3: Marker, durable intent, authenticated readback, assigned issue number, receipt, and idempotent reconciliation remain shared",
+        "AC-4: The command fails closed before v3 authority is active",
+        "AC-5: Documentation leads with the simple form and retains request-file usage as advanced/audit"
+      ],
+      "dependencies": [
+        "#721 / PR #726 reviewed and merged before standalone integration into main"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#724",
+        "agent-logic/agent-design-language#721",
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/remote/mod.rs",
+        "csdlc-v3/tests/remote_publication_commands.rs",
+        "docs/csdlc-v3/"
+      ],
+      "non_goals": [
+        "Raw gh issue creation",
+        "v2 fallback",
+        "Alternate receipt or authentication path",
+        "Generic CLI framework redesign",
+        "C-SDLC cutover"
+      ]
+    }
+  }
+}
