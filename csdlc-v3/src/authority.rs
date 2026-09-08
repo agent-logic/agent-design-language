@@ -96,21 +96,6 @@ fn is_lower_hex(value: &str, len: usize) -> bool {
             .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
 }
 
-#[cfg(test)]
-mod tests {
-    use super::is_lower_hex;
-
-    #[test]
-    fn immutable_identifiers_require_exact_lower_hex() {
-        assert!(is_lower_hex(&"a1".repeat(20), 40));
-        assert!(is_lower_hex(&"ab".repeat(32), 64));
-        assert!(!is_lower_hex(&"g".repeat(40), 40));
-        assert!(!is_lower_hex(&"A".repeat(40), 40));
-        assert!(!is_lower_hex("", 64));
-        assert!(!is_lower_hex(&"a".repeat(63), 64));
-    }
-}
-
 fn canonical_tracked_bytes(root: &Path, relative: &Path) -> Result<Option<Vec<u8>>, String> {
     let local = match std::fs::read(root.join(relative)) {
         Ok(bytes) => bytes,
@@ -140,4 +125,19 @@ pub fn canonical_v2_rollback(root: &Path) -> Result<bool, String> {
         && selector["operational_authority"] == "suspended"
         && selector["authority_issue"] == 505
         && selector["authority_pull_request"] == 591)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_lower_hex;
+
+    #[test]
+    fn immutable_identifiers_require_exact_lower_hex() {
+        assert!(is_lower_hex(&"a1".repeat(20), 40));
+        assert!(is_lower_hex(&"ab".repeat(32), 64));
+        assert!(!is_lower_hex(&"g".repeat(40), 40));
+        assert!(!is_lower_hex(&"A".repeat(40), 40));
+        assert!(!is_lower_hex("", 64));
+        assert!(!is_lower_hex(&"a".repeat(63), 64));
+    }
 }
