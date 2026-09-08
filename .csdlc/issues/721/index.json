@@ -4,64 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "08ed977bcc6b22bc229dda95e416b88f6ffe809dfbab4c705fb8a1f1f7ec9c65",
-  "phase": "published",
-  "generation": 23,
-  "digest": "a9fd0308c37f62c98a79da68c9b937e5546d76dfdf126494112b80b53d033480",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "bb5950f47155f4c72f0dbb75cc5ea83c74e051eeffe8479442b1a4a3fd3b31cb",
   "branch": "codex/721-csdlc-v3-issue-create-parity-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-721-csdlc-v3-issue-create-parity-bound",
-  "review_assignment": {
-    "reviewer": "/root/review_721_ci_repair_retry",
-    "assigned_by": "Worker #7",
-    "revision": "git-blake3:d20d23b90df72c6185b9f7b030e45e469a2f1a96:5b649401ee3d81ad08ce1c04c8df124569f32b516c70b0710b950ca74c71ecae",
-    "scope": [
-      ".csdlc/evidence/721/**",
-      ".csdlc/evidence/v3-defects/backlog-requests/**",
-      "csdlc-v3/README.md",
-      "csdlc-v3/src/adapters/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/remote/tests.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/**"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/review_721_ci_repair_retry",
-    "scope": [
-      ".csdlc/evidence/721/**",
-      ".csdlc/evidence/v3-defects/backlog-requests/**",
-      "csdlc-v3/README.md",
-      "csdlc-v3/src/adapters/mod.rs",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/remote/tests.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/**"
-    ],
-    "reviewed_revision": "git-blake3:d20d23b90df72c6185b9f7b030e45e469a2f1a96:5b649401ee3d81ad08ce1c04c8df124569f32b516c70b0710b950ca74c71ecae",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 721,
-    "pull_request": 726,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/726",
-    "base": "main",
-    "head": "codex/721-csdlc-v3-issue-create-parity-bound",
-    "revision": "git-blake3:d20d23b90df72c6185b9f7b030e45e469a2f1a96:5b649401ee3d81ad08ce1c04c8df124569f32b516c70b0710b950ca74c71ecae",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c2924c70b5fcfbd9eb07216d6c35a58c5a0160fdf9cf7da78fd7e489b8796b5c",
+      "values_digest": "5a20714be82d870f5d8aa3ad86227615e5e5ef156f8a789783d542aa60ead008",
       "rendered_digest": "dc2d3ef2e02bc3d822328903d2f2fb3b7b4ef0f7e09f383cfb1bf0aa95d40f08",
       "ast_digest": "d88bd7f562c8a193cdedad6b0cba2cb896b5ecc2db85d9fa0568071bfcb40772"
     },
     "stp": {
-      "values_digest": "9422b1604ceb1848f6679f2d8e7dc6b6f98b5c7bd770fbd512a360a2bb79734c",
+      "values_digest": "6a0efef4c66ad4dc86a4dc9aa524614ac62bbd7253d8fe38017ab5d97670425c",
       "rendered_digest": "7c254fc2248ce63b59f81e8087e7892aa476ecb791a52169b1fa2e6109862ee7",
       "ast_digest": "4dcaaddbd880bb3931eea6879daf31f086b9a265abd97c0ef431c969f173b90f"
     },
     "spp": {
-      "values_digest": "dac8189b702f3f22637189ce81c868b22b3e47f80c65e3648d25e19bab9cea86",
+      "values_digest": "8d176ab14dffdc54c2f2466673e695901c546ee9e909674f0c572ff7f4e97524",
       "rendered_digest": "a26b115b73e2ab98c41cebcd2e0439673a5d9f7eaa4831d555163a0e638db945",
       "ast_digest": "9b3c4eb99beb0da8825ec7dd9e6578735757b368ce029e27090437a734b7f65f"
     },
     "vpp": {
-      "values_digest": "6111d547db0d60fe644b5b92cd495e527a734ced3182a9e6a2d0b6551a60e459",
+      "values_digest": "de4b0a89e626e87ebc3d247bd527f90f66a5eee14645f73c14251e3e26a0b3ac",
       "rendered_digest": "17c2a54acaefbd6803a72887dcd2262a420ed7a9f2e218db40f6b1f7e388bd8c",
       "ast_digest": "fbc627d0656fd6b24ea9a449b8c0cfdb0ce32e49d1d7d00402982c78a397509f"
     },
     "srp": {
-      "values_digest": "4da36c44dea73d28b2c5b29c9e1528c42aa79346ba9e3225a1b38bc41bdedf3a",
-      "rendered_digest": "d146f420810c3ab0831e5c971db8d66beed73c8b785894c333af3df80a527213",
-      "ast_digest": "a51ea882d97da1265aebff9bb3697487dd34a85ad64536f89d59749c1b533b2a"
+      "values_digest": "83cfb64b1491fbd89bc0f8c879a36c33cceb3f431210a553d02af2848f82f04a",
+      "rendered_digest": "85b7a99d8b352d14d42e583358216fa0da2a293c7ecb72c4d7ed4616948b4e52",
+      "ast_digest": "ccc54581f16dfc3ce75232916c5c6b3a10e7dcb93d60504f29c198d20a002ae9"
     },
     "sor": {
-      "values_digest": "66a5bad8c89ed04f917899ea530cbf45da4b6472caf86d6aa4a83aeadee17ff6",
-      "rendered_digest": "4169abde3932019db2041fd6fe6c6ec5ecabf5cb002cc27cfd1436772d47b578",
-      "ast_digest": "bf06c38fd32336d14f534f9165b47e325f77817d1c8559eeed7d48ef195c2df6"
+      "values_digest": "89faf09abbcadc8984c77d54b903339565afb7bda919ad62067d91ee6ccefb4c",
+      "rendered_digest": "f01a9534966fd03f3bef4175ac46f4bdf63fdb341f278c59dda18b89b93c668c",
+      "ast_digest": "8ccc1d7576385ce8e277718783b3cb3022761c4bb251a569e0005aa819c042d7"
     }
   },
   "transitions": [
@@ -182,6 +132,13 @@
       "to": "published",
       "actor": "Worker #7",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Worker #7",
+      "reason": "Recover #721 from published to implemented after exact-head review findings identified substantive v3 remote authority and route-ownership defects that require a new exact-head review before PR #726 can remain merge-ready."
     }
   ],
   "audit": [
@@ -380,6 +337,20 @@
       "actor": "Worker #7",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "Worker #7",
+      "reason": "Recover #721 from published to implemented after exact-head review findings identified substantive v3 remote authority and route-ownership defects that require a new exact-head review before PR #726 can remain merge-ready.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "Worker #7",
+      "reason": "Record #721 authority-binding repair after PR #726 exact-head review findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented v3 GitHub issue-create parity, corrected post-cutover terminal finish operational-authority reporting, documented the real --execute issue-create path, recorded adjacent v3 defects as backlog issues, repaired executable install authority evidence, fixed read-only v3 diagnostic fallback for CI merge-checkout environments, and repaired executable remote authority so v3 GitHub mutations bind exact_review_sha to the checked-out Git HEAD while route-specific commands enforce issue-vs-PR mutation ownership.\",\"changes\":[\"Added v3 IssueCreate mutation support for title, body, labels, assignees, and milestone through the existing typed GitHub mutation dispatcher.\",\"Added operation-marker based issue-create reconciliation through a read-only issues-by-marker adapter lookup and retained the assigned GitHub issue number in reconciliation and final receipts.\",\"Changed authenticated terminal finish reporting so post-cutover persisted terminal state reports operational_authority=true while pre-cutover persistence denial remains blocked and non-authoritative.\",\"Documented the distinction between local v3 issue state and real GitHub issue creation in csdlc-v3/README.md, including the implemented --execute path.\",\"Created backlog issues #723, #724, and #725 for adjacent v3 defects outside the original #721 implementation surface.\",\"Repaired csdlc-v3 read-only doctor and eligibility route behavior so issue-worktree diagnostics fall back to non-mutating construction reports when operational roots are intentionally invalid for that worktree.\",\"Tightened executable install authority so stable install execution verifies typed cutover approval evidence content and digest and requires exact_head to match the current checkout before invoking the canonical v3 selector/install path.\",\"Extended the same read-only construction fallback to CI environments where the configured operational worktree parent is unavailable, preserving mutation denial while keeping proof and shadow stdout JSON-valid.\",\"Bound executable remote authority to the actual checked-out Git HEAD by rejecting empty, malformed, unavailable, or mismatched exact_review_sha values before operational GitHub mutation dispatch.\",\"Changed command dispatch so github-issue accepts only issue mutations, github-pr accepts only PR mutations, and the generic github route remains the broad GitHub mutation envelope.\",\"Updated root csdlc help so github, github-issue, and github-pr advertise the implemented --execute switch alongside per-command help.\"],\"artifacts\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"csdlc-v3/tests/operational_cli_commands.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"csdlc-v3/README.md\",\".csdlc/evidence/v3-defects/backlog-requests/issue-candidates.md\",\"https://github.com/agent-logic/agent-design-language/issues/723\",\"https://github.com/agent-logic/agent-design-language/issues/724\",\"https://github.com/agent-logic/agent-design-language/issues/725\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"operational_dispatcher\",\"--lib\"],\"purpose\":\"focused executable remote authority regression coverage, including active selector dispatch and forged exact_review_sha rejection\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: 2 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"operational_cli_commands\",\"executable_github_routes_reject_wrong_mutation_family_before_dispatch\"],\"purpose\":\"focused CLI route ownership regression for github-issue and github-pr executable mutation families\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: 1 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"command_manifest\",\"help_exposes_one_binary_command_surface\"],\"purpose\":\"root help regression proving github-issue and github-pr advertise --execute\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: 1 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"CI-equivalent csdlc-v3 full test suite after authority-binding and route ownership repairs\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: all csdlc-v3 lib, binary, integration, and doc tests passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"purpose\":\"Rust formatting\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: fmt check passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Rust lint safety across v3 targets\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: clippy finished successfully\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"exact diff whitespace safety\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output 2026-09-08 in bound worktree: no whitespace errors\"}]}"
     }
   ]
 }

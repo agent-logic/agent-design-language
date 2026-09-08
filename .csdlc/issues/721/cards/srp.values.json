@@ -7,15 +7,15 @@
     "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
     "slug": "csdlc-v3-issue-create-parity",
     "version": "v0.92.1",
-    "generation": 23
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/721/**\n.csdlc/evidence/v3-defects/backlog-requests/**\ncsdlc-v3/README.md\ncsdlc-v3/src/adapters/mod.rs\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/remote/tests.rs\ncsdlc-v3/src/commands/terminal.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ndocs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/**",
-      "review_revision": "git-blake3:d20d23b90df72c6185b9f7b030e45e469a2f1a96:5b649401ee3d81ad08ce1c04c8df124569f32b516c70b0710b950ca74c71ecae",
-      "reviewer": "/root/review_721_ci_repair_retry",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Review whether issue-create can duplicate live issues under retry, timeout, or marker search failure.",
         "Review whether terminal authority reporting is truthful only when canonical v3 authority actually allowed persistence.",
@@ -23,7 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

@@ -13,6 +13,7 @@ use crate::review::{
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
@@ -1077,6 +1078,13 @@ fn verify_canonical_v3_authority(
     expected_lifecycle_digest: Option<&str>,
     exact_review_sha: &str,
 ) -> Result<CanonicalV3AuthorityEvidence, RemoteRouteFinding> {
+    let exact_review_sha = exact_review_sha.trim();
+    if !is_full_git_sha(exact_review_sha) {
+        return Err(remote_finding(
+            "canonical_exact_review_sha_invalid",
+            "operational v3 authority requires a full 40-character exact review SHA",
+        ));
+    }
     let bytes = read_canonical_authority_selector(repo_root)?;
     let selector_digest = stable_digest(&[std::str::from_utf8(&bytes).map_err(|_| {
         remote_finding(
@@ -1100,6 +1108,13 @@ fn verify_canonical_v3_authority(
                 "canonical selector is not active on origin/main",
             )
         })?;
+    let current_head = git_head(repo_root)?;
+    if current_head != exact_review_sha {
+        return Err(remote_finding(
+            "canonical_exact_review_sha_mismatch",
+            "operational v3 authority requires exact_review_sha to match the checked-out Git HEAD",
+        ));
+    }
     Ok(CanonicalV3AuthorityEvidence {
         schema: "csdlc.v3.canonical_authority_evidence.v1".into(),
         selector_path: CANONICAL_AUTHORITY_SELECTOR_PATH.into(),
@@ -1109,6 +1124,45 @@ fn verify_canonical_v3_authority(
         readiness_evidence_digest: selector_digest.clone(),
         approval_evidence_digest: selector_digest,
     })
+}
+
+fn is_full_git_sha(value: &str) -> bool {
+    value.len() == 40 && value.as_bytes().iter().all(u8::is_ascii_hexdigit)
+}
+
+fn git_head(repo_root: &Path) -> Result<String, RemoteRouteFinding> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(repo_root)
+        .arg("rev-parse")
+        .arg("HEAD")
+        .output()
+        .map_err(|_| {
+            remote_finding(
+                "canonical_exact_head_unavailable",
+                "unable to read the checked-out Git HEAD for operational v3 authority",
+            )
+        })?;
+    if !output.status.success() {
+        return Err(remote_finding(
+            "canonical_exact_head_unavailable",
+            "unable to read the checked-out Git HEAD for operational v3 authority",
+        ));
+    }
+    let head = String::from_utf8(output.stdout).map_err(|_| {
+        remote_finding(
+            "canonical_exact_head_unavailable",
+            "checked-out Git HEAD output was not valid UTF-8",
+        )
+    })?;
+    let head = head.trim();
+    if !is_full_git_sha(head) {
+        return Err(remote_finding(
+            "canonical_exact_head_unavailable",
+            "checked-out Git HEAD did not resolve to a full 40-character SHA",
+        ));
+    }
+    Ok(head.to_owned())
 }
 
 fn mutation_credential_name(request: &GithubMutationRequest) -> Result<String, RemoteRouteFinding> {

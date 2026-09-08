@@ -12,9 +12,9 @@ use csdlc_v3::{
     commands::proof::{classify_route, ProofRouteRequest, ProofRouteStatus, PROOF_ROUTE_NAMES},
     commands::remote::{
         dispatch_operational_remote, load_remote_route_receipts, observe_github_pr_readback,
-        prepare_remote_publication_route_with_receipts, OperationalRemoteDispatchRequest,
-        OperationalRemoteOperation, RemoteRouteReceipts, RemoteRouteRequest,
-        REMOTE_PUBLICATION_ROUTE_NAMES,
+        prepare_remote_publication_route_with_receipts, GithubMutation,
+        OperationalRemoteDispatchRequest, OperationalRemoteOperation, RemoteRouteReceipts,
+        RemoteRouteRequest, REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     commands::terminal::{
@@ -28,7 +28,7 @@ use csdlc_v3::{
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github]\n  github-issue --request <path> [--observe-github]\n  github-pr --request <path> [--observe-github]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -376,16 +376,39 @@ fn validate_operational_remote_route(
         (command, operation),
         ("review", OperationalRemoteOperation::Review(_))
             | ("publish", OperationalRemoteOperation::Publish(_))
-            | (
-                "github" | "github-issue" | "github-pr",
-                OperationalRemoteOperation::GithubMutation(_)
-            )
     ) {
         Ok(())
+    } else if let OperationalRemoteOperation::GithubMutation(mutation) = operation {
+        if github_mutation_route_matches(command, &mutation.mutation) {
+            Ok(())
+        } else {
+            Err(format!(
+                "operational_remote_route_mismatch: {command} does not own the requested operation"
+            ))
+        }
     } else {
         Err(format!(
             "operational_remote_route_mismatch: {command} does not own the requested operation"
         ))
+    }
+}
+
+fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bool {
+    match command {
+        "github" => true,
+        "github-issue" => matches!(
+            mutation,
+            GithubMutation::IssueCreate { .. }
+                | GithubMutation::IssueComment { .. }
+                | GithubMutation::IssueEdit { .. }
+        ),
+        "github-pr" => matches!(
+            mutation,
+            GithubMutation::PullRequestCreate { .. }
+                | GithubMutation::PullRequestUpdate { .. }
+                | GithubMutation::PullRequestReady
+        ),
+        _ => false,
     }
 }
 
