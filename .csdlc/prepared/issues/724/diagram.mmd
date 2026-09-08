@@ -1,0 +1,10 @@
+flowchart LR
+    CLI[github-issue create flags] --> Build[Typed dispatch builder]
+    File[Advanced request file] --> Dispatch[Shared operational dispatch]
+    Build --> Dispatch
+    Dispatch --> Gate{v3 authority active?}
+    Gate -->|no| Stop[Fail closed]
+    Gate -->|yes| Intent[Durable intent and marker]
+    Intent --> GitHub[Authenticated GitHub mutation]
+    GitHub --> Readback[Assigned-number readback]
+    Readback --> Receipt[Mutation receipt and reconciliation]

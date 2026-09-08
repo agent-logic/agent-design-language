@@ -1,0 +1,9 @@
+{
+  "issue": 724,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "424b903dcb7582f47c2d0ca60ee23ecc8547ef9129b30b92070a1a15a3418322",
+  "actor": "codex:/root/review_sprint10_523_526_prep",
+  "reason": "Independent design review passed and the issue-owned proving lane is executable.",
+  "operation": {"operation": "advance_phase", "phase": "ready"}
+}

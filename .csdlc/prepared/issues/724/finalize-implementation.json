@@ -1,0 +1,49 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 724,
+  "expected_generation": 5,
+  "expected_digest": "07da322344236d508147f4f4177fdbe85045cf12b3d089cbcf53842b32cb2db0",
+  "actor": "codex:/root/review_sprint10_523_526_prep",
+  "summary": "Implemented one GitHub-like C-SDLC v3 issue-create command that constructs the existing typed dispatch and preserves authority, intent, readback, receipt, and reconciliation behavior.",
+  "changes": [
+    "Added strict title, inline-body/body-file, repeatable label/assignee, milestone, repository, credential-name, exact-head, and execute parsing.",
+    "Projected the simple flags into OperationalRemoteDispatchRequest and the existing GithubMutation::IssueCreate path without an alternate transport.",
+    "Added positive, adversarial, and inactive-authority CLI tests while retaining assigned-number and idempotent reconciliation unit proof.",
+    "Documented the simple command first and the request-file form as the advanced audit interface."
+  ],
+  "artifacts": [
+    "csdlc-v3/src/main.rs",
+    "csdlc-v3/tests/operational_cli_commands.rs",
+    "docs/csdlc-v3/CONTRACT.md",
+    ".csdlc/prepared/issues/724/validate-simple-issue-create.sh"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "issue-724-focused",
+          "proof_role": "Prove strict parsing, typed shared dispatch, inactive-authority refusal, marker/readback/receipt/reconciliation behavior, command manifest compatibility, and diff hygiene.",
+          "purpose": "Issue 724 focused implementation validation",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 2048, "tokens": 1000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "issue-724",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "/bin/bash",
+          "argv": [".csdlc/prepared/issues/724/validate-simple-issue-create.sh", "."],
+          "evidence": {"max_log_bytes": 131072, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["issue-724-focused"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 1, "cpu_units": 2, "memory_mib": 2048, "tokens": 1000},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/724",
+    "cancellation_file": null
+  }
+}

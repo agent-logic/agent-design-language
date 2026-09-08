@@ -1070,10 +1070,12 @@ fn normalize_shadow_output(
             (value.get("issue"), value.get("phase"))
         }
         (ShadowGeneration::V3, ShadowNormalizationContract::DoctorIssuePhaseV1) => {
-            if value["schema"] != "csdlc.v3.local_preparation.v1" || value["command"] != "doctor" {
+            if value["schema"] != "csdlc.v3.local_preparation.v1"
+                || !matches!(value["command"].as_str(), Some("doctor" | "local"))
+            {
                 return Err(finding(
                     "shadow_output_schema_mismatch",
-                    "v3 doctor output must use the typed local preparation schema",
+                    "v3 diagnostic output must use the typed local preparation schema",
                 ));
             }
             (

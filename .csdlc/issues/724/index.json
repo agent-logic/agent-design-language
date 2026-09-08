@@ -1,0 +1,301 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 724,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c1c9b38177c83ecbfd2ffee308cd8dd8ff5c49387f7452c89fa2ede6fd538bbc",
+  "phase": "published",
+  "generation": 13,
+  "digest": "52aeedde36fad1d4857374bbb01dd9819c310d61cb43af8d536de35a506c41f3",
+  "branch": "codex/724-simple-gh-style-issue-create",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-724-simple-gh-style-issue-create",
+  "review_assignment": {
+    "reviewer": "codex:/root/execute_aws_727_728",
+    "assigned_by": "codex:/root/review_sprint10_523_526_prep",
+    "revision": "git-blake3:3945a31a74b2202325b4752a8c0d5ee64b41092b:3cbedaf78cf28ad9f6003f57c2fd34e861842abdd56db3231608071e70065bb2",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "docs/csdlc-v3/CONTRACT.md",
+      ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+      ".csdlc/evidence/724"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/execute_aws_727_728",
+    "scope": [
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/commands/remote",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "docs/csdlc-v3/CONTRACT.md",
+      ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+      ".csdlc/evidence/724"
+    ],
+    "reviewed_revision": "git-blake3:3945a31a74b2202325b4752a8c0d5ee64b41092b:3cbedaf78cf28ad9f6003f57c2fd34e861842abdd56db3231608071e70065bb2",
+    "findings": [],
+    "residual_risks": [
+      "The exact-head review was read-only; no live GitHub issue creation was performed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 724,
+    "pull_request": 734,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/734",
+    "base": "main",
+    "head": "codex/724-simple-gh-style-issue-create",
+    "revision": "git-blake3:5a4b33bb925afefc37737f9913610967a23609e0:71e2e42e3ad4f5f5e16ea8627fa896a06fb8c0604e6dd49ff31a65208b81460d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/724/design.md",
+  "diagram_path": ".csdlc/prepared/issues/724/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "9f70832f8e8ebe716f4762a37a2dbd06fed82a0904a9ada33818166a8991f7d2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6621cca215132adc09212351f840e6d011a479743d8e16f7eba0f8f84583f718",
+      "rendered_digest": "34ec01f810c9e77a98bebc945623c08d8821d0f67df1809f907c0ecc26c997c7",
+      "ast_digest": "61a35ea7a1c13c45aeb7b30eb119805e8f894bdd20171d6fe192940272b2ae9a"
+    },
+    "stp": {
+      "values_digest": "5ec054091421c7f2c80ce8faf168859b388139d842e513099fa56124b33ceb15",
+      "rendered_digest": "1180df3dd3b4c230b91efea3bd1dca95c04bd4203bce72c5c86cced76bc47146",
+      "ast_digest": "aeddd34f4fa4d92cdcd8ceedccce96e76eab27700cbddc3cb78460e33cc37ed4"
+    },
+    "spp": {
+      "values_digest": "b09e251d8be62a711271c61f931b769d25a15da1fd1ffdc8adf3dd760cd794df",
+      "rendered_digest": "7f965babf18d8038a78ec35014e743b92e46411ea16c7e126d6314874771ee7d",
+      "ast_digest": "33b655fd5e7e0c879c851be5f1fc7e57f362b109137251b0eb9fbea572484623"
+    },
+    "vpp": {
+      "values_digest": "9fc5a2e1299d5ff053fdf44049f57a7c5f49f333298a12c334af88a55a2ba4e1",
+      "rendered_digest": "03326d5d3dad3646e56b78efab6f82a8384adc754201d11440c58d1f917c9d04",
+      "ast_digest": "a2a328fe8838e0090b2f25746e16d548e7cdd4d2e4f616aa967eea750de696c8"
+    },
+    "srp": {
+      "values_digest": "4fd3f531a2058accd52ba59e8da4b8edd99f335811fc5bb36a82084f15b9458c",
+      "rendered_digest": "4c0dd7a02eff601c75563e237c3da15a795ccecd1d6ca34b14123702a3a59a47",
+      "ast_digest": "b4a0076bc050673f3a2ed7aeab4a3349529dfa5ae83d69d52f9db0223acfe67a"
+    },
+    "sor": {
+      "values_digest": "7cdf7ead82e8a53bf679fac91768f7baad937a42e4f7d491cc40cbf9c6e51c58",
+      "rendered_digest": "0261b14113f08bd89394356f7471a0378ed4c192a701e2d5eb4dad971b78304f",
+      "ast_digest": "ad8c0e3330a39a1d487c72daccd59f52f2d87fa0b332f7aff39ab8e51c29267f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Independent design review passed and the issue-owned proving lane is executable."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Recover reviewed state after committing the typed assignment and review record advanced HEAD; refresh independent review at the exact metadata-only head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Recover stale review and publication after current-main alignment and restore all independently reviewed authority safeguards."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Bind readiness to exact repository-owned implementation and issue paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/remote\",\"csdlc-v3/tests\",\"docs/csdlc-v3\",\".csdlc/prepared/issues/724\",\".csdlc/issues/724\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Use one executable issue-owned focused validator that proves all declared command behaviors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-724-focused\",\"proof_role\":\"Prove strict parsing, typed shared dispatch, fail-closed authority, marker/readback/receipt/reconciliation behavior, command manifest compatibility, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/724/validate-simple-issue-create.sh\",\".\"],\"parallel_group\":\"issue-724\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"9f70832f8e8ebe716f4762a37a2dbd06fed82a0904a9ada33818166a8991f7d2\",\"design_ref\":\".csdlc/prepared/issues/724/design.md\",\"diagram_digest\":\"0de98c5c80c32970c592ce2b55e761fb9b1a148e25027858ce833f7ff46bb3ee\",\"diagram_ref\":\".csdlc/prepared/issues/724/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Name the issue-owned executable validator as an exact governed path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/main.rs\",\"csdlc-v3/src/commands/remote\",\"csdlc-v3/tests\",\"docs/csdlc-v3\",\".csdlc/prepared/issues/724/validate-simple-issue-create.sh\",\".csdlc/issues/724\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Independent design review passed and the issue-owned proving lane is executable.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Recover reviewed state after committing the typed assignment and review record advanced HEAD; refresh independent review at the exact metadata-only head before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Recover stale review and publication after current-main alignment and restore all independently reviewed authority safeguards.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

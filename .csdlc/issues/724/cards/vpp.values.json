@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 724,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
+    "slug": "simple-gh-style-issue-create",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-724-focused",
+          "proof_role": "Prove strict parsing, typed shared dispatch, fail-closed authority, marker/readback/receipt/reconciliation behavior, command manifest compatibility, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+            "."
+          ],
+          "parallel_group": "issue-724",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on ambiguous inputs, inactive authority, unresolved authority metadata, alternate transport, absent readback, or incomplete receipt/reconciliation proof.",
+      "design_ref": ".csdlc/prepared/issues/724/design.md",
+      "design_digest": "9f70832f8e8ebe716f4762a37a2dbd06fed82a0904a9ada33818166a8991f7d2",
+      "diagram_ref": ".csdlc/prepared/issues/724/diagram.mmd",
+      "diagram_digest": "0de98c5c80c32970c592ce2b55e761fb9b1a148e25027858ce833f7ff46bb3ee"
+    }
+  }
+}

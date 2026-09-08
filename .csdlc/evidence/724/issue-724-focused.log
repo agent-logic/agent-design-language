@@ -1,0 +1,57 @@
+
+running 12 tests
+test review_route_rejects_self_review_even_with_whitespace ... ok
+test authenticated_github_observation_requires_title_readback_for_pr_identity ... ok
+test github_pr_receipt_rejects_titleless_request_and_receipt_pair ... ok
+test pr_state_rejects_unexpected_observed_closing_issue_references ... ok
+test github_pr_receipt_binds_observed_title_not_caller_title ... ok
+test publication_rejects_unexpected_closing_issue_references ... ok
+test authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json ... ok
+test cli_receipt_loader_rejects_disposable_target_receipts ... ok
+test publish_route_requires_current_review_and_closing_relation ... ok
+test pr_state_route_rejects_caller_forged_readback ... ok
+test cli_observe_github_fails_before_network_without_an_explicit_credential_name ... ok
+test remote_publication_routes_are_typed_and_non_authoritative ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 9 tests
+test simple_issue_create_projects_github_style_flags_into_typed_dispatch ... ok
+test v2_selector_keeps_named_local_cli_in_construction_mode ... ok
+test proof_and_rollback_commands_reach_real_handlers ... ok
+test simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input ... ok
+test remote_operational_dispatch_is_reachable_and_fails_closed_under_v2_selector ... ok
+test simple_issue_create_execute_fails_closed_under_v2_authority ... ok
+test edit_recovers_after_process_exit_between_directory_swaps ... ok
+test bind_recovers_after_branch_creation_before_worktree_registration ... ok
+test bind_recovers_after_process_exit_following_git_side_effect ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.48s
+
+
+running 6 tests
+test tracked_command_denominators_match_cli_surface_and_cutover_boundary ... ok
+test help_exposes_one_binary_command_surface ... ok
+test implemented_terminal_routes_expose_non_authoritative_help ... ok
+test issue_631_routes_are_implemented_construction_not_live_authority ... ok
+test implemented_remote_publication_routes_expose_non_authoritative_help ... ok
+test implemented_local_routes_expose_non_authoritative_help ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 1 test
+test commands::remote::tests::issue_create_mutation_posts_and_reconciles_assigned_issue_number ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 36 filtered out; finished in 0.06s
+
+issue 724 focused validation passed
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-9fee2ef16f35678c)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-ac89a2358fe22537)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/command_manifest.rs (csdlc-v3/target/debug/deps/command_manifest-75422503c9bb3f05)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2cf0d1874312857)

@@ -261,7 +261,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
         "generation": "v3",
         "binary_ref": repo_local_v3_binary_ref(),
         "argv": [
-            "doctor", "--request", request_ref,
+            "local", "--request", request_ref,
             "--registry", "docs/templates/prompts/current.json",
             "--registrations", registrations_ref,
             "--repo-root", "."
@@ -474,7 +474,7 @@ fn proof_route_retains_a_deterministic_native_receipt() {
 }
 
 #[test]
-fn shadow_route_executes_real_typed_v2_and_v3_doctor_commands() {
+fn shadow_route_executes_real_v2_doctor_and_v3_local_preparation_commands() {
     let _scratch = ScratchGuard::new();
     let root = binary_repo_root();
     let value = run_route_value(

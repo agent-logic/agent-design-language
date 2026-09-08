@@ -109,6 +109,40 @@ A routine three-issue sprint must be mechanically prepared and made ready in
 three minutes or less, not hours. Hand-authored lifecycle JSON and repeated
 digest choreography are not acceptable as the default operator experience.
 
+## Simple issue creation
+
+For ordinary issue creation, use the GitHub-like form:
+
+```sh
+csdlc github-issue create \
+  --repo agent-logic/agent-design-language \
+  --title "One bounded outcome" \
+  --body-file issue.md \
+  --label type:task \
+  --milestone 1 \
+  --expected-head <exact-reviewed-40-hex-sha> \
+  --execute
+```
+
+`--body` may replace `--body-file`; using both or neither fails before any
+remote action. `--label` and `--assignee` are repeatable. The credential name
+defaults to `GITHUB_TOKEN` and may be selected with `--credential-name`; a
+credential value is never accepted as an argument.
+
+The simple form builds the same typed operational dispatch used by the
+request-file interface. It therefore retains the canonical v3 authority gate,
+durable intent and operation marker, authenticated readback, assigned issue
+number, mutation receipt, and idempotent reconciliation. Omitting `--execute`
+prints the typed request without mutation. Execution fails closed unless the
+repository's canonical selector grants v3 operational authority at the exact
+reviewed head.
+
+The request-file form remains the advanced and audit-oriented interface:
+
+```sh
+csdlc github-issue --request issue-create-dispatch.json --execute
+```
+
 ## Rollback and fail-closed behavior
 
 - v2 is the retained rollback target after V3-F; rollback requires explicit
