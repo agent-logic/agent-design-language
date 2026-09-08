@@ -11,6 +11,9 @@ once as a reviewed fix or explicit owned deferral.
 separately reviewable change; the ledger cannot erase or silently defer work.
 
 The source census is parsed from the digest-verified #520 and #521 review
-reports. A packet-authored list cannot add, omit, or rename finding IDs.
-Fixed dispositions require digest-verified machine-readable validation and
-review results that both report pass at the exact remediated head.
+reports read from their live-verified exact merge commits. A packet-authored
+list cannot add, omit, rename, downgrade, or rewrite finding content. Fixed
+dispositions require digest-verified machine-readable validation and review
+results that both report pass at the exact remediated head. Deferral eligibility
+is derived from source severity, status, and release-blocking flags; a
+disposition cannot self-attest a blocker as non-blocking.

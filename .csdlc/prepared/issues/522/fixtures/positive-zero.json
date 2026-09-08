@@ -1,1 +1,1 @@
-{"parsed_source_findings":[],"source_findings":[],"source_reviews":[{"candidate_sha":"a","reviewed_revision":"a","outcome":"passed"}],"zero_findings_proof":["#520 and #521 reports both completed with zero findings"],"dispositions":[],"evidence":[],"unresolved_blockers":[]}
+{"parsed_source_findings":[],"source_findings":[],"source_reviews":[{"merged":true,"candidate_sha":"a","reviewed_revision":"a","outcome":"passed"}],"zero_findings_proof":["#520 and #521 reports both completed with zero findings"],"dispositions":[],"evidence":[],"unresolved_blockers":[]}
