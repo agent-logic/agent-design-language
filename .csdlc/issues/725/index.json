@@ -5,10 +5,19 @@
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
   "generation": 12,
-  "digest": "0ec97e93f2c4cbeb53a33473859ade6d8259f59c05d98271f92f1d14d8a195d8",
+  "digest": "1ce7e64602619e473b344f146db342adbbba190f25cbac96fd6dd7d4fa11de84",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:execute-aws-727-728-r5",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:be6823c601030d714e45a09c8d0b5e8c138c378a:bd56f7b5bb2b8c9f4c1ea9e31ee62cd7a7d572ccdb4e0bcef086374ec7e21d9b",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3/CONTRACT.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "93964f94c083f5c4863b750ed33f48a481c64b257f7a09855c59b8000323073b",
-      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
-      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
+      "values_digest": "c1fc7a2b75c864eb5b4e531fe9fe18a92f18074626becbf1cea79ed4f2447475",
+      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
+      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
     },
     "sor": {
       "values_digest": "e28e8f2784e5591d75e4a25023216293eb23c4498f0f6dbf2979e73ca545b334",
@@ -238,6 +247,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "repair exact-head review findings: authenticate native authority provenance, align post-cutover contract surfaces, and add checked-in activation proof",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
