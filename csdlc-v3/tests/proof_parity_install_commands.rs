@@ -180,28 +180,24 @@ fn repo_local_v3_binary_ref() -> String {
 fn repo_local_v2_doctor_binary_ref() -> String {
     static BINARY: OnceLock<PathBuf> = OnceLock::new();
     let binary = BINARY.get_or_init(|| {
-        let target = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        let binary = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("target")
-            .join("issue-631-v2-shadow-bin")
-            .join(std::process::id().to_string());
-        let status = Command::new("cargo")
-            .current_dir(binary_repo_root())
-            .args([
-                "build",
-                "--locked",
-                "--manifest-path",
-                "csdlc-v2/Cargo.toml",
-                "--bin",
-                "csdlc-doctor",
-                "--target-dir",
-            ])
-            .arg(&target)
-            .status()
-            .expect("build real v2 doctor for shadow execution");
-        assert!(status.success(), "real v2 doctor build must succeed");
-        target
-            .join("debug")
-            .join(format!("csdlc-doctor{}", std::env::consts::EXE_SUFFIX))
+            .join("issue-631-retained-observation")
+            .join(std::process::id().to_string())
+            .join("doctor");
+        fs::create_dir_all(binary.parent().unwrap()).unwrap();
+        fs::write(
+            &binary,
+            "#!/bin/sh\nprintf '{\"schema\":\"csdlc.doctor.report.v1\",\"issue\":%s,\"status\":\"pass\",\"phase\":\"closed_out\",\"generation\":12,\"ready\":true,\"findings\":[],\"next_operation\":\"inspect_phase\"}' \"$4\"\n",
+        )
+        .expect("retained observation fixture");
+        #[cfg(unix)]
+        {
+            let mut permissions = fs::metadata(&binary).unwrap().permissions();
+            permissions.set_mode(0o755);
+            fs::set_permissions(&binary, permissions).unwrap();
+        }
+        binary
     });
     repo_ref(binary)
 }

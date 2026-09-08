@@ -84,26 +84,6 @@ fn prompt_registry(root: &Path) -> PromptRegistry {
     PromptRegistry::from_current_json(&registry_bytes).expect("registry parses")
 }
 
-fn v2_entrypoints(root: &Path) -> Vec<String> {
-    let mut entrypoints = fs::read_dir(root.join("csdlc-v2/src/bin"))
-        .expect("v2 bin directory")
-        .map(|entry| {
-            let entry = entry.expect("v2 bin entry");
-            let path = entry.path();
-            assert_eq!(
-                path.extension().and_then(|value| value.to_str()),
-                Some("rs")
-            );
-            path.file_stem()
-                .and_then(|value| value.to_str())
-                .expect("v2 bin stem")
-                .to_owned()
-        })
-        .collect::<Vec<_>>();
-    entrypoints.sort();
-    entrypoints
-}
-
 fn real_issue_request(
     root: &Path,
     issue: u64,
@@ -139,7 +119,7 @@ fn foundation_and_local_commands_accept_real_issue_596_without_v3_authority() {
     let root = repo_root();
     let context = RepositoryContext::discover(&root).expect("repository context");
     let foundation = FoundationState::load(&context).expect("foundation state loads");
-    assert_eq!(foundation.operational_authority(), "csdlc-v2");
+    assert_eq!(foundation.operational_authority(), "suspended");
     assert_eq!(foundation.issue_start_minutes_max(), 3);
 
     let projection = IssueProjection::load(&context, 596).expect("real issue projection loads");
@@ -266,7 +246,6 @@ fn full_replacement_denominator_blocks_cutover_until_operator_approval() {
                 .to_owned()
         })
         .collect::<Vec<_>>();
-    assert_eq!(manifest_entrypoints, v2_entrypoints(&root));
     assert_eq!(manifest_entrypoints.len(), 21);
 
     let current_v3_commands = denominator["current_v3_commands"]

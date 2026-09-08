@@ -17,7 +17,7 @@ use std::process::Command;
 
 const GITHUB_READ_ONLY_ADAPTER: &str = "github-api-read-only";
 const GITHUB_OPERATIONAL_ADAPTER: &str = "github-api-operational";
-const CANONICAL_AUTHORITY_SELECTOR_PATH: &str = "csdlc-v2/operator/generation-selector.json";
+const CANONICAL_AUTHORITY_SELECTOR_PATH: &str = crate::authority::SELECTOR_PATH;
 const GITHUB_OPERATION_MARKER_PREFIX: &str = "csdlc-v3-operation";
 
 pub const REMOTE_PUBLICATION_ROUTE_NAMES: [&str; 6] = [

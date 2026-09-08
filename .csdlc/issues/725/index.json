@@ -1,0 +1,450 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 725,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
+  "phase": "published",
+  "generation": 23,
+  "digest": "8b8d07f65fdbb859a133997fe78c7ff02e4db45ac5459a7230023cdefdbbfbc6",
+  "branch": "codex/725-csdlc-v3-native-authority",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
+  "review_assignment": {
+    "reviewer": "fresh-session:review-sprint10-523-526-prep-r10",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:be618995b15cee423fec9a2e24b7e08c646d6cf5:8bf32670ce2c796ba78068e42423a79ee64f191a1ed8a1b2bfc6e8f91f5972c0",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3/CONTRACT.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:review-sprint10-523-526-prep-r10",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3/CONTRACT.md"
+    ],
+    "reviewed_revision": "git-blake3:be618995b15cee423fec9a2e24b7e08c646d6cf5:8bf32670ce2c796ba78068e42423a79ee64f191a1ed8a1b2bfc6e8f91f5972c0",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 725,
+    "pull_request": 732,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/732",
+    "base": "main",
+    "head": "codex/725-csdlc-v3-native-authority",
+    "revision": "git-blake3:2907638a9ed67b9df78d3f9dabdf5784c7687a4f:fbdff5148370cdf059c15e8e130d02b07b04025f9aaec369271259b82efa5980",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".adl/requests/725-design.md",
+  "diagram_path": ".adl/requests/725-diagram.md",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator-directed-remediation",
+      "revision": "e9541aa96765297962e87486eac521bfb12c82e68c701640b32210ec6fb641cd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6a11a7eeb894016b2c75a0c201ab1d34c683dfd7d8abbf338332b1a075605cf2",
+      "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
+      "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
+    },
+    "stp": {
+      "values_digest": "20ac404548197cbf82d03b7acd04ff28a97441f24e5b36b553659aba580a220e",
+      "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
+      "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
+    },
+    "spp": {
+      "values_digest": "441a8a772110b0f50c615bd2c8549a944e6a396574dbbe33b87f8838123f8729",
+      "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
+      "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
+    },
+    "vpp": {
+      "values_digest": "04c2fc3ea6a4f43275bde4a8919d3fd51db84417d661a8f679a73b02ac8c4e08",
+      "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
+      "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
+    },
+    "srp": {
+      "values_digest": "ff7b10dc31d895a8a2b0a7a3924e85a545e8a31e2c81545e49d3e2169eeaf61c",
+      "rendered_digest": "f5acbc861a311a7ce8636cf25a78d69ad66b2c2b57a7113aade1e5b6e1c58058",
+      "ast_digest": "f44c5c683ce57cfe681037d04c9756b4b18e1fef237911447631df891dce5771"
+    },
+    "sor": {
+      "values_digest": "1835fea4d347440bb1c0af499ae25440425abcbfbb9b3f6f97e210e51d358d02",
+      "rendered_digest": "2f2196f130bb0f7246737de259689bc7b7eda42671fb1837d4d709cd05dbca61",
+      "ast_digest": "aa9881a54fd24242342597ceb8790f0573c2eb4ea82fb384e8b222100413b8b0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-remediate-v3-725",
+      "reason": "advance issue 725 after typed doctor passed with a complete proving denominator"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-remediate-v3-725",
+      "reason": "advance issue 725 after standalone no-v2 compile and native authority tests passed"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair exact-head review findings: authenticate native authority provenance, align post-cutover contract surfaces, and add checked-in activation proof"
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "align PR 732 with current origin/main after merge conflict and refresh exact-head review"
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair hosted standalone fixture for closed PR reviewed head absent from fresh clone and add missing merge object fail-closed proof"
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-remediate-v3-725",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-remediate-v3-725",
+      "reason": "replace unroutable proposed module paths with existing repository-owned surfaces",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/README.md\",\".github/workflows/ci.yml\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-remediate-v3-725",
+      "reason": "advance issue 725 after typed doctor passed with a complete proving denominator",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-remediate-v3-725",
+      "reason": "record issue 725 implementation at eaf71785c",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Migrated operational C-SDLC v3 authority to a native selector and digest-bound receipt and removed the csdlc-v2 Cargo dependency.\",\"changes\":[\"Added native v3 authority selector and cutover provenance receipt.\",\"Migrated local, remote, proof/install, and terminal authority reads to the native selector.\",\"Replaced the v2-generated exact-head review test fixture with a native typed review receipt.\",\"Removed the csdlc-v2 dev-dependency and regenerated the standalone lockfile.\",\"Documented one-way post-cutover migration and explicit fail-closed rollback.\"],\"artifacts\":[\"csdlc-v3/operator/authority-selector.json\",\"csdlc-v3/operator/native-authority-receipt.json\",\"csdlc-v3/src/authority.rs\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/README.md\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-remediate-v3-725",
+      "reason": "record true no-v2 fresh archive compilation proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"fresh archive compile with csdlc-v2 physically absent\",\"outcome\":\"passed\",\"evidence_ref\":\"repo-local .adl/canary-725 output; no-v2 all-target compile passed at eaf71785c\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex-remediate-v3-725",
+      "reason": "record no-v2 native authority library proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--lib\"],\"purpose\":\"native authority, install and authenticated reconciliation behavior without v2 source\",\"outcome\":\"passed\",\"evidence_ref\":\"fresh repo-local .adl/canary-725 checkout; 36 passed at eaf71785c\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-remediate-v3-725",
+      "reason": "advance issue 725 after standalone no-v2 compile and native authority tests passed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair exact-head review findings: authenticate native authority provenance, align post-cutover contract surfaces, and add checked-in activation proof",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair review P1 by binding reviewed head and merge commit to a canonical authenticated PR 591 observation and rejecting a different real commit",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "replace summarized PR provenance with exact authenticated typed csdlc-github-pr state bytes before final review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "refresh review after test-only post-merge clone no-op commit portability correction",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 15,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "align PR 732 with current origin/main after merge conflict and refresh exact-head review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 18,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "repair hosted standalone fixture for closed PR reviewed head absent from fresh clone and add missing merge object fail-closed proof",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 21,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

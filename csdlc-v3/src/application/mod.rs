@@ -84,7 +84,7 @@ impl FoundationState {
             })?;
         require_contains(
             &contract,
-            "v2 remains the sole operational authority",
+            "v3 is the operational authority after the merged V3-F cutover",
             "contract authority boundary",
         )?;
         require_contains(
@@ -99,7 +99,12 @@ impl FoundationState {
         )?;
         Ok(Self {
             repository_root: context.root().to_string_lossy().into_owned(),
-            operational_authority: crate::operational_authority().to_owned(),
+            operational_authority: crate::operational_authority(context.root())
+                .map_err(|message| FoundationError::InvalidProjection {
+                    label: "native authority",
+                    message,
+                })?
+                .to_owned(),
             contract_path: context.relative_display(context.contract_path()),
             predecessor_coverage_path: context
                 .relative_display(context.predecessor_coverage_path()),

@@ -1,31 +1,29 @@
 # ADL Agent Guidelines
 
-## Final C-SDLC v2 authority (Gate 10D2)
+## C-SDLC v3 authority after V3-F
 
 The v1 C-SDLC command wrappers, `pr.sh` lifecycle wrappers, prompt-template
-wrappers, and `csdlc-import` binary are sunset. For C-SDLC work, the sole
-operational authority is the independent Rust v2 binary set under
-`csdlc-v2/`, routed through the typed skills in `csdlc-v2/operator/skills/`,
-until an explicit operator-reviewed V3-F/#505 cutover changes that contract.
-Use the typed v2 binaries and do not invoke the removed v1 wrappers. The final
+wrappers, and `csdlc-import` binary are sunset. PR #591 merged the explicit
+operator-reviewed V3-F/#505 cutover on 2026-09-07. C-SDLC v3 is now the
+operational authority when its canonical native selector and authenticated
+reconciliation receipt validate; missing or stale proof suspends authority.
+Typed v2 may be used only for an explicitly authorized rollback or bounded
+transition remediation such as issue #725. The final
 coexistence inventory explicitly records `v1_sunset`; historical Gate 10A-C
 records remain immutable evidence and are not an instruction to retain deleted
 binaries. Issue ownership is derived from the bound Git branch and worktree;
 claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
-C-SDLC v3 is construction and cutover-readiness evidence only before that
-cutover; it must not bind, publish, finish, clean, mutate GitHub, retire v2, or
-assert operational control. Prepared v3 issue start should be inspectable,
+C-SDLC v3 was construction and cutover-readiness evidence only before that
+cutover. Prepared v3 issue start should be inspectable,
 bindable, and ready for first useful work in three minutes or less once its
-dependencies are satisfied, while preserving typed v2 guards and review truth.
+dependencies are satisfied, while preserving typed authority guards and review truth.
 
-## Pending C-SDLC tooling changeover notice
+## Completed C-SDLC tooling changeover
 
-Issue #505 is the sole V3-F transition-decision lane for this change. Until
-#505 is reviewed and PR #591 is explicitly operator-approved and merged,
-C-SDLC v2 remains the live authority described above. Merging PR #591 is the
-atomic authority cutover; terminal reconciliation records the completed
-transition afterward. Before that merge, C-SDLC v3 is construction and
-cutover evidence only.
+Issue #505 was the sole V3-F transition-decision lane. PR #591 is merged and
+#505 has terminal reconciliation, so the atomic authority cutover is complete.
+The pre-merge v2 authority boundary remains immutable historical evidence, not
+current routing guidance.
 
 Before changing the default lifecycle route, operators and agents must be
 notified through `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and the typed
@@ -62,9 +60,9 @@ These are the four behavioral principles at the center of this file.
 
 These rules are mandatory for ADL issue work.
 
-1. Use the typed v2 C-SDLC route for C-SDLC issues and lifecycle stages.
+1. Use the typed C-SDLC v3 route for C-SDLC issues and lifecycle stages.
    - `workflow-conductor` and repo-native `pr.sh` are historical v1 routes and
-     are not valid C-SDLC v2 lifecycle commands.
+     are not valid C-SDLC lifecycle commands.
    - GitHub operations should use the shared token resolver. When an explicit
      token-file source is needed, use
      `ADL_GITHUB_TOKEN_FILE=$HOME/keys/github.token`. Never print, copy,
@@ -80,7 +78,7 @@ These rules are mandatory for ADL issue work.
      below. A missing binary, unfamiliar error, timeout, or operator preference
      is not by itself break-glass authority.
    - Audited raw-`gh` break-glass transport:
-     - Typed C-SDLC v2 remains the default and final lifecycle authority. This
+     - The active typed C-SDLC authority remains the default and final lifecycle authority. This
        exception is available only for a confirmed, reproducible tooling regression
        in the applicable typed GitHub owner, recorded in a durable tooling-regression issue
        with safe reproduction evidence.
@@ -158,10 +156,10 @@ These rules are mandatory for ADL issue work.
 3. Always work in a bound worktree on a specific branch.
    - Never do tracked issue work on `main`.
    - Every new ADL issue worktree must be created beneath
-     `/Volumes/FastWork/adl-worktrees`. The typed v2 bind path enforces the
+     `/Volumes/FastWork/adl-worktrees`. The typed v3 bind path enforces the
      tracked `.adl/worktree-policy.json` contract and fails closed for any
      other parent.
-   - Use the v2 `csdlc-bind` flow to bind execution context.
+   - Use the native v3 `csdlc bind` flow to bind execution context.
    - Keep the primary checkout clean on `main` for inspection, bootstrap,
      doctor/readiness, and issue-mode binding only. After binding, tracked
      implementation, janitor, finish, and repair edits happen in the issue
@@ -169,7 +167,7 @@ These rules are mandatory for ADL issue work.
    - Before issue work, check root `git status --short --branch` and
      `git worktree list --porcelain`. If the primary checkout is on a feature
      branch or has tracked changes, stop and route the recovery through
-     typed v2 `csdlc-doctor` / `csdlc-bind` evidence when
+     typed v3 `csdlc doctor` / `csdlc bind` evidence when
      available. Use only the narrowest manual fallback needed to preserve work
      into an issue worktree and restore the primary checkout to clean `main`.
    - See `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for
@@ -203,14 +201,16 @@ These rules are mandatory for ADL issue work.
 
 ## Repository-Specific Working Style
 
-### C-SDLC v2 coexistence (Gate 10A)
+### C-SDLC post-cutover authority
 
-- Generation authority is `csdlc-v2/operator/generation-selector.json`. Gate 10A-C records are historical; Gate 10D2 is the current final `v1_sunset` authority.
-- That v2 authority remains live only until explicit V3-F/#505 cutover. Until
-  then, `csdlc-v3/**` is non-authoritative construction evidence for a clean
-  replacement line, not an operational lifecycle route.
-- Explicit v2 work routes through the eleven typed contracts under `csdlc-v2/operator/skills/`; those skills delegate to Rust binaries and never mutate Markdown/state directly.
-- Resolve every current lifecycle route through `csdlc-install resolve`, which reads that selector as the sole authority. Install v2 only into the dedicated `.adl/bin/csdlc-v2/` generation directory; the final verifier also fails if forbidden v1 paths reappear.
+- Generation authority is `csdlc-v3/operator/authority-selector.json`, validated
+  with its native receipt, terminal reconciliation, and Git objects against
+  canonical `origin/main` bytes.
+- Gate 10A-D2 and the former v2 selector are historical pre-cutover evidence.
+- Explicitly authorized rollback or transition-remediation work may still use
+  the retained typed v2 contracts without making v2 the default authority.
+- Resolve current lifecycle commands through the native v3 authority contract;
+  do not read the former v2 generation selector as an operational substrate.
 - Historical rollback and recovery proofs remain immutable evidence. The exact D2 approval authorizes the completed v1 command-surface sunset; retained session ownership remains a shared invariant.
 
 - ADL is deterministic by design. Do not introduce hidden state, undeclared
@@ -275,7 +275,8 @@ These rules are mandatory for ADL issue work.
 For a normal tracked issue:
 
 1. read the source issue prompt and current task bundle
-2. route through the typed v2 C-SDLC skill and binary for C-SDLC issues
+2. route through the typed v3 C-SDLC skill and binary for C-SDLC issues, except
+   for an explicitly authorized rollback or bounded transition remediation
 3. confirm the primary checkout is clean on `main`, inspect active worktrees,
    and preserve any session handoff or collision evidence before binding work
 4. confirm all six C-SDLC cards exist and came from the active prompt-template
