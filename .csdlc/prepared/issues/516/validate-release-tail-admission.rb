@@ -10,6 +10,16 @@ abort("usage: #{$PROGRAM_NAME} [denominator|gaps|decision|admitted|negative|all]
 def load_json(path)
   JSON.parse(path.read)
 end
+def committed_content!(entry)
+  revision=entry.fetch("revision"); path=entry.fetch("path")
+  raise "generated evidence revision invalid" unless revision.match?(/\A[0-9a-f]{40}\z/) && system("git","merge-base","--is-ancestor",revision,"HEAD",chdir:ROOT.to_s,out:File::NULL,err:File::NULL)
+  content,_err,status=Open3.capture3("git","show","#{revision}:#{path}",chdir:ROOT.to_s)
+  raise "generated evidence missing at bound revision" unless status.success?
+  raise "generated evidence digest/size drift" unless Digest::SHA256.hexdigest(content)==entry["sha256"] && content.bytesize==entry["bytes"]
+  blob,_blob_err,blob_status=Open3.capture3("git","rev-parse","#{revision}:#{path}",chdir:ROOT.to_s)
+  raise "generated evidence blob drift" unless blob_status.success? && blob.strip==entry["candidate_blob"]
+  content
+end
 def validate_receipts!(source, admission)
   expected={
     "release-tail-denominator.log"=>"denominator",
@@ -47,9 +57,12 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     blob,_blob_err,blob_status=Open3.capture3("git","rev-parse","#{source.fetch('candidate')}:#{entry.fetch('path')}",chdir:ROOT.to_s)
     raise "planning source blob drift" unless blob_status.success? && blob.strip==entry["candidate_blob"]
   end
-  canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-#{source.fetch('candidate')[0,8]}.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
+  generated=source.fetch("generated_evidence"); expected_generated=[".csdlc/evidence/516/semantic-criterion-evidence.json",".csdlc/evidence/516/no-v2-canary-#{source.fetch('candidate')[0,8]}.json",".csdlc/evidence/516/no-v2-canary-#{source.fetch('candidate')[0,8]}.stderr.log"]
+  raise "generated evidence denominator mismatch" unless generated.map{|e|e["path"]}.sort==expected_generated.sort
+  generated_content=generated.to_h{|entry|[entry.fetch("path"),committed_content!(entry)]}
+  canary=JSON.parse(generated_content.fetch(expected_generated[1])); stderr_entry=canary.fetch("sanitized_stderr")
   raise "no-v2 canary identity/status invalid" unless canary["schema"]=="adl.v0921.no_v2_canary.v2" && canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==725 && canary["exit_status"]==0 && canary["csdlc_v2_present_during_command"]==false
-  raise "no-v2 canary output missing/drifted" unless stderr_path.file? && Digest::SHA256.file(stderr_path).hexdigest==stderr_entry["sha256"]
+  raise "no-v2 canary output missing/drifted" unless Digest::SHA256.hexdigest(generated_content.fetch(expected_generated[2]))==stderr_entry["sha256"]
   expected_sources=["csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/commands/remote/mod.rs"]; raise "no-v2 canary source census mismatch" unless canary["source_dependencies"]==expected_sources
   source_contents=expected_sources.to_h do |path|
     content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{path}",chdir:ROOT.to_s)
@@ -59,8 +72,8 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "manifest still depends on v2" if source_contents.fetch(expected_sources[0]).include?('csdlc-v2 = { path = "../csdlc-v2" }')
   raise "authority still depends on v2 selector" if source_contents.fetch(expected_sources[1]).include?("csdlc-v2/operator/generation-selector.json")
   raise "remote route still depends on v2 selector" if source_contents.fetch(expected_sources[2]).include?("csdlc-v2/operator/generation-selector.json")
-  semantic=load_json(ROOT.join(".csdlc/evidence/516/semantic-criterion-evidence.json")); raise "semantic manifest candidate mismatch" unless semantic["candidate"]==source["candidate"]
-  semantic_source=source.fetch("semantic_evidence"); raise "semantic manifest source identity mismatch" unless semantic_source["path"]==".csdlc/evidence/516/semantic-criterion-evidence.json" && Digest::SHA256.file(ROOT.join(semantic_source["path"])).hexdigest==semantic_source["sha256"]
+  semantic=JSON.parse(generated_content.fetch(expected_generated[0])); raise "semantic manifest candidate mismatch" unless semantic["candidate"]==source["candidate"]
+  semantic_source=source.fetch("semantic_evidence"); raise "semantic manifest source identity mismatch" unless semantic_source==generated.find{|e|e["path"]==expected_generated[0]}
   semantic_entries=semantic.fetch("entries"); raise "duplicate semantic criterion evidence" unless semantic_entries.map{|e|e["criterion_id"]}.uniq.length==semantic_entries.length
   semantic_entries.each do |entry|
     raise "invalid semantic classification" unless %w[proven accepted_recordless accepted_with_explicit_amendment implementation_gap proof_gap product_gap].include?(entry["classification"])
@@ -93,7 +106,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   expected_semantic=rows.flat_map{|row|row.fetch("acceptance_rows")}.to_h{|ac|[ac.fetch("id"),ac.fetch("text_digest")]}
   actual_semantic=semantic_entries.to_h{|entry|[entry.fetch("criterion_id"),entry.fetch("criterion_digest")]}
   raise "semantic criterion denominator/digest mismatch" unless actual_semantic==expected_semantic
-  observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","validation_evidence")}
+  observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","review_truth","validation_evidence")}
   raise "captured observation mismatch" unless source["observations"]==observations
   projection=rows.map{|r|r.slice("planned_id","issue","revision","merge_revision","merge_ancestry","disposition","acceptance_rows")}
   raise "gap execution projection mismatch" unless gap["execution_issues"]==projection
@@ -101,6 +114,11 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "tail stage became circular gate" unless tails.all?{|r|r["gate_role"]=="denominator_only_not_execution_root" && %w[active_admission_work future_serial_stage].include?(r["expected_lifecycle"])}
   rows.each do |row|
     raise "empty acceptance denominator #{row['issue']}" if row.fetch("acceptance_rows").empty?
+    truth=row.fetch("review_truth")
+    if row["revision"]
+      valid_tail=truth["post_review_paths"].to_a.empty? || truth["non_substantive_tail"]==true
+      raise "review truth contradicts its evidence" if truth["current"] && !(truth["result"]=="pass" && truth["reviewed_revision"]&.match?(/\A[0-9a-f]{40}\z/) && valid_tail)
+    end
     if row["disposition"]=="satisfied"
       raise "satisfied row lacks canonical PR" unless row["canonical_pr"] && row["revision"]&.match?(/\A[0-9a-f]{40}\z/) && row["merge_revision"]&.match?(/\A[0-9a-f]{40}\z/)
       selected=row.fetch("linked_prs").find{|pr|pr["number"]==row["canonical_pr"]}
@@ -153,6 +171,13 @@ def validate!(source, admission, gap, markdown, require_admitted:)
       raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"]) || classified
     end
   end
+  review_gaps=rows.select{|row|row["revision"]&&!row.dig("review_truth","current")}
+  unless review_gaps.empty?
+    finding=admission.fetch("findings").find{|f|f["id"]=="execution-exact-head-review-gaps"&&f["severity"]=="P1"}
+    expected_ids=review_gaps.flat_map{|r|r.fetch("acceptance_rows").map{|a|a["id"]}}.sort
+    raise "missing P1 exact-head review-gap blocker" unless finding && finding.fetch("affected_rows").sort==expected_ids
+  end
+  raise "admitted despite stale exact-head review" if require_admitted && !review_gaps.empty?
   retained=admission.fetch("retained_predecessors")
   raise "retained projection mismatch" unless retained==gap["retained_predecessors"]
   retained_ids=retained.flat_map{|row|row.fetch("acceptance_rows").map{|ac|ac.fetch("id")}}
@@ -242,6 +267,11 @@ if %w[negative all].include?(MODE)
     "projection-digest-drift"=>->(_s,a,_g,_m){a["projection_digest"]="0"*64},
     "admitted-with-blocker"=>->(_s,a,g,_m){a["decision"]=g["decision"]="admitted"},
     "stale-candidate"=>->(s,a,g,_m){s["candidate"]=a["candidate"]=g["candidate"]="0"*40;digest=Digest::SHA256.hexdigest(JSON.generate(s));a["source_digest"]=g["source_digest"]=digest},
+    "stale-review-result"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"]["current"]=false},
+    "forged-reviewed-sha"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"]["reviewed_revision"]="f"*40},
+    "substantive-review-tail"=>->(_s,a,_g,_m){row=a["execution_issues"].find{|r|r["revision"]};row["review_truth"]["post_review_paths"]=["adl/src/lib.rs"];row["review_truth"]["non_substantive_tail"]=false},
+    "generated-evidence-blob-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["candidate_blob"]="0"*40},
+    "generated-evidence-digest-drift"=>->(s,_a,_g,_m){s["generated_evidence"].first["sha256"]="0"*64},
     "markdown-omission"=>->(_s,_a,_g,m){m.replace("")}
   }
   cases.each do |name,mutation|

@@ -35,6 +35,11 @@ def candidate_identity(revision,path)
   abort("candidate path missing: #{path}") unless content
   {"path"=>path,"sha256"=>Digest::SHA256.hexdigest(content),"candidate_blob"=>git_blob(revision,path),"bytes"=>content.bytesize}
 end
+def committed_identity(path)
+  revision=capture("git","log","-1","--format=%H","HEAD","--",path).strip
+  abort("generated evidence is not committed: #{path}") unless revision.match?(/\A[0-9a-f]{40}\z/)
+  candidate_identity(revision,path).merge("revision"=>revision)
+end
 def acceptance(body)
   section = body.to_s[/^## (?:Acceptance(?: Criteria| criteria)?|Exit Criteria)\s*$\n(.*?)(?=^## |\z)/m,1]
   return [] unless section
@@ -49,20 +54,10 @@ remote_main = capture("gh","api","repos/#{REPO}/git/ref/heads/main","--jq",".obj
 abort("local origin/main differs from captured remote main") unless capture("git","rev-parse","origin/main").strip == remote_main
 candidate = ENV.fetch("ADMISSION_CANDIDATE",remote_main)
 abort("admission candidate is stale relative to captured remote main") unless candidate==remote_main
-semantic_doc=JSON.parse(SEMANTIC.read)
-if semantic_doc["candidate"] != candidate
-  prior_candidate=semantic_doc.fetch("candidate")
-  semantic_paths=semantic_doc.fetch("entries").flat_map do |entry|
-    %w[implementation_evidence validation_evidence review_evidence docs_evidence].flat_map{|key|entry.fetch(key,[])}
-  end.reject{|ref|ref.start_with?("github:","https://")}.uniq
-  changed=semantic_paths.select do |path|
-    _out,_err,status=Open3.capture3("git","diff","--quiet","#{prior_candidate}..#{candidate}","--",path,chdir:ROOT.to_s)
-    !status.success?
-  end
-  abort("semantic evidence changed since prior candidate: #{changed.join(', ')}") unless changed.empty?
-  semantic_doc["candidate"]=candidate
-  SEMANTIC.write(JSON.generate(semantic_doc)+"\n")
-end
+semantic_rel=SEMANTIC.relative_path_from(ROOT).to_s
+semantic_identity=committed_identity(semantic_rel)
+semantic_doc=JSON.parse(git_at(semantic_identity.fetch("revision"),semantic_rel))
+abort("semantic evidence candidate mismatch; refresh and commit it before generation") unless semantic_doc["candidate"]==candidate
 semantic_entries=semantic_doc.fetch("entries").to_h{|e|[e.fetch("criterion_id"),e]}; abort("duplicate semantic criterion IDs") unless semantic_entries.length==semantic_doc["entries"].length
 pages = JSON.parse(capture("gh","api","--paginate","--slurp","repos/#{REPO}/issues?milestone=1&state=all&per_page=100"))
 captured = pages.flatten.reject { |e| e.key?("pull_request") }.to_h { |e| [e.fetch("number"),e] }
@@ -153,6 +148,7 @@ rows = mapping.sort_by { |_id,n| n }.map do |planned_id,number|
     "merge_ancestry"=>canonical ? "ancestor" : (absorbed ? "not_applicable_absorbed" : "not_proven"),
     "artifacts"=>[issue["url"],srp.file? ? srp.relative_path_from(ROOT).to_s : nil,sor.file? ? sor.relative_path_from(ROOT).to_s : nil].compact,
     "review_evidence"=>srp.file? ? candidate_identity(candidate,srp.relative_path_from(ROOT).to_s).merge("reviewed_revision"=>reviewed_revision,"result"=>review_pass ? "pass" : "not_pass","post_review_paths"=>post_review,"non_substantive_tail"=>metadata_tail) : nil,
+    "review_truth"=>{"current"=>review_current,"reviewed_revision"=>reviewed_revision,"result"=>review_pass ? "pass" : "not_pass","post_review_paths"=>post_review,"non_substantive_tail"=>metadata_tail},
     "validation_evidence"=>sor.file? ? candidate_identity(candidate,sor.relative_path_from(ROOT).to_s) : nil,
     "closure_disposition"=>absorbed,"closeout_state"=>issue["state"].downcase,"disposition"=>disposition
   }.merge("owned_paths"=>owned_paths)
@@ -199,6 +195,8 @@ retained = retained_mapping.flat_map do |planned_id,numbers|
 end
 
 findings=rows.select{|r|r["disposition"]=="product_blocker"}.map{|r|summary=r["issue"]==497 ? "CORP-C / #497 has no PR or captured closure authority and its live criteria materially replace control-plane ownership/recovery acceptance with prerequisite ancestry and sidecar routing." : "#{r['planned_id']} / ##{r['issue']} lacks closed merged ancestral execution evidence.";{"id"=>"issue-#{r['issue']}-execution-gap","type"=>"missing_evidence","severity"=>"P1","classification"=>"product_blocker","summary"=>summary,"evidence"=>r["artifacts"],"uncertainty"=>"behavior or integration is not established","disposition"=>"open","owner"=>"issue ##{r['issue']}"}}
+review_gaps=rows.select{|r|r["revision"]&&!r.dig("review_truth","current")}
+findings<<{"id"=>"execution-exact-head-review-gaps","type"=>"stale_review","severity"=>"P1","classification"=>"product_blocker","summary"=>"#{review_gaps.length} executed issues lack successful exact-head review or an explicitly classified metadata-only tail.","evidence"=>review_gaps.flat_map{|r|[r["acceptance_authority"],r.dig("review_evidence","path")].compact}.uniq,"affected_rows"=>review_gaps.flat_map{|r|r["acceptance_rows"].map{|a|a["id"]}},"uncertainty"=>"implementation cannot be admitted without current review truth","disposition"=>"open","owner"=>"release evidence maintainers"} unless review_gaps.empty?
 drift=rows.select{|r|r.dig("spec_acceptance","status")=="mismatch"}
 material=drift.select{|r|r["issue"]==497}
 sync=drift-material; findings<<{"id"=>"consolidated-live-spec-sync-debt","type"=>"docs_drift","severity"=>"P2","classification"=>"proof_debt","summary"=>"Live criteria for #{sync.map{|r|r['planned_id']}.join(', ')} are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records.","evidence"=>sync.flat_map{|r|[r["acceptance_authority"],r.dig("spec_acceptance","digest"),r.dig("spec_acceptance","live_digest")]},"affected_rows"=>sync.map{|r|r["planned_id"]},"uncertainty"=>"record synchronization only","disposition"=>"follow_up","owner"=>"release planning maintainers"} unless sync.empty?
@@ -219,9 +217,11 @@ findings<<{"id"=>"semantic-criterion-proof-gaps","type"=>"missing_evidence","sev
 amended=semantic_entries.values.select{|e|%w[accepted_with_explicit_amendment accepted_recordless].include?(e["classification"])}; findings<<{"id"=>"accepted-semantic-amendments","type"=>"scope_amendment","severity"=>"P2","classification"=>"accepted_amendment","summary"=>"Explicit live acceptance/absorption/sequencing amendments replace the listed original criteria.","evidence"=>amended.flat_map{|e|e["closeout_evidence"]}.uniq,"affected_rows"=>amended.map{|e|e["criterion_id"]},"uncertainty"=>"none","disposition"=>"accepted","owner"=>"release operator"} unless amended.empty?
 retained_gaps=retained.select{|r|r["observed_status"]=="proof_gap"}
 findings<<{"id"=>"retained-predecessor-criterion-proof-gaps","type"=>"missing_evidence","severity"=>"P1","classification"=>"product_blocker","summary"=>"Retained predecessor criteria have no criterion-level mapping to candidate-bound successor evidence.","evidence"=>retained_gaps.map{|r|r["path"]},"affected_rows"=>retained_gaps.flat_map{|r|r["acceptance_rows"].map{|a|a["id"]}},"uncertainty"=>"successor implementation may exist but is not proven per retained criterion","disposition"=>"open","owner"=>"release evidence maintainers"} unless retained_gaps.empty?
-observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","validation_evidence")}
+observations=rows.map{|r|r.slice("planned_id","issue","title","acceptance_authority","issue_body_sha256","acceptance_rows","linked_prs","closeout_state","closure_disposition","owned_paths","review_evidence","review_truth","validation_evidence")}
 v3_external_gap={"issue"=>725,"url"=>issue725["url"],"state"=>issue725["state"].downcase,"labels"=>issue725["labels"].map{|label|label["name"]}.sort,"disposition"=>"open_release_blocker","body_sha256"=>Digest::SHA256.hexdigest(issue725["body"]),"supersedes_partial_owner"=>721,"open_pr"=>v3_pr_number,"open_pr_head"=>v3_pr["headRefOid"],"canary_path"=>canary.relative_path_from(ROOT).to_s,"canary_sha256"=>sha(canary)}
-source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[plan_rel,spec_rel,catalog_rel].map{|p|candidate_identity(candidate,p)},"semantic_evidence"=>{"path"=>SEMANTIC.relative_path_from(ROOT).to_s,"sha256"=>sha(SEMANTIC)},"canonical_planned_ids"=>mapping.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>tail_mapping,"amendment_authority"=>{},"backlog"=>backlog_numbers,"retained"=>retained_mapping,"observations"=>observations,"tail_observations"=>tail_rows,"external_product_gaps"=>v3_gap ? [v3_external_gap] : [],"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"curated-semantic-evidence-v10","generator_sha256"=>Digest::SHA256.file(__FILE__).hexdigest}
+generated_paths=[semantic_rel,canary.relative_path_from(ROOT).to_s,".csdlc/evidence/516/no-v2-canary-#{candidate[0,8]}.stderr.log"]
+generated_evidence=generated_paths.map{|path|committed_identity(path)}
+source={"schema"=>"adl.v0921.release_tail_input.v1","candidate"=>candidate,"planning"=>[plan_rel,spec_rel,catalog_rel].map{|p|candidate_identity(candidate,p)},"semantic_evidence"=>semantic_identity,"generated_evidence"=>generated_evidence,"canonical_planned_ids"=>mapping.keys,"spec_acceptance"=>spec_acceptance,"mapping"=>mapping,"tail_mapping"=>tail_mapping,"amendment_authority"=>{},"backlog"=>backlog_numbers,"retained"=>retained_mapping,"observations"=>observations,"tail_observations"=>tail_rows,"external_product_gaps"=>v3_gap ? [v3_external_gap] : [],"captured_issue_count"=>captured.length,"captured_pages"=>pages.length,"generator_contract"=>"curated-semantic-evidence-v11","generator_sha256"=>Digest::SHA256.file(__FILE__).hexdigest}
 digest=Digest::SHA256.hexdigest(JSON.generate(source))
 claims=Hash.new{|h,k|h[k]=[]}; rows.each{|r|r["owned_paths"].each{|path|claims[path]<<r["issue"]}}
 collisions=claims.map do |path,owners|
