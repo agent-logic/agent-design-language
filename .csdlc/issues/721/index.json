@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "08ed977bcc6b22bc229dda95e416b88f6ffe809dfbab4c705fb8a1f1f7ec9c65",
   "phase": "published",
-  "generation": 14,
-  "digest": "7113bba849a72e843b90d4e6f0f3b5ac591311c42d3dc9afb9acb40ba2b584ef",
+  "generation": 15,
+  "digest": "dde860a07f58b245a0961606d2409322cf34f26d21f2d9d6a39af9d13ae1de23",
   "branch": "codex/721-csdlc-v3-issue-create-parity-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-721-csdlc-v3-issue-create-parity-bound",
   "review_assignment": {
@@ -55,9 +55,9 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/726",
     "base": "main",
     "head": "codex/721-csdlc-v3-issue-create-parity-bound",
-    "revision": "git-blake3:0960b92bf566cf2790220193b9671a7bf5d37267:0bec515236cebbe65286d1dd90c3a2a62faa25cd67c525578c6f8583551efe24",
+    "revision": "git-blake3:522032eff211e973829c097c8955dc543f57a1b5:4e449b87579ded65f3bfb826e4108d4509b267b66c0eea53384572b4e63f0be7",
     "linkage_mode": "closing",
-    "draft": true,
+    "draft": false,
     "observed_state": "open"
   },
   "readiness": null,
@@ -73,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eb4a209317945db65d67c761fa0092d8b08c2467814844ebda95365dd3d9a3fc",
+      "values_digest": "aef9c81e200dd1205e6165bb0e196f90f7128108404ec30f474559c7873ce30a",
       "rendered_digest": "dc2d3ef2e02bc3d822328903d2f2fb3b7b4ef0f7e09f383cfb1bf0aa95d40f08",
       "ast_digest": "d88bd7f562c8a193cdedad6b0cba2cb896b5ecc2db85d9fa0568071bfcb40772"
     },
     "stp": {
-      "values_digest": "8d2af7d000e6d54af4b056504eddb3f33a01ccdb006d7143d0d8a7dfd6781c44",
+      "values_digest": "d75e51ec9edef4a9a9376c9e9732f8cbb8546381dfa27217e2856abe437c673a",
       "rendered_digest": "7c254fc2248ce63b59f81e8087e7892aa476ecb791a52169b1fa2e6109862ee7",
       "ast_digest": "4dcaaddbd880bb3931eea6879daf31f086b9a265abd97c0ef431c969f173b90f"
     },
     "spp": {
-      "values_digest": "461913db77dc5af970d5a4f2d6a19251bb110276eb852ba5718916bf7f82928c",
+      "values_digest": "9fd41ea97c63e36b3afdb0e848cfdee3fab3dadecb69d3062ce550d43ba277b2",
       "rendered_digest": "a26b115b73e2ab98c41cebcd2e0439673a5d9f7eaa4831d555163a0e638db945",
       "ast_digest": "9b3c4eb99beb0da8825ec7dd9e6578735757b368ce029e27090437a734b7f65f"
     },
     "vpp": {
-      "values_digest": "db872ab9b0f9060686b49705429b60e4f62aedb259c13a453755ecf1052f85f5",
+      "values_digest": "262d5ff4ab90a3cfc26a9d9b6c1d31f74f160d5c4cbf50bb3e39bb547122c0ca",
       "rendered_digest": "17c2a54acaefbd6803a72887dcd2262a420ed7a9f2e218db40f6b1f7e388bd8c",
       "ast_digest": "fbc627d0656fd6b24ea9a449b8c0cfdb0ce32e49d1d7d00402982c78a397509f"
     },
     "srp": {
-      "values_digest": "80f158d18f3383673c6d68bf206558fee1a0e490091b225e080d5d46684f6b06",
+      "values_digest": "687a17856ea1243d6cc885470c2a602dbce3b17c8ebeb7c215d9f659f2fa1737",
       "rendered_digest": "b18145ba4de86498e6ddf451ebdf7e9e826a6f8112d0f0053db716d501c41204",
       "ast_digest": "0f1439c3fe68fe4bdb6e9bdf8cf922f314e070f09e48112a3ae8b385ee8d63a5"
     },
     "sor": {
-      "values_digest": "694ddff73115781ca1956145fbabc78315c1b8a5b98116b624430cf5ca068243",
-      "rendered_digest": "b391487aefd975c760841c1ecd54fee2ee7948a1db280312fc60ad2b8173ac4f",
-      "ast_digest": "295ca7085fe7ae7b46435639d11f6cb740c87782d7989ed0137b74bfe5e06ec1"
+      "values_digest": "ae4b1f25039da5e3286b11508ab0fe58cf97d3ad198e1d2f9188a887deeda89e",
+      "rendered_digest": "5854734dfdc4695c26f545ef376fb5267e3870e85e809610b38fc22e348a3336",
+      "ast_digest": "7358239d7549d65b60ff25a6acf89e254d21831a20b032f33311e0483f01e597"
     }
   },
   "transitions": [
@@ -256,6 +256,13 @@
     {
       "sequence": 17,
       "generation": 14,
+      "actor": "Worker #7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
       "actor": "Worker #7",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
