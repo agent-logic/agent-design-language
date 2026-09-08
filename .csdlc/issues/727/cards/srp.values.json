@@ -7,22 +7,25 @@
     "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
     "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".gitignore\ndocs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md\ndocs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json\ndocs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md",
+      "review_revision": "git-blake3:03e9de180e75e87c4deddaa0a28d5a7ce3aafc45:22ac7d77d8000dacad6faf7a093b215a20b168f594c8d9caf2d6c9bbd6b659c5",
+      "reviewer": "codex-727-live-review",
       "review_prompts": [
         "Verify exact resource denominator and absence of unrelated mutations.",
         "Verify redaction, rollback, cost and saved-plan binding."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Raw Terraform plan/apply/readback logs are retained only under ignored .adl/requests/727; tracked proof is deliberately redacted and hash-bound.",
+        "Terraform backend currently uses deprecated dynamodb_table locking parameter; warning observed but apply/readback succeeded."
+      ],
+      "review_result": "pass"
     }
   }
 }

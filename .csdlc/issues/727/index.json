@@ -3,13 +3,39 @@
   "issue": 727,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ecec93e19c8cf854ccd7153dd0c6ea42f8daf306f478cb99cb914447e1ff3392",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "89168152e0684a1b8f43d635a3329bcb35f97212a7ae3478e9a180414b68a438",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "8e3ebc63fbb33055a07d5c80e56b510dd08a7934615d99652ee694656f1acf3f",
   "branch": "codex/727-aws-d-r-apply-prove-audit-security-account-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-727-aws-d-r-apply-prove-audit-security-account-foundation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-727-live-review",
+    "assigned_by": "codex-727-live-apply",
+    "revision": "git-blake3:03e9de180e75e87c4deddaa0a28d5a7ce3aafc45:22ac7d77d8000dacad6faf7a093b215a20b168f594c8d9caf2d6c9bbd6b659c5",
+    "scope": [
+      ".gitignore",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-727-live-review",
+    "scope": [
+      ".gitignore",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md"
+    ],
+    "reviewed_revision": "git-blake3:03e9de180e75e87c4deddaa0a28d5a7ce3aafc45:22ac7d77d8000dacad6faf7a093b215a20b168f594c8d9caf2d6c9bbd6b659c5",
+    "findings": [],
+    "residual_risks": [
+      "Raw Terraform plan/apply/readback logs are retained only under ignored .adl/requests/727; tracked proof is deliberately redacted and hash-bound.",
+      "Terraform backend currently uses deprecated dynamodb_table locking parameter; warning observed but apply/readback succeeded."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8c02bc5f2d1cc1179a3a2a081c42594e3f3a3012b398e540a1ddca559e5971c1",
+      "values_digest": "a7c9d7bad2b04ae666c6f9e9de60245dba37356093a80a76d3861a890ba94b1d",
       "rendered_digest": "2ad690f29df3e99bf89a3874cdd4b1fd91f978833e1dea7538103890b3066f0e",
       "ast_digest": "c430204e61ecb408302ffb789035bf4a52b891d7cec217c58bafafd0332e5f83"
     },
     "stp": {
-      "values_digest": "0d073b89a4105ea85943ff6d35aca59815888a283c1d4cb4efc1ec18a7dd4162",
+      "values_digest": "102ef0cad8f714bcac0d2b13b5b96370b15acab27ef93322564500c3e2981331",
       "rendered_digest": "a7232790d5af59d8f28fa3fb71f95312225c8431cbf70be3a78ad2dece62924b",
       "ast_digest": "321bcc0a60a11f2b9039aacafd0edef51896f370a9f1923a9ecf74266265d03d"
     },
     "spp": {
-      "values_digest": "9bd3fc24346cdc11329d788df6e7f5d8e62ffcf85c49213752ffeb28adade604",
+      "values_digest": "a6a5b996b70c8890b189f91ceab037a60a1bb457288e8dab8ac7b9527a50980f",
       "rendered_digest": "9c20d76b9c66bc4e3f25bb39aa67e16fd986bd0a17a73700b4eae2c9685b0866",
       "ast_digest": "aba3961b368e12a2ee751ccb12578d094bab236dd3cd2e773e90d27ce3a5f426"
     },
     "vpp": {
-      "values_digest": "11001bebeb469e83dcace5b95ed4482251b9fd44f038e05397af26a1449760ff",
+      "values_digest": "329e0fba0a4dc026ef6d2e167b6d7e2345164251ce784821a70b70e062c9b991",
       "rendered_digest": "3d4f24c531465a8a36bb98ac6227e9721e3e6d7a967710d13ba8edd94fd5cdc5",
       "ast_digest": "a2dddf1eb3dfdb79f544bcbc09d5c0af3a8fd25403e64179f863f5548bfcc184"
     },
     "srp": {
-      "values_digest": "6f03a5aca9d70a57d288190960aac9b20603c2dad9d8f5c9dd4e52ea19157120",
-      "rendered_digest": "7df095f80e97196a5d13afccd287afef56f852b1e2141d3e9f0d0f8f011a7500",
-      "ast_digest": "3fbc80731fff15374869659293b422a6224c90ab04367cebd066daf6f2df0aff"
+      "values_digest": "e6e62816eea9ca35cf924db9b68ce84163d0a1ed4fc4b964a859907611de4180",
+      "rendered_digest": "6bae5d3b4341a2fb31784deb2317ab0038975f6be32fa4feb786d222e16d6359",
+      "ast_digest": "ed86fa7bdd004f2be6532b508f0cd717e84c8f38667b4eec4c45c44fe6912f35"
     },
     "sor": {
-      "values_digest": "7b8010696346ebacca9275f6074e0a8181b685536bc6bb19f34d462195cd1313",
+      "values_digest": "6501c64b9ccfdccceb6729a18de3260b661c7223188b29a77f7f6decf0cc534a",
       "rendered_digest": "08cee4f9d9e13210fe0ac3b3947e102941d7c1e8d5248c74f17d2f3772c86d84",
       "ast_digest": "9f895634a9e308c440aff9be8d48542c6904f77ddc9ea3d6042a325fc34becf4"
     }
@@ -89,6 +115,13 @@
       "to": "implemented",
       "actor": "codex-727-pr-publication",
       "reason": "Recover review because a substantive .gitignore safety fix was added to prevent account-foundation Terraform working-state leakage before PR publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-727-live-apply",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -266,6 +299,20 @@
       "actor": "codex-727-live-apply",
       "reason": "Record #727 redacted live AWS readback validation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\"--lane=aws-readonly\"],\"purpose\":\"Read back the live #727 audit/security foundation controls from AWS without committing raw account IDs, ARNs, emails, secrets, or unfiltered JSON.\",\"outcome\":\"passed\",\"evidence_ref\":\"stdout: cloudtrail_exact=present; cloudtrail_kms=present; config_recorder_exact=present; config_delivery_bucket_matches=true; access_analyzer_exact=active; sns_findings_topic_exact=present; eventbridge_findings_route=present; audit_bucket_kms_encryption=present; audit_bucket_retention_days_at_least=365; finding_owner_destination_tags=present; redaction=names_and_arns_not_printed\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex-727-live-apply",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex-727-live-apply",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
