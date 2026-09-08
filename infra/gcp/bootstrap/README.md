@@ -6,13 +6,22 @@ Target project: `cs-host-377d41e71a824f92802120`
 
 Bootstrap service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`
 
-Sprint execution uses the approved service-account key as command-scoped source credentials:
+Issue #730 replaces the historical static-key bootstrap with short-lived
+service-account impersonation. Terraform must authenticate from an approved
+company human or federated source identity and the Google provider must
+impersonate the bootstrap service account directly. Do not configure a
+service-account key file as the runnable default.
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json terraform init -backend=false
-GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json terraform plan -out=tfplan
+terraform -chdir=infra/gcp/bootstrap init -backend=false -input=false
+terraform -chdir=infra/gcp/bootstrap plan -out=.csdlc/evidence/730/gcp-b1.tfplan
 ```
 
-Keep the key file outside the repository and never print or commit its contents.
+Review the saved plan digest before apply and remove the binary plan after the
+authorized run records redacted evidence.
 
-Do not commit `terraform.tfstate`, `tfplan`, `.terraform/`, credentials, or provider-generated local state. After the bucket exists, copy `backend.tf.example` to `backend.tf`, run `terraform init -migrate-state`, and quarantine/remove any local state after verifying migration.
+Do not commit `terraform.tfstate`, `tfplan`, `.terraform/`, credentials,
+generated `backend.tf`, or provider-generated local state. After the bucket
+exists, initialize a clean non-repo backend working directory from
+`backend.tf.example`, prove remote readback and immutable-generation recovery,
+then remove local Terraform residue from the repository worktree.

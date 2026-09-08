@@ -1,0 +1,20 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "4566c6e0e2bde5c35e11ffe250d971d0cfa2d8375203daae53a27aa2ed4219da",
+  "actor": "codex:/root",
+  "reason": "Record #730 saved-plan preparation success after gcloud source identity was refreshed.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh"
+      ],
+      "purpose": "No-mutation saved-plan preparation using short-lived service-account impersonation before operator-reviewed apply authorization.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/730/gcp-b1-plan-digest.json; plan_sha256 e7e8e604071cc9de01ddf27c07379ef5c53036e98cd51a370749b5f97362e99b; redacted plan .csdlc/evidence/730/gcp-b1-plan.redacted.txt"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "cd07bd8e45b8d007d784da0e332d88938d2c7b38fd8a7ce06285e77f24324ade",
+  "actor": "codex:/root",
+  "reason": "Record #730 local impersonation-only bootstrap preparation and authorization-gated live proof boundary.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented the local #730 GCP-B1 correction path: Terraform now uses short-lived service-account impersonation, bootstrap defaults are scoped to the approved project and us-west2, static-key docs were retired, no-mutation validation passes, saved-plan preparation is separated from authorized apply, and live mutation remains fail-closed until an exact operator authorization artifact is present.",
+    "changes": [
+      "Added Google provider service-account impersonation for the existing tf-bootstrap identity instead of static key execution.",
+      "Updated bootstrap region defaults and examples from the stale us-central1 value to the issue-declared us-west2 location, with an explicit stop if live org or project policy rejects that location.",
+      "Rewrote the GCP Terraform bootstrap runbook to use impersonation, reviewed saved-plan digest authorization, and a no-key command path.",
+      "Strengthened issue-owned static validation to detect static credential-file paths, verify bounded Terraform identity/location labels, run Terraform fmt/init/validate without backend mutation, and scan for local Terraform residue.",
+      "Added a prepare-gcp-b1-plan script that creates the reviewed saved plan under Git common storage and retains only redacted/digest evidence in the worktree.",
+      "Replaced the live proof placeholder with fail-closed authorization, impersonation, reviewed-plan digest, bounded plan, apply-timeout, readback, canary recovery, and residue checks."
+    ],
+    "artifacts": [
+      "infra/gcp/bootstrap/provider.tf",
+      "infra/gcp/bootstrap/variables.tf",
+      "infra/gcp/bootstrap/terraform.tfvars.example",
+      "infra/gcp/bootstrap/README.md",
+      "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+      ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh",
+      ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+      ".csdlc/evidence/730/static-validation.log",
+      ".csdlc/evidence/730/live-proof-fail-closed.stderr.log",
+      ".csdlc/evidence/730/live-proof-fail-closed.exitcode",
+      ".csdlc/evidence/730/diff-check.log",
+      ".csdlc/evidence/730/residue-scan.log"
+    ]
+  }
+}

@@ -1,21 +1,43 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root="${2:-.}"
-lane="${1:---lane=static}"
+root="."
+lane="--lane=static"
+while (($#)); do
+  case "$1" in
+    --lane=static) lane="$1"; shift ;;
+    --root) root="${2:-}"; shift 2 ;;
+    *) echo "unknown argument: $1" >&2; exit 64 ;;
+  esac
+done
 [[ "$lane" == "--lane=static" ]] || { echo "unsupported lane: $lane" >&2; exit 64; }
 cd "$root"
+repo_root="$PWD"
+tf_data_dir="$repo_root/.csdlc/evidence/730/tfdata-static"
+rm -rf "$tf_data_dir"
+mkdir -p "$tf_data_dir"
+trap 'rm -rf "$tf_data_dir"' EXIT
+
 grep -Fq 'impersonate_service_account' infra/gcp/bootstrap/provider.tf
+grep -Fq 'tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com' infra/gcp/bootstrap/variables.tf
+grep -Fq 'default     = "us-west2"' infra/gcp/bootstrap/variables.tf
+grep -Fq 'issue     = "730"' infra/gcp/bootstrap/variables.tf
 if rg -n 'GOOGLE_APPLICATION_CREDENTIALS|CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE|GCP_B_KEY_FILE|gcp-tf-bootstrap-.*json' \
-  infra/gcp/bootstrap docs/operations/cloud/gcp/terraform-bootstrap .csdlc/prepared/issues/730; then
+  infra/gcp/bootstrap docs/operations/cloud/gcp/terraform-bootstrap; then
+  echo "static service-account key execution path remains" >&2
+  exit 1
+fi
+if rg -n 'gcp-tf-bootstrap-.*json' .csdlc/prepared/issues/730 \
+  -g '!validate-gcp-b1.sh' \
+  -g '!run-gcp-b1-proof.sh'; then
   echo "static service-account key execution path remains" >&2
   exit 1
 fi
 terraform -chdir=infra/gcp/bootstrap fmt -check
-terraform -chdir=infra/gcp/bootstrap init -backend=false -input=false >/dev/null
-terraform -chdir=infra/gcp/bootstrap validate >/dev/null
-find . -path './.git' -prune -o \( -name terraform.tfstate -o -name terraform.tfstate.backup -o -name '*.tfplan' -o -name backend.tf \) -print | grep -q . && {
+TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap init -backend=false -input=false >/dev/null
+TF_DATA_DIR="$tf_data_dir" terraform -chdir=infra/gcp/bootstrap validate >/dev/null
+rm -rf "$tf_data_dir"
+find . -path './.git' -prune -o -path './infra/gcp/bootstrap/backend.tf.example' -prune -o -path './.csdlc/evidence/730/*.redacted.txt' -prune -o \( -name terraform.tfstate -o -name terraform.tfstate.backup -o -name '*.tfplan' -o -name backend.tf -o -name '.terraform' \) -print | grep -q . && {
   echo "local Terraform residue found" >&2
   exit 1
 }
 echo "gcp-b1 static validation passed"
-

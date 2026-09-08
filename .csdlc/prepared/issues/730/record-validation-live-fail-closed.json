@@ -1,0 +1,20 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "5fa6664a514cea819e5cd8f96184e681cf1bb3a8191954af22ad42704f8936bd",
+  "actor": "codex:/root",
+  "reason": "Record #730 live proof fail-closed behavior without exact operator authorization.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh"
+      ],
+      "purpose": "Live GCP-B1 proof precondition guard without authorization artifact.",
+      "outcome": "blocked",
+      "evidence_ref": ".csdlc/evidence/730/live-proof-fail-closed.stderr.log; exact authorization artifact required; exit code 1 retained in .csdlc/evidence/730/live-proof-fail-closed.exitcode"
+    }
+  }
+}
