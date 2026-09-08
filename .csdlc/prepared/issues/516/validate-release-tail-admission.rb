@@ -49,17 +49,25 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "no-v2 canary output missing/drifted" unless stderr_path.file? && Digest::SHA256.file(stderr_path).hexdigest==stderr_entry["sha256"]
   stderr=stderr_path.read; raise "no-v2 canary error contract missing" unless stderr.include?("failed to get `csdlc-v2` as a dependency")&&stderr.include?("csdlc-v2/Cargo.toml")&&stderr.include?("No such file or directory (os error 2)")
   expected_sources=["csdlc-v3/Cargo.toml","csdlc-v3/src/authority.rs","csdlc-v3/src/commands/remote/mod.rs"]; raise "no-v2 canary source census mismatch" unless canary["source_dependencies"]==expected_sources
-  expected_sources.each{|p|raise "no-v2 source path missing" unless ROOT.join(p).file?}
-  raise "manifest no longer depends on v2" unless ROOT.join(expected_sources[0]).read.include?('csdlc-v2 = { path = "../csdlc-v2" }')
-  raise "authority selector dependency missing" unless ROOT.join(expected_sources[1]).read.include?("csdlc-v2/operator/generation-selector.json")
-  raise "remote selector dependency missing" unless ROOT.join(expected_sources[2]).read.include?("csdlc-v2/operator/generation-selector.json")
+  source_contents=expected_sources.to_h do |path|
+    content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{path}",chdir:ROOT.to_s)
+    raise "no-v2 source path missing" unless status.success?
+    [path,content]
+  end
+  raise "manifest no longer depends on v2" unless source_contents.fetch(expected_sources[0]).include?('csdlc-v2 = { path = "../csdlc-v2" }')
+  raise "authority selector dependency missing" unless source_contents.fetch(expected_sources[1]).include?("csdlc-v2/operator/generation-selector.json")
+  raise "remote selector dependency missing" unless source_contents.fetch(expected_sources[2]).include?("csdlc-v2/operator/generation-selector.json")
   semantic=load_json(ROOT.join(".csdlc/evidence/516/semantic-criterion-evidence.json")); raise "semantic manifest candidate mismatch" unless semantic["candidate"]==source["candidate"]
   semantic_source=source.fetch("semantic_evidence"); raise "semantic manifest source identity mismatch" unless semantic_source["path"]==".csdlc/evidence/516/semantic-criterion-evidence.json" && Digest::SHA256.file(ROOT.join(semantic_source["path"])).hexdigest==semantic_source["sha256"]
   semantic_entries=semantic.fetch("entries"); raise "duplicate semantic criterion evidence" unless semantic_entries.map{|e|e["criterion_id"]}.uniq.length==semantic_entries.length
   semantic_entries.each do |entry|
     raise "invalid semantic classification" unless %w[proven accepted_recordless accepted_with_explicit_amendment implementation_gap proof_gap product_gap].include?(entry["classification"])
     %w[implementation_evidence validation_evidence review_evidence docs_evidence closeout_evidence].each do |key|
-      entry.fetch(key,[]).each{|ref|next if ref.start_with?("github:","https://");raise "semantic evidence path missing: #{ref}" unless ROOT.join(ref).file?}
+      entry.fetch(key,[]).each do |ref|
+        next if ref.start_with?("github:","https://")
+        _content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{ref}",chdir:ROOT.to_s)
+        raise "semantic evidence path missing: #{ref}" unless status.success?
+      end
     end
     entry.fetch("semantic_mapping",[]).each{|m|raise "semantic mapping digest mismatch" unless Digest::SHA256.hexdigest(m.fetch("live_text"))==m["live_digest"]}
   end
