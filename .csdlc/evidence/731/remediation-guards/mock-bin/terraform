@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "${ADL_GCP_D1_MOCK_TERRAFORM_LOG:?}"
+case "$*" in
+  *\ apply\ *) printf 'Synthetic terraform apply\n' ;;
+  *\ destroy\ *) printf 'Synthetic terraform destroy\n' ;;
+  *\ output\ -json*) printf '{"storage_owner_buckets":{"value":{"state":"cs-host-377d41e71a824f92802120-dev-axioma-state","artifacts":"cs-host-377d41e71a824f92802120-dev-axioma-artifacts","models":"cs-host-377d41e71a824f92802120-dev-axioma-models","continuity_evidence":"cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence","logs":"cs-host-377d41e71a824f92802120-dev-axioma-logs"}}}\n' ;;
+  *) printf 'mock terraform unsupported argv: %s\n' "$*" >&2; exit 64 ;;
+esac

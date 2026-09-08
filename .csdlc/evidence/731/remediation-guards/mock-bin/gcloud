@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "${ADL_GCP_D1_MOCK_GCLOUD_LOG:?}"
+case "$*" in
+  auth\ print-access-token*) printf 'synthetic-access-token\n' ;;
+  compute\ networks\ describe*) printf '{"name":"axioma-dev-csm-private","autoCreateSubnetworks":false}\n' ;;
+  compute\ networks\ subnets\ describe*) printf '{"name":"axioma-dev-csm-private-us-west2","ipCidrRange":"10.42.0.0/24","privateIpGoogleAccess":true}\n' ;;
+  compute\ instances\ create*) printf 'Created synthetic instance\n' ;;
+  compute\ instances\ describe*) printf '{"status":"RUNNING","machineType":"zones/us-west2-a/machineTypes/e2-micro","disks":[{"boot":true,"autoDelete":true,"diskSizeGb":"10"}],"networkInterfaces":[{}],"labels":{"run_id":"gcp-d1-20260908t090000z-localguard","issue":"493","ttl":"disposable","csm":"axioma","env":"dev"}}\n' ;;
+  compute\ ssh*) printf '{"guest_ready":true,"metadata_service_account":"axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"}\n' ;;
+  compute\ instances\ delete*) printf 'Deleted synthetic instance\n' ;;
+  compute\ instances\ list*) printf '[]\n' ;;
+  compute\ disks\ list*) printf '[]\n' ;;
+  compute\ addresses\ list*) printf '[]\n' ;;
+  compute\ forwarding-rules\ list*) printf '[]\n' ;;
+  compute\ firewall-rules\ list*) printf '[]\n' ;;
+  projects\ get-iam-policy*) printf '{"bindings":[]}\n' ;;
+  *) printf 'mock gcloud unsupported argv: %s\n' "$*" >&2; exit 64 ;;
+esac

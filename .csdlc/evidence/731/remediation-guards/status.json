@@ -1,0 +1,24 @@
+{
+  "schema": "adl.gcp_d1.remediation_guards.v1",
+  "status": "passed",
+  "mutation": "none",
+  "authorization_guards": [
+    "valid_30m_packet_passed",
+    "expired_approval_rejected",
+    "overlong_lifetime_rejected",
+    "expired_deadline_rejected",
+    "service_account_identity_required"
+  ],
+  "workload_guards": [
+    "exit_cleanup_mock_proved",
+    "deadline_reaper",
+    "post_create_failpoint",
+    "guest_readiness",
+    "expanded_zero_residue"
+  ],
+  "foundation_guards": [
+    "service_account_impersonation",
+    "rollback_on_failure_mock_proved",
+    "exact_readback_assertions"
+  ]
+}
