@@ -3,13 +3,38 @@
   "issue": 730,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
-  "phase": "bound",
-  "generation": 16,
-  "digest": "c2dbcc3c6fbc3ff01c10e2ba67f0c58bb9a8689d73d131bd590662d107c67ce4",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "c36629259da9f5e2427ade4452f536f1d27c4459752a1f6c2c725a41b33aad64",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:6ec6c3854585792a098d82724f814f7228157c17:10402944fac66f4a6dc2580a1b89c1b32d6096383ab71edbb5c0c39edf607a51",
+    "scope": [
+      "exact-head pre-PR review at 6ec6c3854585792a098d82724f814f7228157c17",
+      "GCP-B1 impersonation-only Terraform bootstrap correction",
+      "fail-closed live proof authorization and cleanup safety",
+      "static validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "scope": [
+      "exact-head pre-PR review at 6ec6c3854585792a098d82724f814f7228157c17",
+      "GCP-B1 impersonation-only Terraform bootstrap correction",
+      "fail-closed live proof authorization and cleanup safety",
+      "static validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence"
+    ],
+    "reviewed_revision": "git-blake3:6ec6c3854585792a098d82724f814f7228157c17:10402944fac66f4a6dc2580a1b89c1b32d6096383ab71edbb5c0c39edf607a51",
+    "findings": [],
+    "residual_risks": [
+      "Live GCP apply was not executed because the exact git-common authorization artifact is not present; the live lane fails closed before mutation without it."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "90f144f246da8d2e908ca6485d7803402a89c6471381c53042b291cf44239562",
+      "values_digest": "3cd5cd21dcd51bc0c7df029f3d59837affd11978794a180c1c08c7f83cb8e004",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "0f6bb1aa0e7c0c828d328ccf3e5fa0ec558f8e7ef3fbdea63e4148b4914bb3da",
+      "values_digest": "c962636799af515ece3d5b2eb8d97d64b1e72dd1e2441425995231d3cc2c2b3d",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "b6c210b0bf44e991e34c2c6e994d1eb7a0e414d81d67c7f6f61f1b52aa63fc8d",
+      "values_digest": "898f5df26a78240eb8356bad936ef9f07ae3ed2835cc9f65cb4e3b1771d14962",
       "rendered_digest": "48deb92716b6d76b442da6c585efebf1339045c59d34e7a1f1cc2715d7a2f31b",
       "ast_digest": "9704496969ba459d57124d72c36247258aa1f00f63299ed8f23ac6b35e8ef23e"
     },
     "vpp": {
-      "values_digest": "f4f2cbb523d15bc94da65abe66a0d5244702c369312a5917d7913b00325671d2",
+      "values_digest": "1a9f435806b9bf3530a610111b55409bf594dbf3ec14ccc88bae0572f202fe87",
       "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "24f263efdf5678e539a01800ad1a458ad2837e6d89bf973eb401d215f54f0e9f",
-      "rendered_digest": "9a1f2392cb11aeb2435734f2d260b720b0b019fa1edce6dacdec09ae85d05d62",
-      "ast_digest": "933bf96b47aa68a787fc39ecfae7bfc0b4b333439de6e90b7038742e956acc62"
+      "values_digest": "c17885acffcf151e2486afa43975cc9a4e6c3209cd57ae5c3dd1e2264d21fd33",
+      "rendered_digest": "baa80e764316f2d4dab8ab938940a983247f4c818698362596326d062a6e7f4b",
+      "ast_digest": "f3fbefc9c5b1f9b103acf8a5f13e6ed3933db26d4f079c04b399e678a1e3d81d"
     },
     "sor": {
-      "values_digest": "b122a21e2db5da22e1b5ea8ff431d9824b39b5ceb38a8544d7ffa47d61a83dd5",
+      "values_digest": "207ccfe80061a08146be9c1bb572a9c56979988bab94b7c734d89a391be96ae1",
       "rendered_digest": "894b6b7445dfcbe6b7f080108a42969fa2f6029539fe903e0408217ff124e4a7",
       "ast_digest": "ba365abec29c3ea3c49a297d7b144c661b3761b80e609fb39ec62985f16c57de"
     }
@@ -68,6 +93,20 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Implementation, local validation, fail-closed live guard proof, and independent pre-PR review are complete; enter implemented phase for typed review recording."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/review_730_prelive",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -196,6 +235,27 @@
       "actor": "fresh-session:752e0188-d236-49d1-8fba-357e37cd229b",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"fe0f5f73d33d207c417e1c17f0ece19823e838b6702adbf52c5c95d46fb1b4bc\",\"design_ref\":\"docs/milestones/v0.92.1/evidence/cloud/gcp-b1/design.md\",\"diagram_digest\":\"9f671babdc2733ea1e03df0e59a3e1acd13a504baae17f72f3ae990807d03d08\",\"diagram_ref\":\"docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Implementation, local validation, fail-closed live guard proof, and independent pre-PR review are complete; enter implemented phase for typed review recording.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex-subagent:/root/review_730_prelive",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

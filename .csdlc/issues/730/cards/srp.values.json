@@ -7,23 +7,25 @@
     "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
     "slug": "gcp-b1-impersonation-remote-state",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "GCP-B1 Terraform, auth, live proof tooling, and evidence boundaries",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "exact-head pre-PR review at 6ec6c3854585792a098d82724f814f7228157c17\nGCP-B1 impersonation-only Terraform bootstrap correction\nfail-closed live proof authorization and cleanup safety\nstatic validation, no-auth failure, static-key rejection, residue, and diff hygiene evidence",
+      "review_revision": "git-blake3:6ec6c3854585792a098d82724f814f7228157c17:10402944fac66f4a6dc2580a1b89c1b32d6096383ab71edbb5c0c39edf607a51",
+      "reviewer": "codex-subagent:/root/review_730_prelive",
       "review_prompts": [
         "Can any production path still select a static key?",
         "Can the plan or rollback touch resources outside the exact denominator?",
         "Does recovery prove immutable content and clean backend reinitialization?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live GCP apply was not executed because the exact git-common authorization artifact is not present; the live lane fails closed before mutation without it."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "issue": 730,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "c2dbcc3c6fbc3ff01c10e2ba67f0c58bb9a8689d73d131bd590662d107c67ce4",
+  "actor": "codex:/root",
+  "reason": "Implementation, local validation, fail-closed live guard proof, and independent pre-PR review are complete; enter implemented phase for typed review recording.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}
