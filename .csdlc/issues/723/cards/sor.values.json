@@ -7,16 +7,53 @@
     "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
     "slug": "restore-green-proof-shadow-install-tests",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Restored install approval binding and normalized current typed doctor output for proof and shadow fixtures.",
+      "actual_changes": [
+        "Added fail-closed #505 install approval exact-head and digest validation",
+        "Normalized current operational v3 doctor output alongside local-preparation output",
+        "Made real issue fixtures resolve the canonical primary repository root"
+      ],
+      "artifacts": [
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "csdlc-v3/tests/real_issue_canary.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "proof_parity_install_commands"
+          ],
+          "purpose": "Prove install approval, retained receipt, shadow comparison, and bounded soak behavior",
+          "outcome": "passed",
+          "evidence_ref": "local exact-head output: 6 passed, 0 failed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "real_issue_canary"
+          ],
+          "purpose": "Prove current operational doctor schema and primary-root fixture normalization",
+          "outcome": "passed",
+          "evidence_ref": "local exact-head output: 6 passed, 0 failed"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
