@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md\ndocs/architecture/adr/0072-csdlc-v3-native-authority.md\ndocs/architecture/adr/0073-validated-configuration-snapshot-reload.md\ndocs/architecture/adr/0074-runtime-generation-source-ownership.md\ndocs/architecture/adr/0075-provider-profile-and-shadow-authority.md\ndocs/architecture/adr/README.md\ndocs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md\n.csdlc/prepared/issues/745\n.csdlc/evidence/745",
+      "review_revision": "git-blake3:07bbc022480633677b3cb175e0bd5a06306ad1d1:59637ee277033b4dd514dc7838dc0b9943f23e51898030d3c266de13b843d71c",
+      "reviewer": "fresh-session:planning7-745-final",
+      "review_prompts": [
+        "Do all eight topics map to existing decisions or justified new/deferred records?",
+        "Are status, supersession, source claims and proof limits truthful?",
+        "Does v2 recovery remain bounded and linked to #744?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Four new records remain Proposed and ADR 0069 remains Deferred; no architecture acceptance or runtime/cloud qualification is claimed.",
+        "Defect #744 remains open; native-v3 original intent is preserved.",
+        "Publication, CI and terminal delivery remain subsequent gates."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
