@@ -3,9 +3,9 @@
   "issue": 730,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "1f94e255a9bf461571b82d61772f6f9270425849721f9c44049e3d77d17aa8dd",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "6a2840414f8eadcb3b266ef3cfa4af08f0d45cbcbe91efdf26f3b65689f33ebc",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
   "review_assignment": {
@@ -21,7 +21,24 @@
       ".csdlc/evidence/730"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "scope": [
+      ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh",
+      ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+      ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+      "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "infra/gcp/bootstrap",
+      ".csdlc/evidence/730"
+    ],
+    "reviewed_revision": "git-blake3:d855b73438a8bac361c9716a17b41dd64a3c1370:d1e5ff92cf857f978c09e746748e774643b03e80b091b1295ad8c22494f8ba96",
+    "findings": [],
+    "residual_risks": [
+      "Current HEAD 9d6e67e28b3861f81f3f6e16e40e8149f68f03bc is one later lifecycle-only assignment commit on top of the reviewed substantive implementation revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ab025b0cadc895b0b1581d1f4eec6fa6eaa206128f2d1a986c4fb873cb3c5ef9",
+      "values_digest": "e6b099120b3d956974c7c64da712a513b2f62d5acabe4032d5a254c8610b3b4a",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "655529033f1063a6eef6c98daf87b4fabd29c36405474735cb528611e6e5f8ca",
+      "values_digest": "c291401a659f12a2ad6c54ec3d69e37b21f912afc2ec9363c35a348372e35ed1",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "4251ec227d9860efc7b01624fb978cf29a2a268d56ed4ad776b03de26aba2e05",
+      "values_digest": "9a68f4b47d08bc41b118dfd1febca946f946af5e378de2f5d697aad1da0f155e",
       "rendered_digest": "48deb92716b6d76b442da6c585efebf1339045c59d34e7a1f1cc2715d7a2f31b",
       "ast_digest": "9704496969ba459d57124d72c36247258aa1f00f63299ed8f23ac6b35e8ef23e"
     },
     "vpp": {
-      "values_digest": "9d9d89dc9d0de3f5dba8649cc4924a1c69d17430daf0868b2219ff2077139c63",
+      "values_digest": "accb69f02ad853450a9f4dbbb8fe095ce918918b31bbcf0d58e8f52bf3ee5420",
       "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "a09b2d8e589c9459c979ec56c17f8a27776777fd2b3e30b2191be53cf3819178",
-      "rendered_digest": "dda7a338e05130eebf5da82224294face5d4b205e0fd7055d951e937250c70a6",
-      "ast_digest": "251b4f1902de05e346553811d987b22e68879be626c72ed26f5560a9f2d4474c"
+      "values_digest": "56218a986b9ce65290d68bb8e427ceb2be1c5e084e90d3987485f1b328d8bdd2",
+      "rendered_digest": "84b4451b8ab7074addc68fe748bf74e56e36c6fc893ae2d21a73be293c6d5a1d",
+      "ast_digest": "01cb32325c873e721892b057824e2c47b06f796df3fdec587d0f058b4a8cafb0"
     },
     "sor": {
-      "values_digest": "e55da78ba9439a13274e475f0f1cd107ef84c1b905051b50eee914652d927c5a",
+      "values_digest": "feb105861e89bf677f447eb5a9257db1032d9e56a67adf5cd97be297fe9fdbbb",
       "rendered_digest": "7ea22170adc984550a749a18beef26ce72b6ef6278450a525f7c3cee707bf2f7",
       "ast_digest": "a71e7fb2e2772d652f3156bb7a937b306b7a1e53c5bd65a490b503b2e26bd2ee"
     }
@@ -129,6 +146,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover review after live GCP proof exposed Terraform ADC reauth drift and the governed scripts were updated to use the proven short-lived impersonated access-token path."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:/root/review_730_prelive",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -369,6 +393,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex-subagent:/root/review_730_prelive",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

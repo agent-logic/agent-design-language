@@ -35,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Current HEAD 9d6e67e28b3861f81f3f6e16e40e8149f68f03bc is one later lifecycle-only assignment commit on top of the reviewed substantive implementation revision.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d855b73438a8bac361c9716a17b41dd64a3c1370:d1e5ff92cf857f978c09e746748e774643b03e80b091b1295ad8c22494f8ba96")
 
-Reviewer: None
+Reviewer: Some("codex-subagent:/root/review_730_prelive")
 
-Result: pre_review
+Result: pass
