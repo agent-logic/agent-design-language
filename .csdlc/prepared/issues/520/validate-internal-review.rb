@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "digest"
 require "json"
+require "open3"
 require "yaml"
 
 def fail!(message)
@@ -19,6 +20,12 @@ def nonempty?(value)
   value.respond_to?(:empty?) && !value.empty?
 end
 
+def git_blob(revision, path)
+  output, error, status = Open3.capture3("git", "show", "#{revision}:#{path}")
+  fail!("canonical candidate artifact unavailable: #{path}: #{error.strip}") unless status.success?
+  output
+end
+
 def validate_fixture!(fixture)
   authority = fixture.fetch("opening_authority")
   fail!("fixture base is not derived from WP-01") unless authority == {
@@ -29,6 +36,9 @@ def validate_fixture!(fixture)
   fail!("fixture milestone snapshot is incomplete") unless fixture.dig("milestone_snapshot", "pagination_complete") == true
   live_issues = fixture.dig("milestone_snapshot", "issues")
   fail!("fixture live issue denominator is empty") unless live_issues.is_a?(Array) && live_issues.any?
+  fail!("fixture canonical planned mapping differs from WP-01 receipt") unless fixture.fetch("planned_mapping") == fixture.fetch("receipt_mapping")
+  fail!("fixture live query receipt is incomplete") unless fixture.dig("milestone_snapshot", "api_receipt", "final_has_next_page") == false && fixture.dig("milestone_snapshot", "api_receipt", "response_digest_valid") == true
+  fail!("fixture captured snapshot differs from external query result") unless live_issues == fixture.fetch("external_query_issues")
   live_prs = live_issues.flat_map { |row| row.fetch("pull_requests") }.sort
   fail!("fixture issue denominator differs from live snapshot") unless fixture.fetch("issue_rows").sort == live_issues.map { |row| row.fetch("number") }.sort
   fail!("fixture PR denominator differs from live snapshot") unless fixture.fetch("pr_rows").sort == live_prs
@@ -78,17 +88,42 @@ fail!("repo inventory contains unreviewed rows") unless repo_rows.all? { |row| n
 specs = YAML.safe_load(File.read("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")).fetch("issue_specifications")
 planned_ids = specs.map { |row| row.fetch("id") }.sort
 issue_rows = docs.fetch("issue_inventory.json").fetch("rows")
-fail!("issue inventory does not exactly match canonical specification") unless issue_rows.map { |row| row.fetch("planned_id") }.sort == planned_ids
+planned_rows = issue_rows.select { |row| nonempty?(row["planned_id"]) }
+fail!("issue inventory does not exactly match canonical specification") unless planned_rows.map { |row| row.fetch("planned_id") }.sort == planned_ids
 
 snapshot = docs.fetch("live-milestone-snapshot.json")
 fail!("milestone snapshot source is wrong") unless snapshot.fetch("repository") == "agent-logic/agent-design-language" && snapshot.fetch("milestone") == "v0.92.1"
+api_receipt = snapshot.fetch("api_receipt")
+fail!("milestone API receipt is incomplete") unless api_receipt.fetch("transport") == "github_graphql" && api_receipt.fetch("page_size") == 100 && api_receipt.fetch("page_count").positive? && api_receipt.fetch("final_has_next_page") == false && nonempty?(api_receipt.fetch("retrieved_at"))
+query = api_receipt.fetch("query")
+fail!("API receipt query digest mismatch") unless Digest::SHA256.hexdigest(query) == api_receipt.fetch("query_sha256")
+fail!("API receipt query does not prove cursor pagination and PR projection") unless %w[issues pageInfo hasNextPage endCursor closedByPullRequestsReferences].all? { |token| query.include?(token) }
+response_path = api_receipt.fetch("response_path")
+fail!("milestone API response is missing") unless File.file?(response_path)
+fail!("milestone API response digest mismatch") unless Digest::SHA256.file(response_path).hexdigest == api_receipt.fetch("response_sha256")
 fail!("milestone snapshot is capped or incomplete") unless snapshot.fetch("pagination_complete") == true && snapshot.fetch("next_cursor").nil? && snapshot.fetch("query_limit").nil?
 live_issues = snapshot.fetch("issues")
 fail!("live milestone snapshot is empty") unless live_issues.any?
 live_numbers = live_issues.map { |row| row.fetch("number") }
 fail!("live milestone snapshot duplicates issues") unless live_numbers.uniq.length == live_numbers.length
 live_prs = live_issues.flat_map { |row| row.fetch("pull_requests") }
-fail!("live milestone snapshot duplicates PRs") unless live_prs.uniq.length == live_prs.length
+captured_rows = read_json(response_path).fetch("issues")
+fail!("snapshot differs from immutable API response") unless captured_rows == live_issues
+
+query_argv = ["gh", "issue", "list", "--repo", "agent-logic/agent-design-language", "--milestone", "v0.92.1", "--state", "all", "--limit", "10000", "--json", "number,title,state,closedByPullRequestsReferences"]
+live_out, live_err, live_status = Open3.capture3(*query_argv)
+fail!("live milestone query failed: #{live_err.strip}") unless live_status.success?
+live_now = JSON.parse(live_out).map do |row|
+  {"number" => row.fetch("number"), "title" => row.fetch("title"), "state" => row.fetch("state"), "pull_requests" => row.fetch("closedByPullRequestsReferences").map { |pr| pr.fetch("number") }.sort}
+end.sort_by { |row| row.fetch("number") }
+fail!("captured milestone snapshot is stale, truncated, or invented") unless live_issues.sort_by { |row| row.fetch("number") } == live_now
+
+creation_receipt_path = "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+creation_receipt = JSON.parse(git_blob(candidate, creation_receipt_path))
+fail!("WP-01 creation receipt is not verified") unless creation_receipt.fetch("live_verified") == true && creation_receipt.fetch("child_count") == creation_receipt.fetch("children").length
+canonical_mapping = {"WP-01" => 480}.merge(creation_receipt.fetch("children").to_h { |row| [row.fetch("planned_id"), row.fetch("issue")] })
+planned_mapping = planned_rows.to_h { |row| [row.fetch("planned_id"), row.fetch("issue")] }
+fail!("planned-ID to live-issue mapping differs from immutable WP-01 receipt") unless planned_mapping == canonical_mapping
 fail!("issue inventory does not cover every live milestone issue") unless issue_rows.map { |row| row.fetch("issue") }.sort == live_numbers.sort
 fail!("issue inventory PR census differs from live milestone snapshot") unless issue_rows.flat_map { |row| row.fetch("pull_requests") }.sort == live_prs.sort
 fail!("issue inventory has duplicate, stale, or undispositioned rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && nonempty?(row.fetch("evidence")) && row.fetch("pull_requests").is_a?(Array) }
@@ -112,7 +147,10 @@ fail!("lane results do not match assignments exactly") unless results.map { |row
 fail!("lane result is empty, stale, or evidence-free") unless results.all? { |row| %w[passed findings].include?(row.fetch("outcome")) && row.fetch("candidate_sha") == candidate && nonempty?(row.fetch("reviewer")) && nonempty?(row.fetch("evidence")) }
 fail!("test lane reports zero executed tests") if results.any? { |row| row.fetch("lane").match?(/test|pvf|ci/i) && row.fetch("tests_run", 0).to_i <= 0 }
 
-findings = docs.fetch("findings.json").fetch("findings")
+findings_doc = docs.fetch("findings.json")
+findings = findings_doc.fetch("findings")
+fail!("findings register is not exact-candidate bound") unless findings_doc.fetch("candidate_sha") == candidate
+fail!("findings outcome contradicts content") unless findings_doc.fetch("outcome") == (findings.empty? ? "passed" : "findings")
 ids = findings.map { |finding| finding.fetch("id") }
 fail!("finding IDs are not unique") unless ids.uniq.length == ids.length
 fail!("finding schema is incomplete or stale") unless findings.all? { |finding| finding.fetch("revision") == candidate && %w[severity status title impact evidence source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } }

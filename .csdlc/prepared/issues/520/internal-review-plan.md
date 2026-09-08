@@ -28,7 +28,12 @@ machine-readable inventories:
    retained release-tail artifact cited by #519.
 
 The live snapshot must record completion of cursor pagination and must not
-declare a query cap. No global cap, sample, search-result truncation, or representative subset may
+declare a query cap. It retains the exact GraphQL query, query digest, every
+page, terminal `hasNextPage: false`, and a digest-bound raw response. The
+validator re-queries GitHub and rejects a captured roster that differs from
+live authority. Planned-ID mappings are independently derived from the
+immutable WP-01 final creation receipt at the candidate revision. No global
+cap, sample, search-result truncation, or representative subset may
 reduce those inventories. Generated or vendored surfaces may be dispositioned
 as such, but they remain counted. Any omission, unclassified row, zero-test
 lane, or missing evidence is a review finding or blocker—not a pass.
