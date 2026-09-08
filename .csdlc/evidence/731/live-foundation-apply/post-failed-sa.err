@@ -1,0 +1,1 @@
+ERROR: (gcloud.iam.service-accounts.describe) NOT_FOUND: Unknown service account. This command is authenticated as daniel@agent-logic.ai which is the active account specified by the [core/account] property

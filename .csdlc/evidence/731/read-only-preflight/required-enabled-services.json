@@ -1,0 +1,27 @@
+[
+  {
+    "config": {
+      "name": "cloudbilling.googleapis.com"
+    }
+  },
+  {
+    "config": {
+      "name": "compute.googleapis.com"
+    }
+  },
+  {
+    "config": {
+      "name": "iam.googleapis.com"
+    }
+  },
+  {
+    "config": {
+      "name": "logging.googleapis.com"
+    }
+  },
+  {
+    "config": {
+      "name": "storage.googleapis.com"
+    }
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "issue": 731,
+  "expected_generation": 16,
+  "expected_digest": "c68a80d435d38c8808bd625899e268231cf5e85e1fb73f462a774eebaf05da29",
+  "actor": "codex:731-owner",
+  "reason": "Recover the stale no-mutation checkpoint review assignment after authorized live GCP completion evidence replaced the SOR; a fresh exact-head implementation review is required."
+}

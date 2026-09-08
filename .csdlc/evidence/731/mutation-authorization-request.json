@@ -1,0 +1,34 @@
+{
+  "schema": "adl.gcp_d1.mutation_authorization_request.v1",
+  "issue": 731,
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "zone": "us-west2-a",
+  "network": "axioma-dev-csm-private",
+  "subnet": "axioma-dev-csm-private-us-west2",
+  "plan_digest": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+  "plan_file": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+  "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+  "run_id": "gcp-d1-20260908t084805z-bound731",
+  "instance_name": "adl-gcp-d1-20260908t084805z-bound731",
+  "cleanup_deadline_utc": "2026-09-08T10:48:05Z",
+  "impersonated_identity": "daniel@agent-logic.ai",
+  "proof_run_spend_cap_usd": 1,
+  "foundation_steady_state_30d_cap_usd": 5,
+  "rollback_commands": [
+    "terraform -chdir=infra/gcp/platform destroy -var-file=terraform.tfvars.example -target=google_compute_network.private -target=google_compute_subnetwork.private -target=google_compute_firewall.iap_operator_access -target=google_compute_firewall.explicit_private_egress -target=google_compute_firewall.deny_unapproved_egress -target=google_compute_project_metadata_item.os_login -target=google_project_iam_member.operator_iap_tunnel -target=google_project_iam_member.operator_os_login -target=google_project_iam_member.workload_log_writer -target=google_service_account.workload -target=google_storage_bucket.state -target=google_storage_bucket.artifacts -target=google_storage_bucket.models -target=google_storage_bucket.continuity_evidence -target=google_storage_bucket.logs -target=google_storage_bucket_iam_member.workload_artifacts_object_user -target=google_storage_bucket_iam_member.workload_models_object_viewer -target=google_storage_bucket_iam_member.workload_evidence_object_creator -target=google_storage_bucket_iam_member.workload_logs_object_creator -target=google_logging_metric.disposable_without_deadline",
+    "gcloud compute instances delete adl-gcp-d1-20260908t084805z-bound731 --project cs-host-377d41e71a824f92802120 --zone us-west2-a --quiet",
+    "gcloud compute disks list --project cs-host-377d41e71a824f92802120 --filter='zone:(us-west2-a) AND labels.run_id=gcp-d1-20260908t084805z-bound731' --format=json"
+  ],
+  "operator_authorization": {
+    "status": "approved",
+    "approved_by": "operator",
+    "approved_at_utc": "2026-09-08T09:29:52Z",
+    "authorization_text": "dont get blocked, complete the task, you are authed to use gcp",
+    "required_before": [
+      "terraform apply",
+      "gcloud compute instances create",
+      "any live GCP mutation or spend"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "allowSubnetCidrRoutesOverlap": false,
+  "creationTimestamp": "2026-09-08T02:37:12.685-07:00",
+  "enableFlowLogs": false,
+  "fingerprint": "k6HjNxMLSoo=",
+  "gatewayAddress": "10.42.0.1",
+  "id": "7305592550062188967",
+  "ipCidrRange": "10.42.0.0/24",
+  "kind": "compute#subnetwork",
+  "logConfig": {
+    "enable": false
+  },
+  "name": "axioma-dev-csm-private-us-west2",
+  "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+  "privateIpGoogleAccess": true,
+  "privateIpv6GoogleAccess": "DISABLE_GOOGLE_ACCESS",
+  "purpose": "PRIVATE",
+  "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2",
+  "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2/subnetworks/axioma-dev-csm-private-us-west2",
+  "stackType": "IPV4_ONLY"
+}

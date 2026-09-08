@@ -1,0 +1,16 @@
+{
+  "schema": "adl.gcp_d1.terraform_plan_denominator.v1",
+  "status": "passed",
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "network": "axioma-dev-csm-private",
+  "subnet": "axioma-dev-csm-private-us-west2",
+  "mutation": "none",
+  "refresh": false,
+  "plan_file": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+  "plan_sha256": "e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df",
+  "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+  "plan_json_sha256": "fc68aee4b9b3bc6f34169880d03c173d4dce1f4a4ba971f1b6cc90f504a16b8c",
+  "expected_resource_count": 20,
+  "forbidden_resource_count": 0
+}

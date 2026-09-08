@@ -65,11 +65,11 @@ resource "google_compute_firewall" "deny_unapproved_egress" {
     protocol = "all"
   }
 
-  destination_ranges = ["0.0.0.0/0", "::/0"]
+  destination_ranges = ["0.0.0.0/0"]
   target_tags        = ["csm-disposable"]
 }
 
-resource "google_project_metadata_item" "os_login" {
+resource "google_compute_project_metadata_item" "os_login" {
   key   = "enable-oslogin"
   value = "TRUE"
 }
@@ -77,13 +77,13 @@ resource "google_project_metadata_item" "os_login" {
 resource "google_project_iam_member" "operator_iap_tunnel" {
   project = var.project_id
   role    = "roles/iap.tunnelResourceAccessor"
-  member  = "group:${var.operator_group_email}"
+  member  = var.operator_member
 }
 
 resource "google_project_iam_member" "operator_os_login" {
   project = var.project_id
   role    = "roles/compute.osLogin"
-  member  = "group:${var.operator_group_email}"
+  member  = var.operator_member
 }
 
 resource "google_service_account" "workload" {

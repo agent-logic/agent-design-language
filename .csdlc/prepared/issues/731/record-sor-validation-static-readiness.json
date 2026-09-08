@@ -1,0 +1,20 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "a6577b3843c3bd9f7dd145e54c5c0072e77826940e71254f27733f2081631cd7",
+  "actor": "codex:731-owner",
+  "reason": "Record #731 static no-mutation readiness validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-static-readiness.sh"
+      ],
+      "purpose": "Prove typed #731 bootstrap files, exact tfvars authority, private-foundation denominator, and forbidden public/GPU/workload resource absence before mutation.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:PASS #731 static readiness and private-foundation denominator guard"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "673f745ac4b0f5b5d82f93051ba8102d84264f77db603a96bdb352b3a8d853c7",
+  "actor": "codex:731-owner",
+  "reason": "Record #731 diff hygiene validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/731/validate-gcp-d1-diff-hygiene.sh"
+      ],
+      "purpose": "Prove exact issue diff hygiene for current worktree changes.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:PASS #731 diff hygiene"
+    }
+  }
+}

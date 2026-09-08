@@ -1,0 +1,20 @@
+{
+  "issue": 731,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "e5edd89928374c3f5bd78c0ccb2771800ac2e45fb149fe73e6f9e7cdbc889d77",
+  "actor": "codex:731-owner",
+  "reason": "Record #731 read-only GCP preflight validation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        ".csdlc/prepared/issues/731/run-gcp-d1-readonly-preflight.sh"
+      ],
+      "purpose": "Read-only GCP preflight for exact project, region, zone, required APIs, billing, regional quota, scoped IAM readability, and pre-apply target network/subnet absence.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/731/read-only-preflight/status.json target_network_state=absent target_subnet_state=absent mutation=none"
+    }
+  }
+}
