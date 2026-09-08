@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
     "slug": "gcp-b1-impersonation-remote-state",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 4
   },
   "status": "ready",
   "content": {

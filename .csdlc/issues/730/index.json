@@ -3,9 +3,9 @@
   "issue": 730,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
-  "phase": "initialized",
-  "generation": 1,
-  "digest": "094111ba4dd4ec4ce9421a6f88b089afaf423c35a62d60fb6dae73d1bb72bec5",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "335b4026e9ac4fc0dba83969b29e5728309ac7a9ff3c39f976e1e009e70e24dc",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f9d80d33559f96ec05329c13bc0d3e4f7a99514008cbf8c1fd0ce3871f61780",
+      "values_digest": "d0c4dbeafb9e2f586bd8ac883318697fbe0d6acee63bc3079c65195705c485c5",
       "rendered_digest": "5c5025d5419a971d75f9e608f5d2267b41d5decc3bc3ed7cdd0798fc4170bde9",
       "ast_digest": "ce17ae4c768a1c561336799e085648cc04b33ddb2fb2b66652a832024ff063bc"
     },
     "stp": {
-      "values_digest": "e91a7220d5dd1b810797f861ec0cc4acf42cc95d4d956c39bd9b75b4fd019f8b",
+      "values_digest": "3dfc96e53dc40e2f80dbb2dd38969b88502a62d05d3745b6527f2783d416ee53",
       "rendered_digest": "6e48be0e0a0963a845697003798e1a785703625dd1a1435bd0bedd85d0ddaebc",
       "ast_digest": "90e9154e9c7205a03d2aa55828f2163d4a29f8a8068f18624815109b69c352a6"
     },
     "spp": {
-      "values_digest": "c395bbd227699d205793bf5d01cc9739a4aad0b0a95916849ed44eeae77f88df",
-      "rendered_digest": "39c8fd95953e2ce09a0fabf8676ae0bbf58c0ce52fb071d788e4d4eea391e689",
-      "ast_digest": "250ae134faa238bf11777dfc3d457b463b8fabff15c44e8052b4f38397fc7be9"
+      "values_digest": "ba880c2d4088d9b368ca9458946946fe67fd194d2b5bb78e71ae8bdce88b5edb",
+      "rendered_digest": "a2bd5637e4ebc4267ce4f8465060f3bbf4498e8f84fc51d0d718636d1882f5d1",
+      "ast_digest": "7d5ebf872b59666ac5fe84afaa253d119724d2e7c0103ab8e219d8fc7fc14f56"
     },
     "vpp": {
-      "values_digest": "3b5a5801723d7904298629e3f2e4c103d73a37cb6e2cb6df64e706bc59ab5e74",
-      "rendered_digest": "9a74463ed4426b7b81ca10e7485b1b884a93f9c59e2f8c5dd17c0883d8891f03",
-      "ast_digest": "c2213d60a419b713c69aaf35d9547c8252eaa08bb84f324f173f462a154c88c8"
+      "values_digest": "d51aac234a81726d0191537079df5392c14cd923b957a42c61dcf226eb528d3c",
+      "rendered_digest": "ee2643486eb63453bc618bc3e32b1f4f3d07e204207f57edb9552102d2905ce2",
+      "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "b8636f4855a9096230bc8afcd08c52afa38108172c2252a9d45e4d5e9d2803ef",
+      "values_digest": "8b7b0aac15baaaf2b6086c8a00677a5e368e22d4f483769cef4669ef763cf58f",
       "rendered_digest": "9a1f2392cb11aeb2435734f2d260b720b0b019fa1edce6dacdec09ae85d05d62",
       "ast_digest": "933bf96b47aa68a787fc39ecfae7bfc0b4b333439de6e90b7038742e956acc62"
     },
     "sor": {
-      "values_digest": "293088320a56048d951a5b9fa589bd8159c0c14b806779a485e80620e817b335",
+      "values_digest": "932a6ce5fac748a86aa4196e164e5be45385a0cbf14d5a6501b795ebadbace0a",
       "rendered_digest": "153be477fb2c21f0ef830b9967ed322c40849ea1fe0bab3454f0eb71cf077f36",
       "ast_digest": "a0106ee18c02a760affbf0e42a61bcc7cb6c57713969271247f0ba31bc9bbc79"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "Codex GCP corrective worker",
+      "reason": "Design-time cards and governed validation lanes are execution-ready."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -69,6 +77,27 @@
       "actor": "Codex GCP corrective worker",
       "reason": "Use safe repository-owned paths for execution readiness.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/bootstrap/**\",\"docs/operations/cloud/gcp/terraform-bootstrap/**\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b1/**\",\".csdlc/prepared/issues/730/**\",\".csdlc/issues/730/**\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "Codex GCP corrective worker",
+      "reason": "Bind governed shell lanes to exact issue-owned executable paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b1\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh\",\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\",\".csdlc/issues/730\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "Codex GCP corrective worker",
+      "reason": "Use executable issue-owned lanes without placeholder argv.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"gcp-b1-static\",\"proof_role\":\"impersonation and bounded Terraform contract\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/730/validate-gcp-b1.sh\",\"--lane=static\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"gcp-b1-live\",\"proof_role\":\"authorized remote state recovery and cleanup\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1800,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\",\"--authorization\",\".git/csdlc-v2/authorizations/730.json\"],\"parallel_group\":\"authorized-live\",\"defer_reason\":\"Requires exact operator authorization after saved-plan review.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "Codex GCP corrective worker",
+      "reason": "Design-time cards and governed validation lanes are execution-ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

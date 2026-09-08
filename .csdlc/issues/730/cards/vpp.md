@@ -46,7 +46,7 @@ Diagram: docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd
   },
   {
     "lane": "gcp-b1-live",
-    "proof_role": "remote state recovery and cleanup",
+    "proof_role": "authorized remote state recovery and cleanup",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -61,7 +61,7 @@ Diagram: docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd
       "bash",
       ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
       "--authorization",
-      "<artifact>"
+      ".git/csdlc-v2/authorizations/730.json"
     ],
     "parallel_group": "authorized-live",
     "defer_reason": "Requires exact operator authorization after saved-plan review."
@@ -81,7 +81,7 @@ Tokens: 25000
 ## Commands
 
 - `bash .csdlc/prepared/issues/730/validate-gcp-b1.sh --lane=static`
-- `bash .csdlc/prepared/issues/730/run-gcp-b1-proof.sh --authorization <artifact>`
+- `bash .csdlc/prepared/issues/730/run-gcp-b1-proof.sh --authorization .git/csdlc-v2/authorizations/730.json`
 
 ## Failure Semantics
 

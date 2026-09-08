@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
     "slug": "gcp-b1-impersonation-remote-state",
     "version": "v0.92.1",
-    "generation": 1
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -38,7 +38,7 @@
         },
         {
           "lane": "gcp-b1-live",
-          "proof_role": "remote state recovery and cleanup",
+          "proof_role": "authorized remote state recovery and cleanup",
           "acceptance_ids": [
             "AC-3",
             "AC-4",
@@ -53,7 +53,7 @@
             "bash",
             ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
             "--authorization",
-            "<artifact>"
+            ".git/csdlc-v2/authorizations/730.json"
           ],
           "parallel_group": "authorized-live",
           "defer_reason": "Requires exact operator authorization after saved-plan review."
