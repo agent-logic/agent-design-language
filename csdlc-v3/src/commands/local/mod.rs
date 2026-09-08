@@ -1877,8 +1877,12 @@ fn validate_context(
             "canonical generation selector must be typed JSON",
         )]
     })?;
-    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.generation_selector.v2")
-        || selector.get("default_generation").and_then(Value::as_str) != Some("v3")
+    if selector.get("schema").and_then(Value::as_str) != Some("csdlc.v3.authority_selector.v1")
+        || selector.get("generation").and_then(Value::as_str) != Some("v3")
+        || selector
+            .get("operational_authority")
+            .and_then(Value::as_str)
+            != Some("csdlc-v3")
     {
         return Err(vec![finding(
             PlanStatus::Blocked,

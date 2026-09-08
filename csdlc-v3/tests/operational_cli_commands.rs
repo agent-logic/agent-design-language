@@ -352,7 +352,8 @@ fn v2_selector_keeps_named_local_cli_in_construction_mode() {
 #[test]
 fn remote_operational_dispatch_is_reachable_and_fails_closed_under_v2_selector() {
     let fixture = fixture("remote-v2-fence");
-    let remote_selector_digest = "0".repeat(64);
+    let remote_selector_digest =
+        csdlc_v3::commands::remote::canonical_authority_selector_digest(&fixture).unwrap();
     let remote = RemoteRouteRequest {
         repository: "agent-logic/agent-design-language".into(),
         issue: 505,
