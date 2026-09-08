@@ -5,10 +5,23 @@
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
   "phase": "implemented",
   "generation": 17,
-  "digest": "369cf41971e8846e6b759953ca50fd0acdd754c4f3812e1ebdcf582a98e9380c",
+  "digest": "776b28650f1dc92d282368ff445b88a6ed66d0c6b1bc93aceee04bd413deb2cd",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:821db24e-0782-4cbb-a70a-5ceec4850575",
+    "assigned_by": "codex:731-owner",
+    "revision": "git-blake3:78490bd7bc8f0815914469fb4c0323d23437dd13:e815f3b87cdbcfd15e113edcc56197d3e3500936fc886af2bf7abae5d63cb3bb",
+    "scope": [
+      "Exact commit 78490bd7bc8f0815914469fb4c0323d23437dd13 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.",
+      "Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.",
+      "Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.",
+      "Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.",
+      "Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.",
+      "Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.",
+      "Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 only if the live proof satisfies the issue contract."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +57,9 @@
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "b6d3ff7d49294c3b162310274fbdbf25c2d9665cd572bcb73b2c4c71231c28f6",
-      "rendered_digest": "48aecc3c979cd67d0e92079608493afb4e8d965ceda032ff91acb743d77c53d7",
-      "ast_digest": "3a84a48ccec71b8d194177b962b239eb5cd23b34c3e0df13b29b8c37314aad69"
+      "values_digest": "2871f6f6bb92af7005f8bf87b5c7107d26e3ee384e6a57674ccf0a0c6bce05f2",
+      "rendered_digest": "dd706459c12298cd69ad4f55295314901452eb5ae1f9a6e32298a2812f128eab",
+      "ast_digest": "8afaab0a8d6a36795ffab59a465f4af29aeb2d4b386b6dedf5b07de33eec2e43"
     },
     "sor": {
       "values_digest": "8ad389ba1ad87d1c138e3383fc178fb00e7031031341e9c08a8c2ec9ccfd8d39",
@@ -217,6 +230,13 @@
       "actor": "codex:731-owner",
       "reason": "Recover the stale no-mutation checkpoint review assignment after authorized live GCP completion evidence replaced the SOR; a fresh exact-head implementation review is required.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:731-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

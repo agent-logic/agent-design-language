@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+Exact commit 78490bd7bc8f0815914469fb4c0323d23437dd13 on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal.
+Terraform private-foundation implementation in infra/gcp/platform/main.tf, variables.tf, terraform.tfvars.example, and .terraform.lock.hcl.
+Issue-owned #731 validators and evidence under .csdlc/prepared/issues/731, .csdlc/evidence/731, and .csdlc/issues/731.
+Verify the live mutation was explicitly authorized in .csdlc/evidence/731/mutation-authorization-request.json and bound to plan digest e20e83dcafc5d8f7cd963660bbcc249be6fea81ca76d841e8e2e298a4426f6df.
+Verify the successful foundation apply/readback proves the accepted denominator without public exposure, broad IAM, GPU, NAT/LB/DNS, or unintended workload resources.
+Verify the disposable workload evidence proves exactly one labelled private e2-micro with no external IP, auto-delete standard boot disk, successful delete, and zero residual instances, run-labelled instances, disks, or addresses.
+Verify SOR/SRP truth is current for publication and that the PR may use Closes #731 only if the live proof satisfies the issue contract.
 
 ## Prompts
 
