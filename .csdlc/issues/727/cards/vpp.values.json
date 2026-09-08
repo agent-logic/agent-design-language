@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 727,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+    "slug": "aws-d-r-apply-prove-audit-security-account-foundation",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-727-local-readiness",
+          "proof_role": "Run the #727-owned local readiness wrapper, which checks issue-local C-SDLC surfaces, delegates to the reviewed #487 AWS-D static contract validator, confirms the live-apply authorization gate is recorded, and rejects credential-like retained material without making AWS calls.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
+            "."
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-727-authorization-envelope",
+          "proof_role": "Validate the operator-supplied #727 live mutation envelope names the exact approved region, Terraform root, workspace, state key, saved-plan digest, permitted resources, mutation deadline, cost ceiling, and rollback/destroy disposition before any apply; preserve this lane as the approval and exact-head review/publication gate.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+            "."
+          ],
+          "parallel_group": "approval",
+          "defer_reason": "Runs after the operator supplies .adl/requests/727/operator-authorization.json; fail closed before any Terraform apply while this envelope is absent or incomplete."
+        },
+        {
+          "lane": "issue-727-aws-readonly-readback",
+          "proof_role": "Run the governed redacted AWS readback after the authorized saved-plan apply to prove CloudTrail, encrypted/versioned audit bucket retention, AWS Config delivery, IAM Access Analyzer, SNS/EventBridge findings route, and owner/destination tags without printing sensitive identifiers.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh",
+            "--lane=aws-readonly"
+          ],
+          "parallel_group": "live",
+          "defer_reason": "Runs only after explicit operator authorization and successful application of the exact saved plan in the approved business account."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed; do not apply a changed plan and report exact residual selectors without sensitive values.",
+      "design_ref": ".adl/requests/727/design.md",
+      "design_digest": "b91974a49cda2ab20235799b6fcc9ed8c34030c8a61e007d1fa7d262cb0ec052",
+      "diagram_ref": ".adl/requests/727/diagram.mmd",
+      "diagram_digest": "af0932d23c487bbd77b0115e4f1f50f277d6ac1ae04b505137b4d334f87a0ced"
+    }
+  }
+}
