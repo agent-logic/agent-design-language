@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b1be20d5bf5eb437434626639aecafe825fc23aa24503a13194118314b6efff8",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "862a5e5dfab57374e285ed65851ccfe5e6ae6ce7a2b5788a17a1865e82a95fc7",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "c611450939dfd5fe3d3665ac9ff00daa5341c6204c245f5b2f2894ed9beb60c4",
   "branch": "codex/536-sprint8-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-closeout",
   "review_assignment": {
@@ -18,7 +18,20 @@
       ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_536_closeout",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+      ".csdlc/prepared/issues/536/validate-sprint-closeout.rb"
+    ],
+    "reviewed_revision": "git-blake3:6391ad7ee751e95e86318d357b242b272376f1ff:8e4f49ee0be3534a1c94facb9fc73eeffdb512db376d8880040a071d2dfada5a",
+    "findings": [],
+    "residual_risks": [
+      "Public podcast launch and provider submissions remain explicitly routed to backlog #671 and are outside Sprint 8 closeout."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8ab925f2dccdebfd3d4e63b1156e6632f9994f0328d09f0ed5382d6771ca871e",
+      "values_digest": "8ccb722643565303a51c7399c69b07523737156a08bcca081543d080eabf4177",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "01efc1032872c401f57c1fbd20d186410052b89095a07cdbf3ee584ea7f86967",
+      "values_digest": "389373fbaec1a006ff19c7a41050a7ef14d10ed142379dd01dbf95260b48ac51",
       "rendered_digest": "93d1f3e886ad84bd8cb9a942f9758c0da41888e118bd6636b698c9d03ad80b63",
       "ast_digest": "840997ea728eb7a7b38a23a677d500cfa0cdab1ff2b7d112199c337f17289988"
     },
     "spp": {
-      "values_digest": "5dec7ca57589df379fabbd1d814a1c6963f763a8e27a6fe9eafe5c677efacd0a",
+      "values_digest": "47518b1905c450e9393656b99b5411ab7e6386ccfd64b41e6cbfea7dfe4ce610",
       "rendered_digest": "bda1406af101871095a7782b16c0e78a94ecfe02b1b7a25e30bd01a33846b86a",
       "ast_digest": "d8ab373250e52855378ad2f7f6b304f60287aa40f951a2250e9a5c8c2237b98c"
     },
     "vpp": {
-      "values_digest": "4b99205eddc2212c77aad356f7acb8b765db6af6d41bff78564f5fcc11cd571f",
+      "values_digest": "cc9eb7711fca62c7bf38780275a2edeb34ef63550ed0102f74d82c6e5875fb7e",
       "rendered_digest": "bebc327c6a85cddb82fa61c39f7bcd2eaca512861e0157c8ed99c427f5749715",
       "ast_digest": "120d094e710a88ed6083f1fbd19048ee8f12f0eedda9ae477ea67a1f3aba8950"
     },
     "srp": {
-      "values_digest": "2dc74d3b030ccdeb6087eacb3e1dc838c62be6a76e628bb9b3bfc3fd739604cc",
-      "rendered_digest": "a6a57a883f4227a16de6bc6f70adcf62d1f49c6fa28b5d555e1bad52dcbe8de0",
-      "ast_digest": "e6e14486af6e00c119d046500bfacb5467d61245c75d7c9a91e3d070616977ac"
+      "values_digest": "f933f2ded55dd91fa6ae86ea3d51e712e1b01c4dad45e24a48873e2b56f5a972",
+      "rendered_digest": "aaec63bc01d4135a0432b2fe134539cbcddd8c60024b8fe8e50638043906c914",
+      "ast_digest": "c6fd66366321d7ad2b956b6f9600138facd8bc5ea9f7a3ac09a301b56609124d"
     },
     "sor": {
-      "values_digest": "12228cc6e3a757880996fc4d5d8d54af124a87ccac817e0ea116cd68a7873df5",
+      "values_digest": "a99db98956ecbbb59f08bf3d9441df1051826388c8dcd15c700dacb92b41615c",
       "rendered_digest": "715a5005b33efee973ce79e3cbe3c004280cad340aa83b86fbf4a24c0585da3a",
       "ast_digest": "7b298866b02745de9937369b6aa75fb8ff0130d1c231de75e2d6e49d5165b7ef"
     }
@@ -84,6 +97,13 @@
       "to": "implemented",
       "actor": "codex:sprint8-closeout",
       "reason": "Aggregate closeout evidence and focused deterministic proof are complete; enter exact-head review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -219,6 +239,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

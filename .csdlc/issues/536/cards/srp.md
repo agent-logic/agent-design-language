@@ -32,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Public podcast launch and provider submissions remain explicitly routed to backlog #671 and are outside Sprint 8 closeout.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6391ad7ee751e95e86318d357b242b272376f1ff:8e4f49ee0be3534a1c94facb9fc73eeffdb512db376d8880040a071d2dfada5a")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_536_closeout")
 
-Result: pre_review
+Result: pass
