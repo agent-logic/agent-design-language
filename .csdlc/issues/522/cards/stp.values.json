@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 522,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06] Review findings remediation",
+    "slug": "tail-06-review-findings-remediation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one complete finding-disposition ledger; individual remediations remain separately reviewable evidence.",
+      "deliverables": [
+        "Deduplicated but provenance-preserving finding census",
+        "One disposition per accepted finding",
+        "Exact-head fix and validation references",
+        "Explicit owned deferrals",
+        "Release-blocker summary"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every accepted #520/#521 finding appears exactly once in the census",
+        "AC-2: Every substantive fix has exact-head review and meaningful proving validation",
+        "AC-3: Every deferral names owner, rationale, target milestone, and release consequence",
+        "AC-4: No release-blocking finding remains unresolved",
+        "AC-5: Counts and provenance reconcile across source reports and the ledger"
+      ],
+      "dependencies": [
+        "TAIL-05/#521 reviewed green merge is live"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#522",
+        "agent-logic/agent-design-language#520",
+        "agent-logic/agent-design-language#521",
+        "docs/milestones/v0.92.1/evidence/release/tail-04/**",
+        "docs/milestones/v0.92.1/evidence/release/tail-05/**",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-06"
+      ],
+      "non_goals": [
+        "Silent deferral",
+        "Treating issue closure as proof",
+        "Release ceremony",
+        "Combining unrelated substantive fixes"
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 522,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06] Review findings remediation",
+    "slug": "tail-06-review-findings-remediation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Complete disposition of every accepted #520 and #521 finding, including exact-head fix evidence, explicit deferrals, and release consequence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every accepted finding appear exactly once?",
+        "Do fixes have exact-head semantic proof rather than green CI alone?",
+        "Are deferrals explicit, owned, scheduled, and non-blocking?",
+        "Does any unresolved finding still block release?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 522,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06] Review findings remediation",
+    "slug": "tail-06-review-findings-remediation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "After #521 merges, census every internal/external finding, preserve deduplication provenance, route each to a reviewed fix or explicit deferral, prove every disposition, and validate zero unresolved release blockers.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify #521 reviewed merge and ingest every raw #520/#521 finding.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Deduplicate only identical root causes while preserving all source IDs and disagreements.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Route every accepted finding to a bounded fix or explicit owned deferral.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Verify exact-head review and proving validation for fixes and full metadata for deferrals.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Validate census parity, provenance, dispositions, and zero unresolved release blockers.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/release/tail-06",
+        ".csdlc/issues/522",
+        ".csdlc/prepared/issues/522",
+        ".csdlc/prepared/issues/522/validate-remediation-ledger.rb"
+      ],
+      "invariants": [
+        "Every accepted finding is accounted for exactly once",
+        "Every substantive fix is independently reviewable",
+        "Every deferral is explicit and owned",
+        "Release blockers cannot remain unresolved"
+      ],
+      "risks": [
+        "Deduplication could hide distinct failures",
+        "Green checks could be mistaken for semantic proof",
+        "A deferral could omit release consequence",
+        "Late fixes could stale review evidence"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "#521 is not reviewed and merged",
+        "Finding denominator mismatch",
+        "A fix lacks exact-head review or meaningful proof",
+        "A release blocker remains unresolved"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/522/design.md",
+      "design_digest": "4692a9546dd100ef9ab4dba437640f0b8300315e2dc45be653623f4c39b6c857",
+      "diagram_ref": ".csdlc/prepared/issues/522/diagram.mmd",
+      "diagram_digest": "7c6c137dd6eccc07ef3e3844d07d8305f1d6720d876ddfaf7ebb9a7ed82fc49f"
+    }
+  }
+}
