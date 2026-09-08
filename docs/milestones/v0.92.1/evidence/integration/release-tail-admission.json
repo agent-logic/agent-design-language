@@ -1,0 +1,989 @@
+{
+  "schema": "adl.v0921.release_tail_admission.v1",
+  "candidate": "b8e1b4483b1c345e42ec7817bfde8214469867bb",
+  "generated_at": "2026-09-08T03:24:51Z",
+  "denominator_policy": "All milestone issues titled [v0.92.1], excluding release-tail children and sprint umbrellas; explicit backlog issues remain visible as operator-deferred rows.",
+  "denominator": [
+    {
+      "issue": 51,
+      "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/51#issue-body",
+      "revision": null,
+      "merge_ancestry": "not_proven",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/51"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/issues/51",
+      "validation_evidence": "github_issue_terminal_state",
+      "review_evidence": "https://github.com/agent-logic/agent-design-language/issues/51",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 122,
+      "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/122#issue-body",
+      "revision": "c6189b927198726787683a0fa8b45a644d1e01ff",
+      "merge_ancestry": "merged_into_main:49e20d099353b6bc57795c2597682e23f5251b97",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/122",
+        ".csdlc/issues/122",
+        "https://github.com/agent-logic/agent-design-language/pull/553"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/553",
+      "validation_evidence": ".csdlc/issues/122/cards/sor.md",
+      "review_evidence": ".csdlc/issues/122/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 261,
+      "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/261#issue-body",
+      "revision": "78af9095a16886f8c0876e139113620dca806984",
+      "merge_ancestry": "merged_into_main:7f04298f87e2bde5b90eb174d9d7758067d348d0",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/261",
+        ".csdlc/issues/261",
+        "https://github.com/agent-logic/agent-design-language/pull/611"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/611",
+      "validation_evidence": ".csdlc/issues/261/cards/sor.md",
+      "review_evidence": ".csdlc/issues/261/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 262,
+      "title": "[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/262#issue-body",
+      "revision": "842b7d57d09b66a6f9ea9a43a4e5d02be43aa3bb",
+      "merge_ancestry": "merged_into_main:6e01e2bbe40915e814e43e54f84dfb61c84601e3",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/262",
+        ".csdlc/issues/262",
+        "https://github.com/agent-logic/agent-design-language/pull/618"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/618",
+      "validation_evidence": ".csdlc/issues/262/cards/sor.md",
+      "review_evidence": ".csdlc/issues/262/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 263,
+      "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/263#issue-body",
+      "revision": "a77e8e6c8e6e3c59330a5c15ce45924985735b7c",
+      "merge_ancestry": "merged_into_main:e13b5db0b49f9bc6772ca2765634a852abdf1ed2",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/263",
+        ".csdlc/issues/263",
+        "https://github.com/agent-logic/agent-design-language/pull/626"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/626",
+      "validation_evidence": ".csdlc/issues/263/cards/sor.md",
+      "review_evidence": ".csdlc/issues/263/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 264,
+      "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/264#issue-body",
+      "revision": "a285a690b86f95f6fc3ea3dd150ded76b32c469b",
+      "merge_ancestry": "merged_into_main:bdbf8aa32620da0e277bf3e2ed5f272354021744",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/264",
+        ".csdlc/issues/264",
+        "https://github.com/agent-logic/agent-design-language/pull/649"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/649",
+      "validation_evidence": ".csdlc/issues/264/cards/sor.md",
+      "review_evidence": ".csdlc/issues/264/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 342,
+      "title": "[v0.92.1][WP-24A] Podcast Studio first ten episodes",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/342#issue-body",
+      "revision": "822c81e9d0ad15e479960de542d419e64c80e1f9",
+      "merge_ancestry": "merged_into_main:b381edce8020567c4ac5af03f5df062157f55a16",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/342",
+        ".csdlc/issues/342",
+        "https://github.com/agent-logic/agent-design-language/pull/586"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/586",
+      "validation_evidence": ".csdlc/issues/342/cards/sor.md",
+      "review_evidence": ".csdlc/issues/342/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 345,
+      "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/345#issue-body",
+      "revision": "ae702043682e18783a07234673150e3f1fd692f5",
+      "merge_ancestry": "merged_into_main:663792105abd977b7f9225d981200a8ed5749adb",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/345",
+        ".csdlc/issues/345",
+        "https://github.com/agent-logic/agent-design-language/pull/593"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/593",
+      "validation_evidence": ".csdlc/issues/345/cards/sor.md",
+      "review_evidence": ".csdlc/issues/345/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 480,
+      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/480#issue-body",
+      "revision": "23856abbc7cde90dd9d1c6467dd6c61aca1bc274",
+      "merge_ancestry": "merged_into_main:001c270beda2b35b60e0be04f3c3bd331a156c48",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/480",
+        ".csdlc/issues/480",
+        "https://github.com/agent-logic/agent-design-language/pull/527"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/527",
+      "validation_evidence": ".csdlc/issues/480/cards/sor.md",
+      "review_evidence": ".csdlc/issues/480/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 482,
+      "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/482#issue-body",
+      "revision": "2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c",
+      "merge_ancestry": "merged_into_main:e2c1d1649b0c930a5a1254575a07ef2a4496d48d",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/482",
+        ".csdlc/issues/482",
+        "https://github.com/agent-logic/agent-design-language/pull/545"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/545",
+      "validation_evidence": ".csdlc/issues/482/cards/sor.md",
+      "review_evidence": ".csdlc/issues/482/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 483,
+      "title": "[v0.92.1][CORP-B] Corporate account custody register",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/483#issue-body",
+      "revision": "a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239",
+      "merge_ancestry": "merged_into_main:4a0b49c0071bacdaab19d6d9eb8c44380beb51be",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/483",
+        ".csdlc/issues/483",
+        "https://github.com/agent-logic/agent-design-language/pull/562"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/562",
+      "validation_evidence": ".csdlc/issues/483/cards/sor.md",
+      "review_evidence": ".csdlc/issues/483/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 484,
+      "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/484#issue-body",
+      "revision": "e9fdf5b07bdcbde235511c52c40fb8c626cc95a7",
+      "merge_ancestry": "merged_into_main:e5f30c60c68a60d43f51c70b4615065197a34404",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/484",
+        ".csdlc/issues/484",
+        "https://github.com/agent-logic/agent-design-language/pull/556"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/556",
+      "validation_evidence": ".csdlc/issues/484/cards/sor.md",
+      "review_evidence": ".csdlc/issues/484/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 485,
+      "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/485#issue-body",
+      "revision": "2a5d25239853499b6ac73b37d968d2b97e75a586",
+      "merge_ancestry": "merged_into_main:a71d699d52831b32bb68ed9c7c7e837925949de4",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/485",
+        ".csdlc/issues/485",
+        "https://github.com/agent-logic/agent-design-language/pull/564"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/564",
+      "validation_evidence": ".csdlc/issues/485/cards/sor.md",
+      "review_evidence": ".csdlc/issues/485/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 486,
+      "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/486#issue-body",
+      "revision": "cfd5f0edabfde2e380a5534d619e7832f484bb8c",
+      "merge_ancestry": "merged_into_main:1964b2e1f6e24a9dcb5788394502a2421300751a",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/486",
+        ".csdlc/issues/486",
+        "https://github.com/agent-logic/agent-design-language/pull/567"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/567",
+      "validation_evidence": ".csdlc/issues/486/cards/sor.md",
+      "review_evidence": ".csdlc/issues/486/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 487,
+      "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/487#issue-body",
+      "revision": "79be6b5b0327be752817197738887d25335e71a9",
+      "merge_ancestry": "merged_into_main:1d31016a8df3cf07a4c3f2e6acd2694bd10570c2",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/487",
+        ".csdlc/issues/487",
+        "https://github.com/agent-logic/agent-design-language/pull/574"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/574",
+      "validation_evidence": ".csdlc/issues/487/cards/sor.md",
+      "review_evidence": ".csdlc/issues/487/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 488,
+      "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/488#issue-body",
+      "revision": "4e904b6629ff3060094dbef3613388e6e5245b8d",
+      "merge_ancestry": "merged_into_main:a6b404cd6e74d7528745325036ceb1a85fd47bd2",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/488",
+        ".csdlc/issues/488",
+        "https://github.com/agent-logic/agent-design-language/pull/576"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/576",
+      "validation_evidence": ".csdlc/issues/488/cards/sor.md",
+      "review_evidence": ".csdlc/issues/488/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 489,
+      "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/489#issue-body",
+      "revision": "485b4197908231bb2065e1e29c7c5013536e1975",
+      "merge_ancestry": "merged_into_main:69ba35e066d1389a9f194659acb066a7dca82a40",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/489",
+        ".csdlc/issues/489",
+        "https://github.com/agent-logic/agent-design-language/pull/577"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/577",
+      "validation_evidence": ".csdlc/issues/489/cards/sor.md",
+      "review_evidence": ".csdlc/issues/489/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 490,
+      "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/490#issue-body",
+      "revision": "f0be8c8d1a2f12df8b2d8169997583dd66a9a521",
+      "merge_ancestry": "merged_into_main:daa05de9332c82e3f9f2191975ef95b0ed4e211d",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/490",
+        ".csdlc/issues/490",
+        "https://github.com/agent-logic/agent-design-language/pull/566"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/566",
+      "validation_evidence": ".csdlc/issues/490/cards/sor.md",
+      "review_evidence": ".csdlc/issues/490/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 491,
+      "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/491#issue-body",
+      "revision": "695ca0f6cec62357349390afda3952e39cd92337",
+      "merge_ancestry": "merged_into_main:75ee9e6b2888a81b355d1fb496b488329a4c7d30",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/491",
+        ".csdlc/issues/491",
+        "https://github.com/agent-logic/agent-design-language/pull/575"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/575",
+      "validation_evidence": ".csdlc/issues/491/cards/sor.md",
+      "review_evidence": ".csdlc/issues/491/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 492,
+      "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/492#issue-body",
+      "revision": "179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa",
+      "merge_ancestry": "merged_into_main:b9a98710e2a0a50565c3835386f7f6a348a26eae",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/492",
+        ".csdlc/issues/492",
+        "https://github.com/agent-logic/agent-design-language/pull/580"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/580",
+      "validation_evidence": ".csdlc/issues/492/cards/sor.md",
+      "review_evidence": ".csdlc/issues/492/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 493,
+      "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/493#issue-body",
+      "revision": "d5b1584bb55e92974e6d3481b59d2e28a17db441",
+      "merge_ancestry": "merged_into_main:c0bf217934508d6dbc70d78633e6a95d5ddd9d06",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/493",
+        ".csdlc/issues/493",
+        "https://github.com/agent-logic/agent-design-language/pull/587"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/587",
+      "validation_evidence": ".csdlc/issues/493/cards/sor.md",
+      "review_evidence": ".csdlc/issues/493/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 494,
+      "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/494#issue-body",
+      "revision": "de959c6263f671fa8fe1df851ea6ae1d25686831",
+      "merge_ancestry": "merged_into_main:dc08b5abf10682ed9ace5deefd0e1389ea6899b6",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/494",
+        ".csdlc/issues/494",
+        "https://github.com/agent-logic/agent-design-language/pull/595"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/595",
+      "validation_evidence": ".csdlc/issues/494/cards/sor.md",
+      "review_evidence": ".csdlc/issues/494/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 495,
+      "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/495#issue-body",
+      "revision": "6177249dfb46fe3cf95fbcc996469517928f525d",
+      "merge_ancestry": "merged_into_main:c78c60f5a45a87a96159d4910a831b69b62b042c",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/495",
+        ".csdlc/issues/495",
+        "https://github.com/agent-logic/agent-design-language/pull/590"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/590",
+      "validation_evidence": ".csdlc/issues/495/cards/sor.md",
+      "review_evidence": ".csdlc/issues/495/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 496,
+      "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/496#issue-body",
+      "revision": "59a3d0bd106f8bdd0def53dbe1564667ee6adac4",
+      "merge_ancestry": "merged_into_main:83077ca029d52c9d613ed5a373da30f1dd42d9b3",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/496",
+        ".csdlc/issues/496",
+        "https://github.com/agent-logic/agent-design-language/pull/599"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/599",
+      "validation_evidence": ".csdlc/issues/496/cards/sor.md",
+      "review_evidence": ".csdlc/issues/496/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 497,
+      "title": "[v0.92.1][CORP-C] Corporate IP-transfer acceptance",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/497#issue-body",
+      "revision": null,
+      "merge_ancestry": "not_proven",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/497",
+        ".csdlc/issues/497"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/issues/497",
+      "validation_evidence": ".csdlc/issues/497/cards/sor.md",
+      "review_evidence": ".csdlc/issues/497/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 498,
+      "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/498#issue-body",
+      "revision": "dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8",
+      "merge_ancestry": "merged_into_main:c51c8c7a8b51395986af8185f6e6ca2edaf4f435",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/498",
+        ".csdlc/issues/498",
+        "https://github.com/agent-logic/agent-design-language/pull/637"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/637",
+      "validation_evidence": ".csdlc/issues/498/cards/sor.md",
+      "review_evidence": ".csdlc/issues/498/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 499,
+      "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/499#issue-body",
+      "revision": "940c42d246be5d54f34b7b300526a644cc881580",
+      "merge_ancestry": "merged_into_main:e986de6d06aacd385de93dd033def77a718c1581",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/499",
+        ".csdlc/issues/499",
+        "https://github.com/agent-logic/agent-design-language/pull/547"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/547",
+      "validation_evidence": ".csdlc/issues/499/cards/sor.md",
+      "review_evidence": ".csdlc/issues/499/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 500,
+      "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/500#issue-body",
+      "revision": "d02f90008acadcc10df048b7f089cc4b98ef608f",
+      "merge_ancestry": "merged_into_main:1dddcce35d061bc128c2431b4f31cf09e0f4d435",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/500",
+        ".csdlc/issues/500",
+        "https://github.com/agent-logic/agent-design-language/pull/565"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/565",
+      "validation_evidence": ".csdlc/issues/500/cards/sor.md",
+      "review_evidence": ".csdlc/issues/500/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 501,
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/501#issue-body",
+      "revision": "9056f19245f93bc9efa3b55561671a8f002c6536",
+      "merge_ancestry": "merged_into_main:1972aa47bd7047b8594a03bf770fb92f7fb63d51",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/501",
+        ".csdlc/issues/501",
+        "https://github.com/agent-logic/agent-design-language/pull/568"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/568",
+      "validation_evidence": ".csdlc/issues/501/cards/sor.md",
+      "review_evidence": ".csdlc/issues/501/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 502,
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/502#issue-body",
+      "revision": "ed6f01c1e33b8057142491fca3028641ce5efc74",
+      "merge_ancestry": "merged_into_main:76de907734ab69efe00b5bc0bf24f066002d0131",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/502",
+        ".csdlc/issues/502",
+        "https://github.com/agent-logic/agent-design-language/pull/572"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/572",
+      "validation_evidence": ".csdlc/issues/502/cards/sor.md",
+      "review_evidence": ".csdlc/issues/502/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 503,
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/503#issue-body",
+      "revision": "974abc520454690f0b392162b9ced783e8584017",
+      "merge_ancestry": "merged_into_main:5692d95ee6e4ee632833be348fa5601ddccbca1a",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/503",
+        ".csdlc/issues/503",
+        "https://github.com/agent-logic/agent-design-language/pull/581"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/581",
+      "validation_evidence": ".csdlc/issues/503/cards/sor.md",
+      "review_evidence": ".csdlc/issues/503/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 504,
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/504#issue-body",
+      "revision": "9ef650bc174a81849ffb09ae4d21b699fee1368d",
+      "merge_ancestry": "merged_into_main:f68ca996541b8825090261fd70845bf1c406b410",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/504",
+        ".csdlc/issues/504",
+        "https://github.com/agent-logic/agent-design-language/pull/588"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/588",
+      "validation_evidence": ".csdlc/issues/504/cards/sor.md",
+      "review_evidence": ".csdlc/issues/504/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 505,
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/505#issue-body",
+      "revision": "74ddb31702482172eea4ba3d74700536eab32e49",
+      "merge_ancestry": "merged_into_main:d3f98ed005cf44c359ac482e271e6b8634e93f23",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/505",
+        "https://github.com/agent-logic/agent-design-language/pull/591"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/591",
+      "validation_evidence": "github_issue_terminal_state",
+      "review_evidence": "https://github.com/agent-logic/agent-design-language/pull/591",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 506,
+      "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/506#issue-body",
+      "revision": "4676aef4189376b3f64d17efdb717732274e3240",
+      "merge_ancestry": "merged_into_main:badcf9067da6eb46fc9f59e9da8b11a41e2f24f6",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/506",
+        ".csdlc/issues/506",
+        "https://github.com/agent-logic/agent-design-language/pull/616"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/616",
+      "validation_evidence": ".csdlc/issues/506/cards/sor.md",
+      "review_evidence": ".csdlc/issues/506/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 507,
+      "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/507#issue-body",
+      "revision": "cca85d6fd4976e2b2358d0d130b8291a88cb1c95",
+      "merge_ancestry": "merged_into_main:d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/507",
+        ".csdlc/issues/507",
+        "https://github.com/agent-logic/agent-design-language/pull/619"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/619",
+      "validation_evidence": ".csdlc/issues/507/cards/sor.md",
+      "review_evidence": ".csdlc/issues/507/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 508,
+      "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/508#issue-body",
+      "revision": "cca4f7f675241a0a473b38006c8be2eb95165028",
+      "merge_ancestry": "merged_into_main:a1c440cc7b1e3708961680c802585d0b80e2263f",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/508",
+        ".csdlc/issues/508",
+        "https://github.com/agent-logic/agent-design-language/pull/623"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/623",
+      "validation_evidence": ".csdlc/issues/508/cards/sor.md",
+      "review_evidence": ".csdlc/issues/508/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 509,
+      "title": "[v0.92.1][DRT-D] GCP portability qualification",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/509#issue-body",
+      "revision": "c89a584e53f152ed499a5d56d479296590044714",
+      "merge_ancestry": "merged_into_main:5a1109ffa795d411e0e15cdfd29adf68e2c2d953",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/509",
+        ".csdlc/issues/509",
+        "https://github.com/agent-logic/agent-design-language/pull/652"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/652",
+      "validation_evidence": ".csdlc/issues/509/cards/sor.md",
+      "review_evidence": ".csdlc/issues/509/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 510,
+      "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/510#issue-body",
+      "revision": "fac5eaa63a82eaf50fe455df14cc22ebb08a2678",
+      "merge_ancestry": "merged_into_main:000fb7beb5fe4107e3e80d5de9183be224716a6d",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/510",
+        ".csdlc/issues/510",
+        "https://github.com/agent-logic/agent-design-language/pull/546"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/546",
+      "validation_evidence": ".csdlc/issues/510/cards/sor.md",
+      "review_evidence": ".csdlc/issues/510/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 511,
+      "title": "[v0.92.1][OBS-A] Observatory experience design",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/511#issue-body",
+      "revision": null,
+      "merge_ancestry": "not_proven",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/511",
+        ".csdlc/issues/511"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/issues/511",
+      "validation_evidence": ".csdlc/issues/511/cards/sor.md",
+      "review_evidence": ".csdlc/issues/511/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 512,
+      "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/512#issue-body",
+      "revision": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+      "merge_ancestry": "not_proven",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/512",
+        ".csdlc/issues/512",
+        "https://github.com/agent-logic/agent-design-language/pull/719"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/719",
+      "validation_evidence": ".csdlc/issues/512/cards/sor.md",
+      "review_evidence": ".csdlc/issues/512/cards/srp.md",
+      "closeout_evidence": "github:issue_open",
+      "disposition": "release_blocker"
+    },
+    {
+      "issue": 513,
+      "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/513#issue-body",
+      "revision": "489bc0f3af68b059e5c26ff22600d945b3d21db8",
+      "merge_ancestry": "merged_into_main:5bc84a0f27a522b6d500551d64f8d12dc2357427",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/513",
+        ".csdlc/issues/513",
+        "https://github.com/agent-logic/agent-design-language/pull/557"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/557",
+      "validation_evidence": ".csdlc/issues/513/cards/sor.md",
+      "review_evidence": ".csdlc/issues/513/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 514,
+      "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/514#issue-body",
+      "revision": "1b0fd87496bb09200a5cb1bbb0529e8730be1b20",
+      "merge_ancestry": "merged_into_main:18f1c76667dc6913c2553b53228e73e8de9d11c9",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/514",
+        ".csdlc/issues/514",
+        "https://github.com/agent-logic/agent-design-language/pull/549"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/549",
+      "validation_evidence": ".csdlc/issues/514/cards/sor.md",
+      "review_evidence": ".csdlc/issues/514/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 515,
+      "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/515#issue-body",
+      "revision": "9e6a8bd104d79f77edc4460ee5424cea83ef9cdc",
+      "merge_ancestry": "merged_into_main:17b883e93abff7a155cd783a3d76f52ba2eabbf2",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/515",
+        ".csdlc/issues/515",
+        "https://github.com/agent-logic/agent-design-language/pull/621"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/621",
+      "validation_evidence": ".csdlc/issues/515/cards/sor.md",
+      "review_evidence": ".csdlc/issues/515/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 528,
+      "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/528#issue-body",
+      "revision": "502626325d377042ee096fff31675998c3bcbd56",
+      "merge_ancestry": "merged_into_main:edbc3ebc9b4e7c0862595345eebff8e04c9d5260",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/528",
+        ".csdlc/issues/528",
+        "https://github.com/agent-logic/agent-design-language/pull/603"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/603",
+      "validation_evidence": ".csdlc/issues/528/cards/sor.md",
+      "review_evidence": ".csdlc/issues/528/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 544,
+      "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/544#issue-body",
+      "revision": "46e9d67378b2ca799326aac6000553a27300cffd",
+      "merge_ancestry": "merged_into_main:5f0aa6eea5dd4aed6b9087255cad9b9d8ca4d8fc",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/544",
+        ".csdlc/issues/544",
+        "https://github.com/agent-logic/agent-design-language/pull/548"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/548",
+      "validation_evidence": ".csdlc/issues/544/cards/sor.md",
+      "review_evidence": ".csdlc/issues/544/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 558,
+      "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/558#issue-body",
+      "revision": "6df008e183decf5829be5bdb8ef057c8bbb5a1e1",
+      "merge_ancestry": "merged_into_main:c06b7d691eb6eb59867db87bbccbcdd1c74bebad",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/558",
+        ".csdlc/issues/558",
+        "https://github.com/agent-logic/agent-design-language/pull/559"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/559",
+      "validation_evidence": ".csdlc/issues/558/cards/sor.md",
+      "review_evidence": ".csdlc/issues/558/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 560,
+      "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/560#issue-body",
+      "revision": "c58326d8796c4963ed4defa4bae4269667f332ee",
+      "merge_ancestry": "merged_into_main:6a2a6f1d0b595797022eb291528a3c4c8c5541e9",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/560",
+        ".csdlc/issues/560",
+        "https://github.com/agent-logic/agent-design-language/pull/561"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/561",
+      "validation_evidence": ".csdlc/issues/560/cards/sor.md",
+      "review_evidence": ".csdlc/issues/560/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 563,
+      "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/563#issue-body",
+      "revision": "e8f5c952521bae9822b7d668da4572f7aa0f0b77",
+      "merge_ancestry": "merged_into_main:282ced247168e9d49c938ce194df92b97ebe7f65",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/563",
+        ".csdlc/issues/563",
+        "https://github.com/agent-logic/agent-design-language/pull/569"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/569",
+      "validation_evidence": ".csdlc/issues/563/cards/sor.md",
+      "review_evidence": ".csdlc/issues/563/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 592,
+      "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/592#issue-body",
+      "revision": "5e8165934330676d51be20ae3240b5eadb239f8e",
+      "merge_ancestry": "merged_into_main:3e44cf33ec840443bf3c4639b6a4c106298cf405",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/592",
+        ".csdlc/issues/592",
+        "https://github.com/agent-logic/agent-design-language/pull/650"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/650",
+      "validation_evidence": ".csdlc/issues/592/cards/sor.md",
+      "review_evidence": ".csdlc/issues/592/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 617,
+      "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/617#issue-body",
+      "revision": "5b53a153ae9720d45a867409b08924459946c27c",
+      "merge_ancestry": "merged_into_main:c7f01661d00f7eec0e0a2c9266b18064e43d7133",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/617",
+        ".csdlc/issues/617",
+        "https://github.com/agent-logic/agent-design-language/pull/636"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/636",
+      "validation_evidence": ".csdlc/issues/617/cards/sor.md",
+      "review_evidence": ".csdlc/issues/617/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 656,
+      "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/656#issue-body",
+      "revision": "05e93e7173fcde3cb6a55c2dcbde8d2f59742c78",
+      "merge_ancestry": "merged_into_main:fef0e4f4657dadca389dc0c3ed315a88a15905f4",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/656",
+        ".csdlc/issues/656",
+        "https://github.com/agent-logic/agent-design-language/pull/658"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/658",
+      "validation_evidence": ".csdlc/issues/656/cards/sor.md",
+      "review_evidence": ".csdlc/issues/656/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 659,
+      "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/659#issue-body",
+      "revision": "30716d4806f350d4fd6aeb6c2e58b4cb9ce9d6f2",
+      "merge_ancestry": "merged_into_main:db476f118ab11729d35d47ce20d4b59cc904fc01",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/659",
+        ".csdlc/issues/659",
+        "https://github.com/agent-logic/agent-design-language/pull/676"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/676",
+      "validation_evidence": ".csdlc/issues/659/cards/sor.md",
+      "review_evidence": ".csdlc/issues/659/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 660,
+      "title": "[v0.92.1][podcast][emergency] Remove unintended public /podcast/ exposure and keep show under _preview",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/660#issue-body",
+      "revision": "fdc3356e5777addf067bbdd61a01ee3f1ccbe5e1",
+      "merge_ancestry": "merged_into_main:549f1b6a51ee644a6563c9d02ad63cf49af0d3b6",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/660",
+        ".csdlc/issues/660",
+        "https://github.com/agent-logic/agent-design-language/pull/664"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/664",
+      "validation_evidence": ".csdlc/issues/660/cards/sor.md",
+      "review_evidence": ".csdlc/issues/660/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 661,
+      "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/661#issue-body",
+      "revision": "f7211e3bba9d6759d7cae18511e397dd33e8ecee",
+      "merge_ancestry": "merged_into_main:5fe80903ac847b08d82aabd0d30ac168b2e0bf70",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/661",
+        ".csdlc/issues/661",
+        "https://github.com/agent-logic/agent-design-language/pull/666"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/666",
+      "validation_evidence": ".csdlc/issues/661/cards/sor.md",
+      "review_evidence": ".csdlc/issues/661/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 662,
+      "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/662#issue-body",
+      "revision": "f2d09fa64efed868b043809387efe573eee54941",
+      "merge_ancestry": "merged_into_main:cea5219f6e74b34d930d0dc39b6a607bc6303acb",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/662",
+        ".csdlc/issues/662",
+        "https://github.com/agent-logic/agent-design-language/pull/668"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/668",
+      "validation_evidence": ".csdlc/issues/662/cards/sor.md",
+      "review_evidence": ".csdlc/issues/662/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 665,
+      "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/665#issue-body",
+      "revision": "8e3648f0268107e8d842887b623d6972587c8cb5",
+      "merge_ancestry": "merged_into_main:0d6423644e7b1ee77e5729ec86d016203c9732fd",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/665",
+        ".csdlc/issues/665",
+        "https://github.com/agent-logic/agent-design-language/pull/673"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/673",
+      "validation_evidence": ".csdlc/issues/665/cards/sor.md",
+      "review_evidence": ".csdlc/issues/665/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 693,
+      "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/693#issue-body",
+      "revision": "1946974be9839a13df6c4736b0f3ea34f0d1debc",
+      "merge_ancestry": "merged_into_main:0e460810e5ac78ce655283f35e8167337eb33160",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/693",
+        ".csdlc/issues/693",
+        "https://github.com/agent-logic/agent-design-language/pull/696"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/696",
+      "validation_evidence": ".csdlc/issues/693/cards/sor.md",
+      "review_evidence": ".csdlc/issues/693/cards/srp.md",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    },
+    {
+      "issue": 708,
+      "title": "[v0.92.1][Runtime] Inject versioned Polis welcome package into admitted agent context",
+      "acceptance_authority": "https://github.com/agent-logic/agent-design-language/issues/708#issue-body",
+      "revision": "7b753133251ea8f7d01a6471ede2d40ca39d4813",
+      "merge_ancestry": "merged_into_main:3b3e406119568cc31a4587aa43fb5d94ce54368d",
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/708",
+        "https://github.com/agent-logic/agent-design-language/pull/709"
+      ],
+      "implementation_evidence": "https://github.com/agent-logic/agent-design-language/pull/709",
+      "validation_evidence": "github_issue_terminal_state",
+      "review_evidence": "https://github.com/agent-logic/agent-design-language/pull/709",
+      "closeout_evidence": "github:issue_closed",
+      "disposition": "satisfied"
+    }
+  ],
+  "decision": "blocked"
+}
