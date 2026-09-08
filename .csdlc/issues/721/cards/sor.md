@@ -144,11 +144,11 @@ Implemented v3 GitHub issue-create parity, corrected post-cutover terminal finis
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
