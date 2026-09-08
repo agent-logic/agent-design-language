@@ -2,19 +2,17 @@
 
 Candidate: `af5f8036ab7a0619751ab55fa9bd4891f377cd9d`
 
-Captured-input digest: `68c29223cc43873b5c4a11c996acb5d2a176d8563fcba8aaf637f0dac6d43004`
+Captured-input digest: `f4a3146afd03f0c7ad86168fc41123ed558798e7065df4071364ff343bd8dcfc`
 
-Canonical projection digest: `4afebbebeecfc9c814fb3d927cb69a52999956203bfc6c118a52b76e7729d5d5`
+Canonical projection digest: `be57d86ae902a6c077829c7f990aac80a3b04375083906359d1b2f16b88cdd06`
 
 ## Findings
 
-- **P1 issue-497-execution-gap** — CORP-C / #497 has no PR or captured closure authority and its live criteria materially replace control-plane ownership/recovery acceptance with prerequisite ancestry and sidecar routing. Evidence: https://github.com/agent-logic/agent-design-language/issues/497, .csdlc/issues/497/cards/srp.md, .csdlc/issues/497/cards/sor.md. Owner: issue #497. Disposition: open.
 - **P2 consolidated-live-spec-sync-debt** — Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records. Evidence: https://github.com/agent-logic/agent-design-language/issues/480#issue-body, f9a7235866ee1a2565fe18a7399b51b2704c37dae4ed875cfec987c8050e5532, 96ab626bad8ef94a33c1d7211a98d2786e94590998ee2cbad6180124b2f33cd5, https://github.com/agent-logic/agent-design-language/issues/494#issue-body, e4a5840ac93ada0212c84353af8527b00cc38d710ec5f0bb14bbc50cf6480851, 25aeef825468013dbd959e1ebd443f9c2552a1ef526814a42cc05c2f075a9286, https://github.com/agent-logic/agent-design-language/issues/510#issue-body, fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca, 5a236113e049937ac0fd466b425d43acafabd891c2835cde80b197d55993a1e7, https://github.com/agent-logic/agent-design-language/issues/512#issue-body, 80be51e3a6ae692a23386c52cfcd8aed130b058c398c55659d1d724a79eaaa5d, 759236137cc551e220664b5528b0850882fddd4e5c1df4f1158b01d582ee02ba. Owner: release planning maintainers. Disposition: follow_up.
-- **P1 issue-721-v3-standalone-parity-gap** — Open #721 owns full standalone v3 parity. At af5f8036, a fresh detached checkout with csdlc-v2 removed cannot compile csdlc-v3 because its manifest dev-depends on ../csdlc-v2; authority and remote code also read the v2 generation selector. V3 must independently initialize/create, prepare/edit/validate/bind/run/review/publish/observe/finish/clean, recover, and idempotently replay every required operation; any v2 fallback blocks cutover. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/remote/mod.rs, cargo test --locked --manifest-path csdlc-v3/Cargo.toml --no-run (no-v2 canary at af5f8036: missing ../csdlc-v2). Owner: issue #721. Disposition: open.
-- **P2 consolidated-criterion-review-proof-debt** — Criterion-level evidence links are incomplete, but closed merged ancestral implementations and successful checks provide observed execution evidence. Evidence: https://github.com/agent-logic/agent-design-language/pull/527, https://github.com/agent-logic/agent-design-language/pull/545, https://github.com/agent-logic/agent-design-language/pull/562, https://github.com/agent-logic/agent-design-language/pull/556, https://github.com/agent-logic/agent-design-language/pull/564, https://github.com/agent-logic/agent-design-language/pull/567, https://github.com/agent-logic/agent-design-language/pull/574, https://github.com/agent-logic/agent-design-language/pull/576, https://github.com/agent-logic/agent-design-language/pull/577, https://github.com/agent-logic/agent-design-language/pull/566, https://github.com/agent-logic/agent-design-language/pull/575, https://github.com/agent-logic/agent-design-language/pull/580, https://github.com/agent-logic/agent-design-language/pull/587, https://github.com/agent-logic/agent-design-language/pull/595, https://github.com/agent-logic/agent-design-language/pull/590, https://github.com/agent-logic/agent-design-language/pull/599, https://github.com/agent-logic/agent-design-language/pull/637, https://github.com/agent-logic/agent-design-language/pull/547, https://github.com/agent-logic/agent-design-language/pull/565, https://github.com/agent-logic/agent-design-language/pull/568, https://github.com/agent-logic/agent-design-language/pull/572, https://github.com/agent-logic/agent-design-language/pull/581, https://github.com/agent-logic/agent-design-language/pull/588, https://github.com/agent-logic/agent-design-language/pull/591, https://github.com/agent-logic/agent-design-language/pull/616, https://github.com/agent-logic/agent-design-language/pull/619, https://github.com/agent-logic/agent-design-language/pull/623, https://github.com/agent-logic/agent-design-language/pull/652, https://github.com/agent-logic/agent-design-language/pull/546, https://github.com/agent-logic/agent-design-language/pull/719, https://github.com/agent-logic/agent-design-language/pull/557, https://github.com/agent-logic/agent-design-language/pull/549, https://github.com/agent-logic/agent-design-language/pull/621. Owner: release evidence maintainers. Disposition: follow_up.
-- **P2 consolidated-retained-successor-proof-debt** — Some retained predecessors lack a successor with observed merged execution evidence. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/stp.md. Owner: release evidence maintainers. Disposition: follow_up.
-- **P2 issue-84-operator-deferred** — [backlog][Observatory] Complete live Unity Observatory Runtime v3 integration is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"044f67590bac43d355059a0704cb19d617955345d4b6af57df044a0b18a2f6f7", "candidate"=>"af5f8036ab7a0619751ab55fa9bd4891f377cd9d"}. Owner: issue #84. Disposition: routed_to_backlog.
-- **P2 issue-251-operator-deferred** — [backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity is explicitly routed outside the release gate. Evidence: {"source"=>"github_label_and_canonical_plan", "label"=>"track:backlog", "issue_body_sha256"=>"9a922be2175e34d96720e2e247ed943e01d301617eb594341197c09d340186ef", "candidate"=>"af5f8036ab7a0619751ab55fa9bd4891f377cd9d"}. Owner: issue #251. Disposition: routed_to_backlog.
+- **P1 issue-721-v3-standalone-parity-gap** — Open #721 owns full standalone v3 parity. At af5f8036, a fresh detached checkout with csdlc-v2 removed cannot compile csdlc-v3 because its manifest dev-depends on ../csdlc-v2; authority and remote code also read the v2 generation selector. V3 must independently initialize/create, prepare/edit/validate/bind/run/review/publish/observe/finish/clean, recover, and idempotently replay every required operation; any v2 fallback blocks cutover. Evidence: https://github.com/agent-logic/agent-design-language/issues/721, 4ada86fd4285faf82c9931f369d5e2d9deeae392760649fd03b7a30994fc818d, {"path"=>".csdlc/evidence/516/no-v2-canary-af5f8036.json", "sha256"=>"4bddf1edfc51c004fb0b4ac04ffed7f4d3ff133242d3ba31c25e8ccf90e48ad7"}, csdlc-v3/Cargo.toml, csdlc-v3/src/authority.rs, csdlc-v3/src/commands/remote/mod.rs. Owner: issue #721. Disposition: open.
+- **P2 consolidated-criterion-review-proof-debt** — These criteria lack a relevant changed path, meaningful validation binding, or review evidence sufficient for criterion-level proof. Evidence: https://github.com/agent-logic/agent-design-language/pull/527, https://github.com/agent-logic/agent-design-language/pull/545, https://github.com/agent-logic/agent-design-language/pull/562, https://github.com/agent-logic/agent-design-language/pull/556, https://github.com/agent-logic/agent-design-language/pull/564, https://github.com/agent-logic/agent-design-language/pull/567, https://github.com/agent-logic/agent-design-language/pull/574, https://github.com/agent-logic/agent-design-language/pull/576, https://github.com/agent-logic/agent-design-language/pull/577, https://github.com/agent-logic/agent-design-language/pull/566, https://github.com/agent-logic/agent-design-language/pull/575, https://github.com/agent-logic/agent-design-language/pull/580, https://github.com/agent-logic/agent-design-language/pull/587, https://github.com/agent-logic/agent-design-language/pull/595, https://github.com/agent-logic/agent-design-language/pull/590, https://github.com/agent-logic/agent-design-language/pull/599, https://github.com/agent-logic/agent-design-language/pull/637, https://github.com/agent-logic/agent-design-language/pull/547, https://github.com/agent-logic/agent-design-language/pull/565, https://github.com/agent-logic/agent-design-language/pull/568, https://github.com/agent-logic/agent-design-language/pull/572, https://github.com/agent-logic/agent-design-language/pull/581, https://github.com/agent-logic/agent-design-language/pull/588, https://github.com/agent-logic/agent-design-language/pull/591, https://github.com/agent-logic/agent-design-language/pull/616, https://github.com/agent-logic/agent-design-language/pull/619, https://github.com/agent-logic/agent-design-language/pull/623, https://github.com/agent-logic/agent-design-language/pull/652, https://github.com/agent-logic/agent-design-language/pull/546, https://github.com/agent-logic/agent-design-language/pull/719, https://github.com/agent-logic/agent-design-language/pull/557, https://github.com/agent-logic/agent-design-language/pull/549, https://github.com/agent-logic/agent-design-language/pull/621. Owner: release evidence maintainers. Disposition: follow_up.
+- **P2 consolidated-observed-evidence-review-debt** — These criteria have relevant implementation and validation evidence but lack a current exact-head review binding. Evidence: https://github.com/agent-logic/agent-design-language/pull/527, https://github.com/agent-logic/agent-design-language/pull/545, https://github.com/agent-logic/agent-design-language/pull/562, https://github.com/agent-logic/agent-design-language/pull/556, https://github.com/agent-logic/agent-design-language/pull/564, https://github.com/agent-logic/agent-design-language/pull/567, https://github.com/agent-logic/agent-design-language/pull/574, https://github.com/agent-logic/agent-design-language/pull/576, https://github.com/agent-logic/agent-design-language/pull/577, https://github.com/agent-logic/agent-design-language/pull/566, https://github.com/agent-logic/agent-design-language/pull/575, https://github.com/agent-logic/agent-design-language/pull/580, https://github.com/agent-logic/agent-design-language/pull/587, https://github.com/agent-logic/agent-design-language/pull/595, https://github.com/agent-logic/agent-design-language/pull/590, https://github.com/agent-logic/agent-design-language/pull/599, https://github.com/agent-logic/agent-design-language/pull/637, https://github.com/agent-logic/agent-design-language/pull/547, https://github.com/agent-logic/agent-design-language/pull/565, https://github.com/agent-logic/agent-design-language/pull/568, https://github.com/agent-logic/agent-design-language/pull/572, https://github.com/agent-logic/agent-design-language/pull/581, https://github.com/agent-logic/agent-design-language/pull/588, https://github.com/agent-logic/agent-design-language/pull/591, https://github.com/agent-logic/agent-design-language/pull/616, https://github.com/agent-logic/agent-design-language/pull/619, https://github.com/agent-logic/agent-design-language/pull/623, https://github.com/agent-logic/agent-design-language/pull/652, https://github.com/agent-logic/agent-design-language/pull/546, https://github.com/agent-logic/agent-design-language/pull/719, https://github.com/agent-logic/agent-design-language/pull/557, https://github.com/agent-logic/agent-design-language/pull/549, https://github.com/agent-logic/agent-design-language/pull/621. Owner: release evidence maintainers. Disposition: follow_up.
+- **P2 consolidated-retained-successor-proof-debt** — Some retained predecessors lack a successor with observed merged execution evidence. Evidence: docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/stp.md, docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/stp.md. Owner: release evidence maintainers. Disposition: follow_up.
 - **P2 consolidated-owned-path-resolution-proof-debt** — Shared paths lack explicit owner sign-off; no final-content requirement loss was demonstrated. Evidence: infra/aws/account-foundation, infra/aws/runtime, csdlc-v3/src/lib.rs. Owner: release evidence maintainers. Disposition: follow_up.
 
 ## Denominator
@@ -23,41 +21,41 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 | Planned ID | Issue | Head revision | Merge revision | Ancestry | Disposition |
 |---|---:|---|---|---|---|
-| WP-01 | #480 | 23856abbc7cde90dd9d1c6467dd6c61aca1bc274 | 001c270beda2b35b60e0be04f3c3bd331a156c48 | ancestor | satisfied_observed_execution |
-| CORP-A | #482 | 2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c | e2c1d1649b0c930a5a1254575a07ef2a4496d48d | ancestor | satisfied_observed_execution |
-| CORP-B | #483 | a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239 | 4a0b49c0071bacdaab19d6d9eb8c44380beb51be | ancestor | satisfied_observed_execution |
-| AWS-A | #484 | e9fdf5b07bdcbde235511c52c40fb8c626cc95a7 | e5f30c60c68a60d43f51c70b4615065197a34404 | ancestor | satisfied_observed_execution |
-| AWS-B | #485 | 2a5d25239853499b6ac73b37d968d2b97e75a586 | a71d699d52831b32bb68ed9c7c7e837925949de4 | ancestor | satisfied_observed_execution |
-| AWS-C | #486 | cfd5f0edabfde2e380a5534d619e7832f484bb8c | 1964b2e1f6e24a9dcb5788394502a2421300751a | ancestor | satisfied_observed_execution |
-| AWS-D | #487 | 79be6b5b0327be752817197738887d25335e71a9 | 1d31016a8df3cf07a4c3f2e6acd2694bd10570c2 | ancestor | satisfied_observed_execution |
-| AWS-E | #488 | 4e904b6629ff3060094dbef3613388e6e5245b8d | a6b404cd6e74d7528745325036ceb1a85fd47bd2 | ancestor | satisfied_observed_execution |
-| AWS-F | #489 | 485b4197908231bb2065e1e29c7c5013536e1975 | 69ba35e066d1389a9f194659acb066a7dca82a40 | ancestor | satisfied_observed_execution |
-| GCP-A | #490 | f0be8c8d1a2f12df8b2d8169997583dd66a9a521 | daa05de9332c82e3f9f2191975ef95b0ed4e211d | ancestor | satisfied_observed_execution |
-| GCP-B | #491 | 695ca0f6cec62357349390afda3952e39cd92337 | 75ee9e6b2888a81b355d1fb496b488329a4c7d30 | ancestor | satisfied_observed_execution |
-| GCP-C | #492 | 179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa | b9a98710e2a0a50565c3835386f7f6a348a26eae | ancestor | satisfied_observed_execution |
-| GCP-D | #493 | d5b1584bb55e92974e6d3481b59d2e28a17db441 | c0bf217934508d6dbc70d78633e6a95d5ddd9d06 | ancestor | satisfied_observed_execution |
-| GCP-E | #494 | de959c6263f671fa8fe1df851ea6ae1d25686831 | dc08b5abf10682ed9ace5deefd0e1389ea6899b6 | ancestor | satisfied_observed_execution |
-| XCL-01 | #495 | 6177249dfb46fe3cf95fbcc996469517928f525d | c78c60f5a45a87a96159d4910a831b69b62b042c | ancestor | satisfied_observed_execution |
-| AWS-G | #496 | 59a3d0bd106f8bdd0def53dbe1564667ee6adac4 | 83077ca029d52c9d613ed5a373da30f1dd42d9b3 | ancestor | satisfied_observed_execution |
-| CORP-C | #497 | none | none | not_proven | product_blocker |
-| CORP-D | #498 | dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8 | c51c8c7a8b51395986af8185f6e6ca2edaf4f435 | ancestor | satisfied_observed_execution |
-| RUST-01 | #499 | 940c42d246be5d54f34b7b300526a644cc881580 | e986de6d06aacd385de93dd033def77a718c1581 | ancestor | satisfied_observed_execution |
-| V3-A | #500 | d02f90008acadcc10df048b7f089cc4b98ef608f | 1dddcce35d061bc128c2431b4f31cf09e0f4d435 | ancestor | satisfied_observed_execution |
-| V3-B | #501 | 9056f19245f93bc9efa3b55561671a8f002c6536 | 1972aa47bd7047b8594a03bf770fb92f7fb63d51 | ancestor | satisfied_observed_execution |
-| V3-C | #502 | ed6f01c1e33b8057142491fca3028641ce5efc74 | 76de907734ab69efe00b5bc0bf24f066002d0131 | ancestor | satisfied_observed_execution |
-| V3-D | #503 | 974abc520454690f0b392162b9ced783e8584017 | 5692d95ee6e4ee632833be348fa5601ddccbca1a | ancestor | satisfied_observed_execution |
-| V3-E | #504 | 9ef650bc174a81849ffb09ae4d21b699fee1368d | f68ca996541b8825090261fd70845bf1c406b410 | ancestor | satisfied_observed_execution |
-| V3-F | #505 | 74ddb31702482172eea4ba3d74700536eab32e49 | d3f98ed005cf44c359ac482e271e6b8634e93f23 | ancestor | satisfied_observed_execution |
-| DRT-A | #506 | 4676aef4189376b3f64d17efdb717732274e3240 | badcf9067da6eb46fc9f59e9da8b11a41e2f24f6 | ancestor | satisfied_observed_execution |
-| DRT-B | #507 | cca85d6fd4976e2b2358d0d130b8291a88cb1c95 | d022d6c198669bcbc10cd98bee4d7c8520f9c4d4 | ancestor | satisfied_observed_execution |
-| DRT-C | #508 | cca4f7f675241a0a473b38006c8be2eb95165028 | a1c440cc7b1e3708961680c802585d0b80e2263f | ancestor | satisfied_observed_execution |
-| DRT-D | #509 | c89a584e53f152ed499a5d56d479296590044714 | 5a1109ffa795d411e0e15cdfd29adf68e2c2d953 | ancestor | satisfied_observed_execution |
-| HOT-01 | #510 | fac5eaa63a82eaf50fe455df14cc22ebb08a2678 | 000fb7beb5fe4107e3e80d5de9183be224716a6d | ancestor | satisfied_observed_execution |
+| WP-01 | #480 | 23856abbc7cde90dd9d1c6467dd6c61aca1bc274 | 001c270beda2b35b60e0be04f3c3bd331a156c48 | ancestor | observed_execution_evidence |
+| CORP-A | #482 | 2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c | e2c1d1649b0c930a5a1254575a07ef2a4496d48d | ancestor | observed_execution_evidence |
+| CORP-B | #483 | a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239 | 4a0b49c0071bacdaab19d6d9eb8c44380beb51be | ancestor | observed_execution_evidence |
+| AWS-A | #484 | e9fdf5b07bdcbde235511c52c40fb8c626cc95a7 | e5f30c60c68a60d43f51c70b4615065197a34404 | ancestor | observed_execution_evidence |
+| AWS-B | #485 | 2a5d25239853499b6ac73b37d968d2b97e75a586 | a71d699d52831b32bb68ed9c7c7e837925949de4 | ancestor | observed_execution_evidence |
+| AWS-C | #486 | cfd5f0edabfde2e380a5534d619e7832f484bb8c | 1964b2e1f6e24a9dcb5788394502a2421300751a | ancestor | observed_execution_evidence |
+| AWS-D | #487 | 79be6b5b0327be752817197738887d25335e71a9 | 1d31016a8df3cf07a4c3f2e6acd2694bd10570c2 | ancestor | observed_execution_evidence |
+| AWS-E | #488 | 4e904b6629ff3060094dbef3613388e6e5245b8d | a6b404cd6e74d7528745325036ceb1a85fd47bd2 | ancestor | observed_execution_evidence |
+| AWS-F | #489 | 485b4197908231bb2065e1e29c7c5013536e1975 | 69ba35e066d1389a9f194659acb066a7dca82a40 | ancestor | observed_execution_evidence |
+| GCP-A | #490 | f0be8c8d1a2f12df8b2d8169997583dd66a9a521 | daa05de9332c82e3f9f2191975ef95b0ed4e211d | ancestor | observed_execution_evidence |
+| GCP-B | #491 | 695ca0f6cec62357349390afda3952e39cd92337 | 75ee9e6b2888a81b355d1fb496b488329a4c7d30 | ancestor | observed_execution_evidence |
+| GCP-C | #492 | 179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa | b9a98710e2a0a50565c3835386f7f6a348a26eae | ancestor | observed_execution_evidence |
+| GCP-D | #493 | d5b1584bb55e92974e6d3481b59d2e28a17db441 | c0bf217934508d6dbc70d78633e6a95d5ddd9d06 | ancestor | observed_execution_evidence |
+| GCP-E | #494 | de959c6263f671fa8fe1df851ea6ae1d25686831 | dc08b5abf10682ed9ace5deefd0e1389ea6899b6 | ancestor | observed_execution_evidence |
+| XCL-01 | #495 | 6177249dfb46fe3cf95fbcc996469517928f525d | c78c60f5a45a87a96159d4910a831b69b62b042c | ancestor | observed_execution_evidence |
+| AWS-G | #496 | 59a3d0bd106f8bdd0def53dbe1564667ee6adac4 | 83077ca029d52c9d613ed5a373da30f1dd42d9b3 | ancestor | observed_execution_evidence |
+| CORP-C | #497 | none | none | not_applicable_absorbed | satisfied_recordless_acceptance |
+| CORP-D | #498 | dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8 | c51c8c7a8b51395986af8185f6e6ca2edaf4f435 | ancestor | observed_execution_evidence |
+| RUST-01 | #499 | 940c42d246be5d54f34b7b300526a644cc881580 | e986de6d06aacd385de93dd033def77a718c1581 | ancestor | observed_execution_evidence |
+| V3-A | #500 | d02f90008acadcc10df048b7f089cc4b98ef608f | 1dddcce35d061bc128c2431b4f31cf09e0f4d435 | ancestor | observed_execution_evidence |
+| V3-B | #501 | 9056f19245f93bc9efa3b55561671a8f002c6536 | 1972aa47bd7047b8594a03bf770fb92f7fb63d51 | ancestor | observed_execution_evidence |
+| V3-C | #502 | ed6f01c1e33b8057142491fca3028641ce5efc74 | 76de907734ab69efe00b5bc0bf24f066002d0131 | ancestor | observed_execution_evidence |
+| V3-D | #503 | 974abc520454690f0b392162b9ced783e8584017 | 5692d95ee6e4ee632833be348fa5601ddccbca1a | ancestor | observed_execution_evidence |
+| V3-E | #504 | 9ef650bc174a81849ffb09ae4d21b699fee1368d | f68ca996541b8825090261fd70845bf1c406b410 | ancestor | observed_execution_evidence |
+| V3-F | #505 | 74ddb31702482172eea4ba3d74700536eab32e49 | d3f98ed005cf44c359ac482e271e6b8634e93f23 | ancestor | observed_execution_evidence |
+| DRT-A | #506 | 4676aef4189376b3f64d17efdb717732274e3240 | badcf9067da6eb46fc9f59e9da8b11a41e2f24f6 | ancestor | observed_execution_evidence |
+| DRT-B | #507 | cca85d6fd4976e2b2358d0d130b8291a88cb1c95 | d022d6c198669bcbc10cd98bee4d7c8520f9c4d4 | ancestor | observed_execution_evidence |
+| DRT-C | #508 | cca4f7f675241a0a473b38006c8be2eb95165028 | a1c440cc7b1e3708961680c802585d0b80e2263f | ancestor | observed_execution_evidence |
+| DRT-D | #509 | c89a584e53f152ed499a5d56d479296590044714 | 5a1109ffa795d411e0e15cdfd29adf68e2c2d953 | ancestor | observed_execution_evidence |
+| HOT-01 | #510 | fac5eaa63a82eaf50fe455df14cc22ebb08a2678 | 000fb7beb5fe4107e3e80d5de9183be224716a6d | ancestor | observed_execution_evidence |
 | OBS-A | #511 | none | none | not_applicable_absorbed | satisfied_by_captured_absorption |
-| OBS-B | #512 | e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4 | af5f8036ab7a0619751ab55fa9bd4891f377cd9d | ancestor | satisfied_observed_execution |
-| DEC-01 | #513 | 489bc0f3af68b059e5c26ff22600d945b3d21db8 | 5bc84a0f27a522b6d500551d64f8d12dc2357427 | ancestor | satisfied_observed_execution |
-| PROV-A | #514 | 1b0fd87496bb09200a5cb1bbb0529e8730be1b20 | 18f1c76667dc6913c2553b53228e73e8de9d11c9 | ancestor | satisfied_observed_execution |
-| PROV-B | #515 | 9e6a8bd104d79f77edc4460ee5424cea83ef9cdc | 17b883e93abff7a155cd783a3d76f52ba2eabbf2 | ancestor | satisfied_observed_execution |
+| OBS-B | #512 | e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4 | af5f8036ab7a0619751ab55fa9bd4891f377cd9d | ancestor | observed_execution_evidence |
+| DEC-01 | #513 | 489bc0f3af68b059e5c26ff22600d945b3d21db8 | 5bc84a0f27a522b6d500551d64f8d12dc2357427 | ancestor | observed_execution_evidence |
+| PROV-A | #514 | 1b0fd87496bb09200a5cb1bbb0529e8730be1b20 | 18f1c76667dc6913c2553b53228e73e8de9d11c9 | ancestor | observed_execution_evidence |
+| PROV-B | #515 | 9e6a8bd104d79f77edc4460ee5424cea83ef9cdc | 17b883e93abff7a155cd783a3d76f52ba2eabbf2 | ancestor | observed_execution_evidence |
 
 ### Release-tail lifecycle denominator
 
@@ -87,149 +85,154 @@ Execution roots: 35; release-tail stages: 11; retained predecessors: 39; backlog
 
 This is an admission decision only; it is not release approval.
 
+## Revision history
+
+- Historical result at `e68c666803185c348140547e243bc3922b6a571c`: 2 P1 product blockers (#497, #721), 4 consolidated P2 proof-debt findings, and 2 routed backlog entries. Superseded after direct #497 recordless-acceptance evidence and final review.
+- Revised result: 1 P1 product blocker, 5 P2 proof-debt findings; backlog #84/#251 is excluded scope and is not counted as a finding.
+
 ## Complete acceptance projection
 
 | Planned ID | Issue | Criterion ID | Status | Criterion |
 |---|---:|---|---|---|
-| WP-01 | #480 | WP-01-ac-1 | gap_missing_explicit_criterion_evidence | Exactly 45 unique child issues are created from the reviewed package |
-| WP-01 | #480 | WP-01-ac-2 | gap_missing_explicit_criterion_evidence | Every child title and dependency matches canonical planning |
-| WP-01 | #480 | WP-01-ac-3 | gap_missing_explicit_criterion_evidence | Existing or conflicting children fail closed before mutation |
-| WP-01 | #480 | WP-01-ac-4 | gap_missing_explicit_criterion_evidence | Partial failure resumes without duplicate creation or renumbering |
-| WP-01 | #480 | WP-01-ac-5 | gap_missing_explicit_criterion_evidence | Final readback binds every planned ID to one issue number |
-| CORP-A | #482 | CORP-A-ac-1 | gap_missing_explicit_criterion_evidence | Every critical asset has an owner and disposition |
-| CORP-A | #482 | CORP-A-ac-2 | gap_missing_explicit_criterion_evidence | Private instruments remain outside Git |
-| CORP-A | #482 | CORP-A-ac-3 | gap_missing_explicit_criterion_evidence | Redacted receipts bind accepted instruments to the asset schedule |
-| CORP-B | #483 | CORP-B-ac-1 | gap_missing_explicit_criterion_evidence | Every critical service has corporate administration and billing custody |
-| CORP-B | #483 | CORP-B-ac-2 | gap_missing_explicit_criterion_evidence | Recovery does not depend on one personal factor |
-| CORP-B | #483 | CORP-B-ac-3 | gap_missing_explicit_criterion_evidence | Break-glass use is bounded and audited |
-| AWS-A | #484 | AWS-A-ac-1 | gap_missing_explicit_criterion_evidence | The approved business account and regions are exact |
-| AWS-A | #484 | AWS-A-ac-2 | gap_missing_explicit_criterion_evidence | Every discovered resource has an owner or frozen-unknown disposition |
-| AWS-A | #484 | AWS-A-ac-3 | gap_missing_explicit_criterion_evidence | Website Terraform and issue evidence remain separately classified |
-| AWS-A | #484 | AWS-A-ac-4 | gap_missing_explicit_criterion_evidence | EBS and other retained assets are not inferred disposable |
-| AWS-B | #485 | AWS-B-ac-1 | gap_missing_explicit_criterion_evidence | Corporate recovery does not depend on one personal factor |
-| AWS-B | #485 | AWS-B-ac-2 | gap_missing_explicit_criterion_evidence | Human workload and agent-initiated identities are distinguishable |
-| AWS-B | #485 | AWS-B-ac-3 | gap_missing_explicit_criterion_evidence | Agent Toolkit for AWS is configured for the approved Codex path with AWS CLI 2.35 or newer |
-| AWS-B | #485 | AWS-B-ac-4 | gap_missing_explicit_criterion_evidence | IAM context policies bind agent actions with read-only default posture |
-| AWS-B | #485 | AWS-B-ac-5 | gap_missing_explicit_criterion_evidence | CloudWatch metrics and CloudTrail requests are attributable |
-| AWS-B | #485 | AWS-B-ac-6 | gap_missing_explicit_criterion_evidence | Billing and budget ownership is visible |
-| AWS-B | #485 | AWS-B-ac-7 | gap_missing_explicit_criterion_evidence | Existing administrator access remains until replacement is proven |
-| AWS-C | #486 | AWS-C-ac-1 | gap_missing_explicit_criterion_evidence | Existing website and DDNS states are inventoried first |
-| AWS-C | #486 | AWS-C-ac-2 | gap_missing_explicit_criterion_evidence | The new backend is encrypted versioned locked and recoverable |
-| AWS-C | #486 | AWS-C-ac-3 | gap_missing_explicit_criterion_evidence | Deployment identity is least privilege |
-| AWS-C | #486 | AWS-C-ac-4 | gap_missing_explicit_criterion_evidence | No existing state is copied or dual-owned |
-| AWS-D | #487 | AWS-D-ac-1 | gap_missing_explicit_criterion_evidence | Account changes are durably observable |
-| AWS-D | #487 | AWS-D-ac-2 | gap_missing_explicit_criterion_evidence | Security findings have an owner and destination |
-| AWS-D | #487 | AWS-D-ac-3 | gap_missing_explicit_criterion_evidence | Retention and encryption are explicit |
-| AWS-D | #487 | AWS-D-ac-4 | gap_missing_explicit_criterion_evidence | Sensitive values are excluded from retained proof |
-| AWS-E | #488 | AWS-E-ac-1 | gap_missing_explicit_criterion_evidence | Every durable resource has one management authority |
-| AWS-E | #488 | AWS-E-ac-2 | gap_missing_explicit_criterion_evidence | Website and historical evidence ownership is preserved |
-| AWS-E | #488 | AWS-E-ac-3 | gap_missing_explicit_criterion_evidence | Cleanup requires exact non-use retention recovery and deletion authority |
-| AWS-E | #488 | AWS-E-ac-4 | gap_missing_explicit_criterion_evidence | Live and declared state agree |
-| AWS-F | #489 | AWS-F-ac-1 | gap_missing_explicit_criterion_evidence | Runtime hosts have no direct public ingress |
-| AWS-F | #489 | AWS-F-ac-2 | gap_missing_explicit_criterion_evidence | Shared edge network build and node states remain separated |
-| AWS-F | #489 | AWS-F-ac-3 | gap_missing_explicit_criterion_evidence | Existing issue 122 owns public Route53 and ACM exposure |
-| AWS-F | #489 | AWS-F-ac-4 | gap_missing_explicit_criterion_evidence | Disposable deployment and cleanup bind the exact modules |
-| GCP-A | #490 | GCP-A-ac-1 | gap_missing_explicit_criterion_evidence | Organization folder project billing and region are exact |
-| GCP-A | #490 | GCP-A-ac-2 | gap_missing_explicit_criterion_evidence | POC and long-term ownership are explicit |
-| GCP-A | #490 | GCP-A-ac-3 | gap_missing_explicit_criterion_evidence | The first workload has a hard cost ceiling |
-| GCP-A | #490 | GCP-A-ac-4 | gap_missing_explicit_criterion_evidence | Quota is not treated as capacity |
-| GCP-B | #491 | GCP-B-ac-1 | gap_missing_explicit_criterion_evidence | State is versioned private recoverable and auditable |
-| GCP-B | #491 | GCP-B-ac-2 | gap_missing_explicit_criterion_evidence | Deployment uses short-lived impersonation |
-| GCP-B | #491 | GCP-B-ac-3 | gap_missing_explicit_criterion_evidence | Provider and module versions are pinned |
-| GCP-B | #491 | GCP-B-ac-4 | gap_missing_explicit_criterion_evidence | Local bootstrap state is removed recoverably |
-| GCP-C | #492 | GCP-C-ac-1 | gap_missing_explicit_criterion_evidence | Every new project has corporate group ownership and cost attribution |
-| GCP-C | #492 | GCP-C-ac-2 | gap_missing_explicit_criterion_evidence | Policies are scoped and impact-reviewed |
-| GCP-C | #492 | GCP-C-ac-3 | gap_missing_explicit_criterion_evidence | Billing export and budgets are observable |
-| GCP-C | #492 | GCP-C-ac-4 | gap_missing_explicit_criterion_evidence | Existing POC resources remain unchanged unless explicitly admitted |
-| GCP-D | #493 | GCP-D-ac-1 | gap_missing_explicit_criterion_evidence | No unintended public route address or ingress exists |
-| GCP-D | #493 | GCP-D-ac-2 | gap_missing_explicit_criterion_evidence | Human and workload identities are separate |
-| GCP-D | #493 | GCP-D-ac-3 | gap_missing_explicit_criterion_evidence | State artifacts models continuity evidence and logs have separate owners |
-| GCP-D | #493 | GCP-D-ac-4 | gap_missing_explicit_criterion_evidence | A disposable non-GPU workload is destroyed with zero residue |
-| GCP-E | #494 | GCP-E-ac-1 | gap_missing_explicit_criterion_evidence | Paid launch has separate authorization and a USD 20 ceiling |
-| GCP-E | #494 | GCP-E-ac-2 | gap_missing_explicit_criterion_evidence | Exact inputs and hardware are retained |
-| GCP-E | #494 | GCP-E-ac-3 | gap_missing_explicit_criterion_evidence | GPU inference and headroom are proven |
-| GCP-E | #494 | GCP-E-ac-4 | gap_missing_explicit_criterion_evidence | All owned resources are independently absent afterward |
-| XCL-01 | #495 | XCL-01-ac-1 | gap_missing_explicit_criterion_evidence | The portable workload contract is provider-neutral |
-| XCL-01 | #495 | XCL-01-ac-2 | gap_missing_explicit_criterion_evidence | AWS and GCP modules preserve the exact admitted template behavior |
-| XCL-01 | #495 | XCL-01-ac-3 | gap_missing_explicit_criterion_evidence | Provider identity and differences remain explicit |
-| XCL-01 | #495 | XCL-01-ac-4 | gap_missing_explicit_criterion_evidence | Neither provider silently substitutes for the other |
-| XCL-01 | #495 | XCL-01-ac-5 | gap_missing_explicit_criterion_evidence | Existing CloudFormation remains rollback authority until AWS-G |
-| AWS-G | #496 | AWS-G-ac-1 | gap_missing_explicit_criterion_evidence | Issue 194 and 268 templates are inventoried |
-| AWS-G | #496 | AWS-G-ac-2 | gap_missing_explicit_criterion_evidence | Every consumer and retained evidence path has a disposition |
-| AWS-G | #496 | AWS-G-ac-3 | gap_missing_explicit_criterion_evidence | Retirement requires proven Terraform parity and rollback |
-| AWS-G | #496 | AWS-G-ac-4 | gap_missing_explicit_criterion_evidence | No active stack is silently abandoned |
-| CORP-C | #497 | CORP-C-ac-1 | gap_missing_explicit_criterion_evidence | Each control plane has corporate owner and rollback |
-| CORP-C | #497 | CORP-C-ac-2 | gap_missing_explicit_criterion_evidence | AWS uses the approved business account |
-| CORP-C | #497 | CORP-C-ac-3 | gap_missing_explicit_criterion_evidence | Terraform and CI authority are company-controlled |
-| CORP-C | #497 | CORP-C-ac-4 | gap_missing_explicit_criterion_evidence | Availability and recovery readbacks pass |
-| CORP-D | #498 | CORP-D-ac-1 | gap_missing_explicit_criterion_evidence | Every CORP-A-C blocker has disposition |
-| CORP-D | #498 | CORP-D-ac-2 | gap_missing_explicit_criterion_evidence | Counsel-controlled judgments are recorded only as bounded receipts |
-| CORP-D | #498 | CORP-D-ac-3 | gap_missing_explicit_criterion_evidence | Corporate acceptance binds the exact diligence index |
-| RUST-01 | #499 | RUST-01-ac-1 | gap_missing_explicit_criterion_evidence | Supported resilience behavior and public API remain compatible |
-| RUST-01 | #499 | RUST-01-ac-2 | gap_missing_explicit_criterion_evidence | Each extracted module has one coherent owner |
-| RUST-01 | #499 | RUST-01-ac-3 | gap_missing_explicit_criterion_evidence | Tests remain behavior-focused and PVF-classified |
-| RUST-01 | #499 | RUST-01-ac-4 | gap_missing_explicit_criterion_evidence | Validation-impact change is measured exactly |
-| RUST-01 | #499 | RUST-01-ac-5 | gap_missing_explicit_criterion_evidence | No line-count reduction quota is imposed |
-| V3-A | #500 | V3-A-ac-1 | gap_missing_explicit_criterion_evidence | The v3 authority boundary and compatibility posture are explicit |
-| V3-A | #500 | V3-A-ac-2 | gap_missing_explicit_criterion_evidence | Requirements 161 through 163 are mapped exactly |
-| V3-A | #500 | V3-A-ac-3 | gap_missing_explicit_criterion_evidence | Construction and rollback decisions are reviewable |
-| V3-B | #501 | V3-B-ac-1 | gap_missing_explicit_criterion_evidence | State and projections are deterministic |
-| V3-B | #501 | V3-B-ac-2 | gap_missing_explicit_criterion_evidence | Repository context is explicit |
-| V3-B | #501 | V3-B-ac-3 | gap_missing_explicit_criterion_evidence | Requirements 164 through 167 have focused behavioral proof |
-| V3-C | #502 | V3-C-ac-1 | gap_missing_explicit_criterion_evidence | Transitions are capability-checked and atomic |
-| V3-C | #502 | V3-C-ac-2 | gap_missing_explicit_criterion_evidence | Recovery preserves audit provenance |
-| V3-C | #502 | V3-C-ac-3 | gap_missing_explicit_criterion_evidence | Requirements 168 through 170 pass failure-injection tests |
-| V3-D | #503 | V3-D-ac-1 | gap_missing_explicit_criterion_evidence | Commands consume typed contracts |
-| V3-D | #503 | V3-D-ac-2 | gap_missing_explicit_criterion_evidence | Bind enforces registered topology |
-| V3-D | #503 | V3-D-ac-3 | gap_missing_explicit_criterion_evidence | Cards render from the active registry |
-| V3-D | #503 | V3-D-ac-4 | gap_missing_explicit_criterion_evidence | Requirements 171 through 173 have CLI proof |
-| V3-E | #504 | V3-E-ac-1 | gap_missing_explicit_criterion_evidence | Review binds exact immutable scope |
-| V3-E | #504 | V3-E-ac-2 | gap_missing_explicit_criterion_evidence | Publication modes are explicit |
-| V3-E | #504 | V3-E-ac-3 | gap_missing_explicit_criterion_evidence | Finish derives terminal truth |
-| V3-E | #504 | V3-E-ac-4 | gap_missing_explicit_criterion_evidence | Requirements 174 through 178 have positive and refusal proof |
-| V3-F | #505 | V3-F-ac-1 | gap_missing_explicit_criterion_evidence | Requirements 179 and 180 are mapped |
-| V3-F | #505 | V3-F-ac-2 | gap_missing_explicit_criterion_evidence | v2-v3 parity is measured |
-| V3-F | #505 | V3-F-ac-3 | gap_missing_explicit_criterion_evidence | Canary rollback is exercised |
-| V3-F | #505 | V3-F-ac-4 | gap_missing_explicit_criterion_evidence | Cutover and retirement require operator approval |
-| DRT-A | #506 | DRT-A-ac-1 | gap_missing_explicit_criterion_evidence | Requirements 181 and 182 are mapped |
-| DRT-A | #506 | DRT-A-ac-2 | gap_missing_explicit_criterion_evidence | Identity and authority are deterministic |
-| DRT-A | #506 | DRT-A-ac-3 | gap_missing_explicit_criterion_evidence | Duplicate denial and replay receipts are exact |
-| DRT-B | #507 | DRT-B-ac-1 | gap_missing_explicit_criterion_evidence | Requirements 183 and 184 are mapped |
-| DRT-B | #507 | DRT-B-ac-2 | gap_missing_explicit_criterion_evidence | Six distinct residents complete assigned UTS work |
-| DRT-B | #507 | DRT-B-ac-3 | gap_missing_explicit_criterion_evidence | Dehydrate and restore preserve exact population |
-| DRT-B | #507 | DRT-B-ac-4 | gap_missing_explicit_criterion_evidence | GPU evidence waits for reviewed merged 345 authority |
-| DRT-C | #508 | DRT-C-ac-1 | gap_missing_explicit_criterion_evidence | Requirements 185 through 187 are mapped |
-| DRT-C | #508 | DRT-C-ac-2 | gap_missing_explicit_criterion_evidence | Identity provider and transport failures fail closed |
-| DRT-C | #508 | DRT-C-ac-3 | gap_missing_explicit_criterion_evidence | Observatory evidence is authentic |
-| DRT-C | #508 | DRT-C-ac-4 | gap_missing_explicit_criterion_evidence | Soak cleanup and synthesis bind exact revisions |
-| DRT-D | #509 | DRT-D-ac-1 | gap_missing_explicit_criterion_evidence | Six identities and lineage remain exact |
-| DRT-D | #509 | DRT-D-ac-2 | gap_missing_explicit_criterion_evidence | GCP account project billing and credentials are separately governed |
-| DRT-D | #509 | DRT-D-ac-3 | gap_missing_explicit_criterion_evidence | Cost and cleanup receipts are retained |
-| DRT-D | #509 | DRT-D-ac-4 | gap_missing_explicit_criterion_evidence | No resources remain |
-| HOT-01 | #510 | HOT-01-ac-1 | gap_missing_explicit_criterion_evidence | Reads use atomically swappable state |
-| HOT-01 | #510 | HOT-01-ac-2 | gap_missing_explicit_criterion_evidence | Invalid updates preserve the last valid configuration |
-| HOT-01 | #510 | HOT-01-ac-3 | gap_missing_explicit_criterion_evidence | File events are debounced |
-| HOT-01 | #510 | HOT-01-ac-4 | gap_missing_explicit_criterion_evidence | Concurrent requests observe complete configurations only |
-| OBS-A | #511 | OBS-A-ac-1 | gap_missing_explicit_criterion_evidence | Every view has a stable information contract |
-| OBS-A | #511 | OBS-A-ac-2 | gap_missing_explicit_criterion_evidence | Empty degraded recovery and revoked states are designed |
-| OBS-A | #511 | OBS-A-ac-3 | gap_missing_explicit_criterion_evidence | Keyboard and screen-reader flows are specified |
-| OBS-A | #511 | OBS-A-ac-4 | gap_missing_explicit_criterion_evidence | No invented Runtime field is introduced |
-| OBS-B | #512 | OBS-B-ac-1 | gap_missing_explicit_criterion_evidence | OBS-A contracts are implemented |
-| OBS-B | #512 | OBS-B-ac-2 | gap_missing_explicit_criterion_evidence | Runtime projections are source-grounded |
-| OBS-B | #512 | OBS-B-ac-3 | gap_missing_explicit_criterion_evidence | Accessibility and recovery cases pass |
-| OBS-B | #512 | OBS-B-ac-4 | gap_missing_explicit_criterion_evidence | Issues 84 and 251 remain visible operator-deferred backlog and do not gate this release |
-| DEC-01 | #513 | DEC-01-ac-1 | gap_missing_explicit_criterion_evidence | Every source and reverse reference has one owner and disposition |
-| DEC-01 | #513 | DEC-01-ac-2 | gap_missing_explicit_criterion_evidence | Supported behavior has compatibility proof |
-| DEC-01 | #513 | DEC-01-ac-3 | gap_missing_explicit_criterion_evidence | Rollback and migration are executable |
-| DEC-01 | #513 | DEC-01-ac-4 | gap_missing_explicit_criterion_evidence | Runtime v4 remains excluded |
-| PROV-A | #514 | PROV-A-ac-1 | gap_missing_explicit_criterion_evidence | Profiles bind provider model and bounded parameters |
-| PROV-A | #514 | PROV-A-ac-2 | gap_missing_explicit_criterion_evidence | Invalid profiles fail before activation |
-| PROV-A | #514 | PROV-A-ac-3 | gap_missing_explicit_criterion_evidence | Last-known-good state is retained |
-| PROV-A | #514 | PROV-A-ac-4 | gap_missing_explicit_criterion_evidence | Credentials prompts and private payloads are excluded |
-| PROV-B | #515 | PROV-B-ac-1 | gap_missing_explicit_criterion_evidence | Shadow and authority paths are distinguishable |
-| PROV-B | #515 | PROV-B-ac-2 | gap_missing_explicit_criterion_evidence | Inputs and comparison rules are exact |
-| PROV-B | #515 | PROV-B-ac-3 | gap_missing_explicit_criterion_evidence | Failures preserve the authoritative result |
-| PROV-B | #515 | PROV-B-ac-4 | gap_missing_explicit_criterion_evidence | Evidence is redacted |
+| WP-01 | #480 | WP-01-ac-1 | proof_gap | Exactly 45 unique child issues are created from the reviewed package |
+| WP-01 | #480 | WP-01-ac-2 | proof_gap | Every child title and dependency matches canonical planning |
+| WP-01 | #480 | WP-01-ac-3 | proof_gap | Existing or conflicting children fail closed before mutation |
+| WP-01 | #480 | WP-01-ac-4 | proof_gap | Partial failure resumes without duplicate creation or renumbering |
+| WP-01 | #480 | WP-01-ac-5 | proof_gap | Final readback binds every planned ID to one issue number |
+| CORP-A | #482 | CORP-A-ac-1 | proof_gap | Every critical asset has an owner and disposition |
+| CORP-A | #482 | CORP-A-ac-2 | proof_gap | Private instruments remain outside Git |
+| CORP-A | #482 | CORP-A-ac-3 | proof_gap | Redacted receipts bind accepted instruments to the asset schedule |
+| CORP-B | #483 | CORP-B-ac-1 | observed_evidence_review_debt | Every critical service has corporate administration and billing custody |
+| CORP-B | #483 | CORP-B-ac-2 | proof_gap | Recovery does not depend on one personal factor |
+| CORP-B | #483 | CORP-B-ac-3 | proof_gap | Break-glass use is bounded and audited |
+| AWS-A | #484 | AWS-A-ac-1 | observed_evidence_review_debt | The approved business account and regions are exact |
+| AWS-A | #484 | AWS-A-ac-2 | proof_gap | Every discovered resource has an owner or frozen-unknown disposition |
+| AWS-A | #484 | AWS-A-ac-3 | observed_evidence_review_debt | Website Terraform and issue evidence remain separately classified |
+| AWS-A | #484 | AWS-A-ac-4 | proof_gap | EBS and other retained assets are not inferred disposable |
+| AWS-B | #485 | AWS-B-ac-1 | proof_gap | Corporate recovery does not depend on one personal factor |
+| AWS-B | #485 | AWS-B-ac-2 | proof_gap | Human workload and agent-initiated identities are distinguishable |
+| AWS-B | #485 | AWS-B-ac-3 | proof_gap | Agent Toolkit for AWS is configured for the approved Codex path with AWS CLI 2.35 or newer |
+| AWS-B | #485 | AWS-B-ac-4 | proof_gap | IAM context policies bind agent actions with read-only default posture |
+| AWS-B | #485 | AWS-B-ac-5 | proof_gap | CloudWatch metrics and CloudTrail requests are attributable |
+| AWS-B | #485 | AWS-B-ac-6 | proof_gap | Billing and budget ownership is visible |
+| AWS-B | #485 | AWS-B-ac-7 | proof_gap | Existing administrator access remains until replacement is proven |
+| AWS-C | #486 | AWS-C-ac-1 | proof_gap | Existing website and DDNS states are inventoried first |
+| AWS-C | #486 | AWS-C-ac-2 | proof_gap | The new backend is encrypted versioned locked and recoverable |
+| AWS-C | #486 | AWS-C-ac-3 | proof_gap | Deployment identity is least privilege |
+| AWS-C | #486 | AWS-C-ac-4 | proof_gap | No existing state is copied or dual-owned |
+| AWS-D | #487 | AWS-D-ac-1 | proof_gap | Account changes are durably observable |
+| AWS-D | #487 | AWS-D-ac-2 | proof_gap | Security findings have an owner and destination |
+| AWS-D | #487 | AWS-D-ac-3 | proof_gap | Retention and encryption are explicit |
+| AWS-D | #487 | AWS-D-ac-4 | proof_gap | Sensitive values are excluded from retained proof |
+| AWS-E | #488 | AWS-E-ac-1 | proof_gap | Every durable resource has one management authority |
+| AWS-E | #488 | AWS-E-ac-2 | observed_evidence_review_debt | Website and historical evidence ownership is preserved |
+| AWS-E | #488 | AWS-E-ac-3 | proof_gap | Cleanup requires exact non-use retention recovery and deletion authority |
+| AWS-E | #488 | AWS-E-ac-4 | proof_gap | Live and declared state agree |
+| AWS-F | #489 | AWS-F-ac-1 | observed_evidence_review_debt | Runtime hosts have no direct public ingress |
+| AWS-F | #489 | AWS-F-ac-2 | proof_gap | Shared edge network build and node states remain separated |
+| AWS-F | #489 | AWS-F-ac-3 | proof_gap | Existing issue 122 owns public Route53 and ACM exposure |
+| AWS-F | #489 | AWS-F-ac-4 | observed_evidence_review_debt | Disposable deployment and cleanup bind the exact modules |
+| GCP-A | #490 | GCP-A-ac-1 | proof_gap | Organization folder project billing and region are exact |
+| GCP-A | #490 | GCP-A-ac-2 | proof_gap | POC and long-term ownership are explicit |
+| GCP-A | #490 | GCP-A-ac-3 | proof_gap | The first workload has a hard cost ceiling |
+| GCP-A | #490 | GCP-A-ac-4 | proof_gap | Quota is not treated as capacity |
+| GCP-B | #491 | GCP-B-ac-1 | proof_gap | State is versioned private recoverable and auditable |
+| GCP-B | #491 | GCP-B-ac-2 | proof_gap | Deployment uses short-lived impersonation |
+| GCP-B | #491 | GCP-B-ac-3 | observed_evidence_review_debt | Provider and module versions are pinned |
+| GCP-B | #491 | GCP-B-ac-4 | observed_evidence_review_debt | Local bootstrap state is removed recoverably |
+| GCP-C | #492 | GCP-C-ac-1 | proof_gap | Every new project has corporate group ownership and cost attribution |
+| GCP-C | #492 | GCP-C-ac-2 | proof_gap | Policies are scoped and impact-reviewed |
+| GCP-C | #492 | GCP-C-ac-3 | proof_gap | Billing export and budgets are observable |
+| GCP-C | #492 | GCP-C-ac-4 | proof_gap | Existing POC resources remain unchanged unless explicitly admitted |
+| GCP-D | #493 | GCP-D-ac-1 | proof_gap | No unintended public route address or ingress exists |
+| GCP-D | #493 | GCP-D-ac-2 | proof_gap | Human and workload identities are separate |
+| GCP-D | #493 | GCP-D-ac-3 | observed_evidence_review_debt | State artifacts models continuity evidence and logs have separate owners |
+| GCP-D | #493 | GCP-D-ac-4 | proof_gap | A disposable non-GPU workload is destroyed with zero residue |
+| GCP-E | #494 | GCP-E-ac-1 | proof_gap | Paid launch has separate authorization and a USD 20 ceiling |
+| GCP-E | #494 | GCP-E-ac-2 | proof_gap | Exact inputs and hardware are retained |
+| GCP-E | #494 | GCP-E-ac-3 | proof_gap | GPU inference and headroom are proven |
+| GCP-E | #494 | GCP-E-ac-4 | proof_gap | All owned resources are independently absent afterward |
+| XCL-01 | #495 | XCL-01-ac-1 | proof_gap | The portable workload contract is provider-neutral |
+| XCL-01 | #495 | XCL-01-ac-2 | proof_gap | AWS and GCP modules preserve the exact admitted template behavior |
+| XCL-01 | #495 | XCL-01-ac-3 | proof_gap | Provider identity and differences remain explicit |
+| XCL-01 | #495 | XCL-01-ac-4 | proof_gap | Neither provider silently substitutes for the other |
+| XCL-01 | #495 | XCL-01-ac-5 | proof_gap | Existing CloudFormation remains rollback authority until AWS-G |
+| AWS-G | #496 | AWS-G-ac-1 | proof_gap | Issue 194 and 268 templates are inventoried |
+| AWS-G | #496 | AWS-G-ac-2 | observed_evidence_review_debt | Every consumer and retained evidence path has a disposition |
+| AWS-G | #496 | AWS-G-ac-3 | proof_gap | Retirement requires proven Terraform parity and rollback |
+| AWS-G | #496 | AWS-G-ac-4 | proof_gap | No active stack is silently abandoned |
+| CORP-C | #497 | CORP-C-ac-1 | accepted_recordless | Each control plane has corporate owner and rollback |
+| CORP-C | #497 | CORP-C-ac-2 | accepted_recordless | AWS uses the approved business account |
+| CORP-C | #497 | CORP-C-ac-3 | accepted_recordless | Terraform and CI authority are company-controlled |
+| CORP-C | #497 | CORP-C-ac-4 | accepted_recordless | Availability and recovery readbacks pass |
+| CORP-D | #498 | CORP-D-ac-1 | proof_gap | Every CORP-A-C blocker has disposition |
+| CORP-D | #498 | CORP-D-ac-2 | proof_gap | Counsel-controlled judgments are recorded only as bounded receipts |
+| CORP-D | #498 | CORP-D-ac-3 | observed_evidence_review_debt | Corporate acceptance binds the exact diligence index |
+| RUST-01 | #499 | RUST-01-ac-1 | observed_evidence_review_debt | Supported resilience behavior and public API remain compatible |
+| RUST-01 | #499 | RUST-01-ac-2 | proof_gap | Each extracted module has one coherent owner |
+| RUST-01 | #499 | RUST-01-ac-3 | proof_gap | Tests remain behavior-focused and PVF-classified |
+| RUST-01 | #499 | RUST-01-ac-4 | proof_gap | Validation-impact change is measured exactly |
+| RUST-01 | #499 | RUST-01-ac-5 | proof_gap | No line-count reduction quota is imposed |
+| V3-A | #500 | V3-A-ac-1 | proof_gap | The v3 authority boundary and compatibility posture are explicit |
+| V3-A | #500 | V3-A-ac-2 | proof_gap | Requirements 161 through 163 are mapped exactly |
+| V3-A | #500 | V3-A-ac-3 | proof_gap | Construction and rollback decisions are reviewable |
+| V3-B | #501 | V3-B-ac-1 | proof_gap | State and projections are deterministic |
+| V3-B | #501 | V3-B-ac-2 | observed_evidence_review_debt | Repository context is explicit |
+| V3-B | #501 | V3-B-ac-3 | proof_gap | Requirements 164 through 167 have focused behavioral proof |
+| V3-C | #502 | V3-C-ac-1 | proof_gap | Transitions are capability-checked and atomic |
+| V3-C | #502 | V3-C-ac-2 | proof_gap | Recovery preserves audit provenance |
+| V3-C | #502 | V3-C-ac-3 | proof_gap | Requirements 168 through 170 pass failure-injection tests |
+| V3-D | #503 | V3-D-ac-1 | observed_evidence_review_debt | Commands consume typed contracts |
+| V3-D | #503 | V3-D-ac-2 | proof_gap | Bind enforces registered topology |
+| V3-D | #503 | V3-D-ac-3 | proof_gap | Cards render from the active registry |
+| V3-D | #503 | V3-D-ac-4 | proof_gap | Requirements 171 through 173 have CLI proof |
+| V3-E | #504 | V3-E-ac-1 | observed_evidence_review_debt | Review binds exact immutable scope |
+| V3-E | #504 | V3-E-ac-2 | observed_evidence_review_debt | Publication modes are explicit |
+| V3-E | #504 | V3-E-ac-3 | proof_gap | Finish derives terminal truth |
+| V3-E | #504 | V3-E-ac-4 | proof_gap | Requirements 174 through 178 have positive and refusal proof |
+| V3-F | #505 | V3-F-ac-1 | proof_gap | Requirements 179 and 180 are mapped |
+| V3-F | #505 | V3-F-ac-2 | proof_gap | v2-v3 parity is measured |
+| V3-F | #505 | V3-F-ac-3 | proof_gap | Canary rollback is exercised |
+| V3-F | #505 | V3-F-ac-4 | proof_gap | Cutover and retirement require operator approval |
+| DRT-A | #506 | DRT-A-ac-1 | proof_gap | Requirements 181 and 182 are mapped |
+| DRT-A | #506 | DRT-A-ac-2 | proof_gap | Identity and authority are deterministic |
+| DRT-A | #506 | DRT-A-ac-3 | proof_gap | Duplicate denial and replay receipts are exact |
+| DRT-B | #507 | DRT-B-ac-1 | proof_gap | Requirements 183 and 184 are mapped |
+| DRT-B | #507 | DRT-B-ac-2 | proof_gap | Six distinct residents complete assigned UTS work |
+| DRT-B | #507 | DRT-B-ac-3 | proof_gap | Dehydrate and restore preserve exact population |
+| DRT-B | #507 | DRT-B-ac-4 | observed_evidence_review_debt | GPU evidence waits for reviewed merged 345 authority |
+| DRT-C | #508 | DRT-C-ac-1 | proof_gap | Requirements 185 through 187 are mapped |
+| DRT-C | #508 | DRT-C-ac-2 | proof_gap | Identity provider and transport failures fail closed |
+| DRT-C | #508 | DRT-C-ac-3 | observed_evidence_review_debt | Observatory evidence is authentic |
+| DRT-C | #508 | DRT-C-ac-4 | proof_gap | Soak cleanup and synthesis bind exact revisions |
+| DRT-D | #509 | DRT-D-ac-1 | proof_gap | Six identities and lineage remain exact |
+| DRT-D | #509 | DRT-D-ac-2 | proof_gap | GCP account project billing and credentials are separately governed |
+| DRT-D | #509 | DRT-D-ac-3 | proof_gap | Cost and cleanup receipts are retained |
+| DRT-D | #509 | DRT-D-ac-4 | proof_gap | No resources remain |
+| HOT-01 | #510 | HOT-01-ac-1 | proof_gap | Reads use atomically swappable state |
+| HOT-01 | #510 | HOT-01-ac-2 | proof_gap | Invalid updates preserve the last valid configuration |
+| HOT-01 | #510 | HOT-01-ac-3 | proof_gap | File events are debounced |
+| HOT-01 | #510 | HOT-01-ac-4 | proof_gap | Concurrent requests observe complete configurations only |
+| OBS-A | #511 | OBS-A-ac-1 | proof_gap | Every view has a stable information contract |
+| OBS-A | #511 | OBS-A-ac-2 | proof_gap | Empty degraded recovery and revoked states are designed |
+| OBS-A | #511 | OBS-A-ac-3 | proof_gap | Keyboard and screen-reader flows are specified |
+| OBS-A | #511 | OBS-A-ac-4 | proof_gap | No invented Runtime field is introduced |
+| OBS-B | #512 | OBS-B-ac-1 | proof_gap | OBS-A contracts are implemented |
+| OBS-B | #512 | OBS-B-ac-2 | proof_gap | Runtime projections are source-grounded |
+| OBS-B | #512 | OBS-B-ac-3 | proof_gap | Accessibility and recovery cases pass |
+| OBS-B | #512 | OBS-B-ac-4 | proof_gap | Issues 84 and 251 remain visible operator-deferred backlog and do not gate this release |
+| DEC-01 | #513 | DEC-01-ac-1 | proof_gap | Every source and reverse reference has one owner and disposition |
+| DEC-01 | #513 | DEC-01-ac-2 | proof_gap | Supported behavior has compatibility proof |
+| DEC-01 | #513 | DEC-01-ac-3 | proof_gap | Rollback and migration are executable |
+| DEC-01 | #513 | DEC-01-ac-4 | observed_evidence_review_debt | Runtime v4 remains excluded |
+| PROV-A | #514 | PROV-A-ac-1 | observed_evidence_review_debt | Profiles bind provider model and bounded parameters |
+| PROV-A | #514 | PROV-A-ac-2 | observed_evidence_review_debt | Invalid profiles fail before activation |
+| PROV-A | #514 | PROV-A-ac-3 | observed_evidence_review_debt | Last-known-good state is retained |
+| PROV-A | #514 | PROV-A-ac-4 | proof_gap | Credentials prompts and private payloads are excluded |
+| PROV-B | #515 | PROV-B-ac-1 | proof_gap | Shadow and authority paths are distinguishable |
+| PROV-B | #515 | PROV-B-ac-2 | proof_gap | Inputs and comparison rules are exact |
+| PROV-B | #515 | PROV-B-ac-3 | proof_gap | Failures preserve the authoritative result |
+| PROV-B | #515 | PROV-B-ac-4 | observed_evidence_review_debt | Evidence is redacted |
 
 ## Complete retained projection
 
@@ -251,18 +254,18 @@ This is an admission decision only; it is not release approval.
 | CORP-B | #156 | retained-156-ac-2 | observed_in_merged_successor | Recovery is exercised without relying solely on a founder-owned phone, email, card, or device. |
 | CORP-B | #156 | retained-156-ac-3 | observed_in_merged_successor | Break-glass access is bounded, audited, and distinct from routine credentials. |
 | CORP-B | #156 | retained-156-ac-4 | observed_in_merged_successor | The repository records names and outcomes only; no credential material is retained. |
-| CORP-C | #157 | retained-157-ac-1 | consolidated_successor_uncertainty | Only the seven approved migration repositories move; asksifu and Horust remain unchanged. |
-| CORP-C | #157 | retained-157-ac-2 | consolidated_successor_uncertainty | Agent Design Language remains public and all other company repositories remain private unless separately authorized. |
-| CORP-C | #157 | retained-157-ac-3 | consolidated_successor_uncertainty | Founder-account repositories are copied or dispositioned without deletion or destructive history changes. |
-| CORP-C | #157 | retained-157-ac-4 | consolidated_successor_uncertainty | Domains, brands, Apps, webhooks, packages, Pages, OIDC, and repository references receive verified dispositions. |
-| CORP-C | #158 | retained-158-ac-1 | consolidated_successor_uncertainty | Every AWS operation verifies the approved Agent Logic business account and uses the permanent business profile. |
-| CORP-C | #158 | retained-158-ac-2 | consolidated_successor_uncertainty | Public TLS uses ACM or another publicly trusted issuer; production paths contain no self-signed certificate. |
-| CORP-C | #158 | retained-158-ac-3 | consolidated_successor_uncertainty | DNS, email, storage, CDN, workload, monitoring, backup, budget, and rollback checks pass from company authority. |
-| CORP-C | #158 | retained-158-ac-4 | consolidated_successor_uncertainty | Temporary resources are inventoried, tagged, bounded, and deleted with provider readback after each phase. |
-| CORP-C | #159 | retained-159-ac-1 | consolidated_successor_uncertainty | Terraform state, locks, plans, applies, and recovery operate under company custody. |
-| CORP-C | #159 | retained-159-ac-2 | consolidated_successor_uncertainty | CI uses company-controlled OIDC or equivalent short-lived identity and least privilege. |
-| CORP-C | #159 | retained-159-ac-3 | consolidated_successor_uncertainty | A clean deployment and rollback complete without founder-local credentials or unrecorded manual steps. |
-| CORP-C | #159 | retained-159-ac-4 | consolidated_successor_uncertainty | Runbooks name prerequisites, single commands, expected outputs, rollback, cleanup, and escalation without exposing secrets. |
+| CORP-C | #157 | retained-157-ac-1 | observed_in_merged_successor | Only the seven approved migration repositories move; asksifu and Horust remain unchanged. |
+| CORP-C | #157 | retained-157-ac-2 | observed_in_merged_successor | Agent Design Language remains public and all other company repositories remain private unless separately authorized. |
+| CORP-C | #157 | retained-157-ac-3 | observed_in_merged_successor | Founder-account repositories are copied or dispositioned without deletion or destructive history changes. |
+| CORP-C | #157 | retained-157-ac-4 | observed_in_merged_successor | Domains, brands, Apps, webhooks, packages, Pages, OIDC, and repository references receive verified dispositions. |
+| CORP-C | #158 | retained-158-ac-1 | observed_in_merged_successor | Every AWS operation verifies the approved Agent Logic business account and uses the permanent business profile. |
+| CORP-C | #158 | retained-158-ac-2 | observed_in_merged_successor | Public TLS uses ACM or another publicly trusted issuer; production paths contain no self-signed certificate. |
+| CORP-C | #158 | retained-158-ac-3 | observed_in_merged_successor | DNS, email, storage, CDN, workload, monitoring, backup, budget, and rollback checks pass from company authority. |
+| CORP-C | #158 | retained-158-ac-4 | observed_in_merged_successor | Temporary resources are inventoried, tagged, bounded, and deleted with provider readback after each phase. |
+| CORP-C | #159 | retained-159-ac-1 | observed_in_merged_successor | Terraform state, locks, plans, applies, and recovery operate under company custody. |
+| CORP-C | #159 | retained-159-ac-2 | observed_in_merged_successor | CI uses company-controlled OIDC or equivalent short-lived identity and least privilege. |
+| CORP-C | #159 | retained-159-ac-3 | observed_in_merged_successor | A clean deployment and rollback complete without founder-local credentials or unrecorded manual steps. |
+| CORP-C | #159 | retained-159-ac-4 | observed_in_merged_successor | Runbooks name prerequisites, single commands, expected outputs, rollback, cleanup, and escalation without exposing secrets. |
 | CORP-D | #160 | retained-160-ac-1 | observed_in_merged_successor | Every critical asset and service has a terminal transferred, retained, excluded, or blocked disposition. |
 | CORP-D | #160 | retained-160-ac-2 | observed_in_merged_successor | All required counsel and corporate approvals are present and bound to exact evidence. |
 | CORP-D | #160 | retained-160-ac-3 | observed_in_merged_successor | The public index is redacted and recomputable without exposing private instruments or credentials. |

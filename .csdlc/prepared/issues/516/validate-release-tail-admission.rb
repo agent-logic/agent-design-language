@@ -20,6 +20,9 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     path=ROOT.join(entry.fetch("path")); raise "planning source missing" unless path.file?
     raise "planning source digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
   end
+  canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-af5f8036.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
+  raise "no-v2 canary identity/status invalid" unless canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==721 && canary["exit_status"]==101
+  raise "no-v2 canary output missing/drifted" unless stderr_path.file? && Digest::SHA256.file(stderr_path).hexdigest==stderr_entry["sha256"]
   spec_path=ROOT.join("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
   specs=YAML.safe_load(spec_path.read).fetch("issue_specifications").to_h{|s|[s.fetch("id"),s]}
   plan_path=ROOT.join("docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml"); declared=[]; walk=lambda{|x|x.is_a?(Hash) ? (declared<<x["id"] if x["id"];x.each_value{|v|walk.call(v)}) : (x.each{|v|walk.call(v)} if x.is_a?(Array))};walk.call(YAML.safe_load(plan_path.read).fetch("work_packages"))
@@ -61,7 +64,19 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     row["acceptance_rows"].each do |ac|
       raise "acceptance identity/text missing" if ac["id"].to_s.empty? || ac["text"].to_s.empty?
       linked=ac["evidence_status"]=="evidence_linked" && !ac.fetch("evidence").empty?
-      raise "criterion gap is not explicit" unless linked || ac["evidence_status"]=="gap_missing_explicit_criterion_evidence"
+      allowed=%w[proven accepted_recordless observed_evidence_review_debt proof_gap product_gap]
+      raise "criterion classification invalid" unless allowed.include?(ac["evidence_status"])
+      proof=ac.fetch("proof")
+      if ac["evidence_status"]=="proven"
+        raise "proven criterion lacks exact checked live acceptance" unless ac.dig("live_exact","checked")==true
+        raise "proven criterion lacks relevant implementation" if proof["relevant_paths"].to_a.empty?
+        raise "proven criterion lacks validation" if proof["validation_paths"].to_a.empty?&&proof["successful_checks"].to_a.empty?
+        raise "proven criterion lacks current review" unless proof["review_current"]==true
+      elsif ac["evidence_status"]=="accepted_recordless"
+        raise "recordless criterion lacks accepted closeout" unless proof["closeout_kind"]=="recordless_acceptance"
+      elsif ac["evidence_status"]=="observed_evidence_review_debt"
+        raise "observed criterion lacks grounded implementation/validation" if proof["relevant_paths"].to_a.empty? || proof["successful_checks"].to_a.empty?&&proof["validation_paths"].to_a.empty? || proof["reviewed_revision"].to_s.empty?
+      end
       if linked && row["canonical_pr"]
         proof=ac.fetch("proof")
         %w[production_call_path_or_noncode behavioral_validation exact_head_review docs_demo_relevance successful_checks].each{|key|raise "criterion proof missing #{key}" if proof[key].to_a.empty?}
@@ -74,7 +89,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
         raise "criterion proof is vacuous" if proof.values.flatten.any?{|value|value.to_s.match?(/(?:stub|placeholder|do[-_ ]?nothing)/i)}
       end
       classified=admission.fetch("findings").any?{|f|f["affected_rows"].to_a.include?(ac["id"])} || admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-execution-gap"}
-      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless linked || classified
+      raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless].include?(ac["evidence_status"]) || linked || classified
     end
   end
   retained=admission.fetch("retained_predecessors")
@@ -117,6 +132,19 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   admission.fetch("backlog").each{|r|raise "Markdown backlog omitted" unless markdown.include?("| ##{r['issue']} |")}
   tails.each{|r|raise "Markdown tail row omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} | #{r['observed_state']} | #{r['expected_lifecycle']} |")}
   findings.each{|f|raise "Markdown finding omitted" unless markdown.include?(f["id"])}
+  expected_rows=[]
+  expected_rows.concat(rows.map{|r|"| #{r['planned_id']} | ##{r['issue']} | #{r['revision']||'none'} | #{r['merge_revision']||'none'} | #{r['merge_ancestry']} | #{r['disposition']} |"})
+  expected_rows.concat(tails.map{|r|"| #{r['planned_id']} | ##{r['issue']} | #{r['observed_state']} | #{r['expected_lifecycle']} | #{r['gate_role']} |"})
+  expected_rows.concat(rows.flat_map{|r|r["acceptance_rows"].map{|a|"| #{r['planned_id']} | ##{r['issue']} | #{a['id']} | #{a['evidence_status']} | #{a['text'].gsub('|','/')} |"}})
+  expected_rows.concat(retained.flat_map{|r|r["acceptance_rows"].map{|a|"| #{r['planned_id']} | ##{r['issue']} | #{a['id']} | #{a['observed_status']} | #{a['text'].gsub('|','/')} |"}})
+  expected_rows.concat(actual_collisions.map{|c|"| #{c['path'].gsub('|','/')} | #{c['owners'].join(',')} | #{c['status']} |"})
+  expected_rows.concat(admission["backlog"].map{|r|"| ##{r['issue']} | #{r['disposition']} | #{Digest::SHA256.hexdigest(JSON.generate(r['disposition_authority']))} |"})
+  actual_data=markdown.lines.map(&:chomp).select{|l|l.start_with?("| ")&&!l.match?(/^\| (?:Planned ID|Successor|Path|Issue) \|/)}
+  raise "Markdown/JSON table projection differs" unless actual_data==expected_rows
+  expected_findings=findings.map{|f|"- **#{f['severity']} #{f['id']}** — #{f['summary']} Evidence: #{f['evidence'].join(', ')}. Owner: #{f['owner']}. Disposition: #{f['disposition']}."}
+  raise "Markdown/JSON finding projection differs" unless markdown.lines.map(&:chomp).select{|l|l.start_with?("- **")}==expected_findings
+  raise "Markdown decision differs" unless markdown.include?("**#{expected.upcase}**")
+  raise "Markdown counts differ" unless markdown.include?("Execution roots: #{rows.length}; release-tail stages: #{tails.length}; retained predecessors: #{retained.length}; backlog dispositions: #{admission['backlog'].length}; acceptance rows: #{admission.dig('counts','acceptance_rows')}.")
   raise "admission remains blocked" if require_admitted && expected!="admitted"
   true
 end
