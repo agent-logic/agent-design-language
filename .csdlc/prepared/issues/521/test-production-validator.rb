@@ -43,8 +43,21 @@ Dir.mktmpdir("issue-521-production-",File.expand_path("../../../../.adl",__dir__
   paths=required.map{|n|File.join(root,n)}+[review_receipt]; wj(File.join(root,"packet-manifest.json"),{"entries"=>paths.map{|p|{"path"=>p,"sha256"=>Digest::SHA256.file(p).hexdigest}}})
   bin=File.join(repo,"bin"); FileUtils.mkdir_p(bin); File.write(File.join(bin,"gh"),"#!/bin/sh\ncase \"$1\" in issue) printf '%s' '{\"state\":\"CLOSED\",\"closedByPullRequestsReferences\":[{\"number\":900}]}' ;; pr) printf '%s' '{\"state\":\"MERGED\",\"mergedAt\":\"now\",\"mergeCommit\":{\"oid\":\"#{internal_merge}\"},\"headRefOid\":\"#{reviewed_head}\"}' ;; esac\n"); FileUtils.chmod(0755,File.join(bin,"gh")); ENV["PATH"]="#{bin}:#{ENV["PATH"]}"
   abort("valid production packet failed") unless validate_packet!(root:root)[:status]=="passed"
+  reject = lambda do |name, files, &mutation|
+    originals=files.to_h{|p|[p,File.binread(p)]}; mutation.call; rejected=false
+    begin; validate_packet!(root:root); rescue SystemExit,KeyError,TypeError,JSON::ParserError; rejected=true; ensure originals.each{|p,c|File.binwrite(p,c)}; end
+    abort("#{name} production mutation passed") unless rejected; puts JSON.generate(status:"passed",production_negative:name)
+  end
+  scope_path=File.join(root,"scope.json")
+  reject.call("scope_truncation",[scope_path]){d=JSON.parse(File.read(scope_path)); d["reviewed_refs"].pop; d["rows"].pop; wj(scope_path,d)}
+  receipt_path=File.join(root,"provider-invocation-receipt.json")
+  reject.call("fabricated_provider_receipt",[receipt_path]){d=JSON.parse(File.read(receipt_path)); d["request_sha256"]="0"*64; wj(receipt_path,d)}
+  independence_path=File.join(root,"reviewer-independence.json")
+  reject.call("unresolved_evidence",[independence_path]){d=JSON.parse(File.read(independence_path)); d["evidence"]="claim only"; wj(independence_path,d)}
+  gh_path=File.join(bin,"gh")
+  reject.call("unmerged_predecessor",[gh_path]){File.write(gh_path,"#!/bin/sh\nprintf '%s' '{\"state\":\"OPEN\",\"closedByPullRequestsReferences\":[]}'\n"); FileUtils.chmod(0755,gh_path)}
   raw["observations"]=[]; wj(raw_path,raw); receipt["response_sha256"]=Digest::SHA256.file(raw_path).hexdigest; wj(File.join(root,"provider-invocation-receipt.json"),receipt)
-  independence_path=File.join(root,"reviewer-independence.json"); independence=JSON.parse(File.read(independence_path)); independence["raw_output_sha256"]=receipt["response_sha256"]; wj(independence_path,independence)
+  independence=JSON.parse(File.read(independence_path)); independence["raw_output_sha256"]=receipt["response_sha256"]; wj(independence_path,independence)
   runner_path=File.join(root,"standard-runner-receipt.json"); runner_doc=JSON.parse(File.read(runner_path)); runner_doc["response_sha256"]=receipt["response_sha256"]; wj(runner_path,runner_doc)
   packet_manifest_path=File.join(root,"packet-manifest.json"); packet_manifest=JSON.parse(File.read(packet_manifest_path)); packet_manifest.fetch("entries").each{|entry|entry["sha256"]=Digest::SHA256.file(entry.fetch("path")).hexdigest}; wj(packet_manifest_path,packet_manifest)
   begin; validate_packet!(root:root); abort("do-nothing review passed"); rescue SystemExit,KeyError; puts JSON.generate(status:"passed",production_negative:"populated_do_nothing_review"); end
