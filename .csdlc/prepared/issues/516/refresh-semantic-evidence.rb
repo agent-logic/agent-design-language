@@ -7,7 +7,7 @@ require "shellwords"
 require "yaml"
 
 root = File.expand_path("../../../..", __dir__)
-path = File.join(root, ".csdlc/evidence/516/semantic-criterion-evidence.json")
+path = ENV.fetch("ADL_SEMANTIC_EVIDENCE_PATH", File.join(root, ".csdlc/evidence/516/semantic-criterion-evidence.json"))
 candidate = `git -C #{root.shellescape} rev-parse origin/main`.strip
 abort "unable to resolve origin/main" unless candidate.match?(/\A[0-9a-f]{40}\z/)
 
@@ -63,7 +63,8 @@ already_migrated = entries.dig("OBS-B-ac-2", "criterion_digest") == new_gap_dige
   entries.dig("OBS-B-ac-3", "criterion_digest") == runtime_digest &&
   entries.dig("OBS-B-ac-4", "criterion_digest") == accessibility_digest
 needs_migration = entries.dig("OBS-B-ac-2", "criterion_digest") == runtime_digest &&
-  entries.dig("OBS-B-ac-3", "criterion_digest") == accessibility_digest
+  entries.dig("OBS-B-ac-3", "criterion_digest") == accessibility_digest &&
+  !entries.key?("OBS-B-ac-4")
 abort "unexpected OBS-B criterion identities; refusing destructive migration" unless already_migrated || needs_migration
 
 if needs_migration
