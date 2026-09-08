@@ -7,7 +7,7 @@
     "title": "[backlog][csdlc-v3] Restore green proof, shadow, and install tests",
     "slug": "restore-green-proof-shadow-install-tests",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -54,8 +54,8 @@
           "evidence_ref": "local exact-head output: 6 passed, 0 failed"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
