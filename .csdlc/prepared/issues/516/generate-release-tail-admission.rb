@@ -19,6 +19,14 @@ def capture(*argv)
   stdout
 end
 
+def ancestor?(commit, candidate)
+  _stdout, _stderr, status = Open3.capture3(
+    "git", "merge-base", "--is-ancestor", commit, candidate, chdir: ROOT.to_s
+  )
+  status.success?
+end
+
+candidate = capture("git", "rev-parse", "origin/main").strip
 issues = JSON.parse(capture(
   "gh", "issue", "list", "--repo", REPO, "--milestone", "v0.92.1",
   "--state", "all", "--limit", "200", "--json",
@@ -46,10 +54,12 @@ rows = issues.map do |issue|
   deferred = OPERATOR_DEFERRED.include?(number)
   closed = issue.fetch("state") == "CLOSED"
   merged = pr_data && pr_data["mergedAt"]
+  merge_oid = pr_data&.dig("mergeCommit", "oid")
+  ancestral = merged && merge_oid && ancestor?(merge_oid, candidate)
   disposition =
     if deferred
       "operator_deferred_backlog"
-    elsif closed && (merged || prs.empty?)
+    elsif closed && ((merged && ancestral) || prs.empty?)
       "satisfied"
     else
       "release_blocker"
@@ -65,7 +75,7 @@ rows = issues.map do |issue|
     "title" => issue.fetch("title"),
     "acceptance_authority" => "#{issue.fetch('url')}#issue-body",
     "revision" => pr_data&.fetch("headRefOid", nil),
-    "merge_ancestry" => merged ? "merged_into_main:#{pr_data.dig('mergeCommit', 'oid')}" :
+    "merge_ancestry" => ancestral ? "ancestor_of_candidate:#{merge_oid}" :
       (deferred ? "not_applicable_operator_deferred" : "not_proven"),
     "artifacts" => artifacts,
     "implementation_evidence" => pr_data ? pr_data.fetch("url") : issue.fetch("url"),
@@ -122,7 +132,7 @@ generated_at = Time.now.utc.iso8601
 
 admission = {
   "schema" => "adl.v0921.release_tail_admission.v1",
-  "candidate" => capture("git", "rev-parse", "origin/main").strip,
+  "candidate" => candidate,
   "generated_at" => generated_at,
   "denominator_policy" => "All milestone issues titled [v0.92.1], excluding release-tail children and sprint umbrellas; explicit backlog issues remain visible as operator-deferred rows.",
   "denominator" => rows,
