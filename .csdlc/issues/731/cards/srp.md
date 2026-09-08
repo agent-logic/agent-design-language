@@ -40,12 +40,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No fresh live GCP mutation was run for the follow-up remediation; the earlier live foundation/workload evidence remains historical and any new live rerun requires a fresh unexpired operator authorization packet.
+- PR #739 was merged by the operator before this remediation landed, so publication must use a follow-up PR rather than reopening the merged pull request.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ee7aa44ff956729e91a504f3d19686c34460b40d:fd737c5c36c266f5a4e4536db38347202f5844a937864a504f5a05e862ca6ebb")
 
-Reviewer: None
+Reviewer: Some("fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677")
 
-Result: pre_review
+Result: pass

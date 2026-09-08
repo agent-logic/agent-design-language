@@ -3,9 +3,9 @@
   "issue": 731,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ea687925d1bc4ed6a36f8f5c5b07dc1ca072376e3ffedc2abd58d2cc85373f01",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "000b4c4487848ba315182e2bdc518a64f7928897bd09d9b4189ca744925c1fd1",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "c8f73cb3687c6b9819bf5744f2b578d80b340869e617cf7cca1a43a0d96999f4",
   "branch": "codex/731-gcp-d1-private-foundation-non-gpu-disposal",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-731-gcp-d1-private-foundation-non-gpu-disposal",
   "review_assignment": {
@@ -23,7 +23,27 @@
       "Verify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
+    "scope": [
+      "Exact commit ee7aa44ff956729e91a504f3d19686c34460b40d on branch codex/731-gcp-d1-private-foundation-non-gpu-disposal, rebased onto origin/main after the operator merged PR #739 at cf8bc136a69501d9fd1e2f9cb5776b28f22ca763.",
+      "Follow-up remediation only: .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh, .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh, .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh, .csdlc/prepared/issues/731/validate-gcp-d1-remediation-guards.sh, .csdlc/evidence/731/remediation-guards/**, and #731 SOR/SRP/index truth.",
+      "Verify reviewer fresh-session:b46c30c4-d885-4795-86e3-38a06bf88160 P1/P2 findings are actually resolved: every live gcloud mutation/readback/cleanup path uses the authorized impersonated service account from the packet, and SOR records the current typed validate/doctor evidence truthfully.",
+      "Verify authorization freshness, max 30-minute cleanup lifetime, expired-deadline rejection, and service-account impersonation enforcement before any live mutation path.",
+      "Verify disposable workload cleanup is armed before create, EXIT cleanup handles injected partial-create and post-create failures, the deadline reaper uses the authorized identity, success-path readiness and metadata service-account readback execute, and post-delete residue checks cover instances, disks, addresses, forwarding rules, firewall overrides, VM IAM, Terraform run labels, and storage objects/all versions.",
+      "Verify foundation apply/readback impersonation, exact project/subnet/firewall/OS Login/IAM/bucket/logging readbacks, and rollback-on-failure.",
+      "Verify retained evidence is no-live mock/local proof at the exact head; historical live GCP evidence remains historical only and no fresh live GCP mutation is claimed.",
+      "Verify diff hygiene and typed validate/doctor are clean, and evaluate whether a follow-up PR is appropriate because PR #739 was already merged by the operator before this remediation landed."
+    ],
+    "reviewed_revision": "git-blake3:ee7aa44ff956729e91a504f3d19686c34460b40d:fd737c5c36c266f5a4e4536db38347202f5844a937864a504f5a05e862ca6ebb",
+    "findings": [],
+    "residual_risks": [
+      "No fresh live GCP mutation was run for the follow-up remediation; the earlier live foundation/workload evidence remains historical and any new live rerun requires a fresh unexpired operator authorization packet.",
+      "PR #739 was merged by the operator before this remediation landed, so publication must use a follow-up PR rather than reopening the merged pull request."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ca005d1cf9dfc2023bc62ce47e19b0bd6da9eb5767fda53b6540ccea367a27d",
+      "values_digest": "8ae5b272b1a7aa16dfc0269573d6461e3073a8c6fb19b4b45a13e36c17c415ac",
       "rendered_digest": "de9fcc9519efaf1e6502499bdca36486e71b72887b1b9562a318f885be61a5d9",
       "ast_digest": "ecf1496514839998d12363025d3e1c1b53532d7bcaf5a76aa6f3c450581bf803"
     },
     "stp": {
-      "values_digest": "c92960670d6d85ea28a1b1b9612312f01da28809f0815c81fc80368136e7952f",
+      "values_digest": "c078fecd5d9beb504298c88a00d18ca1592bef7f0da7df9e55a6857b6b562da4",
       "rendered_digest": "3abc77c5b6af59acf278d557dbafb680b4d290bf9dba9b369c3023296145e6c5",
       "ast_digest": "98a3c747cd7336423fc8a3077a21e66ea807d49c128f9f4914192178395d9625"
     },
     "spp": {
-      "values_digest": "bcb3dfa7ba4d71ca544c8cd2b132a5071baf7602f1e4617286aada3a0e045378",
+      "values_digest": "08928d620e155c795ec98ce123b2965b151a8ae564c0b6970bbbec1db84baf34",
       "rendered_digest": "65256ea2a9159eeac3e8772edaa6b39f80f52b1f129ca374b9f2bc1bad2f2ee8",
       "ast_digest": "97a1a815997ddf789dfe4afcf87a01b7a20150c61680fc0d2d71be07545d5c44"
     },
     "vpp": {
-      "values_digest": "6f5ae6ba8d419db2193d1656b44cf91c06cfb426c48c54379c5a4bc3171a86e0",
+      "values_digest": "5aa55782ae6ae0d518e6ff9066587dbdbde1866701334bc686ab484144f8300d",
       "rendered_digest": "4d384529044347e33ecb9e241a2f8ac30b75da5c95463f8a51cb933af94861f3",
       "ast_digest": "88b93c44376e38ae4f5012faaaa5e17bf6b024a7c14b06a6870c214a696a3cf1"
     },
     "srp": {
-      "values_digest": "a067bc3fc34b870f299247f773bff6a292dc465950b00778c5412139d99f8060",
-      "rendered_digest": "1ae634ca675b016285a24a27170e28084f1405a4522154c59b3ca89e68be0061",
-      "ast_digest": "93c40961e7523927ad52317267041ba53328c87da43690cf45435f56740e3300"
+      "values_digest": "6d26a423c0330962ff45e6519f032374ed186e582f37d52e6998f791d3456fdf",
+      "rendered_digest": "5ff61762bd096f049c216681dcecf5fc0bfd6d47c9ffebf7d1242a2dcfdb1f54",
+      "ast_digest": "fe64a8544a14e33a8df3528826a0d6ef29177a240d24b8317611833abea221e1"
     },
     "sor": {
-      "values_digest": "0e69d1e7c8d9dd2ff21468f7f8432a54d80c01fb09525f229ea53bc412c6c6b1",
+      "values_digest": "343c227c3a6f5d8239678d0621b294cad2a7c2b93d0f438cc50dfe888a1130fa",
       "rendered_digest": "ccd0564ea3eeb1ea5a60a31eb910e20901b8eea4ff937edbcc7939040ed0f36f",
       "ast_digest": "df16d649f0bbbca709ba7b007bf5be7a4c9ad1ba28cd3369d5c101cc57cb9da8"
     }
@@ -110,6 +130,13 @@
       "to": "implemented",
       "actor": "codex:731-owner",
       "reason": "Recover stale #731 review/publication truth after PR #739 exact-head review found missing fail-safe cleanup, authorization freshness/lifetime, readiness, zero-residue, foundation rollback/readback, impersonation, and exact-head review coverage blockers."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -336,6 +363,13 @@
       "actor": "codex:731-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "fresh-session:207eba9c-ac6a-4964-b3ba-34e69f93b677",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
