@@ -1,12 +1,15 @@
 //! Minimal non-authoritative C-SDLC v3 contract boundary.
 //!
 //! This crate is introduced by ADL issue #500 as a construction-decision and
-//! validation surface only. It intentionally does not expose lifecycle
-//! execution, GitHub mutation, worktree binding, finish, cleanup, or authority
-//! cutover APIs.
+//! validation surface only. It exposes typed pre-cutover command boundaries for
+//! local preparation and remote-delivery verification, but those boundaries
+//! remain non-authoritative: they do not mutate GitHub, bind live worktrees,
+//! finish issues, clean worktrees, or switch operational authority away from
+//! C-SDLC v2 before the explicit #505 cutover.
 
 pub mod adapters;
 pub mod application;
+pub mod authority;
 pub mod commands;
 pub mod lifecycle;
 pub mod publication;
@@ -190,7 +193,7 @@ mod tests {
         }
         assert!(contract.contains("does not make v3 operational"));
         assert!(contract.contains("v2 remains the rollback target"));
-        assert!(contract.contains("Windows mutation remains fail-closed/read-only"));
+        assert!(contract.contains("macOS and Linux are the required #505 cutover platforms"));
     }
 
     #[test]

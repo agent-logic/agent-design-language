@@ -390,6 +390,7 @@ pub fn git_worktree_registration_digest(
     if !git_common_dir.starts_with(&worktree_registration_parent) {
         return Err(CleanupRejectReason::MissingRegistrationReceipt);
     }
+    validate_git_worktree_registration_files(&worktree_path, &git_common_dir)?;
     let mut hasher = blake3::Hasher::new();
     hasher.update(b"git-worktree-registration.v1");
     hasher.update(b"\0");
@@ -398,6 +399,32 @@ pub fn git_worktree_registration_digest(
         hasher.update(b"\0");
     }
     Ok(hasher.finalize().to_hex().to_string())
+}
+
+fn validate_git_worktree_registration_files(
+    worktree_path: &Path,
+    git_common_dir: &Path,
+) -> Result<(), CleanupRejectReason> {
+    let worktree_git_file = worktree_path.join(".git");
+    let worktree_git = fs::read_to_string(&worktree_git_file)
+        .map_err(|_| CleanupRejectReason::MissingRegistrationReceipt)?;
+    let Some(target) = worktree_git.trim().strip_prefix("gitdir:") else {
+        return Err(CleanupRejectReason::MissingRegistrationReceipt);
+    };
+    let declared_gitdir = canonical_path(Path::new(target.trim()))?;
+    if declared_gitdir != git_common_dir {
+        return Err(CleanupRejectReason::MissingRegistrationReceipt);
+    }
+
+    let common_gitdir = fs::read_to_string(git_common_dir.join("gitdir"))
+        .map_err(|_| CleanupRejectReason::MissingRegistrationReceipt)?;
+    let declared_worktree_git = canonical_path(Path::new(common_gitdir.trim()))?;
+    let actual_worktree_git = fs::canonicalize(&worktree_git_file)
+        .map_err(|_| CleanupRejectReason::MissingRegistrationReceipt)?;
+    if declared_worktree_git != actual_worktree_git {
+        return Err(CleanupRejectReason::MissingRegistrationReceipt);
+    }
+    Ok(())
 }
 
 #[allow(clippy::too_many_arguments)]

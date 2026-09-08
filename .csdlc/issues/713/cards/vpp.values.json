@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 713,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Retain and restore complete agent-to-agent conversation history",
+    "slug": "runtime-a2a-conversation-history",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "a2a-history-focused",
+          "proof_role": "Prove verbatim causal A2A transcript persistence, replay handling, redaction, API projection, Observatory restore, restart, checkpoint, and rehydration in deterministic local proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 3000,
+          "argv": [
+            "bash",
+            "adl/tools/test_issue713_a2a_history.sh"
+          ],
+          "parallel_group": "a2a-history-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "live-wuji-a2a",
+          "proof_role": "Prove raw redacted bidirectional non-Shepherd Wuji A2A exchange and recovered verbatim transcript after reconnect/restart when explicitly operator-authorized.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 1200,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/713/validate-live-a2a-history.sh"
+          ],
+          "parallel_group": "a2a-live-serial",
+          "defer_reason": "Live Wuji Runtime/ACIP proof requires explicit operator authorization; the wrapper fails closed unless ADL_LIVE_WUJI_A2A_HISTORY=1 is set."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on identity, causal-chain, replay, authorization, or redaction mismatch; never manufacture missing transcript content.",
+      "design_ref": ".csdlc/prepared/issues/713/design.md",
+      "design_digest": "a0f25231074724d0711d0603f2b1c95e493832b21001a4d29ea820917bf54bb3",
+      "diagram_ref": ".csdlc/prepared/issues/713/diagram.mmd",
+      "diagram_digest": "0130ada9fadf6f4b748d59a8040eb2c97ed4496fff77c960f7c709fed1808c64"
+    }
+  }
+}

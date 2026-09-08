@@ -1,0 +1,7 @@
+{
+  "issue": 505,
+  "expected_generation": 53,
+  "expected_digest": "ddde74d296b412c5f3e6fc7d87d80cd4363796890f5fc88148acba3fea88cd2f",
+  "actor": "worker-6",
+  "reason": "Recover stale #505 review and publication truth after merging current origin/main at 8ed2c4fc into PR #591 without approving cutover."
+}

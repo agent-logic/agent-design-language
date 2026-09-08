@@ -1,0 +1,12 @@
+{
+  "issue": 708,
+  "expected_generation": 44,
+  "expected_digest": "1d125d70f1f9b07ab93501ccd1424a0929b2b0c1c7912df535920ac5e99536ff",
+  "reviewer": "codex:issue-708-review-blocker-current-head-review",
+  "assigned_by": "codex:issue-708-runtime-orientation",
+  "scope": [
+    "adl-runtime-kernel/src/agent_orientation.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/conversation_sessions_tests.rs"
+  ]
+}

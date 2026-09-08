@@ -19,6 +19,11 @@ Current C-SDLC issue work uses the independent Rust v2 binary set under
 until explicit V3-F/#505 cutover approval. C-SDLC v3 remains construction-only
 and non-authoritative before that cutover.
 
+Before #505 changes any default tooling route, operators must receive
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` through the typed C-SDLC v2 GitHub
+issue owner. That notice is informational and does not revive this compatibility
+surface.
+
 ## Historical prompt boundary
 
 ```text

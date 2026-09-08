@@ -1,0 +1,12 @@
+[
+  {
+    "branch": "codex/511-v3-readiness-canary",
+    "worktree": "adl-worktrees/adl-issue-511-v3-readiness-canary",
+    "primary": false
+  },
+  {
+    "branch": "codex/515-v3-readiness-canary",
+    "worktree": "adl-worktrees/adl-issue-515-v3-readiness-canary",
+    "primary": false
+  }
+]

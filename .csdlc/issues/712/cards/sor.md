@@ -1,0 +1,102 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 712
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Simplified Runtime startup to one canonical init, one canonical Kernel binary, and one Guardian supervisor; removed the cross-binary prepared-receipt handshake; retained atomic reload with direct config-hash readiness and rollback.
+
+## Artifacts
+
+- adl/src/cli/csm_runtime_v3_cmd.rs
+- adl-runtime/src/bin/adl-runtime-guardian.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/control.rs
+- docs/tooling/START_CSM_RUNBOOK.md
+- .csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh
+
+## Execution
+
+- Removed config-generation and prepared-receipt startup authority from CSM, Guardian, Kernel, readiness projections, and obsolete generation tests.
+- Made Kernel read the canonical init once, validate those exact bytes, and advertise the hash of those same bytes.
+- Required service-manager argv to use the canonical Guardian and exactly one matching canonical --init path.
+- Required reload candidates to retain current/bin/adl-runtime-kernel and validate the exact durably staged bytes before stopping Runtime.
+- Preserved atomic candidate swap, owned-readiness convergence, last-known-good rollback, and interrupted-transaction recovery.
+- Updated the canonical startup runbook and added an issue-owned focused validation command.
+- Repaired merged A2A transcript-history compatibility needed for the current main baseline.
+
+## Validation
+
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh"
+    ],
+    "purpose": "Prove focused CSM, Guardian, production Kernel, retained A2A history compatibility, strict lint, and range diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:issue-owned validator exited 0 at implementation head"
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "csm",
+      "--",
+      "runtime-v3",
+      "status",
+      "--init",
+      "/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/runtime-init.toml",
+      "--plist",
+      "/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/launchd/com.agentlogic.adl-runtime-v3.plist",
+      "--label",
+      "com.agentlogic.adl-runtime-v3",
+      "--json"
+    ],
+    "purpose": "Prove the simplified CSM accepts the live canonical Guardian, init, and Kernel topology and reports owned readiness without receipt fields.",
+    "outcome": "passed",
+    "evidence_ref": "terminal:service_loaded true, listener_ready true, observability_ready true"
+  },
+  {
+    "command": [
+      "csm",
+      "runtime-v3",
+      "reload",
+      "--init",
+      "/Users/daniel/git/agent-design-language/.adl/runtime-v3/live/runtime-init.toml",
+      "--json"
+    ],
+    "purpose": "Prove the simplified exact build relaunches under Guardian, restores signed continuity across compatible config-hash drift, reports direct active-init hash readiness, and restores the complete model-backed agent population with orientation metadata.",
+    "outcome": "passed",
+    "evidence_ref": "live-wuji: generation issue-712-8fbd9c942; service_loaded=true; listener_ready=true; observability_ready=true; six agents restored and healthy; Signal orientation digest ace402b9"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

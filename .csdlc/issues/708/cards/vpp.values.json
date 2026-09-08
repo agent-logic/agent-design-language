@@ -1,0 +1,111 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 708,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: inject versioned Polis welcome package into admitted agent context",
+    "slug": "runtime-versioned-agent-orientation-resource",
+    "version": "v0.92.1",
+    "generation": 47
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-orientation-contract",
+          "proof_role": "Prove resource validation, delivered-byte digesting, admission ordering, per-agent retention, and reload semantics.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "orientation"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": "The issue-owned focused Runtime test selector will be added during implementation before PVF execution."
+        },
+        {
+          "lane": "runtime-projection-observatory",
+          "proof_role": "Prove Runtime projection and Observatory rendering of exact per-agent orientation provenance.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
+          "argv": [
+            "node",
+            "demos/html-observatory/tests/agent_orientation.test.mjs"
+          ],
+          "parallel_group": "observatory",
+          "defer_reason": "The issue-owned Observatory test target will be added during implementation before PVF execution."
+        },
+        {
+          "lane": "planning-contract",
+          "proof_role": "Prove the issue-owned design, diagram, source input, and typed lifecycle records are present and structurally clean.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/708/validate-orientation-plan.sh"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        },
+        {
+          "lane": "source-immutability",
+          "proof_role": "Prove the canonical welcome-package source document is unchanged by the implementation.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--exit-code",
+            "origin/main...HEAD",
+            "--",
+            "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed if orientation cannot be validated, injected before the first turn, or bound to exact per-agent delivery provenance; preserve the last valid active resource on reload failure.",
+      "design_ref": ".csdlc/prepared/issues/708/design.md",
+      "design_digest": "8ae95c9e3004c2770afe6e6b9b3ff8986881e9ecc1c8e2e70cb0cdb478a7f919",
+      "diagram_ref": ".csdlc/prepared/issues/708/diagram.mmd",
+      "diagram_digest": "d778bf9ccf2edbfcf47af8b19bc0105b0f0d7372b6f0e94fa95ecf3ab399aea8"
+    }
+  }
+}

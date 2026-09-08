@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 712,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Simplify startup to one config, one binary, and one supervisor",
+    "slug": "runtime-startup-simplification",
+    "version": "v0.92.1",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make Runtime startup Apache-simple and reliable by removing the cross-binary prepared-receipt protocol.",
+      "required_outcome": "One canonical config and one stable Runtime binary start under one Guardian supervisor; Kernel validates and reports the loaded config hash; reload is atomic.",
+      "declared_scope": [
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/config_generation.rs",
+        "focused startup and reload tests",
+        "docs/tooling/START_CSM_RUNBOOK.md"
+      ],
+      "authority_boundary": [
+        "Issue #712 owns Runtime startup and reload simplification",
+        "Security at authenticated API, signed ACIP, agent identity, replay, and audit boundaries remains intact",
+        "No provider, Observatory, checkpoint, or C-SDLC redesign"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "One canonical config file",
+        "One canonical Runtime binary with a stable name",
+        "Exactly one Guardian-supervised Runtime child",
+        "No prepared receipt handshake",
+        "Never write tracked implementation on main",
+        "Preserve live Wuji rollback until acceptance passes"
+      ]
+    }
+  }
+}

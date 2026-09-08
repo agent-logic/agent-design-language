@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.terminal_cleanup_cutover.v1",
+  "command": "finish",
+  "read_only": true,
+  "requested_mutation": false,
+  "performed_mutation": false,
+  "operational_authority": false,
+  "cutover_issue": 505,
+  "result": {
+    "route": "finish",
+    "issue": 629,
+    "repository": "agent-logic/agent-design-language",
+    "status": "ready",
+    "operational_authority": false,
+    "findings": [],
+    "finish": {
+      "decision": "terminal_closed_out",
+      "pull_request": 641,
+      "issue": 629,
+      "head_sha": "8ad0d56ae7db6421fcbc2016a2f1c8590094577e"
+    }
+  }
+}

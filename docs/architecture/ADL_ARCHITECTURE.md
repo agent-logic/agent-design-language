@@ -81,6 +81,9 @@ cards as the canonical execution packet:
 
 - STP: the bounded task prompt and acceptance contract.
 - SIP: the input state and worktree binding.
+- SPP: the issue-local execution plan.
+- VPP: the validation plan and proof-lane contract.
+- SRP: the structured review prompt and review-result surface.
 - SOR: the output record, validation results, PR state, and closeout truth.
 
 `adl/src/control_plane.rs` still defines deterministic issue prompt paths, task
@@ -94,8 +97,31 @@ Current C-SDLC issue work uses the independent Rust v2 binary set under
 `.adl/bin/csdlc-v2/` and the typed owner skills in
 `csdlc-v2/operator/skills/`: init, bind, card editing, validation, review,
 publication, shepherding, finish, and cleanup each have an explicit v2 owner.
+C-SDLC v2 remains the live lifecycle authority until an operator-reviewed
+V3-F/#505 cutover is merged and terminally reconciled.
 C-SDLC v3 work remains construction-only and non-authoritative until the
 explicit V3-F/#505 authority transition approves and proves any cutover.
+
+The current ADL lifecycle is:
+
+1. `csdlc-issue` creates or normalizes the issue record and all six cards.
+2. `csdlc-edit` and `csdlc-validate` keep card projections and schemas current.
+3. `csdlc-bind` binds the issue to the exact branch and FastWork worktree.
+4. Implementation and focused PVF validation happen inside that bound worktree.
+5. `csdlc-review` records exact-head independent review truth before
+   publication.
+6. `csdlc-publish` creates or updates the PR with visible closing linkage.
+7. `csdlc-github-pr` / `csdlc-pr-state` observe PR state, checks, and conflicts.
+8. `csdlc-finish` derives terminal authority from live GitHub merge/closure
+   truth.
+9. `csdlc-clean cleanup` removes only the exact registered worktree after
+   terminal truth is materialized.
+
+Issue #505 is the pending V3-F tooling changeover decision. Until that issue is
+reviewed, explicitly approved, merged, and terminally reconciled, v3 remains
+construction evidence and every active lifecycle write still routes through v2.
+Operators must receive the pre-change notice in
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any default tooling switch.
 
 The root checkout remains the stable coordination checkout. Tracked
 implementation work belongs in issue-specific worktrees, not on the root branch.

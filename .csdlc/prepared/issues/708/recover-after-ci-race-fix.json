@@ -1,0 +1,7 @@
+{
+  "issue": 708,
+  "expected_generation": 32,
+  "expected_digest": "dc6b1424a3463d1a266e43d92b14c98bec7031bc54595d97fea576a64a4ef4df",
+  "actor": "codex:issue-708-runtime-orientation",
+  "reason": "Recover stale publication truth after making the duplicate conversation in-flight regression test deterministic for the red adl-runtime-v3-fast CI failure."
+}

@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Outcome\n\nProduce one bounded local-model shadow-execution path that cannot acquire authority.\n\n## Primary deliverable\n\nOne bounded local-model shadow-execution and comparison path that cannot acquire authority.\n\n## Verification result\n\nIsolation, deterministic comparison, fallback, and redaction checks prove authoritative results remain unchanged.\n\n## Unit boundary\n\nIssue completion is exactly one non-authoritative shadow-execution path; comparison cases are proof inputs.\n\n## Dependencies\n\n- PROV-A: #514\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Shadow and authority paths are distinguishable\n- [ ] Inputs and comparison rules are exact\n- [ ] Failures preserve the authoritative result\n- [ ] Evidence is redacted\n\n## Owned paths\n\n- `adl/src/provider/**`\n- `docs/milestones/v0.92.1/evidence/provider/prov-b/**`\n\n## PVF lanes\n\n- `shadow-isolation`\n- `deterministic-comparison`\n- `fallback`\n- `redaction`\n\n## Stop conditions\n\n- Shadow output can mutate authority\n- Comparison inputs drift\n\n## Non-goals\n\n- Provider benchmark marketing claims\n- Production cutover\n\n## Canonical planning identity\n\n- Planned ID: `PROV-B`\n- Canonical title: `[v0.92.1][PROV-B] Local-model shadow execution`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#PROV-B`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:PROV-B:create -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-26T03:20:56Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "area:runtime",
+      "version:v0.92.1"
+    ],
+    "marker_present": false,
+    "milestone": 1,
+    "number": 515,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][PROV-B] Local-model shadow execution"
+  },
+  "operation_key": "worker-6-v3-sprint-readiness-live-issue-515-20260901",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

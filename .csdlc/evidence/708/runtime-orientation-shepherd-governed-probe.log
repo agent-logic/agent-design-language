@@ -1,0 +1,35 @@
+Issue: 708
+Evidence: runtime-orientation-shepherd-governed-probe
+Worktree: /Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource
+
+Finding addressed:
+- The resident Shepherd preload path was oriented, but the later governed
+  recovery/readiness probe still sent a raw "Reply with READY." prompt through
+  the resident Shepherd executor. That left a production model-facing Runtime
+  path where the welcome package did not precede the first task instruction.
+
+Fix:
+- Route the governed resident Shepherd probe prompt through
+  resident_shepherd_probe_prompt(&orientation), which injects the retained
+  per-agent Axioma Polis welcome package before "Reply with READY.".
+- Raise the resident Shepherd executor request decode limit for oriented
+  prompts so the Runtime can carry the welcome package and task together
+  without rejecting the governed probe envelope.
+
+Validation:
+- TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --bin adl-runtime-kernel resident_shepherd_governed_probe_prompt_includes_orientation_before_ready -- --nocapture
+  - passed: 1 test
+  - assertion: prompt starts with the Axioma Polis orientation package, contains
+    "grants no authority", contains the Runtime-delivered task separator, and
+    only then includes "Reply with READY."
+- TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response -- --nocapture
+  - passed: 1 test
+  - assertion retained: both Beacon and Ember model-facing provider prompts
+    begin with the orientation package before the A2A task content.
+- TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo check --locked --manifest-path adl-runtime-kernel/Cargo.toml --bins
+  - passed
+- TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tmp cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test shepherd resident_shepherd_model_health_gates_inference_and_recovers -- --nocapture
+  - passed: 1 test
+  - assertion retained: resident Shepherd health gating recovers after provider
+    failure and still rejects prompts that exceed the orientation-aware request
+    limit.

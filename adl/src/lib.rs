@@ -97,6 +97,9 @@ pub mod scheduler;
 pub mod schema;
 // Session ownership remains a shared lifecycle invariant while the v1 command
 // wrappers are retired; C-SDLC v2 owns the control-plane binaries.
+#[cfg(test)]
+#[path = "cli/csm_runtime_v3_cmd.rs"]
+mod csm_runtime_v3_cmd_tests;
 pub mod session_ledger;
 pub mod signing;
 pub mod skill_composition_model;

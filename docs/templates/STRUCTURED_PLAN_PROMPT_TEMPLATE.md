@@ -13,7 +13,7 @@ define the issue and selected task, and before implementation proceeds.
 The canonical card lifecycle is:
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 Tooling may create `spp.md` as an early scaffold for path stability. That file
@@ -21,11 +21,11 @@ is not lifecycle-active until the plan has been tightened for the current issue
 and is ready to guide execution.
 
 For C-SDLC issue execution, a generic or truncated `SPP` is not enough.
-`pr doctor` and sprint-conductor preflight should treat an issue-local `SPP` as
-design-time complete only after it is issue-specific and marked `reviewed` or
-`approved`. A truthful pre-execution `SPP` is a decomposition artifact: it lets
-the milestone split work into smaller, inspectable, reviewable packets before
-agents start executing them.
+Typed C-SDLC v2 validation and doctor surfaces should treat an issue-local
+`SPP` as design-time complete only after it is issue-specific and marked
+`reviewed` or `approved`. A truthful pre-execution `SPP` is a decomposition
+artifact: it lets the milestone split work into smaller, inspectable,
+reviewable packets before agents start executing them.
 
 This template is compatible with Codex plan mode by carrying a simple
 `codex_plan` list. Each item has:

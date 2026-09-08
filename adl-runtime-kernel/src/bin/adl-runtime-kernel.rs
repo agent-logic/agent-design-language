@@ -20,12 +20,11 @@ use adl_runtime_kernel::layer8_authority::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
-    build_production_operation_executors_with_recorder, config_generation_identity_from_env,
-    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
-    monitor_until_stop, preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
+    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    preload_resident_shepherd_model, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
-    start_config_reload_with_applier_and_shutdown,
-    validate_config_generation_identity_matches_active, validate_production_operation_executors,
+    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
     CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl, ConfigApplier,
     ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityControlService,
@@ -47,6 +46,11 @@ const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 
 struct ArchiveInFlightGuard(Arc<AtomicBool>);
+
+struct ParsedRuntimeInit {
+    config: RuntimeInitConfig,
+    active_init_hash: String,
+}
 
 impl Drop for ArchiveInFlightGuard {
     fn drop(&mut self) {
@@ -78,7 +82,22 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
+            let init_bytes = match std::fs::read(&init_path) {
+                Ok(bytes) => bytes,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let active_init_hash = blake3::hash(&init_bytes).to_hex().to_string();
+            let init_text = match std::str::from_utf8(&init_bytes) {
+                Ok(text) => text,
+                Err(error) => {
+                    eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let init = match RuntimeInitConfig::from_toml_str(init_text) {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
@@ -227,13 +246,6 @@ async fn main() -> ExitCode {
                 Ok(lease) => lease,
                 Err(error) => {
                     eprintln!("runtime Guardian lease invalid: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            let active_init_hash = match file_hash(&init_path).await {
-                Ok(hash) => hash,
-                Err(error) => {
-                    eprintln!("runtime init identity could not be hashed: {error}");
                     return ExitCode::from(78);
                 }
             };
@@ -519,13 +531,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let runtime_init_identity = match init.continuity_identity_projection() {
-                Ok(identity) => identity,
-                Err(error) => {
-                    eprintln!("runtime init identity could not be encoded: {error}");
-                    return ExitCode::from(70);
-                }
-            };
+            let runtime_init_identity = init.continuity_compatibility_projection_v1();
             let binding_projection = serde_json::json!({
                 "assembly_config_hash": assembly.config_hash,
                 "runtime_init": runtime_init_identity,
@@ -670,39 +676,25 @@ async fn main() -> ExitCode {
             .with_runtime_ownership(guardian_process_id, active_init_hash)
             .with_polis_identity(&init)
             .with_readiness_time(Arc::new(roster_trusted_time.clone()))
+            .with_resident_agent_bindings(&init.resident_shepherd)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
-            let config_generation_identity =
-                match config_generation_identity_from_env(|name| std::env::var(name).ok()) {
-                    Ok(identity) => identity,
-                    Err(error) => {
-                        eprintln!("{error}");
-                        return ExitCode::from(78);
-                    }
-                };
-            let kernel_binary_generation =
-                match runtime_binary_generation(&init.binaries.kernel_path) {
-                    Ok(generation) => generation,
-                    Err(error) => {
-                        eprintln!("runtime kernel generation invalid: {error}");
-                        return ExitCode::from(78);
-                    }
-                };
-            if let Err(error) = validate_config_generation_identity_matches_active(
-                &init_path,
-                &kernel_binary_generation,
-                &config_generation_identity,
+            service = match service.with_runtime_agent_authority_store(
+                operation_state_identity.join("runtime-agent-layer8.audit.jsonl"),
             ) {
-                eprintln!("{error}");
-                return ExitCode::from(78);
-            }
-            service = service.with_config_generation(
-                config_generation_identity.generation,
-                config_generation_identity.receipt_digest,
-            );
+                Ok(service) => service,
+                Err(error) => {
+                    eprintln!("runtime agent Layer 8 authority unavailable: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             if let Some((authority, exchange)) = layer8 {
                 service = service
                     .with_layer8_authority(authority)
                     .with_layer8_signed_exchange(exchange);
+            }
+            if let Err(error) = service.initialize_agent_orientation_from_runtime_init(&init) {
+                eprintln!("runtime agent orientation resource is invalid: {error}");
+                return ExitCode::from(78);
             }
             if let Err(error) = service.configure_dynamic_agent_store(
                 operation_state_identity.join("dynamic-agent-admissions.json"),
@@ -739,6 +731,10 @@ async fn main() -> ExitCode {
             });
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
+            service.set_runtime_agent_delegation_key(blake3::derive_key(
+                "adl.runtime_v3.agent_delegation.continuity.v1",
                 &continuity_secret,
             ));
             let api_policy = ControlApiPolicy::new(
@@ -797,12 +793,18 @@ async fn main() -> ExitCode {
                 init.kernel.weather_stale_after_millis,
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
-            for shepherd in init.resident_shepherd.iter().cloned() {
+            for (shepherd_index, shepherd) in init.resident_shepherd.iter().cloned().enumerate() {
+                let orientation_service = Arc::clone(&service);
                 let health_service = Arc::clone(&service);
                 let readiness = resident_shepherd_readiness.clone();
                 let probe_adapter = shepherd_probe.clone();
                 let probe_runtime_id = instance_id.clone();
                 let shutdown = api_shutdown.child_token();
+                let shepherd_agent_id = if shepherd_index == 0 {
+                    "shepherd".to_owned()
+                } else {
+                    format!("shepherd:{}", shepherd.name)
+                };
                 tokio::spawn(async move {
                     let name = shepherd.name.clone();
                     let policy = ResidentShepherdRecoveryPolicy {
@@ -829,8 +831,14 @@ async fn main() -> ExitCode {
                             let adapter = probe_adapter.clone();
                             let runtime_id = probe_runtime_id.clone();
                             let sequence = sequence.clone();
+                            let agent_id = shepherd_agent_id.clone();
+                            let orientation_service = Arc::clone(&orientation_service);
                             async move {
-                                preload_resident_shepherd_model(&shepherd, &shutdown).await?;
+                                let orientation = orientation_service
+                                    .orientation_for_agent(&agent_id)
+                                    .ok_or("agent_orientation_missing")?;
+                                preload_resident_shepherd_model(&shepherd, &orientation, &shutdown)
+                                    .await?;
                                 let probe_sequence = sequence.fetch_add(
                                     1,
                                     std::sync::atomic::Ordering::Relaxed,
@@ -839,6 +847,8 @@ async fn main() -> ExitCode {
                                     "{}:resident-shepherd-probe:{probe_sequence}",
                                     shepherd.name
                                 );
+                                let governed_probe_prompt =
+                                    resident_shepherd_probe_prompt(&orientation);
                                 let governed_probe = OperationRequest {
                                     schema: OPERATION_REQUEST_SCHEMA.to_owned(),
                                     request_id: probe_id.clone(),
@@ -849,7 +859,7 @@ async fn main() -> ExitCode {
                                         "correlation_id": format!("{}-probe-{probe_sequence}", shepherd.name.replace('.', "-")),
                                         "runtime_id": runtime_id,
                                         "shepherd_name": shepherd.name,
-                                        "prompt": "Reply with READY."
+                                        "prompt": governed_probe_prompt
                                     })).expect("resident Shepherd probe request encodes"),
                                     permit: None,
                                 };
@@ -872,16 +882,20 @@ async fn main() -> ExitCode {
                     .await;
                 });
             }
-            let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
-                RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
+            let reload_parser: ConfigParser<ParsedRuntimeInit> = Arc::new(|raw| {
+                let config = RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
                     eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
                     ConfigReloadError::parse("runtime init rejected")
+                })?;
+                Ok(ParsedRuntimeInit {
+                    config,
+                    active_init_hash: blake3::hash(raw.as_bytes()).to_hex().to_string(),
                 })
             });
             let reload_service = Arc::clone(&service);
-            let reload_applier: ConfigApplier<RuntimeInitConfig> = Arc::new(move |next| {
+            let reload_applier: ConfigApplier<ParsedRuntimeInit> = Arc::new(move |next| {
                 reload_service
-                    .apply_runtime_init_reload(next)
+                    .apply_runtime_init_reload(&next.config, &next.active_init_hash)
                     .map_err(|error| {
                         eprintln!(
                             "{}",
@@ -1350,6 +1364,12 @@ async fn main() -> ExitCode {
     }
 }
 
+fn resident_shepherd_probe_prompt(
+    orientation: &adl_runtime_kernel::AgentOrientationResource,
+) -> String {
+    orientation.inject_initial_context("Reply with READY.")
+}
+
 async fn bind_control_listener(
     socket_addrs: &[std::net::SocketAddr],
     attempts: u32,
@@ -1469,22 +1489,6 @@ impl ServeArgs {
 
 fn usage() -> &'static str {
     "usage: adl-runtime-kernel serve --init <absolute-runtime-init.toml>"
-}
-
-fn runtime_binary_generation(kernel: &Path) -> Result<String, String> {
-    let generation = kernel
-        .canonicalize()
-        .map_err(|error| format!("resolve Runtime kernel generation: {error}"))?
-        .parent()
-        .and_then(Path::parent)
-        .and_then(Path::file_name)
-        .and_then(|name| name.to_str())
-        .ok_or_else(|| "Runtime kernel generation identity is invalid".to_owned())?
-        .to_owned();
-    if generation.is_empty() {
-        return Err("Runtime kernel generation identity is empty".to_owned());
-    }
-    Ok(generation)
 }
 
 fn canonical_init_path(path: &Path) -> std::io::Result<PathBuf> {
@@ -1715,7 +1719,8 @@ async fn drain_private_api(
 mod tests {
     use super::{
         bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
-        preserve_runtime_result_after_observability, ArchiveInFlightGuard,
+        preserve_runtime_result_after_observability, resident_shepherd_probe_prompt,
+        ArchiveInFlightGuard,
     };
     use std::sync::{atomic::AtomicBool, Arc};
 
@@ -1744,6 +1749,26 @@ mod tests {
     fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {
         assert_eq!(birthday_authority_generations(7, 0), (7, 1, 1));
         assert_eq!(birthday_authority_generations(7, 41), (7, 1, 1));
+    }
+
+    #[test]
+    fn resident_shepherd_governed_probe_prompt_includes_orientation_before_ready() {
+        let prompt = resident_shepherd_probe_prompt(
+            &adl_runtime_kernel::AgentOrientationResource::bundled_default(),
+        );
+        let orientation_index = prompt
+            .find("Axioma Polis agent orientation package")
+            .expect("probe includes orientation");
+        let ready_index = prompt
+            .find("Reply with READY.")
+            .expect("probe includes readiness instruction");
+        assert_eq!(orientation_index, 0);
+        assert!(
+            orientation_index < ready_index,
+            "orientation must precede the model-facing READY probe: {prompt}"
+        );
+        assert!(prompt.contains("grants no authority"));
+        assert!(prompt.contains("Runtime-delivered task content follows"));
     }
 
     #[test]

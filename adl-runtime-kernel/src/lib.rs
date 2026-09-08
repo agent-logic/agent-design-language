@@ -2,6 +2,7 @@
 
 pub mod acip;
 pub mod adaptive_learning;
+pub mod agent_orientation;
 pub mod agent_partial_checkpoint;
 pub mod agent_roster;
 pub mod assembly;
@@ -15,7 +16,6 @@ pub mod cognition;
 pub mod cognitive_profile;
 pub mod component;
 pub mod config;
-pub mod config_generation;
 pub mod config_reload;
 pub mod continuity;
 pub mod continuity_control;
@@ -61,6 +61,7 @@ mod conversation_sessions_tests;
 
 pub use acip::*;
 pub use adaptive_learning::*;
+pub use agent_orientation::*;
 pub use agent_partial_checkpoint::*;
 pub use agent_roster::*;
 pub use assembly::*;
@@ -78,7 +79,6 @@ pub use component::{
     PortAccessError, PortProtocol, PortSpec, RunningState, SupervisionScope,
 };
 pub use config::*;
-pub use config_generation::*;
 pub use config_reload::*;
 pub use continuity::*;
 pub use continuity_control::*;
