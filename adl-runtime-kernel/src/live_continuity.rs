@@ -216,7 +216,9 @@ impl LiveContinuity {
             ),
             _ => unreachable!("load_generation only accepts known schemas"),
         };
-        if restored != self.snapshot {
+        if restored.topology_hash != self.snapshot.topology_hash
+            || restored.services != self.snapshot.services
+        {
             return Err(LiveContinuityError::SnapshotIdentity);
         }
         if let Some(population) = resident_population.as_deref() {

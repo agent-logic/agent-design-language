@@ -41,7 +41,7 @@ use tls_support::TestPki;
 mod runtime_init_support;
 
 #[test]
-fn polis_identity_reload_atomically_updates_every_parameter() {
+fn running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomically() {
     let evidence_root = std::path::Path::new("../.csdlc/evidence/551/control-tests");
     std::fs::create_dir_all(evidence_root).unwrap();
     let root = tempfile::tempdir_in(evidence_root.canonicalize().unwrap()).unwrap();
@@ -62,31 +62,39 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
         authority(&key, [ControlCapability::Stop]),
         8,
     )
+    .with_runtime_ownership(4242, "0".repeat(64))
     .with_polis_identity(&init);
 
+    let mut restart_required = init.clone();
+    restart_required.api.tls.server_name = "new.example.test".to_owned();
+    assert!(service
+        .apply_runtime_init_reload(&restart_required, &"f".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "0".repeat(64));
+
     let mut reload = init.clone();
-    reload.polis.id = "another-polis".to_owned();
     reload.polis.display_name = "Renamed Polis".to_owned();
-    reload.polis.public_domain = "new.example.test".to_owned();
     reload.polis.observatory_public_origin = "https://observe.new.example.test".to_owned();
-    reload.api.public_base_url = "https://new.example.test".to_owned();
-    reload.api.tls.server_name = "new.example.test".to_owned();
+    reload.api.public_base_url = "https://localhost/reloaded".to_owned();
     reload.observatory.allowed_origins = vec!["https://observe.new.example.test".to_owned()];
     reload.observatory.additional_allowed_origins.clear();
-    service.apply_runtime_init_reload(&reload).unwrap();
+    service
+        .apply_runtime_init_reload(&reload, &"a".repeat(64))
+        .unwrap();
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
 
     let observed = service.observatory_feed().polis_identity;
-    assert_eq!(observed.polis_id, "another-polis");
+    assert_eq!(observed.polis_id, init.polis.id);
     assert_eq!(observed.display_name, "Renamed Polis");
-    assert_eq!(observed.public_domain, "new.example.test");
-    assert_eq!(observed.runtime_api_base, "https://new.example.test");
+    assert_eq!(observed.public_domain, "localhost");
+    assert_eq!(observed.runtime_api_base, "https://localhost/reloaded");
     assert_eq!(
         observed.observatory_public_origin,
         "https://observe.new.example.test"
     );
     assert_eq!(
         service.observatory_feed().control.public_base_url,
-        "https://new.example.test"
+        "https://localhost/reloaded"
     );
     assert!(service
         .observatory_origin_policy()
@@ -98,21 +106,27 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
     let mut invalid = reload.clone();
     invalid.polis.display_name = "Must Not Apply".to_owned();
     invalid.observatory.allowed_origins = vec!["*".to_owned()];
-    assert!(service.apply_runtime_init_reload(&invalid).is_err());
+    assert!(service
+        .apply_runtime_init_reload(&invalid, &"b".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
     assert_eq!(service.observatory_feed().polis_identity, observed);
     assert_eq!(
         service.observatory_feed().control.public_base_url,
-        "https://new.example.test"
+        "https://localhost/reloaded"
     );
     assert!(service
         .observatory_origin_policy()
         .contains("https://observe.new.example.test"));
     assert!(!service.observatory_origin_policy().contains("*"));
 
-    let mut inconsistent = reload;
+    let mut inconsistent = reload.clone();
     inconsistent.polis.display_name = "Must Still Not Apply".to_owned();
     inconsistent.observatory.allowed_origins = vec!["https://different.example.test".to_owned()];
-    assert!(service.apply_runtime_init_reload(&inconsistent).is_err());
+    assert!(service
+        .apply_runtime_init_reload(&inconsistent, &"c".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
     assert_eq!(service.observatory_feed().polis_identity, observed);
     assert!(service
         .observatory_origin_policy()
@@ -120,6 +134,14 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
     assert!(!service
         .observatory_origin_policy()
         .contains("https://different.example.test"));
+
+    let mut changed_authority = reload;
+    changed_authority.credentials.control_key_id = "replacement-operator".to_owned();
+    assert!(changed_authority.validate().is_ok());
+    assert!(service
+        .apply_runtime_init_reload(&changed_authority, &"d".repeat(64))
+        .is_err());
+    assert_eq!(service.readiness_report().active_init_hash, "a".repeat(64));
 }
 
 fn test_api_policy() -> ControlApiPolicy {
@@ -1479,6 +1501,7 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     capabilities: Vec::new(),
                     location: None,
                     communication_eligible: true,
+                    orientation: None,
                     observed_at_unix_millis: 1,
                     freshness_deadline_unix_millis: u64::MAX,
                     source_revision: "test".to_owned(),
@@ -1506,6 +1529,7 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     capabilities: Vec::new(),
                     location: None,
                     communication_eligible: true,
+                    orientation: None,
                     observed_at_unix_millis: 1,
                     freshness_deadline_unix_millis: u64::MAX,
                     source_revision: "test".to_owned(),

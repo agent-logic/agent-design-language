@@ -1,0 +1,24 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 505,
+  "expected_generation": 51,
+  "expected_digest": "e72ebbb77c9bcfac6bdf5542162de29d74b28ffdea15f0a4b2d850d9c868e061",
+  "actor": "codex:worker-6",
+  "evidence": {
+    "reviewer": "subagent:/root/review_591_part_of_publication_fix",
+    "scope": [
+      ".csdlc/prepared/issues/505/publish-after-review-279342fea-pass.json",
+      ".csdlc/prepared/issues/505/update-pr591-after-defer-brief-reconciliation.json",
+      ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"
+    ],
+    "reviewed_revision": "git-blake3:f5621b164ef62c18885b5b57c4eff58a901fbbb2:3f678f7edd989c14b91c34fb740e491d4f7e3f1dcae851293f3bba9193861d66",
+    "findings": [],
+    "residual_risks": [
+      "Actual rollback-exercise evidence remains required before operator cutover approval.",
+      "Terminal v3 finish/cleanup canary evidence remains required before operator cutover approval unless the operator records an explicit bounded waiver.",
+      "C-SDLC v3 remains non-authoritative until explicit #505 operator approval, merge, typed finish, and cleanup reconciliation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "adl.csdlc.mixed_mode_shadow_result.v1",
+  "issue": 512,
+  "v2_phase": "implemented",
+  "v2_generation": 1,
+  "v3_shadow_status": "blocked",
+  "finding_code": "shadow_output_schema_mismatch",
+  "finding": "The v3 shadow normalizer requires the pre-cutover local preparation schema and rejects the operational doctor schema emitted after cutover.",
+  "impact": "The retained v2 lifecycle remains authoritative for this already-bound issue; v3 shadow parity cannot be claimed until its normalizer accepts the operational doctor schema.",
+  "provider_side_effects": false
+}

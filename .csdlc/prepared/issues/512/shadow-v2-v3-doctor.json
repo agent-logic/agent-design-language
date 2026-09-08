@@ -1,0 +1,28 @@
+{
+  "issue": 512,
+  "repository": "agent-logic/agent-design-language",
+  "cutover_issue": 505,
+  "evidence_root": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
+  "shadow": {
+    "normalization": "doctor_issue_phase_v1",
+    "v2": {
+      "generation": "v2",
+      "binary_ref": "csdlc-v2/target/debug/csdlc-doctor",
+      "argv": ["--repo", "/Users/daniel/git/agent-design-language", "--issue", "512"],
+      "request_ref": ".csdlc/prepared/issues/512/shadow-v2-doctor-request.json",
+      "timeout_millis": 120000,
+      "side_effect_boundary_refs": [".csdlc/issues/512/index.json"],
+      "provider_side_effects": false
+    },
+    "v3": {
+      "generation": "v3",
+      "binary_ref": "csdlc-v3/target/debug/csdlc",
+      "argv": ["doctor", "--request", ".csdlc/prepared/issues/512/shadow-v3-doctor-request.json", "--registry", "docs/templates/prompts/current.json", "--registrations", ".csdlc/prepared/issues/512/shadow-v3-registrations.json", "--repo-root", "/Users/daniel/git/agent-design-language"],
+      "request_ref": ".csdlc/prepared/issues/512/shadow-v3-doctor-request.json",
+      "timeout_millis": 120000,
+      "side_effect_boundary_refs": [".csdlc/issues/512/index.json"],
+      "provider_side_effects": false
+    },
+    "broad_equivalence_claim": false
+  }
+}

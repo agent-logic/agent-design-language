@@ -86,26 +86,219 @@ a {
   overflow: hidden;
   padding: clamp(0.45rem, 0.8vw, 0.75rem);
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  /* Persistent nav rail column, surface content beside it.
+     Rows: topbar / stale banner / surface / statusbar. The banner row
+     collapses to zero height while it is hidden. */
+  grid-template-columns: 11.5rem minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   gap: 0.55rem;
+}
+
+/* Topbar and statusbar span the full width; the rail owns the middle row's
+   first column, and every surface section shares the second column. */
+.observatory > .topbar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.observatory > .stale-banner {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.observatory > .dashboard-statusbar {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+
+/* Shown whenever the live feed is not connected, so stale numbers are never
+   mistaken for live ones. */
+.stale-banner[hidden] {
+  display: none !important;
+}
+
+.stale-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.42rem 0.75rem;
+  border: 1px solid rgba(255, 196, 106, 0.42);
+  border-radius: 7px;
+  background: rgba(255, 196, 106, 0.11);
+  color: #ffd79a;
+  font-size: 0.76rem;
+}
+
+.stale-banner strong {
+  color: #ffc46a;
+  font-size: 0.78rem;
+}
+
+.stale-banner span:last-child {
+  color: rgba(255, 215, 154, 0.82);
+}
+
+.stale-banner-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffc46a;
+  animation: stale-pulse 1.2s ease-in-out infinite;
+}
+
+.stale-banner[data-state="error"] {
+  border-color: rgba(255, 122, 149, 0.45);
+  background: rgba(255, 122, 149, 0.12);
+  color: #ffb3c2;
+}
+
+.stale-banner[data-state="error"] strong {
+  color: var(--rose);
+}
+
+.stale-banner[data-state="error"] .stale-banner-dot {
+  background: var(--rose);
+}
+
+@keyframes stale-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.observatory > .dashboard-rail {
+  grid-column: 1;
+  grid-row: 3;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.observatory > .hero,
+.observatory > .panopticon-shell,
+.observatory > .runtime-grid,
+.observatory > .evidence-band,
+.observatory > .component-health-shell,
+.observatory > .logs-shell {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+/* Secondary in-content navigation. The rail carries the primary workflow
+   surfaces; this reaches supplementary proof surfaces (retained evidence)
+   that are deliberately not rail items. */
+.surface-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.surface-nav a {
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  font-size: 0.74rem;
+  text-decoration: none;
+}
+
+.surface-nav a:hover {
+  border-color: rgba(110, 231, 249, 0.35);
+  color: var(--text);
+}
+
+.surface-nav a[aria-current="page"] {
+  border-color: rgba(110, 231, 249, 0.45);
+  background: rgba(110, 231, 249, 0.12);
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.surface-nav a:focus-visible,
+.roster-row:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.evidence-report-body {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(7, 9, 13, 0.62);
+  color: #c8d7ec;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.observatory[data-dashboard-surface="evidence"] > .evidence-band {
+  display: grid !important;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: 0.6rem;
+  width: 100%;
+  justify-self: stretch;
+  height: 100%;
+  min-height: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+/* Module health owns its own rail surface. */
+.observatory > .component-health-shell {
+  display: none;
+}
+
+.observatory[data-dashboard-surface="modules"] > .component-health-shell {
+  display: block;
+  width: 100%;
+  justify-self: stretch;
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 1rem;
 }
 
 .topbar {
   position: relative;
   top: auto;
   z-index: 10;
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
   max-width: none;
   width: 100%;
   margin: 0 auto;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 0.52rem;
+  padding: 0.52rem 0.75rem;
   background: rgba(7, 9, 13, 0.78);
   backdrop-filter: blur(18px);
+}
+
+.topbar .brand {
+  flex-shrink: 0;
+}
+
+.topbar .polis-chip {
+  flex-shrink: 0;
+}
+
+.topbar .mode-tabs {
+  flex: 1;
+  justify-content: center;
+}
+
+.topbar .topbar-controls {
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .brand,
@@ -156,44 +349,184 @@ a {
   min-width: 0;
 }
 
-.top-select,
-.top-readout {
-  display: grid;
-  gap: 0.18rem;
-  min-width: 8.1rem;
-  border: 1px solid var(--line);
+/* ── Polis switcher (topbar) ───────────────────────────── */
+.polis-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.55rem 0.3rem 0.65rem;
   border-radius: 6px;
-  padding: 0.36rem 0.52rem;
-  background: rgba(12, 18, 27, 0.76);
+  border: 1px solid rgba(110, 231, 249, 0.3);
+  background: rgba(110, 231, 249, 0.07);
+  flex-shrink: 0;
+  transition: border-color 0.2s;
 }
 
-.top-select span,
-.top-readout span {
-  color: var(--muted);
-  font-size: 0.66rem;
+.polis-dot {
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+  transition: background 0.3s;
 }
 
-.top-select select {
-  width: 100%;
-  border: 0;
-  padding: 0;
-  color: var(--ink);
+.polis-switcher[data-state="live"] .polis-dot {
+  background: var(--ok, #8ef0b0);
+  box-shadow: 0 0 6px rgba(142, 240, 176, 0.6);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.polis-switcher[data-state="error"] .polis-dot {
+  background: #f87171;
+}
+
+.polis-switcher[data-state="connecting"] .polis-dot {
+  background: #facc15;
+  animation: pulse-dot 1s ease-in-out infinite;
+}
+
+#polis-select {
+  border: none;
   background: transparent;
-  font: inherit;
+  color: #b8d6f6;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  max-width: 10rem;
 }
 
-.top-readout strong {
-  color: var(--green);
-  font-weight: 800;
+#polis-select option {
+  background: #0c1219;
+  color: var(--ink);
 }
 
-.nav {
-  display: none;
-  flex-wrap: wrap;
-  gap: 0.25rem;
+.polis-add-btn {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  min-width: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 4px;
+  border: 1px solid rgba(110, 231, 249, 0.25);
+  background: rgba(110, 231, 249, 0.08);
+  color: #b8d6f6;
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
 }
+
+.polis-add-btn:hover {
+  background: rgba(110, 231, 249, 0.18);
+}
+
+.polis-add-form[hidden] {
+  display: none !important;
+}
+
+.polis-add-form {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid rgba(110, 231, 249, 0.3);
+  border-radius: 6px;
+  background: rgba(7, 9, 13, 0.9);
+}
+
+.polis-add-input {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.28rem 0.52rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  width: 9rem;
+}
+
+.polis-add-input:focus {
+  outline: none;
+  border-color: rgba(110, 231, 249, 0.5);
+}
+
+/* ── Mode tabs ─────────────────────────────────────────── */
+.mode-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(12, 18, 27, 0.6);
+}
+
+.mode-tab {
+  padding: 0.32rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.mode-tab:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mode-tab.active,
+.mode-tab[aria-selected="true"] {
+  color: var(--ink);
+  background: rgba(110, 231, 249, 0.1);
+  border-color: rgba(110, 231, 249, 0.3);
+}
+
+/* ── Topbar WS status dot ──────────────────────────────── */
+.topbar-status-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+  align-self: center;
+  transition: background 0.3s;
+}
+
+.topbar-status-dot[data-state="live"] {
+  background: var(--ok, #8ef0b0);
+  box-shadow: 0 0 6px rgba(142, 240, 176, 0.6);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.topbar-status-dot[data-state="ok"] {
+  background: var(--ok, #8ef0b0);
+}
+
+.topbar-status-dot[data-state="warn"] {
+  background: #facc15;
+}
+
+.topbar-status-dot[data-state="error"] {
+  background: #f87171;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Polis chip ────────────────────────────────────────── */
 
 .nav a,
 .status-pill,
@@ -203,11 +536,6 @@ a {
   padding: 0.46rem 0.72rem;
   color: var(--muted);
   background: rgba(255, 255, 255, 0.035);
-}
-
-.status-pill {
-  justify-self: end;
-  max-width: 100%;
 }
 
 .status-pill[data-state="ok"],
@@ -225,6 +553,10 @@ a {
 .mini-badge[data-tone="blocked"] {
   color: var(--rose);
   border-color: rgba(255, 122, 149, 0.38);
+}
+
+.layer8-delivery-panel[hidden] {
+  display: none !important;
 }
 
 .layer8-delivery-panel {
@@ -320,7 +652,7 @@ a {
 }
 
 .ops-hero {
-  grid-template-columns: 11.5rem minmax(0, 1fr) minmax(23rem, 0.32fr);
+  grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.32fr);
   gap: 0.8rem;
   height: 100%;
   min-height: 0;
@@ -607,48 +939,6 @@ button {
   }
 }
 
-.proof-card {
-  display: grid;
-  align-content: end;
-  min-height: 33rem;
-  padding: clamp(1rem, 3vw, 2rem);
-  position: relative;
-  overflow: hidden;
-}
-
-.proof-card::before {
-  content: "";
-  position: absolute;
-  inset: 10% 8% 24%;
-  border: 1px solid rgba(110, 231, 249, 0.22);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 4rem rgba(110, 231, 249, 0.018),
-    0 0 0 8rem rgba(199, 183, 255, 0.018),
-    0 0 90px rgba(110, 231, 249, 0.15);
-  animation: pulse 7s ease-in-out infinite;
-}
-
-.proof-card::after {
-  content: "";
-  position: absolute;
-  width: 12rem;
-  height: 12rem;
-  right: 18%;
-  top: 19%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.46), transparent 19%),
-    radial-gradient(circle, rgba(110, 231, 249, 0.28), rgba(9, 15, 24, 0.9) 64%);
-  border: 1px solid rgba(110, 231, 249, 0.34);
-  box-shadow: 0 0 80px rgba(110, 231, 249, 0.22);
-}
-
-.proof-card > * {
-  position: relative;
-  z-index: 1;
-}
-
 .dashboard-rail {
   display: grid;
   align-content: start;
@@ -659,11 +949,50 @@ button {
   scrollbar-width: none;
 }
 
-.dashboard-rail::-webkit-scrollbar,
-.hero-trace::-webkit-scrollbar,
-.inspector-stack::-webkit-scrollbar {
+.dashboard-rail::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+
+/* The inspector and event stream hold far more than fits. Hiding their
+   scrollbars left no cue that the content continued, so give these two a
+   thin visible one. */
+.hero-trace,
+.inspector-stack,
+.ops-command {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(110, 231, 249, 0.28) transparent;
+}
+
+.hero-trace::-webkit-scrollbar,
+.inspector-stack::-webkit-scrollbar,
+.ops-command::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.hero-trace::-webkit-scrollbar-thumb,
+.inspector-stack::-webkit-scrollbar-thumb,
+.ops-command::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(110, 231, 249, 0.26);
+}
+
+.hero-trace::-webkit-scrollbar-thumb:hover,
+.inspector-stack::-webkit-scrollbar-thumb:hover,
+.ops-command::-webkit-scrollbar-thumb:hover {
+  background: rgba(110, 231, 249, 0.45);
+}
+
+.hero-trace::-webkit-scrollbar-track,
+.inspector-stack::-webkit-scrollbar-track,
+.ops-command::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Was overflow:hidden, silently truncating the event stream by ~169px. */
+.observatory[data-dashboard-surface="runtime"] .ops-command {
+  overflow-y: auto;
 }
 
 .dashboard-rail a {
@@ -737,26 +1066,6 @@ button {
   gap: 1rem;
 }
 
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.55rem;
-  margin: 1.5rem 0 0;
-}
-
-.compact-metrics {
-  margin-top: 0;
-}
-
-.compact-metrics div {
-  padding: 0.58rem;
-}
-
-.compact-metrics dd {
-  font-size: 0.82rem;
-  line-height: 1.25;
-}
-
 .mini-console {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -773,7 +1082,13 @@ button {
 .dashboard-core {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: minmax(23rem, 1.9fr) minmax(7.8rem, 0.36fr);
+  /* Track minimums must stay small enough to fit a short viewport: if they
+     exceed the container height the tracks over-subscribe and the event rows
+     are laid out below the clip, rendering an apparently empty panel.
+     Collapsed is the default: the event stream keeps one scrollable line so the
+     Panopticon orbit gets the height its percentage-positioned nodes need.
+     Expanded splits the space evenly (see [data-events="expanded"] below). */
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: 0.65rem;
   min-height: 0;
   height: 100%;
@@ -785,6 +1100,132 @@ button {
 .dashboard-events {
   min-width: 0;
   min-height: 0;
+}
+
+/* The Panopticon header is decoration around the topology; the orbit needs the
+   height more than the subtitle does. */
+.ops-map-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  /* Size container: the orbit needs three rows of cards to clear each other, and
+     whether that fits depends on this panel's height - not the viewport's. A
+     viewport media query only correlates with the space the map gets, which is
+     why a fixed min-height kept overflowing the panel and clipping the bottom
+     row of agents. Measure the real container instead. */
+  container-type: size;
+  container-name: opsmap;
+}
+
+.ops-map-panel > .panel-head {
+  margin-bottom: 0.15rem;
+}
+
+.ops-map-panel h1,
+.ops-map-panel h2 {
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  line-height: 1.15;
+}
+
+.ops-map-panel .panel-head .row-detail,
+.ops-map-panel .lede,
+.ops-map-panel .eyebrow {
+  display: none;
+}
+
+/* Orbit node cards sit at fixed percentage offsets in three rows (1% / 34% /
+   bottom 2%), so the card height sets the map's minimum: rows clear only while
+   0.33 * mapHeight >= cardHeight and 0.64 * mapHeight >= 2 * cardHeight. The
+   card below measures ~52px, which resolves from ~163px of map. Changing this
+   typography, the offsets, or .hero-agent-map's min-height means rechecking all
+   three together. */
+.hero-agent-map .hero-agent-node {
+  padding: 0.26rem 0.5rem 0.26rem 2.3rem;
+  line-height: 1.12;
+}
+
+/* The role is already the node's icon colour and is repeated on the Agents
+   surface; dropping it here buys a whole line per card, which is what keeps the
+   orbit alive on a laptop instead of collapsing to the flat grid. */
+.hero-agent-map .hero-agent-node .row-kicker {
+  display: none;
+}
+
+.hero-agent-map .hero-agent-node strong {
+  font-size: 0.76rem;
+  line-height: 1.15;
+}
+
+.hero-agent-map .hero-agent-node .row-detail {
+  margin-top: 0;
+  font-size: 0.66rem;
+  line-height: 1.15;
+}
+
+.hero-agent-map .node-icon {
+  left: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.3rem;
+}
+
+/* Event stream: one line by default, scrollable, expandable ------------------ */
+
+.events-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.events-toggle {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.16rem 0.6rem;
+  background: rgba(110, 231, 249, 0.06);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.events-toggle:hover,
+.events-toggle:focus-visible {
+  border-color: rgba(110, 231, 249, 0.55);
+  color: var(--ink);
+  background: rgba(110, 231, 249, 0.14);
+}
+
+/* The column header lives inside the scrolling list, so pin it or the single
+   collapsed line would scroll the labels away. */
+.dashboard-events .event-table-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--panel, #0b0f16);
+}
+
+.dashboard-core[data-events="collapsed"] .hero-trace {
+  /* Sticky header (~1.6rem) plus a single event row. */
+  max-height: 3.9rem;
+  overflow-y: auto;
+}
+
+.dashboard-core[data-events="expanded"] {
+  grid-template-rows: minmax(6rem, 1fr) minmax(6rem, 1.35fr);
+}
+
+.dashboard-core[data-events="expanded"] .hero-trace {
+  max-height: none;
+  overflow-y: auto;
+}
+
+/* Expanding the log squeezes the map below the orbit's minimum. Keep the orbit
+   geometry intact and let the panel scroll rather than collapsing the nodes
+   onto each other. */
+.dashboard-core[data-events="expanded"] .hero-agent-map {
+  overflow-y: auto;
 }
 
 .dashboard-events {
@@ -814,7 +1255,12 @@ button {
 
 .hero-agent-map {
   position: relative;
-  height: calc(100% - 4.35rem);
+  /* The panel is a grid (auto head / 1fr map), so the map already gets the
+     leftover row: subtracting the head again here would short it. No
+     min-height — a minimum larger than the row is exactly what overflows the
+     panel and clips agents. The container query below switches to a flat grid
+     when the orbit will not fit. */
+  height: 100%;
   min-height: 0;
   margin-top: 0.55rem;
 }
@@ -910,36 +1356,125 @@ button {
   line-height: 1.25;
 }
 
+/* Three rows of cards have to clear each other inside the map. With a 68px card
+   the binding constraints are row2.top - row1.bottom and row3.top - row2.bottom,
+   i.e. 0.33 * H >= 68 and 0.64 * H >= 136 -> the orbit resolves from ~212px up.
+   Changing these offsets or the card height means re-checking both. */
 .hero-agent-node:nth-child(1) {
   left: 23%;
-  top: 3%;
+  top: 1%;
 }
 
 .hero-agent-node:nth-child(2) {
   right: 18%;
-  top: 4%;
+  top: 1%;
 }
 
 .hero-agent-node:nth-child(3) {
   left: 6%;
-  top: 38%;
+  top: 34%;
 }
 
 .hero-agent-node:nth-child(4) {
   right: 7%;
-  top: 38%;
+  top: 34%;
 }
 
 .hero-agent-node:nth-child(5) {
   left: 23%;
-  bottom: 10%;
+  bottom: 2%;
   top: auto;
 }
 
 .hero-agent-node:nth-child(6) {
   right: 18%;
-  bottom: 10%;
+  bottom: 2%;
   top: auto;
+}
+
+/* Orbit cards are ~36px in three rows at 1% / 34% / bottom 2%, so rows clear
+   each other once the map is ~115px — about 180px of panel once the heading and
+   padding come out. Below that, drop absolute positioning for a flat grid of the
+   same cards: no overlap at any agent count, no clipping, and it grows with the
+   roster instead of relying on six hand-placed slots. Measured, not guessed:
+   see the orbit threshold assertions in tests/. */
+@container opsmap (max-height: 180px) {
+  .hero-agent-map {
+    min-height: 0;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+    grid-auto-rows: min-content;
+    align-content: start;
+    gap: 0.45rem;
+    overflow-y: auto;
+    padding-right: 0.2rem;
+  }
+
+  /* The kernel medallion and the orbit ellipse are decorative. At this height
+     they consume more space than the roster they decorate. */
+  .hero-agent-map::before,
+  .ops-map-panel::before {
+    display: none;
+  }
+
+  /* Full node cards are 77px; two rows plus a header cannot fit beside the
+     event stream at this height. Compact them to a single line each — name and
+     state is what the topology is read for at a glance. */
+  .hero-agent-map {
+    grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+    gap: 0.3rem;
+  }
+
+  .hero-agent-map .hero-agent-node {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    padding: 0.28rem 0.5rem 0.28rem 1.9rem;
+    line-height: 1.2;
+  }
+
+  .hero-agent-map .hero-agent-node .row-kicker {
+    display: none;
+  }
+
+  .hero-agent-map .hero-agent-node strong {
+    font-size: 0.78rem;
+  }
+
+  .hero-agent-map .hero-agent-node .row-detail {
+    margin: 0;
+    font-size: 0.66rem;
+  }
+
+  .hero-agent-map .node-icon {
+    left: 0.4rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    padding: 0.2rem;
+  }
+
+  .hero-agent-map .hero-agent-node,
+  .hero-agent-map .hero-agent-node:nth-child(1),
+  .hero-agent-map .hero-agent-node:nth-child(2),
+  .hero-agent-map .hero-agent-node:nth-child(3),
+  .hero-agent-map .hero-agent-node:nth-child(4),
+  .hero-agent-map .hero-agent-node:nth-child(5),
+  .hero-agent-map .hero-agent-node:nth-child(6) {
+    /* relative, not static: .node-icon is absolutely positioned and would
+       otherwise resolve against the map and stack every icon in one spot. */
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: auto;
+  }
+
+  /* Connector lines only make sense radiating from the kernel. */
+  .hero-agent-map .hero-agent-node::after {
+    display: none;
+  }
 }
 
 .hero-agent-node:nth-child(1)::after,
@@ -976,99 +1511,6 @@ button {
 .hero-agent-node[data-state="blocked"],
 .hero-agent-node[data-state="error"] {
   border-color: rgba(255, 122, 149, 0.42);
-}
-
-.inspector-stack {
-  display: grid;
-  gap: 0.52rem;
-  min-height: 0;
-  overflow: visible;
-}
-
-.inspector-stack article,
-.compact-composer {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 0.66rem;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.detail-list {
-  display: grid;
-  gap: 0.35rem;
-  margin: 0.6rem 0 0;
-}
-
-.detail-list div {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
-  align-items: baseline;
-  gap: 0.55rem;
-}
-
-.detail-list dt {
-  font-size: 0.66rem;
-  text-transform: none;
-}
-
-.detail-list dd {
-  margin: 0;
-  color: #d6e4f4;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 650;
-}
-
-.gauge-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.42rem;
-  margin-top: 0.6rem;
-}
-
-.gauge-grid span {
-  display: grid;
-  place-items: center;
-  min-height: 3.2rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background:
-    radial-gradient(circle at 50% 100%, rgba(142, 240, 176, 0.18), transparent 58%),
-    rgba(4, 9, 15, 0.5);
-}
-
-.gauge-grid strong {
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-}
-
-.gauge-grid small {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-}
-
-.compact-message-box {
-  width: 100%;
-  min-height: 2.5rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  margin-top: 0.75rem;
-  padding: 0.75rem;
-  color: #6f7d8e;
-  background: rgba(3, 8, 13, 0.45);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.45;
-  resize: vertical;
-}
-
-.compact-comms-proof {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.42rem;
-  margin-top: 0.65rem;
 }
 
 .compact-proof-chip {
@@ -1108,42 +1550,9 @@ button {
   display: none;
 }
 
-.compact-message-actions {
-  display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: 0.55rem;
-  margin-top: 0.58rem;
-}
-
-.dashboard-focus-panel {
-  border: 1px solid rgba(110, 231, 249, 0.34);
-  border-radius: 8px;
-  padding: 0.72rem;
-  background:
-    linear-gradient(135deg, rgba(110, 231, 249, 0.1), rgba(142, 240, 176, 0.05)),
-    rgba(6, 12, 18, 0.82);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
 .dashboard-focus-panel .panel-head {
   align-items: start;
   gap: 0.55rem;
-}
-
-.dashboard-focus-panel h3 {
-  font-size: 1rem;
-  line-height: 1.2;
-}
-
-.focus-action-row {
-  display: grid;
-  margin-top: 0.65rem;
-}
-
-.dashboard-focus-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
 }
 
 .dashboard-focus-item {
@@ -1209,98 +1618,769 @@ dd {
   display: block;
 }
 
-.surface-nav {
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: -1rem -1rem 1rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel);
+/* --- Dashboard surface switching ---------------------------------------
+   The nav rail selects one surface at a time. Every surface other than the
+   overview hides the hero; panel surfaces reveal .runtime-grid and isolate
+   the single matching panel so the rail actually navigates. */
+.observatory[data-dashboard-surface]:not([data-dashboard-surface="runtime"]) > .hero {
+  display: none;
 }
 
-.surface-nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 2.5rem;
-  padding: 0.45rem 0.7rem;
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.surface-nav a:hover,
-.surface-nav a:focus-visible,
-.surface-nav a[aria-current="page"] {
-  color: var(--text);
-  background: var(--panel-strong);
-  outline-offset: 2px;
-}
-
-.surface-nav svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-.live-control-strip {
+.observatory[data-dashboard-surface="communication"] > .runtime-grid,
+.observatory[data-dashboard-surface="csm-api"] > .runtime-grid,
+.observatory[data-dashboard-surface="cloudwatch"] > .runtime-grid,
+.observatory[data-dashboard-surface="runtime-events"] > .runtime-grid,
+.observatory[data-dashboard-surface="governance"] > .runtime-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.75rem;
-  align-items: end;
-  margin-top: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--line);
-}
-
-.live-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  justify-content: flex-end;
-}
-
-.panopticon-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.panopticon-stage,
-.panopticon-column,
-.panopticon-events {
-  min-width: 0;
-  border-radius: 8px;
+  width: 100%;
+  justify-self: stretch;
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 1rem;
 }
 
-.panopticon-stage {
-  min-height: 34rem;
-  grid-row: span 3;
-  position: relative;
-  overflow: hidden;
+.observatory[data-dashboard-surface="communication"] > .runtime-grid > .panel:not(#communication),
+.observatory[data-dashboard-surface="csm-api"] > .runtime-grid > .panel:not(#csm-api),
+.observatory[data-dashboard-surface="cloudwatch"] > .runtime-grid > .panel:not(#cloudwatch),
+.observatory[data-dashboard-surface="runtime-events"] > .runtime-grid > .panel:not(#runtime-events),
+.observatory[data-dashboard-surface="governance"] > .runtime-grid > .panel:not(#governance) {
+  display: none;
 }
 
-.panopticon-stage::before {
-  content: "";
-  position: absolute;
-  inset: 12%;
+.observatory[data-dashboard-surface="communication"] > .runtime-grid > #communication,
+.observatory[data-dashboard-surface="csm-api"] > .runtime-grid > #csm-api,
+.observatory[data-dashboard-surface="cloudwatch"] > .runtime-grid > #cloudwatch,
+.observatory[data-dashboard-surface="runtime-events"] > .runtime-grid > #runtime-events,
+.observatory[data-dashboard-surface="governance"] > .runtime-grid > #governance {
+  grid-column: 1 / -1;
+}
+
+/* --- Inspector ----------------------------------------------------------
+   The previous panel duplicated the stat cards and the rail and reported a
+   retained "Owner Agent". Those blocks stay in the DOM because readApiBase()
+   reads #dashboard-live-api-base from them, but they are hidden. */
+.ops-sidecar > .legacy-inspector,
+.ops-sidecar > .metric-grid,
+.ops-sidecar > .inspector-stack,
+.ops-sidecar > .mini-console,
+.ops-sidecar > .dashboard-focus-panel {
+  display: none;
+}
+
+.ops-sidecar {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.inspector-shell {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 0.6rem;
+  min-height: 0;
+}
+
+.inspector-head { align-items: flex-start; }
+
+.inspector-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(7, 9, 13, 0.55);
+}
+
+.inspector-tab {
+  padding: 0.3rem 0.4rem;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.74rem;
+}
+
+.inspector-tab:hover { color: var(--text); }
+
+.inspector-tab.active {
+  background: rgba(110, 231, 249, 0.14);
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.inspector-pane[hidden] {
+  display: none !important;
+}
+
+.inspector-pane {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.insp-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.insp-group h4 {
+  margin: 0;
+  color: var(--cyan);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.insp-facts {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.insp-fact {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.insp-fact[data-tone="ok"] { border-left-color: var(--mint); }
+.insp-fact[data-tone="warn"] { border-left-color: #ffc46a; }
+
+.insp-fact dt {
+  color: var(--muted);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.insp-fact dd {
+  margin: 0.12rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.insp-detail {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.insp-empty {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 0.2rem;
+  color: var(--muted);
+}
+
+.insp-agent-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+}
+
+.insp-agent-pick,
+.insp-agent-message {
+  padding: 0.28rem 0.65rem;
+  font-size: 0.73rem;
+}
+
+.insp-agent-message { margin-top: 0.5rem; }
+
+.insp-activity {
+  display: grid;
+  grid-template-columns: 4.4rem minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 0.72rem;
+}
+
+.insp-activity[data-tone="ok"] { border-left-color: var(--mint); }
+.insp-activity[data-tone="warn"] { border-left-color: #ffc46a; }
+
+/* Agent-to-agent turns are the signal worth spotting in a feed that also
+   carries operator turns, admissions and lifecycle changes. */
+.insp-activity[data-kind="a2a"] {
+  border-left-color: var(--violet);
+  background: rgba(150, 130, 255, 0.06);
+}
+
+.insp-activity-badge {
+  display: inline-block;
+  margin-right: 0.35rem;
+  padding: 0.02rem 0.3rem;
+  border: 1px solid rgba(150, 130, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(150, 130, 255, 0.14);
+  color: #c3b6ff;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  vertical-align: 1px;
+}
+
+.insp-activity-time {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.agent-card { cursor: pointer; }
+
+/* --- Chat surface -------------------------------------------------------
+   The conversation is the point of this surface, so it gets the remaining
+   height and scrolls internally. Operator access and the multi-agent /
+   attention / signed-control panels collapse into disclosures so the
+   transcript is not pushed thousands of pixels down the page. */
+.observatory[data-dashboard-surface="communication"] > .runtime-grid > #communication {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  height: 100%;
+}
+
+/* A nested chain of 1fr tracks collapsed the transcript to zero whenever the
+   auto rows over-subscribed their container. Size content naturally instead,
+   give the transcript its own bounded scroll region, and let the panel scroll. */
+.observatory[data-dashboard-surface="communication"] .communication-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.observatory[data-dashboard-surface="communication"] .conversation-surface:not(.room-surface):not(.operator-attention-surface) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+}
+
+.chat-auth-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: 0.75rem;
+}
+
+.chat-auth-bar strong { font-size: 0.78rem; }
+
+.chat-auth-bar span:not(.chat-auth-dot) { color: var(--muted); }
+
+.chat-auth-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  border: 1px solid rgba(110, 231, 249, 0.14);
-  box-shadow:
-    0 0 0 5rem rgba(110, 231, 249, 0.018),
-    0 0 0 10rem rgba(142, 240, 176, 0.014),
-    0 0 110px rgba(110, 231, 249, 0.08);
+  flex: none;
 }
 
-.agent-map {
-  position: relative;
-  min-height: 28rem;
-  margin-top: 1rem;
+.chat-auth-bar[data-state="anonymous"] {
+  border-color: rgba(255, 196, 106, 0.4);
+  background: rgba(255, 196, 106, 0.09);
 }
+
+.chat-auth-bar[data-state="anonymous"] strong { color: #ffc46a; }
+.chat-auth-bar[data-state="anonymous"] .chat-auth-dot { background: #ffc46a; }
+
+.chat-auth-bar[data-state="operator"] {
+  border-color: rgba(142, 240, 176, 0.4);
+  background: rgba(142, 240, 176, 0.09);
+}
+
+.chat-auth-bar[data-state="operator"] strong { color: var(--mint); }
+.chat-auth-bar[data-state="operator"] .chat-auth-dot { background: var(--mint); }
+
+.chat-auth-action {
+  margin-left: auto;
+  padding: 0.26rem 0.7rem;
+  font-size: 0.73rem;
+}
+
+.observatory[data-dashboard-surface="communication"] #agent-conversation-transcript {
+  min-height: 11rem;
+  max-height: 34vh;
+  overflow-y: auto;
+}
+
+.observatory[data-dashboard-surface="communication"] > .runtime-grid > #communication {
+  overflow-y: auto;
+}
+
+.chat-access-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  padding-top: 0.6rem;
+}
+
+.chat-access-body .field-wide,
+.chat-access-body .communication-actions {
+  grid-column: 1 / -1;
+}
+
+.chat-advanced-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.76rem;
+  list-style: none;
+}
+
+.chat-advanced-summary::-webkit-details-marker { display: none; }
+
+.chat-advanced-summary::before {
+  content: "▸";
+  margin-right: 0.15rem;
+  color: var(--cyan);
+  font-size: 0.7rem;
+}
+
+details[open] > .chat-advanced-summary::before { content: "▾"; }
+
+.chat-advanced-summary:hover {
+  border-color: rgba(110, 231, 249, 0.35);
+  color: var(--text);
+}
+
+.chat-advanced > *:not(summary) {
+  margin-top: 0.6rem;
+}
+
+/* --- Agent directory ----------------------------------------------------
+   The Agents surface is a directory of who is in the polis. The duplicate
+   surface nav, the operator control strip and the old map/roster/selection
+   layout are hidden rather than removed: #live-api-base is still read by
+   readApiBase(), so it must stay in the DOM. */
+.panopticon-shell > .surface-nav,
+.panopticon-shell > .live-control-strip,
+.panopticon-shell > .panopticon-layout,
+.panopticon-shell > .panel-head {
+  display: none;
+}
+
+/* Scoped to the agents surface: .panopticon-shell is display:none by default
+   and only revealed there, so this must not re-show it elsewhere. */
+.observatory[data-dashboard-surface="agents"] > .panopticon-shell {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.agent-directory {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  min-height: 0;
+}
+
+.agent-directory-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.agent-directory-filter {
+  min-width: 16rem;
+  padding: 0.34rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(7, 9, 13, 0.7);
+  color: var(--text);
+  font-size: 0.76rem;
+}
+
+.agent-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  gap: 0.75rem;
+  align-content: start;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 0.5rem;
+}
+
+.agent-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(12, 18, 27, 0.72);
+}
+
+.agent-card[data-state="active"] { border-left-color: var(--mint); }
+.agent-card[data-state="degraded"] { border-left-color: #ffc46a; }
+.agent-card[data-state="failed"] { border-left-color: var(--rose); }
+
+.agent-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.agent-card-name {
+  display: block;
+  font-size: 1.02rem;
+  line-height: 1.2;
+}
+
+.agent-card-id {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.agent-card-role {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.agent-card-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem 0.8rem;
+  margin: 0;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.agent-card-facts div { min-width: 0; }
+
+.agent-card-facts dt {
+  color: var(--muted);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.agent-card-facts dd {
+  margin: 0.1rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.agent-card-facts dd[data-tone="degraded"] { color: #ffc46a; }
+.agent-card-facts dd[data-tone="active"] { color: var(--mint); }
+
+.agent-card-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.agent-card-caps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.agent-cap {
+  padding: 0.1rem 0.42rem;
+  border: 1px solid rgba(110, 231, 249, 0.28);
+  border-radius: 999px;
+  background: rgba(110, 231, 249, 0.1);
+  color: #8fd8e8;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+.agent-card-none {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
+.agent-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding-top: 0.15rem;
+}
+
+.agent-card-comm {
+  font-size: 0.72rem;
+}
+
+.agent-card-comm[data-state="active"] { color: var(--mint); }
+.agent-card-comm[data-state="degraded"] { color: #ffc46a; }
+
+.agent-card-message {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.74rem;
+}
+
+.agent-card-message[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.agent-card-empty {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  color: var(--muted);
+}
+
+.infra-subhead {
+  margin-top: 0.9rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.infra-subhead:first-of-type {
+  margin-top: 0.4rem;
+}
+
+/* --- Logs surface ------------------------------------------------------- */
+.observatory > .logs-shell {
+  display: none;
+}
+
+.observatory[data-dashboard-surface="logs"] > .logs-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.6rem;
+  width: 100%;
+  justify-self: stretch;
+  height: 100%;
+  min-height: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.logs-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logs-filter {
+  min-width: 18rem;
+  padding: 0.34rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(7, 9, 13, 0.7);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+}
+
+.logs-follow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.logs-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(7, 9, 13, 0.62);
+}
+
+.logs-row {
+  display: grid;
+  grid-template-columns: 5.5rem 4.5rem 11rem minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.logs-row:last-child {
+  border-bottom: none;
+}
+
+.logs-time,
+.logs-source {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logs-level {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.logs-level[data-state="failed"] { color: var(--rose); }
+.logs-level[data-state="degraded"] { color: #ffc46a; }
+.logs-level[data-state="active"] { color: var(--cyan); }
+.logs-level[data-state="quiet"] { color: var(--muted); }
+
+.logs-message {
+  color: #dbe6f5;
+  overflow-wrap: anywhere;
+}
+
+.logs-row[data-state="failed"] { background: rgba(255, 122, 149, 0.07); }
+.logs-row[data-state="degraded"] { background: rgba(255, 196, 106, 0.06); }
+
+.logs-empty {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.5rem;
+  color: var(--muted);
+}
+
+.logs-empty code {
+  padding: 0.06rem 0.3rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.observatory[data-dashboard-surface="evidence"] > .evidence-band {
+  display: grid !important;
+  width: 100%;
+  justify-self: stretch;
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ── Component health grid ─────────────────────────────── */
+.component-health-shell {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.component-grid {
+  display: grid;
+  /* Wide enough that subsystem names such as "curiosity intelligence theory of
+     mind adapter" wrap rather than truncate. */
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.component-tile {
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 0.2s;
+}
+
+.component-tile:hover {
+  border-color: rgba(110, 231, 249, 0.45);
+  background: rgba(110, 231, 249, 0.07);
+}
+
+.component-tile:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.component-tile .row-kicker {
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.component-tile strong {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.component-tile[data-state="running"] {
+  border-color: rgba(142, 240, 176, 0.3);
+  background: rgba(142, 240, 176, 0.06);
+}
+
+.component-tile[data-state="running"] strong {
+  color: var(--ok, #8ef0b0);
+}
+
+.component-tile[data-state="starting"],
+.component-tile[data-state="restarting"],
+.component-tile[data-state="stopping"] {
+  border-color: rgba(250, 204, 21, 0.3);
+  background: rgba(250, 204, 21, 0.06);
+}
+
+.component-tile[data-state="starting"] strong,
+.component-tile[data-state="restarting"] strong,
+.component-tile[data-state="stopping"] strong {
+  color: #facc15;
+}
+
+.component-tile[data-state="stopped"],
+.component-tile[data-state="failed"],
+.component-tile[data-state="error"] {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.component-tile[data-state="stopped"] strong,
+.component-tile[data-state="failed"] strong,
+.component-tile[data-state="error"] strong {
+  color: #f87171;
+}
+
+/* ── Agent map ─────────────────────────────────────────── */
 
 .agent-node {
   position: absolute;
@@ -1362,14 +2442,6 @@ dd {
   bottom: 10%;
 }
 
-.agent-list,
-.signal-list,
-.metric-list {
-  display: grid;
-  gap: 0.65rem;
-  margin-top: 1rem;
-}
-
 .roster-controls {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(8rem, 0.7fr) minmax(7rem, 0.55fr);
@@ -1398,18 +2470,6 @@ dd {
 .roster-row:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
-}
-
-.roster-detail {
-  display: grid;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  border-top: 1px solid var(--line);
-  padding-top: 0.85rem;
-}
-
-.roster-load-more {
-  margin-top: 0.75rem;
 }
 
 .roster-facts {
@@ -1637,6 +2697,23 @@ textarea,
   display: block;
 }
 
+.conversation-turn-speaker {
+  display: block;
+  margin-bottom: 0.18rem;
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.conversation-turn[data-speaker="agent"] .conversation-turn-speaker { color: var(--cyan); }
+.conversation-turn[data-speaker="operator"] .conversation-turn-speaker { color: var(--mint); }
+
+.conversation-turn-status:empty {
+  display: none;
+}
+
 .conversation-turn-status {
   display: inline-block;
   margin-top: 0.4rem;
@@ -1843,7 +2920,7 @@ textarea,
 
 .event-table-header {
   display: grid;
-  grid-template-columns: 3rem 5rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5rem 5rem;
+  grid-template-columns: 6.5rem 4.5rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5.5rem 4.5rem;
   gap: 0.8rem;
   padding: 0.52rem 0;
   border-bottom: 1px solid var(--line);
@@ -1853,8 +2930,39 @@ textarea,
 }
 
 .event-table-row {
-  grid-template-columns: 3rem 5rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5rem 5rem;
+  grid-template-columns: 6.5rem 4.5rem minmax(8rem, 1fr) minmax(9rem, 0.85fr) 5.5rem 4.5rem;
   align-items: center;
+}
+
+/* On short viewports the events panel header was consuming most of the panel,
+   leaving under one row visible. Compact it so the stream keeps the space. */
+.dashboard-events {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+}
+
+.dashboard-events > .panel-head {
+  margin-bottom: 0.2rem;
+  padding-bottom: 0.35rem;
+}
+
+.dashboard-events h2 {
+  font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+  line-height: 1.15;
+}
+
+.event-repeat {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.02rem 0.32rem;
+  border: 1px solid rgba(110, 231, 249, 0.28);
+  border-radius: 999px;
+  background: rgba(110, 231, 249, 0.1);
+  color: #8fd8e8;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  vertical-align: middle;
 }
 
 .event-source,
@@ -1895,10 +3003,12 @@ textarea,
   font-family: var(--font-mono);
 }
 
-.api-mini-list {
-  display: grid;
-  gap: 0.32rem;
-  margin-top: 0.65rem;
+/* Uptime stamps must stay on one line so they never collide with Severity. */
+.event-table-row .trace-seq {
+  font-size: 0.68rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .api-mini-row {
@@ -1932,52 +3042,10 @@ textarea,
   text-align: right;
 }
 
-.runtime-test-card {
-  gap: 0.42rem;
-}
-
-.runtime-test-card input {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 0.48rem 0.55rem;
-  color: #e7f1ff;
-  background: rgba(2, 9, 17, 0.72);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-}
-
-.runtime-test-card input:focus {
-  outline: 1px solid rgba(110, 231, 249, 0.54);
-  border-color: rgba(110, 231, 249, 0.42);
-}
-
-.compact-field {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-}
-
-.runtime-test-actions {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.32rem;
-}
-
 .runtime-test-actions .button {
   min-height: 1.95rem;
   padding: 0.38rem 0.44rem;
   font-size: 0.68rem;
-}
-
-.evidence-band {
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 1rem;
-  margin-top: 1rem;
-  padding: clamp(1rem, 3vw, 2rem);
 }
 
 .dashboard-statusbar {
@@ -2065,8 +3133,9 @@ textarea,
   }
 }
 
-.observatory > .runtime-grid,
-.observatory > .evidence-band {
+/* Hidden by default, except on the surface that owns each section. */
+.observatory:not([data-dashboard-surface="communication"]):not([data-dashboard-surface="csm-api"]):not([data-dashboard-surface="cloudwatch"]):not([data-dashboard-surface="runtime-events"]):not([data-dashboard-surface="governance"]) > .runtime-grid,
+.observatory:not([data-dashboard-surface="evidence"]) > .evidence-band {
   display: none !important;
 }
 
@@ -2174,15 +3243,9 @@ textarea,
     display: none;
   }
 
-  .nav {
-    order: 3;
-    grid-column: 1 / -1;
-    justify-content: flex-start;
-  }
 
-  .status-pill {
-    justify-self: start;
-  }
+
+
 
   .wide-panel {
     grid-column: auto;
@@ -2214,13 +3277,9 @@ textarea,
     padding-inline: 0.65rem;
   }
 
-  .live-actions {
-    justify-content: flex-start;
-  }
 
-  .panopticon-stage {
-    grid-row: auto;
-  }
+
+
 
   .ops-status-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2331,7 +3390,6 @@ textarea,
     grid-template-rows: minmax(0, 1fr) minmax(5.8rem, 0.32fr);
   }
 
-
   .dashboard-events .panel-head {
     align-items: center;
   }
@@ -2355,9 +3413,7 @@ textarea,
     display: none;
   }
 
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
+
 
   .orbit-node {
     position: static;
@@ -2377,7 +3433,5 @@ textarea,
     margin-top: 0.65rem;
   }
 
-  .agent-map {
-    min-height: auto;
-  }
+
 }

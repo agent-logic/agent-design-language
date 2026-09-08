@@ -1,0 +1,12 @@
+{
+  "issue": 708,
+  "expected_generation": 27,
+  "expected_digest": "55f74823c76899fd0acbf50dcbd020a445eccfdb06e4620cd19d07be13588ebe",
+  "reviewer": "codex:issue-708-multipart-exact-head-review-r2",
+  "assigned_by": "codex:issue-708-runtime-orientation",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs"
+  ]
+}

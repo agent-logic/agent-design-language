@@ -1,0 +1,12 @@
+{
+  "issue": 708,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "2dd3fda94e8bd18912c0ab6cd6124e797a9ea5788e1db6c1923daf725a9d563a",
+  "actor": "codex:planning-1",
+  "reason": "Advance the operator-approved, doctor-clean #708 execution design to ready.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

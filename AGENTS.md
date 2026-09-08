@@ -14,9 +14,25 @@ binaries. Issue ownership is derived from the bound Git branch and worktree;
 claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
 C-SDLC v3 is construction and cutover-readiness evidence only before that
 cutover; it must not bind, publish, finish, clean, mutate GitHub, retire v2, or
-claim live lifecycle authority. Prepared v3 issue start should be inspectable,
+assert operational control. Prepared v3 issue start should be inspectable,
 bindable, and ready for first useful work in three minutes or less once its
 dependencies are satisfied, while preserving typed v2 guards and review truth.
+
+## Pending C-SDLC tooling changeover notice
+
+Issue #505 is the sole V3-F transition-decision lane for this change. Until
+#505 is reviewed and PR #591 is explicitly operator-approved and merged,
+C-SDLC v2 remains the live authority described above. Merging PR #591 is the
+atomic authority cutover; terminal reconciliation records the completed
+transition afterward. Before that merge, C-SDLC v3 is construction and
+cutover evidence only.
+
+Before changing the default lifecycle route, operators and agents must be
+notified through `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and the typed
+C-SDLC v2 GitHub issue owner. The notification is a warning and coordination
+surface, not cutover approval. If v3 parity, canary rollback, publication,
+finish, cleanup, observation, or approval proof is incomplete, keep using v2
+and do not retire v2 guidance.
 
 This file is the repository-local operating contract for coding agents working
 in ADL.

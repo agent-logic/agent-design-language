@@ -3,9 +3,10 @@ import { readFile } from "node:fs/promises";
 
 const testUrl = new URL(import.meta.url);
 
-const [html, css] = await Promise.all([
+const [html, css, app] = await Promise.all([
   readFile(new URL("../index.html", testUrl), "utf8"),
-  readFile(new URL("../styles.css", testUrl), "utf8")
+  readFile(new URL("../styles.css", testUrl), "utf8"),
+  readFile(new URL("../app.js", testUrl), "utf8")
 ]);
 
 const requiredIds = [
@@ -53,6 +54,30 @@ assert.match(html, /id=["']governed-room-recipients["'][^>]*aria-describedby=["'
 assert.match(html, /aria-describedby=["']claim-boundary["']/, "status grid must expose the proof boundary");
 assert.match(html, /aria-labelledby=["']hero-ready-label hero-ready-state["']/, "runtime readiness stat must expose label and state");
 assert.match(html, /role=["']group["'] aria-label=["']Runtime controls["']/, "top controls must remain grouped for assistive tech");
+for (const name of ["integrity", "agent", "activity"]) {
+  assert.match(
+    html,
+    new RegExp(`id=["']inspector-tab-${name}["'][^>]*role=["']tab["'][^>]*aria-controls=["']inspector-${name}["']`),
+    `Inspector ${name} tab must identify its controlled panel`
+  );
+  assert.match(
+    html,
+    new RegExp(`id=["']inspector-${name}["'][^>]*role=["']tabpanel["'][^>]*aria-labelledby=["']inspector-tab-${name}["']`),
+    `Inspector ${name} panel must identify its tab`
+  );
+}
+assert.match(app, /event\.key === "ArrowRight"/, "Inspector tabs need right-arrow navigation");
+assert.match(app, /event\.key === "ArrowLeft"/, "Inspector tabs need left-arrow navigation");
+assert.match(app, /event\.key === "Home"/, "Inspector tabs need Home navigation");
+assert.match(app, /event\.key === "End"/, "Inspector tabs need End navigation");
+assert.match(app, /candidate\.tabIndex = on \? 0 : -1/, "Inspector tabs need roving tabindex");
+assert.match(app, /hashchange/, "URL hash navigation must update the visible surface");
+assert.match(app, /keyFromHash/, "initial navigation must honor the requested surface hash");
+assert.match(app, /function refreshSystemClock\(\)[\s\S]*rail-capture-time/, "System Time must have a dedicated refresh path");
+assert.match(app, /typeof setInterval === "function"[\s\S]*setInterval\(refreshSystemClock, 1000\)/, "System Time must refresh when browser timers are available without breaking timer-free validation sandboxes");
+assert.match(app, /async function bootObservatory\(\) \{\s*startSystemClock\(\);/, "System Time refresh must start during Observatory boot");
+assert.match(html, /styles\.css\?v=v0921-wuji-56/, "stylesheet cache key must match the current Observatory release");
+assert.match(html, /app\.js\?v=v0921-wuji-56/, "script cache key must invalidate pre-rebase Observatory JavaScript");
 
 assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/, "reduced-motion users need explicit static behavior");
 assert.match(css, /scroll-behavior:\s*auto/, "reduced-motion mode must disable smooth scrolling");

@@ -98,3 +98,4 @@ demos/v0.91.6/unity-observatory/Proof/
 # Issue SORs are canonical in .adl task bundles, not under docs/records issue mirrors.
 docs/records/v*/tasks/issue-*/
 docs/records/v*/CLOSED_ISSUE_RECORD_HYGIENE_*.md
+demos/html-observatory/runtime-log.jsonl

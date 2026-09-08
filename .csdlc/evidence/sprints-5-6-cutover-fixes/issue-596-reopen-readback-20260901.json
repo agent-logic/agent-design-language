@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.github_action_result.v1",
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "worker-6-reopen-596-false-close-20260901",
+  "issue": {
+    "schema": "csdlc.github_issue.v1",
+    "repository": "agent-logic/agent-design-language",
+    "number": 596,
+    "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover review blockers",
+    "state": "open",
+    "closed_at": null,
+    "marker_present": false
+  },
+  "reconciled": true,
+  "note": "Typed v2 csdlc-github-issue reopened #596 because canonical C-SDLC truth remains phase=ready and the SOR remains pre-execution/not-published/not-merged."
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 712,
+  "expected_generation": 7,
+  "expected_digest": "46a53430266ff37c67347d49d9e84a5335d56323b552bdba22e7c8937a8b7d7e",
+  "actor": "codex:/root",
+  "reason": "The bounded implementation and issue-owned focused validation are complete and ready for typed review recording.",
+  "card": "spp",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schema": "csdlc.v3.pvf_result.v1",
+  "issue": 505,
+  "revision": "0ccbc4ad70a92092cad36b38d4efcd750746ee83",
+  "trial_scope": "retained_precommit_bridge_fixture_not_live_authority",
+  "evidence_digest": "csdlc-v3-local-trial-render-manifest-505"
+}

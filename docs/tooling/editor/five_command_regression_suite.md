@@ -2,13 +2,20 @@
 
 This is the canonical regression entrypoint for the historical five-command editing lifecycle.
 
+Issue #505 / V3-F is the pending tooling changeover decision. Until that
+operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains the live lifecycle authority. This suite is retained
+historical evidence, not live routing guidance.
+
 Run:
 
 - `bash adl/tools/test_five_command_regression_suite.sh`
 
 ## What It Covers
 
-The suite protects the shipped authoring surface and its truthful editor claims:
+The suite preserves historical regression evidence for the retired
+five-command authoring surface. It is not live lifecycle routing guidance;
+C-SDLC v2 remains live authority until explicit V3-F/#505 cutover.
 
 1. `pr init`
 2. `pr start`
@@ -17,7 +24,8 @@ The suite protects the shipped authoring surface and its truthful editor claims:
 
 It also verifies:
 
-- the installed `adl_pr_cycle` skill still matches the tracked contract and preserves the real authoring state machine
+- the installed `adl_pr_cycle` skill remains historical-only and matches the
+  tracked blocking contract
 - the legacy browser/editor adapter remains bounded to `pr start` compatibility
 - the current editor docs do not overclaim direct browser execution for lifecycle commands
 - the bounded demo still emits the expected lifecycle artifacts
@@ -37,6 +45,7 @@ It also verifies:
 
 ## Why This Is The Proof Surface
 
-This suite is the deterministic guardrail for the full editing story now implemented in the repo.
+This suite is the deterministic historical guardrail for the five-command
+editing story retained in the repo.
 
 It does not invent a second lifecycle. Instead, it reuses the real command tests, the bounded demo, and the editor truth contract checks so drift in commands, artifacts, or browser claims fails in one place.

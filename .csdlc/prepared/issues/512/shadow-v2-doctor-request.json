@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.shadow_command_request.v1",
+  "issue": 512,
+  "command": "doctor",
+  "generation": "v2"
+}

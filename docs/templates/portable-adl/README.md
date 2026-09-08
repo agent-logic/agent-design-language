@@ -31,4 +31,4 @@ tooling compatibility.
 - Templates must not embed operator-local absolute paths.
 - External repositories must resolve ADL tooling through `ADL_HOME`, an explicit
   repo-relative path, or a declared sibling checkout.
-- The canonical card lifecycle remains `SIP -> STP -> SPP -> SRP -> SOR`.
+- The canonical card lifecycle remains `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.

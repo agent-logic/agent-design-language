@@ -1208,9 +1208,11 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
         serde_json::from_slice(&fs::read(root.join("operator/generation-selector.json")).unwrap())
             .unwrap();
     assert_eq!(manifest.skills.len(), 11);
+    assert_eq!(selector.default_generation, Generation::V3);
     assert_eq!(
         resolve_operator_generation(&root.join(".."), 5294, None).unwrap(),
-        selector.default_generation
+        Generation::V2,
+        "the feature-branch selector must not activate v3 before it is canonical on origin/main"
     );
     assert!(resolve_operator_generation(&root.join(".."), 5294, Some(Generation::V1)).is_err());
     for text in [&root_agents, &nested_agents] {

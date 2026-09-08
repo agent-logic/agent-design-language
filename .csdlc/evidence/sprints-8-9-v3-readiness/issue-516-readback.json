@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Outcome\n\nProduce one immutable release-tail admission record for the converged milestone candidate, including a findings-first gap analysis that proves planned execution and implementation outcomes are accounted for.\n\n## Primary deliverable\n\nOne immutable release-tail admission record indexing every reviewed-green ancestral execution root, plus machine-readable and human-readable gap-analysis artifacts comparing the complete v0.92.1 expected baseline with observed implementation, validation, review, documentation, integration, and closeout evidence.\n\n## Verification result\n\nThe admission validator reports the exact root denominator, revisions, artifacts, ancestry, and zero unresolved collisions. The folded gap analysis reports the complete expected-versus-observed denominator and classifies every mismatch as a release blocker, durable proof gap, routed follow-on, stale readiness documentation, non-blocking quality concern, or evidence-backed no-gap result.\n\n## Unit boundary\n\nIssue completion is exactly one admission decision. Lane receipts and the folded gap analysis are evidence inputs; lane remediation remains separately owned. This issue identifies and routes gaps but does not implement child fixes.\n\n## Gap-analysis denominator\n\nFor every planned v0.92.1 issue and retained predecessor dependency, compare the authoritative issue acceptance criteria, execution specification, and milestone plan against:\n\n- merged implementation and exact ancestral revision\n- production/runtime call paths rather than test-only or placeholder presence\n- focused and integration validation with meaningful behavior coverage\n- current exact-head review findings and dispositions\n- documentation and demo claims\n- PR linkage, merge, lifecycle, and closeout truth\n- explicitly deferred or backlogged scope with a resolvable owner\n\nAbsence of evidence is recorded as missing evidence or scope ambiguity, not silently treated as success. Any unresolved P0/P1 implementation, execution, test, integration, documentation-truth, or closeout gap blocks admission.\n\n## Dependencies\n\n- CORP-D: #498\n- AWS-G: #496\n- GCP-E: #494\n- XCL-01: #495\n- RUST-01: #499\n- V3-F: #505\n- DRT-C: #508\n- DRT-D: #509\n- issue-51: #51\n- HOT-01: #510\n- OBS-B: #512\n- DEC-01: #513\n- PROV-B: #515\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Every lane is reviewed, merged, and ancestral\n- [ ] Exact revisions and artifacts are indexed\n- [ ] Cross-lane collisions are resolved by owners\n- [ ] The complete planned issue and retained-predecessor denominator is enumerated with no silently omitted work\n- [ ] Expected acceptance criteria are compared with observed production implementation and execution evidence\n- [ ] Test-only, placeholder, do-nothing, partially wired, or unexecuted implementations are identified rather than admitted as complete\n- [ ] Missing validation, stale review, documentation drift, and closeout overclaims are classified and routed\n- [ ] Every gap has severity, source evidence, disposition, and an existing owner or explicit release-blocking status\n- [ ] No unresolved P0/P1 gap remains in the admitted candidate\n- [ ] Gap-analysis Markdown and JSON artifacts are retained and indexed by the admission record\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/integration/**`\n- `docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md`\n\n## PVF lanes\n\n- `merged-authority-census`\n- `ancestry`\n- `artifact-index`\n- `collision-check`\n- `expected-observed-gap-analysis`\n- `production-path-implementation-check`\n- `validation-review-closeout-truth-check`\n\n## Stop conditions\n\n- Any lane lacks reviewed merged authority\n- Evidence revisions disagree\n- The expected issue or acceptance denominator is incomplete\n- A required behavior exists only as a stub, test fixture, unused code path, or unsupported claim\n- Any unresolved P0/P1 gap or unowned material gap remains\n\n## Non-goals\n\n- Implementing child fixes\n- Creating duplicate remediation issues when an owner already exists\n- Release approval\n\n## Canonical planning identity\n\n- Planned ID: `INT-01`\n- Canonical title: `[v0.92.1][INT-01] Release-tail admission`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#INT-01`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:INT-01:create -->\n\n<!-- csdlc-github-operation:issue-516-fold-gap-analysis-20260901 -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-26T03:22:56Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1",
+      "area:quality"
+    ],
+    "marker_present": false,
+    "milestone": 1,
+    "number": 516,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][INT-01] Release-tail admission"
+  },
+  "operation_key": "worker-6-v3-sprint-readiness-live-issue-516-20260901",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

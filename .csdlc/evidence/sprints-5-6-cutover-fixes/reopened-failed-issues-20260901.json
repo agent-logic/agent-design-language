@@ -1,0 +1,86 @@
+{
+  "schema": "adl.csdlc_v3.sprints_5_6.failed_issue_reopen_readback.v1",
+  "repository": "agent-logic/agent-design-language",
+  "source_review": "/Volumes/FastWork/adl-reviews/csdlc-sprints-5-6-20260830/SYNTHESIS.md",
+  "recorded_by": "worker-6",
+  "recorded_date": "2026-09-01",
+  "transport": "typed-v2 csdlc-github-issue",
+  "raw_gh_used": false,
+  "reopened": [
+    {
+      "issue": 501,
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+      "operation_key": "worker-6-reopen-501-sprint-review-fail-20260901",
+      "readback_state": "open",
+      "closed_at": null,
+      "reason": "Sprint synthesis classifies #501 as failed/partial; closure must wait for the corrected retained-behavior proof."
+    },
+    {
+      "issue": 502,
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+      "operation_key": "worker-6-reopen-502-sprint-review-fail-20260901",
+      "readback_state": "open",
+      "closed_at": null,
+      "reason": "Sprint synthesis classifies #502 as failed/partial; closure must wait for durable lifecycle-kernel proof."
+    },
+    {
+      "issue": 503,
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+      "operation_key": "worker-6-reopen-503-sprint-review-fail-20260901",
+      "readback_state": "open",
+      "closed_at": null,
+      "reason": "Sprint synthesis classifies #503 as failed/partial; closure must wait for a truthful local-preparation workflow contract."
+    },
+    {
+      "issue": 504,
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+      "operation_key": "worker-6-reopen-504-sprint-review-fail-20260901",
+      "readback_state": "open",
+      "closed_at": null,
+      "reason": "Sprint synthesis classifies #504 as failed/partial; closure must wait for authenticated remote-delivery authority proof."
+    },
+    {
+      "issue": 533,
+      "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+      "operation_key": "worker-6-reopen-533-sprint-review-fail-20260901",
+      "readback_state": "open",
+      "closed_at": null,
+      "reason": "Sprint synthesis classifies Sprint 5 closeout as failed because child truth was premature."
+    },
+    {
+      "issue": 596,
+      "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover review blockers",
+      "operation_key": "worker-6-reopen-596-false-close-20260901",
+      "readback_state": "open",
+      "closed_at": null,
+      "reason": "#596 had been closed by PR merge while its typed lifecycle remained ready/pre-execution."
+    }
+  ],
+  "already_open": [
+    {
+      "issue": 505,
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority transition decision",
+      "state": "open"
+    },
+    {
+      "issue": 534,
+      "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+      "state": "open"
+    }
+  ],
+  "not_reopened": [
+    {
+      "issue": 500,
+      "reason": "Sprint synthesis classifies #500 acceptable after #571."
+    },
+    {
+      "issue": 570,
+      "reason": "Sprint synthesis classifies #570 pass in narrow scope."
+    },
+    {
+      "issue": 571,
+      "reason": "Sprint synthesis classifies #571 pass in narrow scope."
+    }
+  ],
+  "closure_policy": "Do not close these issues again until their typed lifecycle truth, exact-head review, publication/readback, and sprint-level result evidence are reconciled successfully."
+}

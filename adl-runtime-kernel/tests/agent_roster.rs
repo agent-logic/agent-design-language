@@ -41,6 +41,7 @@ fn agent_sample_api_serializes_backing_model_and_continuity_truth() {
         capabilities: vec!["conversation".to_owned()],
         location: Some("local".to_owned()),
         communication_eligible: true,
+        orientation: None,
         observed_at_unix_millis: 1_786_000_001_000,
         freshness_deadline_unix_millis: 1_786_000_031_000,
         source_revision: "test".to_owned(),
@@ -73,6 +74,7 @@ fn evidence(id: &str, label: &str, presence: AgentPresence) -> AgentRuntimeEvide
         capabilities: vec!["conversation".to_owned()],
         location: Some("local".to_owned()),
         communication_eligible: true,
+        orientation: None,
         observed_at_unix_millis: 1_000,
         freshness_deadline_unix_millis: 2_000,
         source_revision: "runtime-revision-7".to_owned(),
@@ -113,7 +115,7 @@ fn resident_shepherd_construction_uses_configured_canonical_name_and_truthful_co
     let feed = adl_runtime_kernel::AgentPopulationFeed::resident_shepherd_from_config(&config);
     let shepherd = &feed.sample[0];
 
-    assert_eq!(shepherd.id, "shepherd");
+    assert_eq!(shepherd.id, "beacon");
     assert_eq!(shepherd.name, config.name);
     assert_eq!(shepherd.label, config.display_name);
     assert_eq!(shepherd.role, config.office);
@@ -254,6 +256,7 @@ fn inference_readiness_taxonomy_is_the_provider_backed_roster_denominator() {
             capabilities: vec!["conversation".to_owned()],
             location: Some("local".to_owned()),
             communication_eligible: true,
+            orientation: None,
             observed_at_unix_millis: 1_000,
             freshness_deadline_unix_millis: 2_000,
             source_revision: "runtime-revision-7".to_owned(),

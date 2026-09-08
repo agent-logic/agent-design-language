@@ -1,0 +1,14 @@
+{
+  "issue": 505,
+  "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/505-v3-f-authority-transition-decision-exec",
+  "worktree": "adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
+  "registry_version": "1.0.3",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "plan_pvf",
+    "doctor"
+  ]
+}

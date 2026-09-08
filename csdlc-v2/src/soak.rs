@@ -21,12 +21,22 @@ macro_rules! closed_enum {
     };
 }
 
-closed_enum!(Generation { V1, V2 });
+closed_enum!(Generation { V1, V2, V3 });
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 pub struct GenerationSelector {
     pub schema: String,
     pub default_generation: Generation,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub operational_authority: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub authority_issue: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub authority_pull_request: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_authority: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub approval_authority: Option<String>,
     pub opted_in_issues: BTreeSet<u64>,
 }
 
@@ -35,13 +45,34 @@ pub fn select_generation(
     issue: u64,
     requested: Option<Generation>,
 ) -> Result<Generation> {
-    if selector.schema != "csdlc.generation_selector.v1" {
+    if selector.schema != "csdlc.generation_selector.v1"
+        && selector.schema != "csdlc.generation_selector.v2"
+    {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "generation selector schema must be csdlc.generation_selector.v1",
+            "generation selector schema must be csdlc.generation_selector.v1 or csdlc.generation_selector.v2",
+        ));
+    }
+    if selector.default_generation == Generation::V3
+        && (selector.schema != "csdlc.generation_selector.v2"
+            || selector.operational_authority.as_deref() != Some("csdlc-v3")
+            || selector.authority_issue != Some(505)
+            || selector.authority_pull_request != Some(591)
+            || selector.review_authority.as_deref() != Some("typed-v2-exact-head")
+            || selector.approval_authority.as_deref() != Some("merged-pr-591-closed-issue-505"))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "v3 generation selector does not satisfy the canonical #505/#591 authority contract",
         ));
     }
     let selected = requested.unwrap_or(selector.default_generation);
+    if selector.default_generation != Generation::V3 && selected == Generation::V3 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "explicit v3 generation selection is forbidden before the canonical v3 cutover",
+        ));
+    }
     if selector.default_generation == Generation::V1
         && selected == Generation::V2
         && !selector.opted_in_issues.contains(&issue)
@@ -341,6 +372,11 @@ pub fn generate_sample_packets(repo: &Path, root: &Path) -> Result<Vec<SamplePac
     let selector = GenerationSelector {
         schema: "csdlc.generation_selector.v1".into(),
         default_generation: Generation::V1,
+        operational_authority: None,
+        authority_issue: None,
+        authority_pull_request: None,
+        review_authority: None,
+        approval_authority: None,
         opted_in_issues: SAMPLES.iter().map(|sample| sample.issue).collect(),
     };
     write_json(&root.join("generation-selector.json"), &selector)?;

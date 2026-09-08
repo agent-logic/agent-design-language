@@ -6,10 +6,11 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    monitor_until_stop, CanonicalValue, Capability, CapabilityRequirement, Component,
-    ComponentConfig, ComponentContext, ComponentError, ComponentFactory, ComponentId,
-    ComponentSpec, ConfigError, DeterminismClass, DiskWeather, FactoryRegistration,
-    FactoryRegistry, FailurePolicy, GpuWeather, LifecycleGuarantees, Observation, PortSpec,
+    monitor_until_stop, CanonicalValue, Capability, CapabilityRequirement, CheckpointAuthority,
+    CheckpointCoordinator, CheckpointParticipant, CheckpointRequest, Component, ComponentConfig,
+    ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec, ConfigError,
+    ContinuityError, DeterminismClass, DiskWeather, FactoryRegistration, FactoryRegistry,
+    FailurePolicy, GpuWeather, LifecycleGuarantees, MigrationPolicy, Observation, PortSpec,
     ResourceState, RuntimeConfig, ServiceContract, ShutdownDecision, SysinfoWeatherObserver,
     TopologyError, VertexAiProviderFailure, WeatherConfig, WeatherHealthReport, WeatherObserver,
     WeatherSample, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
@@ -869,25 +870,29 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
-fn continuity_identity_excludes_non_stateful_runtime_policy() {
+fn continuity_compatibility_v1_allows_hot_load_policy_and_binds_security_identity() {
     let root = config_test_root();
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
     let mut legacy_config = config.clone();
     legacy_config.observatory.additional_allowed_origins.clear();
-    let expected = legacy_config.continuity_identity_projection().unwrap();
-    assert_eq!(config.continuity_identity_projection().unwrap(), expected);
-    assert!(expected["observability_pipeline"]
-        .get("cloudwatch")
-        .is_none());
+    let expected = legacy_config.continuity_compatibility_projection_v1();
+    assert_eq!(config.continuity_compatibility_projection_v1(), expected);
+    assert_eq!(
+        expected["schema"],
+        "adl.runtime_v3.continuity_compatibility.v1"
+    );
+    assert!(expected.get("resident_shepherd").is_none());
+    assert!(expected.get("observatory").is_none());
+    assert!(expected.get("observability_pipeline").is_none());
 
     let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
     next_cycle.observability_pipeline.lifecycle_run = "run-2".to_owned();
     next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();
     assert_eq!(
-        next_cycle.continuity_identity_projection().unwrap(),
+        next_cycle.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -895,7 +900,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     changed_origins.observatory.additional_allowed_origins =
         vec!["http://localhost:8000".to_owned()];
     assert_eq!(
-        changed_origins.continuity_identity_projection().unwrap(),
+        changed_origins.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -909,7 +914,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         }
     }
     assert_eq!(
-        renamed_shepherd.continuity_identity_projection().unwrap(),
+        renamed_shepherd.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -922,8 +927,8 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
             panic!("fixture must use one resident Shepherd")
         }
     }
-    assert_ne!(
-        rebound_shepherd.continuity_identity_projection().unwrap(),
+    assert_eq!(
+        rebound_shepherd.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -934,7 +939,7 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     secondary.display_name = "Lumen".to_owned();
     multi_shepherd.resident_shepherd =
         adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, secondary]);
-    let multi_expected = multi_shepherd.continuity_identity_projection().unwrap();
+    let multi_expected = multi_shepherd.continuity_compatibility_projection_v1();
     if let adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) =
         &mut multi_shepherd.resident_shepherd
     {
@@ -942,14 +947,26 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
         shepherds[1].display_name = "Lumen Axioma".to_owned();
     }
     assert_eq!(
-        multi_shepherd.continuity_identity_projection().unwrap(),
+        multi_shepherd.continuity_compatibility_projection_v1(),
         multi_expected
     );
 
+    let mut colliding_residents = next_cycle.clone();
+    let primary = colliding_residents.resident_shepherd.primary().clone();
+    let mut collision = primary.clone();
+    collision.name = "beacon.meridian".to_owned();
+    colliding_residents.resident_shepherd =
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(vec![primary, collision]);
+    assert!(colliding_residents
+        .validate()
+        .unwrap_err()
+        .to_string()
+        .contains("resident agent identity collision"));
+
     changed_origins.observatory.allowed_origins =
         vec!["https://observatory.example.test".to_owned()];
-    assert_ne!(
-        changed_origins.continuity_identity_projection().unwrap(),
+    assert_eq!(
+        changed_origins.continuity_compatibility_projection_v1(),
         expected
     );
 
@@ -960,21 +977,168 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
             log_group: "/agent-logic/runtime-v3/axioma-wuji-dev".to_owned(),
             log_stream: "wuji".to_owned(),
         });
-    assert_ne!(
-        cloudwatch_enabled.continuity_identity_projection().unwrap(),
+    assert_eq!(
+        cloudwatch_enabled.continuity_compatibility_projection_v1(),
         expected
     );
 
     let mut changed_runtime = config;
     changed_runtime.api.address = "127.0.0.1:20998".to_owned();
     assert_ne!(
-        changed_runtime.continuity_identity_projection().unwrap(),
+        changed_runtime.continuity_compatibility_projection_v1(),
+        expected
+    );
+
+    let mut changed_state_root = legacy_config.clone();
+    changed_state_root.state_root = root.path().join("different-state");
+    assert_ne!(
+        changed_state_root.continuity_compatibility_projection_v1(),
+        expected
+    );
+
+    let mut changed_control_key = legacy_config.clone();
+    changed_control_key.credentials.control_key_id = "replacement-control-key".to_owned();
+    assert_ne!(
+        changed_control_key.continuity_compatibility_projection_v1(),
+        expected
+    );
+
+    let mut changed_tls_identity = legacy_config;
+    changed_tls_identity.api.tls.certificate_chain_path =
+        root.path().join("tls/replacement-cert.pem");
+    assert_ne!(
+        changed_tls_identity.continuity_compatibility_projection_v1(),
         expected
     );
 }
 
+struct CompatibilityCheckpointParticipant;
+
+#[async_trait]
+impl CheckpointParticipant for CompatibilityCheckpointParticipant {
+    fn service(&self) -> &str {
+        "compatibility"
+    }
+
+    fn schema(&self) -> &str {
+        "compatibility.state.v1"
+    }
+
+    async fn quiesce(&self) -> Result<(), String> {
+        Ok(())
+    }
+
+    async fn snapshot(&self) -> Result<Vec<u8>, String> {
+        Ok(b"checkpoint-state".to_vec())
+    }
+}
+
+fn continuity_compatibility_hash(config: &adl_runtime_kernel::RuntimeInitConfig) -> String {
+    blake3::hash(&serde_json::to_vec(&config.continuity_compatibility_projection_v1()).unwrap())
+        .to_hex()
+        .to_string()
+}
+
+#[tokio::test]
+async fn signed_checkpoint_restore_allows_provider_changes_and_rejects_security_changes() {
+    let config_root = config_test_root();
+    let config = adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(
+        config_root.path(),
+    ))
+    .unwrap();
+    let compatibility_hash = continuity_compatibility_hash(&config);
+    let checkpoint_root = tempfile::tempdir().unwrap();
+    let authority = CheckpointAuthority::from_bytes("compatibility-test", &[29; 32]);
+    let trusted = BTreeMap::from([("compatibility-test".to_owned(), authority.verifying_key())]);
+    let coordinator = CheckpointCoordinator::new(checkpoint_root.path(), authority);
+    coordinator
+        .checkpoint(
+            CheckpointRequest {
+                generation: 1,
+                previous_integrity: None,
+                accepted_through: 1,
+                provenance: "continuity-compatibility-v1-test".to_owned(),
+                topology_hash: "topology-v1".to_owned(),
+                config_hash: compatibility_hash.clone(),
+                migration: MigrationPolicy::Exact,
+                deadline: std::time::Duration::from_secs(1),
+                max_parallel: 1,
+            },
+            vec![Arc::new(CompatibilityCheckpointParticipant)],
+        )
+        .await
+        .unwrap();
+    let schemas = BTreeMap::from([(
+        "compatibility".to_owned(),
+        "compatibility.state.v1".to_owned(),
+    )]);
+
+    let mut provider_change = config.clone();
+    match &mut provider_change.resident_shepherd {
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::One(shepherd) => {
+            shepherd.model = "replacement-model".to_owned();
+        }
+        adl_runtime_kernel::ResidentShepherdSetInitConfig::Many(shepherds) => {
+            shepherds[0].model = "replacement-model".to_owned();
+        }
+    }
+    coordinator
+        .load(
+            1,
+            "topology-v1",
+            &continuity_compatibility_hash(&provider_change),
+            &schemas,
+            &trusted,
+        )
+        .await
+        .expect("provider changes remain checkpoint-compatible");
+
+    let mut presentation_change = config.clone();
+    presentation_change.polis.display_name = "Renamed Polis".to_owned();
+    coordinator
+        .load(
+            1,
+            "topology-v1",
+            &continuity_compatibility_hash(&presentation_change),
+            &schemas,
+            &trusted,
+        )
+        .await
+        .expect("presentation changes remain checkpoint-compatible");
+
+    let mut incompatible = Vec::new();
+    let mut changed_state_root = config.clone();
+    changed_state_root.state_root = config_root.path().join("replacement-state");
+    incompatible.push(changed_state_root);
+    let mut changed_key = config.clone();
+    changed_key.credentials.control_key_id = "replacement-key".to_owned();
+    incompatible.push(changed_key);
+    let mut changed_tls_server_name = config.clone();
+    changed_tls_server_name.api.tls.server_name = "replacement.example.test".to_owned();
+    incompatible.push(changed_tls_server_name);
+    let mut changed_tls = config;
+    changed_tls.api.tls.certificate_chain_path =
+        config_root.path().join("tls/replacement-cert.pem");
+    incompatible.push(changed_tls);
+
+    for candidate in incompatible {
+        assert!(matches!(
+            coordinator
+                .load(
+                    1,
+                    "topology-v1",
+                    &continuity_compatibility_hash(&candidate),
+                    &schemas,
+                    &trusted,
+                )
+                .await,
+            Err(ContinuityError::IdentityMismatch)
+        ));
+    }
+}
+
 #[test]
-fn runtime_init_accepts_s3_archive_identity_and_includes_it_in_continuity() {
+fn runtime_init_accepts_s3_archive_identity_without_binding_checkpoint_restore() {
     let root = config_test_root();
     let toml = valid_runtime_init_toml(root.path()).replace(
         "\n[weather]\n",
@@ -1003,9 +1167,9 @@ runtime_id = "wuji"
     let without_archive =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
-    assert_ne!(
-        config.continuity_identity_projection().unwrap(),
-        without_archive.continuity_identity_projection().unwrap()
+    assert_eq!(
+        config.continuity_compatibility_projection_v1(),
+        without_archive.continuity_compatibility_projection_v1()
     );
 }
 

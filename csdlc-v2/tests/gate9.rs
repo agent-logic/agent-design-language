@@ -72,10 +72,15 @@ fn passing_parity() -> ParityEvidence {
 }
 
 #[test]
-fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutover() {
+fn selector_requires_opt_in_and_rejects_explicit_v3_before_canonical_cutover() {
     let selector = GenerationSelector {
         schema: "csdlc.generation_selector.v1".into(),
         default_generation: Generation::V1,
+        operational_authority: None,
+        authority_issue: None,
+        authority_pull_request: None,
+        review_authority: None,
+        approval_authority: None,
         opted_in_issues: BTreeSet::from([9_001]),
     };
     assert_eq!(
@@ -87,6 +92,7 @@ fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutove
         Generation::V2
     );
     assert!(select_generation(&selector, 9_002, Some(Generation::V2)).is_err());
+    assert!(select_generation(&selector, 9_002, Some(Generation::V3)).is_err());
 
     let cutover_default = GenerationSelector {
         default_generation: Generation::V2,
@@ -100,6 +106,55 @@ fn selector_requires_opt_in_before_cutover_and_supports_v1_override_after_cutove
         select_generation(&cutover_default, 9_002, Some(Generation::V1)).unwrap(),
         Generation::V1
     );
+
+    let v3_cutover_default = GenerationSelector {
+        schema: "csdlc.generation_selector.v2".into(),
+        default_generation: Generation::V3,
+        operational_authority: Some("csdlc-v3".into()),
+        authority_issue: Some(505),
+        authority_pull_request: Some(591),
+        review_authority: Some("typed-v2-exact-head".into()),
+        approval_authority: Some("merged-pr-591-closed-issue-505".into()),
+        ..cutover_default
+    };
+    assert_eq!(
+        select_generation(&v3_cutover_default, 9_002, None).unwrap(),
+        Generation::V3
+    );
+    assert_eq!(
+        select_generation(&v3_cutover_default, 9_002, Some(Generation::V2)).unwrap(),
+        Generation::V2
+    );
+
+    let malformed = [
+        GenerationSelector {
+            schema: "csdlc.generation_selector.v1".into(),
+            ..v3_cutover_default.clone()
+        },
+        GenerationSelector {
+            operational_authority: None,
+            ..v3_cutover_default.clone()
+        },
+        GenerationSelector {
+            authority_issue: Some(504),
+            ..v3_cutover_default.clone()
+        },
+        GenerationSelector {
+            authority_pull_request: Some(590),
+            ..v3_cutover_default.clone()
+        },
+        GenerationSelector {
+            review_authority: Some("stale-review".into()),
+            ..v3_cutover_default.clone()
+        },
+        GenerationSelector {
+            approval_authority: Some("unmerged-pr".into()),
+            ..v3_cutover_default.clone()
+        },
+    ];
+    for selector in malformed {
+        assert!(select_generation(&selector, 9_002, None).is_err());
+    }
 }
 
 #[test]

@@ -24,6 +24,13 @@ operator-reviewed V3-F/#505 cutover changes that contract. The old
 `adl_pr_cycle`, `pr.sh`, prompt-template wrapper, and five-command compatibility
 routes are historical surfaces, not current lifecycle authority.
 
+Issue #505 is the pending V3-F tooling changeover decision. Before the default
+route changes, operators must receive the pre-change notice in
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md`. Until #505 is explicitly
+approved and PR #591 is merged, v2 remains live authority and v3 must be
+treated as construction/cutover evidence only. Merge is the atomic authority
+cutover; terminal reconciliation records the completed transition afterward.
+
 C-SDLC v3 is the planned clean replacement line, but before V3-F it is only
 construction and cutover-readiness evidence. Do not use v3 to bind worktrees,
 mutate issue state, publish pull requests, finish issues, clean worktrees, or

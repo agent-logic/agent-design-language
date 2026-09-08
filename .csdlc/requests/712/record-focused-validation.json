@@ -1,0 +1,17 @@
+{
+  "issue": 712,
+  "expected_generation": 5,
+  "expected_digest": "7e5782d8cf7bff0e14013c0d356f2d41ad5921f23137d499e8990afa3cc962dd",
+  "actor": "codex:/root",
+  "reason": "Record the successful issue-owned implementation validator.",
+  "card": "sor",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh"],
+      "purpose": "Prove focused CSM, Guardian, production Kernel, retained A2A history compatibility, strict lint, and range diff hygiene.",
+      "outcome": "passed",
+      "evidence_ref": "terminal:issue-owned validator exited 0 at implementation head"
+    }
+  }
+}

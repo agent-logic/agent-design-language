@@ -3,6 +3,8 @@
   "template_set": "1.0.3",
   "card_kind": "sor",
   "template_path": "docs/templates/prompts/1.0.3/sor.md",
+  "authority_notice": "V3-F/#505 is the pending tooling changeover decision; until that operator-reviewed cutover is approved, merged, and terminally reconciled, C-SDLC v2 remains live authority.",
+  "legacy_route_notice": "Legacy pr editor routes are historical/retired compatibility orientation, not current lifecycle authority.",
   "parser": "markdown-rs 1.0.0",
   "editable_sections": [
     "Acceptance Criteria",

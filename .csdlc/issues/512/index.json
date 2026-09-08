@@ -2,15 +2,82 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 512,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ac826d463d81931968f0535cb80ef0de2edee725607dbd17e767b0e4cbcb02b5",
-  "phase": "initialized",
-  "generation": 0,
-  "digest": "d82ec0df03be20b2d0cff905a376eabda5b46ca56b7b49567cf9dec517f17e37",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 11,
+  "digest": "3cf9ba7523bebaf5fdb5ebfd6f76c3bc6e09be80a3b5637c73f1645965320087",
+  "branch": "codex/512-observatory-redesign-implementation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation",
+  "review_assignment": {
+    "reviewer": "subagent:review-512-clock-cache-final",
+    "assigned_by": "codex:issue-512-observatory-redesign",
+    "revision": "git-blake3:a57e551a14089a6ed53de05f7ff88041880d175e:b533483bf0b4056d8319f20bb4a30109de3367149c73d535c5899c347f5cc89a",
+    "scope": [
+      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      ".csdlc/evidence/512/exact-browser-operator-proof.md",
+      ".csdlc/evidence/512/exact-browser-operator-screenshot.png",
+      ".csdlc/evidence/512/system-clock-cache-proof.md",
+      "adl/tools/test_html_observatory.sh",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "demos/html-observatory/tests/agent_continuity.test.mjs",
+      "demos/html-observatory/tests/agent_orientation.test.mjs",
+      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      "demos/html-observatory/tests/system_clock_cache.test.mjs"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:review-512-clock-cache-final",
+    "scope": [
+      ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      ".csdlc/evidence/512/exact-browser-operator-proof.md",
+      ".csdlc/evidence/512/exact-browser-operator-screenshot.png",
+      ".csdlc/evidence/512/system-clock-cache-proof.md",
+      "adl/tools/test_html_observatory.sh",
+      "demos/html-observatory/README.md",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/runtime-v3.config.json",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "demos/html-observatory/tests/agent_continuity.test.mjs",
+      "demos/html-observatory/tests/agent_orientation.test.mjs",
+      "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      "demos/html-observatory/tests/system_clock_cache.test.mjs"
+    ],
+    "reviewed_revision": "git-blake3:a57e551a14089a6ed53de05f7ff88041880d175e:b533483bf0b4056d8319f20bb4a30109de3367149c73d535c5899c347f5cc89a",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 512,
+    "pull_request": 719,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/719",
+    "base": "main",
+    "head": "codex/512-observatory-redesign-implementation",
+    "revision": "git-blake3:452cb34e174df4c3510a1981eb739180eeb44f55:cdba7662e0bd659c50d8490a740e40bb4af0c5734ebd597e50b8ab1a8c240e9c",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,37 +91,87 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10b2c43bc1726478417b671f89e892d101d1f4fd9835866532992725c41a23b7",
+      "values_digest": "d2d3a2ee63a5498a0972a276b2b7af399647bcb185f939173a45a396182d368f",
       "rendered_digest": "56fb2cdb69408fb56dbc5289ab14bd43d2a374db9fc9a387eded5664a46407a3",
       "ast_digest": "223c0255ddfbeedc17b77aac5478c551724a2ce2b3e36a3d83c2b632fc4a2d12"
     },
     "stp": {
-      "values_digest": "2f45b5f397ff24f3d0cc0f12f0b4156188fd3b0eb083740b71c52ed05025c637",
+      "values_digest": "5f231689bad3be22e103826ff225d792102367e9e4dc15d04a7e475c0815cb3b",
       "rendered_digest": "1a942747d56f21f50c4908b09ee24f2461344c1cb29e19964406a3e37a224d21",
       "ast_digest": "455ce6b2e04ac8aec03e3d31057657bf0cb4f9a7bf07c3577595a3da1e8a84bd"
     },
     "spp": {
-      "values_digest": "a8922b0adaf5cbd6095ba1328f8c88b74ba3347e9df54dc41901e8a461e66eb9",
+      "values_digest": "ae602d90b5ee1a1ab36a4a18a3bccdb955f96b8fb9add1307a5716ab695b8241",
       "rendered_digest": "875de528b64af8833059536495a4becfdfa14c7c9ac1424dd9d695b3296d6bbd",
       "ast_digest": "ab3fd73e90c76f974c80772a7d89309126d8e2152c233264eb440af6954bc632"
     },
     "vpp": {
-      "values_digest": "456f0b9a7a5347acb71134ae84d90b49cf6312740b777369141d7c71176f5698",
+      "values_digest": "31ba49e3a94a597d6396b3100343cc3f950e11b1442239d4f3481b6ca1c68441",
       "rendered_digest": "ea72476b2d44e72899df3338fc5b9391959b6a43ab741ebd5ad0def9f03ef048",
       "ast_digest": "b11d2c43aa3deb17c644042bf7d1b646c08436a163e5583a7b923677efcf4b01"
     },
     "srp": {
-      "values_digest": "8ca18221ef5155814a93cb2fede5d49f9e2a4f895c9b241125df43baf44d1f15",
-      "rendered_digest": "f3bee1055693f67b17a51fd6e9c2653e817add9f3697293670d398cb0fcbef73",
-      "ast_digest": "18689cd0e6509d7d7699ca13a6bb7194d87a4271921bfb08e2829ff9e18a4072"
+      "values_digest": "b3aa2190e4803a7e2cd8b59744170b3d7dcb42069d4d05f3ada032333bc61646",
+      "rendered_digest": "b454a4a6993e4e8230dbdeaa70d202c36f35fa7326ca355a78787edcc40a064f",
+      "ast_digest": "5ab3010729f4335a847b4b8b5bf72cf0b07acbb37f9e08516f4c5667e39f5321"
     },
     "sor": {
-      "values_digest": "13325ec95f549bed6a6988c01be6e7807bee553db8f5136580c83f5f922acee7",
-      "rendered_digest": "23285a1dba38ee3d166e0dc39ed4483ff6f453ab968d0f6636c79c63db86cd16",
-      "ast_digest": "540e1fb75c74bbeee4967df8a23f69bd68c8c3b673ed283bb9a0ee5a47abc384"
+      "values_digest": "e24fc954a358620e9d52c52d9e74d72311782cc896acb46e2111d38d0c9fd4ca",
+      "rendered_digest": "4b244a72291b0814d006c8734bf863bd6cabcb693a19b5dd31b620fe9b9a31f8",
+      "ast_digest": "cb3d21d395746b6ba97a3cda73bf57392423970ebb02f02f3341a59a3514c913"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-512-final-exact-head-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after committing the typed review record and publication request so a fresh exact-head review can cover the current publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "observed exact PR after current review"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -62,6 +179,125 @@
       "actor": "codex:worker-6",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-512-final-exact-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after committing the typed review record and publication request so a fresh exact-head review can cover the current publication head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:issue-512-publication-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after retaining the operator-provided exact-product browser proof and updating the handoff to current validation truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:issue-512-operator-proof-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Recover review truth after fixing the live System Time refresh, invalidating stale browser assets, and retaining the six-key operator interaction proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "Remediate the exact-head proof finding with an executable advancing-clock test and a fresh exact-revision review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:issue-512-observatory-redesign",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

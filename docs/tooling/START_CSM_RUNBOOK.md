@@ -12,8 +12,10 @@ the sole Runtime service-control authority:
 
 It owns init validation, launchd or systemd service control, Guardian process
 ownership, listener convergence, readiness identity, and transactional reload.
-The stable `current/bin/csm` path follows the installed Runtime generation; a
-Cargo build-output binary or a binary from another worktree does not.
+There is one canonical Runtime executable named `adl-runtime-kernel`; Guardian
+starts and supervises that executable from the path in the canonical init. A
+Cargo build-output binary or a binary from another worktree does not control the
+live service.
 
 The root `CSMctl` shell does **not** control Runtime. It remains only for the
 separate local Observatory static server. The retired shell-controller paths
@@ -97,7 +99,7 @@ canonical readiness.
 | Not loaded, listener not ready | Service is stopped or not installed | After verifying paths and config, use canonical `start`. |
 | Not loaded, listener responds | Unowned or conflicting listener | Stop. Identify the listener without taking it over or killing it. |
 | Incomplete reload reported | Transaction artifacts require reconciliation | Run canonical `start`; it owns commit-or-rollback recovery. |
-| Config, generation, plist, or unit validation fails | Control inputs are invalid or inconsistent | Correct the named input; do not bypass preflight. |
+| Config, binary, plist, or unit validation fails | Control inputs are invalid or inconsistent | Correct the named input; do not bypass preflight. |
 
 ## Normal operations
 
@@ -107,7 +109,7 @@ canonical readiness.
 "$CSM" runtime-v3 start --init "$RUNTIME_INIT" --json
 ```
 
-`start` validates the full init and installed generation before mutation. It
+`start` validates the canonical init and Runtime executable before mutation. It
 reconciles an interrupted reload, then either reports an already owned and ready
 service or cleanly starts the configured service and waits for owned readiness.
 It is the normal recovery command after an interrupted reload.
@@ -171,7 +173,7 @@ changed to the candidate's identity.
 
 4. Compare the service-manager process identity, Guardian PID, Runtime PID,
    active-init hash, and listener state. A PID by itself is not authority.
-5. Correct a concrete path, config, generation, plist, or unit defect before
+5. Correct a concrete path, config, binary, plist, or unit defect before
    retrying. Do not repeatedly restart an unexplained failure.
 6. Use canonical `start` to reconcile an interrupted transaction or start a
    verified stopped service.

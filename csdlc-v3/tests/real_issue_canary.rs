@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::{fs, process::Command};
 
@@ -126,7 +127,10 @@ fn real_issue_request(
             .to_owned(),
         registry_version: registry.version.clone(),
         expected_lifecycle_digest: index["digest"].as_str().map(str::to_owned),
+        schedule_readiness: None,
+        shepherd_routing: None,
         commands: required_local_commands().to_vec(),
+        card_updates: BTreeMap::new(),
     }
 }
 
@@ -234,7 +238,7 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
 }
 
 #[test]
-fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_replaced() {
+fn full_replacement_denominator_blocks_cutover_until_operator_approval() {
     let root = repo_root();
     let denominator_path = root.join("docs/csdlc-v3/full-replacement-denominator.json");
     let denominator: serde_json::Value =
@@ -245,7 +249,10 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
         "csdlc.v3.full_replacement_denominator.v1"
     );
     assert_eq!(denominator["authority_issue"], 505);
-    assert_eq!(denominator["status"], "incomplete");
+    assert_eq!(
+        denominator["status"],
+        "pre_cutover_implemented_pending_authority_evidence"
+    );
     assert_eq!(denominator["cutover_ready"], false);
 
     let manifest_entrypoints = denominator["required_v2_entrypoints"]
@@ -271,6 +278,8 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
     assert_eq!(
         current_v3_commands,
         [
+            "foundation",
+            "local",
             "bind",
             "clean",
             "cutover",
@@ -278,21 +287,21 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
             "edit",
             "eligibility",
             "finish",
-            "foundation",
             "github",
             "github-issue",
             "github-pr",
             "install",
             "issue",
-            "local",
             "pr-state",
             "proof",
             "publish",
             "review",
+            "remote",
             "schedule",
             "shadow",
             "shepherd",
             "soak",
+            "sprint",
             "validate"
         ]
     );
@@ -300,7 +309,19 @@ fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_repl
         .as_array()
         .expect("entrypoint denominator")
         .iter()
-        .any(|entry| entry["replacement_status"] == "fail_closed_construction"));
+        .all(
+            |entry| entry["replacement_status"] == "implemented_pre_cutover_bridge"
+                || entry["replacement_status"] == "implemented"
+                || entry["replacement_status"] == "implemented_construction"
+        ));
+    assert!(denominator["non_claims"]
+        .as_array()
+        .expect("non-claims")
+        .iter()
+        .any(|claim| claim
+            .as_str()
+            .expect("non-claim")
+            .contains("All required v2 entrypoints have executable v3 command routes")));
     assert!(denominator["non_claims"]
         .as_array()
         .expect("non-claims")
@@ -379,13 +400,16 @@ fn lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4
 }
 
 #[test]
-fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_authority() {
+fn v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_without_v3_authority() {
     let root = repo_root();
     let index = read_issue_index(&root, 629);
     let phase = index["phase"].as_str().expect("real #629 phase");
     assert!(
-        matches!(phase, "implemented" | "reviewed" | "published"),
-        "real #629 must be in a post-recovery pre-terminal phase, got {phase}"
+        matches!(
+            phase,
+            "implemented" | "reviewed" | "published" | "closed_out"
+        ),
+        "real #629 must be in a post-recovery publication/terminal phase, got {phase}"
     );
     assert!(index["transitions"]
         .as_array()
@@ -396,12 +420,19 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
             && transition["reason"]
                 .as_str()
                 .is_some_and(|reason| reason.contains("Recover #629"))));
-    if phase == "published" {
+    if matches!(phase, "published" | "closed_out") {
         assert_eq!(index["publication"]["pull_request"], 641);
         assert_eq!(index["publication"]["linkage_mode"], "closing");
         assert_eq!(index["publication"]["base"], "main");
     } else {
         assert!(index["publication"].is_null());
+    }
+    if phase == "closed_out" {
+        assert_eq!(index["terminal"]["pull_request"], 641);
+        assert_eq!(index["terminal"]["disposition"], "merged");
+        assert_eq!(index["terminal"]["observed_state"], "merged");
+    } else {
+        assert!(index["terminal"].is_null());
     }
 
     let revision = index["branch"]
@@ -420,6 +451,15 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         .expect("git head is utf8")
         .trim()
         .to_owned();
+    let readback_head = if phase == "closed_out" {
+        index["terminal"]["observed_sha"]
+            .as_str()
+            .expect("real #629 terminal observed sha")
+            .to_owned()
+    } else {
+        head.clone()
+    };
+    let readback_merged = phase == "closed_out";
 
     let request = RemoteRouteRequest {
         repository: index["repository"]
@@ -431,8 +471,8 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         actor: Some("worker-6".into()),
         implementer: Some("worker-6".into()),
         reviewer: Some("reviewer-629".into()),
-        review_revision: Some(head.clone()),
-        expected_head_sha: Some(head.clone()),
+        review_revision: Some(readback_head.clone()),
+        expected_head_sha: Some(readback_head.clone()),
         head_sha: Some("caller-forged-head".into()),
         mode: Some(RemotePublicationMode::Closing),
         title: Some("[caller-forged-title]".into()),
@@ -455,8 +495,8 @@ fn v3_h3_real_issue_canary_requires_fresh_publication_after_recovery_without_v3_
         stdout: serde_json::json!({
             "number": 641,
             "title": "[v0.92.1][V3-H.3] GitHub publication route",
-            "head": {"sha": head},
-            "merged": false,
+            "head": {"sha": readback_head},
+            "merged": readback_merged,
             "body": "Closes #629\n\nPart of #625"
         })
         .to_string(),

@@ -1,0 +1,27 @@
+{
+  "schema": "csdlc.v3.accepted_review.v1",
+  "issue": 505,
+  "reviewed_revision": "0ccbc4ad70a92092cad36b38d4efcd750746ee83",
+  "trial_scope": "retained_precommit_bridge_fixture_not_live_authority",
+  "scope_paths": [
+    "csdlc-v3/src/commands/local",
+    "csdlc-v3/src/commands/remote",
+    "csdlc-v3/src/publication",
+    "csdlc-v3/tests/local_commands.rs",
+    ".csdlc/evidence/sprints-5-6-cutover-fixes/remediation-status.md"
+  ],
+  "implementer": "codex-505-remediation",
+  "reviewer": "retained-accepted-review-evidence",
+  "findings": [
+    {
+      "id": "sprints-5-6-cutover-fail-remediation",
+      "disposition": "resolved"
+    }
+  ],
+  "target": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 505,
+    "mode": "part_of"
+  },
+  "typed_review_evidence_digest": "csdlc-v3-accepted-review-current-head-505"
+}
