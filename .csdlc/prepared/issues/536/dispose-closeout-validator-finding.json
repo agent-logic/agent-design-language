@@ -1,0 +1,14 @@
+{
+  "issue": 536,
+  "card": "srp",
+  "expected_generation": 9,
+  "expected_digest": "a78fd7743b4fd25c23ead219509c9d400eaa1aef29a704d8b2f8abc7f84c4fe4",
+  "claim_id": "csdlc-issue-536-20260908t063225z",
+  "actor": "codex:/root",
+  "reason": "The validator now parses exactly eight rows and binds every child to its exact no-PR or PR/review/head/check/merge mapping; focused validation passes.",
+  "operation": {
+    "operation": "dispose_finding",
+    "finding_id": "P1-closeout-validator-loose-substrings",
+    "disposition": "fixed"
+  }
+}

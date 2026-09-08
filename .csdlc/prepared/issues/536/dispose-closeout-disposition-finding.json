@@ -1,0 +1,10 @@
+{
+  "issue": 536,
+  "card": "srp",
+  "expected_generation": 12,
+  "expected_digest": "02476e59d042f15801fbe4159c0aad55f5761569d94b1dd6ecb3836edf68be52",
+  "claim_id": "csdlc-issue-536-20260908t063225z",
+  "actor": "codex:/root",
+  "reason": "Every merged child row now requires its exact closed and independently reviewed disposition text in addition to exact PR, revision, checks, and merge mappings.",
+  "operation": {"operation": "dispose_finding", "finding_id": "P1-closeout-validator-disposition-text", "disposition": "fixed"}
+}
