@@ -45,7 +45,7 @@ Implemented one GitHub-like C-SDLC v3 issue-create command that constructs the e
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

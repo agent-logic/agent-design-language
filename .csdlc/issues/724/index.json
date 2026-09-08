@@ -3,42 +3,13 @@
   "issue": 724,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c1c9b38177c83ecbfd2ffee308cd8dd8ff5c49387f7452c89fa2ede6fd538bbc",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "12615134ff9ce6447ae25358b697cad8147d6c29bc4f24cda0feb7df2f1aceaa",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "c6c605c3dc73854f25d586c382b4071b89f2e008ee83b3df6ba64ce9091cfed6",
   "branch": "codex/724-simple-gh-style-issue-create",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-724-simple-gh-style-issue-create",
-  "review_assignment": {
-    "reviewer": "codex:/root/remediate_v3_725",
-    "assigned_by": "codex:/root/review_sprint10_523_526_prep",
-    "revision": "git-blake3:f631cb9ca4488470349228bf70a3634fe555d43e:a86c275fbf14333c4f7287a2cb7da6506d17a4c7d8aa636fe3e35897d8d76ce5",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/remote",
-      "csdlc-v3/tests/operational_cli_commands.rs",
-      "docs/csdlc-v3/CONTRACT.md",
-      ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
-      ".csdlc/evidence/724"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/remediate_v3_725",
-    "scope": [
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/src/commands/remote",
-      "csdlc-v3/tests/operational_cli_commands.rs",
-      "docs/csdlc-v3/CONTRACT.md",
-      ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
-      ".csdlc/evidence/724"
-    ],
-    "reviewed_revision": "git-blake3:f631cb9ca4488470349228bf70a3634fe555d43e:a86c275fbf14333c4f7287a2cb7da6506d17a4c7d8aa636fe3e35897d8d76ce5",
-    "findings": [],
-    "residual_risks": [
-      "The exact-head review was read-only and relied on the retained focused validation; it did not perform a live GitHub mutation."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ad0d54b6ebf446576dc8078b81055f1717f38ae2b3188dbf8a19b56dca15a31d",
+      "values_digest": "a7c76e4b1c9899107548aff68a9303dc33884fba20ea17349cb3bb18e0a62d5f",
       "rendered_digest": "34ec01f810c9e77a98bebc945623c08d8821d0f67df1809f907c0ecc26c997c7",
       "ast_digest": "61a35ea7a1c13c45aeb7b30eb119805e8f894bdd20171d6fe192940272b2ae9a"
     },
     "stp": {
-      "values_digest": "85b31fb3e6cb134193448c195d86e95acf0eacc941f71e5a5477cb6da6d230e8",
+      "values_digest": "be8380e868cd4d2964ffa5c6fd4fae14158197612d1e69ef656dde07374ace0a",
       "rendered_digest": "1180df3dd3b4c230b91efea3bd1dca95c04bd4203bce72c5c86cced76bc47146",
       "ast_digest": "aeddd34f4fa4d92cdcd8ceedccce96e76eab27700cbddc3cb78460e33cc37ed4"
     },
     "spp": {
-      "values_digest": "af11509b10b47bedf462686c3c96c79fb07ddba4d0b615e497f313d0c7c52c9a",
+      "values_digest": "38a86a71d2b8f4487a6cad8ac42d01209e97b2e7179cbc6da95bbf40f1a94ea5",
       "rendered_digest": "7f965babf18d8038a78ec35014e743b92e46411ea16c7e126d6314874771ee7d",
       "ast_digest": "33b655fd5e7e0c879c851be5f1fc7e57f362b109137251b0eb9fbea572484623"
     },
     "vpp": {
-      "values_digest": "2938c66c7f863565d606dfc8c95ee821e6777754fda54ebf385ea82d636ee0e0",
+      "values_digest": "421c7414164626bdce73a773ccf214979e0ae0e726f152b3c39050813f67e00b",
       "rendered_digest": "03326d5d3dad3646e56b78efab6f82a8384adc754201d11440c58d1f917c9d04",
       "ast_digest": "a2a328fe8838e0090b2f25746e16d548e7cdd4d2e4f616aa967eea750de696c8"
     },
     "srp": {
-      "values_digest": "75b3464f4f64ec493dd5b3931d6021ba14e66dae7984e11b6043f1ee94f91f2c",
-      "rendered_digest": "1aea3eb824df0281fa951bd07ab8eb72c7c41eeffe044b08e6d4dceb1bbe0426",
-      "ast_digest": "0c03d660285e1587d037352851621657242c8ea00b69a570ed389dcd1d5f25b9"
+      "values_digest": "79c072a8960d0aacbbf031403569ab178331916719e680367d145d096d8b7396",
+      "rendered_digest": "39a9cd19cfa75fa040d1f03c528f09e5d8e74ec71321574287aca4a4aa2871e1",
+      "ast_digest": "163a822a4e9f41f7476fac7b61e0d7cabaf983cd598342eedf0754731eeb9f8b"
     },
     "sor": {
-      "values_digest": "9782118a69247f3b122adb982e4337b7cd7b016c6abe746d5a5703e9cd76403a",
-      "rendered_digest": "f064bf3a6da1cb44a04cc77c5b3be34a968ce2a645d5ebf74714f817a405c8fe",
-      "ast_digest": "75706fc9ee95a10da59556ac37b20e00ea9b83ade90c77afc553c54d43cfef0d"
+      "values_digest": "a6680c6e0c0e23a1174e1991ab5a32eda3074ea72354c319f732956893edb71e",
+      "rendered_digest": "a822395424847f32a5fc60acb21d5973695d92988be95b12d50e2c88909a9ed5",
+      "ast_digest": "059801f9f2f3eecb7ce9efe0156e1a1994dcde3839f30bc3b01b78eff5d7b53e"
     }
   },
   "transitions": [
@@ -111,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:/root/review_sprint10_523_526_prep",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Recover reviewed state after committing the typed assignment and review record advanced HEAD; refresh independent review at the exact metadata-only head before publication."
     }
   ],
   "audit": [
@@ -183,6 +161,13 @@
       "actor": "codex:/root/review_sprint10_523_526_prep",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/review_sprint10_523_526_prep",
+      "reason": "Recover reviewed state after committing the typed assignment and review record advanced HEAD; refresh independent review at the exact metadata-only head before publication.",
+      "operation": "recover_review"
     }
   ]
 }

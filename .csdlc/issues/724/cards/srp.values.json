@@ -7,15 +7,15 @@
     "title": "[backlog][csdlc-v3] Add a simple gh-style issue creation command",
     "slug": "simple-gh-style-issue-create",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v3/src/main.rs\ncsdlc-v3/src/commands/remote\ncsdlc-v3/tests/operational_cli_commands.rs\ndocs/csdlc-v3/CONTRACT.md\n.csdlc/prepared/issues/724/validate-simple-issue-create.sh\n.csdlc/evidence/724",
-      "review_revision": "git-blake3:f631cb9ca4488470349228bf70a3634fe555d43e:a86c275fbf14333c4f7287a2cb7da6506d17a4c7d8aa636fe3e35897d8d76ce5",
-      "reviewer": "codex:/root/remediate_v3_725",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the convenience form use the exact shared dispatch rather than a weaker parallel path?",
         "Can any invalid or ambiguous input reach remote mutation?",
@@ -24,10 +24,8 @@
         "Are docs clear without overstating cutover status?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The exact-head review was read-only and relied on the retained focused validation; it did not perform a live GitHub mutation."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
