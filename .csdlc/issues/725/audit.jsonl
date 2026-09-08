@@ -17,3 +17,4 @@
 {"sequence":17,"generation":12,"actor":"codex:/root/remediate_v3_725","reason":"repair exact-head review findings: authenticate native authority provenance, align post-cutover contract surfaces, and add checked-in activation proof","operation":"recover_review"}
 {"sequence":18,"generation":12,"actor":"codex:/root/remediate_v3_725","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":19,"generation":13,"actor":"codex:/root/remediate_v3_725","reason":"repair review P1 by binding reviewed head and merge commit to a canonical authenticated PR 591 observation and rejecting a different real commit","operation":"recover_review"}
+{"sequence":20,"generation":13,"actor":"codex:/root/remediate_v3_725","reason":"assign bounded exact-revision review","operation":"assign_review"}

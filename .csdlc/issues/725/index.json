@@ -5,10 +5,19 @@
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
   "phase": "implemented",
   "generation": 13,
-  "digest": "8d09b49672f7a9b0a12865647d30e714d204f30637df52a983dd56f48593069b",
+  "digest": "1019126af97b2bf9f0cf13797dd1baf35a61d28eb7ff963d032e6faff9ef17e4",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:review-sprint10-523-526-prep-r6",
+    "assigned_by": "codex:/root/remediate_v3_725",
+    "revision": "git-blake3:1831882ff1c6c19674427004993e941d13530975:b65ce882c95d3f1002ae503009b69e5eae9ace5051872dfa455d767ea767521b",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v3",
+      "docs/csdlc-v3/CONTRACT.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "f88709c830188927e04f19cc88397cf3fb6252a1172148998291a69153af5574",
-      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
-      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
+      "values_digest": "ed3de1a03097c375bac850ce6d8c83308d5ff017e684c075e0f6cc4da80627c9",
+      "rendered_digest": "36ea881a4cc92cc6f5475ab603ba23f96509fc76e33e104ac442a4713f62d1f7",
+      "ast_digest": "baac575d1385a64a6d146850411d3a97995645271682a9f51957801900fb81de"
     },
     "sor": {
       "values_digest": "b4418773837aff2fe1b440a5da421c73ff829a1e1fc17a361e4170f7f7d55f98",
@@ -252,6 +261,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "repair review P1 by binding reviewed head and merge commit to a canonical authenticated PR 591 observation and rejecting a different real commit",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
