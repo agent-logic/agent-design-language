@@ -3,44 +3,14 @@
   "issue": 725,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "964b17d63f9f7faab837c79b7ac8cd71e5bb9c106446e5514c6d8c707a1b403a",
-  "phase": "published",
-  "generation": 8,
-  "digest": "9ced79f9379e5c4e5abcc6aee42f77cf5da376ef46d05ae8ce85325f71c57849",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "0f2febf87b507e91863f8acb77c2663830d71067978d63857c4829ced718c42a",
   "branch": "codex/725-csdlc-v3-native-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-725-csdlc-v3-native-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:execute-aws-727-728-r3",
-    "assigned_by": "codex:/root/remediate_v3_725",
-    "revision": "git-blake3:df22e09b28c6141c57173794f58d595117bcf79c:f7612afd8489e4dfd771a93d1754c0d4e7a76f30eaac97b394ca4b0670115f9b",
-    "scope": [
-      "csdlc-v3"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:execute-aws-727-728-r3",
-    "scope": [
-      "csdlc-v3"
-    ],
-    "reviewed_revision": "git-blake3:df22e09b28c6141c57173794f58d595117bcf79c:f7612afd8489e4dfd771a93d1754c0d4e7a76f30eaac97b394ca4b0670115f9b",
-    "findings": [],
-    "residual_risks": [
-      "Retained pre-cutover cutover and rollback fixtures remain historical compatibility surfaces; native operational and no-v2 lanes passed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 725,
-    "pull_request": 732,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/732",
-    "base": "main",
-    "head": "codex/725-csdlc-v3-native-authority",
-    "revision": "git-blake3:fdda830bc28b6f00906ca64d79389ccf099a4848:b5fd8b3ca46c8c9e603d0285173f23f6bcfbb25544417af63e2d6bb28a7cee67",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -54,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73979fc2f82d0e35dde067c8115e573bc6483151ef1d4610737d44e46f747b43",
+      "values_digest": "8a6a5833c4b805662a4f12cfaecd309be6a91ab48da67b2260fca022635bf250",
       "rendered_digest": "8608df32ef5a653ba349435c0e3e66e3d4c89bcf17d41e2ab1e44d3fe3c3172b",
       "ast_digest": "95bc1284abcac534429361373971f37fe46797ceb6886319d0f249aa1cd91fd0"
     },
     "stp": {
-      "values_digest": "fb7da3b5c5d406d3b643e16e2ce7fb71956772ef4d0f6525761738c5d163ee25",
+      "values_digest": "b3db7526d0b20a6983db78c43094d2f930dffa025453725c0d65be14c87f4355",
       "rendered_digest": "2b24852d3ae78945f13b249d6318d0a743a1f648f996d512b13faaa6370a13d6",
       "ast_digest": "3b1a1d0b867c531543197febe7747c2152aa2b088b9faa639e6a5f1885d5076a"
     },
     "spp": {
-      "values_digest": "8e3d603509ab6affdf6a914fd0132c01767f397f5c2c9ffa746ae0eec56e1a87",
+      "values_digest": "f30638841a30e866acc18fe0b9f4ffd3b660f0424bd742b46ac95b40d147e05b",
       "rendered_digest": "eb4821964817dea6a20d903051274c6476f0140ef003c55fd7e28a0b38236411",
       "ast_digest": "c05384d6134b4e4e71a3782c86e13559445e865af129c1718eeaa534ba63e41d"
     },
     "vpp": {
-      "values_digest": "bc39115db1fbdf3dd301128b162c3fdc813c55c55149914b4f19e0798aeecf75",
+      "values_digest": "005bd46a6d4eea91b7087db48de2adf6e60bb1b2b625192afb3ca24da2c83a57",
       "rendered_digest": "5a3fcf3ba32e18cbf5eca6f6031b74431669a10e95fadfd057d5ddac876de108",
       "ast_digest": "4f838203f09325b57b569a36a8a44b0986576645a4d26bee12098cb76039d819"
     },
     "srp": {
-      "values_digest": "32355c2d8320f8d6f17380d1d0857515be2fcfdd7c133162db6a67ed7da07d4e",
-      "rendered_digest": "dd49b324b39c3c790028aae89d7329ddeef1e26a81dd08d1f4a399e7fa9dd075",
-      "ast_digest": "33e35c29cc1869ed593ada34c0d99ad8645aa503545847eb4a5a645e459f16e7"
+      "values_digest": "30dbb0c7baf4a86b602a53394fb650277167d5067ac52d19730a2cdaaeee48c2",
+      "rendered_digest": "681bed70928d37d7e8cfadd8ea651a886cc4e17dbad75243a442d48b6a873b5c",
+      "ast_digest": "1ac10b502fbdb192bb19bbe7ec918f16c1fcef7eb46f92910b9b388c42ae9e5a"
     },
     "sor": {
-      "values_digest": "faf320e1e47bec0407c4ba537417361373c709c64d244737272ba2abb0f705fc",
-      "rendered_digest": "2f2196f130bb0f7246737de259689bc7b7eda42671fb1837d4d709cd05dbca61",
-      "ast_digest": "aa9881a54fd24242342597ceb8790f0573c2eb4ea82fb384e8b222100413b8b0"
+      "values_digest": "059972585ad3f4f7d3cfc6e158d54a6414fde908774751bb8a6c90ceac924b1a",
+      "rendered_digest": "95cb72a5b7e70810b341e2232bbb45c0c7e4183e5f86da0d155aee118b7dd601",
+      "ast_digest": "4aedc2d35128fda3fbef334319fabe9d79355fb76d109d21a6387cc1a04a97ab"
     }
   },
   "transitions": [
@@ -119,6 +89,13 @@
       "to": "published",
       "actor": "codex:/root/remediate_v3_725",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state."
     }
   ],
   "audit": [
@@ -205,6 +182,13 @@
       "actor": "codex:/root/remediate_v3_725",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/remediate_v3_725",
+      "reason": "Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state.",
+      "operation": "recover_review"
     }
   ]
 }

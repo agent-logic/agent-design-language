@@ -10,3 +10,4 @@
 {"sequence":10,"generation":6,"actor":"codex:/root/remediate_v3_725","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":7,"actor":"codex:/root/remediate_v3_725","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":12,"generation":8,"actor":"codex:/root/remediate_v3_725","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":13,"generation":9,"actor":"codex:/root/remediate_v3_725","reason":"Recover #725 after PR #732 standalone CI exposed retained terminal cutover fixtures that still asserted the retired v2 selector shape and omitted native review state.","operation":"recover_review"}
