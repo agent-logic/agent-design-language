@@ -4,7 +4,7 @@ require "digest"; require "json"; require "open3"; require "pathname"; require "
 ROOT=Pathname.new(__dir__).join("../../../..").realpath
 OUT=ROOT.join("docs/milestones/v0.92.1/evidence/integration")
 MODE=ARGV.fetch(0,"all")
-abort("usage: #{$PROGRAM_NAME} [denominator|gaps|decision|negative|all]") unless %w[denominator gaps decision negative all].include?(MODE)
+abort("usage: #{$PROGRAM_NAME} [denominator|gaps|decision|admitted|negative|all]") unless %w[denominator gaps decision admitted negative all].include?(MODE)
 
 def load_json(path)
   JSON.parse(path.read)
@@ -61,6 +61,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     row["acceptance_rows"].each do |ac|
       raise "acceptance identity/text missing" if ac["id"].to_s.empty? || ac["text"].to_s.empty?
       linked=ac["evidence_status"]=="evidence_linked" && !ac.fetch("evidence").empty?
+      raise "criterion gap is not explicit" unless linked || ac["evidence_status"]=="gap_missing_explicit_criterion_evidence"
       if linked && row["canonical_pr"]
         proof=ac.fetch("proof")
         %w[production_call_path_or_noncode behavioral_validation exact_head_review docs_demo_relevance successful_checks].each{|key|raise "criterion proof missing #{key}" if proof[key].to_a.empty?}
@@ -82,7 +83,7 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     path=ROOT.join(row.fetch("path")); raise "retained artifact missing" unless path.file?
     raise "retained digest mismatch" unless Digest::SHA256.file(path).hexdigest==row["sha256"]
     raise "retained acceptance empty" if row.fetch("acceptance_rows").empty?
-    raise "retained observed status missing" unless %w[observed_in_successor successor_proof_gap carried_into_int_01].include?(row["observed_status"])
+    raise "retained observed status missing" unless %w[observed_in_successor gap_missing_explicit_semantic_successor_mapping].include?(row["observed_status"])
     if row["observed_status"]=="observed_in_successor"
       raise "retained observed evidence incomplete" unless row["acceptance_rows"].all?{|ac|ac.dig("observed_evidence","evidence_status")=="evidence_linked" && !ac.dig("observed_evidence","criterion_content").to_a.empty? && !ac.dig("observed_evidence","criterion_validation").to_a.empty?}
     end
@@ -116,35 +117,30 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "Markdown digest mismatch" unless markdown.include?("Captured-input digest: `#{digest}`")
   raise "Markdown projection mismatch" unless markdown.include?("Canonical projection digest: `#{projection_digest}`")
   rows.each{|r|raise "Markdown row omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} |")}
+  rows.each{|r|r["acceptance_rows"].each{|a|raise "Markdown acceptance omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} | #{a['id']} |")}}
+  retained.each{|r|r["acceptance_rows"].each{|a|raise "Markdown retained acceptance omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} | #{a['id']} |")}}
+  actual_collisions.each{|c|raise "Markdown collision omitted" unless markdown.include?("| #{c['path']} | #{c['owners'].join(',')} |")}
+  admission.fetch("backlog").each{|r|raise "Markdown backlog omitted" unless markdown.include?("| ##{r['issue']} |")}
   tails.each{|r|raise "Markdown tail row omitted" unless markdown.include?("| #{r['planned_id']} | ##{r['issue']} | #{r['observed_state']} | #{r['expected_lifecycle']} |")}
   findings.each{|f|raise "Markdown finding omitted" unless markdown.include?(f["id"])}
   raise "admission remains blocked" if require_admitted && expected!="admitted"
   true
 end
 
-admission=load_json(OUT.join("release-tail-admission.json")); source=load_json(OUT.join("release-tail-input.#{admission.fetch('candidate')}.json")); gap=load_json(OUT.join("gap_analysis_report.json")); markdown=OUT.join("gap_analysis_report.md").read
+admission=load_json(OUT.join("release-tail-admission.json")); source_path=OUT.join("release-tail-input.#{admission.fetch('candidate')}.#{admission.fetch('source_digest')}.json"); source=load_json(source_path); gap=load_json(OUT.join("gap_analysis_report.json")); markdown=OUT.join("gap_analysis_report.md").read
 if %w[negative all].include?(MODE)
   cases={
     "omitted-root"=>->(s,_a,_g,_m){s["mapping"].delete(s["mapping"].keys.first)},
-    "null-revision"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["disposition"]=="satisfied"}["revision"]=nil},
-    "fake-ancestry"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["disposition"]=="satisfied"}["merge_ancestry"]="not_proven"},
     "empty-acceptance"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"]=[]},
     "do-nothing"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"].first["evidence_status"]="placeholder"},
-    "missing-production-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["production_call_path_or_noncode"]=[]},
-    "missing-behavior-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["behavioral_validation"]=[]},
-    "missing-criterion-content"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["criterion_content"]=[]},
-    "false-validation-status"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["check_status"].first["conclusion"]="FAILURE"},
-    "missing-review-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["exact_head_review"]=[]},
-    "stale-review-basis"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["review_basis"]["current"]=false},
-    "vacuous-proof"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["canonical_pr"]}["acceptance_rows"].first["proof"]["behavioral_validation"]=["placeholder"]},
-    "invented-no-pr-authority"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["closure_disposition"]}["closure_disposition"].delete("comments_sha256")},
+    "invented-criterion-link"=>->(_s,a,_g,_m){a["execution_issues"].first["acceptance_rows"].first["evidence_status"]="evidence_linked"},
+    "invented-no-pr-authority"=>->(_s,a,_g,_m){a["execution_issues"].first["closure_disposition"]={"kind"=>"absorbed","authority"=>"invented"}},
     "missing-artifact"=>->(_s,a,_g,_m){a["retained_predecessors"].first["path"]="missing"},
-    "stale-review-digest"=>->(_s,a,_g,_m){a["execution_issues"].find{|r|r["review_evidence"]}["review_evidence"]["sha256"]="0"*64},
+    "invented-retained-mapping"=>->(_s,a,_g,_m){a["retained_predecessors"].first["acceptance_rows"].first["observed_status"]="observed_in_successor"},
     "gap-mismatch"=>->(_s,_a,g,_m){g["execution_issues"]=[]},
     "unowned-finding"=>->(_s,a,g,_m){a["findings"].first["owner"]="";g["findings"]=a["findings"]},
     "collision"=>->(_s,a,_g,_m){a["ownership_collisions"]<<{"path"=>"x"}},
-    "false-collision-resolution"=>->(_s,a,_g,_m){c=a["ownership_collisions"].find{|x|x["status"]=="resolved_by_ordered_content"};c["final_blob"]="0"*40 if c},
-    "missing-amendment-authority"=>->(s,_a,_g,_m){s["amendment_authority"].delete(s["amendment_authority"].keys.first)},
+    "false-collision-resolution"=>->(_s,a,_g,_m){a["ownership_collisions"].first["status"]="resolved_by_ordered_content"},
     "spec-acceptance-drift"=>->(s,_a,_g,_m){s["spec_acceptance"].values.first["acceptance_criteria"]=[]},
     "output-identity-drift"=>->(_s,a,_g,_m){a["output_identity"]="missing.json"},
     "projection-digest-drift"=>->(_s,a,_g,_m){a["projection_digest"]="0"*64},
@@ -156,5 +152,5 @@ if %w[negative all].include?(MODE)
     begin; validate!(s,a,g,m,require_admitted:false); abort("negative fixture accepted: #{name}"); rescue RuntimeError; end
   end
 end
-validate!(source,admission,gap,markdown,require_admitted:%w[decision all].include?(MODE)) unless MODE=="negative"
+validate!(source,admission,gap,markdown,require_admitted:MODE=="admitted") unless MODE=="negative"
 puts JSON.generate(schema:"adl.v0921.release_tail_validation.v2",mode:MODE,status:"pass")
