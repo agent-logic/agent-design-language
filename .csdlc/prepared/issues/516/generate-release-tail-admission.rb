@@ -144,8 +144,9 @@ gap = {
 }
 
 OUT.mkpath
-OUT.join("release-tail-admission.json").write(JSON.pretty_generate(admission) + "\n")
-OUT.join("gap_analysis_report.json").write(JSON.pretty_generate(gap) + "\n")
+# Keep machine evidence compact; the Markdown report is the human review surface.
+OUT.join("release-tail-admission.json").write(JSON.generate(admission) + "\n")
+OUT.join("gap_analysis_report.json").write(JSON.generate(gap) + "\n")
 
 finding_lines = if findings.empty?
                   ["No unresolved findings."]
