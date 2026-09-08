@@ -5,10 +5,22 @@
   "initialization_digest": "3e9440833e7b511de89d52a6a10d02b5fb765979e00e1fb0fda7d80c224638bc",
   "phase": "implemented",
   "generation": 27,
-  "digest": "ea3e21aaee1ba493a0b62587328c60c54bc14c6dc8741ad90783588fef8bcb45",
+  "digest": "1f94e255a9bf461571b82d61772f6f9270425849721f9c44049e3d77d17aa8dd",
   "branch": "codex/730-gcp-b1-impersonation-remote-state",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-730-gcp-b1-impersonation-remote-state",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-subagent:/root/review_730_prelive",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d855b73438a8bac361c9716a17b41dd64a3c1370:d1e5ff92cf857f978c09e746748e774643b03e80b091b1295ad8c22494f8ba96",
+    "scope": [
+      ".csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh",
+      ".csdlc/prepared/issues/730/run-gcp-b1-proof.sh",
+      ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+      "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "infra/gcp/bootstrap",
+      ".csdlc/evidence/730"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "85cc4aa5e665cbf54a5123efc8d4444ea7b9965ee8b53cb241545539a6e6837c"
     },
     "srp": {
-      "values_digest": "78916ecc7cc3963d30bb1c8a7067ea4cca44ae6c829cadf86d54a10f052d4622",
-      "rendered_digest": "d8dda4106c52307379ef238a523f79d7c51f5ffa60dc699437349565a426f0e9",
-      "ast_digest": "9bbebcd2cc61abbe00f11afcc2eeceb1848bc96d1458ff7826fff6a9d38782cc"
+      "values_digest": "a09b2d8e589c9459c979ec56c17f8a27776777fd2b3e30b2191be53cf3819178",
+      "rendered_digest": "dda7a338e05130eebf5da82224294face5d4b205e0fd7055d951e937250c70a6",
+      "ast_digest": "251b4f1902de05e346553811d987b22e68879be626c72ed26f5560a9f2d4474c"
     },
     "sor": {
       "values_digest": "e55da78ba9439a13274e475f0f1cd107ef84c1b905051b50eee914652d927c5a",
@@ -350,6 +362,13 @@
       "actor": "codex:/root",
       "reason": "Record #730 live GCP-B1 apply, remote-state adoption, readback, and canary recovery proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/730/run-gcp-b1-proof.sh\",\"--authorization\",\".git/csdlc-v2/authorizations/730.json\"],\"purpose\":\"Authorized GCP-B1 live proof for the issue-owned Terraform state bucket: create bucket and IAM member from the reviewed saved plan, migrate bootstrap state into GCS, pull backend state from a clean probe, verify bucket/IAM posture, and prove versioned canary recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/730/live-proof.redacted.json; .csdlc/evidence/730/backend-state-pull.redacted.json; .csdlc/evidence/730/gcp-b1-readback.json; .csdlc/evidence/730/gcp-b1-iam-policy.json; .csdlc/evidence/730/recovery/canary.recovered.txt\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

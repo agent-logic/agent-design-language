@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/730/prepare-gcp-b1-plan.sh
+.csdlc/prepared/issues/730/run-gcp-b1-proof.sh
+.csdlc/prepared/issues/730/validate-gcp-b1.sh
+docs/operations/cloud/gcp/terraform-bootstrap/README.md
+infra/gcp/bootstrap
+.csdlc/evidence/730
 
 ## Prompts
 
