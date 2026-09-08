@@ -41,8 +41,11 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   raise "admission candidate is stale" unless remote_status.success? && source["candidate"]==remote_main.strip
   validate_receipts!(source,admission) unless ENV["ADL_RECORD_VALIDATION_RECEIPT"] == "1"
   source.fetch("planning").each do |entry|
-    path=ROOT.join(entry.fetch("path")); raise "planning source missing" unless path.file?
-    raise "planning source digest drift" unless Digest::SHA256.file(path).hexdigest==entry["sha256"]
+    content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{entry.fetch('path')}",chdir:ROOT.to_s)
+    raise "planning source missing at candidate" unless status.success?
+    raise "planning source digest drift" unless Digest::SHA256.hexdigest(content)==entry["sha256"] && content.bytesize==entry["bytes"]
+    blob,_blob_err,blob_status=Open3.capture3("git","rev-parse","#{source.fetch('candidate')}:#{entry.fetch('path')}",chdir:ROOT.to_s)
+    raise "planning source blob drift" unless blob_status.success? && blob.strip==entry["candidate_blob"]
   end
   canary=load_json(ROOT.join(".csdlc/evidence/516/no-v2-canary-#{source.fetch('candidate')[0,8]}.json")); stderr_entry=canary.fetch("sanitized_stderr"); stderr_path=ROOT.join(stderr_entry.fetch("path"))
   raise "no-v2 canary identity/status invalid" unless canary["schema"]=="adl.v0921.no_v2_canary.v2" && canary["candidate"]==source["candidate"] && canary["gap_owner_issue"]==725 && canary["exit_status"]==0 && canary["csdlc_v2_present_during_command"]==false
@@ -70,10 +73,13 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     end
     entry.fetch("semantic_mapping",[]).each{|m|raise "semantic mapping digest mismatch" unless Digest::SHA256.hexdigest(m.fetch("live_text"))==m["live_digest"]}
   end
-  spec_path=ROOT.join("docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
-  specs=YAML.safe_load(spec_path.read).fetch("issue_specifications").to_h{|s|[s.fetch("id"),s]}
-  plan_path=ROOT.join("docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml"); declared=[]; walk=lambda{|x|x.is_a?(Hash) ? (declared<<x["id"] if x["id"];x.each_value{|v|walk.call(v)}) : (x.each{|v|walk.call(v)} if x.is_a?(Array))};walk.call(YAML.safe_load(plan_path.read).fetch("work_packages"))
-  catalog=ROOT.join("docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md").read; catalog_ids=catalog.scan(/^\| ([A-Z][A-Z0-9-]+) \|/).flatten.select{|id|specs.key?(id)}
+  spec_text,_spec_err,spec_status=Open3.capture3("git","show","#{source.fetch('candidate')}:docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",chdir:ROOT.to_s)
+  plan_text,_plan_err,plan_status=Open3.capture3("git","show","#{source.fetch('candidate')}:docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",chdir:ROOT.to_s)
+  catalog,_catalog_err,catalog_status=Open3.capture3("git","show","#{source.fetch('candidate')}:docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",chdir:ROOT.to_s)
+  raise "candidate planning denominator missing" unless spec_status.success? && plan_status.success? && catalog_status.success?
+  specs=YAML.safe_load(spec_text).fetch("issue_specifications").to_h{|s|[s.fetch("id"),s]}
+  declared=[]; walk=lambda{|x|x.is_a?(Hash) ? (declared<<x["id"] if x["id"];x.each_value{|v|walk.call(v)}) : (x.each{|v|walk.call(v)} if x.is_a?(Array))};walk.call(YAML.safe_load(plan_text).fetch("work_packages"))
+  catalog_ids=catalog.scan(/^\| ([A-Z][A-Z0-9-]+) \|/).flatten.select{|id|specs.key?(id)}
   canonical_ids=source.fetch("canonical_planned_ids")+source.fetch("tail_mapping").keys
   raise "wave/catalog/spec planned-ID parity mismatch" unless canonical_ids.sort==specs.keys.sort && (declared&specs.keys).sort==specs.keys.sort && catalog_ids.sort==specs.keys.sort
   expected_specs=source.fetch("canonical_planned_ids").to_h{|id|spec=specs.fetch(id);[id,{"acceptance_criteria"=>spec.fetch("acceptance_criteria"),"digest"=>Digest::SHA256.hexdigest(JSON.generate(spec))}]}
@@ -108,8 +114,14 @@ def validate!(source, admission, gap, markdown, require_admitted:)
     end
     %w[review_evidence validation_evidence].each do |key|
       next unless row[key]
-      path=ROOT.join(row[key].fetch("path")); raise "#{key} artifact missing" unless path.file?
-      raise "#{key} digest mismatch" unless Digest::SHA256.file(path).hexdigest==row[key]["sha256"]
+      content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{row[key].fetch('path')}",chdir:ROOT.to_s)
+      raise "#{key} artifact missing at candidate" unless status.success?
+      raise "#{key} digest mismatch" unless Digest::SHA256.hexdigest(content)==row[key]["sha256"] && content.bytesize==row[key]["bytes"]
+      blob,_blob_err,blob_status=Open3.capture3("git","rev-parse","#{source.fetch('candidate')}:#{row[key].fetch('path')}",chdir:ROOT.to_s)
+      raise "#{key} blob mismatch" unless blob_status.success? && blob.strip==row[key]["candidate_blob"]
+      if key=="review_evidence" && row["disposition"]=="observed_execution_evidence"
+        raise "review evidence is not successful/current" unless row[key]["result"]=="pass" && row[key]["reviewed_revision"]&.match?(/\A[0-9a-f]{40}\z/) && (row[key]["post_review_paths"].empty? || row[key]["non_substantive_tail"]==true)
+      end
     end
     row["acceptance_rows"].each do |ac|
       raise "acceptance identity/text missing" if ac["id"].to_s.empty? || ac["text"].to_s.empty?
@@ -133,6 +145,9 @@ def validate!(source, admission, gap, markdown, require_admitted:)
         end
       elsif %w[accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"])
         raise "amended criterion lacks explicit closeout/rationale" if proof["closeout_evidence"].to_a.empty?||proof["rationale"].to_s.empty?
+        if ac["evidence_status"]=="accepted_with_explicit_amendment"
+          raise "amended criterion lacks explicit authority mapping" unless source.fetch("amendment_authority")[ac.fetch("id")]
+        end
       end
       classified=admission.fetch("findings").any?{|f|f["affected_rows"].to_a.include?(ac["id"])} || admission.fetch("findings").any?{|f|f["id"]=="issue-#{row['issue']}-execution-gap"}
       raise "acceptance has unclassified missing/placeholder/do-nothing evidence" unless %w[proven accepted_recordless accepted_with_explicit_amendment].include?(ac["evidence_status"]) || classified
@@ -143,14 +158,21 @@ def validate!(source, admission, gap, markdown, require_admitted:)
   retained_ids=retained.flat_map{|row|row.fetch("acceptance_rows").map{|ac|ac.fetch("id")}}
   raise "duplicate retained acceptance identity" unless retained_ids.uniq.length==retained_ids.length
   retained.each do |row|
-    path=ROOT.join(row.fetch("path")); raise "retained artifact missing" unless path.file?
-    raise "retained digest mismatch" unless Digest::SHA256.file(path).hexdigest==row["sha256"]
+    content,_err,status=Open3.capture3("git","show","#{source.fetch('candidate')}:#{row.fetch('path')}",chdir:ROOT.to_s)
+    raise "retained artifact missing at candidate" unless status.success?
+    raise "retained digest mismatch" unless Digest::SHA256.hexdigest(content)==row["sha256"] && content.bytesize==row["bytes"]
+    blob,_blob_err,blob_status=Open3.capture3("git","rev-parse","#{source.fetch('candidate')}:#{row.fetch('path')}",chdir:ROOT.to_s)
+    raise "retained blob mismatch" unless blob_status.success? && blob.strip==row["candidate_blob"]
     if row.fetch("acceptance_rows").empty?
       raise "empty retained projection lacks duplicate authority" unless row["acceptance_projection"]=="reference_only_duplicate_predecessor" && retained.any?{|other|other["issue"]==row["issue"] && other["planned_id"]==row["canonical_projection_planned_id"] && other["acceptance_projection"]=="canonical" && !other["acceptance_rows"].empty?}
     else
       raise "retained canonical projection missing" unless row["acceptance_projection"]=="canonical" && row["canonical_projection_planned_id"]==row["planned_id"]
     end
-    raise "retained observed status missing" unless %w[observed_in_merged_successor consolidated_successor_uncertainty].include?(row["observed_status"])
+    raise "retained observed status missing" unless %w[criterion_mapped_to_candidate_evidence proof_gap].include?(row["observed_status"])
+    row.fetch("acceptance_rows").each do |criterion|
+      raise "retained criterion cannot be observed without evidence" if criterion["observed_status"]=="criterion_mapped_to_candidate_evidence" && criterion["observed_evidence"].to_a.empty?
+      raise "retained criterion status invalid" unless %w[criterion_mapped_to_candidate_evidence proof_gap].include?(criterion["observed_status"])
+    end
   end
   raise "backlog projection mismatch" unless admission["backlog"]==gap["backlog"]
   admission.fetch("backlog").each{|r|raise "backlog authority missing" if r["disposition_authority"].to_s.empty?}

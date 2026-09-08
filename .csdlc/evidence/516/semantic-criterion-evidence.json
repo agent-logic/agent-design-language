@@ -1,6 +1,6 @@
 {
   "schema": "adl.v0921.semantic_criterion_evidence.v1",
-  "candidate": "f343f481ca8ce11e6c01d5c216a16aa83c3ffb3e",
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
   "entries": [
     {
       "criterion_id": "AWS-A-ac-1",
@@ -829,7 +829,7 @@
     {
       "criterion_id": "CORP-B-ac-1",
       "criterion_digest": "873d21ba275e849502da72f25a2887d24d26b53aafdff7246e83de4510c186de",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -848,12 +848,12 @@
       "closeout_evidence": [
         "github:issue-483:closed"
       ],
-      "rationale": "Independent semantic audit classified CORP-B-ac-1 as accepted_with_explicit_amendment: Every critical service has corporate administration and billing custody"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "CORP-B-ac-2",
       "criterion_digest": "5f9a2a6195ece21796770622c99042b96959284f090f82e9f0025f7fb190e124",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -872,12 +872,12 @@
       "closeout_evidence": [
         "github:issue-483:closed"
       ],
-      "rationale": "Independent semantic audit classified CORP-B-ac-2 as accepted_with_explicit_amendment: Recovery does not depend on one personal factor"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "CORP-B-ac-3",
       "criterion_digest": "a349d6b08cc8d76eb0f77eb7201f9a5b891fff298842d8852725f90c20eeba37",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -896,7 +896,7 @@
       "closeout_evidence": [
         "github:issue-483:closed"
       ],
-      "rationale": "Independent semantic audit classified CORP-B-ac-3 as accepted_with_explicit_amendment: Break-glass use is bounded and audited"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "CORP-C-ac-1",
@@ -1326,7 +1326,7 @@
     {
       "criterion_id": "DRT-B-ac-4",
       "criterion_digest": "8d32f59dec2de704f795e327b748a1e2bc45cc9d2eb7e40ad2e1ac5595e559fb",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -1345,7 +1345,7 @@
       "closeout_evidence": [
         "github:issue-507:closed"
       ],
-      "rationale": "Independent semantic audit classified DRT-B-ac-4 as accepted_with_explicit_amendment: GPU evidence waits for reviewed merged 345 authority"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "DRT-C-ac-1",
@@ -2123,7 +2123,7 @@
     {
       "criterion_id": "OBS-A-ac-1",
       "criterion_digest": "1cce01f1e008d9500558e049bd2e5da394002e8be245aa986cdb74dec96f173d",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -2142,12 +2142,12 @@
       "closeout_evidence": [
         "github:issue-511:closed"
       ],
-      "rationale": "Independent semantic audit classified OBS-A-ac-1 as accepted_with_explicit_amendment: Every view has a stable information contract"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "OBS-A-ac-2",
       "criterion_digest": "7571382ba12ef34205b8b44fc759f5a6b9da8cab3669be2588654327ff153a29",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -2166,12 +2166,12 @@
       "closeout_evidence": [
         "github:issue-511:closed"
       ],
-      "rationale": "Independent semantic audit classified OBS-A-ac-2 as accepted_with_explicit_amendment: Empty degraded recovery and revoked states are designed"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "OBS-A-ac-3",
       "criterion_digest": "14c7225df73d1a0f980176d83fe4114c4f72bc9744767fa8f2c2b81b0cc4d1ae",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -2190,12 +2190,12 @@
       "closeout_evidence": [
         "github:issue-511:closed"
       ],
-      "rationale": "Independent semantic audit classified OBS-A-ac-3 as accepted_with_explicit_amendment: Keyboard and screen-reader flows are specified"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "OBS-A-ac-4",
       "criterion_digest": "6a3bcc8d7e91a100d7aac5a28d71dc0c1242c9b5e20fa700817eda3909f152ba",
-      "classification": "accepted_with_explicit_amendment",
+      "classification": "proof_gap",
       "semantic_mapping": [
 
       ],
@@ -2214,7 +2214,7 @@
       "closeout_evidence": [
         "github:issue-511:closed"
       ],
-      "rationale": "Independent semantic audit classified OBS-A-ac-4 as accepted_with_explicit_amendment: No invented Runtime field is introduced"
+      "rationale": "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
     },
     {
       "criterion_id": "OBS-B-ac-1",
@@ -2242,6 +2242,30 @@
     },
     {
       "criterion_id": "OBS-B-ac-2",
+      "criterion_digest": "5f03766f3f00ea799e4ac05d03406e7a6da2c83d56030050669fee32000aca24",
+      "classification": "proof_gap",
+      "semantic_mapping": [
+
+      ],
+      "implementation_evidence": [
+
+      ],
+      "validation_evidence": [
+
+      ],
+      "review_evidence": [
+
+      ],
+      "docs_evidence": [
+
+      ],
+      "closeout_evidence": [
+        "github:issue-84:open"
+      ],
+      "rationale": "The candidate requires reviewed merged issue 84 authority, which is not present."
+    },
+    {
+      "criterion_id": "OBS-B-ac-3",
       "criterion_digest": "13545f873e9ac982708e01a70cedd2d8bd5d6d1fd6b72a883cf627583c7c9b0f",
       "classification": "proven",
       "semantic_mapping": [
@@ -2262,10 +2286,10 @@
       "closeout_evidence": [
         "github:issue-512:closed"
       ],
-      "rationale": "Independent semantic audit classified OBS-B-ac-2 as proven: Runtime projections are source-grounded"
+      "rationale": "Independent semantic audit classified OBS-B-ac-3 as proven: Runtime projections are source-grounded"
     },
     {
-      "criterion_id": "OBS-B-ac-3",
+      "criterion_id": "OBS-B-ac-4",
       "criterion_digest": "c23094f82ca606d8f3c05f1319c3e14645d311d38aae5d12247a2727250af111",
       "classification": "proven",
       "semantic_mapping": [
@@ -2286,31 +2310,7 @@
       "closeout_evidence": [
         "github:issue-512:closed"
       ],
-      "rationale": "Independent semantic audit classified OBS-B-ac-3 as proven: Accessibility and recovery cases pass"
-    },
-    {
-      "criterion_id": "OBS-B-ac-4",
-      "criterion_digest": "d3146efa9885707219286c59de47537941cc13b2014adf03099e70b7a6438520",
-      "classification": "accepted_with_explicit_amendment",
-      "semantic_mapping": [
-
-      ],
-      "implementation_evidence": [
-        ".csdlc/evidence/512/exact-browser-operator-proof.md"
-      ],
-      "validation_evidence": [
-        ".csdlc/issues/512/cards/sor.md"
-      ],
-      "review_evidence": [
-        ".csdlc/issues/512/cards/srp.md"
-      ],
-      "docs_evidence": [
-        ".csdlc/issues/512/cards/sor.md"
-      ],
-      "closeout_evidence": [
-        "github:issue-512:closed"
-      ],
-      "rationale": "Independent semantic audit classified OBS-B-ac-4 as accepted_with_explicit_amendment: Issues 84 and 251 remain visible operator-deferred backlog and do not gate this release"
+      "rationale": "Independent semantic audit classified OBS-B-ac-4 as proven: Accessibility and recovery cases pass"
     },
     {
       "criterion_id": "PROV-A-ac-1",

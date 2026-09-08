@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "digest"
 require "json"
 require "shellwords"
+require "yaml"
 
 root = File.expand_path("../../../..", __dir__)
 path = File.join(root, ".csdlc/evidence/516/semantic-criterion-evidence.json")
@@ -48,5 +50,47 @@ updates.each do |criterion_id, fields|
   fields.each { |key, value| entry[key] = value }
 end
 
+# The current candidate inserted the explicit issue-84 proof criterion into
+# OBS-B. Preserve the two existing evidence-backed rows at their new ordinals
+# and classify the new criterion as a gap until issue 84 supplies the required
+# reviewed merged authority.
+spec_text = `git -C #{root.shellescape} show #{candidate}:docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml`
+obs_b_criteria = YAML.safe_load(spec_text).fetch("issue_specifications").find { |spec| spec.fetch("id") == "OBS-B" }.fetch("acceptance_criteria")
+old_runtime_projection = entries.fetch("OBS-B-ac-2").dup
+old_accessibility = entries.fetch("OBS-B-ac-3").dup
+entries["OBS-B-ac-2"] = {
+  "criterion_id" => "OBS-B-ac-2",
+  "criterion_digest" => Digest::SHA256.hexdigest(obs_b_criteria.fetch(1)),
+  "classification" => "proof_gap",
+  "semantic_mapping" => [],
+  "implementation_evidence" => [],
+  "validation_evidence" => [],
+  "review_evidence" => [],
+  "docs_evidence" => [],
+  "closeout_evidence" => ["github:issue-84:open"],
+  "rationale" => "The candidate requires reviewed merged issue 84 authority, which is not present."
+}
+entries["OBS-B-ac-3"] = old_runtime_projection.merge(
+  "criterion_id" => "OBS-B-ac-3",
+  "criterion_digest" => Digest::SHA256.hexdigest(obs_b_criteria.fetch(2)),
+  "rationale" => "Independent semantic audit classified OBS-B-ac-3 as proven: Runtime projections are source-grounded"
+)
+entries["OBS-B-ac-4"] = old_accessibility.merge(
+  "criterion_id" => "OBS-B-ac-4",
+  "criterion_digest" => Digest::SHA256.hexdigest(obs_b_criteria.fetch(3)),
+  "rationale" => "Independent semantic audit classified OBS-B-ac-4 as proven: Accessibility and recovery cases pass"
+)
+
+# Closed issue markers are closeout evidence, not authority to amend planned
+# acceptance. Keep unmapped amendments visible as proof gaps.
+entries.each_value do |entry|
+  next unless entry["classification"] == "accepted_with_explicit_amendment"
+  next unless entry.fetch("semantic_mapping", []).empty?
+
+  entry["classification"] = "proof_gap"
+  entry["rationale"] = "No explicit amendment authority maps this planned criterion to replacement acceptance; retain it as a proof gap."
+end
+
+document["entries"] = entries.values
 File.write(path, JSON.pretty_generate(document) + "\n")
 puts JSON.generate({ schema: "csdlc.semantic_evidence_refresh.v1", candidate: candidate, updated: updates.keys })
