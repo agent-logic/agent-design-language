@@ -45,6 +45,7 @@ Dir.mktmpdir("issue-521-production-",File.expand_path("../../../../.adl",__dir__
   abort("valid production packet failed") unless validate_packet!(root:root)[:status]=="passed"
   raw["observations"]=[]; wj(raw_path,raw); receipt["response_sha256"]=Digest::SHA256.file(raw_path).hexdigest; wj(File.join(root,"provider-invocation-receipt.json"),receipt)
   independence_path=File.join(root,"reviewer-independence.json"); independence=JSON.parse(File.read(independence_path)); independence["raw_output_sha256"]=receipt["response_sha256"]; wj(independence_path,independence)
+  runner_path=File.join(root,"standard-runner-receipt.json"); runner_doc=JSON.parse(File.read(runner_path)); runner_doc["response_sha256"]=receipt["response_sha256"]; wj(runner_path,runner_doc)
   packet_manifest_path=File.join(root,"packet-manifest.json"); packet_manifest=JSON.parse(File.read(packet_manifest_path)); packet_manifest.fetch("entries").each{|entry|entry["sha256"]=Digest::SHA256.file(entry.fetch("path")).hexdigest}; wj(packet_manifest_path,packet_manifest)
   begin; validate_packet!(root:root); abort("do-nothing review passed"); rescue SystemExit,KeyError; puts JSON.generate(status:"passed",production_negative:"populated_do_nothing_review"); end
  end
