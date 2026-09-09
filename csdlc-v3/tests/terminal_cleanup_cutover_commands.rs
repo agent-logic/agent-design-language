@@ -1831,8 +1831,8 @@ fn conflicting_terminal_receipt_preserves_state() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
     let mut adapter = FakeGithubAdapter::new([
@@ -1840,9 +1840,9 @@ fn conflicting_terminal_receipt_preserves_state() {
         github_issue_json(630, "closed"),
     ]);
     let first = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
-    assert_eq!(first.status, TerminalRouteStatus::Ready);
-    let state_path = root.join(".csdlc/v3/issues/630/terminal.json");
-    let receipt_path = root.join(".csdlc/evidence/630/terminal-receipt.json");
+    assert_eq!(first.status, TerminalRouteStatus::Ready, "{:?}", first.findings);
+    let state_path = root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json");
+    let receipt_path = root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json");
     let before_state = fs::read(&state_path).unwrap();
     let before_receipt = fs::read(&receipt_path).unwrap();
     request
@@ -1880,16 +1880,16 @@ fn non_regular_terminal_receipt_preserves_absent_state() {
     init_repo(&root);
     write_generation_selector(&root, "v3");
     let head = git_stdout(&root, &["rev-parse", "HEAD"]);
-    let state_path = root.join(".csdlc/v3/issues/630/terminal.json");
-    let receipt_path = root.join(".csdlc/evidence/630/terminal-receipt.json");
+    let state_path = root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json");
+    let receipt_path = root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json");
     fs::create_dir_all(&receipt_path).unwrap();
     let mut request = base_request();
     request.expected_head_sha = Some(head.clone());
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
     let mut adapter = FakeGithubAdapter::new([
@@ -1901,7 +1901,7 @@ fn non_regular_terminal_receipt_preserves_absent_state() {
     assert!(result
         .findings
         .iter()
-        .any(|f| f.code == "terminal_receipt_not_regular_file"));
+        .any(|f| f.code == "terminal_receipt_not_regular_file"), "{:?}", result.findings);
     assert!(!state_path.exists());
     assert!(receipt_path.is_dir());
 }

@@ -1,0 +1,24 @@
+{
+  "schema": "adl.v3f.detached_suite.v1",
+  "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--manifest-path",
+    "csdlc-v3/Cargo.toml"
+  ],
+  "started_at": "2026-09-09T17:56:40.141232+00:00",
+  "duration_seconds": 54.844,
+  "exit_code": 0,
+  "passed": 197,
+  "failed": 0,
+  "detached": true,
+  "clean_before": true,
+  "clean_after": true,
+  "head_after": "7fecd63398bb37530801dbf3375d47f73426d637",
+  "external_target": true,
+  "log": "suite.log",
+  "log_sha256": "e434d17da3303f7201cc3db287334411c3b3ee276a8b0a6dc6249cb8250a54aa",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+}

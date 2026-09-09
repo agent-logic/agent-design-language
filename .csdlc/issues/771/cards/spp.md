@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.
+PR #801 CI exposed primary terminal fixture paths stale against the merged main contract. Integrate current main, update the two approved regression fixtures, reproduce and repair the failing checks, then renew complete independently assigned exact-source review, full detached locked suite, mapping receipts and final PR review before typed republication with required CI passing. Preserve historical evidence and all three approved repairs.
 
 ## Plan
 

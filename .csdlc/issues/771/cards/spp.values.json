@@ -7,14 +7,14 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 32
+    "generation": 33
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
       "plan_revision": 8,
-      "summary": "All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.",
+      "summary": "PR #801 CI exposed primary terminal fixture paths stale against the merged main contract. Integrate current main, update the two approved regression fixtures, reproduce and repair the failing checks, then renew complete independently assigned exact-source review, full detached locked suite, mapping receipts and final PR review before typed republication with required CI passing. Preserve historical evidence and all three approved repairs.",
       "steps": [
         {
           "id": "S1",

@@ -1,0 +1,34 @@
+   Compiling csdlc-v3 v0.1.0 (<issue-worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.20s
+     Running tests/terminal_cleanup_cutover_commands.rs (<external-target>/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
+
+running 5 tests
+test cleanup_rejects_stale_or_mismatched_terminal_receipts ... ok
+test cleanup_rejects_disposable_terminal_receipt_path ... ok
+test cleanup_rejects_caller_boolean_without_durable_terminal_receipt ... ok
+test conflicting_terminal_receipt_preserves_state ... FAILED
+test non_regular_terminal_receipt_preserves_absent_state ... FAILED
+
+failures:
+
+---- conflicting_terminal_receipt_preserves_state stdout ----
+
+thread 'conflicting_terminal_receipt_preserves_state' (1608568) panicked at tests/terminal_cleanup_cutover_commands.rs:1843:5:
+assertion `left == right` failed
+  left: Blocked
+ right: Ready
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- non_regular_terminal_receipt_preserves_absent_state stdout ----
+
+thread 'non_regular_terminal_receipt_preserves_absent_state' (1608569) panicked at tests/terminal_cleanup_cutover_commands.rs:1901:5:
+assertion failed: result.findings.iter().any(|f| f.code == "terminal_receipt_not_regular_file")
+
+
+failures:
+    conflicting_terminal_receipt_preserves_state
+    non_regular_terminal_receipt_preserves_absent_state
+
+test result: FAILED. 3 passed; 2 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.14s
+
+error: test failed, to rerun pass `--test terminal_cleanup_cutover_commands`

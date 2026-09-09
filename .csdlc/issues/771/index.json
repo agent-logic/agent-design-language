@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "757b022c4b14add0b539a3803b76ca8eeba93c4de0e42b82a18bd54d63af3455",
+  "generation": 33,
+  "digest": "a5ab5a4e3478db7f800dfc801e4798e0ee7b65d76f764acdd42151e10ca6b2c6",
   "branch": "codex/771-v3f-proof-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f4a968b6d781e6fcb943b7d728404c0789a29e98e2aeb0d77a0d7a300bbdba92",
+      "values_digest": "89516bc4c300651112a7869060b75c97db31e91ff932e264a2133038f5264d7a",
       "rendered_digest": "a2ea7fb2f6c0652f51e9b89d76000de7f2d6d6869ca13e1be517c9a94569c14f",
       "ast_digest": "473272f52df4b975741193f59354ec248318f4858398dc6f27bfd315e034c9ae"
     },
     "stp": {
-      "values_digest": "6256bcca599a4be2d9c295097f8f209d4a0ebb38a282d20ba378c25674dec8b4",
+      "values_digest": "9a20c86d7f8f55c046f5bc00f41806eb1cfb5c0b2c4ed625dc6ce5766df583d4",
       "rendered_digest": "8edd89e46fc01b226b4f2f8f20830fd52719104a7ec7202747f8d64917c6525e",
       "ast_digest": "c81b6e3522d08beca37c2d0aac45d8664d9b9e6917d624aef75ad2f72d8eba1d"
     },
     "spp": {
-      "values_digest": "fc82938f7b2ea961d03c1685be3b7d6c75c089ef419d605793fc4bb63068f5a3",
-      "rendered_digest": "96834b9deff8c3631f9163f393ba3856edb6a90e558616c621afc00c89d18632",
-      "ast_digest": "a55dd7df356b83c634432db22ec385b8a3859507ce5a15ebfdb9b62a9e62b6ad"
+      "values_digest": "911e837c40d083341173c2b9f783a6a1b0ed268afc8aa58f730dff0ef19dcfe0",
+      "rendered_digest": "ca6c70ea50ce16d807369302eb7c1e824f7f58cab529ff9e8efea06a7c367565",
+      "ast_digest": "dd22a249453e9668d328f81cdd2292658af505ff12f0e8180cfd89fb756838ae"
     },
     "vpp": {
-      "values_digest": "10e27046a9ababa90311250f433624d59df81cdd67958ce12aa709149ee049be",
+      "values_digest": "7b63f3fd5313a664cd5d59985b3bee47c8a3a9ba886ba4099784ec9fe55c9dbf",
       "rendered_digest": "72afb7ee8ca532d6a745c8a14c577760933a4c21213fc832dc3a8f78b14f0a36",
       "ast_digest": "4a945006dec567b466ffd428028ab79458e1e9d9932ea98aa8ee230b7be20ba8"
     },
     "srp": {
-      "values_digest": "b64c17c78cae514fa6a6817f3d3ad3e0c2a8641b98b863fd83d76cd322ba8fcb",
+      "values_digest": "0d36eac4fdd1b0943d90a5a9ae4136035ce3b5bcc3195c752986d02c83c7e678",
       "rendered_digest": "9faf3600966c1e114492834bc801dd4237e4352248ca5ef476c751939f74d18c",
       "ast_digest": "69b0fafce13b5d4801cb98e2327fc305629c2f4182c14cbc6c8d447b9b4e30af"
     },
     "sor": {
-      "values_digest": "a8f3a42abf179b6b714f7112d9d79bed2321028d2e07a132637652866b560198",
+      "values_digest": "591e01eafa65b3b350d5f80d527b272c8984acb38bd7c05391d47cd16ab4a59f",
       "rendered_digest": "68ee68583d3ab5d512790e4576c043ea7d7347f9e25e62ddb8ddae69505f6a3e",
       "ast_digest": "0c6da8ea32bb10e1413bae99f16bde1c6e13cd162b4f90e7865d8c3c4339b637"
     }
@@ -378,6 +378,13 @@
       "actor": "Planning #7",
       "reason": "Repair PR #801 CI integration failure: current main moved primary terminal output paths into Git metadata; refresh branch, adapt the two approved regression fixtures, and renew exact-source validation and review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 33,
+      "actor": "Planning #7",
+      "reason": "Record bounded CI integration repair after newer main changed canonical primary terminal paths.",
+      "operation": "{\"new_value\":\"PR #801 CI exposed primary terminal fixture paths stale against the merged main contract. Integrate current main, update the two approved regression fixtures, reproduce and repair the failing checks, then renew complete independently assigned exact-source review, full detached locked suite, mapping receipts and final PR review before typed republication with required CI passing. Preserve historical evidence and all three approved repairs.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.\",\"recovery_generation\":32,\"recovery_sequence\":38}"
     }
   ]
 }
