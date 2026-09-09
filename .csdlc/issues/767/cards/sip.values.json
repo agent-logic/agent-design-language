@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 767,
+  "issue_padded": "0767",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/767",
+  "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+  "branch": "codex/767-current-release-status",
+  "version": "v0.92.1",
+  "card": "sip",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-767-current-release-status",
+  "goal": "Project current release status and exact evidence into four canonical v0.92.1 documents.",
+  "summary": "R520-011 / D520-DOC-001: distinguish implementation, proof, deferral, blockers and exclusions with consistent per-lane dispositions.",
+  "required_outcome": "Four consistent release documents, evidence map, focused validation and independent release-decision reconstruction.",
+  "required_outcome_type": "documentation",
+  "repo_inputs": "Issue767; parent522; TAIL-01 accounting and TAIL-02 source snapshot/finding D07; current merged proof and open remediation owners.",
+  "target_files_surfaces": "FEATURE_PROOF_COVERAGE, DEMO_MATRIX, RELEASE_NOTES and MILESTONE_CHECKLIST under docs/milestones/v0.92.1 plus narrowly coupled status/evidence consistency artifacts.",
+  "non_goals": "No product code, cloud runs, new acceptance authority, historical evidence rewrites, or release publication.",
+  "validation_plan": "Canonical document validation, exact evidence paths and hashes, four-surface disposition equality, negative consistency fixtures and independent reconstruction review.",
+  "dependencies": "Refresh final projection after status-changing #522 children land; pending remediation remains explicit debt. Post-merge closeout is asynchronous."
+}

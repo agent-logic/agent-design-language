@@ -1,0 +1,8 @@
+
+running 1 test
+test stable_binary_authenticates_invoking_worktree_before_every_operational_write ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 19.96s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running tests/proof_worktree_binding.rs (csdlc-v3/target/debug/deps/proof_worktree_binding-b43132cb4e14d5ff)

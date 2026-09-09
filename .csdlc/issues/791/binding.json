@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.binding.v1",
+  "issue": 791,
+  "branch": "codex/791-primary-write-guard",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard"
+}

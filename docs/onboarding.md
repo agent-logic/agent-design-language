@@ -47,7 +47,7 @@ cross-session handoff and broadcast-note rules.
 
 After an issue is ready and bound, tracked implementation happens in the bound
 issue worktree, not on root `main`. New ADL issue worktrees belong under
-`/Volumes/FastWork/adl-worktrees` unless a typed migration/recovery route
+the approved FastWork ADL worktree root unless a typed migration/recovery route
 explicitly records a different existing topology.
 
 An initialized issue, green CI result, or published PR is not terminal proof by

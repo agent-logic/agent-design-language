@@ -40,7 +40,7 @@ Final publication-candidate packet bound to merged #518 / PR753: immutable revie
 ## Execution
 
 - Created provisional candidate binding reviewed #518 source, 13 source artifacts and 775 document hashes.
-- Implemented preparation and final validation modes, source review/linkage checks and redaction screening.
+- Implemented preparation and final validation modes, source review/linkage checks and complete manifest-referenced redaction screening.
 - Preparation self-test passed three negative fixtures; final mode intentionally blocks while source PR is open.
 - Independent preparation review requested; final typed review and publication remain pending.
 - Operator-authorized early start and bounded typed v2 authorization recorded.
@@ -55,7 +55,7 @@ Final publication-candidate packet bound to merged #518 / PR753: immutable revie
 - Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.
 - Freeze final #518 source and authenticated live PR read observation after its merge.
 - Verify all document/artifact hashes, reviewed scope and merge content on canonical main.
-- Enforce exact closing relationships and publication-packet redaction; reject corrupt and premature acceptance fixtures.
+- Enforce exact closing relationships and publication-packet plus manifest-document redaction; reject corrupt and premature acceptance fixtures.
 
 ## Validation
 

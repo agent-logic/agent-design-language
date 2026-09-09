@@ -293,27 +293,27 @@ impl ProductionFixture {
             .map_err(|error| format!("state root could not be canonicalized: {error}"))?;
         let tls_root = create_contained_state_dir(
             &state_root,
-            &toml_string(&init_document, &["paths", "tls_dir"])?,
+            toml_string(&init_document, &["paths", "tls_dir"])?,
             "TLS state directory",
         )?;
         let continuity_root = create_contained_state_dir(
             &state_root,
-            &toml_string(&init_document, &["paths", "continuity_dir"])?,
+            toml_string(&init_document, &["paths", "continuity_dir"])?,
             "continuity state directory",
         )?;
         let credentials_root = create_contained_state_dir(
             &state_root,
-            &toml_string(&init_document, &["paths", "credentials_dir"])?,
+            toml_string(&init_document, &["paths", "credentials_dir"])?,
             "credentials state directory",
         )?;
         let observability_root = create_contained_state_dir(
             &state_root,
-            &toml_string(&init_document, &["paths", "observability_dir"])?,
+            toml_string(&init_document, &["paths", "observability_dir"])?,
             "observability state directory",
         )?;
         let master_log = contained_relative_path(
             &observability_root,
-            &toml_string(
+            toml_string(
                 &init_document,
                 &["observability_pipeline", "master_log_path"],
             )?,
@@ -321,7 +321,7 @@ impl ProductionFixture {
         )?;
         let log_audit = contained_relative_path(
             &observability_root,
-            &toml_string(&init_document, &["observability_pipeline", "audit_path"])?,
+            toml_string(&init_document, &["observability_pipeline", "audit_path"])?,
             "log audit path",
         )?;
 

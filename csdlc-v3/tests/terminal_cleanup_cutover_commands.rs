@@ -1,10 +1,7 @@
 use csdlc_v3::{
     adapters::{CommandInvocation, ProcessAdapter, ProcessOutput, ProcessStatus},
     commands::{
-        proof::{
-            classify_route, ProofManifest, ProofRouteRequest, ProofRouteStatus, ShadowCommandSpec,
-            ShadowGeneration, ShadowNormalizationContract,
-        },
+        proof::{ShadowCommandSpec, ShadowGeneration, ShadowNormalizationContract},
         terminal::{
             prepare_terminal_cutover_with_github_observation,
             prepare_terminal_finish_with_github_observation, prepare_terminal_route,
@@ -1027,7 +1024,7 @@ fn write_terminal_receipt(
         issue,
         pull_request,
         head_sha,
-        ".csdlc/evidence/630/terminal-receipt.json",
+        ".git/csdlc-v3/local/evidence/630/terminal-receipt.json",
     )
 }
 
@@ -1056,6 +1053,7 @@ fn write_terminal_receipt_at(
 }
 
 #[test]
+// PVF: small deterministic offline tooling gate; authenticated adapter fixture.
 fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     let root = fixture_root("post_cutover_finish");
     init_repo(&root);
@@ -1066,10 +1064,11 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
+    let primary_status = git_stdout(&root, &["status", "--porcelain", "--untracked-files=all"]);
     for _ in 0..2 {
         let mut adapter = FakeGithubAdapter::new([
             github_pr_json(641, &head, true, "Closes #630"),
@@ -1080,16 +1079,40 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
         assert_eq!(plan.status, TerminalRouteStatus::Ready);
         assert!(plan.operational_authority);
     }
-    let state: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".csdlc/v3/issues/630/terminal.json")).unwrap())
-            .unwrap();
+    let state: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json")).unwrap(),
+    )
+    .unwrap();
     assert_eq!(state["schema"], "csdlc.v3.terminal_state.v1");
     assert_eq!(state["disposition"], "closed_out");
     let receipt: DurableTerminalReceipt = serde_json::from_slice(
-        &fs::read(root.join(".csdlc/evidence/630/terminal-receipt.json")).unwrap(),
+        &fs::read(root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json")).unwrap(),
     )
     .unwrap();
     assert!(receipt.state_digest.is_some());
+    assert_eq!(
+        git_stdout(&root, &["status", "--porcelain", "--untracked-files=all"]),
+        primary_status
+    );
+    request.terminal_state.as_mut().unwrap().state_path =
+        ".csdlc/v3/issues/630/terminal.json".into();
+    request.terminal_state.as_mut().unwrap().receipt_path =
+        ".csdlc/evidence/630/terminal-receipt.json".into();
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(641, &head, true, "Closes #630"),
+        github_issue_json(630, "closed"),
+    ]);
+    let denied = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert!(denied
+        .findings
+        .iter()
+        .any(|f| f.code == "terminal_output_path_not_canonical"));
+    assert!(!root.join(".csdlc/v3/issues/630").exists());
+    assert!(!root.join(".csdlc/evidence/630").exists());
+    assert_eq!(
+        git_stdout(&root, &["status", "--porcelain", "--untracked-files=all"]),
+        primary_status
+    );
 }
 
 #[test]
@@ -1101,8 +1124,8 @@ fn pre_cutover_finish_denies_terminal_persistence() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root,
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
     let mut adapter = FakeGithubAdapter::new([
@@ -1483,34 +1506,34 @@ fn write_proof_command_fixture(
         side_effect_boundary_refs: vec![source_ref.clone()],
         provider_side_effects: false,
     };
-    let report = classify_route(
-        "proof",
-        ProofRouteRequest {
-            issue: 505,
-            repository: "agent-logic/agent-design-language".into(),
-            cutover_issue: Some(505),
-            operator_approval: None,
-            evidence_root: Some(root.to_string_lossy().into_owned()),
-            proof: Some(ProofManifest {
-                manifest_id: manifest_id.into(),
-                lane: lane.into(),
-                deterministic: true,
-                evidence_ref: source_ref,
-                evidence_digest: digest.clone(),
-                observed_digest: digest,
-                stale: false,
-                normalization,
-                command,
-            }),
-            shadow: None,
-            soak: None,
-            install: None,
-        },
-        Some(root),
-    );
-    assert_eq!(report.status, ProofRouteStatus::Ready, "{report:#?}");
-    let path = report.evidence_refs.first().expect("proof receipt path");
-    let bytes = fs::read(root.join(path)).expect("proof receipt");
+    // Model an immutable pre-cutover receipt for the terminal verifier. The
+    // operational proof route now rejects unbound construction fixtures; do
+    // not reopen that production mutation path just to manufacture test data.
+    // Actual command execution and write placement are covered independently
+    // by proof_worktree_binding, using authenticated linked-worktree context.
+    let path = format!(".csdlc/evidence/505/v3-proof/{manifest_id}.json");
+    let request_digest = blake3::hash(&fs::read(root.join(&command.request_ref)).unwrap())
+        .to_hex()
+        .to_string();
+    let binary_digest = blake3::hash(&fs::read(root.join(&command.binary_ref)).unwrap())
+        .to_hex()
+        .to_string();
+    let receipt = serde_json::json!({
+        "schema": "csdlc.v3.proof_receipt.v2", "issue": 505,
+        "repository": "agent-logic/agent-design-language", "manifest_id": manifest_id,
+        "lane": lane, "deterministic": true,
+        "source_evidence_ref": source_ref, "source_evidence_digest": digest,
+        "normalization": normalization, "command": command,
+        "request_evidence": {"ref": command.request_ref, "digest": request_digest},
+        "binary": {"identity": command.binary_ref, "digest": binary_digest},
+        "exit": {"code": 0, "success": true},
+        "normalized_output": {"command": "doctor", "issue": 505, "phase": "bound"},
+        "side_effect_boundary": [{"changed": false}], "provider_side_effects": false
+    });
+    fs::create_dir_all(root.join(".csdlc/evidence/505/v3-proof")).unwrap();
+    let bytes = serde_json::to_vec(&receipt).unwrap();
+    fs::write(root.join(&path), &bytes).unwrap();
+
     serde_json::json!({
         "path": path,
         "digest": blake3::hash(&bytes).to_hex().to_string(),

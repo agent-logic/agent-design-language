@@ -671,6 +671,7 @@ impl<C: PlacementClock> PlacementService<C> {
     }
 
     #[cfg(test)]
+    #[allow(dead_code)]
     pub(crate) fn seed_decision_for_snapshot_test(
         &self,
         decision: PlacementDecision,

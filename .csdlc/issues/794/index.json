@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 794,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/794-native-typed-issue-close",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-794-native-typed-issue-close",
+  "template_registry_version": "1.0.4",
+  "operational_authority": true,
+  "digest": "0c30662d9cba38d163e57a3da20cfb7d52a45ab30c0e13dd692e32225d1d5fe1"
+}

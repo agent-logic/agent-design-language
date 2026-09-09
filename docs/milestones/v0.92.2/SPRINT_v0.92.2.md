@@ -35,4 +35,4 @@ Deferred connectors, autonomous mutation, public customer-scale deployment, ATE,
 
 ## Existing issues outside new-wave startup
 
-#718 is urgent: start its own ready/bound work now, in parallel with predecessor closeout and this planning repair. #717 and #720 also use existing authority and do not wait for WP-01. Resolve #717/#718 overlapping welcome-package/control edits before concurrent writes. This schedules existing work; #523 does not implement those issues.
+#717 and #718 execute in v0.92.1 and become predecessor inputs after merge. #720 uses its own existing authority and does not wait for WP-01. This schedules existing v0.92.2 work; #523 does not implement it.

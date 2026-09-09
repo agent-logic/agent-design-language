@@ -1,6 +1,6 @@
 # v0.92.2 Execution Readiness
 
-Status: the new execution wave remains gated. Existing admitted issues #717, #718 and #720 use their own typed readiness; #718 is urgent and need not await these new-wave opening gates.
+Status: the new execution wave remains gated. Existing admitted issue #720 uses its own typed readiness. #717 and #718 execute in v0.92.1 and are predecessor inputs rather than new-wave rows.
 
 ## Opening Gates
 
@@ -23,7 +23,7 @@ Execution pauses for missing issue authority, scope conflict, unavailable eviden
 
 ## Early contract and existing-issue gates
 
-CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #718 starts first among ready existing work; #717 and #720 are independent except for explicit owned-path collision checks. Their linked issue acceptance remains authoritative, including #718 model-generated reply proof and its separately bounded provider authorization. A missing GitHub milestone assignment alone does not reclassify an explicitly admitted issue as backlog.
+CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #720 remains independently executable. #717 and #718 retain their linked issue acceptance under v0.92.1, including #718 model-generated reply proof and its separately bounded provider authorization; v0.92.2 consumes only their reviewed merged outcomes.
 
 ## First SIM sprint
 

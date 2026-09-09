@@ -24,8 +24,6 @@ Status: planned. Uncreated rows use number-free planning identifiers; three admi
 | PUB-CSDLC | C-SDLC paper preparation | Advance one C-SDLC paper packet without submission | WP-01 |
 | PLAT-MEMORY | Memory Palace integration | Deliver the next bounded production Runtime/CodeFriend Memory Palace slice | CF-EVIDENCE, CF-MEMORY |
 | SPEC-RETEST | Speculative decoding requalification | Retest the retained prototype and issue an evidence-backed keep, repair, or retire decision | WP-01 |
-| RT-A2A (#718) | Urgent existing Runtime issue | Canonical-name addressing and model-generated reply proof | Existing governed A2A/roster prerequisites; no WP-01 wait |
-| RT-ORIENT (#717) | Existing Runtime issue | Capability orientation through versioned welcome delivery | Completed #708/#709; no WP-01 wait |
 | OBS-LIVE (#720) | Existing Observatory issue | Remove retained-mode hazards from live product | Existing live UI; no WP-01 wait |
 | SIM-UMBRELLA | C-SDLC first sprint | Coordinate the first C-SDLC simplification sprint | Completes after SIM-07; coordination opens before SIM-01 |
 | SIM-01 | C-SDLC first sprint | Read-only diagnostics and baseline journeys | Own readiness; parallel Runtime; no WP-01 wait |
@@ -43,8 +41,8 @@ CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and S
 
 ## Work-Package Rule
 
-The milestone inventory reconciles one bounded issue per expanded row. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched eight-issue sprint. Reuse #717, #718 and #720; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 41 rows: the original 30 planning rows, three admitted existing issues and the eight-issue SIM sprint. With WP-01 resolved, 37 rows remain prospective creations and three reuse existing issues. Eight prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority and is outside #523.
+The milestone inventory reconciles one bounded issue per expanded row. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched eight-issue sprint. Reuse #720; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 39 rows: the original 30 planning rows, one admitted existing issue and the eight-issue SIM sprint. With WP-01 resolved, 37 rows remain prospective creations and one reuses an existing issue. Eight prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority and is outside #523.
 
 ## Immediate existing work
 
-#718 is urgent and may start through its own typed readiness/binding now, alongside current closeout and CodeFriend planning. #717 and #718 overlap welcome-package/control surfaces: assign disjoint edits or serialize their overlapping commits, giving #718 priority. #720 must not delay #512. Other backlog issues are not admitted by this package.
+#717 and #718 execute under v0.92.1 and are consumed here only after merge. #720 must not delay #512. Other backlog issues are not admitted by this package.

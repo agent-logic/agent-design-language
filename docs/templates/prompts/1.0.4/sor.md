@@ -2,9 +2,8 @@
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/sor.md`
 
-Authority notice: V3-F/#505 is the pending tooling changeover decision; until
-that operator-reviewed cutover is approved, merged, and terminally reconciled,
-C-SDLC v2 remains live authority.
+Authority notice: C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.
+
 Legacy `pr` editor routes are historical/retired compatibility orientation,
 not current lifecycle authority.
 

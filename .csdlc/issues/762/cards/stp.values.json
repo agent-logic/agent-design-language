@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 762,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+    "slug": "proof-worktree-binding",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue 762 checkout identity only; coordinate with 759 and 763 without absorbing authority text or detached fixture repairs.",
+      "deliverables": [
+        "Authenticate invoking issue worktree, branch, exact HEAD and common Git directory before mutation.",
+        "Confine every operational write to the registered issue worktree; reject primary and escaping paths.",
+        "Classify proof, install, shadow and soak explicitly; historical routes cannot mutate.",
+        "Prove one stable installed binary works from linked worktrees and rejects invalid contexts without writes."
+      ],
+      "acceptance_criteria": [
+        "Authenticate invoking issue worktree, branch, exact HEAD and common Git directory before mutation.",
+        "Confine every operational write to the registered issue worktree; reject primary and escaping paths.",
+        "Classify proof, install, shadow and soak explicitly; historical routes cannot mutate.",
+        "Prove one stable installed binary works from linked worktrees and rejects invalid contexts without writes."
+      ],
+      "dependencies": [
+        "Parent #522; source #520. No implementation dependency declared."
+      ],
+      "repo_inputs": [
+        "https://github.com/agent-logic/agent-design-language/issues/762",
+        "csdlc-v3/src/commands/proof.rs"
+      ],
+      "non_goals": [
+        "No weakening guards, binary copying as ownership substitute, merge or release action."
+      ]
+    }
+  }
+}

@@ -20,6 +20,7 @@ const ASSERTION_MARKER: &str = "ADL_ISSUE_200_ASSERTION_V1 ";
 struct TempDir;
 
 impl TempDir {
+    #[allow(clippy::new_ret_no_self)]
     fn new() -> std::io::Result<tempfile::TempDir> {
         let root = std::env::current_dir()?.canonicalize()?;
         tempfile::TempDir::new_in(root)
