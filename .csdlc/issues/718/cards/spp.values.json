@@ -38,12 +38,13 @@
   "repo_inputs_inline": "issue #718, live roster naming, current ACIP/A2A carrier, history, lifecycle, OpenAPI, and Observatory code",
   "deliverables_inline": "resolver, typed denials, bounded legacy input, outward name projections, lifecycle stability, prompts/docs, and end-to-end tests",
   "acceptance_criteria_inline": "canonical names work uniformly for all agents, invalid targets fail explicitly, addresses survive provider and lifecycle changes, and internal IDs remain private routing/audit detail",
-  "step_1_status": "in_progress",
-  "step_2_status": "pending",
-  "step_3_status": "pending",
-  "step_4_status": "pending",
-  "step_5_status": "pending",
+  "step_1_status": "completed",
+  "step_2_status": "completed",
+  "step_3_status": "completed",
+  "step_4_status": "completed",
+  "step_5_status": "completed",
   "risks_inline": "identity/display-name ambiguity, time-of-check roster drift, legacy record compatibility, internal-ID leakage, duplicate public addresses",
   "validation_plan_inline": "focused resolver/denial/history/lifecycle/prompt/schema tests, full resident-pair governed path, formatting, diff hygiene, independent review",
-  "notes_risks_inline": "Re-plan if canonical names are not already unique invariants of admission; do not silently choose among ambiguous matches."
+  "notes_risks_inline": "Re-plan if canonical names are not already unique invariants of admission; do not silently choose among ambiguous matches.",
+  "summary": "Implemented canonical-name A2A addressing, bounded legacy translation, durable exchange-time identity history, lifecycle uniqueness guards, public contracts, and focused proof."
 }

@@ -9,5 +9,10 @@
   "card": "srp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-718-a2a-canonical-name-routing"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-718-a2a-canonical-name-routing",
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "The initial bounded review found four defects: legacy v1 internal IDs escaped public projection; history recomputed names from the mutable roster; persisted startup did not reject duplicate canonical names; and OpenAPI left the v2 action and history metadata incomplete. Follow-up review found two checkpoint distinctions still missing: direct initiated-conversation identity and direct versus downstream recipient names.",
+  "review_dispositions": "All findings were fixed. Legacy inputs translate to v2 canonical names before public projection; exchange-time sender and direct/downstream recipient names persist independently through roster removal and checkpoints; startup rejects resident and peer name collisions before mutation; OpenAPI documents and tests action, result, history, and checkpoint contracts.",
+  "review_notes": "Final independent review of the complete implementation diff reported PASS with no P1, P2, or P3 findings."
 }

@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][Runtime] Route agent-to-agent communication by canonical agent name
 Branch: codex/718-a2a-canonical-name-routing
 Card Status: ready
-Status: <status>
+Status: implemented
 Generated: <timestamp>
 
 Execution:
@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-<summary>
+A2A now addresses every agent by canonical civic name while retaining internal IDs only for governed routing and audit correlation.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -85,13 +85,13 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `Canonical resolver and denials, provider prompt/action schema, bounded legacy translation, all-agent signed A2A paths, exchange-time history and checkpoint restore, startup uniqueness, Observatory projections, Welcome Package, and OpenAPI.`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `<integration_result>`
+- Result: `Committed at reviewed substantive head 28c8d1889b in the bound #718 worktree; publication and merge are not yet claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,9 +107,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `<validation_command>`
-    `<validation_effect>`
+    `Proves canonical names are the public address, ambiguous/unknown/self targets fail explicitly, internal legacy IDs cannot leak from provider projection, and names remain truthful after roster removal and restart.`
 - Results:
-  - `<validation_result>`
+  - `Runtime library 207 passed; focused production A2A, duplicate-store, Observatory activity, and OpenAPI contract tests passed; formatting and diff hygiene passed; final bounded review passed with no findings.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
