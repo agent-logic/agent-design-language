@@ -1,9 +1,9 @@
 {
   "schema": "adl.v3f.independent_review.v1",
-  "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+  "source_sha": "4d641e9961505d75a145457103cfa86f65ce51b1",
   "reviewer": "codex:independent-v3f-review-team",
   "independent": true,
-  "completed_at": "2026-09-09T18:37:52.226734+00:00",
+  "completed_at": "2026-09-09T18:47:28.665316+00:00",
   "scope": {
     ".adl/worktree-policy.json": "4ed8820c35574e6d134e5d3aed8e5488328d3f2d",
     ".csdlc/evidence/505/cutover-approval-absent-canary-output.json": "bbc2894eb83d7e82e8cf94e716c1c2e7c1fc6fba",
@@ -78,9 +78,9 @@
     "csdlc-v3/tests/operational_cli_commands.rs": "89f1670a4d1633745e1377e60db8f328d41f06e6",
     "csdlc-v3/tests/proof_parity_install_commands.rs": "61fb3a7d83d22ed53fea8f23cef6cb11c994fc93",
     "csdlc-v3/tests/proof_worktree_binding.rs": "bcea4f722959251d05bfb8bc59209e9ab89661e7",
-    "csdlc-v3/tests/real_issue_canary.rs": "68cfb813d05db07f295d4d07e0d2af007f71e964",
+    "csdlc-v3/tests/real_issue_canary.rs": "2ace7b6bd984c360cbeadb93a1f444e75de9b11a",
     "csdlc-v3/tests/remote_publication_commands.rs": "7459a036c8feeb87581bbc1653c9c81fc75dc851",
-    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs": "7ee91ba18459e6bfa4d8d45dbc10e07b1277af7f",
+    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs": "2d798abbff8f9725a948ca0d88b943b479483763",
     "csdlc-v3/tests/transactions.rs": "e14a9a5f5651be3c43d7c5b4e6c5330794e371a8",
     "docs/csdlc-v3/CONTRACT.md": "96a146e785a3a99de5efd6a55be78af46553b66c",
     "docs/csdlc-v3/CURRENT_AUTHORITY.md": "7c12acc537810abc511b1cc063c231fed3349806",
@@ -280,11 +280,11 @@
   "components": {
     "review_771_core": {
       "path": "reviews/core.json",
-      "sha256": "7e3eb7debaf9f4b659db5096de0519c2101bd058fe148b89fb48642e0dbbee4a"
+      "sha256": "cbad3bf6995df9a9cdd0bfacae09e7d2f6b614c05e237412868ca292be8d4383"
     },
     "review_771_routes": {
       "path": "reviews/routes.json",
-      "sha256": "79e6b3776155bddf98193d54c839d1dea958135a5053675390676c74f68a9d3c"
+      "sha256": "4dd5fbb5a325aee3016bd1f6f52c34d2b8e3bfbe3584bc0d6731a0a0ff551a2f"
     }
   }
 }

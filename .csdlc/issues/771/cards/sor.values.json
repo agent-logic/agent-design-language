@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 38
+    "generation": 39
   },
   "status": "ready",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "All four V3-F rows bound to independent162-path review and205-test full locked detached suite at220dbade0eb30e252f901b14c72a27f03bdcc715. Three approved product repairs preserved; merged-main fixture paths, legacy eligibility denial and explicit fixture lock release corrected. PR801 republication and hosted CI follow. No merge or closure.",
+      "summary": "All four V3-F rows bound to independent162-path review and205-test full locked detached suite at4d641e9961505d75a145457103cfa86f65ce51b1. Three approved product repairs preserved; merged-main fixture paths, legacy eligibility denial and explicit fixture lock release corrected. PR801 republication and hosted CI follow. No merge or closure. Canonical formatting gate passed.",
       "actual_changes": [
         "Add fail-closed current review/suite mapping with14 negative substitutions and18 synthetic anti-drift contracts; preserve historical and CORP-A evidence.",
         "Reject terminal receipt conflicts before state replacement; reconcile every bounded comment page before explicit recovery; emit correct native v3 authority from versioned1.0.5 templates.",
@@ -28,7 +28,8 @@
         "csdlc-v3/src/commands/terminal.rs",
         "csdlc-v3/src/commands/remote/mod.rs",
         "docs/templates/prompts/current.json",
-        ".csdlc/evidence/771/ci-integration-defect.md"
+        ".csdlc/evidence/771/ci-integration-defect.md",
+        ".csdlc/evidence/771/fmt.log"
       ],
       "actual_validation": [
         {
@@ -108,9 +109,21 @@
             "--manifest-path",
             "csdlc-v3/Cargo.toml"
           ],
-          "purpose": "205 full locked tests passed in a clean detached checkout at220dbade0eb30e252f901b14c72a27f03bdcc715; identical162sourcepaths independently reviewed.",
+          "purpose": "205 full locked tests passed in a clean detached checkout at4d641e9961505d75a145457103cfa86f65ce51b1; identical162sourcepaths independently reviewed.",
           "outcome": "passed",
           "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--check"
+          ],
+          "purpose": "Canonical rustfmt CI gate after whitespace-only correction.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/771/fmt.log"
         }
       ],
       "integration_state": "worktree_only",

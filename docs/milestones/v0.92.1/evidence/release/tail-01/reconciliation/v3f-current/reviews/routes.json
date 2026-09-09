@@ -1,8 +1,8 @@
 {
-  "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+  "source_sha": "4d641e9961505d75a145457103cfa86f65ce51b1",
   "reviewer": "codex:/root/review_771_routes",
   "independent": true,
-  "completed_at": "2026-09-09T18:36:31.060717+00:00",
+  "completed_at": "2026-09-09T18:46:39.733409+00:00",
   "scope": {
     "csdlc-v3/AGENTS.md": "cd15f9aab8dc62a109e7565fb5c27ff65f4bc89f",
     "csdlc-v3/Cargo.lock": "6daacebde9aef9cc0fe98432460c63e9e36c3020",
@@ -26,7 +26,7 @@
     "csdlc-v3/tests/foundation.rs": "e150b6969cf0b0af8ffc75a216ee6c9ce8120ecf",
     "csdlc-v3/tests/proof_parity_install_commands.rs": "61fb3a7d83d22ed53fea8f23cef6cb11c994fc93",
     "csdlc-v3/tests/proof_worktree_binding.rs": "bcea4f722959251d05bfb8bc59209e9ab89661e7",
-    "csdlc-v3/tests/real_issue_canary.rs": "68cfb813d05db07f295d4d07e0d2af007f71e964",
+    "csdlc-v3/tests/real_issue_canary.rs": "2ace7b6bd984c360cbeadb93a1f444e75de9b11a",
     "csdlc-v3/tests/remote_publication_commands.rs": "7459a036c8feeb87581bbc1653c9c81fc75dc851",
     "csdlc-v3/tests/transactions.rs": "e14a9a5f5651be3c43d7c5b4e6c5330794e371a8"
   },
@@ -62,8 +62,8 @@
     }
   },
   "review_method": {
-    "prior_source_sha": "5fddb524924489dff9924022c06b0346e4908af3",
-    "prior_receipt": "/tmp/review771-5fddb-routes.json",
+    "prior_source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+    "prior_receipt": "/tmp/review771-220db-routes.json",
     "all_25_assignment_commit_and_working_blobs_verified": true,
     "unchanged_substantive_reviews_reused": [
       "csdlc-v3/AGENTS.md",
@@ -88,12 +88,13 @@
       "csdlc-v3/tests/foundation.rs",
       "csdlc-v3/tests/proof_parity_install_commands.rs",
       "csdlc-v3/tests/proof_worktree_binding.rs",
-      "csdlc-v3/tests/real_issue_canary.rs",
       "csdlc-v3/tests/remote_publication_commands.rs",
       "csdlc-v3/tests/transactions.rs"
     ],
-    "changed_paths": [],
-    "method": "All25 assigned blobs are identical across prior reviewed SHA, current assigned immutable SHA, and working bytes. Reused substantive prior review, including complete real_issue_canary reread and earlier route changes. No fresh full-file reread or additional test execution claimed."
+    "changed_paths": [
+      "csdlc-v3/tests/real_issue_canary.rs"
+    ],
+    "method": "Inspected full canary diff against substantively reviewed source: canonical formatting splits expressions/assertions/loops and adds optional trailing punctuation without changing literals, branches, watched paths, calls or assertions. Reused prior complete canary review for semantic content; all other24 files match reviewed blobs. No new test execution or fresh full-file reread claimed."
   },
-  "validation_boundary": "Independent unchanged-source route review at220dbade0eb30e252f901b14c72a27f03bdcc715. Parent owns full identical-SHA suite; explicit terminal fixture unlock belongs to core reviewer. Prior source-review passes do not assert failed or unfinished suites passed. No live GitHub mutation, merge, closure or release authority."
+  "validation_boundary": "Independent source review at4d641e9961505d75a145457103cfa86f65ce51b1. Formatting-only canary delta preserves exact legacy denial and unchanged-state assertions. Parent owns fresh identical-SHA full suite and format gate; second formatted terminal test belongs to core lane. Earlier205-test suite predates these formatting bytes and is not substituted for current execution proof."
 }

@@ -1,8 +1,8 @@
 {
-  "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+  "source_sha": "4d641e9961505d75a145457103cfa86f65ce51b1",
   "reviewer": "codex:/root/review_771_core",
   "independent": true,
-  "completed_at": "2026-09-09T18:36:58.998154+00:00",
+  "completed_at": "2026-09-09T18:46:33.996737+00:00",
   "scope": {
     ".adl/worktree-policy.json": "4ed8820c35574e6d134e5d3aed8e5488328d3f2d",
     ".csdlc/evidence/505/cutover-approval-absent-canary-output.json": "bbc2894eb83d7e82e8cf94e716c1c2e7c1fc6fba",
@@ -55,7 +55,7 @@
     "csdlc-v3/src/commands/terminal.rs": "4de3c25d382ef2cb81dcb7598de1a63032dafabc",
     "csdlc-v3/tests/local_commands.rs": "f833a95d23d2eecc717f4e1de190aeaf46596037",
     "csdlc-v3/tests/operational_cli_commands.rs": "89f1670a4d1633745e1377e60db8f328d41f06e6",
-    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs": "7ee91ba18459e6bfa4d8d45dbc10e07b1277af7f",
+    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs": "2d798abbff8f9725a948ca0d88b943b479483763",
     "docs/csdlc-v3/CONTRACT.md": "96a146e785a3a99de5efd6a55be78af46553b66c",
     "docs/csdlc-v3/CURRENT_AUTHORITY.md": "7c12acc537810abc511b1cc063c231fed3349806",
     "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md": "7145d379c9f459b3f7d28340348052963c89dca3",
@@ -384,10 +384,8 @@
   "historical_preservation": "Assigned #505 cards/audit/index/evidence and old template blobs unchanged. CORP-A-ac-1..3 remain review_freshness_resolved with accepted successor482 lineage and direct criterion execution proof false. No CORP-A reclassification or historical claim widening.",
   "review_method": {
     "assigned_paths": 137,
-    "previous_review_source_sha": "5fddb524924489dff9924022c06b0346e4908af3",
-    "previous_receipt_sha256": "738c71ea93e74e6bce5dd7ce223b69673a99cae71d0763a9f8d2beff95309a3f",
-    "previous_receipt_copy": "/tmp/review771-core-5fddb.json",
-    "durable_prior_substantive_review": "archive/8a597a5cb9/reviews/core.json",
+    "previous_review_source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+    "previous_receipt_copy": "/tmp/review771-core-220dbade.json",
     "unchanged_whole_blobs_reused": [
       ".adl/worktree-policy.json",
       ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
@@ -529,9 +527,9 @@
     "changed_files_complete_context_review": [
       "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
     ],
-    "changed_file_method": "Complete held-lock regression and production release guard reviewed. Exact textual equality check confirms the only test-file delta from prior complete review is approved2-line comment+explicit unlock. All other previously reviewed bytes unchanged.",
-    "hash_verification": "All137 working/frozen blobs match preassignment and HEAD equals source_sha.",
-    "suite": "Parent suite runs separately. Focused attempt encountered StorageFull before exercising release; no passing execution result adopted."
+    "changed_file_method": "Reviewed both rustfmt assertion-layout deltas; exact full-file equality after whitespace removal confirmed. Assertion tokens, diagnostics, primary-state paths, explicit unlock and all denial/preservation checks unchanged. Previous complete semantic review retained.",
+    "hash_verification": "All137 working and frozen blobs match preassignment; HEAD equals source_sha.",
+    "suite": "Parent reports canonical format gate passed; fullsameSHA suite runs separately. No new suite pass claimed by reviewer."
   },
   "boundary_limits": [
     "This is complete review of exact137 assigned paths, not a claim to review omitted remote owners or all repository source.",
@@ -544,6 +542,7 @@
     "No inferred Linux-specific tmpdir failure; the verified integration defect was primary output-path mismatch.",
     "Prior8a597a full-suite failures remain archived evidence; unchanged core source review does not convert them to passing execution proof.",
     "The new canary assertion implementation is outside these137 assigned paths and requires its own routes receipt.",
-    "The explicit test unlock is a source-level release-boundary repair. Current validation remains pending; failed infrastructure attempts are retained separately and not recast as passes."
+    "The explicit test unlock is a source-level release-boundary repair. Current validation remains pending; failed infrastructure attempts are retained separately and not recast as passes.",
+    "This renewal covers formatting-only change in the assigned terminal test. The separately assigned real_issue_canary formatting delta requires routes review. Prior semantic dispositions remain unchanged."
   ]
 }

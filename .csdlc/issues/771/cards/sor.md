@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-All four V3-F rows bound to independent162-path review and205-test full locked detached suite at220dbade0eb30e252f901b14c72a27f03bdcc715. Three approved product repairs preserved; merged-main fixture paths, legacy eligibility denial and explicit fixture lock release corrected. PR801 republication and hosted CI follow. No merge or closure.
+All four V3-F rows bound to independent162-path review and205-test full locked detached suite at4d641e9961505d75a145457103cfa86f65ce51b1. Three approved product repairs preserved; merged-main fixture paths, legacy eligibility denial and explicit fixture lock release corrected. PR801 republication and hosted CI follow. No merge or closure. Canonical formatting gate passed.
 
 ## Artifacts
 
@@ -24,6 +24,7 @@ All four V3-F rows bound to independent162-path review and205-test full locked d
 - csdlc-v3/src/commands/remote/mod.rs
 - docs/templates/prompts/current.json
 - .csdlc/evidence/771/ci-integration-defect.md
+- .csdlc/evidence/771/fmt.log
 
 ## Execution
 
@@ -112,9 +113,21 @@ All four V3-F rows bound to independent162-path review and205-test full locked d
       "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "205 full locked tests passed in a clean detached checkout at220dbade0eb30e252f901b14c72a27f03bdcc715; identical162sourcepaths independently reviewed.",
+    "purpose": "205 full locked tests passed in a clean detached checkout at4d641e9961505d75a145457103cfa86f65ce51b1; identical162sourcepaths independently reviewed.",
     "outcome": "passed",
     "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Canonical rustfmt CI gate after whitespace-only correction.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/771/fmt.log"
   }
 ]
 
