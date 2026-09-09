@@ -35,7 +35,7 @@ The existing podcast graph and #432 are likewise retained rather than recreated.
 
 ## Canonical release tail
 
-After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the exact ten-step serial tail: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
+After every root named by INT-01 has merged reviewed authority, the planned integration conductor converges the canonical ten-step tail (successor-planning preparation may run alongside closeout under the operator clarification below): TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
 
 ## Boundaries
 
@@ -70,3 +70,6 @@ v0.92.2 is the **CodeFriend Beta 1** milestone. The release train must make Code
 - [Release plan](RELEASE_PLAN_v0.92.1.md)
 - [Release notes](RELEASE_NOTES_v0.92.1.md)
 - [Next milestone handoff](NEXT_MILESTONE_HANDOFF_v0.92.1.md)
+
+
+The operator authorized #523/#524/#525 successor planning alongside current closeout on 2026-09-08. Their settled outputs retain #523 → #524 → #525 consumption/review ordering; late closeout findings are reconciled before release. Ceremony still requires both #522 remediation and #525 exact-revision planning review. See the release plan and issue wave for the matching gates.

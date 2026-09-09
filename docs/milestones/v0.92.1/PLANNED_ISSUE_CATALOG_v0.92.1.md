@@ -72,10 +72,10 @@ WP-01 is deliberately number-free until milestone opening. It is not #431, and #
 | TAIL-04 | Internal review | TAIL-03 | Standard release tail |
 | TAIL-05 | External / third-party review | TAIL-04 | Standard release tail |
 | TAIL-06 | Review findings remediation | TAIL-05 | Standard release tail |
-| TAIL-07 | Next-milestone planning | TAIL-06 | #190 successor-planning intent |
+| TAIL-07 | Next-milestone planning | Operator-authorized parallel planning; no TAIL-06 start dependency | #190 successor-planning intent; #523 |
 | TAIL-08 | Next-milestone closeout plan | TAIL-07 | Standard release tail |
 | TAIL-09 | Next milestone review pass | TAIL-08 | Standard release tail |
-| TAIL-10 | Release ceremony | TAIL-09 | #189 ceremony intent |
+| TAIL-10 | Release ceremony | TAIL-06 and TAIL-09 | #189 ceremony intent; preserve both final gates |
 
 ## Retired inputs, not issues to recreate verbatim
 

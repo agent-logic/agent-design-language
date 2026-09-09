@@ -30,3 +30,7 @@ Each lane owns its issues, validations, review, and closeout. The conductor trac
 - Review cross-lane API, authority, privacy, and evidence dependencies.
 - Rebaseline explicitly if Runtime v4 becomes canonical.
 - Hand remaining CodeFriend work to v0.92.2 CodeFriend Beta 1, retaining the v0.95 integrated-beta deadline.
+
+## Operator scheduling clarification — 2026-09-08
+
+#523, #524 and #525 form a successor-planning lane that may proceed alongside current closeout. #523 does not wait for #522 to begin. #524 consumes the #523 candidate and #525 independently reviews the settled #523/#524 revision; preparation may overlap with disjoint ownership. Late closeout findings require planning reconciliation and renewed exact-revision review when material. Current release still requires both #522 remediation truth and #525 final planning review before ceremony; this scheduling change grants no release approval.

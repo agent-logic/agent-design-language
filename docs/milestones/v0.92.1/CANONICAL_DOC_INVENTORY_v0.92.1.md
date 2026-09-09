@@ -33,8 +33,11 @@ Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #
 
 ## Canonical Release Tail
 
-The serial denominator matches the preceding milestone standard: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony.
+The canonical stage denominator matches the preceding milestone standard: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony.
 
 ## Validation Boundary
 
 The issue-owned planning validator must require every surface in this inventory, parse both YAML contracts, preserve the full predecessor and existing-issue denominator, reject tracked local-path dependencies, verify the exact 45-entry number-free creation catalog including AWS-A through AWS-G, GCP-A through GCP-E, XCL-01, RUST-01, DEC-01, PROV-A, PROV-B, and DRT-D, and enforce the ten-step serial release tail. Passing planning validation is not implementation or release proof.
+
+
+Stage numbering does not block the operator-authorized parallel #523/#524/#525 preparation lane. The current release joins TAIL-06 and TAIL-09; see WP_ISSUE_WAVE_v0.92.1.yaml.

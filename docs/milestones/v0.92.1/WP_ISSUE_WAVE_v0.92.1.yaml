@@ -312,7 +312,8 @@ work_packages:
     creation_owner: WP-01
     title: Next-milestone planning
     predecessor_issues: [190]
-    depends_on: [TAIL-06]
+    depends_on: []
+    scheduling_note: Operator authorizes successor planning alongside current closeout; reconcile late TAIL-06 findings before final release
   - id: TAIL-08
     lane: release_tail
     issue: null
@@ -331,4 +332,4 @@ work_packages:
     creation_owner: WP-01
     title: Release ceremony
     predecessor_issues: [189]
-    depends_on: [TAIL-09]
+    depends_on: [TAIL-06, TAIL-09]

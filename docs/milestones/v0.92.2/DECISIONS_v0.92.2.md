@@ -18,3 +18,14 @@ Status: proposed decisions for milestone execution.
 | CF-D12 | Completed issue #484 is the baseline AWS ownership inventory, not work to repeat. | OPS-AWS produces a current delta, stale-item disposition, and maintenance runbook without recreating #484. |
 
 None of these decisions claims implementation, review approval, or release readiness.
+
+## #523 planning corrections
+
+- CF-D13: CF-EVIDENCE owns the shared finding/run contract and conformance fixtures before parallel consumers.
+- CF-D14: Pre-synthesis lane outputs are isolated; synthesis preserves disagreement.
+- CF-D15: Candidate-changing remediation refreshes affected artifacts, proof and internal/external review before release.
+- CF-D16: Existing #717/#718/#720 are reused. Current operator direction admits #718 urgently despite historical backlog wording. Other backlog is excluded.
+- CF-D17: Local CLI with artifact browsing in this repository is the bounded product design candidate; shared ADL contracts are consumed, not forked. WP-01 accepts or explicitly revises it before new-wave execution.
+- CF-D18: Independent supporting work converges at the milestone quality gate; only actual product prerequisites block integration.
+
+These corrections do not accept ADRs, create issues, approve Beta implementation, or complete #524/#525.
