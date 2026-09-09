@@ -25,6 +25,12 @@ if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_RO
   exit 1
 fi
 cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
+ruby -e 'path = ARGV.fetch(0); text = File.read(path); old = "          toolchain: 1.92.0\n"; abort "pinned rust fixture source missing" unless text.include?(old); File.write(path, text.sub(old, ""))' "$POLICY_FIXTURE_ROOT/.github/workflows/ci.yaml"
+if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
+  echo "missing Rust toolchain fixture escaped required-CI enforcement" >&2
+  exit 1
+fi
+cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
 ruby -e 'path = ARGV.fetch(0); text = File.read(path); old = %q{runs-on: ubuntu-latest}; new = %q{runs-on: ${{ vars.ADL_HEAVY_RUNNER || '\''adl-ubuntu-24.04-16core'\'' }}}; abort "standard runner fixture source missing" unless text.include?(old); File.write(path, text.sub(old, new))' "$POLICY_FIXTURE_ROOT/.github/workflows/ci.yaml"
 if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
   echo "runner-bypass fixture escaped standard-runner enforcement" >&2
