@@ -34,7 +34,9 @@ values; it cannot grant ownership by naming a directory. Construction state or
 retained v2 state does not satisfy this operational v3 contract.
 
 All issue output paths are checked before execution, including existing
-ancestors of absent paths. Symlinks and parent traversal are denied. Ownership
+ancestors of absent paths and the exact install receipt filename. Existing
+output endpoints must be regular files; directories, special files, symlinks
+and parent traversal are denied before the binary can be replaced. Ownership
 is rechecked before installation and before durable receipts, including after
 a proof command returns. Temporary files use exclusive creation. These are
 filesystem identity guards, not an operating-system sandbox for arbitrary

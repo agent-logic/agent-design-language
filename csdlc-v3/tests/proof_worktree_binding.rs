@@ -414,6 +414,40 @@ fn stable_binary_authenticates_invoking_worktree_before_every_operational_write(
         request["install"][field] = value;
         f.denied("install", &f.worktree, &request, code);
     }
+    let receipt = f
+        .worktree
+        .join(".csdlc/evidence/762/v3-install/receipt.json");
+    fs::create_dir_all(receipt.parent().unwrap()).unwrap();
+    let installed = f.worktree.join(".adl/bin/csdlc");
+    fs::create_dir_all(installed.parent().unwrap()).unwrap();
+    fs::write(
+        &installed,
+        "existing installation must survive rejected requests",
+    )
+    .unwrap();
+    #[cfg(unix)]
+    {
+        symlink(&f.binary, &receipt).unwrap();
+        f.denied("install", &f.worktree, &install, "proof_path_symlink");
+        fs::remove_file(&receipt).unwrap();
+    }
+    fs::create_dir(&receipt).unwrap();
+    f.denied("install", &f.worktree, &install, "proof_output_not_regular");
+    fs::remove_dir(&receipt).unwrap();
+    fs::remove_file(&installed).unwrap();
+    let proof_directory = f
+        .worktree
+        .join(".csdlc/evidence/762/v3-proof/directory-target.json");
+    fs::create_dir(&proof_directory).unwrap();
+    let mut directory_request = f.request.clone();
+    directory_request["proof"]["manifest_id"] = json!("directory-target");
+    f.denied(
+        "proof",
+        &f.worktree,
+        &directory_request,
+        "proof_output_not_regular",
+    );
+    fs::remove_dir(proof_directory).unwrap();
     #[cfg(unix)]
     {
         let bin = f.worktree.join(".adl/bin");

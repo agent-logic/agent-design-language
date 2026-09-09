@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d0ba68bfaa79ffd888628e5eb20a4d0796c9b8145bd49d79401650a4be62b327",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "800b28d4390368655235f2cac0e91f2afc0260097e682740958227858cd4ad68",
+  "generation": 12,
+  "digest": "a2b1ba5b1becc7865eaba5c3c47536b0fc014c875c133e8b27f5e29a4f414dbe",
   "branch": "codex/762-proof-worktree-binding",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-762-proof-worktree-binding",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c12635186924ce5438c5583e9c224baf60c680627cb762beb369e5281ea9b65b",
+      "values_digest": "6ce48e93256f7bb4170539e910d8d5cf566f37bc8077ab776f327562d2db627b",
       "rendered_digest": "0d72f75be2e3323521df9098a4c53c6a20516b2276e42f39bbcd153ab2ad18cb",
       "ast_digest": "0c90348c6b0ffd900293e06d5d13f6eabf85413287fed55b9354104bb15ab57a"
     },
     "stp": {
-      "values_digest": "665158080680e7d92bd5e34b999ce76f255354c7104e8369932a2de482c653b5",
+      "values_digest": "01ae9c3bdc7d4efdb444aff67484e3abdc20a1546793a2444cab7df2377bec8b",
       "rendered_digest": "f2724665064f2bb99c6e513857a45eec1af4fc6932cdcd62a5f06cfd0ea38f6f",
       "ast_digest": "96e480081aba9a017f89fbdf0572f07c0d4284c3e0c41dbe291867f7836f8151"
     },
     "spp": {
-      "values_digest": "1b90ea13f8a97df0006e40e516c3d0c084bee2216553f10108f54b79fcb0dbb6",
+      "values_digest": "c976ad204fb2f85ca33e9cebe4d7e9e98cc7ee9ab7d0aac26b717dbec44d5ba0",
       "rendered_digest": "8cf0e8f1acba41058ac2055e2aca1ea5bff5e66034be0395d5443f5d11bd7062",
       "ast_digest": "567d597e1e202fbee326a5e8f0a1c04f1571921dfcb83f2da517552ba120e516"
     },
     "vpp": {
-      "values_digest": "e9faf77a79f835f93ee727a411447f66dd973a03ac6939fead710b85e810e7f8",
+      "values_digest": "38136438866f1633eab46f5757a22df022f6f22b80bb48ead51d17cefac02ce5",
       "rendered_digest": "0e7ae6e3bb744565e3b15d991dc75cbb7c6be29611e73be5199be6d7833adc17",
       "ast_digest": "2abdf254ff65c5b6972eddcf84f9787ffffe26daa49379fa213b14a9cd75711f"
     },
     "srp": {
-      "values_digest": "1dfb2e5644115097696d8167b1831c6e743ce4514fd8522696739ccbc8b10374",
-      "rendered_digest": "dfc24eade9765bac8c0c2526e80f1dc435abd98fa21d1c48347563e9170af0ee",
-      "ast_digest": "793954ff6a61d073fb6a82e4f3efa433c7c1fdfe26ffd273ae41f1e9e2df647f"
+      "values_digest": "4f18c50cf068c8268de1f04f7c9f5b9346408afbdc076468730c9acf0a07d0e0",
+      "rendered_digest": "aa2fca3bc9c8c7b4456144a700a67d376513a36a3256e150e79d7152eb8edc87",
+      "ast_digest": "30d72956bbee6c170b6953f3a5945121c09952818e43d5f1a50f5ce1f650d521"
     },
     "sor": {
-      "values_digest": "d274b98617c92adbba7af8b8554d74f4aec7ee5813a47fe287b10e8e30d20cb3",
-      "rendered_digest": "3e7b871b074609cadd723aed7811099e3b0258e1913fa04e36d53801619afa8b",
-      "ast_digest": "821457176a66d1d2c5d532e90fe11821f86b428218fc11636b58caa00fbce50c"
+      "values_digest": "40e2008998e09d4d29e95f38b7ab034b66d6930cf0b97bd3ca0a8c8d3d9d1f38",
+      "rendered_digest": "d57d25d2b8ec73f5365934c9b590d4c310ea29178c2bbb2fb38c8e715f6a1c33",
+      "ast_digest": "c14de6eeed69349c954bdba4f7ab2739e3b09daf0459e53615b7e543739d68f0"
     }
   },
   "transitions": [
@@ -154,6 +154,34 @@
       "actor": "Planning #7",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "Planning #7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "Planning #7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "Planning #7",
+      "reason": "Independent review R762-001 requests changes: preflight exact regular-or-absent receipt/output endpoints before install; add zero-write regression, then revalidate and assign fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "Planning #7",
+      "reason": "Record passing typed repair validation for independent finding R762-001 before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Issue 762 implements native proof/install ownership guards and disables historical shadow/soak execution. Goal created after typed v2 binding under explicit issue-scoped operator exception. Worktree-only implementation; independent review and hosted integration CI follow; no merge or issue closure. Repaired R762-001 by preflighting exact regular-or-absent output endpoints; fresh typed repair validation passed.\",\"changes\":[\"Derive operational context from invoking checkout and authenticate Git topology, native selector, bound index and lifecycle digest before writes.\",\"Constrain output paths, recheck ownership at durable writes, reject historical execution and emit structured denial reports on stdout.\",\"Replace primary-mutating construction fixtures with stable-binary linked-worktree tests and explicit historical terminal-verifier data.\",\"Preflight exact install receipt and regular-or-absent output endpoints before any binary replacement; assert zero writes for symlink and directory targets.\"],\"artifacts\":[\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/proof_worktree_binding.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"docs/csdlc-v3/PROOF_WORKTREE_BINDING.md\",\"csdlc-v3/tests/operational_cli_commands.rs\",\".csdlc/evidence/762/review-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Required Rust static validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"repair/clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Required C-SDLC v3 CLI and lifecycle integration regression coverage for changed public dispatcher.\",\"outcome\":\"passed\",\"evidence_ref\":\"repair/csdlc-owner.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_worktree_binding\"],\"purpose\":\"Required deterministic linked-worktree identity and negative confinement proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"repair/proof-worktree.log\"}]}"
     }
   ]
 }

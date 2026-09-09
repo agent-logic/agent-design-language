@@ -280,6 +280,22 @@ fn confined_path(root: &Path, reference: &str) -> Result<PathBuf, ProofRouteFind
     Ok(path)
 }
 
+fn confined_output_file(root: &Path, reference: &str) -> Result<PathBuf, ProofRouteFinding> {
+    let path = confined_path(root, reference)?;
+    match path.symlink_metadata() {
+        Ok(metadata) if !metadata.is_file() => Err(finding(
+            "proof_output_not_regular",
+            "existing output endpoints must be regular files",
+        )),
+        Ok(_) => Ok(path),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(path),
+        Err(_) => Err(finding(
+            "proof_output_unavailable",
+            "output endpoint cannot be inspected",
+        )),
+    }
+}
+
 fn authorize_worktree(
     request: &ProofRouteRequest,
     repository_root: Option<&Path>,
@@ -545,7 +561,7 @@ fn authorize_worktree(
         &format!(".csdlc/evidence/{}/v3-install", request.issue),
     )?;
     if let Some(proof) = &request.proof {
-        confined_path(
+        confined_output_file(
             &root,
             &format!(
                 ".csdlc/evidence/{}/v3-proof/{}.json",
@@ -555,7 +571,11 @@ fn authorize_worktree(
         )?;
     }
     if let Some(install) = &request.install {
-        confined_path(&root, &install.destination)?;
+        confined_output_file(&root, &install.destination)?;
+        confined_output_file(
+            &root,
+            &format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue),
+        )?;
     }
     Ok(())
 }
@@ -1708,7 +1728,7 @@ fn execute_install(
     let root = request_root(request)?;
     authorize_worktree(request, Some(&root))?;
     let source = resolve_repo_path(&root, &install.artifact_ref, true)?;
-    let destination = confined_path(&root, &install.destination)?;
+    let destination = confined_output_file(&root, &install.destination)?;
     if destination
         .symlink_metadata()
         .is_ok_and(|metadata| metadata.file_type().is_symlink())
@@ -1927,7 +1947,7 @@ fn write_canonical_evidence(
     let mut bytes = canonical_json(value);
     bytes.push(b'\n');
     authorize_worktree(request, Some(&root))?;
-    let destination = confined_path(&root, reference)?;
+    let destination = confined_output_file(&root, reference)?;
     write_bytes_atomic(&destination, &bytes)
 }
 
