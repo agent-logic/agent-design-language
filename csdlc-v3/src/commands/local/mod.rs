@@ -1291,7 +1291,7 @@ pub fn execute_operational_local_route(
     }
     validate_contract(request)?;
     plan_cards(request.issue, &request.registry_version, registry)?;
-    validate_context(request, context)?;
+    validate_context(route, request, context)?;
     let _issue_lock = acquire_issue_mutation_lock(&context.state_root, request.issue)?;
     recover_pending_local_transaction(context, request.issue)?;
     let request_digest = local_request_digest(request)?;
@@ -1547,9 +1547,21 @@ fn recover_pending_local_transaction(
             branch,
             target,
             &context.expected_head_sha,
+            false,
         )?;
     }
-    commit_local_transaction(context, &journal)
+    if journal.route == "bind" {
+        let target = journal.bind_worktree.as_deref().ok_or_else(|| {
+            vec![finding(
+                PlanStatus::Blocked,
+                "local_transaction_bind_identity_missing",
+                "bind recovery requires its exact worktree identity",
+            )]
+        })?;
+        commit_bind_local_transaction(context, &journal, target)
+    } else {
+        commit_local_transaction(context, &journal)
+    }
 }
 
 fn commit_pending_local_transaction(
@@ -1612,6 +1624,119 @@ fn commit_local_transaction(
     fs::remove_file(&journal_path).map_err(io_finding("local_transaction_journal_cleanup_failed"))
 }
 
+fn commit_bind_local_transaction(
+    context: &OperationalLocalContext,
+    journal: &LocalMutationJournal,
+    target: &Path,
+) -> Result<(), Vec<DoctorFinding>> {
+    let source_issue_root = context.state_root.join(format!("issues/{}", journal.issue));
+    let source_journal_path = local_transaction_journal_path(context, journal.issue);
+    let (source_stage, source_backup, _) = local_transaction_paths(
+        context,
+        journal.issue,
+        &journal.route,
+        &journal.request_digest,
+    );
+    let target_state_root = target.join(".csdlc");
+    if target_state_root
+        .symlink_metadata()
+        .is_ok_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "bind_target_state_root_symlink_denied",
+            "bound lifecycle state root must not be a symlink",
+        )]);
+    }
+    let target_context = OperationalLocalContext {
+        repository_root: target.to_path_buf(),
+        state_root: target_state_root,
+        allowed_worktree_parent: context.allowed_worktree_parent.clone(),
+        expected_authority_selector_digest: context.expected_authority_selector_digest.clone(),
+        cutover_approval_path: context.cutover_approval_path.clone(),
+        expected_cutover_approval_digest: context.expected_cutover_approval_digest.clone(),
+        expected_head_sha: context.expected_head_sha.clone(),
+        expected_lifecycle_digest: context.expected_lifecycle_digest.clone(),
+    };
+    let target_issue_root = target_context
+        .state_root
+        .join(format!("issues/{}", journal.issue));
+    let (target_stage, target_backup, target_completion) = local_transaction_paths(
+        &target_context,
+        journal.issue,
+        &journal.route,
+        &journal.request_digest,
+    );
+    if target_backup.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_orphaned_backup",
+            "an unjournaled lifecycle backup requires operator recovery",
+        )]);
+    }
+    if target_issue_root.exists() && target_stage.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_state_ambiguous",
+            "bind transaction cannot reconcile target issue and stage state",
+        )]);
+    }
+    if source_issue_root.exists() && source_stage.exists() && !source_backup.exists() {
+        fs::rename(&source_issue_root, &source_backup)
+            .map_err(io_finding("local_transaction_backup_commit_failed"))?;
+        local_transaction_failpoint("after_backup_rename");
+    }
+    if !target_issue_root.exists() {
+        fs::create_dir_all(
+            target_stage
+                .parent()
+                .expect("target bind stage has a parent"),
+        )
+        .map_err(io_finding("local_transaction_target_parent_failed"))?;
+        if !target_stage.exists() {
+            copy_local_issue_tree(&source_stage, &target_stage)?;
+            local_transaction_failpoint("bind_after_target_stage_copy");
+        }
+        fs::rename(&target_stage, &target_issue_root)
+            .map_err(io_finding("local_transaction_target_stage_commit_failed"))?;
+        local_transaction_failpoint("bind_after_target_stage_rename");
+    }
+    if !target_issue_root.exists() || target_stage.exists() {
+        return Err(vec![finding(
+            PlanStatus::Blocked,
+            "local_transaction_state_ambiguous",
+            "bind transaction cannot reconcile source and target lifecycle state",
+        )]);
+    }
+    let completed = LocalMutationCompletion {
+        schema: "csdlc.v3.local_mutation_completion.v1".into(),
+        issue: journal.issue,
+        route: journal.route.clone(),
+        request_digest: journal.request_digest.clone(),
+        result: journal.result.clone(),
+    };
+    fs::create_dir_all(target_completion.parent().expect("completion has a parent"))
+        .map_err(io_finding("local_transaction_completion_parent_failed"))?;
+    let value = serde_json::to_value(completed).map_err(|error| {
+        vec![finding(
+            PlanStatus::Failed,
+            "local_transaction_completion_serialize_failed",
+            &error.to_string(),
+        )]
+    })?;
+    atomic_write_json(&target_completion, &value)?;
+    if source_stage.exists() {
+        fs::remove_dir_all(&source_stage)
+            .map_err(io_finding("local_transaction_stage_cleanup_failed"))?;
+    }
+    if source_backup.exists() {
+        fs::remove_dir_all(&source_backup)
+            .map_err(io_finding("local_transaction_backup_cleanup_failed"))?;
+    }
+    fs::remove_file(&source_journal_path)
+        .map_err(io_finding("local_transaction_journal_cleanup_failed"))
+}
+
 fn load_local_completion(
     context: &OperationalLocalContext,
     request: &LocalPreparationRequest,
@@ -1622,11 +1747,32 @@ fn load_local_completion(
         return Ok(None);
     }
     let (_, _, path) = local_transaction_paths(context, request.issue, route, request_digest);
-    if !path.exists() {
+    let (completion_path, completion_state_root) = if path.exists() {
+        (path, context.state_root.clone())
+    } else if route == "bind" {
+        let target_context = OperationalLocalContext {
+            repository_root: PathBuf::from(&request.worktree),
+            state_root: PathBuf::from(&request.worktree).join(".csdlc"),
+            allowed_worktree_parent: context.allowed_worktree_parent.clone(),
+            expected_authority_selector_digest: context.expected_authority_selector_digest.clone(),
+            cutover_approval_path: context.cutover_approval_path.clone(),
+            expected_cutover_approval_digest: context.expected_cutover_approval_digest.clone(),
+            expected_head_sha: context.expected_head_sha.clone(),
+            expected_lifecycle_digest: context.expected_lifecycle_digest.clone(),
+        };
+        let (_, _, target_path) =
+            local_transaction_paths(&target_context, request.issue, route, request_digest);
+        if target_path.exists() {
+            (target_path, target_context.state_root)
+        } else {
+            return Ok(None);
+        }
+    } else {
         return Ok(None);
-    }
+    };
     let completion: LocalMutationCompletion = serde_json::from_slice(
-        &fs::read(path).map_err(io_finding("local_transaction_completion_read_failed"))?,
+        &fs::read(completion_path)
+            .map_err(io_finding("local_transaction_completion_read_failed"))?,
     )
     .map_err(|error| {
         vec![finding(
@@ -1646,7 +1792,7 @@ fn load_local_completion(
             "lifecycle mutation completion does not match the exact request",
         )]);
     }
-    let issue_root = context.state_root.join(format!("issues/{}", request.issue));
+    let issue_root = completion_state_root.join(format!("issues/{}", request.issue));
     let observed = inspect_lifecycle_issue_root(&issue_root, request.issue, "v3");
     if completion.result.route != route
         || completion.result.issue != request.issue
@@ -1678,6 +1824,7 @@ fn load_local_completion(
             &request.branch,
             Path::new(&request.worktree),
             &context.expected_head_sha,
+            false,
         )?;
     }
     Ok(Some(completion.result))
@@ -1688,9 +1835,10 @@ fn ensure_bind_registration(
     branch: &str,
     target: &Path,
     expected_head: &str,
+    require_clean: bool,
 ) -> Result<(), Vec<DoctorFinding>> {
     if git_worktree_registration(repository_root, branch, target)? {
-        return verify_bound_worktree(branch, target, expected_head);
+        return verify_bound_worktree(branch, target, expected_head, require_clean);
     }
     if target.exists() {
         return Err(vec![finding(
@@ -1740,13 +1888,14 @@ fn ensure_bind_registration(
             String::from_utf8_lossy(&output.stderr).trim(),
         )]);
     }
-    verify_bound_worktree(branch, target, expected_head)
+    verify_bound_worktree(branch, target, expected_head, require_clean)
 }
 
 fn verify_bound_worktree(
     branch: &str,
     target: &Path,
     expected_head: &str,
+    require_clean: bool,
 ) -> Result<(), Vec<DoctorFinding>> {
     let output = Command::new("git")
         .arg("-C")
@@ -1783,18 +1932,20 @@ fn verify_bound_worktree(
             "registered worktree branch does not match the requested branch",
         )]);
     }
-    let status = Command::new("git")
-        .arg("-C")
-        .arg(target)
-        .args(["status", "--porcelain"])
-        .output()
-        .map_err(io_finding("bound_worktree_status_failed"))?;
-    if !status.status.success() || !status.stdout.is_empty() {
-        return Err(vec![finding(
-            PlanStatus::Blocked,
-            "bound_worktree_not_clean",
-            "newly bound worktree must be clean before lifecycle completion is published",
-        )]);
+    if require_clean {
+        let status = Command::new("git")
+            .arg("-C")
+            .arg(target)
+            .args(["status", "--porcelain"])
+            .output()
+            .map_err(io_finding("bound_worktree_status_failed"))?;
+        if !status.status.success() || !status.stdout.is_empty() {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "bound_worktree_not_clean",
+                "newly bound worktree must be clean before lifecycle completion is published",
+            )]);
+        }
     }
     Ok(())
 }
@@ -1807,6 +1958,7 @@ fn local_transaction_failpoint(name: &str) {
 }
 
 fn validate_context(
+    route: &str,
     request: &LocalPreparationRequest,
     context: &OperationalLocalContext,
 ) -> Result<(), Vec<DoctorFinding>> {
@@ -1836,11 +1988,40 @@ fn validate_context(
     if repository_root == context.allowed_worktree_parent
         || repository_root.starts_with(&context.allowed_worktree_parent)
     {
-        return Err(vec![finding(
-            PlanStatus::Failed,
-            "invalid_operational_roots",
-            "repository root and worktree parent must be distinct",
-        )]);
+        let binding_paths = [state_root.join(format!("issues/{}/index.json", request.issue))];
+        let binding_matches = binding_paths.iter().any(|path| {
+            if !canonical_existing_ancestor_local(path)
+                .is_some_and(|ancestor| ancestor.starts_with(state_root))
+            {
+                return false;
+            }
+            let index: Option<Value> = fs::read(path)
+                .ok()
+                .and_then(|bytes| serde_json::from_slice(&bytes).ok());
+            index.is_some_and(|value| {
+                value["schema"] == "csdlc.v3.local_state.v1"
+                    && value["issue"] == request.issue
+                    && value["phase"] == "bound"
+                    && value["repository"] == request.repository
+                    && value["branch"] == request.branch
+                    && value["worktree"] == request.worktree
+            })
+        });
+        let bound_checkout = !matches!(route, "issue" | "bind")
+            && binding_matches
+            && repository_root != context.allowed_worktree_parent
+            && repository_root.join(".git").is_file()
+            && Path::new(&request.worktree)
+                .canonicalize()
+                .is_ok_and(|path| path == repository_root)
+            && git_worktree_registration(&repository_root, &request.branch, &repository_root)?;
+        if !bound_checkout {
+            return Err(vec![finding(
+                PlanStatus::Failed,
+                "invalid_operational_roots",
+                "a root under the worktree parent must be the exact registered issue checkout",
+            )]);
+        }
     }
     if request.expected_lifecycle_digest != context.expected_lifecycle_digest {
         return Err(vec![finding(
@@ -2182,6 +2363,7 @@ fn bind_operational_issue(
         &request.branch,
         &target,
         &context.expected_head_sha,
+        true,
     )?;
     local_transaction_failpoint("bind_after_git");
     commit_pending_local_transaction(context, request.issue)?;
