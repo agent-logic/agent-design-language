@@ -2226,8 +2226,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             if current.terminal()
                 || (current.disposition == AdmissionGreetingDisposition::Retrying
                     && current.owner_runtime_incarnation_id.as_deref()
-                        == Some(self.runtime_incarnation_id.as_str())
-                    && now < current.next_attempt_at_unix_millis)
+                        == Some(self.runtime_incarnation_id.as_str()))
                 || (current.disposition == AdmissionGreetingDisposition::Pending
                     && now < current.next_attempt_at_unix_millis)
             {
@@ -4363,7 +4362,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             parent_checkpoint_generation: parent.as_ref().map(|(generation, _)| *generation),
             parent_checkpoint_digest: parent.as_ref().map(|(_, digest)| digest.clone()),
         };
-        persist_dynamic_agents_with_removal(
+        if persist_dynamic_agents_with_removal(
             &path,
             &next,
             &orientation_by_agent,
@@ -4371,9 +4370,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             &intent,
             |boundary| self.fail_dynamic_agent_removal_at("intent", boundary),
         )
-        .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
-        self.fail_dynamic_agent_removal_at("semantic", "after_intent_commit")
-            .map_err(|_| AgentAdmissionFailure::Unavailable("injected_removal_interruption"))?;
+        .is_err()
+        {
+            drop(agents);
+            let _ = self.configure_dynamic_agent_store(path);
+            return Err(AgentAdmissionFailure::Unavailable("persistence_failed"));
+        }
+        if self
+            .fail_dynamic_agent_removal_at("semantic", "after_intent_commit")
+            .is_err()
+        {
+            drop(agents);
+            let _ = self.configure_dynamic_agent_store(path);
+            return Err(AgentAdmissionFailure::Unavailable(
+                "injected_removal_interruption",
+            ));
+        }
         self.pending_agent_removals
             .lock()
             .expect("pending agent removals state poisoned")
@@ -8493,6 +8505,40 @@ mod layer8_conversation_ingress_tests {
             .shutdown(Duration::from_secs(1))
             .await
             .unwrap();
+    }
+
+    #[tokio::test]
+    async fn in_flight_admission_greeting_is_not_reclaimed_by_same_runtime() {
+        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::from_millis(25)).await;
+        let root = tempfile::tempdir().unwrap();
+        let store_path = root.path().join("dynamic-agents.json");
+        configure_admission_greeting_store(&service, &store_path);
+
+        let worker = {
+            let service = Arc::clone(&service);
+            tokio::spawn(async move { service.recover_admission_greeting("ember").await })
+        };
+        tokio::time::sleep(Duration::from_millis(5)).await;
+        assert!(service
+            .recover_admission_greeting("ember")
+            .await
+            .unwrap()
+            .is_none());
+        let delivered = worker.await.unwrap().unwrap().unwrap();
+        assert_eq!(delivered.status, "delivered");
+        assert_eq!(observed_tasks.lock().unwrap().len(), 1);
+        let record = service
+            .admission_greetings
+            .lock()
+            .unwrap()
+            .get("ember")
+            .cloned()
+            .unwrap();
+        assert_eq!(record.disposition, AdmissionGreetingDisposition::Completed);
+        assert_eq!(record.attempts, 1);
+
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
     #[tokio::test]

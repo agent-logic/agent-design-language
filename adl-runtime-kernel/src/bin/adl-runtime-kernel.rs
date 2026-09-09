@@ -740,6 +740,9 @@ async fn main() -> ExitCode {
             let greeting_recovery_service = Arc::clone(&service);
             tokio::spawn(async move {
                 greeting_recovery_service
+                    .refresh_dynamic_agent_health()
+                    .await;
+                greeting_recovery_service
                     .recover_admission_greetings()
                     .await;
             });
