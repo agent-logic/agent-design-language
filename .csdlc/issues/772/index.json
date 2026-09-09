@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 772,
+  "phase": "bound",
+  "generation": 3,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/772-prove-gcp-b-audit-log-posture",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-772-gcp-b-audit-log-posture",
+  "template_registry_version": "1.0.4",
+  "operational_authority": true,
+  "digest": "1ea90d0e7a99518e1c8e4f41b175f96f1fd354ec9f23e90888ba87dd457bb429"
+}

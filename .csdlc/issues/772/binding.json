@@ -1,0 +1,6 @@
+{
+  "schema": "csdlc.v3.binding.v1",
+  "issue": 772,
+  "branch": "codex/772-prove-gcp-b-audit-log-posture",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-772-gcp-b-audit-log-posture"
+}
