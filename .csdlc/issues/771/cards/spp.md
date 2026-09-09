@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Inspect current mappings and historical delta; author a fail-closed current mapping validator; freeze source SHA; independently review complete V3-F scope and replay full locked suite detached; retain receipts and map four rows; review and publish evidence PR.
+Operator-approved terminal receipt-conflict preflight repair and regression; consume merged776; freeze combined source; independent complete V3-F review and full detached locked suite; map all four rows without historical drift; final review and PR with green CI.
 
 ## Plan
 
-Revision 2
+Revision 4
 
 ## Steps
 

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
   "phase": "bound",
-  "generation": 4,
-  "digest": "bc3d65f371cb975052fa31266ae8366b1851930d0ff33fdf5861dd46e52286d1",
+  "generation": 6,
+  "digest": "cb7543d79ce0c4aaf549636715d60bd7a8d1291fdfd72ca3c31cd8d75202459d",
   "branch": "codex/771-v3f-proof-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "139370d2bc3fb9d53c93f2426b58e6902f13b6d36811954bb10f7e6276db5365",
+      "values_digest": "a6e4881863a586b3eb31d71d0f625c1ad7e1fd07844627c578a11b791b737bef",
       "rendered_digest": "4eebdac62588459e5ae15a126b3c8bc94988e95fba3648094304e67b71789a1f",
       "ast_digest": "6cd174bbb33f3cc0fdf24d89fca186dcff260bd6d3fee496a4372f4a9c11bf2b"
     },
     "stp": {
-      "values_digest": "3d39744815b72e12df1673311d96d25079822b4f22c0092c90bc5963f65ac4e5",
+      "values_digest": "e113c5174434a984a8ebd85a495bd35717818404545ac27d6e2cff20da13b19d",
       "rendered_digest": "52b8a2943894a66925c205a2f4eb7571c3517e6dcde571a6daa47dc1fdfb4ac4",
       "ast_digest": "4be7ccef53cfe215c834fefdf6e135e0f1c05db4974424e9ebceb69d78821937"
     },
     "spp": {
-      "values_digest": "d7ba4505064a7b423934aa3cd65f46f28818560fe457f603d8460d634435f1df",
-      "rendered_digest": "084cd9c7d3fe6227a0e8868abe66da048a5db47faa71abdbbb7624ffcf9471df",
-      "ast_digest": "7214c0349a88c96deaf626400784e60d70245a6f7ec48fd555e948606ade3887"
+      "values_digest": "c5868f92086aac8a566ea5ac995ef59a592ac670fe001bb22266c6e178799d94",
+      "rendered_digest": "27ba0049ed1c47dc5a271ee0464a9c691166f4b4acea206c7ff5e1f964a814fd",
+      "ast_digest": "0b73e8db0f6417e0b55b96970c93ca7466ec3e887a19e450fbedd6c68f775cbc"
     },
     "vpp": {
-      "values_digest": "cb1aabb545f79e9a264097287239d13799676a96d89f08e3afbd4ddee9712d83",
+      "values_digest": "dc07e2611942a7540303d111315614fb096666db0fa3e74f85fa67a21e632eba",
       "rendered_digest": "eff3f6a59399fa5882a53c3faccfcd968494d80f4964021ebd0ea025d39c72c3",
       "ast_digest": "078597eef92b7ca896a3439cc054fb0d3970fd45cc19359bdec5d63d18ce9abc"
     },
     "srp": {
-      "values_digest": "83669e560319229b6db5126f46d8bc3cbc30007d5feac8449f1839536e9b394f",
+      "values_digest": "8329934d0bb7d1f9f565e5b17ff8fd36da39cc2f569799b60ae1bdc51833ae99",
       "rendered_digest": "cdf216c9ac416683f98d124950ca487df914405c1cd9cee694899f58c21205d4",
       "ast_digest": "1aeed3599f46384599ae716396d4bd47a28d827664a91d99e41eedbefe93de44"
     },
     "sor": {
-      "values_digest": "46057d9b297de7f13ff8136ece645d5c485989c64d477170b67c7fad8b257f5d",
+      "values_digest": "0d4162c164a3f53c322403c9f420fa5151d99f4b85eb7ea303637765f9cbf39f",
       "rendered_digest": "2bb9189f8d136ec6aa074ae17a1a570369ee06fc0d65f25c36be200a624fe1cc",
       "ast_digest": "a25bada74d3705d437ba4768e61a58cf96511d6523ddbd8fa9d45271c43e3638"
     }
@@ -112,6 +112,20 @@
       "actor": "Planning #7",
       "reason": "Retain completed historical/source inspection and unfinished mapping/review work after independent terminal defect reproduction.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "Planning #7",
+      "reason": "Record explicit operator approval for bounded terminal repair before implementation.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Operator-approved terminal receipt-conflict preflight repair and regression; consume merged776; freeze combined source; independent complete V3-F review and full detached locked suite; map all four rows without historical drift; final review and PR with green CI.\",\"operation\":\"replan\",\"previous_value\":\"Inspect current mappings and historical delta; author a fail-closed current mapping validator; freeze source SHA; independently review complete V3-F scope and replay full locked suite detached; retain receipts and map four rows; review and publish evidence PR.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "Planning #7",
+      "reason": "Record explicit operator approval for bounded terminal repair before implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py\"]}"
     }
   ]
 }

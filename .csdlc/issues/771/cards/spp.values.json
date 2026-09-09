@@ -7,14 +7,14 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
-      "summary": "Inspect current mappings and historical delta; author a fail-closed current mapping validator; freeze source SHA; independently review complete V3-F scope and replay full locked suite detached; retain receipts and map four rows; review and publish evidence PR.",
+      "plan_revision": 4,
+      "summary": "Operator-approved terminal receipt-conflict preflight repair and regression; consume merged776; freeze combined source; independent complete V3-F review and full detached locked suite; map all four rows without historical drift; final review and PR with green CI.",
       "steps": [
         {
           "id": "S1",
@@ -66,9 +66,11 @@
         }
       ],
       "affected_areas": [
+        "csdlc-v3/src/commands/terminal.rs",
+        "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
         "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
-        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current",
-        ".csdlc/evidence/771"
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py"
       ],
       "invariants": [
         "Historical receipts immutable; source review and suite use identical bytes; no CORP-A reopening."
