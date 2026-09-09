@@ -5,9 +5,18 @@
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/768",
   "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
   "branch": "codex/768-tail-02-candidate-safe-reproduction",
-  "version": "1.0.4",
+  "version": "v0.92.1",
   "card": "sip",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction",
+  "slug": "tail-02-candidate-safe-reproduction",
+  "summary": "Separate immutable TAIL-02 source verification from current-candidate linkage without rewriting historical evidence.",
+  "goal": "Keep the frozen TAIL-02 audit reproducible after legitimate repository growth.",
+  "required_outcome": "Distinct source-head and candidate-linkage commands pass for the evidence each owns.",
+  "required_outcome_type": "docs_validator_remediation",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/768",
+  "target_files_surfaces": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb; docs/milestones/v0.92.1/evidence/release/tail-02/README.md; .csdlc/prepared/issues/768/test-tail02-tracked-growth.rb",
+  "non_goals": "No historical hash rewrites, release approval, product proof, or TAIL-03 mutation.",
+  "validation_plan": "Run historical, candidate-linkage, combined, tracked-growth, ten negative guard fixtures, diff hygiene, and independent exact-head review."
 }

@@ -5,9 +5,19 @@
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/768",
   "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
   "branch": "codex/768-tail-02-candidate-safe-reproduction",
-  "version": "1.0.4",
+  "version": "v0.92.1",
   "card": "srp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction",
+  "slug": "tail-02-candidate-safe-reproduction",
+  "stp_card": ".csdlc/issues/768/cards/stp.md",
+  "sip_card": ".csdlc/issues/768/cards/sip.md",
+  "spp_card": ".csdlc/issues/768/cards/spp.md",
+  "vpp_card": ".csdlc/issues/768/cards/vpp.md",
+  "sor_card": ".csdlc/issues/768/cards/sor.md",
+  "review_findings": "Initial P1 removed nine fail-closed checks and P2 retained a stale Cargo command; both were fixed. Final exact-head review found no remaining findings.",
+  "review_dispositions": "P1 fixed by restoring all nine checks plus ten negatives. P2 fixed by classifying Cargo evidence as historical. Final review pass.",
+  "review_notes": "Independent reviewer /root/execute_768/review_768 reviewed exact head d1bdc791a5995dc1669510accfd63892137f853f.",
+  "recommended_outcome": "pass"
 }

@@ -5,7 +5,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.4/sip.md`
 
 Task ID: issue-0768
 Run ID: issue-0768
-Version: 1.0.4
+Version: v0.92.1
 Title: [v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe
 Branch: codex/768-tail-02-candidate-safe-reproduction
 Card Status: ready
@@ -14,7 +14,7 @@ Generated: <timestamp>
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/768
 - PR:
-- Source Issue Prompt: <source_issue_prompt>
+- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/768
 - Docs: <docs_context>
 - Other: none
 
@@ -84,17 +84,17 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: <slug>
-- Required outcome type: <required_outcome_type>
+- Source issue-prompt slug: tail-02-candidate-safe-reproduction
+- Required outcome type: docs_validator_remediation
 - Demo required: <demo_required>
 
 ## Goal
 
-<goal>
+Keep the frozen TAIL-02 audit reproducible after legitimate repository growth.
 
 ## Required Outcome
 
-<required_outcome>
+Distinct source-head and candidate-linkage commands pass for the evidence each owns.
 
 ## Acceptance Criteria
 
@@ -106,11 +106,11 @@ review_surfaces:
 
 ## Target Files / Surfaces
 
-<target_files_surfaces>
+.csdlc/prepared/issues/518/validate-documentation-handoff.rb; docs/milestones/v0.92.1/evidence/release/tail-02/README.md; .csdlc/prepared/issues/768/test-tail02-tracked-growth.rb
 
 ## Validation Plan
 
-<validation_plan>
+Run historical, candidate-linkage, combined, tracked-growth, ten negative guard fixtures, diff hygiene, and independent exact-head review.
 
 ## Demo / Proof Requirements
 
@@ -162,7 +162,7 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-<non_goals>
+No historical hash rewrites, release approval, product proof, or TAIL-03 mutation.
 
 ## Notes / Risks
 

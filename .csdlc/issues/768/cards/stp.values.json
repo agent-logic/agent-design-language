@@ -5,9 +5,21 @@
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/768",
   "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
   "branch": "codex/768-tail-02-candidate-safe-reproduction",
-  "version": "1.0.4",
+  "version": "v0.92.1",
   "card": "stp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction",
+  "wp": "TAIL-06.12",
+  "slug": "tail-02-candidate-safe-reproduction",
+  "summary": "Repair D520-DOC-002 with two explicit evidence boundaries.",
+  "goal": "Make TAIL-02 reproduction candidate-safe while preserving its fail-closed release checks.",
+  "required_outcome": "Historical verification reads immutable objects; candidate linkage verifies ancestry and source-bound TAIL-03 hashes without comparing a frozen denominator to current tracked files.",
+  "required_outcome_type": "docs_validator_remediation",
+  "repo_inputs": "Issue #768; reviews #520 and #522; TAIL-02 README/validator; TAIL-03 candidate packet.",
+  "target_files_surfaces": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb; docs/milestones/v0.92.1/evidence/release/tail-02/README.md; .csdlc/prepared/issues/768/test-tail02-tracked-growth.rb",
+  "acceptance_criteria": "Both explicit modes pass; outputs state identities and denominators; later tracked growth does not fail historical proof; original fail-closed guards reject drift; TAIL-03 remains unchanged.",
+  "validation_plan": "Focused Ruby validator modes, real temporary-clone growth fixture, ten negative fixtures, diff hygiene, and independent exact-head review.",
+  "non_goals": "No immutable evidence regeneration or broader release-tail change.",
+  "dependencies": "Parent #522 and source review #520 provide scope; no runtime dependency."
 }

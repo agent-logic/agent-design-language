@@ -1,4 +1,4 @@
-# <slug>
+# tail-02-candidate-safe-reproduction
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/sor.md`
 
@@ -16,11 +16,11 @@ Execution Record Requirements:
 
 Task ID: issue-0768
 Run ID: issue-0768
-Version: 1.0.4
+Version: v0.92.1
 Title: [v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe
 Branch: codex/768-tail-02-candidate-safe-reproduction
 Card Status: ready
-Status: <status>
+Status: implemented
 Generated: <timestamp>
 
 Execution:
@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-<summary>
+Implemented separate immutable-source and candidate-linkage verification, preserved nine fail-closed checks, and added tracked-growth plus ten negative fixtures.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -56,7 +56,7 @@ Execution:
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
+- Completion state: `publication_ready`
 - Issue goal ref: `<issue_goal_ref>`
 - Sprint goal ref: `<sprint_goal_ref>`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -74,24 +74,24 @@ Execution:
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Tracked implementation artifacts: `.csdlc/prepared/issues/518/validate-documentation-handoff.rb; docs/milestones/v0.92.1/evidence/release/tail-02/README.md; .csdlc/prepared/issues/768/test-tail02-tracked-growth.rb`
+- Additional proof artifacts: `TAIL-03 zero-diff check; independent exact-head review at d1bdc791a5995dc1669510accfd63892137f853f.`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Split historical source verification from current-candidate linkage.`
+- `Retained all prior decision, reconciliation, disposition, digest, and ancestry guards.`
+- `Added real tracked-growth and ten intended-rejection fixtures.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `None; branch not merged.`
+- Worktree-only paths remaining: `All issue #768 changes until merge.`
+- Integration state: `worktree_only`
+- Verification scope: `Issue-owned validator, docs, regression fixture, and unchanged TAIL-03 linkage.`
+- Integration method used: `Bound FastWork issue branch and native C-SDLC v3.`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `<integration_result>`
+- Result: `Implementation committed and independently reviewed; PR publication pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -106,10 +106,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
+  - `ruby validator --all; ruby tracked-growth fixture; git diff --check; TAIL-03 zero diff`
     `<validation_effect>`
 - Results:
-  - `<validation_result>`
+  - `Passed: 2,838 combined checks; 737 historical documents; 791 candidate-linked documents; ten negative fixtures; clean diff.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
