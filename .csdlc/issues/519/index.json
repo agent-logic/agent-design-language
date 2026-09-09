@@ -3,13 +3,53 @@
   "issue": 519,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "56c6a0a0f27c894cf9534389e91aa8405cec4df9b2d6f42fa9e6dfcdb341d23f",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "c82e6f2ee81ec0bbff10155f3c8829a1824475f60d25306e4848302960cb201d",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "c3a9c2a9ec17fbcb735f9cf50577902eed29113363a38b5e9698f62b94aac1d7",
   "branch": "codex/519-publication-finalization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-519-publication-finalization",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_519_final",
+    "assigned_by": "codex:planning-7",
+    "revision": "git-blake3:9d414f324b116e9a70777dc120bbf67a38eb70db:c48424c65980ca986f8f047cb6e0a6728a9c5199fff7d3543bba53ed0206cae3",
+    "scope": [
+      ".csdlc/evidence/519/artifact-redaction.log",
+      ".csdlc/evidence/519/diff-hygiene.log",
+      ".csdlc/evidence/519/exact-head.log",
+      ".csdlc/evidence/519/negative-fixtures.log",
+      ".csdlc/evidence/519/publication-linkage.log",
+      ".csdlc/prepared/issues/519/design.md",
+      ".csdlc/prepared/issues/519/diagram.mmd",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_519_final",
+    "scope": [
+      ".csdlc/evidence/519/artifact-redaction.log",
+      ".csdlc/evidence/519/diff-hygiene.log",
+      ".csdlc/evidence/519/exact-head.log",
+      ".csdlc/evidence/519/negative-fixtures.log",
+      ".csdlc/evidence/519/publication-linkage.log",
+      ".csdlc/prepared/issues/519/design.md",
+      ".csdlc/prepared/issues/519/diagram.mmd",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json"
+    ],
+    "reviewed_revision": "git-blake3:9d414f324b116e9a70777dc120bbf67a38eb70db:c48424c65980ca986f8f047cb6e0a6728a9c5199fff7d3543bba53ed0206cae3",
+    "findings": [],
+    "residual_risks": [
+      "Redaction is bounded pattern screening of the publication packet; historical source documents are hash-verified, not comprehensively rescanned.",
+      "The merged source PR observation is a snapshot. No merge, tag, release or issue closure is authorized by this review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75b36c699d4270c47cfece171ae90d9c0e62eb8308140d3caaed15f4b428253c",
+      "values_digest": "8877145518aae5925b31cf3230b03eb6703f1771c67b9b8c38f7037e8bbdfb77",
       "rendered_digest": "b2fa2f7b15a4c61df8b9edcfeafd841383511101c29cfdf4f4ca8b649c366b02",
       "ast_digest": "fe6aa80ee56a8b755654c7f1d54971f1c5eaeea2af74c3e10c2a147c4d2b06a8"
     },
     "stp": {
-      "values_digest": "e5b10e23ba44cd1395d938bc288cd0f4fba813efdc657aa044764d4d39339ec6",
+      "values_digest": "eab148ff908919aace2817607f3af145ec34e56b057e1c83de15acbb602aaffd",
       "rendered_digest": "9df12e62dbf834912defb6d0e47d9652c8007bd276404b6d1312482aca3fa174",
       "ast_digest": "3efb223be912f75196d37a9aaa26a997a18d8481e61feb5262f273e994838aaf"
     },
     "spp": {
-      "values_digest": "d77fc94d845f17768e4b36b648a374ea309c742040f635edb18d0cd388a9658b",
+      "values_digest": "337777eb01497e804f69c534ff0013aff4f660b3ae2e0e4653ff5ac3e186d748",
       "rendered_digest": "21647e54d292c7075e01ea2d1ed5647c3fdef612eaea53d6a616da82eb8fa1b1",
       "ast_digest": "9e0924330d2b2c103325a28bd87a8c86896be98ee288f7fb187d34579cd14ce7"
     },
     "vpp": {
-      "values_digest": "114b9a2d5c5b831f5d358ff7ffd8d9f85b4e6a328f82dcfa17b662e13cc86e6c",
+      "values_digest": "ed608c5abd68d084e5a5fc96dbed5b71159aaaec1af0ddc5678c15615f943558",
       "rendered_digest": "67d8307e9686f9e7af8b2d9d075247f1c9faefb0474edd973902b27f9c78f7d9",
       "ast_digest": "7fe559eb67cba627f13cd130430d94068926bae1122d89ea9d22a3f82dfcf627"
     },
     "srp": {
-      "values_digest": "e6dcce2f912b0326e991b0ab6d48f6890eef1805cd294bb9b7f85269fa0c5198",
-      "rendered_digest": "c0a799ed3f30c3e894ed67900d2a216b4b1abb3d249f16694740895f82119e04",
-      "ast_digest": "6e273a75f498b03619bfcb8dc47111217d145e70f68ef3055eb4fde8ea403311"
+      "values_digest": "8394bbb134ef1ad7a0fbf0b1c3c3714501fe0ffaa1a8427d0591a7f9c974e9b2",
+      "rendered_digest": "488675300086b0525575195753760088f026e47e93e018aca49a794f1d0e3a5e",
+      "ast_digest": "bdf820b78d9942fe7990e62dd861bd6522d64d4cf842448752073000a847165a"
     },
     "sor": {
-      "values_digest": "84256f586544cddef84e4863e4ad6738767b066af25745f7b0cb96e970b82616",
+      "values_digest": "6faff36d83d5185ca7882d255f9f2bbb80145b40dd583823a08e8cdec5da2478",
       "rendered_digest": "12093fac3b129cb29e6d7b63c75a35e21d02c0eeeadc5dd03949cad53dc82b4d",
       "ast_digest": "d357ec769c656c736b4934c976b53d5c6d9e31038e1d4676bcdc39b80d7671e3"
     }
@@ -75,6 +115,13 @@
       "to": "implemented",
       "actor": "codex:planning-7",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning-7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -245,6 +292,20 @@
       "actor": "codex:planning-7",
       "reason": "Final typed validation passed; independent review/publication remains in progress.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:planning-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:planning-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
