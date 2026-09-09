@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 754,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][tooling] Restore v2 registry compatibility after template 1.0.4",
+    "slug": "registry-104-compatibility",
+    "version": "v0.92.2",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Restore standalone CI registry compatibility while preserving native authority guards.",
+      "required_outcome": "Coherent registries1.0.3/1.0.4 accepted; mismatches rejected; full standalone checks pass.",
+      "declared_scope": [
+        "csdlc-v2/src/registry.rs",
+        "csdlc-v2/tests/gate9.rs",
+        "csdlc-v2/tests/gate10a.rs",
+        "csdlc-v2/tests/gate_github_route_policy.rs"
+      ],
+      "authority_boundary": [
+        "Explicit operator authorization for typed-v2 transition; preserve root native754 state."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Separate tooling issue754; no PR753 merge."
+      ]
+    }
+  }
+}

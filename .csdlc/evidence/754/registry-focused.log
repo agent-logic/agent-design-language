@@ -1,0 +1,28 @@
+
+running 11 tests
+test evidence_input_rejects_wrong_schema_or_non_v1_default ... ok
+test selector_requires_opt_in_and_rejects_explicit_v3_before_canonical_cutover ... ok
+test proceed_requires_every_scenario_hard_budget_and_zero_critical_parity_loss ... ok
+test every_retained_behavior_has_current_parity_proof ... ok
+test missing_or_waiting_evidence_incubates_but_hard_failure_stops ... ok
+test hard_budget_or_critical_parity_failure_stops_cutover ... ok
+test native_sample_authority_resolves_distinct_native_and_import_families ... ok
+test native_registry_accepts_explicit_legacy_registry_versions ... ok
+test native_registry_rejects_missing_and_drifted_shapes_before_sample_writes ... ok
+test native_registry_rejects_incompatible_authority_before_sample_writes ... ok
+test sample_generation_is_idempotent_and_builds_six_ast_validated_cards_each ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 3 tests
+test shared_token_precedence_and_error_redaction_are_preserved ... ok
+test connector_403_is_not_token_failure_or_fallback_authority ... ok
+test github_route_policy_is_consistent_and_fail_closed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
+     Running tests/gate9.rs (/Volumes/FastWork/cargo-target/debug/deps/gate9-3a04c08bf92b55ed)
+     Running tests/gate_github_route_policy.rs (/Volumes/FastWork/cargo-target/debug/deps/gate_github_route_policy-643c8cd36198a169)
