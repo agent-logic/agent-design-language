@@ -104,7 +104,7 @@ def main() -> None:
     numbers.update({814, 815, 816, 817})
     observation = issue_observation(sorted(numbers), source, observed_at)
     observation_path = PACKET / "issue-observation.json"
-    observation_path.write_text(json.dumps(observation, indent=2, sort_keys=True) + "\n")
+    observation_path.write_text(json.dumps(observation, indent=2) + "\n")
 
     open_issues = {row["number"] for row in observation["issues"] if row["state"] == "OPEN"}
     status["source_revision"] = source
@@ -127,7 +127,7 @@ def main() -> None:
     for source_row in status["sources"]:
         source_row["revision"] = source
         source_row["sha256"] = git_show_sha(source, source_row["path"])
-    status_path.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n")
+    status_path.write_text(json.dumps(status, indent=2) + "\n")
     update_docs(status, old_source, source)
     update_evidence_map(status, old_source, source)
     print(json.dumps({
