@@ -28,3 +28,4 @@
 {"sequence":28,"generation":25,"actor":"codex:planning-7","reason":"Final candidate validation and exact independent review passed; packet delivery ready for typed publication.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"}
 {"sequence":29,"generation":25,"actor":"codex:planning-7","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":26,"actor":"codex:planning-7","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":31,"generation":27,"actor":"codex:planning-7","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

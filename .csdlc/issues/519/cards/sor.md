@@ -114,11 +114,11 @@ Final publication-candidate packet bound to merged #518 / PR753: immutable revie
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
