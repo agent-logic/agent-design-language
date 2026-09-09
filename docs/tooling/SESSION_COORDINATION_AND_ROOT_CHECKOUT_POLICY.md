@@ -26,7 +26,7 @@ are updated together.
 The primary checkout is the repository root, for example:
 
 ```text
-/Users/daniel/git/agent-design-language
+<repo-root>
 ```
 
 The primary checkout must normally stay on clean `main`.
