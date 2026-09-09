@@ -1,6 +1,6 @@
 # Default C-SDLC workflow
 
-C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector, authenticated receipt and reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
 1. Read the issue, six cards and root `AGENTS.md`; inspect the primary checkout and existing worktrees.
 2. Discover the native command and request shape with `.adl/bin/native-v3/csdlc --help` and the typed definitions in `csdlc-v3/src/commands/`. Commands require their declared request, registry and registration inputs; a subcommand name alone is not an invocation recipe.
@@ -23,4 +23,5 @@ The retained v2 binding runbook is
 
 The former v1 workflow in `docs/legacy/DEFAULT_WORKFLOW_V1.md` is historical.
 See `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for shared
-checkout policy and `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` for cutover history.
+checkout policy and `docs/csdlc-v3/CURRENT_AUTHORITY.md` for current routing and explicitly
+labeled historical cutover evidence.

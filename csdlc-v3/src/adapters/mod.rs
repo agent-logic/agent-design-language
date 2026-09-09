@@ -231,6 +231,14 @@ pub enum ProcessStatus {
 }
 
 pub trait ProcessAdapter {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &CommandInvocation,
+    ) -> Result<(), AdapterError> {
+        let _ = invocation;
+        Ok(())
+    }
+
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput;
 }
 
@@ -255,6 +263,21 @@ impl<R> RealProcessAdapter<R> {
 }
 
 impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &CommandInvocation,
+    ) -> Result<(), AdapterError> {
+        let Some(name) = invocation.child_credential_name() else {
+            return Ok(());
+        };
+        let mut captured = CapturedChildCredentials::default();
+        self.resolver.inject_child_credential(name, &mut captured)?;
+        captured
+            .take_single(name)
+            .map(|_| ())
+            .ok_or(AdapterError::CredentialResolutionFailed)
+    }
+
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput {
         let mut captured = CapturedChildCredentials::default();
         let credential = match invocation.child_credential_name() {

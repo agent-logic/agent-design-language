@@ -3,7 +3,7 @@ name = "csdlc-v3"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "Non-authoritative C-SDLC v3 contract boundary for ADL issue #500"
+description = "Typed C-SDLC v3 lifecycle with authenticated selector and receipt authority guards"
 
 [lib]
 name = "csdlc_v3"

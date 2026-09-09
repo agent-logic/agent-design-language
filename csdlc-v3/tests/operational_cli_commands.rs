@@ -270,11 +270,13 @@ fn bind_recovers_after_process_exit_following_git_side_effect() {
     assert_eq!(value["result"]["phase"], "bound");
     assert_eq!(
         serde_json::from_slice::<serde_json::Value>(
-            &fs::read(fixture.root.join(".csdlc/issues/505/index.json")).unwrap()
+            &fs::read(Path::new(&fixture.request.worktree).join(".csdlc/issues/505/index.json"))
+                .unwrap()
         )
         .unwrap()["phase"],
         "bound"
     );
+    assert!(!fixture.root.join(".csdlc/issues/505").exists());
     assert!(!fixture.root.join(".csdlc/transactions/505.json").exists());
 }
 
@@ -299,6 +301,10 @@ fn bind_recovers_after_branch_creation_before_worktree_registration() {
         ),
         git(&fixture.root, &["rev-parse", "HEAD"])
     );
+    assert!(Path::new(&fixture.request.worktree)
+        .join(".csdlc/issues/505/index.json")
+        .is_file());
+    assert!(!fixture.root.join(".csdlc/issues/505").exists());
 }
 
 #[test]
@@ -620,6 +626,7 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
             operator_approval: Some("test route ownership".into()),
             expected_head_sha: head.clone(),
             credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
             mutation: GithubMutation::IssueCreate {
                 title: "new issue".into(),
                 body: "body".into(),
@@ -660,6 +667,7 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
             operator_approval: Some("test route ownership".into()),
             expected_head_sha: head,
             credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
             mutation: GithubMutation::PullRequestReady,
         }),
     };

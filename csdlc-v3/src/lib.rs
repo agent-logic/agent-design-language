@@ -1,11 +1,10 @@
-//! Minimal non-authoritative C-SDLC v3 contract boundary.
+//! Operational C-SDLC v3 lifecycle and retained construction contracts.
 //!
-//! This crate is introduced by ADL issue #500 as a construction-decision and
-//! validation surface only. It exposes typed pre-cutover command boundaries for
-//! local preparation and remote-delivery verification, but those boundaries
-//! remain non-authoritative: they do not mutate GitHub, bind live worktrees,
-//! finish issues, clean worktrees, or switch operational authority away from
-//! C-SDLC v2 before the explicit #505 cutover.
+//! The #505 / PR #591 cutover is complete. Operational routes require the
+//! authenticated canonical selector and reconciliation receipt; missing or stale
+//! proof suspends authority. Retained construction models and proof routes do
+//! not independently grant mutation authority. Historical #500 evidence remains
+//! construction-time evidence rather than current operator routing policy.
 
 pub mod adapters;
 pub mod application;
