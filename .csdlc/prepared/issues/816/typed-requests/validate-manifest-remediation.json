@@ -1,0 +1,13 @@
+{
+  "issue": 816,
+  "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/816-validation-integrity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-816-validation-integrity",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "4a099a48968b7bd96a2afb200afe3ca21f98fa8fbe2ca0389966da075df47330",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "card_updates": {},
+  "schedule_readiness": null,
+  "shepherd_routing": null
+}

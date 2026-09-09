@@ -60,15 +60,41 @@ def inspect(value: Any, pointer: str, found: set[str]) -> None:
                 raise UnsafePublication(f"{category}:{pointer}")
 
 
+def inspect_text(value: str) -> None:
+    for category, pattern in SECRET_PATTERNS:
+        if pattern.search(value):
+            raise UnsafePublication(category)
+    assignment = re.compile(
+        r"(?im)(?:[\"'](provider_payload|prompt|output|tool_arguments)[\"']|"
+        r"(provider_payload|tool_arguments))\s*[:=]\s*([^\r\n,;}]+)"
+    )
+    for match in assignment.finditer(value):
+        field = match.group(1) or match.group(2)
+        rendered = match.group(3).strip().strip("\"'")
+        if rendered != "[REDACTED]":
+            raise UnsafePublication(f"unredacted_provider_payload:{field}")
+    literal_assignment = re.compile(
+        r"(?im)\b(prompt|output)\s*:\s*([\"'][^\r\n]*?[\"'])"
+    )
+    for match in literal_assignment.finditer(value):
+        if match.group(2).strip("\"'") != "[REDACTED]":
+            raise UnsafePublication(f"unredacted_provider_payload:{match.group(1)}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--expected-schema")
     parser.add_argument("--require-sensitive-fields", action="store_true")
+    parser.add_argument("--text", action="store_true")
     parser.add_argument("path")
     args = parser.parse_args()
     try:
         with Path(args.path).open(encoding="utf-8") as handle:
-            value = json.load(handle, object_pairs_hook=unique_object)
+            raw = handle.read()
+        if args.text:
+            inspect_text(raw)
+            return 0
+        value = json.loads(raw, object_pairs_hook=unique_object)
         if not isinstance(value, dict):
             raise UnsafePublication("root_not_object")
         if args.expected_schema and value.get("schema") != args.expected_schema:

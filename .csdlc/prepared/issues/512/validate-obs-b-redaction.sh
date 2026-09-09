@@ -21,6 +21,15 @@ scan_file() {
   ! grep -Eiq '(OPENAI|ANTHROPIC|DEEPSEEK|GEMINI|GOOGLE|AWS|GITHUB)_[A-Z0-9_]*(API_)?(KEY|TOKEN)[[:space:]]*=[[:space:]]*[^[:space:]]{8,}' "$source" || fail "$path:provider_credential"
 }
 
+scan_publication_path() {
+  local path=$1
+  scan_file "$path"
+  case "$path" in
+    *.json) python3 "$JSON_VALIDATOR" "$ROOT/$path" ;;
+    *) python3 "$JSON_VALIDATOR" --text "$ROOT/$path" ;;
+  esac
+}
+
 [[ -f "$MANIFEST" ]] || fail 'publication manifest missing'
 [[ -f "$CLEAN_FIXTURE" ]] || fail 'clean publication fixture missing'
 [[ -x "$JSON_VALIDATOR" ]] || fail 'structural publication JSON validator missing'
@@ -58,7 +67,7 @@ while IFS='|' read -r role path; do
     evidence) evidence_count=$((evidence_count + 1)) ;;
     *) fail "unknown publication role: $role" ;;
   esac
-  scan_file "$path"
+  scan_publication_path "$path"
   path_count=$((path_count + 1))
 done < "$MANIFEST"
 
@@ -90,6 +99,22 @@ unredacted_provider_payload|{"provider_payload":"raw provider response"}
 unredacted_provider_payload|{"provider_payload":"raw provider response","prompt":"[REDACTED]"}
 duplicate_key|{"prompt":"[REDACTED]","prompt":"raw prompt"}
 EOF
+
+manifest_leak="${scratch#"$ROOT/"}/manifest-leak.json"
+printf '{"provider_payload":"raw provider response"}\n' > "$ROOT/$manifest_leak"
+negative_manifest="$scratch/negative-manifest.txt"
+printf '# role|repository-relative published path\nevidence|%s\n' "$manifest_leak" > "$negative_manifest"
+if (
+  while IFS='|' read -r role path; do
+    [[ -z "$role" || "$role" == \#* ]] && continue
+    scan_publication_path "$path"
+  done < "$negative_manifest"
+) 2> "$scratch/negative-manifest.err"; then
+  fail 'manifest-path payload leak was accepted'
+fi
+grep -Fq 'unredacted_provider_payload' "$scratch/negative-manifest.err" \
+  || fail 'manifest-path payload leak was misclassified'
+negative_count=$((negative_count + 1))
 
 printf '{"status":"pass","publication_paths":%d,"runtime_paths":%d,"ui_paths":%d,"evidence_paths":%d,"clean_fixtures":1,"negative_fixtures":%d,"redaction_findings":0}\n' \
   "$path_count" "$runtime_count" "$ui_count" "$evidence_count" "$negative_count"

@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "resolved_pending_rereview"
   recommended_outcome: "pending"
-notes: "Fresh reviewer must verify the causal production projection and all nine negative classes at the new exact head."
+notes: "Fresh reviewer must verify production output plus complete Runtime, UI, and evidence manifest coverage at the new exact head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- P1: source scanning did not prove production serialized Runtime output. P2: line grep could accept a duplicate sensitive key with one redacted decoy.
+- First review: P1 source scanning did not prove serialized Runtime output; P2 line grep accepted duplicate sensitive keys. First rereview: P1 structural sensitive-field checks did not cover every manifest publication.
 
 ### Dispositions
 
-- P1 fixed by emitting and scanning project_v1 output from the exact production projection path. P2 fixed with structural JSON parsing, duplicate-key rejection, exact sensitive-field values, and a decoy-plus-leak negative fixture.
+- Fixed by executing project_v1, rejecting duplicate JSON keys, structurally validating every manifest JSON, scanning non-JSON text for sensitive assignments, and exercising a payload leak through an actual manifest entry.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh reviewer must verify the causal production projection and all nine negative classes at the new exact head.
+Fresh reviewer must verify production output plus complete Runtime, UI, and evidence manifest coverage at the new exact head.
