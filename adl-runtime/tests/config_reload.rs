@@ -76,6 +76,30 @@ async fn wait_for_generation(
     .expect("generation observed")
 }
 
+async fn wait_for_reload_status(
+    handle: &HotReloadHandle<TestConfig>,
+    predicate: impl Fn(adl_runtime::config_reload::ConfigReloadStatus) -> bool,
+) -> adl_runtime::config_reload::ConfigReloadStatus {
+    let mut watcher = handle.clone();
+    timeout(Duration::from_secs(2), async {
+        loop {
+            let status = watcher.reload_status();
+            if predicate(status) {
+                return status;
+            }
+            let status = watcher
+                .reload_status_changed()
+                .await
+                .expect("reload status update");
+            if predicate(status) {
+                return status;
+            }
+        }
+    })
+    .await
+    .expect("reload status observed")
+}
+
 #[tokio::test]
 async fn valid_reload_atomically_replaces_snapshot() {
     let temp = TempDir::new().expect("temp dir");
@@ -180,12 +204,17 @@ async fn reverting_during_debounce_cancels_the_pending_reload() {
     let handle = controller.handle();
 
     write_config(&path, render("transient", 2, 2)).await;
-    sleep(Duration::from_millis(15)).await;
+    let pending = wait_for_reload_status(&handle, |status| status.pending_candidate()).await;
+    assert_eq!(pending.candidate_observations(), 1);
     write_config(&path, initial).await;
-    sleep(Duration::from_millis(120)).await;
+    let cancelled = wait_for_reload_status(&handle, |status| {
+        !status.pending_candidate() && status.pending_cancellations() == 1
+    })
+    .await;
 
     assert_eq!(handle.current().generation(), 0);
     assert_eq!(handle.current().value().name, "initial");
+    assert_eq!(cancelled.candidate_observations(), 1);
     let outcome = controller.shutdown().await.expect("shutdown");
     assert_eq!(outcome.reloads_applied, 0);
     assert_eq!(outcome.invalid_updates_rejected, 0);
@@ -236,12 +265,17 @@ async fn unreadable_file_cancels_a_pending_reload() {
     let handle = controller.handle();
 
     write_config(&path, render("transient", 2, 2)).await;
-    sleep(Duration::from_millis(15)).await;
+    let pending = wait_for_reload_status(&handle, |status| status.pending_candidate()).await;
+    assert_eq!(pending.candidate_observations(), 1);
     tokio::fs::remove_file(&path).await.expect("remove config");
-    sleep(Duration::from_millis(120)).await;
+    let cancelled = wait_for_reload_status(&handle, |status| {
+        !status.pending_candidate() && status.pending_cancellations() == 1
+    })
+    .await;
 
     assert_eq!(handle.current().generation(), 0);
     assert_eq!(handle.current().value().name, "initial");
+    assert_eq!(cancelled.candidate_observations(), 1);
     let outcome = controller.shutdown().await.expect("shutdown");
     assert_eq!(outcome.reloads_applied, 0);
 }

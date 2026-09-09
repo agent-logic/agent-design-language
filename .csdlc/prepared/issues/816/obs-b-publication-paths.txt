@@ -1,0 +1,17 @@
+# role|repository-relative path
+runtime|adl-runtime/src/distributed/projection.rs
+runtime|adl-runtime/src/distributed/serving_authority.rs
+runtime|adl-runtime/src/distributed/observatory_serving_eligibility.rs
+ui|demos/html-observatory/index.html
+ui|demos/html-observatory/app.js
+ui|demos/html-observatory/styles.css
+ui|demos/html-observatory/runtime-v3.config.json
+evidence|.csdlc/evidence/512/doctor-after-canary.json
+evidence|.csdlc/evidence/512/exact-browser-operator-proof.md
+evidence|.csdlc/evidence/512/observatory-layer8-authority.log
+evidence|.csdlc/evidence/512/observatory-node-suite.log
+evidence|.csdlc/evidence/512/observatory-runtime-v3-contract.log
+evidence|.csdlc/evidence/512/observatory-transcript-history.log
+evidence|.csdlc/evidence/512/system-clock-cache-proof.md
+evidence|.csdlc/evidence/512/v3-local-canary.json
+evidence|.csdlc/evidence/512/v3-shadow-mixed-mode.json
