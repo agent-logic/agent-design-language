@@ -9,5 +9,10 @@
   "card": "srp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-784-runtime-a2a-closed-loop"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-784-runtime-a2a-closed-loop",
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "Independent bounded review initially found operator-dependent continuation, provider-path mismatch, sequencing, attribution, and size-bound defects. Each was corrected. Final review reported no actionable findings.",
+  "review_dispositions": "Continuation now runs automatically through the same provider-conversation path, retains raw peer output only as initiated_reply, reports typed continuation failure, holds the parent gate through completion, and bounds continuation context.",
+  "review_notes": "Focused review covered Runtime A2A close-loop correctness, provider parity with ordinary turns, causal sequencing, result attribution, and bounded context."
 }

@@ -40,10 +40,11 @@
   "acceptance_criteria_inline": "peer success or typed failure reaches the initiator context once with causal IDs and no operator relay",
   "step_1_status": "completed",
   "step_2_status": "completed",
-  "step_3_status": "in_progress",
-  "step_4_status": "in_progress",
-  "step_5_status": "pending",
+  "step_3_status": "completed",
+  "step_4_status": "completed",
+  "step_5_status": "completed",
   "risks_inline": "duplicate context, unbounded prompt growth, loss of typed failure data, checkpoint incompatibility",
   "validation_plan_inline": "focused delegate/reply/synthesize test, adjacent conversation/A2A tests, formatting, diff hygiene, bounded review",
-  "notes_risks_inline": "Re-plan if the existing terminal record cannot supply a bounded causal context without schema expansion."
+  "notes_risks_inline": "Re-plan if the existing terminal record cannot supply a bounded causal context without schema expansion.",
+  "summary": "Implemented the automatic initiator-peer-initiator continuation in the original governed turn with typed failure and bounded context."
 }

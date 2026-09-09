@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][Runtime] Return completed A2A replies to the initiating agent
 Branch: codex/784-runtime-a2a-closed-loop
 Card Status: ready
-Status: <status>
+Status: implemented
 Generated: <timestamp>
 
 Execution:
@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-<summary>
+Closed the governed A2A loop by running the initiating agent again with the peer terminal result before completing the original operator turn.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -85,13 +85,13 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `Runtime provider prompt assembly, A2A completion, initiating continuation, typed failure, sequencing, attribution, and size bounds.`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `<integration_result>`
+- Result: `Committed in the bound #784 worktree; publication and merge are not yet claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,9 +107,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `<validation_command>`
-    `<validation_effect>`
+    `Proves a resident initiator receives and synthesizes a peer result without operator relay while preserving the raw peer reply and causal history.`
 - Results:
-  - `<validation_result>`
+  - `Focused automatic delegate-peer-initiator test passed; 10 A2A tests passed; 2 continuation failure/bound tests passed; formatting and diff hygiene passed; final independent review passed with no findings.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
