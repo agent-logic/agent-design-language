@@ -117,7 +117,7 @@
           </div>
           <div class="topbar-controls" role="group" aria-label="Runtime controls">
             <span class="topbar-status-dot" id="topbar-ws-dot" data-state="unknown" title="WebSocket"></span>
-            <strong id="hero-uptime">pending</strong>
+            <strong id="hero-uptime" style="font-size:0.7rem;color:var(--muted)">pending</strong>
           </div>
       </header>
 
@@ -140,7 +140,7 @@
           <strong id="polis-display-name">Unavailable</strong>
           <span>Public domain</span>
           <strong id="polis-public-domain">Unavailable</strong>
-          <span>Capture Time</span>
+          <span>System Time</span>
           <strong id="rail-capture-time">pending</strong>
           <span>Manifold</span>
           <strong id="rail-manifold-id">pending</strong>
@@ -183,12 +183,6 @@
               <strong id="hero-event-count">0</strong>
               <p class="row-detail" id="hero-event-detail">Runtime event sequence.</p>
             </article>
-            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-cloudwatch-label hero-cloudwatch-state">
-              <svg class="stat-icon"><use href="#icon-cloud"></use></svg>
-              <span class="row-kicker" id="hero-cloudwatch-label">CloudWatch</span>
-              <strong id="hero-cloudwatch-state">pending</strong>
-              <p class="row-detail" id="hero-cloudwatch-detail">AWS heartbeat mirror.</p>
-            </article>
             <article class="ops-stat" data-state="unknown" aria-labelledby="hero-cpu-label hero-cpu-state">
               <svg class="stat-icon"><use href="#icon-pulse"></use></svg>
               <span class="row-kicker" id="hero-cpu-label">CPU</span>
@@ -225,87 +219,12 @@
               </ol>
             </section>
           </div>
-          <section class="mini-console" aria-labelledby="dashboard-focus-title">
-            <div class="panel-head">
-              <div>
-                <p class="eyebrow" id="dashboard-focus-kicker">Runtime Source</p>
-                <h3 id="dashboard-focus-title">Runtime mirror</h3>
-              </div>
-              <span class="mini-badge" id="dashboard-focus-status">pending</span>
-            </div>
-            <p class="row-detail" id="dashboard-focus-detail">Selected runtime surface summary.</p>
-            <ul class="trace-list" id="dashboard-focus-list"></ul>
-            <a class="button button-secondary" id="dashboard-focus-link" href="#runtime-proof">Focus</a>
-          </section>
-          <section class="mini-console" aria-labelledby="hero-csm-api-status">
-            <div class="panel-head">
-              <h3 id="hero-csm-api-status">CSM API</h3>
-              <span class="mini-badge" id="hero-communication-status">public read</span>
-            </div>
-            <span id="runtime-source-label">Runtime Source</span>
-            <ul class="trace-list" id="hero-api-list"></ul>
-            <ul class="trace-list" id="communication-proof-list"></ul>
-            <div id="compact-comms-proof"></div>
-          </section>
           <div class="hero-actions" aria-label="Primary proof actions">
             <a class="button button-primary" href="#panopticon" data-dashboard-link="agents">Focus panopticon</a>
             <a class="button button-secondary" href="#communication" data-dashboard-link="communication">Draft operator probe</a>
             <a class="button button-secondary" href="#cloudwatch" data-dashboard-link="cloudwatch">CloudWatch</a>
             <a class="button button-secondary" href="#evidence" data-dashboard-link="evidence">Evidence</a>
           </div>
-          <section class="mini-console live-runtime-test" aria-labelledby="dashboard-live-test-title">
-            <div class="panel-head">
-              <div>
-                <p class="eyebrow">Real Runtime Test</p>
-                <h2 id="dashboard-live-test-title">Runtime v3 live check</h2>
-              </div>
-              <svg class="stat-icon" aria-hidden="true"><use href="#icon-packet"></use></svg>
-            </div>
-            <label class="field">
-              <span class="row-kicker">Runtime Source</span>
-              <input id="dashboard-live-api-base" type="url" inputmode="url" placeholder="https://wuji.dev.csm.agent-logic.ai:20997">
-            </label>
-            <div class="communication-actions">
-              <button class="button button-primary" type="button" id="dashboard-connect-live">Connect</button>
-              <button class="button button-secondary" type="button" id="dashboard-refresh-live">Refresh</button>
-              <button class="button button-secondary" type="button" id="dashboard-stop-live">Stop</button>
-            </div>
-            <p class="row-detail"><strong id="dashboard-live-test-status">pending</strong> <span id="dashboard-live-test-detail">Awaiting Runtime v3 Observatory feed.</span></p>
-            <p class="row-detail">Default config: <code>runtime-v3.config.json</code></p>
-          </section>
-          <section class="mini-console live-loopback-controls" aria-labelledby="live-controls-title">
-            <div class="panel-head">
-              <h2 id="live-controls-title">Runtime v3 live Observatory</h2>
-              <span class="mini-badge" id="live-status">pending</span>
-            </div>
-            <div class="sr-only" aria-hidden="true">
-              <span id="agent-count">0</span>
-              <span id="live-readiness">pending</span>
-              <span id="hero-gauge-agents">0</span>
-              <span id="hero-gauge-events">0</span>
-              <span id="hero-gauge-metrics">0</span>
-              <span id="hero-gauge-ready">pending</span>
-              <span id="agent-heartbeat">pending</span>
-              <span id="agent-state">pending</span>
-              <span id="live-updated">pending</span>
-              <span id="live-event-count">0</span>
-              <span id="live-metric-count">0</span>
-            </div>
-            <label class="field">
-              <span class="row-kicker">Live runtime API base</span>
-              <input id="live-api-base" type="url" inputmode="url" placeholder="Loopback Runtime v3 or CSM API base">
-            </label>
-            <div class="communication-actions">
-              <button class="button button-primary" type="button" id="connect-live">Connect</button>
-              <button class="button button-secondary" type="button" id="refresh-live">Refresh</button>
-              <button class="button button-secondary" type="button" id="stop-live">Stop</button>
-            </div>
-            <div id="panopticon-map" hidden></div>
-            <ul id="live-agent-list" hidden></ul>
-            <ul id="live-signal-list" hidden></ul>
-            <ul id="live-metric-list" hidden></ul>
-            <ol id="live-event-stream" hidden></ol>
-          </section>
         </section>
 
         <section class="ops-sidecar" aria-labelledby="inspector-heading">
@@ -335,7 +254,7 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow">Polis roster</p>
-              <h3 id="agent-directory-title">CSM polis panopticon</h3>
+              <h3 id="agent-directory-title">Agents</h3>
             </div>
             <div class="agent-directory-controls">
               <input class="agent-directory-filter" type="search" id="agent-directory-filter" aria-label="Filter agents"
@@ -684,7 +603,7 @@
           <span class="mini-badge" id="report-source">retained artifact</span>
         </div>
         <p class="row-detail" id="report-summary">
-          Same packet, same report, same boundary. The retained operator report is loaded from the same runtime artifact root as the proof packet.
+          The retained operator report is loaded from the same runtime artifact root as the proof packet.
         </p>
         <pre class="evidence-report-body" id="report-body" tabindex="0">Operator report not loaded.</pre>
       </section>

@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 758,
+  "issue_padded": "0758",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/758",
+  "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+  "branch": "codex/758-admission-a2a-outbox",
+  "version": "1.0.4",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-758-admission-a2a-outbox"
+}

@@ -1722,12 +1722,28 @@ fn provider_conversation_prompt(
         .get("correlation_id")
         .and_then(serde_json::Value::as_str)
         .unwrap_or("correlation");
+    let recipient_name = task
+        .get("recipient_name")
+        .and_then(serde_json::Value::as_str)
+        .unwrap_or(recipient_id);
+    let peer_names = task
+        .get("peer_names")
+        .and_then(serde_json::Value::as_array)
+        .map(|names| {
+            names
+                .iter()
+                .filter_map(serde_json::Value::as_str)
+                .collect::<Vec<_>>()
+                .join(", ")
+        })
+        .unwrap_or_default();
     let runtime_prompt = format!(
-        "You are resident agent `{recipient_id}` in Axioma Polis.\n\
+        "You are resident agent `{recipient_name}` in Axioma Polis.\n\
+         Available peers by canonical name: {peer_names}.\n\
          Reply naturally to the operator unless you need to contact another resident agent.\n\
          If you choose to contact another resident, use the provided `initiate_agent` tool exactly once.\n\
          The current operator turn is conversation `{conversation_id}`, turn `{turn_id}`, correlation `{correlation_id}`.\n\
-         Tool arguments contain only the target agent's canonical id and your message to that agent.\n\
+         Address peers only by canonical agent name (for example `ember.axioma`), never by model, provider, deployment, or internal Runtime id.\n\
          Do not claim the message was delivered and do not invent routing identifiers. The Runtime validates the action, derives the governed peer conversation, turn, correlation, and work IDs, then signs and verifies delivery.\n\
          Operator message:\n{input}"
     );
@@ -1780,7 +1796,7 @@ fn provider_conversation_output(
     if let Some(action) = response.agent_to_agent {
         let action = serde_json::json!({
             "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
-            "recipient_id": action.recipient_id,
+            "recipient_name": action.recipient_name,
             "message": action.message,
             "message_parts": action.message_parts,
         });
@@ -1840,15 +1856,15 @@ fn validate_provider_agent_initiation_action(
         ));
     }
     let active_recipient = task
-        .get("recipient_id")
+        .get("recipient_name")
         .and_then(serde_json::Value::as_str)
         .unwrap_or_default();
-    let recipient_id = action
-        .get("recipient_id")
+    let recipient_name = action
+        .get("recipient_name")
         .and_then(serde_json::Value::as_str)
         .filter(|value| is_provider_action_identifier(value))
         .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_conversation_action_malformed"))?;
-    if recipient_id == active_recipient {
+    if recipient_name == active_recipient {
         return Err(adapter_error(
             FailureClass::Fatal,
             "agent_conversation_action_self_target",
@@ -1881,6 +1897,8 @@ mod provider_conversation_action_tests {
         serde_json::json!({
             "op": "conversation_message",
             "recipient_id": "beacon",
+            "recipient_name": "beacon.axioma",
+            "peer_names": ["ember.axioma"],
             "conversation_id": "conversation-operator-beacon",
             "turn_id": "turn-operator-asks-beacon",
             "correlation_id": "efefefefefefefefefefefefefefefef",
@@ -2004,7 +2022,7 @@ mod provider_conversation_action_tests {
             crate::control::ProviderConversationOutput {
                 message: "Beacon is initiating governed contact with Ember.".to_owned(),
                 agent_to_agent: Some(crate::control::ProviderAgentToAgentAction {
-                    recipient_id: "ember".to_owned(),
+                    recipient_name: "ember.axioma".to_owned(),
                     message: "Ember, please answer through the governed A2A path.".to_owned(),
                     message_parts: Vec::new(),
                 }),
@@ -2012,7 +2030,10 @@ mod provider_conversation_action_tests {
         )
         .expect("schema-tagged provider action should project");
         assert_eq!(output["recipient_id"], "beacon");
-        assert_eq!(output["agent_to_agent_initiation"]["recipient_id"], "ember");
+        assert_eq!(
+            output["agent_to_agent_initiation"]["recipient_name"],
+            "ember.axioma"
+        );
         assert_eq!(
             output["agent_to_agent_initiation"]["message"],
             "Ember, please answer through the governed A2A path."
@@ -2027,7 +2048,7 @@ mod provider_conversation_action_tests {
             crate::control::ProviderConversationOutput {
                 message: "Beacon is initiating a multipart governed handoff.".to_owned(),
                 agent_to_agent: Some(crate::control::ProviderAgentToAgentAction {
-                    recipient_id: "ember".to_owned(),
+                    recipient_name: "ember.axioma".to_owned(),
                     message: "Multipart summary.".to_owned(),
                     message_parts: vec![
                         "Ember, please process the first governed chunk.".to_owned(),
@@ -2037,7 +2058,10 @@ mod provider_conversation_action_tests {
             },
         )
         .expect("schema-tagged multipart provider action should project");
-        assert_eq!(output["agent_to_agent_initiation"]["recipient_id"], "ember");
+        assert_eq!(
+            output["agent_to_agent_initiation"]["recipient_name"],
+            "ember.axioma"
+        );
         assert_eq!(
             output["agent_to_agent_initiation"]["message"],
             "Multipart summary."
@@ -2049,7 +2073,7 @@ mod provider_conversation_action_tests {
     }
 
     #[test]
-    fn provider_legacy_action_envelope_remains_compatible() {
+    fn provider_json_action_envelope_uses_canonical_name() {
         let output = provider_conversation_output(
             &task(),
             "beacon",
@@ -2059,7 +2083,7 @@ mod provider_conversation_action_tests {
                     "message": "Beacon is requesting governed contact with Ember.",
                     "agent_to_agent_initiation": {
                         "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
-                        "recipient_id": "ember",
+                        "recipient_name": "ember.axioma",
                         "message": "Ember, please answer through governed A2A."
                     }
                 })
@@ -2067,9 +2091,12 @@ mod provider_conversation_action_tests {
                 agent_to_agent: None,
             },
         )
-        .expect("legacy schema-tagged action should remain compatible");
+        .expect("schema-tagged name action should remain compatible");
         assert_eq!(output["recipient_id"], "beacon");
-        assert_eq!(output["agent_to_agent_initiation"]["recipient_id"], "ember");
+        assert_eq!(
+            output["agent_to_agent_initiation"]["recipient_name"],
+            "ember.axioma"
+        );
     }
 
     #[test]
@@ -2097,7 +2124,7 @@ mod provider_conversation_action_tests {
             crate::control::ProviderConversationOutput {
                 message: "Beacon is initiating governed contact with Ember.".to_owned(),
                 agent_to_agent: Some(crate::control::ProviderAgentToAgentAction {
-                    recipient_id: "beacon".to_owned(),
+                    recipient_name: "beacon.axioma".to_owned(),
                     message: "Beacon, please answer yourself.".to_owned(),
                     message_parts: Vec::new(),
                 }),

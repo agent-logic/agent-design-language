@@ -9,8 +9,8 @@ const { describeConversationTurn, conversationTurnsInOrder } = globalThis.AdlHtm
 // initiation leg carries public_output.agent_to_agent_initiation, and the reply
 // leg is a work item prefixed a2a-work-. There is no sender_id on either leg.
 const population = [
-  { id: "shepherd", label: "Beacon Axioma" },
-  { id: "gemma-e4b", label: "Ember Axioma" }
+  { id: "shepherd", name: "beacon.axioma", label: "Beacon Axioma" },
+  { id: "gemma-e4b", name: "ember.axioma", label: "Ember Axioma" }
 ];
 
 test("initiation leg is A2A, named end-to-end, and shows the message actually sent", () => {
@@ -22,8 +22,8 @@ test("initiation leg is A2A, named end-to-end, and shows the message actually se
         recipient_id: "shepherd",
         message: "Requested governed contact with gemma-e4b.",
         agent_to_agent_initiation: {
-          schema: "adl.runtime.agent_to_agent_initiation_request.v1",
-          recipient_id: "gemma-e4b",
+          schema: "adl.runtime.agent_to_agent_initiation_request.v2",
+          recipient_name: "ember.axioma",
           message: "Welcome to Axioma Polis, Ember. I am Beacon Axioma, the Polis Shepherd."
         }
       }
@@ -34,6 +34,26 @@ test("initiation leg is A2A, named end-to-end, and shows the message actually se
   // The wrapper text is bookkeeping; the initiation payload is the real turn.
   assert.match(described.detail, /Welcome to Axioma Polis/);
   assert.doesNotMatch(described.detail, /Requested governed contact/);
+});
+
+test("retained v1 initiation remains visible while Runtime data converges to v2", () => {
+  const described = describeConversationTurn({
+    workId: "conversation-retained-v1",
+    entry: {
+      accepted_sequence: 2,
+      public_output: {
+        recipient_id: "shepherd",
+        agent_to_agent_initiation: {
+          schema: "adl.runtime.agent_to_agent_initiation_request.v1",
+          recipient_id: "gemma-e4b",
+          message: "Welcome, Ember."
+        }
+      }
+    }
+  }, population);
+  assert.equal(described.kind, "a2a");
+  assert.equal(described.title, "Beacon Axioma → Ember Axioma");
+  assert.equal(described.detail, "Welcome, Ember.");
 });
 
 test("a2a-work reply leg is A2A without asserting an unnamed counterpart", () => {

@@ -23,6 +23,8 @@ use crate::{
 pub const DOMAIN_WORK_SCHEMA: &str = "adl.runtime.domain_work.v1";
 pub const DOMAIN_RESULT_SCHEMA: &str = "adl.runtime.domain_result.v1";
 pub const AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA: &str =
+    "adl.runtime.agent_to_agent_initiation_request.v2";
+pub const LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA: &str =
     "adl.runtime.agent_to_agent_initiation_request.v1";
 const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
 const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
@@ -497,12 +499,19 @@ fn project_public_output(
         "message": message,
     });
     if let Some(action) = output.get("agent_to_agent_initiation") {
-        let valid_action = action.get("schema").and_then(serde_json::Value::as_str)
-            == Some(AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
-            && action
+        let schema = action.get("schema").and_then(serde_json::Value::as_str);
+        let valid_recipient = match schema {
+            Some(AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA) => action
+                .get("recipient_name")
+                .and_then(serde_json::Value::as_str)
+                .is_some_and(|value| !value.is_empty() && value.len() <= 128),
+            Some(LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA) => action
                 .get("recipient_id")
                 .and_then(serde_json::Value::as_str)
-                .is_some_and(|value| !value.is_empty() && value.len() <= 128)
+                .is_some_and(|value| !value.is_empty() && value.len() <= 128),
+            _ => false,
+        };
+        let valid_action = valid_recipient
             && valid_multipart_agent_message(
                 action.get("message").and_then(serde_json::Value::as_str),
                 action
@@ -513,7 +522,34 @@ fn project_public_output(
         if !valid_action {
             return Err(IngressError::ExecutionFailed);
         }
-        projected["agent_to_agent_initiation"] = action.clone();
+        projected["agent_to_agent_initiation"] = if schema
+            == Some(LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
+        {
+            let legacy_id = action
+                .get("recipient_id")
+                .and_then(serde_json::Value::as_str)
+                .ok_or(IngressError::ExecutionFailed)?;
+            let recipient_name = tasks[0]
+                .get("peer_addresses")
+                .and_then(serde_json::Value::as_array)
+                .and_then(|peers| {
+                    peers.iter().find_map(|peer| {
+                        (peer.get("id").and_then(serde_json::Value::as_str) == Some(legacy_id))
+                            .then(|| peer.get("name").and_then(serde_json::Value::as_str))
+                            .flatten()
+                    })
+                })
+                .filter(|value| !value.is_empty() && value.len() <= 128)
+                .ok_or(IngressError::ExecutionFailed)?;
+            serde_json::json!({
+                "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_name": recipient_name,
+                "message": action.get("message").cloned().unwrap_or(serde_json::Value::Null),
+                "message_parts": action.get("message_parts").cloned().unwrap_or(serde_json::Value::Null),
+            })
+        } else {
+            action.clone()
+        };
     }
     Ok(Some(projected))
 }
@@ -563,6 +599,7 @@ mod tests {
             "tasks": [{
                 "op": "conversation_message",
                 "recipient_id": recipient_id,
+                "peer_addresses": [{"id": "ember", "name": "ember.axioma"}],
                 "message": "Please contact Ember."
             }]
         }))
@@ -599,7 +636,7 @@ mod tests {
             "message": "Beacon is asking Ember through A2A.",
             "agent_to_agent_initiation": {
                 "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
-                "recipient_id": "ember",
+                "recipient_name": "ember.axioma",
                 "message": "Multipart governed handoff follows.",
                 "message_parts": [
                     "Ember, please reply through governed A2A.",
@@ -614,9 +651,9 @@ mod tests {
         assert_eq!(
             projected
                 .get("agent_to_agent_initiation")
-                .and_then(|action| action.get("recipient_id"))
+                .and_then(|action| action.get("recipient_name"))
                 .and_then(serde_json::Value::as_str),
-            Some("ember")
+            Some("ember.axioma")
         );
         assert_eq!(
             projected
@@ -652,6 +689,39 @@ mod tests {
     }
 
     #[test]
+    fn legacy_id_addressed_agent_initiation_remains_bounded_compatible() {
+        let work = DomainWork {
+            schema: DOMAIN_WORK_SCHEMA.to_owned(),
+            work_id: "work-beacon-legacy".to_owned(),
+            kind: crate::AdapterKind::Agent.service_name().to_owned(),
+            payload: conversation_work_payload("beacon"),
+        };
+        let operation = operation_with_output(serde_json::json!({
+            "recipient_id": "beacon",
+            "message": "Beacon is asking Ember through legacy A2A.",
+            "agent_to_agent_initiation": {
+                "schema": LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
+                "recipient_id": "ember",
+                "message": "Legacy governed handoff."
+            }
+        }));
+        let projected = project_public_output(&work, &operation)
+            .expect("legacy projection succeeds")
+            .expect("legacy conversation output projects");
+        assert_eq!(
+            projected["agent_to_agent_initiation"]["schema"],
+            AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA
+        );
+        assert_eq!(
+            projected["agent_to_agent_initiation"]["recipient_name"],
+            "ember.axioma"
+        );
+        assert!(projected["agent_to_agent_initiation"]
+            .get("recipient_id")
+            .is_none());
+    }
+
+    #[test]
     fn oversized_agent_initiation_message_part_is_not_projected() {
         let work = DomainWork {
             schema: DOMAIN_WORK_SCHEMA.to_owned(),
@@ -664,7 +734,7 @@ mod tests {
             "message": "Beacon is asking Ember through A2A.",
             "agent_to_agent_initiation": {
                 "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
-                "recipient_id": "ember",
+                "recipient_name": "ember.axioma",
                 "message_parts": [
                     "x".repeat((32 * 1024) + 1)
                 ]
@@ -690,7 +760,7 @@ mod tests {
             "message": "Beacon is asking Ember through A2A.",
             "agent_to_agent_initiation": {
                 "schema": AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
-                "recipient_id": "ember",
+                "recipient_name": "ember.axioma",
                 "message": "Scalar chunk.",
                 "message_parts": vec!["part"; AGENT_CONVERSATION_MESSAGE_MAX_PARTS]
             }

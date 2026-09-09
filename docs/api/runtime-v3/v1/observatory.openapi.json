@@ -258,6 +258,10 @@
               "purpose": "cancel_in_flight_conversation_turn"
             },
             {
+              "$ref": "#/components/schemas/ObservatoryConversationHistoryRequest",
+              "purpose": "recover_complete_operator_and_agent_exchange_history"
+            },
+            {
               "binarySchema": "adl.csm.acip_carrier.protobuf_envelope.v1",
               "serverReply": "adl.csm.acip_carrier.websocket_frame.v1"
             }
@@ -276,6 +280,15 @@
             },
             {
               "$ref": "#/components/schemas/ObservatoryConversationResult"
+            },
+            {
+              "$ref": "#/components/schemas/ObservatoryConversationHistoryPage"
+            }
+          ],
+          "runtimeGeneratedActions": [
+            {
+              "$ref": "#/components/schemas/AgentToAgentInitiationRequest",
+              "purpose": "governed_model_output_resolved_by_canonical_agent_name"
             }
           ],
           "publicReadFrames": true,
@@ -319,6 +332,25 @@
           }
         }
       },
+      "AgentToAgentInitiationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "recipient_name"],
+        "properties": {
+          "schema": { "const": "adl.runtime.agent_to_agent_initiation_request.v2" },
+          "recipient_name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$",
+            "description": "Canonical agent name resolved against the authoritative live roster. Provider, model, deployment, display-label, and internal Runtime identifiers are not public addresses."
+          },
+          "message": { "type": "string", "minLength": 1, "maxLength": 32768 },
+          "message_parts": {
+            "type": "array",
+            "maxItems": 64,
+            "items": { "type": "string", "minLength": 1, "maxLength": 32768 }
+          }
+        }
+      },
       "ObservatoryConversationIntent": {
         "type": "object",
         "additionalProperties": false,
@@ -343,10 +375,69 @@
           "turn_id": { "type": "string" },
           "recipient_id": { "type": "string" },
           "correlation_id": { "type": "string" },
+          "sender_id": { "type": "string", "description": "Internal audit identifier; not an addressing surface." },
+          "sender_name": { "type": "string", "description": "Canonical sender name captured at exchange time." },
+          "initiated_recipient_id": { "type": "string", "description": "Internal audit identifier; not an addressing surface." },
+          "initiated_recipient_name": { "type": "string", "description": "Canonical A2A recipient name captured at exchange time." },
+          "initiated_conversation_id": { "type": "string" },
+          "initiated_turn_id": { "type": "string" },
+          "initiated_correlation_id": { "type": "string" },
+          "initiated_work_id": { "type": "string" },
+          "initiated_message": { "type": "string", "maxLength": 2097152 },
+          "initiated_reply": { "type": "string", "maxLength": 2097152 },
           "reply": { "type": "string", "maxLength": 4096 },
           "accepted_sequence": { "type": "integer", "minimum": 1 },
           "turn_sequence": { "type": "integer", "minimum": 1 },
           "error": { "type": "string" }
+        }
+      },
+      "ObservatoryConversationHistoryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "conversation_id"],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.observatory_conversation_history_request.v1" },
+          "conversation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "page_size": { "type": "integer", "minimum": 1, "maximum": 2048, "default": 2048 }
+        }
+      },
+      "ObservatoryConversationHistoryRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["conversation_id", "message_id", "speaker_id", "body", "created_at_epoch_ms", "journal_sequence", "status", "redacted"],
+        "properties": {
+          "conversation_id": { "type": "string" },
+          "message_id": { "type": "string" },
+          "speaker_id": { "type": "string" },
+          "body": { "type": "string" },
+          "created_at_epoch_ms": { "type": "integer", "minimum": 0 },
+          "journal_sequence": { "type": "integer", "minimum": 1 },
+          "status": { "type": "string" },
+          "redacted": { "type": "boolean" },
+          "redaction_reason": { "type": ["string", "null"] },
+          "history_kind": { "type": "string" },
+          "turn_id": { "type": "string" },
+          "causal_id": { "type": "string" },
+          "sender_id": { "type": "string", "description": "Internal immutable audit identifier." },
+          "recipient_id": { "type": "string", "description": "Internal immutable audit identifier." },
+          "sender_name": { "type": "string", "description": "Canonical sender name persisted at exchange time." },
+          "recipient_name": { "type": "string", "description": "Canonical recipient name persisted at exchange time." },
+          "work_id": { "type": "string" },
+          "parent_conversation_id": { "type": "string" },
+          "parent_turn_id": { "type": "string" },
+          "a2a_role": { "enum": ["outbound", "reply"] }
+        }
+      },
+      "ObservatoryConversationHistoryPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "conversation_id", "runtime_incarnation_id", "records", "next_cursor"],
+        "properties": {
+          "schema": { "const": "adl.runtime.conversation_history.v1" },
+          "conversation_id": { "type": "string" },
+          "runtime_incarnation_id": { "type": "string" },
+          "records": { "type": "array", "maxItems": 2048, "items": { "$ref": "#/components/schemas/ObservatoryConversationHistoryRecord" } },
+          "next_cursor": { "type": ["string", "null"] }
         }
       },
       "ObservatoryConversationCancel": {
@@ -803,10 +894,25 @@
           "correlation_id":{"type":"string"},
           "sequence":{"type":"integer","minimum":1},
           "terminal_status":{"type":"string","enum":["delivered","failed","refused","cancelled","timed_out"]},
+          "message":{"type":"string"},
+          "speaker_id":{"type":"string"},
+          "sender_id":{"type":"string","description":"Internal immutable audit identifier."},
+          "sender_name":{"type":"string","description":"Canonical sender name persisted at exchange time."},
+          "recipient_name":{"type":"string","description":"Canonical direct-turn recipient name persisted at exchange time."},
+          "initiated_recipient_id":{"type":"string","description":"Internal immutable audit identifier."},
+          "initiated_recipient_name":{"type":"string","description":"Canonical A2A recipient name persisted at exchange time."},
+          "initiated_conversation_id":{"type":"string"},
+          "initiated_turn_id":{"type":"string"},
+          "initiated_correlation_id":{"type":"string"},
+          "initiated_work_id":{"type":"string"},
+          "initiated_message":{"type":"string"},
+          "initiated_reply":{"type":"string"},
           "reply":{"type":["string","null"]},
           "accepted_sequence":{"type":["integer","null"],"minimum":0},
           "turn_sequence":{"type":["integer","null"],"minimum":0},
-          "terminal_error":{"type":["string","null"]}
+          "terminal_error":{"type":["string","null"]},
+          "accepted_at_unix_millis":{"type":"integer","minimum":0},
+          "completed_at_unix_millis":{"type":"integer","minimum":0}
         }
       },
       "FreezeDriedAgent": {
