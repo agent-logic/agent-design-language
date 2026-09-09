@@ -18,6 +18,22 @@ if rg -q 'ADL_GCP_D1_NOW_EPOCH' .csdlc/prepared/issues/731/validate-gcp-d1-autho
   echo "FAIL: live GCP authorization expiry accepts a caller-controlled clock" >&2
   exit 1
 fi
+if rg -q 'ADL_GCP_D1_(NOW_EPOCH|REAPER_SLEEP_SECONDS)' \
+  .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh; then
+  echo "FAIL: live GCP cleanup timing accepts a caller-controlled clock or reaper delay" >&2
+  exit 1
+fi
+if rg -q 'jq[^\n]*[$]packet' \
+  .csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh \
+  .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh; then
+  echo "FAIL: GCP mutation wrapper rereads the mutable authorization packet" >&2
+  exit 1
+fi
+if ! rg -q 'verified_plan_file' \
+  .csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh; then
+  echo "FAIL: GCP foundation apply does not consume the verified plan snapshot" >&2
+  exit 1
+fi
 if rg -q 'Path[.]home' .csdlc/prepared/issues/815/verify-cloud-authorization.py; then
   echo "FAIL: production trust anchor must not follow caller-controlled HOME" >&2
   exit 1

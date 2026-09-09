@@ -185,7 +185,9 @@ def verify_signature(repo_root: Path, packet: dict[str, Any], operator: dict[str
         fail("operator detached signature is missing, forged, or untrusted")
 
 
-def validate_plan_binding(repo_root: Path, packet: dict[str, Any]) -> tuple[Path, Path]:
+def validate_plan_binding(
+    repo_root: Path, packet: dict[str, Any]
+) -> tuple[Path, Path, bytes, dict[str, Any]]:
     plan = repo_file(repo_root, packet.get("plan_file", packet.get("saved_plan_path")), "plan_file")
     plan_json = repo_file(repo_root, packet.get("plan_json", packet.get("saved_plan_json_path")), "plan_json")
     expected_plan = packet.get("plan_digest", packet.get("saved_plan_digest"))
@@ -194,15 +196,96 @@ def validate_plan_binding(repo_root: Path, packet: dict[str, Any]) -> tuple[Path
         fail("plan digest must be a lowercase SHA-256 digest")
     if not isinstance(expected_json, str) or not HEX_64.fullmatch(expected_json):
         fail("plan JSON digest must be a lowercase SHA-256 digest")
-    if digest_file(plan) != expected_plan:
+    try:
+        plan_bytes = plan.read_bytes()
+    except OSError as exc:
+        fail(f"could not read exact saved tfplan bytes: {exc}")
+    if hashlib.sha256(plan_bytes).hexdigest() != expected_plan:
         fail("actual saved tfplan bytes do not match the signed plan digest")
     plan_json_value = load_json(plan_json)
     if digest_json(plan_json_value) != expected_json:
         fail("saved plan JSON does not match the signed canonical JSON digest")
-    return plan, plan_json
+    return plan, plan_json, plan_bytes, plan_json_value
 
 
-def validate_gcp(args: argparse.Namespace, packet: dict[str, Any], repo_root: Path) -> None:
+def verified_output_path(repo_root: Path, value: str) -> Path:
+    path = Path(value)
+    if path.is_absolute() or ".." in path.parts:
+        fail("verified output directory must be repository-relative without traversal")
+    resolved = (repo_root / path).resolve()
+    try:
+        resolved.relative_to(repo_root)
+    except ValueError:
+        fail("verified output directory resolves outside the repository")
+    if resolved.exists():
+        fail("verified output directory already exists; use a fresh proof directory")
+    resolved.parent.mkdir(parents=True, exist_ok=True)
+    return resolved
+
+
+def verify_gcp_projection_and_bundle(
+    args: argparse.Namespace,
+    packet: dict[str, Any],
+    repo_root: Path,
+    plan_bytes: bytes,
+    reviewed_projection: dict[str, Any],
+) -> dict[str, Any] | None:
+    final_dir = verified_output_path(repo_root, args.verified_dir) if args.verified_dir else None
+    temp_parent = final_dir.parent if final_dir else repo_root / ".csdlc"
+    temp_parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".gcp-verified-plan-", dir=temp_parent) as raw_temp:
+        temp_dir = Path(raw_temp)
+        exact_plan = temp_dir / "verified.tfplan"
+        exact_plan.write_bytes(plan_bytes)
+        exact_plan.chmod(0o400)
+        derived_projection = terraform_projection(
+            args.terraform_bin, "infra/gcp/platform", exact_plan
+        )
+        if digest_json(derived_projection) != digest_json(reviewed_projection):
+            fail("reviewed GCP plan JSON was not derived from the exact saved tfplan bytes")
+        if final_dir is None:
+            return None
+
+        packet_snapshot = temp_dir / "authorization.json"
+        packet_snapshot.write_text(
+            json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        packet_snapshot.chmod(0o400)
+        projection_snapshot = temp_dir / "verified-plan.json"
+        projection_snapshot.write_text(
+            json.dumps(derived_projection, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        projection_snapshot.chmod(0o400)
+        final_relative = final_dir.relative_to(repo_root)
+        receipt = {
+            "schema": "adl.gcp_d1.verified_authorization_receipt.v1",
+            "authorization_sha256": hashlib.sha256(canonical_payload(packet)).hexdigest(),
+            "plan_digest": hashlib.sha256(plan_bytes).hexdigest(),
+            "verified_plan_file": str(final_relative / exact_plan.name),
+            "verified_plan_json_file": str(final_relative / projection_snapshot.name),
+            "project": packet["project"],
+            "region": packet["region"],
+            "zone": packet["zone"],
+            "network": packet["network"],
+            "subnet": packet["subnet"],
+            "run_id": packet["run_id"],
+            "instance_name": packet["instance_name"],
+            "cleanup_deadline_utc": packet["cleanup_deadline_utc"],
+            "impersonated_identity": packet["impersonated_identity"],
+        }
+        receipt_path = temp_dir / "receipt.json"
+        receipt_path.write_text(
+            json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        receipt_path.chmod(0o400)
+        os.rename(temp_dir, final_dir)
+        return receipt
+
+
+def validate_gcp(
+    args: argparse.Namespace, packet: dict[str, Any], repo_root: Path
+) -> dict[str, Any] | None:
     if packet.get("schema") != "adl.gcp_d1.mutation_authorization_request.v2" or packet.get("issue") != 731:
         fail("GCP authorization schema or issue is invalid")
     if packet.get("repository") != EXPECTED_REPOSITORY:
@@ -232,7 +315,10 @@ def validate_gcp(args: argparse.Namespace, packet: dict[str, Any], repo_root: Pa
         fail("GCP operator authorization does not cover every live mutation")
     signers = trusted_signers_path(repo_root, args.test_mode, args.trusted_signers)
     verify_signature(repo_root, packet, operator, signers)
-    validate_plan_binding(repo_root, packet)
+    _, _, plan_bytes, reviewed_projection = validate_plan_binding(repo_root, packet)
+    return verify_gcp_projection_and_bundle(
+        args, packet, repo_root, plan_bytes, reviewed_projection
+    )
 
 
 def terraform_projection(terraform_bin: str, terraform_root: str, plan: Path) -> Any:
@@ -283,13 +369,12 @@ def validate_aws(args: argparse.Namespace, packet: dict[str, Any], repo_root: Pa
         fail("AWS operator authorization statement is missing")
     signers = trusted_signers_path(repo_root, args.test_mode, args.trusted_signers)
     verify_signature(repo_root, packet, operator, signers)
-    plan, plan_json = validate_plan_binding(repo_root, packet)
+    plan, _, _, reviewed_projection = validate_plan_binding(repo_root, packet)
     sidecar = repo_file(repo_root, packet.get("saved_plan_digest_path"), "saved_plan_digest_path")
     sidecar_digest = sidecar.read_text(encoding="utf-8").strip().split()[0]
     actual_digest = digest_file(plan)
     if sidecar_digest != actual_digest:
         fail("saved plan digest sidecar does not match the actual tfplan bytes")
-    reviewed_projection = load_json(plan_json)
     derived_projection = terraform_projection(args.terraform_bin, packet["terraform_root"], plan)
     if digest_json(derived_projection) != digest_json(reviewed_projection):
         fail("reviewed plan JSON was not derived from the exact saved tfplan bytes")
@@ -318,7 +403,9 @@ def parser() -> argparse.ArgumentParser:
         command.add_argument("--trusted-signers")
         if name == "aws":
             command.add_argument("--observed-account-id", required=True)
-            command.add_argument("--terraform-bin", default="terraform")
+        command.add_argument("--terraform-bin", default="terraform")
+        if name == "gcp":
+            command.add_argument("--verified-dir")
     return result
 
 
@@ -332,7 +419,10 @@ def main() -> int:
             return 0
         repo_root = Path(args.repo_root).resolve()
         if args.command == "gcp":
-            validate_gcp(args, packet, repo_root)
+            receipt = validate_gcp(args, packet, repo_root)
+            if receipt is not None:
+                print(json.dumps(receipt, sort_keys=True, separators=(",", ":")))
+                return 0
         else:
             validate_aws(args, packet, repo_root)
     except AuthorizationError as exc:

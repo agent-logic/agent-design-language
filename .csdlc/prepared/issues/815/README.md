@@ -18,6 +18,11 @@ For GCP, start from `GCP_MUTATION_AUTHORIZATION.template.json`. The signature
 binds the exact repository, issue, project, region, zone, network, subnet,
 service-account impersonation, spend limits, cleanup expiry, rollback commands,
 and SHA-256 digests of both the saved binary plan and reviewed JSON projection.
+Validation derives JSON from a private snapshot of the exact plan bytes and
+requires it to equal the signed reviewed projection. Mutation wrappers consume
+only the verifier's in-process receipt fields and private plan snapshot, never
+reread the mutable source packet. The disposable reaper delay is calculated
+from the signed deadline and the system clock; callers cannot override it.
 The historical v1 packet remains evidence of the earlier run, not reusable
 mutation authority.
 

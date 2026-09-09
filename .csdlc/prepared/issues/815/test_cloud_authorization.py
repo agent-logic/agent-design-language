@@ -99,12 +99,20 @@ class Fixture:
 NOW = 1_800_000_000
 
 
-def gcp_packet(fixture: Fixture) -> tuple[dict, Path, Path]:
+def gcp_packet(fixture: Fixture) -> tuple[dict, Path, Path, Path, Path]:
     plan = fixture.root / "gcp.tfplan"
     projection = fixture.root / "gcp-plan.json"
     plan.write_bytes(b"synthetic exact GCP plan bytes\n")
     plan_value = {"format_version": "1.2", "resource_changes": []}
     write_json(projection, plan_value)
+    derived = fixture.root / "gcp-terraform-derived.json"
+    write_json(derived, plan_value)
+    mock = fixture.root / "gcp-terraform"
+    mock.write_text(
+        "#!/usr/bin/env bash\nset -euo pipefail\ncat \"${ADL_TEST_GCP_DERIVED_PLAN_JSON:?}\"\n",
+        encoding="utf-8",
+    )
+    mock.chmod(0o700)
     packet = {
         "schema": "adl.gcp_d1.mutation_authorization_request.v2",
         "issue": 731,
@@ -133,7 +141,7 @@ def gcp_packet(fixture: Fixture) -> tuple[dict, Path, Path]:
             "required_before": ["any live GCP mutation or spend"],
         },
     }
-    return packet, plan, projection
+    return packet, plan, projection, derived, mock
 
 
 def aws_packet(fixture: Fixture) -> tuple[dict, Path, Path, Path, Path]:
@@ -189,28 +197,54 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="cloud-auth-test-", dir=evidence_root) as raw:
         fixture = Fixture(Path(raw))
 
-        gcp, gcp_plan, gcp_projection = gcp_packet(fixture)
+        gcp, gcp_plan, gcp_projection, gcp_derived, gcp_mock = gcp_packet(fixture)
+        gcp_env = os.environ.copy()
+        gcp_env["ADL_TEST_GCP_DERIVED_PLAN_JSON"] = str(gcp_derived)
+        gcp_args = ["--terraform-bin", str(gcp_mock)]
         signed_gcp = fixture.sign(gcp)
-        fixture.run("gcp", signed_gcp, expect=True)
-        fixture.run("gcp", gcp, expect=False, fragment="no detached signature")
+        fixture.run("gcp", signed_gcp, expect=True, extra=gcp_args, env=gcp_env)
+        fixture.run("gcp", gcp, expect=False, fragment="no detached signature", extra=gcp_args, env=gcp_env)
         forged = copy.deepcopy(signed_gcp)
         forged["operator_authorization"]["authorization_text"] = "forged by repo writer"
-        fixture.run("gcp", forged, expect=False, fragment="forged")
+        fixture.run("gcp", forged, expect=False, fragment="forged", extra=gcp_args, env=gcp_env)
         expired = copy.deepcopy(gcp)
         expired["operator_authorization"]["approved_at_utc"] = utc(NOW - 9000)
         expired["cleanup_deadline_utc"] = utc(NOW - 1)
-        fixture.run("gcp", fixture.sign(expired), expect=False, fragment="older than 120 minutes")
+        fixture.run("gcp", fixture.sign(expired), expect=False, fragment="older than 120 minutes", extra=gcp_args, env=gcp_env)
         replay = copy.deepcopy(gcp)
         replay["project"] = "attacker-project"
-        fixture.run("gcp", fixture.sign(replay), expect=False, fragment="project is outside")
+        fixture.run("gcp", fixture.sign(replay), expect=False, fragment="project is outside", extra=gcp_args, env=gcp_env)
         original_gcp_plan = gcp_plan.read_bytes()
         gcp_plan.write_bytes(original_gcp_plan + b"tamper")
-        fixture.run("gcp", signed_gcp, expect=False, fragment="actual saved tfplan bytes")
+        fixture.run("gcp", signed_gcp, expect=False, fragment="actual saved tfplan bytes", extra=gcp_args, env=gcp_env)
         gcp_plan.write_bytes(original_gcp_plan)
         original_gcp_json = gcp_projection.read_text(encoding="utf-8")
         gcp_projection.write_text('{"tampered":true}\n', encoding="utf-8")
-        fixture.run("gcp", signed_gcp, expect=False, fragment="signed canonical JSON digest")
+        fixture.run("gcp", signed_gcp, expect=False, fragment="signed canonical JSON digest", extra=gcp_args, env=gcp_env)
         gcp_projection.write_text(original_gcp_json, encoding="utf-8")
+        write_json(gcp_derived, {"format_version": "1.2", "resource_changes": [{"address": "drift"}]})
+        fixture.run("gcp", signed_gcp, expect=False, fragment="not derived from the exact", extra=gcp_args, env=gcp_env)
+        write_json(gcp_derived, {"format_version": "1.2", "resource_changes": []})
+
+        verified_dir = fixture.root / "verified-gcp"
+        fixture.run(
+            "gcp",
+            signed_gcp,
+            expect=True,
+            extra=gcp_args + ["--verified-dir", str(verified_dir.relative_to(REPO))],
+            env=gcp_env,
+        )
+        receipt_path = verified_dir / "receipt.json"
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        attacker_packet = copy.deepcopy(signed_gcp)
+        attacker_packet["project"] = "attacker-project"
+        write_json(fixture.root / "gcp-packet.json", attacker_packet)
+        gcp_plan.write_bytes(b"post-verification attacker replacement\n")
+        if sha_bytes((verified_dir / "verified.tfplan").read_bytes()) != receipt["plan_digest"]:
+            raise AssertionError("verified GCP plan snapshot changed with mutable source plan")
+        durable_receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        if durable_receipt["project"] != module.EXPECTED_GCP_PROJECT:
+            raise AssertionError("verified GCP receipt did not preserve signed project")
 
         aws, aws_plan, aws_projection, sidecar, mock = aws_packet(fixture)
         signed_aws = fixture.sign(aws)

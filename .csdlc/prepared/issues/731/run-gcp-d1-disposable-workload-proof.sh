@@ -7,6 +7,7 @@ cd "$repo_root"
 packet="${ADL_GCP_D1_PACKET:-.csdlc/evidence/731/mutation-authorization-request.json}"
 out_dir="${ADL_GCP_D1_OUT_DIR:-.csdlc/evidence/731/live-disposable-workload}"
 gcloud_bin="${ADL_GCP_D1_GCLOUD_BIN:-gcloud}"
+terraform_bin="${ADL_GCP_D1_TERRAFORM_BIN:-terraform}"
 mkdir -p "$out_dir"
 created_instance=false
 cleanup_complete=false
@@ -27,18 +28,19 @@ cleanup_instance() {
 trap cleanup_instance EXIT
 
 test -f "$packet" || fail "missing mutation authorization packet"
-bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh "$packet"
-test "$(jq -r '.operator_authorization.status' "$packet")" = "approved" || fail "authorization packet is not approved"
+verified_dir="$out_dir/verified-authorization"
+receipt_json="$(ADL_GCP_D1_TERRAFORM_BIN="$terraform_bin" \
+  bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh "$packet" "$verified_dir")"
 
-project_id="$(jq -r '.project' "$packet")"
-zone="$(jq -r '.zone' "$packet")"
-region="$(jq -r '.region' "$packet")"
-network="$(jq -r '.network' "$packet")"
-subnet="$(jq -r '.subnet' "$packet")"
-run_id="$(jq -r '.run_id' "$packet")"
-instance_name="$(jq -r '.instance_name' "$packet")"
-deadline_utc="$(jq -r '.cleanup_deadline_utc' "$packet")"
-impersonated_identity="$(jq -r '.impersonated_identity' "$packet")"
+project_id="$(jq -r '.project' <<<"$receipt_json")"
+zone="$(jq -r '.zone' <<<"$receipt_json")"
+region="$(jq -r '.region' <<<"$receipt_json")"
+network="$(jq -r '.network' <<<"$receipt_json")"
+subnet="$(jq -r '.subnet' <<<"$receipt_json")"
+run_id="$(jq -r '.run_id' <<<"$receipt_json")"
+instance_name="$(jq -r '.instance_name' <<<"$receipt_json")"
+deadline_utc="$(jq -r '.cleanup_deadline_utc' <<<"$receipt_json")"
+impersonated_identity="$(jq -r '.impersonated_identity' <<<"$receipt_json")"
 deadline_label="$(printf '%s' "$deadline_utc" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9_-')"
 service_account="axioma-dev-workload@${project_id}.iam.gserviceaccount.com"
 case "$impersonated_identity" in
@@ -50,12 +52,12 @@ gcloud_authorized() {
   "$gcloud_bin" --impersonate-service-account "$impersonated_identity" "$@"
 }
 
-now_epoch="${ADL_GCP_D1_NOW_EPOCH:-$(date -u +%s)}"
+now_epoch="$(date -u +%s)"
 deadline_epoch="$(date -j -u -f '%Y-%m-%dT%H:%M:%SZ' "$deadline_utc" +%s)"
 test "$deadline_epoch" -gt "$now_epoch" || fail "cleanup deadline is already expired"
 lifetime_seconds=$((deadline_epoch - now_epoch))
 test "$lifetime_seconds" -le 1800 || fail "cleanup deadline is more than 30 minutes from mutation start"
-reaper_sleep_seconds="${ADL_GCP_D1_REAPER_SLEEP_SECONDS:-$lifetime_seconds}"
+reaper_sleep_seconds="$lifetime_seconds"
 
 cat > "$out_dir/deadline-reaper.sh" <<REAPER
 #!/usr/bin/env bash
