@@ -230,25 +230,22 @@ fn assert_implemented_help(command: &str, stdout: &[u8]) {
 }
 
 #[test]
-fn issue_631_routes_are_implemented_construction_not_live_authority() {
+fn proof_routes_distinguish_operational_and_historical_execution() {
     for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
             .output()
-            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
-        assert!(
-            help.status.success(),
-            "{command} --help should describe implemented construction route"
-        );
-        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
-        assert!(
-            help_stdout.contains("status: implemented_construction"),
-            "{command} help should be truthful: {help_stdout}"
-        );
-        assert!(
-            help_stdout.contains("C-SDLC v3 is operational after #505 / PR #591"),
-            "{command} help should preserve authority boundary: {help_stdout}"
-        );
+            .unwrap();
+        assert!(help.status.success());
+        let expected = if matches!(*command, "shadow" | "soak") {
+            "historical; execution disabled"
+        } else {
+            "operational; authenticated bound issue worktree required"
+        };
+        assert!(str::from_utf8(&help.stdout).unwrap().contains(expected));
+        assert!(str::from_utf8(&help.stdout)
+            .unwrap()
+            .contains("C-SDLC v3 is operational after #505 / PR #591"));
     }
 }
 
