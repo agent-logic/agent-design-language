@@ -49,7 +49,14 @@ fn main() {
             }
         }
         Err(error) => {
-            eprintln!("csdlc: {error}");
+            if serde_json::from_str::<serde_json::Value>(&error)
+                .is_ok_and(|value| value["schema"] == "csdlc.v3.proof_route.v1")
+            {
+                println!("{error}");
+                eprintln!("csdlc: proof route blocked; see structured stdout findings");
+            } else {
+                eprintln!("csdlc: {error}");
+            }
             std::process::exit(2);
         }
     }
@@ -292,7 +299,12 @@ fn run_local_construction_report(
 fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
     if args == ["--help"] || args == ["-h"] {
         return Ok(format!(
-            "usage: csdlc {command} --request <path>\n\nstatus: implemented_construction\nauthority: {AUTHORITY_HELP}"
+            "usage: csdlc {command} --request <path>\n\nclassification: {}\nauthority: {AUTHORITY_HELP}",
+            if matches!(command, "shadow" | "soak") {
+                "historical; execution disabled"
+            } else {
+                "operational; authenticated bound issue worktree required"
+            }
         ));
     }
     let request_path = RequestOnlyArgs::parse(command, args)?.request;
@@ -300,7 +312,7 @@ fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
         fs::read(&request_path).map_err(|error| format!("failed to read request: {error}"))?;
     let request: ProofRouteRequest = serde_json::from_slice(&request_bytes)
         .map_err(|error| format!("invalid request json: {error}"))?;
-    let repo_root = discover_binary_checkout_repo_root();
+    let repo_root = env::current_dir().ok().and_then(discover_repo_root);
     let report = classify_route(command, request, repo_root.as_deref());
     let serialized = serde_json::to_string(&report).map_err(|error| error.to_string())?;
     if report.status == ProofRouteStatus::Blocked {
@@ -573,17 +585,6 @@ fn discover_repo_root(start: PathBuf) -> Option<PathBuf> {
         }
     }
     None
-}
-
-fn discover_binary_checkout_repo_root() -> Option<PathBuf> {
-    env::current_exe()
-        .ok()
-        .and_then(discover_repo_root)
-        .or_else(|| {
-            option_env!("CARGO_MANIFEST_DIR")
-                .map(PathBuf::from)
-                .and_then(discover_repo_root)
-        })
 }
 
 fn remote_usage(command: &str) -> String {

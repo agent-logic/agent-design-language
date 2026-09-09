@@ -1,0 +1,20 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 784,
+  "issue_padded": "0784",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/784",
+  "title": "[v0.92.1][Runtime] Return completed A2A replies to the initiating agent",
+  "branch": "codex/784-runtime-a2a-closed-loop",
+  "version": "1.0.4",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-784-runtime-a2a-closed-loop",
+  "status": "implemented",
+  "summary": "Closed the governed A2A loop by running the initiating agent again with the peer terminal result before completing the original operator turn.",
+  "integration_state": "worktree_only",
+  "integration_result": "Committed in the bound #784 worktree; publication and merge are not yet claimed.",
+  "validation_result": "Focused automatic delegate-peer-initiator test passed; 10 A2A tests passed; 2 continuation failure/bound tests passed; formatting and diff hygiene passed; final independent review passed with no findings.",
+  "verification_scope": "Runtime provider prompt assembly, A2A completion, initiating continuation, typed failure, sequencing, attribution, and size bounds.",
+  "validation_effect": "Proves a resident initiator receives and synthesizes a peer result without operator relay while preserving the raw peer reply and causal history."
+}

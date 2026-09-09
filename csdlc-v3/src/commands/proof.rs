@@ -1,7 +1,7 @@
 //! Native proof, shadow, soak, and stable-install readiness operations.
 //!
-//! These routes may retain bounded evidence, but they do not grant live
-//! lifecycle authority before explicit #505 cutover approval.
+//! Operational proof/install writes require authenticated invoking worktree ownership.
+//! Historical shadow/soak routes are callable diagnostics only and fail without mutation.
 
 use std::{
     collections::BTreeMap,
@@ -22,6 +22,8 @@ pub const PROOF_ROUTE_NAMES: [&str; 4] = ["proof", "shadow", "soak", "install"];
 pub struct ProofRouteRequest {
     pub issue: u64,
     pub repository: String,
+    #[serde(default)]
+    pub binding: Option<ProofWorktreeBinding>,
     pub cutover_issue: Option<u64>,
     #[serde(default)]
     pub operator_approval: Option<String>,
@@ -30,6 +32,18 @@ pub struct ProofRouteRequest {
     pub shadow: Option<ShadowComparison>,
     pub soak: Option<SoakEvidence>,
     pub install: Option<InstallPlanInput>,
+}
+
+/// Expected identity is compared with native lifecycle bytes and live Git topology.
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProofWorktreeBinding {
+    pub worktree: PathBuf,
+    pub branch: String,
+    pub exact_head: String,
+    pub git_common_dir: PathBuf,
+    pub generation: u64,
+    pub lifecycle_digest: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize)]
@@ -113,6 +127,7 @@ pub struct InstallPlanInput {
 pub struct ProofRouteReport {
     pub schema: &'static str,
     pub route: String,
+    pub classification: &'static str,
     pub issue: u64,
     pub repository: String,
     pub read_only: bool,
@@ -136,7 +151,436 @@ pub struct ProofRouteFinding {
     pub message: String,
 }
 
+/// The only public proof dispatcher. Historical transition routes cannot execute.
 pub fn classify_route(
+    route: &str,
+    request: ProofRouteRequest,
+    repository_root: Option<&Path>,
+) -> ProofRouteReport {
+    let authorization = if matches!(route, "shadow" | "soak") {
+        Err(finding(
+            "historical_route_disabled",
+            "historical shadow/soak execution is retired; retained evidence is inspection-only",
+        ))
+    } else if !matches!(route, "proof" | "install") {
+        Err(finding("route_unknown", "unsupported proof route"))
+    } else {
+        authorize_worktree(&request, repository_root)
+    };
+    if let Err(error) = authorization {
+        return ProofRouteReport {
+            schema: "csdlc.v3.proof_route.v1",
+            route: route.into(),
+            classification: if matches!(route, "shadow" | "soak") {
+                "historical"
+            } else {
+                "operational"
+            },
+            issue: request.issue,
+            repository: request.repository,
+            read_only: true,
+            operational_authority: false,
+            performed_mutation: false,
+            evidence_refs: Vec::new(),
+            status: ProofRouteStatus::Blocked,
+            findings: vec![error],
+        };
+    }
+    let mut report = classify_bound_route(route, request, repository_root);
+    report.operational_authority = report.status == ProofRouteStatus::Ready;
+    report
+}
+
+fn proof_git(root: &Path, args: &[&str]) -> Result<String, ProofRouteFinding> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .env_remove("GIT_DIR")
+        .env_remove("GIT_WORK_TREE")
+        .env_remove("GIT_COMMON_DIR")
+        .output()
+        .map_err(|_| finding("proof_git_unavailable", "cannot inspect Git identity"))?;
+    if !output.status.success() {
+        return Err(finding(
+            "proof_git_unavailable",
+            "cannot inspect Git identity",
+        ));
+    }
+    String::from_utf8(output.stdout)
+        .map(|text| text.trim_end_matches('\n').to_owned())
+        .map_err(|_| finding("proof_git_invalid", "Git identity must be UTF-8"))
+}
+
+fn canonical_identity(path: &Path) -> Result<PathBuf, ProofRouteFinding> {
+    if !path.is_absolute()
+        || path
+            .components()
+            .any(|part| matches!(part, std::path::Component::ParentDir))
+    {
+        return Err(finding(
+            "proof_identity_path_invalid",
+            "identity paths must be absolute without parent traversal",
+        ));
+    }
+    path.canonicalize().map_err(|_| {
+        finding(
+            "proof_identity_path_unavailable",
+            "identity path is unavailable",
+        )
+    })
+}
+
+// Reject symlinks even when they resolve inside the checkout. This also covers
+// absent output paths by walking all existing ancestors before any mkdir/write.
+fn confined_path(root: &Path, reference: &str) -> Result<PathBuf, ProofRouteFinding> {
+    if reference.is_empty()
+        || Path::new(reference)
+            .components()
+            .any(|part| !matches!(part, std::path::Component::Normal(_)))
+    {
+        return Err(finding(
+            "proof_path_invalid",
+            "proof paths must be nonempty relative normal components",
+        ));
+    }
+    let mut path = root.to_path_buf();
+    for part in Path::new(reference).components() {
+        path.push(part);
+        match path.symlink_metadata() {
+            Ok(meta) if meta.file_type().is_symlink() => {
+                return Err(finding(
+                    "proof_path_symlink",
+                    "proof paths cannot traverse symlinks",
+                ))
+            }
+            Ok(_) => {
+                if !path
+                    .canonicalize()
+                    .map_err(|_| {
+                        finding("proof_path_unavailable", "proof path cannot be resolved")
+                    })?
+                    .starts_with(root)
+                {
+                    return Err(finding(
+                        "proof_path_escape",
+                        "proof path escapes the bound worktree",
+                    ));
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(_) => {
+                return Err(finding(
+                    "proof_path_unavailable",
+                    "proof path cannot be inspected",
+                ))
+            }
+        }
+    }
+    Ok(path)
+}
+
+fn confined_output_file(root: &Path, reference: &str) -> Result<PathBuf, ProofRouteFinding> {
+    let path = confined_path(root, reference)?;
+    match path.symlink_metadata() {
+        Ok(metadata) if !metadata.is_file() => Err(finding(
+            "proof_output_not_regular",
+            "existing output endpoints must be regular files",
+        )),
+        Ok(_) => Ok(path),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(path),
+        Err(_) => Err(finding(
+            "proof_output_unavailable",
+            "output endpoint cannot be inspected",
+        )),
+    }
+}
+
+fn authorize_worktree(
+    request: &ProofRouteRequest,
+    repository_root: Option<&Path>,
+) -> Result<(), ProofRouteFinding> {
+    for variable in [
+        "GIT_DIR",
+        "GIT_WORK_TREE",
+        "GIT_COMMON_DIR",
+        "GIT_INDEX_FILE",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_NAMESPACE",
+        "GIT_CONFIG_COUNT",
+        "GIT_CONFIG_PARAMETERS",
+    ] {
+        if std::env::var_os(variable).is_some() {
+            return Err(finding(
+                "proof_git_environment_override",
+                "Git identity overrides are not allowed for operational proof routes",
+            ));
+        }
+    }
+    let binding = request.binding.as_ref().ok_or_else(|| {
+        finding(
+            "proof_binding_missing",
+            "operational proof/install requires expected bound-worktree identity",
+        )
+    })?;
+    let root = canonical_identity(repository_root.ok_or_else(|| {
+        finding(
+            "repository_root_unavailable",
+            "invoke from the bound worktree",
+        )
+    })?)?;
+    if canonical_identity(&binding.worktree)? != root
+        || request
+            .evidence_root
+            .as_deref()
+            .map(Path::new)
+            .map(canonical_identity)
+            .transpose()?
+            .as_ref()
+            != Some(&root)
+    {
+        return Err(finding(
+            "proof_worktree_mismatch",
+            "invoking checkout, bound worktree and evidence root must match",
+        ));
+    }
+    if Path::new(&proof_git(&root, &["rev-parse", "--show-toplevel"])?) != root {
+        return Err(finding(
+            "proof_worktree_mismatch",
+            "invocation must resolve to the exact Git checkout",
+        ));
+    }
+    let common = canonical_identity(Path::new(&proof_git(
+        &root,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )?))?;
+    let git_dir = canonical_identity(Path::new(&proof_git(
+        &root,
+        &["rev-parse", "--absolute-git-dir"],
+    )?))?;
+    if common != canonical_identity(&binding.git_common_dir)? {
+        return Err(finding(
+            "proof_common_dir_mismatch",
+            "bound worktree must share the expected Git directory",
+        ));
+    }
+    // Executable ancestry identifies installation provenance only. Never use it
+    // as the mutation root; require the invoking checkout to share its Git store.
+    let executable = std::env::current_exe()
+        .and_then(|path| path.canonicalize())
+        .map_err(|_| {
+            finding(
+                "proof_binary_provenance_unavailable",
+                "installed binary provenance is unavailable",
+            )
+        })?;
+    let installation = executable
+        .ancestors()
+        .find(|path| path.join(".git").exists())
+        .ok_or_else(|| {
+            finding(
+                "proof_binary_provenance_unavailable",
+                "operational proof requires a repository-installed binary",
+            )
+        })?;
+    let installed_common = canonical_identity(Path::new(&proof_git(
+        installation,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )?))?;
+    if installed_common != common {
+        return Err(finding(
+            "proof_binary_repository_mismatch",
+            "invoking worktree must share the installed binary repository's Git directory",
+        ));
+    }
+    if common == git_dir || !git_dir.starts_with(common.join("worktrees")) {
+        return Err(finding(
+            "proof_primary_checkout_denied",
+            "operational writes require a linked issue worktree",
+        ));
+    }
+    if binding.branch.is_empty()
+        || binding.branch == "main"
+        || proof_git(&root, &["symbolic-ref", "--quiet", "--short", "HEAD"]).map_err(|_| {
+            finding(
+                "proof_branch_mismatch",
+                "detached HEAD is not an issue branch",
+            )
+        })? != binding.branch
+    {
+        return Err(finding(
+            "proof_branch_mismatch",
+            "current branch must match the issue binding",
+        ));
+    }
+    if binding.exact_head.len() != 40
+        || !binding.exact_head.bytes().all(|ch| ch.is_ascii_hexdigit())
+        || proof_git(&root, &["rev-parse", "HEAD"])? != binding.exact_head
+    {
+        return Err(finding(
+            "proof_head_mismatch",
+            "current HEAD must match the expected exact issue head",
+        ));
+    }
+    let registered = proof_git(&root, &["worktree", "list", "--porcelain", "-z"])?;
+    let expected_path = format!("worktree {}", root.display());
+    let expected_branch = format!("branch refs/heads/{}", binding.branch);
+    let expected_head = format!("HEAD {}", binding.exact_head);
+    if !registered.split("\0\0").any(|record| {
+        let fields: Vec<_> = record.split('\0').collect();
+        fields.contains(&expected_path.as_str())
+            && fields.contains(&expected_branch.as_str())
+            && fields.contains(&expected_head.as_str())
+    }) {
+        return Err(finding(
+            "proof_registration_mismatch",
+            "exact branch, HEAD and worktree registration is required",
+        ));
+    }
+    let remote = proof_git(&root, &["remote", "get-url", "origin"])?;
+    if ![
+        format!("https://github.com/{}.git", request.repository),
+        format!("https://github.com/{}", request.repository),
+        format!("git@github.com:{}.git", request.repository),
+    ]
+    .contains(&remote)
+    {
+        return Err(finding(
+            "proof_repository_mismatch",
+            "origin must identify the requested canonical repository",
+        ));
+    }
+    if crate::authority::canonical_v3_authority(&root)
+        .map_err(|_| {
+            finding(
+                "proof_authority_invalid",
+                "native authority could not be authenticated",
+            )
+        })?
+        .is_none()
+    {
+        return Err(finding(
+            "proof_authority_invalid",
+            "canonical native v3 authority is required",
+        ));
+    }
+    let policy: serde_json::Value = serde_json::from_str(&proof_git(
+        &root,
+        &["show", "refs/remotes/origin/main:.adl/worktree-policy.json"],
+    )?)
+    .map_err(|_| {
+        finding(
+            "proof_policy_invalid",
+            "canonical worktree policy is invalid",
+        )
+    })?;
+    let parent = policy["required_parent"].as_str().ok_or_else(|| {
+        finding(
+            "proof_policy_invalid",
+            "canonical worktree parent is missing",
+        )
+    })?;
+    let parent = canonical_identity(Path::new(parent))?;
+    if policy["schema"] != "adl.worktree_policy.v1" || root == parent || !root.starts_with(parent) {
+        return Err(finding(
+            "proof_worktree_outside_policy",
+            "bound worktree must remain below the canonical policy parent",
+        ));
+    }
+    let issue_ref = format!(".csdlc/issues/{}", request.issue);
+    let index_path = confined_path(&root, &format!("{issue_ref}/index.json"))?;
+    let index: serde_json::Value = serde_json::from_slice(&fs::read(index_path).map_err(|_| {
+        finding(
+            "proof_issue_unbound",
+            "native bound issue index is required",
+        )
+    })?)
+    .map_err(|_| finding("proof_issue_invalid", "native issue index is invalid"))?;
+    if index["schema"] != "csdlc.v3.local_state.v1"
+        || index["operational_authority"] != true
+        || index["issue"] != request.issue
+        || index["repository"] != request.repository
+        || index["phase"] != "bound"
+        || index["branch"] != binding.branch
+        || index["worktree"]
+            .as_str()
+            .map(Path::new)
+            .map(canonical_identity)
+            .transpose()?
+            .as_ref()
+            != Some(&root)
+    {
+        return Err(finding(
+            "proof_issue_unbound",
+            "native issue identity must bind this repository, branch and worktree",
+        ));
+    }
+    for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+        for suffix in ["values.json", "md"] {
+            confined_path(&root, &format!("{issue_ref}/cards/{card}.{suffix}"))?;
+        }
+    }
+    let binding_path = confined_path(&root, &format!("{issue_ref}/binding.json"))?;
+    let bound: serde_json::Value = serde_json::from_slice(
+        &fs::read(binding_path)
+            .map_err(|_| finding("proof_issue_unbound", "native binding record is required"))?,
+    )
+    .map_err(|_| finding("proof_issue_invalid", "native binding record is invalid"))?;
+    if bound["schema"] != "csdlc.v3.binding.v1"
+        || bound["issue"] != request.issue
+        || bound["branch"] != binding.branch
+        || bound["worktree"]
+            .as_str()
+            .map(Path::new)
+            .map(canonical_identity)
+            .transpose()?
+            .as_ref()
+            != Some(&root)
+    {
+        return Err(finding(
+            "proof_issue_unbound",
+            "native binding record does not match issue ownership",
+        ));
+    }
+    let observed = super::local::inspect_local_lifecycle_state(&root, request.issue);
+    if !observed.ready_to_execute
+        || observed.phase.as_deref() != Some("bound")
+        || observed.generation != Some(binding.generation)
+        || binding.lifecycle_digest.is_empty()
+        || observed.digest.as_deref() != Some(binding.lifecycle_digest.as_str())
+    {
+        return Err(finding("proof_lifecycle_stale", "native lifecycle digest and generation must authenticate current card and binding bytes"));
+    }
+    confined_path(
+        &root,
+        &format!(".csdlc/evidence/{}/v3-proof", request.issue),
+    )?;
+    confined_path(
+        &root,
+        &format!(".csdlc/evidence/{}/v3-install", request.issue),
+    )?;
+    if let Some(proof) = &request.proof {
+        confined_output_file(
+            &root,
+            &format!(
+                ".csdlc/evidence/{}/v3-proof/{}.json",
+                request.issue,
+                safe_component(&proof.manifest_id)?
+            ),
+        )?;
+    }
+    if let Some(install) = &request.install {
+        confined_output_file(&root, &install.destination)?;
+        confined_output_file(
+            &root,
+            &format!(".csdlc/evidence/{}/v3-install/receipt.json", request.issue),
+        )?;
+    }
+    Ok(())
+}
+
+fn classify_bound_route(
     route: &str,
     request: ProofRouteRequest,
     repository_root: Option<&Path>,
@@ -235,6 +679,7 @@ pub fn classify_route(
     ProofRouteReport {
         schema: "csdlc.v3.proof_route.v1",
         route: route.to_owned(),
+        classification: "operational",
         issue: request.issue,
         repository: request.repository,
         read_only: !performed_mutation,
@@ -303,7 +748,7 @@ fn validate_evidence_root_binding(
     if evidence_root != repository_root {
         findings.push(finding(
             "evidence_root_not_repository_root",
-            "proof evidence root must be the binary checkout repository root, not a request-controlled scratch tree",
+            "proof evidence root must be the authenticated invoking worktree root",
         ));
     }
 }
@@ -1281,8 +1726,9 @@ fn execute_install(
     install: &InstallPlanInput,
 ) -> Result<String, ProofRouteFinding> {
     let root = request_root(request)?;
-    let source = root.join(&install.artifact_ref);
-    let destination = root.join(&install.destination);
+    authorize_worktree(request, Some(&root))?;
+    let source = resolve_repo_path(&root, &install.artifact_ref, true)?;
+    let destination = confined_output_file(&root, &install.destination)?;
     if destination
         .symlink_metadata()
         .is_ok_and(|metadata| metadata.file_type().is_symlink())
@@ -1500,7 +1946,9 @@ fn write_canonical_evidence(
     let root = request_root(request)?;
     let mut bytes = canonical_json(value);
     bytes.push(b'\n');
-    write_bytes_atomic(&root.join(reference), &bytes)
+    authorize_worktree(request, Some(&root))?;
+    let destination = confined_output_file(&root, reference)?;
+    write_bytes_atomic(&destination, &bytes)
 }
 
 fn write_bytes_atomic(path: &Path, bytes: &[u8]) -> Result<(), ProofRouteFinding> {
@@ -1519,12 +1967,16 @@ fn write_bytes_atomic(path: &Path, bytes: &[u8]) -> Result<(), ProofRouteFinding
     })?;
     let sequence = TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed);
     let temp = path.with_extension(format!("csdlc-v3-{}-{sequence}.tmp", std::process::id()));
-    let mut file = fs::File::create(&temp).map_err(|_| {
-        finding(
-            "evidence_write_failed",
-            "evidence temporary file could not be created",
-        )
-    })?;
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&temp)
+        .map_err(|_| {
+            finding(
+                "evidence_write_failed",
+                "evidence temporary file could not be created",
+            )
+        })?;
     file.write_all(bytes).map_err(|_| {
         finding(
             "evidence_write_failed",
@@ -1646,11 +2098,11 @@ fn finding(code: &'static str, message: impl Into<String>) -> ProofRouteFinding 
 mod tests {
     use super::*;
     #[cfg(unix)]
-    use std::os::unix::fs::{symlink, PermissionsExt};
+    use std::os::unix::fs::symlink;
 
     #[cfg(unix)]
     #[test]
-    fn native_install_copies_verifies_and_records_provenance() {
+    fn native_install_denies_unbound_internal_execution() {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("target/proof-native-unit")
             .join(std::process::id().to_string());
@@ -1667,6 +2119,7 @@ mod tests {
         .unwrap();
         let artifact_digest = blake3::hash(b"native-v3-binary").to_hex().to_string();
         let request = ProofRouteRequest {
+            binding: None,
             issue: 505,
             repository: "agent-logic/agent-design-language".into(),
             cutover_issue: Some(505),
@@ -1696,23 +2149,11 @@ mod tests {
             ),
         };
 
-        let receipt_ref = execute_install(&request, &install).unwrap();
         assert_eq!(
-            fs::read(root.join(".adl/bin/csdlc")).unwrap(),
-            b"native-v3-binary"
+            execute_install(&request, &install).unwrap_err().code,
+            "proof_binding_missing"
         );
-        assert_ne!(
-            fs::metadata(root.join(".adl/bin/csdlc"))
-                .unwrap()
-                .permissions()
-                .mode()
-                & 0o111,
-            0
-        );
-        let receipt: serde_json::Value =
-            serde_json::from_slice(&fs::read(root.join(receipt_ref)).unwrap()).unwrap();
-        assert_eq!(receipt["verified"], true);
-        assert_eq!(receipt["source_provenance"], "git:test");
+        assert!(!root.join(".adl/bin/csdlc").exists());
         fs::remove_dir_all(root).unwrap();
     }
 
