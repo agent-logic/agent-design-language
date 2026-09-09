@@ -9,5 +9,12 @@
   "card": "sor",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-717-polis-capability-orientation"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-717-polis-capability-orientation",
+  "status": "implemented",
+  "summary": "Expanded the versioned agent Welcome Package so newly admitted agents understand Polis modules, capabilities, access boundaries, and escalation before their first turn, with deterministic drift protection.",
+  "integration_state": "worktree_only",
+  "integration_result": "Committed in the bound #717 worktree; publication and merge are not yet claimed.",
+  "validation_result": "All 203 Runtime library tests passed; the focused orientation suite passed 15 tests; the v0.92.2 planning validator passed with 39 packages and 9 negative fixtures; formatting, diff hygiene, six-card typed validation, and final bounded review passed.",
+  "verification_scope": "Welcome Package content and first-turn delivery, canonical capability inventory parity and negative drift cases, persisted dynamic-agent upgrade compatibility, milestone planning reconciliation, and lifecycle metadata.",
+  "validation_effect": "Proves new packages cannot omit, duplicate, stale, or invent capability identifiers; authenticated historical deliveries survive upgrade without bypassing digest validation; and #717/#718 planning truth is consistently assigned to v0.92.1."
 }

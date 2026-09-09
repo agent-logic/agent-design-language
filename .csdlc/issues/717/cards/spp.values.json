@@ -42,8 +42,9 @@
   "step_2_status": "completed",
   "step_3_status": "completed",
   "step_4_status": "completed",
-  "step_5_status": "in_progress",
+  "step_5_status": "completed",
   "risks_inline": "stale prose, duplicate registry truth, excess prompt size, false deployment availability claims",
   "validation_plan_inline": "agent_orientation tests, adjacent first-turn delivery tests, formatting, diff hygiene, and bounded subagent review",
-  "notes_risks_inline": "Exact-inventory validation applies to candidate and active packages; authenticated historical deliveries remain digest-validated so a Runtime upgrade cannot strand existing agents."
+  "notes_risks_inline": "Exact-inventory validation applies to candidate and active packages; authenticated historical deliveries remain digest-validated so a Runtime upgrade cannot strand existing agents.",
+  "summary": "Implemented the versioned Welcome Package capability map, exact canonical inventory guard, upgrade-safe persisted provenance, and v0.92.1 planning reconciliation."
 }

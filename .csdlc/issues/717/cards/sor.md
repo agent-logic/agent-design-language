@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities
 Branch: codex/717-polis-capability-orientation
 Card Status: ready
-Status: <status>
+Status: implemented
 Generated: <timestamp>
 
 Execution:
@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-<summary>
+Expanded the versioned agent Welcome Package so newly admitted agents understand Polis modules, capabilities, access boundaries, and escalation before their first turn, with deterministic drift protection.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -85,13 +85,13 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
+- Integration state: `worktree_only`
+- Verification scope: `Welcome Package content and first-turn delivery, canonical capability inventory parity and negative drift cases, persisted dynamic-agent upgrade compatibility, milestone planning reconciliation, and lifecycle metadata.`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `<integration_result>`
+- Result: `Committed in the bound #717 worktree; publication and merge are not yet claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,9 +107,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `<validation_command>`
-    `<validation_effect>`
+    `Proves new packages cannot omit, duplicate, stale, or invent capability identifiers; authenticated historical deliveries survive upgrade without bypassing digest validation; and #717/#718 planning truth is consistently assigned to v0.92.1.`
 - Results:
-  - `<validation_result>`
+  - `All 203 Runtime library tests passed; the focused orientation suite passed 15 tests; the v0.92.2 planning validator passed with 39 packages and 9 negative fixtures; formatting, diff hygiene, six-card typed validation, and final bounded review passed.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
