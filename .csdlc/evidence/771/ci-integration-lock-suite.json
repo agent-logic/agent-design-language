@@ -1,0 +1,25 @@
+{
+  "schema": "adl.v3f.detached_suite.v1",
+  "source_sha": "5fddb524924489dff9924022c06b0346e4908af3",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--manifest-path",
+    "csdlc-v3/Cargo.toml"
+  ],
+  "started_at": "2026-09-09T18:33:57.171323+00:00",
+  "duration_seconds": 33.935,
+  "exit_code": 101,
+  "passed": 178,
+  "failed": 1,
+  "detached": true,
+  "clean_before": true,
+  "clean_after": true,
+  "head_after": "5fddb524924489dff9924022c06b0346e4908af3",
+  "external_target": true,
+  "log": "suite.log",
+  "log_sha256": "c694250725b73b386b704a0f052154acce428f41db41ad8d5c394694b205f0cb",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "checkout_method": "Clean detached linked proof checkout on internal disk; identical source bytes and unmodified test command. Earlier disk-full and primary eligibility mismatch failures retained separately."
+}

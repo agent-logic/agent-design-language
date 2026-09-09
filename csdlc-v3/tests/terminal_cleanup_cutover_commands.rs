@@ -652,6 +652,8 @@ fn cutover_and_rollback_share_one_mutation_lock() {
         .any(|finding| finding.code == "cutover_mutation_locked"));
     assert!(!root.join(".adl/bin/csdlc").exists());
 
+    // Match the production guard: release the advisory lock explicitly before retry.
+    FileExt::unlock(&holder).unwrap();
     drop(holder);
     let retry = execute_cutover_request(&request).expect("released advisory lock permits retry");
     assert_eq!(retry.status, TerminalRouteStatus::Ready, "{retry:#?}");
