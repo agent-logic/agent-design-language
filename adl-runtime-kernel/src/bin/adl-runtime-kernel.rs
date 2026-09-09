@@ -737,6 +737,12 @@ async fn main() -> ExitCode {
                 "adl.runtime_v3.agent_delegation.continuity.v1",
                 &continuity_secret,
             ));
+            let greeting_recovery_service = Arc::clone(&service);
+            tokio::spawn(async move {
+                greeting_recovery_service
+                    .recover_admission_greetings()
+                    .await;
+            });
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
                 std::time::Duration::from_millis(init.api.websocket_auth_timeout_millis),
@@ -1127,6 +1133,7 @@ async fn main() -> ExitCode {
                     },
                     _ = dynamic_agent_heartbeat.tick() => {
                         service.refresh_dynamic_agent_health().await;
+                        service.recover_admission_greetings().await;
                     },
                     _ = cloud_health_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();
