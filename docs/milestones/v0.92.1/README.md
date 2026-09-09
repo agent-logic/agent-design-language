@@ -48,6 +48,10 @@ After every root named by INT-01 has merged reviewed authority, the planned inte
 
 v0.92.2 is the **CodeFriend Beta 1** milestone. The release train must make CodeFriend available as an integrated beta by v0.95.
 
+## Operator-promoted Runtime bugfixes
+
+On 2026-09-09 the operator promoted #717 (versioned Polis capability orientation) and #718 (canonical-name A2A routing) from the successor plan into v0.92.1. They execute through their own typed issue authority, do not alter the original WP-01 wave, and must be included in v0.92.1 integration and closeout truth. v0.92.2 consumes their merged results as predecessor capabilities and must not recreate them.
+
 ## Package map
 
 - [Vision](VISION_v0.92.1.md)

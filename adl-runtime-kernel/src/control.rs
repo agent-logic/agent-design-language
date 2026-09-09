@@ -11643,12 +11643,15 @@ mod orientation_tests {
             .orientation_for_agent("shepherd")
             .expect("shepherd orientation exists")
             .digest;
-        let v2_content = "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nNew civic orientation.";
+        let v2_content = format!(
+            "{}\n\nNew civic orientation.",
+            include_str!("../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md")
+        );
         let v2_delivery = service
             .replace_agent_orientation_for_test(
                 "v2",
                 "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V2.md",
-                v2_content,
+                &v2_content,
             )
             .expect("valid replacement orientation loads");
         assert_ne!(v2_delivery.digest, original_shepherd_digest);
@@ -11713,7 +11716,10 @@ mod orientation_tests {
             .replace_agent_orientation_for_test(
                 "v2",
                 "docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V2.md",
-                "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nRuntime restart active orientation.",
+                &format!(
+                    "{}\n\nRuntime restart active orientation.",
+                    include_str!("../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md")
+                ),
             )
             .expect("valid replacement orientation loads");
         assert_ne!(v2_delivery.digest, admission_time_orientation.digest);
@@ -11771,7 +11777,10 @@ mod orientation_tests {
         let source_path = root.path().join("welcome-v2.md");
         std::fs::write(
             &source_path,
-            "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nConfigured startup orientation.",
+            format!(
+                "{}\n\nConfigured startup orientation.",
+                include_str!("../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md")
+            ),
         )
         .expect("orientation source writes");
         let delivery = service
@@ -11816,7 +11825,10 @@ mod orientation_tests {
         let v2_path = root.path().join("AXIOMA_POLIS_WELCOME_PACKAGE_V2.md");
         std::fs::write(
             &v2_path,
-            "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nReloaded civic orientation.",
+            format!(
+                "{}\n\nReloaded civic orientation.",
+                include_str!("../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md")
+            ),
         )
         .expect("v2 package writes");
         let mut init = crate::RuntimeInitConfig::from_toml_str(include_str!(

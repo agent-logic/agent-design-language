@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 717,
+  "issue_padded": "0717",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/717",
+  "title": "[v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities",
+  "branch": "codex/717-polis-capability-orientation",
+  "version": "1.0.4",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-717-polis-capability-orientation"
+}

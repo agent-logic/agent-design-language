@@ -48,7 +48,7 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
-- [ ] Existing #717/#718/#720 reused exactly once; #718 treated as urgent; other backlog excluded
+- [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
 - [ ] Every admitted supporting track converged at TAIL-01

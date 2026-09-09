@@ -142,24 +142,6 @@ specifications:
     pvf: [reproducible_benchmark, output_equivalence, fallback_test]
     stop_conditions: [stale_fixture_only, correctness_regression, unsupported_speed_claim]
     non_goals: [productization_without_requalification]
-  - id: RT-A2A
-    outcome: Existing issue 718 delivers canonical-name A2A addressing urgently, independently of the CodeFriend build.
-    owned_surfaces: [adl-runtime-kernel/src/assembly.rs, adl-runtime-kernel/src/control.rs, adl-runtime-kernel/src/ingress.rs, canonical_roster, acip_carrier, observatory_a2a_history, welcome_package]
-    acceptance: [canonical_names_only_in_public_contract, invalid_names_rejected, model_provider_migration_identity_stable, internal_audit_ids_retained, two_ordinary_agents_exchange_model_generated_replies]
-    pvf: [schema_contract, name_resolution_negatives, continuity_identity, governed_end_to_end_model_reply]
-    stop_conditions: [ambiguous_name, weakened_acip_validation, helper_only_proof, unapproved_live_provider_use]
-    non_goals: [runtime_v4, new_cross_node_transport, changing_backing_model, shepherd_special_case]
-    issue: 718
-    priority: urgent
-    execution_boundary: Existing issue is eligible for immediate readiness/binding; implementation is not performed by issue 523.
-  - id: RT-ORIENT
-    outcome: Existing issue 717 extends the versioned welcome package with truthful module and capability orientation.
-    owned_surfaces: [docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md, adl-runtime-kernel/src/agent_orientation.rs, canonical_capability_inventory, orientation_read_models]
-    acceptance: [before_first_model_turn, freedom_gate_explained, existence_enablement_admission_authorization_distinct, version_digest_preserved, inventory_coverage]
-    pvf: [first_turn_delivery, inventory_guard, stale_inventory_negative, provenance_contract]
-    stop_conditions: [invented_capability, orientation_grants_authority, unavailable_708_baseline]
-    non_goals: [new_authority, live_provider_calls, production_runtime_mutation]
-    issue: 717
   - id: OBS-LIVE
     outcome: Existing issue 720 makes the live Observatory unable to silently switch to retained historical telemetry.
     owned_surfaces: [observatory_topbar, refreshRetained, obsolete_setRuntimeTestStatus_assignments, live_ui_contract_tests]

@@ -11,6 +11,16 @@ pub const DEFAULT_AGENT_ORIENTATION_SOURCE_PATH: &str =
 pub const AGENT_ORIENTATION_DIGEST_ALGORITHM: &str = "blake3";
 const DEFAULT_AGENT_ORIENTATION_BODY: &str =
     include_str!("../../docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md");
+const CAPABILITY_MARKER_PREFIX: &str = "<!-- polis-capability:";
+const CAPABILITY_MARKER_SUFFIX: &str = " -->";
+const ORIENTATION_CAPABILITY_FAMILIES: [&str; 6] = [
+    "identity_office",
+    "governed_tools",
+    "freedom_gate",
+    "adaptive_execution",
+    "memory_observability",
+    "operator_escalation",
+];
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -242,7 +252,56 @@ fn validate_package_content(content: &str) -> Result<(), AgentOrientationError> 
     {
         return Err(AgentOrientationError::InvalidContent);
     }
+    validate_capability_inventory(content)?;
     Ok(())
+}
+
+fn canonical_orientation_capability_ids() -> Vec<String> {
+    let mut ids = crate::REQUIRED_OPERATIONAL_ADAPTERS
+        .iter()
+        .map(|kind| kind.service_name().to_owned())
+        .chain(
+            ORIENTATION_CAPABILITY_FAMILIES
+                .iter()
+                .map(|id| (*id).to_owned()),
+        )
+        .collect::<Vec<_>>();
+    ids.sort();
+    ids
+}
+
+fn declared_orientation_capability_ids(
+    content: &str,
+) -> Result<Vec<String>, AgentOrientationError> {
+    let mut ids = Vec::new();
+    for line in content.lines().map(str::trim) {
+        if let Some(rest) = line.strip_prefix(CAPABILITY_MARKER_PREFIX) {
+            let Some(id) = rest.strip_suffix(CAPABILITY_MARKER_SUFFIX) else {
+                return Err(AgentOrientationError::InvalidContent);
+            };
+            if id.is_empty()
+                || !id
+                    .bytes()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'_')
+            {
+                return Err(AgentOrientationError::InvalidContent);
+            }
+            ids.push(id.to_owned());
+        }
+    }
+    ids.sort();
+    if ids.windows(2).any(|pair| pair[0] == pair[1]) {
+        return Err(AgentOrientationError::InvalidContent);
+    }
+    Ok(ids)
+}
+
+fn validate_capability_inventory(content: &str) -> Result<(), AgentOrientationError> {
+    if declared_orientation_capability_ids(content)? == canonical_orientation_capability_ids() {
+        Ok(())
+    } else {
+        Err(AgentOrientationError::InvalidContent)
+    }
 }
 
 #[cfg(test)]
@@ -265,7 +324,7 @@ mod tests {
             .expect("shadow parent directory writes");
         std::fs::write(
             &shadow_path,
-            "# Axioma Polis Welcome Package\n\nThis package grants no authority by itself.\n\nShadow orientation should not load.",
+            custom_package("Shadow orientation should not load."),
         )
         .expect("shadow source writes");
 
@@ -289,7 +348,7 @@ mod tests {
             .expect("source parent directory writes");
         std::fs::write(
             &source_path,
-            "# Axioma Polis Welcome Package v2\n\nThis package grants no authority by itself.\n\nConfigured default-path orientation.",
+            custom_package("Configured default-path orientation."),
         )
         .expect("source writes");
 
@@ -310,11 +369,8 @@ mod tests {
     fn custom_orientation_source_path_still_loads_explicit_package() {
         let root = tempfile::tempdir().expect("test tempdir");
         let source_path = root.path().join("custom-welcome.md");
-        std::fs::write(
-            &source_path,
-            "# Axioma Polis Welcome Package custom\n\nThis package grants no authority by itself.\n\nExplicit custom orientation.",
-        )
-        .expect("custom source writes");
+        std::fs::write(&source_path, custom_package("Explicit custom orientation."))
+            .expect("custom source writes");
 
         let loaded = AgentOrientationResource::load_from_config(&AgentOrientationConfig {
             enabled: true,
@@ -325,5 +381,88 @@ mod tests {
 
         assert!(loaded.content.contains("Explicit custom orientation."));
         assert_eq!(loaded.version, "custom-v1");
+    }
+
+    fn custom_package(body: &str) -> String {
+        let inventory = canonical_orientation_capability_ids()
+            .into_iter()
+            .map(|id| format!("{CAPABILITY_MARKER_PREFIX}{id}{CAPABILITY_MARKER_SUFFIX}"))
+            .collect::<Vec<_>>()
+            .join("\n");
+        format!(
+            "# Axioma Polis Welcome Package custom\n\nThis package grants no authority by itself.\n\n{inventory}\n\n{body}"
+        )
+    }
+
+    #[test]
+    fn bundled_orientation_matches_canonical_runtime_capability_inventory() {
+        let declared = declared_orientation_capability_ids(DEFAULT_AGENT_ORIENTATION_BODY)
+            .expect("bundled inventory parses");
+        assert_eq!(declared, canonical_orientation_capability_ids());
+    }
+
+    #[test]
+    fn bundled_orientation_teaches_governed_use_and_deployment_aware_authority() {
+        let content = AgentOrientationResource::bundled_default().content;
+        for required in [
+            "internal Rust modules directly",
+            "platform",
+            "deployment",
+            "admitted for your identity",
+            "authorization for the particular action",
+            "Freedom Gate",
+            "allow, constrain, defer, or refuse",
+            "UTS and ACC",
+            "ACIP, A2A, and Layer 8",
+            "Adaptive Execution Engine",
+            "Checkpoints, partials, and continuity",
+            "Memory, lifelog, and observability",
+            "Scheduling and time",
+            "Operator escalation",
+        ] {
+            assert!(
+                content.contains(required),
+                "missing orientation: {required}"
+            );
+        }
+        assert!(content.contains("grants no authority"));
+        assert!(content.contains("cannot override Runtime policy"));
+    }
+
+    #[test]
+    fn orientation_rejects_missing_stale_duplicate_and_invented_capabilities() {
+        let valid = custom_package("Capability inventory test.");
+        let missing = valid.replacen("<!-- polis-capability:freedom_gate -->\n", "", 1);
+        assert_eq!(
+            AgentOrientationResource::from_content("v1", "welcome.md", missing),
+            Err(AgentOrientationError::InvalidContent)
+        );
+
+        let invented = valid.replace(
+            "<!-- polis-capability:freedom_gate -->",
+            "<!-- polis-capability:freedom_gate -->\n<!-- polis-capability:telepathy -->",
+        );
+        assert_eq!(
+            AgentOrientationResource::from_content("v1", "welcome.md", invented),
+            Err(AgentOrientationError::InvalidContent)
+        );
+
+        let duplicate = valid.replace(
+            "<!-- polis-capability:freedom_gate -->",
+            "<!-- polis-capability:freedom_gate -->\n<!-- polis-capability:freedom_gate -->",
+        );
+        assert_eq!(
+            AgentOrientationResource::from_content("v1", "welcome.md", duplicate),
+            Err(AgentOrientationError::InvalidContent)
+        );
+
+        let stale = valid.replace(
+            "<!-- polis-capability:freedom_gate -->",
+            "<!-- polis-capability:freedom_gate_v0 -->",
+        );
+        assert_eq!(
+            AgentOrientationResource::from_content("v1", "welcome.md", stale),
+            Err(AgentOrientationError::InvalidContent)
+        );
     }
 }

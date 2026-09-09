@@ -1,6 +1,6 @@
 # v0.92.2 Supporting Platform and Publication Tracks
 
-Status: new work remains planned until WP-01 opens the wave. Existing #717/#718/#720 retain their own issue authority and readiness boundaries.
+Status: new work remains planned until WP-01 opens the wave. Existing #720 retains its own issue authority. #717/#718 execute under v0.92.1 and are consumed here as predecessors after merge.
 
 These tracks support CodeFriend Beta 1 without being folded into one oversized product issue.
 
@@ -20,4 +20,4 @@ Each row becomes a separate bounded issue. OCI packaging, ATE, Runtime v4, custo
 
 ## Existing admitted tracks
 
-Reuse #718 urgently for canonical-name A2A, #717 for capability orientation and #720 for retained-mode hazard removal. Their existing authority permits independent readiness before WP-01. They converge at TAIL-01, not at CF-INTEGRATE. Preserve each issue acceptance, owned paths and proof; do not create replacements.
+Reuse #720 for retained-mode hazard removal. Consume the reviewed merged #717 capability-orientation and #718 canonical-name A2A results from v0.92.1; do not create replacements. #720 converges at TAIL-01, not at CF-INTEGRATE.
