@@ -3,13 +3,57 @@
   "issue": 761,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5d72d1f02bf37da94b5b6c1f2e19940f18c148ad231fb4e16ce7f32520f2207",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "94e7c60a991eeb4c6eb300b488bc2eec2980232c1cc3099758c8ebedb5cf74d6",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "beb563d812c43b940873546c703b3aa7eb88dcbf7ae9268d1b9be4ae2ad8f4dd",
   "branch": "codex/761-review-lane-denominators",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-761-review-lane-denominators",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:review_761",
+    "assigned_by": "codex:planning-6",
+    "revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+    "scope": [
+      "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+      "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "adl/tools/skills/repo-review-synthesis/references/output-contract.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:review_761",
+    "scope": [
+      "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+      "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "adl/tools/skills/repo-review-synthesis/references/output-contract.md"
+    ],
+    "reviewed_revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+    "findings": [
+      {
+        "id": "R761-001",
+        "severity": "p2",
+        "summary": "NUL Git filenames were trimmed; fixed and regression-tested for whitespace and Unicode.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Path classification and samples do not prove semantic review completion."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7c35ad2865b29676d54a047ed06d1b17164109483cf96c6bc6f5b76b5d2eaa25",
+      "values_digest": "c621c0212eb01f18d24d1f9c0bcbc8f979ce3ccbb239e71cdfbebc585cfcb358",
       "rendered_digest": "005bb45084657010ae8ca71bf4bd853724a999d795d36ff13e95390dead3caa9",
       "ast_digest": "a2c0f190f562b554eb82a6508d4f763f9c9bc77ec9591e65467cb48f5e81a31b"
     },
     "stp": {
-      "values_digest": "2bb4cac73c803f83f26b008cc69a1fb614a23a57d8df7686280f2fbd7522d9ce",
+      "values_digest": "b92f8edd29f96d82aaee5a49e5629a04372d176d2f89ffd45731f98ff9fde17c",
       "rendered_digest": "e5bbf3ca0a960facf0cfa7231b803f5f9f51243c4f9fd5f7d742e10d1446e32b",
       "ast_digest": "0f8eda3ce2584fa3e696896bbadfbc25c82d9cc0146847345e3e258e39f2ad47"
     },
     "spp": {
-      "values_digest": "e3c13b52a502bd648d7f4508ecedc8861282e49f270c6c62e271702efe72a5e5",
+      "values_digest": "d55c279f9f87099be691e884849362b7dd77daee9de7eae45bad506e4082a67d",
       "rendered_digest": "69f318461fea43745580e7db61922208c8be5ff09da9f54b22b5f19e0a2f7b99",
       "ast_digest": "e5eec78166fac0836c5719cd8b422e2b815fb2b57e00e421ad29d30be562551c"
     },
     "vpp": {
-      "values_digest": "42a129c8984b3d9be3359781b9ae995d711ccb7456b2ef776425d67e468a1a57",
+      "values_digest": "670b3a4b3edd4914e241042f7ae8142906688b779a71b48060906e43b310b84c",
       "rendered_digest": "64a01c2526be9b8cb606b9f986d4aca2fdb8b9c30c8d840751fab682d090430b",
       "ast_digest": "2f9340a744f34fdf532432b2a6d54b652ace7d8aca5e5f820db396a913f32236"
     },
     "srp": {
-      "values_digest": "f368972fdbce6751cec69c8b278e6d59f6cf89702721f190c4feaf7262301751",
-      "rendered_digest": "6dd9d929b04d0503b697c253c7809a5f2ddfc778f8ca083424645e82e0ff7a5a",
-      "ast_digest": "80c2a1ce28dfd5cfefbd68d6af6d0265ac82c293beb06d101925c1075f63d1b9"
+      "values_digest": "5c1c604e7d9c00999dfa5baed765366193fadb9b2c17bff85dfdee643ed00f8f",
+      "rendered_digest": "20b2ba084a1efce85d0ae4f07e60c7405bf77eb172c78cc267fd205c35448541",
+      "ast_digest": "d6b6fff0f0d7e363eee3d3377cfb3df852324d03acec661f1746ff18231111f7"
     },
     "sor": {
-      "values_digest": "fd360e4b0800e381a928cfc5b2534a31b3a3610ebaa1bc0636f0542f24cd5a28",
+      "values_digest": "daee4a22fb2dc189d619235a3560d09bb7b1227c1b2346fccf5a960a35acd860",
       "rendered_digest": "8ec37630dff2769f9cbdf159a07ec87a411ed68298c48a8a6af6566b6e1a61a6",
       "ast_digest": "4f161578d6ec50c297ebdb54b2b84ecf9e76d9f71256556ddaf02bcccb3e128c"
     }
@@ -75,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:planning-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -154,6 +205,20 @@
       "actor": "codex:planning-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:planning-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:planning-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -7,22 +7,35 @@
     "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
     "slug": "review-lane-denominators",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/skills/repo-packet-builder, adl/tools/skills/repo-review-synthesis/references/output-contract.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/tools/skills/repo-packet-builder/references/output-contract.md\nadl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py\nadl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py\nadl/tools/skills/repo-packet-builder/tests/README.md\nadl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt\nadl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json\nadl/tools/skills/repo-packet-builder/tests/test_denominators.py\nadl/tools/skills/repo-review-synthesis/references/output-contract.md",
+      "review_revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+      "reviewer": "codex:review_761",
       "review_prompts": [
         "Verify full inventory precedes selection and samples are category-valid.",
         "Verify exact fixture, integrity negatives and honest coverage claims."
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "R761-001",
+          "severity": "p2",
+          "summary": "NUL Git filenames were trimmed; fixed and regression-tested for whitespace and Unicode.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Path classification and samples do not prove semantic review completion."
+      ],
+      "review_result": "pass"
     }
   }
 }
