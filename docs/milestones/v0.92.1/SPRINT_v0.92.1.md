@@ -1,6 +1,22 @@
 # Sprint Plan — v0.92.1
 
-## Opening
+Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
+## Current release-tail coordination
+
+WP-01/#480 has created the wave; its exact mapping is retained in
+`evidence/wp-01/final-creation-receipt.json`. Issue #538 membership version 7
+coordinates the complete #516–#526 admission-through-ceremony roster. The older
+Sprint 9–11 allocations below are historical scheduling input, not current
+ownership. Issue-level result and reviewed-merge gates remain authoritative;
+parallel preparation does not establish completion. The operator authorized
+#518 documentation review and handoff after #517's reviewed merge. The merged
+quality decision remains blocked for release acceptance; it does not block this
+operator-authorized documentation handoff.
+
+#84 Unity and #251 TLS are explicitly deferred backlog. Historical sprint
+assignments below do not reactivate them or make them OBS-B/#512 dependencies.
+
+## Historical opening and sprint allocation
 
 - Close #432 with canonical, ancestral repository-authority proof.
 - Preserve closed #431 as planning provenance without assigning it future work.
@@ -30,3 +46,7 @@ Each lane owns its issues, validations, review, and closeout. The conductor trac
 - Review cross-lane API, authority, privacy, and evidence dependencies.
 - Rebaseline explicitly if Runtime v4 becomes canonical.
 - Hand remaining CodeFriend work to v0.92.2 CodeFriend Beta 1, retaining the v0.95 integrated-beta deadline.
+
+## Operator scheduling clarification — 2026-09-08
+
+#523, #524 and #525 form a successor-planning lane that may proceed alongside current closeout. #523 does not wait for #522 to begin. #524 consumes the #523 candidate and #525 independently reviews the settled #523/#524 revision; preparation may overlap with disjoint ownership. Late closeout findings require planning reconciliation and renewed exact-revision review when material. Current release still requires both #522 remediation truth and #525 final planning review before ceremony; this scheduling change grants no release approval.

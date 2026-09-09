@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 799,
+  "issue_padded": "0799",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/799",
+  "title": "[v0.92.1][docs] Complete #767 final release-status refresh",
+  "branch": "codex/799-final-release-status",
+  "version": "v0.92.1",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-799-final-release-status",
+  "summary": "Completed final #767 source and ownership refresh in #799, preserving merged #767 cards and explicit release debt. Independently reviewed; publication follows.",
+  "status": "IN_PROGRESS",
+  "integration_state": "worktree_only",
+  "validation_result": "Focused Python validator passed: four documents, 14 lanes, 35 work packages, 71 source hashes and eight negative fixtures; original 40 checklist obligations retained. Independent reconstruction found no actionable findings. No Rust builds, runtime tests or cloud proofs run.",
+  "residual_risks": "Release remains blocked on actual candidate proof and authorization. Closed #764 delivered denominator/routing only; 198 remediation rows remain unproved. No automatic child creation or postmerge closeout required for this docs refresh."
+}

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[path = "../src/distributed/failure_detection.rs"]
 mod failure_detection;
 

@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 761,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+    "slug": "review-lane-denominators",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Complete lane denominators and deterministic samples implemented; six focused Python tests pass. Real exact #520 packet validates against independently reconstructed 5481 paths. Independent implementation review passed. Hosted CI and publication remain pending.",
+      "actual_changes": [
+        "Classify every scoped path before per-lane category-balanced sampling.",
+        "Record source/selected digests and exclusions and reject inconsistent packets.",
+        "Honor diff scope and preserve whitespace/Unicode Git filenames.",
+        "Retain exact #520 fixture and distinguish deterministic routing from semantic review."
+      ],
+      "artifacts": [
+        "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+        "adl/tools/skills/repo-packet-builder/tests/test_denominators.py"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "python3",
+            "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+            "-v"
+          ],
+          "purpose": "Exact #520 inventory, category samples, integrity negatives and CLI scope tests",
+          "outcome": "passed",
+          "evidence_ref": "packet-denominator-contract.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

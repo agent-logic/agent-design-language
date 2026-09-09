@@ -1,0 +1,90 @@
+{
+  "schema": "adl.tail03.publication_candidate.v1",
+  "issue": 519,
+  "repository": "agent-logic/agent-design-language",
+  "status": "final",
+  "source_issue": 518,
+  "source_pr": 753,
+  "source_head": "4db787bd9e14f42411435e9bbc3c57af6fa5664b",
+  "redaction_source_head": "ed5b159f2bfa89c9a9266a8d59435047b145e9f1",
+  "reviewed_source_head": "13d6afcee7e4f0050491b8c740547fdb9dac5f3d",
+  "review_index": {
+    "path": ".csdlc/issues/518/index.json",
+    "sha256": "c8259c4643271829304de65918dd146153be8104d15955ca2b458e06c021ae5a"
+  },
+  "handoff_manifest": "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+  "document_count": 791,
+  "artifacts": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
+      "sha256": "d4c5df20ca985e06c484c219a40cdc89e7da6886c90ba4213c84e5ccfd047e99"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
+      "sha256": "fa030d835f43281bbe00467c3f8bd45fdf985a5b12372b402e8b6ca745a988b3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
+      "sha256": "a6430030c5811961f3bf6e99473dca132cbdea5884a7837ecb3a6ebe72e2683d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
+      "sha256": "85e5dd9a75e6ee70b25599586e9e7810b0f0dcc7291ba8d69562c9c9de550e1a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
+      "sha256": "1f0d33c472a016e5f911db09c9a2378fdd2e38432f1373ea64a241a6c0993b1e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
+      "sha256": "529c00ad8dfba78fa3e48954a8cb16c37fa503bfc2846ea2ab7ce2b02e80b9dd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
+      "sha256": "e4e751ba66fbd13e7a5bc996c06d0af5e4fcdcd4120c1adaa16fa2857d6f58f6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json",
+      "sha256": "485b89b19d9acdc31727ff3211c6dc5857dca241e1896670ea6e3efde0742b61"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
+      "sha256": "d90a5161929a3ee4d7ea0883ee87464ab5d539d1da7f7280551cf98d9a263bf0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+      "sha256": "b7bb0aa93b51b299523faa3357bc0e7e5754191ac8687f5931f4c33c6d299197"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
+      "sha256": "14ba71f05a08333283ae4f52812c9e5ed44d26ef57bcd82275f8385dc774ff4c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
+      "sha256": "ed6680f63017c04f3142f06771238ff30df963546b4d8f1a1584e0bea1cfd914"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
+      "sha256": "39d23c7dd6466d31dc77878102c6895506ee6c21dbe2e10cad74121f98341e4d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
+      "sha256": "736ea3e0b59d032a111f87019bac888933ef0b0b099dc79ebaeb8d8d6be1ba4b"
+    }
+  ],
+  "closing_relationships": [
+    {
+      "issue": 518,
+      "pull_request": 753,
+      "keyword": "Closes #518"
+    },
+    {
+      "issue": 519,
+      "pull_request": null,
+      "keyword": "Closes #519"
+    }
+  ],
+  "final_blockers": [],
+  "release_approval": false,
+  "mutations_performed": []
+}

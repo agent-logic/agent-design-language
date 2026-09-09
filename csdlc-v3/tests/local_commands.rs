@@ -37,7 +37,7 @@ fn request() -> LocalPreparationRequest {
         repository: "agent-logic/agent-design-language".into(),
         branch: "codex/503-v3-d-local-preparation-workflow-exec".into(),
         worktree: "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec".into(),
-        registry_version: "1.0.3".into(),
+        registry_version: "1.0.5".into(),
         expected_lifecycle_digest: None,
         schedule_readiness: None,
         shepherd_routing: None,
@@ -48,18 +48,18 @@ fn request() -> LocalPreparationRequest {
 
 fn registry() -> PromptRegistry {
     PromptRegistry {
-        version: "1.0.3".into(),
+        version: "1.0.5".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
             .map(str::to_string)
             .collect::<BTreeSet<_>>(),
         template_paths: [
-            ("sip", "docs/templates/prompts/1.0.3/sip.md"),
-            ("stp", "docs/templates/prompts/1.0.3/stp.md"),
-            ("spp", "docs/templates/prompts/1.0.3/spp.md"),
-            ("vpp", "docs/templates/prompts/1.0.3/vpp.md"),
-            ("srp", "docs/templates/prompts/1.0.3/srp.md"),
-            ("sor", "docs/templates/prompts/1.0.3/sor.md"),
+            ("sip", "docs/templates/prompts/1.0.5/sip.md"),
+            ("stp", "docs/templates/prompts/1.0.5/stp.md"),
+            ("spp", "docs/templates/prompts/1.0.5/spp.md"),
+            ("vpp", "docs/templates/prompts/1.0.5/vpp.md"),
+            ("srp", "docs/templates/prompts/1.0.5/srp.md"),
+            ("sor", "docs/templates/prompts/1.0.5/sor.md"),
         ]
         .into_iter()
         .map(|(kind, path)| (kind.to_owned(), path.to_owned()))
@@ -166,17 +166,17 @@ fn card_roundtrip_uses_active_registry_denominator() {
     let active = PromptRegistry::from_current_json(&bytes).expect("active registry parses");
     assert_eq!(active, registry());
 
-    let plan = plan_cards(503, "1.0.3", &active).expect("complete active registry");
-    assert_eq!(plan.registry_version, "1.0.3");
+    let plan = plan_cards(503, "1.0.5", &active).expect("complete active registry");
+    assert_eq!(plan.registry_version, "1.0.5");
     assert_eq!(plan.card_kinds, ["sip", "stp", "spp", "vpp", "srp", "sor"]);
 
     let incomplete = PromptRegistry {
-        version: "1.0.3".into(),
+        version: "1.0.5".into(),
         card_kinds: ["sip", "stp"].into_iter().map(str::to_string).collect(),
         template_paths: BTreeMap::new(),
     };
     let findings =
-        plan_cards(503, "1.0.3", &incomplete).expect_err("missing card kinds block rendering");
+        plan_cards(503, "1.0.5", &incomplete).expect_err("missing card kinds block rendering");
     assert!(findings
         .iter()
         .all(|finding| finding.status == PlanStatus::Blocked));
@@ -260,7 +260,7 @@ fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
         assert_eq!(rendered[idx]["kind"], kind);
         assert_eq!(
             rendered[idx]["template_ref"],
-            format!("docs/templates/prompts/1.0.3/{kind}.md")
+            format!("docs/templates/prompts/1.0.5/{kind}.md")
         );
         assert_eq!(
             rendered[idx]["rendered_ref"],
@@ -307,7 +307,9 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
         assert!(help.status.success(), "{route} help failed: {help:?}");
         let help_stdout = String::from_utf8_lossy(&help.stdout);
         assert!(help_stdout.contains("status: implemented"));
-        assert!(help_stdout.contains("#505 cutover"));
+        assert!(help_stdout.contains("operational after #505 / PR #591"));
+        assert!(help_stdout.contains("authenticated canonical selector"));
+        assert!(help_stdout.contains("Missing or stale proof suspends authority"));
 
         let mut output = Command::new(env!("CARGO_BIN_EXE_csdlc"));
         output
@@ -837,7 +839,7 @@ fn run_git(root: &Path, args: &[&str]) -> String {
 
 fn operational_registry(root: &Path) -> PromptRegistry {
     let template_root = root.join("templates");
-    let schema_root = root.join("schemas");
+    let schema_root = template_root.join("schemas");
     fs::create_dir_all(&template_root).expect("template root");
     fs::create_dir_all(&schema_root).expect("schema root");
     let mut template_paths = BTreeMap::new();
@@ -846,14 +848,22 @@ fn operational_registry(root: &Path) -> PromptRegistry {
         fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
         fs::write(
             schema_root.join(format!("{kind}.structure.json")),
-            serde_json::to_vec(&serde_json::json!({"scaffold_lines": [format!("# {kind}")]}))
-                .unwrap(),
+            serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.csdlc.prompt_card_structure.v1",
+                "template_set": "1.0.5",
+                "card_kind": kind,
+                "template_path": path,
+                "scaffold_lines": [format!("# {kind}")],
+                "headings": [{"level": 1, "text": kind}],
+                "locked_lines": []
+            }))
+            .unwrap(),
         )
         .expect("structure schema fixture");
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
     }
     PromptRegistry {
-        version: "1.0.3".into(),
+        version: "1.0.5".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
             .map(str::to_owned)
@@ -981,7 +991,7 @@ fn operational_authority_fixture(
 
     let context = OperationalLocalContext {
         repository_root: repository_root.clone(),
-        state_root: repository_root.join(".csdlc"),
+        state_root: repository_root.join(".git/csdlc-v3/local"),
         allowed_worktree_parent: fixture.join("worktrees"),
         expected_authority_selector_digest: selector_digest.clone(),
         cutover_approval_path: approval_path,
@@ -1053,7 +1063,7 @@ fn operational_local_authority_rejects_stale_selector_approval_and_head_digests(
 #[test]
 fn operational_local_authority_rejects_stale_lifecycle_digest() {
     let (_, _, mut context, registry) = operational_authority_fixture("stale-lifecycle", "v3");
-    write_lifecycle_state(&context.repository_root, 503, "ready", "observed-digest");
+    execute_operational_local_route("issue", &request(), &registry, &context).unwrap();
     let mut request = request();
     request.expected_lifecycle_digest = Some("stale-digest".into());
     context.expected_lifecycle_digest = request.expected_lifecycle_digest.clone();
@@ -1139,6 +1149,64 @@ fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initializat
     assert!(result.mutated);
     assert_eq!(result.phase.as_deref(), Some("ready"));
     assert!(context.state_root.join("issues/503/index.json").is_file());
+}
+
+// PVF: deterministic local contract proof; real current prompt registry and all
+// six versioned templates/schemas, temporary lifecycle state, no network.
+#[test]
+fn current_registry_versioned_templates_resolve_all_structure_schemas() {
+    let repository_root = repo_root();
+    let registry_bytes = fs::read(repository_root.join("docs/templates/prompts/current.json"))
+        .expect("current prompt registry");
+    let mut registry =
+        PromptRegistry::from_current_json(&registry_bytes).expect("current registry parses");
+    for template_path in registry.template_paths.values_mut() {
+        *template_path = repository_root
+            .join(&*template_path)
+            .to_string_lossy()
+            .into_owned();
+    }
+    assert_eq!(
+        registry.card_kinds,
+        ["sip", "stp", "spp", "vpp", "srp", "sor"]
+            .into_iter()
+            .map(str::to_owned)
+            .collect()
+    );
+
+    let (_, _, mut context, _) =
+        operational_authority_fixture("current-versioned-structures", "v3");
+    let initialized = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect("current templates initialize all six cards");
+    // PVF: required deterministic native renderer/authority contract, small local CPU/disk.
+    let cards = context.state_root.join("issues/503/cards");
+    let sip = fs::read_to_string(cards.join("sip.md")).unwrap();
+    let sor = fs::read_to_string(cards.join("sor.md")).unwrap();
+    assert!(sip.contains("Use authenticated native C-SDLC v3"));
+    assert!(sip.contains("native v3 `csdlc bind`"));
+    assert!(sor.contains("C-SDLC v3 is operational after V3-F/#505"));
+    assert!(sor.contains("missing or stale proof suspends authority"));
+    assert!(sor.contains("native v3 `csdlc finish`"));
+    for card in [&sip, &sor] {
+        assert!(card.contains("explicit issue-scoped rollback or remediation approval"));
+        assert!(!card.contains("v2 remains live authority"));
+        assert!(!card.contains("pending tooling changeover"));
+    }
+    let mut validation_request = request();
+    validation_request.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+
+    let validated =
+        execute_operational_local_route("validate", &validation_request, &registry, &context)
+            .expect("all six current versioned card structures validate");
+    assert!(validated
+        .findings
+        .iter()
+        .any(|finding| finding.code == "six_card_validation_passed"));
+    assert!(!validated
+        .findings
+        .iter()
+        .any(|finding| finding.code == "card_structure_invalid"));
 }
 
 #[test]
@@ -1268,4 +1336,385 @@ fn operational_local_authority_rejects_state_root_symlink_escape() {
     let findings = execute_operational_local_route("issue", &request(), &registry, &context)
         .expect_err("state root symlink escape must fail closed");
     assert_eq!(findings[0].code, "state_root_outside_repository");
+}
+
+// PVF: small deterministic offline tooling contract gate; no provider execution.
+// Snapshot file bytes, including unrelated untracked files; Git metadata is excluded.
+fn primary_tree(root: &Path) -> BTreeMap<PathBuf, Vec<u8>> {
+    fn visit(root: &Path, dir: &Path, out: &mut BTreeMap<PathBuf, Vec<u8>>) {
+        for entry in fs::read_dir(dir).unwrap() {
+            let path = entry.unwrap().path();
+            if path == root.join(".git") {
+                continue;
+            }
+            if path.is_dir() {
+                visit(root, &path, out);
+            } else {
+                out.insert(
+                    path.strip_prefix(root).unwrap().to_path_buf(),
+                    fs::read(path).unwrap(),
+                );
+            }
+        }
+    }
+    let mut files = BTreeMap::new();
+    visit(root, root, &mut files);
+    files
+}
+
+#[cfg(unix)]
+#[test]
+fn metadata_symlinks_cannot_redirect_preparation_into_primary() {
+    for suffix in [
+        "",
+        "issues",
+        "transactions",
+        "transactions/completed",
+        "transactions/completed/503",
+        "locks",
+        "bindings",
+    ] {
+        let (root, _, context, registry) = operational_authority_fixture(
+            &format!("metadata-link-{}", suffix.replace('/', "-")),
+            "v3",
+        );
+        let link = if suffix.is_empty() {
+            context.state_root.clone()
+        } else {
+            context.state_root.join(suffix)
+        };
+        fs::create_dir_all(link.parent().unwrap()).unwrap();
+        std::os::unix::fs::symlink(&root, &link).unwrap();
+        let before = primary_tree(&root);
+        let result = execute_operational_local_route("issue", &request(), &registry, &context);
+        assert!(result.is_err(), "redirect accepted: {suffix}");
+        assert_eq!(primary_tree(&root), before);
+    }
+}
+
+// PVF: small deterministic offline tooling contract gate. A valid edit must
+// reject nested receipt redirection before writing cards, journals or receipts.
+#[cfg(unix)]
+#[test]
+fn edit_rejects_nested_completion_symlinks_before_mutation() {
+    for suffix in ["transactions/completed", "transactions/completed/503"] {
+        let (root, _, mut context, registry) =
+            operational_authority_fixture(&format!("edit-link-{}", suffix.replace('/', "-")), "v3");
+        let mut req = request();
+        let initialized =
+            execute_operational_local_route("issue", &req, &registry, &context).unwrap();
+        req.expected_lifecycle_digest = initialized.digest.clone();
+        context.expected_lifecycle_digest = initialized.digest;
+        req.card_updates.insert(
+            "spp".into(),
+            serde_json::json!({"plan_summary":"must not be applied"}),
+        );
+        let index = fs::read(context.state_root.join("issues/503/index.json")).unwrap();
+        let link = context.state_root.join(suffix);
+        fs::create_dir_all(link.parent().unwrap()).unwrap();
+        std::os::unix::fs::symlink(&root, link).unwrap();
+        let before = primary_tree(&root);
+        let denied =
+            execute_operational_local_route("edit", &req, &registry, &context).unwrap_err();
+        assert_eq!(denied[0].code, "local_storage_symlink_denied");
+        assert_eq!(primary_tree(&root), before);
+        assert_eq!(
+            fs::read(context.state_root.join("issues/503/index.json")).unwrap(),
+            index
+        );
+        assert!(!context.state_root.join("transactions/503.json").exists());
+    }
+}
+
+// PVF: small deterministic offline tooling contract gate; all local routes must
+// preserve legacy evidence and unrelated primary bytes without silent migration.
+#[test]
+fn legacy_primary_state_is_preserved_without_any_route_writes() {
+    for relative in [
+        "issues/503/index.json",
+        "prepared/issues/503/design.md",
+        "transactions/503.json",
+        "transactions/completed/503/edit.json",
+    ] {
+        let (root, _, context, registry) =
+            operational_authority_fixture(&format!("legacy-{}", relative.replace('/', "-")), "v3");
+        let path = root.join(".csdlc").join(relative);
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(path, "preserve this evidence").unwrap();
+        fs::write(root.join("unrelated.txt"), "other session").unwrap();
+        let before = primary_tree(&root);
+        for route in LOCAL_ROUTE_NAMES {
+            let result = execute_operational_local_route(route, &request(), &registry, &context)
+                .unwrap_err();
+            assert_eq!(result[0].code, "legacy_primary_state_requires_recovery");
+            assert_eq!(primary_tree(&root), before);
+            assert!(!context.state_root.exists());
+        }
+    }
+}
+
+// PVF: deterministic local CPU topology/contract gate; real Git worktree,
+// no network. Proves native bind, not test-side relocation, transfers lifecycle
+// state to the registered issue checkout and denies primary follow-on writes.
+#[test]
+fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
+    let (primary, _, mut context, registry) =
+        operational_authority_fixture("bound-local-state", "v3");
+    fs::create_dir_all(primary.join(".adl")).unwrap();
+    fs::write(
+        primary.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema":"adl.worktree_policy.v1", "required_parent":context.allowed_worktree_parent
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    run_git(&primary, &["add", ".adl/worktree-policy.json"]);
+    run_git(&primary, &["commit", "--quiet", "-m", "worktree policy"]);
+    context.expected_head_sha = run_git(&primary, &["rev-parse", "HEAD"]);
+    run_git(
+        &primary,
+        &[
+            "update-ref",
+            "refs/remotes/origin/main",
+            &context.expected_head_sha,
+        ],
+    );
+
+    let mut req = request();
+    let bound = context.allowed_worktree_parent.join("issue-503");
+    req.worktree = bound.to_string_lossy().into_owned();
+
+    fs::write(primary.join("unrelated.txt"), "other session work").unwrap();
+    let before = primary_tree(&primary);
+    let initialized = execute_operational_local_route("issue", &req, &registry, &context)
+        .expect("initialize authoritative lifecycle state");
+    req.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+
+    let primary_status = run_git(
+        &primary,
+        &["status", "--porcelain", "--untracked-files=all"],
+    );
+    assert_eq!(primary_tree(&primary), before);
+    req.card_updates.insert(
+        "spp".into(),
+        serde_json::json!({"plan_summary":"prepare before binding"}),
+    );
+    let edited = execute_operational_local_route("edit", &req, &registry, &context).unwrap();
+    req.expected_lifecycle_digest = edited.digest.clone();
+    context.expected_lifecycle_digest = edited.digest;
+    assert_eq!(
+        run_git(
+            &primary,
+            &["status", "--porcelain", "--untracked-files=all"]
+        ),
+        primary_status
+    );
+    assert_eq!(
+        context
+            .state_root
+            .join("transactions/completed/503")
+            .read_dir()
+            .unwrap()
+            .count(),
+        1
+    );
+    let bound_result = execute_operational_local_route("bind", &req, &registry, &context)
+        .expect("native bind transfers lifecycle state");
+    req.expected_lifecycle_digest = bound_result.digest.clone();
+    context.expected_lifecycle_digest = bound_result.digest;
+
+    assert!(bound.join(".csdlc/issues/503/index.json").is_file());
+    assert!(!primary.join(".csdlc/issues/503").exists());
+    assert_eq!(
+        run_git(
+            &primary,
+            &["status", "--porcelain", "--untracked-files=all"]
+        ),
+        primary_status
+    );
+    assert!(!primary.join(".csdlc/transactions").exists());
+    assert_eq!(
+        context
+            .state_root
+            .join("transactions/completed/503")
+            .read_dir()
+            .unwrap()
+            .count(),
+        1
+    );
+
+    for route in ["issue", "edit", "validate"] {
+        assert_eq!(
+            execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
+            "issue_already_bound"
+        );
+    }
+
+    assert_eq!(primary_tree(&primary), before);
+    let mut competing = request();
+    competing.branch = "codex/competing-owner".into();
+    competing.worktree = context
+        .allowed_worktree_parent
+        .join("competing-owner")
+        .to_string_lossy()
+        .into_owned();
+    context.expected_lifecycle_digest = None;
+    assert_eq!(
+        execute_operational_local_route("issue", &competing, &registry, &context).unwrap_err()[0]
+            .code,
+        "issue_already_bound"
+    );
+    context.expected_lifecycle_digest = req.expected_lifecycle_digest.clone();
+    context.repository_root = bound.clone();
+    context.state_root = bound.join(".csdlc");
+    fs::write(bound.join("tracked"), "legitimate implementation dirt\n").unwrap();
+    req.card_updates.insert(
+        "spp".into(),
+        serde_json::json!({"plan_summary": "issue-local update"}),
+    );
+    let edited = execute_operational_local_route("edit", &req, &registry, &context)
+        .expect("bound worktree owns card edits after bind");
+    req.expected_lifecycle_digest = edited.digest.clone();
+    context.expected_lifecycle_digest = edited.digest;
+    let validated = execute_operational_local_route("validate", &req, &registry, &context)
+        .expect("bound worktree validates with normal implementation dirt");
+    assert!(validated
+        .findings
+        .iter()
+        .any(|finding| finding.code == "six_card_validation_passed"));
+
+    for route in ["issue", "bind"] {
+        assert_eq!(
+            execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
+            "invalid_operational_roots"
+        );
+    }
+    let mut wrong = req.clone();
+    wrong.branch = "codex/unrelated".into();
+    assert_eq!(
+        execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
+        "invalid_operational_roots"
+    );
+    wrong = req.clone();
+    wrong.worktree = primary.to_string_lossy().into_owned();
+    assert_eq!(
+        execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
+        "invalid_operational_roots"
+    );
+}
+
+// PVF: deterministic local crash/restart contract proof; real Git worktree,
+// no network. Proves a bind interrupted after source backup can recover into
+// the bound checkout without publishing state back into the primary checkout.
+#[test]
+fn bind_transaction_recovers_into_bound_checkout_after_restart() {
+    let (primary, _, mut context, registry) =
+        operational_authority_fixture("bind-crash-recovery", "v3");
+    fs::create_dir_all(primary.join(".adl")).unwrap();
+    fs::write(
+        primary.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema":"adl.worktree_policy.v1", "required_parent":context.allowed_worktree_parent
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    run_git(&primary, &["add", ".adl/worktree-policy.json"]);
+    run_git(&primary, &["commit", "--quiet", "-m", "worktree policy"]);
+    context.expected_head_sha = run_git(&primary, &["rev-parse", "HEAD"]);
+    run_git(
+        &primary,
+        &[
+            "update-ref",
+            "refs/remotes/origin/main",
+            &context.expected_head_sha,
+        ],
+    );
+
+    let mut req = request();
+    let bound = context.allowed_worktree_parent.join("issue-503");
+    req.worktree = bound.to_string_lossy().into_owned();
+    let before = primary_tree(&primary);
+    let initialized = execute_operational_local_route("issue", &req, &registry, &context)
+        .expect("initialize authoritative lifecycle state");
+    req.expected_lifecycle_digest = initialized.digest.clone();
+
+    let packet = primary.parent().unwrap();
+    let request_path = packet.join("bind-request.json");
+    fs::write(&request_path, serde_json::to_vec(&req).unwrap()).unwrap();
+    let registry_path = packet.join("active-registry.json");
+    let templates: serde_json::Map<String, serde_json::Value> = registry
+        .template_paths
+        .iter()
+        .map(|(kind, path)| {
+            (
+                kind.clone(),
+                serde_json::json!({
+                    "path": path
+                }),
+            )
+        })
+        .collect();
+    fs::write(
+        &registry_path,
+        serde_json::to_vec(&serde_json::json!({
+            "schema":"adl.csdlc.prompt_template_registry.v1",
+            "status":"active",
+            "semver":"1.0.5",
+            "templates": templates
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let registrations = packet.join("registrations.json");
+    fs::write(&registrations, "[]").unwrap();
+
+    let mut command = Command::new(env!("CARGO_BIN_EXE_csdlc"));
+    command
+        .current_dir(&primary)
+        .args(["bind", "--request"])
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(&registry_path)
+        .arg("--registrations")
+        .arg(&registrations)
+        .arg("--repo-root")
+        .arg(&primary);
+    let crashed = command
+        .env("CSDLC_V3_TEST_CRASH_POINT", "after_backup_rename")
+        .output()
+        .unwrap();
+    assert_eq!(
+        crashed.status.code(),
+        Some(91),
+        "{}",
+        String::from_utf8_lossy(&crashed.stderr)
+    );
+    assert!(!primary.join(".csdlc/issues/503/index.json").exists());
+    assert!(primary
+        .join(".git/csdlc-v3/local/transactions/503.json")
+        .is_file());
+    assert!(!bound.join(".csdlc/issues/503/index.json").exists());
+    assert_eq!(primary_tree(&primary), before);
+
+    let recovered = command
+        .env_remove("CSDLC_V3_TEST_CRASH_POINT")
+        .output()
+        .unwrap();
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stderr)
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&recovered.stdout).expect("machine-readable recovery json");
+    assert_eq!(value["result"]["phase"], "bound");
+    assert!(bound.join(".csdlc/issues/503/index.json").is_file());
+    assert!(!primary.join(".csdlc/issues/503").exists());
+    assert!(!primary
+        .join(".git/csdlc-v3/local/transactions/503.json")
+        .exists());
+    assert_eq!(primary_tree(&primary), before);
 }

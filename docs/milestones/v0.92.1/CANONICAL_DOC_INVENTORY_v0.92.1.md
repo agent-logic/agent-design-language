@@ -29,12 +29,39 @@ Status: planning candidate. This inventory proves package completeness; it does 
 
 ## Issue-Creation Boundary
 
-Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Closed #431 is planning provenance only. WP-01 remains a number-free milestone-opening ID after this package merges and until the operator separately declares v0.92.1 ready and creates it; every CORP, AWS, GCP, XCL, RUST, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains number-free until WP-01 creates the ordered wave. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. #269 remains excluded/backlogged. Closed #188, #190, and #189 route respectively to convergence/quality, successor planning, and final ceremony.
+The original creation specification below is retained as planning history. WP-01/#480 created the execution wave; `evidence/wp-01/final-creation-receipt.json` is the exact creation mapping. Its source-time issue states do not establish present acceptance. #84 and #251 are deferred backlog; #122 and #345 retain their owned scope. Current issue bodies and reviewed evidence govern later amendments. Closed #431, #433-#439 and #457 remain historical provenance.
+
+## Release Closeout Review Denominator
+
+The planning package above is only part of the release documentation review. The
+active release-plan template, `docs/templates/planning/1.1.0/release_plan.md`,
+requires the following additional surfaces to be reviewed. Inclusion is a review
+obligation, not a claim that a gate has passed.
+
+| Surface | Review obligation |
+|---|---|
+| Root and component README files; all AGENTS guidance | Reconcile current entry points and operational authority; preserve explicitly historical guidance as historical |
+| CHANGELOG.md, REVIEW.md, docs/README.md, CONTRIBUTING.md, adl/CONTRIBUTING.md | Separate released behavior, current work, and deferred scope |
+| All 24 tracked Cargo.toml manifests | See [the complete manifest audit](evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md) for package identity, inherited versions, workspace membership and local dependency checks; release-version approval remains separate |
+| docs/planning/ADL_FEATURE_LIST.md | Map delivered, deferred, and unproven claims to source evidence |
+| Coverage/test, Rust module, and active gap/risk trackers | Identify the current tracker or record its absence explicitly; require current quality evidence from TAIL-01 |
+| Integration gap analysis and admission evidence | Distinguish a completed diagnostic from a passing admission decision |
+| Closed-issue records and review dispositions | Reconcile observed issue/PR state with retained records; preserve historical proof |
+| End-of-milestone report and successor handoff | Record residual risks, deferred work, and exact revision references before ceremony |
+
+TAIL-02 records each surface's revision, disposition, and supporting evidence in
+its review packet. Missing evidence remains an open finding. Final handoff
+includes the TAIL-01 reviewed merge and its explicit blocked
+quality result. Operator-authorized documentation review does not establish
+release readiness.
 
 ## Canonical Release Tail
 
-The serial denominator matches the preceding milestone standard: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony.
+The canonical stage denominator matches the preceding milestone standard: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony.
 
 ## Validation Boundary
 
 The issue-owned planning validator must require every surface in this inventory, parse both YAML contracts, preserve the full predecessor and existing-issue denominator, reject tracked local-path dependencies, verify the exact 45-entry number-free creation catalog including AWS-A through AWS-G, GCP-A through GCP-E, XCL-01, RUST-01, DEC-01, PROV-A, PROV-B, and DRT-D, and enforce the ten-step serial release tail. Passing planning validation is not implementation or release proof.
+
+
+Stage numbering does not block the operator-authorized parallel #523/#524/#525 preparation lane. The current release joins TAIL-06 and TAIL-09; see WP_ISSUE_WAVE_v0.92.1.yaml.

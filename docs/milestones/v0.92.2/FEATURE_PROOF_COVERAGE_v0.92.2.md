@@ -33,3 +33,17 @@ Status: planned ownership map.
 | Speculative-decoding decision | SPEC-RETEST | Current benchmark, equivalence, and fallback proof |
 
 No row may be marked proven from a planned demo, a zero-test invocation, or green CI that does not cover the stated behavior.
+
+## Additional admitted proof
+
+| Surface | Owner | Required proof |
+|---|---|---|
+| Shared finding/run contract | CF-EVIDENCE | Review/memory/renderer conformance fixtures and compatible-version negatives |
+| Pre-synthesis independence | CF-REVIEW | Isolated lane inputs and retained disagreements |
+| Canonical-name A2A predecessor | v0.92.1 / #718 | Consume the reviewed merged invalid-name/continuity and two-agent model-generated reply proof; no v0.92.2 recreation |
+| Capability orientation predecessor | v0.92.1 / #717 | Consume reviewed merged first-turn, canonical-inventory, stale-entry, and version/digest proof; no v0.92.2 recreation |
+| Live Observatory | OBS-LIVE / #720 | Live navigation remains functional; no retained mode, historical polling or evidence deletion |
+
+## C-SDLC simplification sprint
+
+SIM-01 through SIM-07 own the installed journey, strict observation, finite recovery, immutable evidence, unified semantic state, projection integrity, conversion/fencing and qualification proofs in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA aggregates the scorecard and closes after all packages; TAIL-01 consumes its result. The #523 native correctness repairs are baseline inputs, not SIM acceptance.

@@ -1,0 +1,25 @@
+{
+  "schema": "adl.issue517.accounting_review.v1",
+  "reviewer": "closeout_authority_review",
+  "result": "pass_with_narrow_corrections_applied",
+  "scope": "Docs accounting:245 exact rows,19 successor joins,5 exceptions,terminal750 provenance,canonical YAML,cards and validation instructions. Native code diff empty.",
+  "verified": [
+    "245 original row and successor identities",
+    "19 closure joins and retained terminal digests",
+    "five historical exception identities",
+    "exact census reproduction",
+    "six initial correction negative cases",
+    "owned-path content chains",
+    "canonical captured authority fields"
+  ],
+  "corrections_applied": [
+    "WP01 unresolved dependency guard",
+    "HOT01 origin-policy deliverable and verification prose",
+    "current exception statuses",
+    "typedSRP/SOR ownership completion wording",
+    "README full245-row census validation command"
+  ],
+  "pre_correction_manifest_sha256": "c6ba998ebde91041d183337434bfe592b623e2f3c18026306deaad3f514dc65b",
+  "final_immutable_head_attestation": "Retained separately with native publication evidence after commit.",
+  "release_authorized": false
+}

@@ -14,7 +14,7 @@ use crate::review::{
 };
 use crate::REMOTE_DELIVERY_PREDECESSORS;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 const ISSUE: u64 = 504;
@@ -771,6 +771,7 @@ struct SequencedProcessAdapter {
     outputs: std::collections::VecDeque<crate::adapters::ProcessOutput>,
     invocations: Vec<crate::adapters::CommandInvocation>,
     intent_path: Option<PathBuf>,
+    credential_available: bool,
 }
 
 impl SequencedProcessAdapter {
@@ -779,6 +780,7 @@ impl SequencedProcessAdapter {
             outputs: outputs.into(),
             invocations: Vec::new(),
             intent_path: None,
+            credential_available: true,
         }
     }
 
@@ -786,9 +788,25 @@ impl SequencedProcessAdapter {
         self.intent_path = Some(intent_path);
         self
     }
+
+    fn without_credential(mut self) -> Self {
+        self.credential_available = false;
+        self
+    }
 }
 
 impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &crate::adapters::CommandInvocation,
+    ) -> Result<(), crate::adapters::AdapterError> {
+        if invocation.child_credential_name().is_some() && !self.credential_available {
+            Err(crate::adapters::AdapterError::CredentialResolutionFailed)
+        } else {
+            Ok(())
+        }
+    }
+
     fn run(
         &mut self,
         invocation: crate::adapters::CommandInvocation,
@@ -802,6 +820,25 @@ impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
         self.invocations.push(invocation);
         self.outputs.pop_front().expect("scripted process output")
     }
+}
+
+fn persist_mutation_intent(root: &Path, request: &super::GithubMutationRequest) -> PathBuf {
+    let operation_digest = super::github_mutation_operation_digest(request);
+    let selector_digest = super::canonical_authority_selector_digest(root).unwrap();
+    let mut intent_request = request.clone();
+    intent_request.recovery = None;
+    let intent = super::GithubMutationIntent {
+        schema: "csdlc.v3.github_mutation_intent.v1".into(),
+        operation_digest: operation_digest.clone(),
+        operation_marker: super::github_mutation_operation_marker(&operation_digest),
+        authority_selector_digest: selector_digest,
+        request: intent_request,
+        adapter: super::GITHUB_OPERATIONAL_ADAPTER.into(),
+        resolved_edit: None,
+    };
+    let path = super::github_mutation_intent_path(root, &operation_digest).unwrap();
+    super::persist_json_create_new(&path, &intent).unwrap();
+    path
 }
 
 fn process_output(
@@ -953,8 +990,32 @@ fn mutation_request(
         operator_approval: Some("caller-forged operator approval for #505".into()),
         expected_head_sha: exact_head_sha.into(),
         credential_names: vec!["GITHUB_TOKEN".into()],
+        recovery: None,
         mutation,
     }
+}
+
+// PVF: deterministic local CPU contract; fake transport; no live mutation.
+#[test]
+fn missing_credential_fails_before_persisting_mutation_intent() {
+    let root = mutation_repo("credential-preflight", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "credential preflight".into(),
+        },
+    );
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut process = SequencedProcessAdapter::new(vec![]).without_credential();
+
+    let finding = super::execute_github_mutation(&root, &request, &mut process)
+        .expect_err("missing credential must fail before durable intent");
+    assert_eq!(finding.code, "github_credential_unavailable");
+    assert!(!intent_path.exists());
+    assert!(process.invocations.is_empty());
 }
 
 #[test]
@@ -1006,6 +1067,122 @@ fn mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles() {
     assert!(!result.receipt.idempotent_replay);
     assert!(
         super::github_mutation_receipt_path(&root, &operation_digest)
+            .expect("receipt path")
+            .exists()
+    );
+}
+
+// PVF: deterministic local CPU contract; fake transport; no live mutation.
+#[test]
+fn retained_intent_requires_explicit_authenticated_absence_recovery_before_retry() {
+    let root = mutation_repo("absence-recovery", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueCreate {
+            title: "Recovered v3 issue".into(),
+            body: "Recover this through v3.".into(),
+            labels: vec!["v3".into()],
+            assignees: vec![],
+            milestone: None,
+        },
+    );
+    request.issue = 0;
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path = persist_mutation_intent(&root, &request);
+
+    let mut unapproved_retry = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        serde_json::json!({"items":[]}),
+    )])
+    .requiring_intent(intent_path.clone());
+    let finding = super::execute_github_mutation(&root, &request, &mut unapproved_retry)
+        .expect_err("authenticated absence alone does not silently replay");
+    assert_eq!(finding.code, "github_mutation_not_reconciled");
+    assert_eq!(unapproved_retry.invocations.len(), 1);
+    assert_eq!(
+        unapproved_retry.invocations[0].argv()[0],
+        "issues-by-marker"
+    );
+
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut approved_retry = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"items":[]}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 67890,
+                "number": 745,
+                "title": "Recovered v3 issue",
+                "body": format!("Recover this through v3.\n\n{marker}"),
+                "labels": [{"name": "v3"}],
+                "assignees": [],
+                "milestone": null
+            }),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "items": [{
+                    "id": 67890,
+                    "number": 745,
+                    "title": "Recovered v3 issue",
+                    "body": format!("Recover this through v3.\n\n{marker}"),
+                    "labels": [{"name": "v3"}],
+                    "assignees": [],
+                    "milestone": null
+                }]
+            }),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    let result = super::execute_github_mutation(&root, &request, &mut approved_retry)
+        .expect("explicit recovery retries after authenticated absence");
+    assert_eq!(result.receipt.issue, 745);
+    assert_eq!(result.reconciliation.issue, 745);
+    assert!(!result.receipt.idempotent_replay);
+    assert_eq!(approved_retry.invocations.len(), 3);
+    assert_eq!(approved_retry.invocations[0].argv()[0], "issues-by-marker");
+    assert_eq!(approved_retry.invocations[1].argv()[0], "POST");
+    assert_eq!(approved_retry.invocations[2].argv()[0], "issues-by-marker");
+    assert!(intent_path.exists());
+    assert!(
+        super::github_mutation_receipt_path(&root, &operation_digest)
+            .expect("receipt path")
+            .exists()
+    );
+}
+
+// PVF: deterministic local CPU contract; fake transport; no live mutation.
+#[test]
+fn retained_intent_with_unavailable_readback_stays_fail_closed_even_with_recovery() {
+    let root = mutation_repo("unknown-recovery-denied", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "uncertain comment".into(),
+        },
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let intent_path = persist_mutation_intent(&root, &request);
+    let mut process = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::TimedOut,
+        serde_json::json!({}),
+    )])
+    .requiring_intent(intent_path);
+
+    let finding = super::execute_github_mutation(&root, &request, &mut process)
+        .expect_err("unavailable readback is still unknown outcome");
+    assert_eq!(finding.code, "github_mutation_reconciliation_unavailable");
+    assert_eq!(process.invocations.len(), 1);
+    assert!(
+        !super::github_mutation_receipt_path(&root, &operation_digest)
             .expect("receipt path")
             .exists()
     );
@@ -1076,6 +1253,185 @@ fn issue_create_mutation_posts_and_reconciles_assigned_issue_number() {
 }
 
 #[test]
+fn issue_close_mutation_patches_closed_not_planned_and_reconciles() {
+    let root = mutation_repo("issue-close", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueClose {
+            rationale: "accidental duplicate created during retry".into(),
+            current_body: "Original issue body.\n\n## Evidence\nPreserve me.".into(),
+            disposition: super::IssueCloseDisposition::Duplicate,
+            duplicate_of: Some(791),
+            github_state_reason: None,
+        },
+    );
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let body = super::body_with_operation_marker(
+        &super::issue_close_readback_body(
+            "Original issue body.\n\n## Evidence\nPreserve me.",
+            "accidental duplicate created during retry",
+            super::IssueCloseDisposition::Duplicate,
+            Some(791),
+        ),
+        &marker,
+    );
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 505,
+                "number": 505,
+                "state": "closed",
+                "state_reason": "not_planned",
+                "body": body
+            }),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 505,
+                "number": 505,
+                "state": "closed",
+                "state_reason": "not_planned",
+                "body": body
+            }),
+        ),
+    ])
+    .requiring_intent(intent_path);
+
+    let result = super::execute_github_mutation(&root, &request, &mut process)
+        .expect("issue close reconciles closed readback");
+    assert_eq!(result.receipt.issue, 505);
+    assert_eq!(result.reconciliation.issue, 505);
+    assert_eq!(result.reconciliation.remote_object_id, Some(505));
+    assert_eq!(process.invocations.len(), 2);
+    assert_eq!(process.invocations[0].argv()[0], "PATCH");
+    assert_eq!(
+        process.invocations[0].argv()[1],
+        "repos/agent-logic/agent-design-language/issues/505"
+    );
+    assert_eq!(process.invocations[1].argv()[0], "issue");
+}
+
+#[test]
+fn issue_close_restart_reconciles_without_replaying_mutation() {
+    let root = mutation_repo("issue-close-restart", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueClose {
+            rationale: "no-op issue superseded by existing owner".into(),
+            current_body: "Original superseded body.".into(),
+            disposition: super::IssueCloseDisposition::Superseded,
+            duplicate_of: None,
+            github_state_reason: Some(super::IssueCloseStateReason::NotPlanned),
+        },
+    );
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let body = super::body_with_operation_marker(
+        &super::issue_close_readback_body(
+            "Original superseded body.",
+            "no-op issue superseded by existing owner",
+            super::IssueCloseDisposition::Superseded,
+            None,
+        ),
+        &marker,
+    );
+    persist_mutation_intent(&root, &request);
+    let mut restart = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        serde_json::json!({
+            "id": 505,
+            "number": 505,
+            "state": "closed",
+            "state_reason": "not_planned",
+            "body": body
+        }),
+    )]);
+    let result = super::execute_github_mutation(&root, &request, &mut restart)
+        .expect("restart reconciles exact closed issue without mutation replay");
+    assert!(result.receipt.idempotent_replay);
+    assert_eq!(restart.invocations.len(), 1);
+    assert_eq!(restart.invocations[0].argv()[0], "issue");
+}
+
+#[test]
+fn issue_close_rejects_missing_rationale_duplicate_owner_and_completion_reason() {
+    let root = mutation_repo("issue-close-invalid", true);
+    let head = mutation_head(&root);
+    for mutation in [
+        super::GithubMutation::IssueClose {
+            rationale: " ".into(),
+            current_body: "Original.".into(),
+            disposition: super::IssueCloseDisposition::NoOp,
+            duplicate_of: None,
+            github_state_reason: None,
+        },
+        super::GithubMutation::IssueClose {
+            rationale: "duplicate but no owner".into(),
+            current_body: "Original.".into(),
+            disposition: super::IssueCloseDisposition::Duplicate,
+            duplicate_of: None,
+            github_state_reason: None,
+        },
+        super::GithubMutation::IssueClose {
+            rationale: "would look like implementation completion".into(),
+            current_body: "Original.".into(),
+            disposition: super::IssueCloseDisposition::Superseded,
+            duplicate_of: None,
+            github_state_reason: Some(super::IssueCloseStateReason::Completed),
+        },
+        super::GithubMutation::IssueClose {
+            rationale: "already marked".into(),
+            current_body: "Original.\n\n<!-- csdlc-v3-operation:abc -->".into(),
+            disposition: super::IssueCloseDisposition::NoOp,
+            duplicate_of: None,
+            github_state_reason: None,
+        },
+    ] {
+        let request = mutation_request(&head, mutation);
+        let digest = super::github_mutation_operation_digest(&request);
+        let intent = super::github_mutation_intent_path(&root, &digest).unwrap();
+        let mut process = SequencedProcessAdapter::new(vec![]);
+        let error = super::execute_github_mutation(&root, &request, &mut process).unwrap_err();
+        assert_eq!(error.code, "github_issue_close_invalid");
+        assert!(!intent.exists());
+        assert!(process.invocations.is_empty());
+    }
+}
+
+// PVF: deterministic local CPU/Git contract; fake transport; no live mutation.
+#[test]
+fn invalid_pr_branch_is_rejected_before_intent_or_dispatch() {
+    let root = mutation_repo("pr-invalid-branch", true);
+    let head = mutation_head(&root);
+    for branch in ["a..b", "codex/a?b", "codex/a;echo", "codex/a b"] {
+        let request = mutation_request(
+            &head,
+            super::GithubMutation::PullRequestCreate {
+                base: "main".into(),
+                head: branch.into(),
+                title: "Issue 505".into(),
+                body: "Closes #505".into(),
+                draft: false,
+            },
+        );
+        let digest = super::github_mutation_operation_digest(&request);
+        let intent = super::github_mutation_intent_path(&root, &digest).unwrap();
+        let mut process = SequencedProcessAdapter::new(vec![]);
+        let error = super::execute_github_mutation(&root, &request, &mut process).unwrap_err();
+        assert_eq!(error.code, "github_pr_create_invalid");
+        assert!(!intent.exists());
+        assert!(process.invocations.is_empty());
+    }
+}
+
+#[test]
 fn restart_reconciles_pr_create_without_replaying_mutation() {
     let root = mutation_repo("pr-create", true);
     let head = mutation_head(&root);
@@ -1083,7 +1439,7 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         &head,
         super::GithubMutation::PullRequestCreate {
             base: "main".into(),
-            head: "codex/505".into(),
+            head: "codex/fix+retry".into(),
             title: "Issue 505".into(),
             body: "Closes #505".into(),
             draft: false,
@@ -1118,7 +1474,7 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         crate::adapters::ProcessStatus::Exit(0),
         serde_json::json!([{
             "number": 591,
-            "head": {"sha": head, "ref": "codex/505"},
+            "head": {"sha": head, "ref": "codex/fix+retry"},
             "base": {"ref": "main"},
             "title": "Issue 505",
             "body": format!("Closes #505\n\n{marker}"),
@@ -1133,6 +1489,8 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         super::GITHUB_READ_ONLY_ADAPTER
     );
     assert_eq!(result.receipt.pull_request, Some(591));
+    assert_eq!(result.receipt.issue, 505);
+    assert_eq!(result.reconciliation.issue, 505);
     assert!(result.receipt.idempotent_replay);
     assert_eq!(result.receipt.response_digest, None);
 }
@@ -1142,6 +1500,9 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
     let issue_edit = mutation_request(
         REVISION,
         super::GithubMutation::IssueEdit {
+            labels: None,
+            assignees: None,
+            milestone: None,
             title: Some("updated issue".into()),
             body: Some("updated body".into()),
         },
@@ -1183,7 +1544,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": true
             })
         ),
-        Ok((591, Some(591), Some(591)))
+        Ok((505, Some(591), Some(591)))
     );
 
     update.mutation = super::GithubMutation::PullRequestReady;
@@ -1199,7 +1560,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": false
             })
         ),
-        Ok((591, Some(591), Some(591)))
+        Ok((505, Some(591), Some(591)))
     );
 }
 
@@ -1291,4 +1652,465 @@ fn operational_dispatcher_rejects_forged_exact_review_sha() {
         "canonical_exact_review_sha_mismatch"
     );
     assert!(process.invocations.is_empty());
+}
+
+// PVF #797: required deterministic native-owner contract proof, small local
+// CPU/filesystem/Git, fake authenticated transport only; no live GitHub writes.
+fn metadata_edit(
+    head: &str,
+    labels: Option<super::IssueLabelsUpdate>,
+    milestone: Option<super::IssueMilestoneUpdate>,
+) -> super::GithubMutationRequest {
+    mutation_request(
+        head,
+        super::GithubMutation::IssueEdit {
+            title: None,
+            body: None,
+            labels,
+            assignees: None,
+            milestone,
+        },
+    )
+}
+
+#[test]
+fn issue_metadata_omission_clear_and_legacy_serialization_are_distinct() {
+    let root = mutation_repo("metadata-shape", true);
+    for field in ["labels", "assignees", "milestone"] {
+        let mut value = serde_json::json!({"action":"issue_edit","body":"kept"});
+        value[field] = serde_json::Value::Null;
+        assert!(serde_json::from_value::<super::GithubMutation>(value).is_err());
+    }
+    assert!(serde_json::from_value::<super::GithubMutation>(
+        serde_json::json!({"action":"issue_edit","lables":[]})
+    )
+    .is_err());
+    let schema: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../../docs/csdlc-v3/issue-edit.schema.json"
+    ))
+    .unwrap();
+    assert_eq!(
+        schema["properties"]["labels"]["properties"]["operation"]["enum"],
+        serde_json::json!(["add", "remove", "replace"])
+    );
+    for action in [
+        serde_json::json!({"operation":"add","names":["one"]}),
+        serde_json::json!({"operation":"remove","names":["one"]}),
+        serde_json::json!({"operation":"replace","names":[]}),
+    ] {
+        assert!(serde_json::from_value::<super::GithubMutation>(
+            serde_json::json!({"action":"issue_edit","labels":action})
+        )
+        .is_ok());
+    }
+
+    let legacy: super::GithubMutation = serde_json::from_value(
+        serde_json::json!({"action":"issue_edit","title":null,"body":"body"}),
+    )
+    .unwrap();
+    assert_eq!(
+        serde_json::to_value(&legacy).unwrap(),
+        serde_json::json!({"action":"issue_edit","title":null,"body":"body"})
+    );
+    let request = mutation_request(REVISION, legacy);
+    let path = super::write_mutation_input(&root, "legacy", "marker", &request).unwrap();
+    let value: serde_json::Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+    assert!(value.get("title").is_none());
+    for field in ["labels", "assignees", "milestone"] {
+        assert!(value.get(field).is_none());
+    }
+    let mut clear = metadata_edit(
+        REVISION,
+        Some(super::IssueLabelsUpdate::Replace { names: vec![] }),
+        Some(super::IssueMilestoneUpdate::Clear),
+    );
+    if let super::GithubMutation::IssueEdit {
+        body, assignees, ..
+    } = &mut clear.mutation
+    {
+        *body = Some("kept".into());
+        *assignees = Some(vec![]);
+    }
+    let path = super::write_mutation_input(&root, "clear", "marker", &clear).unwrap();
+    let value: serde_json::Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+    assert_eq!(value["labels"], serde_json::json!([]));
+    assert_eq!(value["assignees"], serde_json::json!([]));
+    assert!(value.get("milestone").unwrap().is_null());
+    assert!(value.get("title").is_none());
+    assert!(super::validate_mutation(&metadata_edit(REVISION, None, None)).is_err());
+    assert!(super::validate_mutation(&metadata_edit(
+        REVISION,
+        None,
+        Some(super::IssueMilestoneUpdate::Set { number: 0 })
+    ))
+    .is_err());
+}
+
+#[test]
+fn issue_metadata_resolves_add_remove_and_preserves_body_before_intent() {
+    for (update, expected) in [
+        (
+            super::IssueLabelsUpdate::Add {
+                names: vec!["KEEP".into(), "new".into()],
+            },
+            vec!["keep", "old", "new"],
+        ),
+        (
+            super::IssueLabelsUpdate::Remove {
+                names: vec!["OLD".into()],
+            },
+            vec!["keep"],
+        ),
+    ] {
+        let request = metadata_edit(REVISION, Some(update), None);
+        let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"number":505,"body":"existing body","labels":[{"name":"keep"},{"name":"old"}]}),
+        )]);
+        let resolved = super::resolve_issue_edit(&request, &mut adapter).unwrap();
+        let super::GithubMutation::IssueEdit {
+            body,
+            labels,
+            title,
+            milestone,
+            assignees,
+        } = resolved
+        else {
+            panic!("edit")
+        };
+        assert_eq!(body.as_deref(), Some("existing body"));
+        assert_eq!(
+            labels,
+            Some(super::IssueLabelsUpdate::Replace {
+                names: expected.into_iter().map(str::to_owned).collect()
+            })
+        );
+        assert!(title.is_none() && milestone.is_none() && assignees.is_none());
+        assert_eq!(adapter.invocations.len(), 1);
+        assert_eq!(
+            adapter.invocations[0].program,
+            super::GITHUB_READ_ONLY_ADAPTER
+        );
+    }
+}
+
+#[test]
+fn issue_metadata_readback_requires_exact_requested_sets_and_clear() {
+    let request = mutation_request(
+        REVISION,
+        super::GithubMutation::IssueEdit {
+            title: Some("title".into()),
+            body: Some("body".into()),
+            labels: Some(super::IssueLabelsUpdate::Replace {
+                names: vec!["wanted".into()],
+            }),
+            assignees: Some(vec!["owner".into()]),
+            milestone: Some(super::IssueMilestoneUpdate::Clear),
+        },
+    );
+    let value = serde_json::json!({"number":505,"title":"title","body":"body\n\nmarker","labels":[{"name":"wanted"}],"assignees":[{"login":"owner"}],"milestone":null});
+    assert!(super::match_reconciled_mutation(&request, "marker", &value).is_ok());
+    for (field, bad) in [
+        ("title", serde_json::json!("wrong")),
+        ("body", serde_json::json!("body")),
+        (
+            "labels",
+            serde_json::json!([{"name":"wanted"},{"name":"extra"}]),
+        ),
+        ("assignees", serde_json::json!([])),
+        ("milestone", serde_json::json!({"number":1})),
+    ] {
+        let mut changed = value.clone();
+        changed[field] = bad;
+        assert!(
+            super::match_reconciled_mutation(&request, "marker", &changed).is_err(),
+            "{field}"
+        );
+        let mut missing = value.clone();
+        missing.as_object_mut().unwrap().remove(field);
+        assert!(
+            super::match_reconciled_mutation(&request, "marker", &missing).is_err(),
+            "missing {field}"
+        );
+    }
+    let mut set = request.clone();
+    if let super::GithubMutation::IssueEdit { milestone, .. } = &mut set.mutation {
+        *milestone = Some(super::IssueMilestoneUpdate::Set { number: 2 });
+    }
+    assert!(super::match_reconciled_mutation(&set, "marker", &value).is_err());
+    let mut assigned = value;
+    assigned["milestone"] = serde_json::json!({"number":2});
+    assert!(super::match_reconciled_mutation(&set, "marker", &assigned).is_ok());
+}
+
+#[test]
+fn issue_metadata_uncertain_write_reuses_retained_target_and_rejects_drift() {
+    let root = mutation_repo("metadata-retry", true);
+    let head = mutation_head(&root);
+    let mut request = metadata_edit(
+        &head,
+        Some(super::IssueLabelsUpdate::Add {
+            names: vec!["new".into()],
+        }),
+        Some(super::IssueMilestoneUpdate::Set { number: 2 }),
+    );
+    let digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&digest);
+    let intent_path = super::github_mutation_intent_path(&root, &digest).unwrap();
+    let final_state = serde_json::json!({"number":505,"body":format!("existing\n\n{marker}"),"labels":[{"name":"keep"},{"name":"new"}],"milestone":{"number":2}});
+    let mut failed = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"number":505,"body":"existing","labels":[{"name":"keep"}]}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut failed)
+            .unwrap_err()
+            .code,
+        "github_mutation_reconciliation_pending"
+    );
+    let before = fs::read(&intent_path).unwrap();
+    let retained = super::load_mutation_intent(&intent_path, &digest).unwrap();
+    let mut changed_intent = retained.clone();
+    changed_intent.resolved_edit = None;
+    assert_ne!(
+        super::github_mutation_intent_digest(&retained),
+        super::github_mutation_intent_digest(&changed_intent)
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut drift = final_state.clone();
+    drift["labels"] = serde_json::json!([{"name":"keep"},{"name":"new"},{"name":"later"}]);
+    let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        drift,
+    )]);
+    assert!(super::execute_github_mutation(&root, &request, &mut adapter).is_err());
+    assert_eq!(adapter.invocations.len(), 1);
+    assert_eq!(
+        adapter.invocations[0].program,
+        super::GITHUB_READ_ONLY_ADAPTER
+    );
+    assert_eq!(before, fs::read(&intent_path).unwrap());
+    let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        final_state.clone(),
+    )]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut adapter)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+    let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        final_state,
+    )]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut adapter)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+    assert_eq!(adapter.invocations.len(), 1);
+}
+
+#[test]
+fn issue_metadata_invalid_baseline_cannot_create_intent_or_write() {
+    let root = mutation_repo("metadata-baseline", true);
+    let head = mutation_head(&root);
+    let mut request = metadata_edit(
+        &head,
+        Some(super::IssueLabelsUpdate::Add {
+            names: vec!["new".into()],
+        }),
+        None,
+    );
+    if let super::GithubMutation::IssueEdit { body, labels, .. } = &mut request.mutation {
+        *body = Some("caller supplied".into());
+        *labels = Some(super::IssueLabelsUpdate::Replace {
+            names: vec!["new".into()],
+        });
+    }
+    for baseline in [
+        serde_json::json!({"number":999,"body":"x","labels":[]}),
+        serde_json::json!({"number":505,"body":"x","labels":null}),
+        serde_json::json!({"number":505,"labels":[]}),
+        serde_json::json!({"number":505,"body":"x","labels":[],"pull_request":{}}),
+    ] {
+        let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            baseline,
+        )]);
+        assert!(super::execute_github_mutation(&root, &request, &mut adapter).is_err());
+        assert!(!super::github_mutation_intent_path(
+            &root,
+            &super::github_mutation_operation_digest(&request)
+        )
+        .unwrap()
+        .exists());
+        assert_eq!(adapter.invocations.len(), 1);
+    }
+}
+
+// PVF: required deterministic local regression, small CPU/disk, synthetic transport;
+// proves pagination/replay policy, not authenticated live GitHub execution.
+#[test]
+fn comment_pagination_reuses_later_match_and_rejects_incomplete_or_ambiguous_scan() {
+    use crate::adapters::ProcessStatus;
+    for scenario in [
+        "later-match",
+        "later-failure",
+        "later-truncation",
+        "later-invalid-json",
+        "later-non-array",
+        "later-oversized",
+        "duplicate",
+        "page-bound",
+    ] {
+        let root = mutation_repo(&format!("comment-pages-{scenario}"), true);
+        let head = mutation_head(&root);
+        let mut request = mutation_request(
+            &head,
+            super::GithubMutation::IssueComment {
+                body: "existing comment".into(),
+            },
+        );
+        request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+        let operation_digest = super::github_mutation_operation_digest(&request);
+        let marker = super::github_mutation_operation_marker(&operation_digest);
+        let intent = persist_mutation_intent(&root, &request);
+        let matching = serde_json::json!({"id":101,"body":format!("existing comment\n\n{marker}")});
+        let mut first = (1..=100)
+            .map(|id| serde_json::json!({"id":id,"body":"unrelated"}))
+            .collect::<Vec<_>>();
+        if scenario == "duplicate" {
+            first[0] = serde_json::json!({"id":1,"body":format!("existing comment\n\n{marker}")});
+        }
+        let mut outputs = vec![process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!(first),
+        )];
+        match scenario {
+            "later-failure" => outputs.push(process_output(
+                ProcessStatus::TimedOut,
+                serde_json::json!([]),
+            )),
+            "later-truncation" => {
+                let mut output = process_output(ProcessStatus::Exit(0), serde_json::json!([]));
+                output.truncated = true;
+                outputs.push(output);
+            }
+            "later-invalid-json" => {
+                let mut output = process_output(ProcessStatus::Exit(0), serde_json::json!([]));
+                output.stdout = "invalid JSON".into();
+                outputs.push(output);
+            }
+            "later-non-array" => outputs.push(process_output(
+                ProcessStatus::Exit(0),
+                serde_json::json!({}),
+            )),
+            "later-oversized" => outputs.push(process_output(
+                ProcessStatus::Exit(0),
+                serde_json::json!(vec![serde_json::json!({"id": 1}); 101]),
+            )),
+            "page-bound" => {
+                for _ in 1..100 {
+                    outputs.push(process_output(
+                        ProcessStatus::Exit(0),
+                        serde_json::json!(first),
+                    ));
+                }
+            }
+            _ => outputs.push(process_output(
+                ProcessStatus::Exit(0),
+                serde_json::json!([matching]),
+            )),
+        }
+        let mut process = SequencedProcessAdapter::new(outputs).requiring_intent(intent);
+        let result = super::execute_github_mutation(&root, &request, &mut process);
+        assert!(
+            process
+                .invocations
+                .iter()
+                .all(|i| i.program == super::GITHUB_READ_ONLY_ADAPTER),
+            "{scenario} must not POST"
+        );
+        for (index, call) in process.invocations.iter().enumerate() {
+            assert_eq!(call.argv()[3], (index + 1).to_string());
+            assert!(call.child_credential_name().is_some());
+        }
+        match scenario {
+            "later-match" => {
+                let result = result.expect("reuse page two comment");
+                assert!(result.receipt.idempotent_replay);
+                assert_eq!(result.reconciliation.remote_object_id, Some(101));
+            }
+            "duplicate" => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_ambiguous"
+            ),
+            "page-bound" => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_incomplete"
+            ),
+            "later-invalid-json" | "later-non-array" | "later-oversized" => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_invalid_json"
+            ),
+            _ => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_unavailable"
+            ),
+        }
+    }
+}
+
+// PVF: required deterministic local regression, small CPU/disk, synthetic transport.
+#[test]
+fn comment_pagination_allows_explicit_retry_only_after_complete_absence() {
+    use crate::adapters::ProcessStatus;
+    let root = mutation_repo("comment-pages-absent", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "new comment".into(),
+        },
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&digest);
+    let intent = persist_mutation_intent(&root, &request);
+    let first = serde_json::json!((1..=100)
+        .map(|id| serde_json::json!({"id":id,"body":"unrelated"}))
+        .collect::<Vec<_>>());
+    let new_comment = serde_json::json!({"id":101,"body":format!("new comment\n\n{marker}")});
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), first.clone()),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(ProcessStatus::Exit(0), new_comment.clone()),
+        process_output(ProcessStatus::Exit(0), first),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([new_comment])),
+    ])
+    .requiring_intent(intent);
+    let result = super::execute_github_mutation(&root, &request, &mut process)
+        .expect("complete authenticated absence permits explicit retry");
+    assert!(!result.receipt.idempotent_replay);
+    assert_eq!(result.reconciliation.remote_object_id, Some(101));
+    assert_eq!(process.invocations.len(), 5);
+    assert_eq!(process.invocations[0].argv()[3], "1");
+    assert_eq!(process.invocations[1].argv()[3], "2");
+    assert_eq!(process.invocations[2].argv()[0], "POST");
+    assert_eq!(process.invocations[3].argv()[3], "1");
+    assert_eq!(process.invocations[4].argv()[3], "2");
 }

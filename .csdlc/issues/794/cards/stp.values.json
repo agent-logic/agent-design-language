@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 794,
+  "issue_padded": "0794",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/794",
+  "title": "[v0.92.2][tooling] Add native typed duplicate and no-op issue closure",
+  "branch": "codex/794-native-typed-issue-close",
+  "version": "1.0.4",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-794-native-typed-issue-close",
+  "slug": "native-typed-issue-close",
+  "required_outcome_type": "native C-SDLC v3 GitHub issue mutation tooling",
+  "summary": "Implement the missing native v3 issue-close mutation for duplicate/superseded/no-op closure.",
+  "goal": "Replace the retained-v2-only duplicate/no-op closure gap with a guarded native v3 operation.",
+  "required_outcome": "A native `github-issue close`/request route closes non-implementation issues safely and records durable mutation truth.",
+  "deliverables": "- `IssueClose` mutation with typed disposition, rationale, duplicate owner, and GitHub state reason.\n- Validation and invocation wiring for `github-issue` owner route.\n- Authenticated closed-state reconciliation and idempotent replay behavior.\n- Convenience CLI that emits typed dispatch and executes only under v3 authority.\n- Focused Rust tests and concise contract docs.",
+  "acceptance_criteria": "- Close route rejects empty rationale, issue zero, duplicate without owner, PR targets, and completed state reason.\n- Operational argv remains structured and uses private JSON input.\n- Readback proves the exact issue is closed and carries the operation marker.\n- Existing create/comment/edit/PR routes remain unchanged.\n- Documentation distinguishes duplicate/no-op close from implementation finish.",
+  "dependencies": "- C-SDLC v3 authority cutover #505/#591 remains current.\n- Related #791/#792 are evidence only; this issue does not mutate them.",
+  "validation_plan": "Run focused csdlc-v3 issue-close, operational CLI, remote-command, command-manifest, fmt, and diff hygiene lanes.",
+  "tooling_notes": "Use native v3 lifecycle, bound FastWork worktree, and exact-head review before publication."
+}

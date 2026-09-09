@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[path = "../src/distributed/fencing.rs"]
 mod fencing;
 #[allow(dead_code)]

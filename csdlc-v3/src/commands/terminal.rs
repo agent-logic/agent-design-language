@@ -721,10 +721,10 @@ fn classify_cleanup_from_git(
 ) -> Result<CleanupDecision, TerminalFinding> {
     let approved_parent = canonical_dir(&request.approved_parent, "approved_parent")?;
     let repository_root = canonical_dir(&request.repository_root, "repository_root")?;
-    if contains_parent_component(&request.candidate_path) {
+    if request.candidate_path.is_relative() || contains_parent_component(&request.candidate_path) {
         return Err(finding(
             "path_not_normalized",
-            "cleanup target must not contain parent-directory traversal",
+            "cleanup target must be absolute and must not contain parent-directory traversal",
         ));
     }
     verify_terminal_receipt(&repository_root, terminal_request, request)?;
@@ -847,27 +847,38 @@ fn persist_terminal_finish(
             "only a verified terminal closeout may be persisted",
         ));
     };
-    let state_path = checked_repo_relative(
-        &repository_root,
-        &write_request.state_path,
-        "terminal_state",
-    )?;
-    let receipt_path = checked_repo_relative(
-        &repository_root,
-        &write_request.receipt_path,
-        "terminal_receipt",
-    )?;
-    if state_path != repository_root.join(format!(".csdlc/v3/issues/{issue}/terminal.json"))
-        || receipt_path
-            != repository_root.join(format!(".csdlc/evidence/{issue}/terminal-receipt.json"))
+    let local_root = super::local::operational_state_root(&repository_root).map_err(|_| {
+        finding(
+            "git_metadata_unavailable",
+            "terminal persistence requires resolved Git topology",
+        )
+    })?;
+    let primary = local_root != repository_root.join(".csdlc");
+    let output_root = if primary {
+        local_root
+    } else {
+        repository_root.join(".csdlc")
+    };
+    let state_path = repository_root.join(&write_request.state_path);
+    let receipt_path = repository_root.join(&write_request.receipt_path);
+    if state_path != output_root.join(format!("v3/issues/{issue}/terminal.json"))
+        || receipt_path != output_root.join(format!("evidence/{issue}/terminal-receipt.json"))
     {
         return Err(finding(
             "terminal_output_path_not_canonical",
-            "v3 terminal state and receipt must use their canonical issue-scoped paths",
+            "terminal output must use Git metadata csdlc-v3/local paths on primary, or canonical .csdlc paths in a linked checkout",
         ));
     }
-    ensure_output_parent_inside_repo(&repository_root, &state_path, "terminal_state")?;
-    ensure_output_parent_inside_repo(&repository_root, &receipt_path, "terminal_receipt")?;
+    let boundary = if primary {
+        output_root
+            .parent()
+            .and_then(Path::parent)
+            .expect("Git metadata parent")
+    } else {
+        &repository_root
+    };
+    ensure_output_parent_inside_repo(boundary, &state_path, "terminal_state")?;
+    ensure_output_parent_inside_repo(boundary, &receipt_path, "terminal_receipt")?;
     let state_bytes = serde_json::to_vec_pretty(&serde_json::json!({
         "schema": "csdlc.v3.terminal_state.v1",
         "repository": request.repository,
@@ -889,7 +900,6 @@ fn persist_terminal_finish(
             ));
         }
     }
-    write_staged(&state_path, &state_bytes)?;
     let receipt = DurableTerminalReceipt {
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: request.repository.clone(),
@@ -901,16 +911,34 @@ fn persist_terminal_finish(
     };
     let receipt_bytes = serde_json::to_vec_pretty(&receipt)
         .map_err(|error| finding("terminal_receipt_serialize_failed", &error.to_string()))?;
-    if let Ok(existing) = fs::read(&receipt_path) {
+    // A rejected immutable-receipt conflict must preserve the state preimage.
+    let receipt_exists = match fs::symlink_metadata(&receipt_path) {
+        Ok(metadata) if !metadata.is_file() => {
+            return Err(finding(
+                "terminal_receipt_not_regular_file",
+                "terminal receipt must be a regular file or absent",
+            ));
+        }
+        Ok(_) => true,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => false,
+        Err(error) => return Err(finding("terminal_receipt_read_failed", &error.to_string())),
+    };
+    if receipt_exists {
+        let existing = fs::read(&receipt_path)
+            .map_err(|error| finding("terminal_receipt_read_failed", &error.to_string()))?;
         if existing != receipt_bytes {
             return Err(finding(
                 "terminal_receipt_conflict",
                 "existing terminal receipt does not match the verified closeout state",
             ));
         }
-        return Ok(());
     }
-    write_staged(&receipt_path, &receipt_bytes)
+    write_staged(&state_path, &state_bytes)?;
+    if receipt_exists {
+        Ok(())
+    } else {
+        write_staged(&receipt_path, &receipt_bytes)
+    }
 }
 
 fn canonical_v3_authority(

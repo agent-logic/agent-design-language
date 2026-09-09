@@ -9,7 +9,8 @@ use csdlc_v3::commands::{
     local::{required_local_commands, LocalPreparationRequest},
     remote::{
         canonical_authority_selector_digest, GithubMutation, GithubMutationRequest,
-        OperationalRemoteDispatchRequest, OperationalRemoteOperation, RemoteRouteRequest,
+        IssueCloseDisposition, IssueCloseStateReason, OperationalRemoteDispatchRequest,
+        OperationalRemoteOperation, RemoteRouteRequest,
     },
     terminal::{CutoverDecisionRequest, CutoverOperation, TerminalRouteRequest},
 };
@@ -185,7 +186,7 @@ fn operational_fixture(name: &str) -> OperationalFixture {
             .join("worktrees/issue-505")
             .to_string_lossy()
             .into_owned(),
-        registry_version: "1.0.3".into(),
+        registry_version: "1.0.5".into(),
         expected_lifecycle_digest: None,
         schedule_readiness: None,
         shepherd_routing: None,
@@ -258,7 +259,10 @@ fn bind_recovers_after_process_exit_following_git_side_effect() {
         String::from_utf8_lossy(&crashed.stderr)
     );
     assert!(Path::new(&fixture.request.worktree).is_dir());
-    assert!(fixture.root.join(".csdlc/transactions/505.json").is_file());
+    assert!(fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .is_file());
 
     let recovered = run_operational(&fixture, "bind", None);
     assert!(
@@ -270,12 +274,17 @@ fn bind_recovers_after_process_exit_following_git_side_effect() {
     assert_eq!(value["result"]["phase"], "bound");
     assert_eq!(
         serde_json::from_slice::<serde_json::Value>(
-            &fs::read(fixture.root.join(".csdlc/issues/505/index.json")).unwrap()
+            &fs::read(Path::new(&fixture.request.worktree).join(".csdlc/issues/505/index.json"))
+                .unwrap()
         )
         .unwrap()["phase"],
         "bound"
     );
-    assert!(!fixture.root.join(".csdlc/transactions/505.json").exists());
+    assert!(!fixture.root.join(".csdlc/issues/505").exists());
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .exists());
 }
 
 #[test]
@@ -299,6 +308,10 @@ fn bind_recovers_after_branch_creation_before_worktree_registration() {
         ),
         git(&fixture.root, &["rev-parse", "HEAD"])
     );
+    assert!(Path::new(&fixture.request.worktree)
+        .join(".csdlc/issues/505/index.json")
+        .is_file());
+    assert!(!fixture.root.join(".csdlc/issues/505").exists());
 }
 
 #[test]
@@ -322,7 +335,10 @@ fn edit_recovers_after_process_exit_between_directory_swaps() {
         String::from_utf8_lossy(&crashed.stderr)
     );
     assert!(!fixture.root.join(".csdlc/issues/505").exists());
-    assert!(fixture.root.join(".csdlc/transactions/505.json").is_file());
+    assert!(fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .is_file());
 
     let recovered = run_operational(&fixture, "edit", None);
     assert!(
@@ -331,11 +347,19 @@ fn edit_recovers_after_process_exit_between_directory_swaps() {
         String::from_utf8_lossy(&recovered.stderr)
     );
     let values: serde_json::Value = serde_json::from_slice(
-        &fs::read(fixture.root.join(".csdlc/issues/505/cards/sip.values.json")).unwrap(),
+        &fs::read(
+            fixture
+                .root
+                .join(".git/csdlc-v3/local/issues/505/cards/sip.values.json"),
+        )
+        .unwrap(),
     )
     .unwrap();
     assert_eq!(values["title"], "Recovered atomic edit");
-    assert!(!fixture.root.join(".csdlc/transactions/505.json").exists());
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .exists());
 }
 
 #[test]
@@ -350,7 +374,7 @@ fn v2_selector_keeps_named_local_cli_in_construction_mode() {
             .join("worktrees/issue-505")
             .to_string_lossy()
             .into_owned(),
-        registry_version: "1.0.3".into(),
+        registry_version: "1.0.5".into(),
         expected_lifecycle_digest: None,
         schedule_readiness: None,
         shepherd_routing: None,
@@ -582,6 +606,167 @@ fn simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input
 }
 
 #[test]
+fn simple_issue_close_emits_typed_duplicate_close_dispatch() {
+    let exact_head = "0123456789012345678901234567890123456789";
+    let output = run(
+        &[
+            "github-issue",
+            "close",
+            "--repo",
+            "agent-logic/agent-design-language",
+            "--issue",
+            "792",
+            "--disposition",
+            "duplicate",
+            "--duplicate-of",
+            "791",
+            "--rationale",
+            "accidental retry duplicate",
+            "--body",
+            "Original issue body",
+            "--expected-head",
+            exact_head,
+        ],
+        &repo_root(),
+    );
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let dispatch: OperationalRemoteDispatchRequest =
+        serde_json::from_slice(&output.stdout).expect("typed dispatch JSON");
+    assert_eq!(dispatch.exact_review_sha, exact_head);
+    let OperationalRemoteOperation::GithubMutation(request) = dispatch.operation else {
+        panic!("simple close must produce the shared GitHub mutation operation")
+    };
+    assert_eq!(request.repository, "agent-logic/agent-design-language");
+    assert_eq!(request.issue, 792);
+    assert_eq!(request.pull_request, None);
+    assert_eq!(request.expected_head_sha, exact_head);
+    assert_eq!(request.credential_names, ["GITHUB_TOKEN"]);
+    assert_eq!(
+        request.mutation,
+        GithubMutation::IssueClose {
+            rationale: "accidental retry duplicate".into(),
+            current_body: "Original issue body".into(),
+            disposition: IssueCloseDisposition::Duplicate,
+            duplicate_of: Some(791),
+            github_state_reason: Some(IssueCloseStateReason::NotPlanned),
+        }
+    );
+}
+
+#[test]
+fn simple_issue_close_rejects_ambiguous_or_invalid_input() {
+    let exact_head = "0123456789012345678901234567890123456789";
+    for args in [
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "0",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            "no-op",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "duplicate",
+            "--rationale",
+            "missing duplicate owner",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "bogus",
+            "--rationale",
+            "bad disposition",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            " ",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            "bad head",
+            "--body",
+            "Original",
+            "--expected-head",
+            "not-a-sha",
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            "already marked",
+            "--body",
+            "<!-- csdlc-v3-operation:abc -->",
+            "--expected-head",
+            exact_head,
+        ],
+    ] {
+        let rejected = run(&args, &repo_root());
+        assert!(
+            !rejected.status.success(),
+            "invalid args accepted: {args:?}"
+        );
+    }
+}
+
+#[test]
 fn simple_issue_create_execute_fails_closed_under_v2_authority() {
     let fixture = fixture("simple-issue-create-v2-fence");
     let output = run(
@@ -620,6 +805,7 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
             operator_approval: Some("test route ownership".into()),
             expected_head_sha: head.clone(),
             credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
             mutation: GithubMutation::IssueCreate {
                 title: "new issue".into(),
                 body: "body".into(),
@@ -660,6 +846,7 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
             operator_approval: Some("test route ownership".into()),
             expected_head_sha: head,
             credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
             mutation: GithubMutation::PullRequestReady,
         }),
     };
@@ -708,15 +895,9 @@ fn proof_and_rollback_commands_reach_real_handlers() {
         &fixture,
     );
     assert!(!proof.status.success(), "blocked proof must return nonzero");
-    let proof_json: serde_json::Value = serde_json::from_slice(
-        String::from_utf8_lossy(&proof.stderr)
-            .strip_prefix("csdlc: ")
-            .unwrap()
-            .as_bytes(),
-    )
-    .unwrap();
+    let proof_json: serde_json::Value = serde_json::from_slice(&proof.stdout).unwrap();
     assert_eq!(proof_json["status"], "blocked");
-    assert_eq!(proof_json["findings"][0]["code"], "proof_manifest_missing");
+    assert_eq!(proof_json["findings"][0]["code"], "proof_binding_missing");
 
     let rollback_path = fixture.join("rollback.json");
     let rollback_request = TerminalRouteRequest {

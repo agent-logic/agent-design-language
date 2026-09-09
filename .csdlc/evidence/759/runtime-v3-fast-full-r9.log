@@ -1,0 +1,1009 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 200 tests
+test agent_orientation::tests::custom_orientation_source_path_still_loads_explicit_package ... ok
+test agent_orientation::tests::configured_default_source_path_loads_the_configured_file ... ok
+test agent_orientation::tests::default_orientation_uses_configured_repo_path_not_cwd_shadow_source ... ok
+test agent_partial_checkpoint::tests::object_keys_are_privacy_safe_and_stable ... ok
+test agent_partial_checkpoint::tests::archive_truth_is_never_current_without_a_valid_receipt ... ok
+test acip::tests::legacy_seven_field_v1_envelope_is_normalized ... ok
+test agent_partial_checkpoint::tests::default_cadence_is_five_minutes_and_overlap_is_skipped_per_agent ... ok
+test agent_partial_checkpoint::tests::conflicting_records_at_the_same_sequence_fail_closed ... ok
+test agent_partial_checkpoint::tests::removal_fences_capture_that_started_before_tombstone ... ok
+test agent_partial_checkpoint::tests::ensure_tombstone_is_idempotent_across_restart_reconciliation ... ok
+test agent_partial_checkpoint::tests::restart_ignores_uncommitted_temporary_partial ... ok
+test agent_partial_checkpoint::tests::spool_saturation_survives_restart ... ok
+test agent_partial_checkpoint::tests::partials_are_atomic_bounded_and_restore_highest_valid_sequence ... ok
+test assembly::provider_conversation_action_tests::agent_result_continuation_prompt_preserves_typed_terminal_failure ... ok
+test assembly::provider_conversation_action_tests::agent_result_continuation_prompt_rejects_oversized_peer_result ... ok
+test assembly::provider_conversation_action_tests::conversation_task_input_accepts_32k_single_part_and_multipart_input ... ok
+test assembly::provider_conversation_action_tests::provider_action_envelope_fails_closed_on_self_target ... ok
+test assembly::provider_conversation_action_tests::provider_conversation_prompt_teaches_first_class_agent_action_contract ... ok
+test assembly::provider_conversation_action_tests::provider_legacy_action_envelope_remains_compatible ... ok
+test assembly::provider_conversation_action_tests::provider_native_action_projects_agent_initiation_envelope ... ok
+test assembly::provider_conversation_action_tests::provider_native_action_projects_multipart_agent_initiation_envelope ... ok
+test assembly::provider_conversation_action_tests::provider_plain_json_reply_remains_plain_message_without_action_schema ... ok
+test birth_witness::authority_tests::accepts_exact_policy_complete_witnesses_and_emits_canonical_semantics ... ok
+test birth_witness::authority_tests::canonical_witness_identity_rejects_case_variant_equivocation ... ok
+test birth_witness::authority_tests::equivalent_witness_orders_are_byte_stable ... ok
+test agent_partial_checkpoint::tests::archive_saturation_does_not_prevent_agent_removal ... ok
+test birth_witness::authority_tests::forged_signature_and_wrong_signing_key_fail_closed ... ok
+test birth_witness::authority_tests::missing_duplicate_and_substituted_witnesses_fail_closed ... ok
+test agent_partial_checkpoint::tests::archived_receipt_reconciles_state_when_record_already_exists_locally ... ok
+test birth_witness::authority_tests::policy_candidate_and_roster_bindings_fail_closed ... ok
+test birth_witness::authority_tests::packet_validator_reconstructs_every_public_field ... ok
+test birth_witness::authority_tests::rejected_or_digest_stale_birthday_candidate_is_not_witnessable ... ok
+test birth_witness::authority_tests::stale_candidate_and_evidence_substitutions_fail_closed ... ok
+test agent_partial_checkpoint::tests::later_tombstone_prevents_removed_agent_state_from_restoring ... ok
+test agent_partial_checkpoint::tests::retention_keeps_partial_budget_plus_latest_tombstone ... ok
+test birth_witness::authority_tests::unsafe_identifiers_and_policy_collisions_fail_closed_without_echoing_values ... ok
+test birth_witness::authority_tests::valid_signed_rejection_yields_caveated_not_claimed_receipt ... ok
+test birth_witness::authority_tests::private_or_machine_local_public_evidence_never_enters_receipt ... ok
+test birthday_continuity::authority_tests::missing_or_reordered_cycle_fails_closed ... ok
+test birthday_continuity::authority_tests::forged_witness_and_identity_substitution_fail_closed ... ok
+test birthday_continuity::authority_tests::missing_runtime_witness_and_wrong_provenance_fail_closed ... ok
+test birthday_continuity::authority_tests::record_tamper_and_unknown_fields_fail_closed ... ok
+test birthday_continuity::authority_tests::terminal_generation_overflow_fails_closed ... ok
+test birthday_continuity::authority_tests::copied_state_and_host_paths_fail_closed ... ok
+test birth_witness::authority_tests::fixture_matrix_executes_every_declared_negative ... ok
+test birthday_continuity::authority_tests::verified_tokens_cannot_be_reordered_duplicated_or_relabelled ... ok
+test birthday_identity::authority_tests::builds_from_signed_lineage_and_governed_projection ... ok
+test birthday_identity::authority_tests::rejects_invented_provenance_wrong_continuity_and_projection_substitution ... ok
+test birthday_identity::authority_tests::rejects_forged_mismatched_and_stale_authorities ... ok
+test birthday_continuity::authority_tests::wrong_signer_and_generation_fail_closed ... ok
+test birthday_identity::authority_tests::rejects_non_origin_bases_unknown_fields_and_unsafe_paths ... ok
+test birthday_identity::authority_tests::semantic_output_rejects_host_paths_and_traversal ... ok
+test birthday_identity::authority_tests::rejects_projection_tamper_and_raw_private_mislabelling ... ok
+test birthday_identity::authority_tests::replay_order_is_deterministic_and_record_tampering_fails ... ok
+test capability_envelope::authority_tests::canonical_digest_round_trip_is_stable ... ok
+test capability_envelope::authority_tests::authority_escalation_conflict_and_missing_denials_fail_closed ... ok
+test capability_envelope::authority_tests::canonical_envelope_is_deterministic_and_emits_native_semantics ... ok
+test capability_envelope::authority_tests::identifier_collisions_fail_closed_while_exact_duplicates_canonicalize ... ok
+test capability_envelope::authority_tests::invalid_birthday_identity_and_cross_binding_fail_closed ... ok
+test capability_envelope::authority_tests::exported_validator_rejects_rehashed_field_and_policy_forgery ... ok
+test capability_envelope::authority_tests::policy_itself_fails_closed_on_missing_roots_and_collisions ... ok
+test capability_envelope::authority_tests::omitted_zero_and_escalated_resource_limits_fail_closed ... ok
+test capability_envelope::authority_tests::unknown_fields_fail_during_deserialization_at_every_layer ... ok
+test agent_partial_checkpoint::tests::spool_coalesces_to_newest_and_reports_degraded_history ... ok
+test capability_envelope::authority_tests::stale_unknown_missing_and_duplicate_evidence_fail_closed ... ok
+test capability_envelope::authority_tests::unsupported_claim_omission_and_missing_provenance_fail_closed ... ok
+test capability_envelope::authority_tests::unsupported_provider_model_tool_and_skill_fail_closed ... ok
+test cognitive_profile::authority_tests::canonical_creation_is_deterministic_and_public_projection_is_narrow ... ok
+test capability_envelope::authority_tests::secrets_private_paths_and_host_paths_fail_closed ... ok
+test cognitive_profile::authority_tests::exported_validator_rejects_rehashed_forgery ... ok
+test cognitive_profile::authority_tests::identity_continuity_capability_and_birthday_substitution_fail_closed ... ok
+test cognitive_profile::authority_tests::exact_duplicates_canonicalize_and_case_collisions_fail ... ok
+test cognitive_profile::authority_tests::broken_revision_link_and_unexplained_delta_fail_closed ... ok
+test cognitive_profile::authority_tests::missing_nonclaims_and_public_everything_fail_closed ... ok
+test agent_partial_checkpoint::tests::tampered_receipt_cannot_manufacture_current_archive_state ... ok
+test agent_partial_checkpoint::tests::verified_archive_receipt_survives_store_restart ... ok
+test cognitive_profile::authority_tests::old_key_governs_rotation_and_new_key_governs_followup ... ok
+test cognitive_profile::authority_tests::self_authorized_policy_statement_and_transplant_fail_closed ... ok
+test cognitive_profile::authority_tests::privacy_secrets_paths_and_raw_state_fail_closed ... ok
+test cognitive_profile::authority_tests::unknown_json_fields_fail_closed ... ok
+test agent_partial_checkpoint::tests::concurrent_newer_snapshot_remains_pending_after_older_upload ... ok
+test component::tests::consumer_exit_closes_route_and_restart_rebinds_existing_producer ... ok
+test component::tests::external_input_enforces_its_declared_capacity_and_policy ... ok
+test config::shutdown_policy_tests::aggregate_shutdown_policy_enforces_boundary_and_overflow ... ok
+test cognitive_profile::authority_tests::revision_updates_link_and_explain_exact_delta ... ok
+test cognitive_profile::authority_tests::stale_missing_duplicate_and_forbidden_evidence_fail_closed ... ok
+test control::acip_replay_tests::domain_capacity_is_partitioned_by_principal ... ok
+test control::acip_replay_tests::failed_concurrent_reservations_never_resurrect ... ok
+test control::acip_replay_tests::rejected_excessive_advances_do_not_consume_domain_capacity ... ok
+test control::acip_replay_tests::structured_domains_do_not_delimiter_collide ... ok
+test agent_partial_checkpoint::tests::corrupt_spool_record_is_quarantined_without_starving_other_agents ... ok
+test birthday_continuity::authority_tests::verified_continuity_token_rejects_self_consistent_substitutions ... ok
+test cognitive_profile::authority_tests::unsupported_labels_diagnosis_and_status_inference_fail_closed ... ok
+test birthday_continuity::authority_tests::continuity_record_replays_identically_across_two_signed_cycles ... ok
+test control::agent_lifecycle::archived_restore_monotonically_merges_newer_completed_turns ... ok
+test control::agent_lifecycle::archived_restore_rehydrates_complete_a2a_transcript_history ... ok
+test cognitive_profile::authority_tests::deep_rehash_truncation_substitution_and_rotation_attacks_fail_closed ... ok
+test agent_partial_checkpoint::tests::archived_partial_restores_when_local_copy_is_absent ... ok
+test control::agent_lifecycle::vertex_ai_agent_admission_uses_explicit_provider_route ... ok
+test control::agent_lifecycle::vertex_ai_provider_invocation_fails_closed_before_live_paid_call ... ok
+test control::agent_lifecycle::agent_lifecycle_is_idempotent_portable_and_restart_safe ... ok
+test agent_partial_checkpoint::tests::wedged_archive_command_is_killed_by_whole_process_timeout ... ok
+test control::conversation_dispatch_gate_tests::session_capacity_evicts_only_the_oldest_terminal_session ... ok
+test control::conversation_dispatch_gate_tests::session_capacity_refuses_when_every_session_is_active ... ok
+test control::conversation_dispatch_gate_tests::later_turn_queue_wait_expires_without_advancing_the_gate ... ok
+test cognitive_profile::authority_tests::trusted_genesis_and_complete_four_revision_chain_replay ... ok
+test control::conversation_dispatch_gate_tests::later_turn_cannot_overtake_an_unfinished_earlier_sequence ... ok
+test control::agent_lifecycle::dynamic_agent_health_sweep_drains_after_task_cancellation ... ok
+test agent_partial_checkpoint::tests::successful_catchup_preserves_dropped_interval_history ... ok
+test assembly::capability_authority_tests::live_assembly_is_the_capability_authority_provisioning_boundary ... ok
+test control::agent_lifecycle::dynamic_agent_health_sweep_drains_after_task_panic ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_delivers_configured_provider_work_and_activity ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_fresh_conversations_advance_sender_delegation_sequence ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_public_initiation_rejects_configured_sender_impersonation ... ok
+test control::layer8_conversation_ingress_tests::governed_room_ws_intent_rejects_implicit_broadcast_without_consuming_sequence ... ok
+test control::layer8_conversation_ingress_tests::governed_room_ws_intent_rejects_non_initial_first_sequence ... ok
+test control::layer8_conversation_ingress_tests::governed_room_ws_intent_routes_explicit_runtime_recipients ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_rejects_tampered_carrier_context ... ok
+test control::agent_lifecycle::startup_finishes_durable_removal_intent_before_agent_becomes_resident ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_replay_and_conflict_are_explicit ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_runtime_internal_initiation_accepts_every_resident_sender ... ok
+test config_reload::tests::config_reload_invalid_update_retains_last_known_good ... ok
+test cognitive_profile::authority_tests::real_continuity_composes_through_capability_and_cognition ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_layer8_uses_authoritative_roster_for_denials ... ok
+test control::agent_lifecycle::agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore ... ok
+test control::layer8_conversation_ingress_tests::layer8_ingress_authorizes_before_dispatch ... ok
+test control::layer8_conversation_ingress_tests::layer8_ingress_refuses_before_conversation_side_effects ... ok
+test control::layer8_conversation_ingress_tests::layer8_ingress_continue_authorizes_before_dispatch ... ok
+test control::layer8_conversation_ingress_tests::resident_shepherd_bindings_use_the_same_runtime_ids_as_the_population_feed ... ok
+test control::layer8_conversation_ingress_tests::layer8_ingress_continue_refuses_before_turn_side_effects ... ok
+test control::orientation_tests::orientation_is_delivered_to_existing_resident_and_injected_before_task_content ... ok
+test control::orientation_tests::dynamic_agent_restart_preserves_admission_time_orientation_provenance ... ok
+test control::orientation_tests::orientation_reload_preserves_existing_agents_and_applies_to_new_admissions ... ok
+test control::orientation_tests::resident_shepherd_preload_receives_orientation_before_ready_probe ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_recipient_signed_delivery_refusal ... ok
+test control::provider_conversation_tool_tests::native_tool_call_accepts_32k_multipart_arguments ... ok
+test control::provider_conversation_tool_tests::native_tool_call_accepts_json_encoded_arguments ... ok
+test control::provider_conversation_tool_tests::native_tool_call_is_a_typed_action_separate_from_prose ... ok
+test control::provider_conversation_tool_tests::native_tool_call_parts_only_32k_arguments_keep_each_part_bounded ... ok
+test control::provider_conversation_tool_tests::native_tool_call_parts_only_arguments_do_not_duplicate_payload_into_message ... ok
+test control::provider_conversation_tool_tests::native_tool_call_rejects_more_than_64_logical_message_parts ... ok
+test control::provider_conversation_tool_tests::native_tool_call_rejects_over_32k_message_part ... ok
+test control::provider_conversation_tool_tests::ordinary_assistant_content_stays_an_operator_reply ... ok
+test control::provider_conversation_tool_tests::unknown_or_ambiguous_tool_calls_fail_closed ... ok
+test control::provider_conversation_tool_tests::unsupported_tools_fall_back_to_plain_generation_without_a2a ... ok
+test control::shepherd_readiness_tests::readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss ... ok
+test control::shepherd_readiness_tests::readiness_uses_the_same_trusted_clock_as_shepherd_admission ... ok
+test conversation_rooms::tests::delivery_states_preserve_partial_failure_without_hiding_recipient_identity ... ok
+test conversation_rooms::tests::implicit_broadcast_and_duplicate_recipients_fail_closed ... ok
+test conversation_rooms::tests::room_route_reuses_layer8_address_recipients_authority_scope ... ok
+test conversation_rooms::tests::room_turn_ordering_and_replay_are_deterministic ... ok
+test conversation_rooms::tests::room_turn_requires_explicit_stable_recipient_set ... ok
+test conversation_rooms::tests::unknown_ineligible_and_cross_polis_recipients_fail_closed ... ok
+test control::orientation_tests::startup_orientation_initialization_restamps_existing_residents_from_config ... ok
+test conversation_sessions_tests::cleanup_race_guard_releases_every_barrier_during_unwind ... ok
+test ingress::tests::cancelled_incarnation_closes_only_its_queued_requests ... ok
+test ingress::tests::conversation_public_output_projects_agent_initiation_action ... ok
+test ingress::tests::malformed_agent_initiation_action_is_not_projected ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_delivers_verified_ack_with_redacted_correlation ... ok
+test control::layer8_conversation_ingress_tests::newly_admitted_agent_receives_one_runtime_triggered_beacon_greeting ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_tampered_credential_generation_before_side_effects ... ok
+test ingress::tests::pause_and_submit_admission_are_one_atomic_transition ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_unrelated_signed_payload ... ok
+test ingress::tests::too_many_agent_initiation_logical_message_parts_are_not_projected ... ok
+test ingress::tests::oversized_agent_initiation_message_part_is_not_projected ... ok
+test control::orientation_tests::production_runtime_init_reload_replaces_active_orientation_fail_closed ... ok
+test layer8_authority::additional_tests::signed_exchange_binds_sender_recipient_payload_and_acknowledgement ... ok
+test operations::continuity_resume_tests::cancellation_while_waiting_never_reopens_after_release ... ok
+test operations::continuity_resume_tests::delayed_old_incarnation_only_drains_its_requests_and_never_owns_replacement_cleanup ... ok
+test operations::continuity_resume_tests::expiry_while_waiting_never_reopens_after_release ... ok
+test protocol_adapters::tests::protocol_builder_local_agent_computes_result_without_payload_echo ... ok
+test protocol_adapters::tests::protocol_builder_local_agent_rejects_arbitrary_payload_receipts ... ok
+test protocol_adapters::tests::protocol_builder_non_agent_local_adapters_fail_closed ... ok
+test protocol_adapters::tests::protocol_frame_rejects_mac_valid_future_issued_freshness ... ok
+test layer8_authority::generated_tests::direct_agent_exchange_uses_signed_identity_message_and_signed_acknowledgement ... ok
+test protocol_adapters::tests::rustls_mutual_tls_client_requires_configured_identity ... ok
+test protocol_adapters::tests::protocol_frame_rejects_mac_valid_semantic_binding_mutations ... ok
+test config_reload::tests::config_reload_debounces_duplicate_same_content_and_shutdown ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_route_serves_delivery_without_raw_correlation ... ok
+test layer8_authority::additional_tests::authorization_requires_identity_capability_policy_and_replay_freshness ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_initiation_terminal_failures_are_truthful ... ok
+test supervisor::tests::queued_signal_requires_uncancelled_current_live_ownership ... ok
+test layer8_authority::generated_tests::authority_authorizes_once_then_fails_closed_on_replay_scope_and_revocation ... ok
+test layer8_authority::generated_tests::substituted_recipient_signature_and_payload_tampering_fail_closed ... ok
+test tls::tests::trust_roots_reject_the_served_leaf_certificate ... ok
+test weather::tests::disk_pressure_uses_the_filesystem_containing_continuity_state ... ok
+test tls::tests::trust_roots_accept_ca_certificates_and_enforce_ca_key_usage ... ok
+test tls::tests::server_identity_validation_rejects_time_and_usage_failures ... ok
+test layer8_authority::additional_tests::stale_identity_and_wrong_key_fail_closed_before_grant ... ok
+test weather::tests::disk_scope_resolves_a_symlinked_continuity_ancestor ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response ... ok
+test control::layer8_conversation_ingress_tests::agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs ... ok
+test resident_cycle::tests::legacy_profile_builder_remains_fail_closed_for_resident_cycle ... ok
+test resident_cycle::tests::resident_cycle_rejects_stale_continuity_and_authority_rotation_mismatch ... ok
+test resident_cycle::tests::resident_cycle_supports_governed_update_and_authority_rotation ... ok
+test resident_cycle::tests::live_assembly_builds_verified_capability_and_profile_handles ... ok
+test resident_cycle::tests::resident_cycle_rehydrates_and_rejects_tamper ... ok
+test control::layer8_conversation_ingress_tests::production_conversation_history_restores_operator_and_agent_once_in_order ... ok
+test control::agent_lifecycle::every_removal_commit_boundary_converges_to_authoritative_absence_on_restart ... ok
+test conversation_sessions_tests::resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress ... ok
+
+test result: ok. 200 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.22s
+
+     Running unittests src/bin/adl-runtime-governed-operations.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_governed_operations-467011d06629654e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl-runtime-kernel.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-bc947e915a7004e7)
+
+running 14 tests
+test tests::live_continuity_floor_does_not_rebase_birthday_authority_genesis ... ok
+test observability::master_log_liveness_tests::forward_progress_while_behind_does_not_trigger_restart ... ok
+test observability::master_log_liveness_tests::caught_up_master_log_clears_a_previous_stall_window ... ok
+test observability::master_log_liveness_tests::sustained_pending_backlog_without_progress_triggers_restart ... ok
+test tests::observability_shutdown_failure_preserves_runtime_result ... ok
+test tests::config_reload_diagnostics_are_bounded_and_redacted ... ok
+test tests::archive_in_flight_guard_always_releases_scheduler_slot ... ok
+test observability::vector_retry_backoff_tests::backoff_limit_never_shortens_the_configured_base ... ok
+test observability::vector_retry_backoff_tests::backoff_is_exponential_and_bounded ... ok
+test observability::vector_retry_backoff_tests::interrupted_jsonl_tail_is_removed_without_touching_complete_records ... ok
+test observability::vector_retry_backoff_tests::recovery_backoff_persists_across_health_polls_until_reset ... ok
+test tests::resident_shepherd_governed_probe_prompt_includes_orientation_before_ready ... ok
+test tests::control_listener_rebinds_immediately_after_a_connection_closes ... ok
+test tests::control_listener_retries_until_a_live_owner_releases_the_port ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/bin/adl-runtime-shadow-fixture.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_shadow_fixture-95dc125f89cb19f8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adaptive_learning.rs (adl-runtime-kernel/target/debug/deps/adaptive_learning-a0dcd4e90ade891b)
+
+running 19 tests
+test fixture_matrix_tracks_the_governed_negative_surface ... ok
+test resident_cycle_invalid_bindings_retain_terminal_evidence_without_mutation_or_history ... ok
+test forged_grant_and_authority_fail_before_history_acceptance ... ok
+test resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history ... ok
+test policy_digest_mismatch_fails_before_mutation_or_persistence ... ok
+test governed_acceptance_mutates_and_persists_exact_history ... ok
+test predecessor_splice_and_sequence_overflow_fail_closed ... ok
+test concurrent_adaptive_executions_have_one_authoritative_winner ... ok
+test resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint ... ok
+test transactional_completion_and_postcheck_failure_leave_gate_unchanged ... ok
+test resident_cycle_restart_restores_and_continues_deterministically ... ok
+test tampered_history_and_rollback_never_return_attacker_hashes ... ok
+test proposal_patch_mismatch_and_durable_collision_are_nonmutating ... ok
+test rejected_and_cancelled_paths_are_durable_and_nonmutating ... ok
+test startup_completes_committed_intent_and_restores_aborted_live_gate ... ok
+test startup_discovers_reserved_intent_and_rejects_tampering ... ok
+test two_sequence_history_survives_restart_and_supports_authoritative_rollback ... ok
+test recurrence_roundtrip_and_capacity_bounds_fail_closed ... ok
+test unsafe_ids_rationale_paths_and_unknown_fields_fail_closed ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.07s
+
+     Running tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-95a4959cac8da0cb)
+
+running 20 tests
+test agent_sample_api_serializes_backing_model_and_continuity_truth ... ok
+test policy_redacts_capabilities_and_location_without_client_cooperation ... ok
+test resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts ... ok
+test inference_readiness_taxonomy_is_the_provider_backed_roster_denominator ... ok
+test every_declared_presence_state_round_trips ... ok
+test canonical_name_is_projected_and_old_v1_entries_remain_readable ... ok
+test stale_presence_fails_closed_without_changing_stable_identity ... ok
+test detail_lookup_uses_exact_policy_visible_id_not_search_filter_semantics ... ok
+test shepherd_model_health_and_readiness_consistency_are_projected_from_one_feed ... ok
+test roster_is_policy_filtered_before_serialization_and_never_claims_global_completeness ... ok
+test tampered_tokens_and_unbounded_queries_fail_closed ... ok
+test relocation_preserves_identity_and_advances_the_authoritative_revision ... ok
+test production_public_projection_omits_configured_but_unauthorized_agents_and_redacts_fields ... ok
+test event_cursors_bind_policy_query_and_exact_revision_successor ... ok
+test page_tokens_bind_revision_policy_filter_and_page_size ... ok
+test production_feed_admits_shepherd_only_from_current_runtime_component_truth ... ok
+test roster_rejects_population_above_the_explicit_resource_bound ... ok
+test first_page_projects_only_the_requested_entries_in_stable_id_order ... ok
+test production_shepherd_operation_is_the_admission_authority ... ok
+test large_local_roster_remains_page_bounded_and_deterministic ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/assembly.rs (adl-runtime-kernel/target/debug/deps/assembly-32ab0685f48fe5fc)
+
+running 11 tests
+test resident_shepherd_provider_roster_rejects_placeholder_as_production_adapter ... ok
+test fatal_kernel_exit_performs_exactly_one_operational_executor_shutdown ... ok
+test shutdown_grace_aborts_non_cooperative_operation_executor ... ok
+test operation_policy_timeout_does_not_synthesize_adapter_failure ... ok
+test aborted_operation_owner_releases_in_flight_idempotency_key ... ok
+test chronosense_uses_qualified_trusted_time_and_fails_closed_before_it_is_ready ... ok
+test local_production_adapters_execute_real_bounded_behavior ... ok
+test sntp_recovers_after_startup_without_restarting_the_kernel ... ok
+test unavailable_sntp_does_not_block_kernel_startup_or_erase_bootstrap_time ... ok
+test canonical_ingress_dispatches_real_agent_work ... ok
+test agent_scheduler_checkpoint_cancellation_and_storage_are_real ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.94s
+
+     Running tests/birth_witness.rs (adl-runtime-kernel/target/debug/deps/birth_witness-b750c19997fc0fec)
+
+running 2 tests
+test public_packet_rejects_unknown_fields ... ok
+test runtime_service_builds_validates_and_emits_receipt ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/birthday.rs (adl-runtime-kernel/target/debug/deps/birthday-a591fd2fee477b3f)
+
+running 6 tests
+test rejects_unknown_top_level_and_nested_fields_during_parse ... ok
+test accepts_complete_candidate_and_emits_canonical_semantics ... ok
+test decisions_are_stable_across_evidence_order_and_round_trip ... ok
+test rejects_each_missing_evidence_surface ... ok
+test rejects_every_declared_lifecycle_lookalike ... ok
+test rejects_integrity_privacy_path_and_claim_boundary_failures ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/capability_envelope.rs (adl-runtime-kernel/target/debug/deps/capability_envelope-b8055e5a96461283)
+
+running 1 test
+test verified_continuity_entrypoints_are_public ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cognition.rs (adl-runtime-kernel/target/debug/deps/cognition-4957d0aa8f770eb2)
+
+running 7 tests
+test score_and_policy_thresholds_are_bounded_to_zero_through_one_hundred ... ok
+test decisions_are_json_safe_and_do_not_embed_provider_or_prompt_payloads ... ok
+test invalid_context_policy_and_unbound_review_fail_closed ... ok
+test review_required_path_requires_bound_review_record_without_claiming_allow ... ok
+test curiosity_intelligence_theory_of_mind_uses_contract_boundaries_and_fail_closed_policy ... ok
+test moral_affect_wellbeing_allows_bounded_context_and_refuses_policy_failures ... ok
+test cognition_components_form_typed_supervised_contracts ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cognitive_profile.rs (adl-runtime-kernel/target/debug/deps/cognitive_profile-9af9adc9e9c9afeb)
+
+running 1 test
+test public_authority_payload_rejects_unknown_fields ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/configuration.rs (adl-runtime-kernel/target/debug/deps/configuration-0cf75076401dbbde)
+
+running 38 tests
+test cpu_saturation_is_observable_without_restarting_a_healthy_runtime ... ok
+test resource_policy_warns_stops_and_recovers_with_hysteresis ... ok
+test configuration_keeps_runtime_bindings_outside_canonical_projection ... ok
+test configured_registry_fails_closed_for_factory_and_surface_drift ... ok
+test deterministic_port_route_rejects_a_nondeterministic_provider ... ok
+test declarative_registry_builds_contract_checked_topology_canonically ... ok
+test runtime_configuration_rejects_version_shape_identity_and_secrets ... ok
+test runtime_init_rejects_config_manufactured_agent_population ... ok
+test runtime_init_rejects_ipv6_bind_addresses ... ok
+test periodic_weather_monitor_publishes_reports_until_stop_is_required ... ok
+test polis_vertex_ai_configuration_is_explicit_and_redacted ... ok
+test runtime_init_file_defines_local_and_remote_access_intent ... ok
+test continuity_compatibility_v1_allows_hot_load_policy_and_binds_security_identity ... ok
+test canonical_name_is_required_for_resident_shepherd_configuration ... ok
+test polis_identity_validates_required_config_and_public_domain ... ok
+test runtime_init_rejects_invalid_public_api_base ... ok
+test polis_vertex_ai_configuration_rejects_ambient_or_secret_shapes ... ok
+test polis_identity_rejects_missing_or_duplicate_config ... ok
+test runtime_init_rejects_unsafe_s3_archive_identity_segments ... ok
+test runtime_init_accepts_s3_archive_identity_without_binding_checkpoint_restore ... ok
+test polis_identity_rejects_domain_and_origin_mismatch ... ok
+test resident_shepherd_configuration_requires_provider_model_and_unique_nonempty_set ... ok
+test runtime_init_rejects_missing_or_reused_tls_paths ... ok
+test threshold_configuration_rejects_invalid_order_and_zero_bounds ... ok
+test vertex_ai_failure_classification_distinguishes_operator_actions ... ok
+test vector_boundary_declares_cloudwatch_emf_route_without_kernel_exporter ... ok
+test weather_health_report_serializes_stop_policy_and_gpu_non_pass_state ... ok
+test runtime_init_rejects_migration_decision_key_aliases ... ok
+test runtime_init_rejects_missing_state_root_and_split_tls_roots ... ok
+test service_convergence_defaults_support_slow_model_startup ... ok
+test runtime_init_s3_archive_identity_boundaries_match_terraform_contract ... ok
+test runtime_init_rejects_wildcard_duplicate_and_path_origins ... ok
+test service_convergence_accepts_inclusive_bounds ... ok
+test runtime_init_accepts_supported_additional_origins ... ok
+test service_convergence_rejects_each_out_of_range_field ... ok
+test signed_checkpoint_restore_allows_provider_changes_and_rejects_security_changes ... ok
+test runtime_kernel_rejects_demo_and_implicit_demo_startup ... ok
+test sysinfo_observer_reports_portable_core_metrics_and_explicit_gpu_absence ... ok
+
+test result: ok. 38 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s
+
+     Running tests/continuity.rs (adl-runtime-kernel/target/debug/deps/continuity-48447a0a0537965a)
+
+running 7 tests
+test replay_rejects_gaps_reordering_and_substitution ... ok
+test checkpoint_and_lifelog_storage_must_be_disjoint ... ok
+test missing_checkpoint_restarts_fresh ... ok
+test graceful_stop_shuts_down_even_when_checkpoint_deadline_expires ... ok
+test incompatible_identity_and_service_schema_refuse_recovery ... ok
+test checkpoint_quiesces_then_serializes_in_bounded_parallel_and_loads ... ok
+test corrupt_snapshot_is_quarantined_and_preserved ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/contracts.rs (adl-runtime-kernel/target/debug/deps/contracts-effa8ca08808c851)
+
+running 13 tests
+test parity_matrix_is_machine_readable_and_routes_every_capability ... ok
+test optional_capability_may_be_absent ... ok
+test service_contract_rejects_unbounded_ports_and_determinism_escalation ... ok
+test service_contract_must_match_component_runtime_surface ... ok
+test duplicate_services_and_local_capabilities_are_rejected ... ok
+test optional_shell_capability_cannot_cross_a_deterministic_boundary ... ok
+test service_contract_shape_rejects_schema_and_empty_identity ... ok
+test compatible_capabilities_resolve_independent_of_registration_order ... ok
+test required_capabilities_fail_closed_when_missing_or_incompatible ... ok
+test parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency ... ok
+test multiple_capability_providers_allow_compatible_selection ... ok
+test deterministic_resolution_never_selects_a_higher_version_shell ... ok
+test runtime_kernel_manifest_has_no_repo_local_path_dependencies ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-f9e8f949fbdb8103)
+
+running 28 tests
+test bootstrap_promotes_once_after_explicit_degraded_readiness ... ok
+test payload_and_human_observability_use_separate_redacted_channels ... ok
+test observatory_feed_reports_large_agent_population_as_bounded_sample ... ok
+test forged_and_unauthorized_commands_never_reach_lifecycle_authority ... ok
+test readiness_fails_closed_before_first_weather_sample ... ok
+test ready_event_reports_the_bound_ephemeral_port ... ok
+test runtime_identity_and_shutdown_bounds_are_owned_by_standard_crates ... ok
+test pressure_admission_gate_refuses_new_commands_until_reopened ... ok
+test pressure_cannot_reopen_after_signed_shutdown_is_enqueued ... ok
+test duplicate_shutdown_executes_once_and_conflicting_reuse_fails ... ok
+test cancelled_client_does_not_cancel_execution_or_exceed_idempotency_bound ... ok
+test snapshot_is_revisioned_and_contains_complete_health_state ... ok
+test idempotency_refresh_preserves_the_recent_completed_response ... ok
+test signed_restart_is_bound_to_the_current_runtime_incarnation ... ok
+test signed_shutdown_routes_through_supervisor_and_carries_correlation ... ok
+test runtime_instance_identity_is_stable_in_one_state_root_and_distinct_across_roots ... ok
+test tls_configuration_fails_closed_for_missing_and_mismatched_pem_material ... ok
+test running_kernel_reload_publishes_candidate_hash_and_updates_presentation_atomically ... ok
+test observatory_cors_rejects_draft_origin_without_explicit_allowance ... ok
+test control_route_rejects_oversized_request_body_before_command_parse ... ok
+test graceful_api_shutdown_drains_an_active_control_response ... ok
+test axum_adapter_serves_signed_control_payloads ... ok
+test terminal_serialization_drains_accepted_work_into_checkpoint ... ok
+test observatory_cors_allows_only_configured_origins_and_reports_canonical_port ... ok
+test observatory_https_reads_are_public_and_report_weather_freshness ... ok
+test signed_ingress_checkpoints_replays_and_is_observatory_visible ... ok
+test observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_replacement ... ok
+test tls_shutdown_is_bounded_with_a_stalled_active_response ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.05s
+
+     Running tests/conversation_continuity.rs (adl-runtime-kernel/target/debug/deps/conversation_continuity-d7bd8a9cf47df725)
+
+running 10 tests
+test replay_decision_is_owned_and_restored ... ok
+test pre_dispatch_retryable_attempt_does_not_block_retry_after_restart ... ok
+test stale_acknowledgement_watermark_is_refused ... ok
+test ambiguous_dispatch_remains_ambiguous_after_restart ... ok
+test completed_attempt_is_idempotent_after_restart ... ok
+test idempotency_is_scoped_by_conversation_after_restart ... ok
+test deleted_conversation_events_are_not_replayed_into_continuity_snapshot ... ok
+test retryable_attempt_cannot_downgrade_completed_attempt_after_restart ... ok
+test retryable_attempt_cannot_downgrade_ambiguous_attempt_after_restart ... ok
+test continuity_watermarks_and_receipts_survive_restart ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/conversation_history.rs (adl-runtime-kernel/target/debug/deps/conversation_history-837e7a589b742006)
+
+running 7 tests
+test export_and_redaction_require_explicit_authority ... ok
+test a2a_exchange_restores_verbatim_causal_records_after_restart ... ok
+test revoked_access_and_private_memory_fail_closed ... ok
+test deletion_marker_hides_page_search_export_and_restore_history ... ok
+test authorized_pagination_rejects_stale_cursor_after_restart ... ok
+test a2a_exchange_replay_does_not_duplicate_and_redaction_still_applies ... ok
+test search_export_redaction_and_restore_apply_public_safe_redactions ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/conversation_journal.rs (adl-runtime-kernel/target/debug/deps/conversation_journal-6f2c45d65130a539)
+
+running 7 tests
+test durable_journal_rejects_empty_authority_or_payload_identity ... ok
+test durable_journal_record_kinds_remain_foundation_only ... ok
+test durable_journal_supports_current_schema_migration_marker_and_rejects_future_schema ... ok
+test durable_journal_refuses_partial_trailing_record_on_restart ... ok
+test durable_journal_appends_and_reloads_committed_events ... ok
+test durable_journal_refuses_hash_chain_corruption_on_restart ... ok
+test durable_journal_retention_and_deletion_markers_are_auditable_without_replay_policy ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/durable_conversation_history_integration.rs (adl-runtime-kernel/target/debug/deps/durable_conversation_history_integration-7b3e0233bb47b89b)
+
+running 1 test
+test durable_history_parent_chain_survives_restart_and_deletion_coherently ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/durable_state.rs (adl-runtime-kernel/target/debug/deps/durable_state-db5dc7b60a866340)
+
+running 5 tests
+test legacy_flat_persistence_fails_closed_before_database_open ... ok
+test governed_state_compare_and_set_has_one_atomic_winner_and_exact_successor ... ok
+test redb_local_checkpoint_persists_restores_and_rejects_identity_drift ... ok
+test governed_state_and_lifelog_survive_restart_without_flat_files ... ok
+test concurrent_writes_advance_sequences_and_head_atomically ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+
+     Running tests/governance.rs (adl-runtime-kernel/target/debug/deps/governance-b885778642a1865b)
+
+running 11 tests
+test governance_components_form_typed_supervised_contracts ... ok
+test admission_fails_closed_for_missing_authority_stale_policy_and_forgery ... ok
+test checkpoint_observes_in_flight_or_complete_result_without_gap ... ok
+test checkpoint_recovery_preserves_replay_revocation_and_result_history ... ok
+test cancelled_shell_marks_permit_abandoned_without_blocking_checkpoint ... ok
+test allowed_action_crosses_signed_gate_before_nondeterministic_shell ... ok
+test multi_hop_delegation_uses_remaining_depth_not_absolute_depth ... ok
+test resource_exhaustion_and_revocation_preserve_refusal_evidence ... ok
+test delegation_is_signed_linked_and_strictly_attenuating ... ok
+test appeal_and_operator_intervention_are_signed_and_audited ... ok
+test shell_failure_is_quarantined_with_deterministic_result_record ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests/governed_operations.rs (adl-runtime-kernel/target/debug/deps/governed_operations-7a5ef8e6ba94abe0)
+
+running 28 tests
+test parity_c_boundary_contract::retained_evidence_excludes_credentials_private_state_and_machine_paths ... ok
+test parity_c_boundary_contract::runtime_v2_aws_and_cross_lane_paths_are_absent ... ok
+test parity_c_delegation_resources::widened_expired_or_replayed_delegation_is_rejected ... ok
+test parity_c_live_governance::tampered_request_cannot_masquerade_as_an_appeal ... ok
+test parity_c_production_credit::degraded_fixture_mock_and_metadata_paths_receive_zero_credit ... ok
+test parity_c_live_governance::denial_revocation_and_quarantine_prevent_actuation ... ok
+test parity_c_private_identity::provider_or_display_identity_cannot_substitute_for_citizen_identity ... ok
+test parity_c_private_identity::cross_identity_read_and_write_fail_closed ... ok
+test parity_c_live_governance::signed_appeal_disposition_is_recorded_without_actuation ... ok
+test parity_c_delegation_resources::delegation_chain_only_attenuates ... ok
+test parity_c_live_governance::signed_gate_precedes_provider_actuation ... ok
+test parity_c_production_credit::all_owned_components_use_production_or_cots_adapters ... ok
+test parity_c_delegation_resources::pre_dispatch_cancellation_releases_capacity ... ok
+test parity_c_provider_scheduler_tools::shepherd_cannot_grant_or_bypass_authority ... ok
+test parity_c_delegation_resources::retry_and_idempotency_bounds_prevent_duplicate_work ... ok
+test parity_c_private_identity::restart_preserves_redacted_identity_scoped_state ... ok
+test parity_c_live_governance::expired_or_replayed_gate_receipt_fails_closed ... ok
+test parity_c_private_identity::private_state_is_partitioned_by_authoritative_identity ... ok
+test parity_c_time_continuity::authenticated_checkpoint_is_the_only_restore_authority ... ok
+test parity_c_time_continuity::shutdown_orders_batch_and_blocks_later_actuation ... ok
+test parity_c_time_continuity::restart_revalidates_revocation_without_duplicate_side_effects ... ok
+test parity_c_time_continuity::shutdown_commits_final_checkpoint_and_closes_future_admission ... ok
+test parity_c_time_continuity::unqualified_or_regressing_time_cannot_authorize_actuation ... ok
+test parity_c_delegation_resources::in_flight_cancellation_kills_provider_and_releases_capacity ... ok
+test parity_c_provider_scheduler_tools::scheduler_dispatch_is_deterministic_and_bounded ... ok
+test parity_c_provider_scheduler_tools::two_agents_execute_governed_provider_and_tool_work ... ok
+test parity_c_time_continuity::lifelog_is_redacted_append_only_and_non_authoritative ... ok
+test parity_c_provider_scheduler_tools::provider_timeout_auth_quota_and_malformed_output_are_classified ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.23s
+
+     Running tests/guardian_soak.rs (adl-runtime-kernel/target/debug/deps/guardian_soak-91b8fb6fe3e189d5)
+
+running 8 tests
+test production_like_soak_rollback_packet_retains_cutover_boundaries ... ok
+test serve_requires_init_declared_state_root_before_live_adapters_start ... ok
+test serve_refuses_reused_continuity_and_operation_keys ... ok
+test missing_vector_keeps_the_real_runtime_available_until_operator_shutdown ... ok
+test guardian_lease_loss_checkpoints_and_stops_the_real_kernel ... ok
+test pressure_checkpoint_failure_keeps_signal_shutdown_responsive ... ok
+test signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process ... ok
+test pressure_closes_ingress_serializes_live_work_and_stops_cleanly ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.09s
+
+     Running tests/identity_memory.rs (adl-runtime-kernel/target/debug/deps/identity_memory-d91ac6bd4c07fc1b)
+
+running 11 tests
+test invalid_private_state_reference_fails_closed ... ok
+test forged_identity_binding_is_rejected_before_memory_append ... ok
+test restore_rejects_checkpoint_signed_by_a_different_trusted_identity ... ok
+test signed_checkpoint_uses_v2_wire_schema_and_legacy_v1_fails_closed ... ok
+test signed_identity_binding_allows_memory_checkpoint_and_redacted_lifelog ... ok
+test checkpoint_lifelog_and_restore_reject_forged_binding ... ok
+test restore_requires_matching_identity_and_head_before_continuing ... ok
+test restore_rejects_checkpoint_bound_to_other_citizen ... ok
+test same_continuity_different_citizen_or_runtime_cannot_append ... ok
+test restored_checkpoint_preserves_summary_across_next_checkpoint ... ok
+test restore_rejects_any_checkpoint_payload_substitution ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/kernel.rs (adl-runtime-kernel/target/debug/deps/kernel-a89fffaf22cde75b)
+
+running 25 tests
+test bounded_reject_channel_reports_saturation ... ok
+test fatal_component_exit_is_observable_by_process_owner ... ok
+test declared_required_core_degradation_is_terminal ... ok
+test live_component_can_report_degraded_health_without_terminating ... ok
+test independent_components_start_concurrently_within_a_topology_layer ... ok
+test degradation_propagates_capability_loss_to_dependents ... ok
+test kernel_owned_ports_are_operational_and_undeclared_access_is_denied ... ok
+test startup_and_shutdown_follow_dependency_order ... ok
+test topology_rejects_cycles_before_start ... ok
+test shutdown_stops_ingress_then_flushes_checkpoint_telemetry_and_egress ... ok
+test topology_rejects_mismatched_port_types ... ok
+test topology_rejects_duplicate_and_ambiguous_port_authority ... ok
+test topology_rejects_missing_dependencies_before_start ... ok
+test corrupt_capsule_fails_closed_during_shutdown ... ok
+test continuity_generation_advances_across_fresh_kernel_runs ... ok
+test proof_waits_for_all_items_instead_of_sleeping ... ok
+test shutdown_remains_responsive_during_restart_backoff ... ok
+test shutdown_deadline_aborts_non_cooperative_component ... ok
+test initial_readiness_degradation_suppresses_unavailable_dependents ... ok
+test channel_metrics_remain_safe_under_concurrent_pressure ... ok
+test restart_budget_resets_after_the_declared_time_window ... ok
+test initial_readiness_failure_uses_the_declared_restart_policy ... ok
+test restart_policy_rebuilds_failed_component ... ok
+test representative_topology_promotes_events_and_clock_authority ... ok
+test one_for_all_restarts_transitive_dependents ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/kernel_continuity_control.rs (adl-runtime-kernel/target/debug/deps/kernel_continuity_control-6fac1ac65b761dbc)
+
+running 35 tests
+test dual_open ... ok
+test caller_path_rejected ... ok
+test export_bounds ... ok
+test export_exact_retry ... ok
+test oversized_bundle ... ok
+test isolated_stage ... ok
+test crash_after_bundle_commit ... ok
+test opened_handle_replacement ... ok
+test corrupt_content ... ok
+test evidence_redaction ... ok
+test cancellation_no_partial ... ok
+test isolated_import_validate ... ok
+test discard_exact_retry ... ok
+test deadline_before_effect ... ok
+test guardian_initialization_live ... ok
+test participant_registry_complete ... ok
+test partial_quiesce_rollback ... ok
+test real_quiesce_checkpoint ... ok
+test signed_bundle_export ... ok
+test source_resume ... ok
+test public_surface_absent ... ok
+test symlink_path_rejected ... ok
+test restart_after_accept ... ok
+test wrong_manifest_signature ... ok
+test wrong_accepted_prefix ... ok
+test wrong_config ... ok
+test wrong_generation ... ok
+test source_resume_exact_retry ... ok
+test target_discard ... ok
+test validated_target_discard ... ok
+test wrong_predecessor ... ok
+test wrong_service_schema ... ok
+test wrong_service_set ... ok
+test wrong_topology ... ok
+test zero_residue ... ok
+
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.41s
+
+     Running tests/layer8_authority.rs (adl-runtime-kernel/target/debug/deps/layer8_authority-f9c31c5c032866ed)
+
+running 5 tests
+test layer8_signed_exchange_rejects_tamper_noncanonical_payloads_and_ack_substitution ... ok
+test layer8_identity_precheck_refusals_are_hash_chain_audited ... ok
+test layer8_authority_core_rejects_replay_and_requires_known_recipient ... ok
+test layer8_capability_policy_and_corrupt_audit_fail_closed ... ok
+test layer8_authority_core_rejects_empty_recipient_non_address_scopes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/live_continuity.rs (adl-runtime-kernel/target/debug/deps/live_continuity-1690476c0584992b)
+
+running 8 tests
+test live_snapshot_schema_is_stable ... ok
+test minimum_generation_refuses_rollback_or_missing_state ... ok
+test remote_shutdown_request_cannot_bypass_checkpoint ... ok
+test renamed_checkpoint_cannot_spoof_the_signed_generation ... ok
+test forged_manifest_is_refused ... ok
+test validly_signed_broken_predecessor_chain_is_refused ... ok
+test legacy_generation_can_upgrade_into_a_current_signed_lineage ... ok
+test signed_live_checkpoint_round_trips ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/memory_palace.rs (adl-runtime-kernel/target/debug/deps/memory_palace-13bd34465149e279)
+
+running 12 tests
+test normalized_obsmem_adapter_binds_trace_events_and_citation ... ok
+test stale_future_and_invalid_temporal_anchors_fail_closed ... ok
+test private_raw_and_unredacted_memory_never_enters_working_set ... ok
+test duplicate_records_and_citations_are_rejected ... ok
+test citation_path_hash_and_presence_fail_closed ... ok
+test secret_like_payloads_and_unknown_json_fields_fail_closed ... ok
+test identity_continuity_and_trace_substitution_fail_closed ... ok
+test bounded_selection_records_overflow_without_loading_it ... ok
+test canonical_topology_is_deterministic_and_native_semantic_output_is_contained ... ok
+test packet_validation_rejects_self_rehashed_privacy_and_topology_forgery ... ok
+test reference_identifier_privacy_and_canonical_packet_bounds_fail_closed ... ok
+test identifiers_secrets_and_normalized_room_collisions_fail_closed ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/observability.rs (adl-runtime-kernel/target/debug/deps/observability-e1f040bfc2be7dfc)
+
+running 36 tests
+test observability_terminate_vector_child_helper ... ok
+test runtime_observability::master_log_liveness_tests::sustained_pending_backlog_without_progress_triggers_restart ... ok
+test runtime_observability::master_log_liveness_tests::forward_progress_while_behind_does_not_trigger_restart ... ok
+test runtime_observability::master_log_liveness_tests::caught_up_master_log_clears_a_previous_stall_window ... ok
+test runtime_observability::vector_retry_backoff_tests::backoff_is_exponential_and_bounded ... ok
+test runtime_observability::vector_retry_backoff_tests::backoff_limit_never_shortens_the_configured_base ... ok
+test runtime_observability::vector_retry_backoff_tests::recovery_backoff_persists_across_health_polls_until_reset ... ok
+test runtime_observability::vector_retry_backoff_tests::interrupted_jsonl_tail_is_removed_without_touching_complete_records ... ok
+test master_log_auditor_scopes_to_run_window_and_structured_severity ... ok
+test master_log_auditor_accepts_wp12_clean_report_shape ... ok
+test master_log_auditor_rejects_bad_sequences_errors_and_missing_drain ... ok
+test master_log_auditor_accepts_complete_records_regardless_of_physical_order ... ok
+test master_log_auditor_accepts_exact_replay_and_rejects_conflicting_sequence_reuse ... ok
+test pinned_vector_validates_generated_s3_archive_config ... ok
+test pinned_vector_validates_generated_master_log_config ... ok
+test shell_installer_routes_native_windows_to_powershell_installer ... ok
+test runtime_vector_pipeline_exhausts_configured_startup_retries_truthfully ... ok
+test terminate_vector_child_reports_clean_for_cooperative_shutdown_signal ... ok
+test vector_config_declares_durable_master_otlp_and_bounded_buffers ... ok
+test vector_config_renders_windows_safe_forward_slashed_paths ... ok
+test vector_config_routes_redacted_runtime_health_to_cloudwatch_without_credentials ... ok
+test vector_config_s3_archive_uses_identity_partitioned_bounded_redacted_delivery ... ok
+test windows_vector_installer_contract_is_pinned_and_verified ... ok
+test runtime_vector_pipeline_defers_retry_when_restart_record_cannot_be_persisted ... ok
+test runtime_vector_pipeline_accepts_an_already_reaped_vector_during_cleanup ... ok
+test terminate_vector_child_reports_incomplete_after_bounded_force_kill ... ok
+test runtime_vector_pipeline_preserves_child_when_master_log_resumes_progress ... ok
+test runtime_vector_pipeline_recovers_uncheckpointed_crash_sequence_from_ingress ... ok
+test runtime_vector_pipeline_propagates_master_log_audit_persistence_failure ... ok
+test runtime_vector_pipeline_rotates_bounded_spool_before_startup ... ok
+test runtime_vector_pipeline_writes_auditable_master_log ... ok
+test runtime_vector_pipeline_recovers_in_place_when_vector_child_exits ... ok
+test runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation ... ok
+test runtime_vector_pipeline_recovers_sequence_checkpoint_on_restart ... ok
+test pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses ... ok
+test runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_progress ... ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.94s
+
+     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
+
+running 17 tests
+test operator_attention_quiet_mode_suppresses_non_urgent_noise ... ok
+test operator_attention_expiry_and_restart_preserve_receipts ... ok
+test operator_attention_rejects_spoofed_identity_and_unauthorized_urgency ... ok
+test operator_attention_groups_related_requests_without_new_rows ... ok
+test operator_attention_deduplicates_and_rate_limits_by_source ... ok
+test operator_attention_invalid_outcomes_do_not_mutate_request_state ... ok
+test operator_attention_restore_rejects_malformed_snapshot_state ... ok
+test operator_attention_outcomes_do_not_create_authority_approval ... ok
+test polis_identity_feed_is_required_in_v3_without_reinterpreting_legacy_schemas ... ok
+test acip_write_credential_is_distinct_from_observatory_read_credential ... ok
+test failed_acip_dispatch_releases_sequence_for_retry ... ok
+test observatory_websocket_rejects_public_agent_initiation_sender_impersonation ... ok
+test canonical_acip_websocket_rejects_replay_after_reconnect ... ok
+test observatory_websocket_allows_public_reads_and_requires_login_for_writes ... ok
+test observatory_websocket_revokes_an_authenticated_session_after_rotation ... ok
+test observatory_websocket_rejects_a_token_after_rotation ... ok
+test observatory_websocket_rejects_bad_auth_and_client_data ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.07s
+
+     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)
+
+running 9 tests
+test runtime_serves_machine_and_human_readable_openapi_docs ... ok
+test canonical_name_is_required_by_agent_roster_openapi_contract ... ok
+test agent_continuity_and_backing_model_are_required_by_observatory_contract ... ok
+test runtime_core_wss_documents_real_bidirectional_acip_boundary ... ok
+test polis_identity_openapi_contract_is_required_and_redacted ... ok
+test observatory_wss_documents_real_bidirectional_frame_boundary ... ok
+test openapi_operations_are_deterministic_client_generation_ready ... ok
+test openapi_paths_match_current_runtime_v3_axum_route_inventory ... ok
+test runtime_and_observatory_openapi_contracts_are_valid_and_disjoint ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/parity.rs (adl-runtime-kernel/target/debug/deps/parity-a8a05ca73bfb83dd)
+
+running 32 tests
+test footprint_comparison_reports_reduction_without_inventing_timings ... ok
+test delegation_resources_proof_resolves_only_delegation_blocker ... ok
+test continuity_replay_recovery_proof_resolves_only_continuity_blocker ... ok
+test adaptive_learning_dag_proof_resolves_only_learning_blocker ... ok
+test governance_freedom_gate_aee_proof_resolves_only_governance_blocker ... ok
+test acip_a2a_cloud_network_proof_resolves_final_live_black_box_blocker ... ok
+test live_v2_v3_process_backends_execute_one_shared_fixture ... ignored, requires explicit ADL_RUNTIME_V2_BIN and ADL_RUNTIME_V3_BIN
+test harness_bounds_and_generation_binding_fail_closed ... ok
+test kernel_lifecycle_proof_resolves_only_kernel_lifecycle_blocker ... ok
+test empty_fixture_sets_cannot_prove_cutover_readiness ... ok
+test final_cutover_decision_keeps_v2_default_after_live_parity_clear ... ok
+test live_black_box_parity_classification_covers_matrix_without_counting_blockers_as_passed ... ok
+test divergences_are_explicit_and_defects_block_cutover ... ok
+test matching_backend_failures_do_not_prove_equivalence ... ok
+test replay_order_changes_are_defects_not_normalization_noise ... ok
+test observatory_consumes_runtime_v3_only_by_explicit_opt_in ... ok
+test stale_relation_labels_are_defects_instead_of_self_certifying ... ok
+test service_contracts_configuration_proof_resolves_only_service_contracts_blocker ... ok
+test release_proof_gate_closes_without_authorizing_default_cutover ... ok
+test shared_fixtures_compare_canonically_and_in_stable_order ... ok
+test v3_normalizer_rejects_substituted_state_identity ... ok
+test retained_report_covers_matrix_and_refuses_cutover ... ok
+test topology_backpressure_proof_resolves_only_topology_backpressure_blocker ... ok
+test compatibility_facade_forwards_and_rollback_changes_the_live_backend ... ok
+test compatibility_facade_rejects_uncontracted_reports ... ok
+test compatibility_facade_defaults_to_v2_and_rolls_back ... ok
+test every_retained_module_closes_to_a_declared_capability ... ok
+test process_backend_rejects_unsupported_input_before_spawn_and_caps_output ... ok
+test divergent_live_backend_is_classified_as_a_defect ... ok
+test process_backend_kills_descendants_rejects_unsafe_ids_and_cleans_artifacts ... ok
+test process_backend_bounds_fixture_input_and_avoids_duplex_pipe_deadlock ... ok
+test process_backend_timeout_and_oversized_file_leave_no_artifacts ... ok
+
+test result: ok. 31 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.22s
+
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 27 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test feature_dispositions_require_live_kernel_or_accepted_boundary ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test checkpoint_rejects_semantic_tampering_after_valid_encoding ... ok
+test curiosity_and_theory_of_mind_remain_non_authoritative ... ok
+test affect_control_rejects_adversarial_signal_authority ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test governed_cognition_cannot_bypass_shutdown_or_freedom_gate ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test adaptive_learning_consumes_exact_one_shot_mutation_authority ... ok
+test bounded_loop_resume_preserves_budgets_and_effect_identity ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+test live_graph_executes_through_guardian_canonical_ingress ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.12s
+
+     Running tests/private_state.rs (adl-runtime-kernel/target/debug/deps/private_state-da9d7f84de5ca180)
+
+running 7 tests
+test discontinuous_lineage_is_rejected ... ok
+test equivocated_same_lineage_position_is_rejected ... ok
+test signed_private_state_projection_hides_raw_payload_and_authorizes_redacted_view ... ok
+test forged_lineage_and_signature_are_rejected ... ok
+test skipped_sequence_with_current_head_is_rejected ... ok
+test unauthorized_reads_raw_export_and_sanctuary_policy_fail_closed ... ok
+test projection_rejects_unaccepted_and_forged_records ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/production_acip_wss.rs (adl-runtime-kernel/target/debug/deps/production_acip_wss-ebc2ffe8b5d9e472)
+
+running 2 tests
+test canonical_ingress_refuses_before_kernel_port_binding ... ok
+test production_binary_acip_wss_produces_observed_receipt ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.44s
+
+     Running tests/production_birthday.rs (adl-runtime-kernel/target/debug/deps/production_birthday-e1c3b0e67965655c)
+
+running 7 tests
+test commits_once_and_restores_exact_receipt ... ok
+test reports_committed_receipt_when_post_commit_cleanup_is_pending ... ok
+test two_independent_stores_commit_one_lineage ... ok
+test recovery_removes_witness_residue_after_partial_cleanup ... ok
+test rejects_denial_and_cross_binding_drift ... ok
+test rejects_changed_transaction_after_commit ... ok
+test recovers_each_durable_interruption_boundary ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.68s
+
+     Running tests/protocol_adapters.rs (adl-runtime-kernel/target/debug/deps/protocol_adapters-3a88c9d9a1d91692)
+
+running 13 tests
+test protocol_env_reports_client_key_surface_for_invalid_mtls_key_material ... ok
+test endpoint_validation_rejects_zero_timeout_and_missing_capability ... ok
+test protocol_frame_freshness_is_mac_bound_and_peer_verifiable ... ok
+test cloud_bridge_capability_and_mtls_boundary_are_explicit ... ok
+test provider_dispatch_uses_real_authenticated_transport_and_caches_replay_result ... ok
+test protocol_mtls_rejects_unknown_server_ca_and_wrong_client_ca ... ok
+test acip_and_a2a_exchange_authenticated_frames ... ok
+test oversized_non_newline_response_fails_closed ... ok
+test production_builder_returns_no_partial_executors_when_protocol_config_is_missing ... ok
+test response_tamper_and_concurrent_replay_are_rejected ... ok
+test unauthorized_malformed_timeout_retry_and_shutdown_fail_closed ... ok
+test timeout_after_write_preserves_unknown_outcome_and_blocks_duplicate_side_effects ... ok
+test stale_protocol_frame_is_rejected_without_local_replay_state ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/reasoning.rs (adl-runtime-kernel/target/debug/deps/reasoning-78fc8f2a443b2730)
+
+running 13 tests
+test graph_execution_uses_edges_and_merge_structure ... ok
+test graph_validation_is_bounded_canonical_and_insertion_independent ... ok
+test loop_converges_or_exhausts_at_exact_bounds ... ok
+test malformed_resume_state_cannot_overflow ... ok
+test resume_recomputes_semantics_and_rejects_rehashed_forgery ... ok
+test mutation_evidence_detects_tampering ... ok
+test mutation_gate_atomically_publishes_one_shot_grants_and_rolls_back ... ok
+test mutation_gate_rejects_expiry_forgery_operation_drift_and_invalid_graph ... ok
+test mutation_expiry_is_exclusive_and_evidence_requires_signature ... ok
+test reasoning_services_form_a_runnable_typed_topology ... ok
+test loop_enforces_live_cancellation_deadline_and_bounds ... ok
+test mutation_state_and_one_shot_evidence_survive_checkpoint_restore ... ok
+test adaptation_store_round_trips_through_checkpoint_coordinator ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/shepherd.rs (adl-runtime-kernel/target/debug/deps/shepherd-b78461e9260d456e)
+
+running 28 tests
+test invalid_configuration_is_rejected_before_execution ... ok
+test normal_parent_exit_kills_observed_descendants_and_bounds_pipe_drain ... ok
+test forged_real_runner_binding_is_rejected ... ok
+test governed_request_invokes_local_process_and_classifies_test_evidence ... ok
+test concurrent_request_is_rejected_without_exceeding_capacity ... ok
+test real_runner_bytes_must_match_the_operator_pinned_digest ... ok
+test correlated_failure_and_replay_retention_are_truthful ... ok
+test resident_shepherd_lifetime_recovery_retries_and_recovers ... ok
+test every_authority_mutation_fails_before_process_invocation ... ok
+test completed_idempotency_replay_is_retained_and_does_not_reinvoke_provider ... ok
+test shepherd_provider_routes_governed_reasoning_to_configured_model ... ok
+test resident_shepherd_model_health_gates_inference_and_recovers ... ok
+test shepherd_provider_routes_through_private_openai_compatible_gateway ... ok
+test dropped_execution_future_kills_observed_descendants ... ok
+test cancellation_is_bounded_and_releases_capacity ... ok
+test malformed_oversized_and_wrong_runtime_requests_fail_before_invocation ... ok
+test cancellation_kills_observed_descendant_that_escaped_the_process_group ... ok
+test configured_runner_executes_captured_bytes_after_source_replacement ... ok
+test pre_cancelled_request_never_invokes_provider ... ok
+test process_tree_memory_pressure_is_terminated_and_capacity_recovers ... ok
+test provider_environment_is_cleared_and_allow_listed ... ok
+test provider_failure_redacts_prompt_and_stderr ... ok
+test real_classification_requires_exact_nonce_bound_runner_attestation ... ok
+test runner_inherits_declared_resource_limits ... ok
+test stdin_backpressure_is_covered_by_timeout ... ok
+test timeout_kills_observed_descendants ... ok
+test timeout_releases_capacity_and_runtime_remains_usable ... ok
+test unavailable_and_excess_output_are_truthful ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.96s
+
+     Running tests/time.rs (adl-runtime-kernel/target/debug/deps/time-ce298205d1bb9ac0)
+
+running 10 tests
+test clock_authority_is_initially_degraded ... ok
+test excessive_positive_or_negative_offset_remains_degraded ... ok
+test sampling_error_remains_degraded ... ok
+test excessive_round_trip_remains_degraded ... ok
+test in_flight_cancellation_remains_degraded ... ok
+test bounded_success_is_authoritative ... ok
+test host_system_clock_is_an_immediately_qualified_portable_source ... ok
+test blocking_client_adapter_produces_a_qualifiable_sample ... ok
+test trusted_time_refuses_degraded_state_and_advances_monotonically ... ok
+test timeout_remains_degraded ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Doc-tests adl_runtime_kernel
+
+running 10 tests
+test src/capability_envelope.rs - capability_envelope::validate_capability_envelope_with_continuity (line 343) - compile fail ... ok
+test src/cognitive_profile.rs - cognitive_profile::build_governed_cognitive_profile_with_continuity (line 377) - compile fail ... ok
+test src/cognitive_profile.rs - cognitive_profile::validate_governed_cognitive_profile_with_continuity (line 571) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::build_capability_envelope_with_continuity (line 275) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisioner (line 137) - compile fail ... ok
+test src/birth_witness.rs - birth_witness::BirthWitnessPolicy (line 73) - compile fail ... ok
+test src/birthday_continuity.rs - birthday_continuity::BirthdayContinuityAuthorityPolicy (line 27) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisioner (line 142) - compile fail ... ok
+test src/birthday_identity.rs - birthday_identity::VerifiedBirthdayEvidence (line 98) - compile fail ... ok
+test src/cognitive_profile.rs - cognitive_profile::CognitiveAuthorityPolicy (line 36) - compile fail ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.85s

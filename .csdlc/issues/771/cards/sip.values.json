@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 771,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+    "slug": "v3f-exact-head-proof",
+    "version": "v0.92.1",
+    "generation": 41
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Resolve the four current V3-F review-freshness gaps with independent exact-head review and full detached locked suite proof.",
+      "required_outcome": "V3-F-ac-1 through V3-F-ac-4 bind the same immutable reviewed source blobs and passing suite receipt; stale substitutions fail.",
+      "declared_scope": [
+        "csdlc-v3/src/commands/terminal.rs",
+        "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current",
+        ".csdlc/evidence/771",
+        "csdlc-v3/src/adapters/mod.rs",
+        "csdlc-v3/src/commands/remote/mod.rs",
+        "csdlc-v3/src/commands/remote/tests.rs",
+        "docs/templates/prompts/1.0.5",
+        "docs/templates/prompts/current.json",
+        "csdlc-v3/tests/operational_cli_commands.rs",
+        "csdlc-v3/tests/local_commands.rs"
+      ],
+      "authority_boundary": [
+        "Native v3 default; operator authorized typed v2 for #771 after defect #776."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Keep main inspection-only. Work beneath FastWork policy parent. Preserve other sessions."
+      ]
+    }
+  }
+}

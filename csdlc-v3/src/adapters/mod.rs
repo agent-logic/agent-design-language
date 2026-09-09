@@ -231,6 +231,14 @@ pub enum ProcessStatus {
 }
 
 pub trait ProcessAdapter {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &CommandInvocation,
+    ) -> Result<(), AdapterError> {
+        let _ = invocation;
+        Ok(())
+    }
+
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput;
 }
 
@@ -255,6 +263,21 @@ impl<R> RealProcessAdapter<R> {
 }
 
 impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &CommandInvocation,
+    ) -> Result<(), AdapterError> {
+        let Some(name) = invocation.child_credential_name() else {
+            return Ok(());
+        };
+        let mut captured = CapturedChildCredentials::default();
+        self.resolver.inject_child_credential(name, &mut captured)?;
+        captured
+            .take_single(name)
+            .map(|_| ())
+            .ok_or(AdapterError::CredentialResolutionFailed)
+    }
+
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput {
         let mut captured = CapturedChildCredentials::default();
         let credential = match invocation.child_credential_name() {
@@ -333,26 +356,83 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
     }
 }
 
+/// Git branch syntax plus the existing typed-argv safety contract. Apply before
+/// persisting a PR-create intent so every accepted head can be read back.
+pub(crate) fn supported_pr_branch(value: &str) -> bool {
+    !value.is_empty()
+        && value != "@"
+        && !value.starts_with('-')
+        && !value.ends_with('.')
+        && !value.contains("..")
+        && !value.contains("@{")
+        && !value
+            .chars()
+            .any(|c| c <= ' ' || c == '\u{7f}' || "~^:?*[\\".contains(c))
+        && value
+            .split('/')
+            .all(|part| !part.is_empty() && !part.starts_with('.') && !part.ends_with(".lock"))
+        && CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            ["pull-requests-by-head", "owner/repo", value],
+        )
+        .is_ok()
+}
+
+fn encode_query_value(value: &str) -> String {
+    value
+        .bytes()
+        .map(|byte| {
+            if byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'~') {
+                char::from(byte).to_string()
+            } else {
+                format!("%{byte:02X}")
+            }
+        })
+        .collect()
+}
+
 fn github_read_only_curl_invocation(
     invocation: &CommandInvocation,
 ) -> Result<CommandInvocation, ProcessOutput> {
-    let [operation, repository, number] = invocation.argv() else {
-        return Err(ProcessOutput {
+    let (operation, repository, number, page) = match invocation.argv() {
+        [operation, repository, number] => (operation, repository, number, None),
+        [operation, repository, number, page] if operation == "issue-comments" => {
+            (operation, repository, number, Some(page))
+        }
+        _ => return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
-            stderr: "github read-only adapter requires operation, repository, and number".into(),
+            stderr: "github read-only adapter requires operation, repository, number, and optional comment page".into(),
             truncated: false,
-        });
+        }),
+    };
+    let page = match page {
+        None => 1,
+        Some(page) => match page.parse::<u64>() {
+            Ok(page @ 1..=100) => page,
+            _ => {
+                return Err(ProcessOutput {
+                    status: ProcessStatus::Exit(2),
+                    stdout: String::new(),
+                    stderr: "github comment page must be within 1 through 100".into(),
+                    truncated: false,
+                })
+            }
+        },
     };
     if !matches!(
         operation.as_str(),
-        "pull-request" | "issue" | "issue-comments" | "issues-by-marker"
-    ) || (operation != "issues-by-marker" && number.parse::<u64>().is_err())
+        "pull-request" | "pull-requests-by-head" | "issue" | "issue-comments" | "issues-by-marker"
+    ) || (!matches!(
+        operation.as_str(),
+        "issues-by-marker" | "pull-requests-by-head"
+    ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
             && (number.is_empty()
                 || number
                     .chars()
                     .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
+        || (operation == "pull-requests-by-head" && !supported_pr_branch(number))
     {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
@@ -385,6 +465,38 @@ fn github_read_only_curl_invocation(
             truncated: false,
         });
     }
+    if operation == "pull-requests-by-head" {
+        let Some((owner, _)) = repository.split_once('/') else {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "github read-only adapter rejected unsafe request".into(),
+                truncated: false,
+            });
+        };
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--location".to_owned(),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "--header".to_owned(),
+                "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+                format!(
+                    "https://api.github.com/repos/{repository}/pulls?head={}&state=all&per_page=100", encode_query_value(&format!("{owner}:{number}"))
+                ),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "github read-only adapter rejected unsafe request".into(),
+            truncated: false,
+        });
+    }
     let resource = match operation.as_str() {
         "pull-request" => "pulls",
         "issue" => "issues",
@@ -403,7 +515,7 @@ fn github_read_only_curl_invocation(
             "--header".to_owned(),
             "X-GitHub-Api-Version: 2022-11-28".to_owned(),
             if operation == "issue-comments" {
-                format!("https://api.github.com/repos/{repository}/{resource}/{number}/comments?per_page=100")
+                format!("https://api.github.com/repos/{repository}/{resource}/{number}/comments?per_page=100&page={page}")
             } else {
                 format!("https://api.github.com/repos/{repository}/{resource}/{number}")
             },
@@ -534,6 +646,7 @@ fn run_process(
 ) -> ProcessOutput {
     let mut command = Command::new(&invocation.program);
     command.args(invocation.argv());
+    apply_minimal_child_environment(&mut command);
     if let Some(path) = curl_config {
         command.arg("--config").arg(path);
     }
@@ -548,6 +661,25 @@ fn run_process(
             stderr: format!("process execution failed: {error}"),
             truncated: false,
         },
+    }
+}
+
+/// Child processes run without ambient parent credentials or shell startup
+/// state. `PATH` is retained only as the explicit executable lookup trust
+/// boundary, and `LC_ALL=C` fixes locale-sensitive output. `HOME`, proxy
+/// variables, CA overrides, and provider configuration are intentionally not
+/// inherited; GitHub credentials are passed through the typed child-credential
+/// scope and private curl config.
+fn apply_minimal_child_environment(command: &mut Command) {
+    command.env_clear();
+    command.env(
+        "PATH",
+        std::env::var("PATH").unwrap_or_else(|_| "/usr/bin:/bin:/usr/sbin:/sbin".to_owned()),
+    );
+    command.env("LC_ALL", "C");
+    #[cfg(windows)]
+    if let Ok(system_root) = std::env::var("SystemRoot") {
+        command.env("SystemRoot", system_root);
     }
 }
 
@@ -770,4 +902,148 @@ fn is_sensitive_key(key: &str) -> bool {
     ]
     .iter()
     .any(|needle| key.contains(needle))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // PVF: required deterministic small local argv contract; no credentials/network.
+    #[test]
+    fn comment_page_argv_is_bounded_and_reaches_curl_url() {
+        for page in ["1", "2", "100"] {
+            let request = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [
+                    "issue-comments",
+                    "agent-logic/agent-design-language",
+                    "771",
+                    page,
+                ],
+            )
+            .unwrap();
+            let curl = github_read_only_curl_invocation(&request).unwrap();
+            assert_eq!(curl.argv().last().unwrap(), &format!("https://api.github.com/repos/agent-logic/agent-design-language/issues/771/comments?per_page=100&page={page}"));
+        }
+        for page in ["0", "101", "bad"] {
+            let request = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [
+                    "issue-comments",
+                    "agent-logic/agent-design-language",
+                    "771",
+                    page,
+                ],
+            )
+            .unwrap();
+            assert!(github_read_only_curl_invocation(&request).is_err());
+        }
+    }
+
+    #[test]
+    fn github_read_only_adapter_supports_pull_request_head_reconciliation() {
+        let invocation = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            [
+                "pull-requests-by-head",
+                "agent-logic/agent-design-language",
+                "codex/517-tail-01-quality-gate",
+            ],
+        )
+        .expect("safe typed invocation");
+
+        let curl = github_read_only_curl_invocation(&invocation).expect("supported readback");
+        assert_eq!(curl.program, "curl");
+        assert_eq!(
+            curl.argv().last().map(String::as_str),
+            Some(
+                "https://api.github.com/repos/agent-logic/agent-design-language/pulls?head=agent-logic%3Acodex%2F517-tail-01-quality-gate&state=all&per_page=100"
+            )
+        );
+    }
+
+    // PVF: deterministic local CPU, real URL construction; no network.
+    #[test]
+    fn branch_query_preserves_special_characters() {
+        for (head, encoded) in [
+            ("codex/fix+retry", "codex%2Ffix%2Bretry"),
+            ("codex/a&state=closed", "codex%2Fa%26state%3Dclosed"),
+            ("codex/é#%", "codex%2F%C3%A9%23%25"),
+        ] {
+            assert!(supported_pr_branch(head));
+            let input = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                ["pull-requests-by-head", "owner/repo", head],
+            )
+            .unwrap();
+            let output = github_read_only_curl_invocation(&input).unwrap();
+            assert_eq!(output.argv().last().unwrap(), &format!("https://api.github.com/repos/owner/repo/pulls?head=owner%3A{encoded}&state=all&per_page=100"));
+        }
+        for invalid in [
+            "", "@", "-bad", "a..b", "a@{b", "a//b", "a/.b", "a.lock", "a?b", "a b", "a;echo",
+        ] {
+            assert!(!supported_pr_branch(invalid), "{invalid}");
+        }
+    }
+
+    #[test]
+    fn github_read_only_adapter_rejects_unsafe_pull_request_head() {
+        let invocation = CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            [
+                "pull-requests-by-head",
+                "agent-logic/agent-design-language",
+                "codex/unsafe?state=open",
+            ],
+        )
+        .expect("typed invocation construction");
+
+        let rejected = github_read_only_curl_invocation(&invocation).expect_err("unsafe head");
+        assert_eq!(rejected.status, ProcessStatus::Exit(2));
+    }
+
+    // PVF: deterministic local subprocess environment contract; no network.
+    #[test]
+    fn unscoped_child_process_does_not_inherit_parent_credentials_or_home() {
+        unsafe {
+            std::env::set_var("ADL_TEST_PARENT_CREDENTIAL_751", "must-not-leak");
+            std::env::set_var("HTTPS_PROXY", "http://credential.example.invalid");
+            std::env::set_var("HOME", "/tmp/adl-home-must-not-leak");
+        }
+        let invocation = CommandInvocation::new("/usr/bin/env", std::iter::empty::<&str>())
+            .expect("env command");
+        let output = run_process(&invocation, None, None, 1024 * 1024);
+        unsafe {
+            std::env::remove_var("ADL_TEST_PARENT_CREDENTIAL_751");
+            std::env::remove_var("HTTPS_PROXY");
+            std::env::remove_var("HOME");
+        }
+        assert_eq!(output.status, ProcessStatus::Exit(0));
+        assert!(!output.stdout.contains("ADL_TEST_PARENT_CREDENTIAL_751="));
+        assert!(!output.stdout.contains("must-not-leak"));
+        assert!(!output.stdout.contains("HTTPS_PROXY="));
+        assert!(!output.stdout.contains("HOME=/tmp/adl-home-must-not-leak"));
+        assert!(output.stdout.contains("LC_ALL=C"));
+        assert!(output.stdout.contains("PATH="));
+    }
+
+    // PVF: deterministic local subprocess credential-scope/redaction contract; no network.
+    #[test]
+    fn scoped_child_process_receives_only_selected_credential_and_minimal_environment() {
+        let invocation = CommandInvocation::new("/usr/bin/env", std::iter::empty::<&str>())
+            .expect("env command")
+            .with_child_credential("GITHUB_TOKEN")
+            .expect("safe credential name");
+        let mut adapter =
+            RealProcessAdapter::new(StaticCredentialResolver::new("GITHUB_TOKEN", "secret-751"));
+        let output = adapter.run(invocation);
+        assert_eq!(output.status, ProcessStatus::Exit(0));
+        assert!(output.stdout.contains("GITHUB_TOKEN=[REDACTED]"));
+        assert!(!output.stdout.contains("secret-751"));
+        assert!(!output.stderr.contains("secret-751"));
+        assert!(!output.stdout.contains("HOME="));
+        assert!(!output.stdout.contains("HTTPS_PROXY="));
+        assert!(output.stdout.contains("LC_ALL=C"));
+        assert!(output.stdout.contains("PATH="));
+    }
 }

@@ -492,6 +492,7 @@ impl FencingStore {
     }
 
     #[cfg(test)]
+    #[allow(dead_code)]
     pub(crate) fn seed_floor_for_snapshot_test(
         &mut self,
         floor: FenceReceipt,

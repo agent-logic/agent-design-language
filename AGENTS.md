@@ -25,12 +25,12 @@ Issue #505 was the sole V3-F transition-decision lane. PR #591 is merged and
 The pre-merge v2 authority boundary remains immutable historical evidence, not
 current routing guidance.
 
-Before changing the default lifecycle route, operators and agents must be
-notified through `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and the typed
-C-SDLC v2 GitHub issue owner. The notification is a warning and coordination
-surface, not cutover approval. If v3 parity, canary rollback, publication,
-finish, cleanup, observation, or approval proof is incomplete, keep using v2
-and do not retire v2 guidance.
+Current routing is documented in `docs/csdlc-v3/CURRENT_AUTHORITY.md`.
+The original `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` is immutable
+pre-cutover notification evidence, not current authority. Future authority
+changes require a new operator-reviewed decision and notification. Missing or
+stale current proof suspends authority; it does not authorize automatic v2
+fallback. V2 remains restricted to explicit rollback or transition exceptions.
 
 This file is the repository-local operating contract for coding agents working
 in ADL.
@@ -70,9 +70,10 @@ These rules are mandatory for ADL issue work.
      repo-native GitHub commands may also discover the operator-approved
      default token file at `$HOME/keys/github.token`; explicit environment
      sources still take precedence.
-   - Covered C-SDLC GitHub route owners: issue actions =
-     `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication =
-     `csdlc-publish`; terminal delivery = `csdlc-finish`.
+   - Covered native routes under `.adl/bin/native-v3/csdlc`: issue actions =
+     `github-issue`; PR state = `github-pr`; publication = `publish`; terminal
+     delivery = `finish`. Standalone `csdlc-*` v2 owners apply only to explicitly
+     authorized rollback or bounded transition remediation.
    - Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for
      covered lifecycle writes except for the audited break-glass transport
      below. A missing binary, unfamiliar error, timeout, or operator preference
@@ -139,15 +140,15 @@ These rules are mandatory for ADL issue work.
    - The current prompt-template registry is `docs/templates/prompts/current.json`;
      use it rather than hard-coding a template version unless an issue
      explicitly requires a compatibility path.
-   - For new or fully re-rendered cards, use the independent v2
-     `csdlc-edit` and `csdlc-validate` typed routes over direct Markdown/state
+   - For new or fully re-rendered cards, use the native v3
+     `edit` and `validate` typed routes (retained v2 owners only for an
+     explicitly authorized rollback or transition task) over direct Markdown/state
      edits. The v1 prompt-template wrappers are historical and sunset.
-   - For supported field-level card updates, send a typed `csdlc-edit apply`
-     request, then run `csdlc-validate`. Do not patch rendered Markdown when a
+   - For supported field-level card updates, send a native v3 `edit` request, then run `validate` (use the retained
+     v2 owners only for an explicitly authorized exception). Do not patch rendered Markdown when a
      declared semantic field edit is sufficient.
-   - When starting from an existing rendered card, use the v2 markdown.rs AST
-     importer through a typed edit request and validate before accepting a
-     rewrite.
+   - When starting from an existing rendered card, use the active typed editor and AST/schema validation before accepting
+     a rewrite; retained v2 AST import belongs only to an authorized exception.
    - Treat the tracked structure schemas under
      `docs/templates/prompts/<version>/schemas/` as the template-shape
      authority. If a rendered card fails structure validation, fix the values or
@@ -156,14 +157,18 @@ These rules are mandatory for ADL issue work.
 3. Always work in a bound worktree on a specific branch.
    - Never do tracked issue work on `main`.
    - Every new ADL issue worktree must be created beneath
-     `/Volumes/FastWork/adl-worktrees`. The typed v3 bind path enforces the
+     the approved FastWork ADL worktree root. The typed v3 bind path enforces the
      tracked `.adl/worktree-policy.json` contract and fails closed for any
      other parent.
    - Use the native v3 `csdlc bind` flow to bind execution context.
-   - Keep the primary checkout clean on `main` for inspection, bootstrap,
-     doctor/readiness, and issue-mode binding only. After binding, tracked
-     implementation, janitor, finish, and repair edits happen in the issue
-     worktree.
+   - Keep the primary working tree clean on `main`; do not write tracked or
+     untracked issue artifacts there. Preparation and terminal receipts use
+     resolved Git metadata (`.git/csdlc-v3/local` in the ordinary primary
+     checkout). Native bind materializes cards only in the registered issue
+     worktree. Implementation, janitor and repair edits happen there.
+   - Do not restore archived bootstrap artifacts into primary. Preserve legacy
+     state and use a reviewed, issue-scoped recovery; cleanup is not permission
+     to recreate primary residue. Never hide residue with ignore rules.
    - Before issue work, check root `git status --short --branch` and
      `git worktree list --porcelain`. If the primary checkout is on a feature
      branch or has tracked changes, stop and route the recovery through
@@ -196,7 +201,7 @@ These rules are mandatory for ADL issue work.
      authority from live GitHub state and must not create a second closeout PR
      or rewrite tracked cards after merge.
 6. Always finish and clean up truthfully.
-   - Use `csdlc-finish` for terminal authority, then run `csdlc-clean cleanup`
+   - Use native `finish` for terminal authority, then run native `clean`
      separately for the exact registered worktree.
 
 ## Repository-Specific Working Style
@@ -241,7 +246,8 @@ These rules are mandatory for ADL issue work.
   execution starts. If they are generic, stale, or incomplete, route them through
   the appropriate editor skill before running the issue.
 - The retained v0.91.6 rescue-sprint contract is historical evidence. Current
-  work follows this file and the typed C-SDLC v2 operator skills.
+  work follows this file and the native v3 command contracts; retained v2
+  operator skills apply only to explicitly authorized exceptions.
 - Treat `SPP` as the operative issue-local plan. If real execution diverges
   materially from the tracked plan, update the `SPP` before continuing.
 - Treat `SRP` and `SOR` as truth surfaces. `SRP` records review prompts,
@@ -283,7 +289,8 @@ For a normal tracked issue:
    registry
 5. make sure `SIP`, `STP`, and `SPP` are issue-specific and design-time ready
 6. follow the conductor-selected lifecycle step
-7. if the issue is ready for execution binding, use `csdlc-bind --root . --request <request.json>`
+7. if the issue is ready for execution binding, use the native v3 `bind` route with its declared request, registry and
+   registration inputs
 8. call `create_goal` for the bound tracked issue session before implementation
    starts
 9. make the bounded change in the issue worktree, never on `main`
@@ -293,8 +300,8 @@ For a normal tracked issue:
    `docs/tooling/HARDLINKED_RUST_DEPENDENCY_CACHE.md`
 11. run the smallest meaningful validation for the touched surface
 12. run a pre-PR subagent review and fix findings
-13. run `csdlc-review` before `csdlc-publish`; publication must fail closed without current review truth
-14. use `update_goal` for truthful terminal session state after `csdlc-finish`,
+13. run native `review` before `publish`; publication must fail closed without current review truth
+14. use `update_goal` for truthful terminal session state after native `finish`,
    then run cleanup separately after merge/closure
 
 ## Validation Expectations

@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 21,
+  "expected_digest": "77f16b2a8f3d20fffa3c48d80082b04cd91372a6c407c0df80e1eb1f2cacb9d4",
+  "actor": "codex:planning-6",
+  "reason": "User requested all Cargo manifests in the documentation review; extend the static audit without changing package versions or release gates.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "in_progress"
+  }
+}

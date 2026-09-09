@@ -201,7 +201,22 @@ fn operator_docs_name_isolated_staging_bootstrap() {
     for text in [onboarding, readme] {
         assert!(text.contains("primary checkout"));
         assert!(text.contains("inspection-only"));
-        assert!(text.contains("isolated"));
-        assert!(text.contains("staging checkout"));
+    }
+    assert!(readme.contains("isolated"));
+    assert!(readme.contains("staging checkout"));
+    if onboarding.contains("C-SDLC v3 is operational after V3-F/#505") {
+        for contract in [
+            "Missing or stale proof suspends authority.",
+            "V2 is retained only for an explicitly authorized rollback or bounded transition remediation.",
+            "Native C-SDLC preparation and binding use `.adl/bin/native-v3/csdlc`",
+            "`issue` and `bind` with their declared typed inputs",
+            "registered FastWork issue worktree",
+        ] {
+            assert!(onboarding.contains(contract), "onboarding missing contract: {contract}");
+        }
+    } else {
+        // Retained documentation baseline before the #518 native-route update.
+        assert!(onboarding.contains("isolated"));
+        assert!(onboarding.contains("staging checkout"));
     }
 }

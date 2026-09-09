@@ -4,11 +4,10 @@
 
 This document defines the canonical ADL issue-card lifecycle.
 
-Issue #505 / V3-F is the pending tooling changeover decision. Until that
-operator-reviewed cutover is approved, merged, and terminally reconciled,
-C-SDLC v2 remains the live lifecycle authority; this lifecycle document
-describes card truth and must not be read as v3 operational authority before
-cutover.
+C-SDLC v3 is operational after #505 / PR #591. The authenticated canonical
+selector and reconciliation receipt must validate before operational authority
+is available; missing or stale proof suspends authority. V2 is restricted to
+explicitly authorized rollback or bounded transition remediation.
 
 The supported issue lifecycle is:
 
@@ -125,8 +124,8 @@ Example target-state summary:
 
 ```text
 Read the source issue, update bounded docs, run focused markdown/path checks,
-obtain pre-PR review, then publish through the typed C-SDLC v2 publication
-owner while v2 remains live authority.
+obtain pre-PR review, then publish through the native C-SDLC v3 route
+with authenticated authority and exact-head review.
 ```
 
 ### VPP: Validation Planning Prompt

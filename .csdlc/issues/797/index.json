@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 797,
+  "phase": "bound",
+  "generation": 6,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/797-issue-metadata",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-797-issue-metadata",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "ef34e0ef499326dc484983018766d3ec285d15d84fe8ef1bf2fa3a0917d6f6cf"
+}

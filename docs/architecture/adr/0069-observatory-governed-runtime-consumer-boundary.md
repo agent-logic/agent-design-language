@@ -46,3 +46,29 @@ authority is claimed.
 ## Approval Boundary
 
 WP-18A landed executable proof and human review are required before Proposed.
+
+## v0.92.1 Disposition
+
+Status remains **Deferred**. The accepted consumer/authority separation in
+[ADR 0054](../../adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md)
+and observability boundary in
+[ADR 0048](../../adr/0048-runtime-observability-and-otel-boundary.md) continue to
+apply. This update does not promote the dual-client completion decision.
+
+The [milestone decisions](../../milestones/v0.92.1/DECISIONS_v0.92.1.md) require
+authentic Runtime data and prohibit invented, mocked, or status-only authority
+from release proof. The [OBS-B record](../../../.csdlc/issues/512/cards/sor.md)
+reports HTML polis isolation, origin/provenance display, conversation/A2A
+activity, recovery, accessibility, and security tests. Those are concrete
+implementation inputs; HTML evidence alone does not discharge this record's
+real HTML-and-Unity, authenticated, redacted, replay-aware consumption gate.
+
+The [release-tail report](../../milestones/v0.92.1/evidence/integration/gap_analysis_report.md)
+also retains review/proof gaps. Its recorded BLOCKED decision cannot be
+converted into Observatory acceptance by writing an ADR. This curation did not
+perform a new live dual-client proof or adjudicate those findings.
+
+Promotion requires the original WP-18A proof and human review, with exact
+revision, both client identities, authentic runtime readback, redaction,
+replay/recovery behavior, and explicit absence of presentation-owned execution
+authority. The original alternatives, non-claims, and approval boundary remain.

@@ -1,0 +1,5 @@
+flowchart LR
+ Registry --> Versions[Approved coherent 1.0.3 or 1.0.4]
+ Versions --> Native[Native compact 1.0.0 shape]
+ Native --> Accept
+ Registry --> Reject[Reject incompatible authority before writes]

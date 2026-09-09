@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 754,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][tooling] Restore v2 registry compatibility after template 1.0.4",
+    "slug": "registry-104-compatibility",
+    "version": "v0.92.2",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Validate reviewed registry fix, preserve fail-closed tests, publish separate tooling PR. Correct stale guidance/canonical-authority test for completed cutover, preserving isolated pre-cutover fixture coverage.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Implement explicit compatible registry identities and negative regressions.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Validate full standalone checks and independent review; publish separate repair.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/registry.rs",
+        "csdlc-v2/tests/gate9.rs",
+        "csdlc-v2/tests/gate10a.rs",
+        "csdlc-v2/tests/gate_github_route_policy.rs"
+      ],
+      "invariants": [
+        "Native compact1.0.0 unchanged",
+        "Reject incompatible authority before writes"
+      ],
+      "risks": [
+        "Unsupported future registry must remain rejected."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Identity or native shape drift",
+        "Failed required checks"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/754/design.md",
+      "design_digest": "557ab4fb1539c0b89deb53c4993f92cec4aaa683cef4a2b025b71d56bdc764aa",
+      "diagram_ref": ".csdlc/prepared/issues/754/diagram.mmd",
+      "diagram_digest": "212b8f8ec158c68d18a3d80c00f4c31d7cb1f9e1f69dc923b1ee685bee158ae7"
+    }
+  }
+}

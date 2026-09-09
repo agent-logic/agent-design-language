@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 68
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one exact-revision documentation-review and external-handoff packet; document checks are evidence inputs.",
+      "deliverables": [
+        "docs/milestones/v0.92.1/evidence/release/tail-02",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every canonical v0.92.1 document is inventoried and agrees with current authority",
+        "AC-2: Links, paths, issue references, and claims are resolvable and source-grounded",
+        "AC-3: Residual risks, deferred scope, and non-claims are explicit",
+        "AC-4: The review and handoff bind one exact candidate revision"
+      ],
+      "dependencies": [
+        "Issue 517 reviewed PR 748 merged as e734438b5fdba099ed607e0604254430ddd7d091; dependency satisfied.",
+        "Blocked release acceptance is an explicit review finding, not a blocker to producing the documentation handoff per operator clarification."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#518",
+        "agent-logic/agent-design-language#517",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-02",
+        "docs/milestones/v0.92.1/**",
+        "docs/planning/ADL_FEATURE_LIST.md"
+      ],
+      "non_goals": [
+        "Product implementation",
+        "Publication",
+        "Release ceremony",
+        "Inventing evidence for unresolved claims"
+      ]
+    }
+  }
+}

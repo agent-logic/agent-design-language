@@ -1,5 +1,6 @@
 // PVF: lane=exact-child-tests; proof=certificate purpose/lifecycle positive and negative behavior;
 // deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
+#[allow(dead_code)]
 #[path = "../src/distributed/certificates.rs"]
 mod certificates;
 

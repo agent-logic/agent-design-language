@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "mode": "--linkage",
+  "documents": 791,
+  "artifacts": 14,
+  "negative_fixtures": 0,
+  "final_acceptance": true,
+  "release_approval": false
+}

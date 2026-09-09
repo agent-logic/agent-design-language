@@ -1,10 +1,7 @@
 use csdlc_v3::{
     adapters::{CommandInvocation, ProcessAdapter, ProcessOutput, ProcessStatus},
     commands::{
-        proof::{
-            classify_route, ProofManifest, ProofRouteRequest, ProofRouteStatus, ShadowCommandSpec,
-            ShadowGeneration, ShadowNormalizationContract,
-        },
+        proof::{ShadowCommandSpec, ShadowGeneration, ShadowNormalizationContract},
         terminal::{
             prepare_terminal_cutover_with_github_observation,
             prepare_terminal_finish_with_github_observation, prepare_terminal_route,
@@ -218,6 +215,47 @@ fn cleanup_denies_nonexistent_parent_traversal_escape() {
         .findings
         .iter()
         .any(|finding| finding.code == "path_not_normalized"));
+}
+
+#[test]
+fn cleanup_denies_existing_relative_candidate_before_canonicalization() {
+    let fixture = fixture_root("cleanup_existing_relative_candidate");
+    let approved = fixture.join("approved");
+    let primary = fixture.join("primary");
+    let candidate = approved.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    fs::create_dir_all(&approved).expect("approved parent");
+    init_repo(&primary);
+    let head = git_stdout(&primary, &["rev-parse", "HEAD"]);
+    let receipt = write_terminal_receipt(&primary, 630, 641, &head);
+    git(&primary, &["worktree", "add", candidate.to_str().unwrap()]);
+
+    let relative_candidate = candidate
+        .strip_prefix(std::env::current_dir().expect("current dir"))
+        .expect("candidate should be relative to repository cwd")
+        .to_path_buf();
+    let plan = cleanup_plan(
+        &approved,
+        &primary,
+        &relative_candidate,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "path_not_normalized"));
+
+    let absolute = cleanup_plan(&approved, &primary, &candidate, false, Some(receipt), None);
+    let eligible = prepare_terminal_route("clean", &absolute).expect("absolute clean plan");
+    assert_eq!(eligible.status, TerminalRouteStatus::Ready);
+    assert!(matches!(
+        eligible.cleanup,
+        Some(CleanupDecision::Live { .. }) | Some(CleanupDecision::Removable { .. })
+    ));
 }
 
 #[test]
@@ -614,6 +652,8 @@ fn cutover_and_rollback_share_one_mutation_lock() {
         .any(|finding| finding.code == "cutover_mutation_locked"));
     assert!(!root.join(".adl/bin/csdlc").exists());
 
+    // Match the production guard: release the advisory lock explicitly before retry.
+    FileExt::unlock(&holder).unwrap();
     drop(holder);
     let retry = execute_cutover_request(&request).expect("released advisory lock permits retry");
     assert_eq!(retry.status, TerminalRouteStatus::Ready, "{retry:#?}");
@@ -986,7 +1026,7 @@ fn write_terminal_receipt(
         issue,
         pull_request,
         head_sha,
-        ".csdlc/evidence/630/terminal-receipt.json",
+        ".git/csdlc-v3/local/evidence/630/terminal-receipt.json",
     )
 }
 
@@ -1015,6 +1055,7 @@ fn write_terminal_receipt_at(
 }
 
 #[test]
+// PVF: small deterministic offline tooling gate; authenticated adapter fixture.
 fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     let root = fixture_root("post_cutover_finish");
     init_repo(&root);
@@ -1025,10 +1066,11 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
+    let primary_status = git_stdout(&root, &["status", "--porcelain", "--untracked-files=all"]);
     for _ in 0..2 {
         let mut adapter = FakeGithubAdapter::new([
             github_pr_json(641, &head, true, "Closes #630"),
@@ -1039,16 +1081,40 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
         assert_eq!(plan.status, TerminalRouteStatus::Ready);
         assert!(plan.operational_authority);
     }
-    let state: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".csdlc/v3/issues/630/terminal.json")).unwrap())
-            .unwrap();
+    let state: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json")).unwrap(),
+    )
+    .unwrap();
     assert_eq!(state["schema"], "csdlc.v3.terminal_state.v1");
     assert_eq!(state["disposition"], "closed_out");
     let receipt: DurableTerminalReceipt = serde_json::from_slice(
-        &fs::read(root.join(".csdlc/evidence/630/terminal-receipt.json")).unwrap(),
+        &fs::read(root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json")).unwrap(),
     )
     .unwrap();
     assert!(receipt.state_digest.is_some());
+    assert_eq!(
+        git_stdout(&root, &["status", "--porcelain", "--untracked-files=all"]),
+        primary_status
+    );
+    request.terminal_state.as_mut().unwrap().state_path =
+        ".csdlc/v3/issues/630/terminal.json".into();
+    request.terminal_state.as_mut().unwrap().receipt_path =
+        ".csdlc/evidence/630/terminal-receipt.json".into();
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(641, &head, true, "Closes #630"),
+        github_issue_json(630, "closed"),
+    ]);
+    let denied = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert!(denied
+        .findings
+        .iter()
+        .any(|f| f.code == "terminal_output_path_not_canonical"));
+    assert!(!root.join(".csdlc/v3/issues/630").exists());
+    assert!(!root.join(".csdlc/evidence/630").exists());
+    assert_eq!(
+        git_stdout(&root, &["status", "--porcelain", "--untracked-files=all"]),
+        primary_status
+    );
 }
 
 #[test]
@@ -1060,8 +1126,8 @@ fn pre_cutover_finish_denies_terminal_persistence() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root,
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
     let mut adapter = FakeGithubAdapter::new([
@@ -1267,8 +1333,19 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     git(root, &["init", "-b", "main"]);
     git(root, &["config", "user.email", "test@example.invalid"]);
     git(root, &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(root.join("fixture-worktrees")).expect("fixture worktree parent");
+    fs::create_dir_all(root.join(".adl")).expect("fixture adl parent");
+    fs::write(
+        root.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.worktree_policy.v1",
+            "required_parent": root.join("fixture-worktrees")
+        }))
+        .unwrap(),
+    )
+    .expect("fixture worktree policy");
     fs::write(root.join("fixture-base"), "native v3 authority\n").unwrap();
-    git(root, &["add", "fixture-base"]);
+    git(root, &["add", "fixture-base", ".adl/worktree-policy.json"]);
     git(root, &["commit", "-m", "authority fixture"]);
     fs::create_dir_all(root.join("build")).expect("build directory");
     fs::copy(env!("CARGO_BIN_EXE_csdlc"), root.join("build/csdlc"))
@@ -1362,10 +1439,26 @@ fn write_proof_command_fixture(
         .expect("proof source parent");
     fs::write(root.join(&source_ref), &source).expect("proof source");
     let digest = blake3::hash(&source).to_hex().to_string();
-    let repository_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .parent()
-        .expect("repository root")
-        .to_path_buf();
+    let registry_ref = ".csdlc/evidence/505/readiness-source/doctor-current-registry.json";
+    fs::write(
+        root.join(registry_ref),
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.csdlc.prompt_template_registry.v1",
+            "csdlc_prompt_template_set": "1.0.4",
+            "semver": "1.0.4",
+            "status": "active",
+            "templates": {
+                "sip": {"path": "fixture/templates/sip.md"},
+                "stp": {"path": "fixture/templates/stp.md"},
+                "spp": {"path": "fixture/templates/spp.md"},
+                "vpp": {"path": "fixture/templates/vpp.md"},
+                "srp": {"path": "fixture/templates/srp.md"},
+                "sor": {"path": "fixture/templates/sor.md"}
+            }
+        }))
+        .unwrap(),
+    )
+    .expect("fixture prompt registry");
     let request_ref =
         format!(".csdlc/evidence/505/readiness-source/{manifest_id}-doctor-request.json");
     fs::write(
@@ -1375,8 +1468,8 @@ fn write_proof_command_fixture(
             "title": "C-SDLC v3 authority transition",
             "repository": "agent-logic/agent-design-language",
             "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": repository_root,
-            "registry_version": "1.0.3",
+            "worktree": "fixture-worktrees/issue-505",
+            "registry_version": "1.0.4",
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
             "card_updates": {}
         }))
@@ -1388,7 +1481,7 @@ fn write_proof_command_fixture(
         root.join(registrations_ref),
         serde_json::to_vec(&serde_json::json!([{
             "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": repository_root,
+            "worktree": "fixture-worktrees/issue-505",
             "primary": false
         }]))
         .unwrap(),
@@ -1400,14 +1493,11 @@ fn write_proof_command_fixture(
         "--request".into(),
         request_ref.clone(),
         "--registry".into(),
-        repository_root
-            .join("docs/templates/prompts/current.json")
-            .to_string_lossy()
-            .into_owned(),
+        registry_ref.into(),
         "--registrations".into(),
         registrations_ref.into(),
         "--repo-root".into(),
-        repository_root.to_string_lossy().into_owned(),
+        ".".into(),
     ];
     let command = ShadowCommandSpec {
         generation: ShadowGeneration::V3,
@@ -1418,34 +1508,34 @@ fn write_proof_command_fixture(
         side_effect_boundary_refs: vec![source_ref.clone()],
         provider_side_effects: false,
     };
-    let report = classify_route(
-        "proof",
-        ProofRouteRequest {
-            issue: 505,
-            repository: "agent-logic/agent-design-language".into(),
-            cutover_issue: Some(505),
-            operator_approval: None,
-            evidence_root: Some(root.to_string_lossy().into_owned()),
-            proof: Some(ProofManifest {
-                manifest_id: manifest_id.into(),
-                lane: lane.into(),
-                deterministic: true,
-                evidence_ref: source_ref,
-                evidence_digest: digest.clone(),
-                observed_digest: digest,
-                stale: false,
-                normalization,
-                command,
-            }),
-            shadow: None,
-            soak: None,
-            install: None,
-        },
-        Some(root),
-    );
-    assert_eq!(report.status, ProofRouteStatus::Ready, "{report:#?}");
-    let path = report.evidence_refs.first().expect("proof receipt path");
-    let bytes = fs::read(root.join(path)).expect("proof receipt");
+    // Model an immutable pre-cutover receipt for the terminal verifier. The
+    // operational proof route now rejects unbound construction fixtures; do
+    // not reopen that production mutation path just to manufacture test data.
+    // Actual command execution and write placement are covered independently
+    // by proof_worktree_binding, using authenticated linked-worktree context.
+    let path = format!(".csdlc/evidence/505/v3-proof/{manifest_id}.json");
+    let request_digest = blake3::hash(&fs::read(root.join(&command.request_ref)).unwrap())
+        .to_hex()
+        .to_string();
+    let binary_digest = blake3::hash(&fs::read(root.join(&command.binary_ref)).unwrap())
+        .to_hex()
+        .to_string();
+    let receipt = serde_json::json!({
+        "schema": "csdlc.v3.proof_receipt.v2", "issue": 505,
+        "repository": "agent-logic/agent-design-language", "manifest_id": manifest_id,
+        "lane": lane, "deterministic": true,
+        "source_evidence_ref": source_ref, "source_evidence_digest": digest,
+        "normalization": normalization, "command": command,
+        "request_evidence": {"ref": command.request_ref, "digest": request_digest},
+        "binary": {"identity": command.binary_ref, "digest": binary_digest},
+        "exit": {"code": 0, "success": true},
+        "normalized_output": {"command": "doctor", "issue": 505, "phase": "bound"},
+        "side_effect_boundary": [{"changed": false}], "provider_side_effects": false
+    });
+    fs::create_dir_all(root.join(".csdlc/evidence/505/v3-proof")).unwrap();
+    let bytes = serde_json::to_vec(&receipt).unwrap();
+    fs::write(root.join(&path), &bytes).unwrap();
+
     serde_json::json!({
         "path": path,
         "digest": blake3::hash(&bytes).to_hex().to_string(),
@@ -1727,4 +1817,102 @@ fn create_symlink(target: &Path, link: &Path) {
 #[cfg(windows)]
 fn create_symlink(target: &Path, link: &Path) {
     std::os::windows::fs::symlink_dir(target, link).expect("symlink");
+}
+
+// Append this focused regression to the exact-source terminal_cleanup_cutover_commands.rs test harness.
+// PVF: deterministic local Git fixture, small CPU/disk, required terminal conflict regression.
+#[test]
+fn conflicting_terminal_receipt_preserves_state() {
+    let root =
+        std::env::temp_dir().join(format!("terminal-receipt-conflict-{}", std::process::id()));
+    init_repo(&root);
+    write_generation_selector(&root, "v3");
+    let head = git_stdout(&root, &["rev-parse", "HEAD"]);
+    let mut request = base_request();
+    request.expected_head_sha = Some(head.clone());
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    request.terminal_state = Some(TerminalStateWriteRequest {
+        repository_root: root.clone(),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
+        expected_state_digest: None,
+    });
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(641, &head, true, "Closes #630"),
+        github_issue_json(630, "closed"),
+    ]);
+    let first = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(
+        first.status,
+        TerminalRouteStatus::Ready,
+        "{:?}",
+        first.findings
+    );
+    let state_path = root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json");
+    let receipt_path = root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json");
+    let before_state = fs::read(&state_path).unwrap();
+    let before_receipt = fs::read(&receipt_path).unwrap();
+    request
+        .terminal_state
+        .as_mut()
+        .unwrap()
+        .expected_state_digest = Some(blake3::hash(&before_state).to_hex().to_string());
+    // Model a second authenticated merged PR for the same closed issue.
+    request.pull_request = Some(642);
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(642, &head, true, "Closes #630"),
+        github_issue_json(630, "closed"),
+    ]);
+    let second = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(second.status, TerminalRouteStatus::Blocked);
+    assert!(second
+        .findings
+        .iter()
+        .any(|f| f.code == "terminal_receipt_conflict"));
+    assert_eq!(fs::read(&receipt_path).unwrap(), before_receipt);
+    let after: serde_json::Value = serde_json::from_slice(&fs::read(&state_path).unwrap()).unwrap();
+    assert_eq!(after["pull_request"], 641);
+    assert_eq!(
+        fs::read(&state_path).unwrap(),
+        before_state,
+        "blocked finish must preserve state preimage"
+    );
+}
+
+// PVF: deterministic local Git fixture; small CPU/disk; required receipt-denial proof.
+#[test]
+fn non_regular_terminal_receipt_preserves_absent_state() {
+    let root =
+        std::env::temp_dir().join(format!("terminal-receipt-directory-{}", std::process::id()));
+    init_repo(&root);
+    write_generation_selector(&root, "v3");
+    let head = git_stdout(&root, &["rev-parse", "HEAD"]);
+    let state_path = root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json");
+    let receipt_path = root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json");
+    fs::create_dir_all(&receipt_path).unwrap();
+    let mut request = base_request();
+    request.expected_head_sha = Some(head.clone());
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    request.terminal_state = Some(TerminalStateWriteRequest {
+        repository_root: root.clone(),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
+        expected_state_digest: None,
+    });
+    let mut adapter = FakeGithubAdapter::new([
+        github_pr_json(641, &head, true, "Closes #630"),
+        github_issue_json(630, "closed"),
+    ]);
+    let result = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(result.status, TerminalRouteStatus::Blocked);
+    assert!(
+        result
+            .findings
+            .iter()
+            .any(|f| f.code == "terminal_receipt_not_regular_file"),
+        "{:?}",
+        result.findings
+    );
+    assert!(!state_path.exists());
+    assert!(receipt_path.is_dir());
 }

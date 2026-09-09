@@ -1,52 +1,90 @@
 # Milestone Checklist — v0.92.1
 
-## Opening
+## Current release disposition
 
-- [ ] #432 reviewed, merged, and ancestral
-- [ ] Reviewed planning package merged; closed #431 retained as provenance only
-- [ ] Operator declared v0.92.1 ready to open
-- [ ] Milestone operator created the number-free WP-01 opening conductor
-- [ ] No tracked milestone dependency on local untracked paths
-- [ ] #316 planning reconciliation creates no execution issues or implementation claims
-- [ ] AWS-A through AWS-G deliver the seven ordered AWS move-in results; existing #122 remains separately owned
-- [ ] GCP-A through GCP-E deliver the five ordered GCP move-in results before DRT-D
-- [ ] XCL-01 converts the exact #194/#268 CloudFormation behavior into reviewed AWS/GCP Terraform implementations with rollback retained
-- [ ] RUST-01 completes one behavior-preserving resilience owner-boundary refactor without a LoC quota
+**Release decision: blocked.** This is a reviewable projection of retained delivery and proof at `11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f`, observed 2026-09-09. This completes the documentation refresh required by #767, including landed remediation dispositions; it grants no release authorization.
 
-## Execution
+`implemented` means implementation or a governed delivery disposition exists; `proved` applies only to the explicitly named observed scope. `blocked` identifies outstanding proof, remediation or authorization. `deferred` records an explicit scope deferral; `not_applicable` identifies a requirement outside the governed scope. These states are not interchangeable.
 
-- [ ] Corporate and IP lane reviewed and merged
-- [ ] C-SDLC v3 lane reviewed and merged
-- [ ] Distributed multi-agent Runtime lane reviewed and merged
-- [ ] #345 AWS GPU Shepherd hardening reviewed, merged, and consumed where required
-- [ ] Podcast lane reviewed and merged
-- [ ] Axum configuration hot reload lane reviewed and merged
-- [ ] Observatory redesign lane reviewed and merged
-- [ ] #251 TLS 1.2, #122 public exposure, and #84 Unity Observatory proof reviewed and merged
-- [ ] DEC-01 Runtime v2/v3 ownership, compatibility, migration, and rollback proof reviewed and merged
-- [ ] PROV-A shared inference-profile/Ollama materialization reviewed and merged
-- [ ] PROV-B non-authoritative local-model shadow comparison reviewed and merged
-- [ ] DRT-D GCP six-resident replay, cost, and zero-resource cleanup reviewed and merged or explicitly operator-gated
-- [ ] Individual issue closeout remains asynchronous and non-gating
+The [evidence map](evidence/release/current-status/EVIDENCE_MAP.md) identifies all 35 execution work packages, existing podcast ownership, exact source revisions, retained proof classifications, current limits and debt owners. [Machine-readable status](evidence/release/current-status/status.json) binds source hashes and a timestamped issue observation. The final #767 refresh is recorded by #799. Closed #761 delivered complete path classification and sampled-review support; closed #764 delivered a denominator and routing proposal, not proof completion. Its 198 remediation rows remain unproved, alongside 29 preserved dispositions and three separately accounted review-freshness resolutions. Remaining candidate review and proof are owned by open #522 and the named open child issues; no unissued child work is treated as complete. A blocked proof column does **not** mean implementation failed or that historical accounting is incomplete.
 
-## Integration
+<!-- release-status:start -->
+| Lane ID | Lane | Delivery | Proof | Demo | Release | Evidence |
+|---|---|---|---|---|---|---|
+| REPO | Repository and milestone opening | implemented | blocked | blocked | blocked | [REPO](evidence/release/current-status/EVIDENCE_MAP.md#repo) |
+| CORP | Corporate and IP | implemented | blocked | blocked | blocked | [CORP](evidence/release/current-status/EVIDENCE_MAP.md#corp) |
+| CSDLC | C-SDLC v3 | implemented | blocked | blocked | blocked | [CSDLC](evidence/release/current-status/EVIDENCE_MAP.md#csdlc) |
+| DRT | Distributed multi-agent Runtime | implemented | blocked | blocked | blocked | [DRT](evidence/release/current-status/EVIDENCE_MAP.md#drt) |
+| POD | Podcast | implemented | blocked | proved | blocked | [POD](evidence/release/current-status/EVIDENCE_MAP.md#pod) |
+| HOT | Axum configuration hot reload | implemented | blocked | blocked | blocked | [HOT](evidence/release/current-status/EVIDENCE_MAP.md#hot) |
+| OBS | Observatory redesign | implemented | blocked | blocked | blocked | [OBS](evidence/release/current-status/EVIDENCE_MAP.md#obs) |
+| DEC | Runtime v2/v3 decoupling | implemented | blocked | blocked | blocked | [DEC](evidence/release/current-status/EVIDENCE_MAP.md#dec) |
+| PROV | Provider inference profiles | implemented | blocked | blocked | blocked | [PROV](evidence/release/current-status/EVIDENCE_MAP.md#prov) |
+| GCP-DRT | GCP qualification sidecar | implemented | blocked | blocked | blocked | [GCP-DRT](evidence/release/current-status/EVIDENCE_MAP.md#gcp-drt) |
+| AWS | AWS account move-in | implemented | blocked | blocked | blocked | [AWS](evidence/release/current-status/EVIDENCE_MAP.md#aws) |
+| GCP | GCP account move-in | implemented | blocked | blocked | blocked | [GCP](evidence/release/current-status/EVIDENCE_MAP.md#gcp) |
+| XCL | Cross-cloud Terraform conversion | implemented | blocked | blocked | blocked | [XCL](evidence/release/current-status/EVIDENCE_MAP.md#xcl) |
+| RUST | Rust resilience refactoring | implemented | blocked | blocked | blocked | [RUST](evidence/release/current-status/EVIDENCE_MAP.md#rust) |
+<!-- release-status:end -->
 
-- [ ] Cross-lane dependency and collision review complete
-- [ ] Runtime v4 compatibility disposition recorded
-- [ ] Proof coverage, release notes, and residual risks reviewed
-- [ ] v0.92.2 CodeFriend Beta 1 handoff accepted
-- [ ] #188 is used only for convergence/quality, #190 only for successor planning, and #189 only for ceremony
-- [ ] #457 remains historical provider-profile provenance rather than active execution authority
+The Podcast demo `proved` cell covers retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks only; actual browser/player playback remains unproved; it excludes directory submission and public-launch authorization.
 
-## Canonical release tail
+### Explicit scope dispositions
 
-- [ ] TAIL-01 quality gate
-- [ ] TAIL-02 docs and release-truth pass
-- [ ] TAIL-03 publication finalization
-- [ ] TAIL-04 internal review
-- [ ] TAIL-05 external review
-- [ ] TAIL-06 remediation and release preflight
-- [ ] TAIL-07 next-milestone planning
-- [ ] TAIL-08 next-milestone closeout planning
-- [ ] TAIL-09 next-milestone planning review
-- [ ] TAIL-10 release ceremony
+- **UNITY: deferred** — Operator-deferred backlog; excluded from OBS-B release gate. [#84](https://github.com/agent-logic/agent-design-language/issues/84).
+- **TLS: deferred** — Operator-deferred backlog; excluded from OBS-B release gate. [#251](https://github.com/agent-logic/agent-design-language/issues/251).
+- **DRT-D-269: not_applicable** — DRT-D does not execute #269 or implicitly qualify Runtime v4. [#269](https://github.com/agent-logic/agent-design-language/issues/269).
+- **PROVIDER-PROVENANCE: not_applicable** — Historical provider-profile provenance, not active execution authority. [#457](https://github.com/agent-logic/agent-design-language/issues/457).
+
+Historical #517 / PR #752 accounting covers all 245 non-proving rows and five exception groups with zero unowned accounting rows. [The retained accounting boundary](evidence/release/tail-01/reconciliation/ownership.json) does not convert those rows into current product proof or authorize release.
+
+Reproduce this projection with `python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py`. This checks documentation consistency and retained evidence bytes, not live cloud/product behavior.
+
+## Current milestone obligations
+
+Each original obligation has an explicit disposition below. `implemented` records delivered work while naming remaining acceptance debt; it never means an entire combined implementation/review obligation passed. The [original checklist](https://github.com/agent-logic/agent-design-language/blob/11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f/docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md) remains immutable history.
+
+<!-- checklist:start -->
+| ID | Original obligation | Current disposition | Evidence and limits | Remaining owner |
+|---|---|---|---|---|
+| C01 | #432 reviewed, merged, and ancestral | proved | Historical #432 review and merge are established by PR441 and its terminal receipt; merge a213902a63c284c12dd724655860a6fad013180a is ancestral to the projection source. This does not re-prove current repository invariants. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md) | None |
+| C02 | Reviewed planning package merged; closed #431 retained as provenance only | proved | Planning PR472 merged at 5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5, ancestral to the projection source. The retained #316 review records no findings at de8e2fc004145b91d015de5a1dc941656b5fd5ec; #431 remains provenance. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md) | None |
+| C03 | Operator declared v0.92.1 ready to open | blocked | No explicit operator opening declaration was located. The #480 creation receipt establishes creation, not the separate declaration. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C04 | Milestone operator created the number-free WP-01 opening conductor | proved | Conductor #480 and its 45-child execution wave are recorded by the reconciled creation receipt. This proves creation, not all child acceptance. [Evidence](evidence/wp-01/final-creation-receipt.json) | None |
+| C05 | No tracked milestone dependency on local untracked paths | blocked | Historical #316 planning portability checks passed. Current milestone dependency portability has not been re-proved; historical checks do not establish current absence of local-path dependencies. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C06 | #316 planning reconciliation creates no execution issues or implementation claims | proved | The retained #316 planning audit explicitly records planning_only scope and no remote issue creation or routing mutation; this is planning reconciliation, not execution completion. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md) | None |
+| C07 | AWS-A through AWS-G deliver the seven ordered AWS move-in results; existing #122 remains separately owned | implemented | Seven AWS phase delivery packages exist; candidate review/proof and SSH recovery remain #522/#770 work. #122 public exposure is a separate scope boundary, also tracked in C18. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#aws) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C08 | GCP-A through GCP-E deliver the five ordered GCP move-in results before DRT-D | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#gcp) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C09 | XCL-01 converts the exact #194/#268 CloudFormation behavior into reviewed AWS/GCP Terraform implementations with rollback retained | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#xcl) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C10 | RUST-01 completes one behavior-preserving resilience owner-boundary refactor without a LoC quota | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#rust) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C11 | Corporate and IP lane reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#corp) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C12 | C-SDLC v3 lane reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#csdlc) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C13 | Distributed multi-agent Runtime lane reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#drt) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C14 | #345 AWS GPU Shepherd hardening reviewed, merged, and consumed where required | blocked | Required consumption proof remains distinct from issue closure; review with Runtime candidate. [Evidence](https://github.com/agent-logic/agent-design-language/issues/345) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C15 | Podcast lane reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#pod) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C16 | Axum configuration hot reload lane reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#hot) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C17 | Observatory redesign lane reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#obs) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C18 | #122 public-exposure proof reviewed against its owned scope | blocked | Closed #122 retains the public-exposure scope boundary. Current acceptance must be checked against that exact scope under #522. [Evidence](https://github.com/agent-logic/agent-design-language/issues/122) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C19 | #84 Unity and #251 TLS 1.2 explicitly recorded as deferred backlog; neither claimed delivered nor required for OBS-B/#512 | deferred | Explicit operator deferral of #84 and #251; neither is delivered nor an OBS-B gate. [Evidence](WBS_v0.92.1.md) | None |
+| C20 | DEC-01 Runtime v2/v3 ownership, compatibility, migration, and rollback proof reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#dec) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C21 | PROV-A shared inference-profile/Ollama materialization reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#prov) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C22 | PROV-B non-authoritative local-model shadow comparison reviewed and merged | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#prov) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C23 | DRT-D GCP six-resident replay, cost, and zero-resource cleanup reviewed and merged or explicitly operator-gated | implemented | Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#gcp-drt) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C24 | Individual issue closeout remains asynchronous and non-gating | proved | Asynchronous closeout is the declared workflow; individual closure is not product proof. [Evidence](WBS_v0.92.1.md) | None |
+| C25 | Cross-lane dependency and collision review complete | implemented | Historical content resolution is recorded; candidate-wide review refresh remains #522 scope. [Evidence](evidence/release/tail-01/reconciliation/current-exceptions.json) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C26 | Runtime v4 compatibility disposition recorded | blocked | DRT-D excludes #269 execution, but that does not settle the broader Runtime v4 compatibility disposition. #522 must retain the explicit compatibility decision. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md#dec) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C27 | Proof coverage, release notes, and residual risks reviewed | implemented | The final source and issue-state refresh is implemented in #799. Independent reconstruction and focused validation are required before publication; product proof and release authorization remain separate. [Evidence](evidence/release/current-status/EVIDENCE_MAP.md) | [#799](https://github.com/agent-logic/agent-design-language/issues/799) |
+| C28 | v0.92.2 CodeFriend Beta 1 handoff accepted | blocked | Planning #523 is closed; handoff acceptance and successor review remain distinct #524/#525 work. [Evidence](https://github.com/agent-logic/agent-design-language/issues/523) | [#525](https://github.com/agent-logic/agent-design-language/issues/525) |
+| C29 | #188 is used only for convergence/quality, #190 only for successor planning, and #189 only for ceremony | proved | Retained stage ownership explicitly maps #188 to quality, #190 to successor planning, #189 to ceremony. [Evidence](WBS_v0.92.1.md) | None |
+| C30 | #457 remains historical provider-profile provenance rather than active execution authority | not_applicable | Historical provenance; no active execution authority. [Evidence](WBS_v0.92.1.md) | None |
+| C31 | TAIL-01 quality gate | implemented | Quality-gate work and historical accounting delivered; release decision remains blocked. [Evidence](evidence/release/tail-01/reconciliation/ownership.json) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C32 | TAIL-02 docs and release-truth pass | implemented | Documentation projection #767 and reproduction repair #768 are closed; #799 completes the final source and ownership refresh. Remaining product acceptance belongs to #522. [Evidence](evidence/release/tail-02/final-validation.json) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C33 | TAIL-03 publication finalization | implemented | Publication candidate finalized; downstream security/publication checks remain #769. [Evidence](evidence/release/tail-03/candidate.json) | [#769](https://github.com/agent-logic/agent-design-language/issues/769) |
+| C34 | TAIL-04 internal review | implemented | Internal review produced the accepted finding D520-DOC-001 recorded in #767. #520 remains open; a performed review is not release acceptance. [Evidence](https://github.com/agent-logic/agent-design-language/issues/767) | [#520](https://github.com/agent-logic/agent-design-language/issues/520) |
+| C35 | TAIL-05 external review | blocked | Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition. [Evidence](https://github.com/agent-logic/agent-design-language/issues/521) | [#521](https://github.com/agent-logic/agent-design-language/issues/521) |
+| C36 | TAIL-06 remediation and release preflight | blocked | Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition. [Evidence](https://github.com/agent-logic/agent-design-language/issues/522) | [#522](https://github.com/agent-logic/agent-design-language/issues/522) |
+| C37 | TAIL-07 next-milestone planning | implemented | Next-milestone planning issue #523 closed; successor closeout/review remain #524/#525. [Evidence](https://github.com/agent-logic/agent-design-language/issues/523) | [#525](https://github.com/agent-logic/agent-design-language/issues/525) |
+| C38 | TAIL-08 next-milestone closeout planning | blocked | Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition. [Evidence](https://github.com/agent-logic/agent-design-language/issues/524) | [#524](https://github.com/agent-logic/agent-design-language/issues/524) |
+| C39 | TAIL-09 next-milestone planning review | blocked | Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition. [Evidence](https://github.com/agent-logic/agent-design-language/issues/525) | [#525](https://github.com/agent-logic/agent-design-language/issues/525) |
+| C40 | TAIL-10 release ceremony | blocked | Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition. [Evidence](https://github.com/agent-logic/agent-design-language/issues/526) | [#526](https://github.com/agent-logic/agent-design-language/issues/526) |
+<!-- checklist:end -->

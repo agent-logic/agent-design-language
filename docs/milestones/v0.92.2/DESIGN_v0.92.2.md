@@ -29,3 +29,7 @@ Independent tracks may proceed in parallel after the milestone-opening package. 
 ## Failure Posture
 
 Malformed inputs, provider failures, redaction failures, unsupported artifact versions, partial perspective results, and renderer failures must produce explicit incomplete/non-proving states. The last valid retained evidence remains readable; no failed run may be presented as a successful review.
+
+## Adopted interfaces
+
+[Adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) owns the tracked Beta boundary, shared finding/run contract, review isolation and implementation decision gates. CF-EVIDENCE must deliver that versioned contract and executable consumer fixtures before review, longitudinal memory or publication implementations start. The ignored TBD corpus supplies historical rationale, not a required runtime or clean-checkout planning input.

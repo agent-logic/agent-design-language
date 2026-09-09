@@ -1,0 +1,100 @@
+{
+  "source_sha": "8a597a5cb9d27a575f27ea7041b516608b162e36",
+  "reviewer": "codex:/root/review_771_routes",
+  "independent": true,
+  "completed_at": "2026-09-09T18:25:09.894411+00:00",
+  "scope": {
+    "csdlc-v3/AGENTS.md": "cd15f9aab8dc62a109e7565fb5c27ff65f4bc89f",
+    "csdlc-v3/Cargo.lock": "6daacebde9aef9cc0fe98432460c63e9e36c3020",
+    "csdlc-v3/Cargo.toml": "94e2d6ef857baa372ff755e916cb00777873a2a8",
+    "csdlc-v3/README.md": "a0def725828326b2ef372c8513ec36ca6b6fe9db",
+    "csdlc-v3/src/adapters/mod.rs": "b28cc5454e4db5586b5c9068b5bfdf4bdde3563c",
+    "csdlc-v3/src/application/mod.rs": "17786ec61fab53284f0f2500a16afcd4cd46efa3",
+    "csdlc-v3/src/commands/mod.rs": "4646ac0dbc62dd3deb7b22cd06938c23c9482d47",
+    "csdlc-v3/src/commands/proof.rs": "d930bf5138f20973e2ed4754c34989cd0dcd348c",
+    "csdlc-v3/src/commands/remote/mod.rs": "3b81013734d0523b27142fd1f7668da475781052",
+    "csdlc-v3/src/commands/remote/tests.rs": "2d57fe4017c1022c17a17ac3eed88f99e77cc060",
+    "csdlc-v3/src/commands/sprint.rs": "43555ef045b8e4a50f377229f4b4dd21dc143b46",
+    "csdlc-v3/src/lib.rs": "b97797e7ed838295346eb75383a62ea1f885a673",
+    "csdlc-v3/src/lifecycle/mod.rs": "f4734f7726717fc9c022bdfe938e6d4cefd07025",
+    "csdlc-v3/src/main.rs": "88406ba44ca5efabb88d9ead7179dd9189ecad4d",
+    "csdlc-v3/src/publication/mod.rs": "9e4ed519326ac256df797638af0d7e2fef767e28",
+    "csdlc-v3/src/repository/mod.rs": "3df5083039a24fb1a1aba22148a39827e4224d5d",
+    "csdlc-v3/src/review/mod.rs": "aea9dd76ed44f53dece88c8cb912eabf12f567d2",
+    "csdlc-v3/src/storage/mod.rs": "70b63d04b188e8708bc7801323dfb2ecd0b35484",
+    "csdlc-v3/tests/command_manifest.rs": "22b3d097ebdc090dc6f69fdd62603e385690a5a8",
+    "csdlc-v3/tests/foundation.rs": "e150b6969cf0b0af8ffc75a216ee6c9ce8120ecf",
+    "csdlc-v3/tests/proof_parity_install_commands.rs": "61fb3a7d83d22ed53fea8f23cef6cb11c994fc93",
+    "csdlc-v3/tests/proof_worktree_binding.rs": "bcea4f722959251d05bfb8bc59209e9ab89661e7",
+    "csdlc-v3/tests/real_issue_canary.rs": "f4dd727b26fb136512858097147d05a71aa750d6",
+    "csdlc-v3/tests/remote_publication_commands.rs": "7459a036c8feeb87581bbc1653c9c81fc75dc851",
+    "csdlc-v3/tests/transactions.rs": "e14a9a5f5651be3c43d7c5b4e6c5330794e371a8"
+  },
+  "result": "pass",
+  "unreviewed_paths": [],
+  "findings": [
+    {
+      "id": "R771-ROUTES-1",
+      "severity": "P2",
+      "actionable": false,
+      "actionability": "resolved",
+      "in_scope": true,
+      "disposition": "fixed",
+      "evidence": "Complete bounded comment pagination, per-page status/truncation/JSON checks, credential propagation, ambiguity rejection and complete-absence retry guard remain intact at this SHA. Adapter is byte-identical to prior reviewed source; remote changes add IssueClose match arms without changing pagination. Both pagination regressions retain later-match, failure, truncation, invalid JSON/shape, cap, duplicate and complete-absence scenarios."
+    }
+  ],
+  "criteria": {
+    "V3-F-ac-1": {
+      "result": "context",
+      "rationale": "Assigned native crate, CLI, predecessor constants and read-only projection contracts preserve mapped operational boundaries; complete #179/#180 mapping is covered by the independently assigned evidence lane."
+    },
+    "V3-F-ac-2": {
+      "result": "pass",
+      "rationale": "Substantive assigned-route review covers typed publication/review, adapter credential/status boundaries, durable transaction recovery, proof/install worktree confinement and fixture limits. Compared retained v2 comment pagination with current v3; R771-ROUTES-1 is now fixed by complete bounded scans and ambiguity rejection, with focused synthetic regression coverage. This is source-semantic parity assessment; parent owns identical-SHA full locked suite and historical live canary evidence remains distinct. Renewed source adds explicit Rust 1.92 minimum and mainline native duplicate/superseded/no-op close route. Reviewed CLI input rejection, PATCH body preservation for accepted unmarked input, non-completion reason, authenticated closed-state/body reconciliation and restart reuse tests. These preserve guarded operational parity within the declared input contract."
+    },
+    "V3-F-ac-3": {
+      "result": "context",
+      "rationale": "Assigned CLI requires typed rollback operation and current guidance requires explicit rollback with suspended authority; shadow/soak execution stays retired. Actual rollback exercise and terminal/cutover implementation are in separately assigned core/evidence lanes."
+    },
+    "V3-F-ac-4": {
+      "result": "pass",
+      "rationale": "Assigned public guidance and operational dispatch/proof/install require authenticated canonical native authority and exact current context. Missing/stale selector proof does not grant automatic v2 fallback. Typed rollback and cutover delegation preserve approval boundary; no route-level bypass introduced by pagination repair. New issue-close dispatch uses the same canonical selector digest/exact-SHA gate and durable intent path; it does not replace terminal finish or grant release authority. Primary metadata-path guidance is consistent with the separately reviewed core boundary."
+    }
+  },
+  "review_method": {
+    "prior_source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
+    "prior_receipt": "archive/7fecd63398/reviews/routes.json",
+    "all_25_assignment_commit_and_working_blobs_verified": true,
+    "unchanged_whole_file_reviews_reused": [
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/commands/sprint.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/lifecycle/mod.rs",
+      "csdlc-v3/src/publication/mod.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/src/review/mod.rs",
+      "csdlc-v3/src/storage/mod.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/foundation.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/proof_worktree_binding.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/transactions.rs"
+    ],
+    "changed_paths_substantively_reviewed": [
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/README.md",
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/src/main.rs"
+    ],
+    "changed_path_method": "Read all changes against previously substantively reviewed source; reread manifest and README completely, all new CLI issue-close parsing/dispatch, all new IssueClose serialization/validation/reconciliation and regression code, surrounding canonical dispatch/durable intent/retry path, and retained pagination implementation/tests. Unchanged regions of changed files rely on prior complete review and exact Git diff comparison, not a claim of fresh whole-file rereading."
+  },
+  "validation_boundary": "Independent source review only; parent owns full locked suite at identical SHA. No live GitHub writes or current full-suite result asserted by this receipt. New merged IssueClose remains explicitly limited to unmarked supplied current bodies; no unrestricted previously-marked-body compatibility inferred. Terminal output-path and corrected terminal fixture review belongs to separately assigned core lane."
+}

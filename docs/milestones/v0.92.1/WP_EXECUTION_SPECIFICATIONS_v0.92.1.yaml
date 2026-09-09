@@ -19,11 +19,11 @@ issue_specifications:
     partial_failure_recovery: Reconcile the exact live child map after every create; resume from the first absent child without recreating or renumbering prior children.
     rollback_behavior: Stop creation on any mismatch; retain the partial receipt and require operator disposition because created GitHub issue numbers are not deleted or reused.
     validation_plan: Validate the exact ordered denominator, title and dependency parity, milestone and label routing, duplicate denial, partial-failure replay, and final 45-of-45 live readback.
-    acceptance_criteria: [Exactly 45 unique child issues are created from the reviewed package, Every child title and dependency matches canonical planning, Existing or conflicting children fail closed before mutation, Partial failure resumes without duplicate creation or renumbering, Final readback binds every planned ID to one issue number]
+    acceptance_criteria: ["Exactly 45 unique child issues exist for the 45 planned creation slots", "Every child title and dependency matches the canonical merged package", "Every child has correct `version:v0.92.1` and milestone routing", "Existing or conflicting children fail closed before creation", "Partial failure resumes without duplicate creation or issue-number reuse", "Final live readback maps every planned ID to exactly one GitHub issue", "The retained receipt proves 45-of-45 with no missing or extra issue"]
     owned_paths: [docs/milestones/v0.92.1/evidence/wp-01/**]
     pvf_lanes: [creation-denominator, duplicate-denial, dependency-readback, partial-failure-recovery, final-live-readback]
-    stop_conditions: [The reviewed planning digest changed, A planned ID already maps ambiguously, A create result cannot be read back exactly, Partial creation lacks an operator-reviewed recovery disposition]
-    non_goals: [Implementing child work, Deleting or recycling created issue numbers, Activating v0.93]
+    stop_conditions: [The reviewed planning digest changed, A planned ID already maps ambiguously, A create result cannot be read back exactly, A dependency target is unresolved, Partial creation lacks an operator-reviewed recovery disposition]
+    non_goals: ["implementing child work", "deleting or recycling issue numbers", "recreating existing issues", "activating v0.93", "treating typed finish or worktree cleanup as a downstream execution dependency"]
   - id: CORP-A
     objective: Produce one accepted critical-asset schedule for the complete asset denominator.
     primary_deliverable: One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions.
@@ -179,7 +179,7 @@ issue_specifications:
     primary_deliverable: One bounded On-Demand L4 smoke-test qualification packet with exact inputs, cost, telemetry, and zero-resource cleanup.
     verification_result: Exact image driver CUDA Ollama model and machine identities, GPU detection, inference, headroom, telemetry, deadline, cost, and independent cleanup checks pass under separate paid-launch authorization.
     unit_boundary: Issue completion is exactly one GPU readiness decision; launch and cleanup are evidence inputs and do not authorize six-resident qualification.
-    acceptance_criteria: [Paid launch has separate authorization and a USD 20 ceiling, Exact inputs and hardware are retained, GPU inference and headroom are proven, All owned resources are independently absent afterward]
+    acceptance_criteria: ["Paid launch has separate authorization and a USD 20 ceiling", "Exact inputs and hardware are retained", "GPU inference and headroom are proven", "All owned resources are independently absent afterward", "Fresh exact-head review has no actionable findings before publication"]
     owned_paths: [infra/gcp/workloads/gpu-smoke/**, docs/milestones/v0.92.1/evidence/cloud/gcp-e/**]
     pvf_lanes: [paid-authority, exact-inputs, gpu-inference, telemetry-and-cost, cleanup-zero]
     stop_conditions: [Paid authorization is absent, Quota or capacity cannot satisfy the exact shape, Cleanup cannot be proven]
@@ -296,14 +296,14 @@ issue_specifications:
     non_goals: [Observatory product redesign, Unbounded soak]
   - id: HOT-01
     objective: Produce one production-ready Axum hot-reload implementation.
-    primary_deliverable: One production-ready Axum hot-reload implementation with last-known-good retention.
-    verification_result: Valid reload, invalid retention, debounce, concurrent-read, and watcher-shutdown tests pass.
+    primary_deliverable: One production-ready Axum hot-reload implementation with last-known-good retention, including Runtime Observatory origin-policy reload.
+    verification_result: Valid reload, invalid retention, debounce, concurrent-read, watcher-shutdown, and live origin-policy reload tests pass.
     unit_boundary: Issue completion is exactly one production-ready hot-reload implementation; behavioral cases are proof inputs.
-    acceptance_criteria: [Reads use atomically swappable state, Invalid updates preserve the last valid configuration, File events are debounced, Concurrent requests observe complete configurations only]
-    owned_paths: [adl-runtime/src/config_reload.rs, adl-runtime/tests/config_reload.rs, docs/runtime/config-hot-reload.md]
-    pvf_lanes: [valid-reload, invalid-retention, debounce, concurrent-read, watcher-shutdown]
-    stop_conditions: [Reload requires process restart, Partial configuration can become visible]
-    non_goals: [Database pool replacement, HTML template reload, Admin mutation API]
+    acceptance_criteria: ["Reads use atomically swappable state", "Invalid updates preserve the last valid configuration", "File events are debounced", "Concurrent requests observe complete configurations only", "`observatory.allowed_origins` and `observatory.additional_allowed_origins` are parsed, normalized, validated, and atomically swapped as one Runtime origin-policy snapshot", "Editing only the Runtime configuration can add or remove an exact allowed origin without rebuilding, rotating continuity state, or restarting Runtime", "Runtime HTTP CORS and authenticated WSS admission read the current origin-policy snapshot for each new request/session", "Invalid, wildcard, path-bearing, credential-bearing, duplicate, or otherwise unsafe origin edits retain the complete last-known-good policy", "Concurrent traffic observes either the complete old origin set or the complete new origin set, never a partial mixture", "Focused proof adds and removes `http://localhost:8000` and `https://wuji.dev.csm.agent-logic.ai:8765` through config-only edits while Runtime identity and process remain unchanged"]
+    owned_paths: ["adl-runtime/src/config_reload.rs", "adl-runtime/tests/config_reload.rs", "adl-runtime-kernel/src/config.rs", "adl-runtime-kernel/src/control.rs", "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs", "adl-runtime-kernel/tests/configuration.rs", "adl-runtime-kernel/tests/control.rs", "docs/runtime/config-hot-reload.md"]
+    pvf_lanes: ["valid-reload", "invalid-retention", "debounce", "concurrent-read", "watcher-shutdown", "origin-policy-live-reload", "origin-policy-invalid-retention", "origin-policy-concurrent-snapshot"]
+    stop_conditions: ["Reload requires process restart", "Reload requires continuity rotation or a Runtime rebuild", "Partial configuration can become visible", "CORS and WSS consult different origin-policy generations", "Invalid origin configuration replaces the last-known-good policy"]
+    non_goals: ["Database pool replacement", "HTML template reload", "Admin mutation API", "Hot replacement of TLS keys, bind addresses, database pools, or other stateful resources"]
   - id: OBS-A
     objective: Produce one reviewed Observatory experience-design contract.
     primary_deliverable: One reviewed Observatory design contract covering information, interaction, states, hierarchy, and accessibility.
@@ -319,7 +319,7 @@ issue_specifications:
     primary_deliverable: One implemented Observatory redesign consuming authentic Runtime projections.
     verification_result: Exact browser, accessibility, redaction, recovery, and authentic Runtime-route checks pass.
     unit_boundary: Issue completion is exactly one implemented Observatory redesign; browser and authority cases are proof inputs.
-    acceptance_criteria: [OBS-A contracts are implemented, Runtime projections are source-grounded, Accessibility and recovery cases pass, Issues 84 and 251 remain visible operator-deferred backlog and do not gate this release]
+    acceptance_criteria: [OBS-A contracts are implemented, Runtime projections are source-grounded, Accessibility and recovery cases pass, Issues 84 and 251 remain visible operator-deferred backlog and do not gate this release, No mock substitutes for the required Runtime route]
     owned_paths: [demos/html-observatory/app.js, demos/html-observatory/styles.css, adl/tools/validate_layer8_authority_observatory_ui.sh, docs/milestones/v0.92.1/evidence/observatory/obs-b/**]
     pvf_lanes: [authentic-runtime-route, exact-browser-cases, accessibility, redaction, recovery]
     stop_conditions: [A mock substitutes for the required Runtime route]
@@ -400,7 +400,8 @@ issue_specifications:
     verification_result: The successor denominator, deferred routing, Beta 1 exit bar, and v0.95 target checks pass.
     unit_boundary: Issue completion is exactly one successor planning package; planned work is not executed or independently closed here.
     acceptance_criteria: [The successor scope is bounded, CodeFriend Beta 1 and v0.95 integration target are explicit, Deferred work is routed]
-    owned_paths: [docs/milestones/v0.92.2/**, docs/planning/ADL_FEATURE_LIST.md]
+    owned_paths: [docs/milestones/v0.92.2/**, docs/planning/ADL_FEATURE_LIST.md, docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml, docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml, docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md, docs/milestones/v0.92.1/README.md, docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md, docs/milestones/v0.92.1/SPRINT_v0.92.1.md, docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md]
+    scheduling: Operator permits preparation alongside current closeout; 524 consumes this candidate and 525 reviews the settled planning revision; current release still gates on 522 and 525
     pvf_lanes: [successor-denominator, deferred-routing, beta-target]
     stop_conditions: [Successor ownership is ambiguous]
     non_goals: [Creating successor execution issues, Implementing CodeFriend]

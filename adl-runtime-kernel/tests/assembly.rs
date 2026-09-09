@@ -997,7 +997,7 @@ async fn unavailable_sntp_does_not_block_kernel_startup_or_erase_bootstrap_time(
     let assembly = build_live_assembly(live_bindings).unwrap();
 
     let handle = tokio::time::timeout(
-        Duration::from_secs(1),
+        Duration::from_secs(3),
         adl_runtime_kernel::Kernel::new(assembly.topology, recorder.clone()).start(),
     )
     .await

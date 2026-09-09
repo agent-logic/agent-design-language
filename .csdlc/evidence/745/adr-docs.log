@@ -1,0 +1,1 @@
+{"schema": "adl.745.adr_validation.v1", "status": "pass", "issue": 745, "baseline": "bf617859982f8b9613737344400626eb90768930", "sources": 41, "documents": 7, "topics": 8, "relative_links": 56, "runtime_tests": "not_run_documentation_only"}

@@ -1,0 +1,1 @@
+{"cases": ["stale_review_sha", "different_test_bytes", "historical_fixture_blob", "missing_scope", "unreviewed_path", "missing_criterion_review", "zero_tests", "narrow_suite", "dirty_checkout", "wrong_reviewer", "failed_suite", "receipt_tamper", "missing_row", "reopened_corp_a"], "negative_cases": 14, "status": "passed"}

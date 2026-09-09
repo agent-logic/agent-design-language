@@ -1,0 +1,5 @@
+flowchart LR
+  A["#518 exact-revision documentation handoff"] --> B["Publication linkage and redaction checks"]
+  B --> C{"Exact head unchanged?"}
+  C -->|yes| D["One publication-candidate packet"]
+  C -->|no| E["Fail closed"]

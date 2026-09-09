@@ -1,0 +1,72 @@
+{
+  "schema": "csdlc.v3.issue_746.integration_reconciliation.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 746,
+  "recorded_at": "2026-09-09T09:38:00-07:00",
+  "reconciled_by": "Worker #7",
+  "problem": "Native C-SDLC v3 PR creation accepted Git-valid branch names that the authenticated reconciliation readback path rejected or could query ambiguously.",
+  "resolution": {
+    "status": "integrated_on_main",
+    "integration_pr": 748,
+    "integration_commit": "09e120c0496441215b33a6ccd51c07f2beb98dc1",
+    "reconciliation_base_head_before_record_commit": "d6a66a55651dc5c17769b2418eb7d92f0c5382ee",
+    "record_commit_before_amend": "861fe36dfc841ec538419f40be9ab9a9c095c55f",
+    "notes": [
+      "PR #748 merged the branch-reconciliation repair while closing #517, so #746 remained open because it was referenced as related rather than closed.",
+      "This record supplies the #746 terminal reconciliation surface and supports a narrow closing PR for #746 without changing the already-integrated behavior."
+    ]
+  },
+  "code_surfaces": [
+    {
+      "path": "csdlc-v3/src/adapters/mod.rs",
+      "purpose": "Shared supported_pr_branch validation and complete query-value percent encoding for pull-requests-by-head readback."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/mod.rs",
+      "purpose": "PR-create validation uses the same supported branch predicate before durable intent creation or remote dispatch."
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/tests.rs",
+      "purpose": "Remote mutation tests prove invalid branch rejection before intent/dispatch and restart reconciliation without duplicate PR creation."
+    }
+  ],
+  "acceptance_reconciliation": [
+    {
+      "criterion": "Valid special-character branches such as codex/fix+retry create and reconcile successfully under the supported contract.",
+      "status": "satisfied",
+      "evidence": "adapters::tests::branch_query_preserves_special_characters and commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation"
+    },
+    {
+      "criterion": "Restart after successful remote creation and interrupted readback recovers the existing PR without replaying creation.",
+      "status": "satisfied",
+      "evidence": "commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation"
+    },
+    {
+      "criterion": "Invalid or unsafe branch inputs fail before durable intent creation and remote dispatch.",
+      "status": "satisfied",
+      "evidence": "commands::remote::tests::invalid_pr_branch_is_rejected_before_intent_or_dispatch"
+    },
+    {
+      "criterion": "Query characters cannot alter URL parameters, repository identity, or branch identity.",
+      "status": "satisfied",
+      "evidence": "adapters::tests::branch_query_preserves_special_characters covers +, &, =, #, %, slash, and non-ASCII query encoding."
+    },
+    {
+      "criterion": "Existing exact-head, authentication, durable-intent, and no-duplicate-mutation guards remain enforced.",
+      "status": "satisfied",
+      "evidence": "The repair reuses existing exact-head authority verification, durable intent identity, and reconciliation-before-replay paths."
+    }
+  ],
+  "live_state_observed": {
+    "issue_746_state_before_this_pr": "open",
+    "issue_746_closed_by_pull_request_references_before_this_pr": [],
+    "pr_748_state": "merged",
+    "pr_748_merged_at": "2026-09-09T01:09:08Z",
+    "pr_748_closing_issue": 517
+  },
+  "non_goals": [
+    "No raw GitHub close was performed.",
+    "No merge was performed by this session.",
+    "No new behavioral changes were made beyond recording #746 terminal reconciliation."
+  ]
+}

@@ -1,11 +1,13 @@
 # C-SDLC v3 Package Boundary
 
-`csdlc-v3/**` is the construction surface for the planned clean replacement of
-C-SDLC v2. It is not the live lifecycle authority yet. Root `AGENTS.md`,
-`csdlc-v2/AGENTS.md`, and the typed v2 operator skills remain authoritative
-until the explicit V3-F/#505 cutover decision approves the transition.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-## Current construction state
+## Historical construction state
+
+The following milestones describe pre-cutover construction. Their restrictions
+apply to those historical stages; current operation follows the native authority
+contract and root `AGENTS.md`.
+
 
 - V3-A/#500 established the v3 contract and predecessor map as construction
   evidence. Corrective follow-up #571 repaired the predecessor owner/proof-lane
@@ -25,7 +27,7 @@ until the explicit V3-F/#505 cutover decision approves the transition.
   testing upcoming sprint umbrellas against typed issue readback evidence before
   cutover. It is planning evidence only and does not start child execution.
 - V3-G/#570 repaired v2-first documentation and skill guidance for advance
-  notice. The live route still remains typed v2 until V3-F/#505.
+  notice. At that historical stage, typed v2 remained the live route before V3-F/#505.
 
 ## Clean replacement target
 
@@ -54,6 +56,21 @@ A prepared v3 issue should be inspectable, bindable, and ready for first useful
 work in three minutes or less once dependencies are satisfied. That time target
 removes ceremony and ambiguity; it does not remove typed authority, review, or
 validation gates.
+
+## Primary working-tree invariant
+
+Native issue preparation and pre-bind edits use resolved Git metadata at
+`csdlc-v3/local`; they must leave primary working-tree bytes and Git status
+unchanged. Bind materializes cards only in the registered issue worktree and
+retains a metadata handoff identity that rejects primary reinitialization.
+Earlier edit receipts remain in metadata for recovery and audit.
+
+Do not create request JSON, prepared design packets, cards or terminal receipts
+in the primary working tree. Store invocation inputs in Git metadata. Primary
+`finish` output paths must use `csdlc-v3/local/{v3/issues,evidence}` beneath the
+resolved Git directory. See the [checkout policy](../docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md).
+
+Legacy primary state is diagnosed, not automatically migrated or deleted.
 
 ## Non-goals before V3-F/#505
 
@@ -236,8 +253,8 @@ succeeds.
 
 Before cutover, the same command fails closed instead of mutating GitHub.
 
-After the canonical evidence-bound v2 selector activates v3 authority for the
-exact reviewed #505 head, named local routes automatically enter native
+When the canonical native v3 selector and authenticated cutover receipt validate
+against `origin/main`, named local routes automatically enter native
 operational mode from `--repo-root`, the canonical selector, retained cutover
 approval, typed request, and requested worktree. There is no caller-controlled
 authority switch. Operational `schedule` requests must provide all six
@@ -259,17 +276,11 @@ That canary reads live issue state through typed C-SDLC v2 issue transport,
 parses the current umbrella membership for #536 and #537, and then verifies the
 result through non-authoritative v3 sprint readiness.
 
-For docs and cutover-readiness work, use the issue-owned validators declared by
-the active issue, such as the #570 stale-route and skill-guidance scans. Passing
-v3 construction checks is evidence for the v3 package only; live lifecycle work
-still routes through typed C-SDLC v2 until V3-F/#505.
+For current operation and focused validation, follow the issue-owned PVF plan
+and `docs/csdlc-v3/CURRENT_AUTHORITY.md`. The #505 / PR #591 cutover is complete;
+native mutation requires authenticated selector and reconciliation proof.
 
-Issue #505 is the pending V3-F authority-transition decision. Until #505 is
-explicitly approved, merged, and terminally reconciled, v3 remains
-non-authoritative construction and cutover evidence. Operators must receive the
-pre-change notice in `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any
-default route changes from v2 to v3.
-
-Operators preparing for the one-binary replacement should read
-`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md`. That notice is advance guidance,
-not authority cutover.
+The original `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and
+`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md` are historical pre-cutover evidence,
+not live routing guidance. The canary described above also retains its
+pre-cutover scope; it does not select today's default authority.

@@ -1,0 +1,18 @@
+{
+  "issue": 518,
+  "card": "sip",
+  "expected_generation": 30,
+  "expected_digest": "cfb6c2e8c1c831640d09f42f47d0c73264f36d8af43c6bb7bfe353a827e8dc90",
+  "actor": "codex:planning-6",
+  "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Operator authorized v2 for issue 518 transition remediation.",
+      "Operator clarified nothing is blocked after issue 517 reviewed merge; finish documentation review without equating it to release approval.",
+      "Retain the blocked TAIL-01 release decision and all machine-readable proof as source evidence.",
+      "Correct current documentation, including quality-gate scope prose, without product changes or release publication."
+    ]
+  }
+}

@@ -23,19 +23,19 @@ Issue #432 removes tracked dependencies on local untracked paths. It is the repo
 12. **Cross-cloud Terraform conversion** — replace the exact #194/#268 CloudFormation behavior with a portable workload contract and explicit AWS/GCP Terraform implementations before retirement.
 13. **Rust resilience refactoring** — perform one behavior-preserving owner-boundary extraction with no arbitrary LoC quota.
 
-All execution roots depend on the future WP-01 conductor after #432 and the planning-package merge. They may execute independently where their explicit edges permit. XCL-01 consumes AWS-E and GCP-D; AWS-G consumes XCL-01; DRT-D consumes DRT-C, GCP-E, and XCL-01; PROV-B follows PROV-A. No lane silently absorbs another.
+All execution roots depend on the WP-01/#480 conductor after #432 and the planning-package merge. They may execute independently where their explicit edges permit. XCL-01 consumes AWS-E and GCP-D; AWS-G consumes XCL-01; DRT-D consumes DRT-C, GCP-E, and XCL-01; PROV-B follows PROV-A. No lane silently absorbs another.
 
-The existing executable graph is #432, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. WP-01 and every other new execution or release-tail issue remain number-free planning truth. Once the package is merged and the operator declares the milestone ready, the operator creates WP-01; WP-01 creates the rest in exact catalog and dependency order. Premature placeholders #433-#438 and closed #431 must not be reused as future execution authority.
+The execution wave was created by WP-01/#480. The exact planned-ID to issue mapping is retained in `evidence/wp-01/final-creation-receipt.json`; creation is not proof of implementation or acceptance. The number-free YAML/catalog remain source-time planning specifications. Current release-tail coordination is #538, covering #516 through #526. Premature placeholders #433-#438 and closed #431 remain historical provenance.
 
 Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into CORP-A through CORP-D; C-SDLC v3 #161–#180 into V3-A through V3-F; and Runtime #181–#187 into DRT-A through DRT-C. Integration routing is explicit: #188 informs INT-01 and TAIL-01 quality admission, #190 informs the TAIL-07 successor handoff, and #189 informs only TAIL-10 release ceremony. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #433–#438 were closed as premature placeholders and #439 was closed as redundant with #431. Issue #457 is historical provenance for the provider-profile sidecar only; it is not active execution authority.
 
-Existing issues #251, #122, #84, and #345 are active v0.92.1 execution scope. #251 TLS 1.2, #122 Route53/ACM exposure, and #345 AWS GPU Shepherd hardening may execute in parallel; #84 Unity Observatory preparation may overlap them, while its final proof consumes #251 and #122. The distributed Runtime production qualification consumes #345 where GPU evidence is required.
+Existing issues #122 (public exposure) and #345 (GPU Shepherd) retain their own proof obligations. #84 Unity integration and #251 TLS 1.2 are explicitly deferred backlog, retained visibly but excluded from admission gating. OBS-B/#512 consumes OBS-A/#511 and authentic Runtime projections; it does not require or claim Unity/TLS implementation. GPU-backed distributed qualification still consumes the required #345 evidence.
 
 The existing podcast graph and #432 are likewise retained rather than recreated. #457 is provider-profile provenance only, and #269 remains excluded/backlogged. Cloud move-in does not change those dispositions.
 
 ## Canonical release tail
 
-After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the exact ten-step serial tail: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
+After every root named by INT-01 has merged reviewed authority, the planned integration conductor converges the canonical ten-step tail (successor-planning preparation may run alongside closeout under the operator clarification below): TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
 
 ## Boundaries
 
@@ -47,6 +47,10 @@ After every root named by INT-01 has merged reviewed authority, the planned inte
 ## Successor
 
 v0.92.2 is the **CodeFriend Beta 1** milestone. The release train must make CodeFriend available as an integrated beta by v0.95.
+
+## Operator-promoted Runtime bugfixes
+
+On 2026-09-09 the operator promoted #717 (versioned Polis capability orientation) and #718 (canonical-name A2A routing) from the successor plan into v0.92.1. They execute through their own typed issue authority, do not alter the original WP-01 wave, and must be included in v0.92.1 integration and closeout truth. v0.92.2 consumes their merged results as predecessor capabilities and must not recreate them.
 
 ## Package map
 
@@ -70,3 +74,6 @@ v0.92.2 is the **CodeFriend Beta 1** milestone. The release train must make Code
 - [Release plan](RELEASE_PLAN_v0.92.1.md)
 - [Release notes](RELEASE_NOTES_v0.92.1.md)
 - [Next milestone handoff](NEXT_MILESTONE_HANDOFF_v0.92.1.md)
+
+
+The operator authorized #523/#524/#525 successor planning alongside current closeout on 2026-09-08. Their settled outputs retain #523 → #524 → #525 consumption/review ordering; late closeout findings are reconciled before release. Ceremony still requires both #522 remediation and #525 exact-revision planning review. See the release plan and issue wave for the matching gates.

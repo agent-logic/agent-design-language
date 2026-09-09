@@ -1,0 +1,289 @@
+{
+  "schema": "adl.v0921.quality_gate_reconciliation.v1",
+  "issue": 517,
+  "assessment_status": "in_progress_not_release_authority",
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "source": {
+    "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+    "sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d",
+    "output_identity": "release-tail-admission.bf159eb416950dfa3399933829726a7b7e71f897.46dc34722e74af8aa934cc277d6d3f0c7f8ef9e7a138c6d2db2b22f6dcb5a527.json"
+  },
+  "historical_denominator": {
+    "path": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json",
+    "sha256": "538645cb2e27bb57e04cf3ea1e97f5bb56df8da1a33005b40d8aa398dd798701",
+    "inventoried": 393,
+    "required": 366,
+    "pass": 121,
+    "non_proving": 245,
+    "not_applicable": 27
+  },
+  "corrections": [
+    {
+      "row_id": "CORP-B:CORP-B-ac-1",
+      "criterion_id": "CORP-B-ac-1",
+      "criterion_text_digest": "873d21ba275e849502da72f25a2887d24d26b53aafdff7246e83de4510c186de",
+      "previous_result": "non_proving",
+      "proposed_result": "accepted_amendment",
+      "rationale": "The operator accepted the read-only custody register and explicitly routed remaining operational administration, recovery and break-glass work to non-gating unscheduled backlog #698-704. This does not claim the deferred operational work was executed.",
+      "authority_refs": [
+        "issue-483-amendment"
+      ],
+      "proof_artifacts": [],
+      "review_status": "pending_independent_review"
+    },
+    {
+      "row_id": "CORP-B:CORP-B-ac-2",
+      "criterion_id": "CORP-B-ac-2",
+      "criterion_text_digest": "5f9a2a6195ece21796770622c99042b96959284f090f82e9f0025f7fb190e124",
+      "previous_result": "non_proving",
+      "proposed_result": "accepted_amendment",
+      "rationale": "The operator accepted the read-only custody register and explicitly routed remaining operational administration, recovery and break-glass work to non-gating unscheduled backlog #698-704. This does not claim the deferred operational work was executed.",
+      "authority_refs": [
+        "issue-483-amendment"
+      ],
+      "proof_artifacts": [],
+      "review_status": "pending_independent_review"
+    },
+    {
+      "row_id": "CORP-B:CORP-B-ac-3",
+      "criterion_id": "CORP-B-ac-3",
+      "criterion_text_digest": "a349d6b08cc8d76eb0f77eb7201f9a5b891fff298842d8852725f90c20eeba37",
+      "previous_result": "non_proving",
+      "proposed_result": "accepted_amendment",
+      "rationale": "The operator accepted the read-only custody register and explicitly routed remaining operational administration, recovery and break-glass work to non-gating unscheduled backlog #698-704. This does not claim the deferred operational work was executed.",
+      "authority_refs": [
+        "issue-483-amendment"
+      ],
+      "proof_artifacts": [],
+      "review_status": "pending_independent_review"
+    },
+    {
+      "row_id": "OBS-B:OBS-B-ac-2",
+      "criterion_id": "OBS-B-ac-2",
+      "criterion_text_digest": "5f03766f3f00ea799e4ac05d03406e7a6da2c83d56030050669fee32000aca24",
+      "previous_result": "non_proving",
+      "proposed_result": "accepted_amendment",
+      "rationale": "Live authorized issue512 explicitly makes issue84 independent backlog, not an execution gate. Source-grounded Runtime projections and no mock substitution remain required; the successor proof is retained.",
+      "authority_refs": [
+        "issue-512-amendment"
+      ],
+      "proof_artifacts": [
+        {
+          "path": "demos/html-observatory/app.js",
+          "candidate_blob": "965691892283b1b173756b4de5d27798f7fe2c39",
+          "reviewed_blob": "965691892283b1b173756b4de5d27798f7fe2c39"
+        },
+        {
+          "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+          "candidate_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b",
+          "reviewed_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b"
+        },
+        {
+          "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+          "candidate_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2",
+          "reviewed_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2"
+        },
+        {
+          "path": "adl/tools/test_html_observatory.sh",
+          "candidate_blob": "5efa924c228a717b1bcd8822a0c7e6f2b00fef8f",
+          "reviewed_blob": "5efa924c228a717b1bcd8822a0c7e6f2b00fef8f"
+        }
+      ],
+      "review_status": "pending_independent_review",
+      "successor": {
+        "issue": 512,
+        "pull_request": 719,
+        "head": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+        "merge": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+        "reviewed_revision": "a57e551a14089a6ed53de05f7ff88041880d175e",
+        "review_result": "pass"
+      },
+      "replacement_obligation": {
+        "text": "No mock substitutes for the required Runtime route",
+        "evidence_explanation": "The retained operator screenshot and real-key observations bind the live Runtime v3 URL, six live agents, Runtime provenance and WSS connection. Reviewed app.js implements the Runtime route; handoff records the focused authentic-route proof. This is not inferred from removing dependency84."
+      }
+    },
+    {
+      "row_id": "OBS-A:OBS-A-ac-1",
+      "criterion_id": "OBS-A-ac-1",
+      "criterion_text_digest": "1cce01f1e008d9500558e049bd2e5da394002e8be245aa986cdb74dec96f173d",
+      "previous_result": "non_proving",
+      "proposed_result": "proven",
+      "rationale": "The explicit absorption preserves stable final-view contracts. Reviewed successor README describes each view and app.js implements those projections.",
+      "authority_refs": [
+        "issue-511-amendment"
+      ],
+      "proof_artifacts": [
+        {
+          "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+          "candidate_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2",
+          "reviewed_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2"
+        },
+        {
+          "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+          "candidate_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b",
+          "reviewed_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b"
+        },
+        {
+          "path": "demos/html-observatory/app.js",
+          "candidate_blob": "965691892283b1b173756b4de5d27798f7fe2c39",
+          "reviewed_blob": "965691892283b1b173756b4de5d27798f7fe2c39"
+        },
+        {
+          "path": "demos/html-observatory/README.md",
+          "candidate_blob": "059bc850fbca7caf6d0d50a1f533e5a0a3a96fa4",
+          "reviewed_blob": "059bc850fbca7caf6d0d50a1f533e5a0a3a96fa4"
+        }
+      ],
+      "review_status": "pending_independent_review",
+      "successor": {
+        "issue": 512,
+        "pull_request": 719,
+        "head": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+        "merge": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+        "reviewed_revision": "a57e551a14089a6ed53de05f7ff88041880d175e",
+        "review_result": "pass"
+      }
+    },
+    {
+      "row_id": "OBS-A:OBS-A-ac-2",
+      "criterion_id": "OBS-A-ac-2",
+      "criterion_text_digest": "7571382ba12ef34205b8b44fc759f5a6b9da8cab3669be2588654327ff153a29",
+      "previous_result": "non_proving",
+      "proposed_result": "proven",
+      "rationale": "The explicit absorption preserves empty/degraded/recovery/revoked behavior. Reviewed handoff records disposition and focused successor recovery tests cover retained transitions.",
+      "authority_refs": [
+        "issue-511-amendment"
+      ],
+      "proof_artifacts": [
+        {
+          "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+          "candidate_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2",
+          "reviewed_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2"
+        },
+        {
+          "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+          "candidate_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b",
+          "reviewed_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b"
+        },
+        {
+          "path": "demos/html-observatory/app.js",
+          "candidate_blob": "965691892283b1b173756b4de5d27798f7fe2c39",
+          "reviewed_blob": "965691892283b1b173756b4de5d27798f7fe2c39"
+        },
+        {
+          "path": "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+          "candidate_blob": "47da29641863836a4a1d1c1d624486e073f478ed",
+          "reviewed_blob": "47da29641863836a4a1d1c1d624486e073f478ed"
+        }
+      ],
+      "review_status": "pending_independent_review",
+      "successor": {
+        "issue": 512,
+        "pull_request": 719,
+        "head": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+        "merge": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+        "reviewed_revision": "a57e551a14089a6ed53de05f7ff88041880d175e",
+        "review_result": "pass"
+      }
+    },
+    {
+      "row_id": "OBS-A:OBS-A-ac-3",
+      "criterion_id": "OBS-A-ac-3",
+      "criterion_text_digest": "14c7225df73d1a0f980176d83fe4114c4f72bc9744767fa8f2c2b81b0cc4d1ae",
+      "previous_result": "non_proving",
+      "proposed_result": "proven",
+      "rationale": "The explicit absorption preserves keyboard and screen-reader flows. Reviewed HTML and focused accessibility checks specify ARIA and keyboard behavior; retained browser proof records real-key interaction.",
+      "authority_refs": [
+        "issue-511-amendment"
+      ],
+      "proof_artifacts": [
+        {
+          "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+          "candidate_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2",
+          "reviewed_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2"
+        },
+        {
+          "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+          "candidate_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b",
+          "reviewed_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b"
+        },
+        {
+          "path": "demos/html-observatory/app.js",
+          "candidate_blob": "965691892283b1b173756b4de5d27798f7fe2c39",
+          "reviewed_blob": "965691892283b1b173756b4de5d27798f7fe2c39"
+        },
+        {
+          "path": "demos/html-observatory/index.html",
+          "candidate_blob": "765b766e03ab38a07c7dabbd75315b9bc0652f2f",
+          "reviewed_blob": "765b766e03ab38a07c7dabbd75315b9bc0652f2f"
+        },
+        {
+          "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+          "candidate_blob": "31a541f08d5e9aa527c69ade688d02911723af3a",
+          "reviewed_blob": "31a541f08d5e9aa527c69ade688d02911723af3a"
+        }
+      ],
+      "review_status": "pending_independent_review",
+      "successor": {
+        "issue": 512,
+        "pull_request": 719,
+        "head": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+        "merge": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+        "reviewed_revision": "a57e551a14089a6ed53de05f7ff88041880d175e",
+        "review_result": "pass"
+      }
+    },
+    {
+      "row_id": "OBS-A:OBS-A-ac-4",
+      "criterion_id": "OBS-A-ac-4",
+      "criterion_text_digest": "6a3bcc8d7e91a100d7aac5a28d71dc0c1242c9b5e20fa700817eda3909f152ba",
+      "previous_result": "non_proving",
+      "proposed_result": "proven",
+      "rationale": "The explicit absorption preserves source-grounded Runtime identity. Reviewed implementation and polis identity tests retain canonical Runtime bindings.",
+      "authority_refs": [
+        "issue-511-amendment"
+      ],
+      "proof_artifacts": [
+        {
+          "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+          "candidate_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2",
+          "reviewed_blob": "ecf7eddcac83f62b1451472bc812ae9532511ea2"
+        },
+        {
+          "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+          "candidate_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b",
+          "reviewed_blob": "ea64787ade5dfca3104185642c34ef77ac1e185b"
+        },
+        {
+          "path": "demos/html-observatory/app.js",
+          "candidate_blob": "965691892283b1b173756b4de5d27798f7fe2c39",
+          "reviewed_blob": "965691892283b1b173756b4de5d27798f7fe2c39"
+        },
+        {
+          "path": "demos/html-observatory/tests/polis_identity.test.mjs",
+          "candidate_blob": "9c63cfc5fa7a12c88f62ebd690a9293839750590",
+          "reviewed_blob": "9c63cfc5fa7a12c88f62ebd690a9293839750590"
+        }
+      ],
+      "review_status": "pending_independent_review",
+      "successor": {
+        "issue": 512,
+        "pull_request": 719,
+        "head": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+        "merge": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+        "reviewed_revision": "a57e551a14089a6ed53de05f7ff88041880d175e",
+        "review_result": "pass"
+      }
+    }
+  ],
+  "unresolved_policy": "All original non-proving rows without an independently accepted correction remain unresolved. No original row is deleted. Future-stage and retained mappings require explicit evidence; no automatic bulk exclusion.",
+  "validation_profile": {
+    "lane_class": "local_contract",
+    "proof_role": "evidence_reconciliation",
+    "determinism": "offline_pinned_git_objects",
+    "resource_profile": "small_local_cpu",
+    "release_gate": true
+  },
+  "review_status": "pending"
+}

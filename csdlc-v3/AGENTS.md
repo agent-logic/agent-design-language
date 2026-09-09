@@ -1,55 +1,19 @@
 # C-SDLC v3 Agent Guidance
 
-This directory is a construction surface, not the active lifecycle authority.
-Root `AGENTS.md` and `csdlc-v2/AGENTS.md` remain authoritative for C-SDLC
-operations until a later operator-reviewed V3-F cutover explicitly changes
-that.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-## Current Boundary
+Root `AGENTS.md` governs operational work. The pre-cutover construction records
+remain immutable evidence; they do not prohibit the approved native v3 routes.
 
-- `csdlc-v3/**` may model lifecycle decisions, transaction storage, recovery,
-  adapters, projections, and validation fixtures.
-- The current V3-C slice may contain pure lifecycle transition decisions,
-  deterministic transaction storage/recovery classification, typed adapter
-  boundaries, and focused transaction tests for retained requirements #168
-  through #170. Those surfaces are construction evidence only.
-- `csdlc-v3/**` must not bind worktrees, mutate issue state, publish pull
-  requests, finish issues, clean worktrees, retire v2, call GitHub, call v2
-  owner binaries, or claim operational authority.
-- Unsupported or not-yet-proven behavior fails closed. Do not fall back to v1
-  wrappers, raw GitHub mutation, hand-edited cards, shell strings, or ambient
-  local state.
-- Branch or worktree observation is evidence only. It never authorizes lifecycle
-  work by itself.
+- Keep lifecycle decisions deterministic, typed, explicit and independently testable.
+- Preserve exact repository, branch, worktree, revision and digest checks.
+- Never replace a failed guard with a raw GitHub write or handwritten state.
+- Preserve argv, status, stdout/stderr, timeout, cancellation, truncation and redaction distinctions at adapter boundaries.
+- Cards and evidence views are generated projections. Use typed editors and validation, never direct Markdown/state edits.
+- Operate only in the bound issue worktree; retain independent exact-head review before publication and separate terminal reconciliation from cleanup.
+- The prepared-issue start target is three minutes once dependencies are satisfied, without weakening authority or proof.
 
-## Construction Style
-
-- Keep v3 code deterministic, typed, and explicit.
-- Prefer pure transition functions, in-memory fakes, and data-only recovery
-  classifiers until an issue specifically authorizes production adapters.
-- Preserve `argv`, status, stdout, stderr, timeout, cancellation, truncation,
-  and redaction distinctions at adapter boundaries.
-- Treat cards, evidence indexes, and rendered views as repairable projections;
-  modeled `state.json` replacement is the only committed authority inside the
-  transaction model.
-
-## Operator Target
-
-A prepared v3 issue should be inspectable, bindable, and startable in three
-minutes or less once its dependencies are satisfied. Add automation only when it
-removes real operator friction while preserving the v2 authority boundary.
-
-## Cutover Rule
-
-Do not change root C-SDLC authority from v2 to v3 in this directory. A clean v3
-replacement requires a later explicit cutover issue with parity/import,
-rollback, publication, finish, cleanup, documentation, and operator-start proof.
-Until that V3-F decision lands, root `AGENTS.md`, onboarding, v2 operator
-skills, and installed PR skills must point to v3 as non-authoritative
-construction evidence rather than as an executable operator path.
-
-Issue #505 is that V3-F decision lane. Before any default tooling route changes,
-operators must receive the pre-change notice in
-`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` through the typed C-SDLC v2 GitHub
-issue owner. The notice is informational; it does not grant v3 lifecycle
-authority or retire v2.
+See `operator/authority-selector.json`, `operator/native-authority-receipt.json`
+and `docs/csdlc-v3/CURRENT_AUTHORITY.md`. Missing or stale authority
+proof must be repaired through the declared typed route. An explicitly authorized
+v2 transition exception must remain issue-scoped and must not switch the default.

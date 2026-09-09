@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 768,
+  "phase": "bound",
+  "generation": 3,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/768-tail-02-candidate-safe-reproduction",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction",
+  "template_registry_version": "1.0.4",
+  "operational_authority": true,
+  "digest": "b70f5662ee260113f210a1ffeae005ee7b9e2acb285a150c37e1f0d6081c42ec"
+}

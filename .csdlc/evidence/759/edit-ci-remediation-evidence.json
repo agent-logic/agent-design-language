@@ -1,0 +1,59 @@
+{
+  "issue": 759,
+  "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/759-dynamic-agent-health-task-failures",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-health-task-failures",
+  "registry_version": "1.0.4",
+  "expected_lifecycle_digest": "0341da5b833c06fe62e2692c5da732a4b370911b06c263aa8d56aba6b896916e",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "card_updates": {
+    "srp": {
+      "slug": "dynamic-agent-health-task-failures",
+      "card_status": "needs_review",
+      "status": "needs_review",
+      "stp_card": ".csdlc/issues/759/cards/stp.md",
+      "sip_card": ".csdlc/issues/759/cards/sip.md",
+      "spp_card": ".csdlc/issues/759/cards/spp.md",
+      "vpp_card": ".csdlc/issues/759/cards/vpp.md",
+      "sor_card": ".csdlc/issues/759/cards/sor.md",
+      "findings_status": "pending_current_review_after_ci_remediation",
+      "recommended_outcome": "review_pending",
+      "review_findings": "Prior review PASS at ab7bb7b220c571775763725629421391b4bc8f17 is superseded because hosted CI exposed a deterministic current-base Runtime failure and a small production remediation was added at 6a282718d9ac174cf7e15426c071d367e787282f.",
+      "review_dispositions": "Fresh review is required for the unchanged #759 JoinSet drain repair plus the added resident-shepherd configured identity repair in adl-runtime-kernel/src/control/feeds.rs.",
+      "review_notes": "Hosted PR #779 run 34375308322 failed adl-runtime-v3-fast because resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts expected beacon and observed shepherd. The same implementation/test pair existed on fetched origin/main 9252ec0c87a309a802dfa11ce9188a859e106607, so the repair is recorded as current-base Runtime fast-suite remediation needed to unblock #759 publication rather than as the original #759 defect."
+    },
+    "sor": {
+      "status": "implemented_ci_remediated_review_pending",
+      "completion_state": "ci_remediation_committed_review_pending",
+      "summary": "Implemented the #759 dynamic-agent health sweep repair and, after PR #779 hosted CI failed at head 496eb2e27ce44c3d44605e6aa1c56d2a30ff9d96, added a narrow Runtime fast-suite remediation so resident_shepherd_from_config derives the first resident shepherd ID from the configured canonical name prefix.",
+      "integration_state": "worktree_branch_ci_remediation_committed_review_pending",
+      "tracked_implementation_artifacts": "adl-runtime-kernel/src/control.rs; adl-runtime-kernel/src/control/feeds.rs; .csdlc/evidence/759/*.log; .csdlc/issues/759/cards/*.md and *.values.json",
+      "additional_proof_artifacts": ".csdlc/evidence/759/focused-dynamic-agent-health-r2.log sha256 36f9ab92b9b0b47df1152f20a92aec030075ab803f2db96c163bff0f81b2464b; .csdlc/evidence/759/focused-resident-shepherd-id-r2.log sha256 982f91a25acf56c7727bb278ae334a154d54f1541c09d0049d618d55bdcd818f; .csdlc/evidence/759/strict-clippy-r2.log sha256 e95389e441fbb360063ee98890e447c0d186d6b0306bc2c2a90e51e045a974b7; .csdlc/evidence/759/fmt-check-r2.log sha256 71e1509ce5ae65da28b867aae0755c398275d069a043efc67600b8f822e72cf9; .csdlc/evidence/759/diff-check-r2.log sha256 4c90124bd9437fbad39bc2a7b703ec1ff36509d379d279fad0c270a149b0d4ee; .csdlc/evidence/759/runtime-kernel-full-r2.log sha256 a8055f5171c94358c47326d9ff517f9555aada041f2fa225fe4e33f9b793f347",
+      "actions_taken_line_1": "Replaced the dynamic-agent health JoinSet loop that matched only successful joins with a loop over every join result.",
+      "actions_taken_line_2": "Stored a stable task-id to dynamic-agent declaration map so task panic/cancel failures project against the correct agent identity.",
+      "actions_taken_line_3": "Added deterministic panic and cancellation regressions proving peer successes remain healthy and failed tasks surface as failed; also repaired configured resident-shepherd ID derivation after hosted Runtime fast-suite failure.",
+      "validation_command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo test --manifest-path adl-runtime-kernel/Cargo.toml resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts --test agent_roster -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; git diff --check HEAD; cargo test --manifest-path adl-runtime-kernel/Cargo.toml",
+      "validation_effect": "Focused regression proves panic/cancel task isolation and peer projection retention; resident shepherd regression proves configured canonical identity projection; fmt/clippy/diff prove Rust hygiene; full Runtime fast command documents broad-suite status.",
+      "validation_result": "PASS at source SHA 6a282718d9ac174cf7e15426c071d367e787282f for focused #759 regression, focused resident-shepherd ID regression, fmt, strict clippy, and diff check. Full Runtime fast command at the same SHA is RED status 101 due guardian_soak timeouts in signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process, guardian_lease_loss_checkpoints_and_stops_the_real_kernel, and pressure_closes_ingress_serializes_live_work_and_stops_cleanly after those tests passed/failures varied across prior reruns; classified as broad-suite timing flake/non-#759 pending hosted rerun.",
+      "verification_validation_status": "focused_pass_broad_runtime_red_classified",
+      "verification_check_1": "focused dynamic-agent health panic/cancel regression 2/2 passed at 6a282718d9ac174cf7e15426c071d367e787282f",
+      "verification_determinism_status": "passed_focused_issue_surface",
+      "determinism_tests_executed": "dynamic_agent_health_sweep_drains_after_task_panic; dynamic_agent_health_sweep_drains_after_task_cancellation; resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts",
+      "hash_byte_stability_checks": "SHA256 hashes recorded for focused, clippy, fmt, diff, hosted-failure regression, and full Runtime logs.",
+      "decision_or_deviation_1": "Hosted PR #779 run 34375308322 failed adl-runtime-v3-fast at 496eb2e27ce44c3d44605e6aa1c56d2a30ff9d96; deterministic failure reproduced locally and was repaired at 6a282718d9ac174cf7e15426c071d367e787282f.",
+      "decision_or_deviation_2": "Full local Runtime command remains broad-suite RED on timing-sensitive guardian_soak failures unrelated to #759 health-drain semantics; focused proving checks and strict hygiene passed at the exact remediation head.",
+      "follow_up_1": "Run fresh bounded review on exact remediation head before republishing PR #779.",
+      "follow_up_2": "After review PASS, update typed review/publish state, push PR #779, watch CI, and route any remaining hosted failure truthfully."
+    }
+  }
+}

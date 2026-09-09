@@ -61,10 +61,10 @@ returns a deterministic case/step error.
 Use external Cargo output:
 
 ```sh
-CARGO_TARGET_DIR=/Volumes/FastWork/adl-characterization-target cargo test \
+CARGO_TARGET_DIR=<external-characterization-target> cargo test \
   --manifest-path adl-characterization/Cargo.toml
 
-CARGO_TARGET_DIR=/Volumes/FastWork/adl-characterization-target cargo run \
+CARGO_TARGET_DIR=<external-characterization-target> cargo run \
   --manifest-path adl-characterization/Cargo.toml \
   --bin adl-characterize -- verify \
   --corpus adl-characterization/corpus/v1/corpus.yaml \

@@ -39,6 +39,8 @@ fn help_exposes_one_binary_command_surface() {
     assert!(output.status.success());
     let stdout = str::from_utf8(&output.stdout).expect("help stdout should be utf8");
     assert!(stdout.contains("usage: csdlc <command>"));
+    assert!(stdout.contains("authenticated canonical selector"));
+    assert!(stdout.contains("Missing or stale proof suspends authority"));
     assert!(stdout.contains("foundation --repo-root <path>"));
     assert!(stdout.contains("local --request <path> --registry <path> --registrations <path>"));
     for command in IMPLEMENTED_LOCAL_COMMANDS {
@@ -86,7 +88,9 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     .expect("full replacement denominator json");
 
     assert_eq!(manifest["one_binary"], "csdlc");
-    assert_eq!(manifest["operational_authority"], false);
+    assert_eq!(manifest["operational_authority"], true);
+    assert_eq!(manifest["status"], "post_cutover_operational");
+    // The full replacement denominator below is immutable pre-cutover evidence.
     assert_eq!(denominator["cutover_ready"], false);
     assert_eq!(
         denominator["status"],
@@ -118,12 +122,12 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
     {
         let row = command_row(commands, command);
         assert_eq!(row["implementation_status"], "implemented");
-        assert_eq!(row["authority_status"], "not_live");
+        assert_eq!(row["authority_status"], "authenticated_v3");
     }
     for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
         let row = command_row(commands, command);
         assert_eq!(row["implementation_status"], "implemented_construction");
-        assert_eq!(row["authority_status"], "not_live");
+        assert_eq!(row["authority_status"], "proof_only");
     }
     for command in IMPLEMENTED_HELPER_COMMANDS {
         let row = command_row(commands, command);
@@ -134,11 +138,8 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
             "{command} should be implemented before cutover"
         );
         assert!(
-            matches!(
-                row["authority_status"].as_str(),
-                Some("not_live" | "not_live_helper" | "read_only_construction")
-            ),
-            "{command} should not be live authority before #505"
+            matches!(row["authority_status"].as_str(), Some("read_only_helper")),
+            "{command} must not grant mutation authority"
         );
         assert!(row["replaces"].as_array().expect("replaces").is_empty());
     }
@@ -172,7 +173,7 @@ fn tracked_command_denominators_match_cli_surface_and_cutover_boundary() {
 }
 
 #[test]
-fn implemented_local_routes_expose_non_authoritative_help() {
+fn implemented_local_routes_expose_guarded_operational_help() {
     for command in IMPLEMENTED_LOCAL_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
@@ -187,7 +188,7 @@ fn implemented_local_routes_expose_non_authoritative_help() {
 }
 
 #[test]
-fn implemented_remote_publication_routes_expose_non_authoritative_help() {
+fn implemented_remote_publication_routes_expose_guarded_operational_help() {
     for command in IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
@@ -202,7 +203,7 @@ fn implemented_remote_publication_routes_expose_non_authoritative_help() {
 }
 
 #[test]
-fn implemented_terminal_routes_expose_non_authoritative_help() {
+fn implemented_terminal_routes_expose_guarded_operational_help() {
     for command in IMPLEMENTED_TERMINAL_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
@@ -223,31 +224,28 @@ fn assert_implemented_help(command: &str, stdout: &[u8]) {
         "{command} help should be truthful: {help_stdout}"
     );
     assert!(
-        help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
+        help_stdout.contains("C-SDLC v3 is operational after #505 / PR #591"),
         "{command} help should preserve authority boundary: {help_stdout}"
     );
 }
 
 #[test]
-fn issue_631_routes_are_implemented_construction_not_live_authority() {
+fn proof_routes_distinguish_operational_and_historical_execution() {
     for command in IMPLEMENTED_CONSTRUCTION_COMMANDS {
         let help = Command::new(env!("CARGO_BIN_EXE_csdlc"))
             .args([command, "--help"])
             .output()
-            .unwrap_or_else(|error| panic!("csdlc {command} --help should run: {error}"));
-        assert!(
-            help.status.success(),
-            "{command} --help should describe implemented construction route"
-        );
-        let help_stdout = str::from_utf8(&help.stdout).expect("help stdout should be utf8");
-        assert!(
-            help_stdout.contains("status: implemented_construction"),
-            "{command} help should be truthful: {help_stdout}"
-        );
-        assert!(
-            help_stdout.contains("C-SDLC v3 is not live authority before #505 cutover"),
-            "{command} help should preserve authority boundary: {help_stdout}"
-        );
+            .unwrap();
+        assert!(help.status.success());
+        let expected = if matches!(*command, "shadow" | "soak") {
+            "historical; execution disabled"
+        } else {
+            "operational; authenticated bound issue worktree required"
+        };
+        assert!(str::from_utf8(&help.stdout).unwrap().contains(expected));
+        assert!(str::from_utf8(&help.stdout)
+            .unwrap()
+            .contains("C-SDLC v3 is operational after #505 / PR #591"));
     }
 }
 
@@ -292,4 +290,101 @@ fn repo_root() -> PathBuf {
         .parent()
         .expect("repo root")
         .to_path_buf()
+}
+
+// PVF: deterministic local contract; small CPU/Git/subprocess; release-gating
+// for authority guidance. This checks current routing, not historical fixtures.
+fn current_authority_text_is_consistent(text: &str) -> bool {
+    let normalized = text
+        .to_lowercase()
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    let obsolete = [
+        "v3 is not live authority before #505",
+        "v2 remains live authority",
+        "v2 remains the live lifecycle authority",
+        "live route still remains typed v2",
+        "#505 is the pending",
+        "non-authoritative c-sdlc v3 contract boundary",
+        "keep using v2",
+    ];
+    normalized.contains("authenticated")
+        && normalized.contains("selector")
+        && normalized.contains("receipt")
+        && !obsolete.iter().any(|phrase| normalized.contains(phrase))
+}
+
+#[test]
+fn current_surfaces_agree_with_authenticated_post_cutover_authority() {
+    let root = repo_root();
+    let authority = csdlc_v3::authority::canonical_v3_authority(&root)
+        .expect("canonical selector and authenticated receipt must validate")
+        .expect("this post-cutover repository requires native v3 authority");
+    assert_eq!(authority.operational_authority, "csdlc-v3");
+    for path in [
+        "AGENTS.md",
+        "csdlc-v3/AGENTS.md",
+        "csdlc-v3/README.md",
+        "docs/default_workflow.md",
+        "docs/tooling/card-lifecycle.md",
+        "docs/tooling/structured-prompt-contracts.md",
+        "docs/csdlc-v3/CURRENT_AUTHORITY.md",
+        "docs/templates/prompts/current.json",
+        "docs/csdlc-v3/v3-command-manifest.json",
+        "csdlc-v3/src/lib.rs",
+        "csdlc-v3/src/commands/local/mod.rs",
+        "csdlc-v3/src/commands/mod.rs",
+        "csdlc-v3/src/commands/sprint.rs",
+        "csdlc-v3/Cargo.toml",
+    ] {
+        let text = fs::read_to_string(root.join(path)).expect("current authority surface");
+        assert!(
+            current_authority_text_is_consistent(&text),
+            "obsolete routing in {path}"
+        );
+    }
+    for command in IMPLEMENTED_LOCAL_COMMANDS
+        .iter()
+        .chain(IMPLEMENTED_REMOTE_PUBLICATION_COMMANDS)
+        .chain(IMPLEMENTED_TERMINAL_COMMANDS)
+        .chain(IMPLEMENTED_CONSTRUCTION_COMMANDS)
+    {
+        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .args([command, "--help"])
+            .output()
+            .expect("actual CLI help");
+        assert!(output.status.success());
+        let help = str::from_utf8(&output.stdout).unwrap();
+        assert!(
+            current_authority_text_is_consistent(help),
+            "obsolete {command} help"
+        );
+        assert!(help.contains("authenticated canonical selector"));
+        assert!(help.contains("Missing or stale proof suspends authority"));
+    }
+}
+
+#[test]
+fn authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback() {
+    let guarded =
+        "C-SDLC v3 is operational; authenticated canonical selector and receipt are required.";
+    assert!(current_authority_text_is_consistent(guarded));
+    assert!(!current_authority_text_is_consistent(
+        "C-SDLC v3 is operational unconditionally."
+    ));
+    for text in [
+        "C-SDLC v2 remains the live lifecycle authority.",
+        "authority: C-SDLC v3 is not live authority before #505 cutover.",
+        "If proof is absent, keep using v2.",
+        "V3-F/#505 is the pending tooling changeover decision.",
+    ] {
+        assert!(
+            !current_authority_text_is_consistent(&format!("{guarded} {text}")),
+            "missed contradiction despite valid guard: {text}"
+        );
+    }
+    assert!(current_authority_text_is_consistent(
+        "C-SDLC v3 is operational; authenticated canonical selector and receipt are required."
+    ));
 }

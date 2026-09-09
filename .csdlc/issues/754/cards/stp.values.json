@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 754,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][tooling] Restore v2 registry compatibility after template 1.0.4",
+    "slug": "registry-104-compatibility",
+    "version": "v0.92.2",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Registry compatibility and focused regressions only.",
+      "deliverables": [
+        "Registry fix",
+        "Regression tests",
+        "Standalone validation and independent review"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Accept coherent1.0.3/1.0.4 registries.",
+        "AC-2: Reject identity/path/shape drift before writes.",
+        "AC-3: Standalone tests/fmt/clippy and independent review pass."
+      ],
+      "dependencies": [
+        "None; separate blocker fix for PR753."
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/registry.rs",
+        "docs/templates/prompts/current.json"
+      ],
+      "non_goals": [
+        "Native card version changes",
+        "Release approval",
+        "PR753 merge"
+      ]
+    }
+  }
+}

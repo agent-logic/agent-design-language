@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 761,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+    "slug": "review-lane-denominators",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "packet-denominator-contract",
+          "proof_role": "Deterministic Python routing and validation contract proof; not a release gate.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+            "-v"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on incomplete test proof, denominator corruption or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/761/design.md",
+      "design_digest": "1d7815d5e7855103ca6af5d5fb1846a75cff9bf7495141137002eff436f1c26d",
+      "diagram_ref": ".csdlc/prepared/issues/761/diagram.mmd",
+      "diagram_digest": "227d32612782fea85e1af8d9113332e85080a0c8816117cbd8ef463127554424"
+    }
+  }
+}

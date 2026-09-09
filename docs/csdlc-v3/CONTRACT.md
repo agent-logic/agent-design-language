@@ -109,7 +109,7 @@ A routine three-issue sprint must be mechanically prepared and made ready in
 three minutes or less, not hours. Hand-authored lifecycle JSON and repeated
 digest choreography are not acceptable as the default operator experience.
 
-## Simple issue creation
+## Simple issue operations
 
 For ordinary issue creation, use the GitHub-like form:
 
@@ -143,6 +143,31 @@ The request-file form remains the advanced and audit-oriented interface:
 csdlc github-issue --request issue-create-dispatch.json --execute
 ```
 
+For explicit duplicate, superseded, or no-op issue closure, use:
+
+```sh
+csdlc github-issue close \
+  --repo agent-logic/agent-design-language \
+  --issue 792 \
+  --disposition duplicate \
+  --duplicate-of 791 \
+  --rationale "accidental retry duplicate of #791" \
+  --body-file issue-792-current-body.md \
+  --expected-head <exact-reviewed-40-hex-sha> \
+  --execute
+```
+
+`--disposition` accepts `duplicate`, `superseded`, or `no-op`. Duplicate
+closure requires `--duplicate-of`; all closure requires a non-empty rationale.
+`--body` or `--body-file` must provide the authenticated current issue body so
+the route can append close truth without clobbering existing issue provenance.
+The typed close route patches the issue to GitHub `state=closed` with
+`state_reason=not_planned`, appends the C-SDLC operation marker and close
+section to the issue body, and then authenticates readback of the same closed
+issue before recording a durable receipt. It intentionally rejects `completed`
+state reasons so this route cannot masquerade as implementation completion;
+merged implementation finish remains owned by the `finish` route.
+
 ## Rollback and fail-closed behavior
 
 - v2 is the retained rollback target after V3-F; rollback requires explicit
@@ -164,3 +189,48 @@ csdlc github-issue --request issue-create-dispatch.json --execute
 Review of this packet should ask only whether V3-A establishes a complete,
 reviewable construction contract for #500. It must not approve V3 operational
 cutover, V3-B/V3-C implementation, v2 retirement, or broad repository cleanup.
+
+## Existing-issue metadata updates (#797)
+
+Use `csdlc github-issue --request issue-edit-dispatch.json --execute` with the
+usual canonical selector digest and exact-head operational envelope. Its
+`operation.kind` is `github_mutation`; `operation.request` identifies the exact
+repository, issue, expected head and credential name. The nested `mutation`
+uses [the issue-edit schema](issue-edit.schema.json), for example:
+
+```json
+{
+  "action": "issue_edit",
+  "labels": {"operation": "add", "names": ["version:v0.92.1"]},
+  "milestone": {"operation": "set", "number": 1}
+}
+```
+
+- Omitted title, labels, assignees or milestone produce no corresponding PATCH
+  field. Omitted body is fetched through authenticated readback and preserved,
+  with the durable operation marker appended. Empty body explicitly clears its
+  prose while retaining that marker.
+- Labels support `add`, `remove` and `replace`. `replace` with `names: []`
+  clears labels. Add/remove retain unrelated labels; name comparison is
+  case-insensitive. Assignees accept an exact replacement list; `[]` clears it.
+- Milestone `set` requires a positive numeric milestone number. `clear` emits
+  an explicit API null. Bare null metadata and unknown operation fields are
+  rejected; omission is never interpreted as a clear.
+- Label deltas and an omitted body are resolved once from authenticated issue
+  state before the durable intent is written. The intent retains both the
+  original operation identity and the resolved target; its digest binds both.
+  Readback requires exact requested label/assignee sets, milestone number/null,
+  title when requested, and body including the operation marker. Missing or
+  malformed readback fields are not evidence of a clear.
+- After an uncertain response, rerun the identical request in the same bound
+  checkout to reconcile read-only. Issue edits do not support automatic or
+  `retry_after_authenticated_absence` write replay: a mismatch may represent
+  later human changes. Retained intent remains for inspection; a separately
+  reviewed new request is necessary if the original write did not apply.
+  Successful receipt replay also rechecks the authenticated exact result.
+
+PVF: the `issue_metadata_*` tests are required native-owner contract proof:
+small deterministic local CPU/filesystem/Git fixtures and fake transports;
+no live GitHub writes. Existing selector, credentials, durable input permissions
+and stdout/stderr/redaction behavior remain unchanged. Tests cover request and
+PATCH shape, exact readback, retained retry targets and drift rejection.

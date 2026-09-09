@@ -1,6 +1,6 @@
 # v0.92.2 Supporting Platform and Publication Tracks
 
-Status: planned; no issue or execution authority exists until WP-01 opens the milestone.
+Status: new work remains planned until WP-01 opens the wave. Existing #720 retains its own issue authority. #717/#718 execute under v0.92.1 and are consumed here as predecessors after merge.
 
 These tracks support CodeFriend Beta 1 without being folded into one oversized product issue.
 
@@ -17,3 +17,7 @@ These tracks support CodeFriend Beta 1 without being folded into one oversized p
 | SPEC-RETEST | Keep, repair, or retire decision | Current reproducible correctness and performance evidence |
 
 Each row becomes a separate bounded issue. OCI packaging, ATE, Runtime v4, customer-scale deployment, OpenRewrite services, and other deferred programs remain outside v0.92.2.
+
+## Existing admitted tracks
+
+Reuse #720 for retained-mode hazard removal. Consume the reviewed merged #717 capability-orientation and #718 canonical-name A2A results from v0.92.1; do not create replacements. #720 converges at TAIL-01, not at CF-INTEGRATE.

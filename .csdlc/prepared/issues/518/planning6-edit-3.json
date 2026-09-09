@@ -1,0 +1,15 @@
+{
+  "issue": 518,
+  "card": "stp",
+  "expected_generation": 5,
+  "expected_digest": "1e38f9d31ea377a425ff6a2ab4ca10fcd4e6a6fbd9240873700e7108427613c2",
+  "actor": "codex:planning-6",
+  "reason": "Apply explicit operator start-now and use-v2 instructions while preserving the final issue 517 quality gate.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Issue 517 passing reviewed merge gates final acceptance and handoff; operator authorized independent corrections now."
+    ]
+  }
+}

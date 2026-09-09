@@ -1,0 +1,19 @@
+{
+  "issue": 517,
+  "title": "[v0.92.1][TAIL-01] Quality gate",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/517-tail-01-quality-gate",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-517-tail-01-quality-gate",
+  "registry_version": "1.0.3",
+  "expected_lifecycle_digest": "68220a73f435ab0243a66162dd0547302c884ccacf976db215a302d125d14c73",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ]
+}
