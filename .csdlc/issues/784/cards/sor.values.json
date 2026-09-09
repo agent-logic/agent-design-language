@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 784,
+  "issue_padded": "0784",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/784",
+  "title": "[v0.92.1][Runtime] Return completed A2A replies to the initiating agent",
+  "branch": "codex/784-runtime-a2a-closed-loop",
+  "version": "1.0.4",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-784-runtime-a2a-closed-loop"
+}

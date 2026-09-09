@@ -2746,7 +2746,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_sequence: Some(dispatch.sequence),
             error: Some(error),
         };
-        let mut dispatch_gate_completed = false;
         let dynamic_binding = self
             .dynamic_agents
             .lock()
@@ -2764,6 +2763,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let orientation_context = self
             .orientation_for_agent(&dispatch.intent.recipient_id)
             .map(|orientation| orientation.content);
+        let continuation_binding = dynamic_binding.clone();
+        let continuation_orientation = orientation_context.clone();
         let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
@@ -2884,8 +2885,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             match reply {
                                 Some(reply) => match requested_agent_initiation {
                                     Ok(Some(delegated)) => {
-                                        dispatch.dispatch_gate.complete(dispatch.sequence);
-                                        dispatch_gate_completed = true;
                                         let initiated = match self
                                             .accept_runtime_delegated_agent_initiation(&delegated)
                                         {
@@ -2899,9 +2898,29 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             }
                                             ConversationAcceptance::Response(response) => response,
                                         };
+                                        let continued_reply = self
+                                            .continue_after_agent_result(
+                                                &dispatch,
+                                                continuation_binding.as_ref(),
+                                                continuation_orientation.as_deref(),
+                                                &initiated,
+                                            )
+                                            .await;
+                                        let (status, error, final_reply) = match continued_reply {
+                                            Ok(continued_reply) => (
+                                                initiated.status,
+                                                initiated.error,
+                                                Some(continued_reply),
+                                            ),
+                                            Err(_) => (
+                                                "failed",
+                                                Some("agent_result_continuation_failed"),
+                                                Some(reply),
+                                            ),
+                                        };
                                         ObservatoryConversationResult {
                                             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                            status: initiated.status,
+                                            status,
                                             conversation_id: dispatch
                                                 .intent
                                                 .conversation_id
@@ -2929,18 +2948,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                                 delegated.intent.message.as_deref(),
                                                 &delegated.intent.message_parts,
                                             ),
-                                            initiated_reply: initiated.reply,
+                                            initiated_reply: initiated.reply.clone(),
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
                                             // The latter remains correlated through the initiated
                                             // identifiers and Runtime events; do not replace the
                                             // former with peer output.
-                                            reply: Some(reply),
+                                            reply: final_reply,
                                             accepted_sequence: initiated
                                                 .accepted_sequence
                                                 .or(Some(result.accepted_sequence)),
                                             turn_sequence: Some(dispatch.sequence),
-                                            error: initiated.error,
+                                            error,
                                         }
                                     }
                                     Ok(None) => ObservatoryConversationResult {
@@ -3020,9 +3039,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 Some(&dispatch.intent.correlation_id),
             );
         }
-        if !dispatch_gate_completed {
-            dispatch.dispatch_gate.complete(dispatch.sequence);
-        }
+        dispatch.dispatch_gate.complete(dispatch.sequence);
         if let Some(turn) = self
             .conversation_sessions
             .lock()
@@ -3059,6 +3076,54 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 return None;
             }
         }
+    }
+
+    async fn continue_after_agent_result(
+        &self,
+        dispatch: &ConversationDispatch,
+        binding: Option<&AgentAdmissionRequest>,
+        orientation_context: Option<&str>,
+        initiated: &ObservatoryConversationResult,
+    ) -> Result<String, &'static str> {
+        let binding = binding.ok_or("agent_result_continuation_unavailable")?;
+        let operator_message = assemble_agent_conversation_message(
+            dispatch.intent.message.as_deref(),
+            &dispatch.intent.message_parts,
+        )
+        .ok_or("agent_result_continuation_invalid")?;
+        let peer_result = serde_json::json!({
+            "schema": "adl.runtime.agent_to_agent_result_context.v1",
+            "recipient_id": initiated.recipient_id,
+            "conversation_id": initiated.conversation_id,
+            "turn_id": initiated.turn_id,
+            "correlation_id": initiated.correlation_id,
+            "work_id": initiated.initiated_work_id,
+            "status": initiated.status,
+            "reply": initiated.reply,
+            "error": initiated.error,
+        });
+        let prompt = crate::assembly::provider_agent_result_continuation_prompt(
+            orientation_context,
+            &dispatch.intent.recipient_id,
+            &operator_message,
+            &peer_result,
+        )
+        .ok_or("agent_result_continuation_too_large")?;
+        if dispatch.cancellation.is_cancelled() {
+            return Err("operation cancelled");
+        };
+        let output = crate::control::invoke_provider_conversation(
+            &binding.provider,
+            &binding.endpoint,
+            &binding.model,
+            &prompt,
+            &dispatch.cancellation,
+        )
+        .await?;
+        if output.agent_to_agent.is_some() || output.message.trim().is_empty() {
+            return Err("agent_result_continuation_invalid");
+        }
+        Ok(output.message)
     }
 
     fn cancel_conversation_turn(
@@ -7503,33 +7568,58 @@ mod layer8_conversation_ingress_tests {
                     .expect("fixture requests poisoned")
                     .push(serde_json::json!({"request_line": request_line, "body": body}));
                 let response_body = if request_line.starts_with("POST /api/chat ") {
-                    serde_json::json!({
-                        "model": "beacon-model",
-                        "message": {
-                            "role": "assistant",
-                            "content": "I can ask Ember through the governed action channel.",
-                            "tool_calls": [{
-                                "function": {
-                                    "name": "initiate_agent",
-                                    "arguments": {
-                                        "recipient_id": "ember",
-                                        "message_parts": [
-                                            "Multipart governed handoff follows.",
-                                            "Ember, please answer Beacon through governed A2A.",
-                                            "Include the welcome-package orientation receipt in your reasoning context."
-                                        ]
+                    let closes_loop =
+                        body["messages"][0]["content"]
+                            .as_str()
+                            .is_some_and(|prompt| {
+                                prompt.contains("A governed agent-to-agent action you initiated")
+                            });
+                    if closes_loop {
+                        serde_json::json!({
+                            "model": "beacon-model",
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ember returned a governed response, so the loop is closed."
+                            },
+                            "done": true
+                        })
+                    } else {
+                        serde_json::json!({
+                            "model": "beacon-model",
+                            "message": {
+                                "role": "assistant",
+                                "content": "I can ask Ember through the governed action channel.",
+                                "tool_calls": [{
+                                    "function": {
+                                        "name": "initiate_agent",
+                                        "arguments": {
+                                            "recipient_id": "ember",
+                                            "message_parts": [
+                                                "Multipart governed handoff follows.",
+                                                "Ember, please answer Beacon through governed A2A.",
+                                                "Include the welcome-package orientation receipt in your reasoning context."
+                                            ]
+                                        }
                                     }
-                                }
-                            }]
-                        },
-                        "done": true
-                    })
+                                }]
+                            },
+                            "done": true
+                        })
+                    }
                 } else if request_line.starts_with("POST /api/generate ") {
-                    serde_json::json!({
-                        "model": "ember-model",
-                        "response": "Ember generated a governed response for Beacon.",
-                        "done": true
-                    })
+                    if body["model"] == "beacon-model" {
+                        serde_json::json!({
+                            "model": "beacon-model",
+                            "response": "Ember returned a governed response, so the loop is closed.",
+                            "done": true
+                        })
+                    } else {
+                        serde_json::json!({
+                            "model": "ember-model",
+                            "response": "Ember generated a governed response for Beacon.",
+                            "done": true
+                        })
+                    }
                 } else {
                     serde_json::json!({"error": "unexpected fixture route"})
                 };
@@ -7874,8 +7964,8 @@ mod layer8_conversation_ingress_tests {
         );
         assert_eq!(
             delivered.reply.as_deref(),
-            Some("I can ask Ember through the governed action channel."),
-            "Beacon's operator reply must remain distinct from Ember's governed result"
+            Some("Ember returned a governed response, so the loop is closed."),
+            "Beacon must synthesize the governed peer result before completing the operator turn"
         );
         assert_eq!(
             delivered.initiated_reply.as_deref(),
@@ -7906,7 +7996,7 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(history.records[1].speaker_id, "agent:beacon");
         assert_eq!(
             history.records[1].body,
-            "I can ask Ember through the governed action channel."
+            "Ember returned a governed response, so the loop is closed."
         );
         assert_eq!(
             history.records[2].history_kind.as_deref(),
@@ -8020,8 +8110,8 @@ mod layer8_conversation_ingress_tests {
                 .expect("provider request fixture poisoned");
             assert_eq!(
                 requests.len(),
-                2,
-                "initiator and recipient must both execute"
+                3,
+                "initiator, recipient, and initiating-agent follow-up must execute"
             );
             assert_eq!(requests[0]["request_line"], "POST /api/chat HTTP/1.1");
             assert_eq!(
@@ -8074,6 +8164,24 @@ mod layer8_conversation_ingress_tests {
                 1,
                 "second multipart chunk must not be duplicated: {recipient_prompt}"
             );
+            assert_eq!(requests[2]["request_line"], "POST /api/chat HTTP/1.1");
+            assert_eq!(requests[2]["body"]["model"], "beacon-model");
+            let follow_up_prompt = requests[2]["body"]["messages"][0]["content"]
+                .as_str()
+                .expect("initiator continuation prompt should be a string");
+            assert!(follow_up_prompt.contains(
+                "A governed agent-to-agent action you initiated for the current operator turn has completed"
+            ));
+            assert!(follow_up_prompt.contains("Ember generated a governed response for Beacon."));
+            assert_eq!(
+                follow_up_prompt
+                    .matches("Ember generated a governed response for Beacon.")
+                    .count(),
+                1,
+                "completed peer result must enter the next initiator turn exactly once: {follow_up_prompt}"
+            );
+            assert!(follow_up_prompt.contains("\"status\": \"delivered\""));
+            assert!(follow_up_prompt.contains("\"recipient_id\": \"ember\""));
         }
         let events = recorder.events();
         assert!(
