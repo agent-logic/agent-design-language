@@ -37,7 +37,7 @@ const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str =
-    "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path> [--observe-github] [--execute]";
+    "usage: csdlc <github|github-issue|github-pr|pr-state|publish|review> --request <path> [--observe-github] [--execute]\n\nExisting issues: issue_edit supports labels {operation: add|remove|replace, names: [...]}, milestone {operation: set, number: N}|{operation: clear}, and assignees [...]. Omitted metadata is preserved; replace names [] clears labels. See docs/csdlc-v3/issue-edit.schema.json and CONTRACT.md.";
 const TERMINAL_USAGE: &str =
     "usage: csdlc <finish|clean|cutover> --request <path> [--observe-github]";
 const SPRINT_USAGE: &str = "usage: csdlc sprint --repo-root <path> --request <path>";
@@ -642,9 +642,13 @@ fn discover_repo_root(start: PathBuf) -> Option<PathBuf> {
 }
 
 fn remote_usage(command: &str) -> String {
-    format!(
+    let mut usage = format!(
         "usage: csdlc {command} --request <path> [--observe-github] [--execute]\n\nstatus: implemented\nauthority: {AUTHORITY_HELP}"
-    )
+    );
+    if command == "github-issue" {
+        usage.push_str("\n\nissue_edit: labels {operation: add|remove|replace, names: [...]}; milestone {operation: set, number: N}|{operation: clear}; assignees [...]. Omitted metadata is preserved; replace names [] clears labels. Contract/schema: docs/csdlc-v3/issue-edit.schema.json and CONTRACT.md.");
+    }
+    usage
 }
 
 fn terminal_usage(command: &str) -> String {

@@ -140,7 +140,7 @@ pub struct ObservedRemoteRouteRequest {
 /// A bounded GitHub mutation owned by the v3 remote route.  Arbitrary URLs,
 /// shell strings and credential values are deliberately not representable.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(tag = "action", rename_all = "snake_case")]
+#[serde(tag = "action", rename_all = "snake_case", deny_unknown_fields)]
 pub enum GithubMutation {
     IssueCreate {
         title: String,
@@ -158,6 +158,24 @@ pub enum GithubMutation {
     IssueEdit {
         title: Option<String>,
         body: Option<String>,
+        #[serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "explicit_metadata"
+        )]
+        labels: Option<IssueLabelsUpdate>,
+        #[serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "explicit_metadata"
+        )]
+        assignees: Option<Vec<String>>,
+        #[serde(
+            default,
+            skip_serializing_if = "Option::is_none",
+            deserialize_with = "explicit_metadata"
+        )]
+        milestone: Option<IssueMilestoneUpdate>,
     },
     IssueClose {
         rationale: String,
@@ -181,6 +199,30 @@ pub enum GithubMutation {
         body: Option<String>,
     },
     PullRequestReady,
+}
+
+fn explicit_metadata<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: Deserialize<'de>,
+{
+    T::deserialize(deserializer).map(Some)
+}
+
+/// Omission preserves metadata; clear operations are explicit, never JSON null.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "operation", rename_all = "snake_case", deny_unknown_fields)]
+pub enum IssueLabelsUpdate {
+    Replace { names: Vec<String> },
+    Add { names: Vec<String> },
+    Remove { names: Vec<String> },
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "operation", rename_all = "snake_case", deny_unknown_fields)]
+pub enum IssueMilestoneUpdate {
+    Set { number: u64 },
+    Clear,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -230,6 +272,9 @@ pub struct GithubMutationIntent {
     pub authority_selector_digest: String,
     pub request: GithubMutationRequest,
     pub adapter: String,
+    /// First authenticated resolution, retained unchanged across retries.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resolved_edit: Option<GithubMutation>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -956,17 +1001,38 @@ pub fn execute_github_mutation(
     let operation_marker = github_mutation_operation_marker(&operation_digest);
     let mut intent_request = request.clone();
     intent_request.recovery = None;
-    let intent = GithubMutationIntent {
+    let mut intent = GithubMutationIntent {
         schema: "csdlc.v3.github_mutation_intent.v1".into(),
         operation_digest: operation_digest.clone(),
         operation_marker: operation_marker.clone(),
         authority_selector_digest: authority.selector_digest,
         request: intent_request,
         adapter: GITHUB_OPERATIONAL_ADAPTER.into(),
+        resolved_edit: None,
     };
-    let intent_digest = github_mutation_intent_digest(&intent);
     let intent_path = github_mutation_intent_path(repo_root, &operation_digest)?;
     let receipt_path = github_mutation_receipt_path(repo_root, &operation_digest)?;
+
+    // Resolve once, before intent persistence. Retry uses the retained target rather
+    // than recomputing label deltas or taking a newer issue body as the baseline.
+    if intent_path.exists() {
+        let existing = load_mutation_intent(&intent_path, &operation_digest)?;
+        intent.resolved_edit = existing.resolved_edit.clone();
+        if existing != intent {
+            return Err(remote_finding(
+                "github_mutation_intent_mismatch",
+                "retained intent differs from this operation",
+            ));
+        }
+    } else if matches!(request.mutation, GithubMutation::IssueEdit { .. }) {
+        intent.resolved_edit = Some(resolve_issue_edit(request, process)?);
+    }
+    let intent_digest = github_mutation_intent_digest(&intent);
+    let mut effective_request = request.clone();
+    if let Some(edit) = &intent.resolved_edit {
+        effective_request.mutation = edit.clone();
+    }
+    let request = &effective_request;
 
     if receipt_path.exists() {
         let mut receipt = load_mutation_receipt(&receipt_path, &operation_digest)?;
@@ -1003,6 +1069,7 @@ pub fn execute_github_mutation(
             Ok((reconciliation, invocation)) => (reconciliation, invocation, None, true),
             Err(finding)
                 if finding.code == "github_mutation_not_reconciled"
+                    && !matches!(request.mutation, GithubMutation::IssueEdit { .. })
                     && request.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
@@ -1083,6 +1150,103 @@ pub fn execute_github_mutation(
         receipt,
         reconciliation,
         invocation,
+    })
+}
+
+fn same_names(actual: &[String], expected: &[String]) -> bool {
+    let canonical = |names: &[String]| {
+        names
+            .iter()
+            .map(|name| name.to_lowercase())
+            .collect::<std::collections::BTreeSet<_>>()
+    };
+    canonical(actual) == canonical(expected)
+}
+
+fn exact_issue_names(value: &serde_json::Value, field: &str) -> Option<Vec<String>> {
+    value
+        .as_array()?
+        .iter()
+        .map(|v| v.as_str().or_else(|| v[field].as_str()).map(str::to_owned))
+        .collect()
+}
+
+fn resolve_issue_edit(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<GithubMutation, RemoteRouteFinding> {
+    let GithubMutation::IssueEdit {
+        title,
+        body,
+        labels,
+        assignees,
+        milestone,
+    } = &request.mutation
+    else {
+        unreachable!()
+    };
+    let invocation = github_mutation_reconciliation_invocation(request, "")?
+        .with_child_credential(mutation_credential_name(request)?)
+        .map_err(|_| {
+            remote_finding("github_credential_scope_invalid", "invalid credential name")
+        })?;
+    let output = process.run(invocation);
+    if output.truncated || output.status != ProcessStatus::Exit(0) {
+        return Err(remote_finding(
+            "github_issue_edit_baseline_unavailable",
+            "authenticated issue baseline must succeed before retaining intent",
+        ));
+    }
+    let value: serde_json::Value = serde_json::from_str(&output.stdout).map_err(|_| {
+        remote_finding(
+            "github_issue_edit_baseline_invalid",
+            "issue baseline is not JSON",
+        )
+    })?;
+    if value["number"].as_u64() != Some(request.issue) || value.get("pull_request").is_some() {
+        return Err(remote_finding(
+            "github_issue_edit_baseline_invalid",
+            "issue baseline identity mismatch",
+        ));
+    }
+    let preserved_body = match value.get("body") {
+        Some(serde_json::Value::Null) => String::new(),
+        Some(serde_json::Value::String(body)) => body.clone(),
+        _ => {
+            return Err(remote_finding(
+                "github_issue_edit_baseline_invalid",
+                "issue body missing",
+            ))
+        }
+    };
+    let baseline_labels = exact_issue_names(&value["labels"], "name").ok_or_else(|| {
+        remote_finding(
+            "github_issue_edit_baseline_invalid",
+            "issue labels missing or invalid",
+        )
+    })?;
+    let labels = match labels {
+        Some(IssueLabelsUpdate::Add { names } | IssueLabelsUpdate::Remove { names }) => {
+            let mut current = baseline_labels;
+            if matches!(labels, Some(IssueLabelsUpdate::Add { .. })) {
+                for name in names {
+                    if !current.iter().any(|n| n.eq_ignore_ascii_case(name)) {
+                        current.push(name.clone());
+                    }
+                }
+            } else {
+                current.retain(|n| !names.iter().any(|name| n.eq_ignore_ascii_case(name)));
+            }
+            Some(IssueLabelsUpdate::Replace { names: current })
+        }
+        other => other.clone(),
+    };
+    Ok(GithubMutation::IssueEdit {
+        title: title.clone(),
+        body: Some(body.clone().unwrap_or(preserved_body)),
+        labels,
+        assignees: assignees.clone(),
+        milestone: milestone.clone(),
     })
 }
 
@@ -1285,13 +1449,17 @@ fn mutation_credential_name(request: &GithubMutationRequest) -> Result<String, R
 }
 
 fn github_mutation_intent_digest(intent: &GithubMutationIntent) -> String {
-    stable_digest(&[
+    let base = stable_digest(&[
         &intent.schema,
         &intent.operation_digest,
         &intent.operation_marker,
         &intent.authority_selector_digest,
         &intent.adapter,
-    ])
+    ]);
+    match &intent.resolved_edit {
+        Some(edit) => stable_digest(&[&base, &serde_json::to_string(edit).unwrap_or_default()]),
+        None => base, // Preserve existing intent/receipt identities.
+    }
 }
 
 fn github_mutation_reconciliation_digest(
@@ -1349,13 +1517,19 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
             "github_body_missing",
             "issue comment body must not be empty",
         )),
-        GithubMutation::IssueEdit { title, body }
-            if (title.is_none() && body.is_none()) || body.is_none() =>
-        {
-            Err(remote_finding(
-                "github_issue_edit_marker_body_missing",
-                "issue edit requires a body so authenticated readback can bind the operation marker",
-            ))
+        GithubMutation::IssueEdit { title, body, labels, assignees, milestone } => {
+            let names = labels.as_ref().map(|update| match update {
+                IssueLabelsUpdate::Replace { names } | IssueLabelsUpdate::Add { names }
+                | IssueLabelsUpdate::Remove { names } => names,
+            });
+            if request.pull_request.is_some()
+                || (title.is_none() && body.is_none() && labels.is_none() && assignees.is_none() && milestone.is_none())
+                || title.as_ref().is_some_and(|title| title.trim().is_empty())
+                || matches!(milestone, Some(IssueMilestoneUpdate::Set { number: 0 }))
+                || names.into_iter().chain(assignees.as_ref()).any(|names| names.iter().any(|name| name.trim().is_empty()))
+            {
+                Err(remote_finding("github_issue_edit_invalid", "issue edit requires a selected field, valid names/milestone and no PR target"))
+            } else { Ok(()) }
         }
         GithubMutation::IssueClose {
             rationale,
@@ -1511,8 +1685,41 @@ fn write_mutation_input(
         GithubMutation::IssueComment { body } => {
             serde_json::json!({"body": body_with_operation_marker(body, operation_marker)})
         }
-        GithubMutation::IssueEdit { title, body }
-        | GithubMutation::PullRequestUpdate { title, body } => {
+        GithubMutation::IssueEdit {
+            title,
+            body,
+            labels,
+            assignees,
+            milestone,
+        } => {
+            let mut value = serde_json::Map::new();
+            if let Some(title) = title {
+                value.insert("title".into(), serde_json::json!(title));
+            }
+            if let Some(body) = body {
+                value.insert(
+                    "body".into(),
+                    serde_json::json!(body_with_operation_marker(body, operation_marker)),
+                );
+            }
+            if let Some(IssueLabelsUpdate::Replace { names }) = labels {
+                value.insert("labels".into(), serde_json::json!(names));
+            }
+            if let Some(assignees) = assignees {
+                value.insert("assignees".into(), serde_json::json!(assignees));
+            }
+            if let Some(milestone) = milestone {
+                value.insert(
+                    "milestone".into(),
+                    match milestone {
+                        IssueMilestoneUpdate::Set { number } => serde_json::json!(number),
+                        IssueMilestoneUpdate::Clear => serde_json::Value::Null,
+                    },
+                );
+            }
+            serde_json::Value::Object(value)
+        }
+        GithubMutation::PullRequestUpdate { title, body } => {
             serde_json::json!({
                 "title": title,
                 "body": body.as_ref().map(|body| body_with_operation_marker(body, operation_marker))
@@ -1809,7 +2016,13 @@ fn match_reconciled_mutation(
                     && candidate["body"].as_str()
                         == Some(body_with_operation_marker(body, operation_marker).as_str())
             }
-            GithubMutation::IssueEdit { title, body } => {
+            GithubMutation::IssueEdit {
+                title,
+                body,
+                labels,
+                assignees,
+                milestone,
+            } => {
                 candidate["number"].as_u64() == Some(request.issue)
                     && title
                         .as_ref()
@@ -1817,6 +2030,25 @@ fn match_reconciled_mutation(
                     && body.as_ref().is_some_and(|body| {
                         candidate["body"].as_str()
                             == Some(body_with_operation_marker(body, operation_marker).as_str())
+                    })
+                    && labels.as_ref().is_none_or(|labels| match labels {
+                        IssueLabelsUpdate::Replace { names } => {
+                            exact_issue_names(&candidate["labels"], "name")
+                                .is_some_and(|actual| same_names(&actual, names))
+                        }
+                        _ => false,
+                    })
+                    && assignees.as_ref().is_none_or(|names| {
+                        exact_issue_names(&candidate["assignees"], "login")
+                            .is_some_and(|actual| same_names(&actual, names))
+                    })
+                    && milestone.as_ref().is_none_or(|milestone| match milestone {
+                        IssueMilestoneUpdate::Set { number } => {
+                            candidate["milestone"]["number"].as_u64() == Some(*number)
+                        }
+                        IssueMilestoneUpdate::Clear => candidate
+                            .get("milestone")
+                            .is_some_and(serde_json::Value::is_null),
                     })
             }
             GithubMutation::IssueClose {

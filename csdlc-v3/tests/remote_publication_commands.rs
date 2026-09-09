@@ -602,3 +602,22 @@ fn review_route_rejects_self_review_even_with_whitespace() {
         .iter()
         .any(|finding| finding.code == "self_review_denied"));
 }
+
+// PVF #797: required small deterministic CLI/help contract, no remote writes.
+#[test]
+fn existing_issue_help_describes_metadata_omission_and_clear() {
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args(["github-issue", "--help"])
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    let help = String::from_utf8(output.stdout).unwrap();
+    for contract in [
+        "add|remove|replace",
+        "operation: clear",
+        "Omitted metadata is preserved",
+        "issue-edit.schema.json",
+    ] {
+        assert!(help.contains(contract), "missing {contract}");
+    }
+}
