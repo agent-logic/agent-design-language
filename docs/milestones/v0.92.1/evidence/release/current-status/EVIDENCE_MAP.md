@@ -1,0 +1,460 @@
+# Current release status evidence map
+
+Draft for #767; release decision **blocked**. Exact projection source: `7ecc70b517ef2f7ee86a6456d8c778daf8c558d3`. This is documentation synthesis; source-time proof is not automatically current release acceptance.
+
+The 35 execution work packages below come from the [retained admission](../../integration/release-tail-admission.json). Each source classification is retained literally. Its candidate is `bf159eb416950dfa3399933829726a7b7e71f897`; it is not the current source revision. Complete new review denominators (#761), candidate proof (#764), and substantive #522 fixes must land before final projection. Source-time review drift is preserved as evidence, not reclassified as newly discovered implementation failure.
+
+## REPO
+
+**Repository and milestone opening** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Execution-wave creation receipt and repository planning delivered.
+
+Limit: Opening receipt is not product proof or release approval. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### WP-01 — [#480](https://github.com/agent-logic/agent-design-language/issues/480)
+
+Implementation: [`23856abbc7cde90dd9d1c6467dd6c61aca1bc274`](https://github.com/agent-logic/agent-design-language/commit/23856abbc7cde90dd9d1c6467dd6c61aca1bc274); merge: [`001c270beda2b35b60e0be04f3c3bd331a156c48`](https://github.com/agent-logic/agent-design-language/commit/001c270beda2b35b60e0be04f3c3bd331a156c48).
+
+Retained criterion classifications: `{"proven": 5}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json)
+
+## CORP
+
+**Corporate and IP** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance.
+
+Limit: Recordless acceptance is an amendment, not a fabricated test run; retained criteria need complete candidate review. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### CORP-A — [#482](https://github.com/agent-logic/agent-design-language/issues/482)
+
+Implementation: [`2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c`](https://github.com/agent-logic/agent-design-language/commit/2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c); merge: [`e2c1d1649b0c930a5a1254575a07ef2a4496d48d`](https://github.com/agent-logic/agent-design-language/commit/e2c1d1649b0c930a5a1254575a07ef2a4496d48d).
+
+Retained criterion classifications: `{"proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/operations/corporate/asset-register/critical-asset-schedule.v1.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/operations/corporate/asset-register/critical-asset-schedule.v1.json)
+
+### CORP-B — [#483](https://github.com/agent-logic/agent-design-language/issues/483)
+
+Implementation: [`a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239`](https://github.com/agent-logic/agent-design-language/commit/a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239); merge: [`4a0b49c0071bacdaab19d6d9eb8c44380beb51be`](https://github.com/agent-logic/agent-design-language/commit/4a0b49c0071bacdaab19d6d9eb8c44380beb51be).
+
+Retained criterion classifications: `{"proof_gap": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/operations/corporate/account-custody/corporate-custody-register.v1.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/operations/corporate/account-custody/corporate-custody-register.v1.json)
+
+### CORP-C — [#497](https://github.com/agent-logic/agent-design-language/issues/497)
+
+Governed delivery disposition (no invented implementation revision): `{'kind': 'recordless_acceptance', 'acceptance_checked': True, 'acceptance_log': '.csdlc/evidence/497/corp-c-operational-control-acceptance.log', 'acceptance_log_sha256': 'c744cd34768a30e8b4f9d1785b88e47b689d6f03576803606bc6dedbfd3a2652', 'sidecar_issue': 624, 'sidecar_url': 'https://github.com/agent-logic/agent-design-language/issues/624', 'sidecar_state': 'closed', 'sidecar_body_sha256': 'df9a29ad73d443581986e96cd450797d0667503c789983bb1b6339ff68a9280f'}`.
+
+Retained criterion classifications: `{"accepted_recordless": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [.csdlc/evidence/497/corp-c-operational-control-acceptance.log](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/497/corp-c-operational-control-acceptance.log)
+
+### CORP-D — [#498](https://github.com/agent-logic/agent-design-language/issues/498)
+
+Implementation: [`dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8`](https://github.com/agent-logic/agent-design-language/commit/dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8); merge: [`c51c8c7a8b51395986af8185f6e6ca2edaf4f435`](https://github.com/agent-logic/agent-design-language/commit/c51c8c7a8b51395986af8185f6e6ca2edaf4f435).
+
+Retained criterion classifications: `{"proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json)
+
+## CSDLC
+
+**C-SDLC v3** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Native command implementation and authenticated #505/PR591 cutover delivered.
+
+Limit: Operational authority remains conditional on selector/receipt validation. Review and tooling debt does not reverse the completed cutover. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#749](https://github.com/agent-logic/agent-design-language/issues/749), [#751](https://github.com/agent-logic/agent-design-language/issues/751), [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#762](https://github.com/agent-logic/agent-design-language/issues/762), [#763](https://github.com/agent-logic/agent-design-language/issues/763), [#764](https://github.com/agent-logic/agent-design-language/issues/764), [#771](https://github.com/agent-logic/agent-design-language/issues/771), [#776](https://github.com/agent-logic/agent-design-language/issues/776).
+
+### V3-A — [#500](https://github.com/agent-logic/agent-design-language/issues/500)
+
+Implementation: [`d02f90008acadcc10df048b7f089cc4b98ef608f`](https://github.com/agent-logic/agent-design-language/commit/d02f90008acadcc10df048b7f089cc4b98ef608f); merge: [`1dddcce35d061bc128c2431b4f31cf09e0f4d435`](https://github.com/agent-logic/agent-design-language/commit/1dddcce35d061bc128c2431b4f31cf09e0f4d435).
+
+Retained criterion classifications: `{"proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/csdlc-v3/CONTRACT.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/csdlc-v3/CONTRACT.md)
+
+### V3-B — [#501](https://github.com/agent-logic/agent-design-language/issues/501)
+
+Implementation: [`9056f19245f93bc9efa3b55561671a8f002c6536`](https://github.com/agent-logic/agent-design-language/commit/9056f19245f93bc9efa3b55561671a8f002c6536); merge: [`1972aa47bd7047b8594a03bf770fb92f7fb63d51`](https://github.com/agent-logic/agent-design-language/commit/1972aa47bd7047b8594a03bf770fb92f7fb63d51).
+
+Retained criterion classifications: `{"proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [csdlc-v3/src/repository/mod.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/src/repository/mod.rs)
+
+### V3-C — [#502](https://github.com/agent-logic/agent-design-language/issues/502)
+
+Implementation: [`ed6f01c1e33b8057142491fca3028641ce5efc74`](https://github.com/agent-logic/agent-design-language/commit/ed6f01c1e33b8057142491fca3028641ce5efc74); merge: [`76de907734ab69efe00b5bc0bf24f066002d0131`](https://github.com/agent-logic/agent-design-language/commit/76de907734ab69efe00b5bc0bf24f066002d0131).
+
+Retained criterion classifications: `{"proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [csdlc-v3/src/lifecycle/mod.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/src/lifecycle/mod.rs)
+
+### V3-D — [#503](https://github.com/agent-logic/agent-design-language/issues/503)
+
+Implementation: [`974abc520454690f0b392162b9ced783e8584017`](https://github.com/agent-logic/agent-design-language/commit/974abc520454690f0b392162b9ced783e8584017); merge: [`5692d95ee6e4ee632833be348fa5601ddccbca1a`](https://github.com/agent-logic/agent-design-language/commit/5692d95ee6e4ee632833be348fa5601ddccbca1a).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [csdlc-v3/src/commands/local/mod.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/src/commands/local/mod.rs)
+
+### V3-E — [#504](https://github.com/agent-logic/agent-design-language/issues/504)
+
+Implementation: [`9ef650bc174a81849ffb09ae4d21b699fee1368d`](https://github.com/agent-logic/agent-design-language/commit/9ef650bc174a81849ffb09ae4d21b699fee1368d); merge: [`f68ca996541b8825090261fd70845bf1c406b410`](https://github.com/agent-logic/agent-design-language/commit/f68ca996541b8825090261fd70845bf1c406b410).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [csdlc-v3/src/review/mod.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/src/review/mod.rs)
+
+### V3-F — [#505](https://github.com/agent-logic/agent-design-language/issues/505)
+
+Implementation: [`74ddb31702482172eea4ba3d74700536eab32e49`](https://github.com/agent-logic/agent-design-language/commit/74ddb31702482172eea4ba3d74700536eab32e49); merge: [`d3f98ed005cf44c359ac482e271e6b8634e93f23`](https://github.com/agent-logic/agent-design-language/commit/d3f98ed005cf44c359ac482e271e6b8634e93f23).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [csdlc-v3/Cargo.toml](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/Cargo.toml)
+- [csdlc-v3/src/authority.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/src/authority.rs)
+- [csdlc-v3/src/commands/remote/mod.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/csdlc-v3/src/commands/remote/mod.rs)
+
+## DRT
+
+**Distributed multi-agent Runtime** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Distributed contract, continuity qualification and failure-mode implementation retained.
+
+Limit: Removal, admission-triggered A2A initiation and health-task isolation fixes remain separately owned; #345 remains an explicit input. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#757](https://github.com/agent-logic/agent-design-language/issues/757), [#758](https://github.com/agent-logic/agent-design-language/issues/758), [#759](https://github.com/agent-logic/agent-design-language/issues/759), [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### DRT-A — [#506](https://github.com/agent-logic/agent-design-language/issues/506)
+
+Implementation: [`4676aef4189376b3f64d17efdb717732274e3240`](https://github.com/agent-logic/agent-design-language/commit/4676aef4189376b3f64d17efdb717732274e3240); merge: [`badcf9067da6eb46fc9f59e9da8b11a41e2f24f6`](https://github.com/agent-logic/agent-design-language/commit/badcf9067da6eb46fc9f59e9da8b11a41e2f24f6).
+
+Retained criterion classifications: `{"proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl-runtime/tests/distributed_contract/main.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl-runtime/tests/distributed_contract/main.rs)
+
+### DRT-B — [#507](https://github.com/agent-logic/agent-design-language/issues/507)
+
+Implementation: [`cca85d6fd4976e2b2358d0d130b8291a88cb1c95`](https://github.com/agent-logic/agent-design-language/commit/cca85d6fd4976e2b2358d0d130b8291a88cb1c95); merge: [`d022d6c198669bcbc10cd98bee4d7c8520f9c4d4`](https://github.com/agent-logic/agent-design-language/commit/d022d6c198669bcbc10cd98bee4d7c8520f9c4d4).
+
+Retained criterion classifications: `{"proof_gap": 1, "proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json)
+
+### DRT-C — [#508](https://github.com/agent-logic/agent-design-language/issues/508)
+
+Implementation: [`cca4f7f675241a0a473b38006c8be2eb95165028`](https://github.com/agent-logic/agent-design-language/commit/cca4f7f675241a0a473b38006c8be2eb95165028); merge: [`a1c440cc7b1e3708961680c802585d0b80e2263f`](https://github.com/agent-logic/agent-design-language/commit/a1c440cc7b1e3708961680c802585d0b80e2263f).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl-runtime/tests/distributed_failure/drt_c_qualification.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl-runtime/tests/distributed_failure/drt_c_qualification.rs)
+
+## POD
+
+**Podcast** — delivery `implemented`, proof `blocked`, demo `proved`, release `blocked`.
+
+Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained.
+
+Limit: Public hosting is observed; directory submission and public-launch claims remain gated by #264 operator authorization. Demo scope: Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch.
+
+Debt owners: [#51](https://github.com/agent-logic/agent-design-language/issues/51), [#264](https://github.com/agent-logic/agent-design-language/issues/264), [#761](https://github.com/agent-logic/agent-design-language/issues/761).
+
+- [.csdlc/evidence/262/http-playback-browser-proof.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/262/http-playback-browser-proof.json)
+- [.csdlc/evidence/262/http-playback-native-proof.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/262/http-playback-native-proof.json)
+- [.csdlc/evidence/262/live-production/public-production-proof.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/262/live-production/public-production-proof.json)
+- [.csdlc/evidence/264/submission-gate-validation.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/264/submission-gate-validation.json)
+
+HTTP producer: [.csdlc/prepared/issues/262/record-podcast-http-playback.rb](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/prepared/issues/262/record-podcast-http-playback.rb). These receipts do not show player execution.
+
+Existing ownership: #51, #261–#264, #342. The passed #264 gate explicitly says `submission_claimed: false`, `public_launch_claimed: false`, `operator_authorization_required: true`. The #262 public-hosting receipt separately reports `publication_claimed: true`; hosting is not directory launch.
+
+## HOT
+
+**Axum configuration hot reload** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Config reload implementation and retained validation supplied by #510.
+
+Limit: Retained tests are not a new live reload demonstration or complete candidate review. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### HOT-01 — [#510](https://github.com/agent-logic/agent-design-language/issues/510)
+
+Implementation: [`fac5eaa63a82eaf50fe455df14cc22ebb08a2678`](https://github.com/agent-logic/agent-design-language/commit/fac5eaa63a82eaf50fe455df14cc22ebb08a2678); merge: [`000fb7beb5fe4107e3e80d5de9183be224716a6d`](https://github.com/agent-logic/agent-design-language/commit/000fb7beb5fe4107e3e80d5de9183be224716a6d).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl-runtime-kernel/src/config_reload.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl-runtime-kernel/src/config_reload.rs)
+
+## OBS
+
+**Observatory redesign** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512.
+
+Limit: Unity #84 and TLS #251 are deferred; #122 public exposure remains separately owned. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### OBS-A — [#511](https://github.com/agent-logic/agent-design-language/issues/511)
+
+Governed delivery disposition (no invented implementation revision): `{'kind': 'captured_absorption_closeout', 'comment_url': 'https://github.com/agent-logic/agent-design-language/issues/511#issuecomment-5554002940', 'comment_body_sha256': '1fa565177d5686266d3dd6a5fd14c2b24036ef0b24704cfc83ba19b185856c4e', 'target_issue': 512, 'target_state': 'closed', 'authority_marker': 'csdlc-github-operation'}`.
+
+Retained criterion classifications: `{"proof_gap": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [.csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md)
+
+### OBS-B — [#512](https://github.com/agent-logic/agent-design-language/issues/512)
+
+Implementation: [`e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4`](https://github.com/agent-logic/agent-design-language/commit/e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4); merge: [`af5f8036ab7a0619751ab55fa9bd4891f377cd9d`](https://github.com/agent-logic/agent-design-language/commit/af5f8036ab7a0619751ab55fa9bd4891f377cd9d).
+
+Retained criterion classifications: `{"proof_gap": 1, "proven": 3}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [.csdlc/evidence/512/exact-browser-operator-proof.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/512/exact-browser-operator-proof.md)
+
+## DEC
+
+**Runtime v2/v3 decoupling** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Runtime authority topology and generation ownership migration package retained.
+
+Limit: Compatibility and rollback evidence require complete current review; no implied Runtime v4 qualification. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### DEC-01 — [#513](https://github.com/agent-logic/agent-design-language/issues/513)
+
+Implementation: [`489bc0f3af68b059e5c26ff22600d945b3d21db8`](https://github.com/agent-logic/agent-design-language/commit/489bc0f3af68b059e5c26ff22600d945b3d21db8); merge: [`5bc84a0f27a522b6d500551d64f8d12dc2357427`](https://github.com/agent-logic/agent-design-language/commit/5bc84a0f27a522b6d500551d64f8d12dc2357427).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json)
+
+## PROV
+
+**Provider inference profiles** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Shared profile implementation and isolated comparison/shadow implementation retained.
+
+Limit: Source-time validation does not authorize shadow output or prove every provider deployment. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### PROV-A — [#514](https://github.com/agent-logic/agent-design-language/issues/514)
+
+Implementation: [`1b0fd87496bb09200a5cb1bbb0529e8730be1b20`](https://github.com/agent-logic/agent-design-language/commit/1b0fd87496bb09200a5cb1bbb0529e8730be1b20); merge: [`18f1c76667dc6913c2553b53228e73e8de9d11c9`](https://github.com/agent-logic/agent-design-language/commit/18f1c76667dc6913c2553b53228e73e8de9d11c9).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl/src/provider/profiles.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl/src/provider/profiles.rs)
+
+### PROV-B — [#515](https://github.com/agent-logic/agent-design-language/issues/515)
+
+Implementation: [`9e6a8bd104d79f77edc4460ee5424cea83ef9cdc`](https://github.com/agent-logic/agent-design-language/commit/9e6a8bd104d79f77edc4460ee5424cea83ef9cdc); merge: [`17b883e93abff7a155cd783a3d76f52ba2eabbf2`](https://github.com/agent-logic/agent-design-language/commit/17b883e93abff7a155cd783a3d76f52ba2eabbf2).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl/src/provider/mod.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl/src/provider/mod.rs)
+
+## GCP-DRT
+
+**GCP qualification sidecar** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Governed six-resident replay wrapper and retained run evidence delivered by #509.
+
+Limit: No new GCP run is performed here; no #269 execution credit is implied. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764).
+
+### DRT-D — [#509](https://github.com/agent-logic/agent-design-language/issues/509)
+
+Implementation: [`c89a584e53f152ed499a5d56d479296590044714`](https://github.com/agent-logic/agent-design-language/commit/c89a584e53f152ed499a5d56d479296590044714); merge: [`5a1109ffa795d411e0e15cdfd29adf68e2c2d953`](https://github.com/agent-logic/agent-design-language/commit/5a1109ffa795d411e0e15cdfd29adf68e2c2d953).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl/tools/run_issue509_gcp_drt_d_qualification.sh](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl/tools/run_issue509_gcp_drt_d_qualification.sh)
+
+## AWS
+
+**AWS account move-in** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Seven phase implementation and receipt packages retained.
+
+Limit: Recovery/access and full review obligations remain explicit; no inference of universal account compliance. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764), [#770](https://github.com/agent-logic/agent-design-language/issues/770).
+
+### AWS-A — [#484](https://github.com/agent-logic/agent-design-language/issues/484)
+
+Implementation: [`e9fdf5b07bdcbde235511c52c40fb8c626cc95a7`](https://github.com/agent-logic/agent-design-language/commit/e9fdf5b07bdcbde235511c52c40fb8c626cc95a7); merge: [`e5f30c60c68a60d43f51c70b4615065197a34404`](https://github.com/agent-logic/agent-design-language/commit/e5f30c60c68a60d43f51c70b4615065197a34404).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json)
+- [docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md)
+
+### AWS-B — [#485](https://github.com/agent-logic/agent-design-language/issues/485)
+
+Implementation: [`2a5d25239853499b6ac73b37d968d2b97e75a586`](https://github.com/agent-logic/agent-design-language/commit/2a5d25239853499b6ac73b37d968d2b97e75a586); merge: [`a71d699d52831b32bb68ed9c7c7e837925949de4`](https://github.com/agent-logic/agent-design-language/commit/a71d699d52831b32bb68ed9c7c7e837925949de4).
+
+Retained criterion classifications: `{"proven": 7}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md)
+- [docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md)
+
+### AWS-C — [#486](https://github.com/agent-logic/agent-design-language/issues/486)
+
+Implementation: [`cfd5f0edabfde2e380a5534d619e7832f484bb8c`](https://github.com/agent-logic/agent-design-language/commit/cfd5f0edabfde2e380a5534d619e7832f484bb8c); merge: [`1964b2e1f6e24a9dcb5788394502a2421300751a`](https://github.com/agent-logic/agent-design-language/commit/1964b2e1f6e24a9dcb5788394502a2421300751a).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [infra/aws/bootstrap/main.tf](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/aws/bootstrap/main.tf)
+
+### AWS-D — [#487](https://github.com/agent-logic/agent-design-language/issues/487)
+
+Implementation: [`79be6b5b0327be752817197738887d25335e71a9`](https://github.com/agent-logic/agent-design-language/commit/79be6b5b0327be752817197738887d25335e71a9); merge: [`1d31016a8df3cf07a4c3f2e6acd2694bd10570c2`](https://github.com/agent-logic/agent-design-language/commit/1d31016a8df3cf07a4c3f2e6acd2694bd10570c2).
+
+Retained criterion classifications: `{"implementation_gap": 3, "proven": 1}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [infra/aws/account-foundation/main.tf](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/aws/account-foundation/main.tf)
+
+### AWS-E — [#488](https://github.com/agent-logic/agent-design-language/issues/488)
+
+Implementation: [`4e904b6629ff3060094dbef3613388e6e5245b8d`](https://github.com/agent-logic/agent-design-language/commit/4e904b6629ff3060094dbef3613388e6e5245b8d); merge: [`a6b404cd6e74d7528745325036ceb1a85fd47bd2`](https://github.com/agent-logic/agent-design-language/commit/a6b404cd6e74d7528745325036ceb1a85fd47bd2).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md)
+
+### AWS-F — [#489](https://github.com/agent-logic/agent-design-language/issues/489)
+
+Implementation: [`485b4197908231bb2065e1e29c7c5013536e1975`](https://github.com/agent-logic/agent-design-language/commit/485b4197908231bb2065e1e29c7c5013536e1975); merge: [`69ba35e066d1389a9f194659acb066a7dca82a40`](https://github.com/agent-logic/agent-design-language/commit/69ba35e066d1389a9f194659acb066a7dca82a40).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh)
+- [infra/aws/runtime/private-node/main.tf](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/aws/runtime/private-node/main.tf)
+
+### AWS-G — [#496](https://github.com/agent-logic/agent-design-language/issues/496)
+
+Implementation: [`59a3d0bd106f8bdd0def53dbe1564667ee6adac4`](https://github.com/agent-logic/agent-design-language/commit/59a3d0bd106f8bdd0def53dbe1564667ee6adac4); merge: [`83077ca029d52c9d613ed5a373da30f1dd42d9b3`](https://github.com/agent-logic/agent-design-language/commit/83077ca029d52c9d613ed5a373da30f1dd42d9b3).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md)
+
+## GCP
+
+**GCP account move-in** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Five phase packages plus #740 private/versioned backend recovery proof retained.
+
+Limit: GCP-B audit/log posture remains owned by #772; recovery proof does not establish audit configuration. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764), [#772](https://github.com/agent-logic/agent-design-language/issues/772).
+
+
+Corrective #740 proof (bounded recovery/private/versioning scope, not audit/log posture):
+
+- [.csdlc/evidence/740/live-proof.redacted.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/740/live-proof.redacted.json)
+- [.csdlc/evidence/740/backend-canary-state.redacted.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/740/backend-canary-state.redacted.json)
+- [.csdlc/evidence/740/gcp-b1-iam-policy.redacted.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/740/gcp-b1-iam-policy.redacted.json)
+- [.csdlc/evidence/740/gcp-b1-readback.redacted.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/evidence/740/gcp-b1-readback.redacted.json)
+
+### GCP-A — [#490](https://github.com/agent-logic/agent-design-language/issues/490)
+
+Implementation: [`f0be8c8d1a2f12df8b2d8169997583dd66a9a521`](https://github.com/agent-logic/agent-design-language/commit/f0be8c8d1a2f12df8b2d8169997583dd66a9a521); merge: [`daa05de9332c82e3f9f2191975ef95b0ed4e211d`](https://github.com/agent-logic/agent-design-language/commit/daa05de9332c82e3f9f2191975ef95b0ed4e211d).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md)
+
+### GCP-B — [#491](https://github.com/agent-logic/agent-design-language/issues/491)
+
+Implementation: [`695ca0f6cec62357349390afda3952e39cd92337`](https://github.com/agent-logic/agent-design-language/commit/695ca0f6cec62357349390afda3952e39cd92337); merge: [`75ee9e6b2888a81b355d1fb496b488329a4c7d30`](https://github.com/agent-logic/agent-design-language/commit/75ee9e6b2888a81b355d1fb496b488329a4c7d30).
+
+Retained criterion classifications: `{"implementation_gap": 1, "proof_gap": 2, "proven": 1}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [infra/gcp/bootstrap/main.tf](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/gcp/bootstrap/main.tf)
+
+### GCP-C — [#492](https://github.com/agent-logic/agent-design-language/issues/492)
+
+Implementation: [`179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa`](https://github.com/agent-logic/agent-design-language/commit/179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa); merge: [`b9a98710e2a0a50565c3835386f7f6a348a26eae`](https://github.com/agent-logic/agent-design-language/commit/b9a98710e2a0a50565c3835386f7f6a348a26eae).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md)
+
+### GCP-D — [#493](https://github.com/agent-logic/agent-design-language/issues/493)
+
+Implementation: [`d5b1584bb55e92974e6d3481b59d2e28a17db441`](https://github.com/agent-logic/agent-design-language/commit/d5b1584bb55e92974e6d3481b59d2e28a17db441); merge: [`c0bf217934508d6dbc70d78633e6a95d5ddd9d06`](https://github.com/agent-logic/agent-design-language/commit/c0bf217934508d6dbc70d78633e6a95d5ddd9d06).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/.csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh)
+- [infra/gcp/platform/main.tf](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/gcp/platform/main.tf)
+
+### GCP-E — [#494](https://github.com/agent-logic/agent-design-language/issues/494)
+
+Implementation: [`de959c6263f671fa8fe1df851ea6ae1d25686831`](https://github.com/agent-logic/agent-design-language/commit/de959c6263f671fa8fe1df851ea6ae1d25686831); merge: [`dc08b5abf10682ed9ace5deefd0e1389ea6899b6`](https://github.com/agent-logic/agent-design-language/commit/dc08b5abf10682ed9ace5deefd0e1389ea6899b6).
+
+Retained criterion classifications: `{"proven": 4}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [infra/gcp/workloads/gpu-smoke-instance/main.tf](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/gcp/workloads/gpu-smoke-instance/main.tf)
+
+## XCL
+
+**Cross-cloud Terraform conversion** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Portable workload contract and AWS/GCP Terraform implementation retained.
+
+Limit: Provider-major bounds and exact parity/rollback evidence remain separately reviewed obligations. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764), [#765](https://github.com/agent-logic/agent-design-language/issues/765).
+
+### XCL-01 — [#495](https://github.com/agent-logic/agent-design-language/issues/495)
+
+Implementation: [`6177249dfb46fe3cf95fbcc996469517928f525d`](https://github.com/agent-logic/agent-design-language/commit/6177249dfb46fe3cf95fbcc996469517928f525d); merge: [`c78c60f5a45a87a96159d4910a831b69b62b042c`](https://github.com/agent-logic/agent-design-language/commit/c78c60f5a45a87a96159d4910a831b69b62b042c).
+
+Retained criterion classifications: `{"proven": 5}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [infra/runtime-portable/runtime-workload-contract.v1.json](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/infra/runtime-portable/runtime-workload-contract.v1.json)
+
+## RUST
+
+**Rust resilience refactoring** — delivery `implemented`, proof `blocked`, demo `blocked`, release `blocked`.
+
+Resilience owner-boundary refactoring and retained behavior checks supplied by #499.
+
+Limit: Required toolchain and complete candidate validation remain separately owned; no LoC acceptance rule. Demo scope: Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+
+Debt owners: [#761](https://github.com/agent-logic/agent-design-language/issues/761), [#764](https://github.com/agent-logic/agent-design-language/issues/764), [#766](https://github.com/agent-logic/agent-design-language/issues/766).
+
+### RUST-01 — [#499](https://github.com/agent-logic/agent-design-language/issues/499)
+
+Implementation: [`940c42d246be5d54f34b7b300526a644cc881580`](https://github.com/agent-logic/agent-design-language/commit/940c42d246be5d54f34b7b300526a644cc881580); merge: [`e986de6d06aacd385de93dd033def77a718c1581`](https://github.com/agent-logic/agent-design-language/commit/e986de6d06aacd385de93dd033def77a718c1581).
+
+Retained criterion classifications: `{"proven": 5}`. These classifications are scoped to the admission source and do not establish full current proof.
+
+- [adl/src/resilience.rs](https://github.com/agent-logic/agent-design-language/blob/7ecc70b517ef2f7ee86a6456d8c778daf8c558d3/adl/src/resilience.rs)
+
+## Reproduction and freshness
+
+Run `python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py`. The validator checks all four tables, exact lane/work-package coverage, source SHA-256 hashes, and explicit incomplete-state ownership. `status.json` retains the observed remediation issue states and source map. Refresh those observations and semantic dispositions after relevant merges; passing a static validator is not a current GitHub or cloud observation.
+
+PVF: deterministic local documentation contract; small CPU/filesystem/Git; required for #767; no network or cloud execution.
