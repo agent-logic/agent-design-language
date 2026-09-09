@@ -1,0 +1,9 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-health-task-failures/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.13s
+     Running tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-95a4959cac8da0cb)
+
+running 1 test
+test resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+

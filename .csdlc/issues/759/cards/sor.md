@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures
 Branch: codex/759-dynamic-agent-health-task-failures
 Card Status: ready
-Status: implemented_review_passed_publication_pending
+Status: implemented_resynced_validation_passed_review_pending
 Generated: <timestamp>
 
 Execution:
@@ -28,11 +28,11 @@ Execution:
 - Model: `gpt-5-codex`
 - Provider: `openai`
 - Start Time: `2026-09-09T00:00:00-07:00`
-- End Time: `not_finished_review_pending`
+- End Time: `not_finished_review_pending_after_ci_repair`
 
 ## Summary
 
-Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b and recorded pre-PR review PASS at branch head ab7bb7b220c571775763725629421391b4bc8f17.
+Implemented the #759 dynamic-agent health sweep repair and repaired two CI-discovered integration issues. After PR #779 run 34381946883 failed on the synthetic PR merge because current main restored the stable resident shepherd runtime id contract, the branch was resynced to origin/main a09dcd40fca4a2714282eba05b114cd929eba826 and validated at source head 4b9ef9d35241aeed575846a550fcd1a1a07a2c32.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime-focused`
@@ -56,7 +56,7 @@ Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `medium`
 - Estimate error percent: `unknown`
-- Completion state: `pre_pr_review_passed_publication_pending`
+- Completion state: `post_ci_red_resynced_validation_passed_review_pending`
 - Issue goal ref: `Codex goal: Issue #759 dynamic-agent health sweep remediation`
 - Sprint goal ref: `v0.92.1 closeout tail runtime defect lane`
 - Goal metrics rollup ref: `v0.92.1`
@@ -75,23 +75,23 @@ Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/759/cards/sor.md`
 - Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; .csdlc/evidence/759/*.log; .csdlc/issues/759/cards/*.md and *.values.json`
-- Additional proof artifacts: `.csdlc/evidence/759/focused-dynamic-agent-health.log sha256 de55563850f1f77c9ba14b2c1c0d75ac9315f6b186c019230777c0c9f3b82329; .csdlc/evidence/759/strict-clippy.log sha256 078cc7a763f475633580b535d8f4a436b7bbebc681a30da77731b7d9c2acabeb; .csdlc/evidence/759/fmt-check.log sha256 b0f448579d8a44ae92468c1e1aaa940502eded1ab296737522c90bbe62aed2a0; .csdlc/evidence/759/diff-check.log sha256 4e4e6b667664bff49f95e0414f0b06e6433f0ded5e7dcc8cd865dd8167f54017`
+- Additional proof artifacts: `.csdlc/evidence/759/validation-r6.md; .csdlc/evidence/759/runtime-v3-fast-full-r6.log sha256 2c1cab6dd0010f2deaa282b4d7bd115301d00142b02fd1f98c2be26e6341b805; .csdlc/evidence/759/focused-dynamic-agent-health-r6.log sha256 995ca5aefed9df16b0c6f952a24c1cc0703280c65f561d77ef04561117cc2950; .csdlc/evidence/759/focused-resident-shepherd-id-r6.log sha256 8a82917bbde8af6e902d7e073fae807eeaff03965c14cdfff0a8ce338549c7be; .csdlc/evidence/759/strict-clippy-r6.log sha256 94fe537e33530b5ecdca38e01bbbc444bfb66916c39095aa6fe1b78fb394c636; .csdlc/evidence/759/html-observatory-proof-r6.log sha256 b015f1fb79ce8970a2dd8d1a31d7c308491b8a95cd32c4bed51c25b984aa6402; .csdlc/evidence/759/fmt-check-r6.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; .csdlc/evidence/759/diff-check-r6.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
 
 ## Actions taken
 - `Replaced the JoinSet loop that matched only successful joins with a loop over every join result.`
 - `Stored a stable task-id to dynamic-agent declaration map so task panic/cancel failures project against the correct agent identity.`
-- `Added deterministic panic and cancellation regressions proving peer successes remain healthy and failed tasks surface as failed.`
+- `Added deterministic panic and cancellation regressions proving peer successes remain healthy and failed tasks surface as failed; after current-main resync, preserved the stable resident shepherd runtime id contract through resident_shepherd_runtime_id while retaining configured canonical/display projection.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None yet; work is committed on bound branch codex/759-dynamic-agent-health-task-failures.`
 - Worktree-only paths remaining: `Branch worktree contains implementation/evidence pending review and publication.`
-- Integration state: `worktree_branch_committed_review_passed_publication_pending`
+- Integration state: `worktree_branch_committed_resynced_validation_passed_review_pending`
 - Verification scope: `Bound FastWork worktree on branch codex/759-dynamic-agent-health-task-failures.`
 - Integration method used: `native C-SDLC v3 bind plus git commit in issue worktree`
 - Verification performed:
   - `git status --short --branch; git diff --check HEAD`
-    `Confirmed branch worktree status and no whitespace errors at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b.`
-- Result: `Local branch implementation exists; PR publication/CI/merge not yet complete.`
+    `Confirmed current-main resync and no whitespace errors at source SHA 4b9ef9d35241aeed575846a550fcd1a1a07a2c32.`
+- Result: `Local branch implementation exists; PR #779 previously published and red on run 34381946883; branch is repaired locally and awaits fresh review, republish, and CI.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -106,10 +106,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; git diff --check HEAD`
-    `Focused regression proves panic/cancel task isolation and peer projection retention; fmt/clippy/diff prove Rust hygiene for the touched Runtime crate.`
+  - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml; cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo test --manifest-path adl-runtime-kernel/Cargo.toml resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts --test agent_roster -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_v0917_html_observatory_integrated_proof.sh; git diff --check HEAD`
+    `Full runtime command reproduces the hosted adl-runtime-v3-fast lane geometry; focused regression proves panic/cancel task isolation and peer projection retention; resident shepherd focused check proves the current-main stable id contract; HTML Observatory proof, fmt, clippy, and diff prove integration and hygiene.`
 - Results:
-  - `PASS at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b; all recorded command statuses are 0. Pre-PR review PASS at final branch head ab7bb7b220c571775763725629421391b4bc8f17.`
+  - `PASS at source SHA 4b9ef9d35241aeed575846a550fcd1a1a07a2c32; all recorded r6 command statuses are 0. Hosted red run 34381946883 classified as current-main ancestry drift and repaired by resync.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -124,7 +124,7 @@ verification_summary:
   validation:
     status: passed_local
     checks_run:
-      - "focused dynamic-agent health panic/cancel regression 2/2 passed"
+      - "full runtime suite passed; focused dynamic-agent health panic/cancel regression 2/2 passed; resident shepherd stable id check passed"
   determinism:
     status: passed_focused
     replay_verified: not_applicable_no_replay_artifact
@@ -147,7 +147,7 @@ verification_summary:
 - Fixtures or scripts used: `In-crate mock Ollama server and cfg(test) forced task failure hook.`
 - Replay verification (same inputs -> same artifacts/order): `not applicable; no replay artifact generated.`
 - Ordering guarantees (sorting / tie-break rules used): `JoinSet outcomes are unordered but every outcome is drained; task id maps each failure to the correct declaration.`
-- Artifact stability notes: `Evidence logs contain exact source SHA, argv, and status.`
+- Artifact stability notes: `validation-r6.md records exact source SHA, argv, status, and SHA-256 for every r6 log; fmt and diff logs are zero-byte success outputs.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable_no_secret_surface`
@@ -162,16 +162,16 @@ verification_summary:
 - Replay result: `not_applicable`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/759/focused-dynamic-agent-health.log`
+- Primary proof surface: `.csdlc/evidence/759/validation-r6.md`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `No schema changes.`
-- Hash/byte-stability checks: `SHA256 hashes recorded for focused, clippy, fmt, and diff logs.`
-- Missing/optional artifacts and rationale: `Hosted CI and PR state are pending publication after review.`
+- Hash/byte-stability checks: `SHA256 hashes recorded for full runtime, focused dynamic health, focused resident shepherd, strict clippy, HTML Observatory proof, fmt, and diff logs.`
+- Missing/optional artifacts and rationale: `Hosted CI rerun is pending fresh review and republish after current-main resync.`
 
 ## Decisions / Deviations
 - `Native-v3 card validation currently reports `card_structure_invalid` because of a known validator schema-path defect; doctor still confirms lifecycle digest and binding.`
 - `No provider health semantics were changed.`
 
 ## Follow-ups / Deferred work
-- `Publish PR with `Closes #759` after typed publication gate allows it.`
-- `Watch CI, finish, and clean separately after merge authority is satisfied.`
+- `Run fresh review on the repaired current-main-resynced head, then republish PR #779.`
+- `Watch CI, finish through native C-SDLC v3 if merge authority is satisfied, and clean separately after merge.`
