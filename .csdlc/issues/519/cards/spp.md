@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Operator-authorized early preparation while #518 PR #753 is pending. Build and test a provisional publication-candidate packet from an immutable reviewed source. Final acceptance and publication require the merged #518 candidate, current review linkage and redaction proof.
+Finalize the exact reviewed #518 candidate after PR753 merged; prove review/source/merge linkage, hashes and redaction. Publish the independently reviewed #519 packet without GitHub merge, tag, release or issue closure.
 
 ## Plan
 
-Revision 5
+Revision 7
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 5
       "AC-1",
       "AC-4"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 5
       "AC-1",
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -45,7 +45,7 @@ Revision 5
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -56,7 +56,7 @@ Revision 5
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
@@ -96,9 +96,8 @@ Digest: d48979ece9151d49508c102c53acb6f0612bad212572729825ccd9d92fa8a175
 
 ## Stop Conditions
 
-- Final acceptance waits for #518 reviewed merge; early preparation is explicitly authorized.
-- Candidate drift, ambiguous linkage or failed redaction blocks final acceptance.
-- No merge, tag, release or issue closure.
+- Candidate drift, stale review, ambiguous linkage or failed redaction blocks publication.
+- No GitHub merge, tag, release or issue closure.
 
 ## Handoff
 

@@ -16,7 +16,10 @@ def blob(sha, path)
   end
 end
 def digest(text); Digest::SHA256.hexdigest(text); end
-def verify(p, final: false)
+def redaction_safe?(text)
+  !text.match?(%r{/Users/|/Volumes/|/private/tmp/|-----BEGIN .*PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}})
+end
+def verify(p, final: false, observation: nil)
   raise 'wrong identity' unless p.values_at('schema','issue','repository','source_issue','source_pr') == ['adl.tail03.publication_candidate.v1',519,'agent-logic/agent-design-language',518,753]
   raise 'release mutation or approval' unless p['release_approval'] == false && p['mutations_performed'] == []
   expected = [{'issue'=>518,'pull_request'=>753,'keyword'=>'Closes #518'}, {'issue'=>519,'pull_request'=>nil,'keyword'=>'Closes #519'}]
@@ -40,7 +43,16 @@ def verify(p, final: false)
   review['scope'].each { |path| raise "source changed after review: #{path}" unless blob(sha,path)==blob(reviewed,path) }
   if final
     raise 'preparation is not final acceptance' unless p['status']=='final' && p['final_blockers']==[]
-    observation=JSON.parse(File.read(File.join(PACKET,'source-pr.json')))
+    observation ||= JSON.parse(File.read(File.join(PACKET,'source-pr.json')))
+    raise 'wrong source repository' unless observation['url']=='https://github.com/agent-logic/agent-design-language/pull/753'
+    %w[--all].each do |flag|
+      %w[--get-url --get-url-push].each do |kind|
+        argv = kind=='--get-url' ? ['remote','get-url',flag,'origin'] : ['remote','get-url','--push',flag,'origin']
+        urls,_,ok=Open3.capture3('git','-C',ROOT,*argv)
+        allowed=['https://github.com/agent-logic/agent-design-language.git','https://github.com/agent-logic/agent-design-language','git@github.com:agent-logic/agent-design-language.git']
+        raise 'noncanonical origin' unless ok.success? && !urls.lines.empty? && urls.lines.all? { |url| allowed.include?(url.strip) }
+      end
+    end
     raise 'source PR not merged at expected head' unless observation['number']==753 && observation['state']=='MERGED' && observation['headRefOid']==sha && observation['baseRefName']=='main' && observation['mergedAt']
     raise 'source closing linkage missing' unless observation.fetch('body').match?(/\bCloses #518\b/)
     merge=observation.fetch('mergeCommit').fetch('oid')
@@ -57,27 +69,45 @@ begin
   mode=ARGV.fetch(0,'--all')
   raise 'unknown mode' unless %w[--preparation --self-test --linkage --exact-head --redaction --all].include?(mode)
   packet=JSON.parse(File.read(File.join(PACKET,'candidate.json')))
-  verify(packet, final: !%w[--preparation --self-test].include?(mode))
+  final = mode != '--preparation' && (mode != '--self-test' || packet['status']=='final')
+  verify(packet, final: final)
   Dir.glob(File.join(PACKET,'**','*')).select { |f| File.file?(f) }.each do |path|
     text=File.read(path)
-    raise "redaction failure: #{File.basename(path)}" if text.match?(%r{/Users/|/Volumes/|/private/tmp/|-----BEGIN .*PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}})
+    raise "redaction failure: #{File.basename(path)}" unless redaction_safe?(text)
   end
   negatives=0
   if mode=='--self-test'
-    [:hash,:linkage,:premature_final].each do |damage|
-      broken=Marshal.load(Marshal.dump(packet))
+    observation=JSON.parse(File.read(File.join(PACKET,'source-pr.json')))
+    cases=[:hash,:linkage,:status]
+    cases += [:unmerged,:wrong_head,:wrong_repository,:merge_drift] if final
+    cases.each do |damage|
+      broken=Marshal.load(Marshal.dump(packet)); obs=Marshal.load(Marshal.dump(observation))
       case damage
       when :hash then broken['artifacts'][0]['sha256']='0'*64
       when :linkage then broken['closing_relationships'][1]['keyword']='Closes #518'
-      when :premature_final then broken['status']='final'
+      when :status then broken['status']=final ? 'preparation' : 'final'
+      when :unmerged then obs['state']='OPEN'
+      when :wrong_head then obs['headRefOid']='0'*40
+      when :wrong_repository then obs['url']='https://github.com/other/repository/pull/753'
+      when :merge_drift then obs['mergeCommit']['oid']=Open3.capture3('git','-C',ROOT,'rev-parse',"#{obs['mergeCommit']['oid']}^1")[0].strip
       end
+      expected={hash:/artifact hash mismatch/,linkage:/ambiguous closing/,status:/preparation is not final acceptance|premature final claim/,unmerged:/source PR not merged/,wrong_head:/source PR not merged/,wrong_repository:/wrong source repository/,merge_drift:/merged content drift|missing source object/}.fetch(damage)
       rejected=false
-      begin; verify(broken); rescue StandardError; rejected=true; end
+      begin
+        verify(broken,final:final,observation:obs)
+      rescue StandardError => failure
+        raise "wrong rejection for #{damage}: #{failure.message}" unless failure.message.match?(expected)
+        rejected=true
+      end
       raise "negative fixture accepted: #{damage}" unless rejected
       negatives+=1
     end
+    [('/'+'Users/example/private'), ('ghp_'+'x'*24)].each do |sensitive|
+      raise 'redaction negative accepted' if redaction_safe?(sensitive)
+      negatives+=1
+    end
   end
-  puts JSON.pretty_generate(status:'pass',mode:mode,documents:packet['document_count'],artifacts:packet['artifacts'].size,negative_fixtures:negatives,final_acceptance:!%w[--preparation --self-test].include?(mode),release_approval:false)
+  puts JSON.pretty_generate(status:'pass',mode:mode,documents:packet['document_count'],artifacts:packet['artifacts'].size,negative_fixtures:negatives,final_acceptance:final,release_approval:false)
 rescue StandardError => error
   puts JSON.pretty_generate(status:'blocked',message:error.message,final_acceptance:false)
   exit 1

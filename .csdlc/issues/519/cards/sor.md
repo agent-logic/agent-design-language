@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Provisional packet at 96063e59c9 independently reviewed by codex:/root/review_519_preparation with no actionable findings. Verified 791 documents, 14 artifacts and three negative fixtures; final mode correctly refuses acceptance. #518 PR753 remains open at 1048fb54dd502a3a3a114d49fe37f50e11f5cd70 under explicit operator review hold. Final candidate refresh, validation and typed review/publication cannot proceed until its reviewed merge. No merge, tag, release or issue closure.
+Final publication-candidate packet bound to merged #518 / PR753: immutable reviewed source, published head and merged content agree. Preserve 791-document handoff, artifact hashes, closing linkage and explicit non-release boundary. Final independent review follows.
 
 ## Artifacts
 
@@ -32,6 +32,10 @@ Provisional packet at 96063e59c9 independently reviewed by codex:/root/review_51
 - docs/milestones/v0.92.1/evidence/release/tail-03/README.md
 - docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json
 - .csdlc/prepared/issues/519/validate-publication-candidate.rb
+- docs/milestones/v0.92.1/evidence/release/tail-03/README.md
+- docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json
+- docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json
+- .csdlc/prepared/issues/519/validate-publication-candidate.rb
 
 ## Execution
 
@@ -49,10 +53,64 @@ Provisional packet at 96063e59c9 independently reviewed by codex:/root/review_51
 - Updated immutable source hashes and saved live PR observation.
 - Distinguished historical quality exceptions from completed accounting dispositions.
 - Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.
+- Freeze final #518 source and authenticated live PR read observation after its merge.
+- Verify all document/artifact hashes, reviewed scope and merge content on canonical main.
+- Enforce exact closing relationships and publication-packet redaction; reject corrupt and premature acceptance fixtures.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "--redaction"
+    ],
+    "purpose": "Prove credentials, private payloads, and machine-local paths are absent.",
+    "outcome": "passed",
+    "evidence_ref": "artifact-redaction.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Prove exact packet diff hygiene before review.",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "--exact-head"
+    ],
+    "purpose": "Prove the packet and artifact digests bind the exact reviewed candidate revision.",
+    "outcome": "passed",
+    "evidence_ref": "exact-head.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "--self-test"
+    ],
+    "purpose": "Reject corrupt hashes, closing linkage, repository/head/merge, premature acceptance and sensitive text.",
+    "outcome": "passed",
+    "evidence_ref": "negative-fixtures.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "--linkage"
+    ],
+    "purpose": "Prove exact and unambiguous publication and closing relationships.",
+    "outcome": "passed",
+    "evidence_ref": "publication-linkage.log"
+  }
+]
 
 ## Integration
 

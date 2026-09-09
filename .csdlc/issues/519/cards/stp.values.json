@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-03] Publication finalization",
     "slug": "tail-03-publication-finalization",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
         "AC-4: No merge, tag, release, or issue-close mutation occurs"
       ],
       "dependencies": [
-        "TAIL-02/#518 reviewed merge is required for final acceptance; operator explicitly authorized preparatory work before merge."
+        "#518 reviewed merge satisfied by PR753 / d0907106e1202710586b34317eaf98ddc8b4cb8a; final validator rechecks ancestry and content."
       ],
       "repo_inputs": [
         "agent-logic/agent-design-language#519",

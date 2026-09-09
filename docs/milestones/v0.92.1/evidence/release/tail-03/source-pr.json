@@ -1,10 +1,12 @@
 {
   "baseRefName": "main",
-  "body": "Complete the v0.92.1 documentation handoff, including issue #517 accounting reconciliation from merged PR #752 and terminal reconciliation PR #750. All 245 historical non-proving rows and five exception groups have accounting dispositions; the historical assessment remains intact and release approval remains separate.\n\nThe packet binds 791 current files to content hashes, preserves the original 737-document audit and 15 finding dispositions, and audits all 24 Cargo manifests and 20 local dependencies without changing versions. Current guidance, deferrals and review entrypoints are reconciled.\n\nValidation: 2,824 combined documentation checks, 800 final handoff checks and Cargo 24/20 pass. Independent review approved substantive commit `ed6c1284add897bfd7e48f558ceb8c49154b5471`. The external P2 about stale exception status and the subsequent WBS-policy finding are corrected.\n\nOperator review hold: leave this PR unmerged pending review.\n\nCloses #518",
-  "headRefOid": "1048fb54dd502a3a3a114d49fe37f50e11f5cd70",
-  "mergeCommit": null,
-  "mergedAt": null,
+  "body": "Complete the v0.92.1 documentation handoff, incorporating issue #517 accounting reconciliation from merged PR #752 and terminal reconciliation PR #750. All 245 historical non-proving rows and five exception groups have accounting dispositions; release approval remains separate.\n\nThe packet binds 791 current documents to hashes, preserves the original 737-document audit and 15 finding dispositions, and audits all 24 Cargo manifests and 20 local dependencies without version changes.\n\nValidation: 2,824 documentation checks, 800 handoff checks and Cargo 24/20 pass. Independent review approved substantive commit `13d6afcee7e4f0050491b8c740547fdb9dac5f3d`. Both corrected workflow and onboarding contract tests pass against this worktree. Hosted CI is pending on the new published head.\n\nThe registry repair is independently tracked by #754 and merged PR #755. This candidate also corrects stale tests that still required pre-cutover workflow and onboarding wording.\n\nOperator review hold: leave this PR unmerged pending review.\n\nCloses #518",
+  "headRefOid": "4db787bd9e14f42411435e9bbc3c57af6fa5664b",
+  "mergeCommit": {
+    "oid": "d0907106e1202710586b34317eaf98ddc8b4cb8a"
+  },
+  "mergedAt": "2026-09-09T03:02:16Z",
   "number": 753,
-  "state": "OPEN",
+  "state": "MERGED",
   "url": "https://github.com/agent-logic/agent-design-language/pull/753"
 }

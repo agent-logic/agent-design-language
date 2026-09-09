@@ -28,7 +28,7 @@ Issue completion is exactly one exact-revision publication-candidate packet; lin
 
 ## Dependencies
 
-- TAIL-02/#518 reviewed merge is required for final acceptance; operator explicitly authorized preparatory work before merge.
+- #518 reviewed merge satisfied by PR753 / d0907106e1202710586b34317eaf98ddc8b4cb8a; final validator rechecks ancestry and content.
 
 ## Inputs
 

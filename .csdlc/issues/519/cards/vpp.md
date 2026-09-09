@@ -41,7 +41,7 @@ Diagram: .csdlc/prepared/issues/519/diagram.mmd
       "--linkage"
     ],
     "parallel_group": "publication",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
+    "defer_reason": null
   },
   {
     "lane": "exact-head",
@@ -60,7 +60,7 @@ Diagram: .csdlc/prepared/issues/519/diagram.mmd
       "--exact-head"
     ],
     "parallel_group": "publication",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
+    "defer_reason": null
   },
   {
     "lane": "artifact-redaction",
@@ -78,7 +78,7 @@ Diagram: .csdlc/prepared/issues/519/diagram.mmd
       "--redaction"
     ],
     "parallel_group": "publication",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
@@ -97,6 +97,27 @@ Diagram: .csdlc/prepared/issues/519/diagram.mmd
       "--check"
     ],
     "parallel_group": "hygiene",
+    "defer_reason": null
+  },
+  {
+    "lane": "negative-fixtures",
+    "proof_role": "Reject corrupt hashes, closing linkage, repository/head/merge, premature acceptance and sensitive text.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "--self-test"
+    ],
+    "parallel_group": "publication",
     "defer_reason": null
   }
 ]
@@ -117,6 +138,7 @@ Tokens: 25000
 - `ruby .csdlc/prepared/issues/519/validate-publication-candidate.rb --exact-head`
 - `ruby .csdlc/prepared/issues/519/validate-publication-candidate.rb --redaction`
 - `git diff --check`
+- `ruby .csdlc/prepared/issues/519/validate-publication-candidate.rb --self-test`
 
 ## Failure Semantics
 

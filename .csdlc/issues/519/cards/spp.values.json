@@ -7,14 +7,14 @@
     "title": "[v0.92.1][TAIL-03] Publication finalization",
     "slug": "tail-03-publication-finalization",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 22
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 5,
-      "summary": "Operator-authorized early preparation while #518 PR #753 is pending. Build and test a provisional publication-candidate packet from an immutable reviewed source. Final acceptance and publication require the merged #518 candidate, current review linkage and redaction proof.",
+      "plan_revision": 7,
+      "summary": "Finalize the exact reviewed #518 candidate after PR753 merged; prove review/source/merge linkage, hashes and redaction. Publish the independently reviewed #519 packet without GitHub merge, tag, release or issue closure.",
       "steps": [
         {
           "id": "S1",
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-4"
           ],
-          "status": "in_progress"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -40,7 +40,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [
@@ -76,9 +76,8 @@
         "validation_seconds": 3600
       },
       "stop_conditions": [
-        "Final acceptance waits for #518 reviewed merge; early preparation is explicitly authorized.",
-        "Candidate drift, ambiguous linkage or failed redaction blocks final acceptance.",
-        "No merge, tag, release or issue closure."
+        "Candidate drift, stale review, ambiguous linkage or failed redaction blocks publication.",
+        "No GitHub merge, tag, release or issue closure."
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/519/design.md",

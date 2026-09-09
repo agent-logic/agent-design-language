@@ -16,10 +16,7 @@ The exact publication candidate, artifact digests, closing relationships, redact
 
 ## Prompts
 
-- Does the packet bind the exact revision reviewed by #518?
-- Are all closing relationships explicit and correct?
-- Does redaction exclude secrets, private payloads, and machine-local paths?
-- Can packet creation occur without merge, tag, release, or issue closure?
+- Check all four acceptance criteria at the assigned commit. Cover code, security, evidence, exact source/review/merge identity, canonical origin, closing linkage, redaction, negative fixtures and release nonclaims. Findings first P0-P3 with file/line evidence. Read-only; no passing review with actionable findings.
 
 ## Findings
 

@@ -2,14 +2,14 @@
   "schema": "adl.tail03.publication_candidate.v1",
   "issue": 519,
   "repository": "agent-logic/agent-design-language",
-  "status": "preparation",
+  "status": "final",
   "source_issue": 518,
   "source_pr": 753,
-  "source_head": "1048fb54dd502a3a3a114d49fe37f50e11f5cd70",
-  "reviewed_source_head": "ed6c1284add897bfd7e48f558ceb8c49154b5471",
+  "source_head": "4db787bd9e14f42411435e9bbc3c57af6fa5664b",
+  "reviewed_source_head": "13d6afcee7e4f0050491b8c740547fdb9dac5f3d",
   "review_index": {
     "path": ".csdlc/issues/518/index.json",
-    "sha256": "eff53977b49872fbb24b9a84ad4e6b812de5a4bec69848ff2bc25daa70a2884c"
+    "sha256": "c8259c4643271829304de65918dd146153be8104d15955ca2b458e06c021ae5a"
   },
   "handoff_manifest": "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
   "document_count": 791,
@@ -44,7 +44,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json",
-      "sha256": "06cbbfb06daab0a43dbe72579c925a342a47bed6aecb20399bd9b9be7d978bae"
+      "sha256": "485b89b19d9acdc31727ff3211c6dc5857dca241e1896670ea6e3efde0742b61"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
@@ -83,9 +83,7 @@
       "keyword": "Closes #519"
     }
   ],
-  "final_blockers": [
-    "PR #753 remains open under operator review hold; final acceptance requires its reviewed merge and fresh validation."
-  ],
+  "final_blockers": [],
   "release_approval": false,
   "mutations_performed": []
 }
