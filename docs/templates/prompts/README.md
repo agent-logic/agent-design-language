@@ -182,6 +182,7 @@ temporary directories, or full local artifact paths in durable cards.
 
 Older files under `adl/templates/cards/` and legacy structured-prompt template
 docs remain compatibility surfaces. New card generation should treat the active
-registry target from `current.json` as canonical, while staged future sets such
-as `docs/templates/prompts/1.0.3/` may be rendered and schema-validated
-explicitly through `--template-set` before activation.
+registry target from `current.json` as canonical. Historical or compatibility
+sets such as `docs/templates/prompts/1.0.3/` may be rendered and
+schema-validated explicitly through `--template-set` only when intentionally
+auditing that version.
