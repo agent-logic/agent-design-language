@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
     "slug": "proof-worktree-binding",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Issue 762 implements native proof/install ownership guards and disables historical shadow/soak execution. Goal created after typed v2 binding under explicit issue-scoped operator exception. Worktree-only implementation; independent review and hosted integration CI follow; no merge or issue closure. Repaired R762-001 by preflighting exact regular-or-absent output endpoints; fresh typed repair validation passed.",
+      "summary": "Issue 762 implements native proof/install ownership guards and disables historical shadow/soak execution. Goal created after typed v2 binding under explicit issue-scoped operator exception. Worktree-only implementation; independent review and hosted integration CI follow; no merge or issue closure. Repaired R762-001 by preflighting exact regular-or-absent output endpoints; fresh typed repair validation passed. Integrated main d6a66a55651dc5c17769b2418eb7d92f0c5382ee; all 188 combined owner tests, dedicated topology test and strict clippy passed.",
       "actual_changes": [
         "Derive operational context from invoking checkout and authenticate Git topology, native selector, bound index and lifecycle digest before writes.",
         "Constrain output paths, recheck ownership at durable writes, reject historical execution and emit structured denial reports on stdout.",
@@ -45,7 +45,7 @@
           ],
           "purpose": "Required Rust static validation.",
           "outcome": "passed",
-          "evidence_ref": "repair/clippy.log"
+          "evidence_ref": "base-integration/clippy.log"
         },
         {
           "command": [
@@ -56,7 +56,7 @@
           ],
           "purpose": "Required C-SDLC v3 CLI and lifecycle integration regression coverage for changed public dispatcher.",
           "outcome": "passed",
-          "evidence_ref": "repair/csdlc-owner.log"
+          "evidence_ref": "base-integration/csdlc-owner.log"
         },
         {
           "command": [
@@ -69,7 +69,7 @@
           ],
           "purpose": "Required deterministic linked-worktree identity and negative confinement proof.",
           "outcome": "passed",
-          "evidence_ref": "repair/proof-worktree.log"
+          "evidence_ref": "base-integration/proof-worktree.log"
         }
       ],
       "integration_state": "worktree_only",

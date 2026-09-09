@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Issue 762 implements native proof/install ownership guards and disables historical shadow/soak execution. Goal created after typed v2 binding under explicit issue-scoped operator exception. Worktree-only implementation; independent review and hosted integration CI follow; no merge or issue closure. Repaired R762-001 by preflighting exact regular-or-absent output endpoints; fresh typed repair validation passed.
+Issue 762 implements native proof/install ownership guards and disables historical shadow/soak execution. Goal created after typed v2 binding under explicit issue-scoped operator exception. Worktree-only implementation; independent review and hosted integration CI follow; no merge or issue closure. Repaired R762-001 by preflighting exact regular-or-absent output endpoints; fresh typed repair validation passed. Integrated main d6a66a55651dc5c17769b2418eb7d92f0c5382ee; all 188 combined owner tests, dedicated topology test and strict clippy passed.
 
 ## Artifacts
 
@@ -49,7 +49,7 @@ Issue 762 implements native proof/install ownership guards and disables historic
     ],
     "purpose": "Required Rust static validation.",
     "outcome": "passed",
-    "evidence_ref": "repair/clippy.log"
+    "evidence_ref": "base-integration/clippy.log"
   },
   {
     "command": [
@@ -60,7 +60,7 @@ Issue 762 implements native proof/install ownership guards and disables historic
     ],
     "purpose": "Required C-SDLC v3 CLI and lifecycle integration regression coverage for changed public dispatcher.",
     "outcome": "passed",
-    "evidence_ref": "repair/csdlc-owner.log"
+    "evidence_ref": "base-integration/csdlc-owner.log"
   },
   {
     "command": [
@@ -73,7 +73,7 @@ Issue 762 implements native proof/install ownership guards and disables historic
     ],
     "purpose": "Required deterministic linked-worktree identity and negative confinement proof.",
     "outcome": "passed",
-    "evidence_ref": "repair/proof-worktree.log"
+    "evidence_ref": "base-integration/proof-worktree.log"
   }
 ]
 
