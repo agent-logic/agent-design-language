@@ -40,6 +40,11 @@ findings = finding_inputs.map do |input|
   path = input.fetch("path")
   content = candidate_blob(candidate, path)
   id = input.fetch("id")
+  locator = if input.key?("command")
+              {"command" => input.fetch("command")}
+            else
+              {"path" => path, "line" => input.fetch("line")}
+            end
   {
     "id" => id,
     "severity" => input.fetch("severity"),
@@ -50,14 +55,14 @@ findings = finding_inputs.map do |input|
     "source_lane" => input.fetch("source_lane"),
     "owner" => input.fetch("owner"),
     "affected_acceptance_refs" => input.fetch("affected_acceptance_refs"),
-    "locator" => {"path" => path, "line" => input.fetch("line")},
+    "locator" => locator,
     "evidence" => {
       "subject_id" => id,
       "path" => path,
       "source" => "candidate",
       "revision" => candidate,
       "sha256" => Digest::SHA256.hexdigest(content),
-      "locator" => {"path" => path, "line" => input.fetch("line")}
+      "locator" => locator
     },
     "detail" => input.fetch("detail"),
     "denominator_refs" => input.fetch("denominator_refs")

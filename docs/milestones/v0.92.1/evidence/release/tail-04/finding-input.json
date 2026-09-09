@@ -89,7 +89,7 @@
       "owner": "#817 under #522",
       "affected_acceptance_refs": ["TAIL-04:AC-1", "TAIL-04:AC-2"],
       "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
-      "line": 1,
+      "command": "test ! -s .csdlc/evidence/730/preapply-bucket-describe.json",
       "detail": "Four failed-command artifacts under issues 730 and 731 are empty. They need explicit structured failure envelopes or a truthful non-JSON naming and manifest disposition.",
       "denominator_refs": ["FILE-00577", "FILE-00595", "FILE-00614", "FILE-00616"]
     },

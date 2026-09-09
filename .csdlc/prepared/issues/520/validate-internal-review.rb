@@ -48,6 +48,8 @@ def evidence_resolves?(evidence, candidate, root, subject_id:)
   if nonempty?(locator["path"])
     return false unless locator.fetch("path") == path
     return false if locator.fetch("line") > content.lines.length
+  elsif nonempty?(locator["command"])
+    return false unless locator.fetch("command") == "test ! -s #{path}" && content.empty?
   end
   true
 end
