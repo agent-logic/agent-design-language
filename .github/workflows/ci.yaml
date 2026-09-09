@@ -169,8 +169,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: rustfmt, clippy
 
       - name: Prepare external Cargo build root
@@ -201,8 +202,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: rustfmt, clippy
 
       - name: Prepare external Cargo build root
@@ -231,8 +233,9 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: rustfmt, clippy
 
       - name: Prepare external Cargo build root
@@ -402,8 +405,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: clippy
 
       - name: Rust cache
@@ -440,8 +444,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: rustfmt, clippy, llvm-tools-preview
 
       - name: Free runner disk space
@@ -513,8 +518,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: llvm-tools-preview
 
       - name: Free runner disk space
@@ -627,7 +633,9 @@ jobs:
 
       - name: Install Rust toolchain for tracked proof lane
         if: needs.adl_path_policy.outputs.v0913_proof_required == 'true'
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
 
       - name: demo smoke (S-01..S-05)
         if: needs.adl_path_policy.outputs.demo_smoke_required == 'true'
@@ -845,7 +853,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
 
       - name: Free runner disk space
         run: |
@@ -890,8 +900,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install runtime coverage Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: llvm-tools-preview
 
       - name: Free runner disk space for runtime coverage
@@ -1018,8 +1029,9 @@ jobs:
 
       - name: Install Rust toolchain
         if: steps.coverage-impact.outputs.needs_fast_summary == 'true'
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: llvm-tools-preview
 
       - name: Rust cache
@@ -1144,8 +1156,9 @@ jobs:
         working-directory: .
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
         with:
+          toolchain: 1.92.0
           components: llvm-tools-preview
 
       - name: Free runner disk space for coverage

@@ -32,6 +32,17 @@ def job_block(text, job)
   match && match[0]
 end
 
+PINNED_RUST_TOOLCHAIN = "1.92.0"
+toolchain_path = root.join("rust-toolchain.toml")
+if toolchain_path.file?
+  toolchain = toolchain_path.read
+  unless toolchain.match?(/^channel\s*=\s*"#{Regexp.escape(PINNED_RUST_TOOLCHAIN)}"\s*$/)
+    errors << "rust-toolchain.toml: channel must pin Rust #{PINNED_RUST_TOOLCHAIN}"
+  end
+else
+  errors << "rust-toolchain.toml: missing required Rust toolchain declaration"
+end
+
 workflow_paths.each do |path|
   text = path.read
   events = top_level_events(text)
@@ -55,6 +66,17 @@ ci = ci_path.read
 ci_events = top_level_events(ci)
 errors << ".github/workflows/ci.yaml: pull_request entrypoint is missing" unless ci_events.include?("pull_request")
 errors << ".github/workflows/ci.yaml: explicit full validation is missing" unless ci_events.include?("workflow_dispatch")
+
+ci.scan(/^\s*-\s+name:\s*(?<name>.*?)\s*\n(?<body>.*?)(?=^\s*-\s+name:|\n  [A-Za-z0-9_-]+:\n|\z)/m).each do |name, body|
+  next unless body.include?("uses: dtolnay/rust-toolchain@")
+
+  unless body.match?(/^\s+toolchain:\s*#{Regexp.escape(PINNED_RUST_TOOLCHAIN)}\s*$/)
+    errors << ".github/workflows/ci.yaml #{name}: Rust toolchain must pin #{PINNED_RUST_TOOLCHAIN}"
+  end
+  if body.match?(/^\s+toolchain:\s*(stable|nightly|beta)\s*$/)
+    errors << ".github/workflows/ci.yaml #{name}: floating Rust channel is not allowed"
+  end
+end
 
 concurrency = "group: ${{ github.repository }}:${{ github.workflow }}:${{ github.event.pull_request.base.ref || github.ref_name }}:${{ github.event.pull_request.head.repo.id || github.repository_id }}:${{ github.event.pull_request.head.ref || github.ref }}"
 errors << ".github/workflows/ci.yaml: concurrency key must unambiguously identify workflow, target, source repository, and source branch" unless ci.include?(concurrency)

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 // PVF: lane=exact-child-tests; proof=durable authority-bound migration state machine;
 // deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
 #[allow(dead_code)]
