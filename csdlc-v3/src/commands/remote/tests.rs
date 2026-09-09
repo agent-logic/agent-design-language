@@ -834,6 +834,7 @@ fn persist_mutation_intent(root: &Path, request: &super::GithubMutationRequest) 
         authority_selector_digest: selector_digest,
         request: intent_request,
         adapter: super::GITHUB_OPERATIONAL_ADAPTER.into(),
+        resolved_edit: None,
     };
     let path = super::github_mutation_intent_path(root, &operation_digest).unwrap();
     super::persist_json_create_new(&path, &intent).unwrap();
@@ -1499,6 +1500,9 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
     let issue_edit = mutation_request(
         REVISION,
         super::GithubMutation::IssueEdit {
+            labels: None,
+            assignees: None,
+            milestone: None,
             title: Some("updated issue".into()),
             body: Some("updated body".into()),
         },
@@ -1648,6 +1652,314 @@ fn operational_dispatcher_rejects_forged_exact_review_sha() {
         "canonical_exact_review_sha_mismatch"
     );
     assert!(process.invocations.is_empty());
+}
+
+// PVF #797: required deterministic native-owner contract proof, small local
+// CPU/filesystem/Git, fake authenticated transport only; no live GitHub writes.
+fn metadata_edit(
+    head: &str,
+    labels: Option<super::IssueLabelsUpdate>,
+    milestone: Option<super::IssueMilestoneUpdate>,
+) -> super::GithubMutationRequest {
+    mutation_request(
+        head,
+        super::GithubMutation::IssueEdit {
+            title: None,
+            body: None,
+            labels,
+            assignees: None,
+            milestone,
+        },
+    )
+}
+
+#[test]
+fn issue_metadata_omission_clear_and_legacy_serialization_are_distinct() {
+    let root = mutation_repo("metadata-shape", true);
+    for field in ["labels", "assignees", "milestone"] {
+        let mut value = serde_json::json!({"action":"issue_edit","body":"kept"});
+        value[field] = serde_json::Value::Null;
+        assert!(serde_json::from_value::<super::GithubMutation>(value).is_err());
+    }
+    assert!(serde_json::from_value::<super::GithubMutation>(
+        serde_json::json!({"action":"issue_edit","lables":[]})
+    )
+    .is_err());
+    let schema: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../../docs/csdlc-v3/issue-edit.schema.json"
+    ))
+    .unwrap();
+    assert_eq!(
+        schema["properties"]["labels"]["properties"]["operation"]["enum"],
+        serde_json::json!(["add", "remove", "replace"])
+    );
+    for action in [
+        serde_json::json!({"operation":"add","names":["one"]}),
+        serde_json::json!({"operation":"remove","names":["one"]}),
+        serde_json::json!({"operation":"replace","names":[]}),
+    ] {
+        assert!(serde_json::from_value::<super::GithubMutation>(
+            serde_json::json!({"action":"issue_edit","labels":action})
+        )
+        .is_ok());
+    }
+
+    let legacy: super::GithubMutation = serde_json::from_value(
+        serde_json::json!({"action":"issue_edit","title":null,"body":"body"}),
+    )
+    .unwrap();
+    assert_eq!(
+        serde_json::to_value(&legacy).unwrap(),
+        serde_json::json!({"action":"issue_edit","title":null,"body":"body"})
+    );
+    let request = mutation_request(REVISION, legacy);
+    let path = super::write_mutation_input(&root, "legacy", "marker", &request).unwrap();
+    let value: serde_json::Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+    assert!(value.get("title").is_none());
+    for field in ["labels", "assignees", "milestone"] {
+        assert!(value.get(field).is_none());
+    }
+    let mut clear = metadata_edit(
+        REVISION,
+        Some(super::IssueLabelsUpdate::Replace { names: vec![] }),
+        Some(super::IssueMilestoneUpdate::Clear),
+    );
+    if let super::GithubMutation::IssueEdit {
+        body, assignees, ..
+    } = &mut clear.mutation
+    {
+        *body = Some("kept".into());
+        *assignees = Some(vec![]);
+    }
+    let path = super::write_mutation_input(&root, "clear", "marker", &clear).unwrap();
+    let value: serde_json::Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+    assert_eq!(value["labels"], serde_json::json!([]));
+    assert_eq!(value["assignees"], serde_json::json!([]));
+    assert!(value.get("milestone").unwrap().is_null());
+    assert!(value.get("title").is_none());
+    assert!(super::validate_mutation(&metadata_edit(REVISION, None, None)).is_err());
+    assert!(super::validate_mutation(&metadata_edit(
+        REVISION,
+        None,
+        Some(super::IssueMilestoneUpdate::Set { number: 0 })
+    ))
+    .is_err());
+}
+
+#[test]
+fn issue_metadata_resolves_add_remove_and_preserves_body_before_intent() {
+    for (update, expected) in [
+        (
+            super::IssueLabelsUpdate::Add {
+                names: vec!["KEEP".into(), "new".into()],
+            },
+            vec!["keep", "old", "new"],
+        ),
+        (
+            super::IssueLabelsUpdate::Remove {
+                names: vec!["OLD".into()],
+            },
+            vec!["keep"],
+        ),
+    ] {
+        let request = metadata_edit(REVISION, Some(update), None);
+        let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"number":505,"body":"existing body","labels":[{"name":"keep"},{"name":"old"}]}),
+        )]);
+        let resolved = super::resolve_issue_edit(&request, &mut adapter).unwrap();
+        let super::GithubMutation::IssueEdit {
+            body,
+            labels,
+            title,
+            milestone,
+            assignees,
+        } = resolved
+        else {
+            panic!("edit")
+        };
+        assert_eq!(body.as_deref(), Some("existing body"));
+        assert_eq!(
+            labels,
+            Some(super::IssueLabelsUpdate::Replace {
+                names: expected.into_iter().map(str::to_owned).collect()
+            })
+        );
+        assert!(title.is_none() && milestone.is_none() && assignees.is_none());
+        assert_eq!(adapter.invocations.len(), 1);
+        assert_eq!(
+            adapter.invocations[0].program,
+            super::GITHUB_READ_ONLY_ADAPTER
+        );
+    }
+}
+
+#[test]
+fn issue_metadata_readback_requires_exact_requested_sets_and_clear() {
+    let request = mutation_request(
+        REVISION,
+        super::GithubMutation::IssueEdit {
+            title: Some("title".into()),
+            body: Some("body".into()),
+            labels: Some(super::IssueLabelsUpdate::Replace {
+                names: vec!["wanted".into()],
+            }),
+            assignees: Some(vec!["owner".into()]),
+            milestone: Some(super::IssueMilestoneUpdate::Clear),
+        },
+    );
+    let value = serde_json::json!({"number":505,"title":"title","body":"body\n\nmarker","labels":[{"name":"wanted"}],"assignees":[{"login":"owner"}],"milestone":null});
+    assert!(super::match_reconciled_mutation(&request, "marker", &value).is_ok());
+    for (field, bad) in [
+        ("title", serde_json::json!("wrong")),
+        ("body", serde_json::json!("body")),
+        (
+            "labels",
+            serde_json::json!([{"name":"wanted"},{"name":"extra"}]),
+        ),
+        ("assignees", serde_json::json!([])),
+        ("milestone", serde_json::json!({"number":1})),
+    ] {
+        let mut changed = value.clone();
+        changed[field] = bad;
+        assert!(
+            super::match_reconciled_mutation(&request, "marker", &changed).is_err(),
+            "{field}"
+        );
+        let mut missing = value.clone();
+        missing.as_object_mut().unwrap().remove(field);
+        assert!(
+            super::match_reconciled_mutation(&request, "marker", &missing).is_err(),
+            "missing {field}"
+        );
+    }
+    let mut set = request.clone();
+    if let super::GithubMutation::IssueEdit { milestone, .. } = &mut set.mutation {
+        *milestone = Some(super::IssueMilestoneUpdate::Set { number: 2 });
+    }
+    assert!(super::match_reconciled_mutation(&set, "marker", &value).is_err());
+    let mut assigned = value;
+    assigned["milestone"] = serde_json::json!({"number":2});
+    assert!(super::match_reconciled_mutation(&set, "marker", &assigned).is_ok());
+}
+
+#[test]
+fn issue_metadata_uncertain_write_reuses_retained_target_and_rejects_drift() {
+    let root = mutation_repo("metadata-retry", true);
+    let head = mutation_head(&root);
+    let mut request = metadata_edit(
+        &head,
+        Some(super::IssueLabelsUpdate::Add {
+            names: vec!["new".into()],
+        }),
+        Some(super::IssueMilestoneUpdate::Set { number: 2 }),
+    );
+    let digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&digest);
+    let intent_path = super::github_mutation_intent_path(&root, &digest).unwrap();
+    let final_state = serde_json::json!({"number":505,"body":format!("existing\n\n{marker}"),"labels":[{"name":"keep"},{"name":"new"}],"milestone":{"number":2}});
+    let mut failed = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"number":505,"body":"existing","labels":[{"name":"keep"}]}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut failed)
+            .unwrap_err()
+            .code,
+        "github_mutation_reconciliation_pending"
+    );
+    let before = fs::read(&intent_path).unwrap();
+    let retained = super::load_mutation_intent(&intent_path, &digest).unwrap();
+    let mut changed_intent = retained.clone();
+    changed_intent.resolved_edit = None;
+    assert_ne!(
+        super::github_mutation_intent_digest(&retained),
+        super::github_mutation_intent_digest(&changed_intent)
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut drift = final_state.clone();
+    drift["labels"] = serde_json::json!([{"name":"keep"},{"name":"new"},{"name":"later"}]);
+    let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        drift,
+    )]);
+    assert!(super::execute_github_mutation(&root, &request, &mut adapter).is_err());
+    assert_eq!(adapter.invocations.len(), 1);
+    assert_eq!(
+        adapter.invocations[0].program,
+        super::GITHUB_READ_ONLY_ADAPTER
+    );
+    assert_eq!(before, fs::read(&intent_path).unwrap());
+    let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        final_state.clone(),
+    )]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut adapter)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+    let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        final_state,
+    )]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut adapter)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+    assert_eq!(adapter.invocations.len(), 1);
+}
+
+#[test]
+fn issue_metadata_invalid_baseline_cannot_create_intent_or_write() {
+    let root = mutation_repo("metadata-baseline", true);
+    let head = mutation_head(&root);
+    let mut request = metadata_edit(
+        &head,
+        Some(super::IssueLabelsUpdate::Add {
+            names: vec!["new".into()],
+        }),
+        None,
+    );
+    if let super::GithubMutation::IssueEdit { body, labels, .. } = &mut request.mutation {
+        *body = Some("caller supplied".into());
+        *labels = Some(super::IssueLabelsUpdate::Replace {
+            names: vec!["new".into()],
+        });
+    }
+    for baseline in [
+        serde_json::json!({"number":999,"body":"x","labels":[]}),
+        serde_json::json!({"number":505,"body":"x","labels":null}),
+        serde_json::json!({"number":505,"labels":[]}),
+        serde_json::json!({"number":505,"body":"x","labels":[],"pull_request":{}}),
+    ] {
+        let mut adapter = SequencedProcessAdapter::new(vec![process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            baseline,
+        )]);
+        assert!(super::execute_github_mutation(&root, &request, &mut adapter).is_err());
+        assert!(!super::github_mutation_intent_path(
+            &root,
+            &super::github_mutation_operation_digest(&request)
+        )
+        .unwrap()
+        .exists());
+        assert_eq!(adapter.invocations.len(), 1);
+    }
 }
 
 // PVF: required deterministic local regression, small CPU/disk, synthetic transport;

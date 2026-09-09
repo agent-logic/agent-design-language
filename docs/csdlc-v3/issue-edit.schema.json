@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-logic.github.io/agent-design-language/csdlc-v3/issue-edit.schema.json",
+  "title": "Native existing-issue mutation (nested mutation object)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action"
+  ],
+  "properties": {
+    "action": {
+      "const": "issue_edit"
+    },
+    "title": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "\\S"
+    },
+    "body": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "names"
+      ],
+      "properties": {
+        "operation": {
+          "enum": [
+            "add",
+            "remove",
+            "replace"
+          ]
+        },
+        "names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "assignees": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "milestone": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "number"
+          ],
+          "properties": {
+            "operation": {
+              "const": "set"
+            },
+            "number": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation"
+          ],
+          "properties": {
+            "operation": {
+              "const": "clear"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "not": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "body"
+      ],
+      "properties": {
+        "body": {
+          "not": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "labels"
+      ],
+      "properties": {
+        "labels": {
+          "not": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "assignees"
+      ],
+      "properties": {
+        "assignees": {
+          "not": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "required": [
+        "milestone"
+      ],
+      "properties": {
+        "milestone": {
+          "not": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}
