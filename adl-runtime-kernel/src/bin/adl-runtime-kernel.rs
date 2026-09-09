@@ -1136,7 +1136,10 @@ async fn main() -> ExitCode {
                     },
                     _ = dynamic_agent_heartbeat.tick() => {
                         service.refresh_dynamic_agent_health().await;
-                        service.recover_admission_greetings().await;
+                        let greeting_recovery_service = Arc::clone(&service);
+                        tokio::spawn(async move {
+                            greeting_recovery_service.recover_admission_greetings().await;
+                        });
                     },
                     _ = cloud_health_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();
