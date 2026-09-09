@@ -21,6 +21,6 @@
   "dependencies": "Refresh final projection after status-changing #522 children land; pending remediation remains explicit debt. Post-merge closeout is asynchronous.",
   "status": "implemented",
   "integration_state": "worktree_only",
-  "validation_result": "Focused validator passes with six negative fixtures; existing TAIL-02 link/claim checks pass (1123/286). Six typed cards validate with the known corrected native validator; uncorrected native schema-path defect remains separately #776. No product tests or cloud demos needed/run.",
+  "validation_result": "Focused validator passes with six negative fixtures; existing TAIL-02 link/claim checks pass with exact counts in draft-validation.json. Six typed cards validate with the known corrected native validator; uncorrected native schema-path defect remains separately #776. No product tests or cloud demos needed/run.",
   "integration_result": "Draft implementation in bound #767 worktree; final projection awaits status-changing #522 remediations. Post-merge closeout belongs to the user asynchronous process."
 }

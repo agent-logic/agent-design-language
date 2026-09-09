@@ -109,7 +109,7 @@ Rules:
   - `<validation_command>`
     `<validation_effect>`
 - Results:
-  - `Focused validator passes with six negative fixtures; existing TAIL-02 link/claim checks pass (1123/286). Six typed cards validate with the known corrected native validator; uncorrected native schema-path defect remains separately #776. No product tests or cloud demos needed/run.`
+  - `Focused validator passes with six negative fixtures; existing TAIL-02 link/claim checks pass with exact counts in draft-validation.json. Six typed cards validate with the known corrected native validator; uncorrected native schema-path defect remains separately #776. No product tests or cloud demos needed/run.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
