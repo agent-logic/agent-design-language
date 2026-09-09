@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/814/cards/sip.md"
   - ".csdlc/issues/814/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
+  findings_status: "findings_present"
   recommended_outcome: "block"
-notes: "Review the bounded Runtime control, retry identity, local URL authority, and regression-test surfaces only."
+notes: "Fresh exact-head rereview is required before publication; until it passes, publication remains blocked."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Independent exact-head review has not yet run.
+- First exact-head review found two P2 gaps: provider transport work still overloaded the logical idempotency key with attempt identity, and redirect denial was only source-inspected.
 
 ### Dispositions
 
-- Publication remains blocked until every actionable finding is fixed and a fresh exact-head review passes.
+- Both findings are fixed. DomainWork/result preserve the logical key while a private adapter execution identity isolates retry-cache attempts; the Python runner is executed against local redirect source and target listeners and proves denial before target contact.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Review the bounded Runtime control, retry identity, local URL authority, and regression-test surfaces only.
+Fresh exact-head rereview is required before publication; until it passes, publication remains blocked.
