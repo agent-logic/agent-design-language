@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 817,
   "phase": "bound",
-  "generation": 5,
+  "generation": 6,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/817-release-truth-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-817-release-truth-refresh",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "b58a6b19ceb97d163e2a66ec5128191589bd97b12a82beabae15c224f2656ef7"
+  "digest": "f9b122ad97ec31a345dab258cb1d868aba61761eaed4899e92965256f94dfce0"
 }

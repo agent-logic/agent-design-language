@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/817/cards/sip.md"
   - ".csdlc/issues/817/cards/vpp.md"
 review_results:
-  findings_status: "v3f_resolved_pending_final_issue_review"
+  findings_status: "all_findings_resolved_pending_rereview"
   recommended_outcome: "pending"
-notes: "Independent exact-source V3-F rereview by codex:/root/fix_816_validation PASS at c0a9edef5b2d8d755d4b56d1b5456058b13db1d9 with 163 paths reviewed and no remaining findings. Final whole-issue exact-head review remains pending."
+notes: "All findings are fixed. Fresh independent exact-head rereview is required at the new immutable commit before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- V3-F review found P2 stale active-template-set guidance, P3 stale compatibility-set status, and P2 a nonexistent historical rendering implication in docs/templates/prompts/README.md.
+- V3-F review found and resolved three prompt-template README truth defects. Final whole-head review found P1 unauthenticated #519 terminal projection, P2 vacuous failure-envelope negative proof, P2 incomplete SOR truth, and P2 absolute host paths in the retained V3-F suite log.
 
 ### Dispositions
 
-- All three findings fixed. README now names 1.0.5 as active, 1.0.0 through 1.0.4 as historical, and historical sets as immutable audit inputs with schema-only metadata checks and no current rendering route.
+- Terminal proof now binds tracked source bytes by SHA-256, recomputes native BLAKE3 state_digest with known-vector self-tests, and supports exact live GitHub readback. Failure envelopes have exact command/error/exit/stderr bindings and four causal tamper negatives. SOR fields are fully populated. Suite log paths are redacted and rejected by the V3-F validator.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent exact-source V3-F rereview by codex:/root/fix_816_validation PASS at c0a9edef5b2d8d755d4b56d1b5456058b13db1d9 with 163 paths reviewed and no remaining findings. Final whole-issue exact-head review remains pending.
+All findings are fixed. Fresh independent exact-head rereview is required at the new immutable commit before publication.

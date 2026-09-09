@@ -127,6 +127,9 @@ def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'
             suite['head_after'] == source, 'detached_clean_execution')
     log = (HERE / 'suite.log').read_bytes()
     require(suite['log'] == 'suite.log' and digest(log) == suite['log_sha256'], 'suite_log_digest')
+    require(suite.get('log_redacted') is True and b'/Volumes/' not in log and
+            b'/Users/' not in log and b'/private/' not in log,
+            'suite_log_path_hygiene')
     counts = re.findall(r'test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored; (\d+) measured; (\d+) filtered out', log.decode())
     require(counts and all(int(row[4]) == 0 for row in counts), 'unfiltered_suite')
     passed = sum(int(row[0]) for row in counts)
@@ -175,6 +178,7 @@ def negative(mapping):
         ('zero_tests', 'passing_full_suite', lambda m,a,r,s:s.update(passed=0)),
         ('narrow_suite', 'full_locked_suite', lambda m,a,r,s:s['argv'].extend(['--test','terminal_cleanup_cutover_commands'])),
         ('dirty_checkout', 'detached_clean_execution', lambda m,a,r,s:s.update(clean_after=False)),
+        ('absolute_path_log', 'suite_log_path_hygiene', lambda m,a,r,s:s.update(log_redacted=False)),
         ('wrong_reviewer', 'independent_assignment', lambda m,a,r,s:r.update(reviewer='unassigned')),
         ('failed_suite', 'passing_full_suite', lambda m,a,r,s:s.update(exit_code=1)),
         ('receipt_tamper', 'receipt_digest', lambda m,a,r,s:m['receipt_sha256'].update({'review.json':'0'*64})),

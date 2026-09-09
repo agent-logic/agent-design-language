@@ -43,22 +43,22 @@ Repaired six release-truth defects: exact-candidate V3-F inputs, live canonical 
 
 ## Issue Metrics Truth
 - Expected runtime class: `small`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
+- Estimated elapsed seconds: `not_collected`
+- Actual elapsed seconds: `not_collected`
+- Actual active work seconds: `not_collected`
+- Estimated total tokens: `not_collected`
+- Actual total tokens: `not_collected`
+- Estimated validation seconds: `not_collected`
+- Actual validation seconds: `not_collected`
+- Actual PR wait seconds: `not_collected`
+- Actual CI wait seconds: `not_collected`
 - Budget source: `No explicit token budget`
 - Goal metrics data source: `not_collected`
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
-- Estimate error percent: `<estimate_error_percent>`
+- Estimate error percent: `unknown`
 - Completion state: `implementation_validated_pending_publication`
-- Issue goal ref: `Issue #817 session goal pending bind`
+- Issue goal ref: `Issue #817 session goal active`
 - Sprint goal ref: `Parent #522`
 - Goal metrics rollup ref: `not_collected`
 - Validation planning prompt: `.csdlc/issues/817/cards/vpp.md`
@@ -70,7 +70,7 @@ Repaired six release-truth defects: exact-candidate V3-F inputs, live canonical 
 - Variance analysis required: `unknown`
 - Variance analysis completed: `not_applicable`
 - Variance category: `not_collected`
-- Variance note: `No execution metrics yet.`
+- Variance note: `No estimate/actual metric pair was collected; variance is not inferred.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
@@ -90,9 +90,9 @@ Repaired six release-truth defects: exact-candidate V3-F inputs, live canonical 
 - Verification scope: `All six assigned #520 findings with positive and negative deterministic proof; exact-source V3-F full locked suite; no paid cloud rerun.`
 - Integration method used: `pending native publication`
 - Verification performed:
-  - `not_run`
-    `deferred until hosted CI`
-- Result: `pending publication`
+  - `Focused #817 positive/negative validators, native six-card validation, JSON parse sweep, exact-source V3-F locked suite, and git diff --check.`
+    `Verifies the complete issue-branch artifact set and its exact-candidate bindings before native publication; hosted integration remains pending.`
+- Result: `PASS in the bound issue worktree; native publication and hosted CI pending`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; clean detached cargo test --locked --manifest-path csdlc-v3/Cargo.toml; native card validation; JSON parse sweep; git diff --check`
-    `Proves exact release projections, malformed-link rejection, parseable retained JSON, truthful failure envelopes, immutable #519 historical cards, and current V3-F behavior at the exact source candidate.`
+  - `python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 .csdlc/prepared/issues/817/validate-release-truth.py --observe-github; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py; python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py --negative; native csdlc validate; JSON parse sweep; git diff --check`
+    `Authenticates exact #519 terminal source bytes and BLAKE3 state binding, optionally re-observes GitHub, rejects nine release-truth and fifteen V3-F tamper classes, checks current status, parses retained GCP-E JSON, and validates lifecycle truth.`
 - Results:
-  - `PASS: release-truth positive and 3 negatives; current-status positive and 9 negatives; 34 GCP-E JSON files parse and are nonempty; V3-F mapping positive and 14 negatives; detached locked C-SDLC v3 suite 211 passed and 0 failed; native six-card validation and diff hygiene.`
+  - `PASS: receipt and live terminal verification; release-truth positive and 9 negatives; current-status positive and 9 negatives; 34 GCP-E JSON files nonempty and parseable; V3-F mapping positive and 15 negatives; detached locked suite 211 passed and 0 failed; native six-card validation; diff hygiene.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "Focused release-truth, current-status, V3-F, JSON, lifecycle, and diff-hygiene checks passed."
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: passed
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Release-truth 9-case negative matrix, current-status 9-case negative matrix, and V3-F 15-case negative matrix.`
+- Fixtures or scripts used: `.csdlc/prepared/issues/817/validate-release-truth.py; current-status/validate.py; v3f-current/validate.py and suite.log.`
+- Replay verification (same inputs -> same artifacts/order): `Repeated focused validators produce the same classifications and exact denominator counts.`
+- Ordering guarantees (sorting / tie-break rules used): `Issue observations, status rows, work packages, source maps, and V3-F scope are sorted or exact-map compared.`
+- Artifact stability notes: `Candidate Git blobs, explicit hashes, exact source SHA, and immutable historical-card hashes bind retained truth.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Yes; changed evidence and suite log were checked for credentials and host-local paths.`
+- Prompt / tool argument redaction verified: `No prompt payloads are published; retained command evidence exposes only bounded command classes and redacted paths.`
+- Absolute path leakage check: `Passed; the V3-F validator rejects host-local suite-log prefixes.`
+- Sandbox / policy invariants preserved: `Yes; all cloud reads were read-only and no paid provider mutation was performed.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `none; not required for deterministic release-evidence repair`
+- Run artifact root: `.csdlc/evidence/817 and docs/milestones/v0.92.1/evidence/release`
+- Replay command used for verification: `Run the three focused validators in positive and negative modes; add --observe-github for live #519 terminal readback.`
+- Replay result: `passed`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `.csdlc/prepared/issues/817/validate-release-truth.py and v3f-current/validate.py`
+- Required artifacts present: `true`
+- Artifact schema/version checks: `All 34 GCP-E JSON artifacts parse; four failure envelopes use adl.retained_command_failure.v1; terminal sources use native v3 schemas.`
+- Hash/byte-stability checks: `SHA-256 binds terminal sources, historical cards, suite log, mapping inputs, and current-status sources; BLAKE3 binds terminal state to receipt.`
+- Missing/optional artifacts and rationale: `No new cloud execution or trace bundle was required; issue repairs retained and classified existing proof.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `Used a tracked terminal projection and exact source copies rather than rewriting #519 historical cards.`
+- `Did not rerun paid cloud workloads; normalized retained evidence without upgrading its proof class.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Publish only after fresh independent exact-head PASS.`
+- `Keep release authorization false until the parent #520 denominator is terminally resolved.`

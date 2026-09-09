@@ -1,6 +1,6 @@
-   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-817-release-truth-refresh/.t/v3f-suite-c0a9/csdlc-v3)
+   Compiling csdlc-v3 v0.1.0 ([v3f-checkout]/csdlc-v3)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 4.34s
-     Running unittests src/lib.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+     Running unittests src/lib.rs ([cargo-target]/debug/deps/csdlc_v3-f2fcf677a6169b1b)
 
 running 61 tests
 test commands::proof::shadow_diagnostic_category_is_redacted_and_stable ... ok
@@ -68,13 +68,13 @@ test authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equ
 
 test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.89s
 
-     Running unittests src/main.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/csdlc-8c2632752cd87a08)
+     Running unittests src/main.rs ([cargo-target]/debug/deps/csdlc-8c2632752cd87a08)
 
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running tests/command_manifest.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/command_manifest-f31ac1fd799cd4cf)
+     Running tests/command_manifest.rs ([cargo-target]/debug/deps/command_manifest-f31ac1fd799cd4cf)
 
 running 8 tests
 test authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback ... ok
@@ -88,7 +88,7 @@ test current_surfaces_agree_with_authenticated_post_cutover_authority ... ok
 
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
 
-     Running tests/foundation.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/foundation-4ad91646f7f0391e)
+     Running tests/foundation.rs ([cargo-target]/debug/deps/foundation-4ad91646f7f0391e)
 
 running 13 tests
 test repository_context_is_explicit ... ok
@@ -107,7 +107,7 @@ test projection_replay_is_deterministic ... ok
 
 test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
 
-     Running tests/local_commands.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/local_commands-31a552ca197398e1)
+     Running tests/local_commands.rs ([cargo-target]/debug/deps/local_commands-31a552ca197398e1)
 
 running 37 tests
 test contract_rejects_malformed_repository_identity ... ok
@@ -150,7 +150,7 @@ test bound_checkout_owns_local_cards_without_primary_checkout_writes ... ok
 
 test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.62s
 
-     Running tests/operational_cli_commands.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/operational_cli_commands-2ebdcc2a29bb4021)
+     Running tests/operational_cli_commands.rs ([cargo-target]/debug/deps/operational_cli_commands-2ebdcc2a29bb4021)
 
 running 12 tests
 test simple_issue_close_emits_typed_duplicate_close_dispatch ... ok
@@ -168,21 +168,21 @@ test bind_recovers_after_branch_creation_before_worktree_registration ... ok
 
 test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
 
-     Running tests/proof_parity_install_commands.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/proof_parity_install_commands-02e6c4e48c9cc407)
+     Running tests/proof_parity_install_commands.rs ([cargo-target]/debug/deps/proof_parity_install_commands-02e6c4e48c9cc407)
 
 running 1 test
 test legacy_proof_requests_cannot_retain_primary_checkout_mutation_authority ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
 
-     Running tests/proof_worktree_binding.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/proof_worktree_binding-b43132cb4e14d5ff)
+     Running tests/proof_worktree_binding.rs ([cargo-target]/debug/deps/proof_worktree_binding-b43132cb4e14d5ff)
 
 running 1 test
 test stable_binary_authenticates_invoking_worktree_before_every_operational_write ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.67s
 
-     Running tests/real_issue_canary.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/real_issue_canary-68acac0d7c397e1c)
+     Running tests/real_issue_canary.rs ([cargo-target]/debug/deps/real_issue_canary-68acac0d7c397e1c)
 
 running 6 tests
 test full_replacement_denominator_blocks_cutover_until_operator_approval ... ok
@@ -194,7 +194,7 @@ test eligibility_cli_consumes_real_bound_issue_state ... ok
 
 test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.35s
 
-     Running tests/remote_publication_commands.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/remote_publication_commands-f8a466b5853f1044)
+     Running tests/remote_publication_commands.rs ([cargo-target]/debug/deps/remote_publication_commands-f8a466b5853f1044)
 
 running 13 tests
 test review_route_rejects_self_review_even_with_whitespace ... ok
@@ -213,7 +213,7 @@ test remote_publication_routes_are_typed_and_non_authoritative ... ok
 
 test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
 
-     Running tests/terminal_cleanup_cutover_commands.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
+     Running tests/terminal_cleanup_cutover_commands.rs ([cargo-target]/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
 
 running 33 tests
 test cleanup_denies_nonexistent_child_under_symlink_escape ... ok
@@ -252,7 +252,7 @@ test cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent ... ok
 
 test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.85s
 
-     Running tests/transactions.rs (/Volumes/FastWork/adl-worktrees/.build-adl-817-v3f-target/debug/deps/transactions-3db9e1f3f3c542ba)
+     Running tests/transactions.rs ([cargo-target]/debug/deps/transactions-3db9e1f3f3c542ba)
 
 running 26 tests
 test adapter_branch_observation_never_authorizes_lifecycle_work ... ok

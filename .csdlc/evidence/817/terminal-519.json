@@ -27,8 +27,8 @@
       "state_digest": "eefeb591a81df177c350f3ac240d354bfa9f73cc76ba435c49de8409a4f1b091"
     },
     "source_paths": {
-      "state": ".git/csdlc-v3/local/v3/issues/519/terminal.json",
-      "receipt": ".git/csdlc-v3/local/evidence/519/terminal-receipt.json"
+      "state": ".csdlc/evidence/817/source/issue-519-terminal-state.json",
+      "receipt": ".csdlc/evidence/817/source/issue-519-terminal-receipt.json"
     },
     "source_sha256": {
       "state": "ee2967820012d12ec9346b740bf8b3b562646599fbfb9278f9016c642bdc59f7",

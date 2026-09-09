@@ -6,7 +6,7 @@
   "receipt_sha256": {
     "assignment.json": "a64820eb3ad0d4cbd4b14e0e58ab1a831867b2877e48d149967b684c54cd7f0c",
     "review.json": "ac35b9fe679109ca72173d31ef14246b4f917975a750f71d849a2da4f606452d",
-    "suite.json": "0b199a2b0bd1a46d1f51b6ed4653d384ae3a82cf869c4b6338c88b23cfd49916",
+    "suite.json": "1bf5ee38f583d3bbd36ff60fb1e6ecadb421be4b3dc9f2fad8c91d291ff4a5e5",
     "historical-fixture.diff": "65e9c351fa0e12caadd8cb593fa114ffc38615321315409d55c41c45b59c757f"
   },
   "historical_exceptions_sha256": "d725c321b20dbd6aa481db428966393371caf9fd422c6a2b667c58c7b54f5396",
