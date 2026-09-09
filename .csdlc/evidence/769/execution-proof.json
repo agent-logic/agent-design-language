@@ -7,7 +7,7 @@
   "status": "implemented_pending_review_and_publication",
   "summary": [
     "Extended the TAIL-03 publication validator so --redaction and --all scan all 791 manifest-referenced document byte streams in addition to the publication packet.",
-    "Referenced documents are read from the current checkout, hash-checked against docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json, and rejected on missing, unreadable, hash-mismatched, or redaction-unsafe content.",
+    "Referenced documents are read from the immutable redaction_source_head Git object named in docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json, hash-checked against that revision's docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json, and rejected on missing, unreadable, hash-mismatched, or redaction-unsafe content.",
     "Redaction failures report only path, line, and pattern class; matched values are not printed.",
     "Normalized current manifest-referenced machine-local paths to repo-relative, policy-relative, or generic placeholders, then refreshed manifest hashes for the changed document bytes.",
     "Updated TAIL-03 and #519 lifecycle truth surfaces so they no longer claim packet-only redaction coverage."
@@ -16,6 +16,7 @@
     "documents_expected": 791,
     "documents_scanned": 791,
     "artifacts_expected": 14,
+    "redaction_source_head": "ed5b159f2bfa89c9a9266a8d59435047b145e9f1",
     "redaction_findings_after_repair": 0
   },
   "redaction_pattern_classes": [
@@ -28,7 +29,7 @@
     "common_provider_token"
   ],
   "negative_fixtures": {
-    "self_test_count": 14,
+    "self_test_count": 19,
     "covered_redaction_classes": [
       "machine_local_path",
       "credential_location",
@@ -45,7 +46,12 @@
       "unmerged_source_pr",
       "wrong_source_head",
       "wrong_repository",
-      "merge_drift"
+      "redaction_source_not_in_branch_history",
+      "merge_drift",
+      "manifest_document_hash",
+      "manifest_document_missing",
+      "manifest_document_unreadable",
+      "manifest_document_redaction"
     ]
   },
   "independent_redaction_audit": {
