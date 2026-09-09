@@ -7,21 +7,34 @@
     "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
     "slug": "proof-worktree-binding",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/762/clippy.log\n.csdlc/evidence/762/csdlc-owner.log\n.csdlc/evidence/762/proof-worktree.log\n.csdlc/evidence/762/repair/clippy.log\n.csdlc/evidence/762/repair/csdlc-owner.log\n.csdlc/evidence/762/repair/proof-worktree.log\n.csdlc/evidence/762/review-remediation.md\n.csdlc/prepared/issues/762/design.md\n.csdlc/prepared/issues/762/diagram.mmd\ncsdlc-v3/src/commands/proof.rs\ncsdlc-v3/src/main.rs\ncsdlc-v3/tests/command_manifest.rs\ncsdlc-v3/tests/operational_cli_commands.rs\ncsdlc-v3/tests/proof_parity_install_commands.rs\ncsdlc-v3/tests/proof_worktree_binding.rs\ncsdlc-v3/tests/terminal_cleanup_cutover_commands.rs\ndocs/csdlc-v3/PROOF_WORKTREE_BINDING.md",
+      "review_revision": "git-blake3:e4898e517eedae4abdf4172e4c555331d4e39b7b:aa5354d7fdc899c8a92d1ca392c0a55197ecd6cc4123a184bacb8efb9a299f02",
+      "reviewer": "codex:/root/review_762_fixed",
       "review_prompts": [
         "Review authenticated context, path confinement, dormant routes and zero-write negative assertions at exact head."
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "R762-001",
+          "severity": "p1",
+          "summary": "Exact install receipt and binary endpoints are now preflighted as regular-or-absent before replacement; symlink/directory denial tests preserve existing binary and mutation surfaces.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:e4898e517eedae4abdf4172e4c555331d4e39b7b:aa5354d7fdc899c8a92d1ca392c0a55197ecd6cc4123a184bacb8efb9a299f02",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Native binder/editor repair and OS sandboxing arbitrary proof executables remain separate scope."
+      ],
+      "review_result": "pass"
     }
   }
 }
