@@ -1,0 +1,13 @@
+{
+  "issue": 520,
+  "card": "sip",
+  "expected_generation": 3,
+  "expected_digest": "11d1f228712f466710b45271ca435a5a7a9725866a1b2c9630e0fd28c8a1b5cb",
+  "actor": "codex:root-520-readiness",
+  "reason": "The existing issue-specific six-card bundle, exact owned paths, deterministic production validator, adversarial tests, and execution stop conditions are complete; advance the pre-cutover initialized record to ready for native v3 binding while #519 remains the sole execution gate.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "fail_after_backup": false
+}

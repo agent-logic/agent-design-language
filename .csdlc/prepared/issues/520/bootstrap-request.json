@@ -1,0 +1,47 @@
+{
+  "issue": 520,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:sprint10-prep-520",
+  "design_path": ".csdlc/prepared/issues/520/design.md",
+  "diagram_path": ".csdlc/prepared/issues/520/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][TAIL-04] Internal review",
+    "slug": "tail-04-internal-review",
+    "version": "v0.92.1",
+    "goal": "Produce one findings-first internal review register for the exact final v0.92.1 milestone candidate.",
+    "required_outcome": "A complete review denominator and canonical finding register expose every gap, partial implementation, inert path, unsupported claim, and release blocker at one exact candidate revision.",
+    "declared_scope": ["docs/milestones/v0.92.1/evidence/release/tail-04/**", ".csdlc/issues/520/**", ".csdlc/prepared/issues/520/**"],
+    "authority_boundary": ["Issue #520 owns review artifacts only", "TAIL-03/#519 supplies the immutable candidate", "Product remediation belongs to TAIL-06/#522", "External review belongs to TAIL-05/#521"],
+    "operator_constraints": ["Never write tracked issue work on main", "Do not execute before #519 has a reviewed green merge", "Review complete denominators rather than samples", "Do not merge, deploy, restart Runtime, or spend provider/cloud funds"],
+    "task_boundary": "Issue completion is exactly one internal findings register; individual findings do not close independently.",
+    "deliverables": ["Complete base-to-candidate path inventory", "Complete v0.92.1 issue/PR and acceptance-surface inventory", "Findings-first specialist reports", "Canonical findings register and synthesis", "Validated exact-head review packet"],
+    "acceptance_criteria": ["AC-1: Every changed production file, test/proof file, canonical document, milestone issue/PR, and acceptance surface is inventoried and dispositioned", "AC-2: Every finding binds exact evidence, severity, revision, impact, source lane, and owner", "AC-3: The synthesis explicitly identifies partial, inert, unreachable, unproven, and documentation-only outcomes", "AC-4: No empty, capped, sampled, zero-test, or CI-only lane is credited as a pass", "AC-5: Packet manifests, counts, redaction, portability, and exact-head identity validate"],
+    "dependencies": ["TAIL-03/#519 reviewed green merge is live and supplies the immutable candidate"],
+    "repo_inputs": ["agent-logic/agent-design-language#520", "agent-logic/agent-design-language#519", "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-04", ".csdlc/prepared/issues/520/internal-review-plan.md", "docs/tooling/OPUS_REVIEW_RUNBOOK.md"],
+    "non_goals": ["Fixing product findings", "External review", "Release approval", "Merge, deployment, Runtime restart, or paid execution"],
+    "plan_summary": "After #519 merges, freeze its exact candidate, build complete path/issue/acceptance denominators, run findings-first specialist lanes, synthesize all raw findings, validate the packet, and obtain exact-head review.",
+    "steps": [
+      {"id":"S1","action":"Verify #519 reviewed merge truth and freeze full base/candidate SHAs.","acceptance_ids":["AC-1","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Build complete changed-path, issue/PR, acceptance-surface, canonical-doc, demo, and evidence inventories without sampling.","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
+      {"id":"S3","action":"Run bounded findings-first specialist lanes covering every inventoried row.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Synthesize raw findings, acceptance coverage, disagreements, blockers, and #522 dispositions into one canonical register.","acceptance_ids":["AC-2","AC-3"],"status":"pending"},
+      {"id":"S5","action":"Validate counts, schemas, digests, redaction, portability, and exact-head identity; obtain independent packet review.","acceptance_ids":["AC-5"],"status":"pending"}
+    ],
+    "affected_areas": ["v0.92.1 release candidate", "production code and tests changed in the release range", "milestone documentation and lifecycle evidence", "docs/milestones/v0.92.1/evidence/release/tail-04/**"],
+    "invariants": ["The candidate stays immutable during review", "Every denominator row is dispositioned", "Green CI never replaces semantic review", "Findings are not fixed inside #520"],
+    "risks": ["A truncated inventory could hide half-work", "Late candidate drift could stale reviews", "Lifecycle or docs claims could overstate implementation", "Parallel lane results could overlap or omit rows"],
+    "planning_profile": "large",
+    "stop_conditions": ["#519 is not a reviewed green merge", "Candidate drift", "Incomplete or empty denominator", "Unassigned or stale mandatory lane", "Packet validation failure"],
+    "validation_lanes": [
+      {"lane":"review-denominator","proof_role":"Prove every changed path, milestone issue/PR, acceptance surface, and mandatory lane is inventoried and dispositioned.","acceptance_ids":["AC-1","AC-4"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":4000,"argv":["ruby",".csdlc/prepared/issues/520/validate-internal-review.rb","denominator"],"parallel_group":"packet","defer_reason":"Validator and packet are #520 execution deliverables."},
+      {"lane":"finding-schema","proof_role":"Prove raw findings, canonical register, synthesis, and acceptance matrix agree exactly.","acceptance_ids":["AC-2","AC-3","AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2500,"argv":["ruby",".csdlc/prepared/issues/520/validate-internal-review.rb","findings"],"parallel_group":"packet","defer_reason":"Validator and packet are #520 execution deliverables."},
+      {"lane":"exact-revision-integrity","proof_role":"Prove candidate identity, ancestry, artifact digests, portability, and redaction.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":2000,"argv":["ruby",".csdlc/prepared/issues/520/validate-internal-review.rb","integrity"],"parallel_group":"packet","defer_reason":"Validator and packet are #520 execution deliverables."},
+      {"lane":"diff-hygiene","proof_role":"Reject malformed tracked changes.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":300,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on dependency, candidate, denominator, evidence, redaction, schema, review, or exact-revision drift; retain limitations and never convert missing proof into a pass.",
+    "review_prompts": ["Does the review inventory every changed production and test file rather than sample?", "Does every acceptance surface map to implementation and meaningful proof?", "Are half-work, inert paths, do-nothing behavior, and unsupported claims explicit findings?", "Do all findings and zero-finding lane results bind the exact candidate?"],
+    "review_scope": "The complete final v0.92.1 base-to-candidate change set, milestone issue/PR roster, acceptance surfaces, canonical documentation, proof, demos, lifecycle truth, and release claims."
+  }
+}
