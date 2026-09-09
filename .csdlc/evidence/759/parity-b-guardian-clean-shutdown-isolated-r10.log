@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 1 test
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 26 filtered out; finished in 0.14s
+

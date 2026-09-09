@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures
 Branch: codex/759-dynamic-agent-health-task-failures
 Card Status: ready
-Status: implemented_resynced_validation_passed_review_pending
+Status: implemented_current_main_resynced_validation_passed_review_pending
 Generated: <timestamp>
 
 Execution:
@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-Implemented the #759 dynamic-agent health sweep repair and repaired two CI-discovered integration issues. After PR #779 run 34381946883 failed on the synthetic PR merge because current main restored the stable resident shepherd runtime id contract, the branch was resynced through origin/main 38d5a360553f2b9a311ffff949c3d74b1c8a090d and validated at source head 8a28f65a142ae701cbae4cdc70aeba4b1acb7321.
+Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovered integration drift. After PR #779 run 34381946883 failed on the synthetic PR merge because current main restored the stable resident shepherd runtime id contract, the branch was resynced through origin/main d9729c7d0747ed3a424fa0f29a32a76b9df645cb and validated at source head 3d5ed7eae5fa31b291a7453dd28d8d910f5f9c27.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime-focused`
@@ -56,7 +56,7 @@ Implemented the #759 dynamic-agent health sweep repair and repaired two CI-disco
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `medium`
 - Estimate error percent: `unknown`
-- Completion state: `post_ci_red_resynced_validation_passed_review_pending`
+- Completion state: `post_ci_red_current_main_resynced_validation_passed_review_pending`
 - Issue goal ref: `Codex goal: Issue #759 dynamic-agent health sweep remediation`
 - Sprint goal ref: `v0.92.1 closeout tail runtime defect lane`
 - Goal metrics rollup ref: `v0.92.1`
@@ -75,7 +75,7 @@ Implemented the #759 dynamic-agent health sweep repair and repaired two CI-disco
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/759/cards/sor.md`
 - Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; .csdlc/evidence/759/*.log; .csdlc/issues/759/cards/*.md and *.values.json`
-- Additional proof artifacts: `.csdlc/evidence/759/validation-r7.md; .csdlc/evidence/759/runtime-v3-fast-full-r7.log sha256 e6ad7163e54eb04be947a2ed4c66a97590731026ff5b520ca7fa9c9420b79f98; .csdlc/evidence/759/focused-dynamic-agent-health-r7.log sha256 a68616425d9f9036289c271f83e81820b727ab3f483fa99e73b86bb82a54f8dc; .csdlc/evidence/759/focused-resident-shepherd-id-r7.log sha256 8a37e0ec6235efc169c250bfa28b7121a4116d291aa9ca889049a5ed57cddef3; .csdlc/evidence/759/strict-clippy-r7.log sha256 f5fa0719f4e6c65d274a7b66e68866dacd902ab35e71da8c91627dd6d998ab0b; .csdlc/evidence/759/html-observatory-proof-r7.log sha256 9c635bbcd172b2283e4ec6137b4902e9b6f892b3832923cc687110c44ffecbc9; .csdlc/evidence/759/fmt-check-r7.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; .csdlc/evidence/759/diff-check-r7.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+- Additional proof artifacts: `.csdlc/evidence/759/validation-r11.md; .csdlc/evidence/759/runtime-v3-fast-full-r11.log sha256 1f1dcf89c5377d1572964bfecf2288771ca5e4e74da8328be5c32c12394e90b2; .csdlc/evidence/759/focused-dynamic-agent-health-r11.log sha256 e465c7681d661e362a64720ce8187bf42e5330fefa3b0929f4721dbb8380eb82; .csdlc/evidence/759/focused-resident-shepherd-id-r11.log sha256 73597424830f0121f9b5fef445b66e4c207f6c480feb585fb17b22004e340f9e; .csdlc/evidence/759/assembly-sntp-isolated-r11.log sha256 e914ee42b2918e1cdb905ba4ea65a67f060182cb1ea07439a95ce2076a900385; .csdlc/evidence/759/strict-clippy-r11.log sha256 e7f96b01c3c1c6b53d892c7aa0adf70e03e5a067c8a20307ba9cbc80e14eaa86; .csdlc/evidence/759/html-observatory-proof-r11.log sha256 48ba3dd9a305b9adc455dcb0ece3404bb55db474caf3090e0c8bc354274eb245; .csdlc/evidence/759/fmt-check-r11.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; .csdlc/evidence/759/diff-check-r11.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; diagnostic red logs retained for r8/r10 scheduler-sensitive classifications`
 
 ## Actions taken
 - `Replaced the JoinSet loop that matched only successful joins with a loop over every join result.`
@@ -90,8 +90,8 @@ Implemented the #759 dynamic-agent health sweep repair and repaired two CI-disco
 - Integration method used: `native C-SDLC v3 bind plus git commit in issue worktree`
 - Verification performed:
   - `git status --short --branch; git diff --check HEAD`
-    `Confirmed current-main resync and no whitespace errors at source SHA 8a28f65a142ae701cbae4cdc70aeba4b1acb7321.`
-- Result: `Local branch implementation exists; PR #779 previously published and red on run 34381946883; branch is repaired locally and awaits fresh review, republish, and CI.`
+    `Confirmed current-main resync and no whitespace errors at source SHA 3d5ed7eae5fa31b291a7453dd28d8d910f5f9c27.`
+- Result: `Local branch implementation exists; PR #779 previously published and red on stale remote run 34381946883; branch is repaired locally at source SHA 3d5ed7eae5fa31b291a7453dd28d8d910f5f9c27 and awaits fresh review, republish, and CI.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -109,7 +109,7 @@ Rules:
   - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml; cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo test --manifest-path adl-runtime-kernel/Cargo.toml resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts --test agent_roster -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_v0917_html_observatory_integrated_proof.sh; git diff --check HEAD`
     `Full runtime command reproduces the hosted adl-runtime-v3-fast lane geometry; focused regression proves panic/cancel task isolation and peer projection retention; resident shepherd focused check proves the current-main stable id contract; HTML Observatory proof, fmt, clippy, and diff prove integration and hygiene.`
 - Results:
-  - `PASS at source SHA 8a28f65a142ae701cbae4cdc70aeba4b1acb7321; all recorded r7 command statuses are 0. Hosted red run 34381946883 classified as current-main ancestry drift and repaired by resync.`
+  - `PASS at source SHA 3d5ed7eae5fa31b291a7453dd28d8d910f5f9c27; all recorded r11 command statuses are 0. Hosted red run 34381946883 classified as current-main ancestry drift and repaired by resync. Local r8/r10 broad-run failures are retained and classified as scheduler/timing-sensitive with isolated PASS evidence; the SNTP startup harness budget was narrowed to a test-only 3s outer timeout.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -147,7 +147,7 @@ verification_summary:
 - Fixtures or scripts used: `In-crate mock Ollama server and cfg(test) forced task failure hook.`
 - Replay verification (same inputs -> same artifacts/order): `not applicable; no replay artifact generated.`
 - Ordering guarantees (sorting / tie-break rules used): `JoinSet outcomes are unordered but every outcome is drained; task id maps each failure to the correct declaration.`
-- Artifact stability notes: `validation-r7.md records exact source SHA, argv, status, and SHA-256 for every r7 log; fmt and diff logs are zero-byte success outputs.`
+- Artifact stability notes: `validation-r11.md records exact source SHA, argv, status, and SHA-256 for every r11 log; fmt and diff logs are zero-byte success outputs. HTML proof regenerated #5789 shared certificate evidence, which was restored to tracked bytes after proof.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable_no_secret_surface`
@@ -162,10 +162,10 @@ verification_summary:
 - Replay result: `not_applicable`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/759/validation-r7.md`
+- Primary proof surface: `.csdlc/evidence/759/validation-r11.md`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `No schema changes.`
-- Hash/byte-stability checks: `SHA256 hashes recorded for full runtime, focused dynamic health, focused resident shepherd, strict clippy, HTML Observatory proof, fmt, and diff logs.`
+- Hash/byte-stability checks: `SHA256 hashes recorded for full runtime, focused dynamic health, focused resident shepherd, SNTP isolated harness, strict clippy, HTML Observatory proof, fmt, and diff logs.`
 - Missing/optional artifacts and rationale: `Hosted CI rerun is pending fresh review and republish after current-main resync.`
 
 ## Decisions / Deviations
@@ -173,5 +173,5 @@ verification_summary:
 - `No provider health semantics were changed.`
 
 ## Follow-ups / Deferred work
-- `Run fresh review on the repaired current-main-resynced head, then republish PR #779.`
+- `Run fresh review on the repaired current-main-resynced source head 3d5ed7eae5fa31b291a7453dd28d8d910f5f9c27, then republish PR #779.`
 - `Watch CI, finish through native C-SDLC v3 if merge authority is satisfied, and clean separately after merge.`
