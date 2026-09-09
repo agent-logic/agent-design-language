@@ -3,15 +3,15 @@
   "issue": 770,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1027ce24f8764f0a1ebb0f6d5dc56d65062000fe91fb898530036cea91088289",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "db86093448a2b65100a5f0d9eb3a460c5eeee0539759d18371fe697b7f3b94b6",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "bd0318cef7373467857d5f1e9dc83329285e24e4d8b46697825eb0d7442baee8",
   "branch": "codex/770-public-spot-ssh-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery",
   "review_assignment": {
     "reviewer": "codex:review_770_static",
     "assigned_by": "codex:planning-6",
-    "revision": "git-blake3:781b1d8de7cf63437cd10e42d80683a204be9a87:1c407968b5bd25f323757cf0a81c9f0bf1742472f276df63d1c48b2a23f5f331",
+    "revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
     "scope": [
       "infra/aws/csm-runtime-spot",
       "infra/aws/modules/csm-runtime-spot",
@@ -19,7 +19,64 @@
       ".csdlc/evidence/770"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:review_770_static",
+    "scope": [
+      "infra/aws/csm-runtime-spot",
+      "infra/aws/modules/csm-runtime-spot",
+      ".csdlc/prepared/issues/770",
+      ".csdlc/evidence/770"
+    ],
+    "reviewed_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+    "findings": [
+      {
+        "id": "R770-001",
+        "severity": "p2",
+        "summary": "Nonce binds health checks to the launched wildcard listener; fixed and tested.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+        "route": null
+      },
+      {
+        "id": "R770-002",
+        "severity": "p2",
+        "summary": "Listener cleanup is verified and cleanup failure fails the verdict; fixed and tested.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+        "route": null
+      },
+      {
+        "id": "R770-003",
+        "severity": "p2",
+        "summary": "Local socket errors cannot prove isolation; only timeout qualifies; fixed and tested.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+        "route": null
+      },
+      {
+        "id": "R770-004",
+        "severity": "p3",
+        "summary": "Stale live-proof wording corrected in README and local validation evidence.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Live proof uses first-connection host-key trust and a temporary non-TLS responder; it does not prove Runtime/TLS functionality.",
+      "Actual billed cloud cost is not yet measured."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +91,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bbce56c9541d18d4351e056bcf9c6ec5031ba6c2f04b4b9fa2a80ee10c3fb332",
+      "values_digest": "43583683f197c90c107ed244110997dda2d688fe306df75ed71a81c952c9a9af",
       "rendered_digest": "e8ad0f905851b7b218c29fd9ba399b2953969b582d3d44da8bcdfdb114491b3a",
       "ast_digest": "6b2756afabb08215c363489e85b654c399659082c35f715f568557e1c43f8f8b"
     },
     "stp": {
-      "values_digest": "b7f635a3a9bf244ec957d53b5fd02b70c6902cee034b2d6aeea76ba4b3de3cc2",
+      "values_digest": "e8f01be1e4925829dd5a766e52f97ce417d7e52b2725b5963c14f26db8fcf6d7",
       "rendered_digest": "094f6ad2b8deada648cb4963f3edf4c57869cf279ec0782c8fa86dcd4e3d7423",
       "ast_digest": "ecba6922f53438c56d68681fd71b23be8173cd3910451fd7e9b684fb1fa2db65"
     },
     "spp": {
-      "values_digest": "dc95e8fdb150c16fab8c07798f8194e506d3f4d94b0238552ef2ad600d5acab6",
+      "values_digest": "ff119e3d860f9af91e4f57195b5ef1906efbe9eda5af678ac4359b0b75901a12",
       "rendered_digest": "1950b5015bb212464aeb598e1d5a14c76c5952a7ef4c119d9970fd9f87c0f138",
       "ast_digest": "c8094a8f2df30b7cb1a6cb05ef2915c88140ef7aa76889be9d02e43afa3c987b"
     },
     "vpp": {
-      "values_digest": "535d7ffbfc5861bfb3dd0c81b0de12ad376feae3fea71b5ba45e17158d78d82b",
+      "values_digest": "d967e78af848cc12a929a298715e9ec1552797917c661500c1709cdaef572c40",
       "rendered_digest": "2dbb1fab137bd3784a64b2d8c5f1ea905fe409d46537a3d7bfb1dad3c9ff7023",
       "ast_digest": "e809ac6d63e41dd8df114673c67e63e6605f35379fad9008f94faa1cfcc0e81c"
     },
     "srp": {
-      "values_digest": "f3d4a1198dfa615998e1a0ad63d2a7c4291541067c55eba2c2a5f7d04f09f130",
-      "rendered_digest": "b010f83661a5b54b94eccf1ee4aca011737443a0994826d90a7e34627e085a12",
-      "ast_digest": "7114882b8aee38d0b24ef5568f08f9597568a253908676edfd61e59fa1eb87e6"
+      "values_digest": "ea9313ea617e3acfb7d451d386671554d1e0d928ebf88293b8fc1068ca5ae7ad",
+      "rendered_digest": "48552bcbc29770a1d6e2b4818e746160d1c161eae6ed31e247952bd975f3d779",
+      "ast_digest": "c3d3c122aadf1ad96a0ca5490b220d14dcc06368700eb9e1047ed69e434cc2fd"
     },
     "sor": {
-      "values_digest": "520dbe14666c12e45b059bfdf65d91669a9d4d8c8dd3532a358a05b265614cc5",
+      "values_digest": "6f4cdd1da18a70099ba53128c221735dfe6f1da24c7e268664713912727a55de",
       "rendered_digest": "133b758f246f656996cc69f838b642175ff241c347f697144c1026fc471a152f",
       "ast_digest": "3887b5f2f00758c34025a5b4e0f4ccb104de5485ad3f97dea74522a10427a0e6"
     }
@@ -85,6 +142,13 @@
       "to": "implemented",
       "actor": "codex:planning-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -171,6 +235,20 @@
       "actor": "codex:planning-6",
       "reason": "Record the actual approved live command and verified subsequent disposal.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_live_proof.sh\",\"--instance-id\",\"i-069dd5d48f0e562dc\",\"--identity-file\",\"/Users/daniel/.ssh/adl-4603-ssh-debug-20260701.pem\",\"--expected-account\",\"713332525889\",\"--expected-name\",\"csm-issue-770-recovery-20260909-dev-runtime\",\"--key-name\",\"adl-4603-ssh-debug-20260701\",\"--ssh-cidr\",\"47.146.81.109/32\",\"--evidence-dir\",\"/Volumes/FastWork/issue-770-session/live\"],\"purpose\":\"Authorized live SSH and isolation; subsequent Terraform destroy and AWS disposal readbacks recorded in linked evidence\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/770/live-proof.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:planning-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:planning-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

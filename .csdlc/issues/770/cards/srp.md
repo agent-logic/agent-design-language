@@ -25,7 +25,48 @@ infra/aws/modules/csm-runtime-spot
 
 ## Findings
 
-[]
+[
+  {
+    "id": "R770-001",
+    "severity": "p2",
+    "summary": "Nonce binds health checks to the launched wildcard listener; fixed and tested.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+    "route": null
+  },
+  {
+    "id": "R770-002",
+    "severity": "p2",
+    "summary": "Listener cleanup is verified and cleanup failure fails the verdict; fixed and tested.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+    "route": null
+  },
+  {
+    "id": "R770-003",
+    "severity": "p2",
+    "summary": "Local socket errors cannot prove isolation; only timeout qualifies; fixed and tested.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+    "route": null
+  },
+  {
+    "id": "R770-004",
+    "severity": "p3",
+    "summary": "Stale live-proof wording corrected in README and local validation evidence.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "fixed",
+    "fix_revision": "git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f",
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -33,12 +74,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live proof uses first-connection host-key trust and a temporary non-TLS responder; it does not prove Runtime/TLS functionality.
+- Actual billed cloud cost is not yet measured.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:843202bd39ad0f3cd34276d0fd77a0f9ed444856:135ad13cb93511f3ee1d729a3f8473bddd7e37f5c70e89c4f755cc100980614f")
 
-Reviewer: None
+Reviewer: Some("codex:review_770_static")
 
-Result: pre_review
+Result: pass
