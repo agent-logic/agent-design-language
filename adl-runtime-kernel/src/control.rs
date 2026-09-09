@@ -922,6 +922,7 @@ struct ConversationTurn {
     completed_at_unix_millis: Option<u64>,
 }
 
+#[derive(Clone)]
 struct ConversationDispatch {
     intent: ObservatoryConversationIntent,
     initiation: Option<AgentInitiationMetadata>,
@@ -929,6 +930,11 @@ struct ConversationDispatch {
     cancellation: CancellationToken,
     dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
+}
+
+enum AdmissionGreetingWork {
+    Authorize(ObservatoryAgentInitiationIntent),
+    Resume(ConversationDispatch),
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -1078,6 +1084,7 @@ pub struct ControlService<C> {
     pending_agent_removals: Mutex<BTreeMap<String, DynamicAgentRemovalIntent>>,
     admission_greetings: Mutex<BTreeMap<String, AdmissionGreetingRecord>>,
     active_admission_greetings: Mutex<BTreeSet<String>>,
+    admission_greeting_dispatches: Mutex<BTreeMap<String, ConversationDispatch>>,
     resident_agent_bindings: RwLock<BTreeMap<String, AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Mutex<()>,
@@ -1209,6 +1216,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             pending_agent_removals: Mutex::new(BTreeMap::new()),
             admission_greetings: Mutex::new(BTreeMap::new()),
             active_admission_greetings: Mutex::new(BTreeSet::new()),
+            admission_greeting_dispatches: Mutex::new(BTreeMap::new()),
             resident_agent_bindings: RwLock::new(BTreeMap::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Mutex::new(()),
@@ -2248,7 +2256,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .admission_greetings
                 .lock()
                 .expect("admission greeting state poisoned");
-            let Some(current) = greetings.get(agent_id) else {
+            let Some(current) = greetings.get(agent_id).cloned() else {
                 return Ok(None);
             };
             if current.terminal()
@@ -2257,30 +2265,92 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             {
                 return Ok(None);
             }
-            let previous = current.clone();
-            let record = greetings
-                .get_mut(agent_id)
-                .expect("admission greeting checked above");
-            record.disposition = AdmissionGreetingDisposition::Retrying;
-            record.attempts = record.attempts.saturating_add(1);
-            record.owner_runtime_incarnation_id = Some(self.runtime_incarnation_id.clone());
-            record.next_attempt_at_unix_millis =
-                now.saturating_add(admission_greeting_retry_delay_millis());
-            record.updated_at_unix_millis = now;
-            let attempt = record.attempts;
-            let intent = record.intent();
-            if let Err(error) = self.persist_dynamic_agent_snapshot(&path, &greetings) {
-                greetings.insert(agent_id.to_owned(), previous);
-                return Err(error);
+            let resumed_dispatch = if current.disposition == AdmissionGreetingDisposition::Retrying
+                && current.owner_runtime_incarnation_id.as_deref()
+                    == Some(self.runtime_incarnation_id.as_str())
+            {
+                self.admission_greeting_dispatches
+                    .lock()
+                    .expect("admission greeting dispatch state poisoned")
+                    .remove(agent_id)
+            } else {
+                None
+            };
+            if let Some(dispatch) = resumed_dispatch {
+                (
+                    path,
+                    current.attempts,
+                    AdmissionGreetingWork::Resume(dispatch),
+                )
+            } else {
+                if current.disposition == AdmissionGreetingDisposition::Retrying
+                    && current.owner_runtime_incarnation_id.as_deref()
+                        == Some(self.runtime_incarnation_id.as_str())
+                {
+                    let mut sessions = self
+                        .conversation_sessions
+                        .lock()
+                        .expect("conversation sessions mutex poisoned");
+                    let remove_session = sessions
+                        .sessions
+                        .get_mut(&current.conversation_id)
+                        .is_some_and(|session| {
+                            if session
+                                .turns
+                                .get(&current.turn_id)
+                                .is_some_and(|turn| turn.terminal.is_none())
+                            {
+                                session.turns.remove(&current.turn_id);
+                            }
+                            session.turns.is_empty()
+                        });
+                    if remove_session {
+                        sessions.sessions.remove(&current.conversation_id);
+                    }
+                }
+                let previous = current;
+                let record = greetings
+                    .get_mut(agent_id)
+                    .expect("admission greeting checked above");
+                record.disposition = AdmissionGreetingDisposition::Retrying;
+                record.attempts = record.attempts.saturating_add(1);
+                record.owner_runtime_incarnation_id = Some(self.runtime_incarnation_id.clone());
+                record.next_attempt_at_unix_millis =
+                    now.saturating_add(admission_greeting_retry_delay_millis());
+                record.updated_at_unix_millis = now;
+                let attempt = record.attempts;
+                let intent = record.intent();
+                if let Err(error) = self.persist_dynamic_agent_snapshot(&path, &greetings) {
+                    greetings.insert(agent_id.to_owned(), previous);
+                    return Err(error);
+                }
+                (path, attempt, AdmissionGreetingWork::Authorize(intent))
             }
-            (path, intent, attempt)
         };
 
-        let result = match self.accept_runtime_agent_initiation_intent(&claim.1) {
-            ConversationAcceptance::Dispatch { dispatch, .. } => {
-                self.complete_conversation_dispatch(dispatch).await
+        let dispatch = match claim.2 {
+            AdmissionGreetingWork::Resume(dispatch) => Ok(dispatch),
+            AdmissionGreetingWork::Authorize(intent) => {
+                match self.accept_runtime_agent_initiation_intent(&intent) {
+                    ConversationAcceptance::Dispatch { dispatch, .. } => Ok(dispatch),
+                    ConversationAcceptance::Response(response) => Err(response),
+                }
             }
-            ConversationAcceptance::Response(response) => response,
+        };
+        let result = match dispatch {
+            Ok(dispatch) => {
+                self.admission_greeting_dispatches
+                    .lock()
+                    .expect("admission greeting dispatch state poisoned")
+                    .insert(agent_id.to_owned(), dispatch.clone());
+                let result = self.complete_conversation_dispatch(dispatch).await;
+                self.admission_greeting_dispatches
+                    .lock()
+                    .expect("admission greeting dispatch state poisoned")
+                    .remove(agent_id);
+                result
+            }
+            Err(response) => response,
         };
 
         {
@@ -2296,7 +2366,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             let Some(current) = greetings.get(agent_id) else {
                 return Ok(Some(result));
             };
-            if current.attempts != claim.2
+            if current.attempts != claim.1
                 || current.owner_runtime_incarnation_id.as_deref()
                     != Some(self.runtime_incarnation_id.as_str())
             {
@@ -8366,7 +8436,11 @@ mod layer8_conversation_ingress_tests {
             .complete_admission_greeting("ember")
             .await
             .expect("non-Beacon admission produces a greeting");
-        assert_eq!(delivered.status, "delivered");
+        assert_eq!(
+            delivered.status, "delivered",
+            "admission greeting failed: {:?}",
+            delivered.error
+        );
         assert_eq!(delivered.sender_id.as_deref(), Some("beacon"));
         assert_eq!(delivered.recipient_id, "ember");
         assert!(delivered
@@ -8583,6 +8657,69 @@ mod layer8_conversation_ingress_tests {
             .unwrap();
         assert_eq!(record.disposition, AdmissionGreetingDisposition::Completed);
         assert_eq!(record.attempts, 1);
+
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn aborted_admission_greeting_worker_recovers_in_same_runtime() {
+        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::from_millis(100)).await;
+        let root = tempfile::tempdir().unwrap();
+        let store_path = root.path().join("dynamic-agents.json");
+        configure_admission_greeting_store(&service, &store_path);
+        let (conversation_id, turn_id, idempotency_key) = {
+            let record = service.admission_greetings.lock().unwrap()["ember"].clone();
+            (
+                record.conversation_id,
+                record.turn_id,
+                record.idempotency_key,
+            )
+        };
+
+        let worker = {
+            let service = Arc::clone(&service);
+            tokio::spawn(async move { service.recover_admission_greeting("ember").await })
+        };
+        tokio::time::timeout(Duration::from_secs(1), async {
+            loop {
+                let turn_admitted = service
+                    .conversation_sessions
+                    .lock()
+                    .unwrap()
+                    .sessions
+                    .get(&conversation_id)
+                    .is_some_and(|session| session.turns.contains_key(&turn_id));
+                if turn_admitted {
+                    break;
+                }
+                tokio::task::yield_now().await;
+            }
+        })
+        .await
+        .expect("first worker admits the durable greeting turn");
+        worker.abort();
+        assert!(worker.await.unwrap_err().is_cancelled());
+
+        let delivered = service
+            .recover_admission_greeting("ember")
+            .await
+            .unwrap()
+            .expect("orphaned greeting turn is reclaimed");
+        assert_eq!(
+            delivered.status, "delivered",
+            "orphan recovery failed: {:?}",
+            delivered.error
+        );
+        let record = service.admission_greetings.lock().unwrap()["ember"].clone();
+        assert_eq!(record.idempotency_key, idempotency_key);
+        assert_eq!(record.disposition, AdmissionGreetingDisposition::Completed);
+        assert_eq!(record.attempts, 1);
+        assert_eq!(
+            observed_tasks.lock().unwrap().len(),
+            1,
+            "reattaching the accepted dispatch must not duplicate provider execution"
+        );
 
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
