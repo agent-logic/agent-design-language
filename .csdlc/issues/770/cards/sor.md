@@ -79,11 +79,11 @@ Public Spot SSH recovery implemented. Ten Terraform mock tests and five offline 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
