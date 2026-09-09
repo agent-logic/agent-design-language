@@ -3,53 +3,13 @@
   "issue": 519,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "56c6a0a0f27c894cf9534389e91aa8405cec4df9b2d6f42fa9e6dfcdb341d23f",
-  "phase": "reviewed",
-  "generation": 23,
-  "digest": "c3a9c2a9ec17fbcb735f9cf50577902eed29113363a38b5e9698f62b94aac1d7",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "615583c99c5ef8f973ee8dcaec56a01d70f6361a0c83fdf2e93332abbe395717",
   "branch": "codex/519-publication-finalization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-519-publication-finalization",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_519_final",
-    "assigned_by": "codex:planning-7",
-    "revision": "git-blake3:9d414f324b116e9a70777dc120bbf67a38eb70db:c48424c65980ca986f8f047cb6e0a6728a9c5199fff7d3543bba53ed0206cae3",
-    "scope": [
-      ".csdlc/evidence/519/artifact-redaction.log",
-      ".csdlc/evidence/519/diff-hygiene.log",
-      ".csdlc/evidence/519/exact-head.log",
-      ".csdlc/evidence/519/negative-fixtures.log",
-      ".csdlc/evidence/519/publication-linkage.log",
-      ".csdlc/prepared/issues/519/design.md",
-      ".csdlc/prepared/issues/519/diagram.mmd",
-      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
-      "docs/milestones/v0.92.1/evidence/release/tail-03/README.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/review_519_final",
-    "scope": [
-      ".csdlc/evidence/519/artifact-redaction.log",
-      ".csdlc/evidence/519/diff-hygiene.log",
-      ".csdlc/evidence/519/exact-head.log",
-      ".csdlc/evidence/519/negative-fixtures.log",
-      ".csdlc/evidence/519/publication-linkage.log",
-      ".csdlc/prepared/issues/519/design.md",
-      ".csdlc/prepared/issues/519/diagram.mmd",
-      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
-      "docs/milestones/v0.92.1/evidence/release/tail-03/README.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json"
-    ],
-    "reviewed_revision": "git-blake3:9d414f324b116e9a70777dc120bbf67a38eb70db:c48424c65980ca986f8f047cb6e0a6728a9c5199fff7d3543bba53ed0206cae3",
-    "findings": [],
-    "residual_risks": [
-      "Redaction is bounded pattern screening of the publication packet; historical source documents are hash-verified, not comprehensively rescanned.",
-      "The merged source PR observation is a snapshot. No merge, tag, release or issue closure is authorized by this review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -64,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8877145518aae5925b31cf3230b03eb6703f1771c67b9b8c38f7037e8bbdfb77",
+      "values_digest": "625e89c8ba4562a81b0d9763f0d51ee5c3f6ad2bf73d601b555b6bf6e150b5b7",
       "rendered_digest": "b2fa2f7b15a4c61df8b9edcfeafd841383511101c29cfdf4f4ca8b649c366b02",
       "ast_digest": "fe6aa80ee56a8b755654c7f1d54971f1c5eaeea2af74c3e10c2a147c4d2b06a8"
     },
     "stp": {
-      "values_digest": "eab148ff908919aace2817607f3af145ec34e56b057e1c83de15acbb602aaffd",
+      "values_digest": "9f253c3e5af76af6673e18f23af16acb9456b7945dd1a69b5a9410cbe4c919ab",
       "rendered_digest": "9df12e62dbf834912defb6d0e47d9652c8007bd276404b6d1312482aca3fa174",
       "ast_digest": "3efb223be912f75196d37a9aaa26a997a18d8481e61feb5262f273e994838aaf"
     },
     "spp": {
-      "values_digest": "337777eb01497e804f69c534ff0013aff4f660b3ae2e0e4653ff5ac3e186d748",
-      "rendered_digest": "21647e54d292c7075e01ea2d1ed5647c3fdef612eaea53d6a616da82eb8fa1b1",
-      "ast_digest": "9e0924330d2b2c103325a28bd87a8c86896be98ee288f7fb187d34579cd14ce7"
+      "values_digest": "0dacc54a2fe109b9eb7ef70d548637ccffdb3f13f3bfb248b757019447ce4c77",
+      "rendered_digest": "93373e0c4cf0d1cb124f2f6d4a1a3d199d15634e454b420bdd6c8cd42bae91c4",
+      "ast_digest": "ea5c32ed04e10abcb0a0099c9ed866d2278579550e88d796d5c5e9aad878a471"
     },
     "vpp": {
-      "values_digest": "ed608c5abd68d084e5a5fc96dbed5b71159aaaec1af0ddc5678c15615f943558",
+      "values_digest": "547d8c999083632d43ad028e5abfe0943a7dd0d2a98303c99c509b7a2e8cd6de",
       "rendered_digest": "67d8307e9686f9e7af8b2d9d075247f1c9faefb0474edd973902b27f9c78f7d9",
       "ast_digest": "7fe559eb67cba627f13cd130430d94068926bae1122d89ea9d22a3f82dfcf627"
     },
     "srp": {
-      "values_digest": "8394bbb134ef1ad7a0fbf0b1c3c3714501fe0ffaa1a8427d0591a7f9c974e9b2",
-      "rendered_digest": "488675300086b0525575195753760088f026e47e93e018aca49a794f1d0e3a5e",
-      "ast_digest": "bdf820b78d9942fe7990e62dd861bd6522d64d4cf842448752073000a847165a"
+      "values_digest": "80623e070b634f4c7c7692b3fe7b458e80eed9c749caa843924e7102a1bd4903",
+      "rendered_digest": "e5122251b60e194d80c779cb86b0daf8c7c13dfced3ee99f78ad424d883e1c5f",
+      "ast_digest": "4fc9d4dabdfb23954e4500aef4e675c99d080427680ee86daa309cf948ab7b19"
     },
     "sor": {
-      "values_digest": "6faff36d83d5185ca7882d255f9f2bbb80145b40dd583823a08e8cdec5da2478",
-      "rendered_digest": "12093fac3b129cb29e6d7b63c75a35e21d02c0eeeadc5dd03949cad53dc82b4d",
-      "ast_digest": "d357ec769c656c736b4934c976b53d5c6d9e31038e1d4676bcdc39b80d7671e3"
+      "values_digest": "001fe7a814a09f7891013b1f4f77fe306374337f92956fd9a36dbce0551ac3d8",
+      "rendered_digest": "d86f2da54d1de5fc93e5884ac08f428eddcdb3ecaa2c288284d93c9d7ea134d4",
+      "ast_digest": "8d1cb95b3120572623042dedd47d075325565c4c0836296f91947b988c058f46"
     }
   },
   "transitions": [
@@ -122,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:planning-7",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:planning-7",
+      "reason": "Complete S4 after successful final review; retained API only permits plan state edits in implemented phase. Preserve review audit and obtain fresh final assignment."
     }
   ],
   "audit": [
@@ -306,6 +273,20 @@
       "actor": "codex:planning-7",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex:planning-7",
+      "reason": "Complete S4 after successful final review; retained API only permits plan state edits in implemented phase. Preserve review audit and obtain fresh final assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 25,
+      "actor": "codex:planning-7",
+      "reason": "Final candidate validation and exact independent review passed; packet delivery ready for typed publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
     }
   ]
 }
