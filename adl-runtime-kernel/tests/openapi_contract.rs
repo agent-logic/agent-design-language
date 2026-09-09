@@ -41,6 +41,31 @@ fn canonical_name_is_required_by_agent_roster_openapi_contract() {
 }
 
 #[test]
+fn canonical_name_is_the_public_a2a_address_and_history_preserves_names() {
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    let initiation = &observatory["components"]["schemas"]["AgentToAgentInitiationRequest"];
+    assert_eq!(
+        initiation["properties"]["schema"]["const"],
+        "adl.runtime.agent_to_agent_initiation_request.v2"
+    );
+    assert!(initiation["required"]
+        .as_array()
+        .expect("A2A required array")
+        .iter()
+        .any(|field| field == "recipient_name"));
+    assert!(initiation["properties"].get("recipient_id").is_none());
+
+    let history = &observatory["components"]["schemas"]["ObservatoryConversationHistoryRecord"];
+    assert!(history["properties"].get("sender_name").is_some());
+    assert!(history["properties"].get("recipient_name").is_some());
+    let checkpoint = &observatory["components"]["schemas"]["AgentTurnCheckpoint"];
+    assert!(checkpoint["properties"].get("sender_name").is_some());
+    assert!(checkpoint["properties"]
+        .get("initiated_recipient_name")
+        .is_some());
+}
+
+#[test]
 fn agent_continuity_and_backing_model_are_required_by_observatory_contract() {
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
     for schema_name in ["AgentRosterEntry", "AgentSample"] {

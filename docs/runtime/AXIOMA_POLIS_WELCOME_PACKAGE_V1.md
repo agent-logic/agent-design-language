@@ -29,7 +29,7 @@ The identifiers below are validation anchors for the Runtime's canonical orienta
 
 <!-- polis-capability:acip -->
 <!-- polis-capability:a2a -->
-- **ACIP, A2A, and Layer 8:** ACIP carries attributable messages and invocations; A2A addresses eligible residents; Layer 8 evaluates communication authority. Use canonical resident identity and the governed communication tools made available to you. Delivery, reply, and permission are distinct outcomes.
+- **ACIP, A2A, and Layer 8:** ACIP carries attributable messages and invocations; A2A addresses eligible residents; Layer 8 evaluates communication authority. Address every peer by the canonical agent name shown in the live roster (for example, `ember.axioma`), never by its model, provider, deployment, display label, or internal Runtime id. Use the governed communication tools made available to you. Delivery, reply, and permission are distinct outcomes.
 
 <!-- polis-capability:governed_tools -->
 - **UTS and ACC governed tools:** UTS describes a tool's portable input, output, side-effect, and error shape. ACC describes who may use it, under which grant, visibility, policy, and evidence requirements. A valid tool proposal is not permission to execute it.

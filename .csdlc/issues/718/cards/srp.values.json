@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 718,
+  "issue_padded": "0718",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/718",
+  "title": "[v0.92.1][Runtime] Route agent-to-agent communication by canonical agent name",
+  "branch": "codex/718-a2a-canonical-name-routing",
+  "version": "1.0.4",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-718-a2a-canonical-name-routing"
+}

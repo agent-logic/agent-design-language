@@ -2415,13 +2415,13 @@ function conversationTurnsInOrder(completed) {
 // confirmed against the live wuji feed — NOT by a sender_id, which the runtime
 // does not stamp on any leg:
 //   * the initiation leg carries public_output.agent_to_agent_initiation
-//     (schema adl.runtime.agent_to_agent_initiation_request.v1) naming the
+//     (schema adl.runtime.agent_to_agent_initiation_request.v2) naming the
 //     destination and the message the initiator actually sent;
 //   * the reply leg is a separate work item whose id is prefixed a2a-work-.
 // Anything without either marker is reported as a plain reply. The classifier
 // never guesses A2A from message content.
 const A2A_WORK_ID_PREFIX = "a2a-work-";
-const A2A_INITIATION_SCHEMA = "adl.runtime.agent_to_agent_initiation_request.v1";
+const A2A_INITIATION_SCHEMA = "adl.runtime.agent_to_agent_initiation_request.v2";
 
 function agentToAgentInitiation(entry) {
   const initiation = entry?.public_output?.agent_to_agent_initiation;
@@ -2436,7 +2436,7 @@ function describeConversationTurn({ workId, entry }, population = lastAgentPopul
   // On both legs recipient_id names the agent the work belongs to, not the
   // destination — the destination lives in the initiation payload.
   const worker = output.recipient_id || entry?.recipient_id || "";
-  const label = (id) => roster.find((a) => a.id === id)?.label || id || "unknown";
+  const label = (address) => roster.find((a) => a.id === address || a.name === address)?.label || address || "unknown";
   const trim = (value) => {
     const text = String(value || "").replace(/\s+/g, " ").trim();
     return text.length > 110 ? `${text.slice(0, 110)}\u2026` : text;
@@ -2446,7 +2446,7 @@ function describeConversationTurn({ workId, entry }, population = lastAgentPopul
   if (initiation) {
     return {
       kind: "a2a",
-      title: `${label(worker)} \u2192 ${label(initiation.recipient_id)}`,
+      title: `${label(worker)} \u2192 ${label(initiation.recipient_name)}`,
       // Show what was actually said, not the "Requested governed contact" wrapper.
       detail: trim(initiation.message),
       tone: "ok"
