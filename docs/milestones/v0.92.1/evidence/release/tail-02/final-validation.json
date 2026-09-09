@@ -36,6 +36,36 @@
       ],
       "output": "",
       "status": "pass"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate10a",
+        "current_operator_guidance_has_no_sunset_v1_route"
+      ],
+      "status": "pass",
+      "output": "1 passed; 0 failed; focused documentation-contract test in the #518 worktree.",
+      "log_sha256": "dde26219add8c690eeec14d7c63e33c6cb1189691c54f750a4735b93ca6e719f"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "primary_checkout_bootstrap_guard",
+        "operator_docs_name_isolated_staging_bootstrap"
+      ],
+      "status": "pass",
+      "output": "1 passed; 0 failed; focused documentation-contract test in the #518 worktree.",
+      "log_sha256": "681520bfe1571700196e2a09897b411eab8caf2747edeea0e0f680e1e406f861"
     }
   ],
   "release_authorized": false
