@@ -1,0 +1,208 @@
+{
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "completed_at": "2026-09-09T21:39:52Z",
+  "denominator_refs": [
+    "FILE-03039",
+    "FILE-03188",
+    "FILE-03339",
+    "FILE-03417",
+    "FILE-03436",
+    "FILE-03477",
+    "FILE-03588",
+    "FILE-03703",
+    "FILE-03741",
+    "FILE-04296",
+    "FILE-04354",
+    "FILE-04512",
+    "FILE-04536",
+    "FILE-04537",
+    "FILE-04538",
+    "FILE-04639",
+    "FILE-04756",
+    "FILE-05046",
+    "FILE-05430"
+  ],
+  "finding_ids": [
+    "D520-SEC-001",
+    "D520-SEC-002",
+    "D520-SEC-003"
+  ],
+  "lane": "security",
+  "observations": [
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (142 lines, 8371 bytes): 2 function definitions, 1 fail-closed guard sites, provider/tool references ['ruby']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03039",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/482/validate-redaction-and-custody.rb@sha256:3c76573c30707184fb29a4cdbf3a3351fe262376128970d0b5257d95b98d6164"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (13 lines, 951 bytes): 0 function definitions, 6 fail-closed guard sites, provider/tool references ['ruby']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03188",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/500/validate-design-readiness.rb@sha256:b451cc861d831d9f1c49fd4ef5929a781fb0932ec570e8693b64f431e43b14fd"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (493 lines, 38926 bytes): 3 function definitions, 3 fail-closed guard sites, provider/tool references ['ruby']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03339",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/505/validate-authority-transition-prep.rb@sha256:077051200d509677554337bfca68a6df09dfccbe6150cd2d8b1afcc9c1b7d951"
+      }
+    },
+    {
+      "conclusion": "finding",
+      "detail": "Inspected exact executable blob (3 lines, 108 bytes): 0 function definitions, 0 fail-closed guard sites, provider/tool references ['none']; mutation, credential, and output handling were traced. Canonical finding(s) D520-SEC-003 apply to this exact surface.",
+      "ref": "FILE-03417",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/512/validate-obs-b-redaction.sh@sha256:a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (36 lines, 1410 bytes): 0 function definitions, 3 fail-closed guard sites, provider/tool references ['ruby']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03436",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/514/validate-redaction.rb@sha256:91464b8c53701dc5d4ecb0bf85be6fd978d5908195730051ecd5d938eaad09bc"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (11 lines, 411 bytes): 0 function definitions, 1 fail-closed guard sites, provider/tool references ['none']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03477",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh@sha256:b9649602b49df9ab7570a7b05074c6786f505a7f1d536208a8b93f8d2869bee3"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (73 lines, 1792 bytes): 2 function definitions, 0 fail-closed guard sites, provider/tool references ['ruby']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03588",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/541/validate-doc-authority.rb@sha256:986cd9e8a87d315f5ca42f864b3cfd914549b10812487ae0183fdbf49f0c0280"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (69 lines, 2596 bytes): 0 function definitions, 1 fail-closed guard sites, provider/tool references ['none']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03703",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/570/validate-authority-boundary.sh@sha256:94831da56d1368e3ca69c84b95af5977bf7aeec00a8422a6d24e8d55a0bf5611"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (13 lines, 432 bytes): 0 function definitions, 1 fail-closed guard sites, provider/tool references ['none']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-03741",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh@sha256:282e8f62288e9b540bfe0a65556eb62cfddc49872d208e10ec141f16f84968d0"
+      }
+    },
+    {
+      "conclusion": "finding",
+      "detail": "Inspected exact executable blob (142 lines, 6117 bytes): 1 function definitions, 22 fail-closed guard sites, provider/tool references ['aws', 'python3']; mutation, credential, and output handling were traced. Canonical finding(s) D520-SEC-002 apply to this exact surface.",
+      "ref": "FILE-04296",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh@sha256:c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65"
+      }
+    },
+    {
+      "conclusion": "finding",
+      "detail": "Inspected exact executable blob (58 lines, 2528 bytes): 0 function definitions, 12 fail-closed guard sites, provider/tool references ['jq']; mutation, credential, and output handling were traced. Canonical finding(s) D520-SEC-001 apply to this exact surface.",
+      "ref": "FILE-04354",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:.csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh@sha256:79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (1004 lines, 35189 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-04512",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-runtime-kernel/src/layer8_authority/mod.rs@sha256:45f4f3fe1c478353933f4699046a73d1ca9bc265bf44d7611f5009714213f945"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (2425 lines, 91199 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-04536",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-runtime/src/distributed/authority_protocol.rs@sha256:76a3355566c6d74cf0ca6166f0ab71e14b6571124f4510dae14e0a9c70d91cbf"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (888 lines, 30439 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-04537",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-runtime/src/distributed/authority_reconciliation/tests.rs@sha256:9ea3807e721d8198115b0fd5efd270a12af46906346b7a7c5d6e220221d8324d"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (1068 lines, 36870 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-04538",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl-runtime/src/distributed/authority_store_adapters.rs@sha256:4e3bdb2acd4b21d46e46ae65880bd65b397cfbbc910883062c260cff114119ce"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (567 lines, 20985 bytes): 0 function definitions, 5 fail-closed guard sites, provider/tool references ['python3']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-04639",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:adl/tools/run_authoritative_coverage_lane.sh@sha256:3230c5d032df1170085e42ec5185f3bfbe7de8a561ba8aba2ac700fcba08cef8"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact candidate blob (428 lines, 17133 bytes); syntax markers, authority boundaries, and retained claims were reviewed for this assigned surface. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-04756",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:csdlc-v3/src/authority.rs@sha256:3b46640f422ec1a798a1a88d0e2e93f64863ffeb04c781641c00cb4661214b25"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (222 lines, 8072 bytes): 0 function definitions, 18 fail-closed guard sites, provider/tool references ['aws', 'python3']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-05046",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh@sha256:db18b7fd11535293393aca1c586569f67a40d2e180d671bab766a11f42a7410a"
+      }
+    },
+    {
+      "conclusion": "verified_no_gap",
+      "detail": "Inspected exact executable blob (483 lines, 20858 bytes): 0 function definitions, 1 fail-closed guard sites, provider/tool references ['jq']; mutation, credential, and output handling were traced. Candidate SHA-256 matched the assigned inventory; no additional lane-specific gap was identified.",
+      "ref": "FILE-05430",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "fb6cbc7f619daa54f901fd2d12f480add682ace3:docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh@sha256:a97032c4e744c8835d215dff9846182bdf6110512af0009c69987e5fbe6771bb"
+      }
+    }
+  ],
+  "review_method": "Read every assigned frozen-candidate blob with git show, verified its SHA-256 against the denominator inventory, parsed or structurally counted its format-specific authority surfaces, and terminally mapped each assigned acceptance criterion against the exact finding register. No live cloud mutation was performed.",
+  "reviewer": "subagent:/root/fix_815_cloud_auth",
+  "schema": "adl.v0921.internal_review_specialist_input.v1",
+  "status": "completed"
+}
