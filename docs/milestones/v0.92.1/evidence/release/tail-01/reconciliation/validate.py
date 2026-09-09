@@ -12,6 +12,9 @@ from pathlib import Path
 import subprocess
 import sys
 
+if not __debug__:
+    raise RuntimeError("validation requires enabled assertions; do not use Python -O")
+
 
 HERE = Path(__file__).resolve().parent
 ROOT = next(parent for parent in HERE.parents if (parent / "AGENTS.md").is_file())

@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-One exact-candidate quality-gate decision. Current result is BLOCKED with 121 passes, 245 non-proving rows and five owned exceptions; release unlock remains false. Review remediation implemented locally; publication of this revision pending.
+Docs accounting complete:245 historical non-proving rows mapped, five exception groups dispositioned, zero unowned accounting entries, zero pending issue creations. Historical gate preserved; release not authorized. Publication of this follow-up revision pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `local_cpu`
@@ -85,13 +85,13 @@ One exact-candidate quality-gate decision. Current result is BLOCKED with 121 pa
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; bound worktree only`
 - Worktree-only paths remaining: `Branch changes await normal PR integration; exact-head publication status is recorded separately`
-- Integration state: `pr_open`
-- Verification scope: `Quality-gate and native branch reconciliation review remediation`
-- Integration method used: `Native v3 publication planned after exact-head review`
+- Integration state: `worktree_only`
+- Verification scope: `Docs-only row/exception accounting, canonical specification synchronization, and successor closeout provenance.`
+- Integration method used: `Native v3 reviewed publication planned for this separate follow-up revision.`
 - Verification performed:
   - `not recorded`
     `not recorded`
-- Result: `PR748 open; exact-head review, publication and hosted checks recorded in .csdlc/evidence/517/review-remediation; no merge claimed`
+- Result: `PR748 merged previously. This follow-up docs revision is unpublished in the bound issue517 worktree.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -109,7 +109,7 @@ Rules:
   - `Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI`
     `Proves fail-closed decision and bounded local contracts; does not prove required release lanes pass.`
 - Results:
-  - `185 native tests pass across completed targets, including active1.0.4 registry fixtures;45 library,12 publication and10 CLI included. Ruby gate393/366 and11 negatives pass; six-card1.0.4 validation, schema JSON parse, fmt and Clippy pass.`
+  - `Historical gate validator393/366 and11negative cases pass; initial8correction validator and6negatives pass; full245-row census and7ownership negatives pass; all22 mergedPR750 artifacts match; canonical captured fields and six typed cards pass. Independent bounded docs review completed; exact-head publication and hostedCI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -122,7 +122,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_pass_hosted_status_in_exact_head_publication_receipts
+    status: local_docs_pass_exact_head_publication_and_hosted_ci_pending
     checks_run:
       - "not recorded"
   determinism:

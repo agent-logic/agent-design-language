@@ -38,24 +38,53 @@ packet does not claim comprehensive screen-reader operation was tested. Its
 state criterion requires designed states; the screenshot alone is not proof
 of all empty, degraded, recovery, or revoked cases.
 
-## Remaining work
+## Complete accounting scope
 
-The eight proposed corrections do not complete the full assessment. Retained
-criteria still need criterion-level evidence or explicit amendments, and the
-remaining execution gaps and grouped exceptions still need dispositions.
-Downstream closeout criteria must be mapped to their actual stages before any
-change to gate eligibility. The presence of a later stage is not by itself
-permission to discard a predecessor obligation.
+The follow-up census maps all 245 historical non-proving rows exactly once,
+while preserving all 393 original inventory rows and the original candidate.
+The source packets distinguish 16 bounded evidence mappings, 12 accepted scope
+amendments, seven review-freshness resolutions, 11 later-stage obligations,
+51 source-supported rows without full execution receipts, 144 non-proving rows,
+and four current quality-gate obligations. These classifications are accounting
+dispositions, not an automatic recalculation of release passes.
 
-The GCP #730/#740 corrective proof is being checked for state-recovery and
-local-residue coverage. No additional GCP criterion is accepted by this packet
-yet. Historical construction and cutover documents may preserve earlier
-blocking states; a later merge alone does not establish that every detailed
-retained requirement passed.
+`current-exceptions.json` records the remaining execution corrections, the
+post-review delta checks and owned-path overlap review. The canonical execution
+specification is synchronized with the captured live WP-01, GCP-E, HOT-01 and
+OBS-B issue requirements. `release-stage-mapping.json` preserves the distinct
+quality-gate, successor-planning and ceremony stages. The corporate/Runtime and
+V3 packets preserve each retained criterion, evidence boundary and missing proof.
+
+The operator clarified that this issue is documentation and accounting only.
+Any actual implementation or new operational proof belongs to a separate issue.
+The three native fixes developed during the audit were removed from this docs
+change and preserved with their review evidence for separate issue delivery.
+Their tests do not supply retrospective proof for the historical candidate.
+
+Accounting completion requires every row and exception to have a documented
+disposition and a real follow-up owner where action remains. Release eligibility
+remains a separate decision: ownership alone does not prove a required lane or
+waive an acceptance criterion. The original assessment stays intact.
+
+## Merged terminal closeout
+
+PR #750 merged as `f61deb36d5eccb4a3e391510bbea4bb6f2d51216` and
+reports zero missing terminal records in the current closed-and-merged v0.92.1
+issue denominator. `terminal-closeout-750.json` preserves the 22 merged receipt
+and state artifacts for its 11 issues. Those lifecycle closeouts are complete;
+they must not be counted as outstanding accounting work or recreated as
+implementation issues. This later closeout evidence supplements the historical
+candidate assessment without silently rewriting its candidate identity.
 
 ## Validation and review
 
-Run `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py`.
+Run `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py` for the initial eight corrections, then
+`python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/summarize.py`
+for the complete 245-row census, successor ownership and five exception groups.
+The latter regenerates `census.json`; compare it with the reviewed retained
+version using `git diff --exit-code -- docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/census.json`
+after committing the reviewed package. The initial validator's remaining-row
+count describes only its eight-correction scope, not unfinished accounting.
 The offline validator checks original row identity, source digests, unique
 corrections, amendment references, successor ancestry, and equality between
 candidate and reviewed evidence blobs. Its success is structural evidence,

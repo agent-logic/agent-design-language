@@ -15,7 +15,7 @@ activation_state: "bound"
 plan_revision: 1
 initial_pvf_lane: "local_cpu"
 planned_pvf_lane: "local_cpu"
-planned_pvf_lane_source: "Quality-gate validation plus operator-authorized native review repairs"
+planned_pvf_lane_source: "Operator clarified docs-only accounting scope."
 estimate_elapsed_seconds: "21600"
 estimate_total_tokens: "80000"
 estimate_validation_seconds: "3600"
@@ -38,17 +38,17 @@ source_refs:
     ref: ".csdlc/issues/517/cards/sip.md"
 scope:
   files:
-    - "Issue517 quality-gate reconciliation evidence and validator, QUALITY_GATE_v0.92.1.md, and typed issue517 plan/review/output cards."
+    - "Quality-gate documentation, reconciliation evidence and validators, canonical milestone specifications, and issue517 typed cards. Native implementation belongs to separate issues."
   components:
     - "tail-01-quality-gate"
   out_of_scope:
-    - "No release ceremony or merge. No fabricated proof, silent acceptance changes, backlog implementation, or writes on main."
+    - "No code implementation, cloud execution, release ceremony, merge, fabricated proof, silent acceptance changes, or writes on main."
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Reopened #517 after merged PR748. Reconcile the 245 non-proving rows against retained implementation proof and explicit operator amendments; correct counting and mapping defects; resolve supported findings and publish a newly reviewed assessment while retaining the historical candidate assessment."
+plan_summary: "Docs-only accounting: reconcile every original row against evidence and explicit amendments, synchronize canonical specifications, and assign actual implementation or proof gaps to separate issues. Preserve historical assessments and release conditions."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,13 +74,13 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "in_progress"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "in_progress"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "pending"
 affected_areas:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "An incomplete denominator could create a false green; Zero-test output could be mistaken for proof; Candidate drift could stale the decision; An exception could lack an owner"
 test_strategy:
-  - "Recompute row identities and dispositions against pinned source blobs; validate explicit amendments and successor proof; run focused positive and negative reconciliation checks; obtain independent exact-head review and required CI."
+  - "Exact row, digest and evidence reconciliation; complete exception ownership; focused canonical YAML parity; independent docs review and required CI."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Original assessment remains immutable. A successor issue closure alone does not prove a predecessor criterion. Explicit amendments change scope only as authorized; still-required missing proof remains unresolved."
+notes: "Accounting completeness does not assert missing runtime or operational proof. Preserve explicit gap ownership and historical release requirements; do not implement code here."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
@@ -115,13 +115,13 @@ Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
 
 Design-time operative plan for `[v0.92.1][TAIL-01] Quality gate`.
 
-Reopened #517 after merged PR748. Reconcile the 245 non-proving rows against retained implementation proof and explicit operator amendments; correct counting and mapping defects; resolve supported findings and publish a newly reviewed assessment while retaining the historical candidate assessment.
+Docs-only accounting: reconcile every original row against evidence and explicit amendments, synchronize canonical specifications, and assign actual implementation or proof gaps to separate issues. Preserve historical assessments and release conditions.
 
 ## PVF Lane Plan
 
 - Initial PVF lane from issue creation: `local_cpu`
 - Planned PVF lane for execution: `local_cpu`
-- Planning lane source: `Quality-gate validation plus operator-authorized native review repairs`
+- Planning lane source: `Operator clarified docs-only accounting scope.`
 - Revision rule: change `planned_pvf_lane` only when planning discovers a better explicit lane; keep `needs_planning_lane_assignment` fail-closed until that happens.
 
 ## Estimate Plan
@@ -142,10 +142,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [in_progress] Run focused validation and proof gates.
 5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Recompute row identities and dispositions against pinned source blobs; validate explicit amendments and successor proof; run focused positive and negative reconciliation checks; obtain independent exact-head review and required CI.
+- Exact row, digest and evidence reconciliation; complete exception ownership; focused canonical YAML parity; independent docs review and required CI.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Original assessment remains immutable. A successor issue closure alone does not prove a predecessor criterion. Explicit amendments change scope only as authorized; still-required missing proof remains unresolved.
+Accounting completeness does not assert missing runtime or operational proof. Preserve explicit gap ownership and historical release requirements; do not implement code here.
