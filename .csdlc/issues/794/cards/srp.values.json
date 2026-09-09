@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 794,
+  "issue_padded": "0794",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/794",
+  "title": "[v0.92.2][tooling] Add native typed duplicate and no-op issue closure",
+  "branch": "codex/794-native-typed-issue-close",
+  "version": "1.0.4",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-794-native-typed-issue-close",
+  "slug": "native-typed-issue-close",
+  "status": "ready_for_fresh_review_after_commit",
+  "review_scope": "Review #794 native v3 issue-close implementation, CLI, fake-adapter tests, and docs only.",
+  "review_prompt": "Verify that the exact commit implements a guarded native duplicate/superseded/no-op issue-close path with durable intent, authenticated closed-state readback, idempotent recovery, safe CLI dispatch, and no implementation-finish overclaim.",
+  "findings_status": "pending",
+  "recommended_outcome": "pending",
+  "review_findings": "Pending fresh exact-head review.",
+  "review_dispositions": "Pending fresh exact-head review."
+}
