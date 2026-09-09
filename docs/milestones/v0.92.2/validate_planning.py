@@ -25,22 +25,20 @@ def check(wave, specs):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 41 or len(set(ids)) != 41:
-        failures.append("Expected 41 unique work packages")
+    if len(ids) != 39 or len(set(ids)) != 39:
+        failures.append("Expected 39 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
-    expected_existing = {"RT-A2A": 718, "RT-ORIENT": 717, "OBS-LIVE": 720}
+    expected_existing = {"OBS-LIVE": 720}
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
     if actual_existing != expected_existing:
-        failures.append("Existing issue bindings must be exactly RT-A2A=718, RT-ORIENT=717, OBS-LIVE=720")
+        failures.append("Existing issue bindings must be exactly OBS-LIVE=720")
     for key, issue in expected_existing.items():
         row = by_id.get(key, {})
         if row.get("depends_on") != [] or row.get("creation_policy") != "reuse_existing":
             failures.append(f"{key} must reuse existing authority without new-wave dependencies")
         if spec_by_id.get(key, {}).get("issue") != issue:
             failures.append(f"{key} specification lost existing identity")
-    if by_id.get("RT-A2A", {}).get("priority") != "urgent":
-        failures.append("#718 urgency missing")
     for n in range(1, 8):
         key = f"SIM-{n:02}"
         expected = [] if n == 1 else [f"SIM-{n-1:02}"]
@@ -97,11 +95,11 @@ def check(wave, specs):
 def negative_checks(wave, specs):
     cases = []
     broken = copy.deepcopy(wave)
-    broken["work_packages"] = [r for r in broken["work_packages"] if r["id"] != "RT-A2A"]
-    cases.append(("missing urgent existing issue", broken, specs))
+    broken["work_packages"] = [r for r in broken["work_packages"] if r["id"] != "OBS-LIVE"]
+    cases.append(("missing admitted existing issue", broken, specs))
     broken = copy.deepcopy(wave)
-    next(r for r in broken["work_packages"] if r["id"] == "RT-A2A")["depends_on"] = ["WP-01"]
-    cases.append(("urgent issue waits for new wave", broken, specs))
+    next(r for r in broken["work_packages"] if r["id"] == "OBS-LIVE")["depends_on"] = ["WP-01"]
+    cases.append(("existing issue waits for new wave", broken, specs))
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "CF-INTEGRATE")["depends_on"].append("PUB-MEDIUM")
     cases.append(("editorial work blocks integration", broken, specs))
@@ -151,7 +149,7 @@ def main():
         missed, rejected = negative_checks(wave, specs)
         failures.extend("Negative fixture not rejected: " + x for x in missed)
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
-                      "existing_issues": [717, 718, 720], "negative_fixtures": rejected,
+                      "existing_issues": [720], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))
     return bool(failures)
 

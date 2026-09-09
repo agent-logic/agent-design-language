@@ -861,4 +861,4 @@ deliberate convergence path:
 
 ### v0.92.2 existing-issue reconciliation — issue #523
 
-CodeFriend Beta 1 remains the v0.92.2 product outcome and feeds v0.95 MVP integration. Reuse admitted #717 (capability orientation), #718 (canonical-name A2A, urgent) and #720 (live Observatory retained-mode hazards). #718 is explicitly admitted by the operator despite stale backlog wording in its source issue and may proceed independently of the CodeFriend build and current closeout. Other backlog is not admitted. See `docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md`.
+CodeFriend Beta 1 remains the v0.92.2 product outcome and feeds v0.95 MVP integration. #717 capability orientation and #718 canonical-name A2A were promoted into v0.92.1 on 2026-09-09; v0.92.2 consumes their merged results as predecessor Runtime capabilities. Reuse admitted #720 for live Observatory retained-mode hazards. Other backlog is not admitted. See `docs/milestones/v0.92.2/EXISTING_ISSUE_RECONCILIATION_v0.92.2.md`.
