@@ -90,8 +90,8 @@ Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovere
 - Integration method used: `native C-SDLC v3 bind plus git commit in issue worktree`
 - Verification performed:
   - `git status --short --branch; git diff --check HEAD`
-    `Confirmed current-main resync and no whitespace errors at source SHA 23a5b82e6a353eaf4963357f72b536939430cab5.`
-- Result: `Local branch implementation exists; PR #779 previously published and red on stale remote run 34381946883; branch is repaired locally at source SHA 23a5b82e6a353eaf4963357f72b536939430cab5 and awaits fresh review, republish, and CI.`
+    `Confirmed current-main resync and no whitespace errors at source SHA 5ca71c72b929a77c7502da7908f2730e60acaf04; subsequent card-truth edits are metadata-only and preserve the r16 validation evidence.`
+- Result: `Local branch implementation exists; PR #779 previously published and red on stale remote run 34381946883. The branch is repaired and locally validated at source SHA 5ca71c72b929a77c7502da7908f2730e60acaf04 with r16 evidence/card truth current in the issue worktree; it awaits fresh review, republish, and CI.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -162,7 +162,7 @@ verification_summary:
 - Replay result: `not_applicable`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/759/validation-r15.md`
+- Primary proof surface: `.csdlc/evidence/759/validation-r16.md`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `No schema changes.`
 - Hash/byte-stability checks: `SHA256 hashes recorded for full runtime, focused dynamic health, focused resident shepherd, SNTP isolated harness, restored shutdown-grace harness, Vector S3 outage isolated harness, strict clippy, HTML Observatory proof, fmt, and diff logs.`

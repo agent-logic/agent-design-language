@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 759,
   "phase": "bound",
-  "generation": 6,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/759-dynamic-agent-health-task-failures",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-health-task-failures",
   "template_registry_version": "1.0.4",
   "operational_authority": true,
-  "digest": "03c4c083b6ba7e3b34695a075ae723f786e2d67be0e5a3c7f84dc7981df4aea0"
+  "digest": "f4b93ff4ad2223ce62bd92dc2bebbbfd8bbde7644f8ec3689a5acaa93e772c70"
 }
