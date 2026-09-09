@@ -1,0 +1,24 @@
+{
+  "schema": "adl.issue804.sor_authority_proof.v1",
+  "pvf": {
+    "lane": "documentation_contract",
+    "proof_role": "active SOR authority consistency and structure compatibility",
+    "determinism": "fixed source and local values",
+    "resources": "small CPU/filesystem/Git; no network",
+    "release_gate": "required issue-local prepublication proof"
+  },
+  "result": "pass",
+  "authority_notice": "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.",
+  "checks": [
+    "active template, schema and native-rendered SOR match registry authority notice",
+    "obsolete v2-live notice absent from all three active surfaces",
+    "all other schema fields byte-equivalent as JSON values",
+    "stale-notice semantic negative fixture rejected",
+    "Python-readable active six-schema smoke passed"
+  ],
+  "hashes": {
+    "docs/templates/prompts/1.0.4/sor.md": "7709fab030ab2813eab2705c623556d87851fb5f9a27654b48cbdb6f311afd54",
+    "docs/templates/prompts/1.0.4/schemas/sor.structure.json": "7c421d74391bfdd42c9feb4f43dad27964579404145879b8a01211ded4467902"
+  },
+  "limits": "Negative fixture checks authority text consistency, not native digest recovery; no runtime tests or historical-card rewrites."
+}
