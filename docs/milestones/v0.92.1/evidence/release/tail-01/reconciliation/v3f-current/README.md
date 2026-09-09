@@ -44,3 +44,5 @@ Team review acceptance checks every preassigned lane receipt, reviewer identity,
 Planning provenance: `.csdlc/prepared/issues/771/design.md` retains the original review-only design and its approved digest. Its original no-product-change boundary was superseded for the three named repairs by explicit operator approvals and the later typed STP/SPP replans recorded in `.csdlc/issues/771/audit.jsonl`. It is historical planning evidence, not a restriction overriding those approvals.
 
 PR #801 integration repair: newer main moved primary terminal persistence into Git metadata. The two approved receipt regression fixtures now use the current canonical paths. The old `7fecd63398` proof is retained unchanged in its archive, and the failed integration run and local storage failures are recorded under `.csdlc/evidence/771/ci-integration-*`.
+
+`archive/8a597a5cb9/` is a failed-attempt snapshot, not an accepted proof packet: its mapping still names the prior `7fecd63398` source, while its suite records failure at `8a597a5cb9`. These inconsistent historical bytes are deliberately retained for diagnosis and are not used by the current mapping.
