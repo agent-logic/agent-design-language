@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.v3.terminal_state.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 728,
+  "pull_request": 736,
+  "head_sha": "a598ed6376795b2ad9109817df5e41f1136142e6",
+  "disposition": "closed_out"
+}

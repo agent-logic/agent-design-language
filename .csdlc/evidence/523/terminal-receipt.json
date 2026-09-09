@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.v3.terminal_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 523,
+  "pull_request": 743,
+  "head_sha": "9d9306ba9073b9e8225f9f38fc8daf7ea393c5a8",
+  "disposition": "closed_out",
+  "state_digest": "ee24d3a0a5d1f1bbada5b569c4c1bb3051e7138b1bcda7a0129866458ba675f1"
+}
