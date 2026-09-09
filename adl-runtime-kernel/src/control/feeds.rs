@@ -110,7 +110,14 @@ impl AgentPopulationFeed {
     pub fn resident_shepherds_from_config(configs: &ResidentShepherdSetInitConfig) -> Self {
         let mut feed = Self::empty();
         for (index, config) in configs.iter().enumerate() {
-            let id = if index == 0 {
+            let configured_id = config
+                .name
+                .split_once('.')
+                .map(|(prefix, _)| prefix)
+                .unwrap_or(config.name.as_str());
+            let id = if index == 0 && !configured_id.is_empty() {
+                configured_id.to_owned()
+            } else if index == 0 {
                 "shepherd".to_owned()
             } else {
                 format!("shepherd:{}", config.name)
