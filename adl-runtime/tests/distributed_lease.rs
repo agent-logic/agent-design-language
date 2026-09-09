@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[path = "../src/distributed/lease.rs"]
 mod lease;
 

@@ -670,6 +670,7 @@ impl MigrationStore {
     }
 
     #[cfg(test)]
+    #[allow(dead_code)]
     pub(crate) fn seed_record_for_snapshot_test(
         &mut self,
         record: MigrationRecord,

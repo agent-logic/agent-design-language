@@ -2085,6 +2085,7 @@ fn has_joint_quorum(authority: &AuthorityMembership, signers: &BTreeSet<Vec<u8>>
 }
 
 #[cfg(test)]
+#[allow(clippy::too_many_arguments)]
 fn endorsement_payload(
     guardian_id: &[u8],
     certificate_generation: u64,
