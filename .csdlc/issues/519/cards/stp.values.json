@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 519,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-03] Publication finalization",
+    "slug": "tail-03-publication-finalization",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one exact-revision publication-candidate packet; linkage and redaction checks are evidence inputs.",
+      "deliverables": [
+        "docs/milestones/v0.92.1/evidence/release/tail-03",
+        ".csdlc/prepared/issues/519/validate-publication-candidate.rb"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The exact reviewed candidate revision and artifact digests are recorded",
+        "AC-2: Publication artifacts contain correct and unambiguous closing relationships",
+        "AC-3: The packet passes redaction and path-portability checks",
+        "AC-4: No merge, tag, release, or issue-close mutation occurs"
+      ],
+      "dependencies": [
+        "TAIL-02/#518 reviewed merge is required for final acceptance; operator explicitly authorized preparatory work before merge."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#519",
+        "agent-logic/agent-design-language#518",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-03",
+        "docs/milestones/v0.92.1/evidence/release/**"
+      ],
+      "non_goals": [
+        "Merge",
+        "Tag",
+        "Release",
+        "Issue closure",
+        "Product or documentation repair"
+      ]
+    }
+  }
+}

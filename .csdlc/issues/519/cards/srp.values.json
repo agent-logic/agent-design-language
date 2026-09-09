@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 519,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-03] Publication finalization",
+    "slug": "tail-03-publication-finalization",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The exact publication candidate, artifact digests, closing relationships, redaction proof, and no-mutation boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet bind the exact revision reviewed by #518?",
+        "Are all closing relationships explicit and correct?",
+        "Does redaction exclude secrets, private payloads, and machine-local paths?",
+        "Can packet creation occur without merge, tag, release, or issue closure?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
