@@ -6,8 +6,8 @@
   "denominator": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
   "source_mapping": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json",
   "row_count": 152,
-  "execution_count": 114,
-  "amendment_count": 38,
+  "execution_count": 51,
+  "amendment_proposal_count": 101,
   "rows_digest": "93c69451d12d702911deec437d9d4cd3f7ad2bec80fcbba4c766495e71b20bfc",
   "rows": [
     {
@@ -24,10 +24,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "current_surfaces_agree_with_authenticated_post_cutover_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-output-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Public command manifest and typed schema discriminants exist; the required jq/template output contracts are not implemented.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -44,10 +48,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "local_routes_reject_unsupported_transitions_from_observed_phase"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-capability-matrix",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Command manifest and transition table have separate static denominators; source does not mechanically derive help, doctor and field authorization from one shared capability matrix.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -63,15 +71,14 @@
         "docs/csdlc-v3/predecessor-coverage.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "bounded-filesystem-state",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No implemented 80-percent state-size warning or ten-times-baseline mutation capacity is evidenced in native storage.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -87,15 +94,14 @@
         "docs/csdlc-v3/predecessor-coverage.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "bounded-filesystem-state",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No measured blob-level f1c01499 largest-bundle recomputation artifact is retained; predecessor coverage only names this requirement.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -111,15 +117,14 @@
         "docs/csdlc-v3/predecessor-coverage.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "bounded-filesystem-state",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No measurement exists to decide whether the mandated 10x capacity requires architecture revision; cannot assert this conditional gate passed.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -135,15 +140,14 @@
         "docs/csdlc-v3/predecessor-coverage.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "bounded-filesystem-state",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No worst-case six-card review/recover canary sizing artifact proves less than half of the state-size block.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -160,15 +164,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "output-filter-removal",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native CLI source has no --jq parser or supported-subset evaluator; requirement remains explicitly retained.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -184,10 +187,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "tests::predecessor_coverage"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-architecture-proof",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "The pinned cli/cli source-baseline proof is not supplied by predecessor coverage or owner-lane manifest; exact blob match has not been demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -203,10 +210,14 @@
         "docs/csdlc-v3/predecessor-coverage.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "tests::predecessor_coverage"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-coverage",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "predecessor-coverage.json maps all 27 V3-A criteria to named owner issues and owner-proof-lanes.json names their lanes. This maps V3-A requirements, not a demonstrated exhaustive denominator of every v2 invariant.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -223,10 +234,14 @@
         "csdlc-v3/tests/operational_cli_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "bound_checkout_owns_local_cards_without_primary_checkout_writes"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-topology-handoff",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native publication, topology and terminal guards exist, but pending worktree handoff #749 means this broad unweakened-boundary claim is not wholly proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -243,10 +258,14 @@
         "docs/csdlc-v3/predecessor-coverage.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "current_surfaces_agree_with_authenticated_post_cutover_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-contract-delta",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Construction decision explicitly records missing measurements; no reviewed full original-to-current behavioral delta accounts for missing jq, async services and checkpoint-state requirements.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -266,7 +285,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift"
+        "criterion_specific_basis": "Native read_only_v2_import remains implemented; retained typed v2 rollback tooling and post-cutover CONTRACT preserve rollback availability. Historical v1 binary sunset is not deletion of this native reader.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -283,15 +304,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "output-filter-removal",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Card template rendering is in process, but public output-filter/template support required by this row is absent.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -308,10 +328,14 @@
         "csdlc-v3/src/review/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "same_principal_cannot_self_authorize_publication"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-identity",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Same-principal strings are rejected by authorize_publication, but authenticated binding of human reviewer identity and named policy-only override are not shown.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -330,7 +354,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "publication_modes_require_exact_relation"
+        "criterion_specific_basis": "PublicationMode is a closed Closing/PartOf enum and tests reject mismatched linkage, preserve the open parent and reject terminal authority from a checkpoint.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -347,10 +373,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "local_routes_reject_unsupported_transitions_from_observed_phase"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-capability-matrix",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Lifecycle capability enum guards phase transitions, but there is no authoritative-field ownership/correction matrix covering every semantic field and supported recovery state.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -371,7 +401,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "tests::architecture_boundary"
+        "criterion_specific_basis": "Cargo declares one library and one csdlc binary; application, command, domain lifecycle/storage and adapter boundaries are explicit native modules.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -392,7 +424,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "tests::architecture_boundary"
+        "criterion_specific_basis": "CLI parsing uses direct argument parsing and does not construct RepositoryContext or credential adapters until route dispatch.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -407,10 +441,14 @@
         "csdlc-v3/src/adapters/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-fake-adapter",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Fake adapters record invocations and return deterministic output, but FakeProcessAdapter accepts any invocation instead of rejecting unexpected operations.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -427,10 +465,14 @@
         "csdlc-v3/tests/remote_publication_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-github-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Production GitHub adapter uses typed curl argv transport; no exhaustive Octocrab/raw/unsupported inventory or greater-than-three dependency reevaluation decision is retained.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -447,10 +489,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_recovery_requires_structured_stale_truth_provenance"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-recovery-journey",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Kernel review recovery and card rendering have separate tests, but no complete native exact-review to recovery to semantic correction to rereview journey is proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -466,15 +512,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "accepted-operational-construction",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "construction-decision.json explicitly records all ten observed measurements as null and disposition not_promoted_missing_162_measurements.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -490,15 +535,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "accepted-operational-construction",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "construction-decision.json names Decision 11 and #163 but still has missing evidence, so recommendation alone is not approval and terminal sequencing is unproven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -515,15 +559,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "supported-platform-scope",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No measured supported-platform commit matrix or exact Decision 11 operator record is present in the declared evidence; generic fsync/rename code is not measurement.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -540,15 +583,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "supported-platform-scope",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Operational remote dispatch has explicit non-Unix rejection, but complete Windows compile/read-only and every local mutation fail-closed proof are not supplied.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -564,10 +606,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "tests::predecessor_coverage"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-architecture-proof",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Construction decision has expected_evidence_revision null and explicitly delegates approval to #505; a merged cutover alone does not reconstruct missing #162 evidence.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -583,10 +629,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "tests::predecessor_coverage"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-architecture-proof",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No terminal #163 proof establishing the original pre-transaction dependency gate is retained; construction document explicitly still requires it.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -606,7 +656,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "help_exposes_one_binary_command_surface"
+        "criterion_specific_basis": "command_manifest tests mechanically compare the tracked command denominator with csdlc help.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -623,10 +675,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "current_surfaces_agree_with_authenticated_post_cutover_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-output-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Cargo and stable owner installer bind csdlc-v3 package/csdlc binary; generated completions and all requested provenance checks are not mapped.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -644,10 +700,14 @@
         "csdlc-v3/tests/foundation.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "single_binary_foundation_command_is_read_only_and_explicit"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-parser-adapter-isolation-execution",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Parser source initializes no repository or adapter before dispatch, but this criterion explicitly requires constructor/parser tests. Existing test source is not a retained executed result for the exact assessed candidate.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -666,7 +726,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction"
+        "criterion_specific_basis": "Native machine JSON is printed to stdout and typed error diagnostics to stderr in main.rs.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -683,15 +745,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "output-filter-removal",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native outputs contain schema discriminants, but --jq and --template output parsing and conflict paths are absent.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -708,15 +769,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "output-filter-removal",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No frozen jq subset implementation or per-form golden compatibility tests exist in the native CLI.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -733,10 +793,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "current_surfaces_agree_with_authenticated_post_cutover_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-output-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native parser is hand-written and Cargo has no Clap dependency; per-command structured-input/direct-field parser conflicts are not completely proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -751,15 +815,14 @@
         "csdlc-v3/Cargo.toml"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "dependency-policy-separation",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native Cargo dependency list and lockfile alone do not prove license/advisory/ban/duplicate-family enforcement for this crate.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -776,10 +839,14 @@
         "csdlc-v3/tests/proof_parity_install_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "stable_binary_authenticates_invoking_worktree_before_every_operational_write"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-install-proof",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Installer and binary contract exist; no release-build provenance artifact is mapped to this exact acceptance row.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -795,15 +862,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "FoundationState is invocation-scoped without mutable global locator, but it does not implement the stipulated one shared App/service container.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -819,15 +885,14 @@
         "csdlc-v3/src/adapters/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "run_process uses blocking Command.output; root signal cancellation and bounded child teardown with exit 130 are not implemented by that boundary.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -846,7 +911,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction"
+        "criterion_specific_basis": "main.rs separates machine JSON stdout from error stderr; adapter ProcessOutput preserves separate streams.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -862,10 +929,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "real_process_adapter_injects_child_credentials_and_redacts_process_output"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-redaction",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Credential redaction is implemented and tested, but global absence of machine-local paths in all durable output is not proven by those tests.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -881,15 +952,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "accepted-operational-construction",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Source has typed ProcessAdapter and repository context, but no dated reviewed freeze checkpoint for all Git/FileSystem/ProcessRunner signatures before parallel implementation is supplied.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -905,15 +975,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Credential resolution occurs only in the selected adapter route; full lazy shared-service initialization contract is not implemented.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -929,15 +998,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No shared sync lazy initializer/cached typed result protocol is implemented in FoundationState.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -953,15 +1021,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No async cached initialization state machine is implemented.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -977,15 +1044,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No async single-flight retry cooldown/root-cancellation initializer protocol is implemented.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1001,15 +1067,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Cargo has no Tokio dependency; exact pinned Tokio and leader-drop/waiter/cooldown regression requirement is unmet.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1025,15 +1090,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No invocation-wide cached terminal initialization error test exists; direct FoundationState filesystem reads are repeated by new loads.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1049,15 +1113,14 @@
         "csdlc-v3/src/application/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "ProcessAdapter is object-safe and domain APIs are synchronous, but required asynchronous adapter-trait contract is absent.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1073,10 +1136,14 @@
         "csdlc-v3/tests/foundation.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "repository_context_rejects_symlink_escape_for_issue_records"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-repository-context",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "RepositoryContext canonicalizes explicit roots and typed remote identity; full discovery/issue-selection precedence denominator is not demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1092,10 +1159,14 @@
         "csdlc-v3/tests/foundation.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "repository_context_rejects_symlink_escape_for_issue_records"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-repository-context",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Symlink escape and malformed identity have negative tests; all ambiguous remote/issue-selection cases are not covered.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1112,10 +1183,14 @@
         "csdlc-v3/tests/foundation.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-import-unsupported-field-denominator",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "validate_issue_record returns on the first unsupported key and emits only the generic v2 issue record label plus key; it neither enumerates every unsupported field nor binds repository/issue/record identity. Prior source-supported classification was too broad.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1132,10 +1207,14 @@
         "csdlc-v3/tests/foundation.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-import",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Importer rejects unsupported fields, but required ImportStatus::BlockedUnsupportedFields plus reviewed per-field preserve/map disposition workflow is not implemented as specified.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1155,7 +1234,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift"
+        "criterion_specific_basis": "read_only_v2_import parses bytes and verifies cards/digests without writing source or destination authority.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1172,15 +1253,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "projection-state-shape",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Operational local commands read and write .csdlc/issues/<n>/index.json and card values separately; generic storage state.json is not sole operational card/lifecycle authority.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1197,10 +1277,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "projection_replay_is_deterministic"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-state-authority",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Closed lifecycle enums and JSON schemas reject many invalid values, but full operational state/card unknown-schema and enum denominator is not proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1220,7 +1304,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "criterion_specific_basis": "PromptRegistry binds SIP/STP/SPP/VPP/SRP/SOR separately and active registry templates preserve distinct field and lifecycle semantics.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1236,10 +1322,14 @@
         "docs/templates/prompts/current.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-card-phase",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Active card structure checks exist, but a per-phase required/optional field table with one placeholder is not the demonstrated contract.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1256,15 +1346,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "projection-state-shape",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Storage embeds audit events, but no complete operational audit.jsonl reproduction contract is demonstrated for local index/card mutations.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1284,7 +1373,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "criterion_specific_basis": "Operational doctor compares regenerated projections with actual bytes and typed edit starts from semantic values, not drifted Markdown.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1304,7 +1395,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transition_matrix_explicitly_classifies_every_state_command_pair"
+        "criterion_specific_basis": "transition_matrix enumerates all closed LifecycleState and LifecycleCommand pairs with explicit allowed/rejected outcomes.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1321,10 +1414,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "transition_matrix_explicitly_classifies_every_state_command_pair"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-transition",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Enums are closed, but match uses a wildcard fallback, so a newly added state is not compiler-forced through every semantic case.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1344,7 +1441,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transition_branch_observation_alone_does_not_authorize_bind"
+        "criterion_specific_basis": "Operational topology verifies actual branch and registered worktree; branch observation by itself is rejected by lifecycle and adapter tests.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1361,10 +1460,14 @@
         "csdlc-v3/tests/operational_cli_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "bound_checkout_owns_local_cards_without_primary_checkout_writes"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-topology-handoff",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Review/publication/cleanup guards exist; broad combined requirement remains subject to separately identified native handoff and state-authority gaps.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1381,10 +1484,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_recovery_requires_structured_stale_truth_provenance"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-recovery-journey",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "RecoverReview reaches Implemented in the kernel, but semantic card correction and complete operational follow-on reachability are not demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1404,7 +1511,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transition_matrix_explicitly_classifies_every_state_command_pair"
+        "criterion_specific_basis": "decide accepts RecoverReview from Reviewed/Published/MergeReady only, returns Implemented and invalidates Readiness/Review/Publication/Terminal.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1421,10 +1530,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "transition_matrix_explicitly_classifies_every_state_command_pair"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-transition-proof",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Negative transition/CAS tests exist, but mutation-testing every authorization predicate and correction invalidation is not demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1444,7 +1557,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "post_cutover_cleanup_removes_exact_clean_registered_terminal_worktree"
+        "criterion_specific_basis": "Cleanup requires ClosedOut and TerminalReceipt capability; operational cleanup verifies durable terminal receipt, not only merge observation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1461,15 +1576,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "projection-state-shape",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "DurableTransactionStore atomically renames state.json, but operational local index/card authority is a separate write path; sole authority claim is not met globally.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1489,7 +1603,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transaction_state_commit_is_atomic_and_projection_failure_requires_repair"
+        "criterion_specific_basis": "Issue and cutover locks serialize mutations; lifecycle ownership remains independently derived from topology, not lock possession.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1509,7 +1625,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transaction_state_commit_is_atomic_and_projection_failure_requires_repair"
+        "criterion_specific_basis": "commit_then_project commits state first and returns repair-required on post-commit projection failure; dedicated interruption tests cover this boundary.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1526,15 +1644,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "projection-state-shape",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Generic projections are repairable, but operational card/evidence authority is not wholly reproduced from one committed state record.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1554,7 +1671,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transaction_state_commit_is_atomic_and_projection_failure_requires_repair"
+        "criterion_specific_basis": "Transactions compare generation/digest before commit, and operational local CAS recomputes card bytes before mutation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1571,10 +1690,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "recovery_classifies_interrupted_writes_without_losing_provenance"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-transaction-proof",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Fault tests cover listed interruption points and recovery classification; exhaustive every-interruption guarantee across all operational writes is not demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1593,7 +1716,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "retained_intent_requires_explicit_authenticated_absence_recovery_before_retry"
+        "criterion_specific_basis": "execute_github_mutation writes/syncs its durable intent before adapter mutation, then records exact readback reconciliation; intent-before-dispatch regression asserts this order.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1609,10 +1734,14 @@
         "csdlc-v3/src/commands/remote/tests.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "retained_intent_requires_explicit_authenticated_absence_recovery_before_retry"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-remote-intent",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Unreconciled intent blocks competing writes and restart reconciles PR creation without replay; intent contains operation data rather than copied lifecycle/card state. Remote outcome reconciliation produces separate receipts, so the required commit into sole state.json authority is not fully established.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1629,15 +1758,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "supported-platform-scope",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Generic atomic rename exists, but named measured fault-tested Linux/macOS/Windows primitive matrix and Decision 11 proof are missing.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1654,15 +1782,14 @@
         "docs/csdlc-v3/construction-decision.json"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "supported-platform-scope",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No injected platform-capability fixture proves stable unsupported_platform_mutation across CI hosts; current non-Unix remote error has another code.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1681,7 +1808,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "adapter_invocations_are_argv_based_and_shell_strings_are_rejected"
+        "criterion_specific_basis": "CommandInvocation stores program and argument vector, validates forbidden shell forms, and Command executes args without shell interpolation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1697,10 +1826,14 @@
         "csdlc-v3/src/adapters/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-cancellation",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "ProcessOutput distinguishes exit/timeouts/cancelled nominally and streams/truncation; real adapter blocking Command.output does not implement timeouts/cancellation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1716,10 +1849,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "scoped_child_process_receives_only_selected_credential_and_minimal_environment"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-child-credential-environment-isolation",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "run_process constructs Command without env_clear or an approved environment filter; adding the selected credential does not prevent unrelated parent credentials being inherited by every child. Redacted output does not prove credential isolation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1739,7 +1876,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transition_branch_observation_alone_does_not_authorize_bind"
+        "criterion_specific_basis": "GitObservation.authorizes_lifecycle_mutation returns false and tests explicitly reject branch-only authorization.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1756,10 +1895,14 @@
         "docs/csdlc-v3/v3-command-manifest.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "help_exposes_one_binary_command_surface"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-command-surface",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "GitHub issue creation has direct convenience flags and typed automation input, but all common local command direct-field routes are not demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1776,10 +1919,14 @@
         "csdlc-v3/tests/operational_cli_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "bound_checkout_owns_local_cards_without_primary_checkout_writes"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-topology-handoff",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Bind validates canonical branch/worktree registrations and main policy, but #749 worktree-state handoff regression remains open rather than complete native lifecycle topology proof.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1795,10 +1942,14 @@
         "csdlc-v3/tests/local_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "issue_route_requires_expected_digest_before_overwriting_existing_v3_state"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-local-idempotency",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Issue initialization CAS and repeated operations are guarded, but complete every-command idempotency denominator is not supplied.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1815,10 +1966,14 @@
         "csdlc-v3/tests/command_manifest.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "current_surfaces_agree_with_authenticated_post_cutover_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-output-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Typed plans are emitted as JSON; separate human rendering equivalence for every issue command is not evidenced.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1838,7 +1993,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "criterion_specific_basis": "Operational edit applies semantic value changes and regenerates affected card Markdown through active templates.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1858,7 +2015,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "criterion_specific_basis": "Operational CAS validates index/card values and doctor diagnoses projection drift; rendered Markdown is not accepted as authoritative mutation input.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1875,10 +2034,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "local_routes_reject_unsupported_transitions_from_observed_phase"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-capability-matrix",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Doctor is read-only and specific, but it does not derive all next valid semantic corrections from a complete field capability matrix.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1895,10 +2058,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "local_routes_reject_unsupported_transitions_from_observed_phase"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-capability-matrix",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No complete authoritative-field correction matrix or dedicated invariant for an acceptance field lacking any correction path is implemented.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1918,7 +2085,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "criterion_specific_basis": "Local typed findings distinguish missing/malformed lifecycle index, schema/card drift, topology and import failures.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1934,10 +2103,14 @@
         "docs/templates/prompts/current.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "card_roundtrip_uses_active_registry_denominator"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-card-phase",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No complete V3-06 lifecycle-phase required/optional field table with one placeholder is enforced across card show/edit/doctor.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1953,10 +2126,14 @@
         "csdlc-v3/tests/local_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "operational_schedule_preserves_the_six_dimension_readiness_denominator"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-validation-planner",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "VPP lane manifests retain commands/proof roles, but native planner does not establish every required lane field including timeout/dependency/evidence destination as a single validated contract.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -1975,7 +2152,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "operational_schedule_preserves_the_six_dimension_readiness_denominator"
+        "criterion_specific_basis": "Typed local readiness findings and proof outcomes distinguish pending/deferred/blocked/failed/skipped/passed rather than treating all as pass.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -1991,10 +2170,14 @@
         "csdlc-v3/tests/local_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "operational_schedule_preserves_the_six_dimension_readiness_denominator"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-validation-planner",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Readiness checks carry lane contracts but exhaustive cycle/duplicate-owner/missing-acceptance/hidden-policy rejection is not mapped to executable tests.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2013,7 +2196,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "operational_schedule_preserves_the_six_dimension_readiness_denominator"
+        "criterion_specific_basis": "prepare_local_route operates on supplied typed inputs; effectful input loading is separate from pure plan construction.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2029,15 +2214,14 @@
         "csdlc-v3/src/adapters/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No Tokio bounded-task supervisor exists in native dependencies; task cancellation and join contract is absent.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2053,15 +2237,14 @@
         "csdlc-v3/src/adapters/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "RealProcessAdapter uses blocking Command.output without root-cancellation registry or bounded SIGTERM/kill escalation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2077,15 +2260,14 @@
         "csdlc-v3/src/adapters/mod.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native crate has no Tokio/select cancellation boundary for sleeps/network/process awaits.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2104,7 +2286,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "transaction_store_rejects_tampered_record_digest_on_ingress"
+        "criterion_specific_basis": "Proof route validates exact evidence digest, completed passing outcome and deterministic manifest; tampered or incomplete proof is rejected.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2120,15 +2304,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "process-output-shape",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "ProcessOutput stores only one aggregate truncated bool; per-stream captured_bytes and original_bytes_if_known are absent.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2148,7 +2331,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_binds_exact_scope_revision_reviewer_and_findings"
+        "criterion_specific_basis": "Validation receipts are input evidence; independent exact-review and authenticated publication gates remain required by remote delivery authorization.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2168,7 +2353,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_binds_exact_scope_revision_reviewer_and_findings"
+        "criterion_specific_basis": "ReviewRecord explicitly binds revision, scope digest, implementer/reviewer, findings and dispositions; typed review receipt binds the evidence digest.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2187,7 +2374,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "publication_modes_require_exact_relation"
+        "criterion_specific_basis": "ReviewTarget binds qualified repository/issue/mode; authorization compares exact normalized target and reviewed revision.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2206,7 +2395,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "publication_modes_require_exact_relation"
+        "criterion_specific_basis": "Publication validator requires Closing relation for Closing and rejects closing target keywords for PartOf; dedicated negative mode tests exist.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2226,7 +2417,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_binds_exact_scope_revision_reviewer_and_findings"
+        "criterion_specific_basis": "authorize_publication compares exact reviewed revision and fails stale revisions; no unproven substantive-diff exemption is granted by that path.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2243,10 +2436,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_recovery_requires_structured_stale_truth_provenance"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-recovery-journey",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Kernel recovery transitions and invalidation set match required phases; complete operational recover-to-semantic-card-write path is not proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2263,10 +2460,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_recovery_requires_structured_stale_truth_provenance"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-recovery-journey",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No complete native executable semantic card correction plus fresh-review journey is demonstrated across the actual operational state path.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2283,10 +2484,14 @@
         "csdlc-v3/tests/transactions.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_recovery_requires_structured_stale_truth_provenance"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-recovery-journey",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Single checkpoint/closing tests exist but no full recovery/correction/re-review/republish journey for both modes is evidenced.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2306,7 +2511,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_binds_exact_scope_revision_reviewer_and_findings"
+        "criterion_specific_basis": "Typed publication rejects absent evidence, stale revision, actionable findings and mismatched issue/target/scope.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2326,7 +2533,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "review_binds_exact_scope_revision_reviewer_and_findings"
+        "criterion_specific_basis": "Remote workflow consumes verified receipts and typed authorization; provider/model result alone does not provide a publication capability.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2343,10 +2552,14 @@
         "csdlc-v3/src/review/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "same_principal_cannot_self_authorize_publication"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-identity",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Case/whitespace-normalized same-principal names are rejected; policy-only versus authenticated identities and named override are not bound by ReviewRecord.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2363,10 +2576,14 @@
         "csdlc-v3/src/review/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "same_principal_cannot_self_authorize_publication"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-identity",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No concrete authenticated human reviewer-principal observer with fail-closed activation gate is mapped; caller-provided reviewer strings alone cannot satisfy this requirement.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2386,7 +2603,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "criterion_specific_basis": "Domain publication/finish functions consume normalized readbacks and Verified receipt wrappers instead of GitHub API transport objects.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2403,10 +2622,14 @@
         "csdlc-v3/tests/remote_publication_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-github-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Adapter has typed failures but full pagination/rate-limit/auth/missing/unknown-mergeability distinction matrix is not provided.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2426,7 +2649,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "criterion_specific_basis": "Github readback binds requested head and observed checks; publication refuses head mismatches and pending/non-success conclusions.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2442,10 +2667,14 @@
         "csdlc-v3/src/publication/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-issue-readback",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "IssueReadback carries normalized repository/number/open boolean; the specified state_reason, updated_at and observation-time identity are not all preserved.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2461,10 +2690,14 @@
         "csdlc-v3/src/publication/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-issue-readback",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Exact issue observation checks exist, but state:null, HTTP404, completed-close fixtures with full typed endpoint semantics are not mapped.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2481,10 +2714,14 @@
         "csdlc-v3/tests/remote_publication_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-github-contract",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Curl raw API routes lack complete named endpoint-reference/request-response/transport-fixture inventory required here.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2504,7 +2741,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "authenticated_github_observation_builds_readback_receipts_without_trusting_caller_json"
+        "criterion_specific_basis": "observe_github_pr_readback performs read-only GET observations; mutation dispatch is a separate durable-intent route.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2521,10 +2760,14 @@
         "csdlc-v3/src/review/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "same_principal_cannot_self_authorize_publication"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-identity",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Authenticated GitHub access is credentialed, but no independent typed human-principal observer activating V3-12 authority is demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2543,7 +2786,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "retained_intent_requires_explicit_authenticated_absence_recovery_before_retry"
+        "criterion_specific_basis": "Github mutation stores and syncs intent before the adapter call; regression checks intent presence when dispatch runs.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2562,7 +2807,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "executable_cutover_requires_authenticated_github_authority_before_mutation"
+        "criterion_specific_basis": "Native route does not expose autonomous merge authority; terminal processing observes externally merged PRs and approved cutover requires operator merge authorization.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2581,7 +2828,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "retained_intent_requires_explicit_authenticated_absence_recovery_before_retry"
+        "criterion_specific_basis": "Operation digests and exact reconciliation prevent PR-create replay; issue edit/PR update/ready readback tests verify intended remote state.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2600,7 +2849,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "publication_modes_require_exact_relation"
+        "criterion_specific_basis": "Closing/PartOf use exact relation validation; checkpoint finish tests assert open parent and deny terminal authority from PartOf.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2619,7 +2870,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "publication_modes_require_exact_relation"
+        "criterion_specific_basis": "Publication identity is repository qualified and ambiguous/wrong-mode linkage is rejected by normalization and authorization tests.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2635,15 +2888,14 @@
         "csdlc-v3/src/main.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Native main/remote sources do not implement foreground pr watch with bounded root-signal cancellation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2659,15 +2911,14 @@
         "csdlc-v3/src/main.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No operational PartOf watch implementation or corresponding exact REST open-parent readiness fixture is evidenced.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2683,15 +2934,14 @@
         "csdlc-v3/src/main.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No watch cancellation/select/scope-drain implementation exists.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2707,15 +2957,14 @@
         "csdlc-v3/src/main.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No implemented bounded watch timeout/poll options are evidenced.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2731,15 +2980,14 @@
         "csdlc-v3/src/main.rs"
       ],
       "resolution": {
-        "type": "governed_amendment",
+        "type": "governed_amendment_proposal",
         "amendment": "synchronous-per-invocation-services",
         "behavioral_pass_claim": false,
-        "authority": {
-          "operator_decision": "PR #591 merged the V3-F/#505 operational architecture",
-          "current_contract": "docs/csdlc-v3/CURRENT_AUTHORITY.md",
-          "contract_detail": "docs/csdlc-v3/CONTRACT.md",
-          "exact_mapping_review": "required at the final #819 exact head"
-        }
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No watch fixed-deadline versus retry-after/poll calculation exists.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2758,7 +3006,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "observed_finish_derives_terminal_closeout_from_github_pr_and_issue_readbacks"
+        "criterion_specific_basis": "Finish requires exact authenticated PR/issue readback and binds terminal receipt to that PR; it does not create a second PR.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2778,7 +3028,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "post_cutover_cleanup_removes_exact_clean_registered_terminal_worktree"
+        "criterion_specific_basis": "Operational cleanup requires committed terminal state and matching retained receipt; remote merge by itself is rejected.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2797,7 +3049,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "publication_modes_require_exact_relation"
+        "criterion_specific_basis": "PartOf merged publication returns checkpoint completion and leaves parent open without granting terminal cleanup authority.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2814,10 +3068,14 @@
         "csdlc-v3/src/publication/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-checkpoint-state",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "LifecycleState enum has no checkpoint_completed state and checkpoint finish does not demonstrate required atomic reset to Implemented with prior authorization invalidation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2834,10 +3092,14 @@
         "csdlc-v3/src/publication/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-checkpoint-state",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Single checkpoint tests exist, but multi-checkpoint then independently reviewed Closing end-to-end state journey is not implemented/proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2854,10 +3116,14 @@
         "csdlc-v3/src/publication/mod.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-checkpoint-state",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No separately authorized external-parent-close disposition state transition is demonstrated for a PartOf checkpoint.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2877,7 +3143,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "post_cutover_cleanup_removes_exact_clean_registered_terminal_worktree"
+        "criterion_specific_basis": "Cleanup is an independent command and defaults to preview; removal requires explicit execute and durable terminal proof.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2894,10 +3162,14 @@
         "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "cleanup_denies_existing_relative_candidate_before_canonicalization"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-cleanup-relative-input-rejection",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "prepare_cleanup canonicalizes an existing candidate_path before identity comparison and has no initial absolute-path rejection. Thus an existing relative input can become an accepted absolute candidate. publication::canonical_path has a guard, but it does not prove this terminal command boundary.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2917,7 +3189,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "post_cutover_cleanup_removes_exact_clean_registered_terminal_worktree"
+        "criterion_specific_basis": "Cleanup outcomes distinguish preview/removed/already-removed/dirty/mismatch and require actual registered root and matching head.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2937,7 +3211,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "post_cutover_cleanup_removes_exact_clean_registered_terminal_worktree"
+        "criterion_specific_basis": "Cleanup targets exact registered worktree only; candidate path mismatch rejects other worktrees and their caches.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2953,10 +3229,14 @@
         "docs/csdlc-v3/full-replacement-denominator.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "legacy_proof_requests_cannot_retain_primary_checkout_mutation_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-parity",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Shadow proof compares normalized doctor/readiness outputs, but full original cards/recovery/both-linkage/multi-checkpoint parity denominator is not proven.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -2976,7 +3256,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "approved_cutover_atomically_installs_selector_and_rollback_receipt"
+        "criterion_specific_basis": "native-authority-receipt.json binds typed exact-head review and operator approval by merged PR591/closed issue505; local Git contains the recorded merge object.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -2993,10 +3275,14 @@
         "docs/csdlc-v3/authority-transition-disposition.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-retirement",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Post-cutover CONTRACT restricts v2 to explicit rollback/transition remediation; an actual time-bounded read-only-only policy differs from that and needs explicit reconciliation.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3016,7 +3302,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift"
+        "criterion_specific_basis": "Read-only importer checks unsupported fields and rejects mutation-ready import of incompatible records.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -3033,10 +3321,14 @@
         "csdlc-v3/tests/real_issue_canary.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "foundation_and_local_commands_accept_real_issue_596_with_native_v3_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-canary",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Retained issue604/629 canaries prove local readiness and terminal preview; complete approved end-to-end cohort with every original stage is not shown.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3053,10 +3345,14 @@
         "csdlc-v3/tests/real_issue_canary.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "foundation_and_local_commands_accept_real_issue_596_with_native_v3_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-canary",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No six-card authoring/post-review-correction plus #73 STP recovery canary cohort with next-operation proof is mapped.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3072,10 +3368,14 @@
         "docs/csdlc-v3/full-replacement-denominator.json"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "legacy_proof_requests_cannot_retain_primary_checkout_mutation_authority"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-parity",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "No exhaustive retained-v2-defect to passing-v3-regression or reviewed nonparity register is demonstrated.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. NOT ACCEPTED FOR HISTORICAL CANDIDATE: one or more evidence blobs differ from source_candidate. New candidate admission required.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3091,10 +3391,14 @@
         "csdlc-v3/src/commands/proof.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "legacy_primary_state_is_preserved_without_any_route_writes"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-migration-fence",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Cutover archives selector/receipts, but per-issue exact v2 snapshot plus writer fence and absent canonical v2 index is not demonstrated for every migrated issue.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3110,10 +3414,14 @@
         "csdlc-v3/src/commands/proof.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "legacy_primary_state_is_preserved_without_any_route_writes"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-migration-fence",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Generation selector guards current tools, but every per-issue reintroduced-index/post-fence writer regression is not mapped.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3129,10 +3437,14 @@
         "csdlc-v3/src/commands/proof.rs"
       ],
       "resolution": {
-        "type": "candidate_bound_execution",
-        "behavioral_pass_claim": true,
-        "command_id": "csdlc-v3-all-tests",
-        "required_test": "legacy_primary_state_is_preserved_without_any_route_writes"
+        "type": "governed_amendment_proposal",
+        "amendment": "unproven-migration-fence",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Operational selector prevents ordinary dual authority, but retained v2 transition tooling plus per-issue fence denominator is not proven exhaustively.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "operator_review_target": "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+        "preexisting_cutover_context": "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
       }
     },
     {
@@ -3152,7 +3464,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "approved_cutover_atomically_installs_selector_and_rollback_receipt"
+        "criterion_specific_basis": "Native authority receipt binds reviewed PR head and merge commit before operational selector authority; retained historical proof is not deleted.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     },
     {
@@ -3172,7 +3486,9 @@
         "type": "candidate_bound_execution",
         "behavioral_pass_claim": true,
         "command_id": "csdlc-v3-all-tests",
-        "required_test": "authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback"
+        "criterion_specific_basis": "Historical construction/Gate/transition artifacts remain tracked and readable; native authority receipt links preserved terminal provenance.",
+        "source_proof_boundary": "Static source inspection only; referenced test files are check definitions, not evidence of execution. Runtime, platform, timing and end-to-end claims require separately retained executed proof. No referenced artifact differs from the historical candidate.",
+        "execution_join": "Complete C-SDLC v3 suite executed at the exact #520 candidate; candidate evidence paths are byte-bound below."
       }
     }
   ]

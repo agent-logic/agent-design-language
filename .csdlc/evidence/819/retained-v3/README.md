@@ -3,23 +3,27 @@
 This packet consumes the exact 152-row `retained-v3.json` bucket declared by
 the #764 denominator for finding `D520-RET-001`.
 
-- 114 rows are backed by a named test observed passing in the retained
-  candidate-bound C-SDLC v3 execution log. Each row also records exact Git blob
-  and SHA-256 identities for its candidate source artifacts.
-- 38 rows describe architecture that the operator-reviewed V3-F cutover did
-  not retain. They are explicit governed amendments with
-  `behavioral_pass_claim: false`; they are not represented as implementation
-  passes.
-- Zero rows remain unresolved.
+- 51 rows had criterion-specific source-supported assessments whose only
+  recorded gap was missing execution. They are joined to the complete retained
+  candidate-bound C-SDLC v3 execution and exact Git blob/SHA-256 identities for
+  every cited source artifact.
+- 101 rows were assessed `non_proving`. They remain criterion-specific governed
+  amendment or removal proposals with `behavioral_pass_claim: false` and
+  `approval_state: pending_operator_review`. PR #591 is context for the current
+  architecture, not fabricated criterion-specific approval.
+- Zero rows are missing or unclassified, but the packet is deliberately
+  `release_ready: false` while those 101 proposals await operator review.
 
 `reconciliation.json` is the primary proof surface. The validator checks the
-exact denominator, unique row consumption, command and log digests, observed
-test names, exact candidate bytes, amendment non-pass semantics, and the
-operator-reviewed cutover authority. The ten-case negative matrix proves that
-denominator, command, candidate, proof-surface, resolution, artifact, and
-amendment-integrity violations are rejected.
+exact denominator, unique row consumption, command and log digests, the
+complete test-execution denominator, exact candidate bytes, source-assessment
+boundaries, amendment non-pass semantics, and pending approval state. The
+thirteen-case negative matrix proves that
+denominator, command, candidate, proof-surface, resolution, artifact,
+amendment-integrity, and premature-release violations are rejected.
 
-The packet proves retained-proof reconciliation at candidate
+The packet records retained-proof reconciliation work at candidate
 `fb6cbc7f619daa54f901fd2d12f480add682ace3`. It does not claim that superseded
-implementation shapes were silently restored, and it does not cover the other
-retained-proof buckets owned by sibling issues under #522.
+implementation shapes were restored or that amendment proposals are approved.
+It does not cover the other retained-proof buckets owned by sibling issues
+under #522.

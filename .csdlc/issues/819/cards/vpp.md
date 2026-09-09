@@ -18,7 +18,7 @@ lane_registry_template_set: "1.0.5"
 validation_runtime_class: "medium"
 validation_resource_profile: "local CPU and filesystem; no cloud"
 validation_family: "retained_proof_reconciliation"
-validation_size_split: "152 rows: 114 candidate-bound execution receipts and 38 explicit governed non-pass amendments"
+validation_size_split: "152 rows: 51 source-supported rows joined to candidate execution and 101 criterion-specific governed proposals pending operator review"
 expected_proof_cost: "Approximately 45 seconds of local CPU proof plus deterministic reconciliation validation; no cloud resources."
 planned_validation_seconds: "60"
 planned_validation_tokens: "4000"
@@ -41,7 +41,7 @@ parallel_groups:
 validation_commands:
   - "ruby .csdlc/prepared/issues/819/build-retained-v3-plan.rb; ruby .csdlc/prepared/issues/819/run-retained-v3-proof.rb; ruby .csdlc/prepared/issues/819/validate-retained-v3-proof.rb; ruby .csdlc/prepared/issues/819/test-retained-v3-proof.rb; git diff --check"
 failure_policy: "Any missing, duplicate, stale, non-executed, or synthetic row blocks publication."
-notes: "Passing commands alone are insufficient: every execution row must name an observed passing test, candidate artifacts must match exact Git bytes, and all governed amendments must retain behavioral_pass_claim=false."
+notes: "Passing commands cannot promote a non-proving source assessment. Candidate artifacts must match exact Git bytes; every proposal must retain behavioral_pass_claim=false, pending_operator_review, and release_ready=false."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -69,7 +69,7 @@ Use exact-denominator checks plus real replayed C-SDLC v3 proof-family commands 
 - Validation runtime class: `medium`
 - Validation resource profile: `local CPU and filesystem; no cloud`
 - Validation family: `retained_proof_reconciliation`
-- Validation size split: `152 rows: 114 candidate-bound execution receipts and 38 explicit governed non-pass amendments`
+- Validation size split: `152 rows: 51 source-supported rows joined to candidate execution and 101 criterion-specific governed proposals pending operator review`
 
 ## Goal Accounting Hooks
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-Passing commands alone are insufficient: every execution row must name an observed passing test, candidate artifacts must match exact Git bytes, and all governed amendments must retain behavioral_pass_claim=false.
+Passing commands cannot promote a non-proving source assessment. Candidate artifacts must match exact Git bytes; every proposal must retain behavioral_pass_claim=false, pending_operator_review, and release_ready=false.

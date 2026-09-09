@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 819,
   "phase": "bound",
-  "generation": 6,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/819-csdlc-v3-retained-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-819-csdlc-v3-retained-proof",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "c00521531cb05e7c78fa875c13f96248d487989039d95aae5e1dc0be0687d801"
+  "digest": "44f7cd03019008e6401f644607a35c538b1700bfa1427459171466a383df006e"
 }

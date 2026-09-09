@@ -12,7 +12,7 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-819-csdlc-v3-retained-proof",
   "goal": "Close exactly the 152 C-SDLC v3 retained-proof gaps with current candidate-bound execution proof or explicit governed disposition.",
   "summary": "Consume the exact retained-v3.json bucket from the #764 denominator once, produce real proof for each retained criterion, and reconcile the bucket to zero unresolved rows.",
-  "required_outcome": "Exactly 152 retained-v3 rows are reconciled with candidate-bound execution or explicit governed non-pass amendment, leaving zero unresolved rows.",
+  "required_outcome": "Exactly 152 retained-v3 rows are classified truthfully: source-supported rows join candidate execution, non-proving rows receive criterion-specific proposals, and release remains blocked pending operator review.",
   "required_outcome_type": "quality",
   "target_files_surfaces": "C-SDLC v3 proof producers named by the 152-row retained-v3 denominator and narrow issue-819 reconciliation/proof artifacts.",
   "repo_inputs": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json and the exact proof producers named by its 152 retained-v3 rows.",

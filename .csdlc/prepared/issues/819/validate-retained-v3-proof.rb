@@ -42,7 +42,9 @@ assert(expected_ids.length == 152, "denominator must contain exactly 152 rows")
 assert(plan_ids.length == plan_ids.uniq.length && plan_ids.sort == expected_ids, "plan must consume every denominator row exactly once")
 assert(receipt_ids.length == receipt_ids.uniq.length && receipt_ids.sort == expected_ids, "receipt must consume every denominator row exactly once")
 assert(receipt.fetch("row_count") == 152, "receipt row count drift")
-assert(receipt.fetch("unresolved") == 0, "receipt has unresolved rows")
+assert(receipt.fetch("unclassified") == 0, "receipt has unclassified rows")
+assert(receipt.fetch("operator_approval_pending") == 101, "operator-review denominator drift")
+assert(receipt.fetch("release_ready") == false, "receipt may not claim release readiness before operator approval")
 assert(receipt.fetch("candidate").match?(/\A[0-9a-f]{40}\z/), "candidate is not an exact SHA")
 assert(receipt.fetch("candidate") == EXPECTED_CANDIDATE, "receipt is not bound to the #520 candidate")
 assert(git("cat-file", "-t", receipt.fetch("candidate")) == "commit", "candidate commit unavailable")
@@ -89,24 +91,31 @@ end.sort.join("\n")
 assert(Digest::SHA256.hexdigest(surface_tree) == receipt.fetch("candidate_surface_tree_sha256"), "candidate proof-surface digest drift")
 
 test_log = File.read(".csdlc/evidence/819/retained-v3/csdlc-v3-all-tests.log")
+assert(test_log.scan(/^test .* \.\.\. ok$/).length == 211, "complete C-SDLC v3 execution denominator drift")
+assert(!test_log.match?(/^test result: FAILED/), "C-SDLC v3 execution contains a failed test binary")
 receipt.fetch("rows").each do |row|
   resolution = row.fetch("resolution")
   assert(Digest::SHA256.hexdigest(row.fetch("criterion_text")) == row.fetch("criterion_text_digest"), "criterion digest drift for #{row.fetch('row_id')}")
   case resolution.fetch("type")
   when "candidate_bound_execution"
     assert(resolution.fetch("status") == "passed", "execution row is not passed")
-    test = resolution.fetch("required_test")
-    assert(test_log.match?(/^test .*#{Regexp.escape(test)} \.\.\. ok$/), "test did not execute for #{row.fetch('row_id')}")
-  when "governed_amendment"
-    assert(resolution.fetch("status") == "accepted_by_operator_reviewed_cutover", "amendment lacks accepted cutover basis")
+    assert(row.fetch("source_assessment") == "proven", "only source-supported rows may join candidate execution")
+    assert(!resolution.fetch("criterion_specific_basis").strip.empty?, "execution row lacks criterion-specific basis")
+    assert(resolution.fetch("execution_join").include?("exact #520 candidate"), "execution row lacks candidate join")
+  when "governed_amendment_proposal"
+    assert(resolution.fetch("status") == "pending_operator_review", "amendment proposal must remain operator-review pending")
     assert(resolution.fetch("behavioral_pass_claim") == false, "amendment may not claim behavioral pass")
-    authority = resolution.fetch("authority")
-    assert(authority.fetch("operator_decision").include?("PR #591"), "amendment lacks operator decision")
-    %w[current_contract contract_detail].each { |key| assert(File.file?(authority.fetch(key)), "missing amendment authority #{key}") }
+    assert(row.fetch("source_assessment") == "non_proving", "only non-proving rows may enter amendment review")
+    assert(!resolution.fetch("criterion_specific_basis").strip.empty?, "amendment lacks criterion-specific basis")
+    assert(resolution.fetch("operator_review_target").include?("issue #819"), "amendment lacks explicit operator-review target")
+    assert(resolution.fetch("preexisting_cutover_context").include?("not treated as criterion-specific approval"), "amendment fabricates prior approval")
   else
     raise "unknown resolution type"
   end
-  row.fetch("candidate_evidence").each do |entry|
+  evidence = row.fetch("candidate_evidence")
+  assert(!evidence.empty?, "candidate evidence is empty for #{row.fetch('row_id')}")
+  assert(evidence.map { |entry| entry.fetch("path") }.sort == row.fetch("source_evidence_paths"), "candidate evidence path drift for #{row.fetch('row_id')}")
+  evidence.each do |entry|
     assert(entry.fetch("status") == "present", "missing candidate evidence #{entry.fetch('path')}")
     candidate_bytes = git_bytes("show", "#{receipt.fetch('candidate')}:#{entry.fetch('path')}")
     assert(Digest::SHA256.hexdigest(candidate_bytes) == entry.fetch("sha256"), "candidate evidence digest drift")
@@ -115,8 +124,9 @@ receipt.fetch("rows").each do |row|
 end
 
 execution = receipt.fetch("rows").count { |row| row.dig("resolution", "type") == "candidate_bound_execution" }
-amendments = receipt.fetch("rows").count { |row| row.dig("resolution", "type") == "governed_amendment" }
+amendments = receipt.fetch("rows").count { |row| row.dig("resolution", "type") == "governed_amendment_proposal" }
 assert(execution == receipt.fetch("execution_passed"), "execution count drift")
-assert(amendments == receipt.fetch("governed_amendments"), "amendment count drift")
+assert(amendments == receipt.fetch("governed_amendment_proposals"), "amendment count drift")
 assert(execution + amendments == 152, "resolution partition drift")
-puts "PASS issue #819 retained-v3: 152/152 unique, #{execution} executed, #{amendments} governed amendments, 0 unresolved"
+assert(execution == 51 && amendments == 101, "source-assessment partition drift")
+puts "PASS issue #819 retained-v3 packet: 152/152 unique, #{execution} candidate-executed, #{amendments} criterion-specific amendments pending operator review, 0 unclassified, release_ready=false"

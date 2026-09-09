@@ -94,7 +94,7 @@ Close exactly the 152 C-SDLC v3 retained-proof gaps with current candidate-bound
 
 ## Required Outcome
 
-Exactly 152 retained-v3 rows are reconciled with candidate-bound execution or explicit governed non-pass amendment, leaving zero unresolved rows.
+Exactly 152 retained-v3 rows are classified truthfully: source-supported rows join candidate execution, non-proving rows receive criterion-specific proposals, and release remains blocked pending operator review.
 
 ## Acceptance Criteria
 

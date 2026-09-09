@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/819/cards/sip.md"
   - ".csdlc/issues/819/cards/vpp.md"
 review_results:
-  findings_status: "pending_review"
-  recommended_outcome: "pending"
-notes: "Reviewer must sample and replay proof families and verify all 152 rows are consumed exactly once."
+  findings_status: "findings_present"
+  recommended_outcome: "block"
+notes: "First findings-first review: /root/fix_814_runtime at exact clean b91f486e019640be63400dd17da5dff31f926a1d. Safe validator replays passed but were correctly classified as insufficient against the semantic and authority defects. Current repaired head must receive a fresh independent verdict."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Review not yet performed.
+- At b91f486e019640be63400dd17da5dff31f926a1d, independent reviewer /root/fix_814_runtime found: P1 broad root-cause test mappings promoted non-proving criteria; P1 generic PR #591 language fabricated criterion-specific amendment approval; P2 empty candidate_evidence passed vacuously; P3 the retained test log had a trailing blank line.
 
 ### Dispositions
 
-- Pending implementation and exact-head review.
+- All four findings were repaired: execution credit is limited to 51 previously source-supported rows joined to complete candidate execution; 101 non-proving rows are criterion-specific proposals pending operator review with release_ready=false; candidate evidence must be nonempty and exactly match declared source paths; log output is normalized to one trailing newline. Fresh exact-head rereview remains required.
 
 ### Recommended Outcome
 
-- pending
+- block
 
 ## Notes
 
-Reviewer must sample and replay proof families and verify all 152 rows are consumed exactly once.
+First findings-first review: /root/fix_814_runtime at exact clean b91f486e019640be63400dd17da5dff31f926a1d. Safe validator replays passed but were correctly classified as insufficient against the semantic and authority defects. Current repaired head must receive a fresh independent verdict.

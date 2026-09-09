@@ -43,7 +43,7 @@ Close exactly the 152 C-SDLC v3 retained-proof gaps with current candidate-bound
 
 ## Required Outcome
 
-Strict positive and negative retained-proof reconciliation for exactly 152 candidate-bound C-SDLC v3 rows.
+Strict positive and negative reconciliation for 152 C-SDLC v3 rows without synthetic behavioral passes or fabricated operator approval.
 
 ## Deliverables
 

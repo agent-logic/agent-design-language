@@ -27,6 +27,7 @@ def execute(id, argv, env = {})
   started = Time.now.utc
   stdout, status = Open3.capture2e(env, *argv)
   finished = Time.now.utc
+  output = stdout.sub(/\n+\z/, "\n")
   {
     "id" => id,
     "argv" => argv,
@@ -34,8 +35,8 @@ def execute(id, argv, env = {})
     "finished_at" => finished.iso8601(6),
     "exit_code" => status.exitstatus,
     "status" => status.success? ? "passed" : "failed",
-    "output_sha256" => Digest::SHA256.hexdigest(stdout),
-    "output" => stdout
+    "output_sha256" => Digest::SHA256.hexdigest(output),
+    "output" => output
   }
 end
 
@@ -68,12 +69,10 @@ test_log = File.read(File.join(OUT, "csdlc-v3-all-tests.log"))
 rows = plan.fetch("rows").map do |row|
   resolution = row.fetch("resolution").dup
   if resolution.fetch("type") == "candidate_bound_execution"
-    test = resolution.fetch("required_test")
-    raise "required test did not execute: #{test}" unless test_log.match?(/^test .*#{Regexp.escape(test)} \.\.\. ok$/)
     resolution["status"] = "passed"
     resolution["candidate"] = candidate
   else
-    resolution["status"] = "accepted_by_operator_reviewed_cutover"
+    resolution["status"] = "pending_operator_review"
     resolution["candidate"] = candidate
   end
   evidence = row.fetch("source_evidence_paths").map do |path|
@@ -105,9 +104,11 @@ receipt = {
   "commands" => commands,
   "row_count" => rows.length,
   "execution_passed" => rows.count { |row| row.dig("resolution", "type") == "candidate_bound_execution" && row.dig("resolution", "status") == "passed" },
-  "governed_amendments" => rows.count { |row| row.dig("resolution", "type") == "governed_amendment" },
-  "unresolved" => rows.count { |row| !%w[passed accepted_by_operator_reviewed_cutover].include?(row.dig("resolution", "status")) },
+  "governed_amendment_proposals" => rows.count { |row| row.dig("resolution", "type") == "governed_amendment_proposal" },
+  "operator_approval_pending" => rows.count { |row| row.dig("resolution", "status") == "pending_operator_review" },
+  "unclassified" => rows.count { |row| !%w[passed pending_operator_review].include?(row.dig("resolution", "status")) },
+  "release_ready" => false,
   "rows" => rows
 }
 File.write(File.join(OUT, "reconciliation.json"), JSON.pretty_generate(receipt) + "\n")
-puts "candidate=#{candidate} rows=#{receipt['row_count']} execution=#{receipt['execution_passed']} amendments=#{receipt['governed_amendments']} unresolved=#{receipt['unresolved']}"
+puts "candidate=#{candidate} rows=#{receipt['row_count']} execution=#{receipt['execution_passed']} amendment_proposals=#{receipt['governed_amendment_proposals']} approval_pending=#{receipt['operator_approval_pending']} unclassified=#{receipt['unclassified']} release_ready=#{receipt['release_ready']}"
