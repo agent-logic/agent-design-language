@@ -1075,6 +1075,32 @@ fn issue_create_mutation_posts_and_reconciles_assigned_issue_number() {
     assert_eq!(process.invocations[1].argv()[2], operation_digest);
 }
 
+// PVF: deterministic local CPU/Git contract; fake transport; no live mutation.
+#[test]
+fn invalid_pr_branch_is_rejected_before_intent_or_dispatch() {
+    let root = mutation_repo("pr-invalid-branch", true);
+    let head = mutation_head(&root);
+    for branch in ["a..b", "codex/a?b", "codex/a;echo", "codex/a b"] {
+        let request = mutation_request(
+            &head,
+            super::GithubMutation::PullRequestCreate {
+                base: "main".into(),
+                head: branch.into(),
+                title: "Issue 505".into(),
+                body: "Closes #505".into(),
+                draft: false,
+            },
+        );
+        let digest = super::github_mutation_operation_digest(&request);
+        let intent = super::github_mutation_intent_path(&root, &digest).unwrap();
+        let mut process = SequencedProcessAdapter::new(vec![]);
+        let error = super::execute_github_mutation(&root, &request, &mut process).unwrap_err();
+        assert_eq!(error.code, "github_pr_create_invalid");
+        assert!(!intent.exists());
+        assert!(process.invocations.is_empty());
+    }
+}
+
 #[test]
 fn restart_reconciles_pr_create_without_replaying_mutation() {
     let root = mutation_repo("pr-create", true);
@@ -1083,7 +1109,7 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         &head,
         super::GithubMutation::PullRequestCreate {
             base: "main".into(),
-            head: "codex/505".into(),
+            head: "codex/fix+retry".into(),
             title: "Issue 505".into(),
             body: "Closes #505".into(),
             draft: false,
@@ -1118,7 +1144,7 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         crate::adapters::ProcessStatus::Exit(0),
         serde_json::json!([{
             "number": 591,
-            "head": {"sha": head, "ref": "codex/505"},
+            "head": {"sha": head, "ref": "codex/fix+retry"},
             "base": {"ref": "main"},
             "title": "Issue 505",
             "body": format!("Closes #505\n\n{marker}"),
@@ -1133,6 +1159,8 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         super::GITHUB_READ_ONLY_ADAPTER
     );
     assert_eq!(result.receipt.pull_request, Some(591));
+    assert_eq!(result.receipt.issue, 505);
+    assert_eq!(result.reconciliation.issue, 505);
     assert!(result.receipt.idempotent_replay);
     assert_eq!(result.receipt.response_digest, None);
 }
@@ -1183,7 +1211,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": true
             })
         ),
-        Ok((591, Some(591), Some(591)))
+        Ok((505, Some(591), Some(591)))
     );
 
     update.mutation = super::GithubMutation::PullRequestReady;
@@ -1199,7 +1227,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": false
             })
         ),
-        Ok((591, Some(591), Some(591)))
+        Ok((505, Some(591), Some(591)))
     );
 }
 

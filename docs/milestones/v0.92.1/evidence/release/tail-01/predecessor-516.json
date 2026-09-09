@@ -1,0 +1,29 @@
+{
+  "schema": "adl.v0921.quality_gate_predecessor.v1",
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-08T19:48:15Z",
+  "issue": {
+    "number": 516,
+    "state": "closed",
+    "closed_at": "2026-09-08T19:26:49Z"
+  },
+  "pull_request": {
+    "number": 737,
+    "state": "merged",
+    "base_sha": "bf159eb416950dfa3399933829726a7b7e71f897",
+    "head_sha": "ba92be3834b8380d39ce35343a316c2d50b597f8",
+    "merge_sha": "bf617859982f8b9613737344400626eb90768930",
+    "merged_at": "2026-09-08T19:26:48Z",
+    "required_checks": {
+      "adl-path-policy": "success",
+      "adl-ci": "success",
+      "adl-coverage": "success"
+    }
+  },
+  "review": {
+    "result": "pass",
+    "reviewed_head": "ba92be3834b8380d39ce35343a316c2d50b597f8",
+    "findings": [],
+    "source": "independent exact-head review reported by the issue 516 owner task"
+  }
+}
