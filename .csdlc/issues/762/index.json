@@ -3,87 +3,14 @@
   "issue": 762,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d0ba68bfaa79ffd888628e5eb20a4d0796c9b8145bd49d79401650a4be62b327",
-  "phase": "published",
-  "generation": 14,
-  "digest": "42073a4ecf0c3b9d26ecae325eaeac2c63ad754114130062543e51487bd4beee",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "82cfa874a0132eafbac744e9ce6fb58a0a85d29a54f72181183c8dfa1c4025cf",
   "branch": "codex/762-proof-worktree-binding",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-762-proof-worktree-binding",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_762_fixed",
-    "assigned_by": "Planning #7",
-    "revision": "git-blake3:e4898e517eedae4abdf4172e4c555331d4e39b7b:aa5354d7fdc899c8a92d1ca392c0a55197ecd6cc4123a184bacb8efb9a299f02",
-    "scope": [
-      ".csdlc/evidence/762/clippy.log",
-      ".csdlc/evidence/762/csdlc-owner.log",
-      ".csdlc/evidence/762/proof-worktree.log",
-      ".csdlc/evidence/762/repair/clippy.log",
-      ".csdlc/evidence/762/repair/csdlc-owner.log",
-      ".csdlc/evidence/762/repair/proof-worktree.log",
-      ".csdlc/evidence/762/review-remediation.md",
-      ".csdlc/prepared/issues/762/design.md",
-      ".csdlc/prepared/issues/762/diagram.mmd",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/operational_cli_commands.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/proof_worktree_binding.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:/root/review_762_fixed",
-    "scope": [
-      ".csdlc/evidence/762/clippy.log",
-      ".csdlc/evidence/762/csdlc-owner.log",
-      ".csdlc/evidence/762/proof-worktree.log",
-      ".csdlc/evidence/762/repair/clippy.log",
-      ".csdlc/evidence/762/repair/csdlc-owner.log",
-      ".csdlc/evidence/762/repair/proof-worktree.log",
-      ".csdlc/evidence/762/review-remediation.md",
-      ".csdlc/prepared/issues/762/design.md",
-      ".csdlc/prepared/issues/762/diagram.mmd",
-      "csdlc-v3/src/commands/proof.rs",
-      "csdlc-v3/src/main.rs",
-      "csdlc-v3/tests/command_manifest.rs",
-      "csdlc-v3/tests/operational_cli_commands.rs",
-      "csdlc-v3/tests/proof_parity_install_commands.rs",
-      "csdlc-v3/tests/proof_worktree_binding.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md"
-    ],
-    "reviewed_revision": "git-blake3:e4898e517eedae4abdf4172e4c555331d4e39b7b:aa5354d7fdc899c8a92d1ca392c0a55197ecd6cc4123a184bacb8efb9a299f02",
-    "findings": [
-      {
-        "id": "R762-001",
-        "severity": "p1",
-        "summary": "Exact install receipt and binary endpoints are now preflighted as regular-or-absent before replacement; symlink/directory denial tests preserve existing binary and mutation surfaces.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:e4898e517eedae4abdf4172e4c555331d4e39b7b:aa5354d7fdc899c8a92d1ca392c0a55197ecd6cc4123a184bacb8efb9a299f02",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Native binder/editor repair and OS sandboxing arbitrary proof executables remain separate scope."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 762,
-    "pull_request": 783,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/783",
-    "base": "main",
-    "head": "codex/762-proof-worktree-binding",
-    "revision": "git-blake3:6a4b9d7879de7d114357b6710d52f1eeb433664f:530c8c130a9b436b4c0b948a90508ae9708571b548fa30685f6056bfb3335791",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -97,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73c355d782eae02a190c221ce7c1fe9fe33353b269d6bec385f20365c4582062",
+      "values_digest": "f5b1e01cc9feb80d8c117f4e5a8f3445b4897092fd6a32468b466a7b882d21f5",
       "rendered_digest": "0d72f75be2e3323521df9098a4c53c6a20516b2276e42f39bbcd153ab2ad18cb",
       "ast_digest": "0c90348c6b0ffd900293e06d5d13f6eabf85413287fed55b9354104bb15ab57a"
     },
     "stp": {
-      "values_digest": "58f74af30c158dc1ea8933423d440ad1f695a94f7ef65dba80e7072c98c8a68e",
+      "values_digest": "b1f0913c72bc071b805a534bfe5e0dced65dee57ef073c001dd461ae5812072d",
       "rendered_digest": "f2724665064f2bb99c6e513857a45eec1af4fc6932cdcd62a5f06cfd0ea38f6f",
       "ast_digest": "96e480081aba9a017f89fbdf0572f07c0d4284c3e0c41dbe291867f7836f8151"
     },
     "spp": {
-      "values_digest": "733b355c319f19f9a317bbdf66e20973af5ad6147ce124e132162445c02aa028",
+      "values_digest": "f8594a46e5ffd98551d457848951a73eedd81fc3f1ede2dcb4d5967a00f2ece1",
       "rendered_digest": "8cf0e8f1acba41058ac2055e2aca1ea5bff5e66034be0395d5443f5d11bd7062",
       "ast_digest": "567d597e1e202fbee326a5e8f0a1c04f1571921dfcb83f2da517552ba120e516"
     },
     "vpp": {
-      "values_digest": "8c0e3174d270ebaf4a728a9c55906a8e8848d02b2fa31bdc798d3672c8cd3cdd",
+      "values_digest": "3ec5ddb5ede8fa73b08cf475b8a1224c770591ebdd7cc6f48f26c53969bc0cd0",
       "rendered_digest": "0e7ae6e3bb744565e3b15d991dc75cbb7c6be29611e73be5199be6d7833adc17",
       "ast_digest": "2abdf254ff65c5b6972eddcf84f9787ffffe26daa49379fa213b14a9cd75711f"
     },
     "srp": {
-      "values_digest": "ede94e075d9d8fb704da753c1b4e1a76958af09747caa77547c4f724c34ef7c4",
-      "rendered_digest": "94e642dc8720e107e1efd76bb4ae34c0d7413bb378834d4207c4243eba13a85e",
-      "ast_digest": "e369b282c2be4f41414947787419997716eeaee14b65a6bce280e34c893bbed7"
+      "values_digest": "dbbdc7a6298172fb231b76e1b324630851c2731ff0481ffb0c802d77c58d27f4",
+      "rendered_digest": "aa2fca3bc9c8c7b4456144a700a67d376513a36a3256e150e79d7152eb8edc87",
+      "ast_digest": "30d72956bbee6c170b6953f3a5945121c09952818e43d5f1a50f5ce1f650d521"
     },
     "sor": {
-      "values_digest": "d4f9599b92c63c4014097b624fd462f0f3fec139b3f7221890df7759fb244462",
-      "rendered_digest": "83d5112fc2bf2f06ed5b8e547bf86e55b1c556d1d2332fa333e9d7b040c4bedd",
-      "ast_digest": "86b111bdd640940fcd6c941f7b65e817b22937b4fedae5be943ff5453d45ed56"
+      "values_digest": "63b1dab17dc108ab0f432e40e783219c8fc1e3fa6b4f83a4185b0223c980cb30",
+      "rendered_digest": "d57d25d2b8ec73f5365934c9b590d4c310ea29178c2bbb2fb38c8e715f6a1c33",
+      "ast_digest": "c14de6eeed69349c954bdba4f7ab2739e3b09daf0459e53615b7e543739d68f0"
     }
   },
   "transitions": [
@@ -162,6 +89,13 @@
       "to": "published",
       "actor": "Planning #7",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "Planning #7",
+      "reason": "Refresh PR #783 against merged current authority and native binder/intent repairs; resolve bounded help and dispatch conflicts and repeat exact-head review."
     }
   ],
   "audit": [
@@ -290,6 +224,13 @@
       "actor": "Planning #7",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "Planning #7",
+      "reason": "Refresh PR #783 against merged current authority and native binder/intent repairs; resolve bounded help and dispatch conflicts and repeat exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

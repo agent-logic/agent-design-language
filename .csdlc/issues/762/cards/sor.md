@@ -79,11 +79,11 @@ Issue 762 implements native proof/install ownership guards and disables historic
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
