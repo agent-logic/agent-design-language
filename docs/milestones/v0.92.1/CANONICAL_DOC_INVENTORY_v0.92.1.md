@@ -42,7 +42,7 @@ obligation, not a claim that a gate has passed.
 |---|---|
 | Root and component README files; all AGENTS guidance | Reconcile current entry points and operational authority; preserve explicitly historical guidance as historical |
 | CHANGELOG.md, REVIEW.md, docs/README.md, CONTRIBUTING.md, adl/CONTRIBUTING.md | Separate released behavior, current work, and deferred scope |
-| adl/Cargo.toml, adl/kernel/Cargo.toml, csdlc-v3/Cargo.toml | Verify package identity and version intent; do not equate every package version with the milestone number |
+| adl/Cargo.toml, adl-runtime-kernel/Cargo.toml, csdlc-v3/Cargo.toml | Verify package identity and version intent; do not equate every package version with the milestone number |
 | docs/planning/ADL_FEATURE_LIST.md | Map delivered, deferred, and unproven claims to source evidence |
 | Coverage/test, Rust module, and active gap/risk trackers | Identify the current tracker or record its absence explicitly; require current quality evidence from TAIL-01 |
 | Integration gap analysis and admission evidence | Distinguish a completed diagnostic from a passing admission decision |
