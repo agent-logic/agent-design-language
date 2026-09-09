@@ -83,7 +83,6 @@ remaining code work retains its separate issue ownership.
 - Historical source-head proof: `ruby .csdlc/prepared/issues/518/validate-documentation-handoff.rb --historical`
 - Current-candidate linkage proof: `ruby .csdlc/prepared/issues/518/validate-documentation-handoff.rb --candidate-linkage`
 - Tracked-growth regression: `ruby .csdlc/prepared/issues/768/test-tail02-tracked-growth.rb`
-- `python3 .csdlc/prepared/issues/518/audit-cargo-manifests.py --check`
 
 The historical command reads all 737 inventory objects from the immutable
 `bf617859982f8b9613737344400626eb90768930` source boundary. It does not compare
@@ -93,6 +92,10 @@ its ancestor, and verifies all 791 handoff documents plus the 14 TAIL-02 artifac
 hashes through the original source head recorded by TAIL-03. Later tracked files
 therefore cannot rewrite or invalidate the historical denominator. TAIL-03's
 recorded paths and hashes remain unchanged.
+
+The source-time Cargo audit and its snapshot remain immutable historical
+evidence. Its former `--check` command is not a current-candidate reproduction
+route and is intentionally not rerun or regenerated here.
 
 These local checks verify source-bound inventories/hashes, extracted relative links,
 snapshot parity and source-to-candidate ancestry. They do not prove every bare reference,
