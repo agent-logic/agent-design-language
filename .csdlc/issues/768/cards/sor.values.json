@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 768,
+  "issue_padded": "0768",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/768",
+  "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+  "branch": "codex/768-tail-02-candidate-safe-reproduction",
+  "version": "1.0.4",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-768-tail-02-candidate-safe-reproduction"
+}
