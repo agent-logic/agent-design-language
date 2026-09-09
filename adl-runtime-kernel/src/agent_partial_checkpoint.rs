@@ -226,6 +226,8 @@ pub struct AgentPartialCheckpointStore {
     commit_lock: Mutex<()>,
     archive_command: PathBuf,
     archive_command_timeout: Duration,
+    #[cfg(test)]
+    tombstone_failure: Mutex<Option<&'static str>>,
 }
 
 impl AgentPartialCheckpointStore {
@@ -261,6 +263,8 @@ impl AgentPartialCheckpointStore {
             commit_lock: Mutex::new(()),
             archive_command: PathBuf::from("aws"),
             archive_command_timeout: AWS_CLI_PROCESS_TIMEOUT,
+            #[cfg(test)]
+            tombstone_failure: Mutex::new(None),
         };
         store.rebuild_state()?;
         Ok(store)
@@ -290,6 +294,32 @@ impl AgentPartialCheckpointStore {
 
     pub fn archive_enabled(&self) -> bool {
         self.config.s3_archive.is_some()
+    }
+
+    #[cfg(test)]
+    pub fn inject_tombstone_failure(&self, boundary: &'static str) {
+        *self
+            .tombstone_failure
+            .lock()
+            .expect("tombstone failure state poisoned") = Some(boundary);
+    }
+
+    #[cfg(test)]
+    fn fail_tombstone_at(&self, boundary: &'static str) -> Result<(), AgentPartialError> {
+        let mut failure = self
+            .tombstone_failure
+            .lock()
+            .expect("tombstone failure state poisoned");
+        if failure.as_ref() == Some(&boundary) {
+            failure.take();
+            return Err(io::Error::other("injected tombstone interruption").into());
+        }
+        Ok(())
+    }
+
+    #[cfg(not(test))]
+    fn fail_tombstone_at(&self, _boundary: &'static str) -> Result<(), AgentPartialError> {
+        Ok(())
     }
 
     pub fn next_cadence_sequence(&self) -> u64 {
@@ -529,13 +559,25 @@ impl AgentPartialCheckpointStore {
         };
         tombstone.tombstone_digest = canonical_tombstone_digest(&tombstone)?;
         let bytes = serde_json::to_vec(&tombstone).map_err(|_| AgentPartialError::Encoding)?;
+        self.fail_tombstone_at("before_local_prune")?;
         self.prune_local_for(agent_id, true)?;
+        self.fail_tombstone_at("after_local_prune")?;
         self.prune_global_for_write(bytes.len() as u64)?;
         let agent_digest = digest_label(agent_id);
         let filename = format!("{:020}.tombstone.json", sequence);
-        persist_bytes_atomically(&self.local_root.join(&agent_digest).join(&filename), &bytes)?;
+        persist_bytes_atomically_with_hook(
+            &self.local_root.join(&agent_digest).join(&filename),
+            &bytes,
+            |boundary| {
+                self.fail_tombstone_at(boundary)
+                    .map_err(agent_partial_error_as_io)
+            },
+        )?;
+        self.fail_tombstone_at("after_local_commit")?;
         if self.config.s3_archive.is_some() {
+            self.fail_tombstone_at("before_archive_coalesce")?;
             let coalesced = self.coalesce_spool_for(&agent_digest)?;
+            self.fail_tombstone_at("after_archive_coalesce")?;
             if coalesced > 0 {
                 self.persist_archive_degraded(agent_id, true)?;
             }
@@ -550,9 +592,21 @@ impl AgentPartialCheckpointStore {
                 // removed agent resident or resurrect its earlier state.
                 self.persist_spool_saturated(agent_id)?;
             } else {
-                persist_bytes_atomically(
+                persist_bytes_atomically_with_hook(
                     &self.spool_root.join(agent_digest).join(filename),
                     &bytes,
+                    |boundary| {
+                        self.fail_tombstone_at(match boundary {
+                            "before_temp_open" => "archive_before_temp_open",
+                            "after_temp_open" => "archive_after_temp_open",
+                            "after_write" => "archive_after_write",
+                            "after_file_sync" => "archive_after_file_sync",
+                            "after_rename" => "archive_after_rename",
+                            "after_directory_sync" => "archive_after_directory_sync",
+                            _ => boundary,
+                        })
+                        .map_err(agent_partial_error_as_io)
+                    },
                 )?;
             }
         }
@@ -562,6 +616,52 @@ impl AgentPartialCheckpointStore {
             .projections
             .remove(agent_id);
         Ok(())
+    }
+
+    pub fn ensure_tombstone(
+        &self,
+        agent_id: &str,
+        parent_checkpoint_generation: u64,
+        parent_checkpoint_digest: String,
+    ) -> Result<(), AgentPartialError> {
+        if !self.enabled() {
+            return Ok(());
+        }
+        let latest = select_latest_stored_records(
+            json_files(&self.local_root)?,
+            &self.runtime_instance_id,
+            &self.polis_id,
+            parent_checkpoint_generation,
+            &parent_checkpoint_digest,
+        )?;
+        if matches!(latest.get(agent_id), Some(StoredRecord::Tombstone(_))) {
+            return Ok(());
+        }
+        self.write_tombstone(
+            agent_id,
+            parent_checkpoint_generation,
+            parent_checkpoint_digest,
+        )
+    }
+
+    #[cfg(test)]
+    pub(crate) fn has_tombstone(
+        &self,
+        agent_id: &str,
+        parent_checkpoint_generation: u64,
+        parent_checkpoint_digest: &str,
+    ) -> Result<bool, AgentPartialError> {
+        let latest = select_latest_stored_records(
+            json_files(&self.local_root)?,
+            &self.runtime_instance_id,
+            &self.polis_id,
+            parent_checkpoint_generation,
+            parent_checkpoint_digest,
+        )?;
+        Ok(matches!(
+            latest.get(agent_id),
+            Some(StoredRecord::Tombstone(_))
+        ))
     }
 
     pub async fn archive_pending(&self) -> Result<usize, AgentPartialError> {
@@ -1625,6 +1725,14 @@ fn fits(root: &Path, max_bytes: u64, max_files: usize, additional: u64) -> Resul
 }
 
 fn persist_bytes_atomically(path: &Path, bytes: &[u8]) -> Result<(), io::Error> {
+    persist_bytes_atomically_with_hook(path, bytes, |_| Ok(()))
+}
+
+fn persist_bytes_atomically_with_hook(
+    path: &Path,
+    bytes: &[u8],
+    mut hook: impl FnMut(&'static str) -> Result<(), io::Error>,
+) -> Result<(), io::Error> {
     let parent = path
         .parent()
         .ok_or_else(|| io::Error::other("missing parent"))?;
@@ -1636,15 +1744,33 @@ fn persist_bytes_atomically(path: &Path, bytes: &[u8]) -> Result<(), io::Error> 
             .unwrap_or("partial"),
         std::process::id()
     ));
+    match fs::remove_file(&temporary) {
+        Ok(()) => {}
+        Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+        Err(error) => return Err(error),
+    }
+    hook("before_temp_open")?;
     let mut file = OpenOptions::new()
         .create_new(true)
         .write(true)
         .open(&temporary)?;
+    hook("after_temp_open")?;
     file.write_all(bytes)?;
+    hook("after_write")?;
     file.sync_all()?;
+    hook("after_file_sync")?;
     fs::rename(&temporary, path)?;
+    hook("after_rename")?;
     File::open(parent)?.sync_all()?;
+    hook("after_directory_sync")?;
     Ok(())
+}
+
+fn agent_partial_error_as_io(error: AgentPartialError) -> io::Error {
+    match error {
+        AgentPartialError::Io(error) => error,
+        other => io::Error::other(other.to_string()),
+    }
 }
 
 fn now_unix_millis() -> u64 {
@@ -1884,6 +2010,28 @@ mod tests {
             decode_record(&fs::read(&records[0]).unwrap()).unwrap(),
             StoredRecord::Tombstone(_)
         ));
+    }
+
+    #[test]
+    fn ensure_tombstone_is_idempotent_across_restart_reconciliation() {
+        let temp = tempfile::tempdir().unwrap();
+        let store = AgentPartialCheckpointStore::open(
+            temp.path().to_path_buf(),
+            store_config(false),
+            "runtime-a",
+            "polis-a",
+            "incarnation-a",
+        )
+        .unwrap();
+        store.write_partial(capture("ember", 1)).unwrap();
+        store.ensure_tombstone("ember", 2, "a".repeat(64)).unwrap();
+        let committed_files = json_files(&store.local_root).unwrap().len();
+        store.ensure_tombstone("ember", 2, "a".repeat(64)).unwrap();
+        assert_eq!(
+            json_files(&store.local_root).unwrap().len(),
+            committed_files
+        );
+        assert!(store.latest_valid(2, &"a".repeat(64)).unwrap().is_empty());
     }
 
     #[test]
