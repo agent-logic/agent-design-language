@@ -3,15 +3,15 @@
   "issue": 518,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
-  "phase": "implemented",
-  "generation": 60,
-  "digest": "93cb6437cd447ca3f10bcf9dffa1be764a9f798f821f8c37eb8e0f8db94defcf",
+  "phase": "published",
+  "generation": 62,
+  "digest": "2072851dea92cf0b0d5d8172098961d8a0dc8d704290415ce32cfca48ec3ecc1",
   "branch": "codex/518-documentation-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review",
   "review_assignment": {
     "reviewer": "codex:root/review_518_docs",
     "assigned_by": "codex:planning-6",
-    "revision": "git-blake3:71277259f641abf84e2881c800ba625ecc39b4a1:43d65487ef0cfdbc425d566268f02397dc5cb4fda69a67fb6960376789b90066",
+    "revision": "git-blake3:7d500c449ac0375b303aeca5d2c9aa517acb426b:0ac5f7177fe52ab8d397efe242aebf0d60b3b1dcb3ffa11fe7d927d303c12fb2",
     "scope": [
       ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
       ".csdlc/prepared/issues/518/refresh-handoff-content.py",
@@ -72,8 +72,89 @@
       "csdlc-v2/tests/gate_github_route_policy.rs"
     ]
   },
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "codex:root/review_518_docs",
+    "scope": [
+      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      ".csdlc/prepared/issues/518/refresh-handoff-content.py",
+      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "README.md",
+      "REVIEW.md",
+      "adl/CONTRIBUTING.md",
+      "adl/README.md",
+      "adl/tools/README.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/codex_playbook.md",
+      "docs/default_workflow.md",
+      "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+      "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+      "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+      "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
+      "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+      "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+      "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      "docs/milestones/v0.92.1/README.md",
+      "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/accounting-closeout.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
+      "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+      "docs/onboarding.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/planning/codefriend/README.md",
+      "docs/tooling/README.md",
+      "docs/tooling/editor/README.md",
+      "csdlc-v2/src/registry.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_route_policy.rs"
+    ],
+    "reviewed_revision": "git-blake3:7d500c449ac0375b303aeca5d2c9aa517acb426b:0ac5f7177fe52ab8d397efe242aebf0d60b3b1dcb3ffa11fe7d927d303c12fb2",
+    "findings": [],
+    "residual_risks": [
+      "P2 old root route-owner contract assertion corrected and actual518 Rust routepolicy3/3 passed.",
+      "Full754 matrix and corrected targets cover444 tests; hosted CI pending on new head.",
+      "Accounting completion does not grant release approval; operator merge hold remains."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 518,
+    "pull_request": 753,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/753",
+    "base": "main",
+    "head": "codex/518-documentation-review",
+    "revision": "git-blake3:7d500c449ac0375b303aeca5d2c9aa517acb426b:0ac5f7177fe52ab8d397efe242aebf0d60b3b1dcb3ffa11fe7d927d303c12fb2",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -87,34 +168,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5abaf97e33c19ac03d6f3f9fcdfb6ebbc2939e14fa66ccae9b7eb169cb1c9e4e",
+      "values_digest": "431d7d84b7ae19ea49f961548ab58d22411ebbd14fc80253ee9afcac6e946491",
       "rendered_digest": "015c9316e1b6da4255fa3ddf8e15d68e0c1c308c28078bdcb1a9dd7a47405375",
       "ast_digest": "f0fb5f0938f5f79eb1e9aa979b5bf1f57ed889f814fe8b4951ec97040cad2808"
     },
     "stp": {
-      "values_digest": "24f97faee38ab84c64a957cc6bd6981849d4d76d78e30d054b3178623389ec09",
+      "values_digest": "20c8c0f364f4319aba15362b15a8fcd53f7ab8a1da45956591684c5a2dc9a359",
       "rendered_digest": "21ee26a2c7ed47d8d91c4efa75d9811e76bdeff6d0365459ec07c4298830583c",
       "ast_digest": "97f13949b0cdb7c470f61c333fa2be19131484bed8658c7ed4c8dfd28580ff54"
     },
     "spp": {
-      "values_digest": "51cc6fe017b3624255759589044ed341b13cb18eefe5f3ab4dd864ddfdb4eb5d",
+      "values_digest": "92b2f3a02303287d70976646323da8b204059b9af0f686772ed38365593c42b1",
       "rendered_digest": "e15d17fac6ca14edd5d7ff1dbe79df91813f171c4adc1da71bad5f90cf3b63e4",
       "ast_digest": "bd17839f77c6f5e52dfea2453ed15596f72f6321c4a659c392b46c98613faf47"
     },
     "vpp": {
-      "values_digest": "f504fbb459df4642154f3d8a58013e6cb5f4aeb51af7cc9d34244b362c6ebf48",
+      "values_digest": "a3b429fda21bd1441e096b5a732349af37defbde5b5a4fa1a28764f1424905f3",
       "rendered_digest": "9a865aa138667804502865616925bbe63d1b744d0d0ccf9707c7bc043c95d074",
       "ast_digest": "9e2b208fd320215896a84c9be50192e23194ee567f7536f3ee80d9597ae6dba8"
     },
     "srp": {
-      "values_digest": "c17e0c205d6aa2d6632abfa9bd893fea653ae32d6a75aefc32d57e53d9a644c2",
-      "rendered_digest": "6941e59347b9fbdd4a98ce7ddfe5e278aa4409d0e7adf3ec8df7aae746e49163",
-      "ast_digest": "c7edf12d79d001c7eb0f8a6835520aec9d90a0218da99c275ef9aac4c4dc27d4"
+      "values_digest": "adb7b2c4a2a8e4175b77d5dacd9d7149fe100abe21050e21b5215b82a4ac3114",
+      "rendered_digest": "e26efc905c830946ba7dbbacdfba960563de8bb294e9b138b58e7eeab250aa33",
+      "ast_digest": "02ad8f0feee2910d5b9dfe3065dff32e4d079d16973ae568d1a151c6e1a68fdf"
     },
     "sor": {
-      "values_digest": "d52964c890f3b33575afd0c360259e92f04ca46e30088c042051a18d00630a76",
-      "rendered_digest": "ef55251478e56b5a00f1bc4fcfd430e65e5506b05d68a2dff20b1084b3d46b7a",
-      "ast_digest": "da25531e98727338c967e690bcd3e285ff143f935394b07617b1ad9a07126257"
+      "values_digest": "c9061272a185f54dae81f24b907ada53da8f5537a2e32781a80c67776cfabbc4",
+      "rendered_digest": "e5fe2fbdb8332070952280f78d6c0e76246c889a67fab1b650aff5756299b3c5",
+      "ast_digest": "1351221acbe53e5f3f888c21c9d4ca885025dabfa896e2c9716670b3c2c29012"
     }
   },
   "transitions": [
@@ -222,6 +303,20 @@
       "to": "implemented",
       "actor": "codex:planning-6",
       "reason": "Integrate final #754 stale GitHub route-policy assertion repair from completed standalone sweep."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root/review_518_docs",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:planning-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -700,6 +795,27 @@
       "actor": "codex:planning-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 60,
+      "actor": "codex:planning-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 61,
+      "actor": "codex:root/review_518_docs",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 62,
+      "actor": "codex:planning-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

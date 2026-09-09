@@ -87,12 +87,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- P2 old root route-owner contract assertion corrected and actual518 Rust routepolicy3/3 passed.
+- Full754 matrix and corrected targets cover444 tests; hosted CI pending on new head.
+- Accounting completion does not grant release approval; operator merge hold remains.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7d500c449ac0375b303aeca5d2c9aa517acb426b:0ac5f7177fe52ab8d397efe242aebf0d60b3b1dcb3ffa11fe7d927d303c12fb2")
 
-Reviewer: None
+Reviewer: Some("codex:root/review_518_docs")
 
-Result: pre_review
+Result: pass
