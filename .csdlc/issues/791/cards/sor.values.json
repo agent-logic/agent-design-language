@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 791,
+  "issue_padded": "0791",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/791",
+  "title": "[v0.92.2][tooling] Keep native lifecycle writes out of the primary checkout",
+  "branch": "codex/791-primary-write-guard",
+  "version": "v0.92.2",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard",
+  "summary": "Implemented and independently reviewed in bound issue worktree; publication follows. No primary implementation writes and no merge claim.",
+  "integration_state": "worktree_only",
+  "validation_result": "78 focused tests passed (37 local, 10 operational CLI, 31 terminal); library/binary clippy passed with warnings denied; all six cards passed native values/render/structure/digest validation.",
+  "residual_risks": "Legacy primary archives need issue-scoped recovery; old native binaries remain unsafe until updated. #783 proof/install root fix is included in baseline. Cleanup heartbeat remains active until merged fix is available."
+}

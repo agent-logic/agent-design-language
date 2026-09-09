@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 791,
+  "issue_padded": "0791",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/791",
+  "title": "[v0.92.2][tooling] Keep native lifecycle writes out of the primary checkout",
+  "branch": "codex/791-primary-write-guard",
+  "version": "v0.92.2",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard",
+  "goal": "Keep native lifecycle preparation, bind and recovery out of the primary working tree.",
+  "summary": "Repair primary bootstrap state routing and incomplete receipt handoff; enforce zero working-tree residue.",
+  "required_outcome": "Metadata-backed preparation and transaction state, exact bound card writes, policy alignment and focused regression proof.",
+  "required_outcome_type": "tooling",
+  "repo_inputs": "Issue #791; local context and bind transaction implementation; primary checkout policy.",
+  "target_files_surfaces": "csdlc-v3 local routes and focused tests; primary checkout policy and native operator docs.",
+  "non_goals": "No runtime product changes, release refresh, unrelated lifecycle migration or deletion.",
+  "validation_plan": "Small deterministic offline native tooling contract proof: local_commands, operational_cli_commands and terminal_cleanup_cutover_commands; symlink/legacy/zero-residue regressions, all-target touched owner clippy. CI integration follows publication; no runtime or cloud proof needed.",
+  "dependencies": "No external implementation dependency; bootstrap isolated under Git metadata."
+}
