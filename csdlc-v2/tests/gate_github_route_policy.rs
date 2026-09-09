@@ -3,6 +3,7 @@ use serde_json::Value;
 use std::{env, fs};
 
 const ROUTE_OWNER_CONTRACT: &str = "Covered C-SDLC GitHub route owners: issue actions = `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication = `csdlc-publish`; terminal delivery = `csdlc-finish`.";
+const NATIVE_ROUTE_OWNER_CONTRACT: &str = "Covered native routes under `.adl/bin/native-v3/csdlc`: issue actions = `github-issue`; PR state = `github-pr`; publication = `publish`; terminal delivery = `finish`. Standalone `csdlc-*` v2 owners apply only to explicitly authorized rollback or bounded transition remediation.";
 const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes except for the audited break-glass transport below. A missing binary, unfamiliar error, timeout, or operator preference is not by itself break-glass authority.";
 const BREAK_GLASS_DEFAULT_CONTRACT: &str =
     "The active typed C-SDLC authority remains the default and final lifecycle authority.";
@@ -42,9 +43,11 @@ fn github_route_policy_is_consistent_and_fail_closed() {
         ("client boundary", boundary.as_str()),
     ] {
         let document = normalized_policy(document);
+        let known_owner_contract = document.contains(ROUTE_OWNER_CONTRACT)
+            || (name == "AGENTS.md" && document.contains(NATIVE_ROUTE_OWNER_CONTRACT));
         assert!(
-            document.contains(ROUTE_OWNER_CONTRACT),
-            "{name} must retain the exact GitHub route-owner contract"
+            known_owner_contract,
+            "{name} must retain an explicitly known GitHub route-owner contract"
         );
         assert!(
             document.contains(ROUTE_PROHIBITION_CONTRACT),
