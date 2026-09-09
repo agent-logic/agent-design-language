@@ -25,12 +25,12 @@ Issue #505 was the sole V3-F transition-decision lane. PR #591 is merged and
 The pre-merge v2 authority boundary remains immutable historical evidence, not
 current routing guidance.
 
-Before changing the default lifecycle route, operators and agents must be
-notified through `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and the typed
-C-SDLC v2 GitHub issue owner. The notification is a warning and coordination
-surface, not cutover approval. If v3 parity, canary rollback, publication,
-finish, cleanup, observation, or approval proof is incomplete, keep using v2
-and do not retire v2 guidance.
+Current routing is documented in `docs/csdlc-v3/CURRENT_AUTHORITY.md`.
+The original `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` is immutable
+pre-cutover notification evidence, not current authority. Future authority
+changes require a new operator-reviewed decision and notification. Missing or
+stale current proof suspends authority; it does not authorize automatic v2
+fallback. V2 remains restricted to explicit rollback or transition exceptions.
 
 This file is the repository-local operating contract for coding agents working
 in ADL.

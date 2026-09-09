@@ -1,0 +1,100 @@
+{
+  "schema": "adl.issue760.authority_surface_proof.v1",
+  "issue": 760,
+  "source_finding": "A520-ARCH-003",
+  "base_revision": "9252ec0c87a309a802dfa11ce9188a859e106607",
+  "validation": [
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest",
+      "passed": 8
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --lib authority::tests",
+      "passed": 2
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test local_commands operational_local_authority_rejects_stale_selector_approval_and_head_digests",
+      "passed": 1
+    },
+    {
+      "command": "cargo clippy --manifest-path csdlc-v3/Cargo.toml --bin csdlc --test command_manifest -- -D warnings",
+      "status": "passed"
+    },
+    {
+      "command": "cargo fmt --manifest-path csdlc-v3/Cargo.toml --check",
+      "status": "passed"
+    }
+  ],
+  "historical_records": [
+    {
+      "path": "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md",
+      "sha256": "d6e1c84dc993c99eea64b22a7042e9e3f786705989676979f54ed7833c4539de",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md",
+      "sha256": "b8fab012937878aed7cad94c21d8d70af8e1d5d3cb021718fbbffbec5fe8dc00",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "docs/csdlc-v3/full-replacement-denominator.json",
+      "sha256": "80687b20fe6fed5eb4d57e1d30d87bc47d368a5bc46d663dae224683685c9341",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "docs/tooling/adl_pr_cycle_skill.md",
+      "sha256": "2eb23e02fdb3c8d4de4d9d095c98d680215c37305953dbe4da179238f96eedd8",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "docs/tooling/editor/pr_run_demo.md",
+      "sha256": "e0ec1a625bbe3ec416aa84c71451533041c607a0fcfe4d8c8c83bc93fc716eb9",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "docs/tooling/editor/five_command_regression_suite.md",
+      "sha256": "f270d31b5be43b0020c83da85855b6aa665551b050d73a596084c00e76b82267",
+      "unchanged_from_base": true
+    }
+  ],
+  "installed_candidate": {
+    "path": ".adl/bin/native-v3/csdlc",
+    "sha256": "c405d6f609680ba28b7fcbf3e32f460bb8e51758f52cded098eaff94702fcc69",
+    "installation": "bash adl/tools/install_owner_binaries.sh --bin csdlc --stable-bin-dir .adl/bin/native-v3 --source-bin-dir csdlc-v3/target/debug --no-build",
+    "native_source_sha256": {
+      "csdlc-v3/src/adapters/mod.rs": "dca29a6ed453761e5fbc46111f1100f8515a1051d41bcb01102897c1c27da234",
+      "csdlc-v3/src/application/mod.rs": "2b9c1d4b43e609febaabf4e5ea2075475752c117b2f5340dc07d7af152b21aa9",
+      "csdlc-v3/src/authority.rs": "3b46640f422ec1a798a1a88d0e2e93f64863ffeb04c781641c00cb4661214b25",
+      "csdlc-v3/src/commands/local/mod.rs": "46c829302a36fd30e2d3b8fdf43f5560eaa5b2c0ed2b087022a6c0e40b63ee70",
+      "csdlc-v3/src/commands/mod.rs": "bdcbb1851771d3058f5b463d0270d759327480d163de02d6a03b4bde834101cc",
+      "csdlc-v3/src/commands/proof.rs": "ba16d05180e1c6508deac65ad679b7e7d073e4ec6b01c26e92e12a2bc7de4d1b",
+      "csdlc-v3/src/commands/remote/mod.rs": "f15f5fcd92cfdacae1bb2b98ce3686139b0ccad2374719166039c249774dbec6",
+      "csdlc-v3/src/commands/remote/tests.rs": "a340f97cde55dbc97b299327ff0645bc797e2f60ee75a800c90c3811cea7b604",
+      "csdlc-v3/src/commands/sprint.rs": "69d56f11dcef1e448c05ea1c496f4a7365ecfadb7fdccb354d3caf7d5a4d4a0c",
+      "csdlc-v3/src/commands/terminal.rs": "9c2ce5653428b4b6f3e7f10a3c43370aaeb1ec7b6f24120675055073cf940a41",
+      "csdlc-v3/src/lib.rs": "874161b7c2d292da592958028ebf61cbd2ba24e944e8097d7a48d673d375ae33",
+      "csdlc-v3/src/lifecycle/mod.rs": "8b7c43e6b1868a0a7a34787f76c2bb6637b6ddc2a72663e90e42b9df90fe2e9b",
+      "csdlc-v3/src/main.rs": "62f055a38b6f50f3d60a8e45e3082c07dd293e04cd20a61be314d79272d264c4",
+      "csdlc-v3/src/publication/mod.rs": "3f2a2876e51362ee36a6f920cf2d6ba4926c054bb5a3ca6914353024c508a340",
+      "csdlc-v3/src/repository/mod.rs": "2cb16bb7f71688dcde016565a9c9e497f3fd70de01e2918c1b9290a158183727",
+      "csdlc-v3/src/review/mod.rs": "62a0c2bfdf1ae2fddb39618b8c8e2c7dd373478a8aea2d105d965883ece727a6",
+      "csdlc-v3/src/storage/mod.rs": "15058a1f18d101a3009f1d8faf1c7193b4d7f2dc857620d6f1b35c3d10e8857d",
+      "csdlc-v3/Cargo.toml": "4d8c5bf5d3859e02fb7ff270018ea5c56ca37a29f17b69a7979809ace2df8ba0"
+    },
+    "publish_help": "usage: csdlc publish --request <path> [--observe-github] [--execute]\n\nstatus: implemented\nauthority: C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.\n"
+  },
+  "pvf": {
+    "lane": "local_contract",
+    "role": "authority guidance consistency and authenticated selector regression",
+    "determinism": "deterministic",
+    "resources": "small local CPU/Git/subprocess",
+    "required_for_issue": true
+  },
+  "boundaries": [
+    "No mutation authority is granted by prose or command manifest metadata.",
+    "Proof-only and read-only helper behavior is unchanged.",
+    "Historical records retain source-time limitations and are not live routing instructions.",
+    "The known749 bind handoff was recovered by relocating unchanged issue760 records to the exact registered worktree; no tooling repair is included.",
+    "Hosted integration checks remain separate from focused local proof."
+  ]
+}
