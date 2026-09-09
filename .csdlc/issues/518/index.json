@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
   "phase": "bound",
-  "generation": 29,
-  "digest": "335a2a6ecd1e4664d01360a2d65a335326ca6465e2535854b40df305ed4dbdb9",
+  "generation": 30,
+  "digest": "cfb6c2e8c1c831640d09f42f47d0c73264f36d8af43c6bb7bfe353a827e8dc90",
   "branch": "codex/518-documentation-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "36c1aa7ccb3fa54b6ef8f71cca1434b242d08f7d9222327cb392f06e1f1d9174",
+      "values_digest": "3cc9da2804e585183fcd7ab00bd296864dbc9ea4967f0b486f63311d11a7d647",
       "rendered_digest": "0ad35f1797c6b27665601446a8bafc483ba0745a4075442a85de78dcbbbff8a8",
       "ast_digest": "f18ef3d70ee7ef564f11743d764abfd4c8feeae1866784a8740020ef5d889c9f"
     },
     "stp": {
-      "values_digest": "f8a6199155200ceb6d5c89338ca93de97c98d19c4ccfb8269b62b44e2309249e",
+      "values_digest": "0e7d2598b4af418c090bfa48eb404ffa49a160e36c42c1337ac3c10c18557d30",
       "rendered_digest": "2662d77d88ac3dadce640f9134a13a6dc1ab6c98cb1f9a73640fcd6b113b93cd",
       "ast_digest": "b5a899d2d0f905bdb7dfba2f67d79fce40b5bb07bcad53ac041dd7bbf2b5a253"
     },
     "spp": {
-      "values_digest": "374592dfc5cc4166f68eaf34be85c5d577ed18c5ba899745f0b754b21fe87965",
-      "rendered_digest": "927e95a6b910e80b163ee76696439f977476bfb4a844f0eed7b1fa69b5ed2c64",
-      "ast_digest": "656df892ef22a606b68d0e96f5d3af010b95f8535403ce787fe6761d2136902e"
+      "values_digest": "b552157fd56cc361cfcb4028812e48acdc09c502759ff481d0bbf54048389eda",
+      "rendered_digest": "0aaa6924279ef6f1ed0f0a2e9e20e7738006d6acdcd749dd637125d0396d9580",
+      "ast_digest": "ae3093c61825e9d4553cd1038d7082a44c75eb50d1b4a9be11ecae1607260cd9"
     },
     "vpp": {
-      "values_digest": "6a9d2084307cada0ea1168d351da6dbd4b9ca353ed46d27fcb826c53bbf7ed35",
+      "values_digest": "568a7e5ffe145be6073b4d3ba9108ec1bcab7f004daaa53ac926cf7c511f2bb1",
       "rendered_digest": "c9e96e7a6c1c3a248f4aadce0b0712619e24b1709268a9b23b78c6652f49dea3",
       "ast_digest": "44e875dce74e2d19042e0700f54b080ea4e35ebd0a89480111abfb031bcfdd76"
     },
     "srp": {
-      "values_digest": "5ff6d05c2b8f38b2751f90ba87a2f857e043ed6398c4f9ebc67eb29cc8bdf177",
+      "values_digest": "3be0897c1f83cf2679dee49b82f4923552000335f6e1b7703fd9fe16e432a9b1",
       "rendered_digest": "68a5206a895ed4f034ce8e93d776d31519a9c77b6e4e432ff7354a82e2978fb4",
       "ast_digest": "dfe1977a91466e8dff1b6a7a4b84780dd9d406d6e350046849fbf1bc5e112ebd"
     },
     "sor": {
-      "values_digest": "2bb0d6077efe3587a7d1a76e109d6a88e4145222661d97248ff44ad6802a3066",
+      "values_digest": "24b86a98de7c3abf375032d80251819518e7f8534874867674ffed86a97029eb",
       "rendered_digest": "73213eb1b3d94681dc3a15f0ba42542c45db7f299c155678d0efe2cf52440ec9",
       "ast_digest": "65ec82a643d05627835e12f9f1c37b7821b70dffc0e883f3ee0943ca8a38fd99"
     }
@@ -287,6 +287,13 @@
       "actor": "codex:planning-6",
       "reason": "Record completed 24-manifest audit and independent review without final release acceptance; S4 remains pending issue 517.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:planning-6",
+      "reason": "Operator asked to carry on after issue 517 merged. Refresh the merged documentation baseline while retaining its blocked quality decision and final passing-result gate.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Documentation corrections and the complete manifest audit are reviewed locally. Incorporate origin/main e734438b5fdba099ed607e0604254430ddd7d091 containing merged PR 748 and PR 743; reconcile documentation conflicts and refresh source snapshots, hashes and pending findings. Issue 517 is closed but records a blocked quality result, so a merge alone does not authorize final external handoff or release acceptance.\",\"operation\":\"replan\",\"previous_value\":\"Correct the 15 source-grounded findings from the 737-document audit now under explicit operator authorization. Use bounded v2 transition remediation. Preserve historical proof and concurrent owner paths. Final candidate freeze, acceptance and external handoff wait for issue 517 passing reviewed merge.\"}"
     }
   ]
 }

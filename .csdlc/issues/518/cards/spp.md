@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Correct the 15 source-grounded findings from the 737-document audit now under explicit operator authorization. Use bounded v2 transition remediation. Preserve historical proof and concurrent owner paths. Final candidate freeze, acceptance and external handoff wait for issue 517 passing reviewed merge.
+Documentation corrections and the complete manifest audit are reviewed locally. Incorporate origin/main e734438b5fdba099ed607e0604254430ddd7d091 containing merged PR 748 and PR 743; reconcile documentation conflicts and refresh source snapshots, hashes and pending findings. Issue 517 is closed but records a blocked quality result, so a merge alone does not authorize final external handoff or release acceptance.
 
 ## Plan
 
-Revision 9
+Revision 10
 
 ## Steps
 
