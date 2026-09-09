@@ -89,12 +89,24 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
     "purpose": "Required Python-readable schema parity smoke; native renderer validation is in exact detached suite.",
     "outcome": "passed",
     "evidence_ref": "template-schemas.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "197 tests passed in clean detached checkout at7fecd63398bb37530801dbf3375d47f73426d637 with external target; identical source independently reviewed across162paths.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

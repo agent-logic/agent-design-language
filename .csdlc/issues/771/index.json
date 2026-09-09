@@ -4,75 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "062ae31c029ec67d7153cebbadf75f01ef7e9ada69158ea4dc15fea6984bbc7d",
+  "generation": 26,
+  "digest": "41a8a972063f3d33492e02ab3e3e5aac2cf2802b01d69560fe39d43effabd767",
   "branch": "codex/771-v3f-proof-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
-  "review_assignment": {
-    "reviewer": "codex:/root/review_771_routes",
-    "assigned_by": "Planning #7",
-    "revision": "git-blake3:ba8266694c7a8f86703bb382edcd0cd38cc5280c:9676988f01dfc70dc822681d4855793545dd9d236e1f0671e60ad886ad9cfdd1",
-    "scope": [
-      ".csdlc/evidence/771/clippy.log",
-      ".csdlc/evidence/771/current-mapping.log",
-      ".csdlc/evidence/771/mapping-contract.log",
-      ".csdlc/evidence/771/mapping-negative.log",
-      ".csdlc/evidence/771/template-schemas.log",
-      ".csdlc/prepared/issues/771/design.md",
-      ".csdlc/prepared/issues/771/diagram.mmd",
-      "csdlc-v3/src/adapters/mod.rs",
-      "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/remote/tests.rs",
-      "csdlc-v3/src/commands/terminal.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      "csdlc-v3/tests/operational_cli_commands.rs",
-      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/README.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/assignment.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/historical-fixture.diff",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/mapping.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/review.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/reviews/core.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/reviews/evidence.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/reviews/routes.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/suite.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/7c5b787341/suite.log",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/assignment.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/historical-fixture.diff",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/mapping.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/review.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/suite.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/archive/fba2bdf5c7/suite.log",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/assignment.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/historical-fixture.diff",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/review.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/reviews/core.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/reviews/routes.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.log",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
-      "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
-      "docs/templates/prompts/1.0.5/pvf_lane_policy.json",
-      "docs/templates/prompts/1.0.5/schemas/sip.structure.json",
-      "docs/templates/prompts/1.0.5/schemas/sor.structure.json",
-      "docs/templates/prompts/1.0.5/schemas/spp.structure.json",
-      "docs/templates/prompts/1.0.5/schemas/srp.structure.json",
-      "docs/templates/prompts/1.0.5/schemas/stp.structure.json",
-      "docs/templates/prompts/1.0.5/schemas/vpp.structure.json",
-      "docs/templates/prompts/1.0.5/sip.md",
-      "docs/templates/prompts/1.0.5/sor.md",
-      "docs/templates/prompts/1.0.5/spp.md",
-      "docs/templates/prompts/1.0.5/srp.md",
-      "docs/templates/prompts/1.0.5/stp.md",
-      "docs/templates/prompts/1.0.5/vpp.md",
-      "docs/templates/prompts/current.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -88,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b775d324f01af0464e76b8b42994f35204c7bab7fa50cd413177a40265b79e8a",
+      "values_digest": "99b297ae89137768820c986e203cad4d596defcdbe77dd4e4ed6038da978fa21",
       "rendered_digest": "a2ea7fb2f6c0652f51e9b89d76000de7f2d6d6869ca13e1be517c9a94569c14f",
       "ast_digest": "473272f52df4b975741193f59354ec248318f4858398dc6f27bfd315e034c9ae"
     },
     "stp": {
-      "values_digest": "acc73c1bdcca6041661b511d3ade03b82d57d3682a29d46a4d13403472d9db60",
+      "values_digest": "d8a1f526816fb5b200ac3986aa787b5d61597b84251a48e22d577c69e569ec3e",
       "rendered_digest": "8edd89e46fc01b226b4f2f8f20830fd52719104a7ec7202747f8d64917c6525e",
       "ast_digest": "c81b6e3522d08beca37c2d0aac45d8664d9b9e6917d624aef75ad2f72d8eba1d"
     },
     "spp": {
-      "values_digest": "46ae4d7ec038805c4b7b7deaa8d772c70e128c2e0e820e4aa95fe504ac0e7b59",
+      "values_digest": "e4ea8fd46e2edf01248695393ed79aa8e8346ccc014e4476341760339dcc4d7a",
       "rendered_digest": "96834b9deff8c3631f9163f393ba3856edb6a90e558616c621afc00c89d18632",
       "ast_digest": "a55dd7df356b83c634432db22ec385b8a3859507ce5a15ebfdb9b62a9e62b6ad"
     },
     "vpp": {
-      "values_digest": "7e7be851fb7a5a53aa02ab5500627ca9bf5c614e5917d0dd08c386b5f8199b98",
+      "values_digest": "2e0f87aff1bf928ca5b971aa91d281f2582942704b737479606a02ba25c49c55",
       "rendered_digest": "72afb7ee8ca532d6a745c8a14c577760933a4c21213fc832dc3a8f78b14f0a36",
       "ast_digest": "4a945006dec567b466ffd428028ab79458e1e9d9932ea98aa8ee230b7be20ba8"
     },
     "srp": {
-      "values_digest": "5882b8fbc1023eee11bc166f16fadd8551267142a2be7bf1ce9127d0e9660cef",
-      "rendered_digest": "c0f18b3bea7f476e56d509d94c3a593a4644ee65eeda478d48fbb5a7e0c6b959",
-      "ast_digest": "35dc92ef37e8429ba79cc4df2be1cb895d1b00511e66cc001496adbe59e043f3"
+      "values_digest": "fc9073e720ae3fa505b2e1f2ca30659caf6242be9c4de7c2869560eefa6226a4",
+      "rendered_digest": "9faf3600966c1e114492834bc801dd4237e4352248ca5ef476c751939f74d18c",
+      "ast_digest": "69b0fafce13b5d4801cb98e2327fc305629c2f4182c14cbc6c8d447b9b4e30af"
     },
     "sor": {
-      "values_digest": "82a5be0f5a37b38419ceb24829abc9cf538ae751a12b0e5f155d388972992309",
-      "rendered_digest": "d8aa6e3b3da493134fbdad4fabc6e38b2722a5551cacc9cae5855ab4ad796da6",
-      "ast_digest": "5026689360630a24375f98a9e98c3b1a44522d6c78484f78b9317cbf4b692225"
+      "values_digest": "f24d0485d33d92bcf98e1830ae4e6a119f58eda16f303c1e3526693f875034ca",
+      "rendered_digest": "b8a46ce3e56b36c6570de8fdc94ef0121d573387989129f0220746e111a010d0",
+      "ast_digest": "7967b197e524798cdda303e185d2d18e49805bb941a2c506e896851d5179d1a3"
     }
   },
   "transitions": [
@@ -330,6 +266,27 @@
       "actor": "Planning #7",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "Planning #7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "Planning #7",
+      "reason": "Normalize SOR after typed finalization: retain actual detached full-suite proof and mark execution record ready for publication, not terminally complete.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"197 tests passed in clean detached checkout at7fecd63398bb37530801dbf3375d47f73426d637 with external target; identical source independently reviewed across162paths.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "Planning #7",
+      "reason": "Clear pending PR assignment for typed SOR ready-status repair after finalization; no substantive source or evidence changed. Reassign exact same source immediately.",
+      "operation": "recover_review"
     }
   ]
 }

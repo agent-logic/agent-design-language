@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 26
   },
   "status": "pre_phase",
   "content": {
@@ -85,9 +85,21 @@
           "purpose": "Required Python-readable schema parity smoke; native renderer validation is in exact detached suite.",
           "outcome": "passed",
           "evidence_ref": "template-schemas.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml"
+          ],
+          "purpose": "197 tests passed in clean detached checkout at7fecd63398bb37530801dbf3375d47f73426d637 with external target; identical source independently reviewed across162paths.",
+          "outcome": "passed",
+          "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
