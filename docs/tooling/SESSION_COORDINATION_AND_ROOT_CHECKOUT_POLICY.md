@@ -34,11 +34,11 @@ The primary checkout must normally stay on clean `main`.
 Allowed primary-checkout uses:
 
 - read-only inspection
-- issue creation/bootstrap
-- typed `csdlc-doctor` readiness inspection
+- issue creation and preparation using Git metadata only
+- native `csdlc doctor` readiness inspection
 - prep-scout issue inspection/readiness checks for a separate next-issue lane
   while the current issue is in a truthful wait state
-- typed `csdlc-bind` when `main` is clean
+- native `csdlc bind` from clean `main`, materializing cards in the target worktree
 - fast-forwarding `main`
 - checking root/worktree state before routing
 
@@ -48,18 +48,26 @@ Disallowed primary-checkout uses:
 - janitor repairs to PR branches
 - finish staging for an issue branch
 - leaving the root checkout on a feature branch
-- parking untracked issue artifacts in root when a bound worktree exists
+- writing or parking any tracked or untracked issue artifacts in primary, before or after binding
 
-After an issue is bound, tracked edits happen in the bound issue worktree.
-The bound worktree's local `.adl/<version>/tasks/...` bundle is the active
-issue-local execution surface for normal issue work. Materialized
-`.adl/<version>/sprints/...` packet copies in the worktree are convenience
-mirrors for local context, not silent replacements for the primary checkout's
-canonical sprint record. If the worktree-local issue identity disagrees with
-the primary checkout for the same issue, stop and repair the mismatch instead
-of guessing which copy is right. Root-only `.adl` state remains bootstrap,
-coordination, and sprint-truth context rather than a hidden per-issue live
-authority during execution.
+Native v3 preparation state, edit completion receipts, locks and retained bind
+identity live below the resolved primary Git directory at `csdlc-v3/local`.
+The primary working tree is inspection-only. Native bind transfers cards to
+`.csdlc/issues/<issue>` in the exact registered FastWork issue worktree;
+subsequent primary preparation and edits for that issue are rejected.
+
+Primary native finish requests must target
+`.git/csdlc-v3/local/v3/issues/<issue>/terminal.json` and
+`.git/csdlc-v3/local/evidence/<issue>/terminal-receipt.json` for a conventional
+primary checkout. Use the resolved Git directory for a separate Git directory.
+Legacy `.csdlc` terminal output paths on primary are rejected before writing.
+Historical tracked receipts, including #505 authority evidence, stay immutable.
+
+Legacy primary issue/prepared state and transaction receipts require reviewed,
+issue-scoped preservation and recovery. Do not restore cleanup archives to
+primary, delete another session's records, or conceal residue with ignore rules.
+An archive preserves evidence; it does not complete lifecycle reconciliation.
+
 
 Prep-scout exception:
 

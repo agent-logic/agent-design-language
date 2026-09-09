@@ -1027,7 +1027,7 @@ fn write_terminal_receipt(
         issue,
         pull_request,
         head_sha,
-        ".csdlc/evidence/630/terminal-receipt.json",
+        ".git/csdlc-v3/local/evidence/630/terminal-receipt.json",
     )
 }
 
@@ -1066,8 +1066,8 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root.clone(),
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
     for _ in 0..2 {
@@ -1081,12 +1081,12 @@ fn post_cutover_finish_persists_typed_state_and_receipt_idempotently() {
         assert!(plan.operational_authority);
     }
     let state: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".csdlc/v3/issues/630/terminal.json")).unwrap())
+        serde_json::from_slice(&fs::read(root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json")).unwrap())
             .unwrap();
     assert_eq!(state["schema"], "csdlc.v3.terminal_state.v1");
     assert_eq!(state["disposition"], "closed_out");
     let receipt: DurableTerminalReceipt = serde_json::from_slice(
-        &fs::read(root.join(".csdlc/evidence/630/terminal-receipt.json")).unwrap(),
+        &fs::read(root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json")).unwrap(),
     )
     .unwrap();
     assert!(receipt.state_digest.is_some());
@@ -1101,8 +1101,8 @@ fn pre_cutover_finish_denies_terminal_persistence() {
     request.credential_names = vec!["GITHUB_TOKEN".into()];
     request.terminal_state = Some(TerminalStateWriteRequest {
         repository_root: root,
-        state_path: PathBuf::from(".csdlc/v3/issues/630/terminal.json"),
-        receipt_path: PathBuf::from(".csdlc/evidence/630/terminal-receipt.json"),
+        state_path: PathBuf::from(".git/csdlc-v3/local/v3/issues/630/terminal.json"),
+        receipt_path: PathBuf::from(".git/csdlc-v3/local/evidence/630/terminal-receipt.json"),
         expected_state_digest: None,
     });
     let mut adapter = FakeGithubAdapter::new([

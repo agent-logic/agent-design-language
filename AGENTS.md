@@ -161,10 +161,14 @@ These rules are mandatory for ADL issue work.
      tracked `.adl/worktree-policy.json` contract and fails closed for any
      other parent.
    - Use the native v3 `csdlc bind` flow to bind execution context.
-   - Keep the primary checkout clean on `main` for inspection, bootstrap,
-     doctor/readiness, and issue-mode binding only. After binding, tracked
-     implementation, janitor, finish, and repair edits happen in the issue
-     worktree.
+   - Keep the primary working tree clean on `main`; do not write tracked or
+     untracked issue artifacts there. Preparation and terminal receipts use
+     resolved Git metadata (`.git/csdlc-v3/local` in the ordinary primary
+     checkout). Native bind materializes cards only in the registered issue
+     worktree. Implementation, janitor and repair edits happen there.
+   - Do not restore archived bootstrap artifacts into primary. Preserve legacy
+     state and use a reviewed, issue-scoped recovery; cleanup is not permission
+     to recreate primary residue. Never hide residue with ignore rules.
    - Before issue work, check root `git status --short --branch` and
      `git worktree list --porcelain`. If the primary checkout is on a feature
      branch or has tracked changes, stop and route the recovery through

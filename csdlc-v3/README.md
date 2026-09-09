@@ -57,6 +57,21 @@ work in three minutes or less once dependencies are satisfied. That time target
 removes ceremony and ambiguity; it does not remove typed authority, review, or
 validation gates.
 
+## Primary working-tree invariant
+
+Native issue preparation and pre-bind edits use resolved Git metadata at
+`csdlc-v3/local`; they must leave primary working-tree bytes and Git status
+unchanged. Bind materializes cards only in the registered issue worktree and
+retains a metadata handoff identity that rejects primary reinitialization.
+Earlier edit receipts remain in metadata for recovery and audit.
+
+Do not create request JSON, prepared design packets, cards or terminal receipts
+in the primary working tree. Store invocation inputs in Git metadata. Primary
+`finish` output paths must use `csdlc-v3/local/{v3/issues,evidence}` beneath the
+resolved Git directory. See the [checkout policy](../docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md).
+
+Legacy primary state is diagnosed, not automatically migrated or deleted.
+
 ## Non-goals before V3-F/#505
 
 Before V3-F/#505, v3 must not:

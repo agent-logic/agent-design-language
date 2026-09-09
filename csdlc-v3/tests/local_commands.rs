@@ -983,7 +983,7 @@ fn operational_authority_fixture(
 
     let context = OperationalLocalContext {
         repository_root: repository_root.clone(),
-        state_root: repository_root.join(".csdlc"),
+        state_root: repository_root.join(".git/csdlc-v3/local"),
         allowed_worktree_parent: fixture.join("worktrees"),
         expected_authority_selector_digest: selector_digest.clone(),
         cutover_approval_path: approval_path,
@@ -1055,7 +1055,7 @@ fn operational_local_authority_rejects_stale_selector_approval_and_head_digests(
 #[test]
 fn operational_local_authority_rejects_stale_lifecycle_digest() {
     let (_, _, mut context, registry) = operational_authority_fixture("stale-lifecycle", "v3");
-    write_lifecycle_state(&context.repository_root, 503, "ready", "observed-digest");
+    execute_operational_local_route("issue", &request(), &registry, &context).unwrap();
     let mut request = request();
     request.expected_lifecycle_digest = Some("stale-digest".into());
     context.expected_lifecycle_digest = request.expected_lifecycle_digest.clone();
@@ -1309,11 +1309,14 @@ fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
     req.expected_lifecycle_digest = initialized.digest.clone();
     context.expected_lifecycle_digest = initialized.digest;
 
-    let primary_completed = primary
-        .join(".csdlc/transactions/completed/503")
-        .read_dir()
-        .map(|entries| entries.count())
-        .unwrap_or(0);
+    let primary_status = run_git(&primary, &["status", "--porcelain", "--untracked-files=all"]);
+    assert!(primary_status.is_empty());
+    req.card_updates.insert("spp".into(), serde_json::json!({"plan_summary":"prepare before binding"}));
+    let edited = execute_operational_local_route("edit", &req, &registry, &context).unwrap();
+    req.expected_lifecycle_digest = edited.digest.clone();
+    context.expected_lifecycle_digest = edited.digest;
+    assert_eq!(run_git(&primary, &["status", "--porcelain", "--untracked-files=all"]), primary_status);
+    assert_eq!(context.state_root.join("transactions/completed/503").read_dir().unwrap().count(), 1);
     let bound_result = execute_operational_local_route("bind", &req, &registry, &context)
         .expect("native bind transfers lifecycle state");
     req.expected_lifecycle_digest = bound_result.digest.clone();
@@ -1321,19 +1324,14 @@ fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
 
     assert!(bound.join(".csdlc/issues/503/index.json").is_file());
     assert!(!primary.join(".csdlc/issues/503").exists());
-    assert_eq!(
-        primary_completed,
-        primary
-            .join(".csdlc/transactions/completed/503")
-            .read_dir()
-            .map(|entries| entries.count())
-            .unwrap_or(0)
-    );
+    assert_eq!(run_git(&primary, &["status", "--porcelain", "--untracked-files=all"]), primary_status);
+    assert!(!primary.join(".csdlc/transactions").exists());
+    assert_eq!(context.state_root.join("transactions/completed/503").read_dir().unwrap().count(), 1);
 
     for route in ["edit", "validate"] {
         assert_eq!(
             execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
-            "missing_local_lifecycle_state"
+            "issue_already_bound"
         );
     }
 
@@ -1462,7 +1460,7 @@ fn bind_transaction_recovers_into_bound_checkout_after_restart() {
         String::from_utf8_lossy(&crashed.stderr)
     );
     assert!(!primary.join(".csdlc/issues/503/index.json").exists());
-    assert!(primary.join(".csdlc/transactions/503.json").is_file());
+    assert!(primary.join(".git/csdlc-v3/local/transactions/503.json").is_file());
     assert!(!bound.join(".csdlc/issues/503/index.json").exists());
 
     let recovered = command
@@ -1479,5 +1477,5 @@ fn bind_transaction_recovers_into_bound_checkout_after_restart() {
     assert_eq!(value["result"]["phase"], "bound");
     assert!(bound.join(".csdlc/issues/503/index.json").is_file());
     assert!(!primary.join(".csdlc/issues/503").exists());
-    assert!(!primary.join(".csdlc/transactions/503.json").exists());
+    assert!(!primary.join(".git/csdlc-v3/local/transactions/503.json").exists());
 }
