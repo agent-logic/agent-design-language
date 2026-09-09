@@ -8,7 +8,6 @@ import copy
 from datetime import datetime, timezone
 import hashlib
 import json
-import os
 from pathlib import Path
 import re
 import stat
@@ -322,13 +321,13 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    packet_path = Path(args.packet)
-    packet = load_json(packet_path)
-    if args.command == "canonicalize":
-        sys.stdout.buffer.write(canonical_payload(packet))
-        return 0
-    repo_root = Path(args.repo_root).resolve()
     try:
+        packet_path = Path(args.packet)
+        packet = load_json(packet_path)
+        if args.command == "canonicalize":
+            sys.stdout.buffer.write(canonical_payload(packet))
+            return 0
+        repo_root = Path(args.repo_root).resolve()
         if args.command == "gcp":
             validate_gcp(args, packet, repo_root)
         else:

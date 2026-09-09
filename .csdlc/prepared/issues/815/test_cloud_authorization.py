@@ -223,6 +223,10 @@ def main() -> int:
         forged_aws = copy.deepcopy(signed_aws)
         forged_aws["operator_authorization"]["statement"] = "forged"
         fixture.run("aws", forged_aws, expect=False, fragment="forged", extra=aws_args, env=aws_env)
+        expired_aws = copy.deepcopy(aws)
+        expired_aws["operator_authorization"]["approved_at_utc"] = utc(NOW - 9000)
+        expired_aws["mutation_deadline"] = utc(NOW - 1)
+        fixture.run("aws", fixture.sign(expired_aws), expect=False, fragment="older than 120 minutes", extra=aws_args, env=aws_env)
         fixture.run("aws", signed_aws, expect=False, fragment="different account", extra=["--observed-account-id", "210987654321", "--terraform-bin", str(mock)], env=aws_env)
         original_sidecar = sidecar.read_text(encoding="utf-8")
         sidecar.write_text("0" * 64 + "\n", encoding="utf-8")
