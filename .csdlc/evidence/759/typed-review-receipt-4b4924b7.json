@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.typed_review_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 759,
+  "implementer": "codex-root",
+  "reviewer": "/root/review_759_observatory_ci_r4",
+  "reviewed_revision": "4b4924b7f0735c82031908127c07443115972a50",
+  "expected_head_sha": "4b4924b7f0735c82031908127c07443115972a50",
+  "head_sha": "4b4924b7f0735c82031908127c07443115972a50",
+  "review_present": true,
+  "evidence_digest": "4b4924b7f0735c82031908127c07443115972a50"
+}
