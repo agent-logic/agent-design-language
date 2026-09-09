@@ -839,7 +839,7 @@ fn run_git(root: &Path, args: &[&str]) -> String {
 
 fn operational_registry(root: &Path) -> PromptRegistry {
     let template_root = root.join("templates");
-    let schema_root = root.join("schemas");
+    let schema_root = template_root.join("schemas");
     fs::create_dir_all(&template_root).expect("template root");
     fs::create_dir_all(&schema_root).expect("schema root");
     let mut template_paths = BTreeMap::new();
@@ -848,8 +848,16 @@ fn operational_registry(root: &Path) -> PromptRegistry {
         fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
         fs::write(
             schema_root.join(format!("{kind}.structure.json")),
-            serde_json::to_vec(&serde_json::json!({"scaffold_lines": [format!("# {kind}")]}))
-                .unwrap(),
+            serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.csdlc.prompt_card_structure.v1",
+                "template_set": "1.0.4",
+                "card_kind": kind,
+                "template_path": path,
+                "scaffold_lines": [format!("# {kind}")],
+                "headings": [{"level": 1, "text": kind}],
+                "locked_lines": []
+            }))
+            .unwrap(),
         )
         .expect("structure schema fixture");
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
@@ -1141,6 +1149,50 @@ fn canonical_v3_selector_and_exact_approval_authorize_isolated_issue_initializat
     assert!(result.mutated);
     assert_eq!(result.phase.as_deref(), Some("ready"));
     assert!(context.state_root.join("issues/503/index.json").is_file());
+}
+
+// PVF: deterministic local contract proof; real current prompt registry and all
+// six versioned templates/schemas, temporary lifecycle state, no network.
+#[test]
+fn current_registry_versioned_templates_resolve_all_structure_schemas() {
+    let repository_root = repo_root();
+    let registry_bytes = fs::read(repository_root.join("docs/templates/prompts/current.json"))
+        .expect("current prompt registry");
+    let mut registry =
+        PromptRegistry::from_current_json(&registry_bytes).expect("current registry parses");
+    for template_path in registry.template_paths.values_mut() {
+        *template_path = repository_root
+            .join(&*template_path)
+            .to_string_lossy()
+            .into_owned();
+    }
+    assert_eq!(
+        registry.card_kinds,
+        ["sip", "stp", "spp", "vpp", "srp", "sor"]
+            .into_iter()
+            .map(str::to_owned)
+            .collect()
+    );
+
+    let (_, _, mut context, _) =
+        operational_authority_fixture("current-versioned-structures", "v3");
+    let initialized = execute_operational_local_route("issue", &request(), &registry, &context)
+        .expect("current templates initialize all six cards");
+    let mut validation_request = request();
+    validation_request.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+
+    let validated =
+        execute_operational_local_route("validate", &validation_request, &registry, &context)
+            .expect("all six current versioned card structures validate");
+    assert!(validated
+        .findings
+        .iter()
+        .any(|finding| finding.code == "six_card_validation_passed"));
+    assert!(!validated
+        .findings
+        .iter()
+        .any(|finding| finding.code == "card_structure_invalid"));
 }
 
 #[test]

@@ -1,0 +1,81 @@
+{
+  "schema": "csdlc.v3.issue_751.execution_proof.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 751,
+  "recorded_by": "Worker #7",
+  "recorded_at": "2026-09-09T09:55:00-07:00",
+  "pvf": {
+    "lane": "deterministic_local_contract_regression",
+    "resource_profile": "CPU, subprocess environment inspection, temporary filesystem and Git fixtures",
+    "network_or_cloud_required": false
+  },
+  "changes": [
+    {
+      "contract": "V3-B:retained-166-ac-3",
+      "summary": "Unsupported imported issue-record top-level fields are collected, sorted, and reported together with the requested issue and repository-relative record path before card loading or state writes.",
+      "paths": [
+        "csdlc-v3/src/application/mod.rs",
+        "csdlc-v3/tests/foundation.rs"
+      ]
+    },
+    {
+      "contract": "V3-C:retained-170-ac-3",
+      "summary": "Child process execution clears inherited environment state, restores only explicit PATH plus fixed LC_ALL=C, retains Windows SystemRoot only on Windows, and injects only the resolver-selected scoped credential when requested. HOME, proxy variables, CA overrides, provider configuration, and other ambient variables are intentionally not inherited; selected secrets are redacted from stdout and stderr.",
+      "paths": [
+        "csdlc-v3/src/adapters/mod.rs"
+      ]
+    },
+    {
+      "contract": "V3-E:retained-178-ac-7",
+      "summary": "Cleanup rejects relative candidate paths with path_not_normalized before canonicalizing the candidate, while absolute registered candidates continue through the existing receipt, registration, live, dirty, head, traversal, symlink, and containment guards.",
+      "paths": [
+        "csdlc-v3/src/commands/terminal.rs",
+        "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+      ]
+    }
+  ],
+  "validation": [
+    {
+      "command": "cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check",
+      "status": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --lib unscoped_child_process_does_not_inherit_parent_credentials_or_home -- --nocapture",
+      "status": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --lib scoped_child_process_receives_only_selected_credential_and_minimal_environment -- --nocapture",
+      "status": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test foundation read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift -- --nocapture",
+      "status": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands cleanup_denies_existing_relative_candidate_before_canonicalization -- --nocapture",
+      "status": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --lib -- --nocapture",
+      "status": "pass",
+      "result": "50 passed"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test foundation -- --nocapture",
+      "status": "pass",
+      "result": "13 passed"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands -- --nocapture",
+      "status": "pass",
+      "result": "31 passed"
+    }
+  ],
+  "non_goals": [
+    "No #517 accounting edits.",
+    "No runtime or cloud mutations.",
+    "No branch-name repair changes from #746.",
+    "No native intent recovery changes from #744.",
+    "No lifecycle guard bypass."
+  ]
+}
