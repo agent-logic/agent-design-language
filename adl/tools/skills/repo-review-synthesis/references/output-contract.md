@@ -36,6 +36,14 @@ Default `repo-review-synthesis` artifacts are Markdown review packets with these
 reason, owner, and follow-up owner in `Residual Risk` and a concrete follow-up
 issue candidate unless the skip was pre-approved.
 
+For every present lane, report the denominator count and digest, selected count,
+and actual manually reviewed paths. Keep full-denominator deterministic scans
+separate from sampled manual review. Validate `lane_denominators.json` against the
+independent source inventory before claiming packet coverage. A selected path is
+not proof it was reviewed; unreviewed selections and excluded eligible paths remain
+residual risk. An empty/category-invalid materially present lane is missing coverage,
+even when another specialist or a mechanical scan passed.
+
 ## Dedupe Notes
 - <dedupe decision or explicit none>
 

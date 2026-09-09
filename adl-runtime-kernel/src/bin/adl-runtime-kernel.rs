@@ -22,7 +22,7 @@ use adl_runtime_kernel::{
     build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
     build_production_operation_executors_with_recorder, load_control_tls, load_identity,
     load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
-    preload_resident_shepherd_model, run_resident_shepherd_recovery,
+    preload_resident_shepherd_model, resident_shepherd_runtime_id, run_resident_shepherd_recovery,
     serve_control_listener_until_ready, serve_private_continuity_listener,
     start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
     verifying_key_from_hex, AdapterKind, AdapterPolicy, AgentPopulationFeed, AuthorityMode,
@@ -800,11 +800,7 @@ async fn main() -> ExitCode {
                 let probe_adapter = shepherd_probe.clone();
                 let probe_runtime_id = instance_id.clone();
                 let shutdown = api_shutdown.child_token();
-                let shepherd_agent_id = if shepherd_index == 0 {
-                    "shepherd".to_owned()
-                } else {
-                    format!("shepherd:{}", shepherd.name)
-                };
+                let shepherd_agent_id = resident_shepherd_runtime_id(shepherd_index, &shepherd);
                 tokio::spawn(async move {
                     let name = shepherd.name.clone();
                     let policy = ResidentShepherdRecoveryPolicy {
