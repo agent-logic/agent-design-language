@@ -57,7 +57,7 @@ Completed the complete nine-lane second review of frozen candidate fb6cbc7f619da
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `exact_head_review_rejected_packet_repair_in_progress`
+- Completion state: `findings_captured_repairs_in_progress`
 - Issue goal ref: `issue-520-internal-review-rerun`
 - Sprint goal ref: `v0.92.1-tail-review`
 - Goal metrics rollup ref: `v0.92.1-tail-review`
@@ -86,13 +86,13 @@ Completed the complete nine-lane second review of frozen candidate fb6cbc7f619da
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; preparation is committed only on the bound #520 branch until review execution and publication.`
 - Worktree-only paths remaining: `All #520 preparation and future review artifacts remain on the bound branch until publication.`
-- Integration state: `bound_worktree_changes_requested`
+- Integration state: `bound_worktree_review_complete_publication_pending`
 - Verification scope: `exact frozen candidate and complete TAIL-04 second-review packet`
 - Integration method used: `native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations`
 - Verification performed:
   - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file`
     `Proves fail-closed negative cases, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
-- Result: `Independent exact-head review rejected commit 48a2003d6c with six actionable packet defects; publication is denied until all are resolved and freshly reviewed.`
+- Result: `Local review packet validation passes; independent exact-head review and PR publication remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check`
     `Assembles deterministic review artifacts and rejects candidate drift, missing denominators, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.`
 - Results:
-  - `The earlier validator pass exposed insufficient semantic guards. New negative fixtures now reject the six demonstrated failure classes; replacement specialist evidence remains pending.`
+  - `Fourteen findings captured; production negative suite and full packet validator pass at the frozen candidate.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: changes_requested_repair_in_progress
+    status: local_packet_pass_exact_head_review_pending
     checks_run:
       - "production negative fixtures and exact-candidate full packet validator pass"
   determinism:
@@ -174,5 +174,5 @@ verification_summary:
 - `All product repairs remain outside #520 and are owned by #814-#821 under #522.`
 
 ## Follow-ups / Deferred work
-- `Collect independently authored exact-candidate specialist inputs for all nine lanes and terminally disposition all 176 acceptance rows.`
-- `Reassemble, replay all validators and declared test invocations, obtain a fresh exact-head review, and publish only after PASS.`
+- `Complete and verify all #814-#821 remediation, with #821 dependency-last.`
+- `Obtain independent exact-head #520 packet review, fix any packet findings, publish, shepherd CI, and reconcile terminal truth.`

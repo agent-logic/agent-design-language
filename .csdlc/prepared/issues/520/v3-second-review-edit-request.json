@@ -5,7 +5,7 @@
   "branch": "codex/520-internal-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
   "registry_version": "1.0.5",
-  "expected_lifecycle_digest": "86d76106915451b35d78d7d7e5fc0ecc33f62a0e16b6ea9e4e3a3c48281a781a",
+  "expected_lifecycle_digest": "3b2f1555de6ffed717a72eec1b025fb7e194f49c46d4382c68efe410061a518b",
   "commands": [
     "prepare_issue",
     "bind_worktree",
