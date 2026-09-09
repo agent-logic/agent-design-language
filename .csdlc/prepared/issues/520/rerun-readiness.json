@@ -1,0 +1,36 @@
+{
+  "schema": "adl.review_readiness_cleanup_report.v1",
+  "run_id": "issue-520-rerun-after-718-758",
+  "status": "blocked",
+  "summary": "The complete #520 internal-review rerun is structurally prepared. #718/PR #809 is merged and closed; execution waits only for #758/PR #805.",
+  "counts": {
+    "safe_mechanical_cleanup": 0,
+    "blocker": 1,
+    "skipped": 0,
+    "follow_on_needed": 0
+  },
+  "items": [
+    {
+      "category": "blocker",
+      "target": "#758 / PR #805",
+      "detail": "PR and issue must be merged and closed before freezing the rerun candidate."
+    }
+  ],
+  "recommended_handoffs": [
+    "After #758/PR #805 clears the remaining gate, fetch origin/main and run build-denominator.rb with the exact fetched SHA.",
+    "Freeze assignments before dispatching the complete specialist lane set."
+  ],
+  "non_claims": [
+    "The rerun has not started.",
+    "No review finding has been remediated or approved by this preparation.",
+    "No release, merge, or closure approval is implied."
+  ],
+  "safety_flags": {
+    "review_approved": false,
+    "findings_rewritten": false,
+    "published_report": false,
+    "created_issues": false,
+    "created_prs": false,
+    "mutated_repository": false
+  }
+}

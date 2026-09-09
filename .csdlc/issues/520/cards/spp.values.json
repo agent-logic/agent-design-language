@@ -1,103 +1,51 @@
 {
-  "identity": {
-    "schema_version": "1.0.0",
-    "template_version": "1.0.0",
-    "issue": 520,
-    "repository": "agent-logic/agent-design-language",
-    "title": "[v0.92.1][TAIL-04] Internal review",
-    "slug": "tail-04-internal-review",
-    "version": "v0.92.1",
-    "generation": 4
-  },
-  "status": "ready",
-  "content": {
-    "card_kind": "spp",
-    "values": {
-      "plan_revision": 3,
-      "summary": "After #519 merges, freeze its exact candidate, build complete path/issue/acceptance denominators, run findings-first specialist lanes, synthesize all raw findings, validate the packet, and obtain exact-head review.",
-      "steps": [
-        {
-          "id": "S1",
-          "action": "Verify #519 reviewed merge truth and freeze full base/candidate SHAs.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-5"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S2",
-          "action": "Build complete changed-path, issue/PR, acceptance-surface, canonical-doc, demo, and evidence inventories without sampling.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-4"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S3",
-          "action": "Run bounded findings-first specialist lanes covering every inventoried row.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-3",
-            "AC-4"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S4",
-          "action": "Synthesize raw findings, acceptance coverage, disagreements, blockers, and #522 dispositions into one canonical register.",
-          "acceptance_ids": [
-            "AC-2",
-            "AC-3"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S5",
-          "action": "Validate counts, schemas, digests, redaction, portability, and exact-head identity; obtain independent packet review.",
-          "acceptance_ids": [
-            "AC-5"
-          ],
-          "status": "pending"
-        }
-      ],
-      "affected_areas": [
-        "docs/milestones/v0.92.1/evidence/release/tail-04",
-        ".csdlc/issues/520",
-        ".csdlc/prepared/issues/520",
-        ".csdlc/prepared/issues/520/validate-internal-review.rb"
-      ],
-      "invariants": [
-        "The candidate stays immutable during review",
-        "Every denominator row is dispositioned",
-        "Green CI never replaces semantic review",
-        "Findings are not fixed inside #520"
-      ],
-      "risks": [
-        "A truncated inventory could hide half-work",
-        "Late candidate drift could stale reviews",
-        "Lifecycle or docs claims could overstate implementation",
-        "Parallel lane results could overlap or omit rows"
-      ],
-      "execution_estimates": {
-        "elapsed_seconds": 43200,
-        "total_tokens": 140000,
-        "validation_seconds": 7200
-      },
-      "stop_conditions": [
-        "#519 is not a reviewed green merge",
-        "Candidate drift",
-        "Incomplete or empty denominator",
-        "Unassigned or stale mandatory lane",
-        "Packet validation failure"
-      ],
-      "replan_triggers": [],
-      "design_ref": ".csdlc/prepared/issues/520/design.md",
-      "design_digest": "a92ee174e71d477315c1979f5f78c713ce37679b869f04317b9ab313740c7555",
-      "diagram_ref": ".csdlc/prepared/issues/520/diagram.mmd",
-      "diagram_digest": "d8ccec569a47ba807da9754860256420256dbcc147c2a3df123752c668f34fdb"
-    }
-  }
+  "identity": null,
+  "status": "ready_waiting_on_758",
+  "content": null,
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 520,
+  "issue_padded": "0520",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/520",
+  "title": "[v0.92.1][TAIL-04] Internal review",
+  "branch": "codex/520-internal-review",
+  "version": "1.0.5",
+  "card": "spp",
+  "card_status": "approved",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
+  "slug": "tail-04-internal-review",
+  "activation_state": "blocked_on_dependency_758",
+  "initial_pvf_lane": "review-complete",
+  "planned_pvf_lane": "review-complete-exact-candidate",
+  "planned_pvf_lane_source": "issue #520 acceptance and internal-review-plan.md",
+  "estimate_elapsed_seconds": "43200",
+  "estimate_total_tokens": "140000",
+  "estimate_validation_seconds": "7200",
+  "issue_goal_token_budget": "unknown",
+  "variance_threshold_percent": "10",
+  "estimate_confidence": "medium",
+  "estimate_data_source": "prior #520 review run and current rerun scope",
+  "estimate_source_ref": "issue #520 historical packet",
+  "issue_goal_ref": "issue-520-internal-review-rerun",
+  "sprint_goal_ref": "v0.92.1-tail-review",
+  "goal_metrics_rollup_ref": "v0.92.1-tail-review",
+  "stp_card": ".csdlc/issues/520/cards/stp.md",
+  "sip_card": ".csdlc/issues/520/cards/sip.md",
+  "plan_summary": "After #758 merges, fetch origin/main, require both #718 and #758 merge commits as ancestors, freeze that exact candidate, rebuild all denominators, rerun every mandatory specialist lane, synthesize every supported finding, validate the packet, and obtain exact-head review.",
+  "dependencies_inline": "#718/PR #809 satisfied; #758/PR #805 must merge before execution",
+  "repo_inputs_inline": "issue #520, milestone v0.92.1 specification and issue graph, TAIL-04 runbook and validators, merged gate evidence",
+  "deliverables_inline": "gate manifest, complete denominators, specialist reports, finding register, synthesis, validation and review evidence",
+  "acceptance_criteria_inline": "complete inventory and disposition; exact evidence binding; explicit partial/inert/unproven outcomes; no non-proving pass credit; exact-head packet validation",
+  "target_files_surfaces_inline": "TAIL-04 review packet, issue #520 lifecycle truth, complete v0.92.1 base-to-candidate surfaces",
+  "non_goals_inline": "product remediation, external review, release approval, deployment, paid execution",
+  "risks_inline": "candidate drift, incomplete denominator, lane overlap or omission, unsupported synthesis, stale lifecycle truth",
+  "validation_plan_inline": "gate preflight; production validator negative fixtures; complete specialist lane coverage; exact-head packet review",
+  "step_1_status": "pending_dependency_758",
+  "step_2_status": "pending",
+  "step_3_status": "pending",
+  "step_4_status": "pending",
+  "step_5_status": "pending",
+  "timestamp": "2026-09-09T19:19:55Z",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/520",
+  "notes_risks_inline": "Do not reuse the historical candidate or prior reports as current proof. Rebuild candidate-bound manifests and reports after #758 merges."
 }

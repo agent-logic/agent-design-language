@@ -1,30 +1,28 @@
 {
-  "identity": {
-    "schema_version": "1.0.0",
-    "template_version": "1.0.0",
-    "issue": 520,
-    "repository": "agent-logic/agent-design-language",
-    "title": "[v0.92.1][TAIL-04] Internal review",
-    "slug": "tail-04-internal-review",
-    "version": "v0.92.1",
-    "generation": 4
-  },
-  "status": "pre_phase",
-  "content": {
-    "card_kind": "srp",
-    "values": {
-      "review_scope": "The complete final v0.92.1 base-to-candidate change set, milestone issue/PR roster, acceptance surfaces, canonical documentation, proof, demos, lifecycle truth, and release claims.",
-      "review_revision": null,
-      "reviewer": null,
-      "review_prompts": [
-        "Does the review inventory every changed production and test file rather than sample?",
-        "Does every acceptance surface map to implementation and meaningful proof?",
-        "Are half-work, inert paths, do-nothing behavior, and unsupported claims explicit findings?",
-        "Do all findings and zero-finding lane results bind the exact candidate?"
-      ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
-    }
-  }
+  "identity": null,
+  "status": "pre_review",
+  "content": null,
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 520,
+  "issue_padded": "0520",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/520",
+  "title": "[v0.92.1][TAIL-04] Internal review",
+  "branch": "codex/520-internal-review",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready_waiting_on_758",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
+  "slug": "tail-04-internal-review",
+  "stp_card": ".csdlc/issues/520/cards/stp.md",
+  "sip_card": ".csdlc/issues/520/cards/sip.md",
+  "spp_card": ".csdlc/issues/520/cards/spp.md",
+  "vpp_card": ".csdlc/issues/520/cards/vpp.md",
+  "sor_card": ".csdlc/issues/520/cards/sor.md",
+  "findings_status": "pre_review",
+  "recommended_outcome": "pending",
+  "review_findings": "No current-candidate findings yet; the rerun is blocked until #758/PR #805 merges and the exact fetched origin/main candidate is frozen.",
+  "review_dispositions": "No dispositions yet. Route every supported product finding to #522 and retain all unresolved findings in the canonical register.",
+  "review_notes": "The previous #520 reports are historical inputs only. Independent review must bind the new exact candidate and complete regenerated packet.",
+  "timestamp": "2026-09-09T19:19:55Z"
 }

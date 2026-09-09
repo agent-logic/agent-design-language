@@ -1,38 +1,34 @@
 {
-  "identity": {
-    "schema_version": "1.0.0",
-    "template_version": "1.0.0",
-    "issue": 520,
-    "repository": "agent-logic/agent-design-language",
-    "title": "[v0.92.1][TAIL-04] Internal review",
-    "slug": "tail-04-internal-review",
-    "version": "v0.92.1",
-    "generation": 4
-  },
+  "identity": null,
   "status": "ready",
-  "content": {
-    "card_kind": "sip",
-    "values": {
-      "goal": "Produce one findings-first internal review register for the exact final v0.92.1 milestone candidate.",
-      "required_outcome": "A complete review denominator and canonical finding register expose every gap, partial implementation, inert path, unsupported claim, and release blocker at one exact candidate revision.",
-      "declared_scope": [
-        "docs/milestones/v0.92.1/evidence/release/tail-04/**",
-        ".csdlc/issues/520/**",
-        ".csdlc/prepared/issues/520/**"
-      ],
-      "authority_boundary": [
-        "Issue #520 owns review artifacts only",
-        "TAIL-03/#519 supplies the immutable candidate",
-        "Product remediation belongs to TAIL-06/#522",
-        "External review belongs to TAIL-05/#521"
-      ],
-      "initial_assumptions": [],
-      "operator_constraints": [
-        "Never write tracked issue work on main",
-        "Do not execute before #519 has a reviewed green merge",
-        "Review complete denominators rather than samples",
-        "Do not merge, deploy, restart Runtime, or spend provider/cloud funds"
-      ]
-    }
-  }
+  "content": null,
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 520,
+  "issue_padded": "0520",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/520",
+  "title": "[v0.92.1][TAIL-04] Internal review",
+  "branch": "codex/520-internal-review",
+  "version": "1.0.5",
+  "card": "sip",
+  "card_status": "ready_waiting_on_758",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
+  "slug": "tail-04-internal-review",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/520",
+  "docs_context": "v0.92.1 TAIL-04 internal review rerun after #718 and #758 merge",
+  "output_card": ".csdlc/issues/520/cards/sor.md",
+  "required_outcome_type": "complete_findings_first_internal_review_packet",
+  "demo_required": "false",
+  "goal": "Rerun the complete findings-first internal review against the exact v0.92.1 candidate after #718 and #758 merge.",
+  "required_outcome": "A complete review denominator and canonical finding register expose every gap, partial implementation, inert path, unsupported claim, and release blocker at one exact fetched origin/main revision containing both gate merges.",
+  "acceptance_criteria": "- Inventory and disposition every changed production file, proof file, canonical document, milestone issue/PR, and acceptance surface.\n- Bind every finding to exact evidence, severity, candidate revision, impact, source lane, and owner.\n- Identify partial, inert, unreachable, unproven, and documentation-only outcomes.\n- Credit no sampled, empty, zero-test, or CI-only lane as passing proof.\n- Validate packet manifests, counts, redaction, portability, and exact-head identity.",
+  "inputs": "- GitHub issue #520 and milestone v0.92.1 planning surfaces.\n- Merged #718 via PR #809.\n- Merged #758 via PR #805 once terminal.\n- Existing TAIL-04 review runbook, validator, and prior packet as historical input only.",
+  "target_files_surfaces": "- docs/milestones/v0.92.1/evidence/release/tail-04/**\n- .csdlc/issues/520/**\n- .csdlc/prepared/issues/520/**",
+  "validation_plan": "Freeze exact fetched origin/main after both gates, rebuild complete denominators, rerun all mandatory specialist lanes, synthesize without dropping findings, run the production validator and negative fixtures, then obtain independent exact-head packet review.",
+  "demo_proof_requirements": "No live provider or cloud demo. Review evidence must be deterministic, candidate-bound, and complete.",
+  "non_goals": "- Do not fix product findings inside #520; route them through #522.\n- Do not perform the external review owned by #521.\n- Do not approve the release, merge product work, deploy, restart Runtime, or spend cloud/provider funds.",
+  "notes_risks": "Execution is blocked until #758/PR #805 is merged. The candidate must be fetched origin/main, equal the reviewed revision, and contain merge commits for both #718 and #758.",
+  "target_files_surfaces_inline": "TAIL-04 review packet, issue #520 lifecycle truth, and complete v0.92.1 base-to-candidate surfaces",
+  "validation_plan_inline": "gate preflight, complete denominator, all specialist lanes, synthesis, production validator, negative fixtures, and exact-head review",
+  "timestamp": "2026-09-09T19:19:55Z"
 }

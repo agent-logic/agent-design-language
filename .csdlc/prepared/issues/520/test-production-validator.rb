@@ -51,16 +51,24 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     write_json(response_path, {"issues" => [issue]})
     query = "issues pageInfo hasNextPage endCursor closedByPullRequestsReferences"
     manifest = {
-      "base_sha" => base, "candidate_sha" => candidate, "candidate_source_issue" => 519,
+      "base_sha" => base, "candidate_sha" => candidate, "candidate_source" => "origin_main_after_review_gates",
       "candidate_merge_sha" => candidate,
       "opening_authority" => {"issue" => 480, "pull_request" => 527, "merge_sha" => opening, "base_sha" => base},
-      "tail_03_observation" => {"issue" => 519, "state" => "CLOSED", "merge_sha" => candidate, "retrieved_at" => "2026-09-07T00:00:00Z"},
-      "execution_spec_sha256" => Digest::SHA256.hexdigest(File.read(spec_path))
+      "review_gate_observations" => [
+        {"issue" => 718, "pull_request" => 809, "issue_state" => "CLOSED", "pr_state" => "MERGED", "head_sha" => candidate, "merge_sha" => candidate, "merged_at" => "2026-09-09T00:00:00Z", "issue_closed_at" => "2026-09-09T00:00:01Z"},
+        {"issue" => 758, "pull_request" => 805, "issue_state" => "CLOSED", "pr_state" => "MERGED", "head_sha" => candidate, "merge_sha" => candidate, "merged_at" => "2026-09-09T00:00:02Z", "issue_closed_at" => "2026-09-09T00:00:03Z"}
+      ],
+      "execution_spec_sha256" => Digest::SHA256.hexdigest(File.read(spec_path)),
+      "milestone_issue_count" => 1,
+      "milestone_pull_request_count" => 1
     }
     write_json(File.join(root, "run_manifest.json"), manifest)
+    milestone_pr = {"number" => 527, "title" => "WP-01 PR", "state" => "MERGED", "mergedAt" => "2026-09-01T00:00:00Z", "url" => "https://example.invalid/pr/527"}
+    query = "issues pullRequests milestone pageInfo hasNextPage endCursor closedByPullRequestsReferences"
+    write_json(response_path, {"issues" => [issue], "pull_requests" => [milestone_pr]})
     snapshot = {"repository" => "agent-logic/agent-design-language", "milestone" => "v0.92.1",
-      "api_receipt" => {"transport" => "github_graphql", "page_size" => 100, "page_count" => 1, "final_has_next_page" => false, "retrieved_at" => "now", "query" => query, "query_sha256" => Digest::SHA256.hexdigest(query), "response_path" => response_path, "response_sha256" => Digest::SHA256.file(response_path).hexdigest},
-      "pagination_complete" => true, "next_cursor" => nil, "query_limit" => nil, "issues" => [issue]}
+      "api_receipt" => {"transport" => "github_graphql", "page_size" => 100, "page_count" => 3, "issue_page_count" => 1, "closing_reference_page_count" => 1, "pull_request_page_count" => 1, "final_has_next_page" => false, "retrieved_at" => "now", "query" => query, "query_sha256" => Digest::SHA256.hexdigest(query), "response_path" => response_path, "response_sha256" => Digest::SHA256.file(response_path).hexdigest},
+      "pagination_complete" => true, "next_cursor" => nil, "query_limit" => nil, "issues" => [issue], "pull_requests" => [milestone_pr]}
     write_json(File.join(root, "live-milestone-snapshot.json"), snapshot)
     repo_rows = changed.map.with_index { |path, i| ref="repo:#{i}"; {"path" => path, "denominator_ref" => ref, "classification" => "code", "disposition" => "review", "review_lane" => "code", "evidence" => blob_evidence.call(path, ref)} }
     write_json(File.join(root, "repo_inventory.json"), {"rows" => repo_rows})
@@ -68,12 +76,14 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     write_json(File.join(root, "canonical-surface-inventory.json"), {"rows" => canonical})
     issue_row = issue.merge("planned_id" => "WP-01", "issue" => 480, "denominator_ref" => "issue:480", "retrieved_at" => "now", "disposition" => "review", "evidence" => blob_evidence.call(spec_path, "issue:480"))
     write_json(File.join(root, "issue_inventory.json"), {"rows" => [issue_row]})
+    pr_row = {"pull_request" => 527, "title" => milestone_pr.fetch("title"), "state" => milestone_pr.fetch("state"), "merged_at" => milestone_pr.fetch("mergedAt"), "url" => milestone_pr.fetch("url"), "denominator_ref" => "pr:527", "retrieved_at" => "now", "disposition" => "review", "evidence" => blob_evidence.call(spec_path, "pr:527")}
+    write_json(File.join(root, "pull_request_inventory.json"), {"rows" => [pr_row]})
     criterion = "observable result"
     ac_evidence=blob_evidence.call(spec_path,"ac:1").merge("criterion_id"=>"WP-01:AC-1")
     ac = {"planned_id" => "WP-01", "acceptance_id" => "AC-1", "criterion" => criterion, "criterion_sha256" => Digest::SHA256.hexdigest(JSON.generate(criterion)), "denominator_ref" => "ac:1", "implementation_disposition" => "implemented", "proof_disposition" => "proved", "evidence" => ac_evidence}
     write_json(File.join(root, "acceptance_coverage.json"), {"rows" => [ac]})
-    refs = (repo_rows + canonical + [issue_row, ac]).map { |row| row.fetch("denominator_ref") }
-    lanes = %w[code tests documentation security architecture provider_cloud demos retained_evidence]
+    refs = (repo_rows + canonical + [issue_row, pr_row, ac]).map { |row| row.fetch("denominator_ref") }
+    lanes = %w[code tests documentation security architecture dependency provider_cloud demos retained_evidence]
     assignments = lanes.map.with_index { |lane, i| {"id" => "lane-#{i}", "lane" => lane, "denominator_refs" => []} }
     refs.each_with_index { |ref, i| assignments[i % assignments.length]["denominator_refs"] << ref }
     results = assignments.map do |assignment|
@@ -87,12 +97,28 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     write_json(File.join(root, "lane-results.json"), {"results" => results})
     write_json(File.join(root, "findings.json"), {"candidate_sha" => candidate, "outcome" => "passed", "findings" => []})
     %w[proof-results.json validation-results.json redaction-report.json quality-report.json].each { |name| subject="artifact:#{name}"; write_json(File.join(root, name), {"candidate_sha" => candidate, "outcome" => "passed", "observations" => [{"subject_id"=>subject,"result"=>"verified","detail"=>"resolved exact candidate evidence","evidence"=>blob_evidence.call(spec_path,subject)}]}) }
-    required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json]
+    required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json pull_request_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json]
     paths = required.map { |name| File.join(root, name) } + results.map { |row| row.fetch("report_path") } + [response_path]
     write_json(File.join(root, "packet-manifest.json"), {"entries" => paths.map { |path| {"path" => path, "sha256" => Digest::SHA256.file(path).hexdigest} }})
 
     bin = File.join(repo, "bin"); FileUtils.mkdir_p(bin)
-    File.write(File.join(bin, "gh"), "#!/bin/sh\nprintf '%s\\n' '[{\"number\":480,\"title\":\"WP-01\",\"state\":\"CLOSED\",\"closedByPullRequestsReferences\":[{\"number\":527}]}]'\n")
+    File.write(File.join(bin, "gh"), <<~SH)
+      #!/bin/sh
+      if [ "$1" = "pr" ] && [ "$2" = "view" ]; then
+        merged_at="2026-09-09T00:00:00Z"
+        [ "$3" = "805" ] && merged_at="2026-09-09T00:00:02Z"
+        printf '{"number":%s,"state":"MERGED","headRefOid":"%s","mergeCommit":{"oid":"%s"},"mergedAt":"%s"}\n' "$3" "#{candidate}" "#{candidate}" "$merged_at"
+      elif [ "$1" = "issue" ] && [ "$2" = "view" ]; then
+        closing=809
+        closed_at="2026-09-09T00:00:01Z"
+        if [ "$3" = "758" ]; then closing=805; closed_at="2026-09-09T00:00:03Z"; fi
+        printf '{"number":%s,"state":"CLOSED","closedAt":"%s","closedByPullRequestsReferences":[{"number":%s}]}\n' "$3" "$closed_at" "$closing"
+      elif [ "$1" = "pr" ] && [ "$2" = "list" ]; then
+        printf '%s\n' '[{"number":527,"title":"WP-01 PR","state":"MERGED","mergedAt":"2026-09-01T00:00:00Z","url":"https://example.invalid/pr/527"}]'
+      else
+        printf '%s\n' '[{"number":480,"title":"WP-01","state":"CLOSED","closedByPullRequestsReferences":[{"number":527}]}]'
+      fi
+    SH
     FileUtils.chmod(0o755, File.join(bin, "gh")); ENV["PATH"] = "#{bin}:#{ENV.fetch('PATH')}"
 
     result = validate_packet!(root: root)
@@ -132,15 +158,29 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       snap = JSON.parse(File.read(snapshot_path)); snap.fetch("issues").first["pull_requests"] = []; write_json(snapshot_path, snap)
       write_json(response_path, {"issues" => snap.fetch("issues")}); snap.fetch("api_receipt")["response_sha256"] = Digest::SHA256.file(response_path).hexdigest; write_json(snapshot_path, snap)
     end
+    pr_inventory_path = File.join(root, "pull_request_inventory.json")
+    manifest_path = File.join(root, "run_manifest.json")
+    assignments_path = File.join(root, "assignments.json")
+    reject_mutation.call("jointly_omitted_milestone_pr", [snapshot_path, response_path, pr_inventory_path, manifest_path, assignments_path, File.join(root, "packet-manifest.json")]) do
+      snap = JSON.parse(File.read(snapshot_path)); snap["pull_requests"] = []; write_json(snapshot_path, snap)
+      write_json(response_path, {"issues" => snap.fetch("issues"), "pull_requests" => []}); snap.fetch("api_receipt")["response_sha256"] = Digest::SHA256.file(response_path).hexdigest; write_json(snapshot_path, snap)
+      write_json(pr_inventory_path, {"rows" => []})
+      run = JSON.parse(File.read(manifest_path)); run["milestone_pull_request_count"] = 0; write_json(manifest_path, run)
+      assignments_doc = JSON.parse(File.read(assignments_path)); assignments_doc.fetch("assignments").each { |row| row.fetch("denominator_refs").delete("pr:527") }; write_json(assignments_path, assignments_doc)
+    end
     reject_mutation.call("incomplete_pagination", [snapshot_path, File.join(root, "packet-manifest.json")]) do
       snap = JSON.parse(File.read(snapshot_path)); snap["pagination_complete"] = false; snap.fetch("api_receipt")["final_has_next_page"] = true; write_json(snapshot_path, snap)
     end
-    manifest_path = File.join(root, "run_manifest.json")
+    reject_mutation.call("duplicate_review_gate", [manifest_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(manifest_path)); doc.fetch("review_gate_observations") << doc.fetch("review_gate_observations").last.dup; write_json(manifest_path, doc)
+    end
+    reject_mutation.call("forged_review_gate", [manifest_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(manifest_path)); doc.fetch("review_gate_observations").first["head_sha"] = base; write_json(manifest_path, doc)
+    end
     reject_mutation.call("self_authored_mutable_base", [manifest_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(manifest_path)); doc["base_sha"] = candidate; doc.fetch("opening_authority")["base_sha"] = candidate; write_json(manifest_path, doc)
     end
     acceptance_path = File.join(root, "acceptance_coverage.json")
-    assignments_path = File.join(root, "assignments.json")
     reject_mutation.call("jointly_omitted_acceptance", [acceptance_path, assignments_path, File.join(root, "packet-manifest.json")]) do
       write_json(acceptance_path, {"rows" => []})
       doc = JSON.parse(File.read(assignments_path)); doc.fetch("assignments").each { |row| row.fetch("denominator_refs").delete("ac:1") }; write_json(assignments_path, doc)
@@ -148,6 +188,18 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     report_path = results.first.fetch("report_path")
     reject_mutation.call("content_free_lane", [report_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(report_path)); doc["observations"] = []; write_json(report_path, doc)
+    end
+    lane_results_path = File.join(root, "lane-results.json")
+    reject_mutation.call("missing_dependency_lane", [assignments_path, lane_results_path, File.join(root, "packet-manifest.json")]) do
+      assignments_doc = JSON.parse(File.read(assignments_path))
+      dependency = assignments_doc.fetch("assignments").find { |row| row.fetch("lane") == "dependency" }
+      architecture = assignments_doc.fetch("assignments").find { |row| row.fetch("lane") == "architecture" }
+      architecture.fetch("denominator_refs").concat(dependency.fetch("denominator_refs"))
+      assignments_doc.fetch("assignments").delete(dependency)
+      write_json(assignments_path, assignments_doc)
+      results_doc = JSON.parse(File.read(lane_results_path))
+      results_doc.fetch("results").reject! { |row| row.fetch("assignment_id") == dependency.fetch("id") }
+      write_json(lane_results_path, results_doc)
     end
   end
 end

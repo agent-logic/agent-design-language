@@ -49,7 +49,7 @@ end
 
 def validate_packet!(root:, mode: "all")
 fail!("unsupported mode: #{mode}") unless %w[all denominator findings integrity].include?(mode)
-required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json packet-manifest.json]
+required = %w[run_manifest.json live-milestone-snapshot.json repo_inventory.json canonical-surface-inventory.json issue_inventory.json pull_request_inventory.json acceptance_coverage.json assignments.json lane-results.json findings.json proof-results.json validation-results.json redaction-report.json quality-report.json packet-manifest.json]
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing review artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -58,7 +58,7 @@ manifest = docs.fetch("run_manifest.json")
 base = manifest.fetch("base_sha")
 candidate = manifest.fetch("candidate_sha")
 fail!("base/candidate must be full distinct git SHAs") unless full_sha?(base) && full_sha?(candidate) && base != candidate
-fail!("candidate is not the canonical #519 merge") unless manifest.fetch("candidate_source_issue") == 519 && manifest.fetch("candidate_merge_sha") == candidate
+fail!("candidate source is not the frozen post-remediation origin/main revision") unless manifest.fetch("candidate_source") == "origin_main_after_review_gates" && manifest.fetch("candidate_merge_sha") == candidate
 opening = manifest.fetch("opening_authority")
 fail!("base authority is not canonical WP-01/#480/PR #527") unless opening.fetch("issue") == 480 && opening.fetch("pull_request") == 527
 opening_merge = opening.fetch("merge_sha")
@@ -69,8 +69,30 @@ system("git", "cat-file", "-e", "#{opening_merge}^{commit}") or fail!("opening m
 opening_parents = `git show -s --format=%P #{opening_merge}`.split
 fail!("base must be the sole parent of the immutable WP-01 merge") unless opening_parents == [base] && opening.fetch("base_sha") == base
 system("git", "merge-base", "--is-ancestor", base, candidate) or fail!("base is not ancestral to candidate")
-live_519 = manifest.fetch("tail_03_observation")
-fail!("#519 live observation does not prove the candidate") unless live_519.fetch("issue") == 519 && live_519.fetch("state") == "CLOSED" && live_519.fetch("merge_sha") == candidate && nonempty?(live_519.fetch("retrieved_at"))
+gates = manifest.fetch("review_gate_observations")
+expected_gates = [[718, 809], [758, 805]]
+actual_gates = gates.map { |gate| [gate.fetch("issue"), gate.fetch("pull_request")] }.sort
+fail!("review gate observations do not exactly cover #718 and #758") unless actual_gates == expected_gates
+gates.each do |gate|
+  merge_sha = gate.fetch("merge_sha")
+  fail!("review gate merge SHA is invalid") unless full_sha?(merge_sha)
+  fail!("review gate is not terminal") unless gate.fetch("issue_state") == "CLOSED" && gate.fetch("pr_state") == "MERGED" && nonempty?(gate.fetch("merged_at")) && nonempty?(gate.fetch("issue_closed_at"))
+  system("git", "cat-file", "-e", "#{merge_sha}^{commit}") or fail!("review gate merge commit is unavailable")
+  system("git", "merge-base", "--is-ancestor", merge_sha, candidate) or fail!("review gate merge is not ancestral to candidate")
+  pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", gate.fetch("pull_request").to_s, "--repo", "agent-logic/agent-design-language", "--json", "number,state,headRefOid,mergeCommit,mergedAt")
+  fail!("live review-gate PR query failed: #{pr_err.strip}") unless pr_status.success?
+  live_pr = JSON.parse(pr_out)
+  issue_out, issue_err, issue_status = Open3.capture3("gh", "issue", "view", gate.fetch("issue").to_s, "--repo", "agent-logic/agent-design-language", "--json", "number,state,closedAt,closedByPullRequestsReferences")
+  fail!("live review-gate issue query failed: #{issue_err.strip}") unless issue_status.success?
+  live_issue = JSON.parse(issue_out)
+  live_closing_prs = live_issue.fetch("closedByPullRequestsReferences").map { |row| row.fetch("number") }
+  fail!("retained review-gate observation differs from live GitHub state") unless
+    live_pr.fetch("number") == gate.fetch("pull_request") && live_pr.fetch("state") == "MERGED" &&
+    live_pr.fetch("headRefOid") == gate.fetch("head_sha") && live_pr.dig("mergeCommit", "oid") == merge_sha &&
+    live_pr.fetch("mergedAt") == gate.fetch("merged_at") && live_issue.fetch("number") == gate.fetch("issue") &&
+    live_issue.fetch("state") == "CLOSED" && live_issue.fetch("closedAt") == gate.fetch("issue_closed_at") &&
+    live_closing_prs.include?(gate.fetch("pull_request"))
+end
 
 changed = `git diff --name-only #{base}...#{candidate}`.lines.map(&:strip).reject(&:empty?).sort
 fail!("candidate range is unavailable") unless $?.success?
@@ -80,7 +102,7 @@ fail!("repo inventory contains unreviewed or non-resolving rows") unless repo_ro
 
 canonical_rows = docs.fetch("canonical-surface-inventory.json").fetch("rows")
 canonical_kinds = %w[documentation demo provider_cloud retained_evidence]
-fail!("canonical #519 review surfaces are incomplete") unless canonical_rows.map { |row| row.fetch("kind") }.uniq.sort == canonical_kinds.sort
+fail!("canonical release review surfaces are incomplete") unless canonical_rows.map { |row| row.fetch("kind") }.uniq.sort == canonical_kinds.sort
 fail!("canonical surfaces are not immutable-candidate bound") unless canonical_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("path")) && evidence_resolves?(row.fetch("evidence"), candidate, root, subject_id: row.fetch("denominator_ref")) }
 
 spec_path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
@@ -96,10 +118,10 @@ fail!("planned IDs are duplicated") unless planned_rows.map { |row| row.fetch("p
 snapshot = docs.fetch("live-milestone-snapshot.json")
 fail!("milestone snapshot source is wrong") unless snapshot.fetch("repository") == "agent-logic/agent-design-language" && snapshot.fetch("milestone") == "v0.92.1"
 api_receipt = snapshot.fetch("api_receipt")
-fail!("milestone API receipt is incomplete") unless api_receipt.fetch("transport") == "github_graphql" && api_receipt.fetch("page_size") == 100 && api_receipt.fetch("page_count").positive? && api_receipt.fetch("final_has_next_page") == false && nonempty?(api_receipt.fetch("retrieved_at"))
+fail!("milestone API receipt is incomplete") unless api_receipt.fetch("transport") == "github_graphql" && api_receipt.fetch("page_size") == 100 && api_receipt.fetch("page_count").positive? && api_receipt.fetch("issue_page_count").positive? && api_receipt.fetch("closing_reference_page_count") >= snapshot.fetch("issues").length && api_receipt.fetch("pull_request_page_count").positive? && api_receipt.fetch("final_has_next_page") == false && nonempty?(api_receipt.fetch("retrieved_at"))
 query = api_receipt.fetch("query")
 fail!("API receipt query digest mismatch") unless Digest::SHA256.hexdigest(query) == api_receipt.fetch("query_sha256")
-fail!("API receipt query does not prove cursor pagination and PR projection") unless %w[issues pageInfo hasNextPage endCursor closedByPullRequestsReferences].all? { |token| query.include?(token) }
+fail!("API receipt query does not prove complete cursor pagination and PR projection") unless %w[issues pullRequests milestone pageInfo hasNextPage endCursor closedByPullRequestsReferences].all? { |token| query.include?(token) }
 response_path = api_receipt.fetch("response_path")
 fail!("milestone API response is missing") unless File.file?(response_path)
 fail!("milestone API response digest mismatch") unless Digest::SHA256.file(response_path).hexdigest == api_receipt.fetch("response_sha256")
@@ -108,9 +130,11 @@ live_issues = snapshot.fetch("issues")
 fail!("live milestone snapshot is empty") unless live_issues.any?
 live_numbers = live_issues.map { |row| row.fetch("number") }
 fail!("live milestone snapshot duplicates issues") unless live_numbers.uniq.length == live_numbers.length
-live_prs = live_issues.flat_map { |row| row.fetch("pull_requests") }
-captured_rows = read_json(response_path).fetch("issues")
-fail!("snapshot differs from immutable API response") unless captured_rows == live_issues
+live_prs = snapshot.fetch("pull_requests")
+live_pr_numbers = live_prs.map { |row| row.fetch("number") }
+fail!("live milestone snapshot duplicates pull requests") unless live_pr_numbers.uniq.length == live_pr_numbers.length
+captured_response = read_json(response_path)
+fail!("snapshot differs from immutable API response") unless captured_response.fetch("issues") == live_issues && captured_response.fetch("pull_requests") == live_prs
 
 query_argv = ["gh", "issue", "list", "--repo", "agent-logic/agent-design-language", "--milestone", "v0.92.1", "--state", "all", "--limit", "10000", "--json", "number,title,state,closedByPullRequestsReferences"]
 live_out, live_err, live_status = Open3.capture3(*query_argv)
@@ -119,6 +143,12 @@ live_now = JSON.parse(live_out).map do |row|
   {"number" => row.fetch("number"), "title" => row.fetch("title"), "state" => row.fetch("state"), "pull_requests" => row.fetch("closedByPullRequestsReferences").map { |pr| pr.fetch("number") }.sort}
 end.sort_by { |row| row.fetch("number") }
 fail!("captured milestone snapshot is stale, truncated, or invented") unless live_issues.sort_by { |row| row.fetch("number") } == live_now
+
+pr_query_argv = ["gh", "pr", "list", "--repo", "agent-logic/agent-design-language", "--milestone", "v0.92.1", "--state", "all", "--limit", "10000", "--json", "number,title,state,mergedAt,url"]
+pr_out, pr_err, pr_status = Open3.capture3(*pr_query_argv)
+fail!("live milestone PR query failed: #{pr_err.strip}") unless pr_status.success?
+live_prs_now = JSON.parse(pr_out).sort_by { |row| row.fetch("number") }
+fail!("captured milestone PR snapshot is stale, truncated, or invented") unless live_prs.sort_by { |row| row.fetch("number") } == live_prs_now
 
 creation_receipt_path = "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
 creation_receipt = JSON.parse(git_blob(candidate, creation_receipt_path))
@@ -135,6 +165,16 @@ fail!("issue inventory differs from live title/state/PR authority") unless issue
 end
 fail!("issue inventory has duplicate, stale, undispositioned, or non-resolving rows") unless issue_rows.map { |row| row.fetch("issue") }.uniq.length == issue_rows.length && issue_rows.all? { |row| row.fetch("issue").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root, subject_id: row.fetch("denominator_ref")) && row.fetch("pull_requests").is_a?(Array) }
 
+pull_request_rows = docs.fetch("pull_request_inventory.json").fetch("rows")
+fail!("pull-request inventory does not exactly cover the live milestone") unless pull_request_rows.map { |row| row.fetch("pull_request") }.sort == live_pr_numbers.sort
+live_prs_by_number = live_prs.to_h { |row| [row.fetch("number"), row] }
+fail!("pull-request inventory differs from live title/state/merge authority") unless pull_request_rows.all? do |row|
+  live = live_prs_by_number.fetch(row.fetch("pull_request"))
+  row.fetch("title") == live.fetch("title") && row.fetch("state") == live.fetch("state") && row.fetch("merged_at") == live.fetch("mergedAt") && row.fetch("url") == live.fetch("url")
+end
+fail!("pull-request inventory has duplicate, stale, undispositioned, or non-resolving rows") unless pull_request_rows.map { |row| row.fetch("pull_request") }.uniq.length == pull_request_rows.length && pull_request_rows.all? { |row| row.fetch("pull_request").is_a?(Integer) && nonempty?(row.fetch("denominator_ref")) && nonempty?(row.fetch("state")) && nonempty?(row.fetch("retrieved_at")) && nonempty?(row.fetch("disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root, subject_id: row.fetch("denominator_ref")) }
+fail!("manifest issue/PR counts differ from complete inventories") unless manifest.fetch("milestone_issue_count") == issue_rows.length && manifest.fetch("milestone_pull_request_count") == pull_request_rows.length
+
 expected_acceptance = specs.flat_map { |row| row.fetch("acceptance_criteria").each_index.map { |index| "#{row.fetch('id')}:AC-#{index + 1}" } }.sort
 canonical_acceptance = specs.flat_map do |spec|
   spec.fetch("acceptance_criteria").each_with_index.map do |criterion, index|
@@ -150,7 +190,7 @@ fail!("acceptance rows rewrite canonical criterion content") unless acceptance_r
 end
 fail!("acceptance inventory has missing or non-resolving implementation/proof dispositions") unless acceptance_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && row.fetch("evidence").fetch("criterion_id") == "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}" && nonempty?(row.fetch("implementation_disposition")) && nonempty?(row.fetch("proof_disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root, subject_id: row.fetch("denominator_ref")) }
 
-all_refs = (repo_rows + canonical_rows + issue_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
+all_refs = (repo_rows + canonical_rows + issue_rows + pull_request_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
 fail!("denominator references are not unique") unless all_refs.uniq.length == all_refs.length
 assignments = docs.fetch("assignments.json").fetch("assignments")
 results = docs.fetch("lane-results.json").fetch("results")
@@ -159,7 +199,7 @@ assigned_refs = assignments.flat_map { |row| row.fetch("denominator_refs") }
 fail!("assignments do not cover each denominator row exactly once") unless assigned_refs.sort == all_refs.sort && assigned_refs.uniq.length == assigned_refs.length
 assignment_ids = assignments.map { |row| row.fetch("id") }
 fail!("assignment IDs are not unique") unless assignment_ids.uniq.length == assignment_ids.length
-mandatory_lanes = %w[code tests documentation security architecture provider_cloud demos retained_evidence]
+mandatory_lanes = %w[code tests documentation security architecture dependency provider_cloud demos retained_evidence]
 fail!("mandatory specialist lane set is incomplete") unless (mandatory_lanes - assignments.map { |row| row.fetch("lane") }).empty?
 fail!("lane results do not match assignments exactly") unless results.map { |row| row.fetch("assignment_id") }.sort == assignment_ids.sort
 raw_findings = []

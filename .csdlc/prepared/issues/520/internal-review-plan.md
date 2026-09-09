@@ -1,52 +1,59 @@
 # v0.92.1 final-candidate internal review plan
 
-Status: `ready_waiting_on_519`
+Status: `ready_waiting_on_758`
 
 Issue #520 produces one findings-first register for one immutable v0.92.1
-candidate. Review execution is gated on the reviewed merge of #519. This plan
+candidate. This is a complete rerun of the internal review after the remediation
+wave. Review execution is gated on reviewed merges for #718 and #758. This plan
 does not freeze a candidate or claim review work has begun.
 
 ## Current entry state
 
 The C-SDLC issue is bound to `codex/520-internal-review` at
 `/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review`. Execution may
-start immediately after #519 has a reviewed merge and the resulting `main`
-commit is available locally. No paid provider, cloud, deployment, or Runtime
-operation is authorized or required by this internal review.
+start immediately after #718 and #758 each have a reviewed merge, both issues
+are closed by their declared PRs, and the resulting `origin/main` commit is
+available locally. No paid provider, cloud, deployment, or Runtime operation is
+authorized or required by this internal review.
 
 ## Exact denominator
 
-At execution time, retain full base and candidate SHAs. The candidate is the
-exact TAIL-03/#519 reviewed merge on `main`. The base is not operator-entered:
-it is derived as the sole parent of the immutable WP-01 authority merge,
-issue #480 / PR #527. The run manifest records all three SHAs and the validator
-recomputes that parent relationship. Build and retain these complete,
+At execution time, fetch and retain full base, dependency-merge, and candidate
+SHAs. The candidate is the exact `origin/main` revision observed immediately
+after both #718/PR #809 and #758/PR #805 are merged and closed. Both dependency
+merge commits must be ancestors of that candidate. The base is not
+operator-entered: it is derived as the sole parent of the immutable WP-01
+authority merge, issue #480 / PR #527. The run manifest records these SHAs and
+the validator recomputes their ancestry. Build and retain these complete,
 machine-readable inventories:
 
 1. every tracked path in `base...candidate`, classified as production code,
    test/proof, documentation, lifecycle/evidence, generated, vendored, or
    other;
 2. a pagination-complete live GitHub snapshot of every issue assigned to
-   v0.92.1 and every associated PR, plus an inventory that matches that
-   snapshot exactly, including
-   open, closed, merged, deferred, duplicate, and superseded dispositions;
+   v0.92.1, every fully paginated closing PR reference for those issues, and
+   every PR assigned to the milestone, plus inventories that match that
+   snapshot exactly, including open, closed, merged, abandoned, stacked,
+   deferred, duplicate, and superseded dispositions;
 3. every v0.92.1 acceptance surface and planned work package, mapped to its
    implementation, proof, documentation, or explicit unresolved gap;
 4. every canonical release document, demo claim, provider/cloud boundary, and
-   retained release-tail artifact cited by #519.
+   retained release-tail artifact cited by the release handoff.
 
-The live snapshot must record completion of cursor pagination and must not
-declare a query cap. It retains the exact GraphQL query, query digest, every
-page, terminal `hasNextPage: false`, and a digest-bound raw response. The
-validator re-queries GitHub and rejects a captured roster that differs from
-live authority. Planned-ID mappings are independently derived from the
+The live snapshot must record completion of independent issue, per-issue
+closing-reference, and repository pull-request cursor pagination and must not
+declare a query cap. It retains the exact GraphQL queries, combined query
+digest, every page, terminal `hasNextPage: false` for every connection, and a
+digest-bound raw response. The validator re-queries GitHub and rejects a
+captured issue or milestone-PR roster that differs from live authority.
+Planned-ID mappings are independently derived from the
 immutable WP-01 final creation receipt at the candidate revision. No global
 cap, sample, search-result truncation, or representative subset may
 reduce those inventories. Generated or vendored surfaces may be dispositioned
 as such, but they remain counted. Any omission, unclassified row, zero-test
 lane, or missing evidence is a review finding or blocker—not a pass.
 
-The execution specification itself is read and digest-checked from the #519
+The execution specification itself is read and digest-checked from the frozen
 candidate. Every acceptance row retains the exact canonical criterion content
 and its digest; IDs alone are insufficient. Every issue inventory row must
 match live title, state, and closing-PR associations exactly.
@@ -96,9 +103,10 @@ in parallel only after the denominator and assignment ledger are frozen:
 
 The execution operator must first:
 
-1. fetch `origin/main` and verify #519 is closed by one reviewed merge;
-2. record the exact base, #519 merge candidate, issue/PR roster, and execution
-   specification digests in `run_manifest.json`;
+1. fetch `origin/main`; verify #718/PR #809 and #758/PR #805 are each merged and
+   closed, and freeze the exact fetched `origin/main` SHA;
+2. record the exact base, both dependency merge SHAs, frozen candidate,
+   issue/PR roster, and execution specification digests in `run_manifest.json`;
 3. generate the complete denominator inventories and reject any empty mandatory
    assignment;
 4. dispatch the disjoint lane assignments with the candidate SHA and retained
@@ -137,8 +145,9 @@ quality evaluation; and a digest manifest.
 
 ## Gates
 
-Stop if #519 is not merged and reviewed, the candidate changes, an inventory is
-incomplete, a mandatory lane is empty/stale, a finding lacks exact evidence, or
-packet validation fails. #520 does not fix product findings, perform external
-review, approve release, merge, deploy, restart Runtime, or invoke paid cloud
-or provider operations.
+Stop if #718 or #758 is not merged and closed by its declared PR, either merge
+commit is not ancestral to the frozen candidate, `origin/main` changes before
+the denominator is frozen, an inventory is incomplete, a mandatory lane is
+empty/stale, a finding lacks exact evidence, or packet validation fails. #520
+does not fix product findings, perform external review, approve release, merge,
+deploy, restart Runtime, or invoke paid cloud or provider operations.

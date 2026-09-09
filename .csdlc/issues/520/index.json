@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 520,
   "phase": "bound",
-  "generation": 5,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/520-internal-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
-  "template_registry_version": "1.0.3",
+  "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "2b13aa02a4d17542109e841ea61a36e1a15d7efc0283f930eeda953683990036"
+  "digest": "d94d596fc21d03877df3db30b5502b0ebae7e8040a87cf09a9f38c2920e0ffa9"
 }
