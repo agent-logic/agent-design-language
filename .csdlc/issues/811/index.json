@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 811,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/811-all-issue-closeout",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "45c102b2ca58d90ca86a5f3eef051d4056f3851194c58c89f11dd0094e3d6b1c"
+}

@@ -597,8 +597,10 @@ fn run_terminal(command: &str, args: &[String]) -> Result<String, String> {
         .as_ref()
         .is_some_and(|decision| matches!(decision, CleanupDecision::Removed { .. }))
         || result.finish.as_ref().is_some_and(|decision| {
-            matches!(decision, FinishDecision::TerminalClosedOut { .. })
-                && request.terminal_state.is_some()
+            matches!(
+                decision,
+                FinishDecision::TerminalClosedOut { .. } | FinishDecision::NoPrClosedOut { .. }
+            ) && request.terminal_state.is_some()
         });
     let operational_authority = result.operational_authority;
     let report = TerminalCommandReport {

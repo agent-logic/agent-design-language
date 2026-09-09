@@ -30,6 +30,7 @@ fn base_request() -> TerminalRouteRequest {
         mode: Some(TerminalPublicationMode::Closing),
         public_adapter_receipt: None,
         terminal_state: None,
+        no_pr_closeout: None,
         cleanup: None,
         cutover: None,
         credential_names: Vec::new(),
@@ -1041,7 +1042,8 @@ fn write_terminal_receipt_at(
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: "agent-logic/agent-design-language".into(),
         issue,
-        pull_request,
+        pull_request: Some(pull_request),
+        no_pr_closeout: None,
         head_sha: head_sha.into(),
         disposition: "closed_out".into(),
         state_digest: None,
@@ -1915,4 +1917,156 @@ fn non_regular_terminal_receipt_preserves_absent_state() {
     );
     assert!(!state_path.exists());
     assert!(receipt_path.is_dir());
+}
+
+fn no_pr_request() -> TerminalRouteRequest {
+    use csdlc_v3::commands::terminal::{NoPrCloseout, NoPrDisposition};
+    let mut request = base_request();
+    request.pull_request = None;
+    request.mode = None;
+    request.credential_names = vec!["GITHUB_TOKEN".into()];
+    request.no_pr_closeout = Some(NoPrCloseout {
+        disposition: NoPrDisposition::RetiredWithoutExecution,
+        operator: "test-operator".into(),
+        rationale: "Premature planning issue retired without implementation".into(),
+        evidence_refs: vec!["docs/retirement.md".into()],
+        expected_issue_updated_at: "2026-09-09T00:00:00Z".into(),
+        expected_issue_closed_at: "2026-09-08T00:00:00Z".into(),
+    });
+    request
+}
+
+fn no_pr_observation() -> serde_json::Value {
+    serde_json::json!({"number":630,"state":"closed","updated_at":"2026-09-09T00:00:00Z","closed_at":"2026-09-08T00:00:00Z"})
+}
+
+// PVF: small deterministic offline terminal contract, no credentials or network, tooling gate.
+#[test]
+fn no_pr_closeout_requires_closed_exact_issue_and_fresh_timestamps() {
+    for (field, value, code) in [
+        (
+            "number",
+            serde_json::json!(631),
+            "github_observation_issue_mismatch",
+        ),
+        (
+            "state",
+            serde_json::json!("open"),
+            "closing_issue_still_open",
+        ),
+        (
+            "updated_at",
+            serde_json::json!("changed"),
+            "stale_issue_closeout",
+        ),
+        ("closed_at", serde_json::Value::Null, "stale_issue_closeout"),
+        (
+            "pull_request",
+            serde_json::json!({"url":"other"}),
+            "github_observation_issue_mismatch",
+        ),
+    ] {
+        let mut observation = no_pr_observation();
+        observation[field] = value;
+        let mut adapter = FakeGithubAdapter::new([observation.to_string()]);
+        let plan = prepare_terminal_finish_with_github_observation(&no_pr_request(), &mut adapter)
+            .unwrap();
+        assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+        assert_eq!(plan.findings[0].code, code);
+    }
+}
+
+// PVF: small deterministic offline terminal contract; operator rationale cannot be omitted.
+#[test]
+fn no_pr_closeout_rejects_ambiguous_or_unapproved_requests_before_observation() {
+    for case in 0..5 {
+        let mut request = no_pr_request();
+        match case {
+            0 => request.pull_request = Some(641),
+            1 => request.mode = Some(TerminalPublicationMode::Closing),
+            2 => request.no_pr_closeout.as_mut().unwrap().operator.clear(),
+            3 => request.no_pr_closeout.as_mut().unwrap().rationale.clear(),
+            _ => request
+                .no_pr_closeout
+                .as_mut()
+                .unwrap()
+                .evidence_refs
+                .clear(),
+        }
+        let mut adapter = FakeGithubAdapter::new([]);
+        let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+        assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+        assert!(adapter.invocations.is_empty());
+    }
+}
+
+// PVF: small deterministic offline persistence/cleanup proof; no live mutation.
+#[test]
+fn no_pr_closeout_persists_idempotently_and_cleanup_binds_disposition() {
+    let root = fixture_root("no_pr_terminal");
+    init_repo(&root);
+    write_generation_selector(&root, "v3");
+    let mut request = no_pr_request();
+    request.expected_head_sha = Some(git_stdout(&root, &["rev-parse", "HEAD"]));
+    let receipt_path = ".git/csdlc-v3/local/evidence/630/terminal-receipt.json";
+    request.terminal_state = Some(TerminalStateWriteRequest {
+        repository_root: root.clone(),
+        state_path: ".git/csdlc-v3/local/v3/issues/630/terminal.json".into(),
+        receipt_path: receipt_path.into(),
+        expected_state_digest: None,
+    });
+    let actual_head = request.expected_head_sha.clone();
+    request.expected_head_sha = Some("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".into());
+    let mut adapter = FakeGithubAdapter::new([no_pr_observation().to_string()]);
+    let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert_eq!(plan.findings[0].code, "no_pr_head_mismatch");
+    assert!(!root.join(receipt_path).exists());
+    request.expected_head_sha = actual_head;
+    for _ in 0..2 {
+        let mut adapter = FakeGithubAdapter::new([no_pr_observation().to_string()]);
+        let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+        assert_eq!(
+            plan.status,
+            TerminalRouteStatus::Ready,
+            "{:?}",
+            plan.findings
+        );
+        assert!(matches!(
+            plan.finish,
+            Some(FinishDecision::NoPrClosedOut { .. })
+        ));
+        assert!(plan.operational_authority);
+    }
+    let bytes = fs::read(root.join(receipt_path)).unwrap();
+    let receipt: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+    assert!(receipt["pull_request"].is_null());
+    assert_eq!(
+        receipt["no_pr_closeout"]["disposition"],
+        "retired_without_execution"
+    );
+    let state_before =
+        fs::read(root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json")).unwrap();
+    request.no_pr_closeout.as_mut().unwrap().rationale = "conflicting rationale".into();
+    let mut adapter = FakeGithubAdapter::new([no_pr_observation().to_string()]);
+    let plan = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
+    assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert_eq!(fs::read(root.join(receipt_path)).unwrap(), bytes);
+    assert_eq!(
+        fs::read(root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json")).unwrap(),
+        state_before
+    );
+    request.cleanup = Some(CleanupRouteRequest {
+        approved_parent: root.clone(),
+        repository_root: root.clone(),
+        candidate_path: root.join("absent"),
+        remove: false,
+        terminal_receipt: false,
+        terminal_receipt_path: Some(receipt_path.into()),
+        terminal_receipt_digest: Some(blake3::hash(&bytes).to_hex().to_string()),
+        preview_receipt_digest: None,
+    });
+    let plan = prepare_terminal_route("clean", &request).unwrap();
+    assert_eq!(plan.status, TerminalRouteStatus::Blocked);
+    assert_eq!(plan.findings[0].code, "terminal_receipt_mismatch");
 }
