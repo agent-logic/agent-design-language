@@ -175,6 +175,11 @@ pub struct ConfigReloadOutcome {
     pub shutdown_requested: bool,
 }
 
+struct ConfigReloadWatchers<T> {
+    snapshot: watch::Sender<Arc<ConfigSnapshot<T>>>,
+    status: watch::Sender<ConfigReloadStatus>,
+}
+
 #[derive(Debug)]
 pub enum ConfigReloadError {
     Io {
@@ -268,8 +273,10 @@ where
             options,
             task_shutdown,
             signature,
-            sender,
-            status_sender,
+            ConfigReloadWatchers {
+                snapshot: sender,
+                status: status_sender,
+            },
         )
         .await
     });
@@ -291,8 +298,7 @@ async fn watch_config<T>(
     options: ConfigReloadOptions,
     shutdown: CancellationToken,
     mut last_evaluated: FileSignature,
-    sender: watch::Sender<Arc<ConfigSnapshot<T>>>,
-    status_sender: watch::Sender<ConfigReloadStatus>,
+    watchers: ConfigReloadWatchers<T>,
 ) -> ConfigReloadOutcome
 where
     T: Send + Sync + 'static,
@@ -323,20 +329,20 @@ where
                             if pending.take().is_some() {
                                 status.pending_candidate = false;
                                 status.pending_cancellations += 1;
-                                status_sender.send_replace(status);
+                                watchers.status.send_replace(status);
                             }
                         } else if pending.as_ref().map(|(pending, _, _)| pending) != Some(&signature) {
                             pending = Some((signature, raw, Instant::now() + options.debounce));
                             status.candidate_observations += 1;
                             status.pending_candidate = true;
-                            status_sender.send_replace(status);
+                            watchers.status.send_replace(status);
                         }
                     }
                     Err(_) => {
                         if pending.take().is_some() {
                             status.pending_candidate = false;
                             status.pending_cancellations += 1;
-                            status_sender.send_replace(status);
+                            watchers.status.send_replace(status);
                         }
                     }
                 }
@@ -352,7 +358,7 @@ where
                     continue;
                 };
                 status.pending_candidate = false;
-                status_sender.send_replace(status);
+                watchers.status.send_replace(status);
                 generation += 1;
                 match parse_snapshot(&path, &parser, &raw, generation).and_then(|snapshot| {
                     if let Some(applier) = applier.as_ref() {
@@ -361,7 +367,7 @@ where
                     Ok(snapshot)
                 }) {
                     Ok(snapshot) => {
-                        sender.send_replace(Arc::new(snapshot));
+                        watchers.snapshot.send_replace(Arc::new(snapshot));
                         last_evaluated = signature;
                         reloads_applied += 1;
                     }
