@@ -1154,7 +1154,7 @@
         771
       ],
       "delivered": "Native command implementation and authenticated #505/PR591 cutover delivered.",
-      "limit": "Operational authority remains conditional on selector/receipt validation. Review and tooling debt does not reverse the completed cutover.",
+      "limit": "Operational authority remains conditional on selector/receipt validation. The closed #771 proof is stale after later C-SDLC changes; #817 owns the exact-candidate refresh.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1175,7 +1175,7 @@
         759
       ],
       "delivered": "Distributed contract, continuity qualification and failure-mode implementation retained.",
-      "limit": "Removal remediation #757 is closed. Admission-triggered A2A initiation and health-task isolation remain #758/#759 work; closed #345 retains its input contract, not new consumption proof.",
+      "limit": "Remediations #757-#759 are closed; #814 owns the remaining greeting-recovery model-boundary defect. Closed #345 retains its input contract, not new consumption proof.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1302,7 +1302,7 @@
         770
       ],
       "delivered": "Seven phase implementation and receipt packages retained.",
-      "limit": "Recovery/access and full review obligations remain explicit; no inference of universal account compliance.",
+      "limit": "SSH remediation #770 is closed; #815 owns exact-plan operator-authorization authenticity. No universal account compliance is inferred.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1324,7 +1324,7 @@
         772
       ],
       "delivered": "Five phase packages plus #740 private/versioned backend recovery proof retained.",
-      "limit": "GCP-B audit/log posture remains owned by #772; recovery proof does not establish audit configuration.",
+      "limit": "Audit/log remediation #772 is closed; #815 owns mutation-authorization authenticity and #817 owns retained GCP-E format repair.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1341,7 +1341,7 @@
         522
       ],
       "delivered": "Portable workload contract and AWS/GCP Terraform implementation retained.",
-      "limit": "Provider-major bounds landed through #765. Complete current parity and rollback acceptance remains a #522 proof obligation.",
+      "limit": "Provider-major bounds landed through closed #765; #815 owns exact-plan authorization binding. Complete current parity and rollback acceptance remains a #522 proof obligation.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1359,7 +1359,7 @@
         766
       ],
       "delivered": "Resilience owner-boundary refactoring and retained behavior checks supplied by #499.",
-      "limit": "Required toolchain and complete candidate validation remain separately owned; no LoC acceptance rule.",
+      "limit": "Toolchain remediation #766 is closed; #814 owns the remaining Runtime model-boundary repair. No LoC acceptance rule applies.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     }
   ],
