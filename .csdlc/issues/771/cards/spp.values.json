@@ -7,14 +7,14 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 4,
-      "summary": "Operator-approved terminal receipt-conflict preflight repair and regression; consume merged776; freeze combined source; independent complete V3-F review and full detached locked suite; map all four rows without historical drift; final review and PR with green CI.",
+      "plan_revision": 6,
+      "summary": "Terminal receipt-conflict repair independently reviewed; pagination repair approved, implemented and focused tests passed. Record current template authority finding V3F-EVIDENCE-R1 and await separate repair approval. After all approved repairs, freeze combined source for independent complete V3-F review and full detached locked suite; bind all four mappings to receipts, review and publish with green CI.",
       "steps": [
         {
           "id": "S1",
@@ -70,7 +70,10 @@
         "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
         "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
         "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
-        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py"
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py",
+        "csdlc-v3/src/adapters/mod.rs",
+        "csdlc-v3/src/commands/remote/mod.rs",
+        "csdlc-v3/src/commands/remote/tests.rs"
       ],
       "invariants": [
         "Historical receipts immutable; source review and suite use identical bytes; no CORP-A reopening."

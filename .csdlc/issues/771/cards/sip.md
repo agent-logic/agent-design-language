@@ -20,9 +20,14 @@ V3-F-ac-1 through V3-F-ac-4 bind the same immutable reviewed source blobs and pa
 
 ## Scope
 
+- csdlc-v3/src/commands/terminal.rs
+- csdlc-v3/tests/terminal_cleanup_cutover_commands.rs
 - docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py
 - docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current
 - .csdlc/evidence/771
+- csdlc-v3/src/adapters/mod.rs
+- csdlc-v3/src/commands/remote/mod.rs
+- csdlc-v3/src/commands/remote/tests.rs
 
 ## Authority
 

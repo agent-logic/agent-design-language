@@ -5,6 +5,7 @@ PVF: required deterministic local contract, small CPU/Git, no credentials/networ
 This validates retained identities; substantive review is a separate receipt.
 """
 import copy
+from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -48,6 +49,49 @@ def historical_digest(path, source):
     return digest(subprocess.check_output(['git', '-C', str(ROOT), 'show', source + ':' + relative]))
 
 
+def timestamp(value):
+    try:
+        result = datetime.fromisoformat(value.replace('Z', '+00:00'))
+    except (ValueError, TypeError, AttributeError):
+        raise ValueError('review_timestamp') from None
+    require(result.tzinfo is not None, 'review_timestamp')
+    return result
+
+
+def validate_review_components(assignment, review):
+    if 'assignments' not in assignment:
+        require(review['reviewer'] != 'codex:independent-v3f-review-team', 'missing_team_assignment')
+        return
+    lanes = assignment['assignments']
+    require(lanes and set(lanes) == set(review['components']) == set(assignment['reviewer_ids']),
+            'review_lane_denominator')
+    covered, assessments = {}, {c: [] for c in CRITERIA}
+    for lane, scope in lanes.items():
+        entry = review['components'][lane]
+        path = HERE / entry['path']
+        require(path.resolve().is_relative_to((HERE / 'reviews').resolve()), 'review_component_path')
+        data = path.read_bytes()
+        require(digest(data) == entry['sha256'], 'review_component_digest')
+        part = json.loads(data)
+        require(part['source_sha'] == assignment['source_sha'] and part['scope'] == scope and
+                part['reviewer'] == assignment['reviewer_ids'][lane], 'review_component_identity')
+        require(timestamp(assignment['assigned_at']) <= timestamp(part['completed_at']) <= timestamp(review['completed_at']),
+                'review_component_order')
+        require(part['independent'] is True, 'review_component_independence')
+        require(part['result'] == 'pass' and not part['unreviewed_paths'] and not any(
+            f['actionable'] and f['in_scope'] and f['disposition'] != 'fixed'
+            for f in part['findings']), 'review_component_blocked')
+        require(not (covered.keys() & scope.keys()), 'review_component_overlap')
+        covered.update(scope)
+        require(set(part['criteria']) == CRITERIA, 'review_component_criteria')
+        for criterion, item in part['criteria'].items():
+            require(item['result'] in ('pass', 'context') and item['rationale'],
+                    'review_component_criteria')
+            assessments[criterion].append(item['result'])
+    require(covered == assignment['scope'], 'review_component_coverage')
+    require(all('pass' in statuses for statuses in assessments.values()), 'review_component_criteria')
+
+
 def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'):
     assignment = read('assignment.json') if assignment is None else assignment
     review = read('review.json') if review is None else review
@@ -69,13 +113,14 @@ def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'
             'source_ancestry')
     require(review['reviewer'] == assignment['reviewer'] and review['independent'] is True,
             'independent_assignment')
-    require(assignment['assigned_at'] <= review['completed_at'], 'assignment_order')
+    require(timestamp(assignment['assigned_at']) <= timestamp(review['completed_at']), 'assignment_order')
     require(review['result'] == 'pass' and not review['unreviewed_paths'], 'substantive_review')
     require(not any(f['actionable'] and f['in_scope'] and f['disposition'] != 'fixed'
                     for f in review['findings']), 'open_review_finding')
     require(set(review['criteria']) == CRITERIA and all(
         item['result'] == 'pass' and item['rationale'] for item in review['criteria'].values()),
         'semantic_review')
+    validate_review_components(assignment, review)
     require(suite['argv'] == SUITE_ARGV, 'full_locked_suite')
     require(suite['detached'] is True and suite['clean_before'] is True and
             suite['clean_after'] is True and suite['external_target'] is True and

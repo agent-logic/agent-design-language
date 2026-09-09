@@ -87,6 +87,59 @@ class MappingContract(unittest.TestCase):
         self.assertEqual(V.validate(self.mapping)['v3_f_rows'], 4)
         self.assertEqual(V.negative(self.mapping)['negative_cases'], 14)
 
+    def team_fixture(self):
+        a, r = V.read('assignment.json'), V.read('review.json')
+        a['assignments'] = {'lane': a['scope']}
+        a['reviewer_ids'] = {'lane': a['reviewer']}
+        (V.HERE / 'reviews').mkdir()
+        self.write(V.HERE / 'reviews/lane.json', r)
+        r['components'] = {'lane': {'path': 'reviews/lane.json',
+            'sha256': V.digest((V.HERE / 'reviews/lane.json').read_bytes())}}
+        return a, r
+
+    def test_team_receipt_requires_complete_independent_components(self):
+        a, r = self.team_fixture()
+        self.assertEqual(V.validate(self.mapping, assignment=a, review=r)['v3_f_rows'], 4)
+        r['components'].clear()
+        with self.assertRaisesRegex(ValueError, '^review_lane_denominator$'):
+            V.validate(self.mapping, assignment=a, review=r)
+
+    def test_aggregate_cannot_override_blocked_component_with_refreshed_hash(self):
+        a, r = self.team_fixture()
+        part = V.read('reviews/lane.json')
+        part['result'] = 'blocked'
+        self.write(V.HERE / 'reviews/lane.json', part)
+        r['components']['lane']['sha256'] = V.digest((V.HERE / 'reviews/lane.json').read_bytes())
+        with self.assertRaisesRegex(ValueError, '^review_component_blocked$'):
+            V.validate(self.mapping, assignment=a, review=r)
+
+    def test_component_must_match_preassigned_reviewer_even_with_refreshed_hash(self):
+        a, r = self.team_fixture()
+        part = V.read('reviews/lane.json')
+        part['reviewer'] = 'unassigned'
+        self.write(V.HERE / 'reviews/lane.json', part)
+        r['components']['lane']['sha256'] = V.digest((V.HERE / 'reviews/lane.json').read_bytes())
+        with self.assertRaisesRegex(ValueError, '^review_component_identity$'):
+            V.validate(self.mapping, assignment=a, review=r)
+
+    def test_component_cannot_disclaim_independence(self):
+        a, r = self.team_fixture()
+        part = V.read('reviews/lane.json')
+        part['independent'] = False
+        self.write(V.HERE / 'reviews/lane.json', part)
+        r['components']['lane']['sha256'] = V.digest((V.HERE / 'reviews/lane.json').read_bytes())
+        with self.assertRaisesRegex(ValueError, '^review_component_independence$'):
+            V.validate(self.mapping, assignment=a, review=r)
+
+    def test_component_timestamp_order_compares_instants(self):
+        a, r = self.team_fixture()
+        part = V.read('reviews/lane.json')
+        part['completed_at'] = '2026-01-01T00:00:30-08:00'
+        self.write(V.HERE / 'reviews/lane.json', part)
+        r['components']['lane']['sha256'] = V.digest((V.HERE / 'reviews/lane.json').read_bytes())
+        with self.assertRaisesRegex(ValueError, '^review_component_order$'):
+            V.validate(self.mapping, assignment=a, review=r)
+
     def test_uncommitted_tracked_source_is_rejected(self):
         self.fixture.write_text('// changed source\n')
         with self.assertRaisesRegex(ValueError, '^current_source_dirty$'):

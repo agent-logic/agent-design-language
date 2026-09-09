@@ -1,0 +1,3 @@
+# Independent V3-F review at 7c5b787341
+
+All 149 preassigned paths were reviewed across core, routes and evidence lanes. Independently authored receipts remain under reviews/; review.json aggregates their findings without overriding them. Core review passes and confirms both prior defects fixed. Route review found R771-ROUTES-1 (incomplete comment pagination); evidence review found V3F-EVIDENCE-R1 (current templates emit pre-cutover authority instructions). The aggregate is blocked. The 194-test detached suite does not override these findings. CORP-A dispositions remain resolved and historical receipts unchanged.

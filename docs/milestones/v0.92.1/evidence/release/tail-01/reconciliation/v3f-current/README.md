@@ -10,14 +10,14 @@ scope before review. `historical-fixture.diff` retains the exact historical
 `c5d67168df2c923eb77c592b7545386ad0a39234` to candidate
 `556cb4957407772abfbe135f3e320f1936011c3e` delta. The newly reviewed source
 includes the detached-fixture repair in #763 and proof ownership changes in
-#762 / PR #783. Publication therefore depends on #783.
+#762 / PR #783. PR #783 and schema repair #776 are now merged and included in the frozen source. The separately approved terminal receipt-conflict repair is also included.
 
 `suite.json` and `suite.log` record the full `cargo test --locked --manifest-path
 csdlc-v3/Cargo.toml` run from a clean detached checkout, using an external build
 directory. Dependency cache warming is acceleration only. Passing tests alone
 cannot resolve the four review-freshness rows.
 
-`review.json` is the independent review result. A blocked result or any open
+`reviews/` retains each independently authored lane receipt; `review.json` aggregates their identities, exact path coverage and findings. The previous blocked packet remains under `archive/fba2bdf5c7/`. A blocked result or any open
 in-scope actionable finding prevents mapping acceptance. The mapping validator
 also rejects stale source SHA, incomplete scope, stale fixture blobs, different
 suite bytes, missing semantic criterion review, dirty execution, receipt drift,
@@ -38,3 +38,5 @@ local proof, medium CPU/disk, external Cargo target. Independent substantive
 review is required separately. No cloud, UI demo, merge or release action.
 
 Validator contract tests: `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py`. These use explicitly synthetic receipts in isolated Git fixtures and are not V3-F execution or substantive review proof. They cover stale substitutions, blocked review, dirty/staged/untracked/committed source drift, filtered test logs, evidence-only descendants, and rewritten historical baselines with refreshed hashes.
+
+Team review acceptance checks every preassigned lane receipt, reviewer identity, independent status, exact source/scope, parsed timestamp order, findings and criterion assessments. An aggregate cannot override a blocked or missing component. Current component review at7c5b787341 remains blocked and is not proof for subsequent pagination edits.

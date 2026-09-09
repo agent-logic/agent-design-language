@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-No product changes, no rewrite of historical receipts, no reopened CORP-A findings, no cloud or UI demo, no weakening authority guards.
+Refresh complete current V3-F exact-head proof with operator-approved terminal receipt-conflict ordering and complete fail-closed comment-pagination repairs and regressions. Preserve historical receipts and resolved CORP-A dispositions. Any other product repair requires separate approval.
 
 ## Deliverables
 
@@ -36,4 +36,5 @@ No product changes, no rewrite of historical receipts, no reopened CORP-A findin
 
 ## Non Goals
 
-- No product changes, no rewrite of historical receipts, no reopened CORP-A findings, no cloud or UI demo, no weakening authority guards.
+- No product changes beyond the explicitly approved terminal receipt-conflict ordering and comment-pagination repairs and their regressions; any additional product repair requires separate operator approval.
+- No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, or weakened authority guards.

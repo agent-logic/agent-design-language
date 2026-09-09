@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
   "phase": "bound",
-  "generation": 6,
-  "digest": "cb7543d79ce0c4aaf549636715d60bd7a8d1291fdfd72ca3c31cd8d75202459d",
+  "generation": 14,
+  "digest": "d9639a682c55f95d553d83a296d9940093f1280da0560ad92e45e2567c72de98",
   "branch": "codex/771-v3f-proof-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6e4881863a586b3eb31d71d0f625c1ad7e1fd07844627c578a11b791b737bef",
-      "rendered_digest": "4eebdac62588459e5ae15a126b3c8bc94988e95fba3648094304e67b71789a1f",
-      "ast_digest": "6cd174bbb33f3cc0fdf24d89fca186dcff260bd6d3fee496a4372f4a9c11bf2b"
+      "values_digest": "7a6be1760eaec6066f5668dd8f393d604a799e741cb08e1dcd3599766b7dd3c4",
+      "rendered_digest": "839fb5a0a901ab7472d7a0926a123c575e6ceddeb1ecb692409a8484dd26781e",
+      "ast_digest": "21b43642296f77de51c575d3cce97ed4dc0917180d9e8d3d3f6fe5118c0f2a10"
     },
     "stp": {
-      "values_digest": "e113c5174434a984a8ebd85a495bd35717818404545ac27d6e2cff20da13b19d",
-      "rendered_digest": "52b8a2943894a66925c205a2f4eb7571c3517e6dcde571a6daa47dc1fdfb4ac4",
-      "ast_digest": "4be7ccef53cfe215c834fefdf6e135e0f1c05db4974424e9ebceb69d78821937"
+      "values_digest": "ea1713a0e54669d46b898118ce9b8f35d57a673c190fa9191054a74648d497c0",
+      "rendered_digest": "74b4255bc1aa4094520eecab1419378794b3cd827dcd9173ca5cf90b39d5a83f",
+      "ast_digest": "bf9dd6939aecf9dab685aa3c8e4b9a35c03e107013689f4102c774b7f41b6688"
     },
     "spp": {
-      "values_digest": "c5868f92086aac8a566ea5ac995ef59a592ac670fe001bb22266c6e178799d94",
-      "rendered_digest": "27ba0049ed1c47dc5a271ee0464a9c691166f4b4acea206c7ff5e1f964a814fd",
-      "ast_digest": "0b73e8db0f6417e0b55b96970c93ca7466ec3e887a19e450fbedd6c68f775cbc"
+      "values_digest": "c79aa02f15133d09042356b1c4603f9df626021093a599877894a2c0054dbb06",
+      "rendered_digest": "9be70cfa750d8f8dbead99fd6ec8946419009069214e8e6c6839020811d31ef6",
+      "ast_digest": "8da1ec4405481e027c127bf677c1c123d4faab47bc01ff0893dfce70a777bbd2"
     },
     "vpp": {
-      "values_digest": "dc07e2611942a7540303d111315614fb096666db0fa3e74f85fa67a21e632eba",
+      "values_digest": "62542748705bd4d1dea7163b726c3ea41b686073d4befb64f6a0ee1d4d4c65e1",
       "rendered_digest": "eff3f6a59399fa5882a53c3faccfcd968494d80f4964021ebd0ea025d39c72c3",
       "ast_digest": "078597eef92b7ca896a3439cc054fb0d3970fd45cc19359bdec5d63d18ce9abc"
     },
     "srp": {
-      "values_digest": "8329934d0bb7d1f9f565e5b17ff8fd36da39cc2f569799b60ae1bdc51833ae99",
+      "values_digest": "34806bf03d97e43a1e5932e802af5179299c93a34bc872058a23250fbd5785da",
       "rendered_digest": "cdf216c9ac416683f98d124950ca487df914405c1cd9cee694899f58c21205d4",
       "ast_digest": "1aeed3599f46384599ae716396d4bd47a28d827664a91d99e41eedbefe93de44"
     },
     "sor": {
-      "values_digest": "0d4162c164a3f53c322403c9f420fa5151d99f4b85eb7ea303637765f9cbf39f",
+      "values_digest": "e97528409b6665e59892f0989892ccab82ce5c507be5d2ea66c7b1489867b640",
       "rendered_digest": "2bb9189f8d136ec6aa074ae17a1a570369ee06fc0d65f25c36be200a624fe1cc",
       "ast_digest": "a25bada74d3705d437ba4768e61a58cf96511d6523ddbd8fa9d45271c43e3638"
     }
@@ -126,6 +126,62 @@
       "actor": "Planning #7",
       "reason": "Record explicit operator approval for bounded terminal repair before implementation.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "Planning #7",
+      "reason": "Align card scope with explicit issue771 terminal repair approval; retain all other product boundaries.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Refresh complete current V3-F exact-head proof. Operator approved the bounded terminal receipt-conflict write-order repair and regression on 2026-09-09. Preserve historical receipts and resolved CORP-A dispositions; no other product changes, cloud/UI demos, or weakened authority guards.\",\"operation\":\"replan\",\"previous_value\":\"No product changes, no rewrite of historical receipts, no reopened CORP-A findings, no cloud or UI demo, no weakening authority guards.\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "Planning #7",
+      "reason": "Align card scope with explicit issue771 terminal repair approval; retain all other product boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current\",\".csdlc/evidence/771\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "Planning #7",
+      "reason": "Remove obsolete absolute product prohibition after explicit bounded terminal repair approval.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"No product changes beyond the explicitly approved terminal receipt-conflict ordering repair and its regressions; any additional product repair requires separate operator approval.\",\"No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, or weakened authority guards.\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "Planning #7",
+      "reason": "Record explicit approval for R771-ROUTES-1 complete fail-closed pagination repair and focused regressions before implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current\",\".csdlc/evidence/771\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "Planning #7",
+      "reason": "Record explicit approval for R771-ROUTES-1 complete fail-closed pagination repair and focused regressions before implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "Planning #7",
+      "reason": "Record approved pagination repair outcome and remaining independently reviewed template authority blocker without overstating completion.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Refresh complete current V3-F exact-head proof with operator-approved terminal receipt-conflict ordering and complete fail-closed comment-pagination repairs and regressions. Preserve historical receipts and resolved CORP-A dispositions. Any other product repair requires separate approval.\",\"operation\":\"replan\",\"previous_value\":\"Refresh complete current V3-F exact-head proof. Operator approved the bounded terminal receipt-conflict write-order repair and regression on 2026-09-09. Preserve historical receipts and resolved CORP-A dispositions; no other product changes, cloud/UI demos, or weakened authority guards.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "Planning #7",
+      "reason": "Record approved pagination repair outcome and remaining independently reviewed template authority blocker without overstating completion.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"No product changes beyond the explicitly approved terminal receipt-conflict ordering and comment-pagination repairs and their regressions; any additional product repair requires separate operator approval.\",\"No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, or weakened authority guards.\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "Planning #7",
+      "reason": "Record approved pagination repair outcome and remaining independently reviewed template authority blocker without overstating completion.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Terminal receipt-conflict repair independently reviewed; pagination repair approved, implemented and focused tests passed. Record current template authority finding V3F-EVIDENCE-R1 and await separate repair approval. After all approved repairs, freeze combined source for independent complete V3-F review and full detached locked suite; bind all four mappings to receipts, review and publish with green CI.\",\"operation\":\"replan\",\"previous_value\":\"Operator-approved terminal receipt-conflict preflight repair and regression; consume merged776; freeze combined source; independent complete V3-F review and full detached locked suite; map all four rows without historical drift; final review and PR with green CI.\"}"
     }
   ]
 }

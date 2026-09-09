@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
   "status": "ready",
   "content": {
     "card_kind": "stp",
     "values": {
-      "task_boundary": "No product changes, no rewrite of historical receipts, no reopened CORP-A findings, no cloud or UI demo, no weakening authority guards.",
+      "task_boundary": "Refresh complete current V3-F exact-head proof with operator-approved terminal receipt-conflict ordering and complete fail-closed comment-pagination repairs and regressions. Preserve historical receipts and resolved CORP-A dispositions. Any other product repair requires separate approval.",
       "deliverables": [
         "Historical-to-candidate fixture diff; current exact-head independent review and detached full-suite receipts; current four-row mapping and negative validator proof; unchanged resolved CORP-A dispositions."
       ],
@@ -31,7 +31,8 @@
         "Issue #771; current-exceptions.json; #505 immutable receipts; current V3-F terminal implementation, authority, coupled routes and tests; historical fixture blobs c5d67168df2c923eb77c592b7545386ad0a39234 and 556cb4957407772abfbe135f3e320f1936011c3e."
       ],
       "non_goals": [
-        "No product changes, no rewrite of historical receipts, no reopened CORP-A findings, no cloud or UI demo, no weakening authority guards."
+        "No product changes beyond the explicitly approved terminal receipt-conflict ordering and comment-pagination repairs and their regressions; any additional product repair requires separate operator approval.",
+        "No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, or weakened authority guards."
       ]
     }
   }
