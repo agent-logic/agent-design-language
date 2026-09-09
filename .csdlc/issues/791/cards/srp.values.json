@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 791,
+  "issue_padded": "0791",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/791",
+  "title": "[v0.92.2][tooling] Keep native lifecycle writes out of the primary checkout",
+  "branch": "codex/791-primary-write-guard",
+  "version": "v0.92.2",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard",
+  "summary": "Independent review complete: no remaining actionable findings after metadata path and lock-race fixes.",
+  "review_scope": "Issue #791 source/tests/policy diff against origin/main including #783; primary state placement, bind ownership/recovery, terminal paths and zero-residue regressions.",
+  "review_findings": "Resolved P1 metadata root/child symlink escape, P2 ownership check before lock, and P1 nested completion symlink escape. Independent re-review found no remaining actionable findings."
+}

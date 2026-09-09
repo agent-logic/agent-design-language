@@ -258,7 +258,10 @@ fn bind_recovers_after_process_exit_following_git_side_effect() {
         String::from_utf8_lossy(&crashed.stderr)
     );
     assert!(Path::new(&fixture.request.worktree).is_dir());
-    assert!(fixture.root.join(".csdlc/transactions/505.json").is_file());
+    assert!(fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .is_file());
 
     let recovered = run_operational(&fixture, "bind", None);
     assert!(
@@ -277,7 +280,10 @@ fn bind_recovers_after_process_exit_following_git_side_effect() {
         "bound"
     );
     assert!(!fixture.root.join(".csdlc/issues/505").exists());
-    assert!(!fixture.root.join(".csdlc/transactions/505.json").exists());
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .exists());
 }
 
 #[test]
@@ -328,7 +334,10 @@ fn edit_recovers_after_process_exit_between_directory_swaps() {
         String::from_utf8_lossy(&crashed.stderr)
     );
     assert!(!fixture.root.join(".csdlc/issues/505").exists());
-    assert!(fixture.root.join(".csdlc/transactions/505.json").is_file());
+    assert!(fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .is_file());
 
     let recovered = run_operational(&fixture, "edit", None);
     assert!(
@@ -337,11 +346,19 @@ fn edit_recovers_after_process_exit_between_directory_swaps() {
         String::from_utf8_lossy(&recovered.stderr)
     );
     let values: serde_json::Value = serde_json::from_slice(
-        &fs::read(fixture.root.join(".csdlc/issues/505/cards/sip.values.json")).unwrap(),
+        &fs::read(
+            fixture
+                .root
+                .join(".git/csdlc-v3/local/issues/505/cards/sip.values.json"),
+        )
+        .unwrap(),
     )
     .unwrap();
     assert_eq!(values["title"], "Recovered atomic edit");
-    assert!(!fixture.root.join(".csdlc/transactions/505.json").exists());
+    assert!(!fixture
+        .root
+        .join(".git/csdlc-v3/local/transactions/505.json")
+        .exists());
 }
 
 #[test]
