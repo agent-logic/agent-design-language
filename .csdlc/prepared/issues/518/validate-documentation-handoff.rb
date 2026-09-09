@@ -12,9 +12,6 @@ def read_json(path); JSON.parse(File.read(path)); end
 def require_true(condition, message); raise message unless condition; end
 mode = ARGV.fetch(0, '--all')
 require_true(%w[--inventory --links --claims --all --final].include?(mode), 'unknown validation mode')
-if mode == '--final'
-  abort 'Final acceptance unavailable: refresh the candidate after issue 517 passing reviewed merge and record independent exact-revision review.'
-end
 checks = 0
 if %w[--inventory --all].include?(mode)
   inventory = read_json("#{packet}/document-inventory.json")
@@ -39,6 +36,7 @@ end
 if %w[--links --all].include?(mode)
   inventory = read_json("#{packet}/document-inventory.json")
   paths = inventory.fetch('documents').map { |r| r['path'] }.select { |p| p.end_with?('.md') }
+  paths += read_json("#{packet}/handoff-content.json").fetch('documents').map { |r| r.fetch('path') }.select { |p| p.end_with?('.md') }
   paths += Dir.glob("#{packet}/*.md")
   paths.uniq.each do |path|
     text = File.read(path).gsub(/^```.*?^```[^\n]*$/m, '')
@@ -73,9 +71,46 @@ if %w[--claims --all].include?(mode)
   require_true(creation['children'] == expected && expected.length == 45, 'creation mapping mismatch')
   findings = read_json("#{packet}/finding-dispositions.json")
   require_true(findings.map { |f| f['id'] } == (1..15).map { |n| format('D%02d', n) }, 'finding denominator mismatch')
-  require_true(findings.find { |f| f['id'] == 'D07' }['status'] == 'source_snapshot_mapped_final_proof_pending', 'final proof gap hidden')
+  require_true(findings.find { |f| f['id'] == 'D07' }['status'] == 'mapped_with_explicit_release_proof_debt', 'release proof debt hidden')
   require_true(snapshot['explicit_current_scope_exclusions'].map { |r| r['issue'] }.sort == [84, 251], 'deferrals lost')
-  require_true(File.read("#{packet}/README.md").include?('not a final external-review'), 'handoff status overclaimed')
+  require_true(File.read("#{packet}/README.md").include?('Release acceptance remains BLOCKED'), 'release decision omitted')
+  checks += 6
+end
+if %w[--final --all].include?(mode)
+  manifest = read_json("#{packet}/handoff-content.json")
+  baseline = manifest.fetch('merged_baseline')
+  require_true(baseline.match?(/\A[0-9a-f]{40}\z/), 'invalid baseline')
+  _, _, status = Open3.capture3('git', 'merge-base', '--is-ancestor', baseline, 'HEAD')
+  require_true(status.success?, 'merged reconciliation baseline not in candidate')
+  documents = manifest.fetch('documents')
+  paths = documents.map { |r| r.fetch('path') }
+  require_true(paths == paths.sort.uniq, 'current inventory is not unique and sorted')
+  tracked, _, status = Open3.capture3('git', 'ls-files', '-z')
+  require_true(status.success?, 'cannot enumerate current scope')
+  expected = read_json("#{packet}/document-inventory.json").fetch('documents').map { |r| r.fetch('path') }
+  expected += tracked.split("\0").select do |p|
+    name = File.basename(p)
+    name.start_with?('README') || %w[AGENTS.md REVIEW.md Cargo.toml].include?(name) ||
+      (p.start_with?('docs/milestones/v0.92.1/') && %w[.md .yaml .yml].include?(File.extname(p)))
+  end
+  expected += Dir.glob("#{packet}/*").select { |p| File.file?(p) }
+  expected += Dir.glob('.csdlc/prepared/issues/518/*').select { |p| %w[.py .rb].include?(File.extname(p)) }
+  expected -= ["#{packet}/handoff-content.json", "#{packet}/final-validation.json"]
+  require_true(paths == expected.sort.uniq, 'current inventory denominator changed; refresh required')
+  documents.each do |row|
+    path = row.fetch('path')
+    require_true(!Pathname.new(path).absolute? && !path.split('/').include?('..'), 'unsafe inventory path')
+    require_true(File.file?(path) && Digest::SHA256.file(path).hexdigest == row.fetch('sha256'), "candidate hash mismatch #{path}")
+    checks += 1
+  end
+  dependency = read_json("#{packet}/dependency-observation.json")
+  source_path = dependency.fetch('source_path')
+  require_true(Digest::SHA256.file(source_path).hexdigest == dependency.fetch('source_blob_sha256'), 'quality source drift')
+  require_true(read_json(source_path).fetch('unresolved') == dependency.fetch('unresolved'), 'quality exceptions changed')
+  require_true(dependency['quality_gate'] == 'blocked' && dependency['downstream_release_unlock'] == false, 'release decision overclaimed')
+  _, _, status = Open3.capture3('git', 'merge-base', '--is-ancestor', dependency.fetch('merge_commit'), 'HEAD')
+  require_true(status.success?, 'predecessor merge missing')
+  require_true(read_json("#{packet}/finding-dispositions.json").all? { |f| %w[corrected_reviewed_locally corrected_after_predecessor_merge mapped_with_explicit_release_proof_debt].include?(f['status']) }, 'undispositioned finding')
   checks += 6
 end
 puts JSON.generate(schema: 'adl.tail02.local_validation.v1', mode: mode, status: 'pass', checks: checks, final_acceptance: false)

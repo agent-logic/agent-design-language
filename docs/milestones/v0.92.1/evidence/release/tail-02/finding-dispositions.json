@@ -127,8 +127,8 @@
       }
     ],
     "owner": "#517 gate owner and #518 documentation owner",
-    "status": "surrounding_docs_corrected_gate_owner_pending",
-    "remaining": "Issue 517 owns QUALITY_GATE_v0.92.1.md and final proving-lane acceptance; its source-time contradiction is not edited here."
+    "status": "corrected_after_predecessor_merge",
+    "remaining": "No documentation contradiction remains in current scope prose. Retained machine-readable quality evidence remains unchanged and release acceptance is blocked."
   },
   {
     "id": "D04",
@@ -230,8 +230,8 @@
       }
     ],
     "owner": "#518; #516/#517 supply authoritative evidence; #519 finalizes publication claims",
-    "status": "source_snapshot_mapped_final_proof_pending",
-    "remaining": "Final lane-by-lane acceptance and exact candidate reconciliation require issue 517 passing reviewed merge. Snapshot discrepancies remain unresolved proof gaps."
+    "status": "mapped_with_explicit_release_proof_debt",
+    "remaining": "The handoff exposes the merged quality decision and all five proof exceptions. Resolving product/evidence debt is not claimed by documentation review."
   },
   {
     "id": "D08",

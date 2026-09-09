@@ -8,8 +8,9 @@ coordinates the complete #516–#526 admission-through-ceremony roster. The olde
 Sprint 9–11 allocations below are historical scheduling input, not current
 ownership. Issue-level result and reviewed-merge gates remain authoritative;
 parallel preparation does not establish completion. The operator authorized
-#518 independent documentation corrections while #517 is in flight; final
-acceptance and external handoff still require #517's passing reviewed merge.
+#518 documentation review and handoff after #517's reviewed merge. The merged
+quality decision remains blocked for release acceptance; it does not block this
+operator-authorized documentation handoff.
 
 #84 Unity and #251 TLS are explicitly deferred backlog. Historical sprint
 assignments below do not reactivate them or make them OBS-B/#512 dependencies.

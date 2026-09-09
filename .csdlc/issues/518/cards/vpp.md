@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/518/diagram.mmd
 [
   {
     "lane": "canonical-doc-inventory",
-    "proof_role": "Verify the 737-document baseline inventory and hashes; final candidate must be refreshed after issue 517.",
+    "proof_role": "Verify the immutable 737-document source inventory; final-handoff-gate verifies the refreshed 775-file content inventory.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -62,7 +62,7 @@ Diagram: .csdlc/prepared/issues/518/diagram.mmd
   },
   {
     "lane": "claim-audit",
-    "proof_role": "Verify retained diagnostic/creation snapshot parity, 15 finding dispositions and explicit pending final acceptance; not product proof.",
+    "proof_role": "Verify source snapshot parity, 15 documentation dispositions, explicit deferrals and retained blocked release decision; not product proof.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -100,7 +100,7 @@ Diagram: .csdlc/prepared/issues/518/diagram.mmd
   },
   {
     "lane": "final-handoff-gate",
-    "proof_role": "Fail closed until issue 517 passing reviewed merge and final candidate independent review have been incorporated.",
+    "proof_role": "Verify merged predecessor ancestry, exact document hashes, current finding dispositions and explicit release non-approval.",
     "acceptance_ids": [
       "AC-4"
     ],
@@ -114,7 +114,7 @@ Diagram: .csdlc/prepared/issues/518/diagram.mmd
       "--final"
     ],
     "parallel_group": "final",
-    "defer_reason": "Issue 517 is still in flight; preliminary local checks are not final acceptance."
+    "defer_reason": null
   },
   {
     "lane": "cargo-manifest-inventory",

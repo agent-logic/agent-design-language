@@ -1,6 +1,6 @@
 # ADL Feature List
 
-Current v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 final quality proof remains pending. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+Current v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
 
 ## Purpose
 

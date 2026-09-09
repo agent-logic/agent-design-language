@@ -1,110 +1,91 @@
-# TAIL-02 documentation review packet — issue #518
+# v0.92.1 documentation review and external-review handoff — #518
 
-Status: documentation corrections in progress; **not a final external-review
-handoff or release acceptance**. Issue #517's passing quality result and reviewed
-merge remain required before final candidate freeze and handoff.
+This packet delivers the documentation review of the merged TAIL-01 candidate.
+**Release acceptance remains BLOCKED.** Documentation-review completion is not
+release approval and supplies no missing runtime, cloud, or review evidence.
 
-## Scope and source revision
+## Candidate and review identity
 
-The initial audit read and screened 737 unique documents at
-`bf617859982f8b9613737344400626eb90768930`: all tracked README-prefixed files,
-all AGENTS files, skills, milestone documentation and selected core guides,
-registries and package manifests. [document-inventory.json](document-inventory.json)
-retains that exact source-time denominator and hashes. This was complete static
-coverage of the selected files, with targeted semantic review; it was not a
-proof of every historical statement or of runtime behavior. Modified documents
-must be reviewed against the final candidate after #517 lands.
+Predecessor #517 / PR #748 merged as
+`e734438b5fdba099ed607e0604254430ddd7d091` after independent review at
+`09e120c0496441215b33a6ccd51c07f2beb98dc1`. This branch includes that merge and the subsequent terminal reconciliation
+PR #750 (`f61deb36d5eccb4a3e391510bbea4bb6f2d51216`). The latter adds terminal
+receipts for 11 issues without changing the recorded quality evaluation.
+The operator explicitly authorized #518 to proceed with the blocked quality
+decision recorded as a finding. No dependency on a passing *release* decision
+is imposed on completing this documentation handoff.
 
-[finding-dispositions.json](finding-dispositions.json) records all 15 findings,
-corrections and remaining owner-dependent work. The canonical milestone inventory
-now includes the broader closeout list from the active release-plan template.
+[handoff-content.json](handoff-content.json) binds the reviewed documentation
+paths to SHA-256 hashes and identifies the merged source baseline. The final
+independent review and exact reviewed commit are recorded in the typed SRP at
+`.csdlc/issues/518/cards/srp.md`. Verify both content hashes and typed review
+before accepting the publication revision; a content inventory alone is not
+review approval.
 
-## Creation and proof are separate
+## Start here
 
-[creation-map.json](creation-map.json) maps the 45 child issues created by
-WP-01/#480 from the retained creation receipt. Its existence proves the source
-mapping, not acceptance of those issues.
+1. Read the [canonical inventory](../../../CANONICAL_DOC_INVENTORY_v0.92.1.md)
+   and [quality decision](../../../QUALITY_GATE_v0.92.1.md).
+2. Inspect [dependency-observation.json](dependency-observation.json) for the
+   merged predecessor identity and all five unresolved quality exceptions.
+3. Inspect [finding-dispositions.json](finding-dispositions.json) for the 15
+   documentation findings, corrections and explicitly retained limitations.
+4. Use [creation-map.json](creation-map.json) for the exact 45 child issues from
+   WP-01/#480. Creation and closure do not prove feature acceptance.
+5. Read [the complete Cargo audit](CARGO_MANIFEST_REVIEW.md) for all 24 tracked
+   manifests and 20 local dependency references. No package version was changed.
 
-[source-proof-snapshot.json](source-proof-snapshot.json) exposes the source
-revision, merge revision, review status and evidence references for every one of
-the retained integration diagnostic's 35 execution rows. Its candidate is
-`bf159eb416950dfa3399933829726a7b7e71f897` and its decision is **blocked**.
-That snapshot has 11 release-tail stages, 393 acceptance rows and a zero-backlog
-count; the zero does not erase the explicit #84/#251 deferrals recorded in
-current planning and the live OBS-B/#512 contract. These denominators are not
-interchangeable with the 45 created children or the 737-document audit.
+## Evidence denominators and limits
 
-#516 completion represents completion of its diagnostic deliverable, not a
-passing release-admission decision. Source review gaps and candidate drift must
-be reconciled by #517; this documentation packet neither repairs proof nor
-converts closed issues into accepted features.
+The initial [737-document inventory](document-inventory.json) remains an immutable
+source-time audit at `bf617859982f8b9613737344400626eb90768930`. All selected files
+were read and statically screened; this did not verify every historical sentence
+or runtime behavior. The current content inventory includes the original set,
+new README/AGENTS files, and new milestone documentation introduced by the merge.
+Historical records preserve their source-time meaning.
 
-## Residual gates and ownership
+[source-proof-snapshot.json](source-proof-snapshot.json) preserves the integration
+diagnostic's 35 execution rows, source/merge revisions, review status and evidence
+paths at candidate `bf159eb416950dfa3399933829726a7b7e71f897`. It is not current
+product acceptance. Its zero-backlog count does not override the explicit #84
+Unity and #251 TLS deferrals. #122 public exposure retains separate ownership.
 
-- #517 owns the quality-gate document and final proving evidence. Its current
-  contradiction about deferred Unity/TLS is left visible as D03, not edited by
-  this task while that owner is in flight.
-- #84 Unity and #251 TLS are deferred backlog, not OBS-B requirements or delivered
-  milestone features. #122 public exposure retains its separate ownership.
-- #519 owns publication finalization. Current README/review pointers added here
-  identify the pending engineering milestone; they do not declare a release.
-- #523 owns successor-plan reconciliation. The CodeFriend planning-home link
-  follows the existing v0.92.2 package without claiming SIM implementation.
-- Coverage, Rust-module and gap/risk tracker freshness, the end-of-milestone
-  report and later review results remain closeout obligations. Inventorying an
-  obligation does not mark it complete.
+The merged quality evaluation inventories 393 rows and evaluates 366 required
+lanes: 121 passing, 245 non-proving, zero absent and zero demonstrated product
+failures. Its five exceptions remain visible: exact-head review gaps; live/spec
+synchronization; current criterion proof gaps; retained predecessor proof
+crosswalks; and shared-path owner sign-off. Affected row counts overlap and are
+not a separate issue denominator. These are release findings, not facts repaired
+by this documentation task.
 
-## Validation and final handoff
+## Reviewer responsibilities and downstream ownership
 
-The declared local validator is
-`.csdlc/prepared/issues/518/validate-documentation-handoff.rb`.
-Its inventory, relative-link and claim-contract modes are deterministic local
-checks. They do not prove HTTP reachability, every bare reference, product
-behavior, or final quality acceptance. Original baseline link screening is
-retained in the earlier audit; changed-document checks must run again here.
+Check that claimed features have criterion-level evidence, that current docs agree
+with explicit deferrals, and that historical diagnostics are not promoted to
+release approval. Use the recorded exact source references rather than issue
+closure as acceptance proof. Coverage, Rust-module and gap/risk tracker freshness,
+end-of-milestone reporting and later review dispositions remain explicit release
+closeout obligations; inventorying them does not mark them complete.
 
-Before final handoff: include #517's reviewed merge, freeze the new candidate,
-refresh changed-document hashes and claim dispositions, rerun focused checks,
-obtain independent exact-revision review, and record the result through typed
-SRP/SOR routes. Do not label this preparation packet final before those gates.
+#519 owns publication finalization and release-version decisions. #523's merged
+successor planning owns the v0.92.2 SIM program; this packet claims no SIM
+implementation. Product and evidence owners retain the five quality exceptions.
 
-## Authorized transition route
+## Reproduction
 
-The operator explicitly authorized v2 for this issue on 2026-09-08 after native
-v3 binding left cards in the primary checkout and native edit returned
-`invalid_operational_roots`. V2 adopted the exact existing branch/worktree and
-materialized the prepared six-card bundle. This is a bounded exception, not a
-repository-wide authority rollback; no selector was changed.
+- `ruby .csdlc/prepared/issues/518/validate-documentation-handoff.rb --all`
+- `ruby .csdlc/prepared/issues/518/validate-documentation-handoff.rb --final`
+- `python3 .csdlc/prepared/issues/518/audit-cargo-manifests.py --check`
 
-## Observed predecessor result
+These local checks verify inventories/hashes, extracted relative links, snapshot
+parity and merged predecessor ancestry. They do not prove every bare reference,
+HTTP reachability, compilation, vulnerability posture, full lockfile
+reproducibility or release readiness. Typed independent review remains separate.
 
-At the 2026-09-08 readback, #517 / PR #748 remained open at
-`899b60aab7b374a68284828d28a1308e0a1c9f9c`. Aggregate CI and coverage passed,
-but its quality decision remained **blocked** and downstream release unlock
-remained false. The PR reports 121 proving passes and 245 non-proving rows.
-[dependency-observation.json](dependency-observation.json) records the five
-unresolved exceptions with the immutable source URL and blob hash:
+Earlier local-validation and independent-review records are historical snapshots
+bound to the commits identified by their addenda; they do not claim current-file
+hashes after this refresh.
 
-- Two executed issues lack current exact-head review (7 affected rows).
-- WP-01, GCP-E, HOT-01 and OBS-B live/spec records need synchronization (4 rows).
-- Current criteria lack candidate-bound proof or amendment authority (11 rows).
-- Retained predecessor criteria lack successor proof mappings (227 rows).
-- Shared paths lack explicit owner sign-off (3 rows).
-
-These exception row counts are not a separate disjoint issue denominator.
-Documentation corrections here do not resolve review or semantic proof debt.
-The live/spec synchronization item is relevant to #518; a follow-up reconciliation
-must preserve source-time specifications and identify accepted amendments rather
-than changing required criteria to manufacture a pass. The remaining proof and
-sign-off items stay with their evidence owners. Final handoff requires both the
-reviewed merge and a passing quality result; green CI or a merged blocked
-quality decision is insufficient.
-
-## Complete Cargo manifest extension
-
-[The Cargo manifest review](CARGO_MANIFEST_REVIEW.md) expands the initial
-three-file manifest sample to all 24 tracked manifests. All metadata checks and
-20 local dependency references pass. It records effective versions, workspace
-membership, checked scope and release-owner decisions without claiming builds,
-lockfile reproducibility or release approval. The original 737-document audit
-remains an immutable baseline; this extension has its own complete inventory.
+The operator authorized the retained v2 route for #518 after the native binding
+regression. That bounded exception does not change the repository's default v3
+authority or bypass typed review, publication and finish guards.

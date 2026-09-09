@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 38,
+  "expected_digest": "0123ed062e4628efa20ee83ed415ce82dc5bbb82cd8aa358f10dffdb73d48137",
+  "actor": "codex:planning-6",
+  "reason": "Merged source baseline incorporated; final handoff content and all six PVF lanes finalized successfully. Independent review of immutable commit remains lifecycle review step.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "completed"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 33,
+  "expected_digest": "d24f71a0d3f35e78f5d4ee03794906fb7d3566b933115843608611f80d394880",
+  "actor": "codex:planning-6",
+  "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Unsupported release claims or omitted residual risks.",
+      "Candidate content drift invalidates review and requires revalidation.",
+      "Do not mutate retained machine-readable TAIL-01 proof or implement product work."
+    ]
+  }
+}

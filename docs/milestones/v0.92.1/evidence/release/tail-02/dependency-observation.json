@@ -2,17 +2,17 @@
   "schema": "adl.tail02.dependency_observation.v1",
   "observed_date": "2026-09-08",
   "issue": 517,
-  "issue_state": "OPEN",
+  "issue_state": "CLOSED",
   "pull_request": 748,
-  "pull_request_state": "OPEN",
-  "pull_request_head": "899b60aab7b374a68284828d28a1308e0a1c9f9c",
+  "pull_request_state": "MERGED",
+  "pull_request_head": "09e120c0496441215b33a6ccd51c07f2beb98dc1",
   "aggregate_ci": "SUCCESS",
   "aggregate_coverage": "SUCCESS",
   "quality_gate": "blocked",
   "downstream_release_unlock": false,
   "source_path": "docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
   "source_blob_sha256": "ede57e98659a924ae3176b35cff90daf99876b4de96586254ecafd582eb79390",
-  "source_url": "https://github.com/agent-logic/agent-design-language/blob/899b60aab7b374a68284828d28a1308e0a1c9f9c/docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
+  "source_url": "https://github.com/agent-logic/agent-design-language/blob/e734438b5fdba099ed607e0604254430ddd7d091/docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
   "unresolved": [
     {
       "id": "execution-exact-head-review-gaps",
@@ -60,5 +60,7 @@
       "affected_row_count": 3
     }
   ],
-  "scope_boundary": "This is observation of an unmerged predecessor candidate, not adopted acceptance evidence. Merge alone does not satisfy the passing quality-result gate."
+  "scope_boundary": "Merged predecessor satisfies the documentation-review dependency. Operator authorized the handoff while preserving blocked release acceptance.",
+  "merge_commit": "e734438b5fdba099ed607e0604254430ddd7d091",
+  "merged_at": "2026-09-09T01:09:08Z"
 }

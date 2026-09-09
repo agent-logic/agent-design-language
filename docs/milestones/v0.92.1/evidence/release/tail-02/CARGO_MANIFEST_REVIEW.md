@@ -69,5 +69,5 @@ new release. There is no Cargo.toml at the repository root.
 `--no-deps` verifies Cargo's manifest/workspace model, not compilation or complete
 dependency resolution. No registry freshness, vulnerability, license, feature
 combination, full lockfile reproducibility or package-publishing test was run.
-Those claims remain outside this documentation check. Final #518 external handoff
-still requires #517's passing reviewed merge.
+Those claims remain outside this documentation check. The #518 handoff includes #517's reviewed merge and preserves its blocked
+release decision; this manifest check grants no release approval.

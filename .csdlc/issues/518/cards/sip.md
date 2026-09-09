@@ -63,10 +63,10 @@ One exact-revision documentation-review packet with a context-free external-revi
 
 ## Authority
 
-- Operator authorized independent documentation corrections on 2026-09-08 and explicitly authorized v2 transition remediation: use v2, dont get blocked.
-- Native v3 remains the repository default; this v2 exception applies to issue 518 only.
-- Final exact-revision acceptance and external handoff require issue 517 passing reviewed merge.
-- No product implementation, changes to issue 517 quality evidence, or release publication.
+- Operator authorized v2 for issue 518 transition remediation.
+- Operator clarified nothing is blocked after issue 517 reviewed merge; finish documentation review without equating it to release approval.
+- Retain the blocked TAIL-01 release decision and all machine-readable proof as source evidence.
+- Correct current documentation, including quality-gate scope prose, without product changes or release publication.
 
 ## Assumptions
 

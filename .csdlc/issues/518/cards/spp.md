@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Documentation corrections and the complete manifest audit are reviewed locally. Incorporate origin/main e734438b5fdba099ed607e0604254430ddd7d091 containing merged PR 748 and PR 743; reconcile documentation conflicts and refresh source snapshots, hashes and pending findings. Issue 517 is closed but records a blocked quality result, so a merge alone does not authorize final external handoff or release acceptance.
+Complete final documentation handoff against the merged issue 517 baseline. Operator clarified nothing is blocked: passing reviewed merge means predecessor review and integration, not a release PASS decision. Preserve TAIL-01 blocked release truth in the handoff. Refresh current inventory and snapshots, correct remaining scope prose, validate exact content and obtain independent review before typed publication.
 
 ## Plan
 
-Revision 10
+Revision 12
 
 ## Steps
 
@@ -67,7 +67,7 @@ Revision 10
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
@@ -107,10 +107,9 @@ Digest: 9025468b12687281f293fbcb9b0c9155d8aa6aaed3360937fb9ed29e7a5e9958
 
 ## Stop Conditions
 
-- Do not finalize acceptance or external handoff before issue 517 passing reviewed merge.
-- Do not claim a feature or release proved without exact-revision evidence.
-- Revalidate if the candidate changes.
-- Do not edit another issue owner quality evidence.
+- Unsupported release claims or omitted residual risks.
+- Candidate content drift invalidates review and requires revalidation.
+- Do not mutate retained machine-readable TAIL-01 proof or implement product work.
 
 ## Handoff
 

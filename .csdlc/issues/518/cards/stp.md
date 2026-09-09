@@ -29,7 +29,8 @@ Issue completion is exactly one exact-revision documentation-review and external
 
 ## Dependencies
 
-- Issue 517 passing reviewed merge gates final acceptance and handoff; operator authorized independent corrections now.
+- Issue 517 reviewed PR 748 merged as e734438b5fdba099ed607e0604254430ddd7d091; dependency satisfied.
+- Blocked release acceptance is an explicit review finding, not a blocker to producing the documentation handoff per operator clarification.
 
 ## Inputs
 

@@ -3,9 +3,9 @@
   "issue": 518,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
-  "phase": "bound",
-  "generation": 30,
-  "digest": "cfb6c2e8c1c831640d09f42f47d0c73264f36d8af43c6bb7bfe353a827e8dc90",
+  "phase": "implemented",
+  "generation": 39,
+  "digest": "b9cedcc46d342ecc24117c1b913e2136c3f3d0d9bbe554ee1b88ca8e319e9151",
   "branch": "codex/518-documentation-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3cc9da2804e585183fcd7ab00bd296864dbc9ea4967f0b486f63311d11a7d647",
-      "rendered_digest": "0ad35f1797c6b27665601446a8bafc483ba0745a4075442a85de78dcbbbff8a8",
-      "ast_digest": "f18ef3d70ee7ef564f11743d764abfd4c8feeae1866784a8740020ef5d889c9f"
+      "values_digest": "f086517853865bba30724298bb64dc69220ec96f074f200db572ac3152a6990a",
+      "rendered_digest": "015c9316e1b6da4255fa3ddf8e15d68e0c1c308c28078bdcb1a9dd7a47405375",
+      "ast_digest": "f0fb5f0938f5f79eb1e9aa979b5bf1f57ed889f814fe8b4951ec97040cad2808"
     },
     "stp": {
-      "values_digest": "0e7d2598b4af418c090bfa48eb404ffa49a160e36c42c1337ac3c10c18557d30",
-      "rendered_digest": "2662d77d88ac3dadce640f9134a13a6dc1ab6c98cb1f9a73640fcd6b113b93cd",
-      "ast_digest": "b5a899d2d0f905bdb7dfba2f67d79fce40b5bb07bcad53ac041dd7bbf2b5a253"
+      "values_digest": "0e294ce1136d36f2e439f22acaf7932ab6b59d6f26c8de7dc0fbf73377c7c2bc",
+      "rendered_digest": "21ee26a2c7ed47d8d91c4efa75d9811e76bdeff6d0365459ec07c4298830583c",
+      "ast_digest": "97f13949b0cdb7c470f61c333fa2be19131484bed8658c7ed4c8dfd28580ff54"
     },
     "spp": {
-      "values_digest": "b552157fd56cc361cfcb4028812e48acdc09c502759ff481d0bbf54048389eda",
-      "rendered_digest": "0aaa6924279ef6f1ed0f0a2e9e20e7738006d6acdcd749dd637125d0396d9580",
-      "ast_digest": "ae3093c61825e9d4553cd1038d7082a44c75eb50d1b4a9be11ecae1607260cd9"
+      "values_digest": "2871ba90420a158e18ef543d1f9f1dea2407bdba1317c7ac96977b6707be2238",
+      "rendered_digest": "e15d17fac6ca14edd5d7ff1dbe79df91813f171c4adc1da71bad5f90cf3b63e4",
+      "ast_digest": "bd17839f77c6f5e52dfea2453ed15596f72f6321c4a659c392b46c98613faf47"
     },
     "vpp": {
-      "values_digest": "568a7e5ffe145be6073b4d3ba9108ec1bcab7f004daaa53ac926cf7c511f2bb1",
-      "rendered_digest": "c9e96e7a6c1c3a248f4aadce0b0712619e24b1709268a9b23b78c6652f49dea3",
-      "ast_digest": "44e875dce74e2d19042e0700f54b080ea4e35ebd0a89480111abfb031bcfdd76"
+      "values_digest": "9182f2456716ff74439a6dc5e349f8b70b357e6da396ae9bdf745772339ec95a",
+      "rendered_digest": "520b05b407b78011ca65b7a26e77cd5753ea5d7d0b422002d73bb5066892b89c",
+      "ast_digest": "0cd7721b001f85b81f2fd332fe2c5628818b1f85551c09f7c86ce33d0aec0ea2"
     },
     "srp": {
-      "values_digest": "3be0897c1f83cf2679dee49b82f4923552000335f6e1b7703fd9fe16e432a9b1",
+      "values_digest": "b4ae9cc0ce74b1eb36e5716ac9556398c6c141b2e08de08e52f9d684304098a5",
       "rendered_digest": "68a5206a895ed4f034ce8e93d776d31519a9c77b6e4e432ff7354a82e2978fb4",
       "ast_digest": "dfe1977a91466e8dff1b6a7a4b84780dd9d406d6e350046849fbf1bc5e112ebd"
     },
     "sor": {
-      "values_digest": "24b86a98de7c3abf375032d80251819518e7f8534874867674ffed86a97029eb",
-      "rendered_digest": "73213eb1b3d94681dc3a15f0ba42542c45db7f299c155678d0efe2cf52440ec9",
-      "ast_digest": "65ec82a643d05627835e12f9f1c37b7821b70dffc0e883f3ee0943ca8a38fd99"
+      "values_digest": "3743bed16cf75b7314d0869e5e17c7b6e008605b869fbe0510735a30bacd8d8d",
+      "rendered_digest": "94c62d5837291c77a4432c2737cc748f81b9c2700152bd2ab9ad22e436e48f8c",
+      "ast_digest": "28a7fca7eed988052e82dec0dcf4289948919cee56d78d7a43e681e91e15c39e"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "codex:planning-6",
       "reason": "{\"actor\":\"codex:planning-6\",\"base_branch\":\"main\",\"branch\":\"codex/518-documentation-review\",\"code_repository\":null,\"expected_digest\":\"0af1904c23fa1142e0d483c84cd5f0477c3ccc48bf33d3fcdd38dc5fbbf07487\",\"expected_generation\":3,\"expected_head\":\"bf617859982f8b9613737344400626eb90768930\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":518,\"observed_head\":\"bf617859982f8b9613737344400626eb90768930\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning-6",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -294,6 +301,69 @@
       "actor": "codex:planning-6",
       "reason": "Operator asked to carry on after issue 517 merged. Refresh the merged documentation baseline while retaining its blocked quality decision and final passing-result gate.",
       "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Documentation corrections and the complete manifest audit are reviewed locally. Incorporate origin/main e734438b5fdba099ed607e0604254430ddd7d091 containing merged PR 748 and PR 743; reconcile documentation conflicts and refresh source snapshots, hashes and pending findings. Issue 517 is closed but records a blocked quality result, so a merge alone does not authorize final external handoff or release acceptance.\",\"operation\":\"replan\",\"previous_value\":\"Correct the 15 source-grounded findings from the 737-document audit now under explicit operator authorization. Use bounded v2 transition remediation. Preserve historical proof and concurrent owner paths. Final candidate freeze, acceptance and external handoff wait for issue 517 passing reviewed merge.\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:planning-6",
+      "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Operator authorized v2 for issue 518 transition remediation.\",\"Operator clarified nothing is blocked after issue 517 reviewed merge; finish documentation review without equating it to release approval.\",\"Retain the blocked TAIL-01 release decision and all machine-readable proof as source evidence.\",\"Correct current documentation, including quality-gate scope prose, without product changes or release publication.\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:planning-6",
+      "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Issue 517 reviewed PR 748 merged as e734438b5fdba099ed607e0604254430ddd7d091; dependency satisfied.\",\"Blocked release acceptance is an explicit review finding, not a blocker to producing the documentation handoff per operator clarification.\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 33,
+      "actor": "codex:planning-6",
+      "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Complete final documentation handoff against the merged issue 517 baseline. Operator clarified nothing is blocked: passing reviewed merge means predecessor review and integration, not a release PASS decision. Preserve TAIL-01 blocked release truth in the handoff. Refresh current inventory and snapshots, correct remaining scope prose, validate exact content and obtain independent review before typed publication.\",\"operation\":\"replan\",\"previous_value\":\"Documentation corrections and the complete manifest audit are reviewed locally. Incorporate origin/main e734438b5fdba099ed607e0604254430ddd7d091 containing merged PR 748 and PR 743; reconcile documentation conflicts and refresh source snapshots, hashes and pending findings. Issue 517 is closed but records a blocked quality result, so a merge alone does not authorize final external handoff or release acceptance.\"}"
+    },
+    {
+      "sequence": 36,
+      "generation": 34,
+      "actor": "codex:planning-6",
+      "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Unsupported release claims or omitted residual risks.\",\"Candidate content drift invalidates review and requires revalidation.\",\"Do not mutate retained machine-readable TAIL-01 proof or implement product work.\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 35,
+      "actor": "codex:planning-6",
+      "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-doc-inventory\",\"proof_role\":\"Verify the 737-document baseline inventory and hashes; final candidate must be refreshed after issue 517.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--inventory\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"link-check\",\"proof_role\":\"Check extracted local inline Markdown links in the audited documents and packet; remote reachability, bare refs and final acceptance are outside this local check.\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--links\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"claim-audit\",\"proof_role\":\"Verify retained diagnostic/creation snapshot parity, 15 finding dispositions and explicit pending final acceptance; not product proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--claims\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove repository diff hygiene for the exact documentation candidate.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"final-handoff-gate\",\"proof_role\":\"Verify merged predecessor ancestry, exact document hashes, current finding dispositions and explicit release non-approval.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--final\"],\"parallel_group\":\"final\",\"defer_reason\":null},{\"lane\":\"cargo-manifest-inventory\",\"proof_role\":\"Audit all tracked Cargo manifests: TOML, package and inherited version identity, local dependency paths, offline no-deps Cargo workspace metadata. Not dependency builds, security, lock reproducibility or release-version approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/518/audit-cargo-manifests.py\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 36,
+      "actor": "codex:planning-6",
+      "reason": "Resume final handoff after merged predecessor and terminal reconciliation; local 775-file checks passed and independent review in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 37,
+      "actor": "codex:planning-6",
+      "reason": "Describe actual final documentation proof after merged predecessor and reconciliation baseline.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-doc-inventory\",\"proof_role\":\"Verify the immutable 737-document source inventory; final-handoff-gate verifies the refreshed 775-file content inventory.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--inventory\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"link-check\",\"proof_role\":\"Check extracted local inline Markdown links in the audited documents and packet; remote reachability, bare refs and final acceptance are outside this local check.\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--links\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"claim-audit\",\"proof_role\":\"Verify source snapshot parity, 15 documentation dispositions, explicit deferrals and retained blocked release decision; not product proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--claims\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove repository diff hygiene for the exact documentation candidate.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"final-handoff-gate\",\"proof_role\":\"Verify merged predecessor ancestry, exact document hashes, current finding dispositions and explicit release non-approval.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--final\"],\"parallel_group\":\"final\",\"defer_reason\":null},{\"lane\":\"cargo-manifest-inventory\",\"proof_role\":\"Audit all tracked Cargo manifests: TOML, package and inherited version identity, local dependency paths, offline no-deps Cargo workspace metadata. Not dependency builds, security, lock reproducibility or release-version approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/518/audit-cargo-manifests.py\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 38,
+      "actor": "codex:planning-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 41,
+      "generation": 39,
+      "actor": "codex:planning-6",
+      "reason": "Merged source baseline incorporated; final handoff content and all six PVF lanes finalized successfully. Independent review of immutable commit remains lifecycle review step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
     }
   ]
 }

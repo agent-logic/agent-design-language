@@ -50,9 +50,10 @@ obligation, not a claim that a gate has passed.
 | End-of-milestone report and successor handoff | Record residual risks, deferred work, and exact revision references before ceremony |
 
 TAIL-02 records each surface's revision, disposition, and supporting evidence in
-its review packet. Missing evidence remains an open finding. Final handoff waits
-for the TAIL-01 passing quality result and reviewed merge; parallel documentation
-corrections do not establish release readiness.
+its review packet. Missing evidence remains an open finding. Final handoff
+includes the TAIL-01 reviewed merge and its explicit blocked
+quality result. Operator-authorized documentation review does not establish
+release readiness.
 
 ## Canonical Release Tail
 
