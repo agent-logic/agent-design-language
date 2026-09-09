@@ -8,4 +8,4 @@ Terraform 1.15.3 / AWS provider 5.100.0.
 
 Independent static security re-review: no remaining actionable findings. Resolved three P2 probe findings: unique listener nonce, verified cleanup required for success, and local socket errors fail closed. Five deterministic offline probe verdict tests pass (success, listener collision, cleanup failure, local socket error, exposed port). Live proof has not run.
 
-Live SSH/isolation/disposal proof remains pending key identity-file path and explicit approval of saved AWS plan. No paid resources created.
+Authorized live SSH/isolation/disposal proof passed; see live-proof.json. Initial state-path mismatch was recovered without reapplying. AWS verified termination and absent issue-owned volume/security group. Existing key preserved.

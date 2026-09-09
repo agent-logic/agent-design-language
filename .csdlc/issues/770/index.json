@@ -3,9 +3,9 @@
   "issue": 770,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1027ce24f8764f0a1ebb0f6d5dc56d65062000fe91fb898530036cea91088289",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "54300c0f88ea23bfba6f90aa26c96efa7e86ba4aae098019e9093bbaa28930d0",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "b00b58a196b763d0fe47ab49878c33aefb68a2625ff7c4c66ebe45937f13d082",
   "branch": "codex/770-public-spot-ssh-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "212916cadfe408d42e52cdb3d726a81972d0dc2022bbc55f87df32951feadd58",
+      "values_digest": "1b1623188a642693dff85ea58acd75e8c3d771e16597724f37ebd847fcda739c",
       "rendered_digest": "e8ad0f905851b7b218c29fd9ba399b2953969b582d3d44da8bcdfdb114491b3a",
       "ast_digest": "6b2756afabb08215c363489e85b654c399659082c35f715f568557e1c43f8f8b"
     },
     "stp": {
-      "values_digest": "c0f9f4a27a82925ed4119577b949fbcc3695b0652044e654286f1f191a562c94",
+      "values_digest": "a647676c9776e429c8b0c1f00f662ee010ed28566bb8f3872a0c10cd1c04d668",
       "rendered_digest": "094f6ad2b8deada648cb4963f3edf4c57869cf279ec0782c8fa86dcd4e3d7423",
       "ast_digest": "ecba6922f53438c56d68681fd71b23be8173cd3910451fd7e9b684fb1fa2db65"
     },
     "spp": {
-      "values_digest": "d0fab8b4563f2ca5472db6c26815e5a9ba65b9ce6720f104e7c47fc8f9dfd4e0",
-      "rendered_digest": "9e265903651bb6050a542ab78807de2a6d8ac3fbb3eb09acad8543c3771c5e3a",
-      "ast_digest": "d7273fcf5ff8a774dcfd358511fd3d740c0128b0d1068332b97557544771b000"
+      "values_digest": "267484d8642129fa3a15fd3cf23d7ec54ec3706ea269424a70a0c86204bece89",
+      "rendered_digest": "1950b5015bb212464aeb598e1d5a14c76c5952a7ef4c119d9970fd9f87c0f138",
+      "ast_digest": "c8094a8f2df30b7cb1a6cb05ef2915c88140ef7aa76889be9d02e43afa3c987b"
     },
     "vpp": {
-      "values_digest": "957230513659c899645fba1707c85339dd9b13eb8023f278ea0eec9c88f56219",
-      "rendered_digest": "f37b57750c856512df26d6c92c248501714373e2602b1b7062f8f73ee2a355d5",
-      "ast_digest": "0e7e7e9d2b524c292064a8f44a72fcbe78dad49b6a9828c34ead399b04957a2a"
+      "values_digest": "2753c920bd01a9d0dc1784fff582d4ef620e72ef52bb941bdb851f777be85884",
+      "rendered_digest": "2dbb1fab137bd3784a64b2d8c5f1ea905fe409d46537a3d7bfb1dad3c9ff7023",
+      "ast_digest": "e809ac6d63e41dd8df114673c67e63e6605f35379fad9008f94faa1cfcc0e81c"
     },
     "srp": {
-      "values_digest": "6b2b6f3ed1054ec8f17d7922f9811ed286dd9fc9b67b5c90d0aa94409a21f064",
+      "values_digest": "36e1340d1e0e48a8c52115d5f6af9267b56e9cf8383eac2ece7ad3cdbd96e503",
       "rendered_digest": "97fee9a643b26330d1c50f36b4e079fbe7fc79f23b73e5f04c598003906413c1",
       "ast_digest": "6a5dd06e1f44d29ef446d4377a99c639c7942cf81b59b24aacff1e836ad0d680"
     },
     "sor": {
-      "values_digest": "3c8a44f07edbddbf6146a6a2cf5bc7599eb24c752abfad05418239e54970b5d7",
-      "rendered_digest": "671f71b01332feb16f685aec160ac93bf7c677a4b91b5bc34ef31757a4132009",
-      "ast_digest": "8f66c49116f5664eca5644bb059aa854e372db44679faac419e70c179c2598f7"
+      "values_digest": "3ab0c8c4a1990560e7c4fa5d1df13442abd498d567e2ec277bc1815c1398d8ee",
+      "rendered_digest": "300e690d7d1c63ccf4e0c47cefd414e760020f5fdd7858dedcf4da6383625872",
+      "ast_digest": "d3d955fd9519c7340316af575183af3d8b5fcee5a0599db05031b82d1a30e353"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "codex:planning-6",
       "reason": "{\"actor\":\"codex:planning-6\",\"base_branch\":\"main\",\"branch\":\"codex/770-public-spot-ssh-recovery\",\"code_repository\":null,\"expected_digest\":\"e8e5063aa67e898d9d8a41e65cb642ec44b1ca583c5f32ed81a8f692bbb62cf0\",\"expected_generation\":1,\"expected_head\":\"d2571a7c94906b90457163cec769e1f65f8bdcba\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":770,\"observed_head\":\"d2571a7c94906b90457163cec769e1f65f8bdcba\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning-6",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -119,6 +126,27 @@
       "actor": "codex:planning-6",
       "reason": "Ten deterministic mock plan tests, formatting and Terraform validation passed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_contract.sh\"],\"purpose\":\"Public SSH negative/positive and hardening contract proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/770/local-validation.md\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:planning-6",
+      "reason": "Live proof and disposal completed; preserve one-run cloud boundary.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"public-ssh-contract\",\"proof_role\":\"Deterministic Terraform mocked plan contracts; small local CPU; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_contract.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"authorized-live-recovery\",\"proof_role\":\"Paid AWS reachability, application isolation and disposal proof; requires explicit plan approval and selected existing key.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_live_proof.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Live run completed once with operator approval; retained result is verified during finalization instead of creating paid resources again.\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:planning-6",
+      "reason": "Authorized live SSH/isolation proof and AWS disposal readbacks passed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:planning-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

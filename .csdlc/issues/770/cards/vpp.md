@@ -61,7 +61,7 @@ Diagram: .csdlc/prepared/issues/770/diagram.mmd
       "infra/aws/csm-runtime-spot/tests/run_live_proof.sh"
     ],
     "parallel_group": "live",
-    "defer_reason": "Prepare exact plan and request explicit cloud approval plus existing SSH key details before implementing or running this live proof target."
+    "defer_reason": "Live run completed once with operator approval; retained result is verified during finalization instead of creating paid resources again."
   }
 ]
 
