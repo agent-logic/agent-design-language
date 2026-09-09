@@ -13,6 +13,9 @@ path = "src/lib.rs"
 [features]
 internal-test-fixtures = []
 
+[lints.clippy]
+result_large_err = "allow"
+
 [[test]]
 name = "distributed_runtime_transport"
 path = "tests/distributed_runtime_transport.rs"

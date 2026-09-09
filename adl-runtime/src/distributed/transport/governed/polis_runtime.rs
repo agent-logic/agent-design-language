@@ -4440,7 +4440,6 @@ mod authority_consensus_tests {
     }
 
     impl MemoryConnection {
-        #[allow(clippy::result_large_err)]
         fn peer(&self) -> Result<PolisRaft, RPCError<NodeId, BasicNode, RaftError<NodeId>>> {
             self.peers
                 .read()
