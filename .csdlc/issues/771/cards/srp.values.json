@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 771,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+    "slug": "v3f-exact-head-proof",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Current V3-F implementation, tests, authority and issue771 evidence mapping.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Independently review complete current V3-F coupled scope and exact-head receipt validator."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 771,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "bc3d65f371cb975052fa31266ae8366b1851930d0ff33fdf5861dd46e52286d1",
+  "branch": "codex/771-v3f-proof-execution",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/771/design.md",
+  "diagram_path": ".csdlc/prepared/issues/771/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "Planning #7",
+      "revision": "c5de487bd08d61541324c06b3d20ea8f93bfcf33927f62edbe45fd8316c27fec"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "139370d2bc3fb9d53c93f2426b58e6902f13b6d36811954bb10f7e6276db5365",
+      "rendered_digest": "4eebdac62588459e5ae15a126b3c8bc94988e95fba3648094304e67b71789a1f",
+      "ast_digest": "6cd174bbb33f3cc0fdf24d89fca186dcff260bd6d3fee496a4372f4a9c11bf2b"
+    },
+    "stp": {
+      "values_digest": "3d39744815b72e12df1673311d96d25079822b4f22c0092c90bc5963f65ac4e5",
+      "rendered_digest": "52b8a2943894a66925c205a2f4eb7571c3517e6dcde571a6daa47dc1fdfb4ac4",
+      "ast_digest": "4be7ccef53cfe215c834fefdf6e135e0f1c05db4974424e9ebceb69d78821937"
+    },
+    "spp": {
+      "values_digest": "d7ba4505064a7b423934aa3cd65f46f28818560fe457f603d8460d634435f1df",
+      "rendered_digest": "084cd9c7d3fe6227a0e8868abe66da048a5db47faa71abdbbb7624ffcf9471df",
+      "ast_digest": "7214c0349a88c96deaf626400784e60d70245a6f7ec48fd555e948606ade3887"
+    },
+    "vpp": {
+      "values_digest": "cb1aabb545f79e9a264097287239d13799676a96d89f08e3afbd4ddee9712d83",
+      "rendered_digest": "eff3f6a59399fa5882a53c3faccfcd968494d80f4964021ebd0ea025d39c72c3",
+      "ast_digest": "078597eef92b7ca896a3439cc054fb0d3970fd45cc19359bdec5d63d18ce9abc"
+    },
+    "srp": {
+      "values_digest": "83669e560319229b6db5126f46d8bc3cbc30007d5feac8449f1839536e9b394f",
+      "rendered_digest": "cdf216c9ac416683f98d124950ca487df914405c1cd9cee694899f58c21205d4",
+      "ast_digest": "1aeed3599f46384599ae716396d4bd47a28d827664a91d99e41eedbefe93de44"
+    },
+    "sor": {
+      "values_digest": "46057d9b297de7f13ff8136ece645d5c485989c64d477170b67c7fad8b257f5d",
+      "rendered_digest": "2bb9189f8d136ec6aa074ae17a1a570369ee06fc0d65f25c36be200a624fe1cc",
+      "ast_digest": "a25bada74d3705d437ba4768e61a58cf96511d6523ddbd8fa9d45271c43e3638"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "Planning #7",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "Planning #7",
+      "reason": "Declare exact existing reconciliation validator as an issue-owned mapping integration surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current\",\".csdlc/evidence/771\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "Planning #7",
+      "reason": "Declare exact existing reconciliation validator as an issue-owned mapping integration surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current\",\".csdlc/evidence/771\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "Planning #7",
+      "reason": "Retain completed historical/source inspection and unfinished mapping/review work after independent terminal defect reproduction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "Planning #7",
+      "reason": "Retain completed historical/source inspection and unfinished mapping/review work after independent terminal defect reproduction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"in_progress\"}"
+    }
+  ]
+}

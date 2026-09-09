@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 771,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+    "slug": "v3f-exact-head-proof",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Inspect current mappings and historical delta; author a fail-closed current mapping validator; freeze source SHA; independently review complete V3-F scope and replay full locked suite detached; retain receipts and map four rows; review and publish evidence PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Retain historical diff and define complete V3-F scope.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Author exact-current mapping and rejection validation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "in_progress"
+        },
+        {
+          "id": "S3",
+          "action": "Freeze and independently review source; run full detached locked suite.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Record four resolved V3-F rows and preserve CORP-A closure.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+        "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current",
+        ".csdlc/evidence/771"
+      ],
+      "invariants": [
+        "Historical receipts immutable; source review and suite use identical bytes; no CORP-A reopening."
+      ],
+      "risks": [
+        "Review and validation identity drift after changes."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Stop on unowned issue state or identity ambiguity."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/771/design.md",
+      "design_digest": "c5de487bd08d61541324c06b3d20ea8f93bfcf33927f62edbe45fd8316c27fec",
+      "diagram_ref": ".csdlc/prepared/issues/771/diagram.mmd",
+      "diagram_digest": "f6dfe12a29db3619d547dcb7b2fb5fa10d87c88ac68e4089a8fc88f9064e6551"
+    }
+  }
+}
