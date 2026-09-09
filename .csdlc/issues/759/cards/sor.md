@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures
 Branch: codex/759-dynamic-agent-health-task-failures
 Card Status: ready
-Status: implemented_local_review_pending
+Status: implemented_review_passed_publication_pending
 Generated: <timestamp>
 
 Execution:
@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b. The sweep now drains all JoinSet outcomes, maps join panic/cancel failures to the stable dynamic-agent declaration, projects the failed agent as failed, and preserves successful peer updates.
+Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b and recorded pre-PR review PASS at branch head ab7bb7b220c571775763725629421391b4bc8f17.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime-focused`
@@ -56,7 +56,7 @@ Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `medium`
 - Estimate error percent: `unknown`
-- Completion state: `local_implementation_review_pending`
+- Completion state: `pre_pr_review_passed_publication_pending`
 - Issue goal ref: `Codex goal: Issue #759 dynamic-agent health sweep remediation`
 - Sprint goal ref: `v0.92.1 closeout tail runtime defect lane`
 - Goal metrics rollup ref: `v0.92.1`
@@ -85,7 +85,7 @@ Implemented the #759 dynamic-agent health sweep repair at source SHA dd7bef24d2e
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None yet; work is committed on bound branch codex/759-dynamic-agent-health-task-failures.`
 - Worktree-only paths remaining: `Branch worktree contains implementation/evidence pending review and publication.`
-- Integration state: `worktree_branch_committed_review_pending`
+- Integration state: `worktree_branch_committed_review_passed_publication_pending`
 - Verification scope: `Bound FastWork worktree on branch codex/759-dynamic-agent-health-task-failures.`
 - Integration method used: `native C-SDLC v3 bind plus git commit in issue worktree`
 - Verification performed:
@@ -109,7 +109,7 @@ Rules:
   - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; git diff --check HEAD`
     `Focused regression proves panic/cancel task isolation and peer projection retention; fmt/clippy/diff prove Rust hygiene for the touched Runtime crate.`
 - Results:
-  - `PASS at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b; all recorded command statuses are 0.`
+  - `PASS at source SHA dd7bef24d2e7cb1625313cbdacba7d212f0d691b; all recorded command statuses are 0. Pre-PR review PASS at final branch head ab7bb7b220c571775763725629421391b4bc8f17.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -173,5 +173,5 @@ verification_summary:
 - `No provider health semantics were changed.`
 
 ## Follow-ups / Deferred work
-- `Run bounded pre-PR review on exact branch head.`
-- `After PASS, publish PR with `Closes #759`, watch CI, finish, and clean separately.`
+- `Publish PR with `Closes #759` after typed publication gate allows it.`
+- `Watch CI, finish, and clean separately after merge authority is satisfied.`

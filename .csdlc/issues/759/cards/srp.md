@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "dynamic-agent-health-task-failures-review-prompt"
 issue: 759
 task_id: "issue-0759"
 version: "1.0.4"
 title: "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures"
 branch: "codex/759-dynamic-agent-health-task-failures"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/759"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/759/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/759/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/759/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/759/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/759/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/759/cards/stp.md"
+  - ".csdlc/issues/759/cards/sip.md"
+  - ".csdlc/issues/759/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/759/cards/stp.md"
+  - ".csdlc/issues/759/cards/sip.md"
+  - ".csdlc/issues/759/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Pre-PR review ran in subagent /root/review_759_runtime_health. The reviewer reran `cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture` at final HEAD and observed PASS. Known native-v3 card-structure validator schema-path defect was not treated as a #759 source finding."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/759/cards/stp.md
+- .csdlc/issues/759/cards/sip.md
+- .csdlc/issues/759/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- PASS — no actionable P0/P1/P2/P3 findings.
 
 ### Dispositions
 
-- <review_dispositions>
+- No remediation required. Reviewer confirmed exact HEAD ab7bb7b220c571775763725629421391b4bc8f17, scoped diff, JoinSet drain behavior, stable failed-agent identity for panic/cancel paths, peer successful projection retention, and evidence hashes/statuses.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pass
 
 ## Notes
 
-<review_notes>
+Pre-PR review ran in subagent /root/review_759_runtime_health. The reviewer reran `cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture` at final HEAD and observed PASS. Known native-v3 card-structure validator schema-path defect was not treated as a #759 source finding.
