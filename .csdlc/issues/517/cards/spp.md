@@ -24,7 +24,7 @@ variance_threshold_percent: "50"
 estimate_confidence: "low"
 estimate_data_source: "Original issue planning estimate"
 estimate_source_ref: ".csdlc/prepared/issues/517/bootstrap-request.json"
-issue_goal_ref: "issue-517-pr748-review-remediation"
+issue_goal_ref: "issue-517-post-merge-evidence-reconciliation"
 sprint_goal_ref: "not recorded"
 goal_metrics_rollup_ref: "not recorded"
 source_refs:
@@ -38,17 +38,17 @@ source_refs:
     ref: ".csdlc/issues/517/cards/sip.md"
 scope:
   files:
-    - "quality-gate evidence and validator; native PR branch reconciliation; issue517 lifecycle cards"
+    - "Issue517 quality-gate reconciliation evidence and validator, QUALITY_GATE_v0.92.1.md, and typed issue517 plan/review/output cards."
   components:
     - "tail-01-quality-gate"
   out_of_scope:
-    - "No product proof remediation; no release approval, merge or ceremony. Operator authorized review repairs and publication for PR748."
+    - "No release ceremony or merge. No fabricated proof, silent acceptance changes, backlog implementation, or writes on main."
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate. Repair review findings before reviewed publication; preserve the blocked release decision."
+plan_summary: "Reopened #517 after merged PR748. Reconcile the 245 non-proving rows against retained implementation proof and explicit operator amendments; correct counting and mapping defects; resolve supported findings and publish a newly reviewed assessment while retaining the historical candidate assessment."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "completed"
+    status: "in_progress"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "completed"
+    status: "pending"
   - step: "Implement the bounded deliverables only."
-    status: "completed"
+    status: "pending"
   - step: "Run focused validation and proof gates."
-    status: "completed"
+    status: "pending"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "completed"
+    status: "pending"
 affected_areas:
   - "tail-01-quality-gate"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "An incomplete denominator could create a false green; Zero-test output could be mistaken for proof; Candidate drift could stale the decision; An exception could lack an owner"
 test_strategy:
-  - "Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI"
+  - "Recompute row identities and dispositions against pinned source blobs; validate explicit amendments and successor proof; run focused positive and negative reconciliation checks; obtain independent exact-head review and required CI."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Gate remains blocked; proof debt is not resolved by this PR. Publication does not authorize release."
+notes: "Original assessment remains immutable. A successor issue closure alone does not prove a predecessor criterion. Explicit amendments change scope only as authorized; still-required missing proof remains unresolved."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
 
 Design-time operative plan for `[v0.92.1][TAIL-01] Quality gate`.
 
-Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate. Repair review findings before reviewed publication; preserve the blocked release decision.
+Reopened #517 after merged PR748. Reconcile the 245 non-proving rows against retained implementation proof and explicit operator amendments; correct counting and mapping defects; resolve supported findings and publish a newly reviewed assessment while retaining the historical candidate assessment.
 
 ## PVF Lane Plan
 
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [completed] Confirm dependencies and starting state from the source issue prompt.
-2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [completed] Implement the bounded deliverables only.
-4. [completed] Run focused validation and proof gates.
-5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
+2. [pending] Inspect repo inputs and target surfaces before editing.
+3. [pending] Implement the bounded deliverables only.
+4. [pending] Run focused validation and proof gates.
+5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI
+- Recompute row identities and dispositions against pinned source blobs; validate explicit amendments and successor proof; run focused positive and negative reconciliation checks; obtain independent exact-head review and required CI.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Gate remains blocked; proof debt is not resolved by this PR. Publication does not authorize release.
+Original assessment remains immutable. A successor issue closure alone does not prove a predecessor criterion. Explicit amendments change scope only as authorized; still-required missing proof remains unresolved.
