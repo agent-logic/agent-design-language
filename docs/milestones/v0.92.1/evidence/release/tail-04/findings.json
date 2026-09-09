@@ -224,8 +224,7 @@
         "TAIL-04:AC-2"
       ],
       "locator": {
-        "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
-        "line": 1
+        "command": "test ! -s .csdlc/evidence/730/preapply-bucket-describe.json"
       },
       "evidence": {
         "subject_id": "D520-EVID-002",
@@ -234,8 +233,7 @@
         "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "locator": {
-          "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
-          "line": 1
+          "command": "test ! -s .csdlc/evidence/730/preapply-bucket-describe.json"
         }
       },
       "detail": "Four failed-command artifacts under issues 730 and 731 are empty. They need explicit structured failure envelopes or a truthful non-JSON naming and manifest disposition.",

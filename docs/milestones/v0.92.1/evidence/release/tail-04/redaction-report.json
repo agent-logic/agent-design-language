@@ -1,52 +1,19 @@
 {
   "schema": "adl.v0921.internal_review_summary.v1",
   "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-  "outcome": "passed",
+  "outcome": "findings",
   "observations": [
     {
-      "subject_id": "SUMMARY-REDACTION-REPORT-D520-SEC-001",
+      "subject_id": "SUMMARY-REDACTION-REPORT-SECURITY",
       "result": "finding",
-      "detail": "D520-SEC-001: GCP mutation approval is self-asserted by the local mutation principal",
+      "detail": "security specialist completed its exact assignment with outcome findings.",
       "evidence": {
-        "subject_id": "SUMMARY-REDACTION-REPORT-D520-SEC-001",
-        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9",
+        "subject_id": "SUMMARY-REDACTION-REPORT-SECURITY",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+        "source": "packet",
+        "sha256": "b69771f5da9238e6165f7a77890d935fdceca5bbc4cb22f9c33d361f63213cf0",
         "locator": {
-          "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
-          "line": 17
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-REDACTION-REPORT-D520-SEC-002",
-      "result": "finding",
-      "detail": "D520-SEC-002: AWS authorization is not cryptographically bound to the saved Terraform plan",
-      "evidence": {
-        "subject_id": "SUMMARY-REDACTION-REPORT-D520-SEC-002",
-        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65",
-        "locator": {
-          "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
-          "line": 92
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-REDACTION-REPORT-D520-SEC-003",
-      "result": "finding",
-      "detail": "D520-SEC-003: The OBS-B redaction validation lane is vacuous",
-      "evidence": {
-        "subject_id": "SUMMARY-REDACTION-REPORT-D520-SEC-003",
-        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4",
-        "locator": {
-          "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
           "line": 1
         }
       }

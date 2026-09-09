@@ -45,13 +45,18 @@ end
 
 def candidate_evidence(candidate, path, subject_id, line: 1)
   content = git_blob(candidate, path)
+  locator = if content.empty?
+              {"command" => "test ! -s #{path}"}
+            else
+              {"path" => path, "line" => line}
+            end
   {
     "subject_id" => subject_id,
     "path" => path,
     "source" => "candidate",
     "revision" => candidate,
     "sha256" => sha256(content),
-    "locator" => {"path" => path, "line" => line}
+    "locator" => locator
   }
 end
 

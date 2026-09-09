@@ -1,68 +1,49 @@
 {
   "schema": "adl.v0921.internal_review_summary.v1",
   "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-  "outcome": "passed",
+  "outcome": "findings",
   "observations": [
     {
-      "subject_id": "SUMMARY-PROOF-RESULTS-D520-RET-001",
-      "result": "finding",
-      "detail": "D520-RET-001: The retained-proof denominator still contains 198 unproved required rows",
+      "subject_id": "SUMMARY-PROOF-RESULTS-DEMOS",
+      "result": "verified",
+      "detail": "demos specialist completed its exact assignment with outcome passed.",
       "evidence": {
-        "subject_id": "SUMMARY-PROOF-RESULTS-D520-RET-001",
-        "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df",
+        "subject_id": "SUMMARY-PROOF-RESULTS-DEMOS",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+        "source": "packet",
+        "sha256": "da99113b9c3eba18c9826eb0a8c52df06ab8ef1afff7e76a589bb95aab88b617",
         "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
-          "line": 26
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+          "line": 1
         }
       }
     },
     {
-      "subject_id": "SUMMARY-PROOF-RESULTS-D520-V3F-001",
+      "subject_id": "SUMMARY-PROOF-RESULTS-PROVIDER_CLOUD",
       "result": "finding",
-      "detail": "D520-V3F-001: V3-F exact-head proof is stale at the frozen release candidate",
+      "detail": "provider_cloud specialist completed its exact assignment with outcome findings.",
       "evidence": {
-        "subject_id": "SUMMARY-PROOF-RESULTS-D520-V3F-001",
-        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "993b438accbb09b0afe5ee22dfa866de7a4fb191f4b8aedc51e67ab878eb2e43",
+        "subject_id": "SUMMARY-PROOF-RESULTS-PROVIDER_CLOUD",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+        "source": "packet",
+        "sha256": "ff416d8ed7129e4d72df2c83a7d0b28942eb3c30db0a3265706ed22d20b8804a",
         "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
-          "line": 4
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+          "line": 1
         }
       }
     },
     {
-      "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-001",
+      "subject_id": "SUMMARY-PROOF-RESULTS-RETAINED_EVIDENCE",
       "result": "finding",
-      "detail": "D520-EVID-001: Eighteen GCP-E JSON readbacks are emitted as YAML",
+      "detail": "retained_evidence specialist completed its exact assignment with outcome findings.",
       "evidence": {
-        "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-001",
-        "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "898117f84f8452779a015e7e74936059859b721ae728e20494a6bcb9834dfff1",
+        "subject_id": "SUMMARY-PROOF-RESULTS-RETAINED_EVIDENCE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+        "source": "packet",
+        "sha256": "5eb12d32cfa16b1428d7f56a85b656c8c1d2ab5d32216379587f9ef2be5d7065",
         "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
-          "line": 83
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-002",
-      "result": "finding",
-      "detail": "D520-EVID-002: Four retained cloud failure artifacts are zero-byte files named JSON",
-      "evidence": {
-        "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-002",
-        "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "locator": {
-          "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
           "line": 1
         }
       }

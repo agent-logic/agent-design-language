@@ -69,7 +69,7 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     query = "issues pullRequests milestone pageInfo hasNextPage endCursor closedByPullRequestsReferences"
     write_json(response_path, {"issues" => [issue], "pull_requests" => [milestone_pr]})
     snapshot = {"repository" => "agent-logic/agent-design-language", "milestone" => "v0.92.1",
-      "api_receipt" => {"transport" => "github_graphql", "page_size" => 100, "page_count" => 3, "issue_page_count" => 1, "closing_reference_page_count" => 1, "pull_request_page_count" => 1, "final_has_next_page" => false, "retrieved_at" => "now", "query" => query, "query_sha256" => Digest::SHA256.hexdigest(query), "response_path" => response_path, "response_sha256" => Digest::SHA256.file(response_path).hexdigest},
+      "api_receipt" => {"transport" => "github_graphql", "page_size" => 100, "page_count" => 3, "issue_page_count" => 1, "closing_reference_page_count" => 1, "pull_request_page_count" => 1, "final_has_next_page" => false, "retrieved_at" => "2026-09-09T00:00:10Z", "query" => query, "query_sha256" => Digest::SHA256.hexdigest(query), "response_path" => response_path, "response_sha256" => Digest::SHA256.file(response_path).hexdigest},
       "pagination_complete" => true, "next_cursor" => nil, "query_limit" => nil, "issues" => [issue], "pull_requests" => [milestone_pr]}
     write_json(File.join(root, "live-milestone-snapshot.json"), snapshot)
     repo_rows = changed.map.with_index { |path, i| ref="repo:#{i}"; {"path" => path, "denominator_ref" => ref, "classification" => "code", "disposition" => "review", "review_lane" => "code", "evidence" => blob_evidence.call(path, ref)} }
@@ -97,7 +97,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
         result["execution_scope"] = "Three distinct deterministic candidate test surfaces were replayed; static review covers the remainder."
         result["test_invocations"] = %w[test.rb test2.rb test3.rb].each_with_index.map do |test_path, index|
           captured_output = "test surface #{index + 1} passed\n"
-          {"id"=>"fixture-test-#{index + 1}","argv"=>["ruby",test_path],"working_directory"=>".","command_artifacts"=>[{"path"=>test_path,"sha256"=>Digest::SHA256.file(test_path).hexdigest}],"candidate_sha"=>candidate,"exit_status"=>0,"captured_output"=>captured_output,"captured_output_sha256"=>Digest::SHA256.hexdigest(captured_output),"success_markers"=>["test surface #{index + 1} passed"]}
+          artifact_digest = Digest::SHA256.file(test_path).hexdigest
+          artifact = {"path"=>test_path,"candidate_sha"=>candidate,"candidate_sha256"=>artifact_digest,"current_head"=>candidate,"current_sha256"=>artifact_digest,"candidate_matches_current"=>true}
+          {"id"=>"fixture-test-#{index + 1}","argv"=>["ruby",test_path],"working_directory"=>".","command_artifacts"=>[artifact],"candidate_sha"=>candidate,"exit_status"=>0,"captured_output"=>captured_output,"captured_output_sha256"=>Digest::SHA256.hexdigest(captured_output),"success_markers"=>["test surface #{index + 1} passed"]}
         end
       end
       result
@@ -123,9 +125,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
         if [ "$3" = "758" ]; then closing=805; closed_at="2026-09-09T00:00:03Z"; fi
         printf '{"number":%s,"state":"CLOSED","closedAt":"%s","closedByPullRequestsReferences":[{"number":%s}]}\n' "$3" "$closed_at" "$closing"
       elif [ "$1" = "pr" ] && [ "$2" = "list" ]; then
-        printf '%s\n' '[{"number":527,"title":"WP-01 PR","state":"MERGED","mergedAt":"2026-09-01T00:00:00Z","url":"https://example.invalid/pr/527","milestone":{"title":"v0.92.1"}}]'
+        printf '%s\n' '[{"number":527,"title":"WP-01 PR","state":"MERGED","mergedAt":"2026-09-01T00:00:00Z","url":"https://example.invalid/pr/527","milestone":{"title":"v0.92.1"},"createdAt":"2026-09-01T00:00:00Z"}]'
       else
-        printf '%s\n' '[{"number":480,"title":"WP-01","state":"CLOSED","closedByPullRequestsReferences":[{"number":527}]}]'
+        printf '%s\n' '[{"number":480,"title":"WP-01","state":"CLOSED","createdAt":"2026-09-01T00:00:00Z","closedByPullRequestsReferences":[{"number":527}]}]'
       fi
     SH
     FileUtils.chmod(0o755, File.join(bin, "gh")); ENV["PATH"] = "#{bin}:#{ENV.fetch('PATH')}"
@@ -158,6 +160,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     end
     reject_mutation.call("non_resolving_evidence", [issue_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(issue_path)); doc.fetch("rows").first["evidence"] = "looks convincing"; write_json(issue_path, doc)
+    end
+    reject_mutation.call("unbound_packet_locator", [issue_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(issue_path)); evidence = doc.fetch("rows").first.fetch("evidence"); evidence["source"] = "packet"; evidence["path"] = response_path; evidence["sha256"] = Digest::SHA256.file(response_path).hexdigest; evidence["locator"] = {"command" => "trust the snapshot"}; write_json(issue_path, doc)
     end
     reject_mutation.call("out_of_bounds_evidence_locator", [issue_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(issue_path)); doc.fetch("rows").first.fetch("evidence").fetch("locator")["line"] = 99_999; write_json(issue_path, doc)

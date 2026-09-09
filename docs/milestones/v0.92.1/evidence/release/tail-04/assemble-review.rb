@@ -33,7 +33,19 @@ finding_input_path = File.join(PACKET, "finding-input.json")
 finding_inputs = File.file?(finding_input_path) ? JSON.parse(File.read(finding_input_path)).fetch("findings") : []
 
 row_docs = %w[repo_inventory.json canonical-surface-inventory.json issue_inventory.json pull_request_inventory.json acceptance_coverage.json]
-rows = row_docs.flat_map { |name| read_json(name).fetch("rows") }
+row_documents = row_docs.to_h { |name| [name, read_json(name)] }
+row_documents.each_value do |document|
+  document.fetch("rows").each do |row|
+    evidence = row.fetch("evidence")
+    next unless evidence.fetch("source") == "candidate" && evidence.fetch("sha256") == Digest::SHA256.hexdigest("")
+
+    path = evidence.fetch("path")
+    abort("empty candidate evidence digest contradicts candidate blob: #{path}") unless candidate_blob(candidate, path).empty?
+    evidence["locator"] = {"command" => "test ! -s #{path}"}
+  end
+end
+row_documents.each { |name, document| write_json(name, document) }
+rows = row_documents.values.flat_map { |document| document.fetch("rows") }
 rows_by_ref = rows.to_h { |row| [row.fetch("denominator_ref"), row] }
 
 findings = finding_inputs.map do |input|
@@ -114,7 +126,11 @@ lane_results = assignments.map do |assignment|
   observations = input.fetch("observations").map do |specialist_observation|
     ref = specialist_observation.fetch("ref")
     row = rows_by_ref.fetch(ref)
-    related = lane_findings.select { |finding| finding.fetch("denominator_refs").include?(ref) }
+    acceptance_ref = ref.start_with?("ACCEPT-") ? ref.delete_prefix("ACCEPT-") : nil
+    related = lane_findings.select do |finding|
+      finding.fetch("denominator_refs").include?(ref) ||
+        acceptance_ref && finding.fetch("affected_acceptance_refs").include?(acceptance_ref)
+    end
     expected_conclusion = related.empty? ? "verified_no_gap" : "finding"
     abort("specialist observation contradicts canonical findings: #{lane}: #{ref}") unless specialist_observation.fetch("conclusion") == expected_conclusion
     if acceptance_by_ref.key?(ref)

@@ -1,7 +1,11 @@
 {
-  "schema": "adl.v0921.internal_review_lane.v1",
+  "schema": "adl.v0921.internal_review_specialist_input.v1",
   "lane": "demos",
   "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "status": "completed",
+  "reviewer": "subagent:/root/fix_816_validation",
+  "completed_at": "2026-09-09T22:08:05Z",
+  "review_method": "Resolved and read every assigned demo FILE/CANON blob at the frozen candidate SHA, verified packet digests and content structure, then traced every acceptance row to live packet issue/PR state and candidate SOR/SRP digests before terminal disposition.",
   "denominator_refs": [
     "FILE-00001",
     "FILE-04646",
@@ -99,17 +103,6 @@
   "observations": [
     {
       "ref": "FILE-00001",
-      "evidence": {
-        "subject_id": "FILE-00001",
-        "path": ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "0f9b949b92a663ccc4865ab65e84a02bc8fe9255c6054f45c7172564d895caaa",
-        "locator": {
-          "path": ".adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface .adl/docs/TBD/resilience/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md in full (SHA-256 0f9b949b92a663ccc4865ab65e84a02bc8fe9255c6054f45c7172564d895caaa, 830 bytes, 16 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Runtime v3 stable CSM route\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -119,17 +112,6 @@
     },
     {
       "ref": "FILE-04646",
-      "evidence": {
-        "subject_id": "FILE-04646",
-        "path": "adl/tools/skills/demo-operator/SKILL.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391",
-        "locator": {
-          "path": "adl/tools/skills/demo-operator/SKILL.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface adl/tools/skills/demo-operator/SKILL.md in full (SHA-256 bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391, 4517 bytes, 147 lines, 12 headings, 0 fence markers, 18 proof/result markers; opening anchor \"---\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -139,17 +121,6 @@
     },
     {
       "ref": "FILE-04784",
-      "evidence": {
-        "subject_id": "FILE-04784",
-        "path": "demos/html-observatory/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "9da7ece882288d641808f2f74eb836d5bd19707a2c3b4e83b30eff1c67b3eb06",
-        "locator": {
-          "path": "demos/html-observatory/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/html-observatory/README.md in full (SHA-256 9da7ece882288d641808f2f74eb836d5bd19707a2c3b4e83b30eff1c67b3eb06, 15123 bytes, 292 lines, 10 headings, 14 fence markers, 18 proof/result markers; opening anchor \"# ADL HTML Observatory\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -159,17 +130,6 @@
     },
     {
       "ref": "FILE-04798",
-      "evidence": {
-        "subject_id": "FILE-04798",
-        "path": "demos/podcast/LAUNCH_READINESS.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "f464baa1dcc087d51502ffde73766e619518d232471ccb7285ae126991809690",
-        "locator": {
-          "path": "demos/podcast/LAUNCH_READINESS.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/LAUNCH_READINESS.md in full (SHA-256 f464baa1dcc087d51502ffde73766e619518d232471ccb7285ae126991809690, 2630 bytes, 46 lines, 4 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# The Cognitive Stack Launch Readiness\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -179,17 +139,6 @@
     },
     {
       "ref": "FILE-04799",
-      "evidence": {
-        "subject_id": "FILE-04799",
-        "path": "demos/podcast/PUBLICATION_HOLD.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "f51c1e64305a986e8e3ae11284cee3d0af63a6fcbd7c36142b3f91edef2f954f",
-        "locator": {
-          "path": "demos/podcast/PUBLICATION_HOLD.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/PUBLICATION_HOLD.md in full (SHA-256 f51c1e64305a986e8e3ae11284cee3d0af63a6fcbd7c36142b3f91edef2f954f, 935 bytes, 25 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# The Cognitive Stack publication hold\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -199,17 +148,6 @@
     },
     {
       "ref": "FILE-04800",
-      "evidence": {
-        "subject_id": "FILE-04800",
-        "path": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ada4176e5b058f7472cf3857cfc9717e54d04024c5df900ab1e7e6cef85f762f",
-        "locator": {
-          "path": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/S3_CLOUDFRONT_RUNBOOK.md in full (SHA-256 ada4176e5b058f7472cf3857cfc9717e54d04024c5df900ab1e7e6cef85f762f, 6895 bytes, 151 lines, 9 headings, 4 fence markers, 4 proof/result markers; opening anchor \"# The Cognitive Stack S3 And CloudFront Runbook\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -219,17 +157,6 @@
     },
     {
       "ref": "FILE-04812",
-      "evidence": {
-        "subject_id": "FILE-04812",
-        "path": "demos/podcast/episode-packages/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ebf667a1bd65638b4103a54d0acc9cef596b7d9262fef57c4b91134a96c7952d",
-        "locator": {
-          "path": "demos/podcast/episode-packages/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episode-packages/README.md in full (SHA-256 ebf667a1bd65638b4103a54d0acc9cef596b7d9262fef57c4b91134a96c7952d, 1043 bytes, 14 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# The Cognitive Stack ��� Episode Package Workspace\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -239,17 +166,6 @@
     },
     {
       "ref": "FILE-04815",
-      "evidence": {
-        "subject_id": "FILE-04815",
-        "path": "demos/podcast/episode-packages/season-arc.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "3e99c371416f1eaeb936fdd4f2d9ea739357e6aa0925016ed2e7ee3a6ea54d6e",
-        "locator": {
-          "path": "demos/podcast/episode-packages/season-arc.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episode-packages/season-arc.md in full (SHA-256 3e99c371416f1eaeb936fdd4f2d9ea739357e6aa0925016ed2e7ee3a6ea54d6e, 2557 bytes, 37 lines, 6 headings, 0 fence markers, 6 proof/result markers; opening anchor \"# The Cognitive Stack ��� Season Arc\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -259,17 +175,6 @@
     },
     {
       "ref": "FILE-04816",
-      "evidence": {
-        "subject_id": "FILE-04816",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "35b19944091def17872e765ff66df8d183ebf741ed3ebc90c886810e0f0fb2c6",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/CREATOR_WORKFLOW.md in full (SHA-256 35b19944091def17872e765ff66df8d183ebf741ed3ebc90c886810e0f0fb2c6, 3372 bytes, 76 lines, 7 headings, 2 fence markers, 0 proof/result markers; opening anchor \"# The Cognitive Stack Episode Workflow\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -279,17 +184,6 @@
     },
     {
       "ref": "FILE-04819",
-      "evidence": {
-        "subject_id": "FILE-04819",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "a57c9ea0fb583e110af72ee5d6f94a983a56c2b686564d3c281333a2d269803c",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/qa-report.md in full (SHA-256 a57c9ea0fb583e110af72ee5d6f94a983a56c2b686564d3c281333a2d269803c, 1883 bytes, 45 lines, 4 headings, 0 fence markers, 8 proof/result markers; opening anchor \"# Episode 001 QA Report\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -299,17 +193,6 @@
     },
     {
       "ref": "FILE-04822",
-      "evidence": {
-        "subject_id": "FILE-04822",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e4e0ae90c6bdc01da05eab49dda4bb4cd16ca5a8a9c7977bff5ac0058479f6cf",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/script.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/script.md in full (SHA-256 e4e0ae90c6bdc01da05eab49dda4bb4cd16ca5a8a9c7977bff5ac0058479f6cf, 18147 bytes, 411 lines, 30 headings, 0 fence markers, 13 proof/result markers; opening anchor \"# Episode 001: Meet the AI Coworkers\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -319,17 +202,6 @@
     },
     {
       "ref": "FILE-04823",
-      "evidence": {
-        "subject_id": "FILE-04823",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "47b708c49e35dfe2c381adb664292bb4f56426ff07aeb5aeb2cf553f756c2d77",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/show-notes.md in full (SHA-256 47b708c49e35dfe2c381adb664292bb4f56426ff07aeb5aeb2cf553f756c2d77, 1759 bytes, 41 lines, 5 headings, 0 fence markers, 3 proof/result markers; opening anchor \"# Meet the AI Coworkers\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -339,17 +211,6 @@
     },
     {
       "ref": "FILE-04824",
-      "evidence": {
-        "subject_id": "FILE-04824",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "df6055ec3c96dcc6f14513e24ab76ab092b4048306dbcc2a1af34bbbf0dcf042",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md in full (SHA-256 df6055ec3c96dcc6f14513e24ab76ab092b4048306dbcc2a1af34bbbf0dcf042, 1728 bytes, 41 lines, 5 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Episode 001 Source Packet\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -359,17 +220,6 @@
     },
     {
       "ref": "FILE-04826",
-      "evidence": {
-        "subject_id": "FILE-04826",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "f2ccc783aa3d757a18adf07aa90be5a2909578ecea536cb5c44326734e35c6b6",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/transcript.md in full (SHA-256 f2ccc783aa3d757a18adf07aa90be5a2909578ecea536cb5c44326734e35c6b6, 17573 bytes, 398 lines, 29 headings, 0 fence markers, 13 proof/result markers; opening anchor \"# Episode 001 Transcript: Meet the AI Coworkers\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -379,17 +229,6 @@
     },
     {
       "ref": "FILE-04849",
-      "evidence": {
-        "subject_id": "FILE-04849",
-        "path": "docs/cognitive-sdlc/five-minute-sprint-demo.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "125bda7d738230780140ddbbf87b1b951c02690eee9b56e2e3ecf64a60300d7b",
-        "locator": {
-          "path": "docs/cognitive-sdlc/five-minute-sprint-demo.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/cognitive-sdlc/five-minute-sprint-demo.md in full (SHA-256 125bda7d738230780140ddbbf87b1b951c02690eee9b56e2e3ecf64a60300d7b, 1662 bytes, 56 lines, 7 headings, 0 fence markers, 6 proof/result markers; opening anchor \"# Five-Minute Sprint Demo\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -399,17 +238,6 @@
     },
     {
       "ref": "FILE-04872",
-      "evidence": {
-        "subject_id": "FILE-04872",
-        "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "53adc8d31cd0d2219aaafa23da9aa392566810ddaf9d596987c36931eed98c91",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md in full (SHA-256 53adc8d31cd0d2219aaafa23da9aa392566810ddaf9d596987c36931eed98c91, 10666 bytes, 80 lines, 5 headings, 0 fence markers, 118 proof/result markers; opening anchor \"# Demo Matrix ��� v0.92.1\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -419,17 +247,6 @@
     },
     {
       "ref": "FILE-05693",
-      "evidence": {
-        "subject_id": "FILE-05693",
-        "path": "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e6a8dd9d5cd56011cd69df2cf4184ceb251da5b9abc2fa6b74cf29e89622cfbe",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md in full (SHA-256 e6a8dd9d5cd56011cd69df2cf4184ceb251da5b9abc2fa6b74cf29e89622cfbe, 1250 bytes, 19 lines, 5 headings, 0 fence markers, 4 proof/result markers; opening anchor \"# Observatory Redesign ��� v0.92.1\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -439,17 +256,6 @@
     },
     {
       "ref": "FILE-05694",
-      "evidence": {
-        "subject_id": "FILE-05694",
-        "path": "docs/milestones/v0.92.1/review/podcast_directory_263/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "a98d8c2a7c1027371055a9cf868e7fea0e786d9e9f897b24ab82398528152a58",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_directory_263/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_directory_263/README.md in full (SHA-256 a98d8c2a7c1027371055a9cf868e7fea0e786d9e9f897b24ab82398528152a58, 1400 bytes, 23 lines, 4 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Podcast Directory Preflight Packet ��� Issue #263\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -459,17 +265,6 @@
     },
     {
       "ref": "FILE-05695",
-      "evidence": {
-        "subject_id": "FILE-05695",
-        "path": "docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "0b189a5c4789145eb0adbd228c5f8b839e6ad6ef5a99a087a00f4ef89009a359",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md in full (SHA-256 0b189a5c4789145eb0adbd228c5f8b839e6ad6ef5a99a087a00f4ef89009a359, 2106 bytes, 43 lines, 5 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Operator Preflight For #264\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -479,17 +274,6 @@
     },
     {
       "ref": "FILE-05696",
-      "evidence": {
-        "subject_id": "FILE-05696",
-        "path": "docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "3af557c90bb41a6f54703f6b09d7d2b879ed383cdfea22d15a4dfc719d755326",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md in full (SHA-256 3af557c90bb41a6f54703f6b09d7d2b879ed383cdfea22d15a4dfc719d755326, 4731 bytes, 93 lines, 6 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# The Cognitive Stack Directory Submission Runbooks\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -499,17 +283,6 @@
     },
     {
       "ref": "FILE-05698",
-      "evidence": {
-        "subject_id": "FILE-05698",
-        "path": "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "7bafbe5c20d49197609f3bae775d4f0893616e03c152f2cc41ed0ffe5aa2baf7",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md in full (SHA-256 7bafbe5c20d49197609f3bae775d4f0893616e03c152f2cc41ed0ffe5aa2baf7, 1731 bytes, 41 lines, 5 headings, 0 fence markers, 4 proof/result markers; opening anchor \"# Issue #660 ��� Podcast public exposure emergency rollback\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -519,17 +292,6 @@
     },
     {
       "ref": "FILE-05699",
-      "evidence": {
-        "subject_id": "FILE-05699",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "747d5c65c399ed589230ed9cedcaa033ed3b179a76edb407eecd05cb4b93b7fd",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/README.md in full (SHA-256 747d5c65c399ed589230ed9cedcaa033ed3b179a76edb407eecd05cb4b93b7fd, 1766 bytes, 27 lines, 4 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Podcast Directory Submission Gate Packet ��� Issue #264\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -539,17 +301,6 @@
     },
     {
       "ref": "FILE-05700",
-      "evidence": {
-        "subject_id": "FILE-05700",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "83b1fd05b58b0ebcab7d7aeb56cc177fef61990e0911b8a47c27bb0a3fe0f3cd",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md in full (SHA-256 83b1fd05b58b0ebcab7d7aeb56cc177fef61990e0911b8a47c27bb0a3fe0f3cd, 1875 bytes, 38 lines, 5 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Monitoring, Correction, Rollback, And Link Activation Rules\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -559,17 +310,6 @@
     },
     {
       "ref": "FILE-05701",
-      "evidence": {
-        "subject_id": "FILE-05701",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "92b006ff6c1bafc9f543558e0ee79e652b3aa5ebda678d36b944f06545ef3577",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md in full (SHA-256 92b006ff6c1bafc9f543558e0ee79e652b3aa5ebda678d36b944f06545ef3577, 1966 bytes, 34 lines, 4 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Future Operator Authorization Template For #264\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -579,17 +319,6 @@
     },
     {
       "ref": "FILE-05702",
-      "evidence": {
-        "subject_id": "FILE-05702",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d923886d608185de2ed3189db9b5e4903da535c47daab8268d6b4bf2511d8378",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md in full (SHA-256 d923886d608185de2ed3189db9b5e4903da535c47daab8268d6b4bf2511d8378, 1796 bytes, 26 lines, 2 headings, 0 fence markers, 3 proof/result markers; opening anchor \"# Parent #51 Handoff\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -599,17 +328,6 @@
     },
     {
       "ref": "FILE-05707",
-      "evidence": {
-        "subject_id": "FILE-05707",
-        "path": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e36c79c4f357994f67c634b51936e11851dcc7701d07e16a050377874562b78b",
-        "locator": {
-          "path": "docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.2/DEMO_MATRIX_v0.92.2.md in full (SHA-256 e36c79c4f357994f67c634b51936e11851dcc7701d07e16a050377874562b78b, 2493 bytes, 25 lines, 2 headings, 0 fence markers, 12 proof/result markers; opening anchor \"# v0.92.2 Demo Matrix\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -619,17 +337,6 @@
     },
     {
       "ref": "FILE-05747",
-      "evidence": {
-        "subject_id": "FILE-05747",
-        "path": "docs/milestones/v0.92/review/podcast_identity_261/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d18614dc74660ac53e2eccf86bb2989700bbaa3bbb12b787c05be82e7a66aa08",
-        "locator": {
-          "path": "docs/milestones/v0.92/review/podcast_identity_261/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92/review/podcast_identity_261/README.md in full (SHA-256 d18614dc74660ac53e2eccf86bb2989700bbaa3bbb12b787c05be82e7a66aa08, 2086 bytes, 39 lines, 4 headings, 6 fence markers, 2 proof/result markers; opening anchor \"# Podcast Identity Packet ��� Issue #261\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -639,17 +346,6 @@
     },
     {
       "ref": "FILE-05753",
-      "evidence": {
-        "subject_id": "FILE-05753",
-        "path": "docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "f76361b60b3b9a79db6964460128ffa9ac92c8a6e576f9f05b4d7a56a5d026ca",
-        "locator": {
-          "path": "docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md in full (SHA-256 f76361b60b3b9a79db6964460128ffa9ac92c8a6e576f9f05b4d7a56a5d026ca, 2053 bytes, 20 lines, 2 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# The Cognitive Stack Name-Conflict Review\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -659,17 +355,6 @@
     },
     {
       "ref": "FILE-05764",
-      "evidence": {
-        "subject_id": "FILE-05764",
-        "path": "docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ae2a5f40c9008323a53d6573e224eb374bf3d2a15808496022cd265d6cce57fa",
-        "locator": {
-          "path": "docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/operations/cloud/aws/observatory/S3_CLOUDFRONT_DEPLOYMENT_RUNBOOK.md in full (SHA-256 ae2a5f40c9008323a53d6573e224eb374bf3d2a15808496022cd265d6cce57fa, 1855 bytes, 33 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Observatory S3/CloudFront deployment runbook\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -679,17 +364,6 @@
     },
     {
       "ref": "FILE-05850",
-      "evidence": {
-        "subject_id": "FILE-05850",
-        "path": "docs/tooling/editor/pr_run_demo.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e0ec1a625bbe3ec416aa84c71451533041c607a0fcfe4d8c8c83bc93fc716eb9",
-        "locator": {
-          "path": "docs/tooling/editor/pr_run_demo.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/tooling/editor/pr_run_demo.md in full (SHA-256 e0ec1a625bbe3ec416aa84c71451533041c607a0fcfe4d8c8c83bc93fc716eb9, 1423 bytes, 42 lines, 1 headings, 2 fence markers, 3 proof/result markers; opening anchor \"# `pr run` Demo\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -699,17 +373,6 @@
     },
     {
       "ref": "FILE-05913",
-      "evidence": {
-        "subject_id": "FILE-05913",
-        "path": "infra/aws/observatory/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ca975736a5c29e4450a81b2c6511cd47738d32eff4f54965af7e8a64981c7549",
-        "locator": {
-          "path": "infra/aws/observatory/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface infra/aws/observatory/README.md in full (SHA-256 ca975736a5c29e4450a81b2c6511cd47738d32eff4f54965af7e8a64981c7549, 2942 bytes, 53 lines, 3 headings, 0 fence markers, 4 proof/result markers; opening anchor \"# Static Observatory edge\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -719,17 +382,6 @@
     },
     {
       "ref": "CANON-0057",
-      "evidence": {
-        "subject_id": "CANON-0057",
-        "path": "adl/tools/skills/demo-operator/SKILL.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391",
-        "locator": {
-          "path": "adl/tools/skills/demo-operator/SKILL.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface adl/tools/skills/demo-operator/SKILL.md in full (SHA-256 bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391, 4517 bytes, 147 lines, 12 headings, 0 fence markers, 18 proof/result markers; opening anchor \"---\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -739,17 +391,6 @@
     },
     {
       "ref": "CANON-0120",
-      "evidence": {
-        "subject_id": "CANON-0120",
-        "path": "demos/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "aba7ca043121049f289b9182507c190f311e7a2df0c42406bf83aca35e68593e",
-        "locator": {
-          "path": "demos/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/README.md in full (SHA-256 aba7ca043121049f289b9182507c190f311e7a2df0c42406bf83aca35e68593e, 17752 bytes, 465 lines, 18 headings, 48 fence markers, 28 proof/result markers; opening anchor \"# ADL Demos\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -759,17 +400,6 @@
     },
     {
       "ref": "CANON-0121",
-      "evidence": {
-        "subject_id": "CANON-0121",
-        "path": "demos/aee-recovery/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "2764c626bed7d4e33e9106d60997eeadfde1bb01593296f6996456806fcf045c",
-        "locator": {
-          "path": "demos/aee-recovery/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/aee-recovery/README.md in full (SHA-256 2764c626bed7d4e33e9106d60997eeadfde1bb01593296f6996456806fcf045c, 5155 bytes, 136 lines, 11 headings, 12 fence markers, 5 proof/result markers; opening anchor \"# Bounded AEE Recovery Demo\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -779,17 +409,6 @@
     },
     {
       "ref": "CANON-0122",
-      "evidence": {
-        "subject_id": "CANON-0122",
-        "path": "demos/html-observatory/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "9da7ece882288d641808f2f74eb836d5bd19707a2c3b4e83b30eff1c67b3eb06",
-        "locator": {
-          "path": "demos/html-observatory/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/html-observatory/README.md in full (SHA-256 9da7ece882288d641808f2f74eb836d5bd19707a2c3b4e83b30eff1c67b3eb06, 15123 bytes, 292 lines, 10 headings, 14 fence markers, 18 proof/result markers; opening anchor \"# ADL HTML Observatory\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -799,17 +418,6 @@
     },
     {
       "ref": "CANON-0123",
-      "evidence": {
-        "subject_id": "CANON-0123",
-        "path": "demos/podcast/episode-packages/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ebf667a1bd65638b4103a54d0acc9cef596b7d9262fef57c4b91134a96c7952d",
-        "locator": {
-          "path": "demos/podcast/episode-packages/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episode-packages/README.md in full (SHA-256 ebf667a1bd65638b4103a54d0acc9cef596b7d9262fef57c4b91134a96c7952d, 1043 bytes, 14 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# The Cognitive Stack ��� Episode Package Workspace\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -819,17 +427,6 @@
     },
     {
       "ref": "CANON-0124",
-      "evidence": {
-        "subject_id": "CANON-0124",
-        "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/review.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "1c8322842e6d5456e94e3fa00485b0d2b51315afd95c8613ab6f5e148a72bf87",
-        "locator": {
-          "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/review.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/podcast/episodes/001-meet-the-ai-coworkers/review.md in full (SHA-256 1c8322842e6d5456e94e3fa00485b0d2b51315afd95c8613ab6f5e148a72bf87, 1122 bytes, 22 lines, 1 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Episode 001 Review\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -839,17 +436,6 @@
     },
     {
       "ref": "CANON-0125",
-      "evidence": {
-        "subject_id": "CANON-0125",
-        "path": "demos/rust-transpiler/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "a43242402925a449873e555640a06e1b7fcb55632b019a5af60d045377b3cec5",
-        "locator": {
-          "path": "demos/rust-transpiler/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/rust-transpiler/README.md in full (SHA-256 a43242402925a449873e555640a06e1b7fcb55632b019a5af60d045377b3cec5, 2031 bytes, 65 lines, 6 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Rust Transpiler Demo Scaffold (v0.8)\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -859,17 +445,6 @@
     },
     {
       "ref": "CANON-0126",
-      "evidence": {
-        "subject_id": "CANON-0126",
-        "path": "demos/transpiler_demo/Cargo.toml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f30c9388cbc2812670e17ef6d2fcc6a89633eef9c3e7d024a2e9afb0dc4e90",
-        "locator": {
-          "path": "demos/transpiler_demo/Cargo.toml",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/transpiler_demo/Cargo.toml in full (SHA-256 93f30c9388cbc2812670e17ef6d2fcc6a89633eef9c3e7d024a2e9afb0dc4e90, 178 bytes, 9 lines, 0 headings, 0 fence markers, 0 proof/result markers; opening anchor \"[package]\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -879,17 +454,6 @@
     },
     {
       "ref": "CANON-0127",
-      "evidence": {
-        "subject_id": "CANON-0127",
-        "path": "demos/v0.91.4/celestial-rescue-unity/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "5542ec75a632073b353095109bb3f9045cc322e9cf15afca76a3110677b132c3",
-        "locator": {
-          "path": "demos/v0.91.4/celestial-rescue-unity/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/v0.91.4/celestial-rescue-unity/README.md in full (SHA-256 5542ec75a632073b353095109bb3f9045cc322e9cf15afca76a3110677b132c3, 1756 bytes, 39 lines, 7 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Celestial Rescue Unity Demo\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -899,17 +463,6 @@
     },
     {
       "ref": "CANON-0128",
-      "evidence": {
-        "subject_id": "CANON-0128",
-        "path": "demos/v0.91.6/unity-observatory/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d64caee6389b89c83a37521959bd3e5dd9863bb807bbb8ad0fee40179792ff4b",
-        "locator": {
-          "path": "demos/v0.91.6/unity-observatory/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/v0.91.6/unity-observatory/README.md in full (SHA-256 d64caee6389b89c83a37521959bd3e5dd9863bb807bbb8ad0fee40179792ff4b, 14619 bytes, 347 lines, 14 headings, 18 fence markers, 43 proof/result markers; opening anchor \"# Unity Observatory\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -919,17 +472,6 @@
     },
     {
       "ref": "CANON-0129",
-      "evidence": {
-        "subject_id": "CANON-0129",
-        "path": "demos/v0.92/provider-neutral-birthday/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "eccf47db00e2daf93aa4167ad3779532f7896ac3b59f0fdcc26b37c0649bd05a",
-        "locator": {
-          "path": "demos/v0.92/provider-neutral-birthday/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface demos/v0.92/provider-neutral-birthday/README.md in full (SHA-256 eccf47db00e2daf93aa4167ad3779532f7896ac3b59f0fdcc26b37c0649bd05a, 1376 bytes, 34 lines, 1 headings, 6 fence markers, 9 proof/result markers; opening anchor \"# Provider-neutral birthday proof\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -939,17 +481,6 @@
     },
     {
       "ref": "CANON-0187",
-      "evidence": {
-        "subject_id": "CANON-0187",
-        "path": "docs/milestones/v0.91.2/review/code_feature_demo_follow_ons/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "8151f5fa66f24b029995899b4e5a4b9999784f97b8bfb70e29c219910f96551a",
-        "locator": {
-          "path": "docs/milestones/v0.91.2/review/code_feature_demo_follow_ons/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.2/review/code_feature_demo_follow_ons/README.md in full (SHA-256 8151f5fa66f24b029995899b4e5a4b9999784f97b8bfb70e29c219910f96551a, 274 bytes, 9 lines, 1 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Code-Feature Demo Follow-Ons\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -959,17 +490,6 @@
     },
     {
       "ref": "CANON-0188",
-      "evidence": {
-        "subject_id": "CANON-0188",
-        "path": "docs/milestones/v0.91.2/review/demo_proof_convergence/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "9e90a2e05bc1ff6147ad6fb365a75d87c4b5e2b7fc8e10ce2903fc6547a9d781",
-        "locator": {
-          "path": "docs/milestones/v0.91.2/review/demo_proof_convergence/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.2/review/demo_proof_convergence/README.md in full (SHA-256 9e90a2e05bc1ff6147ad6fb365a75d87c4b5e2b7fc8e10ce2903fc6547a9d781, 227 bytes, 3 lines, 1 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Demo / Proof Convergence Review Surfaces\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -979,17 +499,6 @@
     },
     {
       "ref": "CANON-0200",
-      "evidence": {
-        "subject_id": "CANON-0200",
-        "path": "docs/milestones/v0.91.3/review/csdlc_demo_proof_contract/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "33677486be27df8856fd68ff5bb4652f8d5c3b4ba6ff4b32e84058b9f49b86e3",
-        "locator": {
-          "path": "docs/milestones/v0.91.3/review/csdlc_demo_proof_contract/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.3/review/csdlc_demo_proof_contract/README.md in full (SHA-256 33677486be27df8856fd68ff5bb4652f8d5c3b4ba6ff4b32e84058b9f49b86e3, 887 bytes, 28 lines, 5 headings, 2 fence markers, 3 proof/result markers; opening anchor \"# C-SDLC Demo Proof Contract Packet\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -999,17 +508,6 @@
     },
     {
       "ref": "CANON-0201",
-      "evidence": {
-        "subject_id": "CANON-0201",
-        "path": "docs/milestones/v0.91.3/review/csdlc_demo_showcase/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "0edb3db11dccef7afc8828585dcd924ef931821d7350f77f2eed63aa94385074",
-        "locator": {
-          "path": "docs/milestones/v0.91.3/review/csdlc_demo_showcase/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.3/review/csdlc_demo_showcase/README.md in full (SHA-256 0edb3db11dccef7afc8828585dcd924ef931821d7350f77f2eed63aa94385074, 637 bytes, 23 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# C-SDLC Demo Showcase Review Surface\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1019,17 +517,6 @@
     },
     {
       "ref": "CANON-0202",
-      "evidence": {
-        "subject_id": "CANON-0202",
-        "path": "docs/milestones/v0.91.3/review/demo_coverage/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ef8ec98ccbb0c1c8887a3e7b9b5877328ee0c67a473fd9c973756d26f7617a8e",
-        "locator": {
-          "path": "docs/milestones/v0.91.3/review/demo_coverage/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.3/review/demo_coverage/README.md in full (SHA-256 ef8ec98ccbb0c1c8887a3e7b9b5877328ee0c67a473fd9c973756d26f7617a8e, 571 bytes, 19 lines, 1 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Demo Coverage Review Surface\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1039,17 +526,6 @@
     },
     {
       "ref": "CANON-0205",
-      "evidence": {
-        "subject_id": "CANON-0205",
-        "path": "docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "6c37cdadfb22009d76dad538aaa89804778ddfa423a59f3a023245c6ac24d795",
-        "locator": {
-          "path": "docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo/README.md in full (SHA-256 6c37cdadfb22009d76dad538aaa89804778ddfa423a59f3a023245c6ac24d795, 1244 bytes, 43 lines, 5 headings, 2 fence markers, 4 proof/result markers; opening anchor \"# v0.91.3 Card Lifecycle Demo Bundle\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1059,17 +535,6 @@
     },
     {
       "ref": "CANON-0208",
-      "evidence": {
-        "subject_id": "CANON-0208",
-        "path": "docs/milestones/v0.91.3/review/first_proof_demo/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "6b9f51c6487f884bccd5cd30a7af962060a10081f2e83a683790c29503681bc9",
-        "locator": {
-          "path": "docs/milestones/v0.91.3/review/first_proof_demo/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.3/review/first_proof_demo/README.md in full (SHA-256 6b9f51c6487f884bccd5cd30a7af962060a10081f2e83a683790c29503681bc9, 1412 bytes, 44 lines, 6 headings, 4 fence markers, 3 proof/result markers; opening anchor \"# First Proof Demo Packet\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1079,17 +544,6 @@
     },
     {
       "ref": "CANON-0215",
-      "evidence": {
-        "subject_id": "CANON-0215",
-        "path": "docs/milestones/v0.91.3/review/podcast_studio_v2/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "c291932fe0182dbb4014d00bf7c0803b2bf3755ecabf8bc37bc7af103b7b890e",
-        "locator": {
-          "path": "docs/milestones/v0.91.3/review/podcast_studio_v2/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.3/review/podcast_studio_v2/README.md in full (SHA-256 c291932fe0182dbb4014d00bf7c0803b2bf3755ecabf8bc37bc7af103b7b890e, 292 bytes, 10 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Podcast Studio v2 Review Packet\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1099,17 +553,6 @@
     },
     {
       "ref": "CANON-0236",
-      "evidence": {
-        "subject_id": "CANON-0236",
-        "path": "docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "243a079f745cd8d9ccd6d76c785558daa6e20871818784782688ce644b8fe9e4",
-        "locator": {
-          "path": "docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/README.md in full (SHA-256 243a079f745cd8d9ccd6d76c785558daa6e20871818784782688ce644b8fe9e4, 810 bytes, 11 lines, 1 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Agent Suitability Artifacts\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1119,17 +562,6 @@
     },
     {
       "ref": "CANON-0237",
-      "evidence": {
-        "subject_id": "CANON-0237",
-        "path": "docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/provider_setup/anthropic/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "763e647d899e969138721289e8561771cd8336e80962aa86c12248de41df8338",
-        "locator": {
-          "path": "docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/provider_setup/anthropic/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/provider_setup/anthropic/README.md in full (SHA-256 763e647d899e969138721289e8561771cd8336e80962aa86c12248de41df8338, 1241 bytes, 25 lines, 1 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Provider setup: anthropic\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1139,17 +571,6 @@
     },
     {
       "ref": "CANON-0287",
-      "evidence": {
-        "subject_id": "CANON-0287",
-        "path": "docs/milestones/v0.91.8/review/podcast_launch_5711/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "decbb8e862d0c985160246e6dcc9aa8638d0a171ad065387218f3babc7a4f546",
-        "locator": {
-          "path": "docs/milestones/v0.91.8/review/podcast_launch_5711/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.8/review/podcast_launch_5711/README.md in full (SHA-256 decbb8e862d0c985160246e6dcc9aa8638d0a171ad065387218f3babc7a4f546, 1212 bytes, 35 lines, 4 headings, 4 fence markers, 2 proof/result markers; opening anchor \"# Podcast Launch Packet For #5711\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1159,17 +580,6 @@
     },
     {
       "ref": "CANON-0288",
-      "evidence": {
-        "subject_id": "CANON-0288",
-        "path": "docs/milestones/v0.91.8/review/podcast_studio_5605/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "1fc60da0fb710f14cccc826d2bcfb5e066a21a43afc0ce91e76679cc5150afad",
-        "locator": {
-          "path": "docs/milestones/v0.91.8/review/podcast_studio_5605/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.91.8/review/podcast_studio_5605/README.md in full (SHA-256 1fc60da0fb710f14cccc826d2bcfb5e066a21a43afc0ce91e76679cc5150afad, 587 bytes, 16 lines, 3 headings, 0 fence markers, 3 proof/result markers; opening anchor \"# Podcast Studio #5605 Review Packet\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1179,17 +589,6 @@
     },
     {
       "ref": "CANON-0295",
-      "evidence": {
-        "subject_id": "CANON-0295",
-        "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "53adc8d31cd0d2219aaafa23da9aa392566810ddaf9d596987c36931eed98c91",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md in full (SHA-256 53adc8d31cd0d2219aaafa23da9aa392566810ddaf9d596987c36931eed98c91, 10666 bytes, 80 lines, 5 headings, 0 fence markers, 118 proof/result markers; opening anchor \"# Demo Matrix ��� v0.92.1\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1199,17 +598,6 @@
     },
     {
       "ref": "CANON-0396",
-      "evidence": {
-        "subject_id": "CANON-0396",
-        "path": "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e6a8dd9d5cd56011cd69df2cf4184ceb251da5b9abc2fa6b74cf29e89622cfbe",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md in full (SHA-256 e6a8dd9d5cd56011cd69df2cf4184ceb251da5b9abc2fa6b74cf29e89622cfbe, 1250 bytes, 19 lines, 5 headings, 0 fence markers, 4 proof/result markers; opening anchor \"# Observatory Redesign ��� v0.92.1\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1219,17 +607,6 @@
     },
     {
       "ref": "CANON-0397",
-      "evidence": {
-        "subject_id": "CANON-0397",
-        "path": "docs/milestones/v0.92.1/features/PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "69e3fafadc8c328762002110a44ec9d7bc90a54991069dd7d8842f2399cd6810",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/features/PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/features/PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md in full (SHA-256 69e3fafadc8c328762002110a44ec9d7bc90a54991069dd7d8842f2399cd6810, 557 bytes, 13 lines, 4 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Podcast Publication and Studio ��� v0.92.1\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1239,17 +616,6 @@
     },
     {
       "ref": "CANON-0698",
-      "evidence": {
-        "subject_id": "CANON-0698",
-        "path": "docs/milestones/v0.92.1/review/podcast_directory_263/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "a98d8c2a7c1027371055a9cf868e7fea0e786d9e9f897b24ab82398528152a58",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_directory_263/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_directory_263/README.md in full (SHA-256 a98d8c2a7c1027371055a9cf868e7fea0e786d9e9f897b24ab82398528152a58, 1400 bytes, 23 lines, 4 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Podcast Directory Preflight Packet ��� Issue #263\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1259,17 +625,6 @@
     },
     {
       "ref": "CANON-0699",
-      "evidence": {
-        "subject_id": "CANON-0699",
-        "path": "docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "0b189a5c4789145eb0adbd228c5f8b839e6ad6ef5a99a087a00f4ef89009a359",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md in full (SHA-256 0b189a5c4789145eb0adbd228c5f8b839e6ad6ef5a99a087a00f4ef89009a359, 2106 bytes, 43 lines, 5 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Operator Preflight For #264\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1279,17 +634,6 @@
     },
     {
       "ref": "CANON-0700",
-      "evidence": {
-        "subject_id": "CANON-0700",
-        "path": "docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "3af557c90bb41a6f54703f6b09d7d2b879ed383cdfea22d15a4dfc719d755326",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md in full (SHA-256 3af557c90bb41a6f54703f6b09d7d2b879ed383cdfea22d15a4dfc719d755326, 4731 bytes, 93 lines, 6 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# The Cognitive Stack Directory Submission Runbooks\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1299,17 +643,6 @@
     },
     {
       "ref": "CANON-0701",
-      "evidence": {
-        "subject_id": "CANON-0701",
-        "path": "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "7bafbe5c20d49197609f3bae775d4f0893616e03c152f2cc41ed0ffe5aa2baf7",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md in full (SHA-256 7bafbe5c20d49197609f3bae775d4f0893616e03c152f2cc41ed0ffe5aa2baf7, 1731 bytes, 41 lines, 5 headings, 0 fence markers, 4 proof/result markers; opening anchor \"# Issue #660 ��� Podcast public exposure emergency rollback\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1319,17 +652,6 @@
     },
     {
       "ref": "CANON-0702",
-      "evidence": {
-        "subject_id": "CANON-0702",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "747d5c65c399ed589230ed9cedcaa033ed3b179a76edb407eecd05cb4b93b7fd",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/README.md in full (SHA-256 747d5c65c399ed589230ed9cedcaa033ed3b179a76edb407eecd05cb4b93b7fd, 1766 bytes, 27 lines, 4 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# Podcast Directory Submission Gate Packet ��� Issue #264\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1339,17 +661,6 @@
     },
     {
       "ref": "CANON-0703",
-      "evidence": {
-        "subject_id": "CANON-0703",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "83b1fd05b58b0ebcab7d7aeb56cc177fef61990e0911b8a47c27bb0a3fe0f3cd",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md in full (SHA-256 83b1fd05b58b0ebcab7d7aeb56cc177fef61990e0911b8a47c27bb0a3fe0f3cd, 1875 bytes, 38 lines, 5 headings, 0 fence markers, 1 proof/result markers; opening anchor \"# Monitoring, Correction, Rollback, And Link Activation Rules\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1359,17 +670,6 @@
     },
     {
       "ref": "CANON-0704",
-      "evidence": {
-        "subject_id": "CANON-0704",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "92b006ff6c1bafc9f543558e0ee79e652b3aa5ebda678d36b944f06545ef3577",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md in full (SHA-256 92b006ff6c1bafc9f543558e0ee79e652b3aa5ebda678d36b944f06545ef3577, 1966 bytes, 34 lines, 4 headings, 0 fence markers, 0 proof/result markers; opening anchor \"# Future Operator Authorization Template For #264\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1379,17 +679,6 @@
     },
     {
       "ref": "CANON-0705",
-      "evidence": {
-        "subject_id": "CANON-0705",
-        "path": "docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d923886d608185de2ed3189db9b5e4903da535c47daab8268d6b4bf2511d8378",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md in full (SHA-256 d923886d608185de2ed3189db9b5e4903da535c47daab8268d6b4bf2511d8378, 1796 bytes, 26 lines, 2 headings, 0 fence markers, 3 proof/result markers; opening anchor \"# Parent #51 Handoff\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1399,17 +688,6 @@
     },
     {
       "ref": "CANON-0717",
-      "evidence": {
-        "subject_id": "CANON-0717",
-        "path": "docs/milestones/v0.92/review/podcast_identity_261/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d18614dc74660ac53e2eccf86bb2989700bbaa3bbb12b787c05be82e7a66aa08",
-        "locator": {
-          "path": "docs/milestones/v0.92/review/podcast_identity_261/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/milestones/v0.92/review/podcast_identity_261/README.md in full (SHA-256 d18614dc74660ac53e2eccf86bb2989700bbaa3bbb12b787c05be82e7a66aa08, 2086 bytes, 39 lines, 4 headings, 6 fence markers, 2 proof/result markers; opening anchor \"# Podcast Identity Packet ��� Issue #261\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1419,17 +697,6 @@
     },
     {
       "ref": "CANON-0741",
-      "evidence": {
-        "subject_id": "CANON-0741",
-        "path": "docs/records/v0.85/tasks/task-v085-wp05-demo/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d03aaee9ed650473176fdc424b3107b2a22a3c7c806d67406bf73644d75eb784",
-        "locator": {
-          "path": "docs/records/v0.85/tasks/task-v085-wp05-demo/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface docs/records/v0.85/tasks/task-v085-wp05-demo/README.md in full (SHA-256 d03aaee9ed650473176fdc424b3107b2a22a3c7c806d67406bf73644d75eb784, 868 bytes, 27 lines, 1 headings, 0 fence markers, 2 proof/result markers; opening anchor \"# task-v085-wp05-demo\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1439,17 +706,6 @@
     },
     {
       "ref": "CANON-0780",
-      "evidence": {
-        "subject_id": "CANON-0780",
-        "path": "infra/aws/observatory/README.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ca975736a5c29e4450a81b2c6511cd47738d32eff4f54965af7e8a64981c7549",
-        "locator": {
-          "path": "infra/aws/observatory/README.md",
-          "line": 1
-        }
-      },
       "conclusion": "verified_no_gap",
       "detail": "Read exact-candidate demo surface infra/aws/observatory/README.md in full (SHA-256 ca975736a5c29e4450a81b2c6511cd47738d32eff4f54965af7e8a64981c7549, 2942 bytes, 53 lines, 3 headings, 0 fence markers, 4 proof/result markers; opening anchor \"# Static Observatory edge\"). The declared demo behavior, proof boundary, and non-claims expose no additional gap on this assigned surface.",
       "review_basis": {
@@ -1459,513 +715,270 @@
     },
     {
       "ref": "ACCEPT-DRT-A:AC-1",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-A:AC-1",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-A:AC-1"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-A AC-1: Requirements 181 and 182 are mapped Exact packet mapping is issue #506 (closed; PRs 616); SOR ed09bb0f8ee3 / SRP 84ab7672a314. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-A:AC-1 -> issue #506 (closed; PRs 616), .csdlc/issues/506/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-A:AC-2",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-A:AC-2",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-A:AC-2"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-A AC-2: Identity and authority are deterministic Exact packet mapping is issue #506 (closed; PRs 616); SOR ed09bb0f8ee3 / SRP 84ab7672a314. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-A:AC-2 -> issue #506 (closed; PRs 616), .csdlc/issues/506/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-A:AC-3",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-A:AC-3",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-A:AC-3"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-A AC-3: Duplicate denial and replay receipts are exact Exact packet mapping is issue #506 (closed; PRs 616); SOR ed09bb0f8ee3 / SRP 84ab7672a314. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-A:AC-3 -> issue #506 (closed; PRs 616), .csdlc/issues/506/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-B:AC-1",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-B:AC-1",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-B:AC-1"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-B AC-1: Requirements 183 and 184 are mapped Exact packet mapping is issue #507 (closed; PRs 619); SOR 793aa26cff5e / SRP b39d346b0a1a. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-B:AC-1 -> issue #507 (closed; PRs 619), .csdlc/issues/507/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-B:AC-2",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-B:AC-2",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-B:AC-2"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-B AC-2: Six distinct residents complete assigned UTS work Exact packet mapping is issue #507 (closed; PRs 619); SOR 793aa26cff5e / SRP b39d346b0a1a. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-B:AC-2 -> issue #507 (closed; PRs 619), .csdlc/issues/507/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-B:AC-3",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-B:AC-3",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-B:AC-3"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-B AC-3: Dehydrate and restore preserve exact population Exact packet mapping is issue #507 (closed; PRs 619); SOR 793aa26cff5e / SRP b39d346b0a1a. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-B:AC-3 -> issue #507 (closed; PRs 619), .csdlc/issues/507/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-B:AC-4",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-B:AC-4",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-B:AC-4"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-B AC-4: GPU evidence waits for reviewed merged 345 authority Exact packet mapping is issue #507 (closed; PRs 619); SOR 793aa26cff5e / SRP b39d346b0a1a. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-B:AC-4 -> issue #507 (closed; PRs 619), .csdlc/issues/507/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-C:AC-1",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-C:AC-1",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-C:AC-1"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-C AC-1: Requirements 185 through 187 are mapped Exact packet mapping is issue #508 (closed; PRs 623); SOR 950be8288e5b / SRP 624236e162f3. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-C:AC-1 -> issue #508 (closed; PRs 623), .csdlc/issues/508/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-C:AC-2",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-C:AC-2",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-C:AC-2"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-C AC-2: Identity provider and transport failures fail closed Exact packet mapping is issue #508 (closed; PRs 623); SOR 950be8288e5b / SRP 624236e162f3. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-C:AC-2 -> issue #508 (closed; PRs 623), .csdlc/issues/508/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-C:AC-3",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-C:AC-3",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-C:AC-3"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-C AC-3: Observatory evidence is authentic Exact packet mapping is issue #508 (closed; PRs 623); SOR 950be8288e5b / SRP 624236e162f3. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-C:AC-3 -> issue #508 (closed; PRs 623), .csdlc/issues/508/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-C:AC-4",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-C:AC-4",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-C:AC-4"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-C AC-4: Soak cleanup and synthesis bind exact revisions Exact packet mapping is issue #508 (closed; PRs 623); SOR 950be8288e5b / SRP 624236e162f3. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-C:AC-4 -> issue #508 (closed; PRs 623), .csdlc/issues/508/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-A:AC-1",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-A:AC-1",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-A:AC-1"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-A AC-1: Every view has a stable information contract Exact packet mapping is issue #511 (closed; PRs none); SOR bc461d75392a / SRP b7a0e7319666. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-A:AC-1 -> issue #511 (closed; PRs none), .csdlc/issues/511/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-A:AC-2",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-A:AC-2",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-A:AC-2"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-A AC-2: Empty degraded recovery and revoked states are designed Exact packet mapping is issue #511 (closed; PRs none); SOR bc461d75392a / SRP b7a0e7319666. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-A:AC-2 -> issue #511 (closed; PRs none), .csdlc/issues/511/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-A:AC-3",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-A:AC-3",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-A:AC-3"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-A AC-3: Keyboard and screen-reader flows are specified Exact packet mapping is issue #511 (closed; PRs none); SOR bc461d75392a / SRP b7a0e7319666. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-A:AC-3 -> issue #511 (closed; PRs none), .csdlc/issues/511/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-A:AC-4",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-A:AC-4",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-A:AC-4"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-A AC-4: No invented Runtime field is introduced Exact packet mapping is issue #511 (closed; PRs none); SOR bc461d75392a / SRP b7a0e7319666. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-A:AC-4 -> issue #511 (closed; PRs none), .csdlc/issues/511/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-B:AC-1",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-B:AC-1",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-B:AC-1"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-B AC-1: OBS-A contracts are implemented Exact packet mapping is issue #512 (closed; PRs 719); SOR 966d2b905682 / SRP 666c83d7d44f. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-B:AC-1 -> issue #512 (closed; PRs 719), .csdlc/issues/512/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-B:AC-2",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-B:AC-2",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-B:AC-2"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-B AC-2: Runtime projections are source-grounded Exact packet mapping is issue #512 (closed; PRs 719); SOR 966d2b905682 / SRP 666c83d7d44f. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-B:AC-2 -> issue #512 (closed; PRs 719), .csdlc/issues/512/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-B:AC-3",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-B:AC-3",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-B:AC-3"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-B AC-3: Accessibility and recovery cases pass Exact packet mapping is issue #512 (closed; PRs 719); SOR 966d2b905682 / SRP 666c83d7d44f. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-B:AC-3 -> issue #512 (closed; PRs 719), .csdlc/issues/512/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-B:AC-4",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-B:AC-4",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-B:AC-4"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-B AC-4: Issues 84 and 251 remain visible operator-deferred backlog and do not gate this release Exact packet mapping is issue #512 (closed; PRs 719); SOR 966d2b905682 / SRP 666c83d7d44f. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-B:AC-4 -> issue #512 (closed; PRs 719), .csdlc/issues/512/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-OBS-B:AC-5",
-      "evidence": {
-        "subject_id": "ACCEPT-OBS-B:AC-5",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "OBS-B:AC-5"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected OBS-B AC-5: No mock substitutes for the required Runtime route Exact packet mapping is issue #512 (closed; PRs 719); SOR 966d2b905682 / SRP 666c83d7d44f. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-OBS-B:AC-5 -> issue #512 (closed; PRs 719), .csdlc/issues/512/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-D:AC-1",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-D:AC-1",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-D:AC-1"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-D AC-1: Six identities and lineage remain exact Exact packet mapping is issue #509 (closed; PRs 652); SOR f8bceee98be6 / SRP f40ca068fd38. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-D:AC-1 -> issue #509 (closed; PRs 652), .csdlc/issues/509/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-D:AC-2",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-D:AC-2",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-D:AC-2"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-D AC-2: GCP account project billing and credentials are separately governed Exact packet mapping is issue #509 (closed; PRs 652); SOR f8bceee98be6 / SRP f40ca068fd38. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-D:AC-2 -> issue #509 (closed; PRs 652), .csdlc/issues/509/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-D:AC-3",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-D:AC-3",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-D:AC-3"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-D AC-3: Cost and cleanup receipts are retained Exact packet mapping is issue #509 (closed; PRs 652); SOR f8bceee98be6 / SRP f40ca068fd38. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-D:AC-3 -> issue #509 (closed; PRs 652), .csdlc/issues/509/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     },
     {
       "ref": "ACCEPT-DRT-D:AC-4",
-      "evidence": {
-        "subject_id": "ACCEPT-DRT-D:AC-4",
-        "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-          "line": 1
-        },
-        "criterion_id": "DRT-D:AC-4"
-      },
       "conclusion": "verified_no_gap",
       "detail": "Inspected DRT-D AC-4: No resources remain Exact packet mapping is issue #509 (closed; PRs 652); SOR f8bceee98be6 / SRP f40ca068fd38. No canonical finding is assigned to this criterion.",
       "review_basis": {
         "kind": "acceptance_mapping",
         "subject": "ACCEPT-DRT-D:AC-4 -> issue #509 (closed; PRs 652), .csdlc/issues/509/cards/sor.md and srp.md"
-      }
+      },
+      "implementation_disposition": "implemented",
+      "proof_disposition": "proved"
     }
   ],
-  "findings": [
+  "finding_ids": [
 
-  ],
-  "reviewer": "subagent:/root/fix_816_validation",
-  "review_method": "Resolved and read every assigned demo FILE/CANON blob at the frozen candidate SHA, verified packet digests and content structure, then traced every acceptance row to live packet issue/PR state and candidate SOR/SRP digests before terminal disposition.",
-  "completed_at": "2026-09-09T22:08:05Z"
+  ]
 }

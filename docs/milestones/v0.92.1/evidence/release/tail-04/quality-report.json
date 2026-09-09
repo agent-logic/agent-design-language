@@ -1,229 +1,140 @@
 {
   "schema": "adl.v0921.internal_review_summary.v1",
   "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-  "outcome": "passed",
+  "outcome": "findings",
   "observations": [
     {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-RET-001",
-      "result": "finding",
-      "detail": "D520-RET-001: The retained-proof denominator still contains 198 unproved required rows",
+      "subject_id": "SUMMARY-QUALITY-REPORT-ARCHITECTURE",
+      "result": "verified",
+      "detail": "architecture specialist completed its exact assignment with outcome passed.",
       "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-RET-001",
-        "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df",
+        "subject_id": "SUMMARY-QUALITY-REPORT-ARCHITECTURE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
+        "source": "packet",
+        "sha256": "692d433b5e4db0ec556d774c88f58568f674067345898899104aac1133c90056",
         "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
-          "line": 26
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-V3F-001",
-      "result": "finding",
-      "detail": "D520-V3F-001: V3-F exact-head proof is stale at the frozen release candidate",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-V3F-001",
-        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "993b438accbb09b0afe5ee22dfa866de7a4fb191f4b8aedc51e67ab878eb2e43",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
-          "line": 4
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-REL-001",
-      "result": "finding",
-      "detail": "D520-REL-001: The canonical current release-status projection is stale and invalid",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-REL-001",
-        "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "39d6f7578ff1f96ba00ecc147958eeab67c28abd7444b3a84f3751c51422daf5",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
-          "line": 3
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-003",
-      "result": "finding",
-      "detail": "D520-DOC-003: Issue 519 lifecycle cards contradict its completed publication state",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-003",
-        "path": ".csdlc/issues/519/cards/sor.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "b87e8bc55514f92526608b737870ab5c0cbe69d039a07659bc95645a826ac24e",
-        "locator": {
-          "path": ".csdlc/issues/519/cards/sor.md",
-          "line": 11
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-004",
-      "result": "finding",
-      "detail": "D520-DOC-004: Feature-proof coverage contains fourteen corrupted ownership-link suffixes",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-004",
-        "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "ebda3c03d84f7b971b8cc1b47727f8370bad7f99ecffb40f5ab9a40fc3237857",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
-          "line": 47
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-001",
-      "result": "finding",
-      "detail": "D520-EVID-001: Eighteen GCP-E JSON readbacks are emitted as YAML",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-001",
-        "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "898117f84f8452779a015e7e74936059859b721ae728e20494a6bcb9834dfff1",
-        "locator": {
-          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
-          "line": 83
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-002",
-      "result": "finding",
-      "detail": "D520-EVID-002: Four retained cloud failure artifacts are zero-byte files named JSON",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-002",
-        "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "locator": {
-          "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
           "line": 1
         }
       }
     },
     {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-001",
+      "subject_id": "SUMMARY-QUALITY-REPORT-CODE",
       "result": "finding",
-      "detail": "D520-RUNTIME-001: Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+      "detail": "code specialist completed its exact assignment with outcome findings.",
       "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-001",
-        "path": "adl-runtime-kernel/src/control.rs",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "subject_id": "SUMMARY-QUALITY-REPORT-CODE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+        "source": "packet",
+        "sha256": "42c0817020d95c66175e31ffb899ea1d8c31fc207021d32fbdd930800a396860",
         "locator": {
-          "path": "adl-runtime-kernel/src/control.rs",
-          "line": 2478
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-002",
-      "result": "finding",
-      "detail": "D520-RUNTIME-002: Greeting retries replace the stable ledger work identity with attempt-specific IDs",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-002",
-        "path": "adl-runtime-kernel/src/control.rs",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
-        "locator": {
-          "path": "adl-runtime-kernel/src/control.rs",
-          "line": 2423
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-001",
-      "result": "finding",
-      "detail": "D520-SEC-001: GCP mutation approval is self-asserted by the local mutation principal",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-001",
-        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9",
-        "locator": {
-          "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
-          "line": 17
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-002",
-      "result": "finding",
-      "detail": "D520-SEC-002: AWS authorization is not cryptographically bound to the saved Terraform plan",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-002",
-        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65",
-        "locator": {
-          "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
-          "line": 92
-        }
-      }
-    },
-    {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-003",
-      "result": "finding",
-      "detail": "D520-SEC-003: The OBS-B redaction validation lane is vacuous",
-      "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-003",
-        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4",
-        "locator": {
-          "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
           "line": 1
         }
       }
     },
     {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-004",
-      "result": "finding",
-      "detail": "D520-SEC-004: The real-local Shepherd proof accepts off-host Ollama URLs",
+      "subject_id": "SUMMARY-QUALITY-REPORT-DEMOS",
+      "result": "verified",
+      "detail": "demos specialist completed its exact assignment with outcome passed.",
       "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-004",
-        "path": "adl-runtime/tests/shepherd_local_model.rs",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+        "subject_id": "SUMMARY-QUALITY-REPORT-DEMOS",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+        "source": "packet",
+        "sha256": "da99113b9c3eba18c9826eb0a8c52df06ab8ef1afff7e76a589bb95aab88b617",
         "locator": {
-          "path": "adl-runtime/tests/shepherd_local_model.rs",
-          "line": 16
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+          "line": 1
         }
       }
     },
     {
-      "subject_id": "SUMMARY-QUALITY-REPORT-D520-TEST-001",
-      "result": "finding",
-      "detail": "D520-TEST-001: Hot-reload cancellation tests can pass without observing a pending reload",
+      "subject_id": "SUMMARY-QUALITY-REPORT-DEPENDENCY",
+      "result": "verified",
+      "detail": "dependency specialist completed its exact assignment with outcome passed.",
       "evidence": {
-        "subject_id": "SUMMARY-QUALITY-REPORT-D520-TEST-001",
-        "path": "adl-runtime/tests/config_reload.rs",
-        "source": "candidate",
-        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
-        "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+        "subject_id": "SUMMARY-QUALITY-REPORT-DEPENDENCY",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+        "source": "packet",
+        "sha256": "6f19bd159371df456aee5e1840a4f47deba62ef98e167e81bf80529390db6ee1",
         "locator": {
-          "path": "adl-runtime/tests/config_reload.rs",
-          "line": 182
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-DOCUMENTATION",
+      "result": "finding",
+      "detail": "documentation specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-DOCUMENTATION",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+        "source": "packet",
+        "sha256": "5e34fd1a301e58283090a41c613d61a0af3dd1c2872e7c3447e5e96c58fa3b01",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-PROVIDER_CLOUD",
+      "result": "finding",
+      "detail": "provider_cloud specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-PROVIDER_CLOUD",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+        "source": "packet",
+        "sha256": "ff416d8ed7129e4d72df2c83a7d0b28942eb3c30db0a3265706ed22d20b8804a",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-RETAINED_EVIDENCE",
+      "result": "finding",
+      "detail": "retained_evidence specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-RETAINED_EVIDENCE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+        "source": "packet",
+        "sha256": "5eb12d32cfa16b1428d7f56a85b656c8c1d2ab5d32216379587f9ef2be5d7065",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-SECURITY",
+      "result": "finding",
+      "detail": "security specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-SECURITY",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+        "source": "packet",
+        "sha256": "b69771f5da9238e6165f7a77890d935fdceca5bbc4cb22f9c33d361f63213cf0",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-TESTS",
+      "result": "finding",
+      "detail": "tests specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-TESTS",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+        "source": "packet",
+        "sha256": "b0611d39e64dad893b2c8714b9148ad0772f86e9617a84e8563d8ea57062b213",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+          "line": 1
         }
       }
     }

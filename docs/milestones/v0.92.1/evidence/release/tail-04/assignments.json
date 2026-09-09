@@ -1,5 +1,5 @@
 {
-  "schema": "adl.v0921.review_assignments.v1",
+  "schema": "adl.v0921.internal_review_assignments.v2",
   "assignments": [
     {
       "id": "LANE-ARCHITECTURE",
@@ -177,8 +177,10 @@
         "ACCEPT-DEC-01:AC-3",
         "ACCEPT-DEC-01:AC-4"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_814_runtime",
+      "completed_at": "2026-09-09T21:44:12Z"
     },
     {
       "id": "LANE-CODE",
@@ -467,8 +469,10 @@
         "FILE-05757",
         "FILE-05851"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_814_runtime",
+      "completed_at": "2026-09-09T21:44:12Z"
     },
     {
       "id": "LANE-DEMOS",
@@ -568,8 +572,10 @@
         "ACCEPT-DRT-D:AC-3",
         "ACCEPT-DRT-D:AC-4"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_816_validation",
+      "completed_at": "2026-09-09T22:08:05Z"
     },
     {
       "id": "LANE-DEPENDENCY",
@@ -623,8 +629,10 @@
         "FILE-06097",
         "FILE-06098"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_815_cloud_auth",
+      "completed_at": "2026-09-09T21:39:53Z"
     },
     {
       "id": "LANE-DOCUMENTATION",
@@ -2500,8 +2508,10 @@
         "CANON-0789",
         "CANON-0791"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_816_validation",
+      "completed_at": "2026-09-09T22:08:05Z"
     },
     {
       "id": "LANE-PROVIDER-CLOUD",
@@ -2870,8 +2880,10 @@
         "ACCEPT-PROV-B:AC-3",
         "ACCEPT-PROV-B:AC-4"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_815_cloud_auth",
+      "completed_at": "2026-09-09T21:39:57Z"
     },
     {
       "id": "LANE-RETAINED-EVIDENCE",
@@ -7104,8 +7116,10 @@
         "ACCEPT-TAIL-10:AC-2",
         "ACCEPT-TAIL-10:AC-3"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_816_validation",
+      "completed_at": "2026-09-09T22:08:05Z"
     },
     {
       "id": "LANE-SECURITY",
@@ -7132,8 +7146,10 @@
         "FILE-05046",
         "FILE-05430"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_815_cloud_auth",
+      "completed_at": "2026-09-09T21:39:52Z"
     },
     {
       "id": "LANE-TESTS",
@@ -7263,8 +7279,10 @@
         "FILE-06082",
         "FILE-06083"
       ],
-      "status": "assigned",
-      "review_depth": "deep"
+      "status": "completed",
+      "review_depth": "deep",
+      "reviewer": "subagent:/root/fix_814_runtime",
+      "completed_at": "2026-09-09T21:44:12Z"
     }
   ]
 }

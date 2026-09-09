@@ -7,19 +7,19 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/acceptance_coverage.json",
-      "sha256": "3362464668f9b4629ec352bcff2b0e963990cb26cd146bf7c9a820051407c54c"
+      "sha256": "23379d6d0538e758efb9520e4d4a622c426ceb2ea1fb1ec42e76d759abedf9e2"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb",
-      "sha256": "277c56d4a40025f0654f4d5ff89d4be89a3ff71994da3246ef2f6f6e49b9d8d0"
+      "sha256": "db99234be6476536ba5f6da4a521342d35b607501edc1364904f56742a29b54d"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/assignments.json",
-      "sha256": "eef8c85d128bfc8ed023d12e81143734645b8756797310ab19370c77da704712"
+      "sha256": "3efcf20e7bddf2bc7b1ffec538ff2f45bc036908c7884e5e24939acd47520733"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/build-denominator.rb",
-      "sha256": "ae1c05c08a07e2bf0861767fdbc9a537379afe60e405da02961d1fea7cf1dd7c"
+      "sha256": "4c1851bf96473b8df5940d93c2e8d8486c16154d785aed8591935ac5db3ed698"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/canonical-surface-inventory.json",
@@ -27,11 +27,11 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/finding-input.json",
-      "sha256": "e288eacd1951da12738b257d145099ef61d8d71bcad0a33df0e2861ea588c7b7"
+      "sha256": "537f78643bcb9bc858b11ed9cb0a65f0093f9de65de759ebe0fec766e4c0252b"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
-      "sha256": "4c66fab6c371140e960acf75ce643fcc5e5feafe9f88d4a56137ec8ba82386a2"
+      "sha256": "9dd57d38d85db5d2a6519d7ae52a5fa59d7dd55f8419775111985576dc078b92"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/architecture-review.md",
@@ -139,7 +139,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/lane-results.json",
-      "sha256": "0faa8e7435c106e17164d78e48ad2e9ed6d6433f87e41f7292cbdb914932ec65"
+      "sha256": "26a65070ce696533e164a795c0520e4220f8c8d3514db2ccf3c9755279725a56"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/live-milestone-response.json",
@@ -151,7 +151,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/proof-results.json",
-      "sha256": "3a86ea248ce7ddd85af5466e5dc33ebf52b61efbecbde567acbb9c6c8451fffe"
+      "sha256": "617aad4a795d4aab38adac62f139afd35d69c982459e356d3dfafed41fce314b"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/pull_request_inventory.json",
@@ -159,11 +159,11 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/quality-report.json",
-      "sha256": "8c133bc0010a2e0549932a39e5e6610a804b9f00f83a35aebf2fe0a7e4da76f1"
+      "sha256": "35fd8058edc16dfb92f76bbf839fc0124d2ac6c93f6f8975f9ce91b440b329e4"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/redaction-report.json",
-      "sha256": "91bb5c6e93cdc98a9e5540e1cc04f72aed114e644527ed9440b7cbb8826e5923"
+      "sha256": "28776be1ca5587f82723a7501acc8962386dc8a62f10625c807101887741c6b2"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/cloud-authorization.md",
@@ -203,55 +203,99 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
-      "sha256": "2ad9b417b14468334ac32db97af5d2ff4d196fd5cfaa592d777de30eeabf36f1"
+      "sha256": "aa4860b8dfad1be8920d8d8be7b3c8d08bda1efe2df4cde93d951ac9b413293d"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/run_manifest.json",
       "sha256": "a22b07a6b1f52058a48a448b8e368749dab599d905b586a535d35c840b2ea988"
     },
     {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/README.md",
+      "sha256": "e4304e865df6cd37df58ca73497bb0a38d06ed1cc6d2cc9c2de14343ddf8dbb5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/architecture.json",
+      "sha256": "ff17915c02a1a2dd76aad65aa9b66364eeebac828598fb84548e18acd5fc3f58"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/code.json",
+      "sha256": "379e8169d1c8c454a9f47c0ef1441ca2fae918a1f04fbaaa47dfc665004b02e2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/demos.json",
+      "sha256": "125fa88c5c20e8619d4b015597bde40602d1d3701a714714984c3fbcb44130c1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/dependency.json",
+      "sha256": "d8fab06a456cce46a714feda0c95709bc5a0e0eee77cbd2f9777862df3fe3b35"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json",
+      "sha256": "7531f72b6c036da053c552eabeda321904230c5e68739eb5627aab8bf26a4bba"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/provider-cloud.json",
+      "sha256": "dc1dd0c8e41189da404c47d23cc5b0cbd07a07a61ff644bc0c454972bd9ed4f5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/retained-evidence.json",
+      "sha256": "c00f59a6df0465bd806e2b9563432a9ff35ff7caeb25adc9ba3d2e67c6653214"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/security.json",
+      "sha256": "e91dd792daf653d8aa316f7387fe4aa693f9467862daed70ba34c40a0a2ded2d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/tests.json",
+      "sha256": "c964c6c617d47b2b55ddc3a92ac627cc7e6e8d1cbc385a27fd44c1b43c2a7c06"
+    },
+    {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
-      "sha256": "7072585c2287a173e612e7d9429af4eedfffc95de3565dc6231e386525d8c3fd"
+      "sha256": "692d433b5e4db0ec556d774c88f58568f674067345898899104aac1133c90056"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
-      "sha256": "710003a167a528475bfee5c4720a965ba009a76b0fed8fbfb84a6b9f6b5684c3"
+      "sha256": "42c0817020d95c66175e31ffb899ea1d8c31fc207021d32fbdd930800a396860"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
-      "sha256": "18dbaa51b165bb65acf401e6f751272cb62cc919ef5671a9f47afed42997c3e2"
+      "sha256": "da99113b9c3eba18c9826eb0a8c52df06ab8ef1afff7e76a589bb95aab88b617"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
-      "sha256": "be89fdc22627ba29401a86425af5373d0e994998f073ede9aa810b7aed0b7f8c"
+      "sha256": "6f19bd159371df456aee5e1840a4f47deba62ef98e167e81bf80529390db6ee1"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
-      "sha256": "d995201b433f4a4218014f31c61e3215f0719b02296254b567ef1eb6a2b9be15"
+      "sha256": "5e34fd1a301e58283090a41c613d61a0af3dd1c2872e7c3447e5e96c58fa3b01"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
-      "sha256": "a44b189ddacf64f107a52f76a62dc9f22f2b5fe396c7d13e87bdb7906b89560d"
+      "sha256": "ff416d8ed7129e4d72df2c83a7d0b28942eb3c30db0a3265706ed22d20b8804a"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
-      "sha256": "b240cb6ff099d3b49fadff0cea7ead5ade18e4da6c20a099e82cb6800ba4bb16"
+      "sha256": "5eb12d32cfa16b1428d7f56a85b656c8c1d2ab5d32216379587f9ef2be5d7065"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
-      "sha256": "0e1b11bea6b5779f562f60c940b2a34d5c3c0f5c1caade1cbbcc47a9762626b2"
+      "sha256": "b69771f5da9238e6165f7a77890d935fdceca5bbc4cb22f9c33d361f63213cf0"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
-      "sha256": "05494c0a47213626087cf2935387813b67618ed013b0bdf7c4300cad33f98e32"
+      "sha256": "b0611d39e64dad893b2c8714b9148ad0772f86e9617a84e8563d8ea57062b213"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/typed-create-recovery.md",
       "sha256": "95990554d8abeded19ad7e7bf33bd54c4f127fb218cf9002550817c86d805003"
     },
     {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/validate-specialist-input.rb",
+      "sha256": "80623f9483a2063c6c43275c688d3e809788838b8ad2c7830bd67b013563ae4d"
+    },
+    {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-04/validation-results.json",
-      "sha256": "620722d96d1c18d15585ea3b2fc46c33d1561f1ec3d061c4c18e1fd0cbf8ed34"
+      "sha256": "a444c941ccc5b7be5338b089da4e9486c72d193a9c2a5c8e393ad48fd4d7ebde"
     }
   ]
 }

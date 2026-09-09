@@ -189,7 +189,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/issues/554/authored/diagram.mmd (SHA-256 7b37b917de0ffcdd7d3bffb2dc45d85e6b86eae725eae095a49bb2ffc0b0aa9e, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/issues/554/authored/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-01886",
@@ -205,7 +209,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/issues/589/authored/diagram.mmd (SHA-256 aef4a06a85cc790814168ce6e74abef1b61b6a186d64b733d1aa315ffc30dc98, 14 lines) was read in full; inventory observed 0 Markdown headings and 14 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/issues/589/authored/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-02969",
@@ -221,7 +229,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/122/diagram.mmd (SHA-256 ef33da9057da527461fdff7625fe2b237aa8ab09c6346d4007d53e3d6a7e00cf, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/122/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-02972",
@@ -237,7 +249,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/261/diagram.mmd (SHA-256 932997589af3c8d354abd4cc23e5326a4303a31a7f0f87a3f477c51d344c9165, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/261/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-02984",
@@ -253,7 +269,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/262/diagram.mmd (SHA-256 ada450e9ae2e68bec7a8df0f9c5a7f8fa543ec35ab743197502ae34835168fab, 5 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/262/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-02995",
@@ -269,7 +289,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/263/diagram.mmd (SHA-256 39a5c2347b7bdf4caa7103c029ad27357c0f5e7d77be01d9a120bd0a11ec4da6, 5 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/263/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03002",
@@ -285,7 +309,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/264/diagram.mmd (SHA-256 13df64fd93f810e077df6f079961e302ca159b959c39b0db50c490da5600c4ee, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/264/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03008",
@@ -301,7 +329,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/342/diagram.mmd (SHA-256 2f1c4b3178e666ba4a53e78898e83bd98aabb88b8d3fd24e7d93440a94e079c2, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/342/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03017",
@@ -317,7 +349,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/345/diagram.mmd (SHA-256 adbdc4c852e30a49ea63c212bde7d333d0604dd67fb6dd1717701394b5587d2f, 26 lines) was read in full; inventory observed 0 Markdown headings and 25 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/345/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03027",
@@ -333,7 +369,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/480/diagram.mmd (SHA-256 f5a981ae3e301c98867425fa4401a546e0435fd6bf077301297214399a1844a7, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/480/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03036",
@@ -349,7 +389,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/482/diagram.mmd (SHA-256 72201c5d523255af0cf0161fad798246662fc0903b473bf3c3ee016cdbde5b21, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/482/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03044",
@@ -365,7 +409,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/483/diagram.mmd (SHA-256 e9ab96d8d59f673c5799629f697343f2aece87b6f8a140cd286dcf765b507737, 15 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/483/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03050",
@@ -381,7 +429,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/484/diagram.mmd (SHA-256 ff91e55177a283b59d41325775e26d1c6a7c0f815e7f0d4089126279f3d37941, 9 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/484/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03056",
@@ -397,7 +449,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/485/diagram.mmd (SHA-256 cac8661de0eacd53ba1dd6cb37bae0b8959a3942140869f4ad4c84659867fe5a, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/485/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03063",
@@ -413,7 +469,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/486/diagram.mmd (SHA-256 b4d7eec0c0dfef61105ee61e99c89cc4b993c0567ede67616bfe5a0cf7b4c217, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/486/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03066",
@@ -429,7 +489,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/487/diagram.mmd (SHA-256 c9b20df9ee03a971c7c5e585a45173da8bf24d4b5e9190ffb786bc91f62abb95, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/487/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03069",
@@ -445,7 +509,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/488/diagram.mmd (SHA-256 f2cc7a86ebf3fdcf312c4dad85cabd6883c09bb0f64cd1b364195d9f188a4861, 17 lines) was read in full; inventory observed 0 Markdown headings and 16 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/488/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03073",
@@ -461,7 +529,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/489/diagram.mmd (SHA-256 c6a5720d2431fc32a026410d0e0c3e48b190f779da8c598b185084b1ae3c58d9, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/489/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03077",
@@ -477,7 +549,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/490/diagram.mmd (SHA-256 50ec1e20be94afd944c9cde1a15345816f2bdc6644543a271ca1c2aef6e77e3b, 9 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/490/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03081",
@@ -493,7 +569,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/491/diagram.recovered.mmd (SHA-256 c6455f3735c26bbddc37bc8c54356589649872e210b197b0cc795b1f87a6044f, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/491/diagram.recovered.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03085",
@@ -509,7 +589,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/492/diagram.mmd (SHA-256 f9fb625e07c6c381b90c8302396323fecc2520cee2ec5380190015b0868b04a1, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/492/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03089",
@@ -525,7 +609,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/493/diagram.mmd (SHA-256 d8a5852efb702214e5c78bc6760899eb4e62e0c2486a9ae5e6a10700412987a9, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/493/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03092",
@@ -541,7 +629,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/494/diagram.mmd (SHA-256 bbb9da4566700f8c1ddea08f383f051ff074358e742cd7c4c35bd280d88f87e9, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/494/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03096",
@@ -557,7 +649,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/495/diagram.mmd (SHA-256 908ae932baaba96135bcf738724b6b33fa1b7c3241c7de8cbd33309a199b092d, 10 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/495/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03098",
@@ -573,7 +669,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/496/diagram.mmd (SHA-256 ecd7ed8f6d0a851fee8e5e77a0e234cd102282c0711c41d7de583507313140b2, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/496/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03105",
@@ -589,7 +689,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/497/diagram.mmd (SHA-256 3ba8221aaa8efb5755886264c04f9a1728d335be3d5272728428c8178cd39615, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/497/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03126",
@@ -605,7 +709,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/498/diagram.mmd (SHA-256 4df9c98e8135ac362debc1a5d71924834903b91850e592072f0305cf1ce4db88, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/498/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03154",
@@ -621,7 +729,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/499/diagram.mmd (SHA-256 72201c5d523255af0cf0161fad798246662fc0903b473bf3c3ee016cdbde5b21, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/499/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03173",
@@ -637,7 +749,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/500/diagram.mmd (SHA-256 c09cf5898190bc27e939a707930361a83fc021bb83e132bd5ed5c298f8dc37d2, 19 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/500/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03174",
@@ -653,7 +769,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/500/diagram.recovered.mmd (SHA-256 c09cf5898190bc27e939a707930361a83fc021bb83e132bd5ed5c298f8dc37d2, 19 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/500/diagram.recovered.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03191",
@@ -669,7 +789,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/501/diagram.mmd (SHA-256 aa2cf6d10f4b2993109380fdbc1b27c0e88624798ca50c12349cd132484acd4b, 8 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/501/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03194",
@@ -685,7 +809,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/502/diagram.mmd (SHA-256 03f639fb0fe075c3f808e980b4365a68546f6344037e1da12c52d98982cef6c2, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/502/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03226",
@@ -701,7 +829,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/503/diagram.mmd (SHA-256 385c3f9386d3b4e2322a6145003b2d7aed0763ca524ef06669150df96e528d58, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/503/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03235",
@@ -717,7 +849,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/504/diagram.mmd (SHA-256 94ee84aab00ba38970b747c6aced9ca5e8b415d18d8c5696d12aa55b9b947dcd, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/504/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03245",
@@ -733,7 +869,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/505/diagram.mmd (SHA-256 5fd52551441836f7dea94f79bde035431b2f5622b9e5aed79d3d7582dffcf05f, 12 lines) was read in full; inventory observed 0 Markdown headings and 11 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/505/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03344",
@@ -749,7 +889,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/506/diagram.mmd (SHA-256 8cb760b4efecf6253a2d6cd239d27775a48b9c120d1fc6e8554cf42ac4f1941f, 25 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/506/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03372",
@@ -765,7 +909,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/507/diagram.mmd (SHA-256 56ffda1e536ec248c737e3742492fc4ae2186a3775b6500a7c439dd1ae42d266, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/507/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03375",
@@ -781,7 +929,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/508/diagram.mmd (SHA-256 501be2695096239b68c2f49931adda81e364109b0005e515474a03334df91c4d, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/508/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03379",
@@ -797,7 +949,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/509/diagram.mmd (SHA-256 365596de5f0307f2aeb7daa007576419b71439859f9c520aafdd39a7ff61d24e, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/509/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03384",
@@ -813,7 +969,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/510/diagram.mmd (SHA-256 f65fc687afd7f70af7e658716da79a890e7025061e8ef203bbcaf45a81dfd51f, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/510/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03396",
@@ -829,7 +989,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/511/diagram.mmd (SHA-256 f2518cbe9281b1e5c12d02c74327e3125c0026c0812002590440eb84f19d703e, 5 lines) was read in full; inventory observed 0 Markdown headings and 2 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/511/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03405",
@@ -845,7 +1009,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/512/diagram.mmd (SHA-256 98f519db9f419ad45a689251a4ff10b7f85374a1ff56d310efaa7c91c83165bd, 8 lines) was read in full; inventory observed 0 Markdown headings and 3 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/512/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03422",
@@ -861,7 +1029,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/513/diagram.mmd (SHA-256 573542aaad7a195bf02712426ae9c27f5b61b6cd5537e19c34365cc4265399a2, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/513/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03431",
@@ -877,7 +1049,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/514/diagram.mmd (SHA-256 72201c5d523255af0cf0161fad798246662fc0903b473bf3c3ee016cdbde5b21, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/514/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03444",
@@ -893,7 +1069,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/515/diagram.mmd (SHA-256 57212cb1caee0fd1801443ba80c3610db6155ae39d4a6239f0450fbba430c4cf, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/515/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03482",
@@ -909,7 +1089,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/516/diagram.mmd (SHA-256 61d17593694937467269e5c1d6af58e81473c0995ddc21aacba016dced4bfe96, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/516/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03498",
@@ -925,7 +1109,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/517/diagram.mmd (SHA-256 be60d3d58e7f6655a859d844dbde0e0ce51f406fbc93ddcd146819b101941450, 4 lines) was read in full; inventory observed 0 Markdown headings and 3 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/517/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03506",
@@ -941,7 +1129,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/518/diagram.mmd (SHA-256 94d33a3906d111e7a09f3dea8f67a73b9f4fe7223f03a2a4b060e7ce57357bc6, 4 lines) was read in full; inventory observed 0 Markdown headings and 3 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/518/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03547",
@@ -957,7 +1149,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/519/diagram.mmd (SHA-256 0ed3324797af9a202cee63c6c3ecc0905b8936862470ea743cba581f0737db96, 5 lines) was read in full; inventory observed 0 Markdown headings and 4 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/519/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03550",
@@ -973,7 +1169,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/528/diagram.mmd (SHA-256 fa3d52f8259ad21d896d07180a745a8461e1b9749b25d4fec0a6403da9b481aa, 23 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/528/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03554",
@@ -989,7 +1189,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/531/diagram.mmd (SHA-256 6738fc22e3ac6dbae9545d81f8db2a86df262ccf5f9e0b62879f199ab4a3d7f6, 22 lines) was read in full; inventory observed 0 Markdown headings and 11 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/531/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03562",
@@ -1005,7 +1209,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/536/diagram.mmd (SHA-256 a755e0ec6de15eca70fa2feda89da2de2ae59bcae5c4ec647d5bc2d1451e2b4c, 18 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/536/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03585",
@@ -1021,7 +1229,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/540/diagram.mmd (SHA-256 8ec8b4969f4653940e4eeb845f770a9b561c8bd6e53a8be1b31b2b906ab9cba1, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/540/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03587",
@@ -1037,7 +1249,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/541/diagram.mmd (SHA-256 f1444393a9b34fac645543bc4744be1d60fa0a761a9bcda130d028d103c50d2b, 11 lines) was read in full; inventory observed 0 Markdown headings and 4 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/541/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03590",
@@ -1053,7 +1269,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/544/diagram.mmd (SHA-256 e7adf28c3ee0fb0e8f3859cb474c2a38786d811054bcdea9c33af6693275463e, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/544/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03592",
@@ -1069,7 +1289,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/550/diagram.mmd (SHA-256 68c4b9c851de2ebbe931173e88d134103f03fe213358d62548d8dc919bb154fd, 8 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/550/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03612",
@@ -1085,7 +1309,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/551/diagram.mmd (SHA-256 6d0b6ee8749e1f4f17744723d96a85d475c276e28b8b36f6510078132d9b187b, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/551/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03656",
@@ -1101,7 +1329,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/558/diagram.mmd (SHA-256 ecbbdab1ce1695223705aba35cd5db86c056ec67de21943e367c08947a550a0a, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/558/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03660",
@@ -1117,7 +1349,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/560/diagram.mmd (SHA-256 50628cf798d21b8d7a71e443540ec1e4f7aeeaebf9122f3cc3ac9559743f4cd7, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/560/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03675",
@@ -1133,7 +1369,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/563/diagram.mmd (SHA-256 64f9a3e92545b8edf0793a291af7e048f7035062292277b441c818d7d6cd58c4, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/563/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03693",
@@ -1149,7 +1389,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/570/diagram.mmd (SHA-256 767095b648c70416db58e7a1f2c90b508e5f7ddd5a8c1a2303a225fda7c575c2, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/570/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03707",
@@ -1165,7 +1409,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/571/diagram.mmd (SHA-256 bed2c35c91f1ba2164960ea4a6ed265962c17edec385fe3fe16c6e9e4fcc6611, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/571/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03718",
@@ -1181,7 +1429,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/578/diagram.mmd (SHA-256 df9b9c3962103424a966623251545a1a8ebdf48329f73187f74ab3aef5cf38de, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/578/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03743",
@@ -1197,7 +1449,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/579/diagram.mmd (SHA-256 9feb665d64dd924696f345fd476d49a0576933b6e4c7736a9d5c1bb3c3b88349, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/579/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03754",
@@ -1213,7 +1469,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/592/diagram.mmd (SHA-256 c25396356edbbc25804d548aa5fa3f6b307c404b1828e6f2cd4a2e6869bb6819, 15 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/592/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03771",
@@ -1229,7 +1489,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/594/diagram.mmd (SHA-256 0e8ad4271efe24476eaa8a1e62e32a0a09860af13cc5f3f438b17b986638c148, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/594/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03808",
@@ -1245,7 +1509,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/596/diagram.mmd (SHA-256 eaaa3447dc00adc645d4594b083e7894ce6870f09e5444e92df0f92c9f46db8b, 8 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/596/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03824",
@@ -1261,7 +1529,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/602/diagram.mmd (SHA-256 355c1c2a5dd72e4b1a2d879e3543314f851bbc7cc1fecc631ae8f9b9dc341615, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/602/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03832",
@@ -1277,7 +1549,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/604/diagram.mmd (SHA-256 7f9254445b8f0a7c3467637009fa535061078b6fa4a3d201459799a13dd28253, 12 lines) was read in full; inventory observed 0 Markdown headings and 11 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/604/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03850",
@@ -1293,7 +1569,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/607/diagram.mmd (SHA-256 aec21e2ff3f649cbda9c245d1850e99d24cfb3abe19d2e4780b19b949055f44d, 20 lines) was read in full; inventory observed 0 Markdown headings and 19 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/607/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03871",
@@ -1309,7 +1589,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/608/diagram.mmd (SHA-256 4437720772e291e3d5340772795b92b1335c1feaa015133998b3b87cbae3e45c, 10 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/608/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03884",
@@ -1325,7 +1609,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/617/diagram.mmd (SHA-256 7fe814ec419603d66addc5d8c698f6f9109e4e1a4f726334968ccc40dbff1c63, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/617/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03895",
@@ -1341,7 +1629,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/617/refresh-diagram-after-review.json (SHA-256 bee9dbebea7811dd4acf9133568738f1e2f17ddb60fc2d4a7e5066a3b9434edd, 19 lines) was read in full; inventory observed 0 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"{\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/617/refresh-diagram-after-review.json@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03901",
@@ -1357,7 +1649,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/620/diagram.mmd (SHA-256 eddc773f189437e358e48d0018e09cc8a67bfc6f3d675c9150c25711220d3b25, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/620/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03906",
@@ -1373,7 +1669,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/622/diagram.mmd (SHA-256 d9565a1fb0bd217ab17081649cc9d3322006f7e2e59d1e39271ff4b3fd8fa739, 8 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/622/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03918",
@@ -1389,7 +1689,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/624/diagram.mmd (SHA-256 3734de07a9d54ccd87598f4d75a4b6e97624087fa42e4ca55400fc74b1f774fa, 11 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/624/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03926",
@@ -1405,7 +1709,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/627/diagram.mmd (SHA-256 4f5a201f8844fef245a4d70c95504a73361e0b90594c3d19d14a18f0066f46bf, 8 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/627/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03929",
@@ -1421,7 +1729,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/628/diagram.mmd (SHA-256 c9e77ead8c23314f110a2b14e67352908d085ccd4ba672d8a9ec647fdc752444, 18 lines) was read in full; inventory observed 0 Markdown headings and 22 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/628/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03932",
@@ -1437,7 +1749,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/629/diagram.mmd (SHA-256 e12296ef1e987d9ac5bf1a3722517691fba82a272964b9806f94006951d5dd79, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/629/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03940",
@@ -1453,7 +1769,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/630/diagram.mmd (SHA-256 2ea208fad91a0f43116534c4c48f018b2e6a28c6d3974bcd725e0d19413ca313, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/630/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03953",
@@ -1469,7 +1789,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/631/diagram.mmd (SHA-256 8e35a513c4a2d1e060df8989e8fd8e394a29d77a7081ca9eacd99f90de7ea50b, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/631/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03963",
@@ -1485,7 +1809,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/632/diagram.mmd (SHA-256 111eb7f4ba3f4a093c513d13a78f2f31a1866878c7266a8b21be5ee86aa56921, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/632/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03976",
@@ -1501,7 +1829,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/640/diagram.mmd (SHA-256 5f52c826ced64ee9e70a088f0f5145375d70c3bc5ecf7f5dacfa36224fdaa428, 18 lines) was read in full; inventory observed 0 Markdown headings and 11 diagram/dependency edge tokens, opening anchor \"flowchart TB\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/640/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-03990",
@@ -1517,7 +1849,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/645/diagram.mmd (SHA-256 a69ac376d9a50b76bb7ae737aec7a4634281d161d46a83b4d91fda58de46863a, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/645/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04001",
@@ -1533,7 +1869,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/648/diagram.mmd (SHA-256 2159c18f758e6641248a38cfaf40eb1cabff9a287d958b84b3a9b03389b10cab, 13 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/648/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04011",
@@ -1549,7 +1889,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/656/diagram.mmd (SHA-256 3200b1a3ec820519a88df2fc395719e3f81640a5ce2c78fdabce32ebca2d5828, 9 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/656/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04019",
@@ -1565,7 +1909,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/659/diagram.mmd (SHA-256 00fdf245303762a021e019edc405852f8e2f822ad2a61d2293d834d660a5bb2d, 14 lines) was read in full; inventory observed 0 Markdown headings and 12 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/659/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04037",
@@ -1581,7 +1929,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/660/diagram.mmd (SHA-256 4a0c04968f935b80b2bca259145882163100d8c4c5615c3e94155b5baaaf0757, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/660/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04047",
@@ -1597,7 +1949,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/661/diagram.mmd (SHA-256 3499180c842bf033b8084a0f39a3ed4a84920956d517a82cf71cf4a66b00b00b, 5 lines) was read in full; inventory observed 0 Markdown headings and 4 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/661/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04060",
@@ -1613,7 +1969,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/662/diagram.mmd (SHA-256 afd3121afc1b0e3638a656f2a93af98879f8c0fcfd882bb57c06392bfa656a36, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/662/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04073",
@@ -1629,7 +1989,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/663/diagram.mmd (SHA-256 96d058d62bbf0aa6d4e1ee6258cac9988075349a1cb03b35f536c20ce9ba91fe, 39 lines) was read in full; inventory observed 0 Markdown headings and 23 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/663/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04080",
@@ -1645,7 +2009,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/665/diagram.mmd (SHA-256 60d9a86104bca36c9aa0e064d138358ea94ca587e584fd9681ae9100ed1141d7, 15 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/665/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04106",
@@ -1661,7 +2029,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/670/diagram.mmd (SHA-256 47820fa2a4025ab41dea19ef90178b86e3482def07e69612d4e1bbeaa1b88b61, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/670/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04112",
@@ -1677,7 +2049,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/674/diagram.mmd (SHA-256 a75b129572b96d87572854dd67d117bcd5f415e63a107beb9af362dc93b4c4da, 10 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/674/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04120",
@@ -1693,7 +2069,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/675/diagram.mmd (SHA-256 d664f352fdaf92ef149ea348cc5955e9e4d595e23d6079c45d5f346108f01008, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/675/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04139",
@@ -1709,7 +2089,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/678/diagram.mmd (SHA-256 0e9293eb6485cbcc31cc78297013f619ab8122605f32b494b2384e8bee419892, 16 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/678/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04153",
@@ -1725,7 +2109,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/679/diagram.mmd (SHA-256 94b194768d386eaef12db18bd9f09d68951f07b9bb715225c1589799376ec7d7, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/679/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04165",
@@ -1741,7 +2129,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/680/diagram.mmd (SHA-256 3f025dd9a9a192f090d472ca1b379fbbf7fdcf250e90abd946c0f79ed4aacb22, 11 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/680/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04168",
@@ -1757,7 +2149,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/686/diagram.mmd (SHA-256 141c1bb2998f1d46c4e65bbc613f2c99a6df14a4a7cf38e9876ba029a829c01d, 17 lines) was read in full; inventory observed 0 Markdown headings and 15 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/686/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04179",
@@ -1773,7 +2169,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/687/diagram.mmd (SHA-256 54f9744ffd09643409b87bc95b6b7be4ca2c43ceb8c40a9aaf5d2ea82556c705, 15 lines) was read in full; inventory observed 0 Markdown headings and 14 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/687/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04191",
@@ -1789,7 +2189,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/689/diagram.mmd (SHA-256 d69ede4f9188bbf4bf7c35fce6898371f9a792c57e1630ccfe5dc492a9f01e67, 13 lines) was read in full; inventory observed 0 Markdown headings and 10 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/689/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04208",
@@ -1805,7 +2209,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/693/diagram.mmd (SHA-256 089bff382482b134fab6ef9bf685c29e9557cb08f7541bdfc83db566dee01e45, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/693/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04223",
@@ -1821,7 +2229,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/694/diagram.mmd (SHA-256 c98075a150b52e3d21ea1d8a5001ec0676dc6a47dd29c8e311cca9083fe77f83, 14 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"sequenceDiagram\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/694/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04229",
@@ -1837,7 +2249,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/695/diagram.mmd (SHA-256 944423f4b8446739ebf215d12ccd155ebe1e55849641aab658eb03dfbe3c9e9b, 21 lines) was read in full; inventory observed 0 Markdown headings and 20 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/695/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04248",
@@ -1853,7 +2269,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/707/diagram.mmd (SHA-256 3655f74f1c4bbea30ebcb882a59eeb3061fa6adbbe36232597579642b5ce2ee5, 12 lines) was read in full; inventory observed 0 Markdown headings and 11 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/707/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04259",
@@ -1869,7 +2289,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/708/diagram.mmd (SHA-256 e886506f6429ebe042a84d5e616bdbdfeaf97835094b9305192b1c9e7c65eba4, 8 lines) was read in full; inventory observed 0 Markdown headings and 7 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/708/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04278",
@@ -1885,7 +2309,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/712/diagram.mmd (SHA-256 26b00f81baf19c32d5691974b98e1f47670f5c20e9a11641aa3ecc794a5e743d, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/712/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04282",
@@ -1901,7 +2329,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/713/diagram.mmd (SHA-256 48f01d7f00e306676b3d86589f18ecd258659a0f179705bd258acab9cb6edc71, 12 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"sequenceDiagram\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/713/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04288",
@@ -1917,7 +2349,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/724/diagram.mmd (SHA-256 526e5e54f5cb1ee53de78272dcd81a2595007d9bf9d907382d5966ad3c9e6963, 10 lines) was read in full; inventory observed 0 Markdown headings and 9 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/724/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04299",
@@ -1933,7 +2369,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/728/diagram.mmd (SHA-256 284b95e57277889664d89258e6276ffc4dece95a48f73a18fda68836e2519371, 14 lines) was read in full; inventory observed 0 Markdown headings and 13 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/728/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04335",
@@ -1949,7 +2389,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/731/diagram.mmd (SHA-256 a3956e0d8e5b17f740bd6ee6e26a865e0dff2e0a087900137009467a5343c201, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/731/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04360",
@@ -1965,7 +2409,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/740/backend-canary/main.tf (SHA-256 a52f5e95efd0d35decdeaaae1db17260db39f64e263b4658c279de83b937d20d, 20 lines) was read in full; inventory observed 0 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"terraform {\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/740/backend-canary/main.tf@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04362",
@@ -1981,7 +2429,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/740/diagram.mmd (SHA-256 f2b56a00fdb4a6c419aa01d7ecb40b00087882063fc747a60ef62f93653c8046, 15 lines) was read in full; inventory observed 0 Markdown headings and 14 diagram/dependency edge tokens, opening anchor \"flowchart TD\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/740/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04367",
@@ -1997,7 +2449,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/745/diagram.mmd (SHA-256 ec1db2344f990fa877a04b91bff3fa57e4fa58690918edb6747cb7c8b947749b, 5 lines) was read in full; inventory observed 0 Markdown headings and 4 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/745/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04372",
@@ -2013,7 +2469,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/754/diagram.mmd (SHA-256 964dc1e7e37514255934619882c7a3d243d69c2a3447af1076f04108ba11bc3e, 5 lines) was read in full; inventory observed 0 Markdown headings and 4 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/754/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04375",
@@ -2029,7 +2489,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/761/diagram.mmd (SHA-256 16190418d267e860127c075cc9dea179cb3e5458c5aba01eb21a7e5fbffc1389, 2 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/761/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04377",
@@ -2045,7 +2509,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/762/diagram.mmd (SHA-256 df854cf9eb25428c0bb911d3e0f59ee4a77aaba1599527d36dd5825878c276ff, 5 lines) was read in full; inventory observed 0 Markdown headings and 4 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/762/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04380",
@@ -2061,7 +2529,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/770/diagram.mmd (SHA-256 a912d17f9391ee965a8fab231b39abb444302bdf65d2b0fc0a4811143af870af, 5 lines) was read in full; inventory observed 0 Markdown headings and 8 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/770/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04384",
@@ -2077,7 +2549,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate .csdlc/prepared/issues/771/diagram.mmd (SHA-256 718234d5c409b5c91c7745c480f8af5d8a08e68e2e815b9178027a7df0c62247, 6 lines) was read in full; inventory observed 0 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": ".csdlc/prepared/issues/771/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04647",
@@ -2093,7 +2569,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate adl/tools/skills/diagram-author/SKILL.md (SHA-256 196a7159db42c47c41095a96ddedaad6267c9f6358e002042aa666082561eb36, 180 lines) was read in full; inventory observed 12 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"---\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "adl/tools/skills/diagram-author/SKILL.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04839",
@@ -2109,7 +2589,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/ADL_ARCHITECTURE.md (SHA-256 b92e288837807d0b651d4a1d0b5a6a9256d34def587f3e2663ca772c7e15fdc5, 279 lines) was read in full; inventory observed 16 Markdown headings and 5 diagram/dependency edge tokens, opening anchor \"# ADL Architecture\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/ADL_ARCHITECTURE.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04840",
@@ -2125,7 +2609,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md (SHA-256 a1a096ed4230af1d7f3485bc3b481269494febc9c4bf76aba804d14a84543370, 74 lines) was read in full; inventory observed 12 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"# ADR 0069: Observatory Governed Runtime Consumer Boundary\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04841",
@@ -2141,7 +2629,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/adr/0072-csdlc-v3-native-authority.md (SHA-256 ec0c2629db1cd4c3c984d63671dabda15314d1dd3f5033c8aeac45dd25b2e143, 47 lines) was read in full; inventory observed 10 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"# ADR 0072: C-SDLC v3 Native Authority\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/adr/0072-csdlc-v3-native-authority.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04842",
@@ -2157,7 +2649,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/adr/0073-validated-configuration-snapshot-reload.md (SHA-256 5eb80fb0ceda331ca0b93a49b8ba0add2f41e14b3d9f316deb8140d37064032f, 45 lines) was read in full; inventory observed 10 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"# ADR 0073: Validated Configuration Snapshot Reload\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04843",
@@ -2173,7 +2669,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/adr/0074-runtime-generation-source-ownership.md (SHA-256 426b99d142debed69b89a9d0ac99c9aa3bb9f842691eff886be9b92d0c67b824, 45 lines) was read in full; inventory observed 10 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"# ADR 0074: Runtime Generation Source Ownership\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/adr/0074-runtime-generation-source-ownership.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04844",
@@ -2189,7 +2689,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/adr/0075-provider-profile-and-shadow-authority.md (SHA-256 7fa061e8f1683bad53b356f553647d7d78043f32dc2723adff8033c196c2d445, 49 lines) was read in full; inventory observed 10 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"# ADR 0075: Provider Profile and Shadow Authority\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-04845",
@@ -2205,7 +2709,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/architecture/adr/README.md (SHA-256 55056e6b8e1a1579df9bc513e1d32eedb9b545afe544e99565727ead4e2e3e44, 58 lines) was read in full; inventory observed 2 Markdown headings and 0 diagram/dependency edge tokens, opening anchor \"# Architecture Decision Records\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/architecture/adr/README.md@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-05132",
@@ -2221,7 +2729,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd (SHA-256 8c1994078c1d6b29a3db8668c4316a29c73825e9c3904e2b614cbc50aebefccb, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-05279",
@@ -2237,7 +2749,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/diagram.mmd (SHA-256 37df0172d12fb91bd558e330229de9b2c5938069d5b49b363270b2b309bdf307, 2 lines) was read in full; inventory observed 0 Markdown headings and 1 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "FILE-05281",
@@ -2253,7 +2769,11 @@
         }
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Candidate docs/milestones/v0.92.1/evidence/csdlc-v3/issue-723/diagram.mmd (SHA-256 0775279db5310a4826fee9015caa0ad42f1bf1f69a1a88d67d4f804ad59ec57c, 7 lines) was read in full; inventory observed 0 Markdown headings and 6 diagram/dependency edge tokens, opening anchor \"flowchart LR\". Static architecture review found no additional correctness, boundary, or evidence gap on this assigned surface.",
+      "review_basis": {
+        "kind": "candidate_path",
+        "subject": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-723/diagram.mmd@fb6cbc7f619daa54f901fd2d12f480add682ace3"
+      }
     },
     {
       "ref": "ACCEPT-RUST-01:AC-1",
@@ -2270,7 +2790,11 @@
         "criterion_id": "RUST-01:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected RUST-01 criterion AC-1: Supported resilience behavior and public API remain compatible. Closed issue #499, PR #547, and candidate SOR/SRP digests 15d5554b65d1/966278c4c9b7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-RUST-01:AC-1 -> issue #499, PR 547, .csdlc/issues/499/cards/sor.md, .csdlc/issues/499/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-RUST-01:AC-2",
@@ -2287,7 +2811,11 @@
         "criterion_id": "RUST-01:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected RUST-01 criterion AC-2: Each extracted module has one coherent owner. Closed issue #499, PR #547, and candidate SOR/SRP digests 15d5554b65d1/966278c4c9b7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-RUST-01:AC-2 -> issue #499, PR 547, .csdlc/issues/499/cards/sor.md, .csdlc/issues/499/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-RUST-01:AC-3",
@@ -2304,7 +2832,11 @@
         "criterion_id": "RUST-01:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected RUST-01 criterion AC-3: Tests remain behavior-focused and PVF-classified. Closed issue #499, PR #547, and candidate SOR/SRP digests 15d5554b65d1/966278c4c9b7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-RUST-01:AC-3 -> issue #499, PR 547, .csdlc/issues/499/cards/sor.md, .csdlc/issues/499/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-RUST-01:AC-4",
@@ -2321,7 +2853,11 @@
         "criterion_id": "RUST-01:AC-4"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected RUST-01 criterion AC-4: Validation-impact change is measured exactly. Closed issue #499, PR #547, and candidate SOR/SRP digests 15d5554b65d1/966278c4c9b7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-RUST-01:AC-4 -> issue #499, PR 547, .csdlc/issues/499/cards/sor.md, .csdlc/issues/499/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-RUST-01:AC-5",
@@ -2338,7 +2874,11 @@
         "criterion_id": "RUST-01:AC-5"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected RUST-01 criterion AC-5: No line-count reduction quota is imposed. Closed issue #499, PR #547, and candidate SOR/SRP digests 15d5554b65d1/966278c4c9b7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-RUST-01:AC-5 -> issue #499, PR 547, .csdlc/issues/499/cards/sor.md, .csdlc/issues/499/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-A:AC-1",
@@ -2355,7 +2895,11 @@
         "criterion_id": "V3-A:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-A criterion AC-1: The v3 authority boundary and compatibility posture are explicit. Closed issue #500, PR #565, and candidate SOR/SRP digests 18fcd5a169af/79d3e1fe4402 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-A:AC-1 -> issue #500, PR 565, .csdlc/issues/500/cards/sor.md, .csdlc/issues/500/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-A:AC-2",
@@ -2372,7 +2916,11 @@
         "criterion_id": "V3-A:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-A criterion AC-2: Requirements 161 through 163 are mapped exactly. Closed issue #500, PR #565, and candidate SOR/SRP digests 18fcd5a169af/79d3e1fe4402 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-A:AC-2 -> issue #500, PR 565, .csdlc/issues/500/cards/sor.md, .csdlc/issues/500/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-A:AC-3",
@@ -2389,7 +2937,11 @@
         "criterion_id": "V3-A:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-A criterion AC-3: Construction and rollback decisions are reviewable. Closed issue #500, PR #565, and candidate SOR/SRP digests 18fcd5a169af/79d3e1fe4402 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-A:AC-3 -> issue #500, PR 565, .csdlc/issues/500/cards/sor.md, .csdlc/issues/500/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-B:AC-1",
@@ -2406,7 +2958,11 @@
         "criterion_id": "V3-B:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-B criterion AC-1: State and projections are deterministic. Closed issue #501, PR #568, and candidate SOR/SRP digests 28fee0a4c1f6/db34436c125d provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-B:AC-1 -> issue #501, PR 568, .csdlc/issues/501/cards/sor.md, .csdlc/issues/501/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-B:AC-2",
@@ -2423,7 +2979,11 @@
         "criterion_id": "V3-B:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-B criterion AC-2: Repository context is explicit. Closed issue #501, PR #568, and candidate SOR/SRP digests 28fee0a4c1f6/db34436c125d provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-B:AC-2 -> issue #501, PR 568, .csdlc/issues/501/cards/sor.md, .csdlc/issues/501/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-B:AC-3",
@@ -2440,7 +3000,11 @@
         "criterion_id": "V3-B:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-B criterion AC-3: Requirements 164 through 167 have focused behavioral proof. Closed issue #501, PR #568, and candidate SOR/SRP digests 28fee0a4c1f6/db34436c125d provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-B:AC-3 -> issue #501, PR 568, .csdlc/issues/501/cards/sor.md, .csdlc/issues/501/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-C:AC-1",
@@ -2457,7 +3021,11 @@
         "criterion_id": "V3-C:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-C criterion AC-1: Transitions are capability-checked and atomic. Closed issue #502, PR #572, and candidate SOR/SRP digests 6f7f00a13813/8228a87b2bcf provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-C:AC-1 -> issue #502, PR 572, .csdlc/issues/502/cards/sor.md, .csdlc/issues/502/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-C:AC-2",
@@ -2474,7 +3042,11 @@
         "criterion_id": "V3-C:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-C criterion AC-2: Recovery preserves audit provenance. Closed issue #502, PR #572, and candidate SOR/SRP digests 6f7f00a13813/8228a87b2bcf provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-C:AC-2 -> issue #502, PR 572, .csdlc/issues/502/cards/sor.md, .csdlc/issues/502/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-C:AC-3",
@@ -2491,7 +3063,11 @@
         "criterion_id": "V3-C:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-C criterion AC-3: Requirements 168 through 170 pass failure-injection tests. Closed issue #502, PR #572, and candidate SOR/SRP digests 6f7f00a13813/8228a87b2bcf provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-C:AC-3 -> issue #502, PR 572, .csdlc/issues/502/cards/sor.md, .csdlc/issues/502/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-D:AC-1",
@@ -2508,7 +3084,11 @@
         "criterion_id": "V3-D:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-D criterion AC-1: Commands consume typed contracts. Closed issue #503, PR #581, and candidate SOR/SRP digests 4b03e81843b4/10fb85214fec provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-D:AC-1 -> issue #503, PR 581, .csdlc/issues/503/cards/sor.md, .csdlc/issues/503/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-D:AC-2",
@@ -2525,7 +3105,11 @@
         "criterion_id": "V3-D:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-D criterion AC-2: Bind enforces registered topology. Closed issue #503, PR #581, and candidate SOR/SRP digests 4b03e81843b4/10fb85214fec provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-D:AC-2 -> issue #503, PR 581, .csdlc/issues/503/cards/sor.md, .csdlc/issues/503/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-D:AC-3",
@@ -2542,7 +3126,11 @@
         "criterion_id": "V3-D:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-D criterion AC-3: Cards render from the active registry. Closed issue #503, PR #581, and candidate SOR/SRP digests 4b03e81843b4/10fb85214fec provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-D:AC-3 -> issue #503, PR 581, .csdlc/issues/503/cards/sor.md, .csdlc/issues/503/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-D:AC-4",
@@ -2559,7 +3147,11 @@
         "criterion_id": "V3-D:AC-4"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-D criterion AC-4: Requirements 171 through 173 have CLI proof. Closed issue #503, PR #581, and candidate SOR/SRP digests 4b03e81843b4/10fb85214fec provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-D:AC-4 -> issue #503, PR 581, .csdlc/issues/503/cards/sor.md, .csdlc/issues/503/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-E:AC-1",
@@ -2576,7 +3168,11 @@
         "criterion_id": "V3-E:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-E criterion AC-1: Review binds exact immutable scope. Closed issue #504, PR #588, and candidate SOR/SRP digests 6faa3d8c6fb1/1df2aa9fad15 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-E:AC-1 -> issue #504, PR 588, .csdlc/issues/504/cards/sor.md, .csdlc/issues/504/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-E:AC-2",
@@ -2593,7 +3189,11 @@
         "criterion_id": "V3-E:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-E criterion AC-2: Publication modes are explicit. Closed issue #504, PR #588, and candidate SOR/SRP digests 6faa3d8c6fb1/1df2aa9fad15 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-E:AC-2 -> issue #504, PR 588, .csdlc/issues/504/cards/sor.md, .csdlc/issues/504/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-E:AC-3",
@@ -2610,7 +3210,11 @@
         "criterion_id": "V3-E:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-E criterion AC-3: Finish derives terminal truth. Closed issue #504, PR #588, and candidate SOR/SRP digests 6faa3d8c6fb1/1df2aa9fad15 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-E:AC-3 -> issue #504, PR 588, .csdlc/issues/504/cards/sor.md, .csdlc/issues/504/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-E:AC-4",
@@ -2627,7 +3231,11 @@
         "criterion_id": "V3-E:AC-4"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-E criterion AC-4: Requirements 174 through 178 have positive and refusal proof. Closed issue #504, PR #588, and candidate SOR/SRP digests 6faa3d8c6fb1/1df2aa9fad15 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-E:AC-4 -> issue #504, PR 588, .csdlc/issues/504/cards/sor.md, .csdlc/issues/504/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-F:AC-1",
@@ -2644,7 +3252,11 @@
         "criterion_id": "V3-F:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-F criterion AC-1: Requirements 179 and 180 are mapped. Closed issue #505, PR #591, and candidate SOR/SRP digests e07ad9b20b18/31eaba1eb18b provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-F:AC-1 -> issue #505, PR 591, .csdlc/issues/505/cards/sor.md, .csdlc/issues/505/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-F:AC-2",
@@ -2661,7 +3273,11 @@
         "criterion_id": "V3-F:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-F criterion AC-2: v2-v3 parity is measured. Closed issue #505, PR #591, and candidate SOR/SRP digests e07ad9b20b18/31eaba1eb18b provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-F:AC-2 -> issue #505, PR 591, .csdlc/issues/505/cards/sor.md, .csdlc/issues/505/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-F:AC-3",
@@ -2678,7 +3294,11 @@
         "criterion_id": "V3-F:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-F criterion AC-3: Canary rollback is exercised. Closed issue #505, PR #591, and candidate SOR/SRP digests e07ad9b20b18/31eaba1eb18b provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-F:AC-3 -> issue #505, PR 591, .csdlc/issues/505/cards/sor.md, .csdlc/issues/505/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-V3-F:AC-4",
@@ -2695,7 +3315,11 @@
         "criterion_id": "V3-F:AC-4"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected V3-F criterion AC-4: Cutover and retirement require operator approval. Closed issue #505, PR #591, and candidate SOR/SRP digests e07ad9b20b18/31eaba1eb18b provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-V3-F:AC-4 -> issue #505, PR 591, .csdlc/issues/505/cards/sor.md, .csdlc/issues/505/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-1",
@@ -2712,7 +3336,11 @@
         "criterion_id": "HOT-01:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-1: Reads use atomically swappable state. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-1 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-2",
@@ -2729,7 +3357,11 @@
         "criterion_id": "HOT-01:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-2: Invalid updates preserve the last valid configuration. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-2 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-3",
@@ -2746,7 +3378,11 @@
         "criterion_id": "HOT-01:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-3: File events are debounced. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-3 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-4",
@@ -2763,7 +3399,11 @@
         "criterion_id": "HOT-01:AC-4"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-4: Concurrent requests observe complete configurations only. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-4 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-5",
@@ -2780,7 +3420,11 @@
         "criterion_id": "HOT-01:AC-5"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-5: `observatory.allowed_origins` and `observatory.additional_allowed_origins` are parsed, normalized, validated, and atomically swapped as one Runtime origin-policy snapshot. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-5 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-6",
@@ -2797,7 +3441,11 @@
         "criterion_id": "HOT-01:AC-6"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-6: Editing only the Runtime configuration can add or remove an exact allowed origin without rebuilding, rotating continuity state, or restarting Runtime. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-6 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-7",
@@ -2814,7 +3462,11 @@
         "criterion_id": "HOT-01:AC-7"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-7: Runtime HTTP CORS and authenticated WSS admission read the current origin-policy snapshot for each new request/session. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-7 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-8",
@@ -2831,7 +3483,11 @@
         "criterion_id": "HOT-01:AC-8"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-8: Invalid, wildcard, path-bearing, credential-bearing, duplicate, or otherwise unsafe origin edits retain the complete last-known-good policy. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-8 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-9",
@@ -2848,7 +3504,11 @@
         "criterion_id": "HOT-01:AC-9"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-9: Concurrent traffic observes either the complete old origin set or the complete new origin set, never a partial mixture. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-9 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-HOT-01:AC-10",
@@ -2865,7 +3525,11 @@
         "criterion_id": "HOT-01:AC-10"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected HOT-01 criterion AC-10: Focused proof adds and removes `http://localhost:8000` and `https://wuji.dev.csm.agent-logic.ai:8765` through config-only edits while Runtime identity and process remain unchanged. Closed issue #510, PR #546, and candidate SOR/SRP digests 09237820cd5b/a00e5c97f10f provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-HOT-01:AC-10 -> issue #510, PR 546, .csdlc/issues/510/cards/sor.md, .csdlc/issues/510/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-DEC-01:AC-1",
@@ -2882,7 +3546,11 @@
         "criterion_id": "DEC-01:AC-1"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected DEC-01 criterion AC-1: Every source and reverse reference has one owner and disposition. Closed issue #513, PR #557, and candidate SOR/SRP digests ac37fbdd2d1b/02d94d5984a7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-DEC-01:AC-1 -> issue #513, PR 557, .csdlc/issues/513/cards/sor.md, .csdlc/issues/513/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-DEC-01:AC-2",
@@ -2899,7 +3567,11 @@
         "criterion_id": "DEC-01:AC-2"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected DEC-01 criterion AC-2: Supported behavior has compatibility proof. Closed issue #513, PR #557, and candidate SOR/SRP digests ac37fbdd2d1b/02d94d5984a7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-DEC-01:AC-2 -> issue #513, PR 557, .csdlc/issues/513/cards/sor.md, .csdlc/issues/513/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-DEC-01:AC-3",
@@ -2916,7 +3588,11 @@
         "criterion_id": "DEC-01:AC-3"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected DEC-01 criterion AC-3: Rollback and migration are executable. Closed issue #513, PR #557, and candidate SOR/SRP digests ac37fbdd2d1b/02d94d5984a7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-DEC-01:AC-3 -> issue #513, PR 557, .csdlc/issues/513/cards/sor.md, .csdlc/issues/513/cards/srp.md"
+      }
     },
     {
       "ref": "ACCEPT-DEC-01:AC-4",
@@ -2933,10 +3609,17 @@
         "criterion_id": "DEC-01:AC-4"
       },
       "conclusion": "verified_no_gap",
-      "detail": "Exact-candidate denominator row was enumerated and received the architecture specialist disposition."
+      "detail": "Inspected DEC-01 criterion AC-4: Runtime v4 remains excluded. Closed issue #513, PR #557, and candidate SOR/SRP digests ac37fbdd2d1b/02d94d5984a7 provide terminal implementation and reviewed proof for this architecture criterion.",
+      "review_basis": {
+        "kind": "acceptance_mapping",
+        "subject": "ACCEPT-DEC-01:AC-4 -> issue #513, PR 557, .csdlc/issues/513/cards/sor.md, .csdlc/issues/513/cards/srp.md"
+      }
     }
   ],
   "findings": [
 
-  ]
+  ],
+  "reviewer": "subagent:/root/fix_814_runtime",
+  "review_method": "Resolved and read every candidate-bound architecture file at its packet SHA, counted structural headings and edges, then traced every assigned acceptance criterion to its closed issue, merged PR, SOR, and SRP before recording a terminal disposition.",
+  "completed_at": "2026-09-09T21:44:12Z"
 }

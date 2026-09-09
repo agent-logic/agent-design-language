@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 
 PACKET = File.expand_path(__dir__)
 
@@ -12,6 +13,12 @@ end
 
 def fail!(message)
   abort(message)
+end
+
+def git_blob(revision, path)
+  output, error, status = Open3.capture3("git", "show", "#{revision}:#{path}")
+  fail!("candidate command artifact is unavailable: #{path}: #{error.strip}") unless status.success?
+  output
 end
 
 path = ARGV.fetch(0) { fail!("usage: validate-specialist-input.rb <input.json>") }
@@ -54,12 +61,23 @@ if lane == "tests"
   fail!("tests lane execution scope is absent") if input.fetch("execution_scope").strip.empty?
   invocations.each do |invocation|
     output = invocation.fetch("captured_output")
+    artifacts = invocation.fetch("command_artifacts")
+    artifacts_valid = artifacts.is_a?(Array) && !artifacts.empty? && artifacts.all? do |artifact|
+      path = artifact.fetch("path")
+      candidate_digest = artifact.fetch("candidate_sha256")
+      current_digest = artifact.fetch("current_sha256")
+      artifact.fetch("candidate_sha") == candidate &&
+        artifact.fetch("candidate_matches_current") == true &&
+        Digest::SHA256.hexdigest(git_blob(candidate, path)) == candidate_digest &&
+        Digest::SHA256.file(path).hexdigest == current_digest &&
+        candidate_digest == current_digest
+    end
     fail!("test invocation is not replayable: #{invocation.fetch('id')}") unless
       invocation.fetch("argv").is_a?(Array) && !invocation.fetch("argv").empty? &&
       invocation.fetch("exit_status") == 0 && !output.empty? &&
       Digest::SHA256.hexdigest(output) == invocation.fetch("captured_output_sha256") &&
       invocation.fetch("success_markers").is_a?(Array) && !invocation.fetch("success_markers").empty? &&
-      invocation.fetch("command_artifacts").is_a?(Array) && !invocation.fetch("command_artifacts").empty?
+      artifacts_valid
   end
 end
 

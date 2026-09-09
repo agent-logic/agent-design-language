@@ -2,6 +2,7 @@
 require "digest"
 require "json"
 require "open3"
+require "time"
 require "yaml"
 
 def fail!(message)
@@ -49,9 +50,20 @@ def evidence_resolves?(evidence, candidate, root, subject_id:)
     return false unless locator.fetch("path") == path
     return false if locator.fetch("line") > content.lines.length
   elsif nonempty?(locator["command"])
-    return false unless locator.fetch("command") == "test ! -s #{path}" && content.empty?
+    if locator.fetch("command") == "test ! -s #{path}"
+      return false unless content.empty?
+    elsif evidence.fetch("source") == "packet" && locator.fetch("command") == "GitHub milestone GraphQL snapshot page"
+      match = subject_id.match(/\AISSUE-(\d+)\z/)
+      return false unless match
+      document = JSON.parse(content)
+      return false unless document.fetch("issues").any? { |row| row.fetch("number") == match[1].to_i }
+    else
+      return false
+    end
   end
   true
+rescue JSON::ParserError, KeyError
+  false
 end
 
 def validate_packet!(root:, mode: "all")
@@ -143,22 +155,50 @@ fail!("live milestone snapshot duplicates pull requests") unless live_pr_numbers
 captured_response = read_json(response_path)
 fail!("snapshot differs from immutable API response") unless captured_response.fetch("issues") == live_issues && captured_response.fetch("pull_requests") == live_prs
 
-query_argv = ["gh", "issue", "list", "--repo", "agent-logic/agent-design-language", "--milestone", "v0.92.1", "--state", "all", "--limit", "10000", "--json", "number,title,state,closedByPullRequestsReferences"]
+captured_at = Time.iso8601(api_receipt.fetch("retrieved_at"))
+query_argv = ["gh", "issue", "list", "--repo", "agent-logic/agent-design-language", "--milestone", "v0.92.1", "--state", "all", "--limit", "10000", "--json", "number,title,state,createdAt,closedByPullRequestsReferences"]
 live_out, live_err, live_status = Open3.capture3(*query_argv)
 fail!("live milestone query failed: #{live_err.strip}") unless live_status.success?
 live_now = JSON.parse(live_out).map do |row|
-  {"number" => row.fetch("number"), "title" => row.fetch("title"), "state" => row.fetch("state"), "pull_requests" => row.fetch("closedByPullRequestsReferences").map { |pr| pr.fetch("number") }.sort}
+  {"number" => row.fetch("number"), "title" => row.fetch("title"), "state" => row.fetch("state"), "created_at" => row.fetch("createdAt"), "pull_requests" => row.fetch("closedByPullRequestsReferences").map { |pr| pr.fetch("number") }.sort}
 end.sort_by { |row| row.fetch("number") }
-fail!("captured milestone snapshot is stale, truncated, or invented") unless live_issues.sort_by { |row| row.fetch("number") } == live_now
+captured_issues_by_number = live_issues.to_h { |row| [row.fetch("number"), row] }
+live_issues_by_number = live_now.to_h { |row| [row.fetch("number"), row] }
+pre_capture_issue_numbers = live_now.select { |row| Time.iso8601(row.fetch("created_at")) <= captured_at }.map { |row| row.fetch("number") }
+fail!("captured milestone snapshot omitted an issue that existed at capture time") unless (pre_capture_issue_numbers - captured_issues_by_number.keys).empty?
+fail!("captured milestone issue no longer resolves") unless (captured_issues_by_number.keys - live_issues_by_number.keys).empty?
+live_issues.each do |captured|
+  live = live_issues_by_number.fetch(captured.fetch("number"))
+  state_progressed = captured.fetch("state") == live.fetch("state") || captured.fetch("state") == "OPEN" && live.fetch("state") == "CLOSED"
+  fail!("captured milestone issue contradicts monotonic live state") unless captured.fetch("title") == live.fetch("title") && state_progressed && (captured.fetch("pull_requests") - live.fetch("pull_requests")).empty?
+end
 
-pr_query_argv = ["gh", "pr", "list", "--repo", "agent-logic/agent-design-language", "--state", "all", "--limit", "10000", "--json", "number,title,state,mergedAt,url,milestone"]
+pr_query_argv = ["gh", "pr", "list", "--repo", "agent-logic/agent-design-language", "--state", "all", "--limit", "10000", "--json", "number,title,state,mergedAt,url,milestone,createdAt"]
 pr_out, pr_err, pr_status = Open3.capture3(*pr_query_argv)
 fail!("live milestone PR query failed: #{pr_err.strip}") unless pr_status.success?
-live_prs_now = JSON.parse(pr_out)
+all_live_prs = JSON.parse(pr_out)
+all_live_prs_by_number = all_live_prs.to_h { |row| [row.fetch("number"), row] }
+live_prs_now = all_live_prs
   .select { |row| row.dig("milestone", "title") == "v0.92.1" }
-  .map { |row| row.reject { |key, _value| key == "milestone" } }
   .sort_by { |row| row.fetch("number") }
-fail!("captured milestone PR snapshot is stale, truncated, or invented") unless live_prs.sort_by { |row| row.fetch("number") } == live_prs_now
+pre_capture_pr_numbers = live_prs_now.select { |row| Time.iso8601(row.fetch("createdAt")) <= captured_at }.map { |row| row.fetch("number") }
+captured_prs_by_number = live_prs.to_h { |row| [row.fetch("number"), row] }
+fail!("captured milestone snapshot omitted a pull request that existed at capture time") unless (pre_capture_pr_numbers - captured_prs_by_number.keys).empty?
+live_prs.each do |captured|
+  live = all_live_prs_by_number[captured.fetch("number")]
+  fail!("captured milestone pull request no longer resolves") unless live
+  state_progressed = captured.fetch("state") == live.fetch("state") || captured.fetch("state") == "OPEN" && live.fetch("state") == "MERGED"
+  merged_at_consistent = captured.fetch("mergedAt").nil? || captured.fetch("mergedAt") == live.fetch("mergedAt")
+  fail!("captured milestone pull request contradicts monotonic live state") unless captured.fetch("title") == live.fetch("title") && captured.fetch("url") == live.fetch("url") && state_progressed && merged_at_consistent
+end
+live_issues.each do |captured|
+  live = live_issues_by_number.fetch(captured.fetch("number"))
+  newly_linked = live.fetch("pull_requests") - captured.fetch("pull_requests")
+  fail!("captured milestone issue omitted a pre-existing closing pull request") unless newly_linked.all? do |number|
+    pr = all_live_prs_by_number[number]
+    pr && Time.iso8601(pr.fetch("createdAt")) > captured_at
+  end
+end
 
 creation_receipt_path = "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
 creation_receipt = JSON.parse(git_blob(candidate, creation_receipt_path))
@@ -255,7 +295,16 @@ results.select { |row| row.fetch("lane") == "tests" }.each do |row|
     captured_output = invocation.fetch("captured_output")
     success_markers = invocation.fetch("success_markers")
     artifacts = invocation.fetch("command_artifacts")
-    artifacts_valid = artifacts.any? && artifacts.all? { |artifact| Digest::SHA256.hexdigest(git_blob(candidate, artifact.fetch("path"))) == artifact.fetch("sha256") && Digest::SHA256.file(artifact.fetch("path")).hexdigest == artifact.fetch("sha256") }
+    artifacts_valid = artifacts.any? && artifacts.all? do |artifact|
+      path = artifact.fetch("path")
+      candidate_digest = artifact.fetch("candidate_sha256")
+      current_digest = artifact.fetch("current_sha256")
+      artifact.fetch("candidate_sha") == candidate &&
+        artifact.fetch("candidate_matches_current") == true &&
+        Digest::SHA256.hexdigest(git_blob(candidate, path)) == candidate_digest &&
+        Digest::SHA256.file(path).hexdigest == current_digest &&
+        candidate_digest == current_digest
+    end
     fresh_stdout, fresh_stderr, fresh_status = Open3.capture3(*argv, chdir: invocation.fetch("working_directory"))
     fresh_output = fresh_stdout + fresh_stderr
     fail!("test lane lacks replayed immutable successful invocation proof: #{invocation.fetch('id')}: #{fresh_stderr.strip}") unless
