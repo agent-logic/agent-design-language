@@ -61,7 +61,7 @@ proposed_steps:
     expected_output: ".csdlc/issues/819/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: Resolution plan, candidate-bound command logs and reconciliation receipt, strict validator, sixteen-case negative matrix, and truthful lifecycle evidence."
+    description: "Implement only the bounded deliverables: Resolution plan, candidate-bound command logs and reconciliation receipt, strict validator, eighteen-case negative matrix, and truthful lifecycle evidence."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "A broad suite cannot repair a non-proving source assessment; operator approval cannot be inferred from the generic cutover; candidate bytes, evidence paths, and logs can drift."
 test_strategy:
-  - "Build the exact plan; run the complete 211-test C-SDLC v3 suite, all-target clippy, and current V3-A validator; validate all 152 receipts and source bindings; run sixteen negative mutations including coordinated plan/receipt drift; run diff and publication-path hygiene."
+  - "Build the exact plan from canonical denominator and source bytes at candidate fb6cbc7f619daa54f901fd2d12f480add682ace3; run the complete 211-test C-SDLC v3 suite, all-target clippy, and current V3-A validator; validate all 152 receipts and source bindings; run eighteen negative mutations including forged source pointers, owner drift, and coordinated plan/receipt drift; run diff and publication-path hygiene."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -156,7 +156,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. Confirm dependency readiness and starting state: The #764 denominator is present; parent #522 owns integration; no execution dependency remains.
 2. Review repo inputs and scoped surfaces before editing: Issue #819; parent #522; D520-RET-001; the #764 denominator; retained-v3 source mapping; exact candidate fb6cbc7f619daa54f901fd2d12f480add682ace3.
-3. Implement only the bounded deliverables: Resolution plan, candidate-bound command logs and reconciliation receipt, strict validator, sixteen-case negative matrix, and truthful lifecycle evidence.
+3. Implement only the bounded deliverables: Resolution plan, candidate-bound command logs and reconciliation receipt, strict validator, eighteen-case negative matrix, and truthful lifecycle evidence.
 4. Run focused proof gates for acceptance: Consume 152 unique rows once; allow execution credit only for the 51 source-supported rows; give each of 101 non-proving rows an exact digest-bound release-gate removal proposal that remains operator-review pending; reject semantic, authority, evidence, disposition, and premature-release drift; exact-head review.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Build the exact plan; run the complete 211-test C-SDLC v3 suite, all-target clippy, and current V3-A validator; validate all 152 receipts and source bindings; run sixteen negative mutations including coordinated plan/receipt drift; run diff and publication-path hygiene.
+- Build the exact plan from canonical denominator and source bytes at candidate fb6cbc7f619daa54f901fd2d12f480add682ace3; run the complete 211-test C-SDLC v3 suite, all-target clippy, and current V3-A validator; validate all 152 receipts and source bindings; run eighteen negative mutations including forged source pointers, owner drift, and coordinated plan/receipt drift; run diff and publication-path hygiene.
 
 ## Execution Handoff
 

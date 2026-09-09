@@ -3,10 +3,18 @@
 
 require "digest"
 require "json"
+require "open3"
 
 DENOMINATOR = "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json"
 SOURCE = "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json"
 OUTPUT = ".csdlc/prepared/issues/819/retained-v3-resolution-plan.json"
+EXPECTED_CANDIDATE = "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+
+def candidate_json(path)
+  bytes, stderr, status = Open3.capture3("git", "show", "#{EXPECTED_CANDIDATE}:#{path}")
+  raise "cannot load canonical candidate path #{path}: #{stderr}" unless status.success?
+  JSON.parse(bytes)
+end
 
 AMENDMENTS = {
   "output-filter-removal" => %w[
@@ -46,8 +54,8 @@ AMENDMENTS = {
 
 amendment_by_row = {}
 AMENDMENTS.each { |kind, ids| ids.each { |id| raise "duplicate amendment #{id}" if amendment_by_row[id]; amendment_by_row[id] = kind } }
-denominator = JSON.parse(File.read(DENOMINATOR)).fetch("remediation_rows").select { |row| row.fetch("mapping_file") == "retained-v3.json" }
-source_rows = JSON.parse(File.read(SOURCE)).fetch("rows").to_h { |row| [row.fetch("row_id"), row] }
+denominator = candidate_json(DENOMINATOR).fetch("remediation_rows").select { |row| row.fetch("mapping_file") == "retained-v3.json" }
+source_rows = candidate_json(SOURCE).fetch("rows").to_h { |row| [row.fetch("row_id"), row] }
 
 rows = denominator.map do |denom|
   source = source_rows.fetch(denom.fetch("row_id"))

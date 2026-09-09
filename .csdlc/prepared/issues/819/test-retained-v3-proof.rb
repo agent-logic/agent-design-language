@@ -58,6 +58,17 @@ end
 mutate_pair(plan, document, "coordinated-disposition-drift") do |plan_copy, receipt_copy|
   [plan_copy, receipt_copy].each { |copy| copy.fetch("rows")[amendment_index].fetch("resolution")["proposed_disposition"] = "amend_without_replacement" }
 end
+mutate_pair(plan, document, "forged-source-pointer") do |plan_copy, receipt_copy|
+  forged = JSON.parse(File.read("docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json"))
+  forged.fetch("rows").find { |row| row.fetch("row_id") == receipt_copy.fetch("rows")[amendment_index].fetch("row_id") }["proposed_result"] = "proven"
+  forged_path = File.join(TMP, "forged-source.json")
+  File.write(forged_path, JSON.pretty_generate(forged) + "\n")
+  plan_copy["source_mapping"] = forged_path
+  [plan_copy, receipt_copy].each { |copy| copy.fetch("rows")[amendment_index]["source_assessment"] = "proven" }
+end
+mutate_pair(plan, document, "owner-drift") do |plan_copy, receipt_copy|
+  [plan_copy, receipt_copy].each { |copy| copy.fetch("rows").first["owner"] = "#forged-owner" }
+end
 
 FileUtils.rm_rf(TMP)
-puts "PASS issue #819 negative matrix: 16/16 invalid receipts rejected"
+puts "PASS issue #819 negative matrix: 18/18 invalid receipts rejected"

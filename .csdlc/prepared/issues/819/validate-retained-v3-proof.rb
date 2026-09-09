@@ -5,7 +5,8 @@ require "digest"
 require "json"
 require "open3"
 
-DENOMINATOR = ENV.fetch("ISSUE819_DENOMINATOR", "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json")
+DENOMINATOR = "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json"
+SOURCE = "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json"
 PLAN = ENV.fetch("ISSUE819_PLAN", ".csdlc/prepared/issues/819/retained-v3-resolution-plan.json")
 RECEIPT = ENV.fetch("ISSUE819_RECEIPT", ".csdlc/evidence/819/retained-v3/reconciliation.json")
 EXPECTED_CANDIDATE = "fb6cbc7f619daa54f901fd2d12f480add682ace3"
@@ -31,9 +32,15 @@ def git_bytes(*args)
   stdout
 end
 
-denominator = JSON.parse(File.read(DENOMINATOR)).fetch("remediation_rows").select { |row| row.fetch("mapping_file") == "retained-v3.json" }
 plan = JSON.parse(File.read(PLAN))
 receipt = JSON.parse(File.read(RECEIPT))
+assert(plan.fetch("denominator") == DENOMINATOR, "plan denominator pointer drift")
+assert(plan.fetch("source_mapping") == SOURCE, "plan source mapping pointer drift")
+denominator_bytes = git_bytes("show", "#{EXPECTED_CANDIDATE}:#{DENOMINATOR}")
+source_bytes = git_bytes("show", "#{EXPECTED_CANDIDATE}:#{SOURCE}")
+assert(File.binread(DENOMINATOR) == denominator_bytes, "working denominator differs from exact candidate")
+assert(File.binread(SOURCE) == source_bytes, "working source mapping differs from exact candidate")
+denominator = JSON.parse(denominator_bytes).fetch("remediation_rows").select { |row| row.fetch("mapping_file") == "retained-v3.json" }
 expected_ids = denominator.map { |row| row.fetch("row_id") }.sort
 plan_ids = plan.fetch("rows").map { |row| row.fetch("row_id") }
 receipt_ids = receipt.fetch("rows").map { |row| row.fetch("row_id") }
@@ -49,12 +56,13 @@ assert(receipt.fetch("candidate").match?(/\A[0-9a-f]{40}\z/), "candidate is not 
 assert(receipt.fetch("candidate") == EXPECTED_CANDIDATE, "receipt is not bound to the #520 candidate")
 assert(git("cat-file", "-t", receipt.fetch("candidate")) == "commit", "candidate commit unavailable")
 
-source_rows = JSON.parse(File.read(plan.fetch("source_mapping"))).fetch("rows").to_h { |row| [row.fetch("row_id"), row] }
+source_rows = JSON.parse(source_bytes).fetch("rows").to_h { |row| [row.fetch("row_id"), row] }
 denominator_by_id = denominator.to_h { |row| [row.fetch("row_id"), row] }
 plan.fetch("rows").each do |row|
   source = source_rows.fetch(row.fetch("row_id"))
   denom = denominator_by_id.fetch(row.fetch("row_id"))
   assert(row.fetch("criterion_id") == denom.fetch("criterion_id"), "criterion identity drift for #{row.fetch('row_id')}")
+  assert(row.fetch("owner") == denom.fetch("owner"), "owner drift for #{row.fetch('row_id')}")
   assert(row.fetch("criterion_text") == source.fetch("criterion_text"), "criterion text drift for #{row.fetch('row_id')}")
   assert(row.fetch("criterion_text_digest") == denom.fetch("criterion_text_digest"), "criterion digest source drift for #{row.fetch('row_id')}")
   assert(row.fetch("source_evidence_paths") == source.fetch("evidence").map { |entry| entry.fetch("path") }.uniq.sort, "source evidence denominator drift for #{row.fetch('row_id')}")

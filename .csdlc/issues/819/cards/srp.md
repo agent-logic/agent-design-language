@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_present"
   recommended_outcome: "block"
-notes: "Findings-first reviews: /root/fix_814_runtime at b91f486e019640be63400dd17da5dff31f926a1d and /root/fix_815_cloud_auth at 0e83f53acba16cb13b42a752e1dda1e5900bfe41. Both heads were clean and read-only. Current repaired head must receive a fresh independent verdict."
+notes: "Findings-first reviews: /root/fix_814_runtime at b91f486e019640be63400dd17da5dff31f926a1d and /root/fix_815_cloud_auth at 0e83f53acba16cb13b42a752e1dda1e5900bfe41 and cd4e93ac186ff9ad9679cc57123759d47f21b163. Every head was clean and reviewed read-only. Current repaired head must receive a fresh independent verdict."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- At b91f486e019640be63400dd17da5dff31f926a1d, /root/fix_814_runtime found two P1, one P2, and one P3: broad root-cause execution promotion, fabricated generic amendment approval, vacuous empty evidence, and trailing-log whitespace. At 0e83f53acba16cb13b42a752e1dda1e5900bfe41, /root/fix_815_cloud_auth found P1 coordinated plan/receipt source-field drift and P2 unspecified amendment-or-removal proposals.
+- At b91f486e019640be63400dd17da5dff31f926a1d, /root/fix_814_runtime found two P1, one P2, and one P3: broad root-cause execution promotion, fabricated generic amendment approval, vacuous empty evidence, and trailing-log whitespace. At 0e83f53acba16cb13b42a752e1dda1e5900bfe41, /root/fix_815_cloud_auth found P1 coordinated plan/receipt source-field drift and P2 unspecified amendment-or-removal proposals. At cd4e93ac186ff9ad9679cc57123759d47f21b163, /root/fix_815_cloud_auth found one P1: source and denominator pointers/bytes were not bound to the canonical frozen candidate and row owner was not bound to the denominator.
 
 ### Dispositions
 
-- All six findings were repaired: execution remains limited to 51 source-supported rows; 101 rows now carry an exact digest-bound remove_from_v0.92.1_retained_release_gate proposal with no product-behavior claim; source assessment, root cause, rationale, and proof boundary bind directly to the canonical source mapping; coordinated plan/receipt negatives enforce them; evidence is nonempty/exact; logs are normalized. Fresh exact-head rereview remains required.
+- All seven findings were repaired: execution remains limited to 51 source-supported rows; 101 rows carry an exact digest-bound remove_from_v0.92.1_retained_release_gate proposal with no product-behavior claim; semantic fields bind to canonical source mapping bytes loaded from exact candidate fb6cbc7f619daa54f901fd2d12f480add682ace3; denominator and source pointers are fixed and their working bytes must equal candidate bytes; owner binds to the candidate denominator; forged-pointer, owner-drift, coordinated plan/receipt, and empty-evidence negatives enforce fail-closed behavior; logs are normalized. Fresh exact-head rereview remains required.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Findings-first reviews: /root/fix_814_runtime at b91f486e019640be63400dd17da5dff31f926a1d and /root/fix_815_cloud_auth at 0e83f53acba16cb13b42a752e1dda1e5900bfe41. Both heads were clean and read-only. Current repaired head must receive a fresh independent verdict.
+Findings-first reviews: /root/fix_814_runtime at b91f486e019640be63400dd17da5dff31f926a1d and /root/fix_815_cloud_auth at 0e83f53acba16cb13b42a752e1dda1e5900bfe41 and cd4e93ac186ff9ad9679cc57123759d47f21b163. Every head was clean and reviewed read-only. Current repaired head must receive a fresh independent verdict.
