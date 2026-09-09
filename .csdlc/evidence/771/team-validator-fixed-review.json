@@ -1,0 +1,24 @@
+{
+  "reviewer": "codex:/root/review_771_routes",
+  "independent": true,
+  "completed_at": "2026-09-09T17:47:53.047053+00:00",
+  "scope": {
+    "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py": "f2faf53c496bcf9ee22af53cfaf8d59a4c414c19",
+    "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py": "8277f7acbeb9a962d480184613174c17dea1fa0c"
+  },
+  "result": "pass",
+  "findings": [],
+  "dispositions": [
+    {
+      "id": "R771-VALIDATOR-1",
+      "disposition": "fixed",
+      "evidence": "Every component now requires independent is True; synthetic explicit-false regression rejects with review_component_independence."
+    },
+    {
+      "id": "R771-VALIDATOR-2",
+      "disposition": "fixed",
+      "evidence": "Aggregate and component ordering now parse timezone-aware datetimes; offset-reversal regression rejects and manual naive/malformed/null probes reject review_timestamp."
+    }
+  ],
+  "validation": "18 synthetic contract tests passed plus manual timestamp rejection/order probes. Validator-only review of exact current file blobs; no substantive V3-F source proof and no tracked edits."
+}

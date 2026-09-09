@@ -1,0 +1,13 @@
+diff --git a/c5d67168df2c923eb77c592b7545386ad0a39234 b/556cb4957407772abfbe135f3e320f1936011c3e
+index c5d67168df..556cb49574 100644
+--- a/c5d67168df2c923eb77c592b7545386ad0a39234
++++ b/556cb4957407772abfbe135f3e320f1936011c3e
+@@ -1376,7 +1376,7 @@ fn write_proof_command_fixture(
+             "repository": "agent-logic/agent-design-language",
+             "branch": "codex/505-v3-f-authority-transition-decision-exec",
+             "worktree": repository_root,
+-            "registry_version": "1.0.3",
++            "registry_version": "1.0.4",
+             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+             "card_updates": {}
+         }))

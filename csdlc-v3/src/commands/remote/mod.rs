@@ -1695,19 +1695,48 @@ fn reconcile_github_mutation(
                 "GitHub credential name is not safe for child-process injection",
             )
         })?;
-    let output = process.run(invocation.clone());
-    if output.truncated || output.status != ProcessStatus::Exit(0) {
-        return Err(remote_finding(
-            "github_mutation_reconciliation_unavailable",
-            "authenticated GitHub readback did not complete; durable intent prevents mutation replay",
-        ));
-    }
-    let value: serde_json::Value = serde_json::from_str(&output.stdout).map_err(|_| {
-        remote_finding(
-            "github_mutation_reconciliation_invalid_json",
-            "authenticated GitHub reconciliation returned non-JSON output",
-        )
-    })?;
+    let value = if matches!(request.mutation, GithubMutation::IssueComment { .. }) {
+        // A full page is not authenticated absence. Scan the whole bounded
+        // collection even after a match so duplicate operation markers fail closed.
+        let mut comments = Vec::new();
+        let mut complete = false;
+        for page in 1..=100 {
+            let mut argv = invocation.argv().to_vec();
+            argv.push(page.to_string());
+            let mut page_invocation = CommandInvocation::new(GITHUB_READ_ONLY_ADAPTER, argv)
+                .map_err(|_| {
+                    remote_finding(
+                        "github_reconciliation_invocation_rejected",
+                        "invalid comment page invocation",
+                    )
+                })?;
+            page_invocation.credential_scope = invocation.credential_scope.clone();
+            let value = read_mutation_reconciliation_page(page_invocation, process)?;
+            let page_comments = value
+                .as_array()
+                .filter(|items| items.len() <= 100)
+                .ok_or_else(|| {
+                    remote_finding(
+                        "github_mutation_reconciliation_invalid_json",
+                        "authenticated comment page is not a bounded array",
+                    )
+                })?;
+            comments.extend(page_comments.iter().cloned());
+            if page_comments.len() < 100 {
+                complete = true;
+                break;
+            }
+        }
+        if !complete {
+            return Err(remote_finding(
+                "github_mutation_reconciliation_incomplete",
+                "comment scan reached its page bound; absence and replay remain unauthorized",
+            ));
+        }
+        serde_json::Value::Array(comments)
+    } else {
+        read_mutation_reconciliation_page(invocation.clone(), process)?
+    };
     let (issue, pull_request, remote_object_id) =
         match_reconciled_mutation(request, operation_marker, &value)?;
     let canonical = serde_json::to_string(&value).map_err(|_| {
@@ -1732,6 +1761,25 @@ fn reconcile_github_mutation(
         },
         invocation,
     ))
+}
+
+fn read_mutation_reconciliation_page(
+    invocation: CommandInvocation,
+    process: &mut impl ProcessAdapter,
+) -> Result<serde_json::Value, RemoteRouteFinding> {
+    let output = process.run(invocation);
+    if output.truncated || output.status != ProcessStatus::Exit(0) {
+        return Err(remote_finding(
+            "github_mutation_reconciliation_unavailable",
+            "authenticated GitHub readback did not complete; durable intent prevents mutation replay",
+        ));
+    }
+    serde_json::from_str(&output.stdout).map_err(|_| {
+        remote_finding(
+            "github_mutation_reconciliation_invalid_json",
+            "authenticated GitHub reconciliation returned non-JSON output",
+        )
+    })
 }
 
 fn github_mutation_reconciliation_invocation(
@@ -1784,9 +1832,9 @@ fn match_reconciled_mutation(
     value: &serde_json::Value,
 ) -> Result<(u64, Option<u64>, Option<u64>), RemoteRouteFinding> {
     let candidates = github_readback_candidates(value);
-    let matched = candidates
+    let mut matches = candidates
         .into_iter()
-        .find(|candidate| match &request.mutation {
+        .filter(|candidate| match &request.mutation {
             GithubMutation::IssueCreate {
                 title,
                 body,
@@ -1878,12 +1926,18 @@ fn match_reconciled_mutation(
                     && candidate["draft"].as_bool() == Some(false)
             }
         });
-    let Some(matched) = matched else {
+    let Some(matched) = matches.next() else {
         return Err(remote_finding(
             "github_mutation_not_reconciled",
             "authenticated readback did not contain the exact operation marker and expected state",
         ));
     };
+    if matches!(request.mutation, GithubMutation::IssueComment { .. }) && matches.next().is_some() {
+        return Err(remote_finding(
+            "github_mutation_reconciliation_ambiguous",
+            "multiple comments match the exact operation; replay remains unauthorized",
+        ));
+    }
     let pull_request = match request.mutation {
         GithubMutation::PullRequestCreate { .. }
         | GithubMutation::PullRequestUpdate { .. }

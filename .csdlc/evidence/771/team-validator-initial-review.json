@@ -1,0 +1,37 @@
+{
+  "reviewer": "codex:/root/review_771_routes",
+  "completed_at": "2026-09-09T17:47:06.574861+00:00",
+  "scope": {
+    "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py": "f6bfffc80df3d63052b217dacc60db49b4fb2610",
+    "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py": "a0c1211547bb4b601a80e267ac1852393a7123aa"
+  },
+  "result": "blocked",
+  "boundary": "Validator-only current working diff review against 7c5b787341; not substantive V3-F source proof. Synthetic fixture reproductions only; no tracked edits or live actions.",
+  "findings": [
+    {
+      "id": "R771-VALIDATOR-1",
+      "severity": "P2",
+      "actionable": true,
+      "in_scope": true,
+      "disposition": "unresolved",
+      "title": "Require component independence instead of inheriting aggregate claim",
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
+      "lines": "66-73",
+      "evidence": "Using existing MappingContract.team_fixture, set component independent=false, rewrite component and refresh its sha256. validate(mapping, assignment=a, review=r) returns passed. Aggregate independent=true currently overrides explicitly non-independent component.",
+      "recommendation": "Define and enforce component independence (independent is True) for every required lane, or reject explicit contradiction and establish an equivalent assignment-level independence contract. Add a synthetic negative for independent=false."
+    },
+    {
+      "id": "R771-VALIDATOR-2",
+      "severity": "P2",
+      "actionable": true,
+      "in_scope": true,
+      "disposition": "unresolved",
+      "title": "Compare receipt timestamps chronologically",
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
+      "lines": "68-69",
+      "evidence": "Using team_fixture assigned_at=2026-01-01T00:00:00Z and aggregate completed_at=2026-01-01T00:01:00Z, set component completed_at=2026-01-01T00:00:30-08:00, rewrite and refresh digest. validate returns passed though component completion is 08:00:30Z, later than aggregate. Plain string comparisons cannot prove order for differing offsets or noncanonical formats.",
+      "recommendation": "Parse timezone-aware ISO8601 timestamps and compare UTC instants, rejecting invalid/naive values; alternatively require one strict canonical UTC format before comparison. Apply consistently to aggregate assignment order and component order. Add offset-reversal and malformed-time negatives."
+    }
+  ],
+  "positive_assessment": "Exact lane/reviewer key sets, component digest and source/scope/reviewer matching, no unreviewed paths, blocked/actionable findings, disjoint complete scope, exact criterion keys and at least one passing assessment per criterion are checked. Existing tests cover absent lane, blocked component and replaced reviewer, but omit the two accepted contradictions."
+}

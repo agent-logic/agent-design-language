@@ -394,13 +394,31 @@ fn encode_query_value(value: &str) -> String {
 fn github_read_only_curl_invocation(
     invocation: &CommandInvocation,
 ) -> Result<CommandInvocation, ProcessOutput> {
-    let [operation, repository, number] = invocation.argv() else {
-        return Err(ProcessOutput {
+    let (operation, repository, number, page) = match invocation.argv() {
+        [operation, repository, number] => (operation, repository, number, None),
+        [operation, repository, number, page] if operation == "issue-comments" => {
+            (operation, repository, number, Some(page))
+        }
+        _ => return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
-            stderr: "github read-only adapter requires operation, repository, and number".into(),
+            stderr: "github read-only adapter requires operation, repository, number, and optional comment page".into(),
             truncated: false,
-        });
+        }),
+    };
+    let page = match page {
+        None => 1,
+        Some(page) => match page.parse::<u64>() {
+            Ok(page @ 1..=100) => page,
+            _ => {
+                return Err(ProcessOutput {
+                    status: ProcessStatus::Exit(2),
+                    stdout: String::new(),
+                    stderr: "github comment page must be within 1 through 100".into(),
+                    truncated: false,
+                })
+            }
+        },
     };
     if !matches!(
         operation.as_str(),
@@ -497,7 +515,7 @@ fn github_read_only_curl_invocation(
             "--header".to_owned(),
             "X-GitHub-Api-Version: 2022-11-28".to_owned(),
             if operation == "issue-comments" {
-                format!("https://api.github.com/repos/{repository}/{resource}/{number}/comments?per_page=100")
+                format!("https://api.github.com/repos/{repository}/{resource}/{number}/comments?per_page=100&page={page}")
             } else {
                 format!("https://api.github.com/repos/{repository}/{resource}/{number}")
             },
@@ -889,6 +907,38 @@ fn is_sensitive_key(key: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // PVF: required deterministic small local argv contract; no credentials/network.
+    #[test]
+    fn comment_page_argv_is_bounded_and_reaches_curl_url() {
+        for page in ["1", "2", "100"] {
+            let request = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [
+                    "issue-comments",
+                    "agent-logic/agent-design-language",
+                    "771",
+                    page,
+                ],
+            )
+            .unwrap();
+            let curl = github_read_only_curl_invocation(&request).unwrap();
+            assert_eq!(curl.argv().last().unwrap(), &format!("https://api.github.com/repos/agent-logic/agent-design-language/issues/771/comments?per_page=100&page={page}"));
+        }
+        for page in ["0", "101", "bad"] {
+            let request = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [
+                    "issue-comments",
+                    "agent-logic/agent-design-language",
+                    "771",
+                    page,
+                ],
+            )
+            .unwrap();
+            assert!(github_read_only_curl_invocation(&request).is_err());
+        }
+    }
 
     #[test]
     fn github_read_only_adapter_supports_pull_request_head_reconciliation() {

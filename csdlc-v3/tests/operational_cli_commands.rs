@@ -186,7 +186,7 @@ fn operational_fixture(name: &str) -> OperationalFixture {
             .join("worktrees/issue-505")
             .to_string_lossy()
             .into_owned(),
-        registry_version: "1.0.4".into(),
+        registry_version: "1.0.5".into(),
         expected_lifecycle_digest: None,
         schedule_readiness: None,
         shepherd_routing: None,
@@ -374,7 +374,7 @@ fn v2_selector_keeps_named_local_cli_in_construction_mode() {
             .join("worktrees/issue-505")
             .to_string_lossy()
             .into_owned(),
-        registry_version: "1.0.4".into(),
+        registry_version: "1.0.5".into(),
         expected_lifecycle_digest: None,
         schedule_readiness: None,
         shepherd_routing: None,

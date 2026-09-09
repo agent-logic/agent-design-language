@@ -119,6 +119,8 @@ def negative(ledger):
 
 
 if __name__ == "__main__":
+    if sys.argv[1:] in (["--v3f-current"], ["--v3f-current", "--negative"]):
+        sys.exit(subprocess.call([sys.executable, str(HERE / "v3f-current/validate.py"), *sys.argv[2:]]))
     ledger = json.loads((HERE / "corrections.json").read_text())
     assert sys.argv[1:] in ([], ["--negative"]), "usage: validate.py [--negative]"
     print(json.dumps(negative(ledger) if sys.argv[1:] else validate(ledger), sort_keys=True))
