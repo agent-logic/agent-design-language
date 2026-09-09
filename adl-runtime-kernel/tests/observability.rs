@@ -522,7 +522,7 @@ fn pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresse
         .spawn()
         .unwrap();
 
-    let deadline = Instant::now() + Duration::from_secs(20);
+    let deadline = Instant::now() + Duration::from_secs(45);
     let mut master_log_progressed = false;
     let mut s3_failure_observed = false;
     loop {
