@@ -1,6 +1,6 @@
 # Issue #523 planning repair handoff
 
-Status: planning corrections and the operator-authorized native validator repair are implemented. Native validation of the real #523 six-card bundle passes. Publication and exact-head review receipts are retained through the native lifecycle route; this document does not claim merge, #524/#525 completion or release approval.
+Status: docs-only planning corrections. Native tooling implementation and its known review findings are extracted into #749; branch-name reconciliation remains tracked in #746. This document does not claim merge, #524/#525 completion or release approval.
 
 ## Authorized scope and current steering
 
@@ -27,19 +27,15 @@ Reviewer: independent Codex subagent `review_523`, read-only review of tracked d
 
 `python3 docs/milestones/v0.92.2/validate_planning.py --self-test` passed. Checks cover YAML/specification denominators, existing identities/urgency, dependencies, release-tail order, product/support convergence, shared-contract/review freshness obligations, links and preservation of current-release gates. Six deliberately invalid planning variants are rejected. `git diff --check` passed. These are docs/local-CPU deterministic issue gates, not Runtime or release proof. Python 3 plus Ruby standard YAML are the declared validator dependencies.
 
-## Native tooling defect and repair
+## Tooling extraction
 
-The native v3 issue initialization, typed edits and bind succeeded. Native `validate` rejects all six cards with `card_structure_invalid`, while its lifecycle digest check passes. At the baseline, `csdlc-v3/src/commands/local/mod.rs:2559` resolves an active `docs/templates/prompts/1.0.3/<card>.md` schema through two parent directories to the nonexistent `docs/templates/prompts/schemas/<card>.structure.json`, ignoring the registry's actual versioned schema path. The failure was captured separately under the primary checkout's ignored `.adl/reviews/issue-523/` packet. No alias schema, hand-edited state, old-generation lifecycle fallback or raw GitHub write was used to bypass it.
+The operator restored PR #743 to docs-only scope. Native card validation, PR reconciliation/readiness, worktree routing and their tests are removed from its final diff. Issue [#749](https://github.com/agent-logic/agent-design-language/issues/749) owns the preserved implementation and the incomplete bind-to-worktree state handoff; [#746](https://github.com/agent-logic/agent-design-language/issues/746) owns valid-branch reconciliation.
 
-The native bind was invoked after the validation failure and succeeded; it does not establish card validation or publication readiness. This handoff does not accept the failed validator as a pass. The operator subsequently authorized the bounded tooling repair within #523. The validator now reads the registry-declared schema and checks actual structure instead of requiring every scaffold vocabulary line. The repaired native binary validates all six real #523 cards: `lifecycle_digest_valid` and `six_card_validation_passed`. See [native-validator-repair.md](native-validator-repair.md) for the preserved baseline defect, repair contract and proof classification.
-
-## Publication follow-through
-
-Typed publication exposed and repaired a missing real-adapter branch lookup and a PR/issue identity mismatch. Authenticated native reconciliation recovered existing PR #743 without repeating creation. See [native-publication-repair.md](native-publication-repair.md); that repair passed 185 tests. The subsequent [ready-command repair](native-ready-repair.md) uses the documented GitHub mutation with authenticated identity checks; the final native suite passes 190 tests. The original validator and review evidence remains historical and intact.
+Original implementation and evidence remain available at commit `e92ecc96e2bdb484278a067eac8166ffe4b76acd`, preserved by `codex/749-native-tooling-extraction`. The earlier 191-test pass did not prove native state handoff: the test manually relocated records. Neither that pass nor the earlier review is acceptance of the extracted tooling.
 
 ## Next owners
 
-#523 publishes these planning corrections together with the authorized validator repair after independent review. #524 owns the successor closeout-plan result; #525 reviews the settled planning revision independently. Their preparation can overlap current closeout, but current ceremony still requires both #522 remediation and #525 final planning review. #718 implementation belongs to its own urgent execution lane, not this documentation change.
+#523 publishes only these planning corrections and the focused planning validator after independent review. #524 owns the successor closeout-plan result; #525 reviews the settled planning revision independently. Their preparation can overlap current closeout, but current ceremony still requires both #522 remediation and #525 final planning review. #718 implementation belongs to its own urgent execution lane, not this documentation change.
 
 ## Subsequent operator addition
 

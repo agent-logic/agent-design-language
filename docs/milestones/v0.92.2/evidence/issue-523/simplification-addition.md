@@ -6,14 +6,8 @@ The milestone now has 41 rows: the previous 33 plus eight SIM rows. SIM-01 start
 
 The original plan and study files are preserved. Source hashes accompany the tracked promotion. Historical study tables, claims and limitations are retained; the local raw data has not been recomputed or published here. Prior review and publication outputs remain unchanged.
 
-## Primary-checkout correction
+## Scope and validation
 
-The operator required all writes off main. No tracked planning edits were on main; generated #523 local state and completed transaction records remained there from the previous native route. They were relocated to this issue worktree with byte-for-byte hash verification, and primary `git status --short --branch` is clean on main. No pending issue transaction was relocated.
+PR #743 contains documentation, planning data, study figures, and the focused planning validator. Native tooling and its regression tests were extracted to #749; the branch-name finding is tracked in #746. The original source commit and review outputs remain preserved. The native state handoff still needs correction and is not proved by the previous test-side manual relocation.
 
-The native context guard previously rejected every repository root under the approved worktree parent, forcing local card operations back to the primary checkout. The bounded correction permits post-bind operations only in the exact linked, Git-registered issue worktree with matching persisted binding. It retains authority, HEAD, containment and lifecycle CAS checks, denies issue-init/bind and unrelated roots, allows legitimate dirty implementation files, and rejects relocated binding journals before recovery.
-
-The new regression is deterministic local CPU/Git topology proof, with no network or paid resources. It proves edit and validation in the linked issue worktree without recreating primary issue state, and rejects wrong branch/path, issue-init/bind and a pending binding journal. This corrects worktree routing; the larger SIM program remains future work.
-
-## Verified local results
-
-Planning self-test passes41 work packages and9 negative fixtures. All191 native tests, formatting and Clippy pass. The native binary edited and validated all six real523 cards from the bound worktree; primary main remained clean afterward. Independent review found one interrupted-edit recovery defect; it was corrected with a genuine subprocess crash/restart regression at the backup-rename boundary, then re-reviewed without remaining findings.
+Planning self-test passes 41 work packages and nine negative fixtures. Native-suite results are historical tooling evidence and are not this docs-only change's validation claim. All tracked edits for this extraction occur in the #523 issue worktree.

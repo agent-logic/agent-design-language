@@ -1132,7 +1132,6 @@ fn restart_reconciles_pr_create_without_replaying_mutation() {
         restart.invocations[0].program,
         super::GITHUB_READ_ONLY_ADAPTER
     );
-    assert_eq!(result.receipt.issue, 505);
     assert_eq!(result.receipt.pull_request, Some(591));
     assert!(result.receipt.idempotent_replay);
     assert_eq!(result.receipt.response_digest, None);
@@ -1184,7 +1183,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": true
             })
         ),
-        Ok((505, Some(591), Some(591)))
+        Ok((591, Some(591), Some(591)))
     );
 
     update.mutation = super::GithubMutation::PullRequestReady;
@@ -1200,7 +1199,7 @@ fn reconciliation_matches_issue_edit_pr_update_and_ready_exact_state() {
                 "draft": false
             })
         ),
-        Ok((505, Some(591), Some(591)))
+        Ok((591, Some(591), Some(591)))
     );
 }
 
@@ -1292,129 +1291,4 @@ fn operational_dispatcher_rejects_forged_exact_review_sha() {
         "canonical_exact_review_sha_mismatch"
     );
     assert!(process.invocations.is_empty());
-}
-
-// PVF: deterministic local contract tests, fake authenticated transport, small Git fixture;
-// release gate: csdlc-v3 library suite. Does not prove live GitHub execution.
-#[test]
-fn ready_mutation_uses_authenticated_node_graphql_and_reconciles_exact_pr() {
-    let root = mutation_repo("graphql-ready", true);
-    let head = mutation_head(&root);
-    let mut request = mutation_request(&head, super::GithubMutation::PullRequestReady);
-    request.pull_request = Some(591);
-    let observation = serde_json::json!({"number":591,"node_id":"PR_example123","state":"open","draft":true,"base":{"repo":{"full_name":request.repository}},"head":{"sha":head}});
-    let response = serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR_example123","number":591,"isDraft":false,"headRefOid":head,"repository":{"nameWithOwner":request.repository}}}}});
-    let digest = super::github_mutation_operation_digest(&request);
-    let mut process = SequencedProcessAdapter::new(vec![
-        process_output(crate::adapters::ProcessStatus::Exit(0), observation),
-        process_output(crate::adapters::ProcessStatus::Exit(0), response),
-        process_output(
-            crate::adapters::ProcessStatus::Exit(0),
-            serde_json::json!({"number":591,"head":{"sha":head},"draft":false}),
-        ),
-    ])
-    .requiring_intent(super::github_mutation_intent_path(&root, &digest).unwrap());
-    let result = super::execute_github_mutation(&root, &request, &mut process).unwrap();
-    assert_eq!(result.receipt.issue, 505);
-    assert_eq!(result.receipt.pull_request, Some(591));
-    assert_eq!(process.invocations.len(), 3);
-    assert_eq!(
-        process.invocations[0].argv(),
-        &["pull-request", "agent-logic/agent-design-language", "591"]
-    );
-    assert_eq!(&process.invocations[1].argv()[..2], &["POST", "graphql"]);
-    assert!(process
-        .invocations
-        .iter()
-        .all(|invocation| invocation.child_credential_name().is_some()));
-    assert!(
-        !PathBuf::from(&process.invocations[1].argv()[2]).exists(),
-        "private payload removed after dispatch"
-    );
-}
-
-#[test]
-fn ready_node_lookup_rejects_wrong_identity_head_and_unavailable_observation() {
-    let mut request = mutation_request(REVISION, super::GithubMutation::PullRequestReady);
-    request.pull_request = Some(591);
-    let valid = serde_json::json!({"number":591,"node_id":"PR_example123","state":"open","draft":true,"base":{"repo":{"full_name":request.repository}},"head":{"sha":REVISION}});
-    for pointer in [
-        "/number",
-        "/node_id",
-        "/base/repo/full_name",
-        "/head/sha",
-        "/state",
-        "/draft",
-    ] {
-        let mut invalid = valid.clone();
-        *invalid.pointer_mut(pointer).unwrap() = serde_json::Value::Null;
-        let mut process = SequencedProcessAdapter::new(vec![process_output(
-            crate::adapters::ProcessStatus::Exit(0),
-            invalid,
-        )]);
-        assert!(
-            super::observe_ready_node_id(&request, &mut process).is_err(),
-            "{pointer}"
-        );
-        assert_eq!(process.invocations.len(), 1);
-        assert_eq!(
-            process.invocations[0].program,
-            super::GITHUB_READ_ONLY_ADAPTER
-        );
-    }
-    let mut process = SequencedProcessAdapter::new(vec![process_output(
-        crate::adapters::ProcessStatus::TimedOut,
-        valid,
-    )]);
-    assert!(super::observe_ready_node_id(&request, &mut process).is_err());
-}
-
-#[test]
-fn ready_graphql_response_rejects_errors_and_wrong_result_identity() {
-    let mut request = mutation_request(REVISION, super::GithubMutation::PullRequestReady);
-    request.pull_request = Some(591);
-    let valid = serde_json::json!({"data":{"markPullRequestReadyForReview":{"pullRequest":{"id":"PR_example123","number":591,"isDraft":false,"headRefOid":REVISION,"repository":{"nameWithOwner":request.repository}}}}});
-    assert!(super::validate_mutation_response(&request, &valid.to_string()).is_ok());
-    for pointer in [
-        "/data/markPullRequestReadyForReview/pullRequest/number",
-        "/data/markPullRequestReadyForReview/pullRequest/isDraft",
-        "/data/markPullRequestReadyForReview/pullRequest/headRefOid",
-        "/data/markPullRequestReadyForReview/pullRequest/repository/nameWithOwner",
-    ] {
-        let mut invalid = valid.clone();
-        *invalid.pointer_mut(pointer).unwrap() = serde_json::Value::Null;
-        assert!(super::validate_mutation_response(&request, &invalid.to_string()).is_err());
-    }
-    let mut errors = valid;
-    errors["errors"] = serde_json::json!([{"message":"permission denied"}]);
-    assert!(super::validate_mutation_response(&request, &errors.to_string()).is_err());
-    assert!(super::validate_mutation_response(&request, "not json").is_err());
-}
-
-#[test]
-fn ready_restart_reconciles_retained_intent_without_repeating_graphql() {
-    let root = mutation_repo("graphql-ready-restart", true);
-    let head = mutation_head(&root);
-    let mut request = mutation_request(&head, super::GithubMutation::PullRequestReady);
-    request.pull_request = Some(591);
-    let digest = super::github_mutation_operation_digest(&request);
-    let intent = super::github_mutation_intent_path(&root, &digest).unwrap();
-    let mut first = SequencedProcessAdapter::new(vec![
-        process_output(crate::adapters::ProcessStatus::Exit(0),serde_json::json!({"number":591,"node_id":"PR_example123","state":"open","draft":true,"base":{"repo":{"full_name":request.repository}},"head":{"sha":head}})),
-        process_output(crate::adapters::ProcessStatus::Exit(0),serde_json::json!({"errors":[{"message":"uncertain result"}]})),
-    ]).requiring_intent(intent.clone());
-    assert!(super::execute_github_mutation(&root, &request, &mut first).is_err());
-    assert!(intent.exists());
-    let mut restart = SequencedProcessAdapter::new(vec![process_output(
-        crate::adapters::ProcessStatus::Exit(0),
-        serde_json::json!({"number":591,"head":{"sha":head},"draft":false}),
-    )]);
-    let result = super::execute_github_mutation(&root, &request, &mut restart).unwrap();
-    assert!(result.receipt.idempotent_replay);
-    assert_eq!(result.receipt.issue, 505);
-    assert_eq!(restart.invocations.len(), 1);
-    assert_eq!(
-        restart.invocations[0].program,
-        super::GITHUB_READ_ONLY_ADAPTER
-    );
 }

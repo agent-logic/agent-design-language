@@ -284,7 +284,6 @@ pub struct WorktreeRegistration {
 /// Prompt registry observation used by the card-rendering plan.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PromptRegistry {
-    pub structure_schema_paths: BTreeMap<String, String>,
     pub version: String,
     pub card_kinds: BTreeSet<String>,
     pub template_paths: BTreeMap<String, String>,
@@ -485,7 +484,6 @@ impl PromptRegistry {
                 )]
             })?;
         let mut template_paths = BTreeMap::new();
-        let mut structure_schema_paths = BTreeMap::new();
         for (kind, entry) in templates {
             let Some(path) = entry.get("path").and_then(Value::as_str) else {
                 return Err(vec![finding(
@@ -494,25 +492,12 @@ impl PromptRegistry {
                     "active registry template entries must declare paths",
                 )]);
             };
-            let Some(schema_path) = entry
-                .get("structure_schema_path")
-                .and_then(Value::as_str)
-                .filter(|path| !path.is_empty())
-            else {
-                return Err(vec![finding(
-                    PlanStatus::Blocked,
-                    "registry_structure_schema_missing",
-                    "active registry template entries must declare structure_schema_path",
-                )]);
-            };
-            structure_schema_paths.insert(kind.clone(), schema_path.to_owned());
             template_paths.insert(kind.clone(), path.to_owned());
         }
         Ok(Self {
             version: version.into(),
             card_kinds: templates.keys().cloned().collect(),
             template_paths,
-            structure_schema_paths,
         })
     }
 }
@@ -1306,7 +1291,7 @@ pub fn execute_operational_local_route(
     }
     validate_contract(request)?;
     plan_cards(request.issue, &request.registry_version, registry)?;
-    validate_context(route, request, context)?;
+    validate_context(request, context)?;
     let _issue_lock = acquire_issue_mutation_lock(&context.state_root, request.issue)?;
     recover_pending_local_transaction(context, request.issue)?;
     let request_digest = local_request_digest(request)?;
@@ -1822,7 +1807,6 @@ fn local_transaction_failpoint(name: &str) {
 }
 
 fn validate_context(
-    route: &str,
     request: &LocalPreparationRequest,
     context: &OperationalLocalContext,
 ) -> Result<(), Vec<DoctorFinding>> {
@@ -1852,70 +1836,11 @@ fn validate_context(
     if repository_root == context.allowed_worktree_parent
         || repository_root.starts_with(&context.allowed_worktree_parent)
     {
-        // Once Git has registered the issue checkout, local state belongs there.
-        // Do not force edits and validation back into the primary checkout.
-        let mut binding_paths =
-            vec![state_root.join(format!("issues/{}/index.json", request.issue))];
-        let journal_path = local_transaction_journal_path(context, request.issue);
-        if journal_path.exists() {
-            let journal: Option<LocalMutationJournal> = fs::read(&journal_path)
-                .ok()
-                .and_then(|bytes| serde_json::from_slice(&bytes).ok());
-            let Some(journal) = journal.filter(|journal| {
-                journal.schema == "csdlc.v3.local_mutation_journal.v1"
-                    && journal.issue == request.issue
-                    && journal.route == "edit"
-                    && journal.bind_branch.is_none()
-                    && journal.bind_worktree.is_none()
-                    && journal.request_digest.len() == 64
-                    && journal
-                        .request_digest
-                        .bytes()
-                        .all(|byte| byte.is_ascii_hexdigit())
-            }) else {
-                return Err(vec![finding(
-                    PlanStatus::Blocked,
-                    "local_transaction_journal_invalid",
-                    "bound checkout can only recover its verified pending edit",
-                )]);
-            };
-            let (stage, backup, _) =
-                local_transaction_paths(context, request.issue, "edit", &journal.request_digest);
-            binding_paths.extend([backup.join("index.json"), stage.join("index.json")]);
-        }
-        let binding_matches = binding_paths.iter().any(|path| {
-            if !canonical_existing_ancestor_local(path)
-                .is_some_and(|ancestor| ancestor.starts_with(state_root))
-            {
-                return false;
-            }
-            let index: Option<Value> = fs::read(path)
-                .ok()
-                .and_then(|bytes| serde_json::from_slice(&bytes).ok());
-            index.is_some_and(|value| {
-                value["schema"] == "csdlc.v3.local_state.v1"
-                    && value["issue"] == request.issue
-                    && value["phase"] == "bound"
-                    && value["repository"] == request.repository
-                    && value["branch"] == request.branch
-                    && value["worktree"] == request.worktree
-            })
-        });
-        let bound_checkout = !matches!(route, "issue" | "bind")
-            && binding_matches
-            && repository_root != context.allowed_worktree_parent
-            && repository_root.join(".git").is_file()
-            && Path::new(&request.worktree)
-                .canonicalize()
-                .is_ok_and(|path| path == repository_root)
-            && git_worktree_registration(&repository_root, &request.branch, &repository_root)?;
-        if !bound_checkout {
-            return Err(vec![finding(
-                PlanStatus::Failed,
-                "invalid_operational_roots",
-                "a root under the worktree parent must be the exact registered issue checkout",
-            )]);
-        }
+        return Err(vec![finding(
+            PlanStatus::Failed,
+            "invalid_operational_roots",
+            "repository root and worktree parent must be distinct",
+        )]);
     }
     if request.expected_lifecycle_digest != context.expected_lifecycle_digest {
         return Err(vec![finding(
@@ -2227,7 +2152,6 @@ fn bind_operational_issue(
         version: registry_version.to_owned(),
         card_kinds: BTreeSet::new(),
         template_paths: BTreeMap::new(),
-        structure_schema_paths: BTreeMap::new(),
     };
     let generation = observed.generation.unwrap_or(1) + 1;
     let (generation, digest) = persist_index(&stage, request, &registry, "bound", generation)?;
@@ -2632,16 +2556,32 @@ fn validation_findings(
     findings
 }
 
-mod structure;
-
 fn structure_valid(registry: &PromptRegistry, kind: &str, markdown: &str) -> bool {
-    let Some(schema_path) = registry.structure_schema_paths.get(kind) else {
+    let Some(template_path) = registry.template_paths.get(kind) else {
+        return false;
+    };
+    let schema_path = PathBuf::from(template_path)
+        .parent()
+        .and_then(Path::parent)
+        .map(|root| root.join(format!("schemas/{kind}.structure.json")));
+    let Some(schema_path) = schema_path else {
         return false;
     };
     let Ok(bytes) = fs::read(schema_path) else {
         return false;
     };
-    structure::validate(&bytes, &registry.version, kind, markdown)
+    let Ok(schema) = serde_json::from_slice::<Value>(&bytes) else {
+        return false;
+    };
+    schema
+        .get("scaffold_lines")
+        .and_then(Value::as_array)
+        .is_some_and(|lines| {
+            lines
+                .iter()
+                .filter_map(Value::as_str)
+                .all(|line| markdown.lines().any(|candidate| candidate.trim() == line))
+        })
 }
 
 fn persist_index(

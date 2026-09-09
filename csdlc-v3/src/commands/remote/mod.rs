@@ -981,19 +981,9 @@ pub fn execute_github_mutation(
         });
     }
 
-    let ready_node_id = if matches!(request.mutation, GithubMutation::PullRequestReady) {
-        Some(observe_ready_node_id(request, process)?)
-    } else {
-        None
-    };
     persist_json_create_new(&intent_path, &intent)?;
-    let input_path = write_mutation_input(
-        repo_root,
-        &operation_digest,
-        &operation_marker,
-        request,
-        ready_node_id.as_deref(),
-    )?;
+    let input_path =
+        write_mutation_input(repo_root, &operation_digest, &operation_marker, request)?;
     let invocation = github_mutation_invocation(request, &input_path)?
         .with_child_credential(credential_name)
         .map_err(|_| {
@@ -1290,49 +1280,6 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
     }
 }
 
-fn observe_ready_node_id(
-    request: &GithubMutationRequest,
-    process: &mut impl ProcessAdapter,
-) -> Result<String, RemoteRouteFinding> {
-    let invocation = github_mutation_reconciliation_invocation(request, "")?
-        .with_child_credential(mutation_credential_name(request)?)
-        .map_err(|_| {
-            remote_finding(
-                "github_credential_scope_invalid",
-                "ready node lookup requires a safe credential scope",
-            )
-        })?;
-    let output = process.run(invocation);
-    if output.status != ProcessStatus::Exit(0) || output.truncated {
-        return Err(remote_finding(
-            "github_ready_observation_unavailable",
-            "authenticated PR node lookup did not complete",
-        ));
-    }
-    let value: serde_json::Value = serde_json::from_str(&output.stdout).map_err(|_| {
-        remote_finding(
-            "github_ready_observation_invalid",
-            "PR node lookup returned invalid JSON",
-        )
-    })?;
-    let node = value["node_id"]
-        .as_str()
-        .filter(|node| crate::adapters::safe_github_node_id(node));
-    if value["number"].as_u64() != request.pull_request
-        || value["base"]["repo"]["full_name"].as_str() != Some(request.repository.as_str())
-        || value["head"]["sha"].as_str() != Some(request.expected_head_sha.as_str())
-        || value["state"].as_str() != Some("open")
-        || value["draft"].as_bool().is_none()
-        || node.is_none()
-    {
-        return Err(remote_finding(
-            "github_ready_observation_mismatch",
-            "PR node lookup must match the requested repository, number, exact head and open state",
-        ));
-    }
-    Ok(node.unwrap().to_owned())
-}
-
 fn github_mutation_invocation(
     request: &GithubMutationRequest,
     input_path: &Path,
@@ -1352,7 +1299,26 @@ fn github_mutation_invocation(
             request.repository,
             request.pull_request.unwrap_or_default()
         ),
-        GithubMutation::PullRequestReady => "graphql".into(),
+        GithubMutation::PullRequestReady => {
+            return CommandInvocation::new(
+                GITHUB_OPERATIONAL_ADAPTER,
+                [
+                    "POST".into(),
+                    format!(
+                        "repos/{}/pulls/{}/ready_for_review",
+                        request.repository,
+                        request.pull_request.unwrap_or_default()
+                    ),
+                    input_path.to_string_lossy().into_owned(),
+                ],
+            )
+            .map_err(|_| {
+                remote_finding(
+                    "github_mutation_invocation_rejected",
+                    "GitHub mutation must use structured argv",
+                )
+            })
+        }
     };
     let method = if matches!(
         request.mutation,
@@ -1383,7 +1349,6 @@ fn write_mutation_input(
     digest: &str,
     operation_marker: &str,
     request: &GithubMutationRequest,
-    ready_node_id: Option<&str>,
 ) -> Result<PathBuf, RemoteRouteFinding> {
     let dir = git_control_dir(repo_root)
         .ok_or_else(|| {
@@ -1441,10 +1406,7 @@ fn write_mutation_input(
                 "draft": draft
             })
         }
-        GithubMutation::PullRequestReady => serde_json::json!({
-            "query": crate::adapters::MARK_PULL_REQUEST_READY_QUERY,
-            "variables": { "pullRequestId": ready_node_id.ok_or_else(|| remote_finding("github_ready_node_missing", "ready mutation requires an authenticated PR node observation"))? }
-        }),
+        GithubMutation::PullRequestReady => serde_json::json!({}),
     };
     let bytes = serde_json::to_vec(&value).map_err(|_| {
         remote_finding(
@@ -1470,6 +1432,9 @@ fn validate_mutation_response(
     request: &GithubMutationRequest,
     stdout: &str,
 ) -> Result<(), RemoteRouteFinding> {
+    if matches!(request.mutation, GithubMutation::PullRequestReady) {
+        return Ok(());
+    }
     let value: serde_json::Value = serde_json::from_str(stdout).map_err(|_| {
         remote_finding(
             "github_mutation_invalid_json",
@@ -1477,19 +1442,6 @@ fn validate_mutation_response(
         )
     })?;
     match request.mutation {
-        GithubMutation::PullRequestReady => {
-            let pr = &value["data"]["markPullRequestReadyForReview"]["pullRequest"];
-            if value.get("errors").is_some_and(|errors| !errors.is_null())
-                || pr["number"].as_u64() != request.pull_request
-                || pr["headRefOid"].as_str() != Some(request.expected_head_sha.as_str())
-                || pr["repository"]["nameWithOwner"].as_str() != Some(request.repository.as_str())
-                || pr["isDraft"].as_bool() != Some(false)
-            {
-                Err(remote_finding("github_ready_response_mismatch", "ready GraphQL response must match the exact repository, PR, head and ready state without errors"))
-            } else {
-                Ok(())
-            }
-        }
         GithubMutation::IssueCreate { .. } if value["number"].as_u64().is_none() => {
             Err(remote_finding(
                 "github_issue_readback_missing",
@@ -1705,10 +1657,7 @@ fn match_reconciled_mutation(
         | GithubMutation::PullRequestReady => matched["number"].as_u64(),
         _ => None,
     };
-    let issue = match request.mutation {
-        GithubMutation::IssueCreate { .. } => matched["number"].as_u64().unwrap_or(request.issue),
-        _ => request.issue,
-    };
+    let issue = matched["number"].as_u64().unwrap_or(request.issue);
     Ok((
         issue,
         pull_request,

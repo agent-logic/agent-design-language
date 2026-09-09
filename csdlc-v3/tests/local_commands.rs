@@ -48,15 +48,6 @@ fn request() -> LocalPreparationRequest {
 
 fn registry() -> PromptRegistry {
     PromptRegistry {
-        structure_schema_paths: ["sip", "stp", "spp", "vpp", "srp", "sor"]
-            .into_iter()
-            .map(|kind| {
-                (
-                    kind.into(),
-                    format!("docs/templates/prompts/1.0.3/schemas/{kind}.structure.json"),
-                )
-            })
-            .collect(),
         version: "1.0.3".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
@@ -180,7 +171,6 @@ fn card_roundtrip_uses_active_registry_denominator() {
     assert_eq!(plan.card_kinds, ["sip", "stp", "spp", "vpp", "srp", "sor"]);
 
     let incomplete = PromptRegistry {
-        structure_schema_paths: BTreeMap::new(),
         version: "1.0.3".into(),
         card_kinds: ["sip", "stp"].into_iter().map(str::to_string).collect(),
         template_paths: BTreeMap::new(),
@@ -856,25 +846,13 @@ fn operational_registry(root: &Path) -> PromptRegistry {
         fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
         fs::write(
             schema_root.join(format!("{kind}.structure.json")),
-            serde_json::to_vec(&serde_json::json!({"schema":"adl.csdlc.prompt_card_structure.v1", "template_set":"1.0.3", "card_kind":kind, "headings":[{"level":1,"text":kind}],"fenced_blocks":[],"locked_lines":[],"frontmatter_keys":[], "scaffold_lines":[],"scaffold_line_prefixes":[],"rendered_value_line_prefixes":[],"editable_sections":[]}))
+            serde_json::to_vec(&serde_json::json!({"scaffold_lines": [format!("# {kind}")]}))
                 .unwrap(),
         )
         .expect("structure schema fixture");
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
     }
     PromptRegistry {
-        structure_schema_paths: ["sip", "stp", "spp", "vpp", "srp", "sor"]
-            .into_iter()
-            .map(|kind| {
-                (
-                    kind.to_owned(),
-                    schema_root
-                        .join(format!("{kind}.structure.json"))
-                        .to_string_lossy()
-                        .into_owned(),
-                )
-            })
-            .collect(),
         version: "1.0.3".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
@@ -1290,201 +1268,4 @@ fn operational_local_authority_rejects_state_root_symlink_escape() {
     let findings = execute_operational_local_route("issue", &request(), &registry, &context)
         .expect_err("state root symlink escape must fail closed");
     assert_eq!(findings[0].code, "state_root_outside_repository");
-}
-
-// PVF: deterministic local contract proof, small local Git fixture, no network.
-// Release gate: csdlc-v3 local_commands; proves active schema/render parity and CAS.
-#[test]
-fn operational_validation_accepts_active_six_cards_and_rejects_stale_values() {
-    let (_, _, mut context, _) = operational_authority_fixture("active-card-validation", "v3");
-    let root = repo_root();
-    let mut registry = PromptRegistry::from_current_json(
-        &fs::read(root.join("docs/templates/prompts/current.json")).unwrap(),
-    )
-    .unwrap();
-    for path in registry
-        .template_paths
-        .values_mut()
-        .chain(registry.structure_schema_paths.values_mut())
-    {
-        *path = root.join(&*path).to_string_lossy().into_owned();
-    }
-    let mut request = request();
-    let initialized =
-        execute_operational_local_route("issue", &request, &registry, &context).unwrap();
-    request.expected_lifecycle_digest = initialized.digest.clone();
-    context.expected_lifecycle_digest = initialized.digest;
-    let validated =
-        execute_operational_local_route("validate", &request, &registry, &context).unwrap();
-    assert!(
-        validated
-            .findings
-            .iter()
-            .any(|finding| finding.code == "six_card_validation_passed"),
-        "{validated:?}"
-    );
-    let values_path = context.state_root.join("issues/503/cards/sor.values.json");
-    let mut values: serde_json::Value =
-        serde_json::from_slice(&fs::read(&values_path).unwrap()).unwrap();
-    values["slug"] = serde_json::json!("changed-after-render");
-    fs::write(values_path, serde_json::to_vec(&values).unwrap()).unwrap();
-    let findings = execute_operational_local_route("validate", &request, &registry, &context)
-        .expect_err("stale typed values must invalidate CAS");
-    assert_eq!(findings[0].code, "stale_local_lifecycle_digest");
-}
-
-// PVF: deterministic local CPU topology/contract gate; real Git worktree,
-// no network. Proves issue-local effects and denial of unrelated checkout roots.
-#[test]
-fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
-    let (primary, _, mut context, registry) =
-        operational_authority_fixture("bound-local-state", "v3");
-    fs::create_dir_all(primary.join(".adl")).unwrap();
-    fs::write(
-        primary.join(".adl/worktree-policy.json"),
-        serde_json::to_vec(&serde_json::json!({
-            "schema":"adl.worktree_policy.v1", "required_parent":context.allowed_worktree_parent
-        }))
-        .unwrap(),
-    )
-    .unwrap();
-    run_git(&primary, &["add", ".adl/worktree-policy.json"]);
-    run_git(&primary, &["commit", "--quiet", "-m", "worktree policy"]);
-    context.expected_head_sha = run_git(&primary, &["rev-parse", "HEAD"]);
-    run_git(
-        &primary,
-        &[
-            "update-ref",
-            "refs/remotes/origin/main",
-            &context.expected_head_sha,
-        ],
-    );
-    let mut req = request();
-    let bound = context.allowed_worktree_parent.join("issue-503");
-    run_git(
-        &primary,
-        &[
-            "worktree",
-            "add",
-            "--quiet",
-            "-b",
-            &req.branch,
-            bound.to_str().unwrap(),
-        ],
-    );
-    req.worktree = bound.to_string_lossy().into_owned();
-    let initialized = execute_operational_local_route("issue", &req, &registry, &context).unwrap();
-    req.expected_lifecycle_digest = initialized.digest.clone();
-    context.expected_lifecycle_digest = initialized.digest;
-    let bound_result = execute_operational_local_route("bind", &req, &registry, &context).unwrap();
-    req.expected_lifecycle_digest = bound_result.digest.clone();
-    context.expected_lifecycle_digest = bound_result.digest;
-    fs::create_dir_all(bound.join(".csdlc/issues")).unwrap();
-    fs::rename(
-        primary.join(".csdlc/issues/503"),
-        bound.join(".csdlc/issues/503"),
-    )
-    .unwrap();
-    context.repository_root = bound.clone();
-    context.state_root = bound.join(".csdlc");
-    let primary_transactions = fs::read_dir(primary.join(".csdlc/transactions/completed/503"))
-        .unwrap()
-        .count();
-    fs::write(bound.join("tracked"), "legitimate implementation dirt\n").unwrap();
-    req.card_updates.insert(
-        "spp".into(),
-        serde_json::json!({"plan_summary": "issue-local update"}),
-    );
-    let edited = execute_operational_local_route("edit", &req, &registry, &context).unwrap();
-    req.expected_lifecycle_digest = edited.digest.clone();
-    context.expected_lifecycle_digest = edited.digest;
-    let validated = execute_operational_local_route("validate", &req, &registry, &context).unwrap();
-    assert!(validated
-        .findings
-        .iter()
-        .any(|f| f.code == "six_card_validation_passed"));
-    assert!(bound.join(".csdlc/issues/503/index.json").exists());
-    assert!(!primary.join(".csdlc/issues/503").exists());
-    assert_eq!(
-        primary_transactions,
-        fs::read_dir(primary.join(".csdlc/transactions/completed/503"))
-            .unwrap()
-            .count()
-    );
-    for route in ["issue", "bind"] {
-        assert_eq!(
-            execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
-            "invalid_operational_roots"
-        );
-    }
-    let packet = primary.parent().unwrap();
-    let request_path = packet.join("bound-edit.json");
-    req.card_updates.insert(
-        "spp".into(),
-        serde_json::json!({"plan_summary":"interrupted edit"}),
-    );
-    fs::write(&request_path, serde_json::to_vec(&req).unwrap()).unwrap();
-    let registry_path = packet.join("active-registry.json");
-    let templates: serde_json::Map<String, serde_json::Value> = registry.template_paths.iter().map(|(kind,path)|
-        (kind.clone(),serde_json::json!({"path":path,"structure_schema_path":registry.structure_schema_paths[kind]}))).collect();
-    fs::write(&registry_path, serde_json::to_vec(&serde_json::json!({
-        "schema":"adl.csdlc.prompt_template_registry.v1","status":"active","semver":"1.0.3","templates":templates
-    })).unwrap()).unwrap();
-    let registrations = packet.join("registrations.json");
-    fs::write(&registrations, "[]").unwrap();
-    let mut command = Command::new(env!("CARGO_BIN_EXE_csdlc"));
-    command
-        .current_dir(&bound)
-        .args(["edit", "--request"])
-        .arg(&request_path)
-        .arg("--registry")
-        .arg(&registry_path)
-        .arg("--registrations")
-        .arg(&registrations)
-        .arg("--repo-root")
-        .arg(&bound);
-    let crashed = command
-        .env("CSDLC_V3_TEST_CRASH_POINT", "after_backup_rename")
-        .output()
-        .unwrap();
-    assert_eq!(
-        crashed.status.code(),
-        Some(91),
-        "{}",
-        String::from_utf8_lossy(&crashed.stderr)
-    );
-    assert!(!bound.join(".csdlc/issues/503/index.json").exists());
-    let recovered = command
-        .env_remove("CSDLC_V3_TEST_CRASH_POINT")
-        .output()
-        .unwrap();
-    assert!(
-        recovered.status.success(),
-        "{}",
-        String::from_utf8_lossy(&recovered.stderr)
-    );
-    assert!(bound.join(".csdlc/issues/503/index.json").exists());
-    assert!(!bound.join(".csdlc/transactions/503.json").exists());
-    assert!(!primary.join(".csdlc/issues/503").exists());
-    let mut wrong = req.clone();
-    wrong.branch = "codex/unrelated".into();
-    assert_eq!(
-        execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
-        "invalid_operational_roots"
-    );
-    wrong = req.clone();
-    wrong.worktree = primary.to_string_lossy().into_owned();
-    assert_eq!(
-        execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
-        "invalid_operational_roots"
-    );
-    fs::write(
-        bound.join(".csdlc/transactions/503.json"),
-        br#"{"route":"bind"}"#,
-    )
-    .unwrap();
-    assert_eq!(
-        execute_operational_local_route("edit", &req, &registry, &context).unwrap_err()[0].code,
-        "local_transaction_journal_invalid"
-    );
 }
