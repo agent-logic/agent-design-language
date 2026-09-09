@@ -14,6 +14,14 @@ if rg -q -- '--test-mode|--trusted-signers' \
   echo "FAIL: a live mutation entrypoint exposes the test trust-anchor override" >&2
   exit 1
 fi
+if rg -q 'ADL_GCP_D1_NOW_EPOCH' .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh; then
+  echo "FAIL: live GCP authorization expiry accepts a caller-controlled clock" >&2
+  exit 1
+fi
+if rg -q 'Path[.]home' .csdlc/prepared/issues/815/verify-cloud-authorization.py; then
+  echo "FAIL: production trust anchor must not follow caller-controlled HOME" >&2
+  exit 1
+fi
 
 guard_dir="$repo_root/.csdlc/evidence/815/wrapper-preflight"
 mkdir -p "$guard_dir"

@@ -8,7 +8,9 @@ import copy
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
+import pwd
 import re
 import stat
 import subprocess
@@ -141,7 +143,8 @@ def trusted_signers_path(repo_root: Path, test_mode: bool, supplied: str | None)
     else:
         if supplied:
             fail("production validation does not accept a caller-selected trust anchor")
-        path = (Path.home() / "keys" / "adl-cloud-authorization.allowed_signers").resolve()
+        operator_home = Path(pwd.getpwuid(os.getuid()).pw_dir)
+        path = (operator_home / "keys" / "adl-cloud-authorization.allowed_signers").resolve()
         try:
             path.relative_to(repo_root)
         except ValueError:
