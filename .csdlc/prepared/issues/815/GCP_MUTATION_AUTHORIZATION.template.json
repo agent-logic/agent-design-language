@@ -13,7 +13,7 @@
   "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
   "run_id": "<bounded gcp-d1 run id>",
   "instance_name": "<bounded disposable instance name>",
-  "cleanup_deadline_utc": "<YYYY-MM-DDTHH:MM:SSZ, no more than 120 minutes after approval>",
+  "cleanup_deadline_utc": "<YYYY-MM-DDTHH:MM:SSZ, no more than 30 minutes after approval>",
   "impersonated_identity": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
   "proof_run_spend_cap_usd": 1,
   "foundation_steady_state_30d_cap_usd": 5,
