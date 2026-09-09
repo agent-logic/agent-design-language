@@ -1269,3 +1269,213 @@ fn operational_local_authority_rejects_state_root_symlink_escape() {
         .expect_err("state root symlink escape must fail closed");
     assert_eq!(findings[0].code, "state_root_outside_repository");
 }
+
+// PVF: deterministic local CPU topology/contract gate; real Git worktree,
+// no network. Proves native bind, not test-side relocation, transfers lifecycle
+// state to the registered issue checkout and denies primary follow-on writes.
+#[test]
+fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
+    let (primary, _, mut context, registry) =
+        operational_authority_fixture("bound-local-state", "v3");
+    fs::create_dir_all(primary.join(".adl")).unwrap();
+    fs::write(
+        primary.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema":"adl.worktree_policy.v1", "required_parent":context.allowed_worktree_parent
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    run_git(&primary, &["add", ".adl/worktree-policy.json"]);
+    run_git(&primary, &["commit", "--quiet", "-m", "worktree policy"]);
+    context.expected_head_sha = run_git(&primary, &["rev-parse", "HEAD"]);
+    run_git(
+        &primary,
+        &[
+            "update-ref",
+            "refs/remotes/origin/main",
+            &context.expected_head_sha,
+        ],
+    );
+
+    let mut req = request();
+    let bound = context.allowed_worktree_parent.join("issue-503");
+    req.worktree = bound.to_string_lossy().into_owned();
+
+    let initialized = execute_operational_local_route("issue", &req, &registry, &context)
+        .expect("initialize authoritative lifecycle state");
+    req.expected_lifecycle_digest = initialized.digest.clone();
+    context.expected_lifecycle_digest = initialized.digest;
+
+    let primary_completed = primary
+        .join(".csdlc/transactions/completed/503")
+        .read_dir()
+        .map(|entries| entries.count())
+        .unwrap_or(0);
+    let bound_result = execute_operational_local_route("bind", &req, &registry, &context)
+        .expect("native bind transfers lifecycle state");
+    req.expected_lifecycle_digest = bound_result.digest.clone();
+    context.expected_lifecycle_digest = bound_result.digest;
+
+    assert!(bound.join(".csdlc/issues/503/index.json").is_file());
+    assert!(!primary.join(".csdlc/issues/503").exists());
+    assert_eq!(
+        primary_completed,
+        primary
+            .join(".csdlc/transactions/completed/503")
+            .read_dir()
+            .map(|entries| entries.count())
+            .unwrap_or(0)
+    );
+
+    for route in ["edit", "validate"] {
+        assert_eq!(
+            execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
+            "missing_local_lifecycle_state"
+        );
+    }
+
+    context.repository_root = bound.clone();
+    context.state_root = bound.join(".csdlc");
+    fs::write(bound.join("tracked"), "legitimate implementation dirt\n").unwrap();
+    req.card_updates.insert(
+        "spp".into(),
+        serde_json::json!({"plan_summary": "issue-local update"}),
+    );
+    let edited = execute_operational_local_route("edit", &req, &registry, &context)
+        .expect("bound worktree owns card edits after bind");
+    req.expected_lifecycle_digest = edited.digest.clone();
+    context.expected_lifecycle_digest = edited.digest;
+    let validated = execute_operational_local_route("validate", &req, &registry, &context)
+        .expect("bound worktree validates with normal implementation dirt");
+    assert!(validated
+        .findings
+        .iter()
+        .any(|finding| finding.code == "six_card_validation_passed"));
+
+    for route in ["issue", "bind"] {
+        assert_eq!(
+            execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
+            "invalid_operational_roots"
+        );
+    }
+    let mut wrong = req.clone();
+    wrong.branch = "codex/unrelated".into();
+    assert_eq!(
+        execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
+        "invalid_operational_roots"
+    );
+    wrong = req.clone();
+    wrong.worktree = primary.to_string_lossy().into_owned();
+    assert_eq!(
+        execute_operational_local_route("edit", &wrong, &registry, &context).unwrap_err()[0].code,
+        "invalid_operational_roots"
+    );
+}
+
+// PVF: deterministic local crash/restart contract proof; real Git worktree,
+// no network. Proves a bind interrupted after source backup can recover into
+// the bound checkout without publishing state back into the primary checkout.
+#[test]
+fn bind_transaction_recovers_into_bound_checkout_after_restart() {
+    let (primary, _, mut context, registry) =
+        operational_authority_fixture("bind-crash-recovery", "v3");
+    fs::create_dir_all(primary.join(".adl")).unwrap();
+    fs::write(
+        primary.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema":"adl.worktree_policy.v1", "required_parent":context.allowed_worktree_parent
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    run_git(&primary, &["add", ".adl/worktree-policy.json"]);
+    run_git(&primary, &["commit", "--quiet", "-m", "worktree policy"]);
+    context.expected_head_sha = run_git(&primary, &["rev-parse", "HEAD"]);
+    run_git(
+        &primary,
+        &[
+            "update-ref",
+            "refs/remotes/origin/main",
+            &context.expected_head_sha,
+        ],
+    );
+
+    let mut req = request();
+    let bound = context.allowed_worktree_parent.join("issue-503");
+    req.worktree = bound.to_string_lossy().into_owned();
+    let initialized = execute_operational_local_route("issue", &req, &registry, &context)
+        .expect("initialize authoritative lifecycle state");
+    req.expected_lifecycle_digest = initialized.digest.clone();
+
+    let packet = primary.parent().unwrap();
+    let request_path = packet.join("bind-request.json");
+    fs::write(&request_path, serde_json::to_vec(&req).unwrap()).unwrap();
+    let registry_path = packet.join("active-registry.json");
+    let templates: serde_json::Map<String, serde_json::Value> = registry
+        .template_paths
+        .iter()
+        .map(|(kind, path)| {
+            (
+                kind.clone(),
+                serde_json::json!({
+                    "path": path
+                }),
+            )
+        })
+        .collect();
+    fs::write(
+        &registry_path,
+        serde_json::to_vec(&serde_json::json!({
+            "schema":"adl.csdlc.prompt_template_registry.v1",
+            "status":"active",
+            "semver":"1.0.4",
+            "templates": templates
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let registrations = packet.join("registrations.json");
+    fs::write(&registrations, "[]").unwrap();
+
+    let mut command = Command::new(env!("CARGO_BIN_EXE_csdlc"));
+    command
+        .current_dir(&primary)
+        .args(["bind", "--request"])
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(&registry_path)
+        .arg("--registrations")
+        .arg(&registrations)
+        .arg("--repo-root")
+        .arg(&primary);
+    let crashed = command
+        .env("CSDLC_V3_TEST_CRASH_POINT", "after_backup_rename")
+        .output()
+        .unwrap();
+    assert_eq!(
+        crashed.status.code(),
+        Some(91),
+        "{}",
+        String::from_utf8_lossy(&crashed.stderr)
+    );
+    assert!(!primary.join(".csdlc/issues/503/index.json").exists());
+    assert!(primary.join(".csdlc/transactions/503.json").is_file());
+    assert!(!bound.join(".csdlc/issues/503/index.json").exists());
+
+    let recovered = command
+        .env_remove("CSDLC_V3_TEST_CRASH_POINT")
+        .output()
+        .unwrap();
+    assert!(
+        recovered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&recovered.stderr)
+    );
+    let value: serde_json::Value =
+        serde_json::from_slice(&recovered.stdout).expect("machine-readable recovery json");
+    assert_eq!(value["result"]["phase"], "bound");
+    assert!(bound.join(".csdlc/issues/503/index.json").is_file());
+    assert!(!primary.join(".csdlc/issues/503").exists());
+    assert!(!primary.join(".csdlc/transactions/503.json").exists());
+}
