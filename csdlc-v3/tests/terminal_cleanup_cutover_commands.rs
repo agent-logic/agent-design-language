@@ -1842,7 +1842,12 @@ fn conflicting_terminal_receipt_preserves_state() {
         github_issue_json(630, "closed"),
     ]);
     let first = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
-    assert_eq!(first.status, TerminalRouteStatus::Ready, "{:?}", first.findings);
+    assert_eq!(
+        first.status,
+        TerminalRouteStatus::Ready,
+        "{:?}",
+        first.findings
+    );
     let state_path = root.join(".git/csdlc-v3/local/v3/issues/630/terminal.json");
     let receipt_path = root.join(".git/csdlc-v3/local/evidence/630/terminal-receipt.json");
     let before_state = fs::read(&state_path).unwrap();
@@ -1900,10 +1905,14 @@ fn non_regular_terminal_receipt_preserves_absent_state() {
     ]);
     let result = prepare_terminal_finish_with_github_observation(&request, &mut adapter).unwrap();
     assert_eq!(result.status, TerminalRouteStatus::Blocked);
-    assert!(result
-        .findings
-        .iter()
-        .any(|f| f.code == "terminal_receipt_not_regular_file"), "{:?}", result.findings);
+    assert!(
+        result
+            .findings
+            .iter()
+            .any(|f| f.code == "terminal_receipt_not_regular_file"),
+        "{:?}",
+        result.findings
+    );
     assert!(!state_path.exists());
     assert!(receipt_path.is_dir());
 }

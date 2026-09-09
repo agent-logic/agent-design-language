@@ -210,12 +210,18 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
     .expect("write real registration fixture");
 
     let primary = primary_repo_root(&root);
-    let discovery = csdlc_v3::commands::local::discover_operational_local_context(&primary, &request);
+    let discovery =
+        csdlc_v3::commands::local::discover_operational_local_context(&primary, &request);
     let legacy_denial = match &discovery {
         Ok(Some(_)) => primary.join(".csdlc/issues/5853").exists(),
         Ok(None) => false,
         Err(findings) => {
-            assert!(findings.iter().all(|f| f.code == "worktree_parent_unavailable"), "{findings:?}");
+            assert!(
+                findings
+                    .iter()
+                    .all(|f| f.code == "worktree_parent_unavailable"),
+                "{findings:?}"
+            );
             false
         }
     };
@@ -228,7 +234,10 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
                 }
             }
             Ok(metadata) => {
-                assert!(metadata.is_file(), "unexpected nonregular fixture state: {path:?}");
+                assert!(
+                    metadata.is_file(),
+                    "unexpected nonregular fixture state: {path:?}"
+                );
                 entries.insert(path.to_path_buf(), fs::read(path).unwrap());
             }
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
@@ -248,7 +257,9 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         state_root.join("locks/5853.lock"),
     ];
     let mut before = BTreeMap::new();
-    for path in &watched { snapshot(path, &mut before); }
+    for path in &watched {
+        snapshot(path, &mut before);
+    }
 
     let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
         .arg("eligibility")
@@ -263,18 +274,30 @@ fn eligibility_cli_consumes_real_bound_issue_state() {
         .output()
         .expect("run eligibility canary against real bound issue");
     let mut after = BTreeMap::new();
-    for path in &watched { snapshot(path, &mut after); }
-    assert_eq!(after, before, "read-only eligibility must preserve issue state");
+    for path in &watched {
+        snapshot(path, &mut after);
+    }
+    assert_eq!(
+        after, before,
+        "read-only eligibility must preserve issue state"
+    );
     if legacy_denial {
         assert_eq!(output.status.code(), Some(2), "{output:?}");
         assert!(output.stdout.is_empty(), "{output:?}");
         let stderr = std::str::from_utf8(&output.stderr).unwrap();
         let findings: serde_json::Value = serde_json::from_str(
-            stderr.strip_prefix("csdlc: ").expect("structured CLI denial").trim()
-        ).unwrap();
+            stderr
+                .strip_prefix("csdlc: ")
+                .expect("structured CLI denial")
+                .trim(),
+        )
+        .unwrap();
         let findings = findings.as_array().expect("finding array");
         assert_eq!(findings.len(), 1, "{findings:?}");
-        assert_eq!(findings[0]["code"], "legacy_primary_state_requires_recovery");
+        assert_eq!(
+            findings[0]["code"],
+            "legacy_primary_state_requires_recovery"
+        );
         assert_eq!(findings[0]["status"], "blocked");
         return;
     }

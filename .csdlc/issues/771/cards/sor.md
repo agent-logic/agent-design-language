@@ -120,11 +120,11 @@ All four V3-F rows bound to independent162-path review and205-test full locked d
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

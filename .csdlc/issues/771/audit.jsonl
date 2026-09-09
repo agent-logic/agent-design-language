@@ -43,3 +43,4 @@
 {"sequence":43,"generation":35,"actor":"Planning #7","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":44,"generation":36,"actor":"Planning #7","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":45,"generation":37,"actor":"Planning #7","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":46,"generation":38,"actor":"Planning #7","reason":"Correct rustfmt-only CI failure in two test files, refresh exact-source proof and review, then republish PR801.","operation":"recover_review"}
