@@ -1,0 +1,11 @@
+test_absent_lanes_are_explicit (__main__.DenominatorTests.test_absent_lanes_are_explicit) ... ok
+test_cli_diff_and_validator (__main__.DenominatorTests.test_cli_diff_and_validator) ... ok
+test_exact_issue_520 (__main__.DenominatorTests.test_exact_issue_520) ... ok
+test_git_filename_preservation (__main__.DenominatorTests.test_git_filename_preservation) ... ok
+test_integrity_negatives (__main__.DenominatorTests.test_integrity_negatives) ... ok
+test_manifests_cannot_starve_lanes (__main__.DenominatorTests.test_manifests_cannot_starve_lanes) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.638s
+
+OK

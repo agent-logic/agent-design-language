@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
     "slug": "review-lane-denominators",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -36,7 +36,7 @@
             "-v"
           ],
           "parallel_group": "local",
-          "defer_reason": "Validator is implemented in bound issue worktree; unavailable in inspection checkout until merge."
+          "defer_reason": null
         }
       ],
       "planned_validation_seconds": 1200,

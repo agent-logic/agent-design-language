@@ -12,19 +12,34 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Complete lane denominators and deterministic samples implemented; six focused Python tests pass. Real exact #520 packet validates against independently reconstructed 5481 paths. Independent implementation review passed. Hosted CI and publication remain pending.
 
 ## Artifacts
 
-- none
+- adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt
+- adl/tools/skills/repo-packet-builder/tests/test_denominators.py
 
 ## Execution
 
-- none
+- Classify every scoped path before per-lane category-balanced sampling.
+- Record source/selected digests and exclusions and reject inconsistent packets.
+- Honor diff scope and preserve whitespace/Unicode Git filenames.
+- Retain exact #520 fixture and distinguish deterministic routing from semantic review.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "python3",
+      "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "-v"
+    ],
+    "purpose": "Exact #520 inventory, category samples, integrity negatives and CLI scope tests",
+    "outcome": "passed",
+    "evidence_ref": "packet-denominator-contract.log"
+  }
+]
 
 ## Integration
 

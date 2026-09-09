@@ -44,7 +44,7 @@ Diagram: .csdlc/prepared/issues/761/diagram.mmd
       "-v"
     ],
     "parallel_group": "local",
-    "defer_reason": "Validator is implemented in bound issue worktree; unavailable in inspection checkout until merge."
+    "defer_reason": null
   }
 ]
 
