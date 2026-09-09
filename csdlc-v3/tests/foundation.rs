@@ -163,12 +163,19 @@ fn read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift
     fixture.write_v3_contracts();
     fixture.write_issue_with_record(
         778,
-        &fixture.issue_record_json(778, Some(r#","surprise":true"#)),
+        &fixture.issue_record_json(
+            778,
+            Some(r#","z_surprise":true,"alpha_extra":{"secret":"must-not-leak"}"#),
+        ),
     );
     fixture.write_all_cards(778);
     let context = RepositoryContext::discover(fixture.root()).expect("fixture context");
     let error = IssueProjection::load(&context, 778).expect_err("unsupported field is rejected");
-    assert!(error.to_string().contains("unsupported field"));
+    let error = error.to_string();
+    assert!(error.contains("issue 778 record .csdlc/issues/778/index.json"));
+    assert!(error.contains("unsupported top-level fields: alpha_extra, z_surprise"));
+    assert!(!error.contains("must-not-leak"));
+    assert!(!error.contains(&fixture.root().to_string_lossy().to_string()));
 
     let fixture = FixtureRepo::new("card-identity-drift");
     fixture.write_v3_contracts();

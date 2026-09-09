@@ -721,10 +721,10 @@ fn classify_cleanup_from_git(
 ) -> Result<CleanupDecision, TerminalFinding> {
     let approved_parent = canonical_dir(&request.approved_parent, "approved_parent")?;
     let repository_root = canonical_dir(&request.repository_root, "repository_root")?;
-    if contains_parent_component(&request.candidate_path) {
+    if request.candidate_path.is_relative() || contains_parent_component(&request.candidate_path) {
         return Err(finding(
             "path_not_normalized",
-            "cleanup target must not contain parent-directory traversal",
+            "cleanup target must be absolute and must not contain parent-directory traversal",
         ));
     }
     verify_terminal_receipt(&repository_root, terminal_request, request)?;
