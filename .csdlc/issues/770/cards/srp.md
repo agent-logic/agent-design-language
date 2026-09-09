@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-infra/aws/modules/csm-runtime-spot, infra/aws/csm-runtime-spot, infra/aws/csm-runtime-spot/tests/run_contract.sh
+infra/aws/csm-runtime-spot
+infra/aws/modules/csm-runtime-spot
+.csdlc/prepared/issues/770
+.csdlc/evidence/770
 
 ## Prompts
 

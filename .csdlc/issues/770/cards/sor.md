@@ -51,6 +51,29 @@ Public Spot SSH recovery implemented. Ten Terraform mock tests and five offline 
     "purpose": "Ten plan contracts and five live-probe verdict cases",
     "outcome": "passed",
     "evidence_ref": "public-ssh-contract.log"
+  },
+  {
+    "command": [
+      "bash",
+      "infra/aws/csm-runtime-spot/tests/run_live_proof.sh",
+      "--instance-id",
+      "i-069dd5d48f0e562dc",
+      "--identity-file",
+      "/Users/daniel/.ssh/adl-4603-ssh-debug-20260701.pem",
+      "--expected-account",
+      "713332525889",
+      "--expected-name",
+      "csm-issue-770-recovery-20260909-dev-runtime",
+      "--key-name",
+      "adl-4603-ssh-debug-20260701",
+      "--ssh-cidr",
+      "47.146.81.109/32",
+      "--evidence-dir",
+      "/Volumes/FastWork/issue-770-session/live"
+    ],
+    "purpose": "Authorized live SSH and isolation; subsequent Terraform destroy and AWS disposal readbacks recorded in linked evidence",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/770/live-proof.json"
   }
 ]
 

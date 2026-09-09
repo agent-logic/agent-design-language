@@ -85,7 +85,9 @@ and `alb_security_group_id = null`. After the approved apply:
   must still lead to disposal; never treat failed SSH as permission to broaden CIDRs.
 
 Live reachability and disposal evidence must be retained before claiming #770
-complete. The initial implementation contains local proof only; no paid live run
-is implied by the example or mocked tests.
+complete. The initial implementation contained local proof only. The subsequent
+authorized live run and verified disposal are retained in
+`.csdlc/prepared/issues/770/live-proof.json`; mocked tests alone do not establish
+live reachability.
 
 The contract runner also runs five deterministic offline live-probe verdict tests: successful proof, unrelated listener collision, cleanup failure, local socket failure, and exposed application port. These tests validate probe logic; they do not establish live AWS reachability.

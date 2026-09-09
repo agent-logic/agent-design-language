@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
     "slug": "public-spot-ssh-recovery",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "infra/aws/modules/csm-runtime-spot, infra/aws/csm-runtime-spot, infra/aws/csm-runtime-spot/tests/run_contract.sh",
+      "review_scope": "infra/aws/csm-runtime-spot\ninfra/aws/modules/csm-runtime-spot\n.csdlc/prepared/issues/770\n.csdlc/evidence/770",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

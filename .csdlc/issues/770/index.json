@@ -4,11 +4,21 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1027ce24f8764f0a1ebb0f6d5dc56d65062000fe91fb898530036cea91088289",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "b00b58a196b763d0fe47ab49878c33aefb68a2625ff7c4c66ebe45937f13d082",
+  "generation": 9,
+  "digest": "db86093448a2b65100a5f0d9eb3a460c5eeee0539759d18371fe697b7f3b94b6",
   "branch": "codex/770-public-spot-ssh-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:review_770_static",
+    "assigned_by": "codex:planning-6",
+    "revision": "git-blake3:781b1d8de7cf63437cd10e42d80683a204be9a87:1c407968b5bd25f323757cf0a81c9f0bf1742472f276df63d1c48b2a23f5f331",
+    "scope": [
+      "infra/aws/csm-runtime-spot",
+      "infra/aws/modules/csm-runtime-spot",
+      ".csdlc/prepared/issues/770",
+      ".csdlc/evidence/770"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,34 +34,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b1623188a642693dff85ea58acd75e8c3d771e16597724f37ebd847fcda739c",
+      "values_digest": "bbce56c9541d18d4351e056bcf9c6ec5031ba6c2f04b4b9fa2a80ee10c3fb332",
       "rendered_digest": "e8ad0f905851b7b218c29fd9ba399b2953969b582d3d44da8bcdfdb114491b3a",
       "ast_digest": "6b2756afabb08215c363489e85b654c399659082c35f715f568557e1c43f8f8b"
     },
     "stp": {
-      "values_digest": "a647676c9776e429c8b0c1f00f662ee010ed28566bb8f3872a0c10cd1c04d668",
+      "values_digest": "b7f635a3a9bf244ec957d53b5fd02b70c6902cee034b2d6aeea76ba4b3de3cc2",
       "rendered_digest": "094f6ad2b8deada648cb4963f3edf4c57869cf279ec0782c8fa86dcd4e3d7423",
       "ast_digest": "ecba6922f53438c56d68681fd71b23be8173cd3910451fd7e9b684fb1fa2db65"
     },
     "spp": {
-      "values_digest": "267484d8642129fa3a15fd3cf23d7ec54ec3706ea269424a70a0c86204bece89",
+      "values_digest": "dc95e8fdb150c16fab8c07798f8194e506d3f4d94b0238552ef2ad600d5acab6",
       "rendered_digest": "1950b5015bb212464aeb598e1d5a14c76c5952a7ef4c119d9970fd9f87c0f138",
       "ast_digest": "c8094a8f2df30b7cb1a6cb05ef2915c88140ef7aa76889be9d02e43afa3c987b"
     },
     "vpp": {
-      "values_digest": "2753c920bd01a9d0dc1784fff582d4ef620e72ef52bb941bdb851f777be85884",
+      "values_digest": "535d7ffbfc5861bfb3dd0c81b0de12ad376feae3fea71b5ba45e17158d78d82b",
       "rendered_digest": "2dbb1fab137bd3784a64b2d8c5f1ea905fe409d46537a3d7bfb1dad3c9ff7023",
       "ast_digest": "e809ac6d63e41dd8df114673c67e63e6605f35379fad9008f94faa1cfcc0e81c"
     },
     "srp": {
-      "values_digest": "36e1340d1e0e48a8c52115d5f6af9267b56e9cf8383eac2ece7ad3cdbd96e503",
-      "rendered_digest": "97fee9a643b26330d1c50f36b4e079fbe7fc79f23b73e5f04c598003906413c1",
-      "ast_digest": "6a5dd06e1f44d29ef446d4377a99c639c7942cf81b59b24aacff1e836ad0d680"
+      "values_digest": "f3d4a1198dfa615998e1a0ad63d2a7c4291541067c55eba2c2a5f7d04f09f130",
+      "rendered_digest": "b010f83661a5b54b94eccf1ee4aca011737443a0994826d90a7e34627e085a12",
+      "ast_digest": "7114882b8aee38d0b24ef5568f08f9597568a253908676edfd61e59fa1eb87e6"
     },
     "sor": {
-      "values_digest": "3ab0c8c4a1990560e7c4fa5d1df13442abd498d567e2ec277bc1815c1398d8ee",
-      "rendered_digest": "300e690d7d1c63ccf4e0c47cefd414e760020f5fdd7858dedcf4da6383625872",
-      "ast_digest": "d3d955fd9519c7340316af575183af3d8b5fcee5a0599db05031b82d1a30e353"
+      "values_digest": "520dbe14666c12e45b059bfdf65d91669a9d4d8c8dd3532a358a05b265614cc5",
+      "rendered_digest": "133b758f246f656996cc69f838b642175ff241c347f697144c1026fc471a152f",
+      "ast_digest": "3887b5f2f00758c34025a5b4e0f4ccb104de5485ad3f97dea74522a10427a0e6"
     }
   },
   "transitions": [
@@ -147,6 +157,20 @@
       "actor": "codex:planning-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:planning-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:planning-6",
+      "reason": "Record the actual approved live command and verified subsequent disposal.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_live_proof.sh\",\"--instance-id\",\"i-069dd5d48f0e562dc\",\"--identity-file\",\"/Users/daniel/.ssh/adl-4603-ssh-debug-20260701.pem\",\"--expected-account\",\"713332525889\",\"--expected-name\",\"csm-issue-770-recovery-20260909-dev-runtime\",\"--key-name\",\"adl-4603-ssh-debug-20260701\",\"--ssh-cidr\",\"47.146.81.109/32\",\"--evidence-dir\",\"/Volumes/FastWork/issue-770-session/live\"],\"purpose\":\"Authorized live SSH and isolation; subsequent Terraform destroy and AWS disposal readbacks recorded in linked evidence\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/770/live-proof.json\"}}"
     }
   ]
 }
