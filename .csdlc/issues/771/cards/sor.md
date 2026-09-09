@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Issue771 resolves all four V3-F current review rows with independent162-path review and197-test full locked detached suite at7fecd63398bb37530801dbf3375d47f73426d637. Three explicitly approved repairs completed. Typed v2 exception approved for771. Worktree implementation only; final PR diff review and hosted CI follow. No merge or issue closure.
+All four V3-F rows bound to independent162-path review and205-test full locked detached suite at220dbade0eb30e252f901b14c72a27f03bdcc715. Three approved product repairs preserved; merged-main fixture paths, legacy eligibility denial and explicit fixture lock release corrected. PR801 republication and hosted CI follow. No merge or closure.
 
 ## Artifacts
 
@@ -23,12 +23,14 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
 - csdlc-v3/src/commands/terminal.rs
 - csdlc-v3/src/commands/remote/mod.rs
 - docs/templates/prompts/current.json
+- .csdlc/evidence/771/ci-integration-defect.md
 
 ## Execution
 
 - Add fail-closed current review/suite mapping with14 negative substitutions and18 synthetic anti-drift contracts; preserve historical and CORP-A evidence.
 - Reject terminal receipt conflicts before state replacement; reconcile every bounded comment page before explicit recovery; emit correct native v3 authority from versioned1.0.5 templates.
 - Record independent exact-source review and full detached suite, preserving earlier blocked findings and reproductions.
+- Integrate current main and align test fixtures with canonical primary metadata paths, fail-closed legacy eligibility and explicit advisory unlock. Preserve failed integration and storage evidence.
 
 ## Validation
 
@@ -47,7 +49,7 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
     ],
     "purpose": "Required native source static validation.",
     "outcome": "passed",
-    "evidence_ref": "clippy.log"
+    "evidence_ref": ".csdlc/evidence/771/clippy.log"
   },
   {
     "command": [
@@ -57,7 +59,7 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
     ],
     "purpose": "Required current exact-source review and full detached-suite binding for all four V3-F rows.",
     "outcome": "passed",
-    "evidence_ref": "current-mapping.log"
+    "evidence_ref": ".csdlc/evidence/771/current-mapping.log"
   },
   {
     "command": [
@@ -66,7 +68,7 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
     ],
     "purpose": "Required synthetic validator anti-forgery and drift contracts; not source review proof.",
     "outcome": "passed",
-    "evidence_ref": "mapping-contract.log"
+    "evidence_ref": ".csdlc/evidence/771/mapping-contract.log"
   },
   {
     "command": [
@@ -77,7 +79,7 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
     ],
     "purpose": "Required stale SHA/blob/suite substitution denial.",
     "outcome": "passed",
-    "evidence_ref": "mapping-negative.log"
+    "evidence_ref": ".csdlc/evidence/771/mapping-negative.log"
   },
   {
     "command": [
@@ -88,7 +90,7 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
     ],
     "purpose": "Required Python-readable schema parity smoke; native renderer validation is in exact detached suite.",
     "outcome": "passed",
-    "evidence_ref": "template-schemas.log"
+    "evidence_ref": ".csdlc/evidence/771/template-schemas.log"
   },
   {
     "command": [
@@ -99,6 +101,18 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
       "csdlc-v3/Cargo.toml"
     ],
     "purpose": "197 tests passed in clean detached checkout at7fecd63398bb37530801dbf3375d47f73426d637 with external target; identical source independently reviewed across162paths.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/771/suite.json"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "205 full locked tests passed in a clean detached checkout at220dbade0eb30e252f901b14c72a27f03bdcc715; identical162sourcepaths independently reviewed.",
     "outcome": "passed",
     "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json"
   }

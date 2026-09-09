@@ -1,5 +1,7 @@
-# Issue771 execution evidence
+# Issue #771 execution evidence
 
-All three separately approved repairs are complete: terminal receipt ordering, complete fail-closed comment pagination, and versioned1.0.5 template authority instructions. Independent preassigned review passed162 paths at7fecd63398bb37530801dbf3375d47f73426d637; full197-test locked suite passed in a clean detached checkout of that SHA. Current mapping and14negative substitutions pass, as do18synthetic contracts, schema smoke and strict clippy. Historical blocked review packets and original reproductions remain preserved. CORP-A dispositions remain resolved.
+All three approved repairs and bounded merged-main test integrations are complete. Independent review covers 162 exact source paths at `220dbade0eb30e252f901b14c72a27f03bdcc715`; the full locked detached suite passed 205 tests on identical bytes. Strict all-target clippy passed. Current mapping, negative substitution and validator contracts are validated separately before publication.
 
-Typed finalization passed and recorded implemented phase. Its lane-evidence directory replacement removed supplementary diagnosis artifacts; these were restored from the prior Git commit after finalization. Final source review/suite receipts reside in the versioned docs proof packet. PR review/publication/CI are separate subsequent stages; no merge or issue closure is authorized.
+PR #801 previously failed because two receipt fixtures used old primary paths. Those paths, the real issue eligibility denial expectation, and explicit fixture lock release are corrected without changing additional product behavior. Failed runs and original diagnosis remain retained. FastWork storage failures required running the unchanged suite from a clean detached proof checkout on internal storage with an external target.
+
+Typed v2 remains an explicitly approved issue-specific recovery exception. Final reviewed republication and hosted CI remain required; no merge, issue closure or release authority is claimed.

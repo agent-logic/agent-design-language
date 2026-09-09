@@ -1,12 +1,12 @@
 {
   "schema": "adl.v3f.current_mapping.v1",
   "issue": 771,
-  "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
+  "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
   "status": "current_review_and_suite_proven",
   "receipt_sha256": {
-    "assignment.json": "286f0cb6e7eecccdeab5981100f6acd78634bf67f42f991453ffa91b10bb66c3",
-    "review.json": "5214fac82ae7ed86dfa2dcf91c8f0d7bc31a0ad6c7343aac586e57c1576507c3",
-    "suite.json": "3dbf73c733d0ef30153527cead2e2667edb886bfecb3071876db445e72b1cf74",
+    "assignment.json": "db2399b3f2ed7cbe0c97b0b2d361c5572c506f99157c23804eac98a2662f6c1e",
+    "review.json": "d147065f94ab61db49dd747b3eb87a973814e3fbb9e1e39fb301c31d03185fec",
+    "suite.json": "38dd353c9c3f23e0030f1abe2e8aed979c5ca782b454acb5a84da46d97c0d15e",
     "historical-fixture.diff": "65e9c351fa0e12caadd8cb593fa114ffc38615321315409d55c41c45b59c757f"
   },
   "historical_exceptions_sha256": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2",
@@ -15,8 +15,8 @@
     {
       "id": "V3-F-ac-1",
       "criterion_text_digest": "ae6ae51426f7f2d553c8774aa41a1b227099ae82eafd65cf91a7da2eaab2475f",
-      "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
-      "fixture_blob": "486ebe4c88ea109ddddedfc9a998f2952edca58a",
+      "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+      "fixture_blob": "7ee91ba18459e6bfa4d8d45dbc10e07b1277af7f",
       "review": "review.json",
       "suite": "suite.json",
       "disposition": "current_review_and_suite_proven"
@@ -24,8 +24,8 @@
     {
       "id": "V3-F-ac-2",
       "criterion_text_digest": "d5300cdb50374f90a61869ad0cef589665b965736df64d82ffba6f503eb8674a",
-      "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
-      "fixture_blob": "486ebe4c88ea109ddddedfc9a998f2952edca58a",
+      "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+      "fixture_blob": "7ee91ba18459e6bfa4d8d45dbc10e07b1277af7f",
       "review": "review.json",
       "suite": "suite.json",
       "disposition": "current_review_and_suite_proven"
@@ -33,8 +33,8 @@
     {
       "id": "V3-F-ac-3",
       "criterion_text_digest": "1d54eed76b4cd45ef37a11f2fe31ea0dfee0f27385085377ec2be9764ad94307",
-      "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
-      "fixture_blob": "486ebe4c88ea109ddddedfc9a998f2952edca58a",
+      "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+      "fixture_blob": "7ee91ba18459e6bfa4d8d45dbc10e07b1277af7f",
       "review": "review.json",
       "suite": "suite.json",
       "disposition": "current_review_and_suite_proven"
@@ -42,8 +42,8 @@
     {
       "id": "V3-F-ac-4",
       "criterion_text_digest": "42ce5c60c11cc93ef31f6dce7d49dcdfbe57b51a25d620a69e34123c0a8d45fa",
-      "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
-      "fixture_blob": "486ebe4c88ea109ddddedfc9a998f2952edca58a",
+      "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
+      "fixture_blob": "7ee91ba18459e6bfa4d8d45dbc10e07b1277af7f",
       "review": "review.json",
       "suite": "suite.json",
       "disposition": "current_review_and_suite_proven"

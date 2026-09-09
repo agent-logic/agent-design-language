@@ -1,23 +1,23 @@
 {
-  "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
+  "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
   "reviewer": "codex:/root/review_771_routes",
   "independent": true,
-  "completed_at": "2026-09-09T17:57:40.372085+00:00",
+  "completed_at": "2026-09-09T18:36:31.060717+00:00",
   "scope": {
     "csdlc-v3/AGENTS.md": "cd15f9aab8dc62a109e7565fb5c27ff65f4bc89f",
     "csdlc-v3/Cargo.lock": "6daacebde9aef9cc0fe98432460c63e9e36c3020",
-    "csdlc-v3/Cargo.toml": "cfa7b215e8225ad28cfc1348937fb1fb4de562fa",
-    "csdlc-v3/README.md": "289e6e548ae98ba4300540728be19d74d9215c26",
+    "csdlc-v3/Cargo.toml": "94e2d6ef857baa372ff755e916cb00777873a2a8",
+    "csdlc-v3/README.md": "a0def725828326b2ef372c8513ec36ca6b6fe9db",
     "csdlc-v3/src/adapters/mod.rs": "b28cc5454e4db5586b5c9068b5bfdf4bdde3563c",
     "csdlc-v3/src/application/mod.rs": "17786ec61fab53284f0f2500a16afcd4cd46efa3",
     "csdlc-v3/src/commands/mod.rs": "4646ac0dbc62dd3deb7b22cd06938c23c9482d47",
     "csdlc-v3/src/commands/proof.rs": "d930bf5138f20973e2ed4754c34989cd0dcd348c",
-    "csdlc-v3/src/commands/remote/mod.rs": "af6fb3704704ea940c1d7b8606c1eb48ee38353e",
-    "csdlc-v3/src/commands/remote/tests.rs": "85660bc34f666ab113f19afb3071636073da311c",
+    "csdlc-v3/src/commands/remote/mod.rs": "3b81013734d0523b27142fd1f7668da475781052",
+    "csdlc-v3/src/commands/remote/tests.rs": "2d57fe4017c1022c17a17ac3eed88f99e77cc060",
     "csdlc-v3/src/commands/sprint.rs": "43555ef045b8e4a50f377229f4b4dd21dc143b46",
     "csdlc-v3/src/lib.rs": "b97797e7ed838295346eb75383a62ea1f885a673",
     "csdlc-v3/src/lifecycle/mod.rs": "f4734f7726717fc9c022bdfe938e6d4cefd07025",
-    "csdlc-v3/src/main.rs": "3352f50fa1b23462bbd54c681cdde9f490171364",
+    "csdlc-v3/src/main.rs": "88406ba44ca5efabb88d9ead7179dd9189ecad4d",
     "csdlc-v3/src/publication/mod.rs": "9e4ed519326ac256df797638af0d7e2fef767e28",
     "csdlc-v3/src/repository/mod.rs": "3df5083039a24fb1a1aba22148a39827e4224d5d",
     "csdlc-v3/src/review/mod.rs": "aea9dd76ed44f53dece88c8cb912eabf12f567d2",
@@ -26,7 +26,7 @@
     "csdlc-v3/tests/foundation.rs": "e150b6969cf0b0af8ffc75a216ee6c9ce8120ecf",
     "csdlc-v3/tests/proof_parity_install_commands.rs": "61fb3a7d83d22ed53fea8f23cef6cb11c994fc93",
     "csdlc-v3/tests/proof_worktree_binding.rs": "bcea4f722959251d05bfb8bc59209e9ab89661e7",
-    "csdlc-v3/tests/real_issue_canary.rs": "f4dd727b26fb136512858097147d05a71aa750d6",
+    "csdlc-v3/tests/real_issue_canary.rs": "68cfb813d05db07f295d4d07e0d2af007f71e964",
     "csdlc-v3/tests/remote_publication_commands.rs": "7459a036c8feeb87581bbc1653c9c81fc75dc851",
     "csdlc-v3/tests/transactions.rs": "e14a9a5f5651be3c43d7c5b4e6c5330794e371a8"
   },
@@ -36,28 +36,11 @@
     {
       "id": "R771-ROUTES-1",
       "severity": "P2",
-      "actionable": true,
+      "actionable": false,
+      "actionability": "resolved",
       "in_scope": true,
       "disposition": "fixed",
-      "title": "Incomplete comment pagination could authorize duplicate retry",
-      "evidence": [
-        {
-          "path": "csdlc-v3/src/adapters/mod.rs",
-          "lines": "394-427,515-519",
-          "observation": "Structured bounded page argument now reaches comment readback URL."
-        },
-        {
-          "path": "csdlc-v3/src/commands/remote/mod.rs",
-          "lines": "1577-1619,1645-1663,1777-1789",
-          "observation": "All full pages traversed before absence; invalid/unavailable/incomplete scan and duplicates deny retry."
-        },
-        {
-          "path": "csdlc-v3/src/commands/remote/tests.rs",
-          "lines": "1503-1656",
-          "observation": "Synthetic later-match, failure/truncation/invalid-shape, cap, ambiguity and complete-absence cases exercise fix."
-        }
-      ],
-      "rationale": "Source repair removes the reproduced first-page absence-to-POST path. Retained v2 full pagination behavior is restored within explicit fail-closed v3 cap; no live GitHub proof claimed."
+      "evidence": "Complete bounded comment pagination, per-page status/truncation/JSON checks, credential propagation, ambiguity rejection and complete-absence retry guard remain intact at this SHA. Adapter is byte-identical to prior reviewed source; remote changes add IssueClose match arms without changing pagination. Both pagination regressions retain later-match, failure, truncation, invalid JSON/shape, cap, duplicate and complete-absence scenarios."
     }
   ],
   "criteria": {
@@ -67,7 +50,7 @@
     },
     "V3-F-ac-2": {
       "result": "pass",
-      "rationale": "Substantive assigned-route review covers typed publication/review, adapter credential/status boundaries, durable transaction recovery, proof/install worktree confinement and fixture limits. Compared retained v2 comment pagination with current v3; R771-ROUTES-1 is now fixed by complete bounded scans and ambiguity rejection, with focused synthetic regression coverage. This is source-semantic parity assessment; parent owns identical-SHA full locked suite and historical live canary evidence remains distinct."
+      "rationale": "Substantive assigned-route review covers typed publication/review, adapter credential/status boundaries, durable transaction recovery, proof/install worktree confinement and fixture limits. Compared retained v2 comment pagination with current v3; R771-ROUTES-1 is now fixed by complete bounded scans and ambiguity rejection, with focused synthetic regression coverage. This is source-semantic parity assessment; parent owns identical-SHA full locked suite and historical live canary evidence remains distinct. Renewed source adds explicit Rust 1.92 minimum and mainline native duplicate/superseded/no-op close route. Reviewed CLI input rejection, PATCH body preservation for accepted unmarked input, non-completion reason, authenticated closed-state/body reconciliation and restart reuse tests. These preserve guarded operational parity within the declared input contract. The real5853 canary now distinguishes expected primary legacy-state denial from successful diagnostic eligibility using pre-observed topology, with strict output assertions and issue-state byte preservation; denial is not promoted to successful live issue execution."
     },
     "V3-F-ac-3": {
       "result": "context",
@@ -75,44 +58,42 @@
     },
     "V3-F-ac-4": {
       "result": "pass",
-      "rationale": "Assigned public guidance and operational dispatch/proof/install require authenticated canonical native authority and exact current context. Missing/stale selector proof does not grant automatic v2 fallback. Typed rollback and cutover delegation preserve approval boundary; no route-level bypass introduced by pagination repair."
+      "rationale": "Assigned public guidance and operational dispatch/proof/install require authenticated canonical native authority and exact current context. Missing/stale selector proof does not grant automatic v2 fallback. Typed rollback and cutover delegation preserve approval boundary; no route-level bypass introduced by pagination repair. New issue-close dispatch uses the same canonical selector digest/exact-SHA gate and durable intent path; it does not replace terminal finish or grant release authority. Primary metadata-path guidance is consistent with the separately reviewed core boundary."
     }
   },
-  "path_assessments": {
-    "csdlc-v3/AGENTS.md": "Package instructions preserve native selector authority, typed worktree ownership and adapter outcome boundaries.",
-    "csdlc-v3/Cargo.lock": "Lockfile fixes registry dependencies and checksums for the native crate; no retained v2 path dependency.",
-    "csdlc-v3/Cargo.toml": "One library and csdlc binary with explicit serde, markdown, fs2 and blake3 dependencies; native build boundary.",
-    "csdlc-v3/README.md": "Current operational authority is separated from historical construction, rollback requires explicit selector and suspended authority.",
-    "csdlc-v3/src/adapters/mod.rs": "Completely reread final file: typed page argument reaches per_page=100&page=N URL; page 1..100 only. Credential injection, private config, environment isolation and status/redaction remain unchanged.",
-    "csdlc-v3/src/application/mod.rs": "Read-only foundation and predecessor projection use explicit repository context, deterministic projections and digest/identity checks.",
-    "csdlc-v3/src/commands/mod.rs": "Exports local, remote, terminal, proof and sprint route owners without alternate authority selector.",
-    "csdlc-v3/src/commands/proof.rs": "Proof/install authenticate current worktree, lifecycle generation/digest and canonical authority; retired shadow/soak deny before execution; install checks exact source bytes, destination confinement and output preflight.",
-    "csdlc-v3/src/commands/remote/mod.rs": "Completely reread final file: canonical authority/current HEAD guards and intent-before-dispatch retained. Comment reconciliation scans full pages to a short page within cap100; every page must have successful nontruncated valid bounded-array output. Incomplete scan, invalid JSON and multiple exact matches cannot enter authenticated-absence retry. Complete absence permits only explicit recovery; one existing match is reused. R771-ROUTES-1 fixed.",
-    "csdlc-v3/src/commands/remote/tests.rs": "Completely reread final file: existing publication/terminal model, synthetic authority, intent and restart fixtures retained. New negatives cover page2 timeout, truncation, invalid JSON, nonarray, oversized array, duplicate across pages, and cap; positives cover page2 existing match with no POST and complete multi-page absence before one explicit POST. Tests preserve synthetic transport boundary.",
-    "csdlc-v3/src/commands/sprint.rs": "Sprint readiness reads declared umbrella/child evidence, checks membership denominator and identity, and explicitly emits operational_authority=false.",
-    "csdlc-v3/src/lib.rs": "Library authority delegates to native canonical authority; retained predecessor and proportional-surface constants are contract denominator, not independent authority.",
-    "csdlc-v3/src/lifecycle/mod.rs": "Lifecycle transition matrix requires capabilities, invalidates stale projections, separates finish and cleanup, and requires structured review recovery provenance.",
-    "csdlc-v3/src/main.rs": "CLI dispatch separates operational execute from retained read-only modeling; local diagnostic fallback is restricted to doctor/eligibility topology diagnostics; rollback requires typed rollback operation.",
-    "csdlc-v3/src/publication/mod.rs": "Publication model binds repository, issue, revision and relation; finish derives closure from matching readback; cleanup checks terminal state, receipt, exact registered canonical path and preview identity.",
-    "csdlc-v3/src/repository/mod.rs": "Explicit canonical repository context confines record/card reads, rejecting symlink escapes and unsupported card kinds.",
-    "csdlc-v3/src/review/mod.rs": "Review authorization checks exact scope/revision, actionable findings, principal separation and publication target.",
-    "csdlc-v3/src/storage/mod.rs": "Storage stages typed intent, checks generation/digest CAS, locks durable store and journals before atomic state replacement; failed projection marks repair required and interrupted intent cannot silently resume.",
-    "csdlc-v3/tests/command_manifest.rs": "Command-manifest tests distinguish current native authority from retained pre-cutover denominators and reject obsolete fallback language; help assertions are interface proof only.",
-    "csdlc-v3/tests/foundation.rs": "Foundation tests exercise real and fixture card digests, identity mismatch, unsupported field redaction, symlink confinement and deterministic projections.",
-    "csdlc-v3/tests/proof_parity_install_commands.rs": "Legacy proof/install requests fail missing binding and shadow/soak remain disabled; tests explicitly assert no mutation and structured failure.",
-    "csdlc-v3/tests/proof_worktree_binding.rs": "Local integration uses native binary in a synthetic clone/worktree, validates identity and confinement negatives plus install/proof positives, snapshots mutation surfaces; fixture card construction does not prove binder behavior.",
-    "csdlc-v3/tests/real_issue_canary.rs": "Real issue canary consumes tracked issue records and uses fake remote adapter; modeled readback and generated receipt checks remain local construction proof, not new authenticated live canary.",
-    "csdlc-v3/tests/remote_publication_commands.rs": "Remote publication tests cover receipt durability, exact title/head, closing relation, unexpected closing targets and self-review negatives; synthetic receipts are not live remote evidence.",
-    "csdlc-v3/tests/transactions.rs": "Transaction tests cover stale writers, persistent intent ordering, failed replacement, projection repair, recovery integrity and adapter secret redaction; fake timeout/cancel cases establish model handling, not real process timeout enforcement."
-  },
   "review_method": {
-    "unchanged_blobs_reused": 22,
-    "completely_reread_changed_paths": [
+    "prior_source_sha": "5fddb524924489dff9924022c06b0346e4908af3",
+    "prior_receipt": "/tmp/review771-5fddb-routes.json",
+    "all_25_assignment_commit_and_working_blobs_verified": true,
+    "unchanged_substantive_reviews_reused": [
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/README.md",
       "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/proof.rs",
       "csdlc-v3/src/commands/remote/mod.rs",
-      "csdlc-v3/src/commands/remote/tests.rs"
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/src/commands/sprint.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/lifecycle/mod.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/src/publication/mod.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/src/review/mod.rs",
+      "csdlc-v3/src/storage/mod.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/foundation.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/proof_worktree_binding.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "csdlc-v3/tests/remote_publication_commands.rs",
+      "csdlc-v3/tests/transactions.rs"
     ],
-    "all_25_blobs_verified_against_commit_and_working_bytes": true
+    "changed_paths": [],
+    "method": "All25 assigned blobs are identical across prior reviewed SHA, current assigned immutable SHA, and working bytes. Reused substantive prior review, including complete real_issue_canary reread and earlier route changes. No fresh full-file reread or additional test execution claimed."
   },
-  "validation_boundary": "Final immutable source review only, no source edits and no live GitHub calls. Parent separately runs full locked suite at this source SHA. Earlier synthetic reproduction demonstrated pre-fix failure; final regression source was inspected without representing synthetic transport as authenticated live proof."
+  "validation_boundary": "Independent unchanged-source route review at220dbade0eb30e252f901b14c72a27f03bdcc715. Parent owns full identical-SHA suite; explicit terminal fixture unlock belongs to core reviewer. Prior source-review passes do not assert failed or unfinished suites passed. No live GitHub mutation, merge, closure or release authority."
 }

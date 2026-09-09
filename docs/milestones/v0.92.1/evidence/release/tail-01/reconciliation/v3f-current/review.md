@@ -1,3 +1,3 @@
-# Current independent V3-F review
+# Independent exact-source review
 
-Pass at `7fecd63398bb37530801dbf3375d47f73426d637`: all162 preassigned paths covered by two independent lane receipts under reviews/. Terminal ordering, schema resolution, complete comment pagination and current template authority findings are fixed. The full197-test locked suite ran separately from a clean detached checkout of these identical source bytes. All four V3-F rows bind both receipts; CORP-A remains resolved. Historical blocked reviews remain under archive/. No release, merge or issue closure is authorized.
+Both preassigned reviewers passed source `220dbade0eb30e252f901b14c72a27f03bdcc715` across all 162 coupled paths. Fresh component receipts record changed-file review, verified prior-source reuse, criterion assessments and limits. The primary terminal fixture integration mismatch is fixed without weakening receipt preflight. Full-suite execution is a separate receipt. No new actionable in-scope findings.

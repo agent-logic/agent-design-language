@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
   "phase": "implemented",
-  "generation": 33,
-  "digest": "a5ab5a4e3478db7f800dfc801e4798e0ee7b65d76f764acdd42151e10ca6b2c6",
+  "generation": 34,
+  "digest": "6bdebd25baad359f2e8d1dc78f2910397568b815e9c527a25f2c6c8a37c9cce3",
   "branch": "codex/771-v3f-proof-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89516bc4c300651112a7869060b75c97db31e91ff932e264a2133038f5264d7a",
+      "values_digest": "d5ac2a971672ba19467d719e2ec5c6f731dd63e4fd00826b7c72a32307ca9095",
       "rendered_digest": "a2ea7fb2f6c0652f51e9b89d76000de7f2d6d6869ca13e1be517c9a94569c14f",
       "ast_digest": "473272f52df4b975741193f59354ec248318f4858398dc6f27bfd315e034c9ae"
     },
     "stp": {
-      "values_digest": "9a20c86d7f8f55c046f5bc00f41806eb1cfb5c0b2c4ed625dc6ce5766df583d4",
+      "values_digest": "3ea30e71f2698e8f281d3ef8ae7fe7d7047d52f85953b1b693fd3acdfd47be35",
       "rendered_digest": "8edd89e46fc01b226b4f2f8f20830fd52719104a7ec7202747f8d64917c6525e",
       "ast_digest": "c81b6e3522d08beca37c2d0aac45d8664d9b9e6917d624aef75ad2f72d8eba1d"
     },
     "spp": {
-      "values_digest": "911e837c40d083341173c2b9f783a6a1b0ed268afc8aa58f730dff0ef19dcfe0",
+      "values_digest": "6c3ec08a3499a42aa0aa78cb6986f8086b4950c9aebf23a6257c3debfb44ffe8",
       "rendered_digest": "ca6c70ea50ce16d807369302eb7c1e824f7f58cab529ff9e8efea06a7c367565",
       "ast_digest": "dd22a249453e9668d328f81cdd2292658af505ff12f0e8180cfd89fb756838ae"
     },
     "vpp": {
-      "values_digest": "7b63f3fd5313a664cd5d59985b3bee47c8a3a9ba886ba4099784ec9fe55c9dbf",
+      "values_digest": "141308e10fc1e73f0d48093f3e247822f5f6cc534678752850c90ad002d113c1",
       "rendered_digest": "72afb7ee8ca532d6a745c8a14c577760933a4c21213fc832dc3a8f78b14f0a36",
       "ast_digest": "4a945006dec567b466ffd428028ab79458e1e9d9932ea98aa8ee230b7be20ba8"
     },
     "srp": {
-      "values_digest": "0d36eac4fdd1b0943d90a5a9ae4136035ce3b5bcc3195c752986d02c83c7e678",
+      "values_digest": "35080c31ca01e7d4c430f6b33d830ff27af055b5ee92273eee0a34663e98975f",
       "rendered_digest": "9faf3600966c1e114492834bc801dd4237e4352248ca5ef476c751939f74d18c",
       "ast_digest": "69b0fafce13b5d4801cb98e2327fc305629c2f4182c14cbc6c8d447b9b4e30af"
     },
     "sor": {
-      "values_digest": "591e01eafa65b3b350d5f80d527b272c8984acb38bd7c05391d47cd16ab4a59f",
-      "rendered_digest": "68ee68583d3ab5d512790e4576c043ea7d7347f9e25e62ddb8ddae69505f6a3e",
-      "ast_digest": "0c6da8ea32bb10e1413bae99f16bde1c6e13cd162b4f90e7865d8c3c4339b637"
+      "values_digest": "4b575730b5924519a62ab7efb669487aa207c33b1ad5212ab588ab51ada0e0b5",
+      "rendered_digest": "1ae9f0007189d4460426cce62a9febf7d90748eab3fb499786dbd4c4b314ec36",
+      "ast_digest": "140be28135c6ffbd1fd2044388c3e027b24c3e97ddfbc5c2ab4acc171b4288fb"
     }
   },
   "transitions": [
@@ -385,6 +385,13 @@
       "actor": "Planning #7",
       "reason": "Record bounded CI integration repair after newer main changed canonical primary terminal paths.",
       "operation": "{\"new_value\":\"PR #801 CI exposed primary terminal fixture paths stale against the merged main contract. Integrate current main, update the two approved regression fixtures, reproduce and repair the failing checks, then renew complete independently assigned exact-source review, full detached locked suite, mapping receipts and final PR review before typed republication with required CI passing. Preserve historical evidence and all three approved repairs.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.\",\"recovery_generation\":32,\"recovery_sequence\":38}"
+    },
+    {
+      "sequence": 40,
+      "generation": 34,
+      "actor": "Planning #7",
+      "reason": "Replace prior-source execution truth after bounded CI integration repair and fresh205-test exact-source proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"All four V3-F rows bound to independent162-path review and205-test full locked detached suite at220dbade0eb30e252f901b14c72a27f03bdcc715. Three approved product repairs preserved; merged-main fixture paths, legacy eligibility denial and explicit fixture lock release corrected. PR801 republication and hosted CI follow. No merge or closure.\",\"changes\":[\"Add fail-closed current review/suite mapping with14 negative substitutions and18 synthetic anti-drift contracts; preserve historical and CORP-A evidence.\",\"Reject terminal receipt conflicts before state replacement; reconcile every bounded comment page before explicit recovery; emit correct native v3 authority from versioned1.0.5 templates.\",\"Record independent exact-source review and full detached suite, preserving earlier blocked findings and reproductions.\",\"Integrate current main and align test fixtures with canonical primary metadata paths, fail-closed legacy eligibility and explicit advisory unlock. Preserve failed integration and storage evidence.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/review.json\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json\",\".csdlc/evidence/771/execution-status.md\",\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"docs/templates/prompts/current.json\",\".csdlc/evidence/771/ci-integration-defect.md\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Required native source static validation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/771/clippy.log\"},{\"command\":[\"python3\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"--v3f-current\"],\"purpose\":\"Required current exact-source review and full detached-suite binding for all four V3-F rows.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/771/current-mapping.log\"},{\"command\":[\"python3\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py\"],\"purpose\":\"Required synthetic validator anti-forgery and drift contracts; not source review proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/771/mapping-contract.log\"},{\"command\":[\"python3\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"--v3f-current\",\"--negative\"],\"purpose\":\"Required stale SHA/blob/suite substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/771/mapping-negative.log\"},{\"command\":[\"python3\",\"adl/tools/test_prompt_template_structure_schemas.py\",\"--template-set\",\"1.0.5\"],\"purpose\":\"Required Python-readable schema parity smoke; native renderer validation is in exact detached suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/771/template-schemas.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"197 tests passed in clean detached checkout at7fecd63398bb37530801dbf3375d47f73426d637 with external target; identical source independently reviewed across162paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/771/suite.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"205 full locked tests passed in a clean detached checkout at220dbade0eb30e252f901b14c72a27f03bdcc715; identical162sourcepaths independently reviewed.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/suite.json\"}]}"
     }
   ]
 }

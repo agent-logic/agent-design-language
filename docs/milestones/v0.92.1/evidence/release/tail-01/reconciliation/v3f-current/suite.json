@@ -1,6 +1,6 @@
 {
   "schema": "adl.v3f.detached_suite.v1",
-  "source_sha": "7fecd63398bb37530801dbf3375d47f73426d637",
+  "source_sha": "220dbade0eb30e252f901b14c72a27f03bdcc715",
   "argv": [
     "cargo",
     "test",
@@ -8,17 +8,18 @@
     "--manifest-path",
     "csdlc-v3/Cargo.toml"
   ],
-  "started_at": "2026-09-09T17:56:40.141232+00:00",
-  "duration_seconds": 54.844,
+  "started_at": "2026-09-09T18:36:28.947648+00:00",
+  "duration_seconds": 47.004,
   "exit_code": 0,
-  "passed": 197,
+  "passed": 205,
   "failed": 0,
   "detached": true,
   "clean_before": true,
   "clean_after": true,
-  "head_after": "7fecd63398bb37530801dbf3375d47f73426d637",
+  "head_after": "220dbade0eb30e252f901b14c72a27f03bdcc715",
   "external_target": true,
   "log": "suite.log",
-  "log_sha256": "e434d17da3303f7201cc3db287334411c3b3ee276a8b0a6dc6249cb8250a54aa",
-  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+  "log_sha256": "d82b93f72fbce42b3bdbcbe520e85d428cfe5e342e649ba3373d5b59c6e5a4b0",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "checkout_method": "Clean detached linked proof checkout on internal disk; identical source bytes and unmodified test command. Earlier infrastructure and fixture failures retained separately."
 }
