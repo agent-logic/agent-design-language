@@ -14,6 +14,6 @@ remain immutable evidence; they do not prohibit the approved native v3 routes.
 - The prepared-issue start target is three minutes once dependencies are satisfied, without weakening authority or proof.
 
 See `operator/authority-selector.json`, `operator/native-authority-receipt.json`
-and `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md`. Missing or stale authority
+and `docs/csdlc-v3/CURRENT_AUTHORITY.md`. Missing or stale authority
 proof must be repaired through the declared typed route. An explicitly authorized
 v2 transition exception must remain issue-scoped and must not switch the default.

@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 761,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+    "slug": "review-lane-denominators",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Classify every path, select lane samples after classification, record auditable denominator manifests, validate integrity, prove exact fixture, obtain independent review and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Implement complete classification and selection manifests",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Add focused regression and negative tests",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Review and publish truthful proof",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/tools/skills/repo-packet-builder",
+        "adl/tools/skills/repo-review-synthesis/references/output-contract.md",
+        "adl/tools/skills/repo-packet-builder/tests/test_denominators.py"
+      ],
+      "invariants": [
+        "Path classification is not semantic proof.",
+        "Manual samples never replace complete denominators."
+      ],
+      "risks": [
+        "Broad manifest routing can crowd out category-specific source files."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Unresolved review findings",
+        "Failed denominator integrity tests"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/761/design.md",
+      "design_digest": "1d7815d5e7855103ca6af5d5fb1846a75cff9bf7495141137002eff436f1c26d",
+      "diagram_ref": ".csdlc/prepared/issues/761/diagram.mmd",
+      "diagram_digest": "227d32612782fea85e1af8d9113332e85080a0c8816117cbd8ef463127554424"
+    }
+  }
+}

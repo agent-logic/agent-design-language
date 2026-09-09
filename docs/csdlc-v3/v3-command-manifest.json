@@ -3,8 +3,8 @@
   "authority_issue": 505,
   "sprint_issue": 625,
   "source_issue": 627,
-  "status": "pre_cutover_construction",
-  "operational_authority": false,
+  "status": "post_cutover_operational",
+  "operational_authority": true,
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
@@ -23,14 +23,14 @@
       "replaces": [],
       "owner_issue": 501,
       "implementation_status": "implemented",
-      "authority_status": "read_only_construction"
+      "authority_status": "read_only_helper"
     },
     {
       "command": "local",
       "replaces": [],
       "owner_issue": 503,
       "implementation_status": "implemented",
-      "authority_status": "read_only_construction"
+      "authority_status": "read_only_helper"
     },
     {
       "command": "bind",
@@ -39,7 +39,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "clean",
@@ -48,7 +48,7 @@
       ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "cutover",
@@ -57,7 +57,7 @@
       ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "doctor",
@@ -66,7 +66,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "edit",
@@ -75,7 +75,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "eligibility",
@@ -84,7 +84,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "finish",
@@ -93,7 +93,7 @@
       ],
       "owner_issue": 630,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "github",
@@ -102,7 +102,7 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "github-issue",
@@ -111,7 +111,7 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "github-pr",
@@ -120,7 +120,7 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "install",
@@ -129,7 +129,7 @@
       ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
-      "authority_status": "not_live"
+      "authority_status": "proof_only"
     },
     {
       "command": "issue",
@@ -138,7 +138,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "pr-state",
@@ -147,7 +147,7 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "proof",
@@ -156,7 +156,7 @@
       ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
-      "authority_status": "not_live"
+      "authority_status": "proof_only"
     },
     {
       "command": "publish",
@@ -165,7 +165,7 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "review",
@@ -174,14 +174,14 @@
       ],
       "owner_issue": 629,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "remote",
       "replaces": [],
       "owner_issue": 504,
       "implementation_status": "implemented",
-      "authority_status": "not_live_helper"
+      "authority_status": "read_only_helper"
     },
     {
       "command": "schedule",
@@ -190,7 +190,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "shadow",
@@ -199,7 +199,7 @@
       ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
-      "authority_status": "not_live"
+      "authority_status": "proof_only"
     },
     {
       "command": "shepherd",
@@ -208,7 +208,7 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     },
     {
       "command": "soak",
@@ -217,14 +217,14 @@
       ],
       "owner_issue": 631,
       "implementation_status": "implemented_construction",
-      "authority_status": "not_live"
+      "authority_status": "proof_only"
     },
     {
       "command": "sprint",
       "replaces": [],
       "owner_issue": 632,
       "implementation_status": "implemented",
-      "authority_status": "read_only_construction"
+      "authority_status": "read_only_helper"
     },
     {
       "command": "validate",
@@ -233,17 +233,18 @@
       ],
       "owner_issue": 628,
       "implementation_status": "implemented",
-      "authority_status": "not_live"
+      "authority_status": "authenticated_v3"
     }
   ],
   "invariants": [
-    "C-SDLC v2 remains live operational authority until #505 cutover is explicitly approved.",
+    "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.",
     "The v3 replacement target is one csdlc binary.",
-    "Not-yet-implemented live-authority routes fail closed and do not invoke v2 binaries, raw gh, v1 wrappers, or shell commands.",
-    "Implemented pre-cutover bridge routes parse typed repo-local evidence and remain non-authoritative until #505 cutover.",
-    "Visible helper routes with no v2 entrypoint replacement are implemented, included in the command-surface denominator, and excluded from replacement-route counts.",
-    "Each command route has one owning V3-H child issue.",
-    "install/proof/shadow/soak execute typed pre-cutover construction proof routes before #505 approval; cutover is modeled by the terminal/cutover route and remains non-authoritative before #505.",
-    "All 21 v2 entrypoints now have executable v3 replacement routes, but cutover_ready remains false until current evidence consumption, rollback/canary proof, exact-head review, operator approval, and terminal reconciliation."
-  ]
+    "Unsupported routes fail closed without automatic v2 fallback, raw GitHub writes or shell commands.",
+    "Retained construction and bridge proof is not operational authority.",
+    "Visible helpers remain in the command denominator but do not grant mutation authority.",
+    "Command owner_issue fields retain construction provenance; current execution follows authenticated native authority.",
+    "install/proof/shadow/soak retain their construction-proof role after cutover; they do not independently authorize lifecycle mutation.",
+    "The separate full-replacement-denominator.json is immutable pre-cutover evidence. Its historical cutover_ready=false is not current routing policy."
+  ],
+  "authority_condition": "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority."
 }

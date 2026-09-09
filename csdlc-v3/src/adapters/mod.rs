@@ -231,6 +231,14 @@ pub enum ProcessStatus {
 }
 
 pub trait ProcessAdapter {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &CommandInvocation,
+    ) -> Result<(), AdapterError> {
+        let _ = invocation;
+        Ok(())
+    }
+
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput;
 }
 
@@ -255,6 +263,21 @@ impl<R> RealProcessAdapter<R> {
 }
 
 impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &CommandInvocation,
+    ) -> Result<(), AdapterError> {
+        let Some(name) = invocation.child_credential_name() else {
+            return Ok(());
+        };
+        let mut captured = CapturedChildCredentials::default();
+        self.resolver.inject_child_credential(name, &mut captured)?;
+        captured
+            .take_single(name)
+            .map(|_| ())
+            .ok_or(AdapterError::CredentialResolutionFailed)
+    }
+
     fn run(&mut self, invocation: CommandInvocation) -> ProcessOutput {
         let mut captured = CapturedChildCredentials::default();
         let credential = match invocation.child_credential_name() {
@@ -605,6 +628,7 @@ fn run_process(
 ) -> ProcessOutput {
     let mut command = Command::new(&invocation.program);
     command.args(invocation.argv());
+    apply_minimal_child_environment(&mut command);
     if let Some(path) = curl_config {
         command.arg("--config").arg(path);
     }
@@ -619,6 +643,25 @@ fn run_process(
             stderr: format!("process execution failed: {error}"),
             truncated: false,
         },
+    }
+}
+
+/// Child processes run without ambient parent credentials or shell startup
+/// state. `PATH` is retained only as the explicit executable lookup trust
+/// boundary, and `LC_ALL=C` fixes locale-sensitive output. `HOME`, proxy
+/// variables, CA overrides, and provider configuration are intentionally not
+/// inherited; GitHub credentials are passed through the typed child-credential
+/// scope and private curl config.
+fn apply_minimal_child_environment(command: &mut Command) {
+    command.env_clear();
+    command.env(
+        "PATH",
+        std::env::var("PATH").unwrap_or_else(|_| "/usr/bin:/bin:/usr/sbin:/sbin".to_owned()),
+    );
+    command.env("LC_ALL", "C");
+    #[cfg(windows)]
+    if let Ok(system_root) = std::env::var("SystemRoot") {
+        command.env("SystemRoot", system_root);
     }
 }
 
@@ -907,5 +950,50 @@ mod tests {
 
         let rejected = github_read_only_curl_invocation(&invocation).expect_err("unsafe head");
         assert_eq!(rejected.status, ProcessStatus::Exit(2));
+    }
+
+    // PVF: deterministic local subprocess environment contract; no network.
+    #[test]
+    fn unscoped_child_process_does_not_inherit_parent_credentials_or_home() {
+        unsafe {
+            std::env::set_var("ADL_TEST_PARENT_CREDENTIAL_751", "must-not-leak");
+            std::env::set_var("HTTPS_PROXY", "http://credential.example.invalid");
+            std::env::set_var("HOME", "/tmp/adl-home-must-not-leak");
+        }
+        let invocation = CommandInvocation::new("/usr/bin/env", std::iter::empty::<&str>())
+            .expect("env command");
+        let output = run_process(&invocation, None, None, 1024 * 1024);
+        unsafe {
+            std::env::remove_var("ADL_TEST_PARENT_CREDENTIAL_751");
+            std::env::remove_var("HTTPS_PROXY");
+            std::env::remove_var("HOME");
+        }
+        assert_eq!(output.status, ProcessStatus::Exit(0));
+        assert!(!output.stdout.contains("ADL_TEST_PARENT_CREDENTIAL_751="));
+        assert!(!output.stdout.contains("must-not-leak"));
+        assert!(!output.stdout.contains("HTTPS_PROXY="));
+        assert!(!output.stdout.contains("HOME=/tmp/adl-home-must-not-leak"));
+        assert!(output.stdout.contains("LC_ALL=C"));
+        assert!(output.stdout.contains("PATH="));
+    }
+
+    // PVF: deterministic local subprocess credential-scope/redaction contract; no network.
+    #[test]
+    fn scoped_child_process_receives_only_selected_credential_and_minimal_environment() {
+        let invocation = CommandInvocation::new("/usr/bin/env", std::iter::empty::<&str>())
+            .expect("env command")
+            .with_child_credential("GITHUB_TOKEN")
+            .expect("safe credential name");
+        let mut adapter =
+            RealProcessAdapter::new(StaticCredentialResolver::new("GITHUB_TOKEN", "secret-751"));
+        let output = adapter.run(invocation);
+        assert_eq!(output.status, ProcessStatus::Exit(0));
+        assert!(output.stdout.contains("GITHUB_TOKEN=[REDACTED]"));
+        assert!(!output.stdout.contains("secret-751"));
+        assert!(!output.stderr.contains("secret-751"));
+        assert!(!output.stdout.contains("HOME="));
+        assert!(!output.stdout.contains("HTTPS_PROXY="));
+        assert!(output.stdout.contains("LC_ALL=C"));
+        assert!(output.stdout.contains("PATH="));
     }
 }
