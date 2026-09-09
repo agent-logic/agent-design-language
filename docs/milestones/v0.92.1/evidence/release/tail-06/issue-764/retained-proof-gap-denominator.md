@@ -15,6 +15,8 @@
   | --- | ---: |
   | Remediation rows | 198 |
   | Preserved rows | 29 |
+  | Accounted retained rows resolved outside #764 | 3 |
+  | Eligible retained partition total | 230 |
   | Excluded non-#764 accounting rows | 15 |
 
   ## Remediation counts
@@ -32,6 +34,17 @@
   | `proven` | 10 | 10 |
 | `accepted_amendment` | 8 | 8 |
 | `not_applicable_at_quality_gate` | 11 | 11 |
+
+  ## Retained rows accounted outside #764
+
+  | Class | Expected | Actual |
+  | --- | ---: | ---: |
+  | `review_freshness_resolved` | 3 | 3 |
+
+  The `review_freshness_resolved` rows are retained input rows, but they are
+  not part of the #764 remediation denominator or the preserved 29-row release
+  partition. They are explicitly accounted here so retained eligible class
+  drift fails closed instead of disappearing from the denominator packet.
 
   ## Child bucket candidates
 

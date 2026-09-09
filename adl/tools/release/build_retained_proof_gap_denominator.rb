@@ -37,6 +37,10 @@ PRESERVED_CLASSES = [
   "not_applicable_at_quality_gate"
 ].freeze
 
+ACCOUNTED_NON_764_ELIGIBLE_CLASSES = [
+  "review_freshness_resolved"
+].freeze
+
 DEFAULT_REMEDIATION_COUNTS = {
   "non_proving" => 143,
   "source_supported_not_execution_proof" => 51,
@@ -47,6 +51,10 @@ DEFAULT_PRESERVED_COUNTS = {
   "proven" => 10,
   "accepted_amendment" => 8,
   "not_applicable_at_quality_gate" => 11
+}.freeze
+
+DEFAULT_ACCOUNTED_NON_764_ELIGIBLE_COUNTS = {
+  "review_freshness_resolved" => 3
 }.freeze
 
 CHECK_ONLY = ARGV.include?("--check")
@@ -62,6 +70,11 @@ EXPECTED_REMEDIATION_COUNTS =
   expected_counts(DEFAULT_REMEDIATION_COUNTS, "ADL_764_EXPECT_REMEDIATION")
 EXPECTED_PRESERVED_COUNTS =
   expected_counts(DEFAULT_PRESERVED_COUNTS, "ADL_764_EXPECT_PRESERVED")
+EXPECTED_ACCOUNTED_NON_764_ELIGIBLE_COUNTS =
+  expected_counts(
+    DEFAULT_ACCOUNTED_NON_764_ELIGIBLE_COUNTS,
+    "ADL_764_EXPECT_ACCOUNTED_NON_764_ELIGIBLE"
+  )
 
 def read_json(repo_relative)
   path = File.join(ROOT, repo_relative)
@@ -216,11 +229,19 @@ preserved_rows = eligible_rows.select do |row|
   PRESERVED_CLASSES.include?(row.fetch("reconciliation_class"))
 end
 
+accounted_non_764_eligible_rows = eligible_rows.select do |row|
+  ACCOUNTED_NON_764_ELIGIBLE_CLASSES.include?(row.fetch("reconciliation_class"))
+end
+
 remediation_counts = count_by(remediation_rows, "reconciliation_class")
 preserved_counts = count_by(preserved_rows, "reconciliation_class")
+accounted_non_764_eligible_counts =
+  count_by(accounted_non_764_eligible_rows, "reconciliation_class")
 
 expected_remediation_total = EXPECTED_REMEDIATION_COUNTS.values.sum
 expected_preserved_total = EXPECTED_PRESERVED_COUNTS.values.sum
+expected_accounted_non_764_eligible_total =
+  EXPECTED_ACCOUNTED_NON_764_ELIGIBLE_COUNTS.values.sum
 
 count_findings = []
 EXPECTED_REMEDIATION_COUNTS.each do |classification, expected|
@@ -249,8 +270,46 @@ EXPECTED_PRESERVED_COUNTS.each do |classification, expected|
   }
 end
 
+EXPECTED_ACCOUNTED_NON_764_ELIGIBLE_COUNTS.each do |classification, expected|
+  actual = accounted_non_764_eligible_counts[classification]
+  next if actual == expected
+
+  count_findings << {
+    "severity" => "P1",
+    "classification" => classification,
+    "expected" => expected,
+    "actual" => actual,
+    "message" => "accounted non-#764 eligible count drift"
+  }
+end
+
+eligible_partition_total =
+  remediation_rows.length +
+  preserved_rows.length +
+  accounted_non_764_eligible_rows.length
+
+if eligible_partition_total != eligible_rows.length
+  covered_classes =
+    REMEDIATION_CLASSES +
+    PRESERVED_CLASSES +
+    ACCOUNTED_NON_764_ELIGIBLE_CLASSES
+  unaccounted_rows = eligible_rows.reject do |row|
+    covered_classes.include?(row.fetch("reconciliation_class"))
+  end
+  count_findings << {
+    "severity" => "P1",
+    "expected" => eligible_rows.length,
+    "actual" => eligible_partition_total,
+    "message" => "eligible retained rows escaped the #764 accounting partition",
+    "unaccounted_classes" => count_by(unaccounted_rows, "reconciliation_class"),
+    "unaccounted_row_ids" => unaccounted_rows.map { |row| row.fetch("row_id") }.sort
+  }
+end
+
 stable_remediation_rows = remediation_rows.map { |row| stable_row(row) }
 stable_preserved_rows = preserved_rows.map { |row| stable_row(row) }
+stable_accounted_non_764_eligible_rows =
+  accounted_non_764_eligible_rows.map { |row| stable_row(row) }
 
 child_buckets = stable_remediation_rows.group_by { |row| bucket_key(row) }.map do |name, bucket_rows|
   {
@@ -312,6 +371,16 @@ report = {
     "preserved_counts" => EXPECTED_PRESERVED_COUNTS.keys.to_h do |key|
       [key, preserved_counts[key]]
     end,
+    "accounted_non_764_eligible_total" =>
+      accounted_non_764_eligible_rows.length,
+    "expected_accounted_non_764_eligible_total" =>
+      expected_accounted_non_764_eligible_total,
+    "accounted_non_764_eligible_counts" =>
+      EXPECTED_ACCOUNTED_NON_764_ELIGIBLE_COUNTS.keys.to_h do |key|
+        [key, accounted_non_764_eligible_counts[key]]
+      end,
+    "eligible_partition_total" => eligible_partition_total,
+    "eligible_total" => eligible_rows.length,
     "excluded_accounting_rows" => rows.length - eligible_rows.length,
     "excluded_accounting_classes" => count_by(rows - eligible_rows, "reconciliation_class")
   },
@@ -321,6 +390,7 @@ report = {
   },
   "remediation_rows" => stable_remediation_rows,
   "preserved_rows" => stable_preserved_rows,
+  "accounted_non_764_eligible_rows" => stable_accounted_non_764_eligible_rows,
   "child_buckets" => child_buckets,
   "release_decision" => {
     "status" => "blocked",
@@ -353,6 +423,8 @@ unless CHECK_ONLY
     | --- | ---: |
     | Remediation rows | #{remediation_rows.length} |
     | Preserved rows | #{preserved_rows.length} |
+    | Accounted retained rows resolved outside #764 | #{accounted_non_764_eligible_rows.length} |
+    | Eligible retained partition total | #{eligible_partition_total} |
     | Excluded non-#764 accounting rows | #{rows.length - eligible_rows.length} |
 
     ## Remediation counts
@@ -366,6 +438,17 @@ unless CHECK_ONLY
     | Class | Expected | Actual |
     | --- | ---: | ---: |
     #{EXPECTED_PRESERVED_COUNTS.map { |classification, expected| "| `#{classification}` | #{expected} | #{preserved_counts[classification]} |" }.join("\n")}
+
+    ## Retained rows accounted outside #764
+
+    | Class | Expected | Actual |
+    | --- | ---: | ---: |
+    #{EXPECTED_ACCOUNTED_NON_764_ELIGIBLE_COUNTS.map { |classification, expected| "| `#{classification}` | #{expected} | #{accounted_non_764_eligible_counts[classification]} |" }.join("\n")}
+
+    The `review_freshness_resolved` rows are retained input rows, but they are
+    not part of the #764 remediation denominator or the preserved 29-row release
+    partition. They are explicitly accounted here so retained eligible class
+    drift fails closed instead of disappearing from the denominator packet.
 
     ## Child bucket candidates
 
@@ -390,6 +473,9 @@ puts JSON.generate(
   "status" => report.fetch("validation").fetch("status"),
   "remediation_total" => remediation_rows.length,
   "preserved_total" => preserved_rows.length,
+  "accounted_non_764_eligible_total" => accounted_non_764_eligible_rows.length,
+  "eligible_partition_total" => eligible_partition_total,
+  "eligible_total" => eligible_rows.length,
   "json" => File.join(OUTPUT_ROOT, "retained-proof-gap-denominator.json"),
   "markdown" => File.join(OUTPUT_ROOT, "retained-proof-gap-denominator.md")
 )

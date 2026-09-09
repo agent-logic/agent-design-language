@@ -38,6 +38,13 @@
       "accepted_amendment": 8,
       "not_applicable_at_quality_gate": 11
     },
+    "accounted_non_764_eligible_total": 3,
+    "expected_accounted_non_764_eligible_total": 3,
+    "accounted_non_764_eligible_counts": {
+      "review_freshness_resolved": 3
+    },
+    "eligible_partition_total": 230,
+    "eligible_total": 230,
     "excluded_accounting_rows": 15,
     "excluded_accounting_classes": {
       "accepted_amendment": 4,
@@ -2551,6 +2558,41 @@
       "successor_authority": "retained-v3.json",
       "owner": "#505",
       "disposition": "preserved"
+    }
+  ],
+  "accounted_non_764_eligible_rows": [
+    {
+      "row_id": "CORP-A:CORP-A-ac-1",
+      "criterion_id": "CORP-A:CORP-A-ac-1",
+      "criterion_text_digest": "dcfba0727c2d81928d75f6b3a1b6c0cdd7ddcdd76e063068f4fad3fabae2038f",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "review_freshness_resolved",
+      "proof_requirement": "not part of #764 retained proof-gap partition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "outside_issue_764_partition"
+    },
+    {
+      "row_id": "CORP-A:CORP-A-ac-2",
+      "criterion_id": "CORP-A:CORP-A-ac-2",
+      "criterion_text_digest": "a18411b2faf1a9ffbc54fd8870ee7d1babfeb3d1bb02441e0671f0dde0ceceee",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "review_freshness_resolved",
+      "proof_requirement": "not part of #764 retained proof-gap partition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "outside_issue_764_partition"
+    },
+    {
+      "row_id": "CORP-A:CORP-A-ac-3",
+      "criterion_id": "CORP-A:CORP-A-ac-3",
+      "criterion_text_digest": "091e9f774e4317433dcf2316608634336f44a1e31dce5d68deb3aa457f1d3f4c",
+      "mapping_file": "retained-corporate-runtime.json",
+      "reconciliation_class": "review_freshness_resolved",
+      "proof_requirement": "not part of #764 retained proof-gap partition",
+      "successor_authority": "retained-corporate-runtime.json",
+      "owner": "#482",
+      "disposition": "outside_issue_764_partition"
     }
   ],
   "child_buckets": [
