@@ -1,0 +1,51 @@
+{
+  "schema": "adl.v0921.terminal_projection.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 519,
+  "projection_issue": 817,
+  "historical_cards": {
+    "policy": "immutable_post_merge_history",
+    "srp_sha256": "1fc90e5a5af0a9b95f02a5961b40a226c534551a018ea43eeda0d8cc9c5f20c5",
+    "sor_sha256": "b87e8bc55514f92526608b737870ab5c0cbe69d039a07659bc95645a826ac24e"
+  },
+  "typed_terminal": {
+    "state": {
+      "schema": "csdlc.v3.terminal_state.v1",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 519,
+      "pull_request": 756,
+      "head_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+      "disposition": "closed_out"
+    },
+    "receipt": {
+      "schema": "csdlc.v3.terminal_receipt.v1",
+      "repository": "agent-logic/agent-design-language",
+      "issue": 519,
+      "pull_request": 756,
+      "head_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+      "disposition": "closed_out",
+      "state_digest": "eefeb591a81df177c350f3ac240d354bfa9f73cc76ba435c49de8409a4f1b091"
+    },
+    "source_paths": {
+      "state": ".git/csdlc-v3/local/v3/issues/519/terminal.json",
+      "receipt": ".git/csdlc-v3/local/evidence/519/terminal-receipt.json"
+    },
+    "source_sha256": {
+      "state": "ee2967820012d12ec9346b740bf8b3b562646599fbfb9278f9016c642bdc59f7",
+      "receipt": "1be73800bceb8064a6fe63a0e75c46341e610e390cbcbb103ec0f97d21d19ea4"
+    }
+  },
+  "github_observation": {
+    "observed_at": "2026-09-09T21:58:00Z",
+    "issue_state": "CLOSED",
+    "issue_closed_at": "2026-09-09T04:16:56Z",
+    "pull_request": 756,
+    "pull_request_state": "MERGED",
+    "pull_request_merged_at": "2026-09-09T04:16:55Z",
+    "pull_request_head_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+    "pull_request_merge_sha": "9252ec0c87a309a802dfa11ce9188a859e106607",
+    "base": "main",
+    "closes_issue": 519
+  },
+  "disposition": "terminal_truth_reconciled_without_card_rewrite"
+}

@@ -80,8 +80,8 @@ VARS
 
 gcloud config get-value account >"${evidence_dir}/${run_id}.gcloud-account.txt" 2>&1
 gcloud config get-value project >"${evidence_dir}/${run_id}.gcloud-project.txt" 2>&1 || true
-gcloud compute accelerator-types describe "${accelerator_type}" --zone="${zone}" --project="${project_id}" >"${evidence_dir}/${run_id}.accelerator-type.json"
-gcloud compute machine-types describe "${machine_type}" --zone="${zone}" --project="${project_id}" >"${evidence_dir}/${run_id}.machine-type.json"
+gcloud compute accelerator-types describe "${accelerator_type}" --zone="${zone}" --project="${project_id}" --format=json >"${evidence_dir}/${run_id}.accelerator-type.json"
+gcloud compute machine-types describe "${machine_type}" --zone="${zone}" --project="${project_id}" --format=json >"${evidence_dir}/${run_id}.machine-type.json"
 gcloud compute project-info describe --project="${project_id}" --format='flattened(quotas)' >"${evidence_dir}/${run_id}.project-quotas.txt"
 
 gpu_quota_limit="$(

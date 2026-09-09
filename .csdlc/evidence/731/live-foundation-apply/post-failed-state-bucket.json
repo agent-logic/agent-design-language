@@ -1,0 +1,10 @@
+{
+  "schema": "adl.retained_command_failure.v1",
+  "status": "failed",
+  "command_class": "gcloud.storage.buckets.describe",
+  "error_class": "not_found",
+  "exit_code": null,
+  "stdout_empty": true,
+  "stderr_artifact": ".csdlc/evidence/731/live-foundation-apply/post-failed-state-bucket.err",
+  "disposition": "post-failure diagnostic observed state-bucket absence; retained as failure evidence, not a bucket readback"
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "adl.retained_command_failure.v1",
+  "status": "failed",
+  "command_class": "gcloud.storage.buckets.describe",
+  "error_class": "not_found",
+  "exit_code": 1,
+  "stdout_empty": true,
+  "stderr_artifact": ".csdlc/evidence/730/preapply-bucket-describe.stderr.log",
+  "disposition": "expected pre-apply absence; retained as failure evidence, not a resource readback"
+}

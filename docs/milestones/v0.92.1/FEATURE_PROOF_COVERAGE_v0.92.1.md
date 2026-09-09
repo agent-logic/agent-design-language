@@ -44,59 +44,59 @@ Reproduce this projection with `python3 docs/milestones/v0.92.1/evidence/release
 
 ### Repository and milestone opening
 
-Execution-wave creation receipt and repository planning delivered. Opening receipt is not product proof or release approval. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+Execution-wave creation receipt and repository planning delivered. Opening receipt is not product proof or release approval. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### Corporate and IP
 
-Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance. Recordless acceptance is an amendment, not a fabricated test run; retained criteria need complete candidate review. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance. Recordless acceptance is an amendment, not a fabricated test run; retained criteria need complete candidate review. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### C-SDLC v3
 
-Native command implementation and authenticated #505/PR591 cutover delivered. Operational authority remains conditional on selector/receipt validation. Review and tooling debt does not reverse the completed cutover. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#771](https://github.com/agent-logic/agent-design-language/issues/771).com/agent-logic/agent-design-language/issues/522), [#771](https://github.com/agent-logic/agent-design-language/issues/771).
+Native command implementation and authenticated #505/PR591 cutover delivered. Operational authority remains conditional on selector/receipt validation. Review and tooling debt does not reverse the completed cutover. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#771](https://github.com/agent-logic/agent-design-language/issues/771).
 
 ### Distributed multi-agent Runtime
 
-Distributed contract, continuity qualification and failure-mode implementation retained. Removal remediation #757 is closed. Admission-triggered A2A initiation and health-task isolation remain #758/#759 work; closed #345 retains its input contract, not new consumption proof. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#758](https://github.com/agent-logic/agent-design-language/issues/758), [#759](https://github.com/agent-logic/agent-design-language/issues/759).com/agent-logic/agent-design-language/issues/522), [#758](https://github.com/agent-logic/agent-design-language/issues/758), [#759](https://github.com/agent-logic/agent-design-language/issues/759).
+Distributed contract, continuity qualification and failure-mode implementation retained. Removal remediation #757 is closed. Admission-triggered A2A initiation and health-task isolation remain #758/#759 work; closed #345 retains its input contract, not new consumption proof. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#758](https://github.com/agent-logic/agent-design-language/issues/758), [#759](https://github.com/agent-logic/agent-design-language/issues/759).
 
 ### Podcast
 
-Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained. Public hosting is observed; actual browser/player playback remains unproved. Closed #264 retains the operator authorization boundary for directory submission and public launch; unresolved acceptance belongs to #522 and ceremony authorization to #526. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#526](https://github.com/agent-logic/agent-design-language/issues/526).com/agent-logic/agent-design-language/issues/522), [#526](https://github.com/agent-logic/agent-design-language/issues/526).
+Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained. Public hosting is observed; actual browser/player playback remains unproved. Closed #264 retains the operator authorization boundary for directory submission and public launch; unresolved acceptance belongs to #522 and ceremony authorization to #526. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#526](https://github.com/agent-logic/agent-design-language/issues/526).
 
 ### Axum configuration hot reload
 
-Config reload implementation and retained validation supplied by #510. Retained tests are not a new live reload demonstration or complete candidate review. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+Config reload implementation and retained validation supplied by #510. Retained tests are not a new live reload demonstration or complete candidate review. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### Observatory redesign
 
-OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512. Unity #84 and TLS #251 remain deferred. Closed #122 retains public-exposure scope provenance; current acceptance evidence remains a #522 obligation. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512. Unity #84 and TLS #251 remain deferred. Closed #122 retains public-exposure scope provenance; current acceptance evidence remains a #522 obligation. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### Runtime v2/v3 decoupling
 
-Runtime authority topology and generation ownership migration package retained. Compatibility and rollback evidence require complete current review; no implied Runtime v4 qualification. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+Runtime authority topology and generation ownership migration package retained. Compatibility and rollback evidence require complete current review; no implied Runtime v4 qualification. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### Provider inference profiles
 
-Shared profile implementation and isolated comparison/shadow implementation retained. Source-time validation does not authorize shadow output or prove every provider deployment. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+Shared profile implementation and isolated comparison/shadow implementation retained. Source-time validation does not authorize shadow output or prove every provider deployment. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### GCP qualification sidecar
 
-Governed six-resident replay wrapper and retained run evidence delivered by #509. No new GCP run is performed here; no #269 execution credit is implied. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522).
+Governed six-resident replay wrapper and retained run evidence delivered by #509. No new GCP run is performed here; no #269 execution credit is implied. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
 
 ### AWS account move-in
 
-Seven phase implementation and receipt packages retained. Recovery/access and full review obligations remain explicit; no inference of universal account compliance. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#770](https://github.com/agent-logic/agent-design-language/issues/770).com/agent-logic/agent-design-language/issues/522), [#770](https://github.com/agent-logic/agent-design-language/issues/770).
+Seven phase implementation and receipt packages retained. Recovery/access and full review obligations remain explicit; no inference of universal account compliance. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#770](https://github.com/agent-logic/agent-design-language/issues/770).
 
 ### GCP account move-in
 
-Five phase packages plus #740 private/versioned backend recovery proof retained. GCP-B audit/log posture remains owned by #772; recovery proof does not establish audit configuration. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#772](https://github.com/agent-logic/agent-design-language/issues/772).com/agent-logic/agent-design-language/issues/522), [#772](https://github.com/agent-logic/agent-design-language/issues/772).
+Five phase packages plus #740 private/versioned backend recovery proof retained. GCP-B audit/log posture remains owned by #772; recovery proof does not establish audit configuration. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#772](https://github.com/agent-logic/agent-design-language/issues/772).
 
 ### Cross-cloud Terraform conversion
 
-Portable workload contract and AWS/GCP Terraform implementation retained. Provider-major bounds landed through #765. Complete current parity and rollback acceptance remains a #522 proof obligation. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).com/agent-logic/agent-design-language/issues/522), [#765](https://github.com/agent-logic/agent-design-language/issues/765).
+Portable workload contract and AWS/GCP Terraform implementation retained. Provider-major bounds landed through #765. Complete current parity and rollback acceptance remains a #522 proof obligation. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#765](https://github.com/agent-logic/agent-design-language/issues/765).
 
 ### Rust resilience refactoring
 
-Resilience owner-boundary refactoring and retained behavior checks supplied by #499. Required toolchain and complete candidate validation remain separately owned; no LoC acceptance rule. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#766](https://github.com/agent-logic/agent-design-language/issues/766).com/agent-logic/agent-design-language/issues/522), [#766](https://github.com/agent-logic/agent-design-language/issues/766).
+Resilience owner-boundary refactoring and retained behavior checks supplied by #499. Required toolchain and complete candidate validation remain separately owned; no LoC acceptance rule. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#766](https://github.com/agent-logic/agent-design-language/issues/766).
 
 ## Required proof baseline
 
