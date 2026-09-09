@@ -35,3 +35,4 @@
 {"sequence":35,"generation":29,"actor":"Planning #7","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":36,"generation":30,"actor":"Planning #7","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":37,"generation":31,"actor":"Planning #7","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":38,"generation":32,"actor":"Planning #7","reason":"Repair PR #801 CI integration failure: current main moved primary terminal output paths into Git metadata; refresh branch, adapt the two approved regression fixtures, and renew exact-source validation and review.","operation":"recover_review"}

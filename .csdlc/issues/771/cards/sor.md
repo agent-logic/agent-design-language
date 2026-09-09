@@ -106,11 +106,11 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
