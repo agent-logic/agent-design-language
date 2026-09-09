@@ -293,7 +293,15 @@ pub struct AgentTurnCheckpoint {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub speaker_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sender_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sender_name: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recipient_name: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub initiated_recipient_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initiated_recipient_name: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub initiated_conversation_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -783,6 +791,9 @@ struct ConversationTurn {
     terminal: Option<ObservatoryConversationResult>,
     message: String,
     speaker_id: String,
+    sender_id: Option<String>,
+    sender_name: Option<String>,
+    recipient_name: Option<String>,
     accepted_at_unix_millis: u64,
     completed_at_unix_millis: Option<u64>,
 }
@@ -799,7 +810,9 @@ struct ConversationDispatch {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
 struct AgentInitiationMetadata {
     sender_id: String,
+    sender_name: Option<String>,
     initiated_recipient_id: String,
+    initiated_recipient_name: Option<String>,
     initiated_conversation_id: String,
     initiated_turn_id: String,
     initiated_correlation_id: String,
@@ -1642,8 +1655,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     history_kind: Some("conversation_turn".to_owned()),
                     turn_id: Some(turn_id.clone()),
                     causal_id: Some(format!("{}:{turn_id}", request.conversation_id)),
-                    sender_id: None,
+                    sender_id: turn.sender_id.clone(),
                     recipient_id: Some(session.recipient_id.clone()),
+                    sender_name: turn.sender_name.clone(),
+                    recipient_name: turn.recipient_name.clone(),
                     work_id: None,
                     parent_conversation_id: None,
                     parent_turn_id: None,
@@ -1679,6 +1694,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             causal_id: Some(format!("{}:{turn_id}", request.conversation_id)),
                             sender_id: terminal.sender_id.clone(),
                             recipient_id: Some(terminal.recipient_id.clone()),
+                            sender_name: turn.sender_name.clone(),
+                            recipient_name: turn.recipient_name.clone(),
                             work_id: None,
                             parent_conversation_id: None,
                             parent_turn_id: None,
@@ -1734,6 +1751,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                 causal_id: Some(causal_id.clone()),
                                 sender_id: Some(sender_id.clone()),
                                 recipient_id: Some(recipient_id.clone()),
+                                sender_name: terminal.sender_name.clone(),
+                                recipient_name: terminal.initiated_recipient_name.clone(),
                                 work_id: Some(work_id.clone()),
                                 parent_conversation_id: Some(request.conversation_id.clone()),
                                 parent_turn_id: Some(turn_id.clone()),
@@ -1762,6 +1781,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                 causal_id: Some(causal_id),
                                 sender_id: Some(sender_id.clone()),
                                 recipient_id: Some(recipient_id.clone()),
+                                sender_name: terminal.sender_name.clone(),
+                                recipient_name: terminal.initiated_recipient_name.clone(),
                                 work_id: Some(work_id.clone()),
                                 parent_conversation_id: Some(request.conversation_id.clone()),
                                 parent_turn_id: Some(turn_id.clone()),
@@ -2138,7 +2159,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         };
         let metadata = AgentInitiationMetadata {
             sender_id: intent.sender_id.clone(),
+            sender_name: self.agent_name_for_id(&intent.sender_id),
             initiated_recipient_id: intent.recipient_id.clone(),
+            initiated_recipient_name: self.agent_name_for_id(&intent.recipient_id),
             initiated_conversation_id: intent.conversation_id.clone(),
             initiated_turn_id: intent.turn_id.clone(),
             initiated_correlation_id: intent.correlation_id.clone(),
@@ -2232,7 +2255,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 error: Some(error),
                 initiation: Some(AgentInitiationMetadata {
                     sender_id: intent.sender_id.clone(),
+                    sender_name: self.agent_name_for_id(&intent.sender_id),
                     initiated_recipient_id: intent.recipient_id.clone(),
+                    initiated_recipient_name: self.agent_name_for_id(&intent.recipient_id),
                     initiated_conversation_id: intent.conversation_id.clone(),
                     initiated_turn_id: intent.turn_id.clone(),
                     initiated_correlation_id: intent.correlation_id.clone(),
@@ -2525,6 +2550,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .as_ref()
                     .map(|metadata| format!("agent:{}", metadata.sender_id))
                     .unwrap_or_else(|| "operator".to_owned()),
+                sender_id: initiation
+                    .as_ref()
+                    .map(|metadata| metadata.sender_id.clone()),
+                sender_name: initiation
+                    .as_ref()
+                    .and_then(|metadata| metadata.sender_name.clone()),
+                recipient_name: self.agent_name_for_id(&intent.recipient_id),
                 accepted_at_unix_millis: now_unix_millis(),
                 completed_at_unix_millis: None,
             },
@@ -2539,9 +2571,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             sender_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
+            sender_name: initiation
+                .as_ref()
+                .and_then(|metadata| metadata.sender_name.clone()),
             initiated_recipient_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_recipient_id.clone()),
+            initiated_recipient_name: initiation
+                .as_ref()
+                .and_then(|metadata| metadata.initiated_recipient_name.clone()),
             initiated_conversation_id: initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_conversation_id.clone()),
@@ -2585,11 +2623,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let Some(action) = output.get("agent_to_agent_initiation") else {
             return Ok(None);
         };
-        if action.get("schema").and_then(serde_json::Value::as_str)
-            != Some(crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA)
-        {
-            return Err("invalid_agent_initiation_action");
-        }
+        let schema = action
+            .get("schema")
+            .and_then(serde_json::Value::as_str)
+            .ok_or("invalid_agent_initiation_action")?;
         let field = |name| {
             action
                 .get(name)
@@ -2598,7 +2635,22 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .map(str::to_owned)
                 .ok_or("invalid_agent_initiation_action")
         };
-        let recipient_id = field("recipient_id")?;
+        let recipient_id = match schema {
+            crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA => {
+                let recipient_name = field("recipient_name")?;
+                self.resolve_agent_name(&recipient_name, &dispatch.intent.recipient_id)?
+            }
+            crate::ingress::LEGACY_AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA => {
+                let recipient_id = field("recipient_id")?;
+                if recipient_id == dispatch.intent.recipient_id {
+                    return Err("agent_initiation_self_target");
+                }
+                self.agent_roster_detail(&recipient_id)
+                    .map_err(|_| "agent_initiation_unknown_recipient")?;
+                recipient_id
+            }
+            _ => return Err("invalid_agent_initiation_action"),
+        };
         let message = action
             .get("message")
             .and_then(serde_json::Value::as_str)
@@ -2752,10 +2804,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
+            sender_name: dispatch
+                .initiation
+                .as_ref()
+                .and_then(|metadata| metadata.sender_name.clone()),
             initiated_recipient_id: dispatch
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_recipient_id.clone()),
+            initiated_recipient_name: dispatch
+                .initiation
+                .as_ref()
+                .and_then(|metadata| metadata.initiated_recipient_name.clone()),
             initiated_conversation_id: dispatch
                 .initiation
                 .as_ref()
@@ -2802,10 +2862,41 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .map(|orientation| orientation.content);
         let continuation_binding = dynamic_binding.clone();
         let continuation_orientation = orientation_context.clone();
+        let (recipient_name, peer_names, peer_addresses) = {
+            let population = self
+                .agent_population
+                .read()
+                .expect("agent population state poisoned");
+            let recipient_name = population
+                .sample
+                .iter()
+                .find(|sample| sample.id == dispatch.intent.recipient_id)
+                .map(|sample| sample.name.clone());
+            let peer_names = population
+                .sample
+                .iter()
+                .filter(|sample| {
+                    sample.id != dispatch.intent.recipient_id && sample.communication_eligible
+                })
+                .map(|sample| sample.name.clone())
+                .collect::<Vec<_>>();
+            let peer_addresses = population
+                .sample
+                .iter()
+                .filter(|sample| {
+                    sample.id != dispatch.intent.recipient_id && sample.communication_eligible
+                })
+                .map(|sample| serde_json::json!({"id": sample.id, "name": sample.name}))
+                .collect::<Vec<_>>();
+            (recipient_name, peer_names, peer_addresses)
+        };
         let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
+                "recipient_name": recipient_name,
+                "peer_names": peer_names,
+                "peer_addresses": peer_addresses,
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
@@ -2822,6 +2913,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             None => serde_json::json!({
                 "op": "conversation_message",
                 "recipient_id": dispatch.intent.recipient_id,
+                "recipient_name": recipient_name,
+                "peer_names": peer_names,
+                "peer_addresses": peer_addresses,
                 "conversation_id": dispatch.intent.conversation_id,
                 "turn_id": dispatch.intent.turn_id,
                 "correlation_id": dispatch.intent.correlation_id,
@@ -2966,9 +3060,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             recipient_id: dispatch.intent.recipient_id.clone(),
                                             correlation_id: dispatch.intent.correlation_id.clone(),
                                             sender_id: Some(delegated.intent.sender_id.clone()),
+                                            sender_name: self
+                                                .agent_name_for_id(&delegated.intent.sender_id),
                                             initiated_recipient_id: Some(
                                                 delegated.intent.recipient_id.clone(),
                                             ),
+                                            initiated_recipient_name: self
+                                                .agent_name_for_id(&delegated.intent.recipient_id),
                                             initiated_conversation_id: Some(
                                                 delegated.intent.conversation_id.clone(),
                                             ),
@@ -3010,9 +3108,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             .initiation
                                             .as_ref()
                                             .map(|metadata| metadata.sender_id.clone()),
+                                        sender_name: dispatch
+                                            .initiation
+                                            .as_ref()
+                                            .and_then(|metadata| metadata.sender_name.clone()),
                                         initiated_recipient_id: dispatch.initiation.as_ref().map(
                                             |metadata| metadata.initiated_recipient_id.clone(),
                                         ),
+                                        initiated_recipient_name: dispatch
+                                            .initiation
+                                            .as_ref()
+                                            .and_then(|metadata| {
+                                                metadata.initiated_recipient_name.clone()
+                                            }),
                                         initiated_conversation_id: dispatch
                                             .initiation
                                             .as_ref()
@@ -3202,7 +3310,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             recipient_id,
             correlation_id: cancel.correlation_id.clone(),
             sender_id: None,
+            sender_name: None,
             initiated_recipient_id: None,
+            initiated_recipient_name: None,
             initiated_conversation_id: None,
             initiated_turn_id: None,
             initiated_correlation_id: None,
@@ -3291,7 +3401,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         } else {
             Vec::new()
         };
-        let mut seen = BTreeSet::new();
+        let (mut seen, mut seen_names) = {
+            let population = self
+                .agent_population
+                .read()
+                .expect("agent population state poisoned");
+            (
+                population
+                    .sample
+                    .iter()
+                    .map(|sample| sample.id.clone())
+                    .collect::<BTreeSet<_>>(),
+                population
+                    .sample
+                    .iter()
+                    .map(|sample| sample.name.clone())
+                    .collect::<BTreeSet<_>>(),
+            )
+        };
         let mut agents = Vec::new();
         let mut removals = BTreeMap::new();
         for entry in entries {
@@ -3310,7 +3437,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 entry => {
                     let declaration = entry.declaration().clone();
                     let orientation = entry.orientation().cloned();
+                    validate_persisted_agent_admission(&declaration)?;
                     if !seen.insert(declaration.id.clone()) {
+                        return Err(ControlError::InvalidIdentifier);
+                    }
+                    if !seen_names.insert(persisted_agent_canonical_name(&declaration)) {
                         return Err(ControlError::InvalidIdentifier);
                     }
                     agents.push((declaration, orientation));
@@ -3739,7 +3870,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             terminal_status: terminal.status.to_owned(),
                             message: Some(turn.message.clone()).filter(|value| !value.is_empty()),
                             speaker_id: Some(turn.speaker_id.clone()),
+                            sender_id: terminal.sender_id.clone(),
+                            sender_name: terminal.sender_name.clone(),
+                            recipient_name: turn.recipient_name.clone(),
                             initiated_recipient_id: terminal.initiated_recipient_id.clone(),
+                            initiated_recipient_name: terminal.initiated_recipient_name.clone(),
                             initiated_conversation_id: terminal.initiated_conversation_id.clone(),
                             initiated_turn_id: terminal.initiated_turn_id.clone(),
                             initiated_correlation_id: terminal.initiated_correlation_id.clone(),
@@ -3962,6 +4097,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             return Err(AgentAdmissionFailure::Conflict("agent_removal_pending"));
         }
         let mut agents = agents_guard.clone();
+        if self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .any(|sample| sample.id != request.id && sample.name == request.name)
+        {
+            return Err(AgentAdmissionFailure::Conflict("agent_name_conflict"));
+        }
         let status = match agents.iter().find(|agent| agent.id == request.id) {
             Some(existing) if existing == &request => "already_present",
             Some(_) => return Err(AgentAdmissionFailure::Conflict("agent_id_conflict")),
@@ -4233,7 +4378,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             terminal_status: terminal.status.to_owned(),
                             message: Some(turn.message.clone()).filter(|value| !value.is_empty()),
                             speaker_id: Some(turn.speaker_id.clone()),
+                            sender_id: terminal.sender_id.clone(),
+                            sender_name: terminal.sender_name.clone(),
+                            recipient_name: turn.recipient_name.clone(),
                             initiated_recipient_id: terminal.initiated_recipient_id.clone(),
+                            initiated_recipient_name: terminal.initiated_recipient_name.clone(),
                             initiated_conversation_id: terminal.initiated_conversation_id.clone(),
                             initiated_turn_id: terminal.initiated_turn_id.clone(),
                             initiated_correlation_id: terminal.initiated_correlation_id.clone(),
@@ -4421,18 +4570,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     turn_id: turn.turn_id.clone(),
                     recipient_id: agent_id.to_owned(),
                     correlation_id: turn.correlation_id.clone(),
-                    sender_id: if turn.initiated_conversation_id.is_some()
-                        || turn.initiated_turn_id.is_some()
-                        || turn.initiated_work_id.is_some()
-                    {
-                        Some(agent_id.to_owned())
-                    } else {
+                    sender_id: turn.sender_id.clone().or_else(|| {
                         turn.speaker_id
                             .as_deref()
                             .and_then(|speaker| speaker.strip_prefix("agent:"))
                             .map(str::to_owned)
-                    },
+                    }),
+                    sender_name: turn.sender_name.clone(),
                     initiated_recipient_id: turn.initiated_recipient_id.clone(),
+                    initiated_recipient_name: turn.initiated_recipient_name.clone(),
                     initiated_conversation_id: turn.initiated_conversation_id.clone(),
                     initiated_turn_id: turn.initiated_turn_id.clone(),
                     initiated_correlation_id: turn.initiated_correlation_id.clone(),
@@ -4462,6 +4608,13 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             .speaker_id
                             .clone()
                             .unwrap_or_else(|| "operator".to_owned()),
+                        sender_id: turn
+                            .speaker_id
+                            .as_deref()
+                            .and_then(|speaker| speaker.strip_prefix("agent:"))
+                            .map(str::to_owned),
+                        sender_name: turn.sender_name.clone(),
+                        recipient_name: turn.recipient_name.clone(),
                         accepted_at_unix_millis: turn.accepted_at_unix_millis.unwrap_or(0),
                         completed_at_unix_millis: turn.completed_at_unix_millis,
                     },
@@ -4970,6 +5123,42 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .map_err(|_| ControlError::InvalidBounds)?;
         self.decorate_agent_detail(&mut detail);
         Ok(detail)
+    }
+
+    fn resolve_agent_name(
+        &self,
+        canonical_name: &str,
+        sender_id: &str,
+    ) -> Result<String, &'static str> {
+        if !is_canonical_agent_name(canonical_name) {
+            return Err("agent_initiation_invalid_recipient_name");
+        }
+        let population = self
+            .agent_population
+            .read()
+            .expect("agent population state poisoned");
+        let matches = population
+            .sample
+            .iter()
+            .filter(|sample| sample.name == canonical_name)
+            .map(|sample| sample.id.as_str())
+            .collect::<Vec<_>>();
+        match matches.as_slice() {
+            [] => Err("agent_initiation_unknown_recipient"),
+            [recipient_id] if *recipient_id == sender_id => Err("agent_initiation_self_target"),
+            [recipient_id] => Ok((*recipient_id).to_owned()),
+            _ => Err("agent_initiation_ambiguous_recipient"),
+        }
+    }
+
+    fn agent_name_for_id(&self, agent_id: &str) -> Option<String> {
+        self.agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .iter()
+            .find(|sample| sample.id == agent_id)
+            .map(|sample| sample.name.clone())
     }
 
     pub fn update_resident_shepherd_health(&self, name: &str, state: &str, detail: &str) {
@@ -5794,6 +5983,10 @@ struct ObservatoryConversationHistoryRecord {
     #[serde(skip_serializing_if = "Option::is_none")]
     recipient_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    sender_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recipient_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     work_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     parent_conversation_id: Option<String>,
@@ -6010,7 +6203,11 @@ struct ObservatoryConversationResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     sender_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    sender_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     initiated_recipient_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    initiated_recipient_name: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     initiated_conversation_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -6059,10 +6256,18 @@ impl ObservatoryConversationResult {
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.sender_id.clone()),
+            sender_name: parts
+                .initiation
+                .as_ref()
+                .and_then(|metadata| metadata.sender_name.clone()),
             initiated_recipient_id: parts
                 .initiation
                 .as_ref()
                 .map(|metadata| metadata.initiated_recipient_id.clone()),
+            initiated_recipient_name: parts
+                .initiation
+                .as_ref()
+                .and_then(|metadata| metadata.initiated_recipient_name.clone()),
             initiated_conversation_id: parts
                 .initiation
                 .as_ref()
@@ -6094,7 +6299,9 @@ impl ObservatoryConversationResult {
             recipient_id: String::new(),
             correlation_id: cancel.correlation_id.clone(),
             sender_id: None,
+            sender_name: None,
             initiated_recipient_id: None,
+            initiated_recipient_name: None,
             initiated_conversation_id: None,
             initiated_turn_id: None,
             initiated_correlation_id: None,
@@ -6398,7 +6605,9 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                 recipient_id: intent.recipient_id.clone(),
                                 correlation_id: intent.correlation_id.clone(),
                                 sender_id: None,
+                                sender_name: None,
                                 initiated_recipient_id: None,
+                                initiated_recipient_name: None,
                                 initiated_conversation_id: None,
                                 initiated_turn_id: None,
                                 initiated_correlation_id: None,
@@ -7372,7 +7581,7 @@ mod layer8_conversation_ingress_tests {
                     "message": "Beacon is initiating governed contact with Ember.",
                     "agent_to_agent_initiation": {
                         "schema": crate::ingress::AGENT_TO_AGENT_INITIATION_REQUEST_SCHEMA,
-                        "recipient_id": "ember",
+                        "recipient_name": "ember.runtime",
                         "message": "Ember, please answer Beacon through the governed A2A path."
                     }
                 })
@@ -7913,7 +8122,7 @@ mod layer8_conversation_ingress_tests {
                                     "function": {
                                         "name": "initiate_agent",
                                         "arguments": {
-                                            "recipient_id": "ember",
+                                            "recipient_name": "ember.runtime",
                                             "message_parts": [
                                                 "Multipart governed handoff follows.",
                                                 "Ember, please answer Beacon through governed A2A.",
@@ -8248,7 +8457,7 @@ mod layer8_conversation_ingress_tests {
                 )
             }
         };
-        assert_eq!(delivered.status, "delivered");
+        assert_eq!(delivered.status, "delivered", "{delivered:?}");
         assert_eq!(delivered.recipient_id, "beacon");
         assert_eq!(delivered.sender_id.as_deref(), Some("beacon"));
         assert_eq!(delivered.initiated_recipient_id.as_deref(), Some("ember"));
@@ -8326,6 +8535,14 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(history.records[2].speaker_id, "agent:beacon");
         assert_eq!(history.records[2].sender_id.as_deref(), Some("beacon"));
         assert_eq!(history.records[2].recipient_id.as_deref(), Some("ember"));
+        assert_eq!(
+            history.records[2].sender_name.as_deref(),
+            Some("beacon.runtime")
+        );
+        assert_eq!(
+            history.records[2].recipient_name.as_deref(),
+            Some("ember.runtime")
+        );
         assert_eq!(history.records[2].work_id, delivered.initiated_work_id);
         assert_eq!(
             history.records[2].body,
@@ -8345,6 +8562,30 @@ mod layer8_conversation_ingress_tests {
             history.records[2].causal_id, history.records[3].causal_id,
             "A2A outbound and reply must share a stable causal id"
         );
+        {
+            let mut population = service
+                .agent_population
+                .write()
+                .expect("agent population state poisoned");
+            population
+                .sample
+                .retain(|sample| sample.id != "beacon" && sample.id != "ember");
+        }
+        let history_after_removal = service
+            .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
+                schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
+                conversation_id: intent.conversation_id.clone(),
+                page_size: 16,
+            })
+            .expect("historical A2A names survive roster removal");
+        assert_eq!(
+            history_after_removal.records[2].sender_name.as_deref(),
+            Some("beacon.runtime")
+        );
+        assert_eq!(
+            history_after_removal.records[2].recipient_name.as_deref(),
+            Some("ember.runtime")
+        );
         let initiated_history = service
             .observatory_conversation_history(&ObservatoryConversationHistoryRequest {
                 schema: OBSERVATORY_WS_CONVERSATION_HISTORY_REQUEST_SCHEMA.to_owned(),
@@ -8357,6 +8598,22 @@ mod layer8_conversation_ingress_tests {
             .expect("initiated conversation projects its own transcript history");
         assert_eq!(initiated_history.records.len(), 2);
         assert_eq!(initiated_history.records[0].speaker_id, "agent:beacon");
+        assert_eq!(
+            initiated_history.records[0].sender_id.as_deref(),
+            Some("beacon")
+        );
+        assert_eq!(
+            initiated_history.records[0].sender_name.as_deref(),
+            Some("beacon.runtime")
+        );
+        assert_eq!(
+            initiated_history.records[0].recipient_id.as_deref(),
+            Some("ember")
+        );
+        assert_eq!(
+            initiated_history.records[0].recipient_name.as_deref(),
+            Some("ember.runtime")
+        );
         assert_eq!(
             initiated_history.records[0].body,
             concat!(
@@ -8407,8 +8664,31 @@ mod layer8_conversation_ingress_tests {
             })
             .expect("restored parent checkpoint projects complete A2A history");
         assert_eq!(
+            restored_history.records[0].recipient_name.as_deref(),
+            Some("beacon.runtime"),
+            "the restored operator turn must retain its direct Beacon recipient"
+        );
+        assert_eq!(
+            restored_history.records[1].recipient_name.as_deref(),
+            Some("beacon.runtime"),
+            "the restored Beacon reply must retain its direct recipient context"
+        );
+        assert_eq!(
             restored_history.records[2].body, history.records[2].body,
             "restart must preserve the complete multipart A2A outbound body"
+        );
+        assert_eq!(
+            restored_history.records[2].sender_name, history.records[2].sender_name,
+            "restart must preserve the exchange-time canonical sender name"
+        );
+        assert_eq!(
+            restored_history.records[2].recipient_name, history.records[2].recipient_name,
+            "restart must preserve the exchange-time canonical recipient name"
+        );
+        assert_eq!(
+            restored_history.records[2].recipient_name.as_deref(),
+            Some("ember.runtime"),
+            "the synthetic A2A leg must remain addressed to Ember"
         );
         let history_wire = serde_json::to_string(&history).expect("A2A history serializes");
         for forbidden in [
@@ -8438,12 +8718,20 @@ mod layer8_conversation_ingress_tests {
                 requests[0]["body"]["tools"][0]["function"]["name"],
                 "initiate_agent"
             );
+            assert_eq!(
+                requests[0]["body"]["tools"][0]["function"]["parameters"]["required"],
+                serde_json::json!(["recipient_name"])
+            );
             assert!(requests[0]["body"]["messages"][0]["content"]
                 .as_str()
                 .is_some_and(|prompt| {
                     prompt.starts_with("Axioma Polis agent orientation package")
                         && prompt.contains("Runtime-delivered task content follows")
                         && prompt.contains("provided `initiate_agent` tool")
+                        && prompt.contains("ember.runtime")
+                        && prompt.contains(
+                            "never by model, provider, deployment, or internal Runtime id",
+                        )
                         && !prompt.contains("adl.runtime.agent_conversation_response.v1")
                         && prompt.contains("Please ask Ember for a governed response.")
                 }));
@@ -8522,6 +8810,42 @@ mod layer8_conversation_ingress_tests {
         );
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
         provider_task.abort();
+    }
+
+    #[tokio::test]
+    async fn canonical_agent_name_resolution_is_explicit_and_fail_closed() {
+        let (service, kernel, _recorder, _tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        assert_eq!(
+            service.resolve_agent_name("ember.runtime", "beacon"),
+            Ok("ember".to_owned())
+        );
+        assert_eq!(
+            service.resolve_agent_name("not a canonical name", "beacon"),
+            Err("agent_initiation_invalid_recipient_name")
+        );
+        assert_eq!(
+            service.resolve_agent_name("missing.runtime", "beacon"),
+            Err("agent_initiation_unknown_recipient")
+        );
+        assert_eq!(
+            service.resolve_agent_name("beacon.runtime", "beacon"),
+            Err("agent_initiation_self_target")
+        );
+        service
+            .agent_population
+            .write()
+            .expect("agent population state poisoned")
+            .sample
+            .iter_mut()
+            .find(|sample| sample.id == "scribe")
+            .expect("scribe fixture")
+            .name = "ember.runtime".to_owned();
+        assert_eq!(
+            service.resolve_agent_name("ember.runtime", "beacon"),
+            Err("agent_initiation_ambiguous_recipient")
+        );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }
 
     #[tokio::test]
@@ -9639,7 +9963,11 @@ mod agent_lifecycle {
                     terminal_status: "delivered".to_owned(),
                     message: Some(format!("message-{sequence}")),
                     speaker_id: Some("operator".to_owned()),
+                    sender_id: None,
+                    sender_name: None,
+                    recipient_name: None,
                     initiated_recipient_id: None,
+                    initiated_recipient_name: None,
                     initiated_conversation_id: None,
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
@@ -9670,7 +9998,11 @@ mod agent_lifecycle {
                 terminal_status: "delivered".to_owned(),
                 message: Some("Please ask Ember.".to_owned()),
                 speaker_id: Some("operator".to_owned()),
+                sender_id: Some("beacon".to_owned()),
+                sender_name: Some("beacon.axioma".to_owned()),
+                recipient_name: Some("beacon.axioma".to_owned()),
                 initiated_recipient_id: Some("ember".to_owned()),
+                initiated_recipient_name: Some("ember.axioma".to_owned()),
                 initiated_conversation_id: Some("a2a-beacon-ember".to_owned()),
                 initiated_turn_id: Some("turn-a2a".to_owned()),
                 initiated_correlation_id: Some("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".to_owned()),
@@ -10086,7 +10418,9 @@ mod agent_lifecycle {
             recipient_id: "gemma-e4b".to_owned(),
             correlation_id: "correlation-1".to_owned(),
             sender_id: None,
+            sender_name: None,
             initiated_recipient_id: None,
+            initiated_recipient_name: None,
             initiated_conversation_id: None,
             initiated_turn_id: None,
             initiated_correlation_id: None,
@@ -10122,6 +10456,9 @@ mod agent_lifecycle {
                             terminal: Some(terminal),
                             message: "retained operator message".to_owned(),
                             speaker_id: "operator".to_owned(),
+                            sender_id: None,
+                            sender_name: None,
+                            recipient_name: None,
                             accepted_at_unix_millis: 1,
                             completed_at_unix_millis: Some(2),
                         },
@@ -10753,7 +11090,7 @@ pub(crate) struct ProviderConversationOutput {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub(crate) struct ProviderAgentToAgentAction {
-    pub recipient_id: String,
+    pub recipient_name: String,
     pub message: String,
     pub message_parts: Vec<String>,
 }
@@ -10831,11 +11168,11 @@ async fn invoke_ollama_conversation(
                     "description": "Request a bounded governed message to another admitted resident agent. The Runtime decides whether it is authorized and delivered.",
                     "parameters": {
                         "type": "object",
-                        "required": ["recipient_id"],
+                        "required": ["recipient_name"],
                         "properties": {
-                            "recipient_id": {
+                            "recipient_name": {
                                 "type": "string",
-                                "description": "Canonical id of the resident recipient"
+                                "description": "Canonical name of the resident recipient, such as ember.axioma"
                             },
                             "message": {
                                 "type": "string",
@@ -10949,8 +11286,8 @@ fn normalize_ollama_conversation_response(
         }
         _ => return Err("agent_provider_action_invalid"),
     };
-    let recipient_id = arguments
-        .get("recipient_id")
+    let recipient_name = arguments
+        .get("recipient_name")
         .and_then(serde_json::Value::as_str)
         .map(str::trim)
         .filter(|value| !value.is_empty() && value.len() <= 128)
@@ -10974,14 +11311,14 @@ fn normalize_ollama_conversation_response(
     assemble_agent_conversation_message(peer_message, &peer_message_parts)
         .ok_or("agent_provider_action_invalid")?;
     let operator_message = if content.trim().is_empty() {
-        format!("Requested governed contact with {recipient_id}.")
+        format!("Requested governed contact with {recipient_name}.")
     } else {
         content.to_owned()
     };
     Ok(ProviderConversationOutput {
         message: operator_message,
         agent_to_agent: Some(ProviderAgentToAgentAction {
-            recipient_id: recipient_id.to_owned(),
+            recipient_name: recipient_name.to_owned(),
             message: peer_message.map(str::to_owned).unwrap_or_default(),
             message_parts: peer_message_parts,
         }),
@@ -11049,7 +11386,7 @@ mod provider_conversation_tool_tests {
                     "function": {
                         "name": "initiate_agent",
                         "arguments": {
-                            "recipient_id": "ember",
+                            "recipient_name": "ember.axioma",
                             "message": "Please report your current state."
                         }
                     }
@@ -11061,7 +11398,7 @@ mod provider_conversation_tool_tests {
         assert_eq!(
             output.agent_to_agent,
             Some(ProviderAgentToAgentAction {
-                recipient_id: "ember".to_owned(),
+                recipient_name: "ember.axioma".to_owned(),
                 message: "Please report your current state.".to_owned(),
                 message_parts: Vec::new(),
             })
@@ -11077,7 +11414,7 @@ mod provider_conversation_tool_tests {
                 "tool_calls": [{
                     "function": {
                         "name": "initiate_agent",
-                        "arguments": "{\"recipient_id\":\"ember\",\"message\":\"Please reply through governed A2A.\"}"
+                        "arguments": "{\"recipient_name\":\"ember.axioma\",\"message\":\"Please reply through governed A2A.\"}"
                     }
                 }]
             }
@@ -11087,7 +11424,7 @@ mod provider_conversation_tool_tests {
         assert_eq!(
             output.agent_to_agent,
             Some(ProviderAgentToAgentAction {
-                recipient_id: "ember".to_owned(),
+                recipient_name: "ember.axioma".to_owned(),
                 message: "Please reply through governed A2A.".to_owned(),
                 message_parts: Vec::new(),
             })
@@ -11105,7 +11442,7 @@ mod provider_conversation_tool_tests {
                     "function": {
                         "name": "initiate_agent",
                         "arguments": {
-                            "recipient_id": "ember",
+                            "recipient_name": "ember.axioma",
                             "message": "Multipart handoff summary.",
                             "message_parts": [
                                 max_part,
@@ -11120,7 +11457,7 @@ mod provider_conversation_tool_tests {
         let action = output
             .agent_to_agent
             .expect("multipart tool call should remain a first-class A2A action");
-        assert_eq!(action.recipient_id, "ember");
+        assert_eq!(action.recipient_name, "ember.axioma");
         assert!(action.message.starts_with("Multipart handoff summary."));
         assert_eq!(action.message_parts.len(), 2);
         assert_eq!(action.message_parts[0].len(), 32 * 1024);
@@ -11140,7 +11477,7 @@ mod provider_conversation_tool_tests {
                     "function": {
                         "name": "initiate_agent",
                         "arguments": {
-                            "recipient_id": "ember",
+                            "recipient_name": "ember.axioma",
                             "message_parts": [
                                 "First governed handoff part.",
                                 "Second governed handoff part."
@@ -11156,7 +11493,7 @@ mod provider_conversation_tool_tests {
         assert_eq!(
             output.agent_to_agent,
             Some(ProviderAgentToAgentAction {
-                recipient_id: "ember".to_owned(),
+                recipient_name: "ember.axioma".to_owned(),
                 message: String::new(),
                 message_parts: vec![
                     "First governed handoff part.".to_owned(),
@@ -11177,7 +11514,7 @@ mod provider_conversation_tool_tests {
                     "function": {
                         "name": "initiate_agent",
                         "arguments": {
-                            "recipient_id": "ember",
+                            "recipient_name": "ember.axioma",
                             "message_parts": [
                                 max_part,
                                 "final bounded part"
@@ -11208,7 +11545,7 @@ mod provider_conversation_tool_tests {
                     "function": {
                         "name": "initiate_agent",
                         "arguments": {
-                            "recipient_id": "ember",
+                            "recipient_name": "ember.axioma",
                             "message_parts": [
                                 "x".repeat((32 * 1024) + 1)
                             ]
@@ -11231,7 +11568,7 @@ mod provider_conversation_tool_tests {
                     "function": {
                         "name": "initiate_agent",
                         "arguments": {
-                            "recipient_id": "ember",
+                            "recipient_name": "ember.axioma",
                             "message": "Scalar chunk.",
                             "message_parts": vec!["part"; AGENT_CONVERSATION_MESSAGE_MAX_PARTS]
                         }
@@ -11248,7 +11585,7 @@ mod provider_conversation_tool_tests {
         for tool_calls in [
             serde_json::json!([{"function":{"name":"send_unchecked","arguments":{}}}]),
             serde_json::json!([
-                {"function":{"name":"initiate_agent","arguments":{"recipient_id":"ember","message":"one"}}},
+                {"function":{"name":"initiate_agent","arguments":{"recipient_name":"ember.axioma","message":"one"}}},
                 {"function":{"name":"initiate_agent","arguments":{"recipient_id":"scribe","message":"two"}}}
             ]),
         ] {
@@ -11670,6 +12007,80 @@ mod orientation_tests {
             model: "gemma4:e4b-mlx".to_owned(),
             endpoint: "http://127.0.0.1:11434".to_owned(),
         }
+    }
+
+    #[test]
+    fn dynamic_store_rejects_duplicate_canonical_names_before_roster_mutation() {
+        let service = service_with_resident();
+        let initial_population = service
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .clone();
+        let root = tempfile::tempdir().expect("test tempdir");
+        let store_path = root.path().join("dynamic-agents.json");
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![
+                    admission("ember", "ember.axioma").into(),
+                    admission("relay", "ember.axioma").into(),
+                ],
+            })
+            .expect("store serializes"),
+        )
+        .expect("store writes");
+
+        assert!(matches!(
+            service.configure_dynamic_agent_store(store_path),
+            Err(ControlError::InvalidIdentifier)
+        ));
+        assert_eq!(
+            service
+                .agent_population
+                .read()
+                .expect("agent population state poisoned")
+                .sample,
+            initial_population
+        );
+    }
+
+    #[test]
+    fn dynamic_store_rejects_name_collision_with_resident_before_roster_mutation() {
+        let service = service_with_resident();
+        let initial_population = service
+            .agent_population
+            .read()
+            .expect("agent population state poisoned")
+            .sample
+            .clone();
+        let resident_name = initial_population[0].name.clone();
+        let root = tempfile::tempdir().expect("test tempdir");
+        let store_path = root.path().join("dynamic-agents.json");
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![admission("impostor", &resident_name).into()],
+            })
+            .expect("store serializes"),
+        )
+        .expect("store writes");
+
+        assert!(matches!(
+            service.configure_dynamic_agent_store(store_path),
+            Err(ControlError::InvalidIdentifier)
+        ));
+        assert_eq!(
+            service
+                .agent_population
+                .read()
+                .expect("agent population state poisoned")
+                .sample,
+            initial_population
+        );
     }
 
     async fn read_http_fixture_request(socket: &mut tokio::net::TcpStream) -> Vec<u8> {
@@ -12230,7 +12641,9 @@ mod conversation_dispatch_gate_tests {
                     recipient_id: "shepherd".to_owned(),
                     correlation_id: "00000000000000000000000000000000".to_owned(),
                     sender_id: None,
+                    sender_name: None,
                     initiated_recipient_id: None,
+                    initiated_recipient_name: None,
                     initiated_conversation_id: None,
                     initiated_turn_id: None,
                     initiated_correlation_id: None,
@@ -12244,6 +12657,9 @@ mod conversation_dispatch_gate_tests {
                 }),
                 message: "test message".to_owned(),
                 speaker_id: "operator".to_owned(),
+                sender_id: None,
+                sender_name: None,
+                recipient_name: None,
                 accepted_at_unix_millis: 1,
                 completed_at_unix_millis: terminal.then_some(2),
             },
