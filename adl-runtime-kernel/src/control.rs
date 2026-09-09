@@ -9173,6 +9173,12 @@ mod layer8_conversation_ingress_tests {
         .unwrap();
 
         service
+            .agent_population
+            .write()
+            .unwrap()
+            .sample
+            .retain(|agent| agent.id != "ember");
+        service
             .configure_dynamic_agent_store(store_path.clone())
             .unwrap();
         let record = service.admission_greetings.lock().unwrap()["ember"].clone();
