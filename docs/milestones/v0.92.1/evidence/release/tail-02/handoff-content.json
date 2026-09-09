@@ -37,7 +37,7 @@
     },
     {
       "path": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
-      "sha256": "054c88c9b270d71ebcc111773bfd97c6a96856b7646e85f5f2f2020b2c1e4c8f"
+      "sha256": "2882d1c56fa4051a0155cde02731a3ed70beb221249f03054cbf6c65e9a8ade5"
     },
     {
       "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
@@ -53,7 +53,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "9fc9d32fe5031f299aeff993cede8315f4a5d9476a68084fbd14e4dccfa388dc"
+      "sha256": "20857ad385082459505291f1b20e80c59ddd829fcb3c337ada8f206f523d99ff"
     },
     {
       "path": "CHANGELOG.md",
@@ -81,7 +81,7 @@
     },
     {
       "path": "adl-characterization/README.md",
-      "sha256": "37e18e247158320f23be5330b2bf136b5b1be3c82798b425cbadfad1a6b1780c"
+      "sha256": "63280001cc69e01b42b48ccd968b117f93fddab63744cdfb911655feb35ec674"
     },
     {
       "path": "adl-resilience/Cargo.toml",
@@ -225,15 +225,15 @@
     },
     {
       "path": "adl/tools/skills/arxiv-paper-writer/SKILL.md",
-      "sha256": "5753ce6550c0ff19dd434ebcc66344482f325bdad0a0cde3297ead80777f814b"
+      "sha256": "686bddca88d2542b7fc79185cee917d8dcc4ccc8306acb0549913671348ca711"
     },
     {
       "path": "adl/tools/skills/demo-operator/SKILL.md",
-      "sha256": "96156851842c3d57e703c1a6660cc208a68891c7a9da668e236e1467a41c8b65"
+      "sha256": "bff2d56d08a8003915334d392dedbfe6103c4fb7af33c011138878a39f313391"
     },
     {
       "path": "adl/tools/skills/diagram-author/SKILL.md",
-      "sha256": "f5a1cb84421259e6374d9852b0c3fbe38d109192292c3da89753f1127eb8175b"
+      "sha256": "196a7159db42c47c41095a96ddedaad6267c9f6358e002042aa666082561eb36"
     },
     {
       "path": "adl/tools/skills/documentation-specialist/SKILL.md",
@@ -261,7 +261,7 @@
     },
     {
       "path": "adl/tools/skills/medium-article-writer/SKILL.md",
-      "sha256": "8c260e08436e0bf8c288349bf8cdaf0946654c6456be8d6b4a92d308c7d17630"
+      "sha256": "1d882a06c45b77af6587569a9928c22b018b5b79c437c0e3e7847421b2319c6f"
     },
     {
       "path": "adl/tools/skills/planning-doc-editor/SKILL.md",
@@ -285,7 +285,7 @@
     },
     {
       "path": "adl/tools/skills/pr-janitor/SKILL.md",
-      "sha256": "cf69387a554fc8f7e2e4d1578ffc2d186a1d938e135003fcc6e3b147cac673c7"
+      "sha256": "aed0e248cc3bb1d60414469e3cdeaec031e7c4a113428efd23227e3f723405a0"
     },
     {
       "path": "adl/tools/skills/pr-ready/SKILL.md",
@@ -389,7 +389,7 @@
     },
     {
       "path": "adl/tools/skills/sprint-conductor/SKILL.md",
-      "sha256": "0f29bc864e5617b566eac5692348ea6db8cb7eb6b5fa49c3ceb49527a720357c"
+      "sha256": "c9fecc4b368910b1109cb0d4c0a8021d369f1c41b04b8e4aa2e81d43bf4d3460"
     },
     {
       "path": "adl/tools/skills/sprint-review/SKILL.md",
@@ -405,7 +405,7 @@
     },
     {
       "path": "adl/tools/skills/test-generator/SKILL.md",
-      "sha256": "d64356752f31f1891ecb3b453758144ce95ea9392fc30fddedba24d74fa18b4d"
+      "sha256": "0d10f9d2ed33ca254d84cdbc651a38f72ba16fb8bb62b768754a9abf343c20a5"
     },
     {
       "path": "adl/tools/skills/use-case-writer/SKILL.md",
@@ -469,15 +469,15 @@
     },
     {
       "path": "csdlc-v3/AGENTS.md",
-      "sha256": "324035f7a103955e50c1a7788cb0617de78d7bfee620de9566c032adcbad9414"
+      "sha256": "a377cf0c9a61c6314a1b0b958b7b5996440d71297f95a74d06299a9cce4192af"
     },
     {
       "path": "csdlc-v3/Cargo.toml",
-      "sha256": "d990abeeacc461f7eda316e3c29e9eb84873a234b4c8bddbe273c1f381251f68"
+      "sha256": "4d8c5bf5d3859e02fb7ff270018ea5c56ca37a29f17b69a7979809ace2df8ba0"
     },
     {
       "path": "csdlc-v3/README.md",
-      "sha256": "9bdd9e5e1d552dcc9addb55ee5ef735ad88e7c6364f97f844109a0713bd78021"
+      "sha256": "271fe5fb9cf1a11fefcd2f4eb72b8785db69a103a69ef78eedb82b3915e905b6"
     },
     {
       "path": "demos/README.md",
@@ -557,7 +557,7 @@
     },
     {
       "path": "docs/default_workflow.md",
-      "sha256": "63ab506be2a9309b5b83c8382059e339a3d16e26ba3c357a85d46386363bfdbe"
+      "sha256": "31689055a38ceadacb3c52eef4324fdeef6a7c555871492f6984d21cac93ba6e"
     },
     {
       "path": "docs/explainers/README.md",
@@ -765,7 +765,7 @@
     },
     {
       "path": "docs/milestones/v0.91.2/review/issue_3182_review/REVIEW.md",
-      "sha256": "aec2b0175c500ce1c6e9926b352a1d64ecc878d4fbbfeea532ed85fd4eda8ede"
+      "sha256": "c01a18c3c19920f77caf32ca35f10395bd93e1c89be036ac7cdb96a2140277bc"
     },
     {
       "path": "docs/milestones/v0.91.2/review/publication_program/README.md",
@@ -1181,7 +1181,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-      "sha256": "1b533a446bb3cd15dee7c783464b78e9928b566c38cd3b34d3801ba52e95ab91"
+      "sha256": "e6f9f72b3f2ce3c502bb6ebd1f87f5d07e4e999b786343a01f1036d69b4ff489"
     },
     {
       "path": "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
@@ -1193,11 +1193,11 @@
     },
     {
       "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
-      "sha256": "1312516c4abf162eebbfe5abe3cd573ad5d76d0b0c47497fa8d9ebe66ee8da67"
+      "sha256": "d9b86cb120fb2acb51995edd2f77f10ce3654419d260fdd0979a94dd97a13f40"
     },
     {
       "path": "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
-      "sha256": "13ef1ed9df0c7a2809ecbabfcc3b9d9e14f6b9f97e3682b9a4f060eb4862ee46"
+      "sha256": "6ec096f6b3625a56a2f491c2921e1d2edec3b688d39394d465f81f2b05707866"
     },
     {
       "path": "docs/milestones/v0.92.1/NEXT_MILESTONE_HANDOFF_v0.92.1.md",
@@ -1217,7 +1217,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
-      "sha256": "75da2994c0d6d5082882f1913dd832bcf1d1e5093336b3ef19906fa2c2ec602a"
+      "sha256": "4eaad5b71769b11c853d8469d0080c5e22f321c27a9b74234121d565fc406cc3"
     },
     {
       "path": "docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md",
@@ -1321,7 +1321,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/operator-reauth-proof-packet.md",
-      "sha256": "36caaa423361f91d9897527efd16009397a850a81bc5ddca96e1570b2cc3c2d3"
+      "sha256": "a829cbd3b2d0070d12512d22b95b3b4753a98d66eee205ffd632bfc827bd8d50"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/readbacks/command-manifest.md",
@@ -1333,7 +1333,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-b/bootstrap-identity-readiness.md",
-      "sha256": "ab6d5484d0a3a213eadf4f28f981b8c102a6a463f4a2fb4ff7e50bdcdf91aada"
+      "sha256": "0b1c9f1d1f0c8ba7f6f2df37cbeac73f9c1d05d5d98300c08409ba1e5c343590"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/design.md",
@@ -1453,7 +1453,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/ownership.json",
-      "sha256": "124d0e9d35beb824c9edc174b6d9a4ed36717f57f5b8662b18a0e1dad1c8cd2a"
+      "sha256": "23a36270d4b64b5b300eef993029cfed38170fc8e91906a1a1cc7c254d65b9c1"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/release-stage-mapping.json",
@@ -1497,7 +1497,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
-      "sha256": "fa030d835f43281bbe00467c3f8bd45fdf985a5b12372b402e8b6ca745a988b3"
+      "sha256": "e1e185780a9acefa604b9ddb3ecf47b9f12a135e571ce9e60f1faab98e2b20b0"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
@@ -2909,7 +2909,7 @@
     },
     {
       "path": "docs/onboarding.md",
-      "sha256": "0a9e1e7111bad4f9dc3a34b7c0f50e0fba2e340b48b6163346eb417db95859da"
+      "sha256": "789145d8408a413403d0029c3fbf22e5d2ce6f1bcec1b4b0097f41de25ddf658"
     },
     {
       "path": "docs/operations/cloud/aws/audit-security/README.md",
@@ -3053,7 +3053,7 @@
     },
     {
       "path": "docs/templates/prompts/README.md",
-      "sha256": "00eef6c225a9f5a433927a6d6b35c248f7a6d794baba0bba3c6a7293e1df072c"
+      "sha256": "f3b0bfa9e79e5e96d8c58fdf0e4c76ca69d9798484c7c5e46b37f37a8a559ae6"
     },
     {
       "path": "docs/templates/sprints/README.md",
@@ -3069,7 +3069,7 @@
     },
     {
       "path": "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
-      "sha256": "43e9b7163849051a33fab073dafeb79cb5f549bae9817598b281a7fd446387ba"
+      "sha256": "6432c01643774bc6b8f72dcd05a785e90cf757ef2f364c027920866be9099311"
     },
     {
       "path": "docs/tooling/editor/README.md",

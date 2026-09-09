@@ -30,7 +30,7 @@ If the account session expires again, run this from a terminal where
 browser-based login is allowed:
 
 ```bash
-gcloud auth login daniel@agent-logic.ai && gcloud config set account daniel@agent-logic.ai && cd /Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision && bash docs/milestones/v0.92.1/evidence/cloud/gcp-a/run-readonly-decision-readbacks.sh && bash .csdlc/prepared/issues/490/validate-gcp-a-decision.sh .
+gcloud auth login <company-user> && gcloud config set account <company-user> && cd <issue-490-worktree> && bash docs/milestones/v0.92.1/evidence/cloud/gcp-a/run-readonly-decision-readbacks.sh && bash .csdlc/prepared/issues/490/validate-gcp-a-decision.sh .
 ```
 
 This command changes only local `gcloud` authentication/configuration state and

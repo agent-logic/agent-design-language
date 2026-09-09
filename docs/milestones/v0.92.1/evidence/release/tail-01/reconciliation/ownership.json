@@ -79,7 +79,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/482.json",
           "branch": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-482-corp-a-critical-asset-schedule"
+          "worktree": "FastWork ADL worktree: adl-issue-482-corp-a-critical-asset-schedule"
         }
       }
     },
@@ -129,7 +129,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/483.json",
           "branch": "codex/483-v0-92-1-corp-b-corporate-account-custody-register",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-483-corp-b-corporate-account-custody-register"
+          "worktree": "FastWork ADL worktree: adl-issue-483-corp-b-corporate-account-custody-register"
         }
       }
     },
@@ -179,7 +179,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/491.json",
           "branch": "codex/491-gcp-terraform-bootstrap",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-491-gcp-terraform-bootstrap"
+          "worktree": "FastWork ADL worktree: adl-issue-491-gcp-terraform-bootstrap"
         }
       }
     },
@@ -259,7 +259,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/498.json",
           "branch": "codex/498-corp-d-corporate-diligence-acceptance",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-498-corp-d-corporate-diligence-acceptance"
+          "worktree": "FastWork ADL worktree: adl-issue-498-corp-d-corporate-diligence-acceptance"
         }
       }
     },
@@ -309,7 +309,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/500.json",
           "branch": "codex/500-v3-a-contract-construction",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction"
+          "worktree": "FastWork ADL worktree: adl-issue-500-v3-a-contract-construction"
         }
       }
     },
@@ -359,7 +359,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/501.json",
           "branch": "codex/501-v3-b-csdlc-v3-foundation",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation"
+          "worktree": "FastWork ADL worktree: adl-issue-501-v3-b-csdlc-v3-foundation"
         }
       }
     },
@@ -409,7 +409,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/502.json",
           "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel"
+          "worktree": "FastWork ADL worktree: adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel"
         }
       }
     },
@@ -459,7 +459,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/503.json",
           "branch": "codex/503-v3-d-local-preparation-workflow-exec",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec"
+          "worktree": "FastWork ADL worktree: adl-issue-503-v3-d-local-preparation-workflow-exec"
         }
       }
     },
@@ -509,7 +509,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/504.json",
           "branch": "codex/504-v3-e-remote-delivery-workflow-exec",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec"
+          "worktree": "FastWork ADL worktree: adl-issue-504-v3-e-remote-delivery-workflow-exec"
         }
       }
     },
@@ -609,7 +609,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/506.json",
           "branch": "codex/506-v0-92-1-drt-a-distributed-qualification-contract-r3",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-506-distributed-qualification-contract-r3"
+          "worktree": "FastWork ADL worktree: adl-issue-506-distributed-qualification-contract-r3"
         }
       }
     },
@@ -659,7 +659,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/507.json",
           "branch": "codex/507-six-resident-uts-qualification",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-507-six-resident-uts-qualification"
+          "worktree": "FastWork ADL worktree: adl-issue-507-six-resident-uts-qualification"
         }
       }
     },
@@ -709,7 +709,7 @@
           "observed_state": "merged",
           "receipt_path": "csdlc-v2/closeout/508.json",
           "branch": "codex/508-drt-c-final-qualification",
-          "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qualification"
+          "worktree": "FastWork ADL worktree: adl-issue-508-drt-c-final-qualification"
         }
       }
     },

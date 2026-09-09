@@ -61,11 +61,11 @@ This skill should track the repository's canonical operational skill family and
 sprint/review/closeout surfaces.
 
 At the moment, the key repo references are:
-- `/Users/daniel/git/agent-design-language/adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md`
-- `/Users/daniel/git/agent-design-language/docs/templates/SPRINT_TEMPLATE.md`
-- `/Users/daniel/git/agent-design-language/docs/templates/RELEASE_PLAN_TEMPLATE.md`
-- `/Users/daniel/git/agent-design-language/adl/tools/report_large_rust_modules.sh`
-- `/Users/daniel/git/agent-design-language/adl/README.md`
+- `adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md`
+- `docs/templates/SPRINT_TEMPLATE.md`
+- `docs/templates/RELEASE_PLAN_TEMPLATE.md`
+- `adl/tools/report_large_rust_modules.sh`
+- `adl/README.md`
 
 Within this bundle, the operational details live in:
 - `references/conductor-playbook.md`
