@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Refresh complete current V3-F exact-head proof with operator-approved terminal receipt-conflict ordering and complete fail-closed comment-pagination repairs and regressions. Preserve historical receipts and resolved CORP-A dispositions. Any other product repair requires separate approval.
+Refresh complete current V3-F exact-head proof, including operator-approved terminal receipt ordering, complete fail-closed comment pagination and versioned template authority repairs with focused regressions. Preserve historical receipts and resolved CORP-A dispositions. No merge or issue closure.
 
 ## Deliverables
 
@@ -36,5 +36,5 @@ Refresh complete current V3-F exact-head proof with operator-approved terminal r
 
 ## Non Goals
 
-- No product changes beyond the explicitly approved terminal receipt-conflict ordering and comment-pagination repairs and their regressions; any additional product repair requires separate operator approval.
-- No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, or weakened authority guards.
+- No product changes beyond the three explicitly approved review repairs and their regressions.
+- No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, weakened authority guards, merge or issue closure.

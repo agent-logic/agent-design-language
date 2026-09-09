@@ -28,6 +28,10 @@ V3-F-ac-1 through V3-F-ac-4 bind the same immutable reviewed source blobs and pa
 - csdlc-v3/src/adapters/mod.rs
 - csdlc-v3/src/commands/remote/mod.rs
 - csdlc-v3/src/commands/remote/tests.rs
+- docs/templates/prompts/1.0.5
+- docs/templates/prompts/current.json
+- csdlc-v3/tests/operational_cli_commands.rs
+- csdlc-v3/tests/local_commands.rs
 
 ## Authority
 

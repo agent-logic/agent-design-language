@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ee25c9d1a52bb67795cce2f7c403c103ba81385042feace46861f88dfd1d564c",
   "phase": "bound",
-  "generation": 14,
-  "digest": "d9639a682c55f95d553d83a296d9940093f1280da0560ad92e45e2567c72de98",
+  "generation": 19,
+  "digest": "7eadbef9e00b08753ca5e9991b106b5504290e7fe6cb318b793a6da43effd43b",
   "branch": "codex/771-v3f-proof-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-771-v3f-proof-execution",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7a6be1760eaec6066f5668dd8f393d604a799e741cb08e1dcd3599766b7dd3c4",
-      "rendered_digest": "839fb5a0a901ab7472d7a0926a123c575e6ceddeb1ecb692409a8484dd26781e",
-      "ast_digest": "21b43642296f77de51c575d3cce97ed4dc0917180d9e8d3d3f6fe5118c0f2a10"
+      "values_digest": "d66d96d8bbf75131d3f498c51717c7f1ad30151323677442ad7b6dcc4d1733a2",
+      "rendered_digest": "a2ea7fb2f6c0652f51e9b89d76000de7f2d6d6869ca13e1be517c9a94569c14f",
+      "ast_digest": "473272f52df4b975741193f59354ec248318f4858398dc6f27bfd315e034c9ae"
     },
     "stp": {
-      "values_digest": "ea1713a0e54669d46b898118ce9b8f35d57a673c190fa9191054a74648d497c0",
-      "rendered_digest": "74b4255bc1aa4094520eecab1419378794b3cd827dcd9173ca5cf90b39d5a83f",
-      "ast_digest": "bf9dd6939aecf9dab685aa3c8e4b9a35c03e107013689f4102c774b7f41b6688"
+      "values_digest": "0a3cc5afc075dc291464cea7db1f67351294ccbec0ea3beb84b52421b916153b",
+      "rendered_digest": "8edd89e46fc01b226b4f2f8f20830fd52719104a7ec7202747f8d64917c6525e",
+      "ast_digest": "c81b6e3522d08beca37c2d0aac45d8664d9b9e6917d624aef75ad2f72d8eba1d"
     },
     "spp": {
-      "values_digest": "c79aa02f15133d09042356b1c4603f9df626021093a599877894a2c0054dbb06",
-      "rendered_digest": "9be70cfa750d8f8dbead99fd6ec8946419009069214e8e6c6839020811d31ef6",
-      "ast_digest": "8da1ec4405481e027c127bf677c1c123d4faab47bc01ff0893dfce70a777bbd2"
+      "values_digest": "2b57a394726f712d399bf3969361ec9df665d0bd61556b00ab55032f5fe896e9",
+      "rendered_digest": "47459e1a0e10551e11383d248ca73b5ac2686e65c5eee74956d3fb47c3c365a9",
+      "ast_digest": "9bf9357c8d49984f072885a1fbfc3d8c542c8742b1b6f55dfa190a0ea26d03be"
     },
     "vpp": {
-      "values_digest": "62542748705bd4d1dea7163b726c3ea41b686073d4befb64f6a0ee1d4d4c65e1",
+      "values_digest": "a6db0cea6dd8cdc0fb45ef4c61236057e4a8217f3f6d813d4c7367bb6e3e30e6",
       "rendered_digest": "eff3f6a59399fa5882a53c3faccfcd968494d80f4964021ebd0ea025d39c72c3",
       "ast_digest": "078597eef92b7ca896a3439cc054fb0d3970fd45cc19359bdec5d63d18ce9abc"
     },
     "srp": {
-      "values_digest": "34806bf03d97e43a1e5932e802af5179299c93a34bc872058a23250fbd5785da",
+      "values_digest": "a9422c0c335fe90ab5cbb0f01c6cdecf86e3d4515b9a180be9adc6dda5dc518c",
       "rendered_digest": "cdf216c9ac416683f98d124950ca487df914405c1cd9cee694899f58c21205d4",
       "ast_digest": "1aeed3599f46384599ae716396d4bd47a28d827664a91d99e41eedbefe93de44"
     },
     "sor": {
-      "values_digest": "e97528409b6665e59892f0989892ccab82ce5c507be5d2ea66c7b1489867b640",
+      "values_digest": "d1dda63b6a697c7a8db7c7370933c5cb7c090d40611c386d4a0449d8b751a85a",
       "rendered_digest": "2bb9189f8d136ec6aa074ae17a1a570369ee06fc0d65f25c36be200a624fe1cc",
       "ast_digest": "a25bada74d3705d437ba4768e61a58cf96511d6523ddbd8fa9d45271c43e3638"
     }
@@ -182,6 +182,41 @@
       "actor": "Planning #7",
       "reason": "Record approved pagination repair outcome and remaining independently reviewed template authority blocker without overstating completion.",
       "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Terminal receipt-conflict repair independently reviewed; pagination repair approved, implemented and focused tests passed. Record current template authority finding V3F-EVIDENCE-R1 and await separate repair approval. After all approved repairs, freeze combined source for independent complete V3-F review and full detached locked suite; bind all four mappings to receipts, review and publish with green CI.\",\"operation\":\"replan\",\"previous_value\":\"Operator-approved terminal receipt-conflict preflight repair and regression; consume merged776; freeze combined source; independent complete V3-F review and full detached locked suite; map all four rows without historical drift; final review and PR with green CI.\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "Planning #7",
+      "reason": "Operator approved V3F-EVIDENCE-R1 versioned template repair; declare bounded schema and native renderer proof scope before implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current\",\".csdlc/evidence/771\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\",\"docs/templates/prompts/1.0.5\",\"docs/templates/prompts/current.json\",\"csdlc-v3/tests/operational_cli_commands.rs\",\"csdlc-v3/tests/local_commands.rs\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "Planning #7",
+      "reason": "Operator approved V3F-EVIDENCE-R1 versioned template repair; declare bounded schema and native renderer proof scope before implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/commands/terminal.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py\",\"docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\",\"docs/templates/prompts/1.0.5\",\"docs/templates/prompts/current.json\",\"csdlc-v3/tests/operational_cli_commands.rs\",\"csdlc-v3/tests/local_commands.rs\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "Planning #7",
+      "reason": "Record operator-approved template repair and final proof plan.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Refresh complete current V3-F exact-head proof, including operator-approved terminal receipt ordering, complete fail-closed comment pagination and versioned template authority repairs with focused regressions. Preserve historical receipts and resolved CORP-A dispositions. No merge or issue closure.\",\"operation\":\"replan\",\"previous_value\":\"Refresh complete current V3-F exact-head proof with operator-approved terminal receipt-conflict ordering and complete fail-closed comment-pagination repairs and regressions. Preserve historical receipts and resolved CORP-A dispositions. Any other product repair requires separate approval.\"}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "Planning #7",
+      "reason": "Record operator-approved template repair and final proof plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"No product changes beyond the three explicitly approved review repairs and their regressions.\",\"No rewrite of historical receipts, reopened CORP-A findings, cloud or UI demo, weakened authority guards, merge or issue closure.\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "Planning #7",
+      "reason": "Record operator-approved template repair and final proof plan.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.\",\"operation\":\"replan\",\"previous_value\":\"Terminal receipt-conflict repair independently reviewed; pagination repair approved, implemented and focused tests passed. Record current template authority finding V3F-EVIDENCE-R1 and await separate repair approval. After all approved repairs, freeze combined source for independent complete V3-F review and full detached locked suite; bind all four mappings to receipts, review and publish with green CI.\"}"
     }
   ]
 }

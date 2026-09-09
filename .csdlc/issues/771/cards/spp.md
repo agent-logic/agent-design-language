@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Terminal receipt-conflict repair independently reviewed; pagination repair approved, implemented and focused tests passed. Record current template authority finding V3F-EVIDENCE-R1 and await separate repair approval. After all approved repairs, freeze combined source for independent complete V3-F review and full detached locked suite; bind all four mappings to receipts, review and publish with green CI.
+All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.
 
 ## Plan
 
-Revision 6
+Revision 8
 
 ## Steps
 

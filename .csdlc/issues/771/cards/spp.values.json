@@ -7,14 +7,14 @@
     "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
     "slug": "v3f-exact-head-proof",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 19
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 6,
-      "summary": "Terminal receipt-conflict repair independently reviewed; pagination repair approved, implemented and focused tests passed. Record current template authority finding V3F-EVIDENCE-R1 and await separate repair approval. After all approved repairs, freeze combined source for independent complete V3-F review and full detached locked suite; bind all four mappings to receipts, review and publish with green CI.",
+      "plan_revision": 8,
+      "summary": "All three separately approved review repairs implemented. Freeze combined source after bounded review; independently review complete V3-F scope and run full locked suite from clean detached identical SHA. Bind all four mappings to immutable receipts, finalize truthful cards, perform exact PR review and publish with required CI passing.",
       "steps": [
         {
           "id": "S1",
@@ -73,7 +73,11 @@
         "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py",
         "csdlc-v3/src/adapters/mod.rs",
         "csdlc-v3/src/commands/remote/mod.rs",
-        "csdlc-v3/src/commands/remote/tests.rs"
+        "csdlc-v3/src/commands/remote/tests.rs",
+        "docs/templates/prompts/1.0.5",
+        "docs/templates/prompts/current.json",
+        "csdlc-v3/tests/operational_cli_commands.rs",
+        "csdlc-v3/tests/local_commands.rs"
       ],
       "invariants": [
         "Historical receipts immutable; source review and suite use identical bytes; no CORP-A reopening."
