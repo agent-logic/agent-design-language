@@ -1,4 +1,4 @@
-use std::{collections::BTreeMap, fs, time::Duration};
+use std::{collections::BTreeMap, fs, net::IpAddr, time::Duration};
 
 use adl_runtime_kernel::{
     LocalShepherdConfig, LocalShepherdExecutor, OperationExecutor, OperationRequest,
@@ -8,41 +8,56 @@ use adl_runtime_kernel::{
 use serde_json::json;
 use sha2::{Digest, Sha256};
 
-#[tokio::test]
-#[ignore = "requires an explicitly configured Ollama Gemma GPU runtime and model"]
-async fn real_local_model_smoke() {
-    use std::os::unix::fs::PermissionsExt;
+fn validate_loopback_ollama_origin(value: &str) -> Result<(), &'static str> {
+    if value.is_empty() || value.trim() != value {
+        return Err("origin must be nonempty and contain no surrounding whitespace");
+    }
+    let authority = value
+        .strip_prefix("http://")
+        .ok_or("origin must use plain HTTP on the local loopback boundary")?;
+    if authority.contains(['/', '?', '#', '@', '\\']) {
+        return Err("origin must contain only a loopback authority and explicit port");
+    }
+    let (host, port) = if let Some(bracketed) = authority.strip_prefix('[') {
+        let (host, port) = bracketed
+            .split_once("]:")
+            .ok_or("bracketed loopback origin must include an explicit port")?;
+        (host, port)
+    } else {
+        authority
+            .rsplit_once(':')
+            .ok_or("loopback origin must include an explicit port")?
+    };
+    let port = port
+        .parse::<u16>()
+        .map_err(|_| "loopback origin port is invalid")?;
+    if port == 0 {
+        return Err("loopback origin port must be nonzero");
+    }
+    let loopback = host.eq_ignore_ascii_case("localhost")
+        || host
+            .parse::<IpAddr>()
+            .is_ok_and(|address| address.is_loopback());
+    if !loopback {
+        return Err("origin host must be localhost or a loopback IP address");
+    }
+    Ok(())
+}
 
-    let ollama_host = std::env::var("ADL_SHEPHERD_OLLAMA_HOST")
-        .unwrap_or_else(|_| "http://127.0.0.1:11434".to_owned());
-    assert!(
-        ollama_host.starts_with("http://127.0.0.1:")
-            || ollama_host.starts_with("http://localhost:"),
-        "ADL_SHEPHERD_OLLAMA_HOST must be loopback HTTP"
-    );
-    let model_identity = std::env::var("ADL_SHEPHERD_MODEL_IDENTITY")
-        .expect("ADL_SHEPHERD_MODEL_IDENTITY is required");
-    let backend_identity = std::env::var("ADL_SHEPHERD_BACKEND_IDENTITY")
-        .unwrap_or_else(|_| "ollama_metal_local".to_owned());
-    let model_artifact_sha256 = std::env::var("ADL_SHEPHERD_MODEL_DIGEST_SHA256")
-        .expect("ADL_SHEPHERD_MODEL_DIGEST_SHA256 is required");
-    assert_eq!(model_artifact_sha256.len(), 64);
-    assert!(model_artifact_sha256
-        .bytes()
-        .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f')));
-
-    let temp = tempfile::tempdir().unwrap();
-    let runner = temp.path().join("ollama-attested-runner.py");
-    fs::write(
-        &runner,
-        r#"#!/usr/bin/python3
+const OLLAMA_ATTESTED_RUNNER: &str = r#"#!/usr/bin/python3
 import json, os, sys, urllib.request
 
 request = json.loads(sys.stdin.readline())
 host = os.environ["ADL_OLLAMA_HOST"].rstrip("/")
 
+class RejectRedirects(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, file_pointer, code, message, headers, new_url):
+        raise RuntimeError("Ollama endpoint redirects are denied")
+
+opener = urllib.request.build_opener(RejectRedirects)
+
 def get(path):
-    with urllib.request.urlopen(host + path, timeout=10) as response:
+    with opener.open(host + path, timeout=10) as response:
         return json.load(response)
 
 def post(path, payload):
@@ -53,7 +68,7 @@ def post(path, payload):
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    with urllib.request.urlopen(command, timeout=240) as response:
+    with opener.open(command, timeout=240) as response:
         return json.load(response)
 
 models = get("/api/tags").get("models", [])
@@ -83,9 +98,80 @@ response = {
 response["schema"] = "adl.runtime.shepherd_runner_response.v1"
 response["response"] = generated["response"]
 print(json.dumps(response, sort_keys=True))
-"#,
-    )
-    .unwrap();
+"#;
+
+#[test]
+fn local_model_origin_accepts_only_structural_loopback_http_origins() {
+    for accepted in [
+        "http://localhost:11434",
+        "http://LOCALHOST:11434",
+        "http://127.0.0.1:11434",
+        "http://127.255.0.1:11434",
+        "http://[::1]:11434",
+    ] {
+        assert_eq!(
+            validate_loopback_ollama_origin(accepted),
+            Ok(()),
+            "{accepted}"
+        );
+    }
+
+    for rejected in [
+        "https://localhost:11434",
+        "http://localhost",
+        "http://localhost:0",
+        "http://localhost:70000",
+        "http://localhost:11434/",
+        "http://localhost:11434/api",
+        "http://localhost:11434?target=evil.example",
+        "http://localhost:11434#evil.example",
+        "http://localhost@evil.example:11434",
+        "http://localhost:11434@evil.example:80",
+        "http://localhost.evil.example:11434",
+        "http://127.0.0.1.evil.example:11434",
+        "http://2130706433:11434",
+        "http://%31%32%37.0.0.1:11434",
+        "http://[::2]:11434",
+        " http://127.0.0.1:11434",
+        "http://127.0.0.1:11434\n",
+    ] {
+        assert!(
+            validate_loopback_ollama_origin(rejected).is_err(),
+            "unsafe origin accepted: {rejected:?}"
+        );
+    }
+}
+
+#[test]
+fn local_model_runner_denies_redirects() {
+    assert!(OLLAMA_ATTESTED_RUNNER.contains("class RejectRedirects"));
+    assert!(OLLAMA_ATTESTED_RUNNER.contains("Ollama endpoint redirects are denied"));
+    assert!(!OLLAMA_ATTESTED_RUNNER.contains("urllib.request.urlopen"));
+}
+
+#[tokio::test]
+#[ignore = "requires an explicitly configured Ollama Gemma GPU runtime and model"]
+async fn real_local_model_smoke() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let ollama_host = std::env::var("ADL_SHEPHERD_OLLAMA_HOST")
+        .unwrap_or_else(|_| "http://127.0.0.1:11434".to_owned());
+    validate_loopback_ollama_origin(&ollama_host)
+        .expect("ADL_SHEPHERD_OLLAMA_HOST must be a structural loopback HTTP origin");
+    let model_identity = std::env::var("ADL_SHEPHERD_MODEL_IDENTITY")
+        .expect("ADL_SHEPHERD_MODEL_IDENTITY is required");
+    let backend_identity = std::env::var("ADL_SHEPHERD_BACKEND_IDENTITY")
+        .unwrap_or_else(|_| "ollama_metal_local".to_owned());
+    let model_artifact_sha256 = std::env::var("ADL_SHEPHERD_MODEL_DIGEST_SHA256")
+        .expect("ADL_SHEPHERD_MODEL_DIGEST_SHA256 is required");
+    assert_eq!(model_artifact_sha256.len(), 64);
+    assert!(model_artifact_sha256
+        .bytes()
+        .all(|byte| byte.is_ascii_digit() || matches!(byte, b'a'..=b'f')));
+
+    let temp = tempfile::tempdir().unwrap();
+    let runner = temp.path().join("ollama-attested-runner.py");
+    fs::write(&runner, OLLAMA_ATTESTED_RUNNER).unwrap();
     fs::set_permissions(&runner, fs::Permissions::from_mode(0o700)).unwrap();
     let runner_program_sha256 = hex::encode(Sha256::digest(fs::read(&runner).unwrap()));
 
