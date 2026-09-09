@@ -8,3 +8,4 @@ terraform -chdir="$repo_root/infra/aws/modules/csm-runtime-spot" fmt -check
 terraform -chdir="$stack" init -backend=false -input=false -lockfile=readonly
 terraform -chdir="$stack" validate -no-color
 terraform -chdir="$stack" test -no-color
+python3 "$stack/tests/test_live_proof.py"

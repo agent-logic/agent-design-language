@@ -52,8 +52,15 @@ Normal deployment retains the root's existing Terraform version requirement.
 
 PVF lane: `public-ssh-contract`; deterministic mocked plan contracts, small local
 CPU, not a release gate. Cases cover null/blank key, null/empty SSH list, invalid
-and world-open CIDRs, a valid one-key `/32` public node, root input forwarding,
+and world-open CIDRs, SSH/Runtime port overlap, a valid one-key `/32` public node, root input forwarding,
 application caller isolation, IMDSv2 and encrypted disposable storage.
+
+The live probe helper is `tests/run_live_proof.sh --help`. It performs AWS
+readbacks and authenticated SSH checks only after an approved instance exists;
+it never applies Terraform or expands ingress. Its temporary listener expires
+after 120 seconds. Host keys use first-connection trust in an isolated known-hosts
+file and reject subsequent mismatches. Cloud disposal is a separate required step,
+including when the probe fails.
 
 ## Bounded live proof
 
@@ -80,3 +87,5 @@ and `alb_security_group_id = null`. After the approved apply:
 Live reachability and disposal evidence must be retained before claiming #770
 complete. The initial implementation contains local proof only; no paid live run
 is implied by the example or mocked tests.
+
+The contract runner also runs five deterministic offline live-probe verdict tests: successful proof, unrelated listener collision, cleanup failure, local socket failure, and exposed application port. These tests validate probe logic; they do not establish live AWS reachability.

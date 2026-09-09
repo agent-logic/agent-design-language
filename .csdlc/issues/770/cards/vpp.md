@@ -42,7 +42,7 @@ Diagram: .csdlc/prepared/issues/770/diagram.mmd
       "infra/aws/csm-runtime-spot/tests/run_contract.sh"
     ],
     "parallel_group": "local",
-    "defer_reason": "The exact issue-owned test wrapper is authored during implementation before validation."
+    "defer_reason": null
   },
   {
     "lane": "authorized-live-recovery",

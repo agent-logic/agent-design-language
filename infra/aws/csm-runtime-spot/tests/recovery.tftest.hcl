@@ -86,3 +86,10 @@ run "application_callers_stay_separate" {
     error_message = "Application ingress must retain only its explicit callers and port."
   }
 }
+
+run "reject_runtime_ssh_overlap" {
+  command = plan
+  module { source = "../modules/csm-runtime-spot" }
+  variables { runtime_port = 22 }
+  expect_failures = [var.runtime_port]
+}

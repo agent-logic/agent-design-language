@@ -35,6 +35,11 @@ variable "runtime_port" {
   description = "Runtime HTTPS port on the instance."
   type        = number
   default     = 20997
+  validation {
+    condition     = var.runtime_port >= 1 && var.runtime_port <= 65535 && floor(var.runtime_port) == var.runtime_port && var.runtime_port != 22
+    error_message = "Runtime must use an integer TCP port from 1 through 65535 other than SSH port 22."
+  }
+
 }
 
 variable "alb_security_group_id" {

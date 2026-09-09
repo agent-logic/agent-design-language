@@ -3,11 +3,11 @@
   "issue": 770,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1027ce24f8764f0a1ebb0f6d5dc56d65062000fe91fb898530036cea91088289",
-  "phase": "ready",
-  "generation": 1,
-  "digest": "e8e5063aa67e898d9d8a41e65cb642ec44b1ca583c5f32ed81a8f692bbb62cf0",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 5,
+  "digest": "54300c0f88ea23bfba6f90aa26c96efa7e86ba4aae098019e9093bbaa28930d0",
+  "branch": "codex/770-public-spot-ssh-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9177410914e8135f79de85f4133d921d78763530ee3b5cdae1d7660599193af2",
+      "values_digest": "212916cadfe408d42e52cdb3d726a81972d0dc2022bbc55f87df32951feadd58",
       "rendered_digest": "e8ad0f905851b7b218c29fd9ba399b2953969b582d3d44da8bcdfdb114491b3a",
       "ast_digest": "6b2756afabb08215c363489e85b654c399659082c35f715f568557e1c43f8f8b"
     },
     "stp": {
-      "values_digest": "c173d668c7b825d0b8777d1b2733da6b2a55abfe7ef3812e0585603eec76c8fe",
+      "values_digest": "c0f9f4a27a82925ed4119577b949fbcc3695b0652044e654286f1f191a562c94",
       "rendered_digest": "094f6ad2b8deada648cb4963f3edf4c57869cf279ec0782c8fa86dcd4e3d7423",
       "ast_digest": "ecba6922f53438c56d68681fd71b23be8173cd3910451fd7e9b684fb1fa2db65"
     },
     "spp": {
-      "values_digest": "029bc1f6bb2cc52bbb69274ea318a65defe9c023bcc03ca48da56d18e792ef05",
-      "rendered_digest": "7e520578f5ec4246afbdcaeb1f1e25b53837e5d499ec9114b0631d04b3111481",
-      "ast_digest": "108ff5c47a26254a53f2f6294434916d6d06cce4a3d40a1203ef7faa36b9a345"
+      "values_digest": "d0fab8b4563f2ca5472db6c26815e5a9ba65b9ce6720f104e7c47fc8f9dfd4e0",
+      "rendered_digest": "9e265903651bb6050a542ab78807de2a6d8ac3fbb3eb09acad8543c3771c5e3a",
+      "ast_digest": "d7273fcf5ff8a774dcfd358511fd3d740c0128b0d1068332b97557544771b000"
     },
     "vpp": {
-      "values_digest": "968d501703002aa4562c6c2c2eef01434385536606359e44116270fd762a3be1",
-      "rendered_digest": "06ff12dfe0cf644e5bf535d7a957d4cf6597c07ff9022010436d67c14826e64d",
-      "ast_digest": "6ec456dd6d20bf3f957120526a9cdd7ed185d1d16876f893e006ae94199e05bd"
+      "values_digest": "957230513659c899645fba1707c85339dd9b13eb8023f278ea0eec9c88f56219",
+      "rendered_digest": "f37b57750c856512df26d6c92c248501714373e2602b1b7062f8f73ee2a355d5",
+      "ast_digest": "0e7e7e9d2b524c292064a8f44a72fcbe78dad49b6a9828c34ead399b04957a2a"
     },
     "srp": {
-      "values_digest": "f0466e1de08f6d311a032f58ea0298385610fa3e5cb1949ad8179a8a085305a4",
+      "values_digest": "6b2b6f3ed1054ec8f17d7922f9811ed286dd9fc9b67b5c90d0aa94409a21f064",
       "rendered_digest": "97fee9a643b26330d1c50f36b4e079fbe7fc79f23b73e5f04c598003906413c1",
       "ast_digest": "6a5dd06e1f44d29ef446d4377a99c639c7942cf81b59b24aacff1e836ad0d680"
     },
     "sor": {
-      "values_digest": "f90783fef538e77b861754880d1b946c8de7ba007286dfb893146f55ae0431cc",
-      "rendered_digest": "a09c7eecab207ebca5740f97b48690c24a9f3fc14d6e0a13dd2c026d778366e7",
-      "ast_digest": "1e393f9c8b3131895b4a24028126047a6dfc5a076dd4e6c671e3e137570c702f"
+      "values_digest": "3c8a44f07edbddbf6146a6a2cf5bc7599eb24c752abfad05418239e54970b5d7",
+      "rendered_digest": "671f71b01332feb16f685aec160ac93bf7c677a4b91b5bc34ef31757a4132009",
+      "ast_digest": "8f66c49116f5664eca5644bb059aa854e372db44679faac419e70c179c2598f7"
     }
   },
   "transitions": [
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:planning-6",
       "reason": "Issue-specific design, deferred live proof and exact local contract target are ready for execution."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:planning-6",
+      "reason": "{\"actor\":\"codex:planning-6\",\"base_branch\":\"main\",\"branch\":\"codex/770-public-spot-ssh-recovery\",\"code_repository\":null,\"expected_digest\":\"e8e5063aa67e898d9d8a41e65cb642ec44b1ca583c5f32ed81a8f692bbb62cf0\",\"expected_generation\":1,\"expected_head\":\"d2571a7c94906b90457163cec769e1f65f8bdcba\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":770,\"observed_head\":\"d2571a7c94906b90457163cec769e1f65f8bdcba\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery\"}"
     }
   ],
   "audit": [
@@ -77,6 +84,41 @@
       "actor": "codex:planning-6",
       "reason": "Issue-specific design, deferred live proof and exact local contract target are ready for execution.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:planning-6",
+      "reason": "{\"base_branch\":\"main\",\"branch\":\"codex/770-public-spot-ssh-recovery\",\"expected_digest\":\"e8e5063aa67e898d9d8a41e65cb642ec44b1ca583c5f32ed81a8f692bbb62cf0\",\"expected_generation\":1,\"expected_head\":\"d2571a7c94906b90457163cec769e1f65f8bdcba\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"d2571a7c94906b90457163cec769e1f65f8bdcba\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-770-public-spot-ssh-recovery\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:planning-6",
+      "reason": "Local contract target exists and ten mock plans pass; retain explicit paid-live deferral.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"public-ssh-contract\",\"proof_role\":\"Deterministic Terraform mocked plan contracts; small local CPU; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_contract.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"authorized-live-recovery\",\"proof_role\":\"Paid AWS reachability, application isolation and disposal proof; requires explicit plan approval and selected existing key.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_live_proof.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Prepare exact plan and request explicit cloud approval plus existing SSH key details before implementing or running this live proof target.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:planning-6",
+      "reason": "Terraform recovery guards, examples and ten focused local cases are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:planning-6",
+      "reason": "Record actual local implementation and remaining live proof boundary.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Static remediation implemented and ten mocked Terraform plan tests pass. Saved AWS plan is read-only evidence. Live SSH reachability, application isolation and disposal remain pending explicit cloud approval and selected identity-file path.\",\"changes\":[\"Require key and explicit SSH ingress for public Spot Runtime.\",\"Preserve application isolation, reject Runtime/SSH port overlap, retain IMDSv2 and encrypted storage.\",\"Provide focused mock tests, recovery documentation and an unexecuted live probe helper.\"],\"artifacts\":[\".csdlc/prepared/issues/770/local-validation.md\",\"infra/aws/csm-runtime-spot/tests/recovery.tftest.hcl\",\"infra/aws/csm-runtime-spot/tests/run_live_proof.sh\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:planning-6",
+      "reason": "Ten deterministic mock plan tests, formatting and Terraform validation passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"infra/aws/csm-runtime-spot/tests/run_contract.sh\"],\"purpose\":\"Public SSH negative/positive and hardening contract proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/770/local-validation.md\"}}"
     }
   ]
 }
