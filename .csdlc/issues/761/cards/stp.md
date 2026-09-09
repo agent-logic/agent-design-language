@@ -16,9 +16,8 @@ Repair packet routing and denominator integrity for #761.
 
 ## Deliverables
 
-- Builder and validator
-- Exact regression fixture and negative tests
-- Packet and synthesis coverage contract
+- adl/tools/skills/repo-packet-builder/tests/test_denominators.py
+- Builder, validator, exact fixture and coverage docs
 
 ## Acceptance
 

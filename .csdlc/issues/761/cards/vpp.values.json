@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
     "slug": "review-lane-denominators",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -36,12 +36,12 @@
             "-v"
           ],
           "parallel_group": "local",
-          "defer_reason": null
+          "defer_reason": "Validator is implemented in bound issue worktree; unavailable in inspection checkout until merge."
         }
       ],
       "planned_validation_seconds": 1200,
       "planned_validation_tokens": 10000,
-      "failure_policy": "Reject incomplete or inconsistent packet manifests and stale review proof.",
+      "failure_policy": "Fail closed on incomplete test proof, denominator corruption or unresolved review findings.",
       "design_ref": ".csdlc/prepared/issues/761/design.md",
       "design_digest": "1d7815d5e7855103ca6af5d5fb1846a75cff9bf7495141137002eff436f1c26d",
       "diagram_ref": ".csdlc/prepared/issues/761/diagram.mmd",

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
     "slug": "review-lane-denominators",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -15,9 +15,8 @@
     "values": {
       "task_boundary": "Repair packet routing and denominator integrity for #761.",
       "deliverables": [
-        "Builder and validator",
-        "Exact regression fixture and negative tests",
-        "Packet and synthesis coverage contract"
+        "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+        "Builder, validator, exact fixture and coverage docs"
       ],
       "acceptance_criteria": [
         "AC-1: Classify complete inventory before sampling.",

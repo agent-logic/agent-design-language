@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b5d72d1f02bf37da94b5b6c1f2e19940f18c148ad231fb4e16ce7f32520f2207",
   "phase": "ready",
-  "generation": 4,
-  "digest": "c544cc86c68044758cc3bfa27d66d59e0fb7d26c1e7eb36f31ba101887a6e06a",
+  "generation": 7,
+  "digest": "f91058d5ddb1393e58d0b28d77b286a6fe5562af721b10b5619a996740c93149",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cec1d24697837307298f19d7762ae0b378edc7cb7c1bbecaaed31f578418e4f2",
+      "values_digest": "875482a5e285dd715c3692a6120ba251693230021a0c3b7307d532753a94dec2",
       "rendered_digest": "005bb45084657010ae8ca71bf4bd853724a999d795d36ff13e95390dead3caa9",
       "ast_digest": "a2c0f190f562b554eb82a6508d4f763f9c9bc77ec9591e65467cb48f5e81a31b"
     },
     "stp": {
-      "values_digest": "fab74e77e41eec6428c40f6ea8a2c11e8f6197f3189b320f2ab682865dac8777",
-      "rendered_digest": "18b38f82f8945341562bd6ade643ea99c199268dbff70aa3026277c1bb80eb7a",
-      "ast_digest": "ab5ce5ee671d9a3cf9436c4c634757ecf0bca4a96dc511413d58b1b043d0a0cb"
+      "values_digest": "3af2c82ae0d40bd8999605fc4cb922f03f8b484e1e95b9b017256e5cb29663e1",
+      "rendered_digest": "e5bbf3ca0a960facf0cfa7231b803f5f9f51243c4f9fd5f7d742e10d1446e32b",
+      "ast_digest": "0f8eda3ce2584fa3e696896bbadfbc25c82d9cc0146847345e3e258e39f2ad47"
     },
     "spp": {
-      "values_digest": "4b03944ef1b102c9d80b982420adbb08e50eb0737807d34c84818565f7532beb",
+      "values_digest": "a3d336b24f11b2131ee9dab37095e4445f03bbfa4f84e6011a6638d00cf0ea54",
       "rendered_digest": "69f318461fea43745580e7db61922208c8be5ff09da9f54b22b5f19e0a2f7b99",
       "ast_digest": "e5eec78166fac0836c5719cd8b422e2b815fb2b57e00e421ad29d30be562551c"
     },
     "vpp": {
-      "values_digest": "5bce01b625f74fe2ae886bb3b58e7c65f88122d865a21a047252778d131ec13d",
-      "rendered_digest": "f2c3e146407a98d0ebc8a44e25bc5520466e9b014c831bc1e7efc2b8fd82b5b5",
-      "ast_digest": "507baa2e308acbfa2c3509695d40a7b246aaefaf2c03a4fa4eb723a8f45606bf"
+      "values_digest": "fe8e0bea51a35f1abc7e4704f8e8580b3c04125cf9d91ea2ca854265e2b1696c",
+      "rendered_digest": "701af449cbc8af8f1cdb0754037d6f4f8a2d3afb992d470ce87d69ece58ef234",
+      "ast_digest": "0e786419b50aa1451d89068fd81b67f65df04d64fb13ecc95a444f8b92b724a8"
     },
     "srp": {
-      "values_digest": "0d389184e93d9ac761a4994ceb5e8047a265dab8f3a5f33e7bff177183c2092c",
+      "values_digest": "73629a8143e543bc6cbfda83e61b6dd32ad41b0ee9c4193968e3528fa6dd5df9",
       "rendered_digest": "6dd9d929b04d0503b697c253c7809a5f2ddfc778f8ca083424645e82e0ff7a5a",
       "ast_digest": "80c2a1ce28dfd5cfefbd68d6af6d0265ac82c293beb06d101925c1075f63d1b9"
     },
     "sor": {
-      "values_digest": "562556023b5c7e3d3057da58bc9300687aeb3d050e1f30ca548a2ff059e8ef68",
+      "values_digest": "8b2560d6feacd0990c9460f1aa2afd8a299314962ab2550fbad38707b4a7bcb3",
       "rendered_digest": "7f9a2e023ebff6c941ea6211e918c86683e8108aa54be0339635dcf767a22948",
       "ast_digest": "a02c86a829ea5b711c5f045f8d8f9af87485725aea6cc951e5972e8c2523f5f3"
     }
@@ -98,6 +98,27 @@
       "actor": "codex:planning-6",
       "reason": "Focused Python test now exists and passes; clear preimplementation deferral.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"packet-denominator-contract\",\"proof_role\":\"Deterministic Python routing and validation contract proof; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"-v\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:planning-6",
+      "reason": "Exact future validator deliverable supports bootstrap readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"Builder, validator, exact fixture and coverage docs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:planning-6",
+      "reason": "Explicit fail-closed validation contract.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed on incomplete test proof, denominator corruption or unresolved review findings.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:planning-6",
+      "reason": "Primary bootstrap projects validation target that exists in issue worktree.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"packet-denominator-contract\",\"proof_role\":\"Deterministic Python routing and validation contract proof; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"-v\"],\"parallel_group\":\"local\",\"defer_reason\":\"Validator is implemented in bound issue worktree; unavailable in inspection checkout until merge.\"}]}"
     }
   ]
 }

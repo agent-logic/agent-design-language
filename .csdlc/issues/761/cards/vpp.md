@@ -44,7 +44,7 @@ Diagram: .csdlc/prepared/issues/761/diagram.mmd
       "-v"
     ],
     "parallel_group": "local",
-    "defer_reason": null
+    "defer_reason": "Validator is implemented in bound issue worktree; unavailable in inspection checkout until merge."
   }
 ]
 
@@ -64,7 +64,7 @@ Tokens: 10000
 
 ## Failure Semantics
 
-Reject incomplete or inconsistent packet manifests and stale review proof.
+Fail closed on incomplete test proof, denominator corruption or unresolved review findings.
 
 ## Handoff
 
