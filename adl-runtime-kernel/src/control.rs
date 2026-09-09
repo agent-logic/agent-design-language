@@ -66,6 +66,15 @@ const AGENT_PROVIDER_EXECUTION_TIMEOUT: Duration = Duration::from_secs(15 * 60);
 const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
 const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
 const AGENT_CONVERSATION_MESSAGE_MAX_PARTS: usize = 64;
+
+pub fn resident_shepherd_runtime_id(index: usize, config: &ResidentShepherdInitConfig) -> String {
+    if index == 0 {
+        "shepherd".to_owned()
+    } else {
+        format!("shepherd:{}", config.name)
+    }
+}
+
 pub const API_DOCS_PATH: &str = "/v1/docs/";
 pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
 pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
@@ -1359,11 +1368,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     pub fn with_resident_agent_bindings(self, configs: &ResidentShepherdSetInitConfig) -> Self {
         let bindings = configs
             .iter()
-            .map(|config| {
-                let id = config
-                    .name
-                    .split_once('.')
-                    .map_or_else(|| config.name.clone(), |(id, _)| id.to_owned());
+            .enumerate()
+            .map(|(index, config)| {
+                let id = resident_shepherd_runtime_id(index, config);
                 (
                     id.clone(),
                     AgentAdmissionRequest {
@@ -7324,6 +7331,50 @@ mod layer8_conversation_ingress_tests {
         tempfile::TempDir,
     ) {
         agent_initiation_service_with_layer8_sender("beacon", "ember", fail, delay).await
+    }
+
+    #[test]
+    fn resident_shepherd_bindings_use_the_same_runtime_ids_as_the_population_feed() {
+        let shepherd = |name: &str, display_name: &str| ResidentShepherdInitConfig {
+            name: name.to_owned(),
+            display_name: display_name.to_owned(),
+            office: "resident shepherd".to_owned(),
+            provider: "ollama".to_owned(),
+            model: "qwen3:8b".to_owned(),
+            endpoint: "http://127.0.0.1:11434".to_owned(),
+            preload: Default::default(),
+        };
+        let configs = ResidentShepherdSetInitConfig::Many(vec![
+            shepherd("beacon.axioma", "Beacon Axioma"),
+            shepherd("lumen.axioma", "Lumen Axioma"),
+        ]);
+        let population = AgentPopulationFeed::resident_shepherds_from_config(&configs);
+        let service = ControlService::new_with_observatory_config_and_agents(
+            "conversation-runtime",
+            RuntimeRecorder::new(16),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            population.clone(),
+        )
+        .with_resident_agent_bindings(&configs);
+        let bindings = service
+            .resident_agent_bindings
+            .read()
+            .expect("resident agent bindings lock poisoned");
+        let population_ids = population
+            .sample
+            .iter()
+            .map(|agent| agent.id.as_str())
+            .collect::<Vec<_>>();
+
+        assert_eq!(population_ids, ["shepherd", "shepherd:lumen.axioma"]);
+        assert_eq!(
+            bindings.keys().map(String::as_str).collect::<Vec<_>>(),
+            population_ids
+        );
+        assert_eq!(bindings["shepherd"].name, "beacon.axioma");
     }
 
     async fn agent_initiation_service_with_layer8_sender(
