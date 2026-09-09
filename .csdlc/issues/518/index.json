@@ -3,14 +3,146 @@
   "issue": 518,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
-  "phase": "implemented",
-  "generation": 39,
-  "digest": "b9cedcc46d342ecc24117c1b913e2136c3f3d0d9bbe554ee1b88ca8e319e9151",
+  "phase": "published",
+  "generation": 41,
+  "digest": "ab915f9f32d0ac37eb644009f990f2038309885a5889d09fc46bc52ffac9f1fe",
   "branch": "codex/518-documentation-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex:root/review_518_docs",
+    "assigned_by": "codex:planning-6",
+    "revision": "git-blake3:0f9d9c28d26b00602846a21019a7327d36a39d20:98b30eb83c0d753426aca685193e281e2990e40240db377cf7c0a4f9bb9874e6",
+    "scope": [
+      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      ".csdlc/prepared/issues/518/refresh-handoff-content.py",
+      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "README.md",
+      "REVIEW.md",
+      "adl/CONTRIBUTING.md",
+      "adl/README.md",
+      "adl/tools/README.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/codex_playbook.md",
+      "docs/default_workflow.md",
+      "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+      "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+      "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+      "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
+      "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+      "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+      "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      "docs/milestones/v0.92.1/README.md",
+      "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
+      "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+      "docs/onboarding.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/planning/codefriend/README.md",
+      "docs/tooling/README.md",
+      "docs/tooling/editor/README.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:root/review_518_docs",
+    "scope": [
+      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      ".csdlc/prepared/issues/518/refresh-handoff-content.py",
+      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "README.md",
+      "REVIEW.md",
+      "adl/CONTRIBUTING.md",
+      "adl/README.md",
+      "adl/tools/README.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/README.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/codex_playbook.md",
+      "docs/default_workflow.md",
+      "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+      "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+      "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+      "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
+      "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+      "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+      "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      "docs/milestones/v0.92.1/README.md",
+      "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
+      "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+      "docs/onboarding.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/planning/codefriend/README.md",
+      "docs/tooling/README.md",
+      "docs/tooling/editor/README.md"
+    ],
+    "reviewed_revision": "git-blake3:0f9d9c28d26b00602846a21019a7327d36a39d20:98b30eb83c0d753426aca685193e281e2990e40240db377cf7c0a4f9bb9874e6",
+    "findings": [],
+    "residual_risks": [
+      "TAIL-01 release acceptance remains blocked with five source-recorded exceptions; terminal reconciliation does not supply semantic proof.",
+      "Static inventory and relative-link checks do not verify every historical sentence, remote URL, runtime behavior, build or vulnerability.",
+      "Independent review found three stale current entrypoints; fixed and approved at 0f9d9c28d26b00602846a21019a7327d36a39d20."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 518,
+    "pull_request": 753,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/753",
+    "base": "main",
+    "head": "codex/518-documentation-review",
+    "revision": "git-blake3:0f9d9c28d26b00602846a21019a7327d36a39d20:98b30eb83c0d753426aca685193e281e2990e40240db377cf7c0a4f9bb9874e6",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +156,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f086517853865bba30724298bb64dc69220ec96f074f200db572ac3152a6990a",
+      "values_digest": "84ff084ab6badeed54acc30264f3d5c6b93088c7916e253b320b9f10b5b6312b",
       "rendered_digest": "015c9316e1b6da4255fa3ddf8e15d68e0c1c308c28078bdcb1a9dd7a47405375",
       "ast_digest": "f0fb5f0938f5f79eb1e9aa979b5bf1f57ed889f814fe8b4951ec97040cad2808"
     },
     "stp": {
-      "values_digest": "0e294ce1136d36f2e439f22acaf7932ab6b59d6f26c8de7dc0fbf73377c7c2bc",
+      "values_digest": "1d7649998da0558f524422e6fbefc5369b51ee7f778bf11451f54655c2246ec7",
       "rendered_digest": "21ee26a2c7ed47d8d91c4efa75d9811e76bdeff6d0365459ec07c4298830583c",
       "ast_digest": "97f13949b0cdb7c470f61c333fa2be19131484bed8658c7ed4c8dfd28580ff54"
     },
     "spp": {
-      "values_digest": "2871ba90420a158e18ef543d1f9f1dea2407bdba1317c7ac96977b6707be2238",
+      "values_digest": "8497e8158226415451071fbdcf9021e0b38f25bc9a582ca4a65e06ee4ef2aa90",
       "rendered_digest": "e15d17fac6ca14edd5d7ff1dbe79df91813f171c4adc1da71bad5f90cf3b63e4",
       "ast_digest": "bd17839f77c6f5e52dfea2453ed15596f72f6321c4a659c392b46c98613faf47"
     },
     "vpp": {
-      "values_digest": "9182f2456716ff74439a6dc5e349f8b70b357e6da396ae9bdf745772339ec95a",
+      "values_digest": "c1a71c15c5d28ce41503409bc3c6f56da964d40654583a2b5922cf15d62bf271",
       "rendered_digest": "520b05b407b78011ca65b7a26e77cd5753ea5d7d0b422002d73bb5066892b89c",
       "ast_digest": "0cd7721b001f85b81f2fd332fe2c5628818b1f85551c09f7c86ce33d0aec0ea2"
     },
     "srp": {
-      "values_digest": "b4ae9cc0ce74b1eb36e5716ac9556398c6c141b2e08de08e52f9d684304098a5",
-      "rendered_digest": "68a5206a895ed4f034ce8e93d776d31519a9c77b6e4e432ff7354a82e2978fb4",
-      "ast_digest": "dfe1977a91466e8dff1b6a7a4b84780dd9d406d6e350046849fbf1bc5e112ebd"
+      "values_digest": "48080545709173922548ce923e492cd6082b9f294be2a9cfc2bb193ceba81701",
+      "rendered_digest": "82da6d58d7c02ae38bce484c78bdae8c72f1c858760710556773c10d02ad232e",
+      "ast_digest": "717b95952ae4355d1f08458928eab060301e1692dfa2f833514a030728c5bfce"
     },
     "sor": {
-      "values_digest": "3743bed16cf75b7314d0869e5e17c7b6e008605b869fbe0510735a30bacd8d8d",
-      "rendered_digest": "94c62d5837291c77a4432c2737cc748f81b9c2700152bd2ab9ad22e436e48f8c",
-      "ast_digest": "28a7fca7eed988052e82dec0dcf4289948919cee56d78d7a43e681e91e15c39e"
+      "values_digest": "03bde645831e0fa72319b11cb004e4025346fac8b0eb704133f1fcdec954dae2",
+      "rendered_digest": "8861679dbfc00016248423690de917560ce174ce5240edee6113ea21f723ac23",
+      "ast_digest": "7c9d2ffb94f75947ca0cb92b831560ad2ae77deaa39b6f4e14ce5e9cf54e7d0f"
     }
   },
   "transitions": [
@@ -75,6 +207,20 @@
       "to": "implemented",
       "actor": "codex:planning-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root/review_518_docs",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:planning-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -364,6 +510,27 @@
       "actor": "codex:planning-6",
       "reason": "Merged source baseline incorporated; final handoff content and all six PVF lanes finalized successfully. Independent review of immutable commit remains lifecycle review step.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 39,
+      "actor": "codex:planning-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 40,
+      "actor": "codex:root/review_518_docs",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 41,
+      "actor": "codex:planning-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

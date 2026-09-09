@@ -118,11 +118,11 @@ Documentation review and handoff against merged PR748 and reconciliation PR750: 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
