@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "mode": "--self-test",
+  "documents": 791,
+  "artifacts": 14,
+  "negative_fixtures": 9,
+  "final_acceptance": true,
+  "release_approval": false
+}

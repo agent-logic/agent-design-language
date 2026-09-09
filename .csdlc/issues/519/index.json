@@ -1,0 +1,379 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 519,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "56c6a0a0f27c894cf9534389e91aa8405cec4df9b2d6f42fa9e6dfcdb341d23f",
+  "phase": "published",
+  "generation": 27,
+  "digest": "25c2254069ce46c5efe6303a5683b24cf8dc4d6979809156147bfcaa8094242e",
+  "branch": "codex/519-publication-finalization",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-519-publication-finalization",
+  "review_assignment": {
+    "reviewer": "codex:/root/review_519_record_final",
+    "assigned_by": "codex:planning-7",
+    "revision": "git-blake3:7dce40bb1d8119a5c59c5342308942233b067cc5:ab0221185a1fe9e7a91bdcffa08c2ffa2b1c8ae9cd39b962958afe1405b119c8",
+    "scope": [
+      ".csdlc/evidence/519/artifact-redaction.log",
+      ".csdlc/evidence/519/diff-hygiene.log",
+      ".csdlc/evidence/519/exact-head.log",
+      ".csdlc/evidence/519/negative-fixtures.log",
+      ".csdlc/evidence/519/publication-linkage.log",
+      ".csdlc/prepared/issues/519/design.md",
+      ".csdlc/prepared/issues/519/diagram.mmd",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_519_record_final",
+    "scope": [
+      ".csdlc/evidence/519/artifact-redaction.log",
+      ".csdlc/evidence/519/diff-hygiene.log",
+      ".csdlc/evidence/519/exact-head.log",
+      ".csdlc/evidence/519/negative-fixtures.log",
+      ".csdlc/evidence/519/publication-linkage.log",
+      ".csdlc/prepared/issues/519/design.md",
+      ".csdlc/prepared/issues/519/diagram.mmd",
+      ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json"
+    ],
+    "reviewed_revision": "git-blake3:7dce40bb1d8119a5c59c5342308942233b067cc5:ab0221185a1fe9e7a91bdcffa08c2ffa2b1c8ae9cd39b962958afe1405b119c8",
+    "findings": [],
+    "residual_risks": [
+      "GitHub source observation is a snapshot; implementation session refreshed it after source merge.",
+      "Redaction screens this publication packet, not every referenced historical artifact.",
+      "Retained 791-document/14-artifact/nine-negative proof reused after confirming byte-identical inputs; no merge, tag, release or closure authorized."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 519,
+    "pull_request": 756,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/756",
+    "base": "main",
+    "head": "codex/519-publication-finalization",
+    "revision": "git-blake3:eb99304c4298e215e174c0e25b6fed06e9bec383:f7791a91eb863e3e650bbb0ab889c7e8570183365581404847e3493137bc8194",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/519/design.md",
+  "diagram_path": ".csdlc/prepared/issues/519/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:root-sprint10-prep-design-review",
+      "revision": "d57e1f849698fa6840961dc6b30e2e11b05073a49ca61cef6d65312ebc861070"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "00c61d1c0de5f19be06123de948e38523ee9d01ef5855cfa559c1ed159d2b942",
+      "rendered_digest": "b2fa2f7b15a4c61df8b9edcfeafd841383511101c29cfdf4f4ca8b649c366b02",
+      "ast_digest": "fe6aa80ee56a8b755654c7f1d54971f1c5eaeea2af74c3e10c2a147c4d2b06a8"
+    },
+    "stp": {
+      "values_digest": "b00e405dde1ea5d9edd20ae52082f1505dfcab679042cffd2e982d60499828b1",
+      "rendered_digest": "9df12e62dbf834912defb6d0e47d9652c8007bd276404b6d1312482aca3fa174",
+      "ast_digest": "3efb223be912f75196d37a9aaa26a997a18d8481e61feb5262f273e994838aaf"
+    },
+    "spp": {
+      "values_digest": "1caf3e108a36e6906bb901d89ef1e019ab9de2904ee17adc63c0c0037db9ea15",
+      "rendered_digest": "93373e0c4cf0d1cb124f2f6d4a1a3d199d15634e454b420bdd6c8cd42bae91c4",
+      "ast_digest": "ea5c32ed04e10abcb0a0099c9ed866d2278579550e88d796d5c5e9aad878a471"
+    },
+    "vpp": {
+      "values_digest": "92603c394c76a5cae39be33496e67f71cfc6added595d1beecfff081cce6675a",
+      "rendered_digest": "67d8307e9686f9e7af8b2d9d075247f1c9faefb0474edd973902b27f9c78f7d9",
+      "ast_digest": "7fe559eb67cba627f13cd130430d94068926bae1122d89ea9d22a3f82dfcf627"
+    },
+    "srp": {
+      "values_digest": "9bd2a3d9f3031df09182192f194a902de7bd4a22960a63b6ce88339e67178f9c",
+      "rendered_digest": "2ffb846817410ad54c249f5822734de440b2bc6c83c6ad11d1e348783588e71d",
+      "ast_digest": "dac24ea37a898bf4a5424dae97df9b55ed4219669e4af460f4795eb452249bab"
+    },
+    "sor": {
+      "values_digest": "5d33f65617dbf70cd25eb29b9e10fa6a607128ba687139a7421a302c9ed62066",
+      "rendered_digest": "39dc8d7769d624063636d7fe537609b5f5501a6fbe005713f0dc56643de4e26d",
+      "ast_digest": "305de5237fadc920453fb1c543b7ba9b17dee88946721b5ccf81eeef3fd1cd9e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Issue-specific six-card bundle, exact owned paths, deferred validator contract, and qualitative readiness review are complete; stop before execution binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning-7",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning-7",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:planning-7",
+      "reason": "Complete S4 after successful final review; retained API only permits plan state edits in implemented phase. Preserve review audit and obtain fresh final assignment."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning-7",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:planning-7",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Replace glob and descriptive affected areas with exact safe repository-owned packet and validator paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-03\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Make the deferred issue-owned publication validator and exact packet path explicit for readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92.1/evidence/release/tail-03\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/sprint10_prep_517_519",
+      "reason": "Issue-specific six-card bundle, exact owned paths, deferred validator contract, and qualitative readiness review are complete; stop before execution binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:planning-7",
+      "reason": "Operator explicitly authorized starting #519 before #518 merge; preserve final predecessor gate.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Operator-authorized early preparation while #518 PR #753 is pending. Build and test a provisional publication-candidate packet from an immutable reviewed source. Final acceptance and publication require the merged #518 candidate, current review linkage and redaction proof.\",\"operation\":\"replan\",\"previous_value\":\"After #518 merges, freeze its exact reviewed candidate, assemble publication linkage and redacted artifacts, and emit one non-mutating publication-candidate packet.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:planning-7",
+      "reason": "Operator explicitly authorized starting #519 before #518 merge; preserve final predecessor gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"TAIL-02/#518 reviewed merge is required for final acceptance; operator explicitly authorized preparatory work before merge.\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:planning-7",
+      "reason": "Operator explicitly authorized starting #519 before #518 merge; preserve final predecessor gate.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Prepare a provisional packet from the immutable #518 reviewed source; freeze final revision only after its reviewed merge.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Assemble artifact hashes and explicit publication and closing relationships.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Validate redaction and portable paths, including rejection of altered hashes and ambiguous linkage.\",\"acceptance_ids\":[\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Refresh against merged #518, independently review and finalize the candidate packet without merge, tag, release or closure.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:planning-7",
+      "reason": "Operator explicitly authorized starting #519 before #518 merge; preserve final predecessor gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Final acceptance waits for #518 reviewed merge; early preparation is explicitly authorized.\",\"Candidate drift, ambiguous linkage or failed redaction blocks final acceptance.\",\"No merge, tag, release or issue closure.\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:planning-7",
+      "reason": "Record actual preparation; do not claim final acceptance before #518 merge.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:planning-7",
+      "reason": "Record actual preparation; do not claim final acceptance before #518 merge.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Early preparation started under explicit operator authorization in bound #519 worktree using authorized typed v2. Provisional candidate and focused validator are implemented; final acceptance waits for merged #518 and fresh candidate proof. No release mutation or #519 PR.\",\"changes\":[\"Created provisional candidate binding reviewed #518 source, 13 source artifacts and 775 document hashes.\",\"Implemented preparation and final validation modes, source review/linkage checks and redaction screening.\",\"Preparation self-test passed three negative fixtures; final mode intentionally blocks while source PR is open.\",\"Independent preparation review requested; final typed review and publication remain pending.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json\",\"docs/milestones/v0.92.1/evidence/release/tail-03/README.md\",\"docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:planning-7",
+      "reason": "Record independent provisional review without promoting final review authority.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Provisional #519 packet and validator prepared in bound worktree. Independent preparation review passed with no actionable findings; self-test passed 775 documents, 13 artifacts and three negative fixtures. Final mode correctly blocks. #518 merged-candidate refresh, final typed review and publication remain pending.\",\"changes\":[\"Operator-authorized early start and bounded typed v2 authorization recorded.\",\"Created immutable source candidate and explicit #518/#519 closing relationships.\",\"Implemented hash, review-scope, linkage, redaction and merge-content checks.\",\"Independent preparation review passed; no merge, tag, release or issue-close mutation.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json\",\"docs/milestones/v0.92.1/evidence/release/tail-03/README.md\",\"docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:planning-7",
+      "reason": "Refresh provisional source after #518 review corrections; preserve operator review hold.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Provisional candidate refreshed to PR753 head 1048fb54dd502a3a3a114d49fe37f50e11f5cd70 and reviewed source ed6c1284add897bfd7e48f558ceb8c49154b5471, covering 791 documents. Final acceptance still waits for #518 reviewed merge; PR753 has an explicit operator review hold.\",\"changes\":[\"Updated immutable source hashes and saved live PR observation.\",\"Distinguished historical quality exceptions from completed accounting dispositions.\",\"Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json\",\"docs/milestones/v0.92.1/evidence/release/tail-03/README.md\",\"docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:planning-7",
+      "reason": "Record current independent preparation review and genuine predecessor merge blocker.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Provisional packet at 96063e59c9 independently reviewed by codex:/root/review_519_preparation with no actionable findings. Verified 791 documents, 14 artifacts and three negative fixtures; final mode correctly refuses acceptance. #518 PR753 remains open at 1048fb54dd502a3a3a114d49fe37f50e11f5cd70 under explicit operator review hold. Final candidate refresh, validation and typed review/publication cannot proceed until its reviewed merge. No merge, tag, release or issue closure.\",\"changes\":[\"Updated immutable source hashes and saved live PR observation.\",\"Distinguished historical quality exceptions from completed accounting dispositions.\",\"Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json\",\"docs/milestones/v0.92.1/evidence/release/tail-03/README.md\",\"docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:planning-7",
+      "reason": "Predecessor merged; complete final scoped proof and review.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Finalize the exact reviewed #518 candidate after PR753 merged; prove review/source/merge linkage, hashes and redaction. Publish the independently reviewed #519 packet without GitHub merge, tag, release or issue closure.\",\"operation\":\"replan\",\"previous_value\":\"Operator-authorized early preparation while #518 PR #753 is pending. Build and test a provisional publication-candidate packet from an immutable reviewed source. Final acceptance and publication require the merged #518 candidate, current review linkage and redaction proof.\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:planning-7",
+      "reason": "Predecessor merged; complete final scoped proof and review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#518 reviewed merge satisfied by PR753 / d0907106e1202710586b34317eaf98ddc8b4cb8a; final validator rechecks ancestry and content.\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:planning-7",
+      "reason": "Predecessor merged; complete final scoped proof and review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Candidate drift, stale review, ambiguous linkage or failed redaction blocks publication.\",\"No GitHub merge, tag, release or issue closure.\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:planning-7",
+      "reason": "Predecessor merged; complete final scoped proof and review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"publication-linkage\",\"proof_role\":\"Prove exact and unambiguous publication and closing relationships.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\",\"--linkage\"],\"parallel_group\":\"publication\",\"defer_reason\":null},{\"lane\":\"exact-head\",\"proof_role\":\"Prove the packet and artifact digests bind the exact reviewed candidate revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\",\"--exact-head\"],\"parallel_group\":\"publication\",\"defer_reason\":null},{\"lane\":\"artifact-redaction\",\"proof_role\":\"Prove credentials, private payloads, and machine-local paths are absent.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\",\"--redaction\"],\"parallel_group\":\"publication\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact packet diff hygiene before review.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"negative-fixtures\",\"proof_role\":\"Reject corrupt hashes, closing linkage, repository/head/merge, premature acceptance and sensitive text.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\",\"--self-test\"],\"parallel_group\":\"publication\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:planning-7",
+      "reason": "Predecessor merged; complete final scoped proof and review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Check all four acceptance criteria at the assigned commit. Cover code, security, evidence, exact source/review/merge identity, canonical origin, closing linkage, redaction, negative fixtures and release nonclaims. Findings first P0-P3 with file/line evidence. Read-only; no passing review with actionable findings.\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:planning-7",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:planning-7",
+      "reason": "Final typed validation passed; independent review/publication remains in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:planning-7",
+      "reason": "Final typed validation passed; independent review/publication remains in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:planning-7",
+      "reason": "Final typed validation passed; independent review/publication remains in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:planning-7",
+      "reason": "Final typed validation passed; independent review/publication remains in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:planning-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:planning-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex:planning-7",
+      "reason": "Complete S4 after successful final review; retained API only permits plan state edits in implemented phase. Preserve review audit and obtain fresh final assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 25,
+      "actor": "codex:planning-7",
+      "reason": "Final candidate validation and exact independent review passed; packet delivery ready for typed publication.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:planning-7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:planning-7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:planning-7",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
