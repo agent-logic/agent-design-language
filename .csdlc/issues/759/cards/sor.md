@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovered integration drift. After PR #779 run 34381946883 failed on the synthetic PR merge because current main restored the stable resident shepherd runtime id contract, the branch was resynced through origin/main 11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f. Reviewer P2 on stale/misplaced SNTP evidence was fixed, and final r15 validation passed at source head 23a5b82e6a353eaf4963357f72b536939430cab5.
+Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovered integration drift. After current-main resync to origin/main b631e8ddf3bc924cd46aed48be8aa65f232dd508, r16 validation passed at source head 5ca71c72b929a77c7502da7908f2730e60acaf04. The stale active SOR template authority notice is routed separately as #804 and is not fixed in #759.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime-focused`
@@ -75,7 +75,7 @@ Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovere
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/759/cards/sor.md`
 - Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; .csdlc/evidence/759/*.log; .csdlc/issues/759/cards/*.md and *.values.json`
-- Additional proof artifacts: `.csdlc/evidence/759/validation-r15.md; .csdlc/evidence/759/runtime-v3-fast-full-r15.log sha256 fa55d84b9444f3ae96702cbb8be01f2fc30fb03d8afea9827561b1440ba123e2; .csdlc/evidence/759/focused-dynamic-agent-health-r15.log sha256 66f30d3138fff8335a83c398e23ebd5dfc9800aace35819783ea983fe40956cb; .csdlc/evidence/759/focused-resident-shepherd-id-r15.log sha256 4fbbfc368908ba0a2a9551d89c61a8ec7448daea0b15962db404e9e39577abea; .csdlc/evidence/759/assembly-sntp-isolated-r15.log sha256 124680c06b464b1874737dbef05cec70a2f8bc1c261df9c1bd1031cc4125fff9; .csdlc/evidence/759/assembly-shutdown-grace-isolated-r15.log sha256 c8eaadc6b557198b4f08609e3db459e358c2c29d536f704cff04f13e8b6cd1cc; .csdlc/evidence/759/observability-s3-outage-isolated-r15.log sha256 eace6c62dce52168b62b59548db8b1eaa49cfd48a0571be9ec29fb416501cc1f; .csdlc/evidence/759/strict-clippy-r15.log sha256 11d208621432c4d2f122eb7b232efea5b902d5794a303b860be68af4593c310a; .csdlc/evidence/759/html-observatory-proof-r15.log sha256 e6333af7915d7b7e24cda4ec9362d1c0039a4fd56b89f98c07acd1b284e69587; .csdlc/evidence/759/fmt-check-r15.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; .csdlc/evidence/759/diff-check-r15.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; diagnostic red logs retained for r8/r10/r14 scheduler-sensitive classifications`
+- Additional proof artifacts: `.csdlc/evidence/759/validation-r16.md; .csdlc/evidence/759/runtime-v3-fast-full-r16.log sha256 bf65af4d89e53f9e626045a33f744bf2894303d42d89ca5e88bb3fe7d813e51f; .csdlc/evidence/759/focused-dynamic-agent-health-r16.log sha256 863838f94dc09d0cd36e83bb76ca35b6d9276cf5024cd0460cc0a3cf7c6e3463; .csdlc/evidence/759/focused-resident-shepherd-id-r16.log sha256 84636fcf091b19fe9cd68f4530795d78270c08c3c5712ec90ca3256f15cfc3b7; .csdlc/evidence/759/assembly-sntp-isolated-r16.log sha256 6acfae7bf5ac41ad1e2076491d40ada1ee3e0f968bf0aff34f8aa6bf30f3a8d8; .csdlc/evidence/759/assembly-shutdown-grace-isolated-r16.log sha256 c0034a47c82020d1756322ea110a0f4fac489fca13cb21a4b2f426c71daffc48; .csdlc/evidence/759/observability-s3-outage-isolated-r16.log sha256 74ff77c1ef3195dbf27055538a7a09556aef13cf1df0bf114ada7cfc3ada0d5a; .csdlc/evidence/759/strict-clippy-r16.log sha256 dd37db7d6b6185cba245812fb6b5b2f050379c0defaad85bc13f40762969cc58; .csdlc/evidence/759/html-observatory-proof-r16.log sha256 835505ebe87e6a77967b73bac18be509dedc7716715bf8ff9ff2c0017ee34427; .csdlc/evidence/759/fmt-check-r16.log sha256 31c42c1e1cbaffbe9040cfc6867b955d8bdc0d552b6645ac34ee02008e75e74f; .csdlc/evidence/759/diff-check-r16.log sha256 3289a0b0537a516c76191d2371a64600bb8a2d159b55c9264b43079eca29fc1f; diagnostic red logs retained for r8/r10/r14 scheduler-sensitive classifications; #804 owns stale active SOR template authority text`
 
 ## Actions taken
 - `Replaced the JoinSet loop that matched only successful joins with a loop over every join result.`
@@ -109,7 +109,7 @@ Rules:
   - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml; cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo test --manifest-path adl-runtime-kernel/Cargo.toml resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts --test agent_roster -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_v0917_html_observatory_integrated_proof.sh; git diff --check HEAD`
     `Full runtime command reproduces the hosted adl-runtime-v3-fast lane geometry; focused regression proves panic/cancel task isolation and peer projection retention; resident shepherd focused check proves the current-main stable id contract; HTML Observatory proof, fmt, clippy, and diff prove integration and hygiene.`
 - Results:
-  - `PASS at source SHA 23a5b82e6a353eaf4963357f72b536939430cab5; all recorded r15 command statuses are 0. Hosted red run 34381946883 classified as current-main ancestry drift and repaired by resync. Local r8/r10/r14 broad-run failures are retained and classified as scheduler/timing-sensitive with isolated PASS evidence; the SNTP startup harness budget is now on the actual startup wait and the Vector S3 outage proof deadline is widened without production config changes.`
+  - `PASS at source SHA 5ca71c72b929a77c7502da7908f2730e60acaf04; r16 full Runtime kernel suite, focused dynamic-agent health regression, focused resident shepherd ID regression, SNTP startup isolated, shutdown-grace isolated, Vector S3 outage isolated, strict Clippy, HTML Observatory proof, fmt, and exact-range diff-check all exited 0. Hosted PR #779 remains red only at stale remote head 2711d2ae7a405d7521b39827959ee993a3ec7599 pending republish.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -147,7 +147,7 @@ verification_summary:
 - Fixtures or scripts used: `In-crate mock Ollama server and cfg(test) forced task failure hook.`
 - Replay verification (same inputs -> same artifacts/order): `not applicable; no replay artifact generated.`
 - Ordering guarantees (sorting / tie-break rules used): `JoinSet outcomes are unordered but every outcome is drained; task id maps each failure to the correct declaration.`
-- Artifact stability notes: `validation-r15.md records exact source SHA, argv, status, and SHA-256 for every r15 log; fmt and diff logs are zero-byte success outputs. HTML proof regenerated #5789 shared certificate evidence, which was restored to tracked bytes after proof.`
+- Artifact stability notes: `validation-r16.md records exact source SHA, current origin/main, argv, status, and SHA-256 for every r16 log. HTML proof regenerated #5789 shared certificate evidence, which was restored to tracked bytes after proof.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable_no_secret_surface`
@@ -169,9 +169,9 @@ verification_summary:
 - Missing/optional artifacts and rationale: `Hosted CI rerun is pending fresh review and republish after current-main resync.`
 
 ## Decisions / Deviations
-- `Native-v3 card validation currently reports `card_structure_invalid` because of a known validator schema-path defect; doctor still confirms lifecycle digest and binding.`
+- `Reviewer-reported stale SOR authority notice is a separate active template/schema defect, not #759 Runtime behavior; created #804 and did not include the template/schema fix in #759.`
 - `No provider health semantics were changed.`
 
 ## Follow-ups / Deferred work
-- `Run fresh review on the repaired current-main-resynced source head 23a5b82e6a353eaf4963357f72b536939430cab5, then republish PR #779.`
-- `Watch CI, finish through native C-SDLC v3 if merge authority is satisfied, and clean separately after merge.`
+- `Run fresh review on the repaired current-main-resynced source/evidence head after committing r16 evidence; review must treat #804 as routed separate defect rather than requiring #759 to fix the active SOR template/schema.`
+- `After review PASS, publish PR #779, watch CI, finish through native C-SDLC v3 if merge authority is satisfied, and clean separately after merge.`
