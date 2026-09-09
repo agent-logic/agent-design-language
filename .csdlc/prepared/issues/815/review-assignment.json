@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.issue_review_assignment.v1",
+  "issue": 815,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 4,
+  "expected_digest": "d01d7c2344f1879d9470c1651f470bf9778a2405ac7f88105debe16b1fa83383",
+  "reviewer": "subagent:/root/fix_814_runtime",
+  "assigned_by": "subagent:/root/fix_815_cloud_auth",
+  "scope": [
+    ".csdlc/issues/815",
+    ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+    ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
+    ".csdlc/prepared/issues/731/run-gcp-d1-foundation-apply-and-readback.sh",
+    ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+    ".csdlc/prepared/issues/815",
+    "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+    "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_OPERATOR_AUTHORIZATION.template.json"
+  ]
+}
