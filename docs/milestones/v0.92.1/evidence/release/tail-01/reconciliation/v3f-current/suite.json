@@ -1,0 +1,25 @@
+{
+  "schema": "adl.v3f.detached_suite.v1",
+  "source_sha": "4d641e9961505d75a145457103cfa86f65ce51b1",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--manifest-path",
+    "csdlc-v3/Cargo.toml"
+  ],
+  "started_at": "2026-09-09T18:46:38.549528+00:00",
+  "duration_seconds": 32.242,
+  "exit_code": 0,
+  "passed": 205,
+  "failed": 0,
+  "detached": true,
+  "clean_before": true,
+  "clean_after": true,
+  "head_after": "4d641e9961505d75a145457103cfa86f65ce51b1",
+  "external_target": true,
+  "log": "suite.log",
+  "log_sha256": "662e699886e8f66c42c4e01431b764f9d17a0a16ebf8768f4d60a6d41409f2ca",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "checkout_method": "Clean detached linked proof checkout on internal disk; identical source bytes and unmodified test command. Earlier infrastructure and fixture failures retained separately."
+}

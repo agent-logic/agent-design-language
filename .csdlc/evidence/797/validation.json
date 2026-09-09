@@ -1,0 +1,32 @@
+{
+  "schema": "adl.issue797.validation.v1",
+  "pvf_lane": "owner_binary",
+  "proof_role": "native remote metadata request, mutation and reconciliation contract",
+  "determinism": "fixed local Git fixtures and fake transports",
+  "resource_profile": "small local CPU/filesystem; no live mutation",
+  "release_gate": "required issue-local prepublication proof",
+  "checks": [
+    {
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests",
+      "passed": 38
+    },
+    {
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands",
+      "passed": 12
+    },
+    {
+      "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test remote_publication_commands",
+      "passed": 13
+    },
+    {
+      "command": "cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --lib --bin csdlc -- -D warnings",
+      "result": "passed"
+    }
+  ],
+  "limitations": [
+    "No live GitHub metadata mutation performed.",
+    "No product/runtime proof claimed; hosted CI supplies aggregate integration checks.",
+    "Issue edits do not replay PATCH after uncertain mismatch."
+  ],
+  "review": "Initial findings resolved; exact-head review refreshed after merging main."
+}

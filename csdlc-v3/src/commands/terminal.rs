@@ -900,7 +900,6 @@ fn persist_terminal_finish(
             ));
         }
     }
-    write_staged(&state_path, &state_bytes)?;
     let receipt = DurableTerminalReceipt {
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: request.repository.clone(),
@@ -912,16 +911,34 @@ fn persist_terminal_finish(
     };
     let receipt_bytes = serde_json::to_vec_pretty(&receipt)
         .map_err(|error| finding("terminal_receipt_serialize_failed", &error.to_string()))?;
-    if let Ok(existing) = fs::read(&receipt_path) {
+    // A rejected immutable-receipt conflict must preserve the state preimage.
+    let receipt_exists = match fs::symlink_metadata(&receipt_path) {
+        Ok(metadata) if !metadata.is_file() => {
+            return Err(finding(
+                "terminal_receipt_not_regular_file",
+                "terminal receipt must be a regular file or absent",
+            ));
+        }
+        Ok(_) => true,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => false,
+        Err(error) => return Err(finding("terminal_receipt_read_failed", &error.to_string())),
+    };
+    if receipt_exists {
+        let existing = fs::read(&receipt_path)
+            .map_err(|error| finding("terminal_receipt_read_failed", &error.to_string()))?;
         if existing != receipt_bytes {
             return Err(finding(
                 "terminal_receipt_conflict",
                 "existing terminal receipt does not match the verified closeout state",
             ));
         }
-        return Ok(());
     }
-    write_staged(&receipt_path, &receipt_bytes)
+    write_staged(&state_path, &state_bytes)?;
+    if receipt_exists {
+        Ok(())
+    } else {
+        write_staged(&receipt_path, &receipt_bytes)
+    }
 }
 
 fn canonical_v3_authority(

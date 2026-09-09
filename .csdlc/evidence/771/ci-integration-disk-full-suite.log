@@ -1,0 +1,77 @@
+   Compiling csdlc-v3 v0.1.0 (<detached-checkout>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.24s
+     Running unittests src/lib.rs (<external-target>/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+
+running 56 tests
+test commands::remote::tests::accepted_review_requires_typed_evidence_digest_and_scope ... ok
+test authority::tests::immutable_identifiers_require_exact_lower_hex ... ok
+test adapters::tests::github_read_only_adapter_rejects_unsafe_pull_request_head ... ok
+test adapters::tests::github_read_only_adapter_supports_pull_request_head_reconciliation ... ok
+test commands::proof::shadow_diagnostic_category_is_redacted_and_stable ... ok
+test adapters::tests::comment_page_argv_is_bounded_and_reaches_curl_url ... ok
+test adapters::tests::branch_query_preserves_special_characters ... ok
+test commands::remote::tests::already_removed_cleanup_still_requires_terminal_and_preview_gates ... ok
+test commands::remote::tests::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
+test commands::remote::tests::cleanup_constructor_rejects_self_made_git_directory_registration ... ok
+test adapters::tests::unscoped_child_process_does_not_inherit_parent_credentials_or_home ... ok
+test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
+test adapters::tests::scoped_child_process_receives_only_selected_credential_and_minimal_environment ... ok
+test commands::remote::tests::cleanup_requires_committed_closed_out_state_and_receipt ... ok
+test commands::proof::tests::native_install_denies_unbound_internal_execution ... ok
+test commands::proof::tests::shadow_paths_reject_symlink_escapes_for_existing_and_future_targets ... ok
+test commands::remote::tests::cleanup_removal_executes_and_distinguishes_removed_states ... ok
+test commands::remote::tests::cleanup_is_separate_preview_first_and_path_exact ... ok
+test commands::remote::tests::part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup ... ok
+test commands::remote::tests::part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority ... ok
+test commands::remote::tests::publication_modes_require_exact_relation ... ok
+test commands::remote::tests::reconciliation_matches_issue_edit_pr_update_and_ready_exact_state ... ok
+test commands::remote::tests::remote_delivery_rejects_unverified_or_wrong_source_observations ... ok
+test commands::remote::tests::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
+test commands::remote::tests::invalid_pr_branch_is_rejected_before_intent_or_dispatch ... ok
+test commands::remote::tests::issue_close_rejects_missing_rationale_duplicate_owner_and_completion_reason ... ok
+test commands::remote::tests::operational_dispatcher_rejects_forged_exact_review_sha ... ok
+test commands::remote::tests::review_binds_exact_scope_revision_reviewer_and_findings ... ok
+test commands::remote::tests::same_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::v3e_denominator_is_exact ... ok
+test commands::remote::tests::verified_receipt_must_match_the_exact_subject_value ... ok
+test commands::remote::tests::whitespace_variant_principal_cannot_self_authorize_publication ... ok
+test commands::sprint::tests::sprint_readiness_parses_live_membership_style ... ok
+test commands::remote::tests::issue_close_mutation_patches_closed_not_planned_and_reconciles ... ok
+test commands::remote::tests::missing_credential_fails_before_persisting_mutation_intent ... ok
+test commands::sprint::tests::sprint_readiness_rejects_escaping_evidence_ref ... ok
+test commands::sprint::tests::sprint_readiness_rejects_missing_child_readback ... ok
+test commands::terminal::tests::terminal_verified_readback_can_derive_closeout_inside_adapter_boundary ... ok
+test commands::terminal::tests::terminal_verified_readback_denies_stale_nonmerged_and_open_issue ... ok
+test tests::architecture_boundary ... ok
+test commands::remote::tests::issue_close_restart_reconciles_without_replaying_mutation ... ok
+test tests::predecessor_coverage ... ok
+test tests::proportional_lifecycle ... ok
+test commands::sprint::tests::sprint_readiness_parses_v3_h_child_issue_heading ... ok
+test commands::sprint::tests::sprint_readiness_reports_terminal_v3_h_without_cutover_authority ... ok
+test commands::remote::tests::comment_pagination_allows_explicit_retry_only_after_complete_absence ... ok
+test commands::remote::tests::issue_create_mutation_posts_and_reconciles_assigned_issue_number ... ok
+test commands::proof::tests::active_install_authority_uses_only_the_canonical_generation_selector ... ok
+test commands::remote::tests::mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles ... ok
+test commands::remote::tests::operational_dispatcher_fails_pre_cutover_and_serializes_review_result ... ok
+test commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation ... ok
+test tests::contract_schema ... ok
+test commands::remote::tests::retained_intent_with_unavailable_readback_stays_fail_closed_even_with_recovery ... ok
+test commands::remote::tests::retained_intent_requires_explicit_authenticated_absence_recovery_before_retry ... ok
+test commands::remote::tests::comment_pagination_reuses_later_match_and_rejects_incomplete_or_ambiguous_scan ... ok
+test authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone ... FAILED
+
+failures:
+
+---- authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone stdout ----
+
+thread 'authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone' (1644738) panicked at src/authority.rs:287:9:
+clone source repository: Output { status: ExitStatus(unix_wait_status(32768)), stdout: "", stderr: "error: copy-fd: write returned: No space left on device\nfatal: failed to copy file to '<detached-checkout>/csdlc-v3/target/authority-post-merge/6473/.git/objects/pack/pack-3f20985d01ebc5e6b3674d85a509a8162e7a0f08.pack': No space left on device\n" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone
+
+test result: FAILED. 55 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.74s
+
+error: test failed, to rerun pass `--lib`

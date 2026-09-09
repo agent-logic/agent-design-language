@@ -1,0 +1,113 @@
+{
+  "source_sha": "7c5b7873418249726d7c7d14f6e7f787358a80bf",
+  "reviewer": "codex:/root/review_771_routes",
+  "completed_at": "2026-09-09T17:34:30.336559+00:00",
+  "scope": {
+    "csdlc-v3/AGENTS.md": "cd15f9aab8dc62a109e7565fb5c27ff65f4bc89f",
+    "csdlc-v3/Cargo.lock": "6daacebde9aef9cc0fe98432460c63e9e36c3020",
+    "csdlc-v3/Cargo.toml": "cfa7b215e8225ad28cfc1348937fb1fb4de562fa",
+    "csdlc-v3/README.md": "289e6e548ae98ba4300540728be19d74d9215c26",
+    "csdlc-v3/src/adapters/mod.rs": "f2f69b12a8a9281fa4a9ed5db4f07af28112f1aa",
+    "csdlc-v3/src/application/mod.rs": "17786ec61fab53284f0f2500a16afcd4cd46efa3",
+    "csdlc-v3/src/commands/mod.rs": "4646ac0dbc62dd3deb7b22cd06938c23c9482d47",
+    "csdlc-v3/src/commands/proof.rs": "d930bf5138f20973e2ed4754c34989cd0dcd348c",
+    "csdlc-v3/src/commands/remote/mod.rs": "0703091f60e35f405725622438a7d283446ff67c",
+    "csdlc-v3/src/commands/remote/tests.rs": "a0390df119559c2f702a0c562de4a059bae215f7",
+    "csdlc-v3/src/commands/sprint.rs": "43555ef045b8e4a50f377229f4b4dd21dc143b46",
+    "csdlc-v3/src/lib.rs": "b97797e7ed838295346eb75383a62ea1f885a673",
+    "csdlc-v3/src/lifecycle/mod.rs": "f4734f7726717fc9c022bdfe938e6d4cefd07025",
+    "csdlc-v3/src/main.rs": "3352f50fa1b23462bbd54c681cdde9f490171364",
+    "csdlc-v3/src/publication/mod.rs": "9e4ed519326ac256df797638af0d7e2fef767e28",
+    "csdlc-v3/src/repository/mod.rs": "3df5083039a24fb1a1aba22148a39827e4224d5d",
+    "csdlc-v3/src/review/mod.rs": "aea9dd76ed44f53dece88c8cb912eabf12f567d2",
+    "csdlc-v3/src/storage/mod.rs": "70b63d04b188e8708bc7801323dfb2ecd0b35484",
+    "csdlc-v3/tests/command_manifest.rs": "22b3d097ebdc090dc6f69fdd62603e385690a5a8",
+    "csdlc-v3/tests/foundation.rs": "e150b6969cf0b0af8ffc75a216ee6c9ce8120ecf",
+    "csdlc-v3/tests/proof_parity_install_commands.rs": "61fb3a7d83d22ed53fea8f23cef6cb11c994fc93",
+    "csdlc-v3/tests/proof_worktree_binding.rs": "bcea4f722959251d05bfb8bc59209e9ab89661e7",
+    "csdlc-v3/tests/real_issue_canary.rs": "f4dd727b26fb136512858097147d05a71aa750d6",
+    "csdlc-v3/tests/remote_publication_commands.rs": "7459a036c8feeb87581bbc1653c9c81fc75dc851",
+    "csdlc-v3/tests/transactions.rs": "e14a9a5f5651be3c43d7c5b4e6c5330794e371a8"
+  },
+  "result": "blocked",
+  "unreviewed_paths": [],
+  "findings": [
+    {
+      "id": "R771-ROUTES-1",
+      "severity": "P2",
+      "actionable": true,
+      "in_scope": true,
+      "disposition": "unresolved",
+      "title": "Do not authorize comment retry from a single incomplete readback page",
+      "evidence": [
+        {
+          "path": "csdlc-v3/src/adapters/mod.rs",
+          "lines": "496-501",
+          "observation": "Issue comments request uses comments?per_page=100 without page traversal or completeness metadata."
+        },
+        {
+          "path": "csdlc-v3/src/commands/remote/mod.rs",
+          "lines": "976-991",
+          "observation": "github_mutation_not_reconciled plus RetryAfterAuthenticatedAbsence dispatches the mutation again."
+        },
+        {
+          "path": "csdlc-v3/src/commands/remote/mod.rs",
+          "lines": "1562-1614,1725-1731",
+          "observation": "Only the single response is inspected; lack of exact marker is classified as not reconciled."
+        },
+        {
+          "path": "csdlc-v3/src/commands/remote/tests.rs",
+          "lines": "1076-1190",
+          "observation": "Recovery tests use empty synthetic results or unavailable transport; they do not prove complete pagination."
+        }
+      ],
+      "rationale": "For an issue with more than 100 comments, a successful newly posted comment can be beyond the first returned page. Initial reconciliation leaves durable intent pending; an explicit authenticated-absence retry sees the same incomplete first page and posts a duplicate. Successful HTTP transport of one page is not proof of absence. Traverse all pages or fail closed as incomplete before permitting retry. This is a current coupled remote operational safety finding; it does not rewrite historical cutover evidence."
+    }
+  ],
+  "semantic_criteria": {
+    "V3-F-ac-1": {
+      "result": "context",
+      "rationale": "Assigned crate and CLI/projection surfaces preserve explicit native authority and mapped predecessor contracts; complete #179/#180 artifact mapping is owned by the evidence reviewer."
+    },
+    "V3-F-ac-2": {
+      "result": "blocked",
+      "rationale": "Current operational route parity cannot receive an unqualified pass while authenticated absence recovery can duplicate comments from incomplete readback (R771-ROUTES-1). Local modeled tests do not prove live remote behavior."
+    },
+    "V3-F-ac-3": {
+      "result": "context",
+      "rationale": "CLI requires explicit typed rollback operation and retired shadow/soak deny mutation; actual historical rollback exercise and current terminal implementation are separately assigned."
+    },
+    "V3-F-ac-4": {
+      "result": "pass",
+      "rationale": "Assigned operational dispatch, proof/install and public guidance preserve authenticated canonical native selector authority and explicit typed cutover/rollback boundary; no missing-proof automatic v2 fallback observed in assigned route entrypoints."
+    }
+  },
+  "path_assessments": {
+    "csdlc-v3/AGENTS.md": "Package instructions preserve native selector authority, typed worktree ownership and adapter outcome boundaries.",
+    "csdlc-v3/Cargo.lock": "Lockfile fixes registry dependencies and checksums for the native crate; no retained v2 path dependency.",
+    "csdlc-v3/Cargo.toml": "One library and csdlc binary with explicit serde, markdown, fs2 and blake3 dependencies; native build boundary.",
+    "csdlc-v3/README.md": "Current operational authority is separated from historical construction, rollback requires explicit selector and suspended authority.",
+    "csdlc-v3/src/adapters/mod.rs": "Structured argv, minimal child environment, child-only credentials, private curl config and output redaction inspected; incomplete comment pagination is finding R771-ROUTES-1.",
+    "csdlc-v3/src/application/mod.rs": "Read-only foundation and predecessor projection use explicit repository context, deterministic projections and digest/identity checks.",
+    "csdlc-v3/src/commands/mod.rs": "Exports local, remote, terminal, proof and sprint route owners without alternate authority selector.",
+    "csdlc-v3/src/commands/proof.rs": "Proof/install authenticate current worktree, lifecycle generation/digest and canonical authority; retired shadow/soak deny before execution; install checks exact source bytes, destination confinement and output preflight.",
+    "csdlc-v3/src/commands/remote/mod.rs": "Operational dispatcher verifies canonical authority and current HEAD; mutation intent precedes dispatch and receipt requires readback. Incomplete absence determination leaves R771-ROUTES-1 unresolved.",
+    "csdlc-v3/src/commands/remote/tests.rs": "Fake-transport tests cover intent-before-dispatch, uncertain outcome reconciliation, explicit retry, exact PR head and self-review rejection; no paginated-comment absence case and no live HTTP proof.",
+    "csdlc-v3/src/commands/sprint.rs": "Sprint readiness reads declared umbrella/child evidence, checks membership denominator and identity, and explicitly emits operational_authority=false.",
+    "csdlc-v3/src/lib.rs": "Library authority delegates to native canonical authority; retained predecessor and proportional-surface constants are contract denominator, not independent authority.",
+    "csdlc-v3/src/lifecycle/mod.rs": "Lifecycle transition matrix requires capabilities, invalidates stale projections, separates finish and cleanup, and requires structured review recovery provenance.",
+    "csdlc-v3/src/main.rs": "CLI dispatch separates operational execute from retained read-only modeling; local diagnostic fallback is restricted to doctor/eligibility topology diagnostics; rollback requires typed rollback operation.",
+    "csdlc-v3/src/publication/mod.rs": "Publication model binds repository, issue, revision and relation; finish derives closure from matching readback; cleanup checks terminal state, receipt, exact registered canonical path and preview identity.",
+    "csdlc-v3/src/repository/mod.rs": "Explicit canonical repository context confines record/card reads, rejecting symlink escapes and unsupported card kinds.",
+    "csdlc-v3/src/review/mod.rs": "Review authorization checks exact scope/revision, actionable findings, principal separation and publication target.",
+    "csdlc-v3/src/storage/mod.rs": "Storage stages typed intent, checks generation/digest CAS, locks durable store and journals before atomic state replacement; failed projection marks repair required and interrupted intent cannot silently resume.",
+    "csdlc-v3/tests/command_manifest.rs": "Command-manifest tests distinguish current native authority from retained pre-cutover denominators and reject obsolete fallback language; help assertions are interface proof only.",
+    "csdlc-v3/tests/foundation.rs": "Foundation tests exercise real and fixture card digests, identity mismatch, unsupported field redaction, symlink confinement and deterministic projections.",
+    "csdlc-v3/tests/proof_parity_install_commands.rs": "Legacy proof/install requests fail missing binding and shadow/soak remain disabled; tests explicitly assert no mutation and structured failure.",
+    "csdlc-v3/tests/proof_worktree_binding.rs": "Local integration uses native binary in a synthetic clone/worktree, validates identity and confinement negatives plus install/proof positives, snapshots mutation surfaces; fixture card construction does not prove binder behavior.",
+    "csdlc-v3/tests/real_issue_canary.rs": "Real issue canary consumes tracked issue records and uses fake remote adapter; modeled readback and generated receipt checks remain local construction proof, not new authenticated live canary.",
+    "csdlc-v3/tests/remote_publication_commands.rs": "Remote publication tests cover receipt durability, exact title/head, closing relation, unexpected closing targets and self-review negatives; synthetic receipts are not live remote evidence.",
+    "csdlc-v3/tests/transactions.rs": "Transaction tests cover stale writers, persistent intent ordering, failed replacement, projection repair, recovery integrity and adapter secret redaction; fake timeout/cancel cases establish model handling, not real process timeout enforcement."
+  },
+  "validation_boundary": "Source review only. Verified all 25 assignment blobs against committed SHA and working bytes. Parent owns fresh detached full locked suite at this SHA. No live GitHub call, mutation, or test execution performed by this reviewer."
+}
