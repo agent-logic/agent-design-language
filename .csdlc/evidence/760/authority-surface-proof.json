@@ -23,6 +23,11 @@
     {
       "command": "cargo fmt --manifest-path csdlc-v3/Cargo.toml --check",
       "status": "passed"
+    },
+    {
+      "command": "cargo test --manifest-path csdlc-v3/Cargo.toml",
+      "passed": 187,
+      "reason": "Hosted CI exposed a stale local help assertion; updated it and ran the full native suite."
     }
   ],
   "historical_records": [

@@ -20,9 +20,9 @@
   "validation_plan": "Focused command/help and authenticated selector tests; cross-surface positive/negative checks; obsolete-guidance scan; installed candidate CLI demonstration; independent review.",
   "dependencies": "Source520 and parent522; coordinate with R520-006/007 without duplicating their code.",
   "status": "implemented",
-  "integration_state": "worktree_only",
-  "validation_result": "8 command-manifest tests,2 authority tests,1 stale-selector/approval/head regression pass; focused Clippy and formatting pass. Installed candidate publish help agrees with authenticated selector/receipt conditions.",
-  "integration_result": "Bound issue worktree; exact-head review, publication and hosted status are retained separately with issue760 publication evidence. No merge claimed.",
+  "integration_state": "published",
+  "validation_result": "Full native suite: 187 tests passed after CI exposed and corrected an obsolete help assertion; prior 8 command/2 authority/1 stale-guard focused proofs passed. Formatting and focused Clippy passed. Installed candidate help verified.",
+  "integration_result": "PR #773 published against main through native review/github-pr/publish. Initial CI found an obsolete help assertion; corrected in this revision. Current exact-head review and hosted checks retained with publication evidence. No merge claimed.",
   "verification_scope": "Current authority surfaces and unchanged authentication/guard boundaries; no live cloud execution.",
   "validation_effect": "Prevents stale current routing and missing guard language; preserves immutable pre-cutover proof and existing operational authorization checks."
 }

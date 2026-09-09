@@ -307,7 +307,9 @@ fn implemented_local_routes_have_distinct_typed_non_authoritative_statuses() {
         assert!(help.status.success(), "{route} help failed: {help:?}");
         let help_stdout = String::from_utf8_lossy(&help.stdout);
         assert!(help_stdout.contains("status: implemented"));
-        assert!(help_stdout.contains("#505 cutover"));
+        assert!(help_stdout.contains("operational after #505 / PR #591"));
+        assert!(help_stdout.contains("authenticated canonical selector"));
+        assert!(help_stdout.contains("Missing or stale proof suspends authority"));
 
         let mut output = Command::new(env!("CARGO_BIN_EXE_csdlc"));
         output

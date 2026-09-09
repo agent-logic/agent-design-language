@@ -85,13 +85,13 @@ Aligned live docs/help/module/package/registry/manifest authority after #505/PR5
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `worktree_only`
+- Integration state: `published`
 - Verification scope: `Current authority surfaces and unchanged authentication/guard boundaries; no live cloud execution.`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `Bound issue worktree; exact-head review, publication and hosted status are retained separately with issue760 publication evidence. No merge claimed.`
+- Result: `PR #773 published against main through native review/github-pr/publish. Initial CI found an obsolete help assertion; corrected in this revision. Current exact-head review and hosted checks retained with publication evidence. No merge claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -109,7 +109,7 @@ Rules:
   - `<validation_command>`
     `Prevents stale current routing and missing guard language; preserves immutable pre-cutover proof and existing operational authorization checks.`
 - Results:
-  - `8 command-manifest tests,2 authority tests,1 stale-selector/approval/head regression pass; focused Clippy and formatting pass. Installed candidate publish help agrees with authenticated selector/receipt conditions.`
+  - `Full native suite: 187 tests passed after CI exposed and corrected an obsolete help assertion; prior 8 command/2 authority/1 stale-guard focused proofs passed. Formatting and focused Clippy passed. Installed candidate help verified.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
