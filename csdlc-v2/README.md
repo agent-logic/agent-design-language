@@ -48,7 +48,9 @@ Bootstrap selects a typed planning profile and automatically writes explicit
 SPP time/token estimates and VPP time/token budgets. There is no follow-up
 manual budget-filling stage.
 
-Gate 10D2 is the current authority. The v1 wrappers and command surfaces are
+Gate 10D2 is retained pre-cutover authority evidence. Post-#505 operation uses
+native v3; this package is available only for explicitly authorized rollback or
+bounded transition remediation. The v1 wrappers and command surfaces are
 sunset; `csdlc-install resolve` selects the independent v2 binaries and the
 eleven typed operator skills cover init, GitHub, finish, review, shepherd,
 doctor, validate, bind, clean, card editing, and publish. Earlier coexistence

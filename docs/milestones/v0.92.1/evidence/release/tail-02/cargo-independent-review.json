@@ -1,0 +1,17 @@
+{
+  "schema": "adl.tail02.cargo_review.v1",
+  "reviewer": "subagent:/root/review_518_docs",
+  "base_commit": "99c6efa93",
+  "result": "no actionable findings",
+  "review_scope": "Complete 24-manifest static Cargo audit extension and corrected kernel manifest path; not final lifecycle approval",
+  "verified_manifests": 24,
+  "verified_local_dependencies": 20,
+  "final_acceptance": false,
+  "reviewed_artifact_sha256": {
+    ".csdlc/prepared/issues/518/audit-cargo-manifests.py": "c3bae692ae82d0478cb345a741af51ba7ac50a9c8438d00de11505cae036f107",
+    "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md": "8daf75f437a4ee14e9b05ce8722f939ec6859180df3540449e797aa7922398e3",
+    "docs/milestones/v0.92.1/evidence/release/tail-02/README.md": "ae81f2a0630967567b9ad28ad4bd717f643ea1e76cd4943ab979333f3ad06433",
+    "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md": "81d5a3eb2b872a4c74707928e32a71654d0c8933c03855dfe33f59d870bb54d1",
+    "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json": "85e5dd9a75e6ee70b25599586e9e7810b0f0dcc7291ba8d69562c9c9de550e1a"
+  }
+}

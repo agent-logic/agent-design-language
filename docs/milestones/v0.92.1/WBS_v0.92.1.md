@@ -18,7 +18,7 @@
 | PROV-01 | Provider inference profiles | PROV-A common profile/Ollama materialization, then PROV-B isolated shadow comparison |
 | DRT-D | GCP six-resident qualification sidecar | Exact workload replay with provider identity, cost, and zero-resource cleanup evidence |
 | INT-01 | Release-tail admission | One immutable admission record indexes every reviewed-green ancestral execution root; closeout remains asynchronous |
-| TAIL-01 | Quality gate | Required checks pass or every exception is explicitly owned and dispositioned |
+| TAIL-01 | Quality gate | Every required proving lane passes; explicit accepted scope exclusions do not waive a required failing lane |
 | TAIL-02 | Documentation review and external-review handoff | One exact-revision documentation review packet and external-review handoff is complete |
 | TAIL-03 | Publication finalization | Publication artifacts and claims are finalized against landed evidence |
 | TAIL-04 | Internal review | Findings-first internal review is complete |

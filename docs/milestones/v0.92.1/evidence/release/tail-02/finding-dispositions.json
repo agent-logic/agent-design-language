@@ -1,0 +1,418 @@
+[
+  {
+    "id": "D01",
+    "priority": "P1",
+    "title": "Current contributor and package instructions contradict native v3 authority",
+    "observed": "Current entrypoints route work to v2; nested v3 guidance prohibits operational work. Root AGENTS and native selector identify post-#505 v3 authority. Some conditional historical text is valid history, but unconditional current routing and package opening claims are not.",
+    "required_change": "Align current entrypoints with verified native v3 command discovery; clearly bound retained v2 documentation to explicitly authorized rollback/transition remediation. Preserve historical proof. Test installed help/schema/documentation agreement rather than replacing v2 words mechanically.",
+    "evidence": [
+      {
+        "path": "csdlc-v3/AGENTS.md",
+        "line": 3,
+        "excerpt": "This directory is a construction surface, not the active lifecycle authority."
+      },
+      {
+        "path": "csdlc-v3/README.md",
+        "line": 4,
+        "excerpt": "C-SDLC v2. It is not the live lifecycle authority yet. Root `AGENTS.md`,"
+      },
+      {
+        "path": "csdlc-v2/README.md",
+        "line": 51,
+        "excerpt": "Gate 10D2 is the current authority. The v1 wrappers and command surfaces are"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "line": 28,
+        "excerpt": "- `csdlc-v2/operator/skills/`"
+      },
+      {
+        "path": "docs/default_workflow.md",
+        "line": 4,
+        "excerpt": "binaries and operator skills under `csdlc-v2/`:"
+      },
+      {
+        "path": "docs/codex_playbook.md",
+        "line": 8,
+        "excerpt": "`csdlc-closeout`."
+      },
+      {
+        "path": "adl/tools/README.md",
+        "line": 9,
+        "excerpt": "- `.adl/bin/csdlc-v2/`: installed typed C-SDLC v2 owner binaries for issue lifecycle work."
+      },
+      {
+        "path": "docs/tooling/README.md",
+        "line": 156,
+        "excerpt": "- lifecycle authority is the independent binary set under `.adl/bin/csdlc-v2/`"
+      },
+      {
+        "path": "docs/onboarding.md",
+        "line": 21,
+        "excerpt": "the independent typed Rust owner binaries under `.adl/bin/csdlc-v2/`, selected"
+      },
+      {
+        "path": "docs/architecture/ADL_ARCHITECTURE.md",
+        "line": 96,
+        "excerpt": "Current C-SDLC issue work uses the independent Rust v2 binary set under"
+      },
+      {
+        "path": "csdlc-v2/AGENTS.md",
+        "line": 8,
+        "excerpt": "- Read current authority only from `operator/generation-selector.json`. Gate 10C cutover is complete and Gate 10D2 records exact parity approval and final v1 sunset; historical coexistence and rollback proofs remain immutable evidence."
+      }
+    ],
+    "owner": "C-SDLC documentation owner; coordinate with SIM-02; #518 records and reviews the correction",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D02",
+    "priority": "P1",
+    "title": "Contribution guide tells agents durable cards are uncommitted local traces",
+    "observed": "CONTRIBUTING says input/output cards live only under .adl/cards and are not committed; canonical issue state and generated six-card evidence are tracked. Following this instruction can omit required durable review truth.",
+    "required_change": "Describe the current canonical typed record and six generated projections. Separate scratch artifacts from durable issue evidence. Preserve editor-only mutation and exact-head review.",
+    "evidence": [
+      {
+        "path": "CONTRIBUTING.md",
+        "line": 37,
+        "excerpt": "- Input/output cards are **local-only trace artifacts** under `.adl/cards/` (not committed)."
+      },
+      {
+        "path": "AGENTS.md",
+        "line": 239,
+        "excerpt": "- Treat prompt cards as durable C-SDLC state, not disposable chat output."
+      }
+    ],
+    "owner": "#518 / contributor-doc owner",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D03",
+    "priority": "P1",
+    "title": "Observatory gate and deferral truth disagree across current milestone documents",
+    "observed": "WBS and the planned catalog explicitly defer #84 and #251. Live #512 removes #84 as a dependency and excludes Unity/TLS implementation. README, checklist, quality gate, feature proof coverage, design and Observatory feature text still require that work.",
+    "required_change": "Propagate the explicit backlog disposition without claiming Unity/TLS delivered. Preserve required authentic HTML Observatory proof and #122 boundaries. #517 owns quality-gate resolution; #518 aligns surrounding docs.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+        "line": 34,
+        "excerpt": "Closed predecessor issues remain fully represented without being reopened: corporate `#153`-`#160`, C-SDLC v3 `#161`-`#180`, and distributed Runtime `#181`-`#187`. Integration provenance is exact: `#188` informs INT-01/TAIL-01, #190 informs TAIL-07, and #189 informs TAIL-10. Existing issues #122 and #345 remain active inputs; #84 and #251 are explicit operator-deferred backlog rows retained by INT-01 but excluded from admission gating. #457 is historical provider-profile provenance only."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "line": 17,
+        "excerpt": "| #251 | TLS 1.2 support | Operator-deferred backlog; retained visibly but excluded from the release gate |"
+      },
+      {
+        "path": "docs/milestones/v0.92.1/README.md",
+        "line": 32,
+        "excerpt": "Existing issues #251, #122, #84, and #345 are active v0.92.1 execution scope. #251 TLS 1.2, #122 Route53/ACM exposure, and #345 AWS GPU Shepherd hardening may execute in parallel; #84 Unity Observatory preparation may overlap them, while its final proof consumes #251 and #122. The distributed Runtime production qualification consumes #345 where GPU evidence is required."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+        "line": 25,
+        "excerpt": "- [ ] #251 TLS 1.2, #122 public exposure, and #84 Unity Observatory proof reviewed and merged"
+      },
+      {
+        "path": "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+        "line": 23,
+        "excerpt": "The active existing-issue denominator includes #251, #122, #84, and #345. The gate rejects missing TLS 1.2, public-exposure, Unity, or GPU Shepherd evidence when the consuming Observatory or distributed Runtime claim requires it."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+        "line": 11,
+        "excerpt": "Existing `#251` TLS 1.2 and `#122` Route53/ACM exposure may execute in parallel. Existing `#84` Unity Observatory preparation may proceed concurrently, but its final proving lane must consume reviewed merged #251 and #122 evidence plus terminal #340 (PR #430, merge `aa36a828793366f92d0d9e16247bd3fb1cce7878`) and terminal #256 (PR #427, merge `fb4c853bdb9cb140059d2a28af02d70bd36a27a4`) as exact ancestral inputs. OBS-A may proceed in parallel; OBS-B waits for reviewed merged OBS-A and Unity/public-exposure authority and preserves #340/#256 evidence, not closeout."
+      }
+    ],
+    "owner": "#517 gate owner and #518 documentation owner",
+    "status": "corrected_after_predecessor_merge",
+    "remaining": "No documentation contradiction remains in current scope prose. Retained machine-readable quality evidence remains unchanged and release acceptance is blocked."
+  },
+  {
+    "id": "D04",
+    "priority": "P2",
+    "title": "Current planning package still says the execution wave is uncreated",
+    "observed": "The issue wave has conductor_issue:null; current README and catalog describe number-free future creation. Tracked final-creation receipt and live #480 establish creation.",
+    "required_change": "Retain the original planning specification as historical input, and add a current mapping to actual issue numbers and dispositions. Update current-tense entrypoints and checklist using the receipt, not guessed numbering.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "line": 3,
+        "excerpt": "conductor_issue: null"
+      },
+      {
+        "path": "docs/milestones/v0.92.1/README.md",
+        "line": 28,
+        "excerpt": "The existing executable graph is #432, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. WP-01 and every other new execution or release-tail issue remain number-free planning truth. Once the package is merged and the operator declares the milestone ready, the operator creates WP-01; WP-01 creates the rest in exact catalog and dependency order. Premature placeholders #433-#438 and closed #431 must not be reused as future execution authority."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "line": 3,
+        "excerpt": "This is the complete issue-creation plan. The planning merge only makes the package eligible to open. When the operator declares v0.92.1 ready, the operator creates the number-free WP-01 opening conductor; WP-01 then creates the remaining unnumbered entries. This document does not create issues and must not preallocate GitHub numbers."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "line": 32,
+        "excerpt": "Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Closed #431 is planning provenance only. WP-01 remains a number-free milestone-opening ID after this package merges and until the operator separately declares v0.92.1 ready and creates it; every CORP, AWS, GCP, XCL, RUST, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains number-free until WP-01 creates the ordered wave. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. #269 remains excluded/backlogged. Closed"
+      }
+    ],
+    "owner": "#518",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D05",
+    "priority": "P2",
+    "title": "Sprint narrative disagrees with the current combined release-tail roster",
+    "observed": "SPRINT assigns #538 only TAIL-04\u201306 and places #517\u2013519 elsewhere. The captured live #538 membership v7 coordinates #516\u2013526, allows disjoint preparation, and retains serial execution.",
+    "required_change": "Link the current roster and synchronize sprint narrative. Do not move ownership or reserialize preparation based on historical sprint numbering.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "line": 23,
+        "excerpt": "11. **Sprint 10 \u2014 review and remediation (#538):** TAIL-04, TAIL-05, TAIL-06, strictly serial."
+      }
+    ],
+    "owner": "#518 with #538 coordination truth",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D06",
+    "priority": "P2",
+    "title": "Closeout inventory omits required repository-wide truth surfaces",
+    "observed": "The 20-row canonical inventory covers the planning package but does not enumerate the broader release-tail convergence checklist, all README/AGENTS surfaces, operating guides, or current review handoff.",
+    "required_change": "Extend the inventory with explicit categories and owners: milestone/current docs, repository entrypoints, agent/skill instructions, evidence indexes, live trackers, and historical exemptions. Include the end-of-milestone report as a later due deliverable; do not manufacture it now.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "line": 5,
+        "excerpt": "## Canonical Planning Package"
+      },
+      {
+        "path": "docs/templates/planning/1.1.0/release_plan.md",
+        "line": 17,
+        "excerpt": "- [ ] Live trackers refreshed and reflected honestly:"
+      },
+      {
+        "path": "docs/templates/planning/1.1.0/release_plan.md",
+        "line": 24,
+        "excerpt": "- [ ] Release-truth docs aligned:"
+      }
+    ],
+    "owner": "#518 inventory; later release-tail owners supply their results",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D07",
+    "priority": "P2",
+    "title": "Feature and release summaries lack delivered-versus-deferred proof mapping",
+    "observed": "Feature/proof coverage and demo matrix mostly list required behavior; release notes list planned outcomes. They do not provide the current per-lane evidence and disposition needed by a context-free reviewer. This is unfinished closeout work, not proof that all lanes failed.",
+    "required_change": "For every lane record implemented/proved/deferred/blocked status, exact source revision, proof references, review disposition and remaining limits. Keep #517 pending and do not infer acceptance from closed issues.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "line": 3,
+        "excerpt": "| Lane | Required proof |"
+      },
+      {
+        "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+        "line": 3,
+        "excerpt": "| Lane | Demonstration |"
+      },
+      {
+        "path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+        "line": 3,
+        "excerpt": "Planned outcomes:"
+      }
+    ],
+    "owner": "#518; #516/#517 supply authoritative evidence; #519 finalizes publication claims",
+    "status": "mapped_with_explicit_release_proof_debt",
+    "remaining": "The handoff exposes the merged quality decision and all five proof exceptions. Resolving product/evidence debt is not claimed by documentation review."
+  },
+  {
+    "id": "D08",
+    "priority": "P2",
+    "title": "Public entrypoints still present v0.92 as the current review/milestone context",
+    "observed": "Root README Project Status, REVIEW current entry, docs index and runtime README present completed v0.92 without a current v0.92.1 review route. Historical v0.92 completion can remain true; the current entry is stale.",
+    "required_change": "Add a clearly pending v0.92.1 engineering/review entry with the exact handoff when ready. Retain published-release identity separately and do not label v0.92.1 released.",
+    "evidence": [
+      {
+        "path": "README.md",
+        "line": 349,
+        "excerpt": "- Current milestone state: the v0.92 package and issue wave are complete and"
+      },
+      {
+        "path": "REVIEW.md",
+        "line": 24,
+        "excerpt": "For the completed v0.92 milestone review, start with:"
+      },
+      {
+        "path": "docs/README.md",
+        "line": 9,
+        "excerpt": "- Completed v0.92 milestone package: `milestones/v0.92/`"
+      },
+      {
+        "path": "adl/README.md",
+        "line": 36,
+        "excerpt": "### v0.92 - Completed Runtime and Identity Milestone"
+      }
+    ],
+    "owner": "#518 review findings; #519 publication-finalization owner",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D09",
+    "priority": "P2",
+    "title": "CodeFriend planning home still schedules alpha in v0.93.x",
+    "observed": "The README labels v0.93.x alpha as the current planning assumption, while the successor README explicitly supersedes that schedule with v0.92.2 Beta 1.",
+    "required_change": "Mark the alpha schedule historical and link the current v0.92.2 package. Include the operator-selected SIM program in successor reconciliation without claiming its implementation.",
+    "evidence": [
+      {
+        "path": "docs/planning/codefriend/README.md",
+        "line": 8,
+        "excerpt": "dedicated product milestone, likely in the `v0.93.x` band. The exit bar for"
+      },
+      {
+        "path": "docs/milestones/v0.92.2/README.md",
+        "line": 38,
+        "excerpt": "The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope by this v0.92.2 package. No date commitment is created."
+      }
+    ],
+    "owner": "#518 identifies; #523 owns successor plan reconciliation",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D10",
+    "priority": "P2",
+    "title": "Editor README points to a missing current editor directory",
+    "observed": "docs/tooling/editor/README.md calls docs/tooling/csdlc-prompt-editor/ the current editor. That directory has no tracked files at the audited revision. It also calls #505 pending.",
+    "required_change": "Resolve the supported current editor from source and link it, or explicitly report that the claimed replacement is unavailable. Do not substitute the legacy editor as current without proof.",
+    "evidence": [
+      {
+        "path": "docs/tooling/editor/README.md",
+        "line": 5,
+        "excerpt": "> `docs/tooling/csdlc-prompt-editor/`, backed by the SemVer prompt-template"
+      },
+      {
+        "path": "docs/tooling/editor/README.md",
+        "line": 8,
+        "excerpt": "Issue #505 / V3-F is the pending tooling changeover decision. Until that"
+      }
+    ],
+    "owner": "C-SDLC editor/documentation owner; #518 findings ledger",
+    "status": "corrected_reviewed_locally",
+    "remaining": "Missing replacement browser editor is reported explicitly; this issue does not implement an editor.",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D11",
+    "priority": "P2",
+    "title": "Root operating contract contains unqualified v2 instructions below its v3 authority declaration",
+    "observed": "The root file declares v3 operational authority but later prescribes independent v2 card routes and v2 operator skills for current work. A mechanical reader can choose conflicting routes within the same file.",
+    "required_change": "Qualify retained v2 references or replace them with source-verified native routes. Preserve the six-card and editor requirements. Repair the entire current routing paragraph together with D01.",
+    "evidence": [
+      {
+        "path": "AGENTS.md",
+        "line": 142,
+        "excerpt": "   - For new or fully re-rendered cards, use the independent v2"
+      },
+      {
+        "path": "AGENTS.md",
+        "line": 244,
+        "excerpt": "  work follows this file and the typed C-SDLC v2 operator skills."
+      }
+    ],
+    "owner": "C-SDLC operating-contract owner; coordinate SIM-02",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D12",
+    "priority": "P2",
+    "title": "Quality-gate WBS wording can admit owned failures",
+    "observed": "WBS says required checks pass OR every exception is owned and dispositioned. #517 requires all required proving lanes pass and fails closed for absent or failed lanes. Ownership alone does not establish an admissible exception.",
+    "required_change": "Make the WBS match #517: required proving lanes pass; any exclusion must have explicit accepted scope authority and may not silently waive a required failing lane.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+        "line": 21,
+        "excerpt": "| TAIL-01 | Quality gate | Required checks pass or every exception is explicitly owned and dispositioned |"
+      }
+    ],
+    "owner": "#518 with #517 gate contract",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D13",
+    "priority": "P2",
+    "title": "Old distributed consultation reads as current execution authority",
+    "observed": "The consultation states #146 retains planning ownership and uses DRT-03/04/07 plus terminal #142 as live gates. Current contracts use DRT-A\u2013D and reviewed-merge dependencies.",
+    "required_change": "Label the consultation as dated historical input, preserve its evidence and map retained requirements to current DRT issues. Do not apply obsolete terminal/cleanup gating.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "line": 5,
+        "excerpt": "Issue `#146` retains ownership of v0.92.1 planning. The task named `ADL V2 V0.91.8 (2)`, which owns active `#142` implementation work, reviewed only the proposed qualification boundary. It made no `#146` edits and took no v0.92.1 execution ownership."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "line": 25,
+        "excerpt": "The lanes remain qualification-only and do not duplicate `#142` implementation. Live DRT-03 and later work remains blocked until `#142` is terminal with exact merged ancestry and retained production Guardian, API, WSS, and WP-04.16 proof."
+      }
+    ],
+    "owner": "#518",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D14",
+    "priority": "P3",
+    "title": "Decision identifiers 15 and 16 are duplicated",
+    "observed": "The final two decisions reuse earlier numeric IDs, making references ambiguous.",
+    "required_change": "Give the final entries unique identifiers and update any references, preserving content and historical intent.",
+    "evidence": [
+      {
+        "path": "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+        "line": 20,
+        "excerpt": "15. **Integration provenance is not interchangeable.** #188 routes to INT-01 and TAIL-01, #190 routes to TAIL-07, and #189 routes only to TAIL-10."
+      },
+      {
+        "path": "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+        "line": 21,
+        "excerpt": "16. **Dependencies consume merges, not closeout.** Downstream work may require reviewed merged authority and an explicit product gate, but never waits for an individual issue's finish receipt, cleanup, or administrative closeout."
+      }
+    ],
+    "owner": "#518",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  },
+  {
+    "id": "D15",
+    "priority": "P2",
+    "title": "Runtime contributor guide retains Swarm naming and blanket test rules",
+    "observed": "adl/CONTRIBUTING describes the current component as Swarm and says all tests must have no real network/providers. Root CONTRIBUTING repeats the blanket rule, while current PVF policy distinguishes bounded proof lanes.",
+    "required_change": "Use current ADL/Runtime naming and describe hermetic default tests separately from explicitly governed integration/live proof. Do not infer paid or live authorization from the documentation update.",
+    "evidence": [
+      {
+        "path": "adl/CONTRIBUTING.md",
+        "line": 1,
+        "excerpt": "# Contributing to Swarm (ADL Reference Runtime)"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "line": 86,
+        "excerpt": "Tests must remain hermetic (no real network calls, no real providers)."
+      }
+    ],
+    "owner": "#518 contributor-doc findings",
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
+  }
+]

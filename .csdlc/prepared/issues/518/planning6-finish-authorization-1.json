@@ -1,0 +1,16 @@
+{
+  "issue": 518,
+  "card": "stp",
+  "expected_generation": 31,
+  "expected_digest": "d99ac465b0af3f575c9e8f6eff8d2bc5c6273bd236c3536cae5e3b9951d02c75",
+  "actor": "codex:planning-6",
+  "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "Issue 517 reviewed PR 748 merged as e734438b5fdba099ed607e0604254430ddd7d091; dependency satisfied.",
+      "Blocked release acceptance is an explicit review finding, not a blocker to producing the documentation handoff per operator clarification."
+    ]
+  }
+}

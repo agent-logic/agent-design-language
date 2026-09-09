@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 29,
+  "expected_digest": "335a2a6ecd1e4664d01360a2d65a335326ca6465e2535854b40df305ed4dbdb9",
+  "actor": "codex:planning-6",
+  "reason": "Operator asked to carry on after issue 517 merged. Refresh the merged documentation baseline while retaining its blocked quality decision and final passing-result gate.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Documentation corrections and the complete manifest audit are reviewed locally. Incorporate origin/main e734438b5fdba099ed607e0604254430ddd7d091 containing merged PR 748 and PR 743; reconcile documentation conflicts and refresh source snapshots, hashes and pending findings. Issue 517 is closed but records a blocked quality result, so a merge alone does not authorize final external handoff or release acceptance."
+  }
+}

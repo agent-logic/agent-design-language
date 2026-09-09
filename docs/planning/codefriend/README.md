@@ -1,5 +1,7 @@
 # CodeFriend Planning Home
 
+Current scheduling authority is [v0.92.2](../../milestones/v0.92.2/README.md), which supersedes the earlier v0.93–v0.95 alpha schedule for Beta 1 scope. The older assumptions below remain planning history. Successor reconciliation, including the operator-selected C-SDLC simplification program, is owned by #523; no implementation or date commitment is implied.
+
 ## Status
 
 Tracked planning home for current CodeFriend work.

@@ -1,0 +1,21 @@
+{
+  "issue": 518,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "2f9561c4295675d74dc5c076154fb67eeb65f28715c1105486ef66db3b453b40",
+  "actor": "codex:planning-6",
+  "reason": "Record proved local progress only; final handoff S4 remains pending issue 517.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--all"
+      ],
+      "purpose": "Preliminary documentation inventory/link/snapshot proof only; final acceptance false.",
+      "outcome": "passed",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json"
+    }
+  }
+}

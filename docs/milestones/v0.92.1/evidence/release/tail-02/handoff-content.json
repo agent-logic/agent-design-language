@@ -1,0 +1,3171 @@
+{
+  "schema": "adl.tail02.handoff_content.v1",
+  "merged_baseline": "7b66e5159c0bbccac3725832a8f876f5b820152d",
+  "scope": "Original audit union all tracked README-prefixed files, AGENTS.md, REVIEW.md, Cargo.toml, v0.92.1 milestone Markdown/YAML, packet inputs and validators. Excludes this manifest and derived validation results to prevent hash cycles. Typed review separately binds the exact commit.",
+  "documents": [
+    {
+      "path": ".csdlc/evidence/19/README.md",
+      "sha256": "233d46d2982bbf4f1a8050eab1e22a321d6033b914360665b8bc5248267f2d06"
+    },
+    {
+      "path": ".csdlc/evidence/312/readme-paths.txt",
+      "sha256": "9c77336c0bb185f95562f6d3ff276e2be7f82c8a9ee226b888eeed035ef3d157"
+    },
+    {
+      "path": ".csdlc/evidence/5653/readme-focused.txt",
+      "sha256": "72aacb4dd84dedce7dc5d45aa80bc62e5d4de357f273cc1a614e0b9abcb418fc"
+    },
+    {
+      "path": ".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md",
+      "sha256": "9e97620f59da04e607e3531e64e0a2b28128cc54caaec2c8e841670233b42074"
+    },
+    {
+      "path": ".csdlc/prepared/README.md",
+      "sha256": "38512a365b8b22b23e84004af3578ed2b03a8ad6ab2f5a62804e84d4c708cf52"
+    },
+    {
+      "path": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "sha256": "0e70dd533a9798da5fe9a7584d51be1cb22881c5e64a34196f37d5bdb8b2c9f7"
+    },
+    {
+      "path": ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      "sha256": "c3bae692ae82d0478cb345a741af51ba7ac50a9c8438d00de11505cae036f107"
+    },
+    {
+      "path": ".csdlc/prepared/issues/518/refresh-handoff-content.py",
+      "sha256": "65feddeea4e660c5d5236c0abd1af4003ffdea5201afb2909eb778664b9afe87"
+    },
+    {
+      "path": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+      "sha256": "054c88c9b270d71ebcc111773bfd97c6a96856b7646e85f5f2f2020b2c1e4c8f"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "sha256": "bd1363e1dc52aaf9eae16ca9fe180ed4e5521f44547c79f289faa0b5f6983696"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "sha256": "f9be55b1ec0e4213343db23f9f36d7fffcf199e33b9277966b33345431838c06"
+    },
+    {
+      "path": ".github/GITHUB_METADATA.md",
+      "sha256": "7398cf70b04c4058fbb0870652cba1ce7b7e02d1a3044f5d3534526a682c69bb"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "9fc9d32fe5031f299aeff993cede8315f4a5d9476a68084fbd14e4dccfa388dc"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "396fe87d5faba9b46c9217ef2881a55daa1c643b2cb4bb25a3d16418463dc93f"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "2a095e217668c81fb95dd2b6c047cf9e71b30789b0f61b4b9c5c1d78ffbdf1d8"
+    },
+    {
+      "path": "README.md",
+      "sha256": "3f1044a8a6c79dccc173dacf5bea1ecc367444aaf883ef8cfc7dad0b14f17b32"
+    },
+    {
+      "path": "REVIEW.md",
+      "sha256": "d9e5cc4a266fccf7f27d8e7f6675fb5e7bd44fd2be0c82744b5d64c64e3209da"
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "7d5e42dd9e3fdf4fd6dcab0f771f2f12c64a369075400777a1c3e9e53a9dc159"
+    },
+    {
+      "path": "adl-characterization/Cargo.toml",
+      "sha256": "b90d657077139ca372725d6441b1dd5cc0e15fa138759e3305f5ca52b2cc5d06"
+    },
+    {
+      "path": "adl-characterization/README.md",
+      "sha256": "37e18e247158320f23be5330b2bf136b5b1be3c82798b425cbadfad1a6b1780c"
+    },
+    {
+      "path": "adl-resilience/Cargo.toml",
+      "sha256": "050c7333893824dedb0b7b6615ebc199c36e9d163b35ec8a4db7aa70aa0edb8d"
+    },
+    {
+      "path": "adl-runtime-kernel/Cargo.toml",
+      "sha256": "5e68fd95a1db418ba6b5ed8324b34898a87da253638b8c1756536ba0e09305bf"
+    },
+    {
+      "path": "adl-runtime/Cargo.toml",
+      "sha256": "37020209ed38f3f38ed59d1e24e6dc19e8fb48372592b1d7d59d90414e9b60e5"
+    },
+    {
+      "path": "adl-spec/README.md",
+      "sha256": "c52e42c7c4637355712cfad7fbac2c0fdc6ca72b7d5b9e9b47bfc0bdd96db958"
+    },
+    {
+      "path": "adl-spec/examples/README.md",
+      "sha256": "621f3ab2ed7ab1df4c77068abb5ad072bce870cdb5f31528e802aff2f210d39b"
+    },
+    {
+      "path": "adl-spec/examples/v0.8/README.md",
+      "sha256": "4c963d294e65516605c7f3bedcf85ad0218cfe0093fdbbb10f56c021a8b19c0f"
+    },
+    {
+      "path": "adl-spec/schemas/README.md",
+      "sha256": "6e8b496e1f9251affc2e0f03fc376635fa6efa429af830679a69e5b023234493"
+    },
+    {
+      "path": "adl-spec/schemas/v0.8/README.md",
+      "sha256": "f8de0e8c266e78dd846c785ef62fd69584e884038296a7801bc9c6510fd04f85"
+    },
+    {
+      "path": "adl-spec/spec/README.md",
+      "sha256": "a573c44cb1da8021f12282b7ae0052c7457b2d061a5b2bf14f242db5830619fc"
+    },
+    {
+      "path": "adl-v2/Cargo.toml",
+      "sha256": "9e8b3040de43b4f5dcf7895593bc83a331b0b802e8f5ab0d1b00813b46330d6a"
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "sha256": "648cd0c878d11de836ef1ca08d2d6d615df8b4355f38f6cc66c15942c7731774"
+    },
+    {
+      "path": "adl-v2/crates/adl-cli/Cargo.toml",
+      "sha256": "678c4a74cbcf36db22dbc61b05c5d2bc6db555a9d222371d68bc65f6666a100a"
+    },
+    {
+      "path": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "sha256": "e49db4c58e3f9557fc672ef2058122cc99fff6c6b0ee0bb70b54d2dd4b7f1c89"
+    },
+    {
+      "path": "adl-v2/crates/adl-compiler/README.md",
+      "sha256": "ba45c4d8e046b6c4b8fc229545df6debc1c5fc9fcbd83eff232ff4885aae2dc4"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.toml",
+      "sha256": "ae0b75f7f3e3f647707ca741537476ba9942cb71c3d2b90d6c3d60f42d9c207b"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/README.md",
+      "sha256": "c6e95e0093fdf2fad9b85a13f4e238bd20a2c8b9449eca9b636830c711d12f91"
+    },
+    {
+      "path": "adl-v2/crates/adl-language/Cargo.toml",
+      "sha256": "6a5e09bfee391ec7bfc619f36a63c1184da4c88488a538c0b09f5dcae5f9ec24"
+    },
+    {
+      "path": "adl-v2/crates/adl-language/README.md",
+      "sha256": "6850e16e155f02c881a76beef318f9dc5a77529ade44ae6e78a9f31f762f1755"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.toml",
+      "sha256": "a15ac0478479bbd1610df493eb9e291581ed49658b5cb5f592445d7cf859b797"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/README.md",
+      "sha256": "b7b87a1d77b57a8f97dfe8227898eeff7e01485f75221594b7dda2a875c835ec"
+    },
+    {
+      "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "sha256": "fe3a5695f9b457ea1e007d52979a824881f0081d9ad27be9c737e21640ddea31"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "sha256": "ab51a0b64d98fc1f133a21140e8089a6b4ce7ee63dfd8310878b9eb8e23a3dbb"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-conductor/README.md",
+      "sha256": "1bf6874fa62fc7924d179f96506122e63ef98963084775e1c012067338447b1c"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "sha256": "81c7000664dfd1f4fc0ae741150570277e6a518868f8537bdadcb72e80eec990"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "sha256": "3b0680e59e40438277e2710e28bdff5801e6bcc2e9bb53a5e0abdf3e2d7dcf44"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-task-adapter/README.md",
+      "sha256": "952cc7fed726b69faf12c310f7a6fbeff3771fbf06f99209d59d13f7e22cbed0"
+    },
+    {
+      "path": "adl/CONTRIBUTING.md",
+      "sha256": "05b1ec567794c0c07ac829ef8122fbc8b2a7ca3f5b3133b8f7898f9defdfea67"
+    },
+    {
+      "path": "adl/Cargo.toml",
+      "sha256": "2450cf5270067e4fd9b44e3cd7fef4da113ca40e19e2e1b7f13d40befaab70a8"
+    },
+    {
+      "path": "adl/README.md",
+      "sha256": "0514579beb7a93bee0e967fd53677275b1a28915624c8f4ffaff21d8d8166a12"
+    },
+    {
+      "path": "adl/examples/README.md",
+      "sha256": "1173822792e1b4b5a8290cee21d6e57bc0bf5a0f0f73fbeadd36d5a029772f6f"
+    },
+    {
+      "path": "adl/tools/README.md",
+      "sha256": "fd2ac83f0692565423e28f1e6064f2d21e07687a401c19f980922628135212f8"
+    },
+    {
+      "path": "adl/tools/skills/adl-milestone-creator/SKILL.md",
+      "sha256": "059b3ec0a6050b5bc17fbec40c75f4969af88b439f844210f887fc9310f7491d"
+    },
+    {
+      "path": "adl/tools/skills/adr-curator/SKILL.md",
+      "sha256": "2ba7d242aff65aa558b18e02d1819d60712e5dc775f3cde71a439dc2125d597e"
+    },
+    {
+      "path": "adl/tools/skills/architecture-diagram-reviewer/SKILL.md",
+      "sha256": "6268a9bac51cc58a748a051e879d8bef9ed931ddc3edd93f0719fc7fecfc36ff"
+    },
+    {
+      "path": "adl/tools/skills/architecture-fitness-function-author/SKILL.md",
+      "sha256": "313182f34fef58802ef4ca1eaee83d26d5da2262ba2d6b5f482b43ca0cd37aa1"
+    },
+    {
+      "path": "adl/tools/skills/arxiv-paper-writer/SKILL.md",
+      "sha256": "5753ce6550c0ff19dd434ebcc66344482f325bdad0a0cde3297ead80777f814b"
+    },
+    {
+      "path": "adl/tools/skills/demo-operator/SKILL.md",
+      "sha256": "96156851842c3d57e703c1a6660cc208a68891c7a9da668e236e1467a41c8b65"
+    },
+    {
+      "path": "adl/tools/skills/diagram-author/SKILL.md",
+      "sha256": "f5a1cb84421259e6374d9852b0c3fbe38d109192292c3da89753f1127eb8175b"
+    },
+    {
+      "path": "adl/tools/skills/documentation-specialist/SKILL.md",
+      "sha256": "ea635c404c3b32facc4ebd691eaef948698ad6bc468c40ba476fc83ff53452ab"
+    },
+    {
+      "path": "adl/tools/skills/finding-to-issue-planner/SKILL.md",
+      "sha256": "f591467c96161c9a98a5e46a9398557d4b88fe3103d5edb30f68313328b0517c"
+    },
+    {
+      "path": "adl/tools/skills/gap-analysis/SKILL.md",
+      "sha256": "afd76637cbcae5e782ce97771bfdc6b8fbd8562dbcb2e9b15524f03225aed1d2"
+    },
+    {
+      "path": "adl/tools/skills/issue-folding/SKILL.md",
+      "sha256": "1b2661ad4de79c34e6a2c6fce904e4e2f5ba055bc15690809bf7abb377153740"
+    },
+    {
+      "path": "adl/tools/skills/issue-splitter/SKILL.md",
+      "sha256": "725ab87c86f6b571d5efd7121e9e85b0f79241849da3a55f329c09dbe00810fb"
+    },
+    {
+      "path": "adl/tools/skills/issue-watcher/SKILL.md",
+      "sha256": "ab34d92f5aafff3b05bd472e84904537857d7847204e850ec90286a483b0ee54"
+    },
+    {
+      "path": "adl/tools/skills/medium-article-writer/SKILL.md",
+      "sha256": "8c260e08436e0bf8c288349bf8cdaf0946654c6456be8d6b4a92d308c7d17630"
+    },
+    {
+      "path": "adl/tools/skills/planning-doc-editor/SKILL.md",
+      "sha256": "dfd9cdcd520006fe56fa95546b74611044fb4cc31f0f750af4fc4df72dc329d6"
+    },
+    {
+      "path": "adl/tools/skills/portable-contract-normalizer/SKILL.md",
+      "sha256": "26532d164fd1abcd8f95f62994f954a64524df89c787c5a47b80b86427314421"
+    },
+    {
+      "path": "adl/tools/skills/pr-closeout/SKILL.md",
+      "sha256": "2f46a2bc130fcd8ee99cfe330e1573d1083bd3eed61ff87a90a8f97b1d22669f"
+    },
+    {
+      "path": "adl/tools/skills/pr-finish/SKILL.md",
+      "sha256": "d4ce4fbd4b1cc491f09a5807bac8caaca74654be300adef1a439b65dcd869c88"
+    },
+    {
+      "path": "adl/tools/skills/pr-init/SKILL.md",
+      "sha256": "58a08f8fad2f134a9c5310aafb6afd1cd27961455eca6a19f5119ee8b86e940e"
+    },
+    {
+      "path": "adl/tools/skills/pr-janitor/SKILL.md",
+      "sha256": "cf69387a554fc8f7e2e4d1578ffc2d186a1d938e135003fcc6e3b147cac673c7"
+    },
+    {
+      "path": "adl/tools/skills/pr-ready/SKILL.md",
+      "sha256": "09b78cbcd5fc5e75ef724f58dfa993eadf402e837c299b03cc73f681e4c65257"
+    },
+    {
+      "path": "adl/tools/skills/pr-run/SKILL.md",
+      "sha256": "2d02bdcf1e64f8ffec4ca8640d5c13d74f1077fac769336e15000ef279a28330"
+    },
+    {
+      "path": "adl/tools/skills/pr-stack-manager/SKILL.md",
+      "sha256": "fc4d5a1db3f8ec242c84fbfa532f3f99bfdc22a75f93b2e2651c34bd7051f197"
+    },
+    {
+      "path": "adl/tools/skills/product-report-writer/SKILL.md",
+      "sha256": "e99da9a7e4af200ecbfc765493444d975c67360372029e43ef052b515b360214"
+    },
+    {
+      "path": "adl/tools/skills/records-hygiene/SKILL.md",
+      "sha256": "134bbefa2f024e962cc2df9ef8b48c2b3409f91bd7e3724d02416da7a4904af8"
+    },
+    {
+      "path": "adl/tools/skills/redaction-and-evidence-auditor/SKILL.md",
+      "sha256": "38608047e57113972502f9ccc101b21871f580b59991879e3e0654c81af24382"
+    },
+    {
+      "path": "adl/tools/skills/refactoring-helper/SKILL.md",
+      "sha256": "fec532a8cee353835071e279a1e766c127437b08f75c149de0d6ac7d75699ac5"
+    },
+    {
+      "path": "adl/tools/skills/release-evidence/SKILL.md",
+      "sha256": "2158f72d43ad4d6be1a39771b370fffacc8040dcfd8cba156eaa7022d402bd16"
+    },
+    {
+      "path": "adl/tools/skills/repo-architecture-review/SKILL.md",
+      "sha256": "c5aeb007fe99875da8126e921380521ab167b082e1a34972097d41d72ba2dbd3"
+    },
+    {
+      "path": "adl/tools/skills/repo-code-review/SKILL.md",
+      "sha256": "e1e00bf28b4286b6a0574a8f422e29f0e41a520a8a8958466fe584f77d70f98e"
+    },
+    {
+      "path": "adl/tools/skills/repo-dependency-review/SKILL.md",
+      "sha256": "48df4328ed1610d0594a0bb2642878244c9f251d73924e99f1fb13260de16f7c"
+    },
+    {
+      "path": "adl/tools/skills/repo-diagram-planner/SKILL.md",
+      "sha256": "25cf10a1bdaf7e08ae0c4616470f3f6e1dac0a77cb0a6beeef7a17dbd7844ed9"
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/SKILL.md",
+      "sha256": "92c69bdd907e30478c14f2ae4010511501549be2c4c9a5fd635edab59ed6d4f8"
+    },
+    {
+      "path": "adl/tools/skills/repo-review-code/SKILL.md",
+      "sha256": "c5afde537bb8476fdfa370fca5aaf9cf1e3853c74eecedadf9c7a18b42caf49c"
+    },
+    {
+      "path": "adl/tools/skills/repo-review-docs/SKILL.md",
+      "sha256": "c0480cd51470b03830df23282522e80458e6996ca701a539b661d31331142a85"
+    },
+    {
+      "path": "adl/tools/skills/repo-review-security/SKILL.md",
+      "sha256": "e6780583f70176412139ff001e54285fb1adf701e3904d7cc039ce38031ea3f6"
+    },
+    {
+      "path": "adl/tools/skills/repo-review-synthesis/SKILL.md",
+      "sha256": "73051a48c89d96f112e541a92ec2b511c1b2ef8223585fa919e8d7ce3d412673"
+    },
+    {
+      "path": "adl/tools/skills/repo-review-tests/SKILL.md",
+      "sha256": "bc7f82718035ed3d0db219e1f01a5b04dc0150ed82831ff2aaab0333f30b760a"
+    },
+    {
+      "path": "adl/tools/skills/review-comment-triage/SKILL.md",
+      "sha256": "67bb43f85477fbe13795bb3588baa48d78ecdc67a5494987a865d66852811f29"
+    },
+    {
+      "path": "adl/tools/skills/review-quality-evaluator/SKILL.md",
+      "sha256": "8012700b26b63b6c68114b004a2eefba42bde8502a974fb198c4671edc3de00e"
+    },
+    {
+      "path": "adl/tools/skills/review-readiness-cleanup/SKILL.md",
+      "sha256": "be231279212188baaeea14ff8a0369f4c4aaf5b8b09213163a4d8af465068776"
+    },
+    {
+      "path": "adl/tools/skills/review-to-test-planner/SKILL.md",
+      "sha256": "218aee986a3964ecb27085aee7da463ec51e3c0f0d772c5acf39582c12c05e43"
+    },
+    {
+      "path": "adl/tools/skills/sip-editor/SKILL.md",
+      "sha256": "7f0383b1cdb99e121969ea7a5027e0b3d0a630b12ecc87071cc937a1e4e91b4c"
+    },
+    {
+      "path": "adl/tools/skills/sor-editor/SKILL.md",
+      "sha256": "93907dd43c6f8dd7e2f2f59c2a0b8b9fde1811bbc435f85c725c2a6d6e4ff1d7"
+    },
+    {
+      "path": "adl/tools/skills/spp-editor/SKILL.md",
+      "sha256": "e47e75cbee93605a95c74162e2eb3d5bb70a9be408c0c899ea310dd54b78e11d"
+    },
+    {
+      "path": "adl/tools/skills/sprint-conductor/SKILL.md",
+      "sha256": "0f29bc864e5617b566eac5692348ea6db8cb7eb6b5fa49c3ceb49527a720357c"
+    },
+    {
+      "path": "adl/tools/skills/sprint-review/SKILL.md",
+      "sha256": "b1c78f744e4adae7d1040f17b059e9092d4e8e2a0780db62518c645a0bda8c9c"
+    },
+    {
+      "path": "adl/tools/skills/srp-editor/SKILL.md",
+      "sha256": "a94f0d0a29cd0bc2b6f5c7c38aefacd99e70ca8cc4416af4459f424438bb47b3"
+    },
+    {
+      "path": "adl/tools/skills/stp-editor/SKILL.md",
+      "sha256": "40c658638ece8d529af2b90bfdba89d019ee212fe8d4edc747dd606c21944797"
+    },
+    {
+      "path": "adl/tools/skills/test-generator/SKILL.md",
+      "sha256": "d64356752f31f1891ecb3b453758144ce95ea9392fc30fddedba24d74fa18b4d"
+    },
+    {
+      "path": "adl/tools/skills/use-case-writer/SKILL.md",
+      "sha256": "bf352c8a537f950e853da97d9f37d2785e299baec25842a2d3a6ad6a4ecc4479"
+    },
+    {
+      "path": "csdlc-v2/AGENTS.md",
+      "sha256": "22de771f8e3c1e2690db28e6c48e189631297f3a575f0dd59ab5507a0fe47aaa"
+    },
+    {
+      "path": "csdlc-v2/Cargo.toml",
+      "sha256": "812c7699e167ed158cc19cc6fad3a263b843f0b7967f6e505b92f5952c30ce79"
+    },
+    {
+      "path": "csdlc-v2/README.md",
+      "sha256": "08c87b73ee8e20de6e81a1a8011c4a52bea5d852e8f2dfce37744ff3960fd3b9"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "sha256": "e2079ec7e12b428ace6e814028567fe3e8d878fc93b55b13bc38e4053b307190"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+      "sha256": "992f2f4d5e54f0535daeb7af9cba0df291d2a150989a69cfc6faf1499d3b09f6"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+      "sha256": "9e58f6214aa9667b9a6ef753fc0687f8747d725cc7769df874228bb5be3ac110"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "sha256": "3e107828e637bfa6c5b066837461b4a06a66ee60be99dc66c19bbb92a2e9ad49"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "sha256": "add71912cd9ad6033b4a8614fe29edaab67d6976ca49c358c8fded9872254d29"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "sha256": "64afbb935986078509217784e30246df113444392a773722d014107d252cd24d"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+      "sha256": "f5be48f47a7aa2078fb3be42897b4060486d57322473c04a5399c85ac4182a62"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "sha256": "78f27300343247363aa771956662f3ce31e3b70068b78a9b7fea72e3d79f6801"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "sha256": "83d7f6dc068910756027c8daa6f7dddbc67f92113c54c3a63f6bd8824f168ecd"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+      "sha256": "9fa92a9c8908f6b6035870637346b879be9f0c986e5996989f0120069bf348dc"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "sha256": "2ddf3fcc53ab53809559d5608984fa2f6e99f341fe02f429e124aaefeac48e7d"
+    },
+    {
+      "path": "csdlc-v3/AGENTS.md",
+      "sha256": "324035f7a103955e50c1a7788cb0617de78d7bfee620de9566c032adcbad9414"
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "sha256": "d990abeeacc461f7eda316e3c29e9eb84873a234b4c8bddbe273c1f381251f68"
+    },
+    {
+      "path": "csdlc-v3/README.md",
+      "sha256": "9bdd9e5e1d552dcc9addb55ee5ef735ad88e7c6364f97f844109a0713bd78021"
+    },
+    {
+      "path": "demos/README.md",
+      "sha256": "aba7ca043121049f289b9182507c190f311e7a2df0c42406bf83aca35e68593e"
+    },
+    {
+      "path": "demos/aee-recovery/README.md",
+      "sha256": "2764c626bed7d4e33e9106d60997eeadfde1bb01593296f6996456806fcf045c"
+    },
+    {
+      "path": "demos/html-observatory/README.md",
+      "sha256": "9da7ece882288d641808f2f74eb836d5bd19707a2c3b4e83b30eff1c67b3eb06"
+    },
+    {
+      "path": "demos/podcast/episode-packages/README.md",
+      "sha256": "ebf667a1bd65638b4103a54d0acc9cef596b7d9262fef57c4b91134a96c7952d"
+    },
+    {
+      "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/review.md",
+      "sha256": "1c8322842e6d5456e94e3fa00485b0d2b51315afd95c8613ab6f5e148a72bf87"
+    },
+    {
+      "path": "demos/rust-transpiler/README.md",
+      "sha256": "a43242402925a449873e555640a06e1b7fcb55632b019a5af60d045377b3cec5"
+    },
+    {
+      "path": "demos/transpiler_demo/Cargo.toml",
+      "sha256": "c8c9413faa8fcd535dc5e4106fa94801aa11e0cbb8769c117150427ce0e1ca2b"
+    },
+    {
+      "path": "demos/v0.91.4/celestial-rescue-unity/README.md",
+      "sha256": "5542ec75a632073b353095109bb3f9045cc322e9cf15afca76a3110677b132c3"
+    },
+    {
+      "path": "demos/v0.91.6/unity-observatory/README.md",
+      "sha256": "d64caee6389b89c83a37521959bd3e5dd9863bb807bbb8ad0fee40179792ff4b"
+    },
+    {
+      "path": "demos/v0.92/provider-neutral-birthday/README.md",
+      "sha256": "eccf47db00e2daf93aa4167ad3779532f7896ac3b59f0fdcc26b37c0649bd05a"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "8f4b08b943616681acaaa013e6e16375253a94e0930f8f9fdd8ee0a3a4ebbe6c"
+    },
+    {
+      "path": "docs/adr/README.md",
+      "sha256": "8a75f6756ced94877070f34d36ac1f8b8bfc18bbb6aacaa3c70e2f1c33348d44"
+    },
+    {
+      "path": "docs/architecture/ADL_ARCHITECTURE.md",
+      "sha256": "b92e288837807d0b651d4a1d0b5a6a9256d34def587f3e2663ca772c7e15fdc5"
+    },
+    {
+      "path": "docs/architecture/README.md",
+      "sha256": "e38b54fe8a36579d1ace9fe62a050dc66b52484b8b024f1b5752ac0afc31c719"
+    },
+    {
+      "path": "docs/architecture/adr/README.md",
+      "sha256": "55056e6b8e1a1579df9bc513e1d32eedb9b545afe544e99565727ead4e2e3e44"
+    },
+    {
+      "path": "docs/architecture/diagrams/README.md",
+      "sha256": "947ea5df244fb1061c8cc588d9b49be454e141579362a8e4a780807cd683698a"
+    },
+    {
+      "path": "docs/codex_playbook.md",
+      "sha256": "3a9879719b2c12862c272e56c401d38a497e0533f9d285192de254beb3f30633"
+    },
+    {
+      "path": "docs/cognitive-sdlc/README.md",
+      "sha256": "84746eda2e5b09e2d1fd3f497fc7d6d176dc3d4f9d2b9dfe180ad55956a645e3"
+    },
+    {
+      "path": "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md",
+      "sha256": "d6e1c84dc993c99eea64b22a7042e9e3f786705989676979f54ed7833c4539de"
+    },
+    {
+      "path": "docs/default_workflow.md",
+      "sha256": "63ab506be2a9309b5b83c8382059e339a3d16e26ba3c357a85d46386363bfdbe"
+    },
+    {
+      "path": "docs/explainers/README.md",
+      "sha256": "b8a52b168ead3563cb34a53a92c10f638646ab2c9df4966294d0ce364fe5ce72"
+    },
+    {
+      "path": "docs/milestones/v0.7/ideas/README.md",
+      "sha256": "c429d77c1576492f1c4b941283560f5c3f1a1bc51f9dd49c860262e1cd2ac47f"
+    },
+    {
+      "path": "docs/milestones/v0.75/ideas/README.md",
+      "sha256": "3d72dbdf11b4a066d3e2ce07b2dfb5d1fc79a9ee9feb2a9c9f36923b5e8843bd"
+    },
+    {
+      "path": "docs/milestones/v0.8/README.md",
+      "sha256": "35c7df6058fec796dd80bc9ea2c8f9f745a739e0f5be8dc4114780c59090f5c3"
+    },
+    {
+      "path": "docs/milestones/v0.8/ideas/README.md",
+      "sha256": "51dc72857fcfa7ea6558eed9f5f18d5f262471b396bfa4bda355b9d00da52335"
+    },
+    {
+      "path": "docs/milestones/v0.85/README.md",
+      "sha256": "095a7df5bfd00e35257eec792803c33ff180d1822c7fae7982cd9978872b5d65"
+    },
+    {
+      "path": "docs/milestones/v0.85/ideas/README.md",
+      "sha256": "e45be2e59c6307db3a66ff25c4625f0ec8b3ac70c498b7ae4bcdd02d3112b438"
+    },
+    {
+      "path": "docs/milestones/v0.86/README.md",
+      "sha256": "83ffb0bbe986547dd9b808d0d34e70d31d43f0430b309bb9a4e69fb0f01fd358"
+    },
+    {
+      "path": "docs/milestones/v0.86/features/README.md",
+      "sha256": "57eb6142e03a08a0ec0f38aaef560e9d6dd49f5a88263dd91b5164286027c52e"
+    },
+    {
+      "path": "docs/milestones/v0.86/ideas/README.md",
+      "sha256": "b31c35ca44d275fb3318eda6f59030d8485ac875a5b18c4623b4832c28688401"
+    },
+    {
+      "path": "docs/milestones/v0.87.1/README.md",
+      "sha256": "b8fc44bc969c27f7c7cc24cf40c8ac7287916ae5b9e8139c5fbcf0d9c6598918"
+    },
+    {
+      "path": "docs/milestones/v0.87.1/ideas/README.md",
+      "sha256": "7bb46392e78792afa2e9a7da9cf6676dd3e30ca8e48401c5c25843b26e7411ba"
+    },
+    {
+      "path": "docs/milestones/v0.87/README.md",
+      "sha256": "a8580be69a08967e1aa08dab06f43f21686c2167daf56dc2ff7d89373ad2d1b7"
+    },
+    {
+      "path": "docs/milestones/v0.87/ideas/README.md",
+      "sha256": "85f91c6588ce866f1f856573d9b5a093822c319cd08977f88481656841e17334"
+    },
+    {
+      "path": "docs/milestones/v0.88/README.md",
+      "sha256": "35aa00f2591da95823859562a5feeae012c5d7336a1cdd46f3da631ad45e2f91"
+    },
+    {
+      "path": "docs/milestones/v0.88/ideas/README.md",
+      "sha256": "180cce7f5e45d6efaff32ddc0e023d307d3bc27f92908f0f56274c2b28f1f267"
+    },
+    {
+      "path": "docs/milestones/v0.89.1/README.md",
+      "sha256": "af05264378b26703e2b9458d9183f4c39a29596fc5c3cbc4920ea6dde1e43886"
+    },
+    {
+      "path": "docs/milestones/v0.89.1/ideas/README.md",
+      "sha256": "e2eb363dc9a3c2b6e03ccdaa3a566694fca3ed8cfb095fd1d6a7c49a2a186298"
+    },
+    {
+      "path": "docs/milestones/v0.89/README.md",
+      "sha256": "f23163916b1c95c0dc8465de7a5ce49fe20e95431ba62ca2e755cfd9779b60b1"
+    },
+    {
+      "path": "docs/milestones/v0.89/ideas/README.md",
+      "sha256": "d6d2b69361acf8fbb48abd4ece0f4f8804167c628625bdda8cdfb0d2a648966a"
+    },
+    {
+      "path": "docs/milestones/v0.90.1/README.md",
+      "sha256": "2225d64b38fabdb464f01ccb0f57e6e6abe7cfe1af21b59b577650b3f3ecf70b"
+    },
+    {
+      "path": "docs/milestones/v0.90.1/features/README.md",
+      "sha256": "184b257c4cb683fbbcf753e5b24fb4877599367ab617cf0e0f609a1f68b5d368"
+    },
+    {
+      "path": "docs/milestones/v0.90.1/ideas/README.md",
+      "sha256": "a1039d08dcf22365511d28a5b9f6e93d3f88a83648745672d4831d2df8a42c93"
+    },
+    {
+      "path": "docs/milestones/v0.90.2/README.md",
+      "sha256": "411f7931882692f2833b9ebdfa574754717a877efbba85927fa55398de966c74"
+    },
+    {
+      "path": "docs/milestones/v0.90.2/features/README.md",
+      "sha256": "750c03d2db08c8af55cc442ae57e47298052c4f025b37661ccd02e8c16acb622"
+    },
+    {
+      "path": "docs/milestones/v0.90.2/ideas/README.md",
+      "sha256": "78014eb47b63ad559a060ad838ac6070577494069d6e12a572486430e418e92f"
+    },
+    {
+      "path": "docs/milestones/v0.90.3/README.md",
+      "sha256": "a278204c803c93011bf38f90c70a910ea01113bf4da5dce715102ff1e6b71480"
+    },
+    {
+      "path": "docs/milestones/v0.90.3/assets/README.md",
+      "sha256": "030ae650b39d55a33f7df8562918a2870e70d72b1eeb8d3310ac780cb1c70331"
+    },
+    {
+      "path": "docs/milestones/v0.90.3/diagrams/README.md",
+      "sha256": "58af0a08b2c562da1495456dc392963a567383801c4ceead3aa22a7277705017"
+    },
+    {
+      "path": "docs/milestones/v0.90.3/features/README.md",
+      "sha256": "db543c7197726683190d4cc1d1f6666e9257864c79a2e4dbbf7d3a1d52d01077"
+    },
+    {
+      "path": "docs/milestones/v0.90.3/ideas/README.md",
+      "sha256": "02ae4c3c016f2361f6e222a2e88f02b4f8d050bde094ec8eb6bcf6f4498b75c1"
+    },
+    {
+      "path": "docs/milestones/v0.90.4/README.md",
+      "sha256": "dcb998faec1dc33d966ff776a39370433fe7f0a7f067188db8911ef060693263"
+    },
+    {
+      "path": "docs/milestones/v0.90.4/features/README.md",
+      "sha256": "750d056b733ce148c0a3b6b839ad4b9776a533f63f183517f7049b9e647d2590"
+    },
+    {
+      "path": "docs/milestones/v0.90.4/ideas/README.md",
+      "sha256": "dda92ab725c635342be3edeb832e2162d68ec1d4dce1c79b0fcb887c8c6fe4d0"
+    },
+    {
+      "path": "docs/milestones/v0.90.5/README.md",
+      "sha256": "ebc48c39c623340231bfc98cb16605459ab5f59d1fab340f9e92f58ea4a6275e"
+    },
+    {
+      "path": "docs/milestones/v0.90.5/features/README.md",
+      "sha256": "63a3a60929354917ffd99352a5e461097e2dabd858d2ab21adab2ba8d5054ac2"
+    },
+    {
+      "path": "docs/milestones/v0.90.5/ideas/README.md",
+      "sha256": "7a7a3c659f245cda91c726c94ca451f04d36f91c5a74a0477927f13597a0d496"
+    },
+    {
+      "path": "docs/milestones/v0.90/README.md",
+      "sha256": "66584f1ab8c04db02fdd844952482a0fff0bfb3233107e7727008a86d60b0412"
+    },
+    {
+      "path": "docs/milestones/v0.90/features/README.md",
+      "sha256": "3ac85801e09054fc14931e7a2ca2093265d9f054d75790ca2c48e314f583073f"
+    },
+    {
+      "path": "docs/milestones/v0.90/ideas/README.md",
+      "sha256": "543fd6f6eac369e3fa651352843f81aed0ccf1df25c35b4d5591df00b913920e"
+    },
+    {
+      "path": "docs/milestones/v0.90/milestone_compression/README.md",
+      "sha256": "fc3b5a14e1c9e018163095aff8cb1eff95ccfc9db8acc236be0be77ae4cca3b3"
+    },
+    {
+      "path": "docs/milestones/v0.90/repo_visibility/README.md",
+      "sha256": "46586229f9f74f25c06c1f746f8f5c42986c749415c709a3c8f63badd1323836"
+    },
+    {
+      "path": "docs/milestones/v0.91.1/README.md",
+      "sha256": "c7b662f2f16056994d5c4570b9fd725b8bb218f32a2ab2c79ec750a5b76f451c"
+    },
+    {
+      "path": "docs/milestones/v0.91.1/features/README.md",
+      "sha256": "3d45dcb019c56af024a6b8bd6a8682a85ab60c133f46203e5fa8f1135bb404b0"
+    },
+    {
+      "path": "docs/milestones/v0.91.1/review/internal/README.md",
+      "sha256": "920c4acd9a6e65575d0ac7e6bcff819978ab5d11985a307b0f299f8a4ad66ed5"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/README.md",
+      "sha256": "cef12757bd55a54acb2ae209787857bc7375e642f03d20beff9f1beb4d0e63be"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/features/README.md",
+      "sha256": "69eff33eab8dc6bb16219714a4c4ed7b17dd7199cd61c158a42be3e66d483559"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/code_feature_demo_follow_ons/README.md",
+      "sha256": "8151f5fa66f24b029995899b4e5a4b9999784f97b8bfb70e29c219910f96551a"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/demo_proof_convergence/README.md",
+      "sha256": "9e90a2e05bc1ff6147ad6fb365a75d87c4b5e2b7fc8e10ce2903fc6547a9d781"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/general_intelligence_paper/README.md",
+      "sha256": "f0ebb915c7c4da216a6d34f572658eca9c70284ac0c8ec026b6ba01b806becc0"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/internal_review_full/README.md",
+      "sha256": "1b0cc4b79570252dd2ff346c25c6db11810c837a2e576cb2a40b4811ac2a17b7"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/issue_3182_review/REVIEW.md",
+      "sha256": "aec2b0175c500ce1c6e9926b352a1d64ecc878d4fbbfeea532ed85fd4eda8ede"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/publication_program/README.md",
+      "sha256": "e1ec206995607c0c89e8ec2a2f03be09f4c5bd41a89052a99c2f850513ed4c3d"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/quality_gate/README.md",
+      "sha256": "e4fe50d2fa420050ba203476da5640054a5b882ebc117282697c2e56a6c9baaf"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/repo_visibility/README.md",
+      "sha256": "f1811b1619b98d4c9cffe46dbff7ec690340fdd935d041ac944c92b9d351f272"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/uts_benchmark_evidence/README.md",
+      "sha256": "ffef69e5c500fb1090b42a5af74a23b153a6c5e4dc7ce0c2c2b0fd9f53bb9a32"
+    },
+    {
+      "path": "docs/milestones/v0.91.2/review/workflow_guardrails/README.md",
+      "sha256": "6b5f275473a3ea59a3c05b97e883d070d3e99c1538605404e4a66b8e3c8e3696"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/README.md",
+      "sha256": "90fcf1b3eff76c069504c398369a09946202b5f901ed21548513637f7b7d7531"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/features/README.md",
+      "sha256": "c1696cd96bbe347b68c04afb39f506151af682e8044149617ac8cc054c5bc7c9"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/card_lifecycle_integration/README.md",
+      "sha256": "ee8445e31070b754a8f229dac09fb3fb897636c938aa902ea34e585aba97632f"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/csdlc_demo_proof_contract/README.md",
+      "sha256": "33677486be27df8856fd68ff5bb4652f8d5c3b4ba6ff4b32e84058b9f49b86e3"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/csdlc_demo_showcase/README.md",
+      "sha256": "0edb3db11dccef7afc8828585dcd924ef931821d7350f77f2eed63aa94385074"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/demo_coverage/README.md",
+      "sha256": "ef8ec98ccbb0c1c8887a3e7b9b5877328ee0c67a473fd9c973756d26f7617a8e"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/evidence/csdlc/README.md",
+      "sha256": "c07807213d0c3e2bc7e0a8bc671ee6f4458405b896ddebf944d72a4f1b230f42"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3200-card-schema-proof/README.md",
+      "sha256": "135d28813fd913d17f18eb36ba5effde2d3b6e6765811247b83711e7edc3d135"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3201-card-lifecycle-demo/README.md",
+      "sha256": "6c37cdadfb22009d76dad538aaa89804778ddfa423a59f3a023245c6ac24d795"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/evidence/csdlc/issues/issue-3203-evidence-bundle-proof/README.md",
+      "sha256": "6bc27f3478eed32f08d26538dff5aefff211c7d46c62116c9c321af741cd46fe"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/evidence_bundle/README.md",
+      "sha256": "537b656eced11f21bedbded29e9e700097bd1f84365eda866ae786dac5c78287"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/first_proof_demo/README.md",
+      "sha256": "6b9f51c6487f884bccd5cd30a7af962060a10081f2e83a683790c29503681bc9"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/first_proof_readiness/README.md",
+      "sha256": "b1c91af5a5a897f24ddaebd4c23b0b2472459f4cc85d7c2684e0ff1150183105"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/five_minute_html_game/README.md",
+      "sha256": "b1d0dbb716345e21d2d6787e91d5cd53f9d7ac8208a26c8886392735746e7a1e"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/five_minute_sprint_console/README.md",
+      "sha256": "a8b3785cdca1faa2d71e9e96970a181e76860fc365e7221ff632e3d99caae723"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/merge_readiness/README.md",
+      "sha256": "1a81a8038eee7f6af9764ded8bbbd59950b3ae2db8a8f9ca800145cee03dde6f"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/obsmem_handoff/README.md",
+      "sha256": "ed78e4a7c815f3f4de4cf2c37e606fb5fa3086aa6939782643ed125e1b5a3dc3"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/planning_template_pilot_evidence/v0914_rerun_4/generated_full_packet/README_GENERATED.md",
+      "sha256": "352f10a9d95a22c034f2b9c5b3e46eeca7c323947e4879ce6a0af7f13cf990b3"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/podcast_studio_v2/README.md",
+      "sha256": "c291932fe0182dbb4014d00bf7c0803b2bf3755ecabf8bc37bc7af103b7b890e"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/quality_gate/README.md",
+      "sha256": "23972a9b8f6fb42125474051444fb748a590c3d2e4d38532d4c68092a045363b"
+    },
+    {
+      "path": "docs/milestones/v0.91.3/review/transition_dag/README.md",
+      "sha256": "43af6c40d353a9c5993d36c22e6892b70f7709cc3d10a8f5eda76bc5d10e1381"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/README.md",
+      "sha256": "a73fc74d817b49345f509f83955ce192df218460133deb740834bd85d23b69fc"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/features/README.md",
+      "sha256": "dde70c203f390b717a79049dffa5dede85ec5e2634e52dd81eb1eddc0f7223f9"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/evidence/csdlc/README.md",
+      "sha256": "3a21085795ad650cf7c5e26db5ab06a954992bc4462b121e264fe6aa1529f131"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/internal_review/README.md",
+      "sha256": "f45602f7f1e1f32ca0aafb279300ba338735958c1a806d3a6ab8366d3660acd3"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/merge_readiness/README.md",
+      "sha256": "616e0139047b08b6bf0449c7a240c7a06b307c6207616a7fdd8a453f67c7e1e2"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/obsmem_transition_memory/README.md",
+      "sha256": "fd7f8b9b936a897389450876b6013c9c1dcbae770abd4b815564e22e2845228b"
+    },
+    {
+      "path": "docs/milestones/v0.91.4/review/software_development_polis/README.md",
+      "sha256": "181a1c601d8105d86a882c5a89629202c72f75f23fcb87c676167d71d7aac334"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/README.md",
+      "sha256": "eeeadb3bbdc7f11769f52e9d521b584d1d1d2f5c44218c75807e10198e4169e2"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/features/README.md",
+      "sha256": "3134625104eca34d8596ffb8f1e84d8b0e5083770985ef394b4743acf67eca0f"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/evidence/csdlc/issues/README.md",
+      "sha256": "61935d095f0900a085be1b2431c85e6991b9a54ccf0339cbed0212e20bf74ad4"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/evidence/csdlc/issues/issue-3472-v0-91-5-wp-04-tools-add-public-c-sdlc-prompt-packet-exporter/README.md",
+      "sha256": "983a7b8e62c2581478a2207ecf80d44c5ed24a78b8eb44859b3065c6aeee79fd"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/evidence/csdlc/issues/issue-3473-v0-91-5-wp-05-docs-inventory-and-disposition-local-adl-state-for-cleanup-and-obsmem-archive/README.md",
+      "sha256": "63bc8b118af4212371fcbd605538836041eb1012b7ec0878302648ea5e107d0b"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/evidence/csdlc/issues/issue-3562-v0-91-5-review-provider-tools-add-external-review-provider-lane-for-codefriend/README.md",
+      "sha256": "f10892e86adc9a4566311c88ea013d71110e9297b34df8d436f2254cd0bf1016"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/README.md",
+      "sha256": "2c654496ed31f3b6c96e5430c16fae31ebd2c3ceef84c4c9b62a45707d28ce25"
+    },
+    {
+      "path": "docs/milestones/v0.91.5/review/openrouter_matrix/provider_setup/README.md",
+      "sha256": "c3d9adbc6c00ce0173643e08ef2887d244ce1b27b9b17cdf95ef4d1401af119f"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/README.md",
+      "sha256": "bef2680ba102b6c7462a1f438b41603d1a49a8fb8a3e31b888c44687eef44bb8"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/features/README.md",
+      "sha256": "837f76a1ea78316039a17058fa54865fa535cf15b5c5e0f5c25200da0a42da78"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/evidence/csdlc/issues/README.md",
+      "sha256": "5d1eb6bdeb352b63ea6d0a8bb07c59674319cf57578eb008d381dedae42d767d"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/README.md",
+      "sha256": "243a079f745cd8d9ccd6d76c785558daa6e20871818784782688ce644b8fe9e4"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/anthropic_current_models_adl_demo_key/provider_setup/anthropic/README.md",
+      "sha256": "763e647d899e969138721289e8561771cd8336e80962aa86c12248de41df8338"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/README.md",
+      "sha256": "184ea14cb337412c037d225e0f0a217ae7c892849b64918cba74fdcc836aa420"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/deepseek_suitability/provider_setup/deepseek/README.md",
+      "sha256": "8e68e3dcc47c2d02fe43e5baf824dad9dff0566fbc6e8835fd1888c779374b3f"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/gemini_current_models/README.md",
+      "sha256": "3e843f5d8447fd97d6507ab21757be10a6d7777fb71f0e21a8378733103bf187"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/gemini_current_models/provider_setup/gemini/README.md",
+      "sha256": "4e548a1fdf3c4ff8c4ed13e69c3767da695891cef99bbc22ed6053010ed35097"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openai_current_models/README.md",
+      "sha256": "765834df6c19532448ae922b551571dfda7d4ba38bc06b42e3a40ede5557a865"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openai_current_models/provider_setup/openai/README.md",
+      "sha256": "706c05f148e1880aaeb562e6ce4b0b98a052b41c40d84ea5f9bf4c261aefa439"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openai_current_models_rerun/README.md",
+      "sha256": "d3185401cc4f59986194804a379e79ac9652fb2c0ac78601beb820ad2206c0ce"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openai_current_models_rerun/provider_setup/openai/README.md",
+      "sha256": "706c05f148e1880aaeb562e6ce4b0b98a052b41c40d84ea5f9bf4c261aefa439"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openai_gpt53_codex_rerun/README.md",
+      "sha256": "0bc02dabb179612caf0f9db98afd979bded3fce4b3925a71c767ea9ec0c79c13"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openai_gpt53_codex_rerun/provider_setup/openai/README.md",
+      "sha256": "706c05f148e1880aaeb562e6ce4b0b98a052b41c40d84ea5f9bf4c261aefa439"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openrouter_current_models/README.md",
+      "sha256": "4c2b6ba0971a70e58eb1a52bfafb44d81a64bb8ebf823bc802d725f17ef019d4"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openrouter_current_models/provider_setup/openrouter/README.md",
+      "sha256": "c3d9adbc6c00ce0173643e08ef2887d244ce1b27b9b17cdf95ef4d1401af119f"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/provider/openrouter_next_tranche_4448/README.md",
+      "sha256": "6f99c17457e463bd6f72a240c909d3e900796fa50fd7fd2098be7bfc123d10a8"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/runtime/v0916_acip_aee_memory_4546/README.md",
+      "sha256": "8ab1a9e874a20a7dc5a754072cd4237d3fc27f37684aa3daf796c78e8fb974cf"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/runtime/v0916_integrated_runtime_soak_4245/README.md",
+      "sha256": "633e2f3d5a51fdaa434eeabbfc9e673d6c6a8ac533d0e95aa50f88518ac43462"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/runtime/v0916_integrated_runtime_soak_4543/README.md",
+      "sha256": "c92f4b1a8fbc0fc7eef7203ca5dd78e8e7c6d05553d52ee77e1e508905e20dbc"
+    },
+    {
+      "path": "docs/milestones/v0.91.6/review/runtime/v0916_runtime_failure_injection_4547/README.md",
+      "sha256": "466882559dde8f0bd1e891526790c1aaacfc2a978bcbd6d7060ce585c774bbf3"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/README.md",
+      "sha256": "3c865135564246a72244d8cfbd72d2bda525fc9446a429ec68612ceff34d792d"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/features/README.md",
+      "sha256": "2db76b1881d8bea033375fe9d22fc10905381d97b701fa8605560059c9cd2f03"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/external_review_4646/README.md",
+      "sha256": "bee49db518348af3e3cca5959a4010e209d3459591aaa554e3fdfa1a82b15c93"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/provider/dspark_gpu_smoke_4654/README.md",
+      "sha256": "383b2fdb6a5e3d20b28d84380034f27cbbcbfdee18a5e285152fac0ac3c08d3b"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/chronosense_5098/README.md",
+      "sha256": "6e9cc1559c9f7ee6d26ce2653510ab37692e889ff196b2d39208b22f243435f0"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_4890/README.md",
+      "sha256": "7f3497db8b28ac534e93906005f1e9ebbcd10f6fd7465b3bfa1a19321805d5bf"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_backpressure_4921/README.md",
+      "sha256": "4c2196dc9b12e1a8a49859145feb0fa91902031786d065a75ea3b0d866d46e9c"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_binary_availability_4977/README.md",
+      "sha256": "9c1be4ef41d59049b0c51b6ffbc45464eb8638b2dafecfbbf6b6b7a87aab2a5a"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_continuity_capsule_4910/README.md",
+      "sha256": "afb2dfd71c102a274765c731d5e3763c94f0d35ef9ebe54ddef56b6ac54ea0ca"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_daemon_permanence_4997/README.md",
+      "sha256": "25088957fc06ac766531bbdf56240032c0daa1a64cd17c944602560864488c4c"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_governed_notice_4998/README.md",
+      "sha256": "7ab277ef2c190574d63cfa88b0103019464a3a73ebd474a97e0ea19ae9a15211"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/README.md",
+      "sha256": "9b570e363bbee9dcf47680a2d8fecae7843df623ff58a532c98293a3842097c8"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_otlp_4904/README.md",
+      "sha256": "3eafdd3de68104cecce126d7e236b94efa239a49b115f9db0bb34ad7345bdc7f"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_restore_fire_drill_4919/README.md",
+      "sha256": "9fbad313292d17293fb01be6c567b7036921ee4efc73ffd42dc80d8564b873eb"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csm_service_4903/README.md",
+      "sha256": "7a8dec684b79326a835c9c783837ef2ae04a4f0389718d09f2e90059ace03545"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/csmctl_boundary_4979/README.md",
+      "sha256": "ebe807c485b64fdd4ab892831135e4503377c98819381e942ec80fbc38a2ee0f"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/no_sparrow_4909/README.md",
+      "sha256": "cd528c0ff410a1c0231888a10f7d5a38ce319645046aa96703bd6223c9b9b131"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/soak2_4682/README.md",
+      "sha256": "c99fc8b528bf317af5022e6008d69f4d44aaa0a0cf3ad32179ee840a5adfcecd"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/soak2_4682/aee_memory/README.md",
+      "sha256": "8ab1a9e874a20a7dc5a754072cd4237d3fc27f37684aa3daf796c78e8fb974cf"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/README.md",
+      "sha256": "5b2522ff5e0c1f10dc80dae38a1c7ef41ef00718357b921dcf6396806c685562"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/soak2_4682/daemon_supervision/README.md",
+      "sha256": "ff7c665f6a1b7375acd1cb105741d7d7fe447a222832021e7aff7fa7ddd4f329"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/soak2_4682/otel_monitor/README.md",
+      "sha256": "6b739d1a68dc8d21297c06ea3213eb23b7a620b94194bff4cd322196af75b2fc"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/soak2_4682/resilience/README.md",
+      "sha256": "466882559dde8f0bd1e891526790c1aaacfc2a978bcbd6d7060ce585c774bbf3"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/v0917_integrated_resilience_failure_injection_4784/README.md",
+      "sha256": "bc8238695a9a14f5f77b4b131d547573c00bad7b9b82d9299ce4e1ffc37e3402"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/wp08_heartbeat_4684/README.md",
+      "sha256": "25c74bec076404d3000452feaa23007a3743cca609de16b409020bfbfe485c74"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/runtime/wp12_acip_websocket_transport_4659/README.md",
+      "sha256": "cb8db253c8b20351396efde833aa85c924265ba476713b0aa94da277326609f2"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/wp20_supply_chain/README.md",
+      "sha256": "9d8c81fe258f32eb5067740333375f45feee75a2d189accf229bcc38ba4a09ab"
+    },
+    {
+      "path": "docs/milestones/v0.91.7/review/wp21a_next_milestone_docs_5489/README.md",
+      "sha256": "29ab5ec07c829518187dd89ce77dd90060581638b4d8a817032ff00114fb9ce0"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/README.md",
+      "sha256": "076eda734b3aeb1a1aa5dcd711ec4229834644e3cf1b24c20c62fd5713395b91"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/features/README.md",
+      "sha256": "ab05c1bfd319699e1edbf97a2119e70469555dec679b9ee3a4fbde02a27c36cf"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/review/README.md",
+      "sha256": "33e1c96b6910d964055a674c48c5c71632b8763d77f2162f0fee3b5d3e528765"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/review/external_review_5357/README.md",
+      "sha256": "8087e9611d66da0f8117e76275db95ab7d237289ce314305f2f64493b40da36b"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/review/podcast_launch_5711/README.md",
+      "sha256": "decbb8e862d0c985160246e6dcc9aa8638d0a171ad065387218f3babc7a4f546"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/review/podcast_studio_5605/README.md",
+      "sha256": "1fc60da0fb710f14cccc826d2bcfb5e066a21a43afc0ce91e76679cc5150afad"
+    },
+    {
+      "path": "docs/milestones/v0.91.8/review/v092_handoff_4762/README.md",
+      "sha256": "de2f8e64cb48da57690fa1dd5b4ad2cddce945251a9337252a319307dd5b2030"
+    },
+    {
+      "path": "docs/milestones/v0.91/README.md",
+      "sha256": "d0ef3f86d044f539e3c98bda1c8c18abc6f8cc41ca0fe473f43ea22e8ae0a7d3"
+    },
+    {
+      "path": "docs/milestones/v0.91/features/README.md",
+      "sha256": "d1a8754e9ddfc3c20dc4375918c0649f3a6a22dc6169fb7703cdd6b9814eabe8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md",
+      "sha256": "c1a040938233b399094370b826a81390c7abcd085163334f865513d7b74310ac"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+      "sha256": "4136168ebc53c8da502a2cb64b45e319e996973b786afef96515a29c47d662bc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+      "sha256": "46b50da7ef745bff9d6692bd0fead704ddfcce4a778d4b0eeaf34d31e6ce32b5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+      "sha256": "1b533a446bb3cd15dee7c783464b78e9928b566c38cd3b34d3801ba52e95ab91"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
+      "sha256": "f2a4ef78e5ee2b8e6d242953706015e47a7e60d5029c917e31526a8252d49a01"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+      "sha256": "7ebffd4d3611031cd08d4e074a22ee013cf8e60ccf0d96b6f7afe68a21458f97"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+      "sha256": "1312516c4abf162eebbfe5abe3cd573ad5d76d0b0c47497fa8d9ebe66ee8da67"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+      "sha256": "13ef1ed9df0c7a2809ecbabfcc3b9d9e14f6b9f97e3682b9a4f060eb4862ee46"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/NEXT_MILESTONE_HANDOFF_v0.92.1.md",
+      "sha256": "db7c0ac136ad28d98e4fc0711be880fd1cb6d41d0172683accef605676527ffa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "sha256": "ffb5dffe4d20d162a4264100e40708dee3ae92004e698deebed12193ec0ce3bb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      "sha256": "6afd895c2ddf5154fa34df779d8a9514161bf53edc92b697d8ec2ee9d96e4067"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/README.md",
+      "sha256": "982a5dc8727a451252341c4be0e002cb9f4ebeec3184ab7f94373ea85ffc3a81"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+      "sha256": "75da2994c0d6d5082882f1913dd832bcf1d1e5093336b3ef19906fa2c2ec602a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md",
+      "sha256": "08b035237ad017430b91ce9b959874324fa140dde63390ebe009f214d5e3bcf7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "sha256": "26e2125ee99539a24c8b7e088ecb2e94507c4445f8bb22a5898026b421a46450"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/VISION_v0.92.1.md",
+      "sha256": "e120c26de3c07a72207bda02ebc538c784d605b3acaefae145bb21bbd4a1cceb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "sha256": "86e98264b2bfe34877ce7f35a05f2df694a0420361784cef310b417426269833"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md",
+      "sha256": "a21b623eb881276efe33e0469318e2bbc9060a765ff8da8b0920b84a05ff587b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "sha256": "bc955dbba8e658431aefdb02604ff2f578ca48f6e90b613d6991b99912696616"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml",
+      "sha256": "22397001f298dda6cef619a8c4e59669da8098e7c3e9b37c52e513c1d80da1e5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md",
+      "sha256": "d9d1a7523eec907f659b17b7ec36b4b628a10a3f1cbb7500633983edead6d14b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/BASELINE_STATUS.md",
+      "sha256": "c1afd22bb8869efcf271bd2239917e79bc49953b1eaa199be5cd5082a2c7da7c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/README.md",
+      "sha256": "fe5a3a02d85bef1b7826c46eb27f58234ee1d8f02491cbf82b687e99a2bb22c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md",
+      "sha256": "a4aa3d47d26f02cd49e62cd7c55966c4315169ffd184dcdddb6626af43cae19e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md",
+      "sha256": "087e27ff4a1c2ef5ecddccc1182bffed89d43a076b61616a62c833eeaf1dd72b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md",
+      "sha256": "643cd1397b30b608c9a4ea33abc938c3435ca9a5a23f5e279d929760ddf6398b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md",
+      "sha256": "02e2137c8aba30d870aabcd6cf60f87af02c6456c4f9f21e38893a8604f90a6a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md",
+      "sha256": "f9ab01720008cb2a8c61575f3e4b0aaf025fd73f866d2de616dba3467565a4f4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md",
+      "sha256": "17ff0bd4a480e3488ba7ed16e460dab3d41b68803661a4fcb2ad4f6606997738"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md",
+      "sha256": "fc103b38d069bcf0b90cf41b0a2bf3b36d345cb70982f116756d53b9b189499e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_LIVE_APPLY_RUNBOOK.md",
+      "sha256": "a612bdadfef1195a5c4fd8eb28cd9f1c418cd2af416d573a4ea251d567e8fa36"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-d/ISSUE_727_REDACTED_LIVE_APPLY_PROOF.md",
+      "sha256": "e64f834a1ce2dbee35f24c20f7c0827a74165bb9a7dbec1c5829e4d653385a05"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-d/README.md",
+      "sha256": "95c34a25723a500cc6c1628162fca73c88d1b34374035c6b6d4cb4a207170e01"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-e/aws-e-adoption-register-proof.md",
+      "sha256": "36d0e08be5119e031bba2f3a70074c508d4114f9725103ed594cc6671fe15978"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md",
+      "sha256": "341a08b88c019f4b693abd466d99357daf0f370518b29fbfcfd3be0fe5fb7a7d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "sha256": "2a63cabd8c6f8b92d368b219540a73eeec18cc639ffd1efa463c9c0853120613"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md",
+      "sha256": "796dcf3ccaff7184ec029e5d43d40fabe28780636e7821855a17e382d57ba7a4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/operator-reauth-proof-packet.md",
+      "sha256": "36caaa423361f91d9897527efd16009397a850a81bc5ddca96e1570b2cc3c2d3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/readbacks/command-manifest.md",
+      "sha256": "51107d1a6e81fec40dc7ab7a386719aedaccdf16c52a42cc4210a0ada4ed46a7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/readiness-repair.md",
+      "sha256": "ae6a890bbc9d9ac6e26e6141a9bdf3acf1455d6ee4e6899269d0c14a22330eee"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-b/bootstrap-identity-readiness.md",
+      "sha256": "ab6d5484d0a3a213eadf4f28f981b8c102a6a463f4a2fb4ff7e50bdcdf91aada"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-b1/design.md",
+      "sha256": "96773df24340cf07e5deb86a17ebd4aef07963d3727e81cf3ea5695e089e8e86"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md",
+      "sha256": "53f88675ff7779ef403a94f735b80f9cb29deb1db05ed18b7df6043506b7f557"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md",
+      "sha256": "08b53b545dfd1ec9ef278597ba7f5691ec041eda40baae2903a2a65337870446"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md",
+      "sha256": "66b779253de141aabb3b2bed462b78bc33ff9a7a30b4b3f2183b717eb724d90e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/gcp-e-proof-status.md",
+      "sha256": "cb37fd40c3f89b1e08ef7644238fe004b09a83096d9e95e99de1243189e6b82b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r10-202608310247.summary.md",
+      "sha256": "f001e6cb7794181d5ddd330115a66572c3621f01564d6ed7e143a1ad90bd06ee"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r11-202608310255.summary.md",
+      "sha256": "cd13f87791aea8f3af0a7cff62c15138845300a7ef52aee1721bf07f029b3770"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r3-202608310157.summary.md",
+      "sha256": "96a949a71d63d9159001ad95d42c80e3d8fd5f4374d10e4bd146730c3569d807"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r4-202608310215.summary.md",
+      "sha256": "dc1a84c59196cb4b4e4fff949e0474fbf4976a9f4701fb5e47c5a7d02dcb2bd2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r5-202608310221.summary.md",
+      "sha256": "17086932101bcade3339abebfdab3df63b7334312576bf613269af9ebb330cc8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r6-202608310225.summary.md",
+      "sha256": "24841c5c2aa3f314863b886a73e1f78f6ae0afdbabd6ac96484284cbb43af20d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r7-202608310228.summary.md",
+      "sha256": "234da119e5e1d6e85f8fb33f689fa967a928f7b2dd90482d8e6c9a0b8c57bbe4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r8-202608310232.summary.md",
+      "sha256": "7d214b86f8219778c2d97fefe05ef3661d0cb7fe8ebab15fb07fa8371f71a6ad"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r9-202608310239.summary.md",
+      "sha256": "91a8a21e7bbdedc32e8d0743955a6a61811413d1a45d2effddca92b3e9550166"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/sprint-3/sprint-3-cloud-convergence-closeout.md",
+      "sha256": "e6bd78141ac26e1545cb3c502891767a3bcdedab0a1434672fbdbd3e71a97ea2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md",
+      "sha256": "59294f05be48c1121953ef00dee57302c2291f6c7d5b91f271c36226130a7f72"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/csdlc-v3/SPRINT_6_COMPLETION.md",
+      "sha256": "0296e97bbf5f5e7c3d571a8b20763d6a0127e23fa0eb15607ae09a22ad1473b2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-721/design.md",
+      "sha256": "f777d4d09adbb266afebbcdbb2825b376d907d88b0659eaea4a7da7ed210f50b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/csdlc-v3/issue-723/design.md",
+      "sha256": "e10af26c7d74b0f6c51ed0cd18e291c0b8c26f86636d7e80c9e377d1cd46b722"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md",
+      "sha256": "5ffbe0f0088fef43866cca9f4475ad4e6b17358d6164c0d0976120f6bfbb54f5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      "sha256": "13078e3b94bf6c32a18440db75c6aa18b95abe5b510a34f47f3ade7d0757afc2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      "sha256": "d3a262882b317d2f9664eab6fa99cabadccbb748cd8da529a1a43228ed41ee32"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/README.md",
+      "sha256": "a00cbddc7a6b344089c2f5702a9c87b7792e7e160032e988a161b78258db9201"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/accounting-closeout.md",
+      "sha256": "bdaedcce9596bb328ac7ee290c55b46b93ac99da13f7a43be19fb53843cb193e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/authority.json",
+      "sha256": "67708c1fdc63b00a82929aad8c77a13c9e4774106ad213dfdbb103bf06b346f5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/census.json",
+      "sha256": "fbbb546e2ed39b659c0d5fb79cd89ed4a8d5bc0f39df80093c31d1afbe96ff52"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/corrections.json",
+      "sha256": "d6976e993d5aeae1a3a641c682ef2c8c478a791709b54c84847173165e0d9c8c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/current-exceptions.json",
+      "sha256": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/exception-dispositions.json",
+      "sha256": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/ownership.json",
+      "sha256": "124d0e9d35beb824c9edc174b6d9a4ed36717f57f5b8662b18a0e1dad1c8cd2a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/release-stage-mapping.json",
+      "sha256": "dcb4d6fc325d310c48ebddb7c02c4d91f0d76685bdf7ec8a472f48698e5e56f4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/remaining-execution-work.md",
+      "sha256": "9913fc7ed4acf49f897838be083a400cdcb885e2fdc5b5ad7d4fbcca5c0586be"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-corporate-runtime.json",
+      "sha256": "fa9a8f5623196c66e46c876e5ae2ed3fa766f854f6c74c9dbf4cf0c1d2d9d027"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json",
+      "sha256": "75ecf4a1eac0fbb065386720623540a7bd86407f57cb77ce3d8778d8a243d4de"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/review-final.json",
+      "sha256": "156423b2e771e05b05f5deac0c552684af44b455c93ce037c83b050196246781"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/review.json",
+      "sha256": "0905e655cea86b6ba2ba84aec466f1f82ca5d6be30ea4ebdbbac405ab3d90a90"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/terminal-closeout-750.json",
+      "sha256": "7f89071f4baaed5e9a6993e1cdca0d0c416677c718e65b5f497611d95057e5ed"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validation-final.json",
+      "sha256": "770ba5ebc66b0b7e8f2271a9393882e15953182801d9e6d0dff356dc7c7c76ca"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/review-remediation.md",
+      "sha256": "35b92e423feb82f8dcfbce572c3df6a1d7cb0a9ca35362d541a2c4fec5f3763a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
+      "sha256": "d4c5df20ca985e06c484c219a40cdc89e7da6886c90ba4213c84e5ccfd047e99"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
+      "sha256": "fa030d835f43281bbe00467c3f8bd45fdf985a5b12372b402e8b6ca745a988b3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
+      "sha256": "a6430030c5811961f3bf6e99473dca132cbdea5884a7837ecb3a6ebe72e2683d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
+      "sha256": "85e5dd9a75e6ee70b25599586e9e7810b0f0dcc7291ba8d69562c9c9de550e1a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
+      "sha256": "1f0d33c472a016e5f911db09c9a2378fdd2e38432f1373ea64a241a6c0993b1e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
+      "sha256": "529c00ad8dfba78fa3e48954a8cb16c37fa503bfc2846ea2ab7ce2b02e80b9dd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
+      "sha256": "e4e751ba66fbd13e7a5bc996c06d0af5e4fcdcd4120c1adaa16fa2857d6f58f6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
+      "sha256": "d90a5161929a3ee4d7ea0883ee87464ab5d539d1da7f7280551cf98d9a263bf0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
+      "sha256": "14ba71f05a08333283ae4f52812c9e5ed44d26ef57bcd82275f8385dc774ff4c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
+      "sha256": "ed6680f63017c04f3142f06771238ff30df963546b4d8f1a1584e0bea1cfd914"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
+      "sha256": "39d23c7dd6466d31dc77878102c6895506ee6c21dbe2e10cad74121f98341e4d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
+      "sha256": "736ea3e0b59d032a111f87019bac888933ef0b0b099dc79ebaeb8d8d6be1ba4b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime/drt-d/README.md",
+      "sha256": "df06c5da6d65d6e1f5d923d325e83f2b572bfb53d40d884d9a753407899ad911"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/sprint-8/SPRINT_8_CLOSEOUT_READINESS.md",
+      "sha256": "dd795b23509dd7658f14244dff87ebdd41e18ad2f70513fca17b56669a250fff"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/AWS_ACCOUNT_MOVE_IN_v0.92.1.md",
+      "sha256": "7601e4944330de1c1fcc12516594368cab19718f15108cb67a9d696f95d826f1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/AXUM_CONFIGURATION_HOT_RELOAD_v0.92.1.md",
+      "sha256": "ad06ef308e86ddaa7756a02ea8d78d14145cc99bc5bea5eb25cee30fc0c476ad"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/CODEFRIEND_BETA1_HANDOFF_v0.92.1.md",
+      "sha256": "c9202ef7f5dd9c7740e0fce4f18e0050b26ec5460003830e3df27b07a5551b86"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/CORPORATE_AND_IP_TRANSFER_v0.92.1.md",
+      "sha256": "5cc73d62c3029c0610bcebd836dffe5289b629c650e5cab5d205515eb1406841"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/CROSS_CLOUD_TERRAFORM_CONVERSION_v0.92.1.md",
+      "sha256": "92d76f9ee6858e043a390c265181f6066a4c28c35e8169b71cc844873bda26c7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/CSDLC_V3_v0.92.1.md",
+      "sha256": "a7e7da4460d5c94d2d6ef06c258fde15b7600ebdb1f511b8341374b702cec882"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md",
+      "sha256": "812c39ccf9bb185c415e3948a6c363bd41ebd6c3daebcfb037005d9faddc8f37"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/GCP_ACCOUNT_MOVE_IN_v0.92.1.md",
+      "sha256": "64dbda51c801635ae8890eef8d2d6ec300529d3c8a36a43ad9ceccd0329148ce"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/GCP_SIX_RESIDENT_QUALIFICATION_v0.92.1.md",
+      "sha256": "8d5b3944394bcda00cffa8d7a3a15b1d437298bfedbd9b39e1c46810523637e2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+      "sha256": "e6a8dd9d5cd56011cd69df2cf4184ceb251da5b9abc2fa6b74cf29e89622cfbe"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md",
+      "sha256": "69e3fafadc8c328762002110a44ec9d7bc90a54991069dd7d8842f2399cd6810"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/PROVIDER_INFERENCE_PROFILES_v0.92.1.md",
+      "sha256": "2eba460adbfd9ee787f08f05bd35ab7a3eb491302c4d0247ce1437010515ac51"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/README.md",
+      "sha256": "1168e33e9e22fee5d978b2e26f586f09c12bb3b8ec9f816bb746fe4c634573b9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/REPOSITORY_AUTHORITY_NO_ADL_PATHS_v0.92.1.md",
+      "sha256": "e0ee6bcceec615557eef22d064fbb45e43a748e3d19ff822f8a8aeff6f230271"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/RUNTIME_V2_V3_DECOUPLING_v0.92.1.md",
+      "sha256": "6ab2406107291081cf18de50cdd186022de58d840eeb364ebe0657a2f6e020a7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/RUST_RESILIENCE_REFACTORING_v0.92.1.md",
+      "sha256": "8f2f313d0bbb5f0a557172ffc07316bec9ebcfa338479a595940da7e83b2aab9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/README.md",
+      "sha256": "38bfe89f81b2d57a290735915acfc1de77b3cd836d9af75c909707c2aa7f4428"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/149/cards/sip.md",
+      "sha256": "d49a0b632afc749f16599a822c40339704c02950b233985bef1901d975085cfd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/149/cards/sor.md",
+      "sha256": "d0746fa728a6dedd25ac13f5798e9b8b3df0615e8125ae49c9679ab50d439dcf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/149/cards/spp.md",
+      "sha256": "2e7110c01d5d82ca8f5bcd51facb0650deffedd3c9a0d3271ca75210c5de46d9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/149/cards/srp.md",
+      "sha256": "8bc8cc893976cc1d7d5c770894e88413318a068bb50661d2a8f8fe77105203c8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/149/cards/stp.md",
+      "sha256": "f63729f138388e7aed6e151299f7636c0cea43e2c1b856fe692ebfef1354558e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/149/cards/vpp.md",
+      "sha256": "2c3bc22ff3a12d3b179ad75689686762f67f601c69d83e14c71b6ff5e9256d4d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/150/cards/sip.md",
+      "sha256": "2929e8cb60bb3dfdf0e8b44fb59c533a572dc1189466c63ec1a0116f1cfe193c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/150/cards/sor.md",
+      "sha256": "29b4a7f954f1fb0a2ff5d5d716411efab128ff3993aec82fd6cdc1a2ee32be6b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/150/cards/spp.md",
+      "sha256": "6ba17dc3396a4c493c01f1889c1c197cc4d8c583c295bc0fd0c7b73a5a42fe53"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/150/cards/srp.md",
+      "sha256": "f2cdcb801c0a8f730a35cc2d5d0ea3d77d1370f8deac225f3a812803e92ed917"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/150/cards/stp.md",
+      "sha256": "01bce9f7f132dbfab66ed55b1caf02c90961946edb1183d759c4ad46cf5392c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/150/cards/vpp.md",
+      "sha256": "768011fe9960f7c71c4be53321db3d3af7239165dede82f3702d1e3f76583d93"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/151/cards/sip.md",
+      "sha256": "21adc42ec045c0ae0d92a37324838b4fbe0db97bb9861062852644b0d37ec50c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/151/cards/sor.md",
+      "sha256": "e9604b7242ea827afbac48c423a8df95b125fcf2d1c7f3b8a181fdd7335a043d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/151/cards/spp.md",
+      "sha256": "2cdc11529db53f4f8bbe6493bbb823b5fc480566dbe50f9782158db853e386e7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/151/cards/srp.md",
+      "sha256": "c81229547d99927bf9de52115a229abee237b1089cb8e67fe0761b83b9122332"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/151/cards/stp.md",
+      "sha256": "4089471a372ba0bee36bdffc2a96e2943bd7e2d84171620ccdc5b44c61696851"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/151/cards/vpp.md",
+      "sha256": "0c4256cd93e887038d728e87ece7ad5c2c6cf5fdd199ebe326215d539255f441"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/152/cards/sip.md",
+      "sha256": "605e7e4fd44bf7ecc7aff07535bea0b000860b480e4c7c4132b4833a46e74f5e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/152/cards/sor.md",
+      "sha256": "48f04ca2e33f7f04d3ea5c63af5a3e7eaaf263adfab4e182baa3a4bad0d58e13"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/152/cards/spp.md",
+      "sha256": "954fd4ce61c758e2de175fa231f73e7f43c053f1c387de4ad217919ded424e99"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/152/cards/srp.md",
+      "sha256": "a950b5fb982c21e0fb2577d5d0e8d59de304d50750261af9bbc8b86282e9b7bc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/152/cards/stp.md",
+      "sha256": "dc788bde4665dd0030b61224defb0c51fc0b57706274f19369e23298a9ae2d81"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/152/cards/vpp.md",
+      "sha256": "697b77b495cfaac4c9772803db8c67d76186417f8afb1bd40d86bc21bd81966e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/sip.md",
+      "sha256": "b1708d73c2747c02348713592d3c6610b771db99abadd74e74abedd7461d810f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/sor.md",
+      "sha256": "afa2a486535b35053745b8f8c83a5284b411baa4c57c0cfed906f4d5c0883aa7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/spp.md",
+      "sha256": "79008c1fad702332ada02f7dc88ad8edb9e27925fd873e7c4dd3e74825332964"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/srp.md",
+      "sha256": "cf149b91a43c3d54248e7d7c4f30506bdd7f10e92fa0361f6fb983521b9d60ed"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/stp.md",
+      "sha256": "33461a30a37659950260a3cae92c0753e16c5d96d540a1b519e66c3575199f19"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/153/cards/vpp.md",
+      "sha256": "64564214755410e3d59c28706089a1eb8640f675076bc61fbc1e7225d3d75b4e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/sip.md",
+      "sha256": "328cdee34dd8edd79969b676ec45046fb77709b3c40314921321d9257f941f04"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/sor.md",
+      "sha256": "0e18bd13c49d2bcc8c1e8a09b10aa65ffd672747a673cb7fa0da5d6cca93e275"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/spp.md",
+      "sha256": "9eb0e2bbddaddd386976cfa659dc6816c5238ed288977cda7e8de1027d0eb9a0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/srp.md",
+      "sha256": "f890aa0ca9df0d6ab8bdeb892ca14500980175381179d657bae38cc93a464916"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/stp.md",
+      "sha256": "75d0a9d8dcb6684b9642c523ed169c9edc30f52a536826b3a031b71b3b34ba19"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/154/cards/vpp.md",
+      "sha256": "8b906737f5ddaa0ff8ac87ba7d9b478da248f66e96312166f3c4c82b72311120"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/sip.md",
+      "sha256": "f1b6dd1c22499adf70e411deeb878c9b253cf2fbdc7b1c034917235d94c3a20b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/sor.md",
+      "sha256": "5151ed97b67270ee3fc09b51968cbe87846c3bd77be3da1945808b7021b106c7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/spp.md",
+      "sha256": "c795c0915e02159240e73f7aa530fb6d1240a04875c0696ffbaab2f1fe9e456d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/srp.md",
+      "sha256": "e6e4c16a32964b387abab51c5d3ef133124485fa04626576e21f773209a34eeb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/stp.md",
+      "sha256": "77b11b7671c47c4b74045ff0de50edfbfd60647a3e41ae1a2514143bea870646"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/155/cards/vpp.md",
+      "sha256": "19b27d1ede74ab9c8ab68396d222ff043292b26757b836776128c01c72a512c2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/156/cards/sip.md",
+      "sha256": "ef4984cc60afcee037ed3c1ef62dd24ae931b6e76cf3a84863bbfeddbecb3f64"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/156/cards/sor.md",
+      "sha256": "56faa9b333600e596a447b779edea25e0306fc2075dba62bfb130895e542aa4f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/156/cards/spp.md",
+      "sha256": "703531c252ff5b8f7cef40a8d5eda1f553a667f5519f7333b2214a253565e0ce"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/156/cards/srp.md",
+      "sha256": "1eb27c8e8d1b888e3739a8bfa0bbf1f9e1873c0443ec35df4c3d0999700df0dc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/156/cards/stp.md",
+      "sha256": "642232cf56b75311b6d297a20fe2efb813e82ad3d14670e77bdd46d923b196e7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/156/cards/vpp.md",
+      "sha256": "f7d9ffc457b9fb4897e033c2a9ea9e9e30614b885e0f39f9500e82eb888c7ee7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/sip.md",
+      "sha256": "732fba5d191aba6876f60cd614577480c82eefe4995bcc856173711c4cfa7e53"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/sor.md",
+      "sha256": "7640edfdaacf9f891ec1a343edcc148d3c257f3e57491082567453e2b2f2622f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/spp.md",
+      "sha256": "95c92a52f1688bf5b060719f19e179dff28e92382bc067d0679a46054e0001f6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/srp.md",
+      "sha256": "c219fba60c1af33cb342570d5d5207493280bdc9df2de2d261973c6b2107c878"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/stp.md",
+      "sha256": "f471744f27e9b1a26bf8eb0d5c010d8790833d04ae465a36956e35a51e758295"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/157/cards/vpp.md",
+      "sha256": "067c815d7c5b98c90d07bb9e8bc35bb1c8a63424b732957b6a0e4de0a545832d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/sip.md",
+      "sha256": "7fb1dbb4ddef663920669c00b2de578474e17cc765c94f87cecfe352c24a864c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/sor.md",
+      "sha256": "0596adfaa73f0abb7283caa7cd563bf7867c8be16316c849fe915da4e6d488fa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/spp.md",
+      "sha256": "85a7a7e82d955423456b3448fb05f3a9f40cdd2df0417fdd7ce50fc586de4965"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/srp.md",
+      "sha256": "a50755fc1ea593a7325cf9be7b23231565b91f3f33e7f57697080a1be8468ab9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/stp.md",
+      "sha256": "0318385fe824369c690268f081835364a7a42886bcd896cf23da39dc56c21859"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/158/cards/vpp.md",
+      "sha256": "8fc7dbd4cce9cb99db64c525e08c75fac97645d1c1ef3d0d80eff46f3da57aa7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/sip.md",
+      "sha256": "ccfba1e62bb2bfcdf02376591079d687d3d624776a0f268507a02924cbe5a2cc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/sor.md",
+      "sha256": "9f33ff079836bdf2ae35630e486873cc7f11658b8f59c6562d3ae3451e66fac2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/spp.md",
+      "sha256": "6f09ce48bd02f2f3f3a05fc7ae1644c239e2cf9669935d42f6740123bd2cae16"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/srp.md",
+      "sha256": "227992fd9b0438c572bf6b7d55f0ddde7653c81216f007b22e9ec788447b07d2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/stp.md",
+      "sha256": "4b0bddeeaebdd6e0473fde2f7179ba1dee9bfcec53ee6c050f4601ba61a8ccf1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/159/cards/vpp.md",
+      "sha256": "0b831841a1850cdda19de14367f5d7c8e50fe3b6b762a7d101a3bfa19b6ce90b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/160/cards/sip.md",
+      "sha256": "9591f97540c8b7a50247ba1a29cb1e0909a863c45445af57609ed1fa2e58bcd5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/160/cards/sor.md",
+      "sha256": "5a335b393bebf5ad721c10b7e495bc9e9e45d5326536b0af085ee308159d861c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/160/cards/spp.md",
+      "sha256": "0fd01745cefb21e927364cd54c814f572d31ff1186d99fe1dc74246764b371aa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/160/cards/srp.md",
+      "sha256": "18f924f1b83f8454320170e546994010150400f732b06c764a67e0104dd2cc1e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/160/cards/stp.md",
+      "sha256": "794fc7d2b40e01f91c46f6c80d9d79fe9baf13489d84efd50a293ea9ef8431b1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/160/cards/vpp.md",
+      "sha256": "83207c0fb695afe2a754d53f5eb8a8f0a2c87a5bd041979e2a7d5eb4a894d51b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/161/cards/sip.md",
+      "sha256": "064e4980c419b4550b7ea2e61ef83ae5da31399996fa17f7e3878360c42b2365"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/161/cards/sor.md",
+      "sha256": "a49f7c50dff1fa6f6f6d915927fda9f7bc8086564f6de72c0ab24245f0d9dce3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/161/cards/spp.md",
+      "sha256": "33b4bbf042335eae7a2919289957c880fbbdd861a183b7e378fac0697059450c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/161/cards/srp.md",
+      "sha256": "77db67f2a5073189df1cb1450c4b2ef68e6eee8f59b7cfa8ace95e296fa55601"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/161/cards/stp.md",
+      "sha256": "41525f9ffe993114c7665796910f6fbf5a60ad6f45a80494d9e3b3e66ebc16f2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/161/cards/vpp.md",
+      "sha256": "d6a15b7e3c7104703953818a5fc13af123e4675b47e265a74880d6297d88365a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/162/cards/sip.md",
+      "sha256": "6ffe5cc1bb131bb0e2bea599fdc0fe8c966ec7b21d7c02aac1ae557062308cda"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/162/cards/sor.md",
+      "sha256": "70de2f7024a53793695d9faaedce8c45144a69f1a45aa36746e1e8edacee9b8b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/162/cards/spp.md",
+      "sha256": "d9bdeb0cea1e18e485aadbd098eb5716ea1cbc1c2a4913e8ec1b9527f656f212"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/162/cards/srp.md",
+      "sha256": "c812651f5a64e0c405d5e93214b386b517ad364727179a7b8339607bbc7e2101"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/162/cards/stp.md",
+      "sha256": "9e9f10e06c14f0e2982b5f7b9f6908f341a200296ea1ef25200c9bb60d102faf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/162/cards/vpp.md",
+      "sha256": "8dbdfcc691acdf4c747fcacdd073561337adb6a154190294cccab58d22a24763"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/163/cards/sip.md",
+      "sha256": "0c35786f720ed19eaff9017a131176d68262682eeab85d2730d189a737ab16d9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/163/cards/sor.md",
+      "sha256": "5bb26a666a38020f9ccb1105bd4ea291b14d25cc01a95b2c8ca265365f34eab2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/163/cards/spp.md",
+      "sha256": "72e69e317f108164edd04d4a715d756f418ddf48c4191677f8c7661dab345f8d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/163/cards/srp.md",
+      "sha256": "679a94765a9bc6496818a586918ed3457930247f9568041b712541faac31feb3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/163/cards/stp.md",
+      "sha256": "d4f6c9141cad194a25805318fb5eba89c6d009d1b17b37d005bc9b06f3774aa0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/163/cards/vpp.md",
+      "sha256": "ca0b3818668d2ddcb82e7a2f85f37837a70a66a0f6148d372da878404aa99d87"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/164/cards/sip.md",
+      "sha256": "3ef7cd55a971a64372f8fd015e42fdf9dc4af122a19b021dc727b55d1480f0ae"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/164/cards/sor.md",
+      "sha256": "9ca2bddc69992f9c2b9f24a763449ec79c3ed56b2bc4d5fb8583f556bdce0238"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/164/cards/spp.md",
+      "sha256": "65ff06bc2bf55cfa0aa447a47a5aeebdc1d05ce4c93ab47d432f056e449b1e35"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/164/cards/srp.md",
+      "sha256": "79d6d955f601ca7d00dab72189bc2ad733da5f6c79a189de1011eb125584b72c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/164/cards/stp.md",
+      "sha256": "6097cc27bf24b737b77b81db5d018f08d3358bf4d547e5b4de37d7a63bf2f19b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/164/cards/vpp.md",
+      "sha256": "3645f51f7ba8d1835e399d953ac1d952ca545313f0cbf3b02b1d9b2308b7e1ff"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/165/cards/sip.md",
+      "sha256": "e52d2ccd38d85994772f88b142e293efe2767f0a28f949b2e04d14798091667b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/165/cards/sor.md",
+      "sha256": "a6d2d0422d6c1b0f80c5ff5897e0604c51b02765d7c3eb0afd8bce9d501a9c47"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/165/cards/spp.md",
+      "sha256": "c928e446197bd22e1f448a948cd935564743f0c09605dac8cb50ae681db33f0a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/165/cards/srp.md",
+      "sha256": "8092a038b6e906148df33b11ca54315266cc385b86caafeb851c0195c8a4bed5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/165/cards/stp.md",
+      "sha256": "8eb524074d5849da2bd0ee9ef9f9a22042308216b87e584aab3c4742a3ab8512"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/165/cards/vpp.md",
+      "sha256": "071332ac8836524daaed87eb838938df890949496037cfa61ed291f3067bab38"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/166/cards/sip.md",
+      "sha256": "370970c6cce388209e10b7936e722235dc961c1890990786adb28162a2ceda6a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/166/cards/sor.md",
+      "sha256": "28ff43c41cb6d891d106b893257cef2d90eda08fe42f9e7c8e762df5bb1d7de4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/166/cards/spp.md",
+      "sha256": "96361f1cbf5bd0709249d064ef1d28ebf20e03bca163c0ff2c8b0c32ab1469f7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/166/cards/srp.md",
+      "sha256": "96fea03adfbe5c950df9048632226152d8ea0f327de72a629b83999a73343997"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/166/cards/stp.md",
+      "sha256": "99342ff863ecc2ca604ba6238c534819701e963dc29999c1475efdb67f8a7d3a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/166/cards/vpp.md",
+      "sha256": "92d5ef5ef557634aeb8418b9adf9a06e2238cb0667e88651296b5774222f01c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/167/cards/sip.md",
+      "sha256": "d1384396c716c1b02cff5d1ff830df244c1d6dbdd7dd48716d5985627823af45"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/167/cards/sor.md",
+      "sha256": "c7e761b03428d53dc09161fc10ef7e70e4804b888507240dbc3245214ac4432b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/167/cards/spp.md",
+      "sha256": "40df3c99e36242294d76980897fe9d843f21c8d3aa8d698fd2dd69c80a0e5c27"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/167/cards/srp.md",
+      "sha256": "76ebade791d337151075fe3ea6ff5e58fb3dd468af255045f45630bac6e34699"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/167/cards/stp.md",
+      "sha256": "8b7f882525dc7cd766c935cf8e85c8458088687dccebac8bf716661df901f0fa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/167/cards/vpp.md",
+      "sha256": "1f4778df210977002bc8c2b56019da4166c57a068a0b6a459e0613b16166db47"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/sip.md",
+      "sha256": "cc7d56d5c0ee86edc87589604c5315fca13038b737af31a6b1f3d31befc4d2eb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/sor.md",
+      "sha256": "7a6b7e7678d06d4794dd63951dda46374aa720d65d6a755895fd878bb04b31da"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/spp.md",
+      "sha256": "a027c167595d3636e29e840609053bd0c8e97234648dc4bc588f8ec7d97a931a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/srp.md",
+      "sha256": "d2f2ad09d8d367281439729d4197e719b528fe82ec845bf21fcd973de2080b1d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/stp.md",
+      "sha256": "d589fbee58c3d5dcc35ba8a0e0947fd1aa908a35158a218cee82db75d99f9e37"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/vpp.md",
+      "sha256": "fe3424cafb8f4327fddca9fb44c4a6b963f6d020298f496f7d9aa32b4d309867"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/sip.md",
+      "sha256": "e9b20f8fc772e0c1e7f774870dc7a2c7ca450798edb23aa3e8c108b59f82ccaf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/sor.md",
+      "sha256": "9f0070463c8e61ccfbbe868fca74656e9c64bdff2217352a00890e410bd4bc61"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/spp.md",
+      "sha256": "773fefa2e3c1717cfede8e44ff8e852c6f7b3efd57cb504a14be84e030c11b3b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/srp.md",
+      "sha256": "6a8154e2d5e21628d82eb385557fd2d7a4cab27ffe1aa0bc939dfd0a762faf9b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/stp.md",
+      "sha256": "d9b518117459057431252feb00694edc800e3d03d932364fa9d9177722d5f994"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/vpp.md",
+      "sha256": "839684fc68a0d72a84efcfd998a64cc751e908d6a1809ba21a4a40f5730895e9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/sip.md",
+      "sha256": "98dbdf19dd1b8fe432be15d2ae29a9d2dc4d810c9147da6786ac65c77a94d309"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/sor.md",
+      "sha256": "97c8ef46201b06c046f3c360cab9bf3c0a09013da6d7f8517d0d2abe9a2562c0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/spp.md",
+      "sha256": "c396511a14e085a2a80e76ad697b2eee3ae53298afbe29829225a2c9b920472e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/srp.md",
+      "sha256": "d465c28869b4dfa093ef524c1621ac8936705daa7dc3f70ef45b8bacb771f680"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/stp.md",
+      "sha256": "1cfcf853ebf731674ccb168c712df75597b197b98f59a281433c0d122b17ba3d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/vpp.md",
+      "sha256": "aeb4444cd56cd6dced8146e2db477a3629e4757310a78ca9d855cc85ac72e158"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/sip.md",
+      "sha256": "1d996dc3d7fa7d6602fd563fb4a076504dd9b52f9c70339377b7395ffe7051e3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/sor.md",
+      "sha256": "3b5b29691a695637d2fabfdaf4acff7befe93b5b3cdbab5663c326f8ab5f3fba"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/spp.md",
+      "sha256": "286e9e69ab0f6086711497991dd7112c9da2a6bb65dcbad085937fe489fca32b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/srp.md",
+      "sha256": "f37a192e263d611b54d63ab2f7c152a1e6e58f82f9c4c94264ae7c1525d570aa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/stp.md",
+      "sha256": "86742e59c56c90baae48a4e9c252a4cc9325999402f47575b0b9323284544e54"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/vpp.md",
+      "sha256": "37f00cfc762c635d9af9223a354d2cdace4cd7ba9526dd4085665d43e5ae793d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/sip.md",
+      "sha256": "2322af949ee4ff362faf291885777d9c13685369b9d0bf08e3fcd7da6d9f3ba5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/sor.md",
+      "sha256": "6cdd8bff4fd5e432688b645d0199b893d73b155d77de6e728153701159beccfd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/spp.md",
+      "sha256": "26c7ba825427feb0a51b75fa917cd370fa504add25077d4d890c8ac9595a5751"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/srp.md",
+      "sha256": "c644eeef0bd4d6b283ba395600829eafc37a40aca95de3ff24bdfc9594c3c54d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/stp.md",
+      "sha256": "7f499c6ec78b70178beb62533f1bd412ae59645cb0a836370d7280950ca9273d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/vpp.md",
+      "sha256": "b631c67546c862808b3a26cca313318373fc801ae828f84c33d5c794f2e8c3eb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/sip.md",
+      "sha256": "64e08f30803529f04f08725047bb25b41a85d9f53317d2bacbbef5f39820eb87"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/sor.md",
+      "sha256": "83202080f68b5b8cd1049509884666fe1f1ac7c2e82a728c4437d9c2acdab349"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/spp.md",
+      "sha256": "8775ff81623809bbe7573f6e8eebc41b54ad8ca26f8617d97c28bfbcba4db5fa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/srp.md",
+      "sha256": "f973f394a2d833b38552903c3270f60fa243179bb08d4de638085b655acd216e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/stp.md",
+      "sha256": "c77602df63b753f960e0b19c4f2c58b7e462927d429903a8c74bbe88e3973a54"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/vpp.md",
+      "sha256": "7f5e0c85da1d3bdf85df5a3a69e141b77528612bf38a2ab4d097dceb3f4378e3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/174/cards/sip.md",
+      "sha256": "780da98f4b527629ea43866a6037386a290c95d075ff48c8ea9f0fdfbbc2b47c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/174/cards/sor.md",
+      "sha256": "92d8073c63c0914cf4c7a28383a202a1b8b39b6d8ae5f6e1d971a0a0042cc3b1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/174/cards/spp.md",
+      "sha256": "cc775539d5e82a8970323a5892115b4355d0df78b9ed5e66448745e848a2d3a3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/174/cards/srp.md",
+      "sha256": "9f118738691b833ee9be68957346de26df77927705a75ab2e5bb235a1ca8c852"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/174/cards/stp.md",
+      "sha256": "2178585a21fa2c14a564f7058ec331f69ef1d712cad6791c92e889742d46be2b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/174/cards/vpp.md",
+      "sha256": "910aa9fe90500ae90704180211e886c7d6f1cb1b94e430b3878d2494fcf66d21"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/175/cards/sip.md",
+      "sha256": "1c2ff6aa3a68658b81d99e57f081cc9cf9a5c799d0aab42f9e80deb3cec148ff"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/175/cards/sor.md",
+      "sha256": "4a8431255cc643aa9f306c824440fcf6ec79e449619d86dd828de3cbb24ae754"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/175/cards/spp.md",
+      "sha256": "228689caa9de1474388892368ec0c4b0bff4bdde0ac080ccc04e6a91da9f3add"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/175/cards/srp.md",
+      "sha256": "0f75b5947b327087b3463217eee8dde241edfd8fbd5ea94c4b4caab1f448580b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/175/cards/stp.md",
+      "sha256": "17f601af538ee06655a9e86cf95e0ef050846a081da0feee6bdbaa7894ca88c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/175/cards/vpp.md",
+      "sha256": "a1c76699f23b41f94dd9975962e13ae33a55bec26c6d86031229b8179a4e1915"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/176/cards/sip.md",
+      "sha256": "8645ca3cf945e3c8b8f5c380dc2998e67cb3ca2865c028a73b9941b37177bd57"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/176/cards/sor.md",
+      "sha256": "370e3511a19c7943a39c9136556d85a49b8e04efed83731eac1a6d08b4db26a2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/176/cards/spp.md",
+      "sha256": "f7288c6a7833f9f3c3cea3f81b9ca562e076dc971ca814e4cfe24330c1a0a333"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/176/cards/srp.md",
+      "sha256": "210e8ef98d2c0f2396c609b823b912904ab95312d742d8df653767d93e7dc367"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/176/cards/stp.md",
+      "sha256": "a8738b192991dd3595131931bd469d3c3fbdfb628479d4ffbd940929b3de9b65"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/176/cards/vpp.md",
+      "sha256": "65ecc72dd1d094774486a5dd07639a86724947a3b0ccaf5fd6dd894c15f7557a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/177/cards/sip.md",
+      "sha256": "c3162b1580855b2b6dc194a012ea7cdf946ec860f72eeaacf825d8e8e4cee40e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/177/cards/sor.md",
+      "sha256": "45ccc22ce239b46319abc80a31901eb3411a1a5317b0cfa85ff28e37b63d1cb2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/177/cards/spp.md",
+      "sha256": "a8968e09d5ffa533b6d8feb4350cb6752c470ed6bc85adc5ab0b7748bbe7930e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/177/cards/srp.md",
+      "sha256": "08a68a43e13d9ee9f337f1b49f59832a95ec9f745de467458ccbdd4a7c5dd978"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/177/cards/stp.md",
+      "sha256": "08787d95ecf5200ba205cf9de26f655e972420dddd3b9142aa29664a8bdafc8e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/177/cards/vpp.md",
+      "sha256": "4f92acd47f502909080cc03140a980a86dac00db5c9f4ffecc3280ea8adb7bea"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/178/cards/sip.md",
+      "sha256": "0246a455bc841b17bec2b4edfa7d584a2ed87ae607a3ecc5711aac2604ae0cd2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/178/cards/sor.md",
+      "sha256": "fa7821886be300f906a438b3e5ee00bc3fedad518db50584acaf9024906074bc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/178/cards/spp.md",
+      "sha256": "616505c0a701c75b1ad4dbf011155e61826cba8ba08fb3432e37d527024fab7b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/178/cards/srp.md",
+      "sha256": "cb111b6c09d71b21875d0fd41e1f4f62f838acad7c9d501e879856721e4bdcc3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/178/cards/stp.md",
+      "sha256": "2ff9bb9a1494092689e3a608d65771a9c08de0bd59672200f4a62c78f36cf233"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/178/cards/vpp.md",
+      "sha256": "d6fffa810b2b7f75d951046f5263b166abf4d5d2cf6e9966c65f7294f92ecd8d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/sip.md",
+      "sha256": "9256849f2976de5ab313af6c45dcaa044b46357bb698ad73737938a0304f4a86"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/sor.md",
+      "sha256": "cf2fb814c2d0671191b85371fcefda556d028bbe1399d96aff8837184044c1f0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/spp.md",
+      "sha256": "935d265301263d8da286a8c742d2337af256965311a19a9284b47ed8aa15a20a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/srp.md",
+      "sha256": "4a87a0946ab44994447d9402ae5aee6814267fd5e78cbbd36778b861fc3bcbe1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/stp.md",
+      "sha256": "0162c934df52b463df15bf32e08accf118f8fa9fd7594d7e1d59eab31f70aa26"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/179/cards/vpp.md",
+      "sha256": "bcd4efc327252a81f06ab42078793cae33f6e78e488bcd129066640000bc71e1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/sip.md",
+      "sha256": "04a2854acabc3cfbb94a5d5ea0b9d590284d90b8122f2fed7eac06082261c14d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/sor.md",
+      "sha256": "657b79209d0ae19aac601b709bc0cacd2f92dae0458f61aa739aaf0883f95d7f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/spp.md",
+      "sha256": "5eb04775e83424a4188bcc4860cd08e96c995b5fac3eb247f8643cd97ac72d6c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/srp.md",
+      "sha256": "753ef8afdee92d5eb53d2439bf2731393b3b68d771b39a630f7bf95321cdf3ba"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/stp.md",
+      "sha256": "1977de6af891156453a574cd4e6e406c6e1cc442ee3d5ad6086527bb96da60c5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/180/cards/vpp.md",
+      "sha256": "fbe2a78e0e60fe0d1a6650074ad53776e62163a50ab5e0a49c16ebf577a0de5a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/181/cards/sip.md",
+      "sha256": "f70cc8ab0bf63bc4a5a86029563dd2e3ff73a6de1a6f9b8a23bd6164e689d24e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/181/cards/sor.md",
+      "sha256": "1765b6670c2e33992b74f22327e1afcf8778c53d826471a8bb5dcecf33a66f5c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/181/cards/spp.md",
+      "sha256": "cc29c2caea39f7f63d1aed8aa5568720a068dce70517c6599e04b829611e3893"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/181/cards/srp.md",
+      "sha256": "231623355760f25797b7a9f2983b0f02349f5da0994d5a8e2ccfbfd1c40c1bc7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/181/cards/stp.md",
+      "sha256": "f149d7cd0490a5027ba40542d8c752e37c5e281584c8a97ffe39884f8f5b8dbf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/181/cards/vpp.md",
+      "sha256": "efc06440520477f182fd50c2e5c453f147253a5b0460fcf94bb7a34aa39c4d98"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/182/cards/sip.md",
+      "sha256": "18b845cc4f8a625292a1eca952b131a26967baea837151afc794129f06b62f3d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/182/cards/sor.md",
+      "sha256": "56ed4afd2aa160e4a2bda6a9fc1a484bd33694aef30cfac600313794f938250f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/182/cards/spp.md",
+      "sha256": "01b8944a190b8651033daf898d285510dfc0915259ca47aa97f6438b8b35e341"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/182/cards/srp.md",
+      "sha256": "f296659e37e5992fe6d8cec715ed0616e41eb053b340a52ca64dce9765700a48"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/182/cards/stp.md",
+      "sha256": "51ed5bc3d38717b3d97da65cea8e0b1823ca5529979a31ebac02931f54aa1f43"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/182/cards/vpp.md",
+      "sha256": "b6ea8af9781bdbfea4b715bfa2caf18d237729f79f3b2eb913541cc9eb5d4bd5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/183/cards/sip.md",
+      "sha256": "ce39a3380ac759b0400f7ccedcc84ff936cb9f4a0357f6aa18ed531079b9eb52"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/183/cards/sor.md",
+      "sha256": "ef42d973e8cd581cb7d725799a825bc9ffc37c3bf978d1fa819f32b43d9b2e29"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/183/cards/spp.md",
+      "sha256": "0fd8c047d764a7cc573beab32aa10ea33f7c90f3629d83df88c6bf3dfadec646"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/183/cards/srp.md",
+      "sha256": "883e7e51f3cad346d281e96f46bf09010d3de17ad21074e54f6a07e485d92fbc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/183/cards/stp.md",
+      "sha256": "4f305e537bf54c35f174d2e49feed4656f20344024b4d4553dbee23721224e68"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/183/cards/vpp.md",
+      "sha256": "e721d111beefc58f372a6b52500061a58ddc4fbba34fd06a8e712e7d4f1cae74"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/184/cards/sip.md",
+      "sha256": "929c3402ce659cba8dda4b55313d16ae65d276c49302d4e99de07656990834af"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/184/cards/sor.md",
+      "sha256": "ba054a7168f3755904314c6a099573f057f29e6e770b1ae676be9ba8e9d4cf30"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/184/cards/spp.md",
+      "sha256": "d0e3c32faa4d94507f5d7987118341a9cda9e47edf2d0a50d863868cc374de8d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/184/cards/srp.md",
+      "sha256": "22297de756f173f31e6a079be1596af006d1b7d30a43038b725d3d28b34d5a71"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/184/cards/stp.md",
+      "sha256": "448984055665457bfee9924dcb18c2312d7431c774293b0c732a06a6ad893e68"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/184/cards/vpp.md",
+      "sha256": "a68d67bb46f0e5dff7fc32a6aca8fb72e17d55c016545cb9857533d1f7c7e02a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/185/cards/sip.md",
+      "sha256": "ccba00fe0ac201079ef7f768e1079996c20c8fcf2f15f19d0b6fb03c8f90e7b1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/185/cards/sor.md",
+      "sha256": "07b9c132b1afd2bd6a34c139e221e6e142a7f619f9a058904a654f4f546debdf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/185/cards/spp.md",
+      "sha256": "56b5f21469c9f69370c8faa4be81068497782be7c737d53983ddf06a1d47dc15"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/185/cards/srp.md",
+      "sha256": "4ab11a4b4f2200da4f7c0f8b6f94890efbce9c3f263fc22fc53b8080b882536f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/185/cards/stp.md",
+      "sha256": "7ec09279252be67aab86683c607a7f1b223e802988d586baf350178887811c19"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/185/cards/vpp.md",
+      "sha256": "aa037e46433eae98a7ae1b06ce42a16e3e1c9a62725ef1ca2e0cb34a24c60dfe"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/186/cards/sip.md",
+      "sha256": "29844729286e9354f975690780272986a76fb5fad1bb4fbdd260d3679d99b0dc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/186/cards/sor.md",
+      "sha256": "450c430713e2d6a045b6c7d6f95d7a8abef52e2a1ef43adae0b5ce943a25941a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/186/cards/spp.md",
+      "sha256": "007cd876386223a53fee74ab8e4b84cd302f31442b6309323233939095570752"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/186/cards/srp.md",
+      "sha256": "969c0fe79d391ff785cdd992430c6030820fdc1c21e5c3d88cc9f36c1c8e1584"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/186/cards/stp.md",
+      "sha256": "db224e2ccfe8c5aca3ec7c462b23fce354008679e55386033247f1f385de8675"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/186/cards/vpp.md",
+      "sha256": "26df7c9a8cbe97a76748195f23f033b6c7c298ee490401f66245d2ced638d593"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/187/cards/sip.md",
+      "sha256": "6475019c7af514e03e3a86b17856f08e136cf3ab44eb16e62026a21a2ee01255"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/187/cards/sor.md",
+      "sha256": "45fb504e553d3a7f0f78b1a3bbcf4d281c482f313c3b7b0a5f3d9cb9fdf0a991"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/187/cards/spp.md",
+      "sha256": "ed58b969aa5a3f223161c7d9eda62e8b5a149378ac012ec3a8f54b0441e2661c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/187/cards/srp.md",
+      "sha256": "c317d670c97e5582aa065958aeb701493f68cdaab93559a9a43bbb915916aa1e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/187/cards/stp.md",
+      "sha256": "8daa57426b3041a601ee6f913248edefb146969eebdf87d33b425a6480a79ea6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/187/cards/vpp.md",
+      "sha256": "f0f3776d81c5e0a28da99d174b3f82051b43033bb0446045dcbea11699eb7b6b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/sip.md",
+      "sha256": "8b712715b5905e41b3dc0b07b153df2e0fcd1defb587454da36cd7708ac40768"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/sor.md",
+      "sha256": "dccea5f959bb4790d2bc4054895a693526946eceaf67068ebaa4c5ef03979069"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/spp.md",
+      "sha256": "800ba3378e55da77729d60f903def6e7b695a02b93a9a9e835bcf33fc3d5549d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/srp.md",
+      "sha256": "5b08b5831337c284ce679eca3e24074a3e24cbcf8f960680e721ef55b0479105"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/stp.md",
+      "sha256": "de1a4e8b250cbde4416b416116387570ee9d72369377e5e67c963fb14f03fb95"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/188/cards/vpp.md",
+      "sha256": "df292901f77ef20b561498bb39167a96040b0a2d9e3849eb3bea8da6b6119b80"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/sip.md",
+      "sha256": "905cc1d6cd03ba36c1e194547c10a9965162a338bd5272da2138a6743e2a1a4e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/sor.md",
+      "sha256": "378f56a1b95aee26a0e5a262b67439bcc267a0974184f2e997ec8bbc2cf3db59"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/spp.md",
+      "sha256": "127758a87b97990109848f8c8229f80d9c04fc3c8a3292fd0ea0d4d29e02b44a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/srp.md",
+      "sha256": "872ee91d2493ce015d9e522ee74ca7695b9368a6564caa4c5d00290446ef73f8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/stp.md",
+      "sha256": "eb16cb7fbbc2fb3d9043dca4b62d82709ce008c38e9cd6eb1633079f2a23d1e4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/189/cards/vpp.md",
+      "sha256": "618ca97d397248b9f4779551e20826a370c2e3b61fc94ac50e97cbdb641f96b5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/sip.md",
+      "sha256": "126218f5be7b90f3447a61d8ca9722eab07a9c8cba7cca776e6780cc8a9b4663"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/sor.md",
+      "sha256": "dfd9ed168bc4c38d20202413b80876cba1407d6745ef8dcdb7a099fb4bb9b485"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/spp.md",
+      "sha256": "a8fcb77ee5c26352facb19e2d94c62256a3e7103542aab804a29720dd4b37062"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/srp.md",
+      "sha256": "c48b3ba5809a5011f8a2fe90f9bd559f3fd0da4a7cef982062087d397ffaad05"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/stp.md",
+      "sha256": "c4441fc593407de3b0e7ecedf325d8743ebbc853659c527ac9811312f857050a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/issues/190/cards/vpp.md",
+      "sha256": "aff7dc74227615a9b839631ef42a0d92a6c6ad3b1e5cdbbfae3274b113b5ea9e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/149/design.md",
+      "sha256": "5c418e7c4336a13b2f9dc18cba88c2a810270da9a8944fc1a4a5452f84cac974"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/150/design.md",
+      "sha256": "4e852d878473ac928c49f40cd26af61c467b33ea63f89f1f5e54ec628f8b0898"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/151/design.md",
+      "sha256": "b2c409d304cbc47784a6681f384436f55c8e87989f12e520636349909117a2a2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/152/design.md",
+      "sha256": "57326661ddff7665d8eac7d2bb7cfa50347c33ef3721a7811878f39d4877c334"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/153/design.md",
+      "sha256": "46cca60b10745e363a601f54bb0d2e49b67ea4005288ab6f59530639e69a3056"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/154/design.md",
+      "sha256": "f3aefe6341ce56d8a2690f1d4f9c51a8166375039a7f39635fd85f7ba33a01dd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/155/design.md",
+      "sha256": "1a272c9684c0cf2e658027d86b8f95b8c98791dd081ad039361442fac7515b1e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/156/design.md",
+      "sha256": "6328e5a3087493552dcfef47a88ae7dfd6ba00e025f8333045657fb36faaeb5b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/157/design.md",
+      "sha256": "80fe1dd5a51efcfb6c48c5e4a28d39717178b3763db706215f490c629513f283"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/158/design.md",
+      "sha256": "4f02f64d7c1d8857b35ee251c7906319cf74f804cb23da61f878737fd55557d9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/159/design.md",
+      "sha256": "275d497147d4b752f7ceb4f34385549bc1aa33d9bce96ddb6f6450247ca7678e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/160/design.md",
+      "sha256": "291353aac3dd9466086038e3651786bfea2c50beeeca506343b98a91470a7f00"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/161/design.md",
+      "sha256": "8b1facd604a38788fcd388d3d178f781e818f1701be02e2eab87c865809ce131"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/162/design.md",
+      "sha256": "145b246768eca6615e2a029d69e6c6bd9056d4e4c2b1ef8c850d7cf4328409c4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/163/design.md",
+      "sha256": "d53bf66de3959f76fa87c88aba166eff9b47b352e088aaf257707760fbabff69"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/164/design.md",
+      "sha256": "0d248237bb1dd173dfa0a67205e647f4ccf1c969a192ff49a3573f158e133920"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/165/design.md",
+      "sha256": "b8ec25242cbbdb24153689144f79230122659ff830a5d4e5ef09d248312e241f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/166/design.md",
+      "sha256": "50eddc9c5cf3246bba797e53f1d37e650d75a83411c3ff6234ba058a699d5592"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/167/design.md",
+      "sha256": "253dbf032be3700a8068cf9c8a6a808490d498bd73316be40c83d7dd74019f47"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/168/design.md",
+      "sha256": "e2ba41d1549d4051a35d8609175d5a2bc2705b30407faddc1546d73104a4c10e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/169/design.md",
+      "sha256": "940e904142a5799ca5d90f5980ff6918e5530a0730195c01b125ffde0dcdbc8c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/170/design.md",
+      "sha256": "4255f29e33a715f70e17af185dc2fcab4ebad0d1ffd27244d1801fea3b2af9c7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/171/design.md",
+      "sha256": "15e8eb17971d668157046da56180c176a7212335d9725805aa78644ca2ea715e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/172/design.md",
+      "sha256": "0ce87af194a8f35707c03699f882b8aa4e7c505e8c71d0c862e673cbf2c73ba6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/173/design.md",
+      "sha256": "b633e5f2c028005514dcca283638f51d244b6200c32bcb31d0dfa3ea3f522c66"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/174/design.md",
+      "sha256": "e9d4938722b065f16c78d32d7573bcabfda11422f071057cdac4e73d1d8e3bc1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/175/design.md",
+      "sha256": "8a979b8cbcba126808618b01b20a4ea2dd688fba2c5c52bbc062574c3457a10f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/176/design.md",
+      "sha256": "7843a80ec72cd968b5fad6b43d53c556c664de03cb74cc233ee32571d3a43c0e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/177/design.md",
+      "sha256": "50bdb58fbb046c0f259f980c7d86dd70c0f1444867cca03dc19642e8494b5e42"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/178/design.md",
+      "sha256": "3e834a9259cb4973a7d4533fbd7ade77a7cabb59b7b3d3a1da2402069485eb22"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/179/design.md",
+      "sha256": "6cc1b92c365168801c7abb13bc9dc8a48bd46d487b4a5283f23ed2c9a082138a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/180/design.md",
+      "sha256": "e468b69ad44a78859e625c7ef987e6b4f5c76fb9bc762d4557e098c83fc50ff9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/181/design.md",
+      "sha256": "9f77746b9ce0a3dc6243cc7b51353e2f44348f1aef14d4ed1335a170472fbc5e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/182/design.md",
+      "sha256": "b845147e817ab28ce7b31efeb8201111132bfbe17bcbc979d1b49abc10f709cc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/183/design.md",
+      "sha256": "99eb0bfb3de393cf76b422bb4f41110651c8f373184a4c94c6373ac99f767804"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/184/design.md",
+      "sha256": "22fa217972a1148252bf41bbef9d560517280a4b8864ded692985fa8877dd674"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/185/design.md",
+      "sha256": "a33aa6e3636ded6b705dce7e99cbfb60bcfa98e2e1a725df0554e90fe45bf444"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/186/design.md",
+      "sha256": "cf634e0a3c8fa7dbf667790b26ccddbaf230f5887e12b4975dab94212e36a2c6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/187/design.md",
+      "sha256": "2585199562496f95fefadf6c47d923bd097f09bde82506af22d97202f2955e0e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/188/design.md",
+      "sha256": "8daa8ea0ea3daa125940b3abc88617ed69aad72739c357c8dd195d80c36a6f92"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/189/design.md",
+      "sha256": "ad141a68bfa44e931a4d19ece4cd7a5a23d50f3375bfbbcb0e456b136c6d1d09"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/planned-issue-packets/prepared/issues/190/design.md",
+      "sha256": "fb4d3c40405be4379ac232dac225a82a5c1c5bc78f137169024f919ea1d14641"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_directory_263/README.md",
+      "sha256": "a98d8c2a7c1027371055a9cf868e7fea0e786d9e9f897b24ab82398528152a58"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_directory_263/operator-preflight.md",
+      "sha256": "0b189a5c4789145eb0adbd228c5f8b839e6ad6ef5a99a087a00f4ef89009a359"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_directory_263/provider-runbooks.md",
+      "sha256": "3af557c90bb41a6f54703f6b09d7d2b879ed383cdfea22d15a4dfc719d755326"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_public_exposure_emergency_660/README.md",
+      "sha256": "7bafbe5c20d49197609f3bae775d4f0893616e03c152f2cc41ed0ffe5aa2baf7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_submission_264/README.md",
+      "sha256": "747d5c65c399ed589230ed9cedcaa033ed3b179a76edb407eecd05cb4b93b7fd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_submission_264/monitoring-and-rollback.md",
+      "sha256": "83b1fd05b58b0ebcab7d7aeb56cc177fef61990e0911b8a47c27bb0a3fe0f3cd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_submission_264/operator-authorization-template.md",
+      "sha256": "92b006ff6c1bafc9f543558e0ee79e652b3aa5ebda678d36b944f06545ef3577"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/review/podcast_submission_264/parent-51-handoff.md",
+      "sha256": "d923886d608185de2ed3189db9b5e4903da535c47daab8268d6b4bf2511d8378"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/sources/CORPORATE_INFRASTRUCTURE_CONSOLIDATION_SOURCE.md",
+      "sha256": "44110cd88a919055b0018efe87fd8e3a255e92570264262fd6eede914d6e9044"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md",
+      "sha256": "e0397cf9e6c305523c2b843807a9130c919e96fdab3d7d8b6f1e9ee8fb1e6afa"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/README.md",
+      "sha256": "0d1bc6928f20235d50a8a5fc0e4cfaa634658ffce2ebbca77e5f8dbff9be32e5"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/WBS_v0.92.2.md",
+      "sha256": "2c1ddec721d39692d29ca0cfea64ad44ac234920257775132d1c1d32dae676ce"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/evidence/issue-523/README.md",
+      "sha256": "57e229fd8f2247f723f6d3fac998701f0e72141f7344ed7251229d545b9c210c"
+    },
+    {
+      "path": "docs/milestones/v0.92.2/features/README.md",
+      "sha256": "2c917828e3c3034834c8b0d1e39bf46f4715f3486266a8a3dc4864c5d78036b0"
+    },
+    {
+      "path": "docs/milestones/v0.92/README.md",
+      "sha256": "9dd1f437db97ec413928dd86e80a055af3644c0c8f720340acca910c8e179a1c"
+    },
+    {
+      "path": "docs/milestones/v0.92/external_launch/README.md",
+      "sha256": "b09aaeb1ac6a26cbd6ae23839e7e2d5bdec11695f7d05ae1fe1ba868b0956ce8"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/README.md",
+      "sha256": "48300f540d8167d6881c8af66225ffb80d93396fda34a2bc8a4e455c3c239925"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/README.md",
+      "sha256": "c4ca18e375772bf81e68ed8e500550a8f7082d7e348a8fee8eebaf6470ba8149"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/README.md",
+      "sha256": "89f739da21a1f04f6ab65f3e25d3655e30dd1e2b95b17373d0caf9e7f77e79df"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/podcast_identity_261/README.md",
+      "sha256": "d18614dc74660ac53e2eccf86bb2989700bbaa3bbb12b787c05be82e7a66aa08"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/sprint_307/README.md",
+      "sha256": "1911878a15b09944518e4951067399801857d92842cd825f3f128040f27b9262"
+    },
+    {
+      "path": "docs/milestones/v0.93/README.md",
+      "sha256": "1a144fd33dc6a3c9c68971bc702da438a9e43ece8699ce69bb604e23839413cb"
+    },
+    {
+      "path": "docs/milestones/v0.93/features/README.md",
+      "sha256": "43e98b55af333fcc5535dc535b974929458004a4d9523672389fbb45582ec236"
+    },
+    {
+      "path": "docs/milestones/v0.94.1/README.md",
+      "sha256": "28e627557b7da296c23d217aa73791f0ae91bb3b7dcc4c1a98432bd9068bc128"
+    },
+    {
+      "path": "docs/milestones/v0.94.1/features/README.md",
+      "sha256": "18ef9e8c6aadcd0c89de38cd09d8f77f3e22bc4fde82f87931a6c4281aec73b1"
+    },
+    {
+      "path": "docs/milestones/v0.94/README.md",
+      "sha256": "c7c2404917d0a9f5a4c94c9564c5ade14888f39b204473bf06ccbbabc3c04fcd"
+    },
+    {
+      "path": "docs/milestones/v0.94/features/README.md",
+      "sha256": "b8b511bbc36dd4959415273d88eed9abb7e4781f9b880b83bf360eef4e91f76b"
+    },
+    {
+      "path": "docs/milestones/v0.95/README.md",
+      "sha256": "c3661f69183d4370c9c6377ac757f237ca21e18a4f870bf7beebd572cbaf580a"
+    },
+    {
+      "path": "docs/milestones/v0.95/features/README.md",
+      "sha256": "bb176b99035f34f9aca0a9603768ab308559a0824536acc956124e36b81b3786"
+    },
+    {
+      "path": "docs/onboarding.md",
+      "sha256": "0a9e1e7111bad4f9dc3a34b7c0f50e0fba2e340b48b6163346eb417db95859da"
+    },
+    {
+      "path": "docs/operations/cloud/aws/audit-security/README.md",
+      "sha256": "7fc961f94c68aaa7d3ae70b3886401f2549e4734fda33029b57fc1da3244f984"
+    },
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/README.md",
+      "sha256": "f76f95009ab35ede44a1860fe7ab6333fcc64191aa88ec20fbc6a66e0726272e"
+    },
+    {
+      "path": "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      "sha256": "2781ce3f45ae024a43baef6fa14ee40982af251772fac132c98a6f490b4897a1"
+    },
+    {
+      "path": "docs/operations/cloud/gcp/organization-billing/README.md",
+      "sha256": "7938a7a5b9e286579f4077959b4e662283161339e88c765b931487a379810fcc"
+    },
+    {
+      "path": "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "sha256": "ef0d72321fd4c2846045ac0ab78a0ba6284ac193f629e723210873713372586a"
+    },
+    {
+      "path": "docs/operations/cloud/gcp/terraform-bootstrap/README.md",
+      "sha256": "b2455a86b752fb3e1900e9f522245743d19f437cac2f0d022e5b268bae924b63"
+    },
+    {
+      "path": "docs/planning/ADL_FEATURE_LIST.md",
+      "sha256": "a54b8b7782e6f9277cbec92a99742bfbbff41dbfb55f21d35b1ef5f3a97010e4"
+    },
+    {
+      "path": "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md",
+      "sha256": "24573a85b419b9fd4e5c3680c10caa31d795b3e410a0b47d1fc3262b971a8a7d"
+    },
+    {
+      "path": "docs/planning/README.md",
+      "sha256": "86080095bb5802a07bcc78841a399c79a78afd43fa45c6dbb7f4d6896313e001"
+    },
+    {
+      "path": "docs/planning/codefriend/README.md",
+      "sha256": "600f0dbd9ed30500ee83b82f4a15ac7c2ea732aa02dfe7c161f2ec95dd049261"
+    },
+    {
+      "path": "docs/records/README.md",
+      "sha256": "7047198edb01ded370167686955393997bb0e9a99eff225cd40b9fc61338978a"
+    },
+    {
+      "path": "docs/records/v0.85/README.md",
+      "sha256": "cea029c9b9275d854a536101ada25bd1812cc18009e3806f0f85ff0f90363fad"
+    },
+    {
+      "path": "docs/records/v0.85/tasks/README.md",
+      "sha256": "3e69ad01368208b589b590f2f3b3315e260a5d2c2a54f3a167fe289269f22640"
+    },
+    {
+      "path": "docs/records/v0.85/tasks/task-v085-wp05-demo/README.md",
+      "sha256": "d03aaee9ed650473176fdc424b3107b2a22a3c7c806d67406bf73644d75eb784"
+    },
+    {
+      "path": "docs/records/v0.87.1/README.md",
+      "sha256": "6d1ee1928cea1d4cf6c1390b8496c61ab9eb6a46c716ea357adcc110af0a7f39"
+    },
+    {
+      "path": "docs/records/v0.87.1/legacy-issue-records/README.md",
+      "sha256": "397e2dfc06cef0704cef0f24b13e5e0ad3580f65d07740bc34326a2993bd2a5c"
+    },
+    {
+      "path": "docs/reviews/v0.90.4/external/README.md",
+      "sha256": "a46acbd850e322a542d67a33272123bbc36166e24b9aa4c190fc9875b2ce50a5"
+    },
+    {
+      "path": "docs/reviews/v0.91.8/internal-review-5356/README.md",
+      "sha256": "1ffdec667921ae3f11a7f865f94005de0be30265207823de42b9af18415bdbd1"
+    },
+    {
+      "path": "docs/reviews/v0.91.8/internal-review-5791/README.md",
+      "sha256": "7b74a7fb78c8990a9074bb29d1099500120e9f8c68e2516961e416d79e4d5093"
+    },
+    {
+      "path": "docs/reviews/v0.92/internal-review-5846/README.md",
+      "sha256": "adb69b651f584553830f26c2e172ae31245db0eff31a4e6dfa0464e1f3228bca"
+    },
+    {
+      "path": "docs/reviews/v0.92/internal-review-5846/specialists/security.md",
+      "sha256": "2a333cfa2bff1f55580eb1bbb9582f04a4d06a37fa0cbbfc9783ae91a7a65202"
+    },
+    {
+      "path": "docs/reviews/v0.92/remediation-5848/README.md",
+      "sha256": "f35493d1f8644f360f81242077934dfc0fb62fa3b63399c49b78f24b82a8d755"
+    },
+    {
+      "path": "docs/specs/acc/README.md",
+      "sha256": "2b02bb6d5899e3cd6a57272767ef9add36292ae0b2ef52d3af19efdefd99b6bd"
+    },
+    {
+      "path": "docs/specs/uts/README.md",
+      "sha256": "0a930ae2f22baab5f447897dce47095a6580f3b8e116f911bcce1fbb3eb3723f"
+    },
+    {
+      "path": "docs/templates/README_TEMPLATE.md",
+      "sha256": "e97d4ee0422d2f9aa700ccf37ed558eaf4b37ae0473b6d443327fe727797e1f1"
+    },
+    {
+      "path": "docs/templates/planning/1.0.0/readme.md",
+      "sha256": "21b6261b16ce83359916defa8eba155894f7ed1e338e9c8f951a5d512ccb52d6"
+    },
+    {
+      "path": "docs/templates/planning/1.1.0/readme.md",
+      "sha256": "8b52c40ee52aca5af4d8826ed548fe41c23330cb3115a438c7b0663022860b44"
+    },
+    {
+      "path": "docs/templates/planning/1.1.0/release_plan.md",
+      "sha256": "d996a70754c32228de511cf0eea9d998afb924064910e366062d408e6a900684"
+    },
+    {
+      "path": "docs/templates/planning/README.md",
+      "sha256": "c2b7b9d03e0a409d54a09c712cc206a7ba48a174aa0f3e9478fac07573b9cf36"
+    },
+    {
+      "path": "docs/templates/planning/current.json",
+      "sha256": "8e4b30d153acbf58275fc86a9efb6e4df0eeec95f66922ac201749c3768ff77b"
+    },
+    {
+      "path": "docs/templates/planning/fixtures/minimal/readme.md",
+      "sha256": "1df861fce7cffb1e1c29530256938d9ab18bdc242a33705e2c256f1407837fff"
+    },
+    {
+      "path": "docs/templates/planning/fixtures/minimal/readme_generated.md",
+      "sha256": "270bf7ca4619198da61d45893c23c6d3e1ad16687e6f4ba23b2c8865929971e8"
+    },
+    {
+      "path": "docs/templates/planning/fixtures/minimal/readme_values.json",
+      "sha256": "9b4d33faf5687350fe9669170667f92671f56cf207abc0c452c4171f63c3502a"
+    },
+    {
+      "path": "docs/templates/portable-adl/1.0.0/AGENTS.md",
+      "sha256": "4b6bac1fec72d6dbf601d9ab2b9ca8150f89bb402b8c3823b848eec905530a48"
+    },
+    {
+      "path": "docs/templates/portable-adl/README.md",
+      "sha256": "8493423c058a3576dba1c523ea702bd5ac229d0d7c8305f1a1ec0accfbb6dd96"
+    },
+    {
+      "path": "docs/templates/prompts/README.md",
+      "sha256": "00eef6c225a9f5a433927a6d6b35c248f7a6d794baba0bba3c6a7293e1df072c"
+    },
+    {
+      "path": "docs/templates/sprints/README.md",
+      "sha256": "12dc421007f2fe7b404d0a91b3f558c79f12d91056cb0677ecd7ab25d8a57629"
+    },
+    {
+      "path": "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+      "sha256": "76c69381f8628a92f0425ec901c3ad877b9f199721a9d5636e9418f176be1a7a"
+    },
+    {
+      "path": "docs/tooling/README.md",
+      "sha256": "34eeeae74524192809d5c537be2313ba4b6d67dbff35e3ffaa3c7f9cad3e3a0d"
+    },
+    {
+      "path": "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "sha256": "43e9b7163849051a33fab073dafeb79cb5f549bae9817598b281a7fd446387ba"
+    },
+    {
+      "path": "docs/tooling/editor/README.md",
+      "sha256": "10904c7a0c4886a50358e8a25c38fa4f8657a7794ce2853d6a677590d56927ac"
+    },
+    {
+      "path": "docs/tooling/examples/reviewer-provenance/README.md",
+      "sha256": "2d6262e5c30edfc9b83226e03bd2351d7a77b1436dd2d5d5361163e267b954c8"
+    },
+    {
+      "path": "docs/tooling/examples/reviewer-regression/issue-661/README.md",
+      "sha256": "0838d7b0db2de5f27a10020352801de884ea4862ab69832d806f6aaccf95a2fc"
+    },
+    {
+      "path": "docs/tooling/examples/reviewer-surface/issue-661/README.md",
+      "sha256": "250c004f0f97d3647c486bfa84c134041e6f709844feb38f0ae8e5ad010c4763"
+    },
+    {
+      "path": "docs/tooling/issue-prompts/README.md",
+      "sha256": "abb3c3de87f47f256f224d4cf517ac57b4b6c9104f3a5b225fdaedf13f9a6a80"
+    },
+    {
+      "path": "docs/tooling/milestone-dashboard/README.md",
+      "sha256": "4dd957be973adc3106022340fb9d11dcb438ce339bf6db3c9fe3d0ea7df97e2c"
+    },
+    {
+      "path": "infra/aws/account-foundation/README.md",
+      "sha256": "0c77bade515ce69a57f200dd3db7d839b15a86c3f21a08cc0a03d11ede61549f"
+    },
+    {
+      "path": "infra/aws/bootstrap/README.md",
+      "sha256": "275d4e0cd6e20d083fc2ddef81e9e583a92b3c2a5d231e95a7ccaa45a2d0754a"
+    },
+    {
+      "path": "infra/aws/csm-public-edge/README.md",
+      "sha256": "19f06ae0ecef8b394a74c1b57d44531d03cffc425e45f5d0757829d8749ab58f"
+    },
+    {
+      "path": "infra/aws/csm-runtime-alb/README.md",
+      "sha256": "75f34c9c81fcd2e9e5da9c96e3252f7ba9dcb7f0c0e28e72a65626fe382c5882"
+    },
+    {
+      "path": "infra/aws/csm-runtime-health/README.md",
+      "sha256": "320fb85621015778eccc54ea5fa170422a7f6f8f14f55840dd936b63fce4c36f"
+    },
+    {
+      "path": "infra/aws/csm-runtime-spot/README.md",
+      "sha256": "c7f8f92f27cc6dc936780770367c2aa191b9551cd5fbf1be521958e370f6f366"
+    },
+    {
+      "path": "infra/aws/observatory/README.md",
+      "sha256": "ca975736a5c29e4450a81b2c6511cd47738d32eff4f54965af7e8a64981c7549"
+    },
+    {
+      "path": "infra/aws/runtime/README.md",
+      "sha256": "55b366907e4cc1847800a529bfe56671ae33fd2a5bf569c5e9f40cdb60160341"
+    },
+    {
+      "path": "infra/aws/runtime/agent-checkpoint-archive/README.md",
+      "sha256": "b1fe7ba3ab8bdc94103df6b1cfbbbd04667177f0b72e24d5ed2f4134bfe95ede"
+    },
+    {
+      "path": "infra/aws/runtime/xcl-01/README.md",
+      "sha256": "52a054100f2f63f717b42bbf5999ad04f5e493d74784b5bdaf3e9d03c7dd387a"
+    },
+    {
+      "path": "infra/ddns/README.md",
+      "sha256": "e4afb2f3175152a49772485223990593c2cd049cba6956365ff9567c0d71a77b"
+    },
+    {
+      "path": "infra/gcp/bootstrap/README.md",
+      "sha256": "c07c37d56e374e45bed29cabb22229d764bb146621d4dacae9bd2f4d73646fc8"
+    },
+    {
+      "path": "infra/gcp/organization/README.md",
+      "sha256": "08929b513aef3ce4e34c98121b11658e768a33462f6f079eeba5c08e4397ab8b"
+    },
+    {
+      "path": "infra/gcp/workloads/warm-polis/README.md",
+      "sha256": "d6816c0a118421f158aafb11145b01edd00d7591fce9e0bd09bb53bd77356e98"
+    },
+    {
+      "path": "infra/gcp/workloads/xcl-01/README.md",
+      "sha256": "d8dd6d77636ff4ba9f772c00c75af701fa56e4944c10e2cf89feaae284d98d8d"
+    },
+    {
+      "path": "infra/runtime-portable/README.md",
+      "sha256": "b72a5a6585ffc0f30c46c40ff0aed45e2c1bc09eeb5492d4588180146ad214db"
+    },
+    {
+      "path": "tools/aws_remote_validation/Cargo.toml",
+      "sha256": "46bf4fcbaea922ced95d95c8ba1e78503457fc4643878a80b7ec189eb4d97df1"
+    },
+    {
+      "path": "tools/remote_validation/Cargo.toml",
+      "sha256": "1fdf0a85f5747092e96b8699db8d44c1392ae57c801b2bc5f8a074611a445fdc"
+    }
+  ]
+}

@@ -9,7 +9,7 @@
 7. **Runtime v4 triggers explicit replanning.** It is a risk and future input, not hidden milestone scope.
 8. **CodeFriend follows.** v0.92.2 owns CodeFriend Beta 1; the product must reach integrated beta availability by v0.95.
 9. **Issue creation begins with a viable future conductor.** Closed packets #149–#190 and closed #431 are reconciliation inputs, not active execution. Premature placeholders #433–#438 are closed, #439 is redundant, and none is used as authority. The merged package makes WP-01 eligible; only an operator declaration that v0.92.1 is ready authorizes creation of number-free WP-01. WP-01 then creates the remaining catalog.
-10. **Four existing backlog issues are promoted.** #251, #122, #84, and #345 are active v0.92.1 scope. #251, #122, and #345 may execute in parallel; #84 preparation may overlap them, but its final proof consumes #251 and #122.
+10. **Existing-issue scope preserves explicit deferral.** #122 and #345 retain their owned scope. #84 Unity and #251 TLS 1.2 are operator-deferred backlog, visibly retained but excluded from admission gating. OBS-B/#512 does not claim their implementation.
 11. **The release tail follows the established ten-step standard.** Quality, docs/release truth, publication finalization, internal review, external review, remediation/preflight, next-milestone planning, closeout planning, next-milestone review, and ceremony remain distinct serial issues.
 12. **Runtime generations are separated before v4.** DEC-01 owns v2/v3 authority separation and compatibility proof; Runtime v4 stays deferred to a later milestone.
 13. **Provider configuration is shared and bounded.** PROV-A defines the common profile and deterministic Ollama materialization; PROV-B may compare local-model results only as non-authoritative shadow execution. #457 is historical provenance, not a live dependency.
@@ -17,5 +17,5 @@
 15. **Cloud move-in is foundation work, not a catch-all issue.** AWS-A through AWS-G and GCP-A through GCP-E follow the promoted phase gates; #122/#251/#84/#345 retain their existing ownership and are not recreated.
 16. **Terraform portability preserves provider truth.** XCL-01 defines one portable workload contract and explicit AWS/GCP implementations for the #194/#268 template denominator; CloudFormation remains rollback authority until AWS-G accepts retirement.
 17. **Rust refactoring is bounded by behavior, not LoC.** RUST-01 owns only the resilience owner-boundary slice, measures validation impact, and has no deletion or line-reduction quota.
-15. **Integration provenance is not interchangeable.** #188 routes to INT-01 and TAIL-01, #190 routes to TAIL-07, and #189 routes only to TAIL-10.
-16. **Dependencies consume merges, not closeout.** Downstream work may require reviewed merged authority and an explicit product gate, but never waits for an individual issue's finish receipt, cleanup, or administrative closeout.
+18. **Integration provenance is not interchangeable.** #188 routes to INT-01 and TAIL-01, #190 routes to TAIL-07, and #189 routes only to TAIL-10.
+19. **Dependencies consume merges, not closeout.** Downstream work may require reviewed merged authority and an explicit product gate, but never waits for an individual issue's finish receipt, cleanup, or administrative closeout.

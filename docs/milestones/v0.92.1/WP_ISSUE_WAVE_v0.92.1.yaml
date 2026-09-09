@@ -1,3 +1,6 @@
+# Historical creation specification; conductor_issue: null is its pre-creation state.
+# WP-01/#480 creation mapping: evidence/wp-01/final-creation-receipt.json.
+# Current amendments and dispositions are recorded in issue bodies and the TAIL-02 packet.
 schema: adl.milestone.issue-wave.v1
 milestone: v0.92.1
 conductor_issue: null

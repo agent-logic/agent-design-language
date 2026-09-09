@@ -1,0 +1,72 @@
+{
+  "schema": "adl.tail02.current_validation.v1",
+  "results": [
+    {
+      "command": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--all"
+      ],
+      "output": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--all\",\"status\":\"pass\",\"checks\":2824,\"final_acceptance\":false}\n",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--final"
+      ],
+      "output": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--final\",\"status\":\"pass\",\"checks\":800,\"final_acceptance\":false}\n",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "python3",
+        ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+        "--check"
+      ],
+      "output": "{\"status\": \"pass\", \"manifests\": 24, \"local_dependencies\": 20, \"final_acceptance\": false}\n",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "output": "",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate10a",
+        "current_operator_guidance_has_no_sunset_v1_route"
+      ],
+      "status": "pass",
+      "output": "1 passed; 0 failed; focused documentation-contract test in the #518 worktree.",
+      "log_sha256": "dde26219add8c690eeec14d7c63e33c6cb1189691c54f750a4735b93ca6e719f"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "primary_checkout_bootstrap_guard",
+        "operator_docs_name_isolated_staging_bootstrap"
+      ],
+      "status": "pass",
+      "output": "1 passed; 0 failed; focused documentation-contract test in the #518 worktree.",
+      "log_sha256": "681520bfe1571700196e2a09897b411eab8caf2747edeea0e0f680e1e406f861"
+    }
+  ],
+  "release_authorized": false
+}

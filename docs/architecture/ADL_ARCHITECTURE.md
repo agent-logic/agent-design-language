@@ -93,35 +93,12 @@ current C-SDLC lifecycle authority. The `pr init`, `pr ready`, `pr run`,
 orientation only and must not be presented as the default route for current
 C-SDLC work.
 
-Current C-SDLC issue work uses the independent Rust v2 binary set under
-`.adl/bin/csdlc-v2/` and the typed owner skills in
-`csdlc-v2/operator/skills/`: init, bind, card editing, validation, review,
-publication, shepherding, finish, and cleanup each have an explicit v2 owner.
-C-SDLC v2 remains the live lifecycle authority until an operator-reviewed
-V3-F/#505 cutover is merged and terminally reconciled.
-C-SDLC v3 work remains construction-only and non-authoritative until the
-explicit V3-F/#505 authority transition approves and proves any cutover.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-The current ADL lifecycle is:
-
-1. `csdlc-issue` creates or normalizes the issue record and all six cards.
-2. `csdlc-edit` and `csdlc-validate` keep card projections and schemas current.
-3. `csdlc-bind` binds the issue to the exact branch and FastWork worktree.
-4. Implementation and focused PVF validation happen inside that bound worktree.
-5. `csdlc-review` records exact-head independent review truth before
-   publication.
-6. `csdlc-publish` creates or updates the PR with visible closing linkage.
-7. `csdlc-github-pr` / `csdlc-pr-state` observe PR state, checks, and conflicts.
-8. `csdlc-finish` derives terminal authority from live GitHub merge/closure
-   truth.
-9. `csdlc-clean cleanup` removes only the exact registered worktree after
-   terminal truth is materialized.
-
-Issue #505 is the pending V3-F tooling changeover decision. Until that issue is
-reviewed, explicitly approved, merged, and terminally reconciled, v3 remains
-construction evidence and every active lifecycle write still routes through v2.
-Operators must receive the pre-change notice in
-`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any default tooling switch.
+The current lifecycle and native command mapping are documented in
+`docs/default_workflow.md`. Native preparation, binding, validation, review,
+publication, terminal reconciliation and cleanup preserve separate typed
+boundaries. V1 command history and pre-cutover v2 proof are not default routing.
 
 The root checkout remains the stable coordination checkout. Tracked
 implementation work belongs in issue-specific worktrees, not on the root branch.
@@ -136,14 +113,14 @@ The task bundle lifecycle is:
 
 1. Issue intent is captured in a tracked or generated issue prompt.
 2. SIP, STP, SPP, VPP, SRP, and SOR cards are created in the versioned task area.
-3. Typed C-SDLC v2 bind validates repository, branch, and worktree identity
+3. Typed C-SDLC bind validates repository, branch, and worktree identity
    before implementation starts.
 4. Implementation, validation, and review happen inside the worktree.
-5. Typed C-SDLC v2 review and publish record exact-revision review and GitHub
+5. Typed C-SDLC review and publish record exact-revision review and GitHub
    publication truth.
-6. Typed C-SDLC v2 finish reconciles live GitHub closure, PR merge state, and
-   terminal card truth.
-7. Typed C-SDLC v2 cleanup removes only the exact registered worktree after
+6. Typed C-SDLC finish reconciles live GitHub closure, PR merge state, and
+   terminal authority without rewriting historical cards after merge.
+7. Typed C-SDLC cleanup removes only the exact registered worktree after
    terminal evidence permits it.
 
 The canonical card sequence is `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.

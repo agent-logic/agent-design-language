@@ -25,7 +25,8 @@ If a directory contains its own `CONTRIBUTING.md`, it must defer to this file.
 Source-of-truth quick links:
 - `docs/codex_playbook.md`
 - `AGENTS.md`
-- `csdlc-v2/operator/skills/`
+- `docs/default_workflow.md`
+- `csdlc-v3/README.md`
 
 Workflow loop:
 
@@ -34,22 +35,14 @@ start → cards → execute → review → finish → merge → cleanup
 ```
 
 Card semantics:
-- Input/output cards are **local-only trace artifacts** under `.adl/cards/` (not committed).
+- All six cards (`SIP`, `STP`, `SPP`, `VPP`, `SRP`, `SOR`) are durable typed projections under `.csdlc/issues/<issue>/cards/`. Preserve tracked issue and review evidence; only scratch artifacts are local-only. Never edit generated Markdown directly.
 - Templates live under `docs/templates/` (versioned).
 - Tasks can be non-code; the same card-based trace applies.
 
-Lifecycle entrypoints:
+Lifecycle entrypoints and request contracts are documented in
+[the default workflow](docs/default_workflow.md). C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-```bash
-.adl/bin/csdlc-v2/csdlc-install resolve --repo . --issue <issue>
-.adl/bin/csdlc-v2/csdlc-issue --root <repo> create --request <bootstrap-request.json>
-.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue <issue>
-.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>
-```
-
-Continue through the typed `csdlc-validate`, `csdlc-review`, and
-`csdlc-publish` skills and request contracts. Tracked edits begin only after
-binding and creation of the issue-bound session goal.
+Tracked edits begin only after binding and creation of the issue-bound session goal.
 
 ---
 
@@ -83,7 +76,7 @@ Coverage discipline (v0.6+):
 - New logic paths must include tests
 - No “coverage-only churn”
 
-Tests must remain hermetic (no real network calls, no real providers).
+Default unit tests must remain hermetic. Integration and live-provider proof requires its declared PVF lane, resource and credential policy, and explicit authorization where required. This guide grants no paid or live execution authority.
 
 ---
 

@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 23,
+  "expected_digest": "67dbbff4c8ffb45b2768aa7c596f4e7c96c478cdb607102f7aeb72d57d4c8eaa",
+  "actor": "codex:planning-6",
+  "reason": "Add a separately tracked Cargo audit step while preserving completed initial documentation work and the final issue 517 gate.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}
