@@ -1,20 +1,26 @@
 # v0.92.1 final-candidate internal review plan
 
-Status: `ready_waiting_on_758`
+Status: `review_repair_in_progress`
 
 Issue #520 produces one findings-first register for one immutable v0.92.1
 candidate. This is a complete rerun of the internal review after the remediation
-wave. Review execution is gated on reviewed merges for #718 and #758. This plan
-does not freeze a candidate or claim review work has begun.
+wave. Both reviewed dependency merges are present in the frozen candidate
+`fb6cbc7f619daa54f901fd2d12f480add682ace3`. The second review found 14
+product defects and routed all of them to #814-#821 under #522. Independent
+exact-head review of the first assembled packet then found six packet-method
+defects; those are accepted and must be repaired before publication.
 
 ## Current entry state
 
 The C-SDLC issue is bound to `codex/520-internal-review` at
 `/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review`. Execution may
-start immediately after #718 and #758 each have a reviewed merge, both issues
-are closed by their declared PRs, and the resulting `origin/main` commit is
-available locally. No paid provider, cloud, deployment, or Runtime operation is
-authorized or required by this internal review.
+is active at the frozen post-gate candidate. #718 and #758 are merged and closed
+by their declared PRs. The assembler may consume only completed, independently
+attributed specialist inputs; it must never synthesize reviewer conclusions.
+All 176 acceptance rows require terminal implementation and proof dispositions,
+and every retained evidence locator must resolve to the cited line. No paid
+provider, cloud, deployment, or Runtime operation is authorized or required by
+this internal review.
 
 ## Exact denominator
 

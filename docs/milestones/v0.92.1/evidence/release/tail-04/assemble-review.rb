@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "digest"
+require "fileutils"
 require "json"
 require "open3"
 
@@ -24,8 +25,6 @@ def candidate_blob(candidate, path)
   abort("candidate path unavailable: #{path}: #{error.strip}") unless status.success?
   output
 end
-
-require "fileutils"
 
 manifest = read_json("run_manifest.json")
 candidate = manifest.fetch("candidate_sha")
@@ -68,22 +67,68 @@ end
 unknown_refs = findings.flat_map { |finding| finding.fetch("denominator_refs") }.uniq - rows_by_ref.keys
 abort("finding input cites unknown denominator refs: #{unknown_refs.join(', ')}") unless unknown_refs.empty?
 
+specialist_inputs = assignments.to_h do |assignment|
+  lane = assignment.fetch("lane")
+  input_path = File.join(PACKET, "specialist-input", "#{lane.tr('_', '-')}.json")
+  abort("missing independent specialist input: #{input_path.sub(ROOT + '/', '')}") unless File.file?(input_path)
+  input = JSON.parse(File.read(input_path))
+  abort("specialist input schema mismatch: #{lane}") unless input.fetch("schema") == "adl.v0921.internal_review_specialist_input.v1"
+  abort("specialist input is not exact-candidate complete: #{lane}") unless
+    input.fetch("lane") == lane && input.fetch("candidate_sha") == candidate && input.fetch("status") == "completed"
+  reviewer = input.fetch("reviewer")
+  abort("specialist reviewer identity is absent or non-independent: #{lane}") unless reviewer.start_with?("subagent:") && reviewer.length > 12
+  abort("specialist review method is absent: #{lane}") if input.fetch("review_method").strip.length < 20
+  assigned_refs = assignment.fetch("denominator_refs")
+  abort("specialist input does not cover its exact assignment: #{lane}") unless input.fetch("denominator_refs").sort == assigned_refs.sort
+  observations = input.fetch("observations")
+  abort("specialist input observation coverage mismatch: #{lane}") unless
+    observations.map { |row| row.fetch("ref") }.sort == assigned_refs.sort && observations.map { |row| row.fetch("ref") }.uniq.length == observations.length
+  abort("specialist input contains non-terminal or content-free observations: #{lane}") unless observations.all? do |row|
+    %w[verified_no_gap finding].include?(row.fetch("conclusion")) &&
+      row.fetch("detail").strip.length >= 20 &&
+      row.fetch("detail") != "Exact-candidate denominator row was enumerated and received the #{lane} specialist disposition."
+  end
+  [lane, {"path" => input_path, "document" => input}]
+end
+
+acceptance_by_ref = read_json("acceptance_coverage.json").fetch("rows").to_h { |row| [row.fetch("denominator_ref"), row] }
+completed_assignments = assignments.map do |assignment|
+  input = specialist_inputs.fetch(assignment.fetch("lane")).fetch("document")
+  assignment.merge("status" => "completed", "reviewer" => input.fetch("reviewer"), "completed_at" => input.fetch("completed_at"))
+end
+write_json("assignments.json", {"schema" => "adl.v0921.internal_review_assignments.v2", "assignments" => completed_assignments})
+assignments = completed_assignments
+
 lane_results = assignments.map do |assignment|
   lane = assignment.fetch("lane")
+  input = specialist_inputs.fetch(lane).fetch("document")
   lane_findings = findings.select { |finding| finding.fetch("source_lane") == lane }
   finding_refs = lane_findings.flat_map { |finding| finding.fetch("denominator_refs") }.uniq
-  observations = assignment.fetch("denominator_refs").map do |ref|
+  expected_finding_ids = lane_findings.map { |finding| finding.fetch("id") }.sort
+  abort("specialist finding IDs differ from canonical lane findings: #{lane}") unless input.fetch("finding_ids").sort == expected_finding_ids
+  observations = input.fetch("observations").map do |specialist_observation|
+    ref = specialist_observation.fetch("ref")
     row = rows_by_ref.fetch(ref)
     related = lane_findings.select { |finding| finding.fetch("denominator_refs").include?(ref) }
+    expected_conclusion = related.empty? ? "verified_no_gap" : "finding"
+    abort("specialist observation contradicts canonical findings: #{lane}: #{ref}") unless specialist_observation.fetch("conclusion") == expected_conclusion
+    if acceptance_by_ref.key?(ref)
+      implementation = specialist_observation.fetch("implementation_disposition")
+      proof = specialist_observation.fetch("proof_disposition")
+      terminal_implementation = %w[implemented partial missing not_applicable]
+      terminal_proof = %w[proved partial missing not_applicable]
+      abort("acceptance disposition is not terminal: #{ref}") unless terminal_implementation.include?(implementation) && terminal_proof.include?(proof)
+      acceptance_by_ref.fetch(ref)["implementation_disposition"] = implementation
+      acceptance_by_ref.fetch(ref)["proof_disposition"] = proof
+      acceptance_by_ref.fetch(ref)["specialist_detail"] = specialist_observation.fetch("detail")
+      acceptance_by_ref.fetch(ref)["reviewer"] = input.fetch("reviewer")
+    end
     {
       "ref" => ref,
       "evidence" => row.fetch("evidence"),
-      "conclusion" => related.empty? ? "verified_no_gap" : "finding",
-      "detail" => if related.empty?
-                      "Exact-candidate denominator row was enumerated and received the #{lane} specialist disposition."
-                    else
-                      "Exact-candidate review produced #{related.map { |finding| finding.fetch('id') }.join(', ')}."
-                    end
+      "conclusion" => specialist_observation.fetch("conclusion"),
+      "detail" => specialist_observation.fetch("detail"),
+      "review_basis" => specialist_observation.fetch("review_basis")
     }
   end
   abort("lane finding is outside assignment: #{lane}") unless (finding_refs - assignment.fetch("denominator_refs")).empty?
@@ -94,7 +139,10 @@ lane_results = assignments.map do |assignment|
     "candidate_sha" => candidate,
     "denominator_refs" => assignment.fetch("denominator_refs"),
     "observations" => observations,
-    "findings" => lane_findings
+    "findings" => lane_findings,
+    "reviewer" => input.fetch("reviewer"),
+    "review_method" => input.fetch("review_method"),
+    "completed_at" => input.fetch("completed_at")
   })
   relative_report_path = report_path.sub(ROOT + "/", "")
   result = {
@@ -102,30 +150,21 @@ lane_results = assignments.map do |assignment|
     "lane" => lane,
     "outcome" => lane_findings.empty? ? "passed" : "findings",
     "candidate_sha" => candidate,
-    "reviewer" => "multi-agent internal review specialist",
-    "evidence" => "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+    "reviewer" => input.fetch("reviewer"),
+    "evidence" => "Independent specialist input consumed from #{specialist_inputs.fetch(lane).fetch('path').sub(ROOT + '/', '')}; no observation was synthesized by the assembler.",
     "report_path" => relative_report_path,
     "report_sha256" => Digest::SHA256.file(report_path).hexdigest
   }
-  if lane.match?(/test|pvf|ci/i)
-    command_path = "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh"
-    stdout, stderr, status = Open3.capture3("bash", command_path, chdir: ROOT)
-    abort("test proof command failed: #{stderr.strip}") unless status.success?
-    result["test_invocation"] = {
-      "argv" => ["bash", command_path],
-      "working_directory" => ".",
-      "command_artifacts" => [{
-        "path" => command_path,
-        "sha256" => Digest::SHA256.hexdigest(candidate_blob(candidate, command_path))
-      }],
-      "candidate_sha" => candidate,
-      "exit_status" => status.exitstatus,
-      "stdout" => stdout,
-      "stdout_sha256" => Digest::SHA256.hexdigest(stdout)
-    }
+  if lane == "tests"
+    invocations = input.fetch("test_invocations")
+    abort("test specialist supplied fewer than three distinct proving invocations") unless invocations.length >= 3 && invocations.map { |row| row.fetch("id") }.uniq.length == invocations.length
+    result["test_invocations"] = invocations
+    result["execution_scope"] = input.fetch("execution_scope")
   end
   result
 end
+
+write_json("acceptance_coverage.json", {"schema" => "adl.v0921.internal_review_acceptance.v2", "rows" => acceptance_by_ref.values.sort_by { |row| row.fetch("denominator_ref") }})
 
 write_json("lane-results.json", {"schema" => "adl.v0921.internal_review_lane_results.v1", "results" => lane_results})
 write_json("findings.json", {
@@ -143,46 +182,28 @@ summary_lanes = {
 }
 summary_lanes.each do |name, lanes|
   selected = findings.select { |finding| lanes.include?(finding.fetch("source_lane")) }
-  observations = selected.map do |finding|
-    subject = "SUMMARY-#{name.sub('.json', '').upcase}-#{finding.fetch('id')}"
-    path = finding.fetch("evidence").fetch("path")
-    blob = candidate_blob(candidate, path)
+  selected_results = lane_results.select { |result| lanes.include?(result.fetch("lane")) }
+  observations = selected_results.map do |result|
+    subject = "SUMMARY-#{name.sub('.json', '').upcase}-#{result.fetch('lane').upcase}"
+    report_path = result.fetch("report_path")
     {
       "subject_id" => subject,
-      "result" => "finding",
-      "detail" => "#{finding.fetch('id')}: #{finding.fetch('title')}",
+      "result" => result.fetch("outcome") == "findings" ? "finding" : "verified",
+      "detail" => "#{result.fetch('lane')} specialist completed its exact assignment with outcome #{result.fetch('outcome')}.",
       "evidence" => {
         "subject_id" => subject,
-        "path" => path,
-        "source" => "candidate",
-        "revision" => candidate,
-        "sha256" => Digest::SHA256.hexdigest(blob),
-        "locator" => finding.fetch("locator")
+        "path" => report_path,
+        "source" => "packet",
+        "sha256" => Digest::SHA256.file(report_path).hexdigest,
+        "locator" => {"path" => report_path, "line" => 1}
       }
     }
   end
-  if observations.empty?
-    subject = "SUMMARY-#{name.sub('.json', '').upcase}"
-    path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
-    blob = candidate_blob(candidate, path)
-    observations << {
-      "subject_id" => subject,
-      "result" => "verified",
-      "detail" => "The #{name} surface was reviewed without an actionable finding.",
-      "evidence" => {
-        "subject_id" => subject,
-        "path" => path,
-        "source" => "candidate",
-        "revision" => candidate,
-        "sha256" => Digest::SHA256.hexdigest(blob),
-        "locator" => {"path" => path, "line" => 1}
-      }
-    }
-  end
+  abort("summary #{name} has no completed specialist lane") if observations.empty?
   write_json(name, {
     "schema" => "adl.v0921.internal_review_summary.v1",
     "candidate_sha" => candidate,
-    "outcome" => "passed",
+    "outcome" => selected.empty? ? "passed" : "findings",
     "observations" => observations
   })
 end

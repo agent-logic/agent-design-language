@@ -44,7 +44,12 @@ def evidence_resolves?(evidence, candidate, root, subject_id:)
             else
               return false
             end
-  Digest::SHA256.hexdigest(content) == evidence.fetch("sha256")
+  return false unless Digest::SHA256.hexdigest(content) == evidence.fetch("sha256")
+  if nonempty?(locator["path"])
+    return false unless locator.fetch("path") == path
+    return false if locator.fetch("line") > content.lines.length
+  end
+  true
 end
 
 def validate_packet!(root:, mode: "all")
@@ -191,7 +196,16 @@ fail!("acceptance rows rewrite canonical criterion content") unless acceptance_r
   ref = "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}"
   row.fetch("criterion") == canonical_acceptance.fetch(ref).fetch("criterion") && row.fetch("criterion_sha256") == canonical_acceptance.fetch(ref).fetch("sha256")
 end
-fail!("acceptance inventory has missing or non-resolving implementation/proof dispositions") unless acceptance_rows.all? { |row| nonempty?(row.fetch("denominator_ref")) && row.fetch("evidence").fetch("criterion_id") == "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}" && nonempty?(row.fetch("implementation_disposition")) && nonempty?(row.fetch("proof_disposition")) && evidence_resolves?(row.fetch("evidence"), candidate, root, subject_id: row.fetch("denominator_ref")) }
+terminal_implementation = %w[implemented partial missing not_applicable]
+terminal_proof = %w[proved partial missing not_applicable]
+fail!("acceptance inventory has missing, non-terminal, or non-resolving implementation/proof dispositions") unless acceptance_rows.all? do |row|
+  nonempty?(row.fetch("denominator_ref")) &&
+    row.fetch("evidence").fetch("criterion_id") == "#{row.fetch('planned_id')}:#{row.fetch('acceptance_id')}" &&
+    terminal_implementation.include?(row.fetch("implementation_disposition")) &&
+    terminal_proof.include?(row.fetch("proof_disposition")) &&
+    nonempty?(row.fetch("specialist_detail")) && nonempty?(row.fetch("reviewer")) &&
+    evidence_resolves?(row.fetch("evidence"), candidate, root, subject_id: row.fetch("denominator_ref"))
+end
 
 all_refs = (repo_rows + canonical_rows + issue_rows + pull_request_rows + acceptance_rows).map { |row| row.fetch("denominator_ref") }
 fail!("denominator references are not unique") unless all_refs.uniq.length == all_refs.length
@@ -204,6 +218,9 @@ assignment_ids = assignments.map { |row| row.fetch("id") }
 fail!("assignment IDs are not unique") unless assignment_ids.uniq.length == assignment_ids.length
 mandatory_lanes = %w[code tests documentation security architecture dependency provider_cloud demos retained_evidence]
 fail!("mandatory specialist lane set is incomplete") unless (mandatory_lanes - assignments.map { |row| row.fetch("lane") }).empty?
+fail!("specialist assignments are not terminal and independently attributed") unless assignments.all? do |row|
+  row.fetch("status") == "completed" && row.fetch("reviewer").start_with?("subagent:") && nonempty?(row.fetch("completed_at"))
+end
 fail!("lane results do not match assignments exactly") unless results.map { |row| row.fetch("assignment_id") }.sort == assignment_ids.sort
 raw_findings = []
 results.each do |row|
@@ -215,20 +232,30 @@ results.each do |row|
   assignment = assignments.find { |candidate_assignment| candidate_assignment.fetch("id") == row.fetch("assignment_id") }
   fail!("lane report is not bound to its complete assignment") unless report.fetch("candidate_sha") == candidate && report.fetch("denominator_refs").sort == assignment.fetch("denominator_refs").sort
   observations = report.fetch("observations")
-  fail!("lane report is content-free or cites unresolved evidence") unless observations.is_a?(Array) && observations.any? && observations.all? { |observation| nonempty?(observation.fetch("ref")) && evidence_resolves?(observation.fetch("evidence"), candidate, root, subject_id: observation.fetch("ref")) && %w[finding verified_no_gap].include?(observation.fetch("conclusion")) && nonempty?(observation.fetch("detail")) }
+  fail!("lane report is content-free or cites unresolved evidence") unless observations.is_a?(Array) && observations.any? && observations.all? do |observation|
+    basis = observation.fetch("review_basis")
+    nonempty?(observation.fetch("ref")) &&
+      evidence_resolves?(observation.fetch("evidence"), candidate, root, subject_id: observation.fetch("ref")) &&
+      %w[finding verified_no_gap].include?(observation.fetch("conclusion")) &&
+      observation.fetch("detail").strip.length >= 20 &&
+      basis.is_a?(Hash) && %w[candidate_path acceptance_mapping live_state command retained_proof].include?(basis.fetch("kind")) && nonempty?(basis.fetch("subject"))
+  end
   fail!("lane report omits assigned review rows") unless observations.map { |observation| observation.fetch("ref") }.sort == assignment.fetch("denominator_refs").sort
   report_findings = report.fetch("findings")
   fail!("lane report outcome contradicts findings") unless row.fetch("outcome") == (report_findings.empty? ? "passed" : "findings")
   raw_findings.concat(report_findings)
 end
-results.select { |row| row.fetch("lane").match?(/test|pvf|ci/i) }.each do |row|
-  invocation = row.fetch("test_invocation")
-  stdout = invocation.fetch("stdout")
-  argv = invocation.fetch("argv")
-  artifacts = invocation.fetch("command_artifacts")
-  artifacts_valid = artifacts.any? && artifacts.all? { |artifact| Digest::SHA256.hexdigest(git_blob(candidate, artifact.fetch("path"))) == artifact.fetch("sha256") && Digest::SHA256.file(artifact.fetch("path")).hexdigest == artifact.fetch("sha256") }
-  fresh_stdout, fresh_stderr, fresh_status = Open3.capture3(*argv, chdir: invocation.fetch("working_directory"))
-  fail!("test lane lacks replayed immutable successful invocation proof: #{fresh_stderr.strip}") unless nonempty?(argv) && invocation.fetch("candidate_sha") == candidate && invocation.fetch("exit_status") == 0 && Digest::SHA256.hexdigest(stdout) == invocation.fetch("stdout_sha256") && nonempty?(stdout) && artifacts_valid && fresh_status.exitstatus == invocation.fetch("exit_status") && fresh_stdout == stdout
+results.select { |row| row.fetch("lane") == "tests" }.each do |row|
+  invocations = row.fetch("test_invocations")
+  fail!("test lane lacks a multi-surface execution denominator") unless invocations.length >= 3 && invocations.map { |item| item.fetch("id") }.uniq.length == invocations.length && nonempty?(row.fetch("execution_scope"))
+  invocations.each do |invocation|
+    stdout = invocation.fetch("stdout")
+    argv = invocation.fetch("argv")
+    artifacts = invocation.fetch("command_artifacts")
+    artifacts_valid = artifacts.any? && artifacts.all? { |artifact| Digest::SHA256.hexdigest(git_blob(candidate, artifact.fetch("path"))) == artifact.fetch("sha256") && Digest::SHA256.file(artifact.fetch("path")).hexdigest == artifact.fetch("sha256") }
+    fresh_stdout, fresh_stderr, fresh_status = Open3.capture3(*argv, chdir: invocation.fetch("working_directory"))
+    fail!("test lane lacks replayed immutable successful invocation proof: #{invocation.fetch('id')}: #{fresh_stderr.strip}") unless nonempty?(argv) && invocation.fetch("candidate_sha") == candidate && invocation.fetch("exit_status") == 0 && Digest::SHA256.hexdigest(stdout) == invocation.fetch("stdout_sha256") && nonempty?(stdout) && artifacts_valid && fresh_status.exitstatus == invocation.fetch("exit_status") && fresh_stdout == stdout
+  end
 end
 
 findings_doc = docs.fetch("findings.json")
@@ -244,10 +271,17 @@ fail!("finding schema is incomplete, stale, or cites unresolved evidence") unles
   %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && finding.fetch("revision") == candidate && %w[status title impact source_lane owner].all? { |key| nonempty?(finding.fetch(key)) } && nonempty?(finding.fetch("affected_acceptance_refs")) && finding.fetch("affected_acceptance_refs").all? { |ref| expected_acceptance.include?(ref) } && concrete_locator && evidence_resolves?(finding.fetch("evidence"), candidate, root, subject_id: finding.fetch("id"))
 end
 
-%w[proof-results.json validation-results.json redaction-report.json quality-report.json].each do |name|
+summary_lanes = {
+  "proof-results.json" => %w[retained_evidence provider_cloud demos],
+  "validation-results.json" => %w[tests code],
+  "redaction-report.json" => %w[security],
+  "quality-report.json" => mandatory_lanes
+}
+summary_lanes.each do |name, lanes|
   artifact = docs.fetch(name)
   observations = artifact.fetch("observations")
-  fail!("#{name} is not a contentful passing exact-candidate artifact") unless artifact.fetch("candidate_sha") == candidate && artifact.fetch("outcome") == "passed" && observations.is_a?(Array) && observations.any? && observations.all? { |observation| %w[verified finding].include?(observation.fetch("result")) && nonempty?(observation.fetch("detail")) && evidence_resolves?(observation.fetch("evidence"), candidate, root, subject_id: observation.fetch("subject_id")) }
+  expected_outcome = findings.any? { |finding| lanes.include?(finding.fetch("source_lane")) } ? "findings" : "passed"
+  fail!("#{name} is not a truthful contentful exact-candidate artifact") unless artifact.fetch("candidate_sha") == candidate && artifact.fetch("outcome") == expected_outcome && observations.is_a?(Array) && observations.any? && observations.all? { |observation| %w[verified finding].include?(observation.fetch("result")) && nonempty?(observation.fetch("detail")) && evidence_resolves?(observation.fetch("evidence"), candidate, root, subject_id: observation.fetch("subject_id")) }
 end
 
 entries = docs.fetch("packet-manifest.json").fetch("entries")

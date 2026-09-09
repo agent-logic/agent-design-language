@@ -29,7 +29,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     sh!("git", "commit", "-qm", "opening")
     opening = `git rev-parse HEAD`.strip
 
-    File.write("test.rb", "puts '1 test passed'\n")
+    File.write("test.rb", "puts 'test surface 1 passed'\n")
+    File.write("test2.rb", "puts 'test surface 2 passed'\n")
+    File.write("test3.rb", "puts 'test surface 3 passed'\n")
     specs = {"issue_specifications" => [{"id" => "WP-01", "acceptance_criteria" => ["observable result"]}]}
     spec_path = "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
     FileUtils.mkdir_p(File.dirname(spec_path)); File.write(spec_path, specs.to_yaml)
@@ -80,18 +82,25 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     write_json(File.join(root, "pull_request_inventory.json"), {"rows" => [pr_row]})
     criterion = "observable result"
     ac_evidence=blob_evidence.call(spec_path,"ac:1").merge("criterion_id"=>"WP-01:AC-1")
-    ac = {"planned_id" => "WP-01", "acceptance_id" => "AC-1", "criterion" => criterion, "criterion_sha256" => Digest::SHA256.hexdigest(JSON.generate(criterion)), "denominator_ref" => "ac:1", "implementation_disposition" => "implemented", "proof_disposition" => "proved", "evidence" => ac_evidence}
+    ac = {"planned_id" => "WP-01", "acceptance_id" => "AC-1", "criterion" => criterion, "criterion_sha256" => Digest::SHA256.hexdigest(JSON.generate(criterion)), "denominator_ref" => "ac:1", "implementation_disposition" => "implemented", "proof_disposition" => "proved", "specialist_detail" => "Implementation and proof are both present in the candidate fixture.", "reviewer" => "subagent:fixture", "evidence" => ac_evidence}
     write_json(File.join(root, "acceptance_coverage.json"), {"rows" => [ac]})
     refs = (repo_rows + canonical + [issue_row, pr_row, ac]).map { |row| row.fetch("denominator_ref") }
     lanes = %w[code tests documentation security architecture dependency provider_cloud demos retained_evidence]
-    assignments = lanes.map.with_index { |lane, i| {"id" => "lane-#{i}", "lane" => lane, "denominator_refs" => []} }
+    assignments = lanes.map.with_index { |lane, i| {"id" => "lane-#{i}", "lane" => lane, "denominator_refs" => [], "status" => "completed", "reviewer" => "subagent:fixture-#{lane}", "completed_at" => "2026-09-09T00:00:00Z"} }
     refs.each_with_index { |ref, i| assignments[i % assignments.length]["denominator_refs"] << ref }
     results = assignments.map do |assignment|
       report_path = File.join(root, "#{assignment.fetch('id')}.json")
-      observations = assignment.fetch("denominator_refs").map { |ref| {"ref" => ref, "evidence" => blob_evidence.call(spec_path,ref), "conclusion" => "verified_no_gap", "detail" => "inspected exact candidate surface"} }
+      observations = assignment.fetch("denominator_refs").map { |ref| {"ref" => ref, "evidence" => blob_evidence.call(spec_path,ref), "conclusion" => "verified_no_gap", "detail" => "Inspected exact candidate surface and found no issue.", "review_basis" => {"kind" => "candidate_path", "subject" => spec_path}} }
       write_json(report_path, {"candidate_sha" => candidate, "denominator_refs" => assignment.fetch("denominator_refs"), "observations" => observations, "findings" => []})
-      test_stdout="1 test passed\n"
-      {"assignment_id" => assignment.fetch("id"), "lane" => assignment.fetch("lane"), "outcome" => "passed", "candidate_sha" => candidate, "reviewer" => "fixture", "evidence" => "retained", "report_path" => report_path, "report_sha256" => Digest::SHA256.file(report_path).hexdigest, "test_invocation" => {"argv"=>["ruby","test.rb"],"working_directory"=>".","command_artifacts"=>[{"path"=>"test.rb","sha256"=>Digest::SHA256.file("test.rb").hexdigest}],"candidate_sha"=>candidate,"exit_status"=>0,"stdout"=>test_stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(test_stdout)}}
+      result = {"assignment_id" => assignment.fetch("id"), "lane" => assignment.fetch("lane"), "outcome" => "passed", "candidate_sha" => candidate, "reviewer" => "subagent:fixture-#{assignment.fetch('lane')}", "evidence" => "retained independent specialist fixture", "report_path" => report_path, "report_sha256" => Digest::SHA256.file(report_path).hexdigest}
+      if assignment.fetch("lane") == "tests"
+        result["execution_scope"] = "Three distinct deterministic candidate test surfaces were replayed; static review covers the remainder."
+        result["test_invocations"] = %w[test.rb test2.rb test3.rb].each_with_index.map do |test_path, index|
+          test_stdout = "test surface #{index + 1} passed\n"
+          {"id"=>"fixture-test-#{index + 1}","argv"=>["ruby",test_path],"working_directory"=>".","command_artifacts"=>[{"path"=>test_path,"sha256"=>Digest::SHA256.file(test_path).hexdigest}],"candidate_sha"=>candidate,"exit_status"=>0,"stdout"=>test_stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(test_stdout)}
+        end
+      end
+      result
     end
     write_json(File.join(root, "assignments.json"), {"assignments" => assignments})
     write_json(File.join(root, "lane-results.json"), {"results" => results})
@@ -150,6 +159,9 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     reject_mutation.call("non_resolving_evidence", [issue_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(issue_path)); doc.fetch("rows").first["evidence"] = "looks convincing"; write_json(issue_path, doc)
     end
+    reject_mutation.call("out_of_bounds_evidence_locator", [issue_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(issue_path)); doc.fetch("rows").first.fetch("evidence").fetch("locator")["line"] = 99_999; write_json(issue_path, doc)
+    end
     reject_mutation.call("duplicate_planned_mapping", [issue_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(issue_path)); doc.fetch("rows") << doc.fetch("rows").first.dup; write_json(issue_path, doc)
     end
@@ -185,9 +197,15 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       write_json(acceptance_path, {"rows" => []})
       doc = JSON.parse(File.read(assignments_path)); doc.fetch("assignments").each { |row| row.fetch("denominator_refs").delete("ac:1") }; write_json(assignments_path, doc)
     end
+    reject_mutation.call("non_terminal_acceptance", [acceptance_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(acceptance_path)); doc.fetch("rows").first["proof_disposition"] = "requires_specialist_evidence_review"; write_json(acceptance_path, doc)
+    end
     report_path = results.first.fetch("report_path")
     reject_mutation.call("content_free_lane", [report_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(report_path)); doc["observations"] = []; write_json(report_path, doc)
+    end
+    reject_mutation.call("missing_review_basis", [report_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(report_path)); doc.fetch("observations").first.delete("review_basis"); write_json(report_path, doc)
     end
     lane_results_path = File.join(root, "lane-results.json")
     reject_mutation.call("missing_dependency_lane", [assignments_path, lane_results_path, File.join(root, "packet-manifest.json")]) do
@@ -200,6 +218,10 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       results_doc = JSON.parse(File.read(lane_results_path))
       results_doc.fetch("results").reject! { |row| row.fetch("assignment_id") == dependency.fetch("id") }
       write_json(lane_results_path, results_doc)
+    end
+    quality_path = File.join(root, "quality-report.json")
+    reject_mutation.call("summary_outcome_contradiction", [quality_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(quality_path)); doc["outcome"] = "findings"; write_json(quality_path, doc)
     end
   end
 end
