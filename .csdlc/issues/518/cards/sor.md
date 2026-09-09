@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Documentation review and handoff against merged PR748 and reconciliation PR750: 775 current files, 737 historical inputs, 15 dispositions, and complete 24-manifest audit. Release decision remains explicitly blocked; documentation handoff is authorized. Independent review identified three stale entrypoints, now corrected; exact-commit review follows.
+Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historical non-proving rows and five exception groups dispositioned; zero unowned accounting work. Preserves historical release assessment and no release authorization. Refreshed791-file inventory. External P2 stale-exception finding corrected; renewed exact-head review required; no merge authorized.
 
 ## Artifacts
 
@@ -21,6 +21,8 @@ Documentation review and handoff against merged PR748 and reconciliation PR750: 
 - docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json
 - docs/milestones/v0.92.1/evidence/release/tail-02/README.md
 - docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json
 
 ## Execution
 
@@ -30,6 +32,8 @@ Documentation review and handoff against merged PR748 and reconciliation PR750: 
 - Correct current lifecycle, scope and review documentation; preserve historical evidence.
 - Refresh content inventory and enforce exact hashes, source parity and merged predecessor ancestry.
 - Include complete Cargo manifest and local-dependency audit without version changes.
+- Incorporated PR752 source accounting, fixed current handoff exception status and resolved QUALITY_GATE merge conflict.
+- Refreshed dependency snapshot, current content hashes and validator accounting-source checks.
 
 ## Validation
 
@@ -113,16 +117,56 @@ Documentation review and handoff against merged PR748 and reconciliation PR750: 
     "purpose": "Check extracted local inline Markdown links in the audited documents and packet; remote reachability, bare refs and final acceptance are outside this local check.",
     "outcome": "passed",
     "evidence_ref": "link-check.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+      "--all"
+    ],
+    "purpose": "Post752 current documentation handoff validation; no release authorization.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+      "--final"
+    ],
+    "purpose": "Post752 current documentation handoff validation; no release authorization.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      "--check"
+    ],
+    "purpose": "Post752 current documentation handoff validation; no release authorization.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Post752 current documentation handoff validation; no release authorization.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -1,5 +1,6 @@
 # Sprint Plan — v0.92.1
 
+Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
 ## Current release-tail coordination
 
 WP-01/#480 has created the wave; its exact mapping is retained in

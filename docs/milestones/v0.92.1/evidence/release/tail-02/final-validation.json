@@ -1,0 +1,42 @@
+{
+  "schema": "adl.tail02.current_validation.v1",
+  "results": [
+    {
+      "command": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--all"
+      ],
+      "output": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--all\",\"status\":\"pass\",\"checks\":2824,\"final_acceptance\":false}\n",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--final"
+      ],
+      "output": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--final\",\"status\":\"pass\",\"checks\":800,\"final_acceptance\":false}\n",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "python3",
+        ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+        "--check"
+      ],
+      "output": "{\"status\": \"pass\", \"manifests\": 24, \"local_dependencies\": 20, \"final_acceptance\": false}\n",
+      "status": "pass"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "output": "",
+      "status": "pass"
+    }
+  ],
+  "release_authorized": false
+}

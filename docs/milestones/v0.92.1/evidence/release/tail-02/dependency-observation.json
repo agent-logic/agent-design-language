@@ -60,7 +60,20 @@
       "affected_row_count": 3
     }
   ],
-  "scope_boundary": "Merged predecessor satisfies the documentation-review dependency. Operator authorized the handoff while preserving blocked release acceptance.",
+  "scope_boundary": "The unresolved list preserves PR748 historical classifications. PR752 completes their accounting; use reconciliation for current dispositions. No dependency blocks the documentation handoff.",
   "merge_commit": "e734438b5fdba099ed607e0604254430ddd7d091",
-  "merged_at": "2026-09-09T01:09:08Z"
+  "merged_at": "2026-09-09T01:09:08Z",
+  "reconciliation": {
+    "pull_request": 752,
+    "merge_commit": "7b66e5159c0bbccac3725832a8f876f5b820152d",
+    "accounting_status": "complete",
+    "historical_non_proving_rows_accounted": 245,
+    "exception_groups_accounted": 5,
+    "unowned_accounting_rows": 0,
+    "unowned_exception_groups": 0,
+    "pending_accounting_issue_creations": 0,
+    "release_authorized": false,
+    "source_path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/exception-dispositions.json",
+    "source_sha256": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f"
+  }
 }

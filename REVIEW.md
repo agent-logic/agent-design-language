@@ -1,5 +1,6 @@
 # ADL Review Guide
 
+Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
 Current engineering review: [v0.92.1 documentation packet](docs/milestones/v0.92.1/evidence/release/tail-02/README.md). The packet incorporates merged #517 and records its blocked release decision; documentation handoff is separate from release acceptance; the v0.92 review entry below is retained completed-milestone history.
 
 **Purpose:** This document gives a reviewer, human or AI, a consistent way to review ADL without freezing the project into one exact repo shape. It captures stable review principles, the invariants ADL cares about most, recurring historical failure modes, and a practical structure for the final review output.

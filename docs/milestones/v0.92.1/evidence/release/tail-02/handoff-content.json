@@ -1,6 +1,6 @@
 {
   "schema": "adl.tail02.handoff_content.v1",
-  "merged_baseline": "f61deb36d5eccb4a3e391510bbea4bb6f2d51216",
+  "merged_baseline": "7b66e5159c0bbccac3725832a8f876f5b820152d",
   "scope": "Original audit union all tracked README-prefixed files, AGENTS.md, REVIEW.md, Cargo.toml, v0.92.1 milestone Markdown/YAML, packet inputs and validators. Excludes this manifest and derived validation results to prevent hash cycles. Typed review separately binds the exact commit.",
   "documents": [
     {
@@ -33,11 +33,11 @@
     },
     {
       "path": ".csdlc/prepared/issues/518/refresh-handoff-content.py",
-      "sha256": "8896db7d38fae9961b85fc179636f98e967eedb13dff9fbe4eb4e5ee649038ae"
+      "sha256": "65feddeea4e660c5d5236c0abd1af4003ffdea5201afb2909eb778664b9afe87"
     },
     {
       "path": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
-      "sha256": "f778d22003d0774eff812901f80330bfe73d126408ac70da1c87ff543e7d42a0"
+      "sha256": "054c88c9b270d71ebcc111773bfd97c6a96856b7646e85f5f2f2020b2c1e4c8f"
     },
     {
       "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
@@ -69,7 +69,7 @@
     },
     {
       "path": "REVIEW.md",
-      "sha256": "9d447a53b7a53967c2caa4fc5775bd358c67fe95cc69df52fefccdce2ddf9780"
+      "sha256": "d9e5cc4a266fccf7f27d8e7f6675fb5e7bd44fd2be0c82744b5d64c64e3209da"
     },
     {
       "path": "SECURITY.md",
@@ -1181,7 +1181,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-      "sha256": "26f7ea2c09f67a08e690357559cb16d29af95b511295d37516983ec6a2e9ccb3"
+      "sha256": "1b533a446bb3cd15dee7c783464b78e9928b566c38cd3b34d3801ba52e95ab91"
     },
     {
       "path": "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
@@ -1193,7 +1193,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
-      "sha256": "a6d797c0bc822884455232d98cd3b067e98601b4471096c289b71b860ed17a14"
+      "sha256": "1312516c4abf162eebbfe5abe3cd573ad5d76d0b0c47497fa8d9ebe66ee8da67"
     },
     {
       "path": "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
@@ -1209,7 +1209,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
-      "sha256": "dc3a1288f5655e6881a69633bf30658f4843f58700fd021453b7e09b11fd04cf"
+      "sha256": "6afd895c2ddf5154fa34df779d8a9514161bf53edc92b697d8ec2ee9d96e4067"
     },
     {
       "path": "docs/milestones/v0.92.1/README.md",
@@ -1217,7 +1217,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
-      "sha256": "e2fa0345426cd8f870b715ae3d51ae6187ec29e6939057168255f175a40e81c0"
+      "sha256": "75da2994c0d6d5082882f1913dd832bcf1d1e5093336b3ef19906fa2c2ec602a"
     },
     {
       "path": "docs/milestones/v0.92.1/RELEASE_PLAN_v0.92.1.md",
@@ -1225,7 +1225,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
-      "sha256": "f4f5ea2ad47d80363bf5d3b43522c3c7a6822fd867bc32d7bf5945603957766e"
+      "sha256": "26e2125ee99539a24c8b7e088ecb2e94507c4445f8bb22a5898026b421a46450"
     },
     {
       "path": "docs/milestones/v0.92.1/VISION_v0.92.1.md",
@@ -1241,7 +1241,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-      "sha256": "1efa641a501ad6d72e57da74c60a76587379b122b278c4981ba4ab51846eec13"
+      "sha256": "93f71af622e362f943c586d54ecbe5b4494670aad3f0edc3f94b60fc68013b83"
     },
     {
       "path": "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
@@ -1424,6 +1424,70 @@
       "sha256": "d3a262882b317d2f9664eab6fa99cabadccbb748cd8da529a1a43228ed41ee32"
     },
     {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/README.md",
+      "sha256": "a00cbddc7a6b344089c2f5702a9c87b7792e7e160032e988a161b78258db9201"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/accounting-closeout.md",
+      "sha256": "2d6a7b0906dcde1d4e72fc45c58373a8105a8633cc5091f014a5ea293d14daa7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/authority.json",
+      "sha256": "67708c1fdc63b00a82929aad8c77a13c9e4774106ad213dfdbb103bf06b346f5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/census.json",
+      "sha256": "fbbb546e2ed39b659c0d5fb79cd89ed4a8d5bc0f39df80093c31d1afbe96ff52"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/corrections.json",
+      "sha256": "d6976e993d5aeae1a3a641c682ef2c8c478a791709b54c84847173165e0d9c8c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/current-exceptions.json",
+      "sha256": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/exception-dispositions.json",
+      "sha256": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/ownership.json",
+      "sha256": "124d0e9d35beb824c9edc174b6d9a4ed36717f57f5b8662b18a0e1dad1c8cd2a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/release-stage-mapping.json",
+      "sha256": "dcb4d6fc325d310c48ebddb7c02c4d91f0d76685bdf7ec8a472f48698e5e56f4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/remaining-execution-work.md",
+      "sha256": "9913fc7ed4acf49f897838be083a400cdcb885e2fdc5b5ad7d4fbcca5c0586be"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-corporate-runtime.json",
+      "sha256": "fa9a8f5623196c66e46c876e5ae2ed3fa766f854f6c74c9dbf4cf0c1d2d9d027"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/retained-v3.json",
+      "sha256": "75ecf4a1eac0fbb065386720623540a7bd86407f57cb77ce3d8778d8a243d4de"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/review-final.json",
+      "sha256": "156423b2e771e05b05f5deac0c552684af44b455c93ce037c83b050196246781"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/review.json",
+      "sha256": "0905e655cea86b6ba2ba84aec466f1f82ca5d6be30ea4ebdbbac405ab3d90a90"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/terminal-closeout-750.json",
+      "sha256": "7f89071f4baaed5e9a6993e1cdca0d0c416677c718e65b5f497611d95057e5ed"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validation-final.json",
+      "sha256": "770ba5ebc66b0b7e8f2271a9393882e15953182801d9e6d0dff356dc7c7c76ca"
+    },
+    {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-01/review-remediation.md",
       "sha256": "35b92e423feb82f8dcfbce572c3df6a1d7cb0a9ca35362d541a2c4fec5f3763a"
     },
@@ -1433,7 +1497,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
-      "sha256": "f897c82090b42741caa7f022a2e7a2e28d1042b043237c3eb5b7a361380b4bef"
+      "sha256": "fa030d835f43281bbe00467c3f8bd45fdf985a5b12372b402e8b6ca745a988b3"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
@@ -1449,7 +1513,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
-      "sha256": "bab6c84e795066f398be56a7c03e1843f2ccc1c53b7f505a68f37681c7d164f6"
+      "sha256": "529c00ad8dfba78fa3e48954a8cb16c37fa503bfc2846ea2ab7ce2b02e80b9dd"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
@@ -2873,7 +2937,7 @@
     },
     {
       "path": "docs/planning/ADL_FEATURE_LIST.md",
-      "sha256": "619ec1bc008e6b4b60c7693c3e823856af6d92a5e1df1359323801dd4435a628"
+      "sha256": "a54b8b7782e6f9277cbec92a99742bfbbff41dbfb55f21d35b1ef5f3a97010e4"
     },
     {
       "path": "docs/planning/ADL_MILESTONE_WP_ORDERING_STANDARD.md",

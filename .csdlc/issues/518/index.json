@@ -3,146 +3,14 @@
   "issue": 518,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
-  "phase": "published",
-  "generation": 41,
-  "digest": "ab915f9f32d0ac37eb644009f990f2038309885a5889d09fc46bc52ffac9f1fe",
+  "phase": "implemented",
+  "generation": 48,
+  "digest": "9d48771723f8ddfca03da72a601bdc93625eca166563a2a3c805eb19a68e5e76",
   "branch": "codex/518-documentation-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review",
-  "review_assignment": {
-    "reviewer": "codex:root/review_518_docs",
-    "assigned_by": "codex:planning-6",
-    "revision": "git-blake3:0f9d9c28d26b00602846a21019a7327d36a39d20:98b30eb83c0d753426aca685193e281e2990e40240db377cf7c0a4f9bb9874e6",
-    "scope": [
-      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
-      ".csdlc/prepared/issues/518/refresh-handoff-content.py",
-      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
-      "AGENTS.md",
-      "CONTRIBUTING.md",
-      "README.md",
-      "REVIEW.md",
-      "adl/CONTRIBUTING.md",
-      "adl/README.md",
-      "adl/tools/README.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/README.md",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/README.md",
-      "docs/README.md",
-      "docs/architecture/ADL_ARCHITECTURE.md",
-      "docs/codex_playbook.md",
-      "docs/default_workflow.md",
-      "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
-      "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
-      "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-      "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
-      "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
-      "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
-      "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
-      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
-      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
-      "docs/milestones/v0.92.1/README.md",
-      "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
-      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
-      "docs/milestones/v0.92.1/WBS_v0.92.1.md",
-      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
-      "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
-      "docs/onboarding.md",
-      "docs/planning/ADL_FEATURE_LIST.md",
-      "docs/planning/codefriend/README.md",
-      "docs/tooling/README.md",
-      "docs/tooling/editor/README.md"
-    ]
-  },
-  "review": {
-    "reviewer": "codex:root/review_518_docs",
-    "scope": [
-      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
-      ".csdlc/prepared/issues/518/refresh-handoff-content.py",
-      ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
-      "AGENTS.md",
-      "CONTRIBUTING.md",
-      "README.md",
-      "REVIEW.md",
-      "adl/CONTRIBUTING.md",
-      "adl/README.md",
-      "adl/tools/README.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/README.md",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/README.md",
-      "docs/README.md",
-      "docs/architecture/ADL_ARCHITECTURE.md",
-      "docs/codex_playbook.md",
-      "docs/default_workflow.md",
-      "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
-      "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
-      "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
-      "docs/milestones/v0.92.1/DESIGN_v0.92.1.md",
-      "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
-      "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
-      "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
-      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
-      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
-      "docs/milestones/v0.92.1/README.md",
-      "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
-      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
-      "docs/milestones/v0.92.1/WBS_v0.92.1.md",
-      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-manifest-audit.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/creation-map.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
-      "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
-      "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
-      "docs/onboarding.md",
-      "docs/planning/ADL_FEATURE_LIST.md",
-      "docs/planning/codefriend/README.md",
-      "docs/tooling/README.md",
-      "docs/tooling/editor/README.md"
-    ],
-    "reviewed_revision": "git-blake3:0f9d9c28d26b00602846a21019a7327d36a39d20:98b30eb83c0d753426aca685193e281e2990e40240db377cf7c0a4f9bb9874e6",
-    "findings": [],
-    "residual_risks": [
-      "TAIL-01 release acceptance remains blocked with five source-recorded exceptions; terminal reconciliation does not supply semantic proof.",
-      "Static inventory and relative-link checks do not verify every historical sentence, remote URL, runtime behavior, build or vulnerability.",
-      "Independent review found three stale current entrypoints; fixed and approved at 0f9d9c28d26b00602846a21019a7327d36a39d20."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 518,
-    "pull_request": 753,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/753",
-    "base": "main",
-    "head": "codex/518-documentation-review",
-    "revision": "git-blake3:0f9d9c28d26b00602846a21019a7327d36a39d20:98b30eb83c0d753426aca685193e281e2990e40240db377cf7c0a4f9bb9874e6",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -156,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "84ff084ab6badeed54acc30264f3d5c6b93088c7916e253b320b9f10b5b6312b",
+      "values_digest": "17b133ca1fef60a79b884900e71d17a0de649ee8cb2136844f39d77be056488b",
       "rendered_digest": "015c9316e1b6da4255fa3ddf8e15d68e0c1c308c28078bdcb1a9dd7a47405375",
       "ast_digest": "f0fb5f0938f5f79eb1e9aa979b5bf1f57ed889f814fe8b4951ec97040cad2808"
     },
     "stp": {
-      "values_digest": "1d7649998da0558f524422e6fbefc5369b51ee7f778bf11451f54655c2246ec7",
+      "values_digest": "8787496d99ca7b2d5d98e91f4a46cc98f12e7e23c9e3584da9425af1e961472f",
       "rendered_digest": "21ee26a2c7ed47d8d91c4efa75d9811e76bdeff6d0365459ec07c4298830583c",
       "ast_digest": "97f13949b0cdb7c470f61c333fa2be19131484bed8658c7ed4c8dfd28580ff54"
     },
     "spp": {
-      "values_digest": "8497e8158226415451071fbdcf9021e0b38f25bc9a582ca4a65e06ee4ef2aa90",
+      "values_digest": "0aeb979023bfff95058347c601f39447f20c4b65df796c98e298ca074f986712",
       "rendered_digest": "e15d17fac6ca14edd5d7ff1dbe79df91813f171c4adc1da71bad5f90cf3b63e4",
       "ast_digest": "bd17839f77c6f5e52dfea2453ed15596f72f6321c4a659c392b46c98613faf47"
     },
     "vpp": {
-      "values_digest": "c1a71c15c5d28ce41503409bc3c6f56da964d40654583a2b5922cf15d62bf271",
-      "rendered_digest": "520b05b407b78011ca65b7a26e77cd5753ea5d7d0b422002d73bb5066892b89c",
-      "ast_digest": "0cd7721b001f85b81f2fd332fe2c5628818b1f85551c09f7c86ce33d0aec0ea2"
+      "values_digest": "35d39cd62ebbc68ab780ab2d870af3286c304140c869eda67a9ebd7aa929b520",
+      "rendered_digest": "9a865aa138667804502865616925bbe63d1b744d0d0ccf9707c7bc043c95d074",
+      "ast_digest": "9e2b208fd320215896a84c9be50192e23194ee567f7536f3ee80d9597ae6dba8"
     },
     "srp": {
-      "values_digest": "48080545709173922548ce923e492cd6082b9f294be2a9cfc2bb193ceba81701",
-      "rendered_digest": "82da6d58d7c02ae38bce484c78bdae8c72f1c858760710556773c10d02ad232e",
-      "ast_digest": "717b95952ae4355d1f08458928eab060301e1692dfa2f833514a030728c5bfce"
+      "values_digest": "70e1b1825a2a47ac3a45cbe2f680f1417ce1498c5a84106f61c2e94caf61614d",
+      "rendered_digest": "0c825259858dffbcddb66a7b5c904f5e3525c9782796f71638452d50babbc4d9",
+      "ast_digest": "06c5702fa7d2f9eb923919eeb5f291695a6b909afb2f1636267e429b57cdb172"
     },
     "sor": {
-      "values_digest": "03bde645831e0fa72319b11cb004e4025346fac8b0eb704133f1fcdec954dae2",
-      "rendered_digest": "8861679dbfc00016248423690de917560ce174ce5240edee6113ea21f723ac23",
-      "ast_digest": "7c9d2ffb94f75947ca0cb92b831560ad2ae77deaa39b6f4e14ce5e9cf54e7d0f"
+      "values_digest": "7e793a132d49f151a0fc63ac30eec34e42c83371af7f3ade0dd2f8bfe6f0cc60",
+      "rendered_digest": "6077290c7cd8fc23c6b361c09849d615f4d69fef181302cba0a936cfa48fbf69",
+      "ast_digest": "2e6d55072280fa6dbf4c9dde9cdac29617ac4fd7796697f0c41c841011209245"
     }
   },
   "transitions": [
@@ -221,6 +89,13 @@
       "to": "published",
       "actor": "codex:planning-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:planning-6",
+      "reason": "Address external P2 review at cc7f7a7469c8: incorporate merged PR752 accounting, resolve quality-doc conflict and refresh exact candidate review. Keep PR753 unmerged per operator."
     }
   ],
   "audit": [
@@ -531,6 +406,55 @@
       "actor": "codex:planning-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 45,
+      "generation": 42,
+      "actor": "codex:planning-6",
+      "reason": "Address external P2 review at cc7f7a7469c8: incorporate merged PR752 accounting, resolve quality-doc conflict and refresh exact candidate review. Keep PR753 unmerged per operator.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 43,
+      "actor": "codex:planning-6",
+      "reason": "Record incorporated issue517 accounting work and external review correction.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historical non-proving rows and five exception groups dispositioned; zero unowned accounting work. Preserves historical release assessment and no release authorization. Refreshed791-file inventory. External P2 stale-exception finding corrected; renewed exact-head review required; no merge authorized.\",\"changes\":[\"Incorporated PR752 source accounting, fixed current handoff exception status and resolved QUALITY_GATE merge conflict.\",\"Refreshed dependency snapshot, current content hashes and validator accounting-source checks.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json\",\"docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 44,
+      "actor": "codex:planning-6",
+      "reason": "Refresh inventory denominator after merged accounting inputs.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-doc-inventory\",\"proof_role\":\"Verify the immutable 737-document source inventory; final-handoff-gate verifies the refreshed 791-file content inventory.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--inventory\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"link-check\",\"proof_role\":\"Check extracted local inline Markdown links in the audited documents and packet; remote reachability, bare refs and final acceptance are outside this local check.\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--links\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"claim-audit\",\"proof_role\":\"Verify source snapshot parity, 15 documentation dispositions, explicit deferrals and retained blocked release decision; not product proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--claims\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove repository diff hygiene for the exact documentation candidate.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"final-handoff-gate\",\"proof_role\":\"Verify merged predecessor ancestry, exact document hashes, current finding dispositions and explicit release non-approval.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--final\"],\"parallel_group\":\"final\",\"defer_reason\":null},{\"lane\":\"cargo-manifest-inventory\",\"proof_role\":\"Audit all tracked Cargo manifests: TOML, package and inherited version identity, local dependency paths, offline no-deps Cargo workspace metadata. Not dependency builds, security, lock reproducibility or release-version approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/518/audit-cargo-manifests.py\",\"--check\"],\"parallel_group\":\"docs\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 45,
+      "actor": "codex:planning-6",
+      "reason": "Record current post752 validation, separate from historical pre752 results.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--all\"],\"purpose\":\"Post752 current documentation handoff validation; no release authorization.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json\"}}"
+    },
+    {
+      "sequence": 49,
+      "generation": 46,
+      "actor": "codex:planning-6",
+      "reason": "Record current post752 validation, separate from historical pre752 results.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/518/validate-documentation-handoff.rb\",\"--final\"],\"purpose\":\"Post752 current documentation handoff validation; no release authorization.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json\"}}"
+    },
+    {
+      "sequence": 50,
+      "generation": 47,
+      "actor": "codex:planning-6",
+      "reason": "Record current post752 validation, separate from historical pre752 results.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/518/audit-cargo-manifests.py\",\"--check\"],\"purpose\":\"Post752 current documentation handoff validation; no release authorization.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json\"}}"
+    },
+    {
+      "sequence": 51,
+      "generation": 48,
+      "actor": "codex:planning-6",
+      "reason": "Record current post752 validation, separate from historical pre752 results.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Post752 current documentation handoff validation; no release authorization.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json\"}}"
     }
   ]
 }

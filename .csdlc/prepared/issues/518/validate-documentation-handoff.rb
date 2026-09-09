@@ -73,7 +73,7 @@ if %w[--claims --all].include?(mode)
   require_true(findings.map { |f| f['id'] } == (1..15).map { |n| format('D%02d', n) }, 'finding denominator mismatch')
   require_true(findings.find { |f| f['id'] == 'D07' }['status'] == 'mapped_with_explicit_release_proof_debt', 'release proof debt hidden')
   require_true(snapshot['explicit_current_scope_exclusions'].map { |r| r['issue'] }.sort == [84, 251], 'deferrals lost')
-  require_true(File.read("#{packet}/README.md").include?('Release acceptance remains BLOCKED'), 'release decision omitted')
+  require_true(File.read("#{packet}/README.md").include?('Historical release assessment: BLOCKED; accounting reconciliation: complete'), 'release decision omitted')
   checks += 6
 end
 if %w[--final --all].include?(mode)
@@ -93,6 +93,7 @@ if %w[--final --all].include?(mode)
     name.start_with?('README') || %w[AGENTS.md REVIEW.md Cargo.toml].include?(name) ||
       (p.start_with?('docs/milestones/v0.92.1/') && %w[.md .yaml .yml].include?(File.extname(p)))
   end
+  expected += Dir.glob("docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/*.json")
   expected += Dir.glob("#{packet}/*").select { |p| File.file?(p) }
   expected += Dir.glob('.csdlc/prepared/issues/518/*').select { |p| %w[.py .rb].include?(File.extname(p)) }
   expected -= ["#{packet}/handoff-content.json", "#{packet}/final-validation.json"]
@@ -111,6 +112,13 @@ if %w[--final --all].include?(mode)
   _, _, status = Open3.capture3('git', 'merge-base', '--is-ancestor', dependency.fetch('merge_commit'), 'HEAD')
   require_true(status.success?, 'predecessor merge missing')
   require_true(read_json("#{packet}/finding-dispositions.json").all? { |f| %w[corrected_reviewed_locally corrected_after_predecessor_merge mapped_with_explicit_release_proof_debt].include?(f['status']) }, 'undispositioned finding')
-  checks += 6
+  reconciliation = dependency.fetch('reconciliation')
+  rp = reconciliation.fetch('source_path')
+  require_true(Digest::SHA256.file(rp).hexdigest == reconciliation.fetch('source_sha256'), 'accounting source drift')
+  accounted = read_json(rp)
+  require_true(accounted['unowned_exception_count'] == 0 && accounted['exceptions'].length == 5 && accounted['release_authorized'] == false, 'accounting disposition mismatch')
+  _, _, status = Open3.capture3('git', 'merge-base', '--is-ancestor', reconciliation.fetch('merge_commit'), 'HEAD')
+  require_true(status.success?, 'accounting merge missing')
+  checks += 9
 end
 puts JSON.generate(schema: 'adl.tail02.local_validation.v1', mode: mode, status: 'pass', checks: checks, final_acceptance: false)

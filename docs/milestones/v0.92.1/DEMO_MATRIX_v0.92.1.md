@@ -1,5 +1,6 @@
 # Demo Matrix — v0.92.1
 
+Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
 Review status: these requirements and planned outcomes are not an acceptance ledger. See [the TAIL-02 review packet](evidence/release/tail-02/README.md) for source revisions, observed proof gaps and deferred scope. The documentation handoff includes merged #517 and its blocked release decision; issue closure alone is not semantic proof.
 
 | Lane | Demonstration |

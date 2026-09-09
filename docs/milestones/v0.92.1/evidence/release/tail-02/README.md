@@ -1,7 +1,7 @@
 # v0.92.1 documentation review and external-review handoff — #518
 
 This packet delivers the documentation review of the merged TAIL-01 candidate.
-**Release acceptance remains BLOCKED.** Documentation-review completion is not
+**Historical release assessment: BLOCKED; accounting reconciliation: complete.** Documentation-review completion is not
 release approval and supplies no missing runtime, cloud, or review evidence.
 
 ## Candidate and review identity
@@ -27,7 +27,7 @@ review approval.
 1. Read the [canonical inventory](../../../CANONICAL_DOC_INVENTORY_v0.92.1.md)
    and [quality decision](../../../QUALITY_GATE_v0.92.1.md).
 2. Inspect [dependency-observation.json](dependency-observation.json) for the
-   merged predecessor identity and all five unresolved quality exceptions.
+   merged predecessor identity, historical exceptions and completed accounting.
 3. Inspect [finding-dispositions.json](finding-dispositions.json) for the 15
    documentation findings, corrections and explicitly retained limitations.
 4. Use [creation-map.json](creation-map.json) for the exact 45 child issues from
@@ -41,7 +41,8 @@ The initial [737-document inventory](document-inventory.json) remains an immutab
 source-time audit at `bf617859982f8b9613737344400626eb90768930`. All selected files
 were read and statically screened; this did not verify every historical sentence
 or runtime behavior. The current content inventory includes the original set,
-new README/AGENTS files, and new milestone documentation introduced by the merge.
+new README/AGENTS files, new milestone documentation and accounting source
+JSON introduced by the merges.
 Historical records preserve their source-time meaning.
 
 [source-proof-snapshot.json](source-proof-snapshot.json) preserves the integration
@@ -50,13 +51,18 @@ paths at candidate `bf159eb416950dfa3399933829726a7b7e71f897`. It is not current
 product acceptance. Its zero-backlog count does not override the explicit #84
 Unity and #251 TLS deferrals. #122 public exposure retains separate ownership.
 
-The merged quality evaluation inventories 393 rows and evaluates 366 required
-lanes: 121 passing, 245 non-proving, zero absent and zero demonstrated product
-failures. Its five exceptions remain visible: exact-head review gaps; live/spec
-synchronization; current criterion proof gaps; retained predecessor proof
-crosswalks; and shared-path owner sign-off. Affected row counts overlap and are
-not a separate issue denominator. These are release findings, not facts repaired
-by this documentation task.
+The historical quality evaluation inventories 393 rows and evaluates 366 required
+lanes: 121 passing and 245 non-proving. PR #752 subsequently reconciled all 245
+rows and all five grouped exceptions, with zero unowned accounting rows, zero
+unowned exception groups and zero pending accounting issue creations. It merged
+as `7b66e5159c0bbccac3725832a8f876f5b820152d`.
+
+Read [the accounting closeout](../tail-01/reconciliation/accounting-closeout.md)
+and [exception dispositions](../tail-01/reconciliation/exception-dispositions.json)
+for current successor and stage ownership. Closed predecessors are not reopened.
+The historical gate counts remain intact; accounting completion is not a new
+execution run or release authorization. Actual native defects belong to #749
+and #751. The former proposed follow-ups for 189 rows were withdrawn.
 
 ## Reviewer responsibilities and downstream ownership
 
@@ -69,7 +75,8 @@ closeout obligations; inventorying them does not mark them complete.
 
 #519 owns publication finalization and release-version decisions. #523's merged
 successor planning owns the v0.92.2 SIM program; this packet claims no SIM
-implementation. Product and evidence owners retain the five quality exceptions.
+implementation. The five historical exception groups have completed accounting dispositions;
+remaining code work retains its separate issue ownership.
 
 ## Reproduction
 

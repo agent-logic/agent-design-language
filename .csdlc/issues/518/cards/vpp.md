@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/518/diagram.mmd
 [
   {
     "lane": "canonical-doc-inventory",
-    "proof_role": "Verify the immutable 737-document source inventory; final-handoff-gate verifies the refreshed 775-file content inventory.",
+    "proof_role": "Verify the immutable 737-document source inventory; final-handoff-gate verifies the refreshed 791-file content inventory.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
