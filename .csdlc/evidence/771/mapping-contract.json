@@ -1,0 +1,14 @@
+{
+  "schema": "adl.v3f.mapping_contract_test.v1",
+  "command": [
+    "python3",
+    "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py"
+  ],
+  "result": "passed",
+  "contract_tests": 13,
+  "substitution_cases": 14,
+  "fixture_boundary": "Synthetic review and suite receipts in isolated local Git repositories; not actual V3-F review or suite proof.",
+  "actual_packet_status": "blocked_on_substantive_review",
+  "observed_at": "2026-09-09T17:24:35.429049+00:00",
+  "review_fix": "Historical baselines now match source Git blobs, candidate Git blobs and working bytes, with dirty-index rejection; refreshed-hash and staged/committed-plus-restored-working attacks rejected."
+}
