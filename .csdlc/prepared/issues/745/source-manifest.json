@@ -1,0 +1,221 @@
+{
+  "schema": "adl.745.adr_source_manifest.v1",
+  "issue": 745,
+  "baseline": "bf617859982f8b9613737344400626eb90768930",
+  "sources": [
+    {
+      "path": ".csdlc/evidence/514/ollama-materialization.log",
+      "sha256": "5aa09eccb2e3590d987a88b793f7634f7979e9784c215607b28ba1d06b9e0cae",
+      "bytes": 770
+    },
+    {
+      "path": ".csdlc/evidence/514/profile-schema.log",
+      "sha256": "6840c589a3d7b65c4ffe77e6ffab4122a82ab7b4609b9acbf2cf2717052e6555",
+      "bytes": 1120
+    },
+    {
+      "path": ".csdlc/evidence/514/redaction.log",
+      "sha256": "4f6c2c7754de8874be5edf4988e1c36680faba061fed89c350372d7009bc530f",
+      "bytes": 753
+    },
+    {
+      "path": ".csdlc/issues/512/cards/sor.md",
+      "sha256": "966d2b9056826b4a9c184c54c66f29567b6c0fd6ad73f001288b7cff9869888a",
+      "bytes": 3484
+    },
+    {
+      "path": ".csdlc/issues/513/cards/sor.md",
+      "sha256": "ac37fbdd2d1b717bb8080f9a2591d7e3ac2fded7d8ba4d76460a053a14469f9e",
+      "bytes": 5836
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "68a30484b97fbb48f2ccd50e410657f21a7984d6abf922ffd7be225228242793",
+      "bytes": 22547
+    },
+    {
+      "path": "adl-runtime-kernel/src/config_reload.rs",
+      "sha256": "53f60a3bda8bb559df02601f55b3a40422817bf813f9f78c0bf401da0a1ff9c8",
+      "bytes": 14146
+    },
+    {
+      "path": "adl-runtime/tests/config_reload.rs",
+      "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+      "bytes": 10484
+    },
+    {
+      "path": "adl/src/provider/reload.rs",
+      "sha256": "2fdf4bdb1795a8dc3da8ba665ea88709a89d34e805878989ed216eabaa659a94",
+      "bytes": 19450
+    },
+    {
+      "path": "csdlc-v3/operator/authority-selector.json",
+      "sha256": "c6edf9870c7b944148ea41cf151d6d4706d90e8916585d243526b8a13ec70050",
+      "bytes": 426
+    },
+    {
+      "path": "csdlc-v3/operator/native-authority-receipt.json",
+      "sha256": "663001f9abe69efd6eba5553f545382717accc6d4cce69fce6ce77ec51c1ebbb",
+      "bytes": 961
+    },
+    {
+      "path": "csdlc-v3/src/adapters/mod.rs",
+      "sha256": "39266b62ed70f7864f5ab2c1b519040d8450bbf264ac9938f115dc3889557f5c",
+      "bytes": 24092
+    },
+    {
+      "path": "csdlc-v3/src/authority.rs",
+      "sha256": "3b46640f422ec1a798a1a88d0e2e93f64863ffeb04c781641c00cb4661214b25",
+      "bytes": 17133
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/mod.rs",
+      "sha256": "bf298a0a15f5600c8021946b744f8e2b83cdd3367fb1a625fbd8620ef46ec701",
+      "bytes": 96419
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/mod.rs",
+      "sha256": "5285477252d7a41f6a3b6c7989032c2f9e7780b159e00620ed8c7a9e27925d48",
+      "bytes": 85196
+    },
+    {
+      "path": "docs/adr/0004-provider-profiles.md",
+      "sha256": "4d44f976e4df2b709b26ce8360bc76bfd925250c54ccb7ae930007c683a0364c",
+      "bytes": 4488
+    },
+    {
+      "path": "docs/adr/0041-provider-model-suitability-boundary-v2.md",
+      "sha256": "17b9274a9175c87f6ec170fe64a26547726dbd5b8ac6832a118bf0c75c35303c",
+      "bytes": 4127
+    },
+    {
+      "path": "docs/adr/0048-runtime-observability-and-otel-boundary.md",
+      "sha256": "dd9eea5593fa369f36ccb16cefc748605c802c1a45bf0543a15a1c3222006ed0",
+      "bytes": 1670
+    },
+    {
+      "path": "docs/adr/0054-runtime-v3-guardian-owned-kernel-and-api-boundary.md",
+      "sha256": "be18ed5287898f1c568e41435fb7c3b4a5ec6d02cdb0119cc5a505d2aba41d9a",
+      "bytes": 2698
+    },
+    {
+      "path": "docs/adr/0055-runtime-v3-unified-redb-state.md",
+      "sha256": "8d5269cb44daf136d31a7b92f13f91df19c53e2ff9e5cbc90a0c4c5644f0dfc9",
+      "bytes": 2980
+    },
+    {
+      "path": "docs/adr/0056-c-sdlc-v2-sole-lifecycle-authority.md",
+      "sha256": "419284b6a187b256b48e920db864c163c74d0b82d68fbaf24bc821ce2c99fe05",
+      "bytes": 2599
+    },
+    {
+      "path": "docs/adr/0057-reversible-adl-v2-default-and-rollback.md",
+      "sha256": "26f8130814dc6a81420e974930745fb70e84512277d09cfefc8857f783492e9b",
+      "bytes": 2318
+    },
+    {
+      "path": "docs/architecture/adr/0066-distributed-guardian-membership-authority-and-fencing-boundary.md",
+      "sha256": "bb0284dbe58c2865cc9d4892b6fa30879c505ab1edd2ab91b1a851f504de8a89",
+      "bytes": 1978
+    },
+    {
+      "path": "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+      "sha256": "aec6df4aae3c2ed62cfd187050c6a5efaa715b6bd903cc7b88a961fbed07f186",
+      "bytes": 1249
+    },
+    {
+      "path": "docs/architecture/adr/0070-cross-polis-continuity-transfer-planning-boundary.md",
+      "sha256": "534ad717eb2c35357c0c5dc7764a647d054ff09932bec91dbe4a519b665362a2",
+      "bytes": 1524
+    },
+    {
+      "path": "docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md",
+      "sha256": "654a0ed72149c9734a5219c8428f725f9429ccd4e3b55e801346023348ebdbb1",
+      "bytes": 1200
+    },
+    {
+      "path": "docs/architecture/adr/README.md",
+      "sha256": "a0e0b1632b1a05c47589c73b9a05659505809d3f103ebe6003f0c5cd80140b85",
+      "bytes": 2067
+    },
+    {
+      "path": "docs/csdlc-v3/CONTRACT.md",
+      "sha256": "a88492cf2a0c29b967136d73f7de6d9dcc4f453f72bc2680f7e27566f8dce7b3",
+      "bytes": 8217
+    },
+    {
+      "path": "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md",
+      "sha256": "da894463f2e4582fa15836f5a4cfa1d207e21febef8c327ffe0fbe2c524b66f1",
+      "bytes": 902
+    },
+    {
+      "path": "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+      "sha256": "411616ab494e151ada4932001283f67ba90ece7bfcc023d8866bf2aed7cc33f6",
+      "bytes": 3970
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/integration/gap_analysis_report.md",
+      "sha256": "5ffbe0f0088fef43866cca9f4475ad4e6b17358d6164c0d0976120f6bfbb54f5",
+      "bytes": 74125
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+      "sha256": "cdc460d44cd4cef831407322b130c78c5c821879f18048330efe4a6f9b5d55cd",
+      "bytes": 5801
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+      "sha256": "a97032c4e744c8835d215dff9846182bdf6110512af0009c69987e5fbe6771bb",
+      "bytes": 20858
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime/drt-d/qualification.json",
+      "sha256": "6a01d8dfa4630f916296de5a34f090e651e36f5c0aef312461fc1dfdf2a2afa3",
+      "bytes": 39711
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/AXUM_CONFIGURATION_HOT_RELOAD_v0.92.1.md",
+      "sha256": "ad06ef308e86ddaa7756a02ea8d78d14145cc99bc5bea5eb25cee30fc0c476ad",
+      "bytes": 754
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md",
+      "sha256": "812c39ccf9bb185c415e3948a6c363bd41ebd6c3daebcfb037005d9faddc8f37",
+      "bytes": 1360
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/GCP_SIX_RESIDENT_QUALIFICATION_v0.92.1.md",
+      "sha256": "8d5b3944394bcda00cffa8d7a3a15b1d437298bfedbd9b39e1c46810523637e2",
+      "bytes": 483
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/PROVIDER_INFERENCE_PROFILES_v0.92.1.md",
+      "sha256": "2eba460adbfd9ee787f08f05bd35ab7a3eb491302c4d0247ce1437010515ac51",
+      "bytes": 507
+    },
+    {
+      "path": "docs/provider/inference-profiles.md",
+      "sha256": "6bf065e46f3d3a4a25fde28ef2b8b169b03116d9f41dfc72b995f8244bc2b5a8",
+      "bytes": 3660
+    },
+    {
+      "path": "docs/runtime/config-hot-reload.md",
+      "sha256": "6b246c3a45133f627bba9a45e31812d13d8c331d64b7059ec54eae73d4eb98df",
+      "bytes": 1327
+    },
+    {
+      "path": "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "sha256": "81be3cd31dd98f2afa207da0128ab4812cb97eba4a3f6a9a7c982c88d56f8910",
+      "bytes": 7308
+    }
+  ],
+  "documents": [
+    "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+    "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+    "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+    "docs/architecture/adr/0074-runtime-generation-source-ownership.md",
+    "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+    "docs/architecture/adr/README.md",
+    "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md"
+  ]
+}

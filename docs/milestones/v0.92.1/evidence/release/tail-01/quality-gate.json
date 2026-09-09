@@ -1,0 +1,43 @@
+{
+  "schema": "adl.v0921.quality_gate.v1",
+  "issue": 517,
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "predecessor_issue": 516,
+  "predecessor_pr": 737,
+  "predecessor_merge": "bf617859982f8b9613737344400626eb90768930",
+  "predecessor_base": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "admission_source": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+  "admission_source_sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d",
+  "admission_source_digest": "46dc34722e74af8aa934cc277d6d3f0c7f8ef9e7a138c6d2db2b22f6dcb5a527",
+  "denominator_sha256": "538645cb2e27bb57e04cf3ea1e97f5bb56df8da1a33005b40d8aa398dd798701",
+  "blockers_sha256": "ede57e98659a924ae3176b35cff90daf99876b4de96586254ecafd582eb79390",
+  "predecessor_sha256": "34763c4bee34f4ac04295df50faa2f82c8e7da050a2a4cef6f49754494dfe415",
+  "candidate_remediations_sha256": "335b4a4586be11a75987d22208cc542c4b87e586475ed28924c863455af181d2",
+  "inventoried_lane_count": 393,
+  "required_lane_count": 366,
+  "downstream_stage_lane_count": 27,
+  "lane_result_counts": {
+    "pass": 121,
+    "fail": 0,
+    "non_proving": 245,
+    "absent": 0
+  },
+  "lane_result_counts_by_source": {
+    "execution_issues": {
+      "pass": 121,
+      "fail": 0,
+      "non_proving": 18,
+      "absent": 0
+    },
+    "retained_predecessors": {
+      "pass": 0,
+      "fail": 0,
+      "non_proving": 227,
+      "absent": 0
+    }
+  },
+  "unresolved_exception_count": 5,
+  "unowned_exception_count": 0,
+  "decision": "blocked",
+  "downstream_unlock": false
+}

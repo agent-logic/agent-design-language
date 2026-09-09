@@ -28,3 +28,13 @@ Go requires the quality gate, current internal and external review, disposition 
 ## Rollback
 
 The release candidate is a normal Git revision and published artifacts are versioned. If post-publication evidence contradicts the release claim, withdraw or supersede the affected artifacts, preserve the evidence, revert the bounded release changes, and reopen remediation without rewriting historical review truth.
+
+## Candidate convergence within the canonical tail
+
+TAIL-06 records the candidate revision and complete artifact-manifest digest before and after each remediation. Any substantive candidate or claim/artifact change rebuilds affected artifacts, reruns affected proof, refreshes TAIL-01 quality truth, and obtains current internal and external review against the revised candidate. Repeat within the remediation gate until findings, evidence and review agree. Earlier review remains immutable historical evidence, never approval of new bytes. TAIL-10 requires exact equality among release candidate, reviewed candidate, approved manifest and release authorization. Deferral cannot waive unresolved P1 or privacy/provenance failures. The outer ten-step order stays unchanged.
+
+Product integration may finish before independent supporting work. TAIL-01 converges every admitted support issue, including #717/#718/#720, before milestone quality approval.
+
+## First-sprint convergence
+
+The independently launched SIM sprint runs first alongside Runtime. TAIL-01 consumes completed SIM-UMBRELLA (including SIM-07 qualification and its authorized activation/pilot boundary). The sprint does not gate CF-INTEGRATE or urgent #718. If activation is not authorized, record the unresolved program gate; do not silently call the sprint or milestone complete.

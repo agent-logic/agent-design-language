@@ -1,0 +1,96 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 745,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "slug": "v0921-adr-curation",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Apply the reviewed source packet in a bound worktree, validate the bounded documentation, review independently, and deliver through explicitly authorized typed v2.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind the issue and refresh source evidence and candidate-number availability.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Apply the reviewed ADR drafts and eight-topic disposition table; record #744 and v2 authorization.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Validate links, sections, statuses, source hashes and diff; obtain independent exact-head review.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Publish through typed v2 recovery, settle CI, finish and clean the registered worktree.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/architecture/adr/0072-csdlc-v3-native-authority.md",
+        "docs/architecture/adr/0073-validated-configuration-snapshot-reload.md",
+        "docs/architecture/adr/0074-runtime-generation-source-ownership.md",
+        "docs/architecture/adr/0075-provider-profile-and-shadow-authority.md",
+        "docs/architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md",
+        "docs/architecture/adr/README.md",
+        "docs/milestones/v0.92.1/ADR_PLAN_v0.92.1.md",
+        ".csdlc/prepared/issues/745",
+        ".csdlc/issues/745",
+        ".csdlc/evidence/745",
+        ".csdlc/prepared/issues/745/validate-adrs.py"
+      ],
+      "invariants": [
+        "Proposed and Deferred statuses remain explicit.",
+        "Exactly eight planned topics are accounted for.",
+        "Existing accepted records remain unchanged."
+      ],
+      "risks": [
+        "Candidate numbers may collide with concurrent work.",
+        "Source evidence may have advanced since draft preparation."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Unresolvable source or numbering conflict",
+        "Authority-changing scope required"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/745/design.md",
+      "design_digest": "a9956cdd37d14c49e07d235efbf070238223af515fa1921b6cbd75bf4c7ab6fd",
+      "diagram_ref": ".csdlc/prepared/issues/745/diagram.mmd",
+      "diagram_digest": "6cb1b67911038c13dd9e2351f6695b0d1a61655c9467cbc4bcff2ec9a84eb428"
+    }
+  }
+}

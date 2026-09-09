@@ -1,0 +1,41 @@
+{
+  "schema": "adl.planning.source_disposition.v1",
+  "status": "Historical rationale; tracked adopted contract is the self-contained requirement surface",
+  "sources": [
+    {
+      "path": ".adl/docs/TBD/CODE_FRIEND_v0.5_BETA.md",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    },
+    {
+      "path": ".adl/docs/TBD/codefriend_ai/PRODUCT_BRIEF.md",
+      "sha256": "abceb439d3926119cf82afda32da89ea0d4820eb6059fa23c07090bd252165d0",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    },
+    {
+      "path": ".adl/docs/TBD/codefriend_ai/TECHNICAL_ARCHITECTURE.md",
+      "sha256": "5bebb5110fc0e3b198cbbafde8cc14cca1eac49723036490f1154950580cd61d",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    },
+    {
+      "path": ".adl/docs/TBD/codefriend_ai/MVP_BUILD_PLAN.md",
+      "sha256": "67d100180e2b7e5862409261029abe3c84536c992431f990ef6e144d9d52cbdd",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    },
+    {
+      "path": ".adl/docs/TBD/codefriend_ai/PORTABLE_ADL_PROJECT_ADAPTER_V2_PLAN.md",
+      "sha256": "3ced9a601d01da34400636f60cec80cf38590463ae0607592246315a066101f4",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    },
+    {
+      "path": ".adl/docs/TBD/codefriend_ai/REVIEW_PACKET_SPEC.md",
+      "sha256": "291ec2ff4e13a93198b15dc794c7d4d21ffc5aaa9e80e5d5b144e837f9d123bd",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    },
+    {
+      "path": ".adl/docs/TBD/codefriend_ai/CODEFRIEND_SECURITY_MODEL.md",
+      "sha256": "7800c35a6a3b0a67f7b7163f5b306ab9a0d024932a760f572b077d8e0da99208",
+      "disposition": "adopted_subset_in_ADOPTED_DESIGN_CONTRACTS; other scope not implicitly admitted"
+    }
+  ]
+}

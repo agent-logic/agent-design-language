@@ -1,0 +1,87 @@
+{
+  "schema": "adl.v0921.quality_gate_blockers.v1",
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "unresolved": [
+    {
+      "id": "execution-exact-head-review-gaps",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "2 executed issues retain substantive post-review changes without current exact-head review.",
+      "disposition": "open",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 7
+    },
+    {
+      "id": "consolidated-live-spec-sync-debt",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records.",
+      "disposition": "follow_up",
+      "owner": "release planning maintainers",
+      "affected_row_count": 4
+    },
+    {
+      "id": "semantic-criterion-proof-gaps",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "11 current planned criteria lack candidate-bound proof or explicit amendment authority.",
+      "disposition": "follow_up",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 11
+    },
+    {
+      "id": "retained-predecessor-criterion-proof-gaps",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "Retained predecessor criteria have no criterion-level mapping to candidate-bound successor evidence.",
+      "disposition": "open",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 227
+    },
+    {
+      "id": "consolidated-owned-path-resolution-proof-debt",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "Shared paths lack explicit owner sign-off; no final-content requirement loss was demonstrated.",
+      "disposition": "follow_up",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 3
+    }
+  ],
+  "accepted": [
+    {
+      "id": "accepted-semantic-amendments",
+      "severity": "P2",
+      "classification": "accepted_amendment",
+      "summary": "Explicit live acceptance/absorption/sequencing amendments replace the listed original criteria.",
+      "disposition": "accepted",
+      "owner": "release operator",
+      "affected_row_count": 4
+    }
+  ],
+  "resolved": [
+    {
+      "id": "issue-487-semantic-implementation-gap",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "AWS-D has 3 audit-confirmed unmet implementation criteria.",
+      "disposition": "resolved_by_candidate_remediation",
+      "owner": "issue #487",
+      "affected_row_count": 3,
+      "resolution": "Candidate-ancestral reviewed remediation and live proof close every affected implementation criterion."
+    },
+    {
+      "id": "issue-491-semantic-implementation-gap",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "GCP-B has 1 audit-confirmed unmet implementation criteria.",
+      "disposition": "resolved_by_candidate_remediation",
+      "owner": "issue #491",
+      "affected_row_count": 1,
+      "resolution": "Candidate-ancestral reviewed remediation and live proof close every affected implementation criterion."
+    }
+  ],
+  "unowned": [
+
+  ]
+}

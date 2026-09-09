@@ -45,3 +45,14 @@ Current v0.91.8 accepted ADRs are tracked in
 ADR 0051 through ADR 0058. Runtime v3 OpenAPI, WSS, TLS, Observatory, and OTel
 details are consequences of ADR 0054 and ADR 0048 unless a future issue records
 an incompatible decision.
+
+## v0.92.1 candidates
+
+[The v0.92.1 ADR plan](../../milestones/v0.92.1/ADR_PLAN_v0.92.1.md) accounts for
+all eight planned topics. Candidates below are tracked by issue #745; none is accepted by this index.
+
+- [0072: C-SDLC v3 native authority](0072-csdlc-v3-native-authority.md)
+- [0073: Validated configuration snapshot reload](0073-validated-configuration-snapshot-reload.md)
+- [0074: Runtime generation source ownership](0074-runtime-generation-source-ownership.md)
+- [0075: Provider profile and shadow authority](0075-provider-profile-and-shadow-authority.md)
+- [0069: Observatory](0069-observatory-governed-runtime-consumer-boundary.md) retains Deferred status with an added v0.92.1 disposition.

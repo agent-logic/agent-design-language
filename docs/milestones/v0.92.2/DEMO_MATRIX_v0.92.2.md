@@ -15,3 +15,11 @@ Status: planned demonstrations; none are yet claimed as passing.
 | D9 ADL self-review | Complete bounded Beta 1 review of ADL | CF-PROOF | Does not certify the entire repository defect-free |
 | D10 External OSS review | Complete bounded review of one licensed open-source repository | CF-PROOF | Does not establish customer-scale generality |
 | D11 Integrated failure | Provider/input/renderer failure remains explicit and non-proving | CF-INTEGRATE | Does not simulate every infrastructure failure |
+
+## Existing issue demonstrations
+
+| Demo | Owner | Proof | Non-claim |
+|---|---|---|---|
+| D12 Canonical peer addressing | #718 | Two ordinary agents exchange governed messages and model-generated replies by canonical name | Helper-only or transport-only success is not acceptance; no new cross-node transport claim |
+| D13 Capability orientation | #717 | Admitted test agent receives current capability map and exact orientation receipt before first turn | Orientation grants no authority; no live provider required |
+| D14 Live-only Observatory | #720 | Startup/navigation cannot expose retained historical telemetry as live | Historical evidence remains intact |
