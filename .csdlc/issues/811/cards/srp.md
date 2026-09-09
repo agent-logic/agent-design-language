@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "all-issue-closeout-review-prompt"
 issue: 811
 task_id: "issue-0811"
 version: "1.0.5"
 title: "Reconcile every closed issue including no-PR dispositions"
 branch: "codex/811-all-issue-closeout"
-generated_at: "<timestamp>"
+generated_at: "2026-09-09"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/811"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/811/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/811/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/811/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/811/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/811/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/811/cards/stp.md"
+  - ".csdlc/issues/811/cards/sip.md"
+  - ".csdlc/issues/811/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/811/cards/stp.md"
+  - ".csdlc/issues/811/cards/sip.md"
+  - ".csdlc/issues/811/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Independent reviewer review_811 inspected the revised source and regression tests; follow-up found no actionable findings. Review did not independently rerun tests. Final artifact-head review follows before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/811/cards/stp.md
+- .csdlc/issues/811/cards/sip.md
+- .csdlc/issues/811/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Initial P2: arbitrary context HEAD could be persisted. No remaining actionable findings after fix.
 
 ### Dispositions
 
-- <review_dispositions>
+- P2 fixed by actual HEAD comparison before persistence and regression coverage.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pass
 
 ## Notes
 
-<review_notes>
+Independent reviewer review_811 inspected the revised source and regression tests; follow-up found no actionable findings. Review did not independently rerun tests. Final artifact-head review follows before publication.

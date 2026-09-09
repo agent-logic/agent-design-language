@@ -9,5 +9,18 @@
   "card": "srp",
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout",
+  "spp_card": ".csdlc/issues/811/cards/spp.md",
+  "vpp_card": ".csdlc/issues/811/cards/vpp.md",
+  "review_findings": "Initial P2: arbitrary context HEAD could be persisted. No remaining actionable findings after fix.",
+  "stp_card": ".csdlc/issues/811/cards/stp.md",
+  "findings_status": "no_findings",
+  "review_notes": "Independent reviewer review_811 inspected the revised source and regression tests; follow-up found no actionable findings. Review did not independently rerun tests. Final artifact-head review follows before publication.",
+  "review_dispositions": "P2 fixed by actual HEAD comparison before persistence and regression coverage.",
+  "slug": "all-issue-closeout",
+  "timestamp": "2026-09-09",
+  "recommended_outcome": "pass",
+  "sor_card": ".csdlc/issues/811/cards/sor.md",
+  "sip_card": ".csdlc/issues/811/cards/sip.md",
+  "srp_card": ".csdlc/issues/811/cards/srp.md"
 }

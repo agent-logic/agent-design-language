@@ -35,15 +35,15 @@ Generated: 2026-09-09
 
 ## Summary
 
-Persist authenticated terminal closeout for every closed issue, including approved no-PR dispositions, and accept complete GitHub closing-keyword syntax without weakening linkage checks.
+Persist authenticated terminal closeout for every closed issue, including approved no-PR dispositions. Preserve all existing merged-PR linkage guards.
 
 ## Goal
 
-Persist authenticated terminal closeout for every closed issue, including approved no-PR dispositions, and accept complete GitHub closing-keyword syntax without weakening linkage checks.
+Persist authenticated terminal closeout for every closed issue, including approved no-PR dispositions. Preserve all existing merged-PR linkage guards.
 
 ## Required Outcome
 
-Persist authenticated terminal closeout for every closed issue, including approved no-PR dispositions, and accept complete GitHub closing-keyword syntax without weakening linkage checks.
+Persist authenticated terminal closeout for every closed issue, including approved no-PR dispositions. Preserve all existing merged-PR linkage guards.
 
 ## Deliverables
 
@@ -51,7 +51,7 @@ csdlc-v3/src/commands/terminal.rs, narrowly coupled adapters/tests, docs/csdlc-v
 
 ## Acceptance Criteria
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 199-issue audited closeout sweep.
 
 ## Repo Inputs
 
@@ -67,11 +67,11 @@ csdlc-v3/src/commands/terminal.rs, narrowly coupled adapters/tests, docs/csdlc-v
 
 ## Validation Plan
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 199-issue audited closeout sweep.
 
 ## Demo Expectations
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 199-issue audited closeout sweep.
 
 ## Non-goals
 
