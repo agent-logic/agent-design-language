@@ -43,11 +43,11 @@ Complete lane denominators and deterministic samples implemented; six focused Py
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
