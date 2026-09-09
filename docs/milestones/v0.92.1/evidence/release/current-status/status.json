@@ -1,9 +1,9 @@
 {
   "schema": "adl.v0921.release_status_projection.v1",
   "issue": 767,
-  "projection_status": "draft_pending_remediation_refresh",
-  "as_of": "2026-09-09",
-  "source_revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+  "projection_status": "refreshed_with_explicit_release_debt",
+  "as_of": "2026-09-09T18:09:55.770152+00:00",
+  "source_revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
   "release_decision": "blocked",
   "release_authorized": false,
   "source_admission_candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
@@ -17,333 +17,358 @@
   "sources": [
     {
       "path": ".csdlc/evidence/262/http-playback-browser-proof.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "860cb655c212260e7b0d1772df6abbdb680271e75d4f69f61fb35cdae809eb21"
     },
     {
       "path": ".csdlc/evidence/262/http-playback-native-proof.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "32a22015cda260076ae6b37c7716ebcfcdebcfcefe82c6e6eb166ce8b6d3babc"
     },
     {
       "path": ".csdlc/evidence/262/live-production/public-production-proof.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "ae5895ce1ff184ab1a515c5991538430d221e73ecd412ef1eeb109460e5d8103"
     },
     {
       "path": ".csdlc/evidence/264/submission-gate-validation.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "5a5af16d65adda7a0e5f69bab5c7115c95bd58bdd6e4e46e0e779e545c90754d"
     },
     {
       "path": ".csdlc/evidence/497/corp-c-operational-control-acceptance.log",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "c744cd34768a30e8b4f9d1785b88e47b689d6f03576803606bc6dedbfd3a2652"
     },
     {
       "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "f052ebf3002db93901b0312915896b44347b1fde7fd4e94fd1040f3c29032109"
     },
     {
       "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "5c92ac46be5ad8f50fff77abb8b782b861ec52c2b5577be52be84b2bc51a0a92"
     },
     {
       "path": ".csdlc/evidence/740/backend-canary-state.redacted.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "01f2a5ef69b2cf3a4ed6afb0b5cbac95d8c2b36bd503468a7c20120b73a0b8a1"
     },
     {
       "path": ".csdlc/evidence/740/gcp-b1-iam-policy.redacted.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "0bd165d57748a9610a58684881f0074ef1ce15005c47cc31a250b4c845184e1b"
     },
     {
       "path": ".csdlc/evidence/740/gcp-b1-readback.redacted.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "59af1cf23038815201c9ae9c868704777abec48468c94d067851fe1dcbf7dbf8"
     },
     {
       "path": ".csdlc/evidence/740/live-proof.redacted.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "9557668d2ef46215a7c860e9af6c8245579e154cfccafd93d331e55d9bb7ac37"
     },
     {
       "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "44ae40aad7b6ceabdbc62fefcd83043087f21d210778707302909ca6f04a5392"
     },
     {
       "path": ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "4a9ac7daafbd2980bc6d4bc986a5c729f33ac9c7f7377bc868403bdbdfe73d9c"
     },
     {
       "path": "adl-runtime-kernel/src/config_reload.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "53f60a3bda8bb559df02601f55b3a40422817bf813f9f78c0bf401da0a1ff9c8"
     },
     {
       "path": "adl-runtime/tests/distributed_contract/main.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6"
     },
     {
       "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6"
     },
     {
       "path": "adl/src/provider/mod.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "3594abab72af0e9f133b0cb9b9e4cf09ac47ee324cd7f03d33438472879254c7"
     },
     {
       "path": "adl/src/provider/profiles.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "eaede14e77171736c6093a0b898f4402f482865530232a2d95b699c4d8105e8e"
     },
     {
       "path": "adl/src/resilience.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "b70a442eb5550f4fdac397b049840e3213e375505bc85ed07db92f3275d298d0"
     },
     {
       "path": "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "63f7e638da6d651bafb0686f259ca2f0b41803dfbbc8be0e27331886adcb138f"
     },
     {
       "path": "csdlc-v3/Cargo.toml",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "4d8c5bf5d3859e02fb7ff270018ea5c56ca37a29f17b69a7979809ace2df8ba0"
     },
     {
       "path": "csdlc-v3/src/authority.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "3b46640f422ec1a798a1a88d0e2e93f64863ffeb04c781641c00cb4661214b25"
     },
     {
       "path": "csdlc-v3/src/commands/local/mod.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
-      "sha256": "2446349513831bbade027c8a75a6ca62b6e906fde8037a6ce942725f8b748cab"
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "1cbc46b5f8c5c369f4ccfcaedccec4aa2cd3839879b25b2209ff8a86a1fa9244"
     },
     {
       "path": "csdlc-v3/src/commands/remote/mod.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
-      "sha256": "f15f5fcd92cfdacae1bb2b98ce3686139b0ccad2374719166039c249774dbec6"
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "33d8a8c45faa93a34a5c4d51267ade40bef29d958b013468e45f7da93866b483"
     },
     {
       "path": "csdlc-v3/src/lifecycle/mod.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "8b7c43e6b1868a0a7a34787f76c2bb6637b6ddc2a72663e90e42b9df90fe2e9b"
     },
     {
       "path": "csdlc-v3/src/repository/mod.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "2cb16bb7f71688dcde016565a9c9e497f3fd70de01e2918c1b9290a158183727"
     },
     {
       "path": "csdlc-v3/src/review/mod.rs",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "62a0c2bfdf1ae2fddb39618b8c8e2c7dd373478a8aea2d105d965883ece727a6"
     },
     {
       "path": "docs/csdlc-v3/CONTRACT.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "a88492cf2a0c29b967136d73f7de6d9dcc4f453f72bc2680f7e27566f8dce7b3"
     },
     {
       "path": "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "ffb5dffe4d20d162a4264100e40708dee3ae92004e698deebed12193ec0ce3bb"
     },
     {
       "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "86e98264b2bfe34877ce7f35a05f2df694a0420361784cef310b417426269833"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "6f5e3066f398f7e551c9c16690d0d07cc80aa2fb81098e426f01ec10664cd2cf"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "d9d1a7523eec907f659b17b7ec36b4b628a10a3f1cbb7500633983edead6d14b"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "8c6ad4506b5ecf21d6c158450d2dc69a621753ac1495ac1503c4d2e8c9c4ab86"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "a4aa3d47d26f02cd49e62cd7c55966c4315169ffd184dcdddb6626af43cae19e"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "087e27ff4a1c2ef5ecddccc1182bffed89d43a076b61616a62c833eeaf1dd72b"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "643cd1397b30b608c9a4ea33abc938c3435ca9a5a23f5e279d929760ddf6398b"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "02e2137c8aba30d870aabcd6cf60f87af02c6456c4f9f21e38893a8604f90a6a"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "f9ab01720008cb2a8c61575f3e4b0aaf025fd73f866d2de616dba3467565a4f4"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "17ff0bd4a480e3488ba7ed16e460dab3d41b68803661a4fcb2ad4f6606997738"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "2a63cabd8c6f8b92d368b219540a73eeec18cc639ffd1efa463c9c0853120613"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "796dcf3ccaff7184ec029e5d43d40fabe28780636e7821855a17e382d57ba7a4"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "53f88675ff7779ef403a94f735b80f9cb29deb1db05ed18b7df6043506b7f557"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "15b7beff7c315d1c119fbf4f34c4655dd7cc7509b4d4ad49733ad5dcd348aedf"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/current-exceptions.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/exception-dispositions.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/ownership.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "124d0e9d35beb824c9edc174b6d9a4ed36717f57f5b8662b18a0e1dad1c8cd2a"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "485b89b19d9acdc31727ff3211c6dc5857dca241e1896670ea6e3efde0742b61"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "d90a5161929a3ee4d7ea0883ee87464ab5d539d1da7f7280551cf98d9a263bf0"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "736ea3e0b59d032a111f87019bac888933ef0b0b099dc79ebaeb8d8d6be1ba4b"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "4e1ea4b400f7782657071dc6b1c304d5a23315404bf30a148467a039203e39dd"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "cdc460d44cd4cef831407322b130c78c5c821879f18048330efe4a6f9b5d55cd"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "c8a468200250b6098b0df3d10bbd7741f65c18651123e4aa8666cf5e587d9ad1"
     },
     {
       "path": "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "4a714baf16d13f71c9b4289e333f32d05b1cc7294c3b87cfb162688142da9db3"
     },
     {
       "path": "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "71579a682ef3fe789c39e1b890707227825685baeecfa4cd4dd900d3ac2e9907"
     },
     {
       "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "5ed6f495bfd5f50ca976e9f361bb104a5e54702035042da7b6f57ecfc100f4e8"
     },
     {
       "path": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "1b246f8ed69cc950df1dfd67178fe3becb8db503689214678a4fde1b7eff084d"
     },
     {
       "path": "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "f3fab1f1b2d05c1db47ac333ff38046e0934e64a327d90a06ca5a959de71d4b0"
     },
     {
       "path": "infra/aws/account-foundation/main.tf",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "0761a801cd8b552a1151b0fa20ca4644dd501008c32ff60cd3184d9fcfdd58a7"
     },
     {
       "path": "infra/aws/bootstrap/main.tf",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "bd865c3bf5b223b43e09ef187d77bc8589c42028e8a5db093a4385876e294794"
     },
     {
       "path": "infra/aws/runtime/private-node/main.tf",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "46f275be76664a02f12517b672bdfba34fdb6e85fee4b950ba00d01a4b91b3a4"
     },
     {
       "path": "infra/gcp/bootstrap/main.tf",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "77d2e115c5fafed2b8e5f3dd51724df3005ef8b765686f5582940c5474363293"
     },
     {
       "path": "infra/gcp/platform/main.tf",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "64a5e7a767209d2aff3722c9aa76bee197434657a549f32ab5739b6fdfe6b5ac"
     },
     {
       "path": "infra/gcp/workloads/gpu-smoke-instance/main.tf",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "334676b6bfa928624d50e59d8a2e2ba28a70829d02415def052d9ea9054675f7"
     },
     {
       "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
-      "revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
       "sha256": "60c022659a3c01ee10b91db48c8193e019da8fc345c380725de6752ef3a4901e"
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "afd45c8651e1696af9253a29bcdd9efc09e33d02db06c2368fa6e4185f5c064d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df"
+    },
+    {
+      "path": ".csdlc/evidence/432/terminal-receipt.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "3864144601d9bdd7c5570c1ecdbbe995480678d37d33ec4a1955cc312126dfaa"
+    },
+    {
+      "path": ".csdlc/evidence/316/planning-audit.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "92526cb94f955fffc7263f40f12eac3503821e205ac33628a6237a00e4c06bad"
+    },
+    {
+      "path": ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "2c4215d7be9d9cdf2edcd49be8fdc30aa8ab04991d17c7cc09d6f1dc97f07ed8"
     }
   ],
   "work_packages": [
@@ -362,10 +387,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "CORP-A",
@@ -382,10 +406,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "CORP-B",
@@ -402,10 +425,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-A",
@@ -425,10 +447,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-B",
@@ -450,10 +472,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-C",
@@ -470,10 +492,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-D",
@@ -491,10 +513,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-E",
@@ -511,10 +533,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-F",
@@ -532,10 +554,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "GCP-A",
@@ -552,10 +574,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        772
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "GCP-B",
@@ -574,10 +596,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        772
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "GCP-C",
@@ -594,10 +616,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        772
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "GCP-D",
@@ -615,10 +637,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        772
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "GCP-E",
@@ -635,10 +657,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        772
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "XCL-01",
@@ -655,10 +677,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "AWS-G",
@@ -675,10 +696,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        770
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "CORP-C",
@@ -704,10 +725,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "CORP-D",
@@ -724,10 +744,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "RUST-01",
@@ -744,10 +763,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        766
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "V3-A",
@@ -764,10 +783,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        771
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "V3-B",
@@ -784,10 +803,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        771
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "V3-C",
@@ -804,10 +823,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        771
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "V3-D",
@@ -824,10 +843,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        771
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "V3-E",
@@ -844,10 +863,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        771
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "V3-F",
@@ -866,10 +885,10 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        771
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "DRT-A",
@@ -886,10 +905,11 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        758,
+        759
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "DRT-B",
@@ -907,10 +927,11 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        758,
+        759
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "DRT-C",
@@ -927,10 +948,11 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522,
+        758,
+        759
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "DRT-D",
@@ -947,10 +969,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "HOT-01",
@@ -967,10 +988,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "OBS-A",
@@ -994,10 +1014,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "OBS-B",
@@ -1015,10 +1034,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "DEC-01",
@@ -1035,10 +1053,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "PROV-A",
@@ -1055,10 +1072,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     },
     {
       "id": "PROV-B",
@@ -1075,10 +1091,9 @@
       ],
       "current_release_proof": "blocked",
       "proof_debt_owners": [
-        761,
-        764
+        522
       ],
-      "limit": "Retained source classifications describe their source-time scope; complete candidate-bound review and proof projection awaits the named remediation owners."
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
     }
   ],
   "features": [
@@ -1093,8 +1108,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "Execution-wave creation receipt and repository planning delivered.",
       "limit": "Opening receipt is not product proof or release approval.",
@@ -1114,8 +1128,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance.",
       "limit": "Recordless acceptance is an amendment, not a fabricated test run; retained criteria need complete candidate review.",
@@ -1137,14 +1150,8 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        749,
-        751,
-        761,
-        762,
-        763,
-        764,
-        771,
-        776
+        522,
+        771
       ],
       "delivered": "Native command implementation and authenticated #505/PR591 cutover delivered.",
       "limit": "Operational authority remains conditional on selector/receipt validation. Review and tooling debt does not reverse the completed cutover.",
@@ -1163,14 +1170,12 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        757,
+        522,
         758,
-        759,
-        761,
-        764
+        759
       ],
       "delivered": "Distributed contract, continuity qualification and failure-mode implementation retained.",
-      "limit": "Removal, admission-triggered A2A initiation and health-task isolation fixes remain separately owned; #345 remains an explicit input.",
+      "limit": "Removal remediation #757 is closed. Admission-triggered A2A initiation and health-task isolation remain #758/#759 work; closed #345 retains its input contract, not new consumption proof.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1182,12 +1187,11 @@
       "demo_status": "proved",
       "release_status": "blocked",
       "debt_owners": [
-        51,
-        264,
-        761
+        522,
+        526
       ],
       "delivered": "Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained.",
-      "limit": "Public hosting is observed; directory submission and public-launch claims remain gated by #264 operator authorization.",
+      "limit": "Public hosting is observed; actual browser/player playback remains unproved. Closed #264 retains the operator authorization boundary for directory submission and public launch; unresolved acceptance belongs to #522 and ceremony authorization to #526.",
       "demo_scope": "Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch."
     },
     {
@@ -1201,8 +1205,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "Config reload implementation and retained validation supplied by #510.",
       "limit": "Retained tests are not a new live reload demonstration or complete candidate review.",
@@ -1220,11 +1223,10 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512.",
-      "limit": "Unity #84 and TLS #251 are deferred; #122 public exposure remains separately owned.",
+      "limit": "Unity #84 and TLS #251 remain deferred. Closed #122 retains public-exposure scope provenance; current acceptance evidence remains a #522 obligation.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1238,8 +1240,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "Runtime authority topology and generation ownership migration package retained.",
       "limit": "Compatibility and rollback evidence require complete current review; no implied Runtime v4 qualification.",
@@ -1257,8 +1258,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "Shared profile implementation and isolated comparison/shadow implementation retained.",
       "limit": "Source-time validation does not authorize shadow output or prove every provider deployment.",
@@ -1275,8 +1275,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764
+        522
       ],
       "delivered": "Governed six-resident replay wrapper and retained run evidence delivered by #509.",
       "limit": "No new GCP run is performed here; no #269 execution credit is implied.",
@@ -1299,8 +1298,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764,
+        522,
         770
       ],
       "delivered": "Seven phase implementation and receipt packages retained.",
@@ -1322,8 +1320,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764,
+        522,
         772
       ],
       "delivered": "Five phase packages plus #740 private/versioned backend recovery proof retained.",
@@ -1341,12 +1338,10 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764,
-        765
+        522
       ],
       "delivered": "Portable workload contract and AWS/GCP Terraform implementation retained.",
-      "limit": "Provider-major bounds and exact parity/rollback evidence remain separately reviewed obligations.",
+      "limit": "Provider-major bounds landed through #765. Complete current parity and rollback acceptance remains a #522 proof obligation.",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
     },
     {
@@ -1360,8 +1355,7 @@
       "demo_status": "blocked",
       "release_status": "blocked",
       "debt_owners": [
-        761,
-        764,
+        522,
         766
       ],
       "delivered": "Resilience owner-boundary refactoring and retained behavior checks supplied by #499.",
@@ -1397,134 +1391,168 @@
   ],
   "remediation_observation": [
     {
+      "closedAt": "2026-09-09T17:42:02Z",
       "number": 768,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+      "updatedAt": "2026-09-09T17:42:02Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/768"
     },
     {
+      "closedAt": "2026-09-09T17:25:21Z",
       "number": 762,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+      "updatedAt": "2026-09-09T17:25:22Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/762"
     },
     {
+      "closedAt": "2026-09-09T17:05:12Z",
       "number": 765,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
+      "updatedAt": "2026-09-09T17:05:12Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/765"
     },
     {
+      "closedAt": "2026-09-09T17:18:15Z",
       "number": 776,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+      "updatedAt": "2026-09-09T17:18:15Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/776"
     },
     {
+      "closedAt": null,
       "number": 769,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
+      "updatedAt": "2026-09-09T04:21:36Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/769"
     },
     {
+      "closedAt": "2026-09-09T17:33:40Z",
       "number": 767,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+      "updatedAt": "2026-09-09T17:33:40Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/767"
     },
     {
+      "closedAt": null,
       "number": 766,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
+      "updatedAt": "2026-09-09T04:21:30Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/766"
     },
     {
+      "closedAt": "2026-09-09T17:29:18Z",
       "number": 764,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+      "updatedAt": "2026-09-09T17:29:18Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/764"
     },
     {
+      "closedAt": "2026-09-09T17:11:27Z",
       "number": 761,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+      "updatedAt": "2026-09-09T17:11:27Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/761"
     },
     {
+      "closedAt": null,
       "number": 759,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+      "updatedAt": "2026-09-09T04:21:17Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/759"
     },
     {
+      "closedAt": "2026-09-09T17:13:22Z",
       "number": 757,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+      "updatedAt": "2026-09-09T17:13:22Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/757"
     },
     {
+      "closedAt": null,
       "number": 772,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+      "updatedAt": "2026-09-09T04:21:41Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/772"
     },
     {
+      "closedAt": null,
       "number": 771,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+      "updatedAt": "2026-09-09T04:21:39Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/771"
     },
     {
+      "closedAt": null,
       "number": 770,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+      "updatedAt": "2026-09-09T04:21:37Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/770"
     },
     {
+      "closedAt": "2026-09-09T16:30:50Z",
       "number": 763,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
+      "updatedAt": "2026-09-09T16:30:50Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/763"
     },
     {
+      "closedAt": null,
       "number": 758,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+      "updatedAt": "2026-09-09T04:20:07Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/758"
     },
     {
+      "closedAt": "2026-09-09T16:25:47Z",
       "number": 760,
       "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+      "updatedAt": "2026-09-09T16:25:47Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/760"
     }
   ],
-  "publication_refresh_required": true,
-  "refresh_rule": "Refresh current GitHub dispositions and exact merged proof after substantive #522 children land. Revalidate source digests and obtain independent exact-head reconstruction before publication. Issue closure alone cannot change proof_status.",
+  "publication_refresh_required": false,
+  "refresh_rule": "Refresh observations and semantic dispositions after relevant source changes; this completed documentation refresh does not grant release authority.",
   "checklist": [
     {
       "id": "C01",
       "obligation": "#432 reviewed, merged, and ancestral",
-      "status": "blocked",
+      "status": "proved",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
-      "disposition": "Not established by the bounded source packet; #767 must locate explicit evidence during final refresh.",
-      "owner": 767
+      "disposition": "Historical #432 review and merge are established by PR441 and its terminal receipt; merge a213902a63c284c12dd724655860a6fad013180a is ancestral to the projection source. This does not re-prove current repository invariants.",
+      "owner": null
     },
     {
       "id": "C02",
       "obligation": "Reviewed planning package merged; closed #431 retained as provenance only",
-      "status": "blocked",
+      "status": "proved",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
-      "disposition": "Not established by the bounded source packet; #767 must locate explicit evidence during final refresh.",
-      "owner": 767
+      "disposition": "Planning PR472 merged at 5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5, ancestral to the projection source. The retained #316 review records no findings at de8e2fc004145b91d015de5a1dc941656b5fd5ec; #431 remains provenance.",
+      "owner": null
     },
     {
       "id": "C03",
       "obligation": "Operator declared v0.92.1 ready to open",
       "status": "blocked",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
-      "disposition": "Not established by the bounded source packet; #767 must locate explicit evidence during final refresh.",
-      "owner": 767
+      "disposition": "No explicit operator opening declaration was located. The #480 creation receipt establishes creation, not the separate declaration.",
+      "owner": 522
     },
     {
       "id": "C04",
@@ -1539,24 +1567,24 @@
       "obligation": "No tracked milestone dependency on local untracked paths",
       "status": "blocked",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
-      "disposition": "Not established by the bounded source packet; #767 must locate explicit evidence during final refresh.",
-      "owner": 767
+      "disposition": "Historical #316 planning portability checks passed. Current milestone dependency portability has not been re-proved; historical checks do not establish current absence of local-path dependencies.",
+      "owner": 522
     },
     {
       "id": "C06",
       "obligation": "#316 planning reconciliation creates no execution issues or implementation claims",
-      "status": "blocked",
+      "status": "proved",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
-      "disposition": "Not established by the bounded source packet; #767 must locate explicit evidence during final refresh.",
-      "owner": 767
+      "disposition": "The retained #316 planning audit explicitly records planning_only scope and no remote issue creation or routing mutation; this is planning reconciliation, not execution completion.",
+      "owner": null
     },
     {
       "id": "C07",
       "obligation": "AWS-A through AWS-G deliver the seven ordered AWS move-in results; existing #122 remains separately owned",
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#aws",
-      "disposition": "Seven AWS phase delivery packages exist; candidate review/proof and SSH recovery remain #761/#764/#770 work. #122 public exposure is a separate scope boundary, also tracked in C18.",
-      "owner": 761
+      "disposition": "Seven AWS phase delivery packages exist; candidate review/proof and SSH recovery remain #522/#770 work. #122 public exposure is a separate scope boundary, also tracked in C18.",
+      "owner": 522
     },
     {
       "id": "C08",
@@ -1564,7 +1592,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#gcp",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C09",
@@ -1572,7 +1600,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#xcl",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C10",
@@ -1580,7 +1608,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#rust",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C11",
@@ -1588,7 +1616,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#corp",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C12",
@@ -1596,7 +1624,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#csdlc",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C13",
@@ -1604,7 +1632,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#drt",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C14",
@@ -1612,7 +1640,7 @@
       "status": "blocked",
       "evidence": "https://github.com/agent-logic/agent-design-language/issues/345",
       "disposition": "Required consumption proof remains distinct from issue closure; review with Runtime candidate.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C15",
@@ -1620,7 +1648,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#pod",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C16",
@@ -1628,7 +1656,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#hot",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C17",
@@ -1636,15 +1664,15 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#obs",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C18",
       "obligation": "#122 public-exposure proof reviewed against its owned scope",
       "status": "blocked",
       "evidence": "https://github.com/agent-logic/agent-design-language/issues/122",
-      "disposition": "Public-exposure acceptance stays with #122 and must be checked against its exact owned scope.",
-      "owner": 122
+      "disposition": "Closed #122 retains the public-exposure scope boundary. Current acceptance must be checked against that exact scope under #522.",
+      "owner": 522
     },
     {
       "id": "C19",
@@ -1660,7 +1688,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#dec",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C21",
@@ -1668,7 +1696,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#prov",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C22",
@@ -1676,7 +1704,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#prov",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C23",
@@ -1684,7 +1712,7 @@
       "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#gcp-drt",
       "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
-      "owner": 761
+      "owner": 522
     },
     {
       "id": "C24",
@@ -1699,24 +1727,24 @@
       "obligation": "Cross-lane dependency and collision review complete",
       "status": "implemented",
       "evidence": "evidence/release/tail-01/reconciliation/current-exceptions.json",
-      "disposition": "Historical content resolution is recorded; candidate-wide review refresh remains #761/#764 scope.",
-      "owner": 761
+      "disposition": "Historical content resolution is recorded; candidate-wide review refresh remains #522 scope.",
+      "owner": 522
     },
     {
       "id": "C26",
       "obligation": "Runtime v4 compatibility disposition recorded",
       "status": "blocked",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#dec",
-      "disposition": "DRT-D excludes #269 execution, but that does not settle the broader Runtime v4 compatibility disposition. #761 must retain the explicit compatibility decision.",
-      "owner": 761
+      "disposition": "DRT-D excludes #269 execution, but that does not settle the broader Runtime v4 compatibility disposition. #522 must retain the explicit compatibility decision.",
+      "owner": 522
     },
     {
       "id": "C27",
       "obligation": "Proof coverage, release notes, and residual risks reviewed",
-      "status": "blocked",
+      "status": "implemented",
       "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
-      "disposition": "This #767 draft is under independent reconstruction review; final current-status refresh remains required.",
-      "owner": 767
+      "disposition": "The final source and issue-state refresh is implemented in #799. Independent reconstruction and focused validation are required before publication; product proof and release authorization remain separate.",
+      "owner": 799
     },
     {
       "id": "C28",
@@ -1748,15 +1776,15 @@
       "status": "implemented",
       "evidence": "evidence/release/tail-01/reconciliation/ownership.json",
       "disposition": "Quality-gate work and historical accounting delivered; release decision remains blocked.",
-      "owner": 764
+      "owner": 522
     },
     {
       "id": "C32",
       "obligation": "TAIL-02 docs and release-truth pass",
       "status": "implemented",
       "evidence": "evidence/release/tail-02/final-validation.json",
-      "disposition": "Documentation review packet and validation delivered; D07 current-status projection is #767 and reproduction repair is #768.",
-      "owner": 767
+      "disposition": "Documentation projection #767 and reproduction repair #768 are closed; #799 completes the final source and ownership refresh. Remaining product acceptance belongs to #522.",
+      "owner": 522
     },
     {
       "id": "C33",
@@ -1825,76 +1853,106 @@
   ],
   "release_tail_observation": [
     {
+      "closedAt": "2026-08-19T22:14:32Z",
       "number": 432,
       "state": "CLOSED",
       "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
+      "updatedAt": "2026-08-19T22:14:32Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/432"
     },
     {
+      "closedAt": "2026-08-26T16:29:17Z",
       "number": 480,
       "state": "CLOSED",
       "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "updatedAt": "2026-08-26T16:29:17Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/480"
     },
     {
+      "closedAt": "2026-09-09T01:51:29Z",
       "number": 517,
       "state": "CLOSED",
       "title": "[v0.92.1][TAIL-01] Quality gate",
+      "updatedAt": "2026-09-09T01:51:29Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/517"
     },
     {
+      "closedAt": "2026-09-09T03:02:17Z",
       "number": 518,
       "state": "CLOSED",
       "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+      "updatedAt": "2026-09-09T03:02:17Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/518"
     },
     {
+      "closedAt": "2026-09-09T04:16:56Z",
       "number": 519,
       "state": "CLOSED",
       "title": "[v0.92.1][TAIL-03] Publication finalization",
+      "updatedAt": "2026-09-09T04:16:56Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/519"
     },
     {
+      "closedAt": null,
       "number": 520,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-04] Internal review",
+      "updatedAt": "2026-08-26T03:30:56Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/520"
     },
     {
+      "closedAt": null,
       "number": 521,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-05] External / third-party review",
+      "updatedAt": "2026-08-26T03:33:11Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/521"
     },
     {
+      "closedAt": null,
       "number": 522,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-06] Review findings remediation",
+      "updatedAt": "2026-08-26T03:35:22Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/522"
     },
     {
+      "closedAt": "2026-09-09T00:47:05Z",
       "number": 523,
       "state": "CLOSED",
       "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+      "updatedAt": "2026-09-09T00:47:05Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/523"
     },
     {
+      "closedAt": null,
       "number": 524,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+      "updatedAt": "2026-08-26T03:39:43Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/524"
     },
     {
+      "closedAt": null,
       "number": 525,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+      "updatedAt": "2026-08-26T03:42:13Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/525"
     },
     {
+      "closedAt": null,
       "number": 526,
       "state": "OPEN",
       "title": "[v0.92.1][TAIL-10] Release ceremony",
+      "updatedAt": "2026-08-26T03:44:41Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/526"
     }
-  ]
+  ],
+  "checklist_source_revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+  "refresh_issue": 799,
+  "issue_observation": {
+    "path": "docs/milestones/v0.92.1/evidence/release/current-status/issue-observation.json",
+    "sha256": "e2db07b9fe669fa0f223072deea91a6f92d237da9b6b0fd581165a3e95c2f08c"
+  }
 }

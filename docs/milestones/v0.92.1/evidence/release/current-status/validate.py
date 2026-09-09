@@ -35,6 +35,20 @@ def validate(data, texts):
     check(data["release_authorized"] is False, "projection cannot grant release authority")
     check(data["release_decision"] == "blocked", "unresolved remediation requires blocked release")
     check(bool(re.fullmatch(r"[0-9a-f]{40}", data["source_revision"])), "exact source revision missing")
+    check(data.get("publication_refresh_required") is False, "publication refresh incomplete")
+    check(data.get("projection_status") == "refreshed_with_explicit_release_debt", "stale projection status")
+    observation = data["issue_observation"]
+    observed_bytes = (ROOT / observation["path"]).read_bytes()
+    check(hashlib.sha256(observed_bytes).hexdigest() == observation["sha256"], "issue observation drift")
+    observed = json.loads(observed_bytes)
+    check(observed["source_revision"] == data["source_revision"], "unbound issue observation")
+    check(observed["observed_at"] == data["as_of"], "issue observation time mismatch")
+    open_issues = {r["number"] for r in observed["issues"] if r["state"] == "OPEN"}
+    for row in data["features"] + data["work_packages"]:
+        owners = row.get("debt_owners", row.get("proof_debt_owners", []))
+        check(set(owners) <= open_issues, "closed or unobserved active debt owner")
+    for row in data["checklist"]:
+        check(row["owner"] is None or row["owner"] in open_issues, "closed checklist owner")
     sources = {s["path"]: s for s in data["sources"]}
     check(len(sources) == len(data["sources"]), "duplicate source")
     for path, source in sources.items():
@@ -79,7 +93,7 @@ def validate(data, texts):
             if "://" not in target and not target.startswith("#"):
                 check((BASE / target.split("#")[0]).is_file(), f"broken document link: {name}/{target}")
     original = subprocess.run(
-        ["git", "show", f"{data['source_revision']}:docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md"],
+        ["git", "show", f"{data['checklist_source_revision']}:docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md"],
         cwd=ROOT, capture_output=True, text=True)
     obligations = [line[6:] for line in original.stdout.splitlines() if line.startswith("- [ ] ")]
     check(original.returncode == 0 and bool(obligations), "original checklist unavailable")
@@ -123,6 +137,12 @@ def main():
     missing_obligation = copy.deepcopy(data)
     missing_obligation["checklist"].pop()
     mutations.append((missing_obligation, texts))
+    closed_owner = copy.deepcopy(data)
+    closed_owner["features"][0]["debt_owners"] = [764]
+    mutations.append((closed_owner, texts))
+    incomplete_refresh = copy.deepcopy(data)
+    incomplete_refresh["publication_refresh_required"] = True
+    mutations.append((incomplete_refresh, texts))
     for changed, documents in mutations:
         if not validate(changed, documents):
             raise SystemExit("negative fixture accepted")

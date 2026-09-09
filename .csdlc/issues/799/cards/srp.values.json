@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 799,
+  "issue_padded": "0799",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/799",
+  "title": "[v0.92.1][docs] Complete #767 final release-status refresh",
+  "branch": "codex/799-final-release-status",
+  "version": "v0.92.1",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-799-final-release-status",
+  "summary": "Independent bounded documentation reconstruction passed with no actionable findings.",
+  "review_scope": "Four canonical release docs, 35 work packages, 40 original checklist obligations, source binding, observed issue ownership and retained proof limits.",
+  "review_findings": "No actionable findings. Reviewer verified C01/C02 ancestry at 11a3fe88, 198/29/3 retained partition, closed-owner removal and explicit C03/C05 debt under #522.",
+  "review_dispositions": "No unresolved documentation findings; remaining product proof belongs to the named open owners.",
+  "review_notes": "Review by review_767_refresh. Exact committed head will receive a final review before native publication."
+}

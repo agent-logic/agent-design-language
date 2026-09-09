@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 799,
+  "issue_padded": "0799",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/799",
+  "title": "[v0.92.1][docs] Complete #767 final release-status refresh",
+  "branch": "codex/799-final-release-status",
+  "version": "v0.92.1",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-799-final-release-status",
+  "goal": "Complete the final evidence refresh required by #767.",
+  "summary": "Refresh the merged draft projection against landed remediation while preserving explicit remaining proof debt.",
+  "required_outcome": "Four consistent canonical release documents, current issue observations, exact evidence map and independent reconstruction.",
+  "required_outcome_type": "documentation",
+  "repo_inputs": "Merged #767/PR785 draft; merged #761/#764/#783 and current #522 remediation evidence.",
+  "target_files_surfaces": "Four canonical v0.92.1 release documents and evidence/release/current-status packet.",
+  "non_goals": "No runtime changes, release authorization, merged #767 card edits or primary issue artifacts.",
+  "validation_plan": "Focused projection validator and negative fixtures, path/evidence hashes, independent release-decision reconstruction. No Rust builds or product tests.",
+  "dependencies": "Landed substantive remediation is observed at the fixed source revision; unresolved child proof remains explicit #522 debt rather than blocking document publication."
+}
