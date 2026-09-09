@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-OBS-B executes production project_v1 serialization and scans its JSON plus every UI/evidence manifest entry. Every JSON publication receives structural duplicate-key and sensitive-field validation; non-JSON publications receive token/path and sensitive-assignment checks; ten negative classes include an actual manifest-path payload leak. Hot-reload cancellation remains causally synchronized.
+OBS-B executes production project_v1 serialization and scans its JSON plus every included UI/evidence publication. Manifest completeness is derived from all tracked #512 evidence and the SRP/SOR declarations; non-publication exclusions require explicit reviewed reasons. Every included JSON receives structural duplicate-key and sensitive-field validation, non-JSON publications receive token/path and sensitive-assignment checks, and eleven negative classes include manifest-path leakage and omitted declared evidence. Hot-reload cancellation remains causally synchronized.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime_tests`
@@ -76,12 +76,12 @@ OBS-B executes production project_v1 serialization and scans its JSON plus every
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/816/cards/sor.md`
 - Tracked implementation artifacts: `.csdlc/prepared/issues/512/validate-obs-b-redaction.sh; .csdlc/prepared/issues/816; adl-runtime/tests/distributed_projection.rs; adl-runtime-kernel/src/config_reload.rs; adl-runtime/tests/config_reload.rs`
-- Additional proof artifacts: `Terminal proof: production project_v1 JSON, 13 published UI/evidence paths, 1 clean fixture, 10 negative fixtures including manifest-path leakage; 8 config-reload integration tests; 2 kernel unit tests; repeated redaction and cancellation runs.`
+- Additional proof artifacts: `Terminal proof: production project_v1 JSON, 17 included UI/evidence publications, 12 explicit non-publication classifications, 1 clean fixture, 11 negative fixtures including manifest-path leakage and omitted-declared-artifact rejection; 8 config-reload integration tests; 2 kernel unit tests; repeated redaction and cancellation runs.`
 
 ## Actions taken
 - `Execute the production project_v1 serialization path and structurally scan its emitted Runtime JSON instead of counting Rust source as publication output.`
 - `Parse publication JSON with duplicate-key rejection and require each provider_payload, prompt, output, and tool_arguments value to be exactly [REDACTED].`
-- `Preserved the read-only watcher status synchronization that proves transient candidates become pending and are cancelled before generation changes.`
+- `Derived the publication denominator from tracked #512 evidence and declared SRP/SOR scope, required reviewed exclusion reasons, redacted the exposed machine-local path, and preserved causal hot-reload watcher synchronization.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `bash .csdlc/prepared/issues/512/validate-obs-b-redaction.sh; cargo test --locked --manifest-path adl-runtime/Cargo.toml --test config_reload; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml config_reload --lib; repeated focused cancellation and redaction runs; cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test config_reload -- -D warnings; cargo fmt --check; python3 -m py_compile .csdlc/prepared/issues/816/validate-publication-json.py; git diff --check`
-    `Proves production-derived Runtime JSON and every manifest publication are scanned; JSON structure is unambiguous; text sensitive assignments and manifest-path leakage are rejected; cancellation assertions follow observed watcher transitions.`
+  - `bash .csdlc/prepared/issues/512/validate-obs-b-redaction.sh; python3 .csdlc/prepared/issues/816/validate-publication-manifest.py . .csdlc/prepared/issues/816/obs-b-publication-paths.txt; cargo test --locked --manifest-path adl-runtime/Cargo.toml --test config_reload; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml config_reload --lib; repeated focused cancellation and redaction runs; cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; cargo fmt --check; python3 -m py_compile .csdlc/prepared/issues/816/validate-publication-json.py .csdlc/prepared/issues/816/validate-publication-manifest.py; git diff --check`
+    `Proves the manifest exactly classifies every tracked or declared #512 artifact, omitted declared artifacts fail, production-derived Runtime JSON and every included publication are scanned, JSON structure is unambiguous, sensitive text and manifest-path leakage are rejected, and cancellation assertions follow observed watcher transitions.`
 - Results:
-  - `Passed: production project_v1 JSON, all 13 actual UI/evidence publication paths, 1 clean and 10 negative redaction fixtures, all 8 config-reload integration tests, 2 kernel unit tests, and repeated causal proofs.`
+  - `Passed: manifest completeness for 29 declared paths, production project_v1 JSON, all 17 included UI/evidence publications, 1 clean and 11 negative redaction fixtures, all 8 config-reload integration tests, 2 kernel unit tests, all-target kernel clippy, and repeated causal proofs.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "production Runtime projection plus all 13 publication paths, 11 positive/negative fixture groups, and repeated causal cancellation runs"
+      - "production Runtime projection, exact 29-path declared manifest denominator with 17 included publications, 11 negative fixture groups, and repeated causal cancellation runs"
   determinism:
     status: passed
     replay_verified: true
@@ -145,15 +145,15 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `25 repetitions each for revert and unreadable-file cancellation after explicit pending-state synchronization.`
-- Fixtures or scripts used: `.csdlc/prepared/issues/816/obs-b-publication-paths.txt, validate-publication-json.py, fixtures/obs-b-publication-clean.json, production distributed projection test fixture, and generated manifest-path leak fixture`
+- Fixtures or scripts used: `.csdlc/prepared/issues/816/obs-b-publication-paths.txt, validate-publication-manifest.py, validate-publication-json.py, fixtures/obs-b-publication-clean.json, production distributed projection test fixture, generated manifest-path leak fixture, and omitted-declared-artifact fixture`
 - Replay verification (same inputs -> same artifacts/order): `The validator regenerates Runtime JSON through project_v1 on every run and rejects duplicate-key decoy-plus-leak input.`
 - Ordering guarantees (sorting / tie-break rules used): `Runtime bytes exist before structural scanning; cancellation tests observe pending state before the cancelling action and cancellation state before asserting generation zero.`
-- Artifact stability notes: `The generated Runtime projection uses deterministic production JCS serialization; manifest paths remain repository-relative and unique.`
+- Artifact stability notes: `The generated Runtime projection uses deterministic production JCS serialization; the manifest must exactly cover the declared #512 denominator, paths remain repository-relative and unique, and exclusions require reviewed non-publication reasons.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `Yes; validator reports only path and category on failure, never matching content.`
 - Prompt / tool argument redaction verified: `Every manifest JSON is parsed with duplicate-key rejection and exact sensitive-field values; non-JSON publications reject raw sensitive assignments; manifest-path leakage is a required negative.`
-- Absolute path leakage check: `Manifest rejects absolute and parent-traversal paths; actual publication bytes are scanned for machine-local paths.`
+- Absolute path leakage check: `Manifest rejects absolute and parent-traversal paths; included publication bytes are scanned for machine-local paths; every tracked #512 evidence path and SRP/SOR declaration must be included or explicitly classified as a reviewed non-publication exclusion.`
 - Sandbox / policy invariants preserved: `All tracked work is in the bound FastWork worktree.`
 
 ## Replay Artifacts
@@ -165,7 +165,7 @@ verification_summary:
 ## Artifact Verification
 - Primary proof surface: `.csdlc/prepared/issues/512/validate-obs-b-redaction.sh, adl-runtime/tests/distributed_projection.rs, and adl-runtime/tests/config_reload.rs`
 - Required artifacts present: `true`
-- Artifact schema/version checks: `Validator emits one machine-readable JSON summary on success.`
+- Artifact schema/version checks: `Validator emits one machine-readable JSON summary on success; manifest-integrity validation reports its exact declared denominator.`
 - Hash/byte-stability checks: `not_applicable: no immutable publication hash contract added`
 - Missing/optional artifacts and rationale: `No live cloud or browser execution is required for these validation-integrity defects.`
 

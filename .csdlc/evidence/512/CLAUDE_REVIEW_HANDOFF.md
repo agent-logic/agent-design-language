@@ -13,7 +13,7 @@ a passing independent review.
 ## Review target
 
 - Repository: `agent-logic/agent-design-language`
-- Bound worktree: `/Volumes/FastWork/adl-worktrees/adl-issue-512-observatory-redesign-implementation`
+- Bound worktree: issue-bound FastWork worktree (machine-local path redacted)
 - Branch: `codex/512-observatory-redesign-implementation`
 - Base commit: `db434645de26630697e789f57fdb51b800b2d922`
 - Reviewed surface: the nine unstaged files present in the worktree on

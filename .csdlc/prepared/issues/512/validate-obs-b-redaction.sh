@@ -5,6 +5,7 @@ ROOT=$(git rev-parse --show-toplevel)
 MANIFEST="$ROOT/.csdlc/prepared/issues/816/obs-b-publication-paths.txt"
 CLEAN_FIXTURE="$ROOT/.csdlc/prepared/issues/816/fixtures/obs-b-publication-clean.json"
 JSON_VALIDATOR="$ROOT/.csdlc/prepared/issues/816/validate-publication-json.py"
+MANIFEST_VALIDATOR="$ROOT/.csdlc/prepared/issues/816/validate-publication-manifest.py"
 
 fail() {
   printf 'OBS-B redaction validation failed: %s\n' "$1" >&2
@@ -33,6 +34,8 @@ scan_publication_path() {
 [[ -f "$MANIFEST" ]] || fail 'publication manifest missing'
 [[ -f "$CLEAN_FIXTURE" ]] || fail 'clean publication fixture missing'
 [[ -x "$JSON_VALIDATOR" ]] || fail 'structural publication JSON validator missing'
+[[ -x "$MANIFEST_VALIDATOR" ]] || fail 'publication manifest validator missing'
+python3 "$MANIFEST_VALIDATOR" "$ROOT" "$MANIFEST"
 
 evidence_root="$ROOT/.csdlc/evidence/816"
 mkdir -p "$evidence_root"
@@ -56,7 +59,7 @@ ui_count=0
 evidence_count=0
 path_count=0
 seen_paths=''
-while IFS='|' read -r role path; do
+while IFS='|' read -r role path classification; do
   [[ -z "$role" || "$role" == \#* ]] && continue
   [[ "$path" != /* && "$path" != *'..'* ]] || fail "unsafe manifest path: $path"
   [[ -f "$ROOT/$path" ]] || fail "missing publication path: $path"
@@ -65,6 +68,7 @@ while IFS='|' read -r role path; do
   case "$role" in
     ui) ui_count=$((ui_count + 1)) ;;
     evidence) evidence_count=$((evidence_count + 1)) ;;
+    excluded) continue ;;
     *) fail "unknown publication role: $role" ;;
   esac
   scan_publication_path "$path"
@@ -114,6 +118,17 @@ if (
 fi
 grep -Fq 'unredacted_provider_payload' "$scratch/negative-manifest.err" \
   || fail 'manifest-path payload leak was misclassified'
+negative_count=$((negative_count + 1))
+
+omitted_manifest="$scratch/negative-omitted-artifact.txt"
+grep -vF '.csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md' "$MANIFEST" > "$omitted_manifest"
+if python3 "$MANIFEST_VALIDATOR" "$ROOT" "$omitted_manifest" \
+  > "$scratch/negative-omitted-artifact.out" 2> "$scratch/negative-omitted-artifact.err"; then
+  fail 'omitted declared artifact was accepted'
+fi
+grep -Fq 'missing_declared_artifact:.csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md' \
+  "$scratch/negative-omitted-artifact.err" \
+  || fail 'omitted declared artifact was misclassified'
 negative_count=$((negative_count + 1))
 
 printf '{"status":"pass","publication_paths":%d,"runtime_paths":%d,"ui_paths":%d,"evidence_paths":%d,"clean_fixtures":1,"negative_fixtures":%d,"redaction_findings":0}\n' \
