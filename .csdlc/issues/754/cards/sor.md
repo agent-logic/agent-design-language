@@ -78,11 +78,11 @@ Registry1.0.3/1.0.4 compatibility repaired; current/retained route assertions co
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -7,7 +7,7 @@
     "title": "[v0.92.2][tooling] Restore v2 registry compatibility after template 1.0.4",
     "slug": "registry-104-compatibility",
     "version": "v0.92.2",
-    "generation": 8
+    "generation": 10
   },
   "status": "ready",
   "content": {

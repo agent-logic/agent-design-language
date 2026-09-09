@@ -8,3 +8,6 @@
 {"sequence":8,"generation":6,"actor":"codex:registry-ci-repair","reason":"Include standalone-discovered stale authority assertions alongside registry regression, as parent authorized.","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\"]}"}
 {"sequence":9,"generation":7,"actor":"codex:registry-ci-repair","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":10,"generation":8,"actor":"codex:registry-ci-repair","reason":"Source fix and regressions are committed and focused validation passed; independent final review/publication remain.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"}
+{"sequence":11,"generation":8,"actor":"codex:registry-ci-repair","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":9,"actor":"codex:registry-ci-repair","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":13,"generation":10,"actor":"codex:registry-ci-repair","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

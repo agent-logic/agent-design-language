@@ -3,14 +3,62 @@
   "issue": 754,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bd10ba7e092b3cd84298f95989c0ec51914511eb026442d3db710b2314fd4421",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "cba9422a0a2219b4b8ca70216013d211943feacc15f88c1e703251c28f3850a3",
+  "phase": "published",
+  "generation": 10,
+  "digest": "2dea04e702194bbb4a8e047a0f2b4ff2838d73bca2cfef08084a36ae5c9c8a75",
   "branch": "codex/754-registry-104-compatibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "codex:754-final-review",
+    "assigned_by": "codex:registry-ci-repair",
+    "revision": "git-blake3:7f2520be466a08684bec3a2504d5c531780fec52:c0cb8b29916f5ab06b36d5633eadf2c4f6a20f1b451f42cf569fed32640439b9",
+    "scope": [
+      "csdlc-v2/src/registry.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/evidence/754/clippy.log",
+      ".csdlc/evidence/754/format.log",
+      ".csdlc/evidence/754/registry-focused.log",
+      ".csdlc/prepared/issues/754/design.md",
+      ".csdlc/prepared/issues/754/diagram.mmd",
+      ".csdlc/prepared/issues/754/validation-summary.json"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:754-final-review",
+    "scope": [
+      "csdlc-v2/src/registry.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/evidence/754/clippy.log",
+      ".csdlc/evidence/754/format.log",
+      ".csdlc/evidence/754/registry-focused.log",
+      ".csdlc/prepared/issues/754/design.md",
+      ".csdlc/prepared/issues/754/diagram.mmd",
+      ".csdlc/prepared/issues/754/validation-summary.json"
+    ],
+    "reviewed_revision": "git-blake3:7f2520be466a08684bec3a2504d5c531780fec52:c0cb8b29916f5ab06b36d5633eadf2c4f6a20f1b451f42cf569fed32640439b9",
+    "findings": [],
+    "residual_risks": [
+      "Independent read-only review; no tests rerun or GitHub state checked. Full-matrix proof composed from initial unaffected targets and corrected-target reruns, not one final successful broad command."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 754,
+    "pull_request": 755,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/755",
+    "base": "main",
+    "head": "codex/754-registry-104-compatibility",
+    "revision": "git-blake3:7f2520be466a08684bec3a2504d5c531780fec52:c0cb8b29916f5ab06b36d5633eadf2c4f6a20f1b451f42cf569fed32640439b9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "21fed10be36fe76038cc82644fe3ec0a54bbec796b3c20fdb9bb9e8069c2af50",
+      "values_digest": "2c672c65e47816ec9921723eb1fef394e3acc669cb1a877d845c5c4512d050b3",
       "rendered_digest": "194ed3c6d1380bee2f42b69c65088a3bb42345b1e6fd9b79dd0f25a8245cba43",
       "ast_digest": "39ee1a8e153b7e15b3645f904c572eea809a5aa1af97315603d98d45568d909c"
     },
     "stp": {
-      "values_digest": "7ffe735e9f7ce705b36866a3fdfb6b42af524091bd27c31ba64d2978a2d2bfdb",
+      "values_digest": "f9e16aa3dc0694ca65b3bb15c0a40ddb86586e7b8743b68ea832b529d05938e9",
       "rendered_digest": "c09ae9c26d185e0018ae37fb773c93a3934c4671274d036b1f5e2e0bc2e06d88",
       "ast_digest": "aa160acabee2c5f2c70d7ee380404c7cf4e8b58494e5a938f4189afe0ebec1b5"
     },
     "spp": {
-      "values_digest": "d00e7aca0f0824dd6f52696a13872c4a578139f177dbc632393aa75f7b765998",
+      "values_digest": "f7486dd878db361a9df91d86965b3b1bcae6eaa4aee71493198fca4e7793ab4c",
       "rendered_digest": "2e82924e62b4a4409bc7432405a8488fdc533456109ac4ff183b1c4ad42891e5",
       "ast_digest": "b2fc4f51b5fe5e1047109d6271cd03ed995c4928d61e1daacdef6de225752253"
     },
     "vpp": {
-      "values_digest": "dfbe2cdd3013cc3b8a414c811a8dbb224f55796e16a0baf12b63865e758f4b52",
+      "values_digest": "a0581109041db8c43754ada6fe50f91da04648f4d0b6d2a39c60f93dcc04f095",
       "rendered_digest": "6fd00c91b4e7eab4eae2876cf573cc03db88e36475c3758cee0e283998647c4a",
       "ast_digest": "c4682731846bf62445200ea6cec07b7b4b2ad0270fb0bc90b6a4c24feca5938b"
     },
     "srp": {
-      "values_digest": "7592d7f343718a972394716d58fd5c27b2b9afc5dced03d3c52b30e9dca5366b",
-      "rendered_digest": "c1f75179ad878b5d4b231f064b69be2aed6fc0547accd823beaffd5602f65357",
-      "ast_digest": "7986c0ddd8dd0424bbb8f965adc0bf0443e666ec127ea82ee2197d7b5c339d3b"
+      "values_digest": "8d74e0b3f7bd77f84936e2044f4d0d05e7a4409710b4b9ec2131dc05d6e5628e",
+      "rendered_digest": "02708d1204fdf236e5dcd719ac6a42fce0849855524c4c50d8b5ba79afa43e24",
+      "ast_digest": "fab105aa4b006222801666ab57110d92ae671d4f4e8b9922ae08679882e484ba"
     },
     "sor": {
-      "values_digest": "88372652dce9920a52d38964d3dd6f869cc4f11a0a184227b591a2b9534ac65d",
-      "rendered_digest": "eaa057bcc2d7d51f01753f05e9fc09a5d73b7a9986d4b761577340c1a84de05a",
-      "ast_digest": "2876485b5a9e3f2903a33549f2bbc0e4f7f2b0ab9bdbdc74d3aae9c4e6aaffe5"
+      "values_digest": "c56425ad17721c8bf1f170ca6eff69671888e103e0edf0d819fea1402e076960",
+      "rendered_digest": "f7e9727aad8db7afc8cb7b501ff6349658f5bf9c8ac16861c51da1b66146b9d6",
+      "ast_digest": "3804ed160b2d1c66ae1f9c360c005ac7905ccd6f5d58447d523a9aabe715c885"
     }
   },
   "transitions": [
@@ -75,6 +123,20 @@
       "to": "implemented",
       "actor": "codex:registry-ci-repair",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:registry-ci-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:registry-ci-repair",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -147,6 +209,27 @@
       "actor": "codex:registry-ci-repair",
       "reason": "Source fix and regressions are committed and focused validation passed; independent final review/publication remain.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:registry-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:registry-ci-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:registry-ci-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
