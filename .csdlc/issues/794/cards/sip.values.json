@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 794,
+  "issue_padded": "0794",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/794",
+  "title": "[v0.92.2][tooling] Add native typed duplicate and no-op issue closure",
+  "branch": "codex/794-native-typed-issue-close",
+  "version": "1.0.4",
+  "card": "sip",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-794-native-typed-issue-close",
+  "slug": "native-typed-issue-close",
+  "required_outcome_type": "native C-SDLC v3 GitHub issue mutation tooling",
+  "goal": "Add a native typed C-SDLC v3 issue-close operation for duplicate, superseded, and no-op dispositions without fabricating implementation completion.",
+  "required_outcome": "Operators can close an explicitly selected duplicate/superseded/no-op issue through the v3 GitHub issue owner with exact repo/issue identity, durable intent, authenticated readback, idempotent recovery, and documented usage.",
+  "acceptance_criteria": "- `GithubMutation` supports issue-close without raw gh or v2 fallback.\n- Close requests require exact repository, non-zero issue, non-empty rationale, and duplicate owner when disposition is duplicate.\n- The route records GitHub closed/not_planned state and authenticates readback before receipt.\n- Restart/replay reconciles an already-closed exact operation without replaying mutation.\n- Focused fake-adapter tests cover success, replay, and rejection cases.\n- CLI usage documents and emits the same typed dispatch.",
+  "target_files_surfaces": "- `csdlc-v3/src/commands/remote/mod.rs`\n- `csdlc-v3/src/main.rs`\n- `csdlc-v3/src/commands/remote/tests.rs`\n- `csdlc-v3/tests/operational_cli_commands.rs`\n- `docs/csdlc-v3/CONTRACT.md`",
+  "validation_plan": "- `cargo fmt --manifest-path csdlc-v3/Cargo.toml`\n- `cargo test --manifest-path csdlc-v3/Cargo.toml issue_close -- --nocapture`\n- `cargo test --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands -- --nocapture`\n- `cargo test --manifest-path csdlc-v3/Cargo.toml commands::remote::tests -- --nocapture`\n- `cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest -- --nocapture`\n- `git diff --check`",
+  "non_goals": "- Do not close implementation-complete issues; native finish remains the implementation terminal route.\n- Do not absorb #791 storage repair or broader lifecycle rewrite.\n- Do not reintroduce v2 or raw gh as default authority."
+}

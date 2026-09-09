@@ -9,7 +9,8 @@ use csdlc_v3::commands::{
     local::{required_local_commands, LocalPreparationRequest},
     remote::{
         canonical_authority_selector_digest, GithubMutation, GithubMutationRequest,
-        OperationalRemoteDispatchRequest, OperationalRemoteOperation, RemoteRouteRequest,
+        IssueCloseDisposition, IssueCloseStateReason, OperationalRemoteDispatchRequest,
+        OperationalRemoteOperation, RemoteRouteRequest,
     },
     terminal::{CutoverDecisionRequest, CutoverOperation, TerminalRouteRequest},
 };
@@ -594,6 +595,167 @@ fn simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input
             "body",
             "--expected-head",
             "not-a-sha",
+        ],
+    ] {
+        let rejected = run(&args, &repo_root());
+        assert!(
+            !rejected.status.success(),
+            "invalid args accepted: {args:?}"
+        );
+    }
+}
+
+#[test]
+fn simple_issue_close_emits_typed_duplicate_close_dispatch() {
+    let exact_head = "0123456789012345678901234567890123456789";
+    let output = run(
+        &[
+            "github-issue",
+            "close",
+            "--repo",
+            "agent-logic/agent-design-language",
+            "--issue",
+            "792",
+            "--disposition",
+            "duplicate",
+            "--duplicate-of",
+            "791",
+            "--rationale",
+            "accidental retry duplicate",
+            "--body",
+            "Original issue body",
+            "--expected-head",
+            exact_head,
+        ],
+        &repo_root(),
+    );
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let dispatch: OperationalRemoteDispatchRequest =
+        serde_json::from_slice(&output.stdout).expect("typed dispatch JSON");
+    assert_eq!(dispatch.exact_review_sha, exact_head);
+    let OperationalRemoteOperation::GithubMutation(request) = dispatch.operation else {
+        panic!("simple close must produce the shared GitHub mutation operation")
+    };
+    assert_eq!(request.repository, "agent-logic/agent-design-language");
+    assert_eq!(request.issue, 792);
+    assert_eq!(request.pull_request, None);
+    assert_eq!(request.expected_head_sha, exact_head);
+    assert_eq!(request.credential_names, ["GITHUB_TOKEN"]);
+    assert_eq!(
+        request.mutation,
+        GithubMutation::IssueClose {
+            rationale: "accidental retry duplicate".into(),
+            current_body: "Original issue body".into(),
+            disposition: IssueCloseDisposition::Duplicate,
+            duplicate_of: Some(791),
+            github_state_reason: Some(IssueCloseStateReason::NotPlanned),
+        }
+    );
+}
+
+#[test]
+fn simple_issue_close_rejects_ambiguous_or_invalid_input() {
+    let exact_head = "0123456789012345678901234567890123456789";
+    for args in [
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "0",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            "no-op",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "duplicate",
+            "--rationale",
+            "missing duplicate owner",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "bogus",
+            "--rationale",
+            "bad disposition",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            " ",
+            "--body",
+            "Original",
+            "--expected-head",
+            exact_head,
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            "bad head",
+            "--body",
+            "Original",
+            "--expected-head",
+            "not-a-sha",
+        ],
+        vec![
+            "github-issue",
+            "close",
+            "--repo",
+            "owner/repo",
+            "--issue",
+            "2",
+            "--disposition",
+            "no-op",
+            "--rationale",
+            "already marked",
+            "--body",
+            "<!-- csdlc-v3-operation:abc -->",
+            "--expected-head",
+            exact_head,
         ],
     ] {
         let rejected = run(&args, &repo_root());
