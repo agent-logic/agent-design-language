@@ -133,11 +133,11 @@ All four V3-F rows bound to independent162-path review and205-test full locked d
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
