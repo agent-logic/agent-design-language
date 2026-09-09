@@ -1,4 +1,5 @@
-//! Non-authoritative sprint-readiness verifier for pre-cutover v3 trials.
+//! Read-only sprint-readiness verifier with retained pre-cutover trial support.
+//! It does not grant the authenticated selector and receipt authority required by operational routes.
 //!
 //! This module consumes typed v2 GitHub issue readback artifacts and produces a
 //! v3 sprint readiness classification. It never reads credentials, mutates

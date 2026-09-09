@@ -1267,8 +1267,19 @@ fn write_cutover_fixture(root: &Path, _binary_marker: &[u8]) -> String {
     git(root, &["init", "-b", "main"]);
     git(root, &["config", "user.email", "test@example.invalid"]);
     git(root, &["config", "user.name", "C-SDLC Test"]);
+    fs::create_dir_all(root.join("fixture-worktrees")).expect("fixture worktree parent");
+    fs::create_dir_all(root.join(".adl")).expect("fixture adl parent");
+    fs::write(
+        root.join(".adl/worktree-policy.json"),
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.worktree_policy.v1",
+            "required_parent": root.join("fixture-worktrees")
+        }))
+        .unwrap(),
+    )
+    .expect("fixture worktree policy");
     fs::write(root.join("fixture-base"), "native v3 authority\n").unwrap();
-    git(root, &["add", "fixture-base"]);
+    git(root, &["add", "fixture-base", ".adl/worktree-policy.json"]);
     git(root, &["commit", "-m", "authority fixture"]);
     fs::create_dir_all(root.join("build")).expect("build directory");
     fs::copy(env!("CARGO_BIN_EXE_csdlc"), root.join("build/csdlc"))
@@ -1362,10 +1373,26 @@ fn write_proof_command_fixture(
         .expect("proof source parent");
     fs::write(root.join(&source_ref), &source).expect("proof source");
     let digest = blake3::hash(&source).to_hex().to_string();
-    let repository_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .parent()
-        .expect("repository root")
-        .to_path_buf();
+    let registry_ref = ".csdlc/evidence/505/readiness-source/doctor-current-registry.json";
+    fs::write(
+        root.join(registry_ref),
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.csdlc.prompt_template_registry.v1",
+            "csdlc_prompt_template_set": "1.0.4",
+            "semver": "1.0.4",
+            "status": "active",
+            "templates": {
+                "sip": {"path": "fixture/templates/sip.md"},
+                "stp": {"path": "fixture/templates/stp.md"},
+                "spp": {"path": "fixture/templates/spp.md"},
+                "vpp": {"path": "fixture/templates/vpp.md"},
+                "srp": {"path": "fixture/templates/srp.md"},
+                "sor": {"path": "fixture/templates/sor.md"}
+            }
+        }))
+        .unwrap(),
+    )
+    .expect("fixture prompt registry");
     let request_ref =
         format!(".csdlc/evidence/505/readiness-source/{manifest_id}-doctor-request.json");
     fs::write(
@@ -1375,7 +1402,7 @@ fn write_proof_command_fixture(
             "title": "C-SDLC v3 authority transition",
             "repository": "agent-logic/agent-design-language",
             "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": repository_root,
+            "worktree": "fixture-worktrees/issue-505",
             "registry_version": "1.0.4",
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
             "card_updates": {}
@@ -1388,7 +1415,7 @@ fn write_proof_command_fixture(
         root.join(registrations_ref),
         serde_json::to_vec(&serde_json::json!([{
             "branch": "codex/505-v3-f-authority-transition-decision-exec",
-            "worktree": repository_root,
+            "worktree": "fixture-worktrees/issue-505",
             "primary": false
         }]))
         .unwrap(),
@@ -1400,14 +1427,11 @@ fn write_proof_command_fixture(
         "--request".into(),
         request_ref.clone(),
         "--registry".into(),
-        repository_root
-            .join("docs/templates/prompts/current.json")
-            .to_string_lossy()
-            .into_owned(),
+        registry_ref.into(),
         "--registrations".into(),
         registrations_ref.into(),
         "--repo-root".into(),
-        repository_root.to_string_lossy().into_owned(),
+        ".".into(),
     ];
     let command = ShadowCommandSpec {
         generation: ShadowGeneration::V3,

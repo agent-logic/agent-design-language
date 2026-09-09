@@ -187,7 +187,15 @@ pub struct GithubMutationRequest {
     pub operator_approval: Option<String>,
     pub expected_head_sha: String,
     pub credential_names: Vec<String>,
+    #[serde(default)]
+    pub recovery: Option<GithubMutationRecovery>,
     pub mutation: GithubMutation,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum GithubMutationRecovery {
+    RetryAfterAuthenticatedAbsence,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -922,12 +930,14 @@ pub fn execute_github_mutation(
 
     let operation_digest = github_mutation_operation_digest(request);
     let operation_marker = github_mutation_operation_marker(&operation_digest);
+    let mut intent_request = request.clone();
+    intent_request.recovery = None;
     let intent = GithubMutationIntent {
         schema: "csdlc.v3.github_mutation_intent.v1".into(),
         operation_digest: operation_digest.clone(),
         operation_marker: operation_marker.clone(),
         authority_selector_digest: authority.selector_digest,
-        request: request.clone(),
+        request: intent_request,
         adapter: GITHUB_OPERATIONAL_ADAPTER.into(),
     };
     let intent_digest = github_mutation_intent_digest(&intent);
@@ -963,15 +973,45 @@ pub fn execute_github_mutation(
                 "existing durable intent does not match this exact operation",
             ));
         }
-        let (reconciliation, invocation) =
-            reconcile_github_mutation(request, &operation_digest, &operation_marker, process)?;
+        let reconciled =
+            reconcile_github_mutation(request, &operation_digest, &operation_marker, process);
+        let (reconciliation, invocation, response_digest, idempotent_replay) = match reconciled {
+            Ok((reconciliation, invocation)) => (reconciliation, invocation, None, true),
+            Err(finding)
+                if finding.code == "github_mutation_not_reconciled"
+                    && request.recovery
+                        == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
+            {
+                let (response_digest, invocation) = dispatch_github_mutation_after_intent(
+                    repo_root,
+                    request,
+                    &operation_digest,
+                    &operation_marker,
+                    &credential_name,
+                    process,
+                )?;
+                let (reconciliation, _) =
+                    reconcile_github_mutation(request, &operation_digest, &operation_marker, process)
+                        .map_err(|finding| {
+                            remote_finding(
+                                "github_mutation_reconciliation_pending",
+                                &format!(
+                                    "mutation outcome is uncertain after explicit recovery retry; durable intent forbids another replay until authenticated reconciliation succeeds: {}",
+                                    finding.code
+                                ),
+                            )
+                        })?;
+                (reconciliation, invocation, response_digest, false)
+            }
+            Err(finding) => return Err(finding),
+        };
         let receipt = finalize_mutation_receipt(
             request,
             &operation_digest,
             &intent_digest,
-            None,
+            response_digest,
             &reconciliation,
-            true,
+            idempotent_replay,
         );
         persist_json_create_new(&receipt_path, &receipt)?;
         return Ok(GithubMutationResult {
@@ -981,24 +1021,16 @@ pub fn execute_github_mutation(
         });
     }
 
+    preflight_github_credential(&credential_name, process)?;
     persist_json_create_new(&intent_path, &intent)?;
-    let input_path =
-        write_mutation_input(repo_root, &operation_digest, &operation_marker, request)?;
-    let invocation = github_mutation_invocation(request, &input_path)?
-        .with_child_credential(credential_name)
-        .map_err(|_| {
-            remote_finding(
-                "github_credential_scope_invalid",
-                "GitHub credential name is not safe for child-process injection",
-            )
-        })?;
-    let output = process.run(invocation.clone());
-    let _ = fs::remove_file(&input_path);
-    if output.status == ProcessStatus::Exit(0) && !output.truncated {
-        validate_mutation_response(request, &output.stdout)?;
-    }
-    let response_digest = (!output.stdout.is_empty()).then(|| stable_digest(&[&output.stdout]));
-
+    let (response_digest, invocation) = dispatch_github_mutation_after_intent(
+        repo_root,
+        request,
+        &operation_digest,
+        &operation_marker,
+        &credential_name,
+        process,
+    )?;
     let (reconciliation, _) = reconcile_github_mutation(
         request,
         &operation_digest,
@@ -1028,6 +1060,55 @@ pub fn execute_github_mutation(
         reconciliation,
         invocation,
     })
+}
+
+fn preflight_github_credential(
+    credential_name: &str,
+    process: &mut impl ProcessAdapter,
+) -> Result<(), RemoteRouteFinding> {
+    let invocation = CommandInvocation::new(GITHUB_OPERATIONAL_ADAPTER, ["credential-preflight"])
+        .and_then(|invocation| invocation.with_child_credential(credential_name.to_owned()))
+        .map_err(|_| {
+            remote_finding(
+                "github_credential_scope_invalid",
+                "GitHub credential name is not safe for child-process injection",
+            )
+        })?;
+    process
+        .preflight_child_credential(&invocation)
+        .map_err(|_| {
+            remote_finding(
+                "github_credential_unavailable",
+                "GitHub credential must resolve before a durable mutation intent is created",
+            )
+        })
+}
+
+fn dispatch_github_mutation_after_intent(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    operation_marker: &str,
+    credential_name: &str,
+    process: &mut impl ProcessAdapter,
+) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
+    preflight_github_credential(credential_name, process)?;
+    let input_path = write_mutation_input(repo_root, operation_digest, operation_marker, request)?;
+    let invocation = github_mutation_invocation(request, &input_path)?
+        .with_child_credential(credential_name.to_owned())
+        .map_err(|_| {
+            remote_finding(
+                "github_credential_scope_invalid",
+                "GitHub credential name is not safe for child-process injection",
+            )
+        })?;
+    let output = process.run(invocation.clone());
+    let _ = fs::remove_file(&input_path);
+    if output.status == ProcessStatus::Exit(0) && !output.truncated {
+        validate_mutation_response(request, &output.stdout)?;
+    }
+    let response_digest = (!output.stdout.is_empty()).then(|| stable_digest(&[&output.stdout]));
+    Ok((response_digest, invocation))
 }
 
 pub fn github_mutation_operation_digest(request: &GithubMutationRequest) -> String {
