@@ -1,0 +1,35 @@
+{
+  "schema": "issue754.validation.v1",
+  "revision": "c72cacf3987db281c809605e7e197223bea2924a",
+  "full_matrix": {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--no-fail-fast"
+    ],
+    "initial_result": "440 passed;4 failed in gate10a and gate_github_route_policy",
+    "correction": "Clean committed rerun: gate10a22 passed and routepolicy3 passed. All other targets passed in full matrix. Final native-root route mapping subsequently tested against actual518 docs:3 passed.",
+    "total_test_cases": 444,
+    "qualification": "Original broad command exited nonzero; matrix success is composed from original unaffected targets and corrected target rerun."
+  },
+  "source_sha256": {
+    "csdlc-v2/src/registry.rs": "f99828de332c4e524eb90e1b222196550c5135b88ab8eb9cd95ba05ee643656e",
+    "csdlc-v2/tests/gate9.rs": "72f61a0b2c4d19dabcdf53d34eccb1b91b32c738e465953ce9a554a6cb5b170c",
+    "csdlc-v2/tests/gate10a.rs": "a43eed89867446599e98eefe89cd0fb7627587203d03325b45c39e9822398212",
+    "csdlc-v2/tests/gate_github_route_policy.rs": "439f2579a891ac754f64e6c13b9bf500d25c7c8902cccda4f9502ddc45825d4c"
+  },
+  "format": "passed",
+  "clippy": "passed again in final PVF at final source",
+  "external_logs": {
+    "/tmp/754-before.log": "61c730b31db34378960b4dceaba6dc875893c5604ea018c49a22047e8a43f05b",
+    "/tmp/754-focused.log": "ea812d01b88d8ce52ee310af5a3f057cdaca37af7bcd07776b5c76675a8aa0bf",
+    "/tmp/754-full-tests2.log": "ad7490934c37d89276b99394bbe805c004f331ee1ea3882da9ddd87025fd8561",
+    "/tmp/754-rerun.log": "1bd580dcf4ee86a0955eb6780c86ae77ec6b43da3709ba0e3a3d0e9b55445cf2",
+    "/tmp/754-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/tmp/754-clippy.log": "148e92ca63eefa202d217b292ebbfa5f035a377e4c88c97b7cb3fe8283665ba5"
+  },
+  "final_pvf": "registry-focused14 tests,format,strictclippy all passed"
+}

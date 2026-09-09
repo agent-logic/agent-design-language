@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 754,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.2][tooling] Restore v2 registry compatibility after template 1.0.4",
+    "slug": "registry-104-compatibility",
+    "version": "v0.92.2",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Two-file registry compatibility fix and deterministic negative tests.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are approved registry identities coherent?",
+        "Do native shape guards remain intact?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

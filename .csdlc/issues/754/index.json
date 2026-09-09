@@ -1,0 +1,152 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 754,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "bd10ba7e092b3cd84298f95989c0ec51914511eb026442d3db710b2314fd4421",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "cba9422a0a2219b4b8ca70216013d211943feacc15f88c1e703251c28f3850a3",
+  "branch": "codex/754-registry-104-compatibility",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/754/design.md",
+  "diagram_path": ".csdlc/prepared/issues/754/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:root",
+      "revision": "557ab4fb1539c0b89deb53c4993f92cec4aaa683cef4a2b025b71d56bdc764aa"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "21fed10be36fe76038cc82644fe3ec0a54bbec796b3c20fdb9bb9e8069c2af50",
+      "rendered_digest": "194ed3c6d1380bee2f42b69c65088a3bb42345b1e6fd9b79dd0f25a8245cba43",
+      "ast_digest": "39ee1a8e153b7e15b3645f904c572eea809a5aa1af97315603d98d45568d909c"
+    },
+    "stp": {
+      "values_digest": "7ffe735e9f7ce705b36866a3fdfb6b42af524091bd27c31ba64d2978a2d2bfdb",
+      "rendered_digest": "c09ae9c26d185e0018ae37fb773c93a3934c4671274d036b1f5e2e0bc2e06d88",
+      "ast_digest": "aa160acabee2c5f2c70d7ee380404c7cf4e8b58494e5a938f4189afe0ebec1b5"
+    },
+    "spp": {
+      "values_digest": "d00e7aca0f0824dd6f52696a13872c4a578139f177dbc632393aa75f7b765998",
+      "rendered_digest": "2e82924e62b4a4409bc7432405a8488fdc533456109ac4ff183b1c4ad42891e5",
+      "ast_digest": "b2fc4f51b5fe5e1047109d6271cd03ed995c4928d61e1daacdef6de225752253"
+    },
+    "vpp": {
+      "values_digest": "dfbe2cdd3013cc3b8a414c811a8dbb224f55796e16a0baf12b63865e758f4b52",
+      "rendered_digest": "6fd00c91b4e7eab4eae2876cf573cc03db88e36475c3758cee0e283998647c4a",
+      "ast_digest": "c4682731846bf62445200ea6cec07b7b4b2ad0270fb0bc90b6a4c24feca5938b"
+    },
+    "srp": {
+      "values_digest": "7592d7f343718a972394716d58fd5c27b2b9afc5dced03d3c52b30e9dca5366b",
+      "rendered_digest": "c1f75179ad878b5d4b231f064b69be2aed6fc0547accd823beaffd5602f65357",
+      "ast_digest": "7986c0ddd8dd0424bbb8f965adc0bf0443e666ec127ea82ee2197d7b5c339d3b"
+    },
+    "sor": {
+      "values_digest": "88372652dce9920a52d38964d3dd6f869cc4f11a0a184227b591a2b9534ac65d",
+      "rendered_digest": "eaa057bcc2d7d51f01753f05e9fc09a5d73b7a9986d4b761577340c1a84de05a",
+      "ast_digest": "2876485b5a9e3f2903a33549f2bbc0e4f7f2b0ab9bdbdc74d3aae9c4e6aaffe5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:registry-ci-repair",
+      "reason": "Reviewed issue-specific transition bootstrap for already bound native754 worktree."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:registry-ci-repair",
+      "reason": "{\"actor\":\"codex:registry-ci-repair\",\"base_branch\":\"codex/754-registry-staging\",\"branch\":\"codex/754-registry-104-compatibility\",\"code_repository\":null,\"expected_digest\":\"fc390c73187b615141f39cdce5c43ae9392f01ae9a7cd1b20504254d983949d5\",\"expected_generation\":4,\"expected_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":754,\"observed_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:registry-ci-repair",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:registry-ci-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Reviewed issue-specific transition bootstrap for already bound native754 worktree.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Declare direct governed Cargo targets; external build environment provided by validation runner.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tests\",\"proof_role\":\"Required deterministic local standalone tests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Required deterministic local standalone format\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Required deterministic local standalone clippy\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Bind exact owned validation target for registry compatibility and post-cutover regression proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Add precise issue-owned regression target alongside full standalone proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tests\",\"proof_role\":\"Required deterministic local standalone tests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1000,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Required deterministic local standalone format\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1000,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Required deterministic local standalone clippy\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1000,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"registry-focused\",\"proof_role\":\"Required deterministic local standalone tests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate9\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:registry-ci-repair",
+      "reason": "{\"base_branch\":\"codex/754-registry-staging\",\"branch\":\"codex/754-registry-104-compatibility\",\"expected_digest\":\"fc390c73187b615141f39cdce5c43ae9392f01ae9a7cd1b20504254d983949d5\",\"expected_generation\":4,\"expected_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Include standalone-discovered stale authority assertions alongside registry regression, as parent authorized.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Include standalone-discovered stale authority assertions alongside registry regression, as parent authorized.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:registry-ci-repair",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Source fix and regressions are committed and focused validation passed; independent final review/publication remain.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    }
+  ]
+}
