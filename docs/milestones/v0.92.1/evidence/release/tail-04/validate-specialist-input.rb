@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "digest"
 require "json"
 
 PACKET = File.expand_path(__dir__)
@@ -51,6 +52,15 @@ if lane == "tests"
   invocations = input.fetch("test_invocations")
   fail!("tests lane needs at least three distinct invocations") unless invocations.length >= 3 && invocations.map { |row| row.fetch("id") }.uniq.length == invocations.length
   fail!("tests lane execution scope is absent") if input.fetch("execution_scope").strip.empty?
+  invocations.each do |invocation|
+    output = invocation.fetch("captured_output")
+    fail!("test invocation is not replayable: #{invocation.fetch('id')}") unless
+      invocation.fetch("argv").is_a?(Array) && !invocation.fetch("argv").empty? &&
+      invocation.fetch("exit_status") == 0 && !output.empty? &&
+      Digest::SHA256.hexdigest(output) == invocation.fetch("captured_output_sha256") &&
+      invocation.fetch("success_markers").is_a?(Array) && !invocation.fetch("success_markers").empty? &&
+      invocation.fetch("command_artifacts").is_a?(Array) && !invocation.fetch("command_artifacts").empty?
+  end
 end
 
 puts JSON.generate(status: "passed", lane: lane, candidate_sha: candidate, observations: observations.length, findings: expected_findings.length)

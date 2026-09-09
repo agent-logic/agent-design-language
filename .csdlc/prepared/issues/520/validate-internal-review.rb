@@ -251,12 +251,18 @@ results.select { |row| row.fetch("lane") == "tests" }.each do |row|
   invocations = row.fetch("test_invocations")
   fail!("test lane lacks a multi-surface execution denominator") unless invocations.length >= 3 && invocations.map { |item| item.fetch("id") }.uniq.length == invocations.length && nonempty?(row.fetch("execution_scope"))
   invocations.each do |invocation|
-    stdout = invocation.fetch("stdout")
     argv = invocation.fetch("argv")
+    captured_output = invocation.fetch("captured_output")
+    success_markers = invocation.fetch("success_markers")
     artifacts = invocation.fetch("command_artifacts")
     artifacts_valid = artifacts.any? && artifacts.all? { |artifact| Digest::SHA256.hexdigest(git_blob(candidate, artifact.fetch("path"))) == artifact.fetch("sha256") && Digest::SHA256.file(artifact.fetch("path")).hexdigest == artifact.fetch("sha256") }
     fresh_stdout, fresh_stderr, fresh_status = Open3.capture3(*argv, chdir: invocation.fetch("working_directory"))
-    fail!("test lane lacks replayed immutable successful invocation proof: #{invocation.fetch('id')}: #{fresh_stderr.strip}") unless nonempty?(argv) && invocation.fetch("candidate_sha") == candidate && invocation.fetch("exit_status") == 0 && Digest::SHA256.hexdigest(stdout) == invocation.fetch("stdout_sha256") && nonempty?(stdout) && artifacts_valid && fresh_status.exitstatus == invocation.fetch("exit_status") && fresh_stdout == stdout
+    fresh_output = fresh_stdout + fresh_stderr
+    fail!("test lane lacks replayed immutable successful invocation proof: #{invocation.fetch('id')}: #{fresh_stderr.strip}") unless
+      argv.is_a?(Array) && !argv.empty? && invocation.fetch("candidate_sha") == candidate &&
+      invocation.fetch("exit_status") == 0 && Digest::SHA256.hexdigest(captured_output) == invocation.fetch("captured_output_sha256") &&
+      nonempty?(captured_output) && artifacts_valid && fresh_status.exitstatus == invocation.fetch("exit_status") &&
+      success_markers.is_a?(Array) && success_markers.any? && success_markers.all? { |marker| fresh_output.include?(marker) }
   end
 end
 

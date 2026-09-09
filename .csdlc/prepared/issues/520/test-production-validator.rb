@@ -96,8 +96,8 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       if assignment.fetch("lane") == "tests"
         result["execution_scope"] = "Three distinct deterministic candidate test surfaces were replayed; static review covers the remainder."
         result["test_invocations"] = %w[test.rb test2.rb test3.rb].each_with_index.map do |test_path, index|
-          test_stdout = "test surface #{index + 1} passed\n"
-          {"id"=>"fixture-test-#{index + 1}","argv"=>["ruby",test_path],"working_directory"=>".","command_artifacts"=>[{"path"=>test_path,"sha256"=>Digest::SHA256.file(test_path).hexdigest}],"candidate_sha"=>candidate,"exit_status"=>0,"stdout"=>test_stdout,"stdout_sha256"=>Digest::SHA256.hexdigest(test_stdout)}
+          captured_output = "test surface #{index + 1} passed\n"
+          {"id"=>"fixture-test-#{index + 1}","argv"=>["ruby",test_path],"working_directory"=>".","command_artifacts"=>[{"path"=>test_path,"sha256"=>Digest::SHA256.file(test_path).hexdigest}],"candidate_sha"=>candidate,"exit_status"=>0,"captured_output"=>captured_output,"captured_output_sha256"=>Digest::SHA256.hexdigest(captured_output),"success_markers"=>["test surface #{index + 1} passed"]}
         end
       end
       result

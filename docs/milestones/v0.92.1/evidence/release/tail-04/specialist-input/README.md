@@ -20,8 +20,11 @@ Each `<lane>.json` uses schema
   (`implemented`, `partial`, `missing`, or `not_applicable`) and terminal
   `proof_disposition` (`proved`, `partial`, `missing`, or `not_applicable`);
 - for the tests lane, at least three distinct replayable `test_invocations`
-  with exact candidate-bound command-artifact digests, plus a truthful
-  `execution_scope` that distinguishes executed proof from static review.
+  with argv arrays, zero exit status, retained output and digest, explicit
+  success markers, and exact candidate-bound command-artifact digests, plus a
+  truthful `execution_scope` that distinguishes executed proof from static
+  review. Replay must reproduce success and the declared markers; byte-identical
+  Cargo timing output is not required.
 
 Reviewer scripts may enumerate rows, resolve candidate blobs, run deterministic
 checks, and emit row-specific decisions. They may not default unexamined rows
