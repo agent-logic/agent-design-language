@@ -35,11 +35,11 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/517/cards/spp.md"
 selected_lanes:
-  - "quality-denominator; zero-test-shield; exact-scope; native adapter and remote contracts"
+  - "quality-denominator; evidence-accounting; canonical-document-parity"
 parallel_groups:
-  - "quality and native contracts"
+  - "document mapping and issue ownership"
 validation_commands:
-  - "Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI"
+  - "Focused reconciliation validators, denominator and digest checks, explicit follow-up ownership, canonical YAML parity, independent document review, and required hosted CI."
 failure_policy: "Fail closed on an unmet predecessor, incomplete denominator, non-proving lane, candidate drift, or unowned exception."
 notes: "Gate remains blocked; proof debt is not resolved by this PR. Publication does not authorize release."
 ---
@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.4/vpp.md`
 
 ## Validation Planning Summary
 
-Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate. Repair review findings before reviewed publication; preserve the blocked release decision.
+Docs-only evidence accounting; actual code and operational proof remain separate issues.
 
 ## Lane Registry Inputs
 
@@ -61,11 +61,11 @@ Produce one fail-closed quality-gate decision for the exact converged v0.92.1 ca
 
 ## Selected Validation Lanes
 
-- quality-denominator; zero-test-shield; exact-scope; native adapter and remote contracts
+- quality-denominator; evidence-accounting; canonical-document-parity
 
 ## Parallelization Plan
 
-- Parallel groups: quality and native contracts
+- Parallel groups: document mapping and issue ownership
 - Validation runtime class: `deterministic_local_cpu`
 - Validation resource profile: `small`
 - Validation family: `local_contract`
@@ -86,7 +86,7 @@ Produce one fail-closed quality-gate decision for the exact converged v0.92.1 ca
 
 ## Validation Commands
 
-- Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI
+- Focused reconciliation validators, denominator and digest checks, explicit follow-up ownership, canonical YAML parity, independent document review, and required hosted CI.
 
 ## Failure Semantics
 
