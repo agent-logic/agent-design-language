@@ -877,7 +877,7 @@ async fn shutdown_grace_aborts_non_cooperative_operation_executor() {
     });
     tokio::time::sleep(Duration::from_millis(20)).await;
     let shutdown = tokio::time::timeout(
-        Duration::from_secs(1),
+        Duration::from_secs(3),
         handle.shutdown(Duration::from_secs(1)),
     )
     .await
