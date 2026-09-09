@@ -103,9 +103,9 @@ const RUNTIME_V3_TRUSTED_DOMAIN = "agent-logic.ai"; // allow any *.agent-logic.a
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
   health_endpoint: "/v1/health",
-  observatory_endpoint: "/v1/observatory?schema=v3",
+  observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
-  observatory_websocket_endpoint: "/v1/observatory/ws?schema=v3",
+  observatory_websocket_endpoint: "/v1/observatory/ws",
   signed_command_endpoint: "/v1/control",
   observatory_docs_endpoint: "/v1/observatory/docs/"
 });
@@ -481,10 +481,6 @@ function buildIntegrationViewModel({
   const cloudwatch = cloudwatchSummary.cloudwatch || {};
   const heartbeat = cloudwatchSummary.heartbeat || {};
   const redaction = cloudwatchSummary.redaction || {};
-  const acipProjection = acipSnsSummary.acip_projection || {};
-  const acipRedaction = acipSnsSummary.redaction || {};
-  const sns = acipSnsSummary.sns || {};
-  const snsResource = snsResourceSummary.sns || {};
   return {
     serviceManifest,
     apiText,
@@ -532,26 +528,6 @@ function buildIntegrationViewModel({
         value: redaction.credentials_recorded === false ? "operations safe" : "needs review",
         detail: redaction.raw_account_id_recorded === false ? "No raw account id or credentials recorded in retained summary." : "Retained summary needs redaction review.",
         state: redaction.credentials_recorded === false && redaction.raw_account_id_recorded === false ? "passed" : "blocked"
-      }
-    ],
-    acipRows: [
-      {
-        label: "ACIP projection",
-        value: acipSnsSummary.status || "unknown",
-        detail: `${acipProjection.route_class || "unknown route"} / ${acipProjection.projection_level || "unknown projection"}`,
-        state: acipSnsSummary.status || "open"
-      },
-      {
-        label: "SNS topic",
-        value: sns.topic_name || snsResource.topic_name || "unknown",
-        detail: sns.message_id ? `retained message ${sns.message_id}` : "retained SNS resource proof",
-        state: sns.topic_name || snsResource.topic_name ? "passed" : "open"
-      },
-      {
-        label: "Redaction",
-        value: acipRedaction.credentials_recorded === false && acipRedaction.raw_message_content_recorded === false ? "operations safe" : "needs review",
-        detail: acipRedaction.raw_topic_arn_recorded === false ? "No credentials, raw message, or raw topic ARN recorded." : "Retained ACIP/SNS proof needs redaction review.",
-        state: acipRedaction.credentials_recorded === false && acipRedaction.raw_message_content_recorded === false ? "passed" : "blocked"
       }
     ]
   };
@@ -1259,20 +1235,6 @@ function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const root = document.querySelector(".observatory");
   // The surface key drives which section the nav rail reveals (see styles.css).
   if (root) root.dataset.dashboardSurface = DASHBOARD_FOCUS[key] ? key : "runtime";
-  setText("dashboard-focus-kicker", selected.kicker);
-  setText("dashboard-focus-title", selected.title);
-  setText("dashboard-focus-status", selected.status);
-  setText("dashboard-focus-detail", extraDetail || selected.detail);
-  renderRows("dashboard-focus-list", selected.facts.map((fact) => `
-    <li class="trace-row">
-      <span class="trace-seq">•</span>
-      <span>${escapeHtml(fact)}</span>
-    </li>
-  `));
-  const focusLink = document.getElementById("dashboard-focus-link");
-  if (focusLink) {
-    focusLink.href = selected.target || "#runtime-proof";
-  }
   document.querySelectorAll("[data-dashboard-link]").forEach((link) => {
     const isActive = link.dataset.dashboardLink === key;
     if (isActive) {
@@ -1388,10 +1350,9 @@ function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
   const observatoryHost = String(globalThis.location?.hostname || "").toLowerCase();
-  const allowedHosts = [RUNTIME_V3_TRUSTED_HOST, observatoryHost].filter(Boolean);
-  const normalizedHost = parsed.hostname.toLowerCase();
-  const allowedHost = allowedHosts.includes(parsed.hostname.toLowerCase())
-    || normalizedHost.endsWith(`.${RUNTIME_V3_TRUSTED_DOMAIN}`);
+  const allowedHost = parsed.hostname === RUNTIME_V3_TRUSTED_HOST
+    || parsed.hostname.endsWith(`.${RUNTIME_V3_TRUSTED_DOMAIN}`)
+    || (observatoryHost && parsed.hostname === observatoryHost);
   if (
     parsed.protocol !== "https:" ||
     !allowedHost ||
@@ -2460,12 +2421,15 @@ function conversationTurnsInOrder(completed) {
 // Anything without either marker is reported as a plain reply. The classifier
 // never guesses A2A from message content.
 const A2A_WORK_ID_PREFIX = "a2a-work-";
-const A2A_INITIATION_SCHEMA = "adl.runtime.agent_to_agent_initiation_request.v2";
+const A2A_INITIATION_SCHEMAS = new Set([
+  "adl.runtime.agent_to_agent_initiation_request.v1",
+  "adl.runtime.agent_to_agent_initiation_request.v2"
+]);
 
 function agentToAgentInitiation(entry) {
   const initiation = entry?.public_output?.agent_to_agent_initiation;
   if (!initiation || typeof initiation !== "object") return null;
-  if (initiation.schema !== A2A_INITIATION_SCHEMA) return null;
+  if (!A2A_INITIATION_SCHEMAS.has(initiation.schema)) return null;
   return initiation;
 }
 
@@ -2485,7 +2449,7 @@ function describeConversationTurn({ workId, entry }, population = lastAgentPopul
   if (initiation) {
     return {
       kind: "a2a",
-      title: `${label(worker)} \u2192 ${label(initiation.recipient_name)}`,
+      title: `${label(worker)} \u2192 ${label(initiation.recipient_name || initiation.recipient_id)}`,
       // Show what was actually said, not the "Requested governed contact" wrapper.
       detail: trim(initiation.message),
       tone: "ok"
@@ -3463,11 +3427,6 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()}`);
-  setText("agent-count", `${vm.agentTotal.toLocaleString()}`);
-  setText("hero-gauge-agents", `${vm.agentTotal.toLocaleString()}`);
-  setText("hero-gauge-metrics", `${vm.metrics.length.toLocaleString()}`);
-  setText("hero-gauge-ready", formatLabel(vm.readyState));
-  setText("live-readiness", formatLabel(vm.readyState));
   renderAgentDirectory(asArray(snapshot.status?.agent_population?.sample));
   if (snapshot.rawFeed) renderInspector(snapshot, snapshot.rawFeed);
 
@@ -3519,10 +3478,6 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   // The view model windows events for rendering; the runtime gauge holds the true total.
   const authoritativeEventTotal = snapshot.metrics?.gauges?.event_count ?? vm.events.length;
   const authoritativeEventLabel = Number(authoritativeEventTotal).toLocaleString();
-  setText("hero-gauge-events", authoritativeEventLabel);
-  setText("live-event-count", authoritativeEventLabel);
-  setText("live-metric-count", `${vm.metrics.length.toLocaleString()}`);
-  setText("live-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setText("hero-event-count", `${authoritativeEventLabel} Events`);
   setText("hero-event-detail", authoritativeEventTotal
     ? (vm.mode === "live"
@@ -3728,11 +3683,8 @@ function renderIntegrations(integrationInputs = {}) {
   const csmApiStatus = vm.serviceRows.every((row) => row.state === "closed") ? "wired" : "check evidence";
   const cloudwatchStatus = vm.cloudwatchSummary.status || "pending";
   setText("csm-api-status", csmApiStatus);
-  setText("hero-csm-api-status", csmApiStatus);
   setText("cloudwatch-status", cloudwatchStatus === "passed" ? "live proof" : formatLabel(cloudwatchStatus));
-  setText("hero-cloudwatch-state", cloudwatchStatus === "passed" ? "CloudWatch Proven" : formatLabel(cloudwatchStatus));
   setText("cloudwatch-event-count", `${vm.parsedEvents.length} events`);
-  setText("hero-communication-status", vm.acipSnsSummary.status === "passed" ? "ACIP/SNS Proven" : formatLabel(vm.acipSnsSummary.status || "pending"));
 
   renderRows("csm-api-list", vm.serviceRows.map((row) => `
     <article class="integration-row" data-state="${row.state}">
@@ -3741,20 +3693,6 @@ function renderIntegrations(integrationInputs = {}) {
       <p class="row-detail">${row.detail}</p>
     </article>
   `));
-  renderRows("hero-api-list", vm.serviceRows.map((row) => `
-    <article class="integration-row" data-state="${row.state}">
-      <span class="row-kicker">${formatLabel(row.label)}</span>
-      <strong>${formatLabel(row.value)}</strong>
-      <p class="row-detail">${row.detail}</p>
-    </article>
-  `));
-  renderRows("compact-comms-proof", [
-    `<article class="integration-row" data-state="${escapeHtml(vm.acipSnsSummary.status || "pending")}">
-      <span class="row-kicker">ACIP/SNS</span>
-      <strong>${escapeHtml(formatLabel(vm.acipSnsSummary.status || "pending"))}</strong>
-      <p class="row-detail">${escapeHtml(vm.snsResourceSummary.topic_name || "SNS resource proof retained")}</p>
-    </article>`
-  ]);
 
   renderRows("cloudwatch-list", vm.cloudwatchRows.map((row) => `
     <article class="integration-row" data-state="${row.state}">
@@ -3839,14 +3777,6 @@ function bindCommunication(packet = FALLBACK_PACKET, acipSnsSummary = {}, snsRes
 
 function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const communicationBase = document.getElementById("runtime-api-base");
-  const liveApiBase = document.getElementById("live-api-base");
-  const dashboardLiveApiBase = document.getElementById("dashboard-live-api-base");
-  const connectLiveButton = document.getElementById("connect-live");
-  const refreshLiveButton = document.getElementById("refresh-live");
-  const stopLiveButton = document.getElementById("stop-live");
-  const dashboardConnectLiveButton = document.getElementById("dashboard-connect-live");
-  const dashboardRefreshLiveButton = document.getElementById("dashboard-refresh-live");
-  const dashboardStopLiveButton = document.getElementById("dashboard-stop-live");
   const modeSelect = document.getElementById("top-mode-select");
   const operatorToken = document.getElementById("operator-write-token");
   const operatorLogin = document.getElementById("operator-login");
@@ -3905,20 +3835,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const mirrorApiBase = (base) => {
     if (communicationBase && base && !communicationBase.value) {
       communicationBase.value = base;
-    }
-    if (liveApiBase && base && !liveApiBase.value) {
-      liveApiBase.value = base;
-    }
-    if (dashboardLiveApiBase && base && !dashboardLiveApiBase.value) {
-      dashboardLiveApiBase.value = base;
-    }
-  };
-
-  const setLiveStatus = (status, detail = "") => {
-    setText("live-status", status);
-    setText("dashboard-live-test-status", status);
-    if (detail) {
-      setText("dashboard-live-test-detail", detail);
     }
   };
 
@@ -4311,8 +4227,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   // the shipped config.
   const readApiBase = () => normalizeApiBase(
     document.getElementById("polis-select")?.value
-    || dashboardLiveApiBase?.value
-    || liveApiBase?.value
     || communicationBase?.value
     || getQueryApiBase()
     || getRuntimeV3Config().api_base
@@ -4385,13 +4299,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       };
       renderPanopticon(mergedSnapshot, packet);
       const status = Object.keys(mergedSnapshot.errors || {}).length ? "published partial" : "published runtime mirror";
-      setLiveStatus(status, "Retained CSM API mirror rendered.");
     } catch (error) {
       if (!isCurrentLiveGeneration(requestGeneration)) {
         return;
       }
       renderMinimalFallback(error);
-      setLiveStatus("published partial", error instanceof Error ? error.message : "unknown retained mirror error");
     }
   };
 
@@ -4417,7 +4329,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         renderPanopticon(mergedSnapshot, packet);
         setText("statusbar-websocket", "disconnected");
         setLiveConnectionState("live-read");
-        setLiveStatus("live partial", "Runtime v3 GET feed responded after WebSocket error.");
         setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
         return;
       } catch (_refreshError) {
@@ -4462,7 +4373,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
-      setLiveStatus(status, runtimeKind);
       setWriteAccess(false, "signed post available", "Paste a signed Runtime v3 command and send it through /v1/control, or log in when WSS is available.");
     } catch (error) {
       if (liveStoppedByOperator || !isCurrentLiveGeneration(requestGeneration)) {
@@ -4498,7 +4408,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     liveRuntimeIncarnationId = null;
     runtimeBaseActive = false;
     setText("statusbar-websocket", "stopped");
-    setLiveStatus("polling stopped", "Live polling and stream reconnects are stopped.");
   };
 
   const connectLive = async ({ reconnecting = false } = {}) => {
@@ -4850,30 +4759,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       errors: {}
     }, packet);
   });
-  const copyDashboardBase = () => {
-    const dashboardBase = dashboardLiveApiBase?.value || liveApiBase?.value || "";
-    if (dashboardBase && communicationBase) {
-      communicationBase.value = dashboardBase;
-    }
-  };
-  connectLiveButton?.addEventListener("click", async () => {
-    copyDashboardBase();
-    await connectLive();
-  });
-  refreshLiveButton?.addEventListener("click", async () => {
-    copyDashboardBase();
-    await refreshLive();
-  });
-  stopLiveButton?.addEventListener("click", () => stopPolling());
-  dashboardConnectLiveButton?.addEventListener("click", async () => {
-    copyDashboardBase();
-    await connectLive();
-  });
-  dashboardRefreshLiveButton?.addEventListener("click", async () => {
-    copyDashboardBase();
-    await refreshLive();
-  });
-  dashboardStopLiveButton?.addEventListener("click", () => stopPolling());
   operatorLogin?.addEventListener("click", () => {
     const token = operatorToken?.value.trim() || "";
     if (!token) {

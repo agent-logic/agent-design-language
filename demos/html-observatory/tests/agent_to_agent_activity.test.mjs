@@ -36,6 +36,26 @@ test("initiation leg is A2A, named end-to-end, and shows the message actually se
   assert.doesNotMatch(described.detail, /Requested governed contact/);
 });
 
+test("retained v1 initiation remains visible while Runtime data converges to v2", () => {
+  const described = describeConversationTurn({
+    workId: "conversation-retained-v1",
+    entry: {
+      accepted_sequence: 2,
+      public_output: {
+        recipient_id: "shepherd",
+        agent_to_agent_initiation: {
+          schema: "adl.runtime.agent_to_agent_initiation_request.v1",
+          recipient_id: "gemma-e4b",
+          message: "Welcome, Ember."
+        }
+      }
+    }
+  }, population);
+  assert.equal(described.kind, "a2a");
+  assert.equal(described.title, "Beacon Axioma → Ember Axioma");
+  assert.equal(described.detail, "Welcome, Ember.");
+});
+
 test("a2a-work reply leg is A2A without asserting an unnamed counterpart", () => {
   const described = describeConversationTurn({
     workId: "a2a-work-0bd209dc73be97cb",
