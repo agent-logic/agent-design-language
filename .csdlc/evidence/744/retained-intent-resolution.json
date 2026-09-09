@@ -1,0 +1,39 @@
+{
+  "schema": "csdlc.v3.github_mutation_retained_intent_resolution.v1",
+  "issue": 744,
+  "repository": "agent-logic/agent-design-language",
+  "retained_intent": {
+    "operation_digest": "8dbec9dac7cebe523aff76b76932358788bbb6e3139a3dd2ef0d34c6dad0f6cf",
+    "operation_marker": "<!-- csdlc-v3-operation:8dbec9dac7cebe523aff76b76932358788bbb6e3139a3dd2ef0d34c6dad0f6cf -->",
+    "intent_path": ".git/csdlc-v3/remote/intents/8dbec9dac7cebe523aff76b76932358788bbb6e3139a3dd2ef0d34c6dad0f6cf.json",
+    "request_expected_head_sha": "bf617859982f8b9613737344400626eb90768930",
+    "mutation": "issue_create"
+  },
+  "authenticated_absence_observation": {
+    "observed_at": "2026-09-09T09:18:43-0700",
+    "command": "gh issue list --repo agent-logic/agent-design-language --search '8dbec9dac7cebe523aff76b76932358788bbb6e3139a3dd2ef0d34c6dad0f6cf in:body' --json number,title,state,url --limit 20",
+    "matching_created_issue_with_native_marker": false,
+    "observed_matches": [
+      {
+        "number": 744,
+        "title": "[v0.92.2][tooling] Recover native v3 issue-create intents after credential preflight failure",
+        "state": "OPEN",
+        "classification": "self_reference_to_retained_defect_record"
+      }
+    ]
+  },
+  "supersession": {
+    "successor_issue": 745,
+    "successor_title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+    "successor_state": "CLOSED",
+    "successor_authority": "operator-authorized bounded v2 recovery after native v3 credential preflight defect",
+    "native_replay_performed": false,
+    "reason_native_replay_was_not_performed": "Authenticated marker search did not find a created native issue, and the intended ADR work already exists as closed successor issue #745; replaying the retained issue-create intent would create duplicate work."
+  },
+  "resolution": {
+    "intent_deleted": false,
+    "marker_altered": false,
+    "raw_github_lifecycle_write_used": false,
+    "classification": "resolved_by_authenticated_absence_and_superseded_successor"
+  }
+}

@@ -620,6 +620,7 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
             operator_approval: Some("test route ownership".into()),
             expected_head_sha: head.clone(),
             credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
             mutation: GithubMutation::IssueCreate {
                 title: "new issue".into(),
                 body: "body".into(),
@@ -660,6 +661,7 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
             operator_approval: Some("test route ownership".into()),
             expected_head_sha: head,
             credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
             mutation: GithubMutation::PullRequestReady,
         }),
     };

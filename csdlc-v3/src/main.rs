@@ -410,6 +410,7 @@ fn run_simple_issue_create(args: &[String]) -> Result<String, String> {
             operator_approval: None,
             expected_head_sha: args.expected_head,
             credential_names: vec![args.credential_name],
+            recovery: None,
             mutation: GithubMutation::IssueCreate {
                 title: args.title,
                 body,
