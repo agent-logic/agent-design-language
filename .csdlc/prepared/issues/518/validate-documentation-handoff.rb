@@ -117,6 +117,22 @@ if %w[--candidate-linkage --final --all].include?(mode)
     require_true(Digest::SHA256.hexdigest(bytes) == row.fetch('sha256'), "historical handoff hash mismatch #{path}")
     checks += 1
   end
+  dependency = read_json("#{packet}/dependency-observation.json")
+  source_path = dependency.fetch('source_path')
+  require_true(Digest::SHA256.file(source_path).hexdigest == dependency.fetch('source_blob_sha256'), 'quality source drift')
+  require_true(read_json(source_path).fetch('unresolved') == dependency.fetch('unresolved'), 'quality exceptions changed')
+  require_true(dependency['quality_gate'] == 'blocked' && dependency['downstream_release_unlock'] == false, 'release decision overclaimed')
+  _, _, status = Open3.capture3('git', 'merge-base', '--is-ancestor', dependency.fetch('merge_commit'), candidate_identity)
+  require_true(status.success?, 'predecessor merge missing')
+  require_true(read_json("#{packet}/finding-dispositions.json").all? { |f| %w[corrected_reviewed_locally corrected_after_predecessor_merge mapped_with_explicit_release_proof_debt].include?(f['status']) }, 'undispositioned finding')
+  reconciliation = dependency.fetch('reconciliation')
+  reconciliation_path = reconciliation.fetch('source_path')
+  require_true(Digest::SHA256.file(reconciliation_path).hexdigest == reconciliation.fetch('source_sha256'), 'accounting source drift')
+  accounted = read_json(reconciliation_path)
+  require_true(accounted['unowned_exception_count'] == 0 && accounted['exceptions'].length == 5 && accounted['release_authorized'] == false, 'accounting disposition mismatch')
+  _, _, status = Open3.capture3('git', 'merge-base', '--is-ancestor', reconciliation.fetch('merge_commit'), candidate_identity)
+  require_true(status.success?, 'accounting merge missing')
+  checks += 9
   denominator = documents.length
 end
 puts JSON.generate(schema: 'adl.tail02.local_validation.v2', mode: mode, status: 'pass', checks: checks,
