@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: ready
 
 ## Summary
 
@@ -106,11 +106,11 @@ Issue771 resolves all four V3-F current review rows with independent162-path rev
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
