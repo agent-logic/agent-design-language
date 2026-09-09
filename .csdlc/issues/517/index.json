@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 517,
   "phase": "bound",
-  "generation": 8,
+  "generation": 14,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/517-tail-01-quality-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-517-tail-01-quality-gate",
   "template_registry_version": "1.0.4",
   "operational_authority": true,
-  "digest": "d8940c453e3bc667ff4e76a2f2a1f9fd385349ed709cffbb99b08e07ca981d52"
+  "digest": "cca500a6ca25e3c8462b4018187a81cd8cbb84118d9c91091a4a513c1ed7c382"
 }

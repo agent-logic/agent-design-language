@@ -1,0 +1,512 @@
+{
+  "schema": "adl.v0921.current_execution_exception_reconciliation.v1",
+  "issue": 517,
+  "candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "source": {
+    "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+    "sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d"
+  },
+  "review_scope": "Current GCP-B and DRT-B remaining criteria, #505 post-review tail, canonical spec synchronization, and shared-path resolution; no bulk retained-criterion acceptance",
+  "corrections": [
+    {
+      "row_id": "GCP-B:GCP-B-ac-1",
+      "criterion_id": "GCP-B-ac-1",
+      "criterion_text": "State is versioned private recoverable and auditable",
+      "criterion_text_digest": "bc59816b165d6b5a2d6e732ec027cf3c5a28a060c53a6c0c150402cd49188b8c",
+      "previous_result": "non_proving",
+      "proposed_result": "proof_gap",
+      "rationale": "Corrective #740 proves private posture, versioning and Terraform GCS canary recovery by immutable generation 1788865232161971. Original #491 design explicitly also requires audit/log posture; no audit configuration or log readback is present in the bounded #740 packet. Actor/script/config-bound proof receipts are not substituted for that obligation.",
+      "proof_artifacts": [
+        {
+          "path": ".csdlc/evidence/740/gcp-b1-readback.redacted.json",
+          "candidate_blob": "51ef71914e2de15d65a6c495ea1c9b8c19f7a66b",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "51ef71914e2de15d65a6c495ea1c9b8c19f7a66b",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/740/gcp-b1-iam-policy.redacted.json",
+          "candidate_blob": "99b3a19c607587e8785eb0b085120a16178f79ce",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "99b3a19c607587e8785eb0b085120a16178f79ce",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/740/backend-canary-state.redacted.json",
+          "candidate_blob": "32be0cc000ea3af7f1e2b27a21a3fc034f98190f",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "32be0cc000ea3af7f1e2b27a21a3fc034f98190f",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/740/live-proof.redacted.json",
+          "candidate_blob": "35e41a9f239583c3f8f09e6b55b0882c01dbc4e7",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "35e41a9f239583c3f8f09e6b55b0882c01dbc4e7",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh",
+          "candidate_blob": "0456e51eabf4fca8e5f15af0185baffa7d2f7200",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "0456e51eabf4fca8e5f15af0185baffa7d2f7200",
+          "candidate_equals_review": true
+        }
+      ],
+      "remaining_obligation": "Retain or obtain candidate-bound audit/log posture evidence, or explicit operator amendment; no cloud action performed by this review.",
+      "current_readback_status": {
+        "status": "unavailable_reauthentication_required",
+        "source": "Parent agent coordination report; no additional cloud evidence adopted by this packet",
+        "effect": "The attempted read-only audit check could not complete gcloud reauthentication. Audit/log posture remains unproven; no cloud mutation or new audit evidence is claimed."
+      }
+    },
+    {
+      "row_id": "GCP-B:GCP-B-ac-4",
+      "criterion_id": "GCP-B-ac-4",
+      "criterion_text": "Local bootstrap state is removed recoverably",
+      "criterion_text_digest": "a6b9d5d9a865d6a797483ae6f856dc9ce5ff656d3c257a1a1d8f33d69e938412",
+      "previous_result": "non_proving",
+      "proposed_result": "proven",
+      "rationale": "The reviewed corrective #740 wrapper uses disposable run-specific Terraform/gcloud locations, recovers canary state by immutable remote generation, and EXIT cleanup removes local state and credentials. The retained #740 SOR records passing #730 static validation, which actually scans repository-local Terraform residue after removing its TF_DATA_DIR. Bootstrap .gitignore excludes local state/plan/cache. This proves the local removal/recovery contract, not an unrecorded whole-host residue census.",
+      "proof_artifacts": [
+        {
+          "path": ".csdlc/evidence/740/gcp-b1-readback.redacted.json",
+          "candidate_blob": "51ef71914e2de15d65a6c495ea1c9b8c19f7a66b",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "51ef71914e2de15d65a6c495ea1c9b8c19f7a66b",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/740/gcp-b1-iam-policy.redacted.json",
+          "candidate_blob": "99b3a19c607587e8785eb0b085120a16178f79ce",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "99b3a19c607587e8785eb0b085120a16178f79ce",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/740/backend-canary-state.redacted.json",
+          "candidate_blob": "32be0cc000ea3af7f1e2b27a21a3fc034f98190f",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "32be0cc000ea3af7f1e2b27a21a3fc034f98190f",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/740/live-proof.redacted.json",
+          "candidate_blob": "35e41a9f239583c3f8f09e6b55b0882c01dbc4e7",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "35e41a9f239583c3f8f09e6b55b0882c01dbc4e7",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/prepared/issues/740/run-gcp-b1-corrective-proof.sh",
+          "candidate_blob": "0456e51eabf4fca8e5f15af0185baffa7d2f7200",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "0456e51eabf4fca8e5f15af0185baffa7d2f7200",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/prepared/issues/730/validate-gcp-b1.sh",
+          "candidate_blob": "82d2a52d7e1cce469ef84ef72d5ead02dcc7d852",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "82d2a52d7e1cce469ef84ef72d5ead02dcc7d852",
+          "candidate_equals_review": true
+        },
+        {
+          "path": "infra/gcp/bootstrap/.gitignore",
+          "candidate_blob": "b9e5d7c0f1f29e75e1f283bf948e5c143ce7fad9",
+          "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
+          "reviewed_blob": "b9e5d7c0f1f29e75e1f283bf948e5c143ce7fad9",
+          "candidate_equals_review": true
+        }
+      ],
+      "validation_record": {
+        "path": ".csdlc/issues/740/cards/sor.md",
+        "candidate_blob": "44fe60b50bb1f673c9bca2fdca583672073426cc"
+      },
+      "review_record": {
+        "path": ".csdlc/issues/740/cards/srp.md",
+        "candidate_blob": "83f350f65238005df5eac90c822e12dd5bf3d776"
+      }
+    },
+    {
+      "row_id": "DRT-B:DRT-B-ac-4",
+      "criterion_id": "DRT-B-ac-4",
+      "criterion_text": "GPU evidence waits for reviewed merged 345 authority",
+      "criterion_text_digest": "8d32f59dec2de704f795e327b748a1e2bc45cc9d2eb7e40ad2e1ac5595e559fb",
+      "previous_result": "non_proving",
+      "proposed_result": "proven",
+      "rationale": "This criterion is a conditional sequencing prohibition: GPU evidence waits for reviewed merged #345 authority. The #507 accepted execution explicitly has no live GPU/provider scope, retains resource/cleanup gates, and consumes predecessor authority read-only. No GPU proof is admitted by this correction; it does not claim execution of #345 or paid qualification.",
+      "proof_artifacts": [
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "candidate_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d",
+          "reviewed_revision": "cd5251801646070e1af21bea50b11902c21e61c8",
+          "reviewed_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d",
+          "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/issues/507/cards/stp.md",
+          "candidate_blob": "b0a9f7c81c807a9ab3222ffd5e2148a54443782a",
+          "reviewed_revision": "cd5251801646070e1af21bea50b11902c21e61c8",
+          "reviewed_blob": "b0a9f7c81c807a9ab3222ffd5e2148a54443782a",
+          "candidate_equals_review": true
+        }
+      ],
+      "validation_record": {
+        "path": ".csdlc/issues/507/cards/sor.md",
+        "candidate_blob": "bbad234a4fe5385df7abcbf2eac51945e81b77c0"
+      },
+      "review_record": {
+        "path": ".csdlc/issues/507/cards/srp.md",
+        "candidate_blob": "3b461cc7a08009beff020d04996fac1dfe48fd64"
+      }
+    }
+  ],
+  "post_review_505": {
+    "kind": "post_merge_delta_review",
+    "reviewer": "subagent:review_748_repairs",
+    "reviewed_from": "9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+    "reviewed_to": "74ddb31702482172eea4ba3d74700536eab32e49",
+    "result": "pass",
+    "criteria": [
+      {
+        "id": "V3-F-ac-1",
+        "text_digest": "ae6ae51426f7f2d553c8774aa41a1b227099ae82eafd65cf91a7da2eaab2475f"
+      },
+      {
+        "id": "V3-F-ac-2",
+        "text_digest": "d5300cdb50374f90a61869ad0cef589665b965736df64d82ffba6f503eb8674a"
+      },
+      {
+        "id": "V3-F-ac-3",
+        "text_digest": "1d54eed76b4cd45ef37a11f2fe31ea0dfee0f27385085377ec2be9764ad94307"
+      },
+      {
+        "id": "V3-F-ac-4",
+        "text_digest": "42ce5c60c11cc93ef31f6dce7d49dcdfbe57b51a25d620a69e34123c0a8d45fa"
+      }
+    ],
+    "files": [
+      "csdlc-v3/src/commands/terminal.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      ".csdlc/issues/505/**"
+    ],
+    "finding_disposition": "Explicit fs2 unlock in Drop preserves guarded-operation scope and releases held lock; test delta only adds assertion diagnostics. Lifecycle tail records publication/review metadata. No actionable delta findings.",
+    "candidate_chain": [
+      {
+        "path": "csdlc-v3/src/commands/terminal.rs",
+        "candidate_blob": "74b18b10a779a7ab14c9f74aa525c8335cf2c47a",
+        "reviewed_revision": "be618995b15cee423fec9a2e24b7e08c646d6cf5",
+        "reviewed_blob": "74b18b10a779a7ab14c9f74aa525c8335cf2c47a",
+        "candidate_equals_review": true
+      },
+      {
+        "path": "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+        "candidate_blob": "c5d67168df2c923eb77c592b7545386ad0a39234",
+        "reviewed_revision": "be618995b15cee423fec9a2e24b7e08c646d6cf5",
+        "reviewed_blob": "c5d67168df2c923eb77c592b7545386ad0a39234",
+        "candidate_equals_review": true
+      },
+      {
+        "path": "csdlc-v3/src/authority.rs",
+        "candidate_blob": "ea3a6e6daa89fdb12361edcbb5d997c186e4eafb",
+        "reviewed_revision": "be618995b15cee423fec9a2e24b7e08c646d6cf5",
+        "reviewed_blob": "ea3a6e6daa89fdb12361edcbb5d997c186e4eafb",
+        "candidate_equals_review": true
+      }
+    ],
+    "subsequent_review_record": {
+      "path": ".csdlc/issues/725/cards/srp.md",
+      "candidate_blob": "2974c879ec4304ea87eebd84252ce5c282f802a9"
+    },
+    "unchanged_original_evidence": [
+      {
+        "path": ".csdlc/evidence/505/pre-cutover-rollback-exercise.json",
+        "candidate_blob": "94877f337c156d2dfdd5d12d614bf687804c746c",
+        "reviewed_revision": "9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+        "reviewed_blob": "94877f337c156d2dfdd5d12d614bf687804c746c",
+        "candidate_equals_review": true
+      },
+      {
+        "path": ".csdlc/evidence/505/cutover-approval-absent-canary-output.json",
+        "candidate_blob": "bbc2894eb83d7e82e8cf94e716c1c2e7c1fc6fba",
+        "reviewed_revision": "9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+        "reviewed_blob": "bbc2894eb83d7e82e8cf94e716c1c2e7c1fc6fba",
+        "candidate_equals_review": true
+      },
+      {
+        "path": "docs/csdlc-v3/authority-transition-disposition.json",
+        "candidate_blob": "13add5f73eca545529c4a21eadb7ff894123a18d",
+        "reviewed_revision": "9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+        "reviewed_blob": "13add5f73eca545529c4a21eadb7ff894123a18d",
+        "candidate_equals_review": true
+      }
+    ],
+    "non_claim": "Clears specific #505 unreviewed-tail exception only. Does not prove full retained #179/#180 denominator and is not retroactive pre-merge review."
+  },
+  "canonical_spec_sync": {
+    "status": "synchronized_and_independently_reviewed",
+    "changes": [
+      {
+        "planned_id": "WP-01",
+        "issue": 480,
+        "authority_url": "https://github.com/agent-logic/agent-design-language/issues/480",
+        "captured_body_sha256": "7958f0aec209419b143301e1f929788ed48edf6c4ee12a883a6884aabe08bea0",
+        "source_capture": ".csdlc/evidence/517/post-merge-reconciliation/current/issue-480.json",
+        "canonical_path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "required_synchronization": {
+          "Acceptance criteria": [
+            "Exactly 45 unique child issues exist for the 45 planned creation slots",
+            "Every child title and dependency matches the canonical merged package",
+            "Every child has correct `version:v0.92.1` and milestone routing",
+            "Existing or conflicting children fail closed before creation",
+            "Partial failure resumes without duplicate creation or issue-number reuse",
+            "Final live readback maps every planned ID to exactly one GitHub issue",
+            "The retained receipt proves 45-of-45 with no missing or extra issue"
+          ],
+          "Stop conditions": [
+            "A dependency target is unresolved"
+          ],
+          "Non-goals": [
+            "implementing child work",
+            "deleting or recycling issue numbers",
+            "recreating existing issues",
+            "activating v0.93",
+            "treating typed finish or worktree cleanup as a downstream execution dependency"
+          ]
+        },
+        "captured_authority_body": "## Outcome\n\nProduce one verified v0.92.1 execution-wave creation receipt for the exact 45-child denominator defined by the merged planning package.\n\n## Canonical authority\n\n- `docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml`\n- `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#WP-01`\n- `docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md`\n- `docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md`\n- repository prerequisite #432 is merged and ancestral\n- the reviewed planning package is merged and ancestral\n\n## Scope\n\n- create exactly the 45 number-free child issues in canonical catalog order\n- preserve exact titles, dependencies, milestone, labels, execution-contract references, and existing-issue routing\n- reconcile existing #51, #84, #122, #251, #261-#264, #342, and #345 without creating replacements\n- reject duplicate planned IDs, operation keys, conflicting titles, missing dependencies, and extra creation slots before mutation\n- after each create, read back the live issue and update an immutable partial receipt\n- on interruption, resume from the first verified absent child without recreating or renumbering prior children\n\n## Acceptance criteria\n\n- [ ] Exactly 45 unique child issues exist for the 45 planned creation slots\n- [ ] Every child title and dependency matches the canonical merged package\n- [ ] Every child has correct `version:v0.92.1` and milestone routing\n- [ ] Existing or conflicting children fail closed before creation\n- [ ] Partial failure resumes without duplicate creation or issue-number reuse\n- [ ] Final live readback maps every planned ID to exactly one GitHub issue\n- [ ] The retained receipt proves 45-of-45 with no missing or extra issue\n\n## Stop conditions\n\nStop immediately if the reviewed planning digest changes, a planned ID maps ambiguously, a create result cannot be read back exactly, a dependency target is unresolved, or partial creation lacks an operator-reviewed recovery disposition. Created GitHub issue numbers are never deleted or recycled to hide a partial failure.\n\n## Non-goals\n\n- implementing child work\n- deleting or recycling issue numbers\n- recreating existing issues\n- activating v0.93\n- treating typed finish or worktree cleanup as a downstream execution dependency\n\n<!-- csdlc-github-operation:v0.92.1-wp01-open-and-create-wave -->\n"
+      },
+      {
+        "planned_id": "GCP-E",
+        "issue": 494,
+        "authority_url": "https://github.com/agent-logic/agent-design-language/issues/494",
+        "captured_body_sha256": "103870511624f9e365b03734e7cfd304d77b4372aad7db0ae0b827b7667e8468",
+        "source_capture": ".csdlc/evidence/517/post-merge-reconciliation/current/issue-494.json",
+        "canonical_path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "required_synchronization": {
+          "Acceptance criteria": [
+            "Paid launch has separate authorization and a USD 20 ceiling",
+            "Exact inputs and hardware are retained",
+            "GPU inference and headroom are proven",
+            "All owned resources are independently absent afterward",
+            "Fresh exact-head review has no actionable findings before publication"
+          ],
+          "Owned paths": [
+            "`infra/gcp/workloads/gpu-smoke/**`",
+            "`docs/milestones/v0.92.1/evidence/cloud/gcp-e/**`"
+          ],
+          "PVF lanes": [
+            "`paid-authority`",
+            "`exact-inputs`",
+            "`gpu-inference`",
+            "`telemetry-and-cost`",
+            "`cleanup-zero`"
+          ],
+          "Stop conditions": [
+            "Paid authorization is absent",
+            "Quota or capacity cannot satisfy the exact shape",
+            "Cleanup cannot be proven"
+          ],
+          "Non-goals": [
+            "Six-resident qualification",
+            "Spot substitution",
+            "Production deployment"
+          ]
+        },
+        "captured_authority_body": "## Outcome\n\nProduce one bounded GCP GPU readiness decision.\n\n## Primary deliverable\n\nOne bounded On-Demand L4 smoke-test qualification packet with exact inputs, cost, telemetry, and zero-resource cleanup.\n\n## Verification result\n\nExact image driver CUDA Ollama model and machine identities, GPU detection, inference, headroom, telemetry, deadline, cost, and independent cleanup checks pass under separate paid-launch authorization.\n\n## Unit boundary\n\nIssue completion is exactly one GPU readiness decision; launch and cleanup are evidence inputs and do not authorize six-resident qualification.\n\n## Dependencies\n\n- GCP-D: #493\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Paid launch has separate authorization and a USD 20 ceiling\n- [ ] Exact inputs and hardware are retained\n- [ ] GPU inference and headroom are proven\n- [ ] All owned resources are independently absent afterward\n- [ ] Fresh exact-head review has no actionable findings before publication\n\n## Owned paths\n\n- `infra/gcp/workloads/gpu-smoke/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-e/**`\n\n## PVF lanes\n\n- `paid-authority`\n- `exact-inputs`\n- `gpu-inference`\n- `telemetry-and-cost`\n- `cleanup-zero`\n\n## Stop conditions\n\n- Paid authorization is absent\n- Quota or capacity cannot satisfy the exact shape\n- Cleanup cannot be proven\n\n## Non-goals\n\n- Six-resident qualification\n- Spot substitution\n- Production deployment\n\n## Canonical planning identity\n\n- Planned ID: `GCP-E`\n- Canonical title: `[v0.92.1][GCP-E] GCP GPU readiness smoke test`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-E`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-E:create -->\n\n<!-- csdlc-github-operation:v0921-gcp-e-494-live-ac5-review-gate-v1 -->\n"
+      },
+      {
+        "planned_id": "HOT-01",
+        "issue": 510,
+        "authority_url": "https://github.com/agent-logic/agent-design-language/issues/510",
+        "captured_body_sha256": "74336c71af56fdce521227bfa7772f03c8ff4ea0bd20b404e3c2a4b68902f170",
+        "source_capture": ".csdlc/evidence/517/post-merge-reconciliation/current/issue-510.json",
+        "canonical_path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "required_synchronization": {
+          "Acceptance criteria": [
+            "Reads use atomically swappable state",
+            "Invalid updates preserve the last valid configuration",
+            "File events are debounced",
+            "Concurrent requests observe complete configurations only",
+            "`observatory.allowed_origins` and `observatory.additional_allowed_origins` are parsed, normalized, validated, and atomically swapped as one Runtime origin-policy snapshot",
+            "Editing only the Runtime configuration can add or remove an exact allowed origin without rebuilding, rotating continuity state, or restarting Runtime",
+            "Runtime HTTP CORS and authenticated WSS admission read the current origin-policy snapshot for each new request/session",
+            "Invalid, wildcard, path-bearing, credential-bearing, duplicate, or otherwise unsafe origin edits retain the complete last-known-good policy",
+            "Concurrent traffic observes either the complete old origin set or the complete new origin set, never a partial mixture",
+            "Focused proof adds and removes `http://localhost:8000` and `https://wuji.dev.csm.agent-logic.ai:8765` through config-only edits while Runtime identity and process remain unchanged"
+          ],
+          "Owned paths": [
+            "`adl-runtime/src/config_reload.rs`",
+            "`adl-runtime/tests/config_reload.rs`",
+            "`adl-runtime-kernel/src/config.rs`",
+            "`adl-runtime-kernel/src/control.rs`",
+            "`adl-runtime-kernel/src/bin/adl-runtime-kernel.rs`",
+            "`adl-runtime-kernel/tests/configuration.rs`",
+            "`adl-runtime-kernel/tests/control.rs`",
+            "`docs/runtime/config-hot-reload.md`"
+          ],
+          "PVF lanes": [
+            "`valid-reload`",
+            "`invalid-retention`",
+            "`debounce`",
+            "`concurrent-read`",
+            "`watcher-shutdown`",
+            "`origin-policy-live-reload`",
+            "`origin-policy-invalid-retention`",
+            "`origin-policy-concurrent-snapshot`"
+          ],
+          "Stop conditions": [
+            "Reload requires process restart",
+            "Reload requires continuity rotation or a Runtime rebuild",
+            "Partial configuration can become visible",
+            "CORS and WSS consult different origin-policy generations",
+            "Invalid origin configuration replaces the last-known-good policy"
+          ],
+          "Non-goals": [
+            "Database pool replacement",
+            "HTML template reload",
+            "Admin mutation API",
+            "Hot replacement of TLS keys, bind addresses, database pools, or other stateful resources"
+          ]
+        },
+        "captured_authority_body": "## Outcome\n\nProduce one production-ready Axum hot-reload implementation.\n\n## Primary deliverable\n\nOne production-ready Axum hot-reload implementation with last-known-good retention, including Runtime Observatory origin-policy reload.\n\n## Verification result\n\nValid reload, invalid retention, debounce, concurrent-read, watcher-shutdown, and live origin-policy reload tests pass.\n\n## Unit boundary\n\nIssue completion is exactly one production-ready hot-reload implementation; behavioral cases are proof inputs.\n\n## Dependencies\n\n- WP-01: #480\n- Runtime origin-policy input and operational need: #540 / PR #543 follow-up\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Reads use atomically swappable state\n- [ ] Invalid updates preserve the last valid configuration\n- [ ] File events are debounced\n- [ ] Concurrent requests observe complete configurations only\n- [ ] `observatory.allowed_origins` and `observatory.additional_allowed_origins` are parsed, normalized, validated, and atomically swapped as one Runtime origin-policy snapshot\n- [ ] Editing only the Runtime configuration can add or remove an exact allowed origin without rebuilding, rotating continuity state, or restarting Runtime\n- [ ] Runtime HTTP CORS and authenticated WSS admission read the current origin-policy snapshot for each new request/session\n- [ ] Invalid, wildcard, path-bearing, credential-bearing, duplicate, or otherwise unsafe origin edits retain the complete last-known-good policy\n- [ ] Concurrent traffic observes either the complete old origin set or the complete new origin set, never a partial mixture\n- [ ] Focused proof adds and removes `http://localhost:8000` and `https://wuji.dev.csm.agent-logic.ai:8765` through config-only edits while Runtime identity and process remain unchanged\n\n## Owned paths\n\n- `adl-runtime/src/config_reload.rs`\n- `adl-runtime/tests/config_reload.rs`\n- `adl-runtime-kernel/src/config.rs`\n- `adl-runtime-kernel/src/control.rs`\n- `adl-runtime-kernel/src/bin/adl-runtime-kernel.rs`\n- `adl-runtime-kernel/tests/configuration.rs`\n- `adl-runtime-kernel/tests/control.rs`\n- `docs/runtime/config-hot-reload.md`\n\n## PVF lanes\n\n- `valid-reload`\n- `invalid-retention`\n- `debounce`\n- `concurrent-read`\n- `watcher-shutdown`\n- `origin-policy-live-reload`\n- `origin-policy-invalid-retention`\n- `origin-policy-concurrent-snapshot`\n\n## Stop conditions\n\n- Reload requires process restart\n- Reload requires continuity rotation or a Runtime rebuild\n- Partial configuration can become visible\n- CORS and WSS consult different origin-policy generations\n- Invalid origin configuration replaces the last-known-good policy\n\n## Non-goals\n\n- Database pool replacement\n- HTML template reload\n- Admin mutation API\n- Hot replacement of TLS keys, bind addresses, database pools, or other stateful resources\n\n## Canonical planning identity\n\n- Planned ID: `HOT-01`\n- Canonical title: `[v0.92.1][HOT-01] Axum configuration hot reload`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#HOT-01`\n- Operator scope refinement: 2026-08-26 Runtime origin-policy integration\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:HOT-01:create -->\n<!-- csdlc-github-operation:issue-510-origin-policy-hot-reload-20260826 -->\n"
+      },
+      {
+        "planned_id": "OBS-B",
+        "issue": 512,
+        "finding": "Current canonical spec already removes #84/#251 admission gate; no repeat removal needed. Add explicit no-mock acceptance text already enforced as stop condition to align live body; preserve visible deferred backlog.",
+        "required_acceptance_addition": "No mock substitutes for the required Runtime route"
+      }
+    ],
+    "note": "Originalimmutableassessment remains unchanged; synchronize current canonical documents only, with explicit new assessment revision if required."
+  },
+  "owned_path_resolution": [
+    {
+      "path": "infra/aws/account-foundation",
+      "original_owners": [
+        485,
+        487
+      ],
+      "candidate_blob": "749d8e94fe9763020721ccd3ecfe647f722cc43d",
+      "last_writer": "8fa5129f4184d415bdd613285a6801801e101a5a",
+      "historical_owner_signoff": "not_found",
+      "reviewer": "subagent:review_748_repairs",
+      "resolution_type": "fresh_bounded_content_review_accepted",
+      "gate_disposition": "accounting_resolution_accepted",
+      "rationale": "#485 owned only a placeholder README explicitly reserving downstream #486+ Terraform.#487 adds intended audit/security Terraform;#497 adds encrypted S3 backend declaration/example and documentation. No original #485 Terraform implementation existed to clobber.",
+      "evidence": [
+        {
+          "revision": "2a5d25239853499b6ac73b37d968d2b97e75a586",
+          "path": "infra/aws/account-foundation/README.md",
+          "blob": "dde1007db797aec4c8b21769a295c493b155ca3a"
+        },
+        {
+          "path": "infra/aws/account-foundation/README.md",
+          "candidate_blob": "3509a7fdf2661a3f3969c6d0b3c214032e62a4a8"
+        },
+        {
+          "path": "infra/aws/account-foundation/main.tf",
+          "candidate_blob": "f7ccc6309ad09cdfb8878ba5342ed874ee87fd6e"
+        },
+        {
+          "path": "infra/aws/account-foundation/backend.hcl.example",
+          "candidate_blob": "ad1924a9bb927140f46830d603e4910ac9ee101f"
+        }
+      ],
+      "independent_acceptance": "subagent:closeout_authority_review verified exact blob chains; primary accepted"
+    },
+    {
+      "path": "infra/aws/runtime",
+      "original_owners": [
+        489,
+        495
+      ],
+      "candidate_blob": "285f591dca38cc701f71c21c77281f682b151a4d",
+      "last_writer": "0497772dfe9cf2f54249755851ebc14d6fc6f1d4",
+      "historical_owner_signoff": "not_found",
+      "reviewer": "subagent:review_748_repairs",
+      "resolution_type": "fresh_bounded_content_review_accepted",
+      "gate_disposition": "accounting_resolution_accepted",
+      "rationale": "#489 AWS-F remains in alb-origin/private-node;#495 XCL adds sibling xcl-01 and account/workspace identity guards, with DNS/certificate mutation inputs removed to preserve corporate authority boundary. Later#695 adds sibling agent-checkpoint-archive. Coarse directory overlap is not evidence of unresolved merge conflict.",
+      "evidence": [
+        {
+          "path": "infra/aws/runtime/README.md",
+          "candidate_blob": "670409fc707a42680e348ac214e6a9f69495889e"
+        },
+        {
+          "path": "infra/aws/runtime/alb-origin/main.tf",
+          "candidate_blob": "8e8b8fef34c421ed39ee742e24faaa5990f1caca"
+        },
+        {
+          "path": "infra/aws/runtime/private-node/main.tf",
+          "candidate_blob": "c0f67967e84e82c125b1343db850a819b2447140"
+        },
+        {
+          "path": "infra/aws/runtime/xcl-01/main.tf",
+          "candidate_blob": "3d7a7976badbe1d762741aef526a6b520809c2a8"
+        },
+        {
+          "path": "infra/aws/runtime/agent-checkpoint-archive/main.tf",
+          "candidate_blob": "026ebc665ad04535bcbbc4a51ae5c6a975c40fb0",
+          "reviewed_revision": "466a6da85bc1fabe3165adbcf83c2e59ee5df2e9",
+          "reviewed_blob": "026ebc665ad04535bcbbc4a51ae5c6a975c40fb0",
+          "candidate_equals_review": true
+        }
+      ],
+      "independent_acceptance": "subagent:closeout_authority_review verified exact blob chains; primary accepted"
+    },
+    {
+      "path": "csdlc-v3/src/lib.rs",
+      "original_owners": [
+        500,
+        503
+      ],
+      "candidate_blob": "17c7660320811196371aa3acb813d8c76b6862a0",
+      "last_writer": "9238399abb5160663afbcc1fa01d9177417268be",
+      "historical_owner_signoff": "not_found",
+      "reviewer": "subagent:review_748_repairs",
+      "resolution_type": "fresh_bounded_content_review_accepted",
+      "gate_disposition": "accounting_resolution_accepted",
+      "rationale": "The #500 contract denominator and #503 local-preparation exports coexist. Candidate lib.rs does NOT equal the original #725 reviewed blob. A fresh bounded post-merge review below covers the only subsequent change: the active-authority test expectation moves from suspended to csdlc-v3. No production code, predecessor requirement constant, or local module changes in that delta.",
+      "evidence": [
+        {
+          "path": "csdlc-v3/src/lib.rs",
+          "candidate_blob": "17c7660320811196371aa3acb813d8c76b6862a0",
+          "reviewed_revision": "be618995b15cee423fec9a2e24b7e08c646d6cf5",
+          "reviewed_blob": "8d4e7a656054e5c457473220200235fb504f0c4a",
+          "candidate_equals_review": false
+        },
+        {
+          "path": ".csdlc/issues/725/cards/srp.md",
+          "candidate_blob": "2974c879ec4304ea87eebd84252ce5c282f802a9"
+        }
+      ],
+      "post_merge_delta_review": {
+        "reviewer": "subagent:review_748_repairs",
+        "reviewed_from": "be618995b15cee423fec9a2e24b7e08c646d6cf5",
+        "reviewed_to": "bf159eb416950dfa3399933829726a7b7e71f897",
+        "last_change_commit": "9238399abb5160663afbcc1fa01d9177417268be",
+        "path": "csdlc-v3/src/lib.rs",
+        "diff_sha256": "8a1eebe9983cd4d59ccf2c88f8e32fafa02f4123cf1ebc148bcb50d2a8be2c56",
+        "result": "pass",
+        "scope": "One test assertion at line144; original reviewed725content is preserved except expected authority string.",
+        "rationale": "The assertion now expects authenticated native v3 operational authority after completed cutover, consistent with candidate native selector and #725 authority implementation. Assertion still unwraps and compares exact authority; no check is removed or bypassed. This is a test expectation correction, not a production authority change.",
+        "non_claim": "Fresh post-merge delta review is not historical co-owner signoff or retroactive pre-merge review. Parent independent acceptance remains required."
+      },
+      "independent_acceptance": "subagent:closeout_authority_review verified exact blob chains; primary accepted"
+    }
+  ],
+  "remaining_real_issues": [
+    {
+      "criterion_id": "GCP-B-ac-1",
+      "gap": "Missing audit/log posture evidence in reviewed #740 candidate packet",
+      "accounting_disposition": "Accepted successor491 and corrective740 closure joined in ownership.json; this bounded packet limitation is not an unowned accounting row or an instruction to reopen either issue."
+    }
+  ],
+  "non_claims": [
+    "No cloud actions, runtime experiments or GitHub writes were performed.",
+    "No whole-host residue census or GCP audit log coverage is inferred.",
+    "This packet does not authorize release or complete remaining retained criteria."
+  ]
+}

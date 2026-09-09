@@ -45,3 +45,27 @@ The machine-readable denominator, blocker register, predecessor receipt, and dec
 ## Documentation-review continuation
 
 PR #748 merged the TAIL-01 decision as `e734438b5fdba099ed607e0604254430ddd7d091`. The operator authorized #518 documentation review and handoff to proceed with that decision as an explicit finding. This permits review of the blocked candidate; it does not change the machine-readable release decision, grant release credit, or approve publication of a release.
+## Post-PR #748 accounting reconciliation
+
+The historical evaluation above remains preserved. Its 245 non-proving rows
+have now been individually reconciled: every row has its original identity and
+criterion digest, an evidence classification, and an accepted successor or
+stage disposition. All five grouped exceptions have explicit accounting
+dispositions. There are zero unowned accounting rows, zero unowned exception
+groups, and zero pending accounting issue creations.
+
+The complete census and successor/closeout joins are retained in
+`evidence/release/tail-01/reconciliation/census.json` and `ownership.json`.
+`exception-dispositions.json` records the five group resolutions. PR #750,
+merged as `f61deb36d5eccb4a3e391510bbea4bb6f2d51216`, supplies the later
+terminal-closeout evidence and reports zero missing terminal records in its
+closed-and-merged v0.92.1 denominator. Closed predecessors remain represented
+without being reopened, as required by the milestone WBS.
+
+This completes the documentation accounting, not a new execution run or release
+authorization. Accepted successor scope, explicit limitations, fresh content
+review, source support, and direct execution proof remain separate. The earlier
+393/366 inventory and 121/245 gate results are not overwritten or silently
+promoted. Actual native defects are separately tracked in #749 and #751; this
+follow-up contains no native implementation changes. Publication review and CI
+identify the exact revision of this updated accounting package.
