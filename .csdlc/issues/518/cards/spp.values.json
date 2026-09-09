@@ -7,13 +7,13 @@
     "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
     "slug": "tail-02-documentation-review-external-handoff",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 29
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 7,
+      "plan_revision": 9,
       "summary": "Correct the 15 source-grounded findings from the 737-document audit now under explicit operator authorization. Use bounded v2 transition remediation. Preserve historical proof and concurrent owner paths. Final candidate freeze, acceptance and external handoff wait for issue 517 passing reviewed merge.",
       "steps": [
         {
@@ -44,6 +44,16 @@
           "status": "completed"
         },
         {
+          "id": "S5",
+          "action": "Complete the additional 24-manifest Cargo audit, document its limits and obtain independent review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
           "id": "S4",
           "action": "After issue 517 passing reviewed merge, refresh the exact candidate and finalize the context-free external handoff.",
           "acceptance_ids": [
@@ -58,6 +68,7 @@
       "affected_areas": [
         ".csdlc/issues/518",
         ".csdlc/prepared/issues/518",
+        ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
         ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
         "AGENTS.md",
         "CONTRIBUTING.md",

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
     "slug": "tail-02-documentation-review-external-handoff",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
@@ -34,6 +34,16 @@
           "purpose": "Preliminary documentation inventory/link/snapshot proof only; final acceptance false.",
           "outcome": "passed",
           "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+            "--check"
+          ],
+          "purpose": "Complete tracked manifest inventory, package/workspace metadata and local dependency checks; excludes builds, full resolution, security and release-version approval.",
+          "outcome": "passed",
+          "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json"
         }
       ],
       "integration_state": "not_started",
@@ -41,7 +51,8 @@
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [
-        "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json"
+        "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json",
+        "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md"
       ]
     }
   }

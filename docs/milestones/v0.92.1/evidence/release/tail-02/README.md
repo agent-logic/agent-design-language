@@ -99,3 +99,12 @@ than changing required criteria to manufacture a pass. The remaining proof and
 sign-off items stay with their evidence owners. Final handoff requires both the
 reviewed merge and a passing quality result; green CI or a merged blocked
 quality decision is insufficient.
+
+## Complete Cargo manifest extension
+
+[The Cargo manifest review](CARGO_MANIFEST_REVIEW.md) expands the initial
+three-file manifest sample to all 24 tracked manifests. All metadata checks and
+20 local dependency references pass. It records effective versions, workspace
+membership, checked scope and release-owner decisions without claiming builds,
+lockfile reproducibility or release approval. The original 737-document audit
+remains an immutable baseline; this extension has its own complete inventory.

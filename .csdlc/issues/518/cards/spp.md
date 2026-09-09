@@ -16,7 +16,7 @@ Correct the 15 source-grounded findings from the 737-document audit now under ex
 
 ## Plan
 
-Revision 7
+Revision 9
 
 ## Steps
 
@@ -41,6 +41,16 @@ Revision 7
   {
     "id": "S3",
     "action": "Validate inventory, links, claim dispositions and diff hygiene; obtain independent review.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S5",
+    "action": "Complete the additional 24-manifest Cargo audit, document its limits and obtain independent review.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 28,
+  "expected_digest": "575e48390350349c3a4908eb19cdd4c9b5762b525ddc3d682e2803dc20bbe603",
+  "actor": "codex:planning-6",
+  "reason": "Record completed 24-manifest audit and independent review without final release acceptance; S4 remains pending issue 517.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S5",
+    "status": "completed"
+  }
+}

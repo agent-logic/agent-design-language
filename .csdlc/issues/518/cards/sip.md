@@ -22,6 +22,7 @@ One exact-revision documentation-review packet with a context-free external-revi
 
 - .csdlc/issues/518
 - .csdlc/prepared/issues/518
+- .csdlc/prepared/issues/518/audit-cargo-manifests.py
 - .csdlc/prepared/issues/518/validate-documentation-handoff.rb
 - AGENTS.md
 - CONTRIBUTING.md

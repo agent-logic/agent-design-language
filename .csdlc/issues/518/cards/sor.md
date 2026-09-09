@@ -38,6 +38,16 @@ Independent documentation corrections and preliminary review packet are implemen
     "purpose": "Preliminary documentation inventory/link/snapshot proof only; final acceptance false.",
     "outcome": "passed",
     "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      "--check"
+    ],
+    "purpose": "Complete tracked manifest inventory, package/workspace metadata and local dependency checks; excludes builds, full resolution, security and release-version approval.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json"
   }
 ]
 
@@ -58,3 +68,4 @@ not_started
 ## Follow Ups
 
 - docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md

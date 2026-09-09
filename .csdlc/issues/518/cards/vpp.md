@@ -115,6 +115,26 @@ Diagram: .csdlc/prepared/issues/518/diagram.mmd
     ],
     "parallel_group": "final",
     "defer_reason": "Issue 517 is still in flight; preliminary local checks are not final acceptance."
+  },
+  {
+    "lane": "cargo-manifest-inventory",
+    "proof_role": "Audit all tracked Cargo manifests: TOML, package and inherited version identity, local dependency paths, offline no-deps Cargo workspace metadata. Not dependency builds, security, lock reproducibility or release-version approval.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "python3",
+      ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+      "--check"
+    ],
+    "parallel_group": "docs",
+    "defer_reason": null
   }
 ]
 
@@ -135,6 +155,7 @@ Tokens: 25000
 - `ruby .csdlc/prepared/issues/518/validate-documentation-handoff.rb --claims`
 - `git diff --check`
 - `ruby .csdlc/prepared/issues/518/validate-documentation-handoff.rb --final`
+- `python3 .csdlc/prepared/issues/518/audit-cargo-manifests.py --check`
 
 ## Failure Semantics
 
