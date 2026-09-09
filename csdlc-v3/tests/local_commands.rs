@@ -848,8 +848,16 @@ fn operational_registry(root: &Path) -> PromptRegistry {
         fs::write(&path, format!("# {kind}\n{{{{title}}}}\n")).expect("template fixture");
         fs::write(
             schema_root.join(format!("{kind}.structure.json")),
-            serde_json::to_vec(&serde_json::json!({"scaffold_lines": [format!("# {kind}")]}))
-                .unwrap(),
+            serde_json::to_vec(&serde_json::json!({
+                "schema": "adl.csdlc.prompt_card_structure.v1",
+                "template_set": "1.0.4",
+                "card_kind": kind,
+                "template_path": path,
+                "scaffold_lines": [format!("# {kind}")],
+                "headings": [{"level": 1, "text": kind}],
+                "locked_lines": []
+            }))
+            .unwrap(),
         )
         .expect("structure schema fixture");
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());

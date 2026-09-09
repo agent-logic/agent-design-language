@@ -2741,10 +2741,14 @@ fn structure_valid(registry: &PromptRegistry, kind: &str, markdown: &str) -> boo
     let Some(template_path) = registry.template_paths.get(kind) else {
         return false;
     };
-    let schema_path = PathBuf::from(template_path)
+    let template_path = PathBuf::from(template_path);
+    let schema_path = template_path
         .parent()
         .map(|root| root.join(format!("schemas/{kind}.structure.json")));
     let Some(schema_path) = schema_path else {
+        return false;
+    };
+    let Ok(template) = fs::read_to_string(&template_path) else {
         return false;
     };
     let Ok(bytes) = fs::read(schema_path) else {
@@ -2753,15 +2757,60 @@ fn structure_valid(registry: &PromptRegistry, kind: &str, markdown: &str) -> boo
     let Ok(schema) = serde_json::from_slice::<Value>(&bytes) else {
         return false;
     };
-    schema
+    let Some(schema_template_path) = schema.get("template_path").and_then(Value::as_str) else {
+        return false;
+    };
+    if schema.get("schema").and_then(Value::as_str) != Some("adl.csdlc.prompt_card_structure.v1")
+        || schema.get("template_set").and_then(Value::as_str) != Some(registry.version.as_str())
+        || schema.get("card_kind").and_then(Value::as_str) != Some(kind)
+        || !(template_path == Path::new(schema_template_path)
+            || template_path.ends_with(schema_template_path))
+    {
+        return false;
+    }
+    let template_lines = template.lines().map(str::trim).collect::<BTreeSet<_>>();
+    let rendered_lines = markdown.lines().map(str::trim).collect::<BTreeSet<_>>();
+    let scaffold_valid = schema
         .get("scaffold_lines")
         .and_then(Value::as_array)
         .is_some_and(|lines| {
             lines
                 .iter()
                 .filter_map(Value::as_str)
-                .all(|line| markdown.lines().any(|candidate| candidate.trim() == line))
-        })
+                .filter(|line| template_lines.contains(line.trim()))
+                .all(|line| rendered_lines.contains(line.trim()))
+        });
+    let headings_valid = schema
+        .get("headings")
+        .and_then(Value::as_array)
+        .is_some_and(|headings| {
+            headings.iter().all(|heading| {
+                let Some(level) = heading.get("level").and_then(Value::as_u64) else {
+                    return false;
+                };
+                let text = heading.get("text").and_then(Value::as_str);
+                let prefix = "#".repeat(level as usize);
+                if text.is_none_or(str::is_empty) {
+                    markdown.lines().any(|line| {
+                        line.starts_with(&format!("{prefix} "))
+                            && !line.starts_with(&format!("{prefix}#"))
+                    })
+                } else {
+                    rendered_lines.contains(format!("{prefix} {}", text.unwrap()).as_str())
+                }
+            })
+        });
+    let locked_lines_valid = schema
+        .get("locked_lines")
+        .and_then(Value::as_array)
+        .is_some_and(|lines| {
+            lines.iter().all(|line| {
+                line.get("text")
+                    .and_then(Value::as_str)
+                    .is_some_and(|text| rendered_lines.contains(text.trim()))
+            })
+        });
+    scaffold_valid && headings_valid && locked_lines_valid
 }
 
 fn persist_index(
