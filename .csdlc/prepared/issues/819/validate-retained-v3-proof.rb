@@ -58,6 +58,11 @@ plan.fetch("rows").each do |row|
   assert(row.fetch("criterion_text") == source.fetch("criterion_text"), "criterion text drift for #{row.fetch('row_id')}")
   assert(row.fetch("criterion_text_digest") == denom.fetch("criterion_text_digest"), "criterion digest source drift for #{row.fetch('row_id')}")
   assert(row.fetch("source_evidence_paths") == source.fetch("evidence").map { |entry| entry.fetch("path") }.uniq.sort, "source evidence denominator drift for #{row.fetch('row_id')}")
+  assert(row.fetch("source_assessment") == source.fetch("proposed_result"), "source assessment drift for #{row.fetch('row_id')}")
+  assert(row.fetch("root_cause") == source.fetch("root_cause"), "root cause drift for #{row.fetch('row_id')}")
+  resolution = row.fetch("resolution")
+  assert(resolution.fetch("criterion_specific_basis") == source.fetch("rationale"), "criterion-specific basis drift for #{row.fetch('row_id')}")
+  assert(resolution.fetch("source_proof_boundary") == source.fetch("proof_boundary"), "source proof boundary drift for #{row.fetch('row_id')}")
 end
 
 receipt_by_id = receipt.fetch("rows").to_h { |row| [row.fetch("row_id"), row] }
@@ -102,13 +107,23 @@ receipt.fetch("rows").each do |row|
     assert(row.fetch("source_assessment") == "proven", "only source-supported rows may join candidate execution")
     assert(!resolution.fetch("criterion_specific_basis").strip.empty?, "execution row lacks criterion-specific basis")
     assert(resolution.fetch("execution_join").include?("exact #520 candidate"), "execution row lacks candidate join")
-  when "governed_amendment_proposal"
-    assert(resolution.fetch("status") == "pending_operator_review", "amendment proposal must remain operator-review pending")
-    assert(resolution.fetch("behavioral_pass_claim") == false, "amendment may not claim behavioral pass")
-    assert(row.fetch("source_assessment") == "non_proving", "only non-proving rows may enter amendment review")
-    assert(!resolution.fetch("criterion_specific_basis").strip.empty?, "amendment lacks criterion-specific basis")
-    assert(resolution.fetch("operator_review_target").include?("issue #819"), "amendment lacks explicit operator-review target")
-    assert(resolution.fetch("preexisting_cutover_context").include?("not treated as criterion-specific approval"), "amendment fabricates prior approval")
+  when "governed_disposition_proposal"
+    assert(resolution.fetch("status") == "pending_operator_review", "disposition proposal must remain operator-review pending")
+    assert(resolution.fetch("behavioral_pass_claim") == false, "disposition may not claim behavioral pass")
+    assert(row.fetch("source_assessment") == "non_proving", "only non-proving rows may enter disposition review")
+    assert(!resolution.fetch("criterion_specific_basis").strip.empty?, "disposition lacks criterion-specific basis")
+    assert(resolution.fetch("proposed_disposition") == "remove_from_v0.92.1_retained_release_gate", "disposition action is not exact")
+    expected_scope = "Remove only #{row.fetch('row_id')} (#{row.fetch('criterion_text_digest')}) from the v0.92.1 D520-RET-001 retained-v3 release gate; no product behavior is claimed implemented or removed."
+    assert(resolution.fetch("removal_scope") == expected_scope, "removal scope drift for #{row.fetch('row_id')}")
+    assert(resolution.fetch("replacement_text").nil?, "removal proposal may not carry implicit replacement text")
+    expected_proposal_digest = Digest::SHA256.hexdigest([
+      row.fetch("row_id"), row.fetch("criterion_text_digest"), resolution.fetch("proposed_disposition"),
+      expected_scope, resolution.fetch("criterion_specific_basis"), resolution.fetch("source_proof_boundary")
+    ].join("\0"))
+    assert(resolution.fetch("proposal_digest") == expected_proposal_digest, "proposal digest drift for #{row.fetch('row_id')}")
+    assert(resolution.fetch("operator_review_target").include?("exact removal proposal and digest"), "disposition lacks explicit operator-review target")
+    assert(resolution.fetch("operator_review_effect").include?("before merge it remains pending and release-blocking"), "disposition lacks pre-merge authority boundary")
+    assert(resolution.fetch("preexisting_cutover_context").include?("not treated as criterion-specific approval"), "disposition fabricates prior approval")
   else
     raise "unknown resolution type"
   end
@@ -124,9 +139,9 @@ receipt.fetch("rows").each do |row|
 end
 
 execution = receipt.fetch("rows").count { |row| row.dig("resolution", "type") == "candidate_bound_execution" }
-amendments = receipt.fetch("rows").count { |row| row.dig("resolution", "type") == "governed_amendment_proposal" }
+amendments = receipt.fetch("rows").count { |row| row.dig("resolution", "type") == "governed_disposition_proposal" }
 assert(execution == receipt.fetch("execution_passed"), "execution count drift")
-assert(amendments == receipt.fetch("governed_amendment_proposals"), "amendment count drift")
+assert(amendments == receipt.fetch("governed_disposition_proposals"), "disposition count drift")
 assert(execution + amendments == 152, "resolution partition drift")
 assert(execution == 51 && amendments == 101, "source-assessment partition drift")
-puts "PASS issue #819 retained-v3 packet: 152/152 unique, #{execution} candidate-executed, #{amendments} criterion-specific amendments pending operator review, 0 unclassified, release_ready=false"
+puts "PASS issue #819 retained-v3 packet: 152/152 unique, #{execution} candidate-executed, #{amendments} exact removals pending operator review, 0 unclassified, release_ready=false"

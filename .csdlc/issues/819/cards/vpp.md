@@ -18,7 +18,7 @@ lane_registry_template_set: "1.0.5"
 validation_runtime_class: "medium"
 validation_resource_profile: "local CPU and filesystem; no cloud"
 validation_family: "retained_proof_reconciliation"
-validation_size_split: "152 rows: 51 source-supported rows joined to candidate execution and 101 criterion-specific governed proposals pending operator review"
+validation_size_split: "152 rows: 51 source-supported rows joined to candidate execution and 101 exact digest-bound retained-release-gate removal proposals pending operator review"
 expected_proof_cost: "Approximately 45 seconds of local CPU proof plus deterministic reconciliation validation; no cloud resources."
 planned_validation_seconds: "60"
 planned_validation_tokens: "4000"
@@ -69,7 +69,7 @@ Use exact-denominator checks plus real replayed C-SDLC v3 proof-family commands 
 - Validation runtime class: `medium`
 - Validation resource profile: `local CPU and filesystem; no cloud`
 - Validation family: `retained_proof_reconciliation`
-- Validation size split: `152 rows: 51 source-supported rows joined to candidate execution and 101 criterion-specific governed proposals pending operator review`
+- Validation size split: `152 rows: 51 source-supported rows joined to candidate execution and 101 exact digest-bound retained-release-gate removal proposals pending operator review`
 
 ## Goal Accounting Hooks
 

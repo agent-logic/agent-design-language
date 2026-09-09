@@ -62,14 +62,25 @@ rows = denominator.map do |denom|
     }
   else
     kind = amendment_by_row[source.fetch("row_id")] || "unproven-#{source.fetch('root_cause')}"
+    disposition = "remove_from_v0.92.1_retained_release_gate"
+    removal_scope = "Remove only #{source.fetch('row_id')} (#{denom.fetch('criterion_text_digest')}) from the v0.92.1 D520-RET-001 retained-v3 release gate; no product behavior is claimed implemented or removed."
+    proposal_digest = Digest::SHA256.hexdigest([
+      source.fetch("row_id"), denom.fetch("criterion_text_digest"), disposition,
+      removal_scope, source.fetch("rationale"), source.fetch("proof_boundary")
+    ].join("\0"))
     {
-      "type" => "governed_amendment_proposal",
-      "amendment" => kind,
+      "type" => "governed_disposition_proposal",
+      "category" => kind,
+      "proposed_disposition" => disposition,
+      "removal_scope" => removal_scope,
+      "replacement_text" => nil,
+      "proposal_digest" => proposal_digest,
       "behavioral_pass_claim" => false,
       "approval_state" => "pending_operator_review",
       "criterion_specific_basis" => source.fetch("rationale"),
       "source_proof_boundary" => source.fetch("proof_boundary"),
-      "operator_review_target" => "The closing PR for issue #819 must explicitly approve this criterion-specific amendment or removal before release admission.",
+      "operator_review_target" => "The closing PR for issue #819 must explicitly approve this exact removal proposal and digest before release admission.",
+      "operator_review_effect" => "Merging the closing PR for issue #819 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
       "preexisting_cutover_context" => "PR #591 selected the current operational implementation, but is not treated as criterion-specific approval for this disposition."
     }
   end
@@ -99,9 +110,9 @@ document = {
   "source_mapping" => SOURCE,
   "row_count" => rows.length,
   "execution_count" => rows.count { |row| row.dig("resolution", "type") == "candidate_bound_execution" },
-  "amendment_proposal_count" => rows.count { |row| row.dig("resolution", "type") == "governed_amendment_proposal" },
+  "disposition_proposal_count" => rows.count { |row| row.dig("resolution", "type") == "governed_disposition_proposal" },
   "rows_digest" => Digest::SHA256.hexdigest(rows.map { |row| row.fetch("row_id") }.sort.join("\0")),
   "rows" => rows
 }
 File.write(OUTPUT, JSON.pretty_generate(document) + "\n")
-puts "wrote #{OUTPUT}: #{document['execution_count']} execution, #{document['amendment_proposal_count']} governed amendment proposals"
+puts "wrote #{OUTPUT}: #{document['execution_count']} execution, #{document['disposition_proposal_count']} governed removal proposals"

@@ -7,8 +7,11 @@ the #764 denominator for finding `D520-RET-001`.
   recorded gap was missing execution. They are joined to the complete retained
   candidate-bound C-SDLC v3 execution and exact Git blob/SHA-256 identities for
   every cited source artifact.
-- 101 rows were assessed `non_proving`. They remain criterion-specific governed
-  amendment or removal proposals with `behavioral_pass_claim: false` and
+- 101 rows were assessed `non_proving`. Each is an exact proposal to remove
+  only that criterion and digest from the v0.92.1 retained release gate, with
+  no claim that product behavior is implemented or removed. Every proposal has
+  a deterministic digest, the criterion-specific source rationale, the source
+  proof boundary, `behavioral_pass_claim: false`, and
   `approval_state: pending_operator_review`. PR #591 is context for the current
   architecture, not fabricated criterion-specific approval.
 - Zero rows are missing or unclassified, but the packet is deliberately
@@ -17,8 +20,8 @@ the #764 denominator for finding `D520-RET-001`.
 `reconciliation.json` is the primary proof surface. The validator checks the
 exact denominator, unique row consumption, command and log digests, the
 complete test-execution denominator, exact candidate bytes, source-assessment
-boundaries, amendment non-pass semantics, and pending approval state. The
-thirteen-case negative matrix proves that
+boundaries, exact removal semantics, proposal digests, and pending approval
+state. The sixteen-case negative matrix proves that
 denominator, command, candidate, proof-surface, resolution, artifact,
 amendment-integrity, and premature-release violations are rejected.
 

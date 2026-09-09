@@ -28,12 +28,12 @@ Execution:
 - Actor: `codex`
 - Model: `not_collected`
 - Provider: `OpenAI`
-- Start Time: `2026-09-09T23:22:23.038414Z`
-- End Time: `2026-09-09T23:23:06.888526Z`
+- Start Time: `2026-09-09T23:37:15.760331Z`
+- End Time: `2026-09-09T23:38:00.078175Z`
 
 ## Summary
 
-Implemented a strict 152-row retained-v3 review packet: 51 criterion-specific source-supported rows join complete candidate execution; 101 non-proving rows are criterion-specific governed proposals pending operator review; no row is missing, but release_ready remains false.
+Implemented a strict 152-row retained-v3 review packet: 51 criterion-specific source-supported rows join complete candidate execution; each of 101 non-proving rows has an exact digest-bound proposal to remove only that criterion from the v0.92.1 retained release gate, pending operator review; no row is missing, but release_ready remains false.
 
 ## PVF Lane Truth
 - Initial PVF lane: `review_tests`
@@ -81,7 +81,7 @@ Implemented a strict 152-row retained-v3 review packet: 51 criterion-specific so
 ## Actions taken
 - `Consumed all 152 retained-v3 denominator rows exactly once and generated a deterministic resolution plan.`
 - `Executed all 211 C-SDLC v3 tests, all-target clippy, and current V3-A contract proof against candidate fb6cbc7f619daa54f901fd2d12f480add682ace3; joined execution only to the 51 rows previously assessed source-supported.`
-- `Preserved all 101 non-proving rows as criterion-specific non-pass proposals pending operator review, kept release_ready=false, and proved thirteen invalid receipt classes fail closed.`
+- `Gave all 101 non-proving rows an exact digest-bound removal proposal pending operator review, kept release_ready=false, bound semantic fields to the source mapping, and proved sixteen invalid receipt/plan classes fail closed.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; publication pending`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; ruby .csdlc/prepared/issues/571/validate-v3a-followup.rb; ruby .csdlc/prepared/issues/819/validate-retained-v3-proof.rb; ruby .csdlc/prepared/issues/819/test-retained-v3-proof.rb; git diff --check`
-    `All producer commands passed; 152/152 unique rows classified as 51 source-supported candidate executions and 101 governed proposals pending operator review; thirteen negative receipt mutations rejected; zero unclassified; release_ready=false.`
+    `All producer commands passed; 152/152 unique rows classified as 51 source-supported candidate executions and 101 exact removal proposals pending operator review; sixteen negative mutations including coordinated plan/receipt drift rejected; zero unclassified; release_ready=false.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "152 rows = 51 source-supported candidate execution + 101 operator-review-pending proposals + 0 unclassified; release_ready=false"
+      - "152 rows = 51 source-supported candidate execution + 101 exact digest-bound removal proposals pending operator review + 0 unclassified; release_ready=false"
   determinism:
     status: passed
     replay_verified: true
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Thirteen deterministic receipt mutations covering missing/duplicate/unclassified rows, command failure/argv drift, stale or empty evidence, wrong candidate, proof-surface drift, resolution drift, synthetic pass, fabricated approval, and premature release.`
+- Determinism tests executed: `Sixteen deterministic mutations covering missing/duplicate/unclassified rows, command failure/argv drift, stale or empty evidence, wrong candidate, proof-surface drift, resolution drift, synthetic pass, fabricated approval, premature release, and coordinated plan/receipt assessment, semantic, and disposition drift.`
 - Fixtures or scripts used: `.csdlc/prepared/issues/819/build-retained-v3-plan.rb; run-retained-v3-proof.rb; validate-retained-v3-proof.rb; test-retained-v3-proof.rb`
 - Replay verification (same inputs -> same artifacts/order): `The validator re-hashes retained logs and exact candidate Git bytes and checks each required test appeared as an observed passing test.`
 - Ordering guarantees (sorting / tie-break rules used): `Plan generation precedes proof execution; proof receipt precedes strict positive and negative reconciliation validation.`
@@ -174,5 +174,5 @@ verification_summary:
 - `Only the 51 rows already assessed source-supported are joined to the complete 211-test candidate execution and exact candidate bytes; no generic root-cause-to-test mapping remains.`
 
 ## Follow-ups / Deferred work
-- `Obtain fresh independent exact-head review; operator review of all 101 proposals remains required before release admission.`
+- `Obtain fresh independent exact-head review; operator approval of the 101 exact digest-bound removal proposals remains required before release admission.`
 - `Publish with Closes #819 and Part of #522, then shepherd hosted CI green.`
