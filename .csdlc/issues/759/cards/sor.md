@@ -32,7 +32,7 @@ Execution:
 
 ## Summary
 
-Implemented the #759 dynamic-agent health sweep repair and repaired two CI-discovered integration issues. After PR #779 run 34381946883 failed on the synthetic PR merge because current main restored the stable resident shepherd runtime id contract, the branch was resynced to origin/main a09dcd40fca4a2714282eba05b114cd929eba826 and validated at source head 4b9ef9d35241aeed575846a550fcd1a1a07a2c32.
+Implemented the #759 dynamic-agent health sweep repair and repaired two CI-discovered integration issues. After PR #779 run 34381946883 failed on the synthetic PR merge because current main restored the stable resident shepherd runtime id contract, the branch was resynced through origin/main 38d5a360553f2b9a311ffff949c3d74b1c8a090d and validated at source head 8a28f65a142ae701cbae4cdc70aeba4b1acb7321.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime-focused`
@@ -75,7 +75,7 @@ Implemented the #759 dynamic-agent health sweep repair and repaired two CI-disco
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/759/cards/sor.md`
 - Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; .csdlc/evidence/759/*.log; .csdlc/issues/759/cards/*.md and *.values.json`
-- Additional proof artifacts: `.csdlc/evidence/759/validation-r6.md; .csdlc/evidence/759/runtime-v3-fast-full-r6.log sha256 2c1cab6dd0010f2deaa282b4d7bd115301d00142b02fd1f98c2be26e6341b805; .csdlc/evidence/759/focused-dynamic-agent-health-r6.log sha256 995ca5aefed9df16b0c6f952a24c1cc0703280c65f561d77ef04561117cc2950; .csdlc/evidence/759/focused-resident-shepherd-id-r6.log sha256 8a82917bbde8af6e902d7e073fae807eeaff03965c14cdfff0a8ce338549c7be; .csdlc/evidence/759/strict-clippy-r6.log sha256 94fe537e33530b5ecdca38e01bbbc444bfb66916c39095aa6fe1b78fb394c636; .csdlc/evidence/759/html-observatory-proof-r6.log sha256 b015f1fb79ce8970a2dd8d1a31d7c308491b8a95cd32c4bed51c25b984aa6402; .csdlc/evidence/759/fmt-check-r6.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; .csdlc/evidence/759/diff-check-r6.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
+- Additional proof artifacts: `.csdlc/evidence/759/validation-r7.md; .csdlc/evidence/759/runtime-v3-fast-full-r7.log sha256 e6ad7163e54eb04be947a2ed4c66a97590731026ff5b520ca7fa9c9420b79f98; .csdlc/evidence/759/focused-dynamic-agent-health-r7.log sha256 a68616425d9f9036289c271f83e81820b727ab3f483fa99e73b86bb82a54f8dc; .csdlc/evidence/759/focused-resident-shepherd-id-r7.log sha256 8a37e0ec6235efc169c250bfa28b7121a4116d291aa9ca889049a5ed57cddef3; .csdlc/evidence/759/strict-clippy-r7.log sha256 f5fa0719f4e6c65d274a7b66e68866dacd902ab35e71da8c91627dd6d998ab0b; .csdlc/evidence/759/html-observatory-proof-r7.log sha256 9c635bbcd172b2283e4ec6137b4902e9b6f892b3832923cc687110c44ffecbc9; .csdlc/evidence/759/fmt-check-r7.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; .csdlc/evidence/759/diff-check-r7.log sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`
 
 ## Actions taken
 - `Replaced the JoinSet loop that matched only successful joins with a loop over every join result.`
@@ -90,7 +90,7 @@ Implemented the #759 dynamic-agent health sweep repair and repaired two CI-disco
 - Integration method used: `native C-SDLC v3 bind plus git commit in issue worktree`
 - Verification performed:
   - `git status --short --branch; git diff --check HEAD`
-    `Confirmed current-main resync and no whitespace errors at source SHA 4b9ef9d35241aeed575846a550fcd1a1a07a2c32.`
+    `Confirmed current-main resync and no whitespace errors at source SHA 8a28f65a142ae701cbae4cdc70aeba4b1acb7321.`
 - Result: `Local branch implementation exists; PR #779 previously published and red on run 34381946883; branch is repaired locally and awaits fresh review, republish, and CI.`
 
 Rules:
@@ -109,7 +109,7 @@ Rules:
   - `cargo test --manifest-path adl-runtime-kernel/Cargo.toml; cargo test --manifest-path adl-runtime-kernel/Cargo.toml dynamic_agent_health_sweep_drains_after_task -- --nocapture; cargo test --manifest-path adl-runtime-kernel/Cargo.toml resident_shepherd_construction_uses_configured_canonical_name_and_truthful_counts --test agent_roster -- --nocapture; cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check; cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_v0917_html_observatory_integrated_proof.sh; git diff --check HEAD`
     `Full runtime command reproduces the hosted adl-runtime-v3-fast lane geometry; focused regression proves panic/cancel task isolation and peer projection retention; resident shepherd focused check proves the current-main stable id contract; HTML Observatory proof, fmt, clippy, and diff prove integration and hygiene.`
 - Results:
-  - `PASS at source SHA 4b9ef9d35241aeed575846a550fcd1a1a07a2c32; all recorded r6 command statuses are 0. Hosted red run 34381946883 classified as current-main ancestry drift and repaired by resync.`
+  - `PASS at source SHA 8a28f65a142ae701cbae4cdc70aeba4b1acb7321; all recorded r7 command statuses are 0. Hosted red run 34381946883 classified as current-main ancestry drift and repaired by resync.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -147,7 +147,7 @@ verification_summary:
 - Fixtures or scripts used: `In-crate mock Ollama server and cfg(test) forced task failure hook.`
 - Replay verification (same inputs -> same artifacts/order): `not applicable; no replay artifact generated.`
 - Ordering guarantees (sorting / tie-break rules used): `JoinSet outcomes are unordered but every outcome is drained; task id maps each failure to the correct declaration.`
-- Artifact stability notes: `validation-r6.md records exact source SHA, argv, status, and SHA-256 for every r6 log; fmt and diff logs are zero-byte success outputs.`
+- Artifact stability notes: `validation-r7.md records exact source SHA, argv, status, and SHA-256 for every r7 log; fmt and diff logs are zero-byte success outputs.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable_no_secret_surface`
@@ -162,7 +162,7 @@ verification_summary:
 - Replay result: `not_applicable`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/759/validation-r6.md`
+- Primary proof surface: `.csdlc/evidence/759/validation-r7.md`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `No schema changes.`
 - Hash/byte-stability checks: `SHA256 hashes recorded for full runtime, focused dynamic health, focused resident shepherd, strict clippy, HTML Observatory proof, fmt, and diff logs.`
