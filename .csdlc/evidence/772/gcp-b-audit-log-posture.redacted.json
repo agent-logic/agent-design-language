@@ -1,0 +1,194 @@
+{
+  "schema": "adl.gcp_b.audit_log_posture.redacted.v1",
+  "issue": 772,
+  "command_assertion_class": "read_only_gcp_audit_log_posture",
+  "no_cloud_mutation_performed": true,
+  "raw_log_payload_retained": false,
+  "credential_material_retained": false,
+  "generated_at": "2026-09-09T18:06:54Z",
+  "candidate_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+  "proof_runner_head": "4d9dd072ecf4c46795cb28a9530b7ac66d6b4348",
+  "environment": {
+    "project_alias": "gcp-b-project",
+    "project_id_sha256": "e50962811283c5d194b59e96b42dd1d7b87e52676df03267903cba458cd87434",
+    "project_lifecycle_state": "ACTIVE",
+    "project_number_sha256": "6e57895ff58352da42851960fbcecb2db14b75d414dfa7607171250e747e87f8"
+  },
+  "provider_identity": {
+    "auth_mode": "copied_or_existing_gcloud_auth",
+    "service_account_alias": "gcp-b-bootstrap-service-account",
+    "service_account_sha256": "15c4fc636a9fba0e7da0b299db21e93f68a9ceee3512f77907fce6a9920c0ab6",
+    "service_account_exists": true,
+    "service_account_disabled": false,
+    "active_operator_account_sha256": "d9dce9dac295cd5d99d39ea00b719c8bb411eb70d9c971ad19642eb14cb45de2",
+    "approved_actor_sha256": "d9dce9dac295cd5d99d39ea00b719c8bb411eb70d9c971ad19642eb14cb45de2",
+    "approved_actor_matches_active": true
+  },
+  "audit_assertions": {
+    "audit_log_classes_declared": [
+      "admin_activity",
+      "data_access",
+      "system_event",
+      "policy"
+    ],
+    "audit_configuration_readback": {
+      "status": "readable",
+      "admin_activity": "platform_always_enabled",
+      "system_event": "platform_always_enabled",
+      "policy_denied": "platform_available_when_policy_denies",
+      "data_access_configured_services": [],
+      "all_services_log_types": []
+    },
+    "readable_log_classes_observed": [
+      "activity",
+      "data_access"
+    ],
+    "required_services": {
+      "logging_googleapis_com": true,
+      "cloudresourcemanager_googleapis_com": true,
+      "iam_googleapis_com": true,
+      "serviceusage_googleapis_com": true
+    },
+    "settings_status": "readable",
+    "settings_storage_location_present": false,
+    "log_buckets": [
+      {
+        "name": "_Default",
+        "lifecycle_state": "ACTIVE",
+        "retention_days": 30,
+        "locked": false
+      },
+      {
+        "name": "_Required",
+        "lifecycle_state": "ACTIVE",
+        "retention_days": 400,
+        "locked": true
+      }
+    ],
+    "sinks": [
+      {
+        "name": "_Required",
+        "destination_kind": "logging_bucket",
+        "disabled": false,
+        "include_children": false,
+        "filter_present": true
+      },
+      {
+        "name": "_Default",
+        "destination_kind": "logging_bucket",
+        "disabled": false,
+        "include_children": false,
+        "filter_present": true
+      }
+    ]
+  },
+  "representative_readback": {
+    "freshness_window": "30d",
+    "count": 20,
+    "entries": [
+      {
+        "timestamp": "2026-09-08T11:00:28.059061606Z",
+        "log_class": "data_access",
+        "service_name": "iamcredentials.googleapis.com",
+        "method_name": "GenerateAccessToken",
+        "resource_type": "service_account",
+        "severity": "INFO",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T10:51:13.273266155Z",
+        "log_class": "data_access",
+        "service_name": "iamcredentials.googleapis.com",
+        "method_name": "GenerateAccessToken",
+        "resource_type": "service_account",
+        "severity": "INFO",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T10:50:12.581581093Z",
+        "log_class": "data_access",
+        "service_name": "iamcredentials.googleapis.com",
+        "method_name": "GenerateAccessToken",
+        "resource_type": "service_account",
+        "severity": "INFO",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T10:49:18.937976473Z",
+        "log_class": "data_access",
+        "service_name": "iamcredentials.googleapis.com",
+        "method_name": "GenerateAccessToken",
+        "resource_type": "service_account",
+        "severity": "INFO",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T10:48:42.813037527Z",
+        "log_class": "activity",
+        "service_name": "iam.googleapis.com",
+        "method_name": "google.iam.admin.v1.DeleteServiceAccountKey",
+        "resource_type": "service_account",
+        "severity": "NOTICE",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T10:48:41.299994354Z",
+        "log_class": "data_access",
+        "service_name": "iamcredentials.googleapis.com",
+        "method_name": "GenerateAccessToken",
+        "resource_type": "service_account",
+        "severity": "INFO",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T09:42:39.203518Z",
+        "log_class": "activity",
+        "service_name": "compute.googleapis.com",
+        "method_name": "v1.compute.instances.delete",
+        "resource_type": "gce_instance",
+        "severity": "NOTICE",
+        "principal_class": "agent_logic_user"
+      },
+      {
+        "timestamp": "2026-09-08T09:40:43.218257Z",
+        "log_class": "data_access",
+        "service_name": "oslogin.googleapis.com",
+        "method_name": "google.cloud.oslogin.dataplane.OsLoginDataPlaneService.ListLoginProfiles",
+        "resource_type": "audited_resource",
+        "severity": "INFO",
+        "principal_class": "not_present"
+      },
+      {
+        "timestamp": "2026-09-08T09:40:43.208607Z",
+        "log_class": "data_access",
+        "service_name": "oslogin.googleapis.com",
+        "method_name": "google.cloud.oslogin.dataplane.OsLoginDataPlaneService.ListLoginProfiles",
+        "resource_type": "audited_resource",
+        "severity": "INFO",
+        "principal_class": "not_present"
+      },
+      {
+        "timestamp": "2026-09-08T09:40:30.745657Z",
+        "log_class": "data_access",
+        "service_name": "oslogin.googleapis.com",
+        "method_name": "google.cloud.oslogin.dataplane.OsLoginDataPlaneService.ListLoginProfiles",
+        "resource_type": "audited_resource",
+        "severity": "INFO",
+        "principal_class": "not_present"
+      }
+    ]
+  },
+  "redaction": {
+    "retained_payload": "summary_only",
+    "omitted_fields": [
+      "protoPayload.request",
+      "protoPayload.response",
+      "protoPayload.authenticationInfo.principalEmail",
+      "insertId",
+      "operation",
+      "receiveTimestamp"
+    ],
+    "retained_local_paths": false,
+    "retained_tokens_or_keys": false
+  }
+}

@@ -14,8 +14,8 @@
       "criterion_text": "State is versioned private recoverable and auditable",
       "criterion_text_digest": "bc59816b165d6b5a2d6e732ec027cf3c5a28a060c53a6c0c150402cd49188b8c",
       "previous_result": "non_proving",
-      "proposed_result": "proof_gap",
-      "rationale": "Corrective #740 proves private posture, versioning and Terraform GCS canary recovery by immutable generation 1788865232161971. Original #491 design explicitly also requires audit/log posture; no audit configuration or log readback is present in the bounded #740 packet. Actor/script/config-bound proof receipts are not substituted for that obligation.",
+      "proposed_result": "proven",
+      "rationale": "Corrective #740 proves private posture, versioning and Terraform GCS canary recovery by immutable generation 1788865232161971. Issue #772 adds candidate-bound read-only audit/log posture proof for the same accepted GCP-B project: project and provider identities are bound by aliases plus SHA-256 digests, IAM audit configuration is readable, required logging-related services are enabled/readable, log buckets and sinks are readable, and representative Cloud Audit log entries were observed in the proof window. The retained #772 packet is redacted and summary-only.",
       "proof_artifacts": [
         {
           "path": ".csdlc/evidence/740/gcp-b1-readback.redacted.json",
@@ -51,13 +51,34 @@
           "reviewed_revision": "10063e6d0dbb4f28d95cb90edd761b409025bc78",
           "reviewed_blob": "0456e51eabf4fca8e5f15af0185baffa7d2f7200",
           "candidate_equals_review": true
+        },
+        {
+          "path": ".csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json",
+          "candidate_blob": "66201a6a476b379a988975989866446a61d7a01a",
+          "reviewed_revision": "pending_exact_head_review",
+          "reviewed_blob": "pending_exact_head_review",
+          "candidate_equals_review": false
+        },
+        {
+          "path": ".csdlc/prepared/issues/772/run-gcp-b-audit-log-posture.sh",
+          "candidate_blob": "5f64519fe99fbeb59cb5d850a646ab2e17e031f1",
+          "reviewed_revision": "pending_exact_head_review",
+          "reviewed_blob": "pending_exact_head_review",
+          "candidate_equals_review": false
+        },
+        {
+          "path": ".csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh",
+          "candidate_blob": "a7cc05bd67e80c2306ceb6a14c2463728e303c57",
+          "reviewed_revision": "pending_exact_head_review",
+          "reviewed_blob": "pending_exact_head_review",
+          "candidate_equals_review": false
         }
       ],
-      "remaining_obligation": "Retain or obtain candidate-bound audit/log posture evidence, or explicit operator amendment; no cloud action performed by this review.",
+      "remaining_obligation": "Satisfied by #772 after exact-head review records the final blob chain.",
       "current_readback_status": {
-        "status": "unavailable_reauthentication_required",
-        "source": "Parent agent coordination report; no additional cloud evidence adopted by this packet",
-        "effect": "The attempted read-only audit check could not complete gcloud reauthentication. Audit/log posture remains unproven; no cloud mutation or new audit evidence is claimed."
+        "status": "available_redacted_live_readback",
+        "source": ".csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json",
+        "effect": "Read-only proof observed active project state, readable audit configuration, required logging-related services, readable log buckets/sinks, and representative Cloud Audit log entries without retaining raw provider identifiers, local paths, raw payloads, tokens, or key material."
       }
     },
     {
@@ -497,16 +518,10 @@
       "independent_acceptance": "subagent:closeout_authority_review verified exact blob chains; primary accepted"
     }
   ],
-  "remaining_real_issues": [
-    {
-      "criterion_id": "GCP-B-ac-1",
-      "gap": "Missing audit/log posture evidence in reviewed #740 candidate packet",
-      "accounting_disposition": "Accepted successor491 and corrective740 closure joined in ownership.json; this bounded packet limitation is not an unowned accounting row or an instruction to reopen either issue."
-    }
-  ],
+  "remaining_real_issues": [],
   "non_claims": [
-    "No cloud actions, runtime experiments or GitHub writes were performed.",
-    "No whole-host residue census or GCP audit log coverage is inferred.",
-    "This packet does not authorize release or complete remaining retained criteria."
+    "No cloud mutations, runtime experiments or GitHub writes were performed by the #772 proof.",
+    "No whole-host residue census is inferred.",
+    "This packet resolves the GCP-B-ac-1 audit/log proof gap only after exact-head review records the final #772 blob chain."
   ]
 }

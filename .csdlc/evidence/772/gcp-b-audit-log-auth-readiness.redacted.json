@@ -1,0 +1,60 @@
+{
+  "schema": "adl.gcp_b.audit_log_auth_readiness.redacted.v1",
+  "issue": 772,
+  "generated_at": "2026-09-09T17:44:56Z",
+  "proof_runner_head": "37055960562744ada7c0f3b599fc5123f9318834",
+  "candidate_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+  "environment": {
+    "project_alias": "gcp-b-project",
+    "project_id_sha256": "e50962811283c5d194b59e96b42dd1d7b87e52676df03267903cba458cd87434"
+  },
+  "provider_identity": {
+    "service_account_alias": "gcp-b-bootstrap-service-account",
+    "service_account_sha256": "15c4fc636a9fba0e7da0b299db21e93f68a9ceee3512f77907fce6a9920c0ab6"
+  },
+  "attempts": [
+    {
+      "route": "copied_existing_user_auth_config",
+      "result": "reauthentication_required",
+      "credential_material_retained": false,
+      "raw_identifier_retained": false
+    },
+    {
+      "route": "application_default_credentials",
+      "result": "reauthentication_required",
+      "credential_material_retained": false,
+      "raw_identifier_retained": false
+    },
+    {
+      "route": "service_account_impersonation_from_user_account",
+      "result": "reauthentication_required",
+      "credential_material_retained": false,
+      "raw_identifier_retained": false
+    },
+    {
+      "route": "gce_metadata_server",
+      "result": "unavailable_on_this_host",
+      "credential_material_retained": false,
+      "raw_identifier_retained": false
+    },
+    {
+      "route": "documented_historical_bootstrap_key",
+      "result": "invalid_jwt_signature",
+      "interpretation": "consistent_with_prior_legacy_key_revocation_evidence",
+      "credential_material_retained": false,
+      "raw_identifier_retained": false
+    }
+  ],
+  "live_audit_log_posture_proof": {
+    "status": "generated_after_auth_refresh",
+    "reason": "operator_refresh_made_existing_gcloud_auth_readable_for_read_only_proof",
+    "evidence_path": ".csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json",
+    "evidence_sha256": "0f15781020d340e87b99e2fe505ac87c20816755ad805817f712493836ce95ce"
+  },
+  "redaction": {
+    "retained_payload": "auth_status_summary_only",
+    "retained_local_paths": false,
+    "retained_tokens_or_keys": false,
+    "retained_raw_project_or_provider_identifiers": false
+  }
+}
