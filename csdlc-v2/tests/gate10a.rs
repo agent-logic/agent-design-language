@@ -48,15 +48,37 @@ fn current_operator_guidance_has_no_sunset_v1_route() {
     }
 
     let workflow = fs::read_to_string(repo.join("docs/default_workflow.md")).unwrap();
-    assert!(workflow.starts_with("# Default C-SDLC v2 workflow"));
-    assert!(workflow.contains("csdlc-issue --root <repo> create --request <json>"));
     assert!(!workflow.contains("csdlc-init"));
-    assert!(workflow.contains("csdlc-finish"));
     assert!(!workflow.contains("csdlc-closeout"));
-    assert!(current_guidance_is_v2_only(
-        &workflow,
-        &["docs/legacy/default_workflow_v1.md"]
-    ));
+    if workflow.starts_with("# Default C-SDLC v2 workflow\n") {
+        // Retained checkout baseline while the documentation repair is in flight.
+        assert!(workflow.contains("csdlc-issue --root <repo> create --request <json>"));
+        assert!(workflow.contains("csdlc-finish"));
+        assert!(current_guidance_is_v2_only(
+            &workflow,
+            &["docs/legacy/default_workflow_v1.md"]
+        ));
+    } else {
+        assert!(workflow.starts_with("# Default C-SDLC workflow\n"));
+        for contract in [
+            "C-SDLC v3 is operational after V3-F/#505 and merged PR #591.",
+            "Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`.",
+            "Use `.adl/bin/native-v3/csdlc`",
+            "Missing or stale proof suspends authority.",
+            "V2 is retained only for an explicitly authorized rollback or bounded transition remediation.",
+            "`finish` owns terminal reconciliation and `clean` owns separate guarded cleanup",
+            "csdlc-install resolve --repo <repo> --issue <issue> --requested v2",
+            "do not change the default selector or weaken review, validation or terminal gates.",
+            "The former v1 workflow in `docs/legacy/DEFAULT_WORKFLOW_V1.md` is historical.",
+        ] {
+            assert!(workflow.contains(contract), "workflow missing contract: {contract}");
+        }
+        // Permit only this historical sentence; active v1 routes remain forbidden.
+        assert!(current_guidance_is_v2_only(
+            &workflow,
+            &["The former v1 workflow in `docs/legacy/DEFAULT_WORKFLOW_V1.md` is historical."]
+        ));
+    }
 }
 
 #[test]
