@@ -12552,6 +12552,7 @@ This package grants no authority by itself.\n";
                     declaration: admission("ember", "ember.axioma"),
                     orientation: historical_orientation.clone(),
                 }],
+                admission_greetings: BTreeMap::new(),
             })
             .expect("store serializes"),
         )
