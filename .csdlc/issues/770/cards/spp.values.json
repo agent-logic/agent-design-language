@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 770,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+    "slug": "public-spot-ssh-recovery",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Add plan-time recovery guards to public module; preserve isolated ingress and hardening; prove mocked negative/positive cases; prepare exact cloud plan, obtain approval, prove SSH/isolation, dispose, independently review and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Implement and test Terraform recovery guards",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Prepare approved live proof and retain disposal results",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Independent security review and publish",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "infra/aws/modules/csm-runtime-spot",
+        "infra/aws/csm-runtime-spot",
+        "infra/aws/csm-runtime-spot/tests/run_contract.sh",
+        "infra/aws/csm-runtime-spot/tests/run_live_proof.sh"
+      ],
+      "invariants": [
+        "SSH and Runtime ingress remain separate.",
+        "IMDSv2 and encrypted root storage remain enabled.",
+        "Private-only roots remain unchanged."
+      ],
+      "risks": [
+        "Live proof cannot complete without existing key selection and explicit cloud apply approval."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Failed recovery contract or security review",
+        "No explicit authorization for live AWS apply"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/770/design.md",
+      "design_digest": "63e11968d11e443f3236358abb34789b2e0cf7afc0b8372534462e30c8f209dd",
+      "diagram_ref": ".csdlc/prepared/issues/770/diagram.mmd",
+      "diagram_digest": "23da22f79df6ac8cbdb6d42373b200b6d8887050c3453b36bca11b43c35e9c4b"
+    }
+  }
+}

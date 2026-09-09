@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 770,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+    "slug": "public-spot-ssh-recovery",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "infra/aws/modules/csm-runtime-spot, infra/aws/csm-runtime-spot, infra/aws/csm-runtime-spot/tests/run_contract.sh",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Check plan-time guards and null handling.",
+        "Verify one-key /32 recovery, isolated application ingress, unchanged private roots, and hardening.",
+        "Confirm live proof and disposal are actual observations, not mocked claims."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

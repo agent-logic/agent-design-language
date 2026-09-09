@@ -62,13 +62,22 @@ variable "operator_ingress_cidrs" {
 }
 
 variable "ssh_ingress_cidrs" {
-  description = "Optional SSH CIDRs. Empty disables SSH."
+  description = "Explicit authorized IPv4 SSH recovery CIDRs; required for this public Runtime stack. Prefer the operator /32."
   type        = list(string)
   default     = []
+  nullable    = false
+
+  validation {
+    condition = alltrue([
+      for cidr in var.ssh_ingress_cidrs :
+      can(cidrnetmask(cidr)) && try(tonumber(split("/", cidr)[1]) > 0, false)
+    ])
+    error_message = "SSH recovery CIDRs must be valid IPv4 networks narrower than /0."
+  }
 }
 
 variable "key_name" {
-  description = "Optional EC2 key pair name."
+  description = "Name of exactly one existing operator-approved EC2 key pair, required for public SSH recovery. This stack does not create keys."
   type        = string
   default     = null
 }

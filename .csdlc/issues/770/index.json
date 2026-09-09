@@ -1,0 +1,82 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 770,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1027ce24f8764f0a1ebb0f6d5dc56d65062000fe91fb898530036cea91088289",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "e8e5063aa67e898d9d8a41e65cb642ec44b1ca583c5f32ed81a8f692bbb62cf0",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/770/design.md",
+  "diagram_path": ".csdlc/prepared/issues/770/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:planning-6",
+      "revision": "63e11968d11e443f3236358abb34789b2e0cf7afc0b8372534462e30c8f209dd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9177410914e8135f79de85f4133d921d78763530ee3b5cdae1d7660599193af2",
+      "rendered_digest": "e8ad0f905851b7b218c29fd9ba399b2953969b582d3d44da8bcdfdb114491b3a",
+      "ast_digest": "6b2756afabb08215c363489e85b654c399659082c35f715f568557e1c43f8f8b"
+    },
+    "stp": {
+      "values_digest": "c173d668c7b825d0b8777d1b2733da6b2a55abfe7ef3812e0585603eec76c8fe",
+      "rendered_digest": "094f6ad2b8deada648cb4963f3edf4c57869cf279ec0782c8fa86dcd4e3d7423",
+      "ast_digest": "ecba6922f53438c56d68681fd71b23be8173cd3910451fd7e9b684fb1fa2db65"
+    },
+    "spp": {
+      "values_digest": "029bc1f6bb2cc52bbb69274ea318a65defe9c023bcc03ca48da56d18e792ef05",
+      "rendered_digest": "7e520578f5ec4246afbdcaeb1f1e25b53837e5d499ec9114b0631d04b3111481",
+      "ast_digest": "108ff5c47a26254a53f2f6294434916d6d06cce4a3d40a1203ef7faa36b9a345"
+    },
+    "vpp": {
+      "values_digest": "968d501703002aa4562c6c2c2eef01434385536606359e44116270fd762a3be1",
+      "rendered_digest": "06ff12dfe0cf644e5bf535d7a957d4cf6597c07ff9022010436d67c14826e64d",
+      "ast_digest": "6ec456dd6d20bf3f957120526a9cdd7ed185d1d16876f893e006ae94199e05bd"
+    },
+    "srp": {
+      "values_digest": "f0466e1de08f6d311a032f58ea0298385610fa3e5cb1949ad8179a8a085305a4",
+      "rendered_digest": "97fee9a643b26330d1c50f36b4e079fbe7fc79f23b73e5f04c598003906413c1",
+      "ast_digest": "6a5dd06e1f44d29ef446d4377a99c639c7942cf81b59b24aacff1e836ad0d680"
+    },
+    "sor": {
+      "values_digest": "f90783fef538e77b861754880d1b946c8de7ba007286dfb893146f55ae0431cc",
+      "rendered_digest": "a09c7eecab207ebca5740f97b48690c24a9f3fc14d6e0a13dd2c026d778366e7",
+      "ast_digest": "1e393f9c8b3131895b4a24028126047a6dfc5a076dd4e6c671e3e137570c702f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:planning-6",
+      "reason": "Issue-specific design, deferred live proof and exact local contract target are ready for execution."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:planning-6",
+      "reason": "Issue-specific design, deferred live proof and exact local contract target are ready for execution.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

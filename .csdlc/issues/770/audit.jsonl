@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex:planning-6","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:planning-6","reason":"Issue-specific design, deferred live proof and exact local contract target are ready for execution.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}

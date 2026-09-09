@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 770,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+    "slug": "public-spot-ssh-recovery",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Guarantee independent SSH recovery for the public Spot Runtime module.",
+      "required_outcome": "Plan-time key and SSH-CIDR guards, recoverable example, negative Terraform tests, and explicitly approved bounded live proof with disposal.",
+      "declared_scope": [
+        "infra/aws/modules/csm-runtime-spot",
+        "infra/aws/csm-runtime-spot",
+        "infra/aws/csm-runtime-spot/tests/run_contract.sh",
+        "infra/aws/csm-runtime-spot/tests/run_live_proof.sh"
+      ],
+      "authority_boundary": [
+        "Operator authorized typed v2 exception after native card-validation failure.",
+        "Cloud apply requires separate explicit approval of concrete plan."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use approved Agent Logic business AWS profile.",
+        "Use one existing operator-approved key; never expose private key contents."
+      ]
+    }
+  }
+}
