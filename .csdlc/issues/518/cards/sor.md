@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historical non-proving rows and five exception groups dispositioned; zero unowned accounting work. Preserves historical release assessment and no release authorization. Refreshed791-file inventory. External P2 stale-exception finding corrected; renewed exact-head review required; no merge authorized.
+Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historical non-proving rows and five exception groups dispositioned; zero unowned accounting work. Preserves historical release assessment and no release authorization. Refreshed791-file inventory. External P2 stale-exception finding corrected; renewed exact-head review required; no merge authorized. Integrated separate issue #754 source fix 516aa3e6db378c1fe9fe490da64492d709c8c620 to repair template 1.0.4 rejection in CI. Hosted checks pending on the resulting head.
 
 ## Artifacts
 
@@ -21,6 +21,11 @@ Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historica
 - docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json
 - docs/milestones/v0.92.1/evidence/release/tail-02/README.md
 - docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/README.md
+- docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json
+- docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json
 - docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json
 - docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json
 
@@ -34,6 +39,15 @@ Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historica
 - Include complete Cargo manifest and local-dependency audit without version changes.
 - Incorporated PR752 source accounting, fixed current handoff exception status and resolved QUALITY_GATE merge conflict.
 - Refreshed dependency snapshot, current content hashes and validator accounting-source checks.
+- Corrected current lifecycle, durable card, milestone deferral, creation/sprint and closeout inventory documentation.
+- Preserved the 737-document audit, 45-child creation map, 35-row historical diagnostic snapshot and 15 finding dispositions.
+- Resolved independent review P2 about current command routing; re-review found no actionable issues.
+- Correct current lifecycle, scope and review documentation; preserve historical evidence.
+- Refresh content inventory and enforce exact hashes, source parity and merged predecessor ancestry.
+- Include complete Cargo manifest and local-dependency audit without version changes.
+- Incorporated PR752 source accounting, fixed current handoff exception status and resolved QUALITY_GATE merge conflict.
+- Refreshed dependency snapshot, current content hashes and validator accounting-source checks.
+- Integrated #754 registry compatibility source commit; documentation checks still pass 2824, final handoff800 and Cargo24/20.
 
 ## Validation
 
@@ -162,11 +176,11 @@ Updated PR753 candidate incorporates issue517 PR752 accounting: all245 historica
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
