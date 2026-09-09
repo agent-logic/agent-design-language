@@ -1472,7 +1472,7 @@ jobs:
           set -euo pipefail
           hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"
           hosted_coverage_job_result="${{ needs.adl_coverage_hosted.result }}"
-          if [ -z "$hosted_coverage_result" ] && [ "$hosted_coverage_job_result" = "skipped" ]; then
+          if [ -z "$hosted_coverage_result" ]; then
             hosted_coverage_result="$hosted_coverage_job_result"
           fi
           python3 adl/tools/verify_ci_backend_route.py \
