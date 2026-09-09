@@ -1,0 +1,27 @@
+{
+  "schema": "csdlc.v3.issue_review_assignment.v1",
+  "issue": 817,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 5,
+  "expected_digest": "b58a6b19ceb97d163e2a66ec5128191589bd97b12a82beabae15c224f2656ef7",
+  "reviewer": "subagent:/root/fix_814_runtime",
+  "assigned_by": "subagent:/root/fix_815_cloud_auth",
+  "scope": [
+    ".csdlc/evidence/730/preapply-bucket-describe.json",
+    ".csdlc/evidence/731/live-disposable-workload/manual-describe-while-stuck.json",
+    ".csdlc/evidence/731/live-foundation-apply/post-failed-sa.json",
+    ".csdlc/evidence/731/live-foundation-apply/post-failed-state-bucket.json",
+    ".csdlc/evidence/817",
+    ".csdlc/issues/817",
+    ".csdlc/prepared/issues/817",
+    ".csdlc/transactions/completed/817",
+    "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+    "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+    "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+    "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+    "docs/milestones/v0.92.1/evidence/cloud/gcp-e",
+    "docs/milestones/v0.92.1/evidence/release/current-status",
+    "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current",
+    "docs/templates/prompts/README.md"
+  ]
+}
