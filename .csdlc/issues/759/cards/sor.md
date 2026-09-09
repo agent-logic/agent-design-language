@@ -2,14 +2,9 @@
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/sor.md`
 
-Authority notice: C-SDLC v3 is operational after #505 / PR #591. Operational
-authority requires validation of the canonical
-`csdlc-v3/operator/authority-selector.json`, native authenticated receipt,
-terminal reconciliation, and Git objects against `origin/main`. Use
-`.adl/bin/native-v3/csdlc` and declared typed requests for issue, edit,
-validate, doctor, bind, review, publish, finish, and clean. V2 is permitted only
-for explicitly authorized rollback or bounded transition remediation; it is not
-the live default authority.
+Authority notice: V3-F/#505 is the pending tooling changeover decision; until
+that operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains live authority.
 Legacy `pr` editor routes are historical/retired compatibility orientation,
 not current lifecycle authority.
 
