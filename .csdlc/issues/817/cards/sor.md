@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 .csdlc/prepared/issues/817/validate-release-truth.py --observe-github; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py; python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py --negative; native csdlc validate; JSON parse sweep; git diff --check`
-    `Authenticates exact #519 terminal source bytes and BLAKE3 state binding, optionally re-observes GitHub, rejects nine release-truth and fifteen V3-F tamper classes, checks current status, parses retained GCP-E JSON, and validates lifecycle truth.`
+    `Authenticates exact #519 terminal source bytes and BLAKE3 state binding, optionally re-observes GitHub, rejects ten release-truth and fifteen V3-F tamper classes, binds failure stderr bytes and signatures while preserving unknown historical exit status, checks current status, parses retained GCP-E JSON, and validates lifecycle truth.`
 - Results:
-  - `PASS: receipt and live terminal verification; release-truth positive and 9 negatives; current-status positive and 9 negatives; 34 GCP-E JSON files nonempty and parseable; V3-F mapping positive and 15 negatives; detached locked suite 211 passed and 0 failed; native six-card validation; diff hygiene.`
+  - `PASS: receipt and live terminal verification; release-truth positive and 10 negatives; current-status positive and 9 negatives; 34 GCP-E JSON files nonempty and parseable; V3-F mapping positive and 15 negatives; detached locked suite 211 passed and 0 failed; native six-card validation; diff hygiene.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "Focused release-truth, current-status, V3-F, JSON, lifecycle, and diff-hygiene checks passed."
+      - "Focused release-truth, terminal source/live, failure stderr binding, current-status, V3-F, JSON, lifecycle, and diff-hygiene checks passed."
   determinism:
     status: passed
     replay_verified: true
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Release-truth 9-case negative matrix, current-status 9-case negative matrix, and V3-F 15-case negative matrix.`
+- Determinism tests executed: `Release-truth 10-case negative matrix, current-status 9-case negative matrix, and V3-F 15-case negative matrix.`
 - Fixtures or scripts used: `.csdlc/prepared/issues/817/validate-release-truth.py; current-status/validate.py; v3f-current/validate.py and suite.log.`
 - Replay verification (same inputs -> same artifacts/order): `Repeated focused validators produce the same classifications and exact denominator counts.`
 - Ordering guarantees (sorting / tie-break rules used): `Issue observations, status rows, work packages, source maps, and V3-F scope are sorted or exact-map compared.`
@@ -165,8 +165,8 @@ verification_summary:
 ## Artifact Verification
 - Primary proof surface: `.csdlc/prepared/issues/817/validate-release-truth.py and v3f-current/validate.py`
 - Required artifacts present: `true`
-- Artifact schema/version checks: `All 34 GCP-E JSON artifacts parse; four failure envelopes use adl.retained_command_failure.v1; terminal sources use native v3 schemas.`
-- Hash/byte-stability checks: `SHA-256 binds terminal sources, historical cards, suite log, mapping inputs, and current-status sources; BLAKE3 binds terminal state to receipt.`
+- Artifact schema/version checks: `All 34 GCP-E JSON artifacts parse; four adl.retained_command_failure.v1 envelopes bind stderr SHA-256, command/error signatures, and captured or explicitly unavailable exit status; terminal sources use native v3 schemas.`
+- Hash/byte-stability checks: `SHA-256 binds terminal sources, historical cards, four failure stderr artifacts, suite log, mapping inputs, and current-status sources; BLAKE3 binds terminal state to receipt.`
 - Missing/optional artifacts and rationale: `No new cloud execution or trace bundle was required; issue repairs retained and classified existing proof.`
 
 ## Decisions / Deviations

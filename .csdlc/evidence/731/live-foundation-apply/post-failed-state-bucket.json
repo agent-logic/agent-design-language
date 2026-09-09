@@ -4,7 +4,9 @@
   "command_class": "gcloud.storage.buckets.describe",
   "error_class": "not_found",
   "exit_code": null,
+  "exit_status_observation": "not_captured",
   "stdout_empty": true,
   "stderr_artifact": ".csdlc/evidence/731/live-foundation-apply/post-failed-state-bucket.err",
+  "stderr_sha256": "7acb08a9b53c3a559244d8b0a79b7463164cb3ee07854f8d22d99a88fd640c3f",
   "disposition": "post-failure diagnostic observed state-bucket absence; retained as failure evidence, not a bucket readback"
 }

@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- V3-F review found and resolved three prompt-template README truth defects. Final whole-head review found P1 unauthenticated #519 terminal projection, P2 vacuous failure-envelope negative proof, P2 incomplete SOR truth, and P2 absolute host paths in the retained V3-F suite log.
+- V3-F review found three prompt-template README truth defects. Whole-head reviews found P1 unauthenticated #519 terminal projection and four P2 gaps: vacuous failure-envelope negative proof, incomplete SOR truth, absolute host paths in the V3-F suite log, and unbound failure stderr/error truth.
 
 ### Dispositions
 
-- Terminal proof now binds tracked source bytes by SHA-256, recomputes native BLAKE3 state_digest with known-vector self-tests, and supports exact live GitHub readback. Failure envelopes have exact command/error/exit/stderr bindings and four causal tamper negatives. SOR fields are fully populated. Suite log paths are redacted and rejected by the V3-F validator.
+- All findings fixed. Failure envelopes now bind exact stderr SHA-256, command signature, not-found signature, and captured versus explicitly not-captured exit status; underlying stderr byte replacement is a causal negative. Terminal source/hash/live proof, complete SOR fields, and suite-log path redaction remain enforced.
 
 ### Recommended Outcome
 

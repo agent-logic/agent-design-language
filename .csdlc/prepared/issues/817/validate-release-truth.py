@@ -30,25 +30,33 @@ FAILURE_EXPECTATIONS = {
         "command_class": "gcloud.storage.buckets.describe",
         "error_class": "not_found",
         "exit_code": 1,
+        "exit_status_observation": "captured",
         "stderr_artifact": ".csdlc/evidence/730/preapply-bucket-describe.stderr.log",
+        "stderr_sha256": "71d2018b18948c0680857d4577d80618092cecef2cfce5d3944ff4c09f39634d",
     },
     ".csdlc/evidence/731/live-disposable-workload/manual-describe-while-stuck.json": {
         "command_class": "gcloud.compute.instances.describe",
         "error_class": "not_found",
         "exit_code": None,
+        "exit_status_observation": "not_captured",
         "stderr_artifact": ".csdlc/evidence/731/live-disposable-workload/manual-describe-while-stuck.err",
+        "stderr_sha256": "1ab827e04020e69d913d17db84d07fbcd21451ced43da96e4d143d943e01f726",
     },
     ".csdlc/evidence/731/live-foundation-apply/post-failed-sa.json": {
         "command_class": "gcloud.iam.service-accounts.describe",
         "error_class": "not_found",
         "exit_code": None,
+        "exit_status_observation": "not_captured",
         "stderr_artifact": ".csdlc/evidence/731/live-foundation-apply/post-failed-sa.err",
+        "stderr_sha256": "5fd7234e7b961529a73ad49ac0bff4526c797f31dbcb872429bdeaddc8c9efa6",
     },
     ".csdlc/evidence/731/live-foundation-apply/post-failed-state-bucket.json": {
         "command_class": "gcloud.storage.buckets.describe",
         "error_class": "not_found",
         "exit_code": None,
+        "exit_status_observation": "not_captured",
         "stderr_artifact": ".csdlc/evidence/731/live-foundation-apply/post-failed-state-bucket.err",
+        "stderr_sha256": "7acb08a9b53c3a559244d8b0a79b7463164cb3ee07854f8d22d99a88fd640c3f",
     },
 }
 
@@ -148,8 +156,10 @@ def validate_gcp_e() -> int:
     return len(readbacks)
 
 
-def validate_failure_envelopes(overrides: dict[str, dict] | None = None) -> int:
+def validate_failure_envelopes(overrides: dict[str, dict] | None = None,
+                               stderr_overrides: dict[str, bytes] | None = None) -> int:
     overrides = overrides or {}
+    stderr_overrides = stderr_overrides or {}
     for relative in EMPTY_FAILURES:
         path = ROOT / relative
         require(path.stat().st_size > 0, "empty_json_artifact")
@@ -164,6 +174,15 @@ def validate_failure_envelopes(overrides: dict[str, dict] | None = None) -> int:
         stderr = ROOT / data.get("stderr_artifact", "")
         require(stderr.is_file() and stderr.stat().st_size > 0,
                 "failure_envelope_stderr")
+        stderr_bytes = stderr_overrides.get(relative, stderr.read_bytes())
+        require(hashlib.sha256(stderr_bytes).hexdigest() == data.get("stderr_sha256"),
+                "failure_envelope_stderr_digest")
+        stderr_text = stderr_bytes.decode(errors="replace")
+        require(f"({data['command_class']})" in stderr_text,
+                "failure_envelope_stderr_command")
+        require(data["error_class"] == "not_found" and
+                re.search(r"not[_ ]found", stderr_text, re.IGNORECASE) is not None,
+                "failure_envelope_stderr_error")
         require(data.get("disposition") and "not a" in data["disposition"] and
                 "readback" in data["disposition"], "failure_envelope_disposition")
     return len(EMPTY_FAILURES)
@@ -347,6 +366,15 @@ def negative() -> dict:
             cases += 1
         else:
             raise ValueError(f"failure_{field}_tamper_accepted")
+    try:
+        validate_failure_envelopes(
+            stderr_overrides={EMPTY_FAILURES[0]: b"arbitrary nonempty stderr\n"})
+    except ValueError as error:
+        require(str(error) == "failure_envelope_stderr_digest",
+                "failure_stderr_content_negative_wrong_failure")
+        cases += 1
+    else:
+        raise ValueError("failure_stderr_content_tamper_accepted")
     return {"status": "passed", "negative_cases": cases}
 
 

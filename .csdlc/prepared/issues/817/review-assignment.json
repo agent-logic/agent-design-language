@@ -2,8 +2,8 @@
   "schema": "csdlc.v3.issue_review_assignment.v1",
   "issue": 817,
   "repository": "agent-logic/agent-design-language",
-  "expected_generation": 6,
-  "expected_digest": "f9b122ad97ec31a345dab258cb1d868aba61761eaed4899e92965256f94dfce0",
+  "expected_generation": 7,
+  "expected_digest": "66050fc11f501222ed3cae0b126cbdb338379201617933a035140cfad4956641",
   "reviewer": "subagent:/root/fix_814_runtime",
   "assigned_by": "subagent:/root/fix_815_cloud_auth",
   "scope": [
