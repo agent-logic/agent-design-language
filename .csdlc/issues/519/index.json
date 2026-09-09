@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "56c6a0a0f27c894cf9534389e91aa8405cec4df9b2d6f42fa9e6dfcdb341d23f",
   "phase": "bound",
-  "generation": 11,
-  "digest": "9ea103e594507d1685ed07e2b7e9b3356754cc073827d9c77925a707c4357d3b",
+  "generation": 12,
+  "digest": "805e76f35cc3af3b1128c83f9188897459f94bbeed0c250a2a20fea614b9bada",
   "branch": "codex/519-publication-finalization",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-519-publication-finalization",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1a1198f160fb7bb00d516a2641c318ed216027a9c3f7880d8737196088fe864",
+      "values_digest": "a29b22eda8ea06a73bc4a5dc8027db52aadccbd4a15a4bbd9615ed5eb1ebdfcb",
       "rendered_digest": "b2fa2f7b15a4c61df8b9edcfeafd841383511101c29cfdf4f4ca8b649c366b02",
       "ast_digest": "fe6aa80ee56a8b755654c7f1d54971f1c5eaeea2af74c3e10c2a147c4d2b06a8"
     },
     "stp": {
-      "values_digest": "b136bd5de4b27516295f796c14282082efebd57dba963c3444fe704fc8580ad4",
+      "values_digest": "d27d87ef483589f630226856f1aa4f849d2809066a9977a630e47f92057394cf",
       "rendered_digest": "7cd62ed0898b2995d3922c8fc214f94c52ef0fe1f06170cafac84c88f731bd01",
       "ast_digest": "15c77707f699e524e8647d07b26e438a5bd4d960e72dd7c22a291b5385317240"
     },
     "spp": {
-      "values_digest": "8d27fb24278e2b3ef3d85738a80be8f4c7e2a9ed8fe5fad9816278975d40c718",
+      "values_digest": "ad5562fa9a00187b69cad1b6e3791cf42aff86b87c5ec299cf1abf308928948c",
       "rendered_digest": "9be91517574b84ece2032bea6a13dfbb13b2785108a02ea5f7cacbc0376a9ba0",
       "ast_digest": "8f4560ba2ccc8bae6d12f5a1654f1a06f9066f8580d133af9c742d12182e18f2"
     },
     "vpp": {
-      "values_digest": "58abc3ecad724056ecc685cff56065429ae5f2b9e448d11205f4d0a6ca222705",
+      "values_digest": "d801ce062f1573d9517136cf3a67bed6f26f8c80bebcae3528bbd3516a34952d",
       "rendered_digest": "8d125006f39dfb17974e2cf184f2a9c06ed788b5af158d85526a93fbfec0d40d",
       "ast_digest": "e3fd40ad5afb4e5ca1891cca3ad424d93e60d583d3c05d8f8a5b3617ff632d42"
     },
     "srp": {
-      "values_digest": "408595c6fb4ef5e2693afe561ff137f7c84d5f97d56c6272eb0e82fe688d675d",
+      "values_digest": "be0a831ac571803d4b15277316891f3587c57359e0ffe8f2dceb1485b4ef9f94",
       "rendered_digest": "5cddf2baa41cceb58b34851a1a9c2e13fd826e809090023c364070a5423d7808",
       "ast_digest": "b9f52dfb8e8e03f965c983822b0f65a05b643af7f135e137acb9cc789f4af39b"
     },
     "sor": {
-      "values_digest": "f09af6699a8237a9d69bf5a6d609b2be7a27f96889a265c5ff2a8a3d7dec0be4",
-      "rendered_digest": "e54a40646f4c370587327b501a5108657fbaed82dd4d2f0bc6e959f909eadace",
-      "ast_digest": "8688682e43b88534adb45fda7cf61de36a9280cec65f3b5c42e60fb6e62856cf"
+      "values_digest": "2a3434fdeafc30495e59e496fa680d9e004f24a8d60f41d7185d2005a6872c3e",
+      "rendered_digest": "2326d93331b2b0651b658c3243f33c3c21d1cebba2951a7690de7ba2a61b3abe",
+      "ast_digest": "4db6f824c85f91081d855e670c902636303ee34fb67fc486de2ce29da145d0bd"
     }
   },
   "transitions": [
@@ -161,6 +161,13 @@
       "actor": "codex:planning-7",
       "reason": "Refresh provisional source after #518 review corrections; preserve operator review hold.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Provisional candidate refreshed to PR753 head 1048fb54dd502a3a3a114d49fe37f50e11f5cd70 and reviewed source ed6c1284add897bfd7e48f558ceb8c49154b5471, covering 791 documents. Final acceptance still waits for #518 reviewed merge; PR753 has an explicit operator review hold.\",\"changes\":[\"Updated immutable source hashes and saved live PR observation.\",\"Distinguished historical quality exceptions from completed accounting dispositions.\",\"Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json\",\"docs/milestones/v0.92.1/evidence/release/tail-03/README.md\",\"docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:planning-7",
+      "reason": "Record current independent preparation review and genuine predecessor merge blocker.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Provisional packet at 96063e59c9 independently reviewed by codex:/root/review_519_preparation with no actionable findings. Verified 791 documents, 14 artifacts and three negative fixtures; final mode correctly refuses acceptance. #518 PR753 remains open at 1048fb54dd502a3a3a114d49fe37f50e11f5cd70 under explicit operator review hold. Final candidate refresh, validation and typed review/publication cannot proceed until its reviewed merge. No merge, tag, release or issue closure.\",\"changes\":[\"Updated immutable source hashes and saved live PR observation.\",\"Distinguished historical quality exceptions from completed accounting dispositions.\",\"Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json\",\"docs/milestones/v0.92.1/evidence/release/tail-03/README.md\",\"docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json\",\".csdlc/prepared/issues/519/validate-publication-candidate.rb\"]}"
     }
   ]
 }
