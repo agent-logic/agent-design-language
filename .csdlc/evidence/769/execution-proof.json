@@ -1,0 +1,103 @@
+{
+  "schema": "adl.issue_769.execution_proof.v1",
+  "issue": 769,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/769-publication-manifest-redaction",
+  "worktree": "adl-issue-769-publication-manifest-redaction",
+  "status": "implemented_pending_review_and_publication",
+  "summary": [
+    "Extended the TAIL-03 publication validator so --redaction and --all scan all 791 manifest-referenced document byte streams in addition to the publication packet.",
+    "Referenced documents are read from the immutable redaction_source_head Git object named in docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json, hash-checked against that revision's docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json, and rejected on missing, unreadable, hash-mismatched, or redaction-unsafe content.",
+    "Redaction failures report only path, line, and pattern class; matched values are not printed.",
+    "Normalized current manifest-referenced machine-local paths to repo-relative, policy-relative, or generic placeholders, then refreshed manifest hashes for the changed document bytes.",
+    "Updated TAIL-03 and #519 lifecycle truth surfaces so they no longer claim packet-only redaction coverage."
+  ],
+  "manifest_denominator": {
+    "documents_expected": 791,
+    "documents_scanned": 791,
+    "artifacts_expected": 14,
+    "redaction_source_head": "ed5b159f2bfa89c9a9266a8d59435047b145e9f1",
+    "redaction_findings_after_repair": 0
+  },
+  "redaction_pattern_classes": [
+    "machine_local_path",
+    "credential_location",
+    "private_key_block",
+    "github_token",
+    "aws_access_key",
+    "bearer_token",
+    "common_provider_token"
+  ],
+  "negative_fixtures": {
+    "self_test_count": 19,
+    "covered_redaction_classes": [
+      "machine_local_path",
+      "credential_location",
+      "private_key_block",
+      "github_token",
+      "aws_access_key",
+      "bearer_token",
+      "common_provider_token"
+    ],
+    "covered_integrity_classes": [
+      "artifact_hash",
+      "closing_linkage",
+      "status",
+      "unmerged_source_pr",
+      "wrong_source_head",
+      "wrong_repository",
+      "redaction_source_not_in_branch_history",
+      "merge_drift",
+      "manifest_document_hash",
+      "manifest_document_missing",
+      "manifest_document_unreadable",
+      "manifest_document_redaction"
+    ]
+  },
+  "independent_redaction_audit": {
+    "tool": "redaction-and-evidence-auditor/scripts/audit_review_packet.py",
+    "artifact_root": "docs/milestones/v0.92.1/evidence/release/tail-03",
+    "report_root": ".csdlc/evidence/769/redaction-audit",
+    "status": "partial",
+    "blockers": 0,
+    "warnings": 1,
+    "warning_reason": "The generic CodeBuddy packet auditor expects run_manifest.json; TAIL-03 is a publication packet, so the issue-specific 791-document validator remains the authoritative denominator."
+  },
+  "validation": [
+    {
+      "command": "ruby -c .csdlc/prepared/issues/519/validate-publication-candidate.rb",
+      "result": "pass",
+      "purpose": "Prove Ruby syntax for the changed validator."
+    },
+    {
+      "command": "ruby .csdlc/prepared/issues/519/validate-publication-candidate.rb --redaction",
+      "result": "pass",
+      "purpose": "Prove packet plus 791 manifest-referenced document redaction scan returns zero findings."
+    },
+    {
+      "command": "ruby .csdlc/prepared/issues/519/validate-publication-candidate.rb --self-test",
+      "result": "pass",
+      "purpose": "Prove negative fixtures reject integrity drift and redaction pattern classes without printing matched values."
+    },
+    {
+      "command": "ruby .csdlc/prepared/issues/519/validate-publication-candidate.rb --all",
+      "result": "pass",
+      "purpose": "Prove the complete final publication contract, including 791-of-791 manifest document scanning."
+    },
+    {
+      "command": "python3 -m json.tool docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
+      "result": "pass",
+      "purpose": "Prove refreshed manifest JSON is parseable."
+    },
+    {
+      "command": "redaction-and-evidence-auditor/scripts/audit_review_packet.py docs/milestones/v0.92.1/evidence/release/tail-03 --out .csdlc/evidence/769/redaction-audit",
+      "result": "pass_with_expected_warning",
+      "purpose": "Run independent deterministic packet redaction audit; no blockers were found."
+    }
+  ],
+  "non_goals_preserved": [
+    "No merge, tag, release, or issue-close mutation.",
+    "No detected secret values are printed or retained.",
+    "No claim that a finite pattern scan proves absence of every possible private payload."
+  ]
+}

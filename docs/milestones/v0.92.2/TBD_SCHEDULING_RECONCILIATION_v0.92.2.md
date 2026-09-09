@@ -40,7 +40,7 @@ No v0.92.2 issue number, milestone, label, or execution authority is created by 
 
 The table above is the retained #620 source audit, not a requirement to load ignored files during execution. [Adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) now carries the selected product, shared-schema and security boundaries in tracked form; the [source digest manifest](evidence/issue-523/adopted-source-manifest.json) preserves source-version provenance. Historical local rationale does not add scope to these adopted requirements.
 
-Reuse #717/#718/#720 under [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md). #718 is explicitly admitted and urgent by current operator direction; other backlog remains excluded. Runtime v4 stays v0.93 and customer-scale CodeFriend is prioritized for the first milestone after qualified Beta 1, with the exact successor version still undecided.
+Reuse #720 under [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md). #717/#718 were promoted into v0.92.1 and are consumed as predecessor capabilities after merge; other backlog remains excluded. Runtime v4 stays v0.93 and customer-scale CodeFriend is prioritized for the first milestone after qualified Beta 1, with the exact successor version still undecided.
 
 ## Operator addition to PR #743
 

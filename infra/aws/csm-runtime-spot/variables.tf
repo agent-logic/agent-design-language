@@ -47,6 +47,11 @@ variable "runtime_port" {
   description = "Runtime HTTPS port."
   type        = number
   default     = 20997
+  validation {
+    condition     = var.runtime_port >= 1 && var.runtime_port <= 65535 && floor(var.runtime_port) == var.runtime_port && var.runtime_port != 22
+    error_message = "Runtime must use an integer TCP port from 1 through 65535 other than SSH port 22."
+  }
+
 }
 
 variable "alb_security_group_id" {
@@ -62,13 +67,22 @@ variable "operator_ingress_cidrs" {
 }
 
 variable "ssh_ingress_cidrs" {
-  description = "Optional SSH CIDRs. Empty disables SSH."
+  description = "Explicit authorized IPv4 SSH recovery CIDRs; required for this public Runtime stack. Prefer the operator /32."
   type        = list(string)
   default     = []
+  nullable    = false
+
+  validation {
+    condition = alltrue([
+      for cidr in var.ssh_ingress_cidrs :
+      can(cidrnetmask(cidr)) && try(tonumber(split("/", cidr)[1]) > 0, false)
+    ])
+    error_message = "SSH recovery CIDRs must be valid IPv4 networks narrower than /0."
+  }
 }
 
 variable "key_name" {
-  description = "Optional EC2 key pair name."
+  description = "Name of exactly one existing operator-approved EC2 key pair, required for public SSH recovery. This stack does not create keys."
   type        = string
   default     = null
 }

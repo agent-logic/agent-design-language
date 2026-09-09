@@ -14,8 +14,9 @@ use csdlc_v3::{
         canonical_authority_selector_digest, dispatch_operational_remote,
         load_remote_route_receipts, observe_github_pr_readback,
         prepare_remote_publication_route_with_receipts, GithubMutation, GithubMutationRequest,
-        OperationalRemoteDispatchRequest, OperationalRemoteOperation, RemoteRouteReceipts,
-        RemoteRouteRequest, REMOTE_PUBLICATION_ROUTE_NAMES,
+        IssueCloseDisposition, IssueCloseStateReason, OperationalRemoteDispatchRequest,
+        OperationalRemoteOperation, RemoteRouteReceipts, RemoteRouteRequest,
+        REMOTE_PUBLICATION_ROUTE_NAMES,
     },
     commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     commands::terminal::{
@@ -31,7 +32,7 @@ use serde::Serialize;
 const AUTHORITY_HELP: &str = "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.";
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue close --repo <owner/name> --issue <number> --disposition <duplicate|superseded|no-op> --rationale <text> (--body <current-body>|--body-file <path>) --expected-head <sha> [--duplicate-of <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -76,6 +77,9 @@ fn run(args: Vec<String>) -> Result<String, String> {
         route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
         "github-issue" if rest.first().is_some_and(|arg| arg == "create") => {
             run_simple_issue_create(&rest[1..])
+        }
+        "github-issue" if rest.first().is_some_and(|arg| arg == "close") => {
+            run_simple_issue_close(&rest[1..])
         }
         route if REMOTE_PUBLICATION_ROUTE_NAMES.contains(&route) => run_remote(route, rest),
         route if TERMINAL_ROUTE_NAMES.contains(&route) => run_terminal(route, rest),
@@ -451,6 +455,55 @@ fn run_simple_issue_create(args: &[String]) -> Result<String, String> {
     .map_err(|error| error.to_string())
 }
 
+fn run_simple_issue_close(args: &[String]) -> Result<String, String> {
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(SimpleIssueCloseArgs::usage());
+    }
+    let args = SimpleIssueCloseArgs::parse(args)?;
+    if !is_exact_git_sha(&args.expected_head) {
+        return Err("--expected-head must be an exact 40-hex Git SHA".into());
+    }
+    let repo_root = discover_repo_root(env::current_dir().map_err(|error| error.to_string())?)
+        .ok_or_else(|| "repository_root_unavailable: could not find containing .git".to_string())?;
+    let dispatch = OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: canonical_authority_selector_digest(&repo_root)
+            .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?,
+        exact_review_sha: args.expected_head.clone(),
+        operation: OperationalRemoteOperation::GithubMutation(GithubMutationRequest {
+            repository: args.repository,
+            issue: args.issue,
+            pull_request: None,
+            cutover_issue: None,
+            operator_approval: None,
+            expected_head_sha: args.expected_head,
+            credential_names: vec![args.credential_name],
+            recovery: None,
+            mutation: GithubMutation::IssueClose {
+                rationale: args.rationale,
+                current_body: args.current_body,
+                disposition: args.disposition,
+                duplicate_of: args.duplicate_of,
+                github_state_reason: Some(IssueCloseStateReason::NotPlanned),
+            },
+        }),
+    };
+    if !args.execute {
+        return serde_json::to_string(&dispatch).map_err(|error| error.to_string());
+    }
+    let mut adapter = RealProcessAdapter::new(EnvironmentCredentialResolver);
+    let result = dispatch_operational_remote(&repo_root, &dispatch, &mut adapter)
+        .map_err(|finding| serde_json::to_string(&finding).unwrap_or_else(|_| "{}".into()))?;
+    serde_json::to_string(&RemoteCommandReport {
+        schema: "csdlc.v3.operational_remote.v1",
+        command: "github-issue".to_owned(),
+        read_only: false,
+        operational_authority: true,
+        cutover_issue: 505,
+        result,
+    })
+    .map_err(|error| error.to_string())
+}
+
 fn is_exact_git_sha(value: &str) -> bool {
     value.len() == 40 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
@@ -488,6 +541,7 @@ fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bo
             GithubMutation::IssueCreate { .. }
                 | GithubMutation::IssueComment { .. }
                 | GithubMutation::IssueEdit { .. }
+                | GithubMutation::IssueClose { .. }
         ),
         "github-pr" => matches!(
             mutation,
@@ -764,6 +818,127 @@ impl SimpleIssueCreateArgs {
             credential_name: credential_name.unwrap_or_else(|| "GITHUB_TOKEN".into()),
             execute,
         })
+    }
+}
+
+#[derive(Debug)]
+struct SimpleIssueCloseArgs {
+    repository: String,
+    issue: u64,
+    disposition: IssueCloseDisposition,
+    duplicate_of: Option<u64>,
+    rationale: String,
+    current_body: String,
+    expected_head: String,
+    credential_name: String,
+    execute: bool,
+}
+
+impl SimpleIssueCloseArgs {
+    fn usage() -> String {
+        "usage: csdlc github-issue close --repo <owner/name> --issue <number> --disposition <duplicate|superseded|no-op> --rationale <text> (--body <current-body>|--body-file <path>) --expected-head <sha> [--duplicate-of <number>] [--credential-name <env-name>] [--execute]\n\nThe simple form builds a typed duplicate/superseded/no-op close dispatch and appends close truth to the current issue body. Without --execute it prints that request; mutation remains authority-gated."
+            .into()
+    }
+
+    fn parse(args: &[String]) -> Result<Self, String> {
+        let mut repository = None;
+        let mut issue = None;
+        let mut disposition = None;
+        let mut duplicate_of = None;
+        let mut rationale = None;
+        let mut body = None;
+        let mut body_file = None;
+        let mut expected_head = None;
+        let mut credential_name = None;
+        let mut execute = false;
+        let mut iter = args.iter();
+        while let Some(arg) = iter.next() {
+            let value = |iter: &mut std::slice::Iter<'_, String>| {
+                iter.next()
+                    .cloned()
+                    .ok_or_else(|| format!("missing value for {arg}"))
+            };
+            match arg.as_str() {
+                "--repo" if repository.is_none() => repository = Some(value(&mut iter)?),
+                "--issue" if issue.is_none() => {
+                    issue = Some(parse_positive_u64("--issue", &value(&mut iter)?)?)
+                }
+                "--disposition" if disposition.is_none() => {
+                    disposition = Some(parse_issue_close_disposition(&value(&mut iter)?)?)
+                }
+                "--duplicate-of" if duplicate_of.is_none() => {
+                    duplicate_of = Some(parse_positive_u64("--duplicate-of", &value(&mut iter)?)?)
+                }
+                "--rationale" if rationale.is_none() => rationale = Some(value(&mut iter)?),
+                "--body" if body.is_none() => body = Some(value(&mut iter)?),
+                "--body-file" if body_file.is_none() => {
+                    body_file = Some(PathBuf::from(value(&mut iter)?))
+                }
+                "--expected-head" if expected_head.is_none() => {
+                    expected_head = Some(value(&mut iter)?)
+                }
+                "--credential-name" if credential_name.is_none() => {
+                    credential_name = Some(value(&mut iter)?)
+                }
+                "--execute" if !execute => execute = true,
+                _ => {
+                    return Err(format!(
+                        "{}; unexpected or duplicate argument {arg}",
+                        Self::usage()
+                    ))
+                }
+            }
+        }
+        let issue = issue.ok_or_else(Self::usage)?;
+        let disposition = disposition.ok_or_else(Self::usage)?;
+        let duplicate_of = duplicate_of;
+        if matches!(disposition, IssueCloseDisposition::Duplicate) && duplicate_of.is_none() {
+            return Err("duplicate close requires --duplicate-of <number>".into());
+        }
+        let rationale = rationale.ok_or_else(Self::usage)?;
+        if rationale.trim().is_empty() {
+            return Err("--rationale must not be empty".into());
+        }
+        let current_body = match (body, body_file) {
+            (Some(body), None) => body,
+            (None, Some(path)) => fs::read_to_string(path)
+                .map_err(|error| format!("failed to read --body-file: {error}"))?,
+            (Some(_), Some(_)) => return Err("use exactly one of --body or --body-file".into()),
+            _ => return Err(Self::usage()),
+        };
+        if current_body.contains("<!-- csdlc-v3-operation:") {
+            return Err("--body must not already contain a native v3 operation marker".into());
+        }
+        Ok(Self {
+            repository: repository.ok_or_else(Self::usage)?,
+            issue,
+            disposition,
+            duplicate_of,
+            rationale,
+            current_body,
+            expected_head: expected_head.ok_or_else(Self::usage)?,
+            credential_name: credential_name.unwrap_or_else(|| "GITHUB_TOKEN".into()),
+            execute,
+        })
+    }
+}
+
+fn parse_positive_u64(flag: &str, value: &str) -> Result<u64, String> {
+    let parsed = value
+        .parse::<u64>()
+        .map_err(|_| format!("{flag} must be a positive issue number"))?;
+    if parsed == 0 {
+        return Err(format!("{flag} must be a positive issue number"));
+    }
+    Ok(parsed)
+}
+
+fn parse_issue_close_disposition(value: &str) -> Result<IssueCloseDisposition, String> {
+    match value {
+        "duplicate" => Ok(IssueCloseDisposition::Duplicate),
+        "superseded" => Ok(IssueCloseDisposition::Superseded),
+        "no-op" | "no_op" => Ok(IssueCloseDisposition::NoOp),
+        _ => Err("--disposition must be duplicate, superseded, or no-op".into()),
     }
 }
 

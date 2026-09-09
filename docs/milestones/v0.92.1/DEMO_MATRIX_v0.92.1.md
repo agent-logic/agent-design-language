@@ -2,11 +2,11 @@
 
 ## Current release disposition
 
-**Release decision: blocked.** This is a reviewable projection of retained delivery and proof at `7ecc70b517ef2f7ee86a6456d8c778daf8c558d3`, observed 2026-09-09. It is a draft pending the substantive #522 remediation refresh required by #767; it grants no release authorization.
+**Release decision: blocked.** This is a reviewable projection of retained delivery and proof at `11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f`, observed 2026-09-09. This completes the documentation refresh required by #767, including landed remediation dispositions; it grants no release authorization.
 
 `implemented` means implementation or a governed delivery disposition exists; `proved` applies only to the explicitly named observed scope. `blocked` identifies outstanding proof, remediation or authorization. `deferred` records an explicit scope deferral; `not_applicable` identifies a requirement outside the governed scope. These states are not interchangeable.
 
-The [evidence map](evidence/release/current-status/EVIDENCE_MAP.md) identifies all 35 execution work packages, existing podcast ownership, exact source revisions, retained proof classifications, current limits and debt owners. [Machine-readable status](evidence/release/current-status/status.json) binds source hashes and pending remediation observations. The full candidate review is owned by #761; retained candidate proof gaps by #764. A blocked proof column does **not** mean implementation failed or that historical accounting is incomplete.
+The [evidence map](evidence/release/current-status/EVIDENCE_MAP.md) identifies all 35 execution work packages, existing podcast ownership, exact source revisions, retained proof classifications, current limits and debt owners. [Machine-readable status](evidence/release/current-status/status.json) binds source hashes and a timestamped issue observation. The final #767 refresh is recorded by #799. Closed #761 delivered complete path classification and sampled-review support; closed #764 delivered a denominator and routing proposal, not proof completion. Its 198 remediation rows remain unproved, alongside 29 preserved dispositions and three separately accounted review-freshness resolutions. Remaining candidate review and proof are owned by open #522 and the named open child issues; no unissued child work is treated as complete. A blocked proof column does **not** mean implementation failed or that historical accounting is incomplete.
 
 <!-- release-status:start -->
 | Lane ID | Lane | Delivery | Proof | Demo | Release | Evidence |

@@ -157,7 +157,7 @@ These rules are mandatory for ADL issue work.
 3. Always work in a bound worktree on a specific branch.
    - Never do tracked issue work on `main`.
    - Every new ADL issue worktree must be created beneath
-     `/Volumes/FastWork/adl-worktrees`. The typed v3 bind path enforces the
+     the approved FastWork ADL worktree root. The typed v3 bind path enforces the
      tracked `.adl/worktree-policy.json` contract and fails closed for any
      other parent.
    - Use the native v3 `csdlc bind` flow to bind execution context.

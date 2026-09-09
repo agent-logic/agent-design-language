@@ -39,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - GitHub source observation is a snapshot; implementation session refreshed it after source merge.
-- Redaction screens this publication packet, not every referenced historical artifact.
-- Retained 791-document/14-artifact/nine-negative proof reused after confirming byte-identical inputs; no merge, tag, release or closure authorized.
+- Redaction now screens this publication packet and every manifest-referenced document byte stream, while remaining a finite pattern gate rather than a universal privacy proof.
+- Retained 791-document/14-artifact proof must be refreshed after manifest hash updates; no merge, tag, release or closure authorized.
 
 ## Review Result
 

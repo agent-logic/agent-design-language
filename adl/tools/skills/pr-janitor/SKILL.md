@@ -26,8 +26,8 @@ Prefer a stronger model for this skill. In this environment, default to `gpt-5.4
 This skill should track the repository's canonical PR tooling docs.
 
 At the moment, the canonical repo docs are:
-- `/Users/daniel/git/agent-design-language/docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_FEATURE.md`
-- `/Users/daniel/git/agent-design-language/docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_ARCHITECTURE.md`
+- `docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_FEATURE.md`
+- `docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_ARCHITECTURE.md`
 
 Within this skill bundle, the operational details live in:
 - `references/janitor-playbook.md`
@@ -277,5 +277,5 @@ For stricter ADL execution, also use:
 
 - Playbook: `references/janitor-playbook.md`
 - Output contract: `references/output-contract.md`
-- PR tooling feature doc: `/Users/daniel/git/agent-design-language/docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_FEATURE.md`
-- PR tooling architecture doc: `/Users/daniel/git/agent-design-language/docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_ARCHITECTURE.md`
+- PR tooling feature doc: `docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_FEATURE.md`
+- PR tooling architecture doc: `docs/milestones/v0.87/features/PR_TOOLING_SIMPLIFICATION_ARCHITECTURE.md`

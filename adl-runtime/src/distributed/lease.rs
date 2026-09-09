@@ -919,6 +919,7 @@ impl AuthorityLedger {
     }
 
     #[cfg(test)]
+    #[allow(dead_code)]
     pub(crate) fn seed_lease_for_snapshot_test(
         &mut self,
         lease: LeaseState,
@@ -932,6 +933,7 @@ impl AuthorityLedger {
     }
 
     #[cfg(test)]
+    #[allow(dead_code)]
     pub(crate) fn set_counters_for_test(
         &mut self,
         lineage_id: &[u8],

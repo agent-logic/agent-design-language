@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 770,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+    "slug": "public-spot-ssh-recovery",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "public-ssh-contract",
+          "proof_role": "Deterministic Terraform mocked plan contracts; small local CPU; not a release gate.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "infra/aws/csm-runtime-spot/tests/run_contract.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "authorized-live-recovery",
+          "proof_role": "Paid AWS reachability, application isolation and disposal proof; requires explicit plan approval and selected existing key.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 1200,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "infra/aws/csm-runtime-spot/tests/run_live_proof.sh"
+          ],
+          "parallel_group": "live",
+          "defer_reason": "Live run completed once with operator approval; retained result is verified during finalization instead of creating paid resources again."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing proof, failed validation, missing cloud authorization, or incomplete disposal.",
+      "design_ref": ".csdlc/prepared/issues/770/design.md",
+      "design_digest": "63e11968d11e443f3236358abb34789b2e0cf7afc0b8372534462e30c8f209dd",
+      "diagram_ref": ".csdlc/prepared/issues/770/diagram.mmd",
+      "diagram_digest": "23da22f79df6ac8cbdb6d42373b200b6d8887050c3453b36bca11b43c35e9c4b"
+    }
+  }
+}

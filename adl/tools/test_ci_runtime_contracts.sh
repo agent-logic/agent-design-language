@@ -12,9 +12,22 @@ trap 'rm -rf "$POLICY_FIXTURE_ROOT"' EXIT
 mkdir -p "$POLICY_FIXTURE_ROOT/.github" "$POLICY_FIXTURE_ROOT/adl/tools"
 cp -R "$ROOT_DIR/.github/workflows" "$POLICY_FIXTURE_ROOT/.github/workflows"
 cp "$ROOT_DIR/adl/tools/ci_path_policy.sh" "$POLICY_FIXTURE_ROOT/adl/tools/ci_path_policy.sh"
+cp "$ROOT_DIR/rust-toolchain.toml" "$POLICY_FIXTURE_ROOT/rust-toolchain.toml"
 ruby -e 'path = ARGV.fetch(0); text = File.read(path); File.write(path, text.sub("on:\n", "on:\n  workflow_run:\n"))' "$POLICY_FIXTURE_ROOT/.github/workflows/wp14-native-acip.yml"
 if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
   echo "workflow_run fixture escaped automatic-fanout enforcement" >&2
+  exit 1
+fi
+cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
+ruby -e 'path = ARGV.fetch(0); text = File.read(path); old = %q{toolchain: 1.92.0}; new = %q{toolchain: stable}; abort "pinned rust fixture source missing" unless text.include?(old); File.write(path, text.sub(old, new))' "$POLICY_FIXTURE_ROOT/.github/workflows/ci.yaml"
+if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
+  echo "floating Rust toolchain fixture escaped required-CI enforcement" >&2
+  exit 1
+fi
+cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
+ruby -e 'path = ARGV.fetch(0); text = File.read(path); old = "          toolchain: 1.92.0\n"; abort "pinned rust fixture source missing" unless text.include?(old); File.write(path, text.sub(old, ""))' "$POLICY_FIXTURE_ROOT/.github/workflows/ci.yaml"
+if ruby "$ROOT_DIR/adl/tools/validate_ci_workflow_policy.rb" "$POLICY_FIXTURE_ROOT" >/dev/null 2>&1; then
+  echo "missing Rust toolchain fixture escaped required-CI enforcement" >&2
   exit 1
 fi
 cp -R "$ROOT_DIR/.github/workflows/." "$POLICY_FIXTURE_ROOT/.github/workflows/"
@@ -773,7 +786,7 @@ if len(required_status_names) != 1 or "name: adl-coverage" not in required_statu
 for required_fragment in (
     'hosted_coverage_result="${{ needs.adl_coverage_hosted.outputs.route_result }}"',
     'hosted_coverage_job_result="${{ needs.adl_coverage_hosted.result }}"',
-    'if [ -z "$hosted_coverage_result" ] && [ "$hosted_coverage_job_result" = "skipped" ]; then',
+    'if [ -z "$hosted_coverage_result" ]; then',
     'hosted_coverage_result="$hosted_coverage_job_result"',
     '--hosted-result "coverage=$hosted_coverage_result"',
 ):

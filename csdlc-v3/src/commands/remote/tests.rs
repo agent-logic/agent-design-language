@@ -1251,6 +1251,159 @@ fn issue_create_mutation_posts_and_reconciles_assigned_issue_number() {
     assert_eq!(process.invocations[1].argv()[2], operation_digest);
 }
 
+#[test]
+fn issue_close_mutation_patches_closed_not_planned_and_reconciles() {
+    let root = mutation_repo("issue-close", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueClose {
+            rationale: "accidental duplicate created during retry".into(),
+            current_body: "Original issue body.\n\n## Evidence\nPreserve me.".into(),
+            disposition: super::IssueCloseDisposition::Duplicate,
+            duplicate_of: Some(791),
+            github_state_reason: None,
+        },
+    );
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let body = super::body_with_operation_marker(
+        &super::issue_close_readback_body(
+            "Original issue body.\n\n## Evidence\nPreserve me.",
+            "accidental duplicate created during retry",
+            super::IssueCloseDisposition::Duplicate,
+            Some(791),
+        ),
+        &marker,
+    );
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 505,
+                "number": 505,
+                "state": "closed",
+                "state_reason": "not_planned",
+                "body": body
+            }),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 505,
+                "number": 505,
+                "state": "closed",
+                "state_reason": "not_planned",
+                "body": body
+            }),
+        ),
+    ])
+    .requiring_intent(intent_path);
+
+    let result = super::execute_github_mutation(&root, &request, &mut process)
+        .expect("issue close reconciles closed readback");
+    assert_eq!(result.receipt.issue, 505);
+    assert_eq!(result.reconciliation.issue, 505);
+    assert_eq!(result.reconciliation.remote_object_id, Some(505));
+    assert_eq!(process.invocations.len(), 2);
+    assert_eq!(process.invocations[0].argv()[0], "PATCH");
+    assert_eq!(
+        process.invocations[0].argv()[1],
+        "repos/agent-logic/agent-design-language/issues/505"
+    );
+    assert_eq!(process.invocations[1].argv()[0], "issue");
+}
+
+#[test]
+fn issue_close_restart_reconciles_without_replaying_mutation() {
+    let root = mutation_repo("issue-close-restart", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueClose {
+            rationale: "no-op issue superseded by existing owner".into(),
+            current_body: "Original superseded body.".into(),
+            disposition: super::IssueCloseDisposition::Superseded,
+            duplicate_of: None,
+            github_state_reason: Some(super::IssueCloseStateReason::NotPlanned),
+        },
+    );
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let body = super::body_with_operation_marker(
+        &super::issue_close_readback_body(
+            "Original superseded body.",
+            "no-op issue superseded by existing owner",
+            super::IssueCloseDisposition::Superseded,
+            None,
+        ),
+        &marker,
+    );
+    persist_mutation_intent(&root, &request);
+    let mut restart = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        serde_json::json!({
+            "id": 505,
+            "number": 505,
+            "state": "closed",
+            "state_reason": "not_planned",
+            "body": body
+        }),
+    )]);
+    let result = super::execute_github_mutation(&root, &request, &mut restart)
+        .expect("restart reconciles exact closed issue without mutation replay");
+    assert!(result.receipt.idempotent_replay);
+    assert_eq!(restart.invocations.len(), 1);
+    assert_eq!(restart.invocations[0].argv()[0], "issue");
+}
+
+#[test]
+fn issue_close_rejects_missing_rationale_duplicate_owner_and_completion_reason() {
+    let root = mutation_repo("issue-close-invalid", true);
+    let head = mutation_head(&root);
+    for mutation in [
+        super::GithubMutation::IssueClose {
+            rationale: " ".into(),
+            current_body: "Original.".into(),
+            disposition: super::IssueCloseDisposition::NoOp,
+            duplicate_of: None,
+            github_state_reason: None,
+        },
+        super::GithubMutation::IssueClose {
+            rationale: "duplicate but no owner".into(),
+            current_body: "Original.".into(),
+            disposition: super::IssueCloseDisposition::Duplicate,
+            duplicate_of: None,
+            github_state_reason: None,
+        },
+        super::GithubMutation::IssueClose {
+            rationale: "would look like implementation completion".into(),
+            current_body: "Original.".into(),
+            disposition: super::IssueCloseDisposition::Superseded,
+            duplicate_of: None,
+            github_state_reason: Some(super::IssueCloseStateReason::Completed),
+        },
+        super::GithubMutation::IssueClose {
+            rationale: "already marked".into(),
+            current_body: "Original.\n\n<!-- csdlc-v3-operation:abc -->".into(),
+            disposition: super::IssueCloseDisposition::NoOp,
+            duplicate_of: None,
+            github_state_reason: None,
+        },
+    ] {
+        let request = mutation_request(&head, mutation);
+        let digest = super::github_mutation_operation_digest(&request);
+        let intent = super::github_mutation_intent_path(&root, &digest).unwrap();
+        let mut process = SequencedProcessAdapter::new(vec![]);
+        let error = super::execute_github_mutation(&root, &request, &mut process).unwrap_err();
+        assert_eq!(error.code, "github_issue_close_invalid");
+        assert!(!intent.exists());
+        assert!(process.invocations.is_empty());
+    }
+}
+
 // PVF: deterministic local CPU/Git contract; fake transport; no live mutation.
 #[test]
 fn invalid_pr_branch_is_rejected_before_intent_or_dispatch() {

@@ -138,6 +138,6 @@ Within this skill bundle, the operational details live in:
 - `references/output-contract.md`
 
 The operator-facing invocation contract lives in:
-- `/Users/daniel/git/agent-design-language/adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
+- `adl/tools/skills/docs/ARXIV_PAPER_WRITER_SKILL_INPUT_SCHEMA.md`
 
 Prefer the tracked repo copies of these docs over memory when the bundle evolves.

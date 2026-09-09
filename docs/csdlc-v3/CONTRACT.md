@@ -109,7 +109,7 @@ A routine three-issue sprint must be mechanically prepared and made ready in
 three minutes or less, not hours. Hand-authored lifecycle JSON and repeated
 digest choreography are not acceptable as the default operator experience.
 
-## Simple issue creation
+## Simple issue operations
 
 For ordinary issue creation, use the GitHub-like form:
 
@@ -142,6 +142,31 @@ The request-file form remains the advanced and audit-oriented interface:
 ```sh
 csdlc github-issue --request issue-create-dispatch.json --execute
 ```
+
+For explicit duplicate, superseded, or no-op issue closure, use:
+
+```sh
+csdlc github-issue close \
+  --repo agent-logic/agent-design-language \
+  --issue 792 \
+  --disposition duplicate \
+  --duplicate-of 791 \
+  --rationale "accidental retry duplicate of #791" \
+  --body-file issue-792-current-body.md \
+  --expected-head <exact-reviewed-40-hex-sha> \
+  --execute
+```
+
+`--disposition` accepts `duplicate`, `superseded`, or `no-op`. Duplicate
+closure requires `--duplicate-of`; all closure requires a non-empty rationale.
+`--body` or `--body-file` must provide the authenticated current issue body so
+the route can append close truth without clobbering existing issue provenance.
+The typed close route patches the issue to GitHub `state=closed` with
+`state_reason=not_planned`, appends the C-SDLC operation marker and close
+section to the issue body, and then authenticates readback of the same closed
+issue before recording a durable receipt. It intentionally rejects `completed`
+state reasons so this route cannot masquerade as implementation completion;
+merged implementation finish remains owned by the `finish` route.
 
 ## Rollback and fail-closed behavior
 

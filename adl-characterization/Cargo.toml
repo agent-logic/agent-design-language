@@ -2,6 +2,7 @@
 name = "adl-characterization"
 version = "0.92.0"
 edition = "2021"
+rust-version = "1.92"
 license = "MIT OR Apache-2.0"
 description = "Independent black-box characterization harness for pinned ADL v1 behavior"
 

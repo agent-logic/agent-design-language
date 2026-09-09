@@ -6,6 +6,7 @@
   "source_issue": 518,
   "source_pr": 753,
   "source_head": "4db787bd9e14f42411435e9bbc3c57af6fa5664b",
+  "redaction_source_head": "ed5b159f2bfa89c9a9266a8d59435047b145e9f1",
   "reviewed_source_head": "13d6afcee7e4f0050491b8c740547fdb9dac5f3d",
   "review_index": {
     "path": ".csdlc/issues/518/index.json",

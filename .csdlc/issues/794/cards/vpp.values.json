@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 794,
+  "issue_padded": "0794",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/794",
+  "title": "[v0.92.2][tooling] Add native typed duplicate and no-op issue closure",
+  "branch": "codex/794-native-typed-issue-close",
+  "version": "1.0.4",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-794-native-typed-issue-close",
+  "slug": "native-typed-issue-close",
+  "status": "implemented_pending_review",
+  "planned_pvf_lane": "csdlc-v3-github-issue-close-fake-adapter-and-cli",
+  "validation_runtime_class": "local deterministic Rust tests and docs diff hygiene",
+  "validation_resource_profile": "local CPU; fake GitHub adapters only; no live GitHub mutation required for focused proof",
+  "validation_family": "native v3 GitHub issue mutation routing",
+  "validation_size_split": "focused",
+  "selected_lanes_inline": "issue_close filtered tests; operational_cli_commands integration; commands::remote::tests; command_manifest; git diff --check",
+  "validation_commands_inline": "`cargo fmt --manifest-path csdlc-v3/Cargo.toml`; `cargo test --manifest-path csdlc-v3/Cargo.toml issue_close -- --nocapture`; `cargo test --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands -- --nocapture`; `cargo test --manifest-path csdlc-v3/Cargo.toml commands::remote::tests -- --nocapture`; `cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest -- --nocapture`; `cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings`; native validate/doctor; `git diff --check`",
+  "failure_policy": "Fail on any route-family mismatch, unsafe close classification, missing authenticated readback, replay mutation, CLI/request divergence, or undocumented operator surface."
+}

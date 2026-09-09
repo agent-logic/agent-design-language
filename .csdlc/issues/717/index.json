@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 717,
+  "phase": "bound",
+  "generation": 6,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/717-polis-capability-orientation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-717-polis-capability-orientation",
+  "template_registry_version": "1.0.4",
+  "operational_authority": true,
+  "digest": "3ccaa8c837476050031c114592dcd93aa928d3b4e9ab4f02100447e9c433a168"
+}
