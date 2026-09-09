@@ -1324,6 +1324,121 @@ fn operational_local_authority_rejects_state_root_symlink_escape() {
     assert_eq!(findings[0].code, "state_root_outside_repository");
 }
 
+// PVF: small deterministic offline tooling contract gate; no provider execution.
+// Snapshot file bytes, including unrelated untracked files; Git metadata is excluded.
+fn primary_tree(root: &Path) -> BTreeMap<PathBuf, Vec<u8>> {
+    fn visit(root: &Path, dir: &Path, out: &mut BTreeMap<PathBuf, Vec<u8>>) {
+        for entry in fs::read_dir(dir).unwrap() {
+            let path = entry.unwrap().path();
+            if path == root.join(".git") {
+                continue;
+            }
+            if path.is_dir() {
+                visit(root, &path, out);
+            } else {
+                out.insert(
+                    path.strip_prefix(root).unwrap().to_path_buf(),
+                    fs::read(path).unwrap(),
+                );
+            }
+        }
+    }
+    let mut files = BTreeMap::new();
+    visit(root, root, &mut files);
+    files
+}
+
+#[cfg(unix)]
+#[test]
+fn metadata_symlinks_cannot_redirect_preparation_into_primary() {
+    for suffix in [
+        "",
+        "issues",
+        "transactions",
+        "transactions/completed",
+        "transactions/completed/503",
+        "locks",
+        "bindings",
+    ] {
+        let (root, _, context, registry) = operational_authority_fixture(
+            &format!("metadata-link-{}", suffix.replace('/', "-")),
+            "v3",
+        );
+        let link = if suffix.is_empty() {
+            context.state_root.clone()
+        } else {
+            context.state_root.join(suffix)
+        };
+        fs::create_dir_all(link.parent().unwrap()).unwrap();
+        std::os::unix::fs::symlink(&root, &link).unwrap();
+        let before = primary_tree(&root);
+        let result = execute_operational_local_route("issue", &request(), &registry, &context);
+        assert!(result.is_err(), "redirect accepted: {suffix}");
+        assert_eq!(primary_tree(&root), before);
+    }
+}
+
+// PVF: small deterministic offline tooling contract gate. A valid edit must
+// reject nested receipt redirection before writing cards, journals or receipts.
+#[cfg(unix)]
+#[test]
+fn edit_rejects_nested_completion_symlinks_before_mutation() {
+    for suffix in ["transactions/completed", "transactions/completed/503"] {
+        let (root, _, mut context, registry) =
+            operational_authority_fixture(&format!("edit-link-{}", suffix.replace('/', "-")), "v3");
+        let mut req = request();
+        let initialized =
+            execute_operational_local_route("issue", &req, &registry, &context).unwrap();
+        req.expected_lifecycle_digest = initialized.digest.clone();
+        context.expected_lifecycle_digest = initialized.digest;
+        req.card_updates.insert(
+            "spp".into(),
+            serde_json::json!({"plan_summary":"must not be applied"}),
+        );
+        let index = fs::read(context.state_root.join("issues/503/index.json")).unwrap();
+        let link = context.state_root.join(suffix);
+        fs::create_dir_all(link.parent().unwrap()).unwrap();
+        std::os::unix::fs::symlink(&root, link).unwrap();
+        let before = primary_tree(&root);
+        let denied =
+            execute_operational_local_route("edit", &req, &registry, &context).unwrap_err();
+        assert_eq!(denied[0].code, "local_storage_symlink_denied");
+        assert_eq!(primary_tree(&root), before);
+        assert_eq!(
+            fs::read(context.state_root.join("issues/503/index.json")).unwrap(),
+            index
+        );
+        assert!(!context.state_root.join("transactions/503.json").exists());
+    }
+}
+
+// PVF: small deterministic offline tooling contract gate; all local routes must
+// preserve legacy evidence and unrelated primary bytes without silent migration.
+#[test]
+fn legacy_primary_state_is_preserved_without_any_route_writes() {
+    for relative in [
+        "issues/503/index.json",
+        "prepared/issues/503/design.md",
+        "transactions/503.json",
+        "transactions/completed/503/edit.json",
+    ] {
+        let (root, _, context, registry) =
+            operational_authority_fixture(&format!("legacy-{}", relative.replace('/', "-")), "v3");
+        let path = root.join(".csdlc").join(relative);
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(path, "preserve this evidence").unwrap();
+        fs::write(root.join("unrelated.txt"), "other session").unwrap();
+        let before = primary_tree(&root);
+        for route in LOCAL_ROUTE_NAMES {
+            let result = execute_operational_local_route(route, &request(), &registry, &context)
+                .unwrap_err();
+            assert_eq!(result[0].code, "legacy_primary_state_requires_recovery");
+            assert_eq!(primary_tree(&root), before);
+            assert!(!context.state_root.exists());
+        }
+    }
+}
+
 // PVF: deterministic local CPU topology/contract gate; real Git worktree,
 // no network. Proves native bind, not test-side relocation, transfers lifecycle
 // state to the registered issue checkout and denies primary follow-on writes.
@@ -1356,19 +1471,41 @@ fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
     let bound = context.allowed_worktree_parent.join("issue-503");
     req.worktree = bound.to_string_lossy().into_owned();
 
+    fs::write(primary.join("unrelated.txt"), "other session work").unwrap();
+    let before = primary_tree(&primary);
     let initialized = execute_operational_local_route("issue", &req, &registry, &context)
         .expect("initialize authoritative lifecycle state");
     req.expected_lifecycle_digest = initialized.digest.clone();
     context.expected_lifecycle_digest = initialized.digest;
 
-    let primary_status = run_git(&primary, &["status", "--porcelain", "--untracked-files=all"]);
-    assert!(primary_status.is_empty());
-    req.card_updates.insert("spp".into(), serde_json::json!({"plan_summary":"prepare before binding"}));
+    let primary_status = run_git(
+        &primary,
+        &["status", "--porcelain", "--untracked-files=all"],
+    );
+    assert_eq!(primary_tree(&primary), before);
+    req.card_updates.insert(
+        "spp".into(),
+        serde_json::json!({"plan_summary":"prepare before binding"}),
+    );
     let edited = execute_operational_local_route("edit", &req, &registry, &context).unwrap();
     req.expected_lifecycle_digest = edited.digest.clone();
     context.expected_lifecycle_digest = edited.digest;
-    assert_eq!(run_git(&primary, &["status", "--porcelain", "--untracked-files=all"]), primary_status);
-    assert_eq!(context.state_root.join("transactions/completed/503").read_dir().unwrap().count(), 1);
+    assert_eq!(
+        run_git(
+            &primary,
+            &["status", "--porcelain", "--untracked-files=all"]
+        ),
+        primary_status
+    );
+    assert_eq!(
+        context
+            .state_root
+            .join("transactions/completed/503")
+            .read_dir()
+            .unwrap()
+            .count(),
+        1
+    );
     let bound_result = execute_operational_local_route("bind", &req, &registry, &context)
         .expect("native bind transfers lifecycle state");
     req.expected_lifecycle_digest = bound_result.digest.clone();
@@ -1376,17 +1513,46 @@ fn bound_checkout_owns_local_cards_without_primary_checkout_writes() {
 
     assert!(bound.join(".csdlc/issues/503/index.json").is_file());
     assert!(!primary.join(".csdlc/issues/503").exists());
-    assert_eq!(run_git(&primary, &["status", "--porcelain", "--untracked-files=all"]), primary_status);
+    assert_eq!(
+        run_git(
+            &primary,
+            &["status", "--porcelain", "--untracked-files=all"]
+        ),
+        primary_status
+    );
     assert!(!primary.join(".csdlc/transactions").exists());
-    assert_eq!(context.state_root.join("transactions/completed/503").read_dir().unwrap().count(), 1);
+    assert_eq!(
+        context
+            .state_root
+            .join("transactions/completed/503")
+            .read_dir()
+            .unwrap()
+            .count(),
+        1
+    );
 
-    for route in ["edit", "validate"] {
+    for route in ["issue", "edit", "validate"] {
         assert_eq!(
             execute_operational_local_route(route, &req, &registry, &context).unwrap_err()[0].code,
             "issue_already_bound"
         );
     }
 
+    assert_eq!(primary_tree(&primary), before);
+    let mut competing = request();
+    competing.branch = "codex/competing-owner".into();
+    competing.worktree = context
+        .allowed_worktree_parent
+        .join("competing-owner")
+        .to_string_lossy()
+        .into_owned();
+    context.expected_lifecycle_digest = None;
+    assert_eq!(
+        execute_operational_local_route("issue", &competing, &registry, &context).unwrap_err()[0]
+            .code,
+        "issue_already_bound"
+    );
+    context.expected_lifecycle_digest = req.expected_lifecycle_digest.clone();
     context.repository_root = bound.clone();
     context.state_root = bound.join(".csdlc");
     fs::write(bound.join("tracked"), "legitimate implementation dirt\n").unwrap();
@@ -1456,6 +1622,7 @@ fn bind_transaction_recovers_into_bound_checkout_after_restart() {
     let mut req = request();
     let bound = context.allowed_worktree_parent.join("issue-503");
     req.worktree = bound.to_string_lossy().into_owned();
+    let before = primary_tree(&primary);
     let initialized = execute_operational_local_route("issue", &req, &registry, &context)
         .expect("initialize authoritative lifecycle state");
     req.expected_lifecycle_digest = initialized.digest.clone();
@@ -1512,8 +1679,11 @@ fn bind_transaction_recovers_into_bound_checkout_after_restart() {
         String::from_utf8_lossy(&crashed.stderr)
     );
     assert!(!primary.join(".csdlc/issues/503/index.json").exists());
-    assert!(primary.join(".git/csdlc-v3/local/transactions/503.json").is_file());
+    assert!(primary
+        .join(".git/csdlc-v3/local/transactions/503.json")
+        .is_file());
     assert!(!bound.join(".csdlc/issues/503/index.json").exists());
+    assert_eq!(primary_tree(&primary), before);
 
     let recovered = command
         .env_remove("CSDLC_V3_TEST_CRASH_POINT")
@@ -1529,5 +1699,8 @@ fn bind_transaction_recovers_into_bound_checkout_after_restart() {
     assert_eq!(value["result"]["phase"], "bound");
     assert!(bound.join(".csdlc/issues/503/index.json").is_file());
     assert!(!primary.join(".csdlc/issues/503").exists());
-    assert!(!primary.join(".git/csdlc-v3/local/transactions/503.json").exists());
+    assert!(!primary
+        .join(".git/csdlc-v3/local/transactions/503.json")
+        .exists());
+    assert_eq!(primary_tree(&primary), before);
 }

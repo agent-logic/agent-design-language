@@ -238,14 +238,21 @@ pub fn discover_operational_local_context(
 /// Preparation belongs to Git metadata. Only a linked checkout materializes cards.
 pub fn operational_state_root(repository_root: &Path) -> Result<PathBuf, Vec<DoctorFinding>> {
     let git_path = |flag: &str| -> Result<PathBuf, Vec<DoctorFinding>> {
-        let output = Command::new("git").arg("-C").arg(repository_root)
-            .args(["rev-parse", "--path-format=absolute", flag]).output()
+        let output = Command::new("git")
+            .arg("-C")
+            .arg(repository_root)
+            .args(["rev-parse", "--path-format=absolute", flag])
+            .output()
             .map_err(io_finding("git_metadata_unavailable"))?;
         if !output.status.success() {
-            return Err(vec![finding(PlanStatus::Blocked, "git_metadata_unavailable",
-                "native lifecycle storage requires resolved Git metadata")]);
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "git_metadata_unavailable",
+                "native lifecycle storage requires resolved Git metadata",
+            )]);
         }
-        PathBuf::from(String::from_utf8_lossy(&output.stdout).trim()).canonicalize()
+        PathBuf::from(String::from_utf8_lossy(&output.stdout).trim())
+            .canonicalize()
             .map_err(io_finding("git_metadata_unavailable"))
     };
     let git_dir = git_path("--git-dir")?;
@@ -1690,6 +1697,20 @@ fn commit_bind_local_transaction(
         &journal.route,
         &journal.request_digest,
     );
+    for path in [
+        &target_issue_root,
+        &target_stage,
+        &target_backup,
+        &target_completion,
+    ] {
+        if !has_canonical_existing_ancestor(path) {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_storage_symlink_denied",
+                "bind target paths must not redirect writes through symlinks",
+            )]);
+        }
+    }
     if target_backup.exists() {
         return Err(vec![finding(
             PlanStatus::Blocked,
@@ -1750,13 +1771,18 @@ fn commit_bind_local_transaction(
     atomic_write_json(&target_completion, &value)?;
     // Retain the handoff identity outside the working tree so a fresh issue
     // request cannot accidentally recreate preparation after binding.
-    let binding_path = context.state_root.join(format!("bindings/{}.json", journal.issue));
+    let binding_path = context
+        .state_root
+        .join(format!("bindings/{}.json", journal.issue));
     fs::create_dir_all(binding_path.parent().expect("binding parent"))
         .map_err(io_finding("bind_identity_parent_failed"))?;
-    atomic_write_json(&binding_path, &serde_json::json!({
-        "schema": "csdlc.v3.binding.v1", "issue": journal.issue,
-        "branch": journal.bind_branch, "worktree": target
-    }))?;
+    atomic_write_json(
+        &binding_path,
+        &serde_json::json!({
+            "schema": "csdlc.v3.binding.v1", "issue": journal.issue,
+            "branch": journal.bind_branch, "worktree": target
+        }),
+    )?;
     if source_stage.exists() {
         fs::remove_dir_all(&source_stage)
             .map_err(io_finding("local_transaction_stage_cleanup_failed"))?;
@@ -2004,12 +2030,14 @@ fn validate_context(
     let state_root = &context.state_root;
     let expected_state_root = operational_state_root(&repository_root)?;
     let is_primary = expected_state_root != repository_root.join(".csdlc");
-    if state_root != &expected_state_root || state_root.components().any(|component| {
-        matches!(
-            component,
-            std::path::Component::ParentDir | std::path::Component::Prefix(_)
-        )
-    }) || !has_canonical_existing_ancestor(state_root)
+    if state_root != &expected_state_root
+        || state_root.components().any(|component| {
+            matches!(
+                component,
+                std::path::Component::ParentDir | std::path::Component::Prefix(_)
+            )
+        })
+        || !has_canonical_existing_ancestor(state_root)
     {
         return Err(vec![finding(
             PlanStatus::Failed,
@@ -2017,16 +2045,36 @@ fn validate_context(
             "operational state root must match Git metadata preparation or the exact linked checkout",
         )]);
     }
-    for child in ["issues", "transactions", "locks", "bindings"] {
+    for child in [
+        "issues".to_owned(),
+        "transactions".to_owned(),
+        "locks".to_owned(),
+        "bindings".to_owned(),
+        format!("issues/{}", request.issue),
+        format!("transactions/completed/{}", request.issue),
+        format!("transactions/{}.json", request.issue),
+        format!("bindings/{}.json", request.issue),
+    ] {
         if !has_canonical_existing_ancestor(&state_root.join(child)) {
-            return Err(vec![finding(PlanStatus::Blocked, "local_storage_symlink_denied",
-                "lifecycle storage directories must not redirect writes through symlinks")]);
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "local_storage_symlink_denied",
+                "lifecycle storage directories must not redirect writes through symlinks",
+            )]);
         }
     }
     if is_primary {
-        if route != "bind" && state_root.join(format!("bindings/{}.json", request.issue)).symlink_metadata().is_ok() {
-            return Err(vec![finding(PlanStatus::Blocked, "issue_already_bound",
-                "the bound checkout owns this issue; primary preparation and edits are denied")]);
+        if route != "bind"
+            && state_root
+                .join(format!("bindings/{}.json", request.issue))
+                .symlink_metadata()
+                .is_ok()
+        {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "issue_already_bound",
+                "the bound checkout owns this issue; primary preparation and edits are denied",
+            )]);
         }
         for legacy in [
             format!(".csdlc/issues/{}", request.issue),
@@ -2039,9 +2087,18 @@ fn validate_context(
                     "preserve legacy primary state into a reviewed recovery location before metadata-backed preparation; no automatic migration is permitted")]);
             }
         }
-        if route == "issue" && git_worktree_registration(&repository_root, &request.branch, Path::new(&request.worktree))? {
-            return Err(vec![finding(PlanStatus::Blocked, "issue_already_bound",
-                "an existing bound checkout owns this issue; initialization on primary is denied")]);
+        if route == "issue"
+            && git_worktree_registration(
+                &repository_root,
+                &request.branch,
+                Path::new(&request.worktree),
+            )?
+        {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "issue_already_bound",
+                "an existing bound checkout owns this issue; initialization on primary is denied",
+            )]);
         }
     } else {
         let binding_paths = [state_root.join(format!("issues/{}/index.json", request.issue))];
@@ -2441,9 +2498,13 @@ fn has_canonical_existing_ancestor(path: &Path) -> bool {
     let mut cursor = path;
     loop {
         if cursor.symlink_metadata().is_ok() {
-            return cursor.canonicalize().is_ok_and(|canonical| canonical == cursor);
+            return cursor
+                .canonicalize()
+                .is_ok_and(|canonical| canonical == cursor);
         }
-        let Some(parent) = cursor.parent() else { return false; };
+        let Some(parent) = cursor.parent() else {
+            return false;
+        };
         cursor = parent;
     }
 }

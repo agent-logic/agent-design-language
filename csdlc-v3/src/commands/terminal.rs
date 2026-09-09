@@ -847,10 +847,18 @@ fn persist_terminal_finish(
             "only a verified terminal closeout may be persisted",
         ));
     };
-    let local_root = super::local::operational_state_root(&repository_root)
-        .map_err(|_| finding("git_metadata_unavailable", "terminal persistence requires resolved Git topology"))?;
+    let local_root = super::local::operational_state_root(&repository_root).map_err(|_| {
+        finding(
+            "git_metadata_unavailable",
+            "terminal persistence requires resolved Git topology",
+        )
+    })?;
     let primary = local_root != repository_root.join(".csdlc");
-    let output_root = if primary { local_root } else { repository_root.join(".csdlc") };
+    let output_root = if primary {
+        local_root
+    } else {
+        repository_root.join(".csdlc")
+    };
     let state_path = repository_root.join(&write_request.state_path);
     let receipt_path = repository_root.join(&write_request.receipt_path);
     if state_path != output_root.join(format!("v3/issues/{issue}/terminal.json"))
@@ -862,8 +870,13 @@ fn persist_terminal_finish(
         ));
     }
     let boundary = if primary {
-        output_root.parent().and_then(Path::parent).expect("Git metadata parent")
-    } else { &repository_root };
+        output_root
+            .parent()
+            .and_then(Path::parent)
+            .expect("Git metadata parent")
+    } else {
+        &repository_root
+    };
     ensure_output_parent_inside_repo(boundary, &state_path, "terminal_state")?;
     ensure_output_parent_inside_repo(boundary, &receipt_path, "terminal_receipt")?;
     let state_bytes = serde_json::to_vec_pretty(&serde_json::json!({
