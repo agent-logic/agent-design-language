@@ -1,6 +1,6 @@
 {
   "schema": "adl.v3f.detached_suite.v1",
-  "source_sha": "cb78cbb983fc7029997ec9bb76ab541f4ccf85b8",
+  "source_sha": "c0a9edef5b2d8d755d4b56d1b5456058b13db1d9",
   "argv": [
     "cargo",
     "test",
@@ -8,18 +8,18 @@
     "--manifest-path",
     "csdlc-v3/Cargo.toml"
   ],
-  "started_at": "2026-09-09T22:31:31Z",
-  "duration_seconds": 40.19,
+  "started_at": "2026-09-09T22:39:36Z",
+  "duration_seconds": 41.29,
   "exit_code": 0,
   "passed": 211,
   "failed": 0,
   "detached": true,
   "clean_before": true,
   "clean_after": true,
-  "head_after": "cb78cbb983fc7029997ec9bb76ab541f4ccf85b8",
+  "head_after": "c0a9edef5b2d8d755d4b56d1b5456058b13db1d9",
   "external_target": true,
   "log": "suite.log",
-  "log_sha256": "7b6297998576ac7e70bd27c794b5c6b20c707e0433ce95df003c8400ac5b61ee",
+  "log_sha256": "5e044581e2775953a09dd10cdaf2a65a24fe5e2fe3d46f5e06065967d37221b5",
   "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
   "checkout_method": "Clean detached linked proof checkout beneath the bound FastWork issue worktree, with an external Cargo target beneath the approved FastWork root; identical source bytes and unmodified test command."
 }

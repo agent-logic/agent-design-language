@@ -1,9 +1,9 @@
 {
   "schema": "adl.v3f.review_assignment.v1",
-  "source_sha": "cb78cbb983fc7029997ec9bb76ab541f4ccf85b8",
-  "assigned_at": "2026-09-09T22:21:02Z",
-  "assigned_by": "codex:/root/fix_815_cloud_auth",
-  "reviewer": "codex:/root/fix_815_cloud_auth/review_817_v3f",
+  "source_sha": "c0a9edef5b2d8d755d4b56d1b5456058b13db1d9",
+  "assigned_at": "2026-09-09T22:38:00Z",
+  "assigned_by": "codex:/root",
+  "reviewer": "codex:/root/fix_816_validation",
   "boundary": "Independent semantic review of every exact-source blob in the complete V3-F denominator. Assess current native lifecycle authority, historical #179/#180 mapping, rollback and cleanup safety, prompt/template parity, retained #505 evidence truth, and all four frozen V3-F criteria. No release authorization is implied.",
   "criteria": [
     "V3-F-ac-1",
@@ -182,7 +182,7 @@
     "docs/templates/prompts/1.0.5/srp.md": "10e88838941017bdf1c3477aaab13480bbdb84ab",
     "docs/templates/prompts/1.0.5/stp.md": "6369ace2ecc55a85bd39031f021bbe3f6624ca82",
     "docs/templates/prompts/1.0.5/vpp.md": "6d8d9a0341355c01218ecb1ab74f085305af963e",
-    "docs/templates/prompts/README.md": "82a0504e7442d950a6e9092c67d412562f2fce1a",
+    "docs/templates/prompts/README.md": "a50c476780a8ed3dc6575c983b9a1f36a53c3ebd",
     "docs/templates/prompts/current.json": "3dd3ce091ec9fdb2ab5adf7eac7611086aad948f"
   }
 }
