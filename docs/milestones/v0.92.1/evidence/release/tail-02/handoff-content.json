@@ -53,7 +53,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "8d8bdbf069454341a8497bcce1a861ed5d27974cc4a6ce21a00063f6ef7e434e"
+      "sha256": "20857ad385082459505291f1b20e80c59ddd829fcb3c337ada8f206f523d99ff"
     },
     {
       "path": "CHANGELOG.md",
@@ -477,7 +477,7 @@
     },
     {
       "path": "csdlc-v3/README.md",
-      "sha256": "e46e10108675ef6081ea5e14deb949b9478d7b3dea3c5d8ac1cc64b93e5d2dd6"
+      "sha256": "271fe5fb9cf1a11fefcd2f4eb72b8785db69a103a69ef78eedb82b3915e905b6"
     },
     {
       "path": "demos/README.md",
@@ -3069,7 +3069,7 @@
     },
     {
       "path": "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
-      "sha256": "76128a72cebb883bdaa76bdc7e6f17d290916b3cad3ccd44b3388e08dd96823a"
+      "sha256": "6432c01643774bc6b8f72dcd05a785e90cf757ef2f364c027920866be9099311"
     },
     {
       "path": "docs/tooling/editor/README.md",
