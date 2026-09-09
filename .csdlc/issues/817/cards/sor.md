@@ -21,19 +21,19 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-06.12][release] Refresh candidate proof and canonical release truth
 Branch: codex/817-release-truth-refresh
 Card Status: ready
-Status: READY
+Status: IN_PROGRESS
 Generated: 2026-09-09T22:00:00Z
 
 Execution:
 - Actor: `codex`
 - Model: `not_collected`
 - Provider: `OpenAI`
-- Start Time: `not_started`
+- Start Time: `2026-09-09T22:00:00Z`
 - End Time: `not_finished`
 
 ## Summary
 
-Implementation has not started.
+Repaired six release-truth defects: exact-candidate V3-F inputs, live canonical status, #519 terminal projection, fourteen corrupt ownership links, eighteen YAML-disguised GCP-E JSON readbacks, and four empty failure artifacts.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs_only`
@@ -57,7 +57,7 @@ Implementation has not started.
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `pre_execution`
+- Completion state: `implementation_validated_pending_publication`
 - Issue goal ref: `Issue #817 session goal pending bind`
 - Sprint goal ref: `Parent #522`
 - Goal metrics rollup ref: `not_collected`
@@ -75,24 +75,24 @@ Implementation has not started.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/817/cards/sor.md`
-- Tracked implementation artifacts: `none`
-- Additional proof artifacts: `none`
+- Tracked implementation artifacts: `Release current-status projections and refresher; V3-F current packet; feature coverage ownership links; GCP-E retained JSON; #519 terminal projection; issue #817 focused validator.`
+- Additional proof artifacts: `V3-F detached locked suite log and receipt; release-truth positive and three negative cases; current-status positive and nine negative cases.`
 
 ## Actions taken
-- `Prepared issue-specific lifecycle cards.`
-- `Implementation pending.`
-- `Validation and review pending.`
+- `Regenerated canonical status from exact Git bytes and read-only live issue truth; added candidate-aware validation and repaired ownership links.`
+- `Normalized eighteen retained GCP-E readbacks to JSON and replaced four zero-byte files with truthful structured failure envelopes.`
+- `Recorded #519 terminal projection without rewriting historical cards; refreshed V3-F source scope and detached locked suite; resolved two independent README review findings.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none`
-- Worktree-only paths remaining: `none before bind`
+- Main-repo paths updated: `none; work remains on issue branch pending review and publication`
+- Worktree-only paths remaining: `all issue #817 changes`
 - Integration state: `worktree_only`
-- Verification scope: `pre_execution`
-- Integration method used: `not_started`
+- Verification scope: `All six assigned #520 findings with positive and negative deterministic proof; exact-source V3-F full locked suite; no paid cloud rerun.`
+- Integration method used: `pending native publication`
 - Verification performed:
   - `not_run`
-    `not_run`
-- Result: `not_started`
+    `deferred until hosted CI`
+- Result: `pending publication`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `not_run`
+  - `python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; clean detached cargo test --locked --manifest-path csdlc-v3/Cargo.toml; native card validation; JSON parse sweep; git diff --check`
+    `Proves exact release projections, malformed-link rejection, parseable retained JSON, truthful failure envelopes, immutable #519 historical cards, and current V3-F behavior at the exact source candidate.`
 - Results:
-  - `not_run`
+  - `PASS for release-truth positive and 3 negatives, current-status positive and 9 negatives, JSON integrity, diff hygiene, and detached locked C-SDLC v3 suite with 211 passed and 0 failed; final V3-F review receipt still pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

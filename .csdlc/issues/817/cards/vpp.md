@@ -39,9 +39,9 @@ selected_lanes:
 parallel_groups:
   - "Candidate/status and link/JSON proof may run independently after repairs."
 validation_commands:
-  - "Focused repository validators, negative fixture, JSON parser, native validate, git diff --check."
+  - "python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; cargo test --locked --manifest-path csdlc-v3/Cargo.toml in a clean detached exact-source checkout; parse all repaired GCP-E JSON; native six-card validation; git diff --check"
 failure_policy: "Any stale candidate, corrupt link, malformed or empty JSON, or failed exact mapping blocks publication."
-notes: "No missing proof may be classified as pass."
+notes: "V3-F acceptance remains pending until the final exact-source substantive review receipt and mapping validator pass; no paid cloud proof was rerun."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -86,7 +86,7 @@ Prove all six findings with existing focused lanes plus new corruption/format ne
 
 ## Validation Commands
 
-- Focused repository validators, negative fixture, JSON parser, native validate, git diff --check.
+- python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; cargo test --locked --manifest-path csdlc-v3/Cargo.toml in a clean detached exact-source checkout; parse all repaired GCP-E JSON; native six-card validation; git diff --check
 
 ## Failure Semantics
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-No missing proof may be classified as pass.
+V3-F acceptance remains pending until the final exact-source substantive review receipt and mapping validator pass; no paid cloud proof was rerun.

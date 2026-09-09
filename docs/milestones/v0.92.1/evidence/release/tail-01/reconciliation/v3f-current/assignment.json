@@ -1,6 +1,6 @@
 {
   "schema": "adl.v3f.review_assignment.v1",
-  "source_sha": "65f6ef400d001ec46b11528945c0f3183136645d",
+  "source_sha": "cb78cbb983fc7029997ec9bb76ab541f4ccf85b8",
   "assigned_at": "2026-09-09T22:21:02Z",
   "assigned_by": "codex:/root/fix_815_cloud_auth",
   "reviewer": "codex:/root/fix_815_cloud_auth/review_817_v3f",
@@ -182,7 +182,7 @@
     "docs/templates/prompts/1.0.5/srp.md": "10e88838941017bdf1c3477aaab13480bbdb84ab",
     "docs/templates/prompts/1.0.5/stp.md": "6369ace2ecc55a85bd39031f021bbe3f6624ca82",
     "docs/templates/prompts/1.0.5/vpp.md": "6d8d9a0341355c01218ecb1ab74f085305af963e",
-    "docs/templates/prompts/README.md": "0e048d52312cbc3dfd05ed90fff6ca8a4cb3676c",
+    "docs/templates/prompts/README.md": "82a0504e7442d950a6e9092c67d412562f2fce1a",
     "docs/templates/prompts/current.json": "3dd3ce091ec9fdb2ab5adf7eac7611086aad948f"
   }
 }

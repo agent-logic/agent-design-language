@@ -1,6 +1,6 @@
 {
   "schema": "adl.v3f.detached_suite.v1",
-  "source_sha": "65f6ef400d001ec46b11528945c0f3183136645d",
+  "source_sha": "cb78cbb983fc7029997ec9bb76ab541f4ccf85b8",
   "argv": [
     "cargo",
     "test",
@@ -8,16 +8,18 @@
     "--manifest-path",
     "csdlc-v3/Cargo.toml"
   ],
+  "started_at": "2026-09-09T22:31:31Z",
+  "duration_seconds": 40.19,
   "exit_code": 0,
   "passed": 211,
   "failed": 0,
   "detached": true,
   "clean_before": true,
   "clean_after": true,
-  "head_after": "65f6ef400d001ec46b11528945c0f3183136645d",
+  "head_after": "cb78cbb983fc7029997ec9bb76ab541f4ccf85b8",
   "external_target": true,
   "log": "suite.log",
-  "log_sha256": "5da1eef938e263b7512be5ef14b748bcee387958c27be815312ac1a40b96505e",
+  "log_sha256": "7b6297998576ac7e70bd27c794b5c6b20c707e0433ce95df003c8400ac5b61ee",
   "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
-  "checkout_method": "Clean detached linked proof checkout beneath the bound FastWork issue worktree, with an external Cargo target beneath the approved FastWork root; identical source bytes and unmodified test command. Wall-clock timing was not recorded and is not claimed."
+  "checkout_method": "Clean detached linked proof checkout beneath the bound FastWork issue worktree, with an external Cargo target beneath the approved FastWork root; identical source bytes and unmodified test command."
 }
