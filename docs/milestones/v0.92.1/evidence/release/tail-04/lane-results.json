@@ -1,0 +1,112 @@
+{
+  "schema": "adl.v0921.internal_review_lane_results.v1",
+  "results": [
+    {
+      "assignment_id": "LANE-ARCHITECTURE",
+      "lane": "architecture",
+      "outcome": "passed",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
+      "report_sha256": "7072585c2287a173e612e7d9429af4eedfffc95de3565dc6231e386525d8c3fd"
+    },
+    {
+      "assignment_id": "LANE-CODE",
+      "lane": "code",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+      "report_sha256": "710003a167a528475bfee5c4720a965ba009a76b0fed8fbfb84a6b9f6b5684c3"
+    },
+    {
+      "assignment_id": "LANE-DEMOS",
+      "lane": "demos",
+      "outcome": "passed",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+      "report_sha256": "18dbaa51b165bb65acf401e6f751272cb62cc919ef5671a9f47afed42997c3e2"
+    },
+    {
+      "assignment_id": "LANE-DEPENDENCY",
+      "lane": "dependency",
+      "outcome": "passed",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+      "report_sha256": "be89fdc22627ba29401a86425af5373d0e994998f073ede9aa810b7aed0b7f8c"
+    },
+    {
+      "assignment_id": "LANE-DOCUMENTATION",
+      "lane": "documentation",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+      "report_sha256": "d995201b433f4a4218014f31c61e3215f0719b02296254b567ef1eb6a2b9be15"
+    },
+    {
+      "assignment_id": "LANE-PROVIDER-CLOUD",
+      "lane": "provider_cloud",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+      "report_sha256": "a44b189ddacf64f107a52f76a62dc9f22f2b5fe396c7d13e87bdb7906b89560d"
+    },
+    {
+      "assignment_id": "LANE-RETAINED-EVIDENCE",
+      "lane": "retained_evidence",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+      "report_sha256": "b240cb6ff099d3b49fadff0cea7ead5ade18e4da6c20a099e82cb6800ba4bb16"
+    },
+    {
+      "assignment_id": "LANE-SECURITY",
+      "lane": "security",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+      "report_sha256": "0e1b11bea6b5779f562f60c940b2a34d5c3c0f5c1caade1cbbcc47a9762626b2"
+    },
+    {
+      "assignment_id": "LANE-TESTS",
+      "lane": "tests",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "multi-agent internal review specialist",
+      "evidence": "One evidenced observation per assigned denominator reference; semantic findings preserved in the raw lane union.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+      "report_sha256": "05494c0a47213626087cf2935387813b67618ed013b0bdf7c4300cad33f98e32",
+      "test_invocation": {
+        "argv": [
+          "bash",
+          "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh"
+        ],
+        "working_directory": ".",
+        "command_artifacts": [
+          {
+            "path": "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh",
+            "sha256": "4b6372e44b382751933c4de68c9dfaf863db4c51878b0eaf6e247f607e61218f"
+          }
+        ],
+        "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "exit_status": 0,
+        "stdout": "xcl-01 governed validation passed: --lane=all\n",
+        "stdout_sha256": "a9bb6b14dcdcfd18c4791481120c6677e295599f23c967a6b765882980174989"
+      }
+    }
+  ]
+}

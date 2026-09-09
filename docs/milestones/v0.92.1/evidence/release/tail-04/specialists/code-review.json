@@ -1,0 +1,4854 @@
+{
+  "schema": "adl.v0921.internal_review_lane.v1",
+  "lane": "code",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "denominator_refs": [
+    "FILE-00111",
+    "FILE-00522",
+    "FILE-00668",
+    "FILE-00675",
+    "FILE-00699",
+    "FILE-00724",
+    "FILE-00908",
+    "FILE-00915",
+    "FILE-00925",
+    "FILE-02987",
+    "FILE-02988",
+    "FILE-02989",
+    "FILE-02998",
+    "FILE-03003",
+    "FILE-03004",
+    "FILE-03011",
+    "FILE-03012",
+    "FILE-03013",
+    "FILE-03025",
+    "FILE-03028",
+    "FILE-03029",
+    "FILE-03030",
+    "FILE-03031",
+    "FILE-03037",
+    "FILE-03038",
+    "FILE-03048",
+    "FILE-03060",
+    "FILE-03124",
+    "FILE-03148",
+    "FILE-03149",
+    "FILE-03150",
+    "FILE-03151",
+    "FILE-03160",
+    "FILE-03161",
+    "FILE-03162",
+    "FILE-03163",
+    "FILE-03164",
+    "FILE-03165",
+    "FILE-03189",
+    "FILE-03237",
+    "FILE-03296",
+    "FILE-03297",
+    "FILE-03298",
+    "FILE-03299",
+    "FILE-03300",
+    "FILE-03373",
+    "FILE-03376",
+    "FILE-03377",
+    "FILE-03380",
+    "FILE-03381",
+    "FILE-03388",
+    "FILE-03389",
+    "FILE-03390",
+    "FILE-03391",
+    "FILE-03392",
+    "FILE-03399",
+    "FILE-03400",
+    "FILE-03401",
+    "FILE-03402",
+    "FILE-03414",
+    "FILE-03415",
+    "FILE-03416",
+    "FILE-03432",
+    "FILE-03433",
+    "FILE-03435",
+    "FILE-03484",
+    "FILE-03487",
+    "FILE-03488",
+    "FILE-03490",
+    "FILE-03492",
+    "FILE-03493",
+    "FILE-03494",
+    "FILE-03503",
+    "FILE-03504",
+    "FILE-03544",
+    "FILE-03545",
+    "FILE-03548",
+    "FILE-03551",
+    "FILE-03582",
+    "FILE-03583",
+    "FILE-03593",
+    "FILE-03594",
+    "FILE-03595",
+    "FILE-03650",
+    "FILE-03651",
+    "FILE-03657",
+    "FILE-03658",
+    "FILE-03661",
+    "FILE-03662",
+    "FILE-03704",
+    "FILE-03705",
+    "FILE-03710",
+    "FILE-03719",
+    "FILE-03738",
+    "FILE-03763",
+    "FILE-03764",
+    "FILE-03765",
+    "FILE-03766",
+    "FILE-03791",
+    "FILE-03793",
+    "FILE-03820",
+    "FILE-03829",
+    "FILE-03830",
+    "FILE-03840",
+    "FILE-03867",
+    "FILE-03897",
+    "FILE-03902",
+    "FILE-03923",
+    "FILE-03924",
+    "FILE-03927",
+    "FILE-03930",
+    "FILE-03935",
+    "FILE-03947",
+    "FILE-03957",
+    "FILE-03969",
+    "FILE-03970",
+    "FILE-03971",
+    "FILE-03982",
+    "FILE-03998",
+    "FILE-04030",
+    "FILE-04040",
+    "FILE-04055",
+    "FILE-04071",
+    "FILE-04074",
+    "FILE-04103",
+    "FILE-04104",
+    "FILE-04107",
+    "FILE-04108",
+    "FILE-04117",
+    "FILE-04146",
+    "FILE-04162",
+    "FILE-04163",
+    "FILE-04166",
+    "FILE-04169",
+    "FILE-04241",
+    "FILE-04242",
+    "FILE-04254",
+    "FILE-04276",
+    "FILE-04279",
+    "FILE-04283",
+    "FILE-04295",
+    "FILE-04297",
+    "FILE-04300",
+    "FILE-04365",
+    "FILE-04370",
+    "FILE-04378",
+    "FILE-04498",
+    "FILE-04499",
+    "FILE-04500",
+    "FILE-04501",
+    "FILE-04502",
+    "FILE-04503",
+    "FILE-04504",
+    "FILE-04505",
+    "FILE-04506",
+    "FILE-04507",
+    "FILE-04508",
+    "FILE-04509",
+    "FILE-04510",
+    "FILE-04511",
+    "FILE-04513",
+    "FILE-04514",
+    "FILE-04515",
+    "FILE-04516",
+    "FILE-04517",
+    "FILE-04518",
+    "FILE-04519",
+    "FILE-04534",
+    "FILE-04535",
+    "FILE-04539",
+    "FILE-04540",
+    "FILE-04541",
+    "FILE-04542",
+    "FILE-04543",
+    "FILE-04544",
+    "FILE-04545",
+    "FILE-04546",
+    "FILE-04547",
+    "FILE-04573",
+    "FILE-04574",
+    "FILE-04575",
+    "FILE-04577",
+    "FILE-04578",
+    "FILE-04579",
+    "FILE-04580",
+    "FILE-04581",
+    "FILE-04582",
+    "FILE-04584",
+    "FILE-04585",
+    "FILE-04586",
+    "FILE-04587",
+    "FILE-04588",
+    "FILE-04589",
+    "FILE-04590",
+    "FILE-04601",
+    "FILE-04602",
+    "FILE-04603",
+    "FILE-04604",
+    "FILE-04605",
+    "FILE-04606",
+    "FILE-04607",
+    "FILE-04608",
+    "FILE-04609",
+    "FILE-04610",
+    "FILE-04611",
+    "FILE-04612",
+    "FILE-04613",
+    "FILE-04624",
+    "FILE-04625",
+    "FILE-04626",
+    "FILE-04627",
+    "FILE-04628",
+    "FILE-04630",
+    "FILE-04631",
+    "FILE-04632",
+    "FILE-04633",
+    "FILE-04634",
+    "FILE-04635",
+    "FILE-04636",
+    "FILE-04637",
+    "FILE-04640",
+    "FILE-04643",
+    "FILE-04644",
+    "FILE-04651",
+    "FILE-04652",
+    "FILE-04679",
+    "FILE-04680",
+    "FILE-04681",
+    "FILE-04682",
+    "FILE-04683",
+    "FILE-04684",
+    "FILE-04685",
+    "FILE-04686",
+    "FILE-04704",
+    "FILE-04705",
+    "FILE-04706",
+    "FILE-04707",
+    "FILE-04708",
+    "FILE-04709",
+    "FILE-04710",
+    "FILE-04711",
+    "FILE-04712",
+    "FILE-04713",
+    "FILE-04714",
+    "FILE-04715",
+    "FILE-04716",
+    "FILE-04717",
+    "FILE-04718",
+    "FILE-04719",
+    "FILE-04720",
+    "FILE-04721",
+    "FILE-04722",
+    "FILE-04723",
+    "FILE-04724",
+    "FILE-04725",
+    "FILE-04726",
+    "FILE-04727",
+    "FILE-04754",
+    "FILE-04755",
+    "FILE-04757",
+    "FILE-04758",
+    "FILE-04759",
+    "FILE-04760",
+    "FILE-04761",
+    "FILE-04762",
+    "FILE-04763",
+    "FILE-04764",
+    "FILE-04765",
+    "FILE-04766",
+    "FILE-04767",
+    "FILE-04768",
+    "FILE-04769",
+    "FILE-04770",
+    "FILE-04785",
+    "FILE-05340",
+    "FILE-05359",
+    "FILE-05405",
+    "FILE-05406",
+    "FILE-05745",
+    "FILE-05757",
+    "FILE-05851"
+  ],
+  "observations": [
+    {
+      "ref": "FILE-00111",
+      "evidence": {
+        "subject_id": "FILE-00111",
+        "path": ".csdlc/evidence/497/validate-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b2dfa1cc7a71539443f8cd98de6b30fa5790da9678955a7b57487541be7951b",
+        "locator": {
+          "path": ".csdlc/evidence/497/validate-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00522",
+      "evidence": {
+        "subject_id": "FILE-00522",
+        "path": ".csdlc/evidence/707/live-a2a-client.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "62e8ebf16eb7d291a221f9a10d075efddb270c6da23672e46fe7f71838c4fe66",
+        "locator": {
+          "path": ".csdlc/evidence/707/live-a2a-client.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00668",
+      "evidence": {
+        "subject_id": "FILE-00668",
+        "path": ".csdlc/evidence/731/remediation-guards/mock-workload-create-failure/deadline-reaper.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "698b8bb262aba02272cc53075ded0cfc5b1d9415203f5af1ee620b14afd55993",
+        "locator": {
+          "path": ".csdlc/evidence/731/remediation-guards/mock-workload-create-failure/deadline-reaper.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00675",
+      "evidence": {
+        "subject_id": "FILE-00675",
+        "path": ".csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/deadline-reaper.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "698b8bb262aba02272cc53075ded0cfc5b1d9415203f5af1ee620b14afd55993",
+        "locator": {
+          "path": ".csdlc/evidence/731/remediation-guards/mock-workload-storage-residue/deadline-reaper.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00699",
+      "evidence": {
+        "subject_id": "FILE-00699",
+        "path": ".csdlc/evidence/731/remediation-guards/mock-workload-success/deadline-reaper.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "698b8bb262aba02272cc53075ded0cfc5b1d9415203f5af1ee620b14afd55993",
+        "locator": {
+          "path": ".csdlc/evidence/731/remediation-guards/mock-workload-success/deadline-reaper.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00724",
+      "evidence": {
+        "subject_id": "FILE-00724",
+        "path": ".csdlc/evidence/731/remediation-guards/mock-workload/deadline-reaper.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "698b8bb262aba02272cc53075ded0cfc5b1d9415203f5af1ee620b14afd55993",
+        "locator": {
+          "path": ".csdlc/evidence/731/remediation-guards/mock-workload/deadline-reaper.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00908",
+      "evidence": {
+        "subject_id": "FILE-00908",
+        "path": ".csdlc/evidence/771/generate-template-set.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "aed6196d9b3b5bea79066cd55fa241f9c60b643f6a7f1a43fd429688a75c3766",
+        "locator": {
+          "path": ".csdlc/evidence/771/generate-template-set.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00915",
+      "evidence": {
+        "subject_id": "FILE-00915",
+        "path": ".csdlc/evidence/771/pagination-defect.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8ce2ba87d222f07fb5e1942d483f394156d448ce0ecc3381e9fbb32edac40dbc",
+        "locator": {
+          "path": ".csdlc/evidence/771/pagination-defect.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-00925",
+      "evidence": {
+        "subject_id": "FILE-00925",
+        "path": ".csdlc/evidence/771/terminal-conflict-repro.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8cec418b8c9d573b2adcac3dcb7caab81350f2e55bc20af364ba26f7b11cd9fe",
+        "locator": {
+          "path": ".csdlc/evidence/771/terminal-conflict-repro.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-02987",
+      "evidence": {
+        "subject_id": "FILE-02987",
+        "path": ".csdlc/prepared/issues/262/record-live-production-proof.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c6215812beaa7304251fc722f08bfb9956834d6d02e1f09c3f7dd9cef0e656c9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/262/record-live-production-proof.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-02988",
+      "evidence": {
+        "subject_id": "FILE-02988",
+        "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "44ae40aad7b6ceabdbc62fefcd83043087f21d210778707302909ca6f04a5392",
+        "locator": {
+          "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-02989",
+      "evidence": {
+        "subject_id": "FILE-02989",
+        "path": ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "109e1abe949efe32a93d880c95f25e451eb13d221f05e05d12d0ede9227d0a05",
+        "locator": {
+          "path": ".csdlc/prepared/issues/262/validate-podcast-hosting.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-02998",
+      "evidence": {
+        "subject_id": "FILE-02998",
+        "path": ".csdlc/prepared/issues/263/validate-directory-runbooks.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "08b169204bfd772c910e1f683ada18eb168039ccdb2aefe2c1288e0e471b5271",
+        "locator": {
+          "path": ".csdlc/prepared/issues/263/validate-directory-runbooks.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03003",
+      "evidence": {
+        "subject_id": "FILE-03003",
+        "path": ".csdlc/prepared/issues/264/validate-submission-gate.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "dcd0d6a6b10826acaa88d784b2cee4b2900446c54cae46f4cc0b0516e3cead76",
+        "locator": {
+          "path": ".csdlc/prepared/issues/264/validate-submission-gate.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03004",
+      "evidence": {
+        "subject_id": "FILE-03004",
+        "path": ".csdlc/prepared/issues/264/validate-terminal-dependencies.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ac91926f42c5bd42275c73267f9f0f4293e07562c9d6c730cd6d7f1a6b33e2d8",
+        "locator": {
+          "path": ".csdlc/prepared/issues/264/validate-terminal-dependencies.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03011",
+      "evidence": {
+        "subject_id": "FILE-03011",
+        "path": ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a60b7a5fa4a957b7d6c29f3c90c99b7287b41f1dae8d275b9cf7bd95664a10c1",
+        "locator": {
+          "path": ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03012",
+      "evidence": {
+        "subject_id": "FILE-03012",
+        "path": ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fd8bcb00984e9b02b540f139cafcf73b6a7369f27f105eaab029b8911f78f3a2",
+        "locator": {
+          "path": ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03013",
+      "evidence": {
+        "subject_id": "FILE-03013",
+        "path": ".csdlc/prepared/issues/342/validate-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "070090dad5eac89ca014b5f72c6ad699a934054c4384833cea1bf6354e9b7f4d",
+        "locator": {
+          "path": ".csdlc/prepared/issues/342/validate-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03025",
+      "evidence": {
+        "subject_id": "FILE-03025",
+        "path": ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1556a3379ca41ad397c5f73dc9c98a4be881e797d17f6c9ab78ae87cf75aac9e",
+        "locator": {
+          "path": ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03028",
+      "evidence": {
+        "subject_id": "FILE-03028",
+        "path": ".csdlc/prepared/issues/480/execute-wave-creation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fbdd6698938c3641fc7175fdfd8a04948da7efd8e322491248c7e5ca8a0df8b9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/480/execute-wave-creation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03029",
+      "evidence": {
+        "subject_id": "FILE-03029",
+        "path": ".csdlc/prepared/issues/480/test-validate-wave-creation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f4196767878765c776a49311f22c22dc41fda6ff1d1ff7c9b403a5a24e557e79",
+        "locator": {
+          "path": ".csdlc/prepared/issues/480/test-validate-wave-creation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03030",
+      "evidence": {
+        "subject_id": "FILE-03030",
+        "path": ".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bc46e8976ff9692518582909dd4ffc1f79d5c7762f3c21668695ab8020adb363",
+        "locator": {
+          "path": ".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03031",
+      "evidence": {
+        "subject_id": "FILE-03031",
+        "path": ".csdlc/prepared/issues/480/validate-wave-creation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "13f6de4db8cd5cf389726114c413362793ce441eaa3be5687477497a09fcec31",
+        "locator": {
+          "path": ".csdlc/prepared/issues/480/validate-wave-creation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03037",
+      "evidence": {
+        "subject_id": "FILE-03037",
+        "path": ".csdlc/prepared/issues/482/validate-asset-denominator.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ac73738b05345c1757207858cf18adecc50cbad4d34d8090073f6834573fc862",
+        "locator": {
+          "path": ".csdlc/prepared/issues/482/validate-asset-denominator.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03038",
+      "evidence": {
+        "subject_id": "FILE-03038",
+        "path": ".csdlc/prepared/issues/482/validate-provenance-and-license.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "18dd48cec1f820bbb077ab4b71ae3487a20912153f3390adbfcc3ce202c40642",
+        "locator": {
+          "path": ".csdlc/prepared/issues/482/validate-provenance-and-license.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03048",
+      "evidence": {
+        "subject_id": "FILE-03048",
+        "path": ".csdlc/prepared/issues/483/validate-custody-register.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e28c470d8475f866faaaa85a1452237e02a734aebb28ed70b09a948a68f315dc",
+        "locator": {
+          "path": ".csdlc/prepared/issues/483/validate-custody-register.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03060",
+      "evidence": {
+        "subject_id": "FILE-03060",
+        "path": ".csdlc/prepared/issues/485/validate-typed-state.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7c34ddea907fe4841c7fc4e181460d20ca9a5eefef236a7c8d08b43de2ebca65",
+        "locator": {
+          "path": ".csdlc/prepared/issues/485/validate-typed-state.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03124",
+      "evidence": {
+        "subject_id": "FILE-03124",
+        "path": ".csdlc/prepared/issues/498/check-prerequisites.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "905d76424b2a9ed0eabdaf4438a1fdb2eea76be8e6443614233a4d5e2679f849",
+        "locator": {
+          "path": ".csdlc/prepared/issues/498/check-prerequisites.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03148",
+      "evidence": {
+        "subject_id": "FILE-03148",
+        "path": ".csdlc/prepared/issues/498/validate-acceptance-readback.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7ceb4f348fcddd7fb15025915a4904b2d49bbbea53da016fac06df912ad6ab89",
+        "locator": {
+          "path": ".csdlc/prepared/issues/498/validate-acceptance-readback.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03149",
+      "evidence": {
+        "subject_id": "FILE-03149",
+        "path": ".csdlc/prepared/issues/498/validate-counsel-boundary.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "02c3cd077085bc2a4b67e9bbb7dacfd4bbd2207704086073760d7e0412985f2e",
+        "locator": {
+          "path": ".csdlc/prepared/issues/498/validate-counsel-boundary.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03150",
+      "evidence": {
+        "subject_id": "FILE-03150",
+        "path": ".csdlc/prepared/issues/498/validate-diligence-index.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ddb4b8a02ef30dac0a403b393c03b48b8fc08da018a38943ed2c436ccea7a87c",
+        "locator": {
+          "path": ".csdlc/prepared/issues/498/validate-diligence-index.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03151",
+      "evidence": {
+        "subject_id": "FILE-03151",
+        "path": ".csdlc/prepared/issues/498/validate-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4865d06e4769d38451d8f990d81a59e198b68cc5b41d4816e8820b0a1585148b",
+        "locator": {
+          "path": ".csdlc/prepared/issues/498/validate-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03160",
+      "evidence": {
+        "subject_id": "FILE-03160",
+        "path": ".csdlc/prepared/issues/499/validate-api-parity.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4bf37ac8492fe033f722ea869f21bc7862b46e65ab03f57cd25883f77b5e4414",
+        "locator": {
+          "path": ".csdlc/prepared/issues/499/validate-api-parity.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03161",
+      "evidence": {
+        "subject_id": "FILE-03161",
+        "path": ".csdlc/prepared/issues/499/validate-fault-and-trace.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5ebbb4304acad29e4e8cba6286efe84bd585085c5fd40635ff237bd4ff6916d1",
+        "locator": {
+          "path": ".csdlc/prepared/issues/499/validate-fault-and-trace.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03162",
+      "evidence": {
+        "subject_id": "FILE-03162",
+        "path": ".csdlc/prepared/issues/499/validate-fmt-clippy.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ee7a76a7422dd0e740de187f454f523be0e749d062c960c7ee020ccb0ac48ac3",
+        "locator": {
+          "path": ".csdlc/prepared/issues/499/validate-fmt-clippy.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03163",
+      "evidence": {
+        "subject_id": "FILE-03163",
+        "path": ".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f2a1ffbfff95f7688955db9336196721ad63963e3899ee5d06e6c6bd1c5bcfe9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03164",
+      "evidence": {
+        "subject_id": "FILE-03164",
+        "path": ".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b5b29567b42bdfc180c131176b583279411ceb8b560cfb2c245996db8debb05",
+        "locator": {
+          "path": ".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03165",
+      "evidence": {
+        "subject_id": "FILE-03165",
+        "path": ".csdlc/prepared/issues/499/validate-validation-impact.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "68e4fef2963141130a832897ecea04785d7ea3ba0ecad11bc307b90d3798f63b",
+        "locator": {
+          "path": ".csdlc/prepared/issues/499/validate-validation-impact.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03189",
+      "evidence": {
+        "subject_id": "FILE-03189",
+        "path": ".csdlc/prepared/issues/500/validate-implementation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "214952e34b684b0cc501dffb910d6365477f79574d961eee400f5c46f0d8548e",
+        "locator": {
+          "path": ".csdlc/prepared/issues/500/validate-implementation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03237",
+      "evidence": {
+        "subject_id": "FILE-03237",
+        "path": ".csdlc/prepared/issues/504/validate-remote-workflow.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "97da268e209f46f315622ed86af60c3c94a256d486dfc748d1914c257213cc73",
+        "locator": {
+          "path": ".csdlc/prepared/issues/504/validate-remote-workflow.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03296",
+      "evidence": {
+        "subject_id": "FILE-03296",
+        "path": ".csdlc/prepared/issues/505/run-gemini-sprints56-remediation-review.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f40befa112ea0b1d3cdc2a7431d5189fe901fd992c5826e861caf8522c8d5ab4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/505/run-gemini-sprints56-remediation-review.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03297",
+      "evidence": {
+        "subject_id": "FILE-03297",
+        "path": ".csdlc/prepared/issues/505/run-v3-local-trial.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5ba1fb53b7d75a7f63da5a2d53cf0380930240f2bba0cf0038b9a0520a96b8f7",
+        "locator": {
+          "path": ".csdlc/prepared/issues/505/run-v3-local-trial.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03298",
+      "evidence": {
+        "subject_id": "FILE-03298",
+        "path": ".csdlc/prepared/issues/505/run-v3-remote-bridge-trial.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "530a96033549f7537e6762c160bf7363bcb2c5bde90ec253774120b19b52b353",
+        "locator": {
+          "path": ".csdlc/prepared/issues/505/run-v3-remote-bridge-trial.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03299",
+      "evidence": {
+        "subject_id": "FILE-03299",
+        "path": ".csdlc/prepared/issues/505/run-v3-sprint-8-9-readiness-trial.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2c2ff536ea33298cd297ebaa5016efac1050a8c261bb26997faf1f606e97a12b",
+        "locator": {
+          "path": ".csdlc/prepared/issues/505/run-v3-sprint-8-9-readiness-trial.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03300",
+      "evidence": {
+        "subject_id": "FILE-03300",
+        "path": ".csdlc/prepared/issues/505/run-v3-sprint-8-9-readiness-trial.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6f22ca15305795a1bccedff198be89673a7a1f572218a84218678cf8735b6cb5",
+        "locator": {
+          "path": ".csdlc/prepared/issues/505/run-v3-sprint-8-9-readiness-trial.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03373",
+      "evidence": {
+        "subject_id": "FILE-03373",
+        "path": ".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7b38b6f299f102f72e2806ddff4a6912deb294dc7e2eb1eb8ec933848830689b",
+        "locator": {
+          "path": ".csdlc/prepared/issues/507/validate-drt-b-six-resident.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03376",
+      "evidence": {
+        "subject_id": "FILE-03376",
+        "path": ".csdlc/prepared/issues/508/validate-implementation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "491a270f3230bae92cbf48b893e269eb40c07e92790a4aee47106a500249144d",
+        "locator": {
+          "path": ".csdlc/prepared/issues/508/validate-implementation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03377",
+      "evidence": {
+        "subject_id": "FILE-03377",
+        "path": ".csdlc/prepared/issues/508/validate-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "63bc4079ddc2c5028c73ce267056e8e6d7c7e37351267f51bc6b5127fe4c1c53",
+        "locator": {
+          "path": ".csdlc/prepared/issues/508/validate-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03380",
+      "evidence": {
+        "subject_id": "FILE-03380",
+        "path": ".csdlc/prepared/issues/509/validate-implementation.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b587d21a03abeaec9d7ef9e1128decaf04a3641135e92c6a60c2c36a9e37a4ce",
+        "locator": {
+          "path": ".csdlc/prepared/issues/509/validate-implementation.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03381",
+      "evidence": {
+        "subject_id": "FILE-03381",
+        "path": ".csdlc/prepared/issues/509/validate-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "47908978816ba9a5d53ba2863eac309e9e9c41153fe3156b79e3d6db05414b12",
+        "locator": {
+          "path": ".csdlc/prepared/issues/509/validate-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03388",
+      "evidence": {
+        "subject_id": "FILE-03388",
+        "path": ".csdlc/prepared/issues/510/validate-concurrent-read.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b22f18d85acaee65d88817e48b5262181809837f14b8644f739b90231e4e03c1",
+        "locator": {
+          "path": ".csdlc/prepared/issues/510/validate-concurrent-read.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03389",
+      "evidence": {
+        "subject_id": "FILE-03389",
+        "path": ".csdlc/prepared/issues/510/validate-debounce.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1d639df66bd3cf51a02fdea5f901fc59319e99f5e45ace634e25bdc6543ca123",
+        "locator": {
+          "path": ".csdlc/prepared/issues/510/validate-debounce.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03390",
+      "evidence": {
+        "subject_id": "FILE-03390",
+        "path": ".csdlc/prepared/issues/510/validate-invalid-retention.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7dca36893f0a2f479fe828ed4b6f8dfeccb0a6aca141845a02bffa091b214f33",
+        "locator": {
+          "path": ".csdlc/prepared/issues/510/validate-invalid-retention.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03391",
+      "evidence": {
+        "subject_id": "FILE-03391",
+        "path": ".csdlc/prepared/issues/510/validate-valid-reload.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c14f8ed086c6522d27f74afc8fa4a23e8bade65f9d3e307c3da209b5e20b55b5",
+        "locator": {
+          "path": ".csdlc/prepared/issues/510/validate-valid-reload.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03392",
+      "evidence": {
+        "subject_id": "FILE-03392",
+        "path": ".csdlc/prepared/issues/510/validate-watcher-shutdown.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6a2fb45072f69bd99f498f7864c92f286957e0c896706a6f86d0fe99429a25ab",
+        "locator": {
+          "path": ".csdlc/prepared/issues/510/validate-watcher-shutdown.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03399",
+      "evidence": {
+        "subject_id": "FILE-03399",
+        "path": ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "73a92cb4cfcfbc3001a1a20de2cead03b7c61366de8e0d8cf26c8a4bcbccfd73",
+        "locator": {
+          "path": ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03400",
+      "evidence": {
+        "subject_id": "FILE-03400",
+        "path": ".csdlc/prepared/issues/511/validate-obs-a-contract.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7d7ae6233ed23a0efe941051aff47b596fa45441f650975251fa110386cdb4e7",
+        "locator": {
+          "path": ".csdlc/prepared/issues/511/validate-obs-a-contract.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03401",
+      "evidence": {
+        "subject_id": "FILE-03401",
+        "path": ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "290e04f54334fcb6837ff5ba1eb5895b4cf117a00d97f5cf7c7a7ed12d06bb42",
+        "locator": {
+          "path": ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03402",
+      "evidence": {
+        "subject_id": "FILE-03402",
+        "path": ".csdlc/prepared/issues/511/validate-obs-a-states.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bc28a9b2a0cca6d6bdf9a63ccbf36b6426cbd395b3d8106e1eae3c2ac8b854e2",
+        "locator": {
+          "path": ".csdlc/prepared/issues/511/validate-obs-a-states.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03414",
+      "evidence": {
+        "subject_id": "FILE-03414",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ce6c34e35659fc7c5be0a7931e9108e3791a585945e7696dc0687c144d48da86",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03415",
+      "evidence": {
+        "subject_id": "FILE-03415",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-browser.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "31b728d7294b868baf5839bb30d7146e8c21e10cd07669e3172929e82fe4c4ec",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-browser.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03416",
+      "evidence": {
+        "subject_id": "FILE-03416",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f5be4afe6d3add5914ee86dc2568f0c425e0a85fe0cd013bf7eb9108b19c9178",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03432",
+      "evidence": {
+        "subject_id": "FILE-03432",
+        "path": ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6d27919325fa92ae924566f435afc4945feba948480c23fd9bbdc957da2963a7",
+        "locator": {
+          "path": ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03433",
+      "evidence": {
+        "subject_id": "FILE-03433",
+        "path": ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "08f9c1a35553a56bff16b5dad81d998ea3ce2122eef1964a7b8ca8596cc699b8",
+        "locator": {
+          "path": ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03435",
+      "evidence": {
+        "subject_id": "FILE-03435",
+        "path": ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8af058e5fba1b7bbd782d52a7270f732c25fd094768bc37aeada418e8eb2fabf",
+        "locator": {
+          "path": ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03484",
+      "evidence": {
+        "subject_id": "FILE-03484",
+        "path": ".csdlc/prepared/issues/516/generate-release-tail-admission.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5fb24aebb413d3dba0eccaacfa47b2716943f6312b1bad43ccd6054c99837ef6",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/generate-release-tail-admission.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03487",
+      "evidence": {
+        "subject_id": "FILE-03487",
+        "path": ".csdlc/prepared/issues/516/refresh-semantic-evidence.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b562a30e0c8ef1c39f395c6c513c9696cc2d4d0db6d7034a64a56fb6bc96b42e",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/refresh-semantic-evidence.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03488",
+      "evidence": {
+        "subject_id": "FILE-03488",
+        "path": ".csdlc/prepared/issues/516/refresh-validation-receipts.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2e4f6a93c2533fd605002c256c55b48dc11abc190069e1ae97ef138eb68f1375",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/refresh-validation-receipts.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03490",
+      "evidence": {
+        "subject_id": "FILE-03490",
+        "path": ".csdlc/prepared/issues/516/run-no-v2-canary.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6a5060a7ffa794a860b187fd842d1e95f87efe8137e1068ebc34599a4e76dbef",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/run-no-v2-canary.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03492",
+      "evidence": {
+        "subject_id": "FILE-03492",
+        "path": ".csdlc/prepared/issues/516/test-refresh-semantic-evidence.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b6f79105bdc909af73d74ac1ac08d49154209d4f2e35133c9a1c7dc6f1a48954",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/test-refresh-semantic-evidence.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03493",
+      "evidence": {
+        "subject_id": "FILE-03493",
+        "path": ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "53bd69e964965fe42b6b737211a7ded6568ed7ca4be75c9d8e3db588b97ebd19",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03494",
+      "evidence": {
+        "subject_id": "FILE-03494",
+        "path": ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3b32136f5b86b7aaf0e8633931892fcb01633e9bbb9b7afe227987d9a1e50e05",
+        "locator": {
+          "path": ".csdlc/prepared/issues/516/validate-release-tail-admission.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03503",
+      "evidence": {
+        "subject_id": "FILE-03503",
+        "path": ".csdlc/prepared/issues/517/validate-quality-gate.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ec7e477597f5442135d9f4125d9d8ca6140c59de40d8009a37a7016d59f64b35",
+        "locator": {
+          "path": ".csdlc/prepared/issues/517/validate-quality-gate.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03504",
+      "evidence": {
+        "subject_id": "FILE-03504",
+        "path": ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c3bae692ae82d0478cb345a741af51ba7ac50a9c8438d00de11505cae036f107",
+        "locator": {
+          "path": ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03544",
+      "evidence": {
+        "subject_id": "FILE-03544",
+        "path": ".csdlc/prepared/issues/518/refresh-handoff-content.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "65feddeea4e660c5d5236c0abd1af4003ffdea5201afb2909eb778664b9afe87",
+        "locator": {
+          "path": ".csdlc/prepared/issues/518/refresh-handoff-content.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03545",
+      "evidence": {
+        "subject_id": "FILE-03545",
+        "path": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2882d1c56fa4051a0155cde02731a3ed70beb221249f03054cbf6c65e9a8ade5",
+        "locator": {
+          "path": ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03548",
+      "evidence": {
+        "subject_id": "FILE-03548",
+        "path": ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8cd9b4db93a73198f0bb94abc1a0cd5e6c066dce8d0aa4bb3fcb76ff489d71e7",
+        "locator": {
+          "path": ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03551",
+      "evidence": {
+        "subject_id": "FILE-03551",
+        "path": ".csdlc/prepared/issues/528/run-live-vertex-smoke.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bda328a0bc8b9b0ba945f02231ac4c744b554696366579844f3ace8a7cffe0a4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/528/run-live-vertex-smoke.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03582",
+      "evidence": {
+        "subject_id": "FILE-03582",
+        "path": ".csdlc/prepared/issues/536/validate-sprint-closeout.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "48d62f5500c7edb2247aa01eb204ff8d7dfadfb1b59160e08ef45a2ccbebddcf",
+        "locator": {
+          "path": ".csdlc/prepared/issues/536/validate-sprint-closeout.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03583",
+      "evidence": {
+        "subject_id": "FILE-03583",
+        "path": ".csdlc/prepared/issues/536/validate-sprint-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fc82c18b0927d0a9b7324d4ce987bc385b1728c2e04e2a22042c8ea2fbae5d0a",
+        "locator": {
+          "path": ".csdlc/prepared/issues/536/validate-sprint-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03593",
+      "evidence": {
+        "subject_id": "FILE-03593",
+        "path": ".csdlc/prepared/issues/550/validate-csm-origin-generation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e008d2d26b0b035c0d079f379f7fc5c35f73c7021eebc77256d72ec44c0d0b2b",
+        "locator": {
+          "path": ".csdlc/prepared/issues/550/validate-csm-origin-generation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03594",
+      "evidence": {
+        "subject_id": "FILE-03594",
+        "path": ".csdlc/prepared/issues/550/validate-live-wuji.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "245eb300e00d07dace4a4078df964e8f87fb63bfeba72d5a849eff0a5082efde",
+        "locator": {
+          "path": ".csdlc/prepared/issues/550/validate-live-wuji.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03595",
+      "evidence": {
+        "subject_id": "FILE-03595",
+        "path": ".csdlc/prepared/issues/550/validate-shell-and-diff.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e1ec1c8da725bd366bb69ee3b159fa1b88c7d5ed1692889e9f9ae4ad4a0be789",
+        "locator": {
+          "path": ".csdlc/prepared/issues/550/validate-shell-and-diff.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03650",
+      "evidence": {
+        "subject_id": "FILE-03650",
+        "path": ".csdlc/prepared/issues/551/validate-html-polis.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7cd797db22c3b158cbad56366da979eb6faac47b0236d5e0de5d4f2b8fe1b303",
+        "locator": {
+          "path": ".csdlc/prepared/issues/551/validate-html-polis.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03651",
+      "evidence": {
+        "subject_id": "FILE-03651",
+        "path": ".csdlc/prepared/issues/551/validate-runtime-polis.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c007fa09199296aaddf63da5e845d0c45263f74a97c077090b21d89e48908ef5",
+        "locator": {
+          "path": ".csdlc/prepared/issues/551/validate-runtime-polis.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03657",
+      "evidence": {
+        "subject_id": "FILE-03657",
+        "path": ".csdlc/prepared/issues/558/validate-focused-proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "95512f07edb5f53981cbf0e2b7af4f84fe689441c6a7a795be914f04d8687fc6",
+        "locator": {
+          "path": ".csdlc/prepared/issues/558/validate-focused-proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03658",
+      "evidence": {
+        "subject_id": "FILE-03658",
+        "path": ".csdlc/prepared/issues/558/validate-lifecycle-evidence.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f549024f1fc162238987c683d887d323255847e80400081d40ce6e09cbf62240",
+        "locator": {
+          "path": ".csdlc/prepared/issues/558/validate-lifecycle-evidence.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03661",
+      "evidence": {
+        "subject_id": "FILE-03661",
+        "path": ".csdlc/prepared/issues/560/validate-focused-proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0a0c973c92b5ffea2ce37189f1c637f752dd235008b8450c9768b38d1416b5cf",
+        "locator": {
+          "path": ".csdlc/prepared/issues/560/validate-focused-proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03662",
+      "evidence": {
+        "subject_id": "FILE-03662",
+        "path": ".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9228fd88e620f84190d1c0bda0bcd4aaf5f7ea7a606afbfa701613fe31979fce",
+        "locator": {
+          "path": ".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03704",
+      "evidence": {
+        "subject_id": "FILE-03704",
+        "path": ".csdlc/prepared/issues/570/validate-docs-routes.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fa3aaf5ae2fd1c309a9f24e4acabaaad2fa04d158d5b7ae7b1a005fe41b3ca32",
+        "locator": {
+          "path": ".csdlc/prepared/issues/570/validate-docs-routes.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03705",
+      "evidence": {
+        "subject_id": "FILE-03705",
+        "path": ".csdlc/prepared/issues/570/validate-skill-guidance.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "21810f7312a2cb8ba657c1237de129a17ac31a64211e8e29dd92d32f5d7a17c9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/570/validate-skill-guidance.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03710",
+      "evidence": {
+        "subject_id": "FILE-03710",
+        "path": ".csdlc/prepared/issues/571/validate-v3a-followup.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2d5173de4299ed9a3fa52020e51cb8cc2228229c77996d6952cef74a016a5b4a",
+        "locator": {
+          "path": ".csdlc/prepared/issues/571/validate-v3a-followup.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03719",
+      "evidence": {
+        "subject_id": "FILE-03719",
+        "path": ".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f29b4952d80f09dbc2f55a46266876750fadc708e917a2aa052a30235248a551",
+        "locator": {
+          "path": ".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03738",
+      "evidence": {
+        "subject_id": "FILE-03738",
+        "path": ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9ffca92473d36f58513a05db1081ddbc0124812f0ea8cc685c21a7a649eac71f",
+        "locator": {
+          "path": ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03763",
+      "evidence": {
+        "subject_id": "FILE-03763",
+        "path": ".csdlc/prepared/issues/592/validate-528-merge.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7a2d8bf49c3400b62283312f9835e9c31d36d9299b54d0451ad622bedd1aef33",
+        "locator": {
+          "path": ".csdlc/prepared/issues/592/validate-528-merge.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03764",
+      "evidence": {
+        "subject_id": "FILE-03764",
+        "path": ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c648cefb154168a7c2cd43a0a27f9c3f77b4f87bf159e9d7f6e267882c0afc41",
+        "locator": {
+          "path": ".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03765",
+      "evidence": {
+        "subject_id": "FILE-03765",
+        "path": ".csdlc/prepared/issues/592/validate-tooling-canary.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2d39084b5bf9e631be50915911875db63af78620fdc45833bc4c85b88b16b43a",
+        "locator": {
+          "path": ".csdlc/prepared/issues/592/validate-tooling-canary.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03766",
+      "evidence": {
+        "subject_id": "FILE-03766",
+        "path": ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e08a107b651522a1d9f216e63c909194052099b863b363313cf21c060c808e4f",
+        "locator": {
+          "path": ".csdlc/prepared/issues/592/validate-vertex-config-docs.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03791",
+      "evidence": {
+        "subject_id": "FILE-03791",
+        "path": ".csdlc/prepared/issues/594/validate-diff-hygiene.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "64c3874ed6d2485db68f43f51caf278a0e6b645f3104c0aee927d0741fd1b407",
+        "locator": {
+          "path": ".csdlc/prepared/issues/594/validate-diff-hygiene.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03793",
+      "evidence": {
+        "subject_id": "FILE-03793",
+        "path": ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9ea048e1e22bcaf724229dfc82a8a7f6d7808c811cdbc3e29fde9d9d3ad7edf2",
+        "locator": {
+          "path": ".csdlc/prepared/issues/594/validate-runtime-log-archive.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03820",
+      "evidence": {
+        "subject_id": "FILE-03820",
+        "path": ".csdlc/prepared/issues/596/validate-remediation-regression.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "73b870bccad1430a0dd390e288fe26be1b8cebcf7eb29bfd6f1c1b6f59cb4707",
+        "locator": {
+          "path": ".csdlc/prepared/issues/596/validate-remediation-regression.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03829",
+      "evidence": {
+        "subject_id": "FILE-03829",
+        "path": ".csdlc/prepared/issues/602/validate-focused.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a756c1243317c5012a8ff63497aa43eadbe231297511584e5f83ed9e98956345",
+        "locator": {
+          "path": ".csdlc/prepared/issues/602/validate-focused.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03830",
+      "evidence": {
+        "subject_id": "FILE-03830",
+        "path": ".csdlc/prepared/issues/602/validate-live-wuji.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ef742864e9f4e99ba8cd6f5b308ba181df156d9256de9167d4cd39c52c593a46",
+        "locator": {
+          "path": ".csdlc/prepared/issues/602/validate-live-wuji.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03840",
+      "evidence": {
+        "subject_id": "FILE-03840",
+        "path": ".csdlc/prepared/issues/604/validate-implementation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e24a524826fc3ab49f44dd79082b3026d64183962f27c6565a52bdddaec1c976",
+        "locator": {
+          "path": ".csdlc/prepared/issues/604/validate-implementation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03867",
+      "evidence": {
+        "subject_id": "FILE-03867",
+        "path": ".csdlc/prepared/issues/607/validate-preparation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "011ce2805c6b90423d4def9a5371dd6969330e2e4dd17cb4735fe1244f5ff91e",
+        "locator": {
+          "path": ".csdlc/prepared/issues/607/validate-preparation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03897",
+      "evidence": {
+        "subject_id": "FILE-03897",
+        "path": ".csdlc/prepared/issues/617/validate-canonical-agent-name.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "35ef561ec7f56df8e3f955b953e4c1fc39fe647ebaafa218114df5b67c503965",
+        "locator": {
+          "path": ".csdlc/prepared/issues/617/validate-canonical-agent-name.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03902",
+      "evidence": {
+        "subject_id": "FILE-03902",
+        "path": ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "46df928302aead8a897bbb4a607fc587a9ed3c9f75fe22cbfc0a8ee5d43fbd2d",
+        "locator": {
+          "path": ".csdlc/prepared/issues/620/validate-v0922-first-pass-planning.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03923",
+      "evidence": {
+        "subject_id": "FILE-03923",
+        "path": ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a9d7abd09a8667fb4c7f7d75e17b9cf8142498018f79f1d42fe05417dd8bdbaf",
+        "locator": {
+          "path": ".csdlc/prepared/issues/624/validate-corp-sidecar-hardening.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03924",
+      "evidence": {
+        "subject_id": "FILE-03924",
+        "path": ".csdlc/prepared/issues/624/validate-diff-check.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "901e59b2ef9f316772dbb8be5bd5092fe3a83e2d328645b40f17072dfa8faa25",
+        "locator": {
+          "path": ".csdlc/prepared/issues/624/validate-diff-check.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03927",
+      "evidence": {
+        "subject_id": "FILE-03927",
+        "path": ".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2b2d2c0efd28f64531d1ddb5ebb900167c5da58d2ca4619fd3a7ca268bb70046",
+        "locator": {
+          "path": ".csdlc/prepared/issues/627/validate-v3-h1-command-denominator.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03930",
+      "evidence": {
+        "subject_id": "FILE-03930",
+        "path": ".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a1d07bec60faffcc8a8446acf26f4fdf3bf6fb06baf89ca464839dcf271ce5ec",
+        "locator": {
+          "path": ".csdlc/prepared/issues/628/validate-v3-h2-local-lifecycle.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03935",
+      "evidence": {
+        "subject_id": "FILE-03935",
+        "path": ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0055439de8c1c3e5636f742cafa740416312e3a20dbbfffeb96f602604c0ef16",
+        "locator": {
+          "path": ".csdlc/prepared/issues/629/validate-v3-h3-github-publication.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03947",
+      "evidence": {
+        "subject_id": "FILE-03947",
+        "path": ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0e3bae5357425971731939702dd80a7cd666c97a869ea74edce39e6f6e4f7c76",
+        "locator": {
+          "path": ".csdlc/prepared/issues/630/validate-v3-h4-terminal-clean-cutover.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03957",
+      "evidence": {
+        "subject_id": "FILE-03957",
+        "path": ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "983dd86543e4598ebaa0db6a44bbd09191f5949b8599bbaea036bb6e2d4845ba",
+        "locator": {
+          "path": ".csdlc/prepared/issues/631/validate-v3-h5-proof-parity-install.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03969",
+      "evidence": {
+        "subject_id": "FILE-03969",
+        "path": ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "01b490ae80e0be9ef250a6343f190d33a62e4f14ecb4c4f4700ac0d696b564c8",
+        "locator": {
+          "path": ".csdlc/prepared/issues/632/validate-sprint-review-readiness.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03970",
+      "evidence": {
+        "subject_id": "FILE-03970",
+        "path": ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "da64d8238c40d271d3a2c006321b7dec5f6fd3743f44057723379467a9b5195a",
+        "locator": {
+          "path": ".csdlc/prepared/issues/632/validate-v3-canary-readiness.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03971",
+      "evidence": {
+        "subject_id": "FILE-03971",
+        "path": ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "54fa53cb7ad7f11dbf172d6d7a5b2767b48786e76b91063343296b37579de03e",
+        "locator": {
+          "path": ".csdlc/prepared/issues/632/validate-v3-guidance.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03982",
+      "evidence": {
+        "subject_id": "FILE-03982",
+        "path": ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "295a949be24b17e84e74323e55e58e15ca746b98f66d3b86ac6f80d2cb67eb02",
+        "locator": {
+          "path": ".csdlc/prepared/issues/640/validate-model-backed-shepherd.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-03998",
+      "evidence": {
+        "subject_id": "FILE-03998",
+        "path": ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "84f6c35f8791fd1dba3018d7928315a8eefd0d53dcb4bb20d7c7ff3e484fb7c0",
+        "locator": {
+          "path": ".csdlc/prepared/issues/645/validate-stacked-closing-relation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04030",
+      "evidence": {
+        "subject_id": "FILE-04030",
+        "path": ".csdlc/prepared/issues/659/validate-runtime-convergence.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a2a4b62111583fab42a7d91238f12111199b2d0f673b5733c4dd4b485e6d6562",
+        "locator": {
+          "path": ".csdlc/prepared/issues/659/validate-runtime-convergence.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04040",
+      "evidence": {
+        "subject_id": "FILE-04040",
+        "path": ".csdlc/prepared/issues/660/validate-emergency-rollback.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "302dd09d4478b6110ca7a48fcb4e758b7c5ff94b782b9986aa2b48cc5ee08902",
+        "locator": {
+          "path": ".csdlc/prepared/issues/660/validate-emergency-rollback.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04055",
+      "evidence": {
+        "subject_id": "FILE-04055",
+        "path": ".csdlc/prepared/issues/661/validate-focused.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "197bda791b1df0beae4dbd940ff7b4125a73ee77a4ce302e257e6eb4f71c1ede",
+        "locator": {
+          "path": ".csdlc/prepared/issues/661/validate-focused.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04071",
+      "evidence": {
+        "subject_id": "FILE-04071",
+        "path": ".csdlc/prepared/issues/662/validate-focused.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8f4af57f3d55aa3582b4335b598d44730e24d7ae7602881719b1a8b9b4e92fbb",
+        "locator": {
+          "path": ".csdlc/prepared/issues/662/validate-focused.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04074",
+      "evidence": {
+        "subject_id": "FILE-04074",
+        "path": ".csdlc/prepared/issues/663/validate-preparation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2d670bf409786647b40d34ce7d71cd6d04bf090765e11b2b9cbb6f3d5b448fa5",
+        "locator": {
+          "path": ".csdlc/prepared/issues/663/validate-preparation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04103",
+      "evidence": {
+        "subject_id": "FILE-04103",
+        "path": ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "23e68ba7a3fc31516286a12671240bb28c633e145d2c7d80110ec1d3c27c18e0",
+        "locator": {
+          "path": ".csdlc/prepared/issues/665/validate-emergency-adoption-docs.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04104",
+      "evidence": {
+        "subject_id": "FILE-04104",
+        "path": ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9f89a61955adc215a2c00c70276b9376afebe13a4351e7ccb2dc57027c6ede4b",
+        "locator": {
+          "path": ".csdlc/prepared/issues/665/validate-emergency-adoption-scope.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04107",
+      "evidence": {
+        "subject_id": "FILE-04107",
+        "path": ".csdlc/prepared/issues/670/run-live-preflight.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6add320e15fb08aa121c8d6b4d0eddac5d5c569197f3b9379ff7852a3a3ed4b4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/670/run-live-preflight.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04108",
+      "evidence": {
+        "subject_id": "FILE-04108",
+        "path": ".csdlc/prepared/issues/670/validate-preparation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "dfb66993c048da1e7a27454ed0fe79e080b95657ebc29eda236a46c407537960",
+        "locator": {
+          "path": ".csdlc/prepared/issues/670/validate-preparation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04117",
+      "evidence": {
+        "subject_id": "FILE-04117",
+        "path": ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "929f352841123b1cdd3ca973d58764254b5bb412f9e05b515feaa5bfec944c0d",
+        "locator": {
+          "path": ".csdlc/prepared/issues/674/validate-welcome-package-docs.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04146",
+      "evidence": {
+        "subject_id": "FILE-04146",
+        "path": ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "362a990033f0ead286fe929e9235771db62ff0e1bcbb66f39dab502444740873",
+        "locator": {
+          "path": ".csdlc/prepared/issues/678/validate-stable-csm-route.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04162",
+      "evidence": {
+        "subject_id": "FILE-04162",
+        "path": ".csdlc/prepared/issues/679/validate_init_package.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4d44e8ad16a956fdd12b7695a9bbdea9801213e80b4e1eac230dee30e257a9a6",
+        "locator": {
+          "path": ".csdlc/prepared/issues/679/validate_init_package.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04163",
+      "evidence": {
+        "subject_id": "FILE-04163",
+        "path": ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "abe6f4706a61d04105d526f3a5ce3bba69cb713dba54dd56438140345d424025",
+        "locator": {
+          "path": ".csdlc/prepared/issues/679/validate_s3_deployable_observatory.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04166",
+      "evidence": {
+        "subject_id": "FILE-04166",
+        "path": ".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ea301a7a26b1f948d71fd1d0398cecd3a9eeef42df004dfd4dac6ce221bf5b1c",
+        "locator": {
+          "path": ".csdlc/prepared/issues/680/issue_680_validate_preparation_bundle.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04169",
+      "evidence": {
+        "subject_id": "FILE-04169",
+        "path": ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4939f8195e71e0d90c190d928f854b288f051281479c4893b46c5b8fe9885dda",
+        "locator": {
+          "path": ".csdlc/prepared/issues/686/issue_686_validate_config_generation_handoff.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04241",
+      "evidence": {
+        "subject_id": "FILE-04241",
+        "path": ".csdlc/prepared/issues/695/validate-acceptance.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "67bf33550a7ec099e033a02ab0031ca77044ef85dd7e6094e10d51d0c44acdae",
+        "locator": {
+          "path": ".csdlc/prepared/issues/695/validate-acceptance.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04242",
+      "evidence": {
+        "subject_id": "FILE-04242",
+        "path": ".csdlc/prepared/issues/695/validate-implementation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "55c41e409ae6c657c836eac9837e1084b8b70827de092061a612c6ca156b539c",
+        "locator": {
+          "path": ".csdlc/prepared/issues/695/validate-implementation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04254",
+      "evidence": {
+        "subject_id": "FILE-04254",
+        "path": ".csdlc/prepared/issues/707/validate-publication-proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6b39c8a7392437dba1b676f5e11ec15385bd0a5f2069821aaa01a072cd020b36",
+        "locator": {
+          "path": ".csdlc/prepared/issues/707/validate-publication-proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04276",
+      "evidence": {
+        "subject_id": "FILE-04276",
+        "path": ".csdlc/prepared/issues/708/validate-orientation-plan.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2c055b03d3f1e33fe32352652898b12bab25f749b6d42306454318682dfe172c",
+        "locator": {
+          "path": ".csdlc/prepared/issues/708/validate-orientation-plan.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04279",
+      "evidence": {
+        "subject_id": "FILE-04279",
+        "path": ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b92521b605bd1487d595a448715cc6a86099790a057a08ae24ea61051b7490bd",
+        "locator": {
+          "path": ".csdlc/prepared/issues/712/validate-runtime-startup-simplification.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04283",
+      "evidence": {
+        "subject_id": "FILE-04283",
+        "path": ".csdlc/prepared/issues/713/validate-live-a2a-history.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a6981fcff665e9487c48411237b1218692048f3c346c7cc78635ea776c617d15",
+        "locator": {
+          "path": ".csdlc/prepared/issues/713/validate-live-a2a-history.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04295",
+      "evidence": {
+        "subject_id": "FILE-04295",
+        "path": ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fabd8a4b5e8c02ece866256bc82bfe09e6b2b45730c4cfd43e536500750e186a",
+        "locator": {
+          "path": ".csdlc/prepared/issues/724/validate-simple-issue-create.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04297",
+      "evidence": {
+        "subject_id": "FILE-04297",
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "babb61ec9ed78587214a23c7174836ae91c9caa99d66a0f3d59b3a59e601ef6f",
+        "locator": {
+          "path": ".csdlc/prepared/issues/727/validate-issue-727-readiness.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04300",
+      "evidence": {
+        "subject_id": "FILE-04300",
+        "path": ".csdlc/prepared/issues/728/validate_preparation_bundle.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "942ec4c395ec2c16eea2bbdad5d6ff378bcd150c2d00d6ac5be85fd2d67943ef",
+        "locator": {
+          "path": ".csdlc/prepared/issues/728/validate_preparation_bundle.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04365",
+      "evidence": {
+        "subject_id": "FILE-04365",
+        "path": ".csdlc/prepared/issues/740/validate_typed_issue.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2f87c20463343f0b4efef3894483ecaf1265597816e759b3648bf2a08c0d5ed5",
+        "locator": {
+          "path": ".csdlc/prepared/issues/740/validate_typed_issue.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04370",
+      "evidence": {
+        "subject_id": "FILE-04370",
+        "path": ".csdlc/prepared/issues/745/validate-adrs.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5ea634bc51de69a1f6c0e3457fea737bb58d72caeddde1258e6fbb7ce7e9b587",
+        "locator": {
+          "path": ".csdlc/prepared/issues/745/validate-adrs.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04378",
+      "evidence": {
+        "subject_id": "FILE-04378",
+        "path": ".csdlc/prepared/issues/768/test-tail02-tracked-growth.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "40fb3b8ead60ed059ad124a2f1dea530b988fa58183c00d2562d39e3ad7e65a7",
+        "locator": {
+          "path": ".csdlc/prepared/issues/768/test-tail02-tracked-growth.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04498",
+      "evidence": {
+        "subject_id": "FILE-04498",
+        "path": "adl-runtime-kernel/build.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5f0fdd6be5e13eeaed727e441870f107a59121417d2061264bce88580491b511",
+        "locator": {
+          "path": "adl-runtime-kernel/build.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04499",
+      "evidence": {
+        "subject_id": "FILE-04499",
+        "path": "adl-runtime-kernel/src/acip.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1d2f2b6c051222e6001bed87c6cd17217ec1f723005374677bc32c30b77634e2",
+        "locator": {
+          "path": "adl-runtime-kernel/src/acip.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04500",
+      "evidence": {
+        "subject_id": "FILE-04500",
+        "path": "adl-runtime-kernel/src/agent_orientation.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "68315c7743b27bf63639dee8db09efd7eb4f73f4831ba1361b839463b1e03aaa",
+        "locator": {
+          "path": "adl-runtime-kernel/src/agent_orientation.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04501",
+      "evidence": {
+        "subject_id": "FILE-04501",
+        "path": "adl-runtime-kernel/src/agent_partial_checkpoint.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "149199430a2606de135995b52b224c1ae8075a0d2f901053651a5ce8d16dabd9",
+        "locator": {
+          "path": "adl-runtime-kernel/src/agent_partial_checkpoint.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04502",
+      "evidence": {
+        "subject_id": "FILE-04502",
+        "path": "adl-runtime-kernel/src/agent_roster.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "01b4e7c288348fb8a02a68d4b7c4fb72f30405ec2296284825b0b50846a72d0f",
+        "locator": {
+          "path": "adl-runtime-kernel/src/agent_roster.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04503",
+      "evidence": {
+        "subject_id": "FILE-04503",
+        "path": "adl-runtime-kernel/src/assembly.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c8d3a8a2e8215b0a385b87be8683ae0cc7f7e2f56472963554c82999f5b4a71c",
+        "locator": {
+          "path": "adl-runtime-kernel/src/assembly.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04504",
+      "evidence": {
+        "subject_id": "FILE-04504",
+        "path": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2bacfa4d71ff949821478adc587320664f4a060183997237146a142316b34a6d",
+        "locator": {
+          "path": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04505",
+      "evidence": {
+        "subject_id": "FILE-04505",
+        "path": "adl-runtime-kernel/src/config.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d3749c72f39c19e5e4de9814310e78a517b3cbeb27a057d3eccf34ee01d28734",
+        "locator": {
+          "path": "adl-runtime-kernel/src/config.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04506",
+      "evidence": {
+        "subject_id": "FILE-04506",
+        "path": "adl-runtime-kernel/src/config_reload.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "53f60a3bda8bb559df02601f55b3a40422817bf813f9f78c0bf401da0a1ff9c8",
+        "locator": {
+          "path": "adl-runtime-kernel/src/config_reload.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04507",
+      "evidence": {
+        "subject_id": "FILE-04507",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "finding",
+      "detail": "Exact-candidate review produced D520-RUNTIME-001, D520-RUNTIME-002."
+    },
+    {
+      "ref": "FILE-04508",
+      "evidence": {
+        "subject_id": "FILE-04508",
+        "path": "adl-runtime-kernel/src/control/feeds.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d188a6579d88fac0bd5a5175e3b09795d2ba4f3caf831752e5cc8823f24ff4b3",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control/feeds.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04509",
+      "evidence": {
+        "subject_id": "FILE-04509",
+        "path": "adl-runtime-kernel/src/conversation_history.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "81fe73f35b198bef998582c9d38d806b3f83e31bfb4766cff8e0721fada16380",
+        "locator": {
+          "path": "adl-runtime-kernel/src/conversation_history.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04510",
+      "evidence": {
+        "subject_id": "FILE-04510",
+        "path": "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4fec00237ea3acf37e2b3e24691ea891e91ba34d91c2d474d1699131b392c468",
+        "locator": {
+          "path": "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04511",
+      "evidence": {
+        "subject_id": "FILE-04511",
+        "path": "adl-runtime-kernel/src/ingress.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fb86443e96d7e7deeca544b01d9588c2fbdc9c0ec370be9586b662d24c7f008f",
+        "locator": {
+          "path": "adl-runtime-kernel/src/ingress.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04513",
+      "evidence": {
+        "subject_id": "FILE-04513",
+        "path": "adl-runtime-kernel/src/lib.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7c1dd52285ee1de69840fd3838abfad8578670dabf3f3c95558a3e577a71aef0",
+        "locator": {
+          "path": "adl-runtime-kernel/src/lib.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04514",
+      "evidence": {
+        "subject_id": "FILE-04514",
+        "path": "adl-runtime-kernel/src/live_continuity.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b64003dcc37a52f477c9837fcb20863923e64b922d51365d07444bd60b92c4c5",
+        "locator": {
+          "path": "adl-runtime-kernel/src/live_continuity.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04515",
+      "evidence": {
+        "subject_id": "FILE-04515",
+        "path": "adl-runtime-kernel/src/observability.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9ac2cc375ce426d85c9c164ca8ecacfaa87b79b41950ef4f20a8e465a619b7d3",
+        "locator": {
+          "path": "adl-runtime-kernel/src/observability.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04516",
+      "evidence": {
+        "subject_id": "FILE-04516",
+        "path": "adl-runtime-kernel/src/observability/vector.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ac7c89dbdbb4c46d2fff086b8667b2b6134858d09c219eebfd20f46b97dcc375",
+        "locator": {
+          "path": "adl-runtime-kernel/src/observability/vector.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04517",
+      "evidence": {
+        "subject_id": "FILE-04517",
+        "path": "adl-runtime-kernel/src/resident_shepherd.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d3670a86ba7ea150bf92a9ffea425988489ae34d5c50b9c2cbfefeb62036fbb9",
+        "locator": {
+          "path": "adl-runtime-kernel/src/resident_shepherd.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04518",
+      "evidence": {
+        "subject_id": "FILE-04518",
+        "path": "adl-runtime-kernel/src/shepherd.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e242114135d1742ee9fdeafdf7e3bf3fe615efba7fd9f89c44970f10df93a52e",
+        "locator": {
+          "path": "adl-runtime-kernel/src/shepherd.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04519",
+      "evidence": {
+        "subject_id": "FILE-04519",
+        "path": "adl-runtime-kernel/src/telemetry.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7e70a688e12b766126c6e6eee40fce61e126e1c3d30eb0ad3411d68a5fa65e37",
+        "locator": {
+          "path": "adl-runtime-kernel/src/telemetry.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04534",
+      "evidence": {
+        "subject_id": "FILE-04534",
+        "path": "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3a4d51663f527061a4d514fd6d22a639ffdefddc415e6a35a72aacb76d7607e2",
+        "locator": {
+          "path": "adl-runtime/src/bin/adl-runtime-guardian.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04535",
+      "evidence": {
+        "subject_id": "FILE-04535",
+        "path": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5e5b2a260e14e2cbca72574d7e9170a7c29bade6a57a0153a944c1a15461c76d",
+        "locator": {
+          "path": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04539",
+      "evidence": {
+        "subject_id": "FILE-04539",
+        "path": "adl-runtime/src/distributed/fencing.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3b83be0b2e90189a72bf668cc41515896ac88f484737d3ac0559058875bdcaf3",
+        "locator": {
+          "path": "adl-runtime/src/distributed/fencing.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04540",
+      "evidence": {
+        "subject_id": "FILE-04540",
+        "path": "adl-runtime/src/distributed/lease.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ea751f590f11d5735f27fe1e7ba08c68a53db9f25e67faef0477ef7aafe80c5c",
+        "locator": {
+          "path": "adl-runtime/src/distributed/lease.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04541",
+      "evidence": {
+        "subject_id": "FILE-04541",
+        "path": "adl-runtime/src/distributed/membership_coordinator/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b99c78c70fde9bc50917b648472c3b2d7c4afa71f4779d9188ac827e52626942",
+        "locator": {
+          "path": "adl-runtime/src/distributed/membership_coordinator/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04542",
+      "evidence": {
+        "subject_id": "FILE-04542",
+        "path": "adl-runtime/src/distributed/migration.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4a1eb81b214513d97ba79ef5b646a152374cc656785c391d04d1c1e019b1dce5",
+        "locator": {
+          "path": "adl-runtime/src/distributed/migration.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04543",
+      "evidence": {
+        "subject_id": "FILE-04543",
+        "path": "adl-runtime/src/distributed/placement.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "de6d89cfca76882e9d3e1d46cace56268c442ba1edb2ab7480047de74763809c",
+        "locator": {
+          "path": "adl-runtime/src/distributed/placement.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04544",
+      "evidence": {
+        "subject_id": "FILE-04544",
+        "path": "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "dfe1675db9dce104d06207d8b548ca4a8cf466f28446e0441f174d14ca6a178a",
+        "locator": {
+          "path": "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04545",
+      "evidence": {
+        "subject_id": "FILE-04545",
+        "path": "adl-runtime/src/guardian.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b8c9e53d5b5eac49ee334f4b9702a2f9c9621444af8aa0618906d4955dc008bd",
+        "locator": {
+          "path": "adl-runtime/src/guardian.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04546",
+      "evidence": {
+        "subject_id": "FILE-04546",
+        "path": "adl-runtime/src/lib.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f4d936ab2e33bf1110eccfba5a940e8ad2433195426119b6bdce0bbbba7adf55",
+        "locator": {
+          "path": "adl-runtime/src/lib.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04547",
+      "evidence": {
+        "subject_id": "FILE-04547",
+        "path": "adl-runtime/src/qualification/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+        "locator": {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04573",
+      "evidence": {
+        "subject_id": "FILE-04573",
+        "path": "adl/src/adl/validation.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b3bcd5268685a4d7e9f2f2c6361d269be340fb4a151f292a9cb1e45c61e8d20e",
+        "locator": {
+          "path": "adl/src/adl/validation.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04574",
+      "evidence": {
+        "subject_id": "FILE-04574",
+        "path": "adl/src/adl_gws_context_mirror.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "58d0c4527948b0cd76c1ea2d8d6c52b4e44030c57dc53b0671dbeb0c0d473541",
+        "locator": {
+          "path": "adl/src/adl_gws_context_mirror.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04575",
+      "evidence": {
+        "subject_id": "FILE-04575",
+        "path": "adl/src/agent_comms.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9ecb38e22c30361e7a9ee9e74305bb08eca2451ed2aab372f514973775945a6b",
+        "locator": {
+          "path": "adl/src/agent_comms.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04577",
+      "evidence": {
+        "subject_id": "FILE-04577",
+        "path": "adl/src/bin/demo_adl_gws_context_mirror.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3f831f22814a03bef6736180b616829b2af38063dc21e6b84c5d57e08edf95e4",
+        "locator": {
+          "path": "adl/src/bin/demo_adl_gws_context_mirror.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04578",
+      "evidence": {
+        "subject_id": "FILE-04578",
+        "path": "adl/src/cli/csm_cmd.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b8f86d78a95b7a186c606d22094963eab8673d18200c3f08436b9754bb81fdb9",
+        "locator": {
+          "path": "adl/src/cli/csm_cmd.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04579",
+      "evidence": {
+        "subject_id": "FILE-04579",
+        "path": "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0513ca679beb4506dfa279c5ca882484adde052f81fcb507bead3e48dd59d8d3",
+        "locator": {
+          "path": "adl/src/cli/csm_runtime_v3_cmd.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04580",
+      "evidence": {
+        "subject_id": "FILE-04580",
+        "path": "adl/src/cli/csmctl_cmd.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "15a3f5508d044916af32032ce2dc3d27de75a2d2a354b8d739944f454fde48cd",
+        "locator": {
+          "path": "adl/src/cli/csmctl_cmd.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04581",
+      "evidence": {
+        "subject_id": "FILE-04581",
+        "path": "adl/src/cli/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "49e830fdefc6725e0444e94e62166863f7e45ad650479ec0d7d752234e6eae92",
+        "locator": {
+          "path": "adl/src/cli/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04582",
+      "evidence": {
+        "subject_id": "FILE-04582",
+        "path": "adl/src/cli/observability.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bb212171cfb8fb0e25f5aea3026206259f14a15abfe26a3a05a1058f4b6ae866",
+        "locator": {
+          "path": "adl/src/cli/observability.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04584",
+      "evidence": {
+        "subject_id": "FILE-04584",
+        "path": "adl/src/cli/usage.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0c7429b60b95b3a67357286a2f0859595119654c4d059ac8a3500ee1280a06bb",
+        "locator": {
+          "path": "adl/src/cli/usage.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04585",
+      "evidence": {
+        "subject_id": "FILE-04585",
+        "path": "adl/src/execute/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1e7f2228d31ff50b5186f4b9bf511cc444bf37d5a634b38a3af4c8f36d6f94df",
+        "locator": {
+          "path": "adl/src/execute/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04586",
+      "evidence": {
+        "subject_id": "FILE-04586",
+        "path": "adl/src/execute/runner.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e7a332b85e0adb9d9a1620e7b4d614850d8554deeb55cad086895a0bc1d68072",
+        "locator": {
+          "path": "adl/src/execute/runner.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04587",
+      "evidence": {
+        "subject_id": "FILE-04587",
+        "path": "adl/src/execute/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "cf2e9a8803d625d157e5851053dfa2e2757b6c27d5e5a547b1dd5ba09720267d",
+        "locator": {
+          "path": "adl/src/execute/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04588",
+      "evidence": {
+        "subject_id": "FILE-04588",
+        "path": "adl/src/lib.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4673e5ee17b560c98f214d12b18c7db1e69aa7ecae61188658c5963935d9187d",
+        "locator": {
+          "path": "adl/src/lib.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04589",
+      "evidence": {
+        "subject_id": "FILE-04589",
+        "path": "adl/src/long_lived_agent.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a66f7ab0647057921a661b4174224cd3daa6c9e0843ccd695ada7e947484983f",
+        "locator": {
+          "path": "adl/src/long_lived_agent.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04590",
+      "evidence": {
+        "subject_id": "FILE-04590",
+        "path": "adl/src/long_lived_agent/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a4e868fc450e6d95227edad25d7781f3a9b9f064325b034cc4d16ce4d8cbeb27",
+        "locator": {
+          "path": "adl/src/long_lived_agent/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04601",
+      "evidence": {
+        "subject_id": "FILE-04601",
+        "path": "adl/src/resilience.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b70a442eb5550f4fdac397b049840e3213e375505bc85ed07db92f3275d298d0",
+        "locator": {
+          "path": "adl/src/resilience.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04602",
+      "evidence": {
+        "subject_id": "FILE-04602",
+        "path": "adl/src/resilience/bulkhead.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4d4f059e56803355a258a8f58a10c256261e79d269779d05132eac415dc77690",
+        "locator": {
+          "path": "adl/src/resilience/bulkhead.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04603",
+      "evidence": {
+        "subject_id": "FILE-04603",
+        "path": "adl/src/resilience/circuit_breaker.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6c27f5f058b40d8c554419b052be4bc8a1beb19c5ac7d63691a8cfa0a81796a4",
+        "locator": {
+          "path": "adl/src/resilience/circuit_breaker.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04604",
+      "evidence": {
+        "subject_id": "FILE-04604",
+        "path": "adl/src/resilience/fallback.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b92591d24a7bbf401b25aba7e4ff1efef6af0c1be6af70b44d3dc0e779134865",
+        "locator": {
+          "path": "adl/src/resilience/fallback.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04605",
+      "evidence": {
+        "subject_id": "FILE-04605",
+        "path": "adl/src/resilience/fault.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2ed2b6a44853a2468e5933441eeff1783b150b70ee8541db8b52c1dd94ef23a2",
+        "locator": {
+          "path": "adl/src/resilience/fault.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04606",
+      "evidence": {
+        "subject_id": "FILE-04606",
+        "path": "adl/src/resilience/policy.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "81a8109ec3a4f54e92528151f259b1cb713620dccddedd6e1e03986d55205ac7",
+        "locator": {
+          "path": "adl/src/resilience/policy.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04607",
+      "evidence": {
+        "subject_id": "FILE-04607",
+        "path": "adl/src/resilience/rate_limit.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9bb0f33da71126cdd0e97fea5d40ac5229253de699934d4919686a23c72dcffa",
+        "locator": {
+          "path": "adl/src/resilience/rate_limit.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04608",
+      "evidence": {
+        "subject_id": "FILE-04608",
+        "path": "adl/src/resilience/retry.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bb678138d7fa1bcface60cd61c82c0e026ca08ad4d6eeb35962cc0e0e92a5d3b",
+        "locator": {
+          "path": "adl/src/resilience/retry.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04609",
+      "evidence": {
+        "subject_id": "FILE-04609",
+        "path": "adl/src/resilience/runtime.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "219cf0205cb4c0aea80a7d23257a69ea1cd6241592c87e3b963724799f3bc96a",
+        "locator": {
+          "path": "adl/src/resilience/runtime.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04610",
+      "evidence": {
+        "subject_id": "FILE-04610",
+        "path": "adl/src/resilience/schema.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c4290974cf03f314275ada90a17979498a382cb2ea6c7942424b24d6a81216d7",
+        "locator": {
+          "path": "adl/src/resilience/schema.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04611",
+      "evidence": {
+        "subject_id": "FILE-04611",
+        "path": "adl/src/resilience/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "23e425167e783be43178221f60608767a11d76439b6c8aaa0c5daf6cc0dafe03",
+        "locator": {
+          "path": "adl/src/resilience/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04612",
+      "evidence": {
+        "subject_id": "FILE-04612",
+        "path": "adl/src/resilience/timeout.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "687371c5622b204aba71e6ae6faabc7a0931241beb8fef45abd67d1d7b496125",
+        "locator": {
+          "path": "adl/src/resilience/timeout.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04613",
+      "evidence": {
+        "subject_id": "FILE-04613",
+        "path": "adl/src/runtime_v2/contracts.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fdb0b2599526c109a4ad6671637c862e45b14da44adb47f38770ad24b5fa835b",
+        "locator": {
+          "path": "adl/src/runtime_v2/contracts.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04624",
+      "evidence": {
+        "subject_id": "FILE-04624",
+        "path": "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d47918744da52d731dc271ab273f3bb196843fece54beb50afae8169b4928296",
+        "locator": {
+          "path": "adl/tools/build_issue509_runtime_bundle_on_relay.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04625",
+      "evidence": {
+        "subject_id": "FILE-04625",
+        "path": "adl/tools/check_coverage_impact.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "765c70f958ab39857052a52cc4ccf3d0a4cad7e8e68a194a87f3fc637b84ca88",
+        "locator": {
+          "path": "adl/tools/check_coverage_impact.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04626",
+      "evidence": {
+        "subject_id": "FILE-04626",
+        "path": "adl/tools/ci_path_policy.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3ffcb7257104bd6a1d850c06776f46baabcb73bd970ea6a83f44a15fc2454dbe",
+        "locator": {
+          "path": "adl/tools/ci_path_policy.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04627",
+      "evidence": {
+        "subject_id": "FILE-04627",
+        "path": "adl/tools/csdlc_obs_ready_canary.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d2ac0d4a7f28992803dce835e02f3e04033de2555a5dc02236e5d37708bd87dd",
+        "locator": {
+          "path": "adl/tools/csdlc_obs_ready_canary.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04628",
+      "evidence": {
+        "subject_id": "FILE-04628",
+        "path": "adl/tools/install_runtime_v3_generation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "727cda26a0aa41180840862cb73f5480d8f3a58d9c4a2a194f5b2bb28bec525c",
+        "locator": {
+          "path": "adl/tools/install_runtime_v3_generation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04630",
+      "evidence": {
+        "subject_id": "FILE-04630",
+        "path": "adl/tools/issue607_guardian_recovery_proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "81a724c5b748e7da13f7124a500b982ee96eb99639bd72add68a5f488d9413df",
+        "locator": {
+          "path": "adl/tools/issue607_guardian_recovery_proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04631",
+      "evidence": {
+        "subject_id": "FILE-04631",
+        "path": "adl/tools/issue607_probe_runtime.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b18d4cbd637a5f97e527927e908c6686c96854ee59f1ef0f555f51d88e0d84f2",
+        "locator": {
+          "path": "adl/tools/issue607_probe_runtime.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04632",
+      "evidence": {
+        "subject_id": "FILE-04632",
+        "path": "adl/tools/issue607_qualify_warm_polis.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "30842a6561c23361aede6345d4a33858f4104d67729d26f702982eeaa8309b8c",
+        "locator": {
+          "path": "adl/tools/issue607_qualify_warm_polis.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04633",
+      "evidence": {
+        "subject_id": "FILE-04633",
+        "path": "adl/tools/issue607_validate_saved_plan.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a12c9e54107ef9e55a0c84d6ec57f0c17215e62949a4a2911c678ca1f6a0c6ae",
+        "locator": {
+          "path": "adl/tools/issue607_validate_saved_plan.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04634",
+      "evidence": {
+        "subject_id": "FILE-04634",
+        "path": "adl/tools/record_podcast_browser_playback.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "90b75510918cd321f37c1889b65d8ce5b12d3e15af8ce5506f255f9809acd422",
+        "locator": {
+          "path": "adl/tools/record_podcast_browser_playback.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04635",
+      "evidence": {
+        "subject_id": "FILE-04635",
+        "path": "adl/tools/record_podcast_ios_safari_playback.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3d9a57c2161380ae477f94b1026129c674997ae87ebeb2a4fb0d2cccc6df2def",
+        "locator": {
+          "path": "adl/tools/record_podcast_ios_safari_playback.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04636",
+      "evidence": {
+        "subject_id": "FILE-04636",
+        "path": "adl/tools/record_podcast_native_playback.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "262380364f5401f0d821f0db517b2aa91ec357cf8d944bed38cde21c3cd3db73",
+        "locator": {
+          "path": "adl/tools/record_podcast_native_playback.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04637",
+      "evidence": {
+        "subject_id": "FILE-04637",
+        "path": "adl/tools/release/build_retained_proof_gap_denominator.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "17c50d9643a34a0d097341ba15ca6e74761c5b64f58f48f24f8d491517f66cf2",
+        "locator": {
+          "path": "adl/tools/release/build_retained_proof_gap_denominator.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04640",
+      "evidence": {
+        "subject_id": "FILE-04640",
+        "path": "adl/tools/run_issue268_six_resident_uts_cycle.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fbc268b357f6586c74625040f0b655db4949effc3742f87baa4b0b90d8247115",
+        "locator": {
+          "path": "adl/tools/run_issue268_six_resident_uts_cycle.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04643",
+      "evidence": {
+        "subject_id": "FILE-04643",
+        "path": "adl/tools/run_issue607_warm_polis.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "354981907d3fb9b35c203ad0661f0db9c1ab0bcbc25d2a2c67e173474a700461",
+        "locator": {
+          "path": "adl/tools/run_issue607_warm_polis.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04644",
+      "evidence": {
+        "subject_id": "FILE-04644",
+        "path": "adl/tools/runtime_v3_generation.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "24e0e323dfd82305e59e2d40031fc9022fc4315bccffe56e55eb0cd1c7c35c01",
+        "locator": {
+          "path": "adl/tools/runtime_v3_generation.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04651",
+      "evidence": {
+        "subject_id": "FILE-04651",
+        "path": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "afd45c8651e1696af9253a29bcdd9efc09e33d02db06c2368fa6e4185f5c064d",
+        "locator": {
+          "path": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04652",
+      "evidence": {
+        "subject_id": "FILE-04652",
+        "path": "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5a3369b55e8e0f6151b010adec780d20f11fff52729fa00d539dc202fb9d4b2f",
+        "locator": {
+          "path": "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04679",
+      "evidence": {
+        "subject_id": "FILE-04679",
+        "path": "adl/tools/validate_ci_workflow_policy.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2e6cf118c766978902644242d9b4c151e1639f81213f96b66950545f6464c521",
+        "locator": {
+          "path": "adl/tools/validate_ci_workflow_policy.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04680",
+      "evidence": {
+        "subject_id": "FILE-04680",
+        "path": "adl/tools/validate_csm_public_edge_live.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ae312a9d3f11f3cacf6fc63180c242afea0cd81798c5f65a1a5205facff2f9dc",
+        "locator": {
+          "path": "adl/tools/validate_csm_public_edge_live.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04681",
+      "evidence": {
+        "subject_id": "FILE-04681",
+        "path": "adl/tools/validate_csm_public_edge_static.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1f06ad23fd14cf6ba1f479c6590ed9914f4b16cdd8d0516d7fe8752be4965fe5",
+        "locator": {
+          "path": "adl/tools/validate_csm_public_edge_static.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04682",
+      "evidence": {
+        "subject_id": "FILE-04682",
+        "path": "adl/tools/validate_podcast_launch_packet.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "01ab2f81d09c93320d79204d8217863340c3707368b0db86bd1658d8a417eeea",
+        "locator": {
+          "path": "adl/tools/validate_podcast_launch_packet.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04683",
+      "evidence": {
+        "subject_id": "FILE-04683",
+        "path": "adl/tools/validate_v0917_html_observatory.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4961e8146ba522d5b111973c306fcb5a1ca85f930ca99c25b26561af738a3fdf",
+        "locator": {
+          "path": "adl/tools/validate_v0917_html_observatory.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04684",
+      "evidence": {
+        "subject_id": "FILE-04684",
+        "path": "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fd3fcb47ddbdfc51bf2d80680b851de28155b22e97254c97fed096c75d8df4c6",
+        "locator": {
+          "path": "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04685",
+      "evidence": {
+        "subject_id": "FILE-04685",
+        "path": "adl/tools/validate_v092_observatory_transcript_history.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b0a4660d08b2700af2175efe0f33f6e73ab23034d37a1cbed3aa84683b8bc56",
+        "locator": {
+          "path": "adl/tools/validate_v092_observatory_transcript_history.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04686",
+      "evidence": {
+        "subject_id": "FILE-04686",
+        "path": "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8822914da87d01a02f8bbe3449ff83fd986f0ffbf61a68c3d19bff0ab8ed8b35",
+        "locator": {
+          "path": "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04704",
+      "evidence": {
+        "subject_id": "FILE-04704",
+        "path": "csdlc-v2/src/bin/csdlc-clean.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a176dec27f190b5a3068457440a563a9cb2bf817765185ab5f2e7176564bc428",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-clean.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04705",
+      "evidence": {
+        "subject_id": "FILE-04705",
+        "path": "csdlc-v2/src/bin/csdlc-cutover.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "aed1af88f1a131e791613a54541f690e086ea552bac7aa9db246a27f61eed1d0",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-cutover.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04706",
+      "evidence": {
+        "subject_id": "FILE-04706",
+        "path": "csdlc-v2/src/bin/csdlc-finish.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "05ea03fd476629ac5a8178e0a5487ddd2c3e50185652b68f227aade072b46e94",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-finish.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04707",
+      "evidence": {
+        "subject_id": "FILE-04707",
+        "path": "csdlc-v2/src/bin/csdlc-github-issue.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "aa56a3ea11dc78d4f7337f6d01f65ad7b3b3f0a166b4cf95f06d0219e83e360f",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-github-issue.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04708",
+      "evidence": {
+        "subject_id": "FILE-04708",
+        "path": "csdlc-v2/src/bin/csdlc-github-pr.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "aa9afca61df73fc8536d37091cd6e428eadc83e972b30393958cf2c37fde1fe0",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-github-pr.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04709",
+      "evidence": {
+        "subject_id": "FILE-04709",
+        "path": "csdlc-v2/src/bin/csdlc-github.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a7dd907348a99eb3afa2fed42905f8184a7b07f5469634d637c12b326ce1660a",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-github.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04710",
+      "evidence": {
+        "subject_id": "FILE-04710",
+        "path": "csdlc-v2/src/bin/csdlc-pr-state.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ba363e3840893001edb848757c95f88b1138707ba230cc1ed86fb18fc4b4794e",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-pr-state.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04711",
+      "evidence": {
+        "subject_id": "FILE-04711",
+        "path": "csdlc-v2/src/bin/csdlc-proof.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1b257939c53dd38bc76874b7478dcc53afda2661cc4d7faed1d0f9959872b1f6",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-proof.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04712",
+      "evidence": {
+        "subject_id": "FILE-04712",
+        "path": "csdlc-v2/src/bin/csdlc-publish.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9eb6ff0435266bc5d0e94989ee996e058e477ee5f4034494cf124e44bbc08c0e",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-publish.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04713",
+      "evidence": {
+        "subject_id": "FILE-04713",
+        "path": "csdlc-v2/src/bin/csdlc-shadow.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2733872a334f6c883da1b24e3ad2bb1ff94a2efea442842053944ad9dcd45ebd",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-shadow.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04714",
+      "evidence": {
+        "subject_id": "FILE-04714",
+        "path": "csdlc-v2/src/bin/csdlc-soak.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2358598931dcbd9d4a54048070503f465827f4bb0a035da61400c63b4e95f0d4",
+        "locator": {
+          "path": "csdlc-v2/src/bin/csdlc-soak.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04715",
+      "evidence": {
+        "subject_id": "FILE-04715",
+        "path": "csdlc-v2/src/cards.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bd3a933dcdc4389ae20efc2845d99536fac6685c2f1479b8676445e2f5841d88",
+        "locator": {
+          "path": "csdlc-v2/src/cards.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04716",
+      "evidence": {
+        "subject_id": "FILE-04716",
+        "path": "csdlc-v2/src/cutover.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "36d2aaad513c505607e2be1d4a5b3ed8ba045d48c10b39faf5a5e7ffa8453ba8",
+        "locator": {
+          "path": "csdlc-v2/src/cutover.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04717",
+      "evidence": {
+        "subject_id": "FILE-04717",
+        "path": "csdlc-v2/src/finish.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8cb697fdfe0ebc1ec62f172462a3dd9c767ff8cc38095c1f588b5d192cf78814",
+        "locator": {
+          "path": "csdlc-v2/src/finish.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04718",
+      "evidence": {
+        "subject_id": "FILE-04718",
+        "path": "csdlc-v2/src/github.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "71b87fca567f4ed6e3a171b468f5680ada114f7f0b7c1dc0871fd50dd4dd6ec0",
+        "locator": {
+          "path": "csdlc-v2/src/github.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04719",
+      "evidence": {
+        "subject_id": "FILE-04719",
+        "path": "csdlc-v2/src/lib.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f7a5cbebd92c87f25309ea00d93747f9bbbd706b3b477168d5fdf56b2e6db5cd",
+        "locator": {
+          "path": "csdlc-v2/src/lib.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04720",
+      "evidence": {
+        "subject_id": "FILE-04720",
+        "path": "csdlc-v2/src/lifecycle.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ba02e250ab69cc0363eb82f42a18c9f69944dca0fc43d6513ff81e28a4977d8c",
+        "locator": {
+          "path": "csdlc-v2/src/lifecycle.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04721",
+      "evidence": {
+        "subject_id": "FILE-04721",
+        "path": "csdlc-v2/src/operator.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "cec6279fb55dc6d1ab679f3f524e82c0ae95f7f45253253d95de40a5a775ee7d",
+        "locator": {
+          "path": "csdlc-v2/src/operator.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04722",
+      "evidence": {
+        "subject_id": "FILE-04722",
+        "path": "csdlc-v2/src/publication.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b4e4a84cb40e1090b827721a0d4c5e24bf421b645bd2d6031194eeba1f4e3e5f",
+        "locator": {
+          "path": "csdlc-v2/src/publication.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04723",
+      "evidence": {
+        "subject_id": "FILE-04723",
+        "path": "csdlc-v2/src/registry.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f99828de332c4e524eb90e1b222196550c5135b88ab8eb9cd95ba05ee643656e",
+        "locator": {
+          "path": "csdlc-v2/src/registry.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04724",
+      "evidence": {
+        "subject_id": "FILE-04724",
+        "path": "csdlc-v2/src/review.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0481c2cad987c9a5cfcd45177a4b7921ea67795c6468d870542e4721d4991c9a",
+        "locator": {
+          "path": "csdlc-v2/src/review.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04725",
+      "evidence": {
+        "subject_id": "FILE-04725",
+        "path": "csdlc-v2/src/schema.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "52581796c328aac1fad30b8946ae12fac6322f4d2186b1a2ebcfe27fe25a7ae1",
+        "locator": {
+          "path": "csdlc-v2/src/schema.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04726",
+      "evidence": {
+        "subject_id": "FILE-04726",
+        "path": "csdlc-v2/src/soak.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "39885715ea797c62d0e5251102d66084bd232a0942dbe0ba33e7ce1f3a355e50",
+        "locator": {
+          "path": "csdlc-v2/src/soak.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04727",
+      "evidence": {
+        "subject_id": "FILE-04727",
+        "path": "csdlc-v2/src/store.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "85d1b27821cd290632887f6948daf4bda29170c4f4b80acd952e540a9760a7b3",
+        "locator": {
+          "path": "csdlc-v2/src/store.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04754",
+      "evidence": {
+        "subject_id": "FILE-04754",
+        "path": "csdlc-v3/src/adapters/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e0f4badbe62de8991d5c2a07906f689cd2ebd4042ed240247cb772a572ddc5d0",
+        "locator": {
+          "path": "csdlc-v3/src/adapters/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04755",
+      "evidence": {
+        "subject_id": "FILE-04755",
+        "path": "csdlc-v3/src/application/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b61bbdbff4ec7bf2af3576e4542e227b17e42ee650a3b769511c67cbc60ea10",
+        "locator": {
+          "path": "csdlc-v3/src/application/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04757",
+      "evidence": {
+        "subject_id": "FILE-04757",
+        "path": "csdlc-v3/src/commands/local/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1cbc46b5f8c5c369f4ccfcaedccec4aa2cd3839879b25b2209ff8a86a1fa9244",
+        "locator": {
+          "path": "csdlc-v3/src/commands/local/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04758",
+      "evidence": {
+        "subject_id": "FILE-04758",
+        "path": "csdlc-v3/src/commands/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bdcbb1851771d3058f5b463d0270d759327480d163de02d6a03b4bde834101cc",
+        "locator": {
+          "path": "csdlc-v3/src/commands/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04759",
+      "evidence": {
+        "subject_id": "FILE-04759",
+        "path": "csdlc-v3/src/commands/proof.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "dd37a9099879613ecbb558ed509f707f6b75c3a24bca79b58fdbf010e90c6b78",
+        "locator": {
+          "path": "csdlc-v3/src/commands/proof.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04760",
+      "evidence": {
+        "subject_id": "FILE-04760",
+        "path": "csdlc-v3/src/commands/remote/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c3c48847ffb2c2babaa70d837bca8de446b7c4000e9a8dee821fba19e1329025",
+        "locator": {
+          "path": "csdlc-v3/src/commands/remote/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04761",
+      "evidence": {
+        "subject_id": "FILE-04761",
+        "path": "csdlc-v3/src/commands/remote/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "983457984c26c7f61ec5c5881669210e91169fc4832598a0e1ed64ce129570db",
+        "locator": {
+          "path": "csdlc-v3/src/commands/remote/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04762",
+      "evidence": {
+        "subject_id": "FILE-04762",
+        "path": "csdlc-v3/src/commands/sprint.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69d56f11dcef1e448c05ea1c496f4a7365ecfadb7fdccb354d3caf7d5a4d4a0c",
+        "locator": {
+          "path": "csdlc-v3/src/commands/sprint.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04763",
+      "evidence": {
+        "subject_id": "FILE-04763",
+        "path": "csdlc-v3/src/commands/terminal.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "dcb5691afafd30567ea44c64e8934ed5bd8dd45d7719f429d2071aadf89b278c",
+        "locator": {
+          "path": "csdlc-v3/src/commands/terminal.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04764",
+      "evidence": {
+        "subject_id": "FILE-04764",
+        "path": "csdlc-v3/src/lib.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "874161b7c2d292da592958028ebf61cbd2ba24e944e8097d7a48d673d375ae33",
+        "locator": {
+          "path": "csdlc-v3/src/lib.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04765",
+      "evidence": {
+        "subject_id": "FILE-04765",
+        "path": "csdlc-v3/src/lifecycle/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8b7c43e6b1868a0a7a34787f76c2bb6637b6ddc2a72663e90e42b9df90fe2e9b",
+        "locator": {
+          "path": "csdlc-v3/src/lifecycle/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04766",
+      "evidence": {
+        "subject_id": "FILE-04766",
+        "path": "csdlc-v3/src/main.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "152932f580b34133623355f91cd4644b9a6c7fe5959d808825159dc00aa4cc06",
+        "locator": {
+          "path": "csdlc-v3/src/main.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04767",
+      "evidence": {
+        "subject_id": "FILE-04767",
+        "path": "csdlc-v3/src/publication/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3f2a2876e51362ee36a6f920cf2d6ba4926c054bb5a3ca6914353024c508a340",
+        "locator": {
+          "path": "csdlc-v3/src/publication/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04768",
+      "evidence": {
+        "subject_id": "FILE-04768",
+        "path": "csdlc-v3/src/repository/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2cb16bb7f71688dcde016565a9c9e497f3fd70de01e2918c1b9290a158183727",
+        "locator": {
+          "path": "csdlc-v3/src/repository/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04769",
+      "evidence": {
+        "subject_id": "FILE-04769",
+        "path": "csdlc-v3/src/review/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "62a0c2bfdf1ae2fddb39618b8c8e2c7dd373478a8aea2d105d965883ece727a6",
+        "locator": {
+          "path": "csdlc-v3/src/review/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04770",
+      "evidence": {
+        "subject_id": "FILE-04770",
+        "path": "csdlc-v3/src/storage/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "15058a1f18d101a3009f1d8faf1c7193b4d7f2dc857620d6f1b35c3d10e8857d",
+        "locator": {
+          "path": "csdlc-v3/src/storage/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-04785",
+      "evidence": {
+        "subject_id": "FILE-04785",
+        "path": "demos/html-observatory/app.js",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "edbf862dc73f022b2db5b0e7bd78ba7ab46acb161c50e4ae39dca685f7f641bd",
+        "locator": {
+          "path": "demos/html-observatory/app.js",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05340",
+      "evidence": {
+        "subject_id": "FILE-05340",
+        "path": "docs/milestones/v0.92.1/evidence/release/current-status/validate.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f8a40c7e1f7da5bc99b19563ab67d53316f988a994b270dc4828037911e648fe",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/current-status/validate.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05359",
+      "evidence": {
+        "subject_id": "FILE-05359",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/summarize.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f8b822bd12b31b95f66fe79a232df74314d3a9695b41dffc0adebf0559935c48",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/summarize.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05405",
+      "evidence": {
+        "subject_id": "FILE-05405",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2b87a36488b65d2bca990519f08047478cada74f9ccbcee9907035675f12ecfc",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05406",
+      "evidence": {
+        "subject_id": "FILE-05406",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4f51fad7354663d97f583ba3557d9557ab95f138fc182865bb4495c33292c503",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05745",
+      "evidence": {
+        "subject_id": "FILE-05745",
+        "path": "docs/milestones/v0.92.2/validate_planning.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1048339a944632665c5553a5f50553f67a1cc8537906ea4757128afa00708d52",
+        "locator": {
+          "path": "docs/milestones/v0.92.2/validate_planning.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05757",
+      "evidence": {
+        "subject_id": "FILE-05757",
+        "path": "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8c998e97f127602fb77d9c38738fb0f63724151304e04986749944713a6d5767",
+        "locator": {
+          "path": "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    },
+    {
+      "ref": "FILE-05851",
+      "evidence": {
+        "subject_id": "FILE-05851",
+        "path": "docs/tooling/editor/task_bundle_editor.js",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "eb1eef9e3f926bf16d4533fe8ab23e153a98bb959fd2a9ea0c2e3b4da240741d",
+        "locator": {
+          "path": "docs/tooling/editor/task_bundle_editor.js",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the code specialist disposition."
+    }
+  ],
+  "findings": [
+    {
+      "id": "D520-RUNTIME-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+      "impact": "A crash after the final attempt claim can dispatch an unauthorized extra provider operation and then prevent the Runtime from starting because it rejects state that it wrote itself.",
+      "source_lane": "code",
+      "owner": "#814 under #522",
+      "affected_acceptance_refs": [
+        "RUST-01:AC-1",
+        "RUST-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime-kernel/src/control.rs",
+        "line": 2478
+      },
+      "evidence": {
+        "subject_id": "D520-RUNTIME-001",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2478
+        }
+      },
+      "detail": "Recovery unconditionally increments attempts. A record already at max_attempts becomes max_attempts plus one, dispatches again, and is rejected by valid_for on the next reopen. No test injects a crash immediately after the maximum-attempt claim.",
+      "denominator_refs": [
+        "FILE-04507"
+      ]
+    },
+    {
+      "id": "D520-RUNTIME-002",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Greeting retries replace the stable ledger work identity with attempt-specific IDs",
+      "impact": "Outbox, result, transcript, audit, and deduplication identities can diverge across retries, fragmenting the durable idempotency contract.",
+      "source_lane": "code",
+      "owner": "#814 under #522",
+      "affected_acceptance_refs": [
+        "RUST-01:AC-1",
+        "RUST-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime-kernel/src/control.rs",
+        "line": 2423
+      },
+      "evidence": {
+        "subject_id": "D520-RUNTIME-002",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2423
+        }
+      },
+      "detail": "The retry path changes work_id to <stable-key>-attempt-N and refresh propagates that changed value into initiation and ledger metadata. The existing stable-work-key test asserts only the durable record, not the delivered result or ledger-visible identity.",
+      "denominator_refs": [
+        "FILE-04507"
+      ]
+    }
+  ]
+}

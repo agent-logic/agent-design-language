@@ -1,0 +1,2151 @@
+{
+  "schema": "adl.v0921.internal_review_lane.v1",
+  "lane": "tests",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "denominator_refs": [
+    "FILE-04488",
+    "FILE-04520",
+    "FILE-04521",
+    "FILE-04522",
+    "FILE-04523",
+    "FILE-04524",
+    "FILE-04525",
+    "FILE-04526",
+    "FILE-04527",
+    "FILE-04528",
+    "FILE-04529",
+    "FILE-04530",
+    "FILE-04531",
+    "FILE-04532",
+    "FILE-04548",
+    "FILE-04549",
+    "FILE-04550",
+    "FILE-04551",
+    "FILE-04552",
+    "FILE-04553",
+    "FILE-04554",
+    "FILE-04555",
+    "FILE-04556",
+    "FILE-04557",
+    "FILE-04558",
+    "FILE-04559",
+    "FILE-04560",
+    "FILE-04561",
+    "FILE-04562",
+    "FILE-04563",
+    "FILE-04564",
+    "FILE-04565",
+    "FILE-04566",
+    "FILE-04614",
+    "FILE-04615",
+    "FILE-04616",
+    "FILE-04617",
+    "FILE-04618",
+    "FILE-04619",
+    "FILE-04620",
+    "FILE-04621",
+    "FILE-04622",
+    "FILE-04638",
+    "FILE-04653",
+    "FILE-04654",
+    "FILE-04655",
+    "FILE-04656",
+    "FILE-04660",
+    "FILE-04661",
+    "FILE-04662",
+    "FILE-04663",
+    "FILE-04664",
+    "FILE-04665",
+    "FILE-04666",
+    "FILE-04667",
+    "FILE-04668",
+    "FILE-04669",
+    "FILE-04670",
+    "FILE-04671",
+    "FILE-04672",
+    "FILE-04673",
+    "FILE-04674",
+    "FILE-04675",
+    "FILE-04676",
+    "FILE-04677",
+    "FILE-04728",
+    "FILE-04729",
+    "FILE-04730",
+    "FILE-04731",
+    "FILE-04732",
+    "FILE-04733",
+    "FILE-04734",
+    "FILE-04735",
+    "FILE-04736",
+    "FILE-04737",
+    "FILE-04738",
+    "FILE-04739",
+    "FILE-04740",
+    "FILE-04741",
+    "FILE-04742",
+    "FILE-04743",
+    "FILE-04744",
+    "FILE-04745",
+    "FILE-04746",
+    "FILE-04771",
+    "FILE-04772",
+    "FILE-04773",
+    "FILE-04774",
+    "FILE-04775",
+    "FILE-04776",
+    "FILE-04777",
+    "FILE-04778",
+    "FILE-04779",
+    "FILE-04780",
+    "FILE-04789",
+    "FILE-04790",
+    "FILE-04791",
+    "FILE-04792",
+    "FILE-04793",
+    "FILE-04794",
+    "FILE-04795",
+    "FILE-04796",
+    "FILE-04797",
+    "FILE-05404",
+    "FILE-05803",
+    "FILE-05804",
+    "FILE-05805",
+    "FILE-05899",
+    "FILE-05900",
+    "FILE-05901",
+    "FILE-05902",
+    "FILE-05945",
+    "FILE-05958",
+    "FILE-05961",
+    "FILE-06051",
+    "FILE-06063",
+    "FILE-06073",
+    "FILE-06079",
+    "FILE-06080",
+    "FILE-06081",
+    "FILE-06082",
+    "FILE-06083"
+  ],
+  "observations": [
+    {
+      "ref": "FILE-04488",
+      "evidence": {
+        "subject_id": "FILE-04488",
+        "path": ".github/workflows/ci.yaml",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "903a5a0aaa52a38495fd6501c98f047600b1a07612eed6f6ec49bd0d778bda07",
+        "locator": {
+          "path": ".github/workflows/ci.yaml",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04520",
+      "evidence": {
+        "subject_id": "FILE-04520",
+        "path": "adl-runtime-kernel/tests/agent_roster.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "201baeed82f5544bc4348b3b5f693aeec67054df5aa058ffcf8f4031630f01b7",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/agent_roster.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04521",
+      "evidence": {
+        "subject_id": "FILE-04521",
+        "path": "adl-runtime-kernel/tests/assembly.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "61bdf5e708804730b94b3d6dd68f20631856d3b2b5422edbd81c7ca092a41220",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/assembly.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04522",
+      "evidence": {
+        "subject_id": "FILE-04522",
+        "path": "adl-runtime-kernel/tests/configuration.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ac7f2571646b35ea2e067464a4741e549f5d0f1e9bc8e4d2ef2f1ef0b5493e23",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/configuration.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04523",
+      "evidence": {
+        "subject_id": "FILE-04523",
+        "path": "adl-runtime-kernel/tests/continuity.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "15c64f6a627eadf7c79011bf97fe63b3cf11434bed25f373e17d98aad443173a",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/continuity.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04524",
+      "evidence": {
+        "subject_id": "FILE-04524",
+        "path": "adl-runtime-kernel/tests/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8fdded70dc2afb6b9ed454f6238b0896688cac4e82070949368c3ea6a9ea4bd3",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/control.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04525",
+      "evidence": {
+        "subject_id": "FILE-04525",
+        "path": "adl-runtime-kernel/tests/conversation_history.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d4538d9741066258ba6ba57588d0bc7d67df86d18c3ed3db59c4a3732e657bad",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/conversation_history.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04526",
+      "evidence": {
+        "subject_id": "FILE-04526",
+        "path": "adl-runtime-kernel/tests/guardian_soak.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "63e4948e4d35ed16fa4e1446c9f7d36178c9cf212e26504259c18d734aeb9515",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/guardian_soak.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04527",
+      "evidence": {
+        "subject_id": "FILE-04527",
+        "path": "adl-runtime-kernel/tests/observability.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "697336ce3384209136c107d2b88ed55f1c9e4f9633f43aedc214656c13bbd4ef",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/observability.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04528",
+      "evidence": {
+        "subject_id": "FILE-04528",
+        "path": "adl-runtime-kernel/tests/observatory.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d340837911a378999165a8a4dca9bd3df17704e123771c7a83d3341c5662ce7e",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/observatory.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04529",
+      "evidence": {
+        "subject_id": "FILE-04529",
+        "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "5a41d41253d714d85f2cf6c959c27b910a43ed9f286a66625f5cca240ff27579",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04530",
+      "evidence": {
+        "subject_id": "FILE-04530",
+        "path": "adl-runtime-kernel/tests/production_acip_wss.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "89e50ea2f31977ffcc89233849cf212986ce3c807687be8e42c192d22975534d",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/production_acip_wss.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04531",
+      "evidence": {
+        "subject_id": "FILE-04531",
+        "path": "adl-runtime-kernel/tests/shepherd.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "072af704218be758b70efcc39d8c9a1805fa925ba29a67abb70e08711425666b",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/shepherd.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04532",
+      "evidence": {
+        "subject_id": "FILE-04532",
+        "path": "adl-runtime-kernel/tests/support/runtime_init.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7d05969ccada34b85a0a46fd5f92330a2c67a3d39ba2931617d7f710a6f3e70d",
+        "locator": {
+          "path": "adl-runtime-kernel/tests/support/runtime_init.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04548",
+      "evidence": {
+        "subject_id": "FILE-04548",
+        "path": "adl-runtime/tests/config_reload.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+        "locator": {
+          "path": "adl-runtime/tests/config_reload.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "finding",
+      "detail": "Exact-candidate review produced D520-TEST-001."
+    },
+    {
+      "ref": "FILE-04549",
+      "evidence": {
+        "subject_id": "FILE-04549",
+        "path": "adl-runtime/tests/distributed_certificates.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ec7a2cfbf8adc29e83d02252f419b345a85253a6d8b353638b70388425f02d10",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_certificates.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04550",
+      "evidence": {
+        "subject_id": "FILE-04550",
+        "path": "adl-runtime/tests/distributed_contract/main.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04551",
+      "evidence": {
+        "subject_id": "FILE-04551",
+        "path": "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4543c6d8b34b3bff2d68cb6ef23a1c522b8e1f1a9c1605168f7b5aaef385e1d0",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_contract/validate_drt_a.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04552",
+      "evidence": {
+        "subject_id": "FILE-04552",
+        "path": "adl-runtime/tests/distributed_contract/validate_drt_b.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ed2bfe20ca4c75562887aa2198c41619456f46ee28e94a3a4acb96e15c484489",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_contract/validate_drt_b.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04553",
+      "evidence": {
+        "subject_id": "FILE-04553",
+        "path": "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "480eccc4b7fb32509aed65ccc32e3d192d9bbf2d3a83ce4a1ac2294299537608",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_contract/validate_drt_d.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04554",
+      "evidence": {
+        "subject_id": "FILE-04554",
+        "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04555",
+      "evidence": {
+        "subject_id": "FILE-04555",
+        "path": "adl-runtime/tests/distributed_failure_detection.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9403a0900ad60e1e9222657a8c43b9169de9dabc7ef4c10248aa3525002ae01a",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_failure_detection.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04556",
+      "evidence": {
+        "subject_id": "FILE-04556",
+        "path": "adl-runtime/tests/distributed_fencing.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1370ad482acc809f78e922a316fb4c85a95822b56dd01e66ed4965b38020d6be",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_fencing.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04557",
+      "evidence": {
+        "subject_id": "FILE-04557",
+        "path": "adl-runtime/tests/distributed_identity.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "56eec59dc29aa6db59ffbf9dc4749c0230d917e73095217f38ac6c46390d441f",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_identity.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04558",
+      "evidence": {
+        "subject_id": "FILE-04558",
+        "path": "adl-runtime/tests/distributed_lease.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "846fd104dea51aadfb0a1bc8d2225fdce3c8aaf3a54aa6c3479c689139040f15",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_lease.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04559",
+      "evidence": {
+        "subject_id": "FILE-04559",
+        "path": "adl-runtime/tests/distributed_membership.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6572ddf7dd44c9a9b1d141887cc7b55cb52adcbd8fa6147b70f47ff294958fb5",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_membership.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04560",
+      "evidence": {
+        "subject_id": "FILE-04560",
+        "path": "adl-runtime/tests/distributed_migration.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "56a9bf7de4ab959913af88e527a478d1bbfdc366e647a1c4ea5459ecb6421371",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_migration.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04561",
+      "evidence": {
+        "subject_id": "FILE-04561",
+        "path": "adl-runtime/tests/distributed_placement.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f40305f57195b08d74f64b075a2fe43c6a2b47cd45101e192d8451a6389adf53",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_placement.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04562",
+      "evidence": {
+        "subject_id": "FILE-04562",
+        "path": "adl-runtime/tests/distributed_recovery.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4627d16ceb10204ef5bd34c1100c3a547ebc9ecdc0059099af538465f1e2149e",
+        "locator": {
+          "path": "adl-runtime/tests/distributed_recovery.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04563",
+      "evidence": {
+        "subject_id": "FILE-04563",
+        "path": "adl-runtime/tests/guardian_cli.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2ee37ae43ea31265a6a5b11f657c3e0245f22c18d47226ad1bdb42766e531c9a",
+        "locator": {
+          "path": "adl-runtime/tests/guardian_cli.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04564",
+      "evidence": {
+        "subject_id": "FILE-04564",
+        "path": "adl-runtime/tests/runtime_api_wss.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ffa9c14f451c14d70e52574ca8b8e94bb43e095d2d3dac2fe43f8a85bfb67f49",
+        "locator": {
+          "path": "adl-runtime/tests/runtime_api_wss.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04565",
+      "evidence": {
+        "subject_id": "FILE-04565",
+        "path": "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2395200b443261da3b8df2d6a7fcb406d1df1efa52f6d4a792422937537eef1f",
+        "locator": {
+          "path": "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04566",
+      "evidence": {
+        "subject_id": "FILE-04566",
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+        "locator": {
+          "path": "adl-runtime/tests/shepherd_local_model.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "finding",
+      "detail": "Exact-candidate review produced D520-SEC-004."
+    },
+    {
+      "ref": "FILE-04614",
+      "evidence": {
+        "subject_id": "FILE-04614",
+        "path": "adl/tests/adl_tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "218df8bbb15d2fa66bc03d511f465166f069532af622592a1fc61a34c3924d04",
+        "locator": {
+          "path": "adl/tests/adl_tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04615",
+      "evidence": {
+        "subject_id": "FILE-04615",
+        "path": "adl/tests/memory_palace_tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "718e0d13ebd75ef62b3fe4615e1af50dac0d4af6ff100b0a9c5b977de7e3cc14",
+        "locator": {
+          "path": "adl/tests/memory_palace_tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04616",
+      "evidence": {
+        "subject_id": "FILE-04616",
+        "path": "adl/tests/provider_moonshot_kimi_k3.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "69d3bdd046388ca3aefd884ffe0eb396ee2a0e3d86fcb6ea8e4b5c3f763f9d4b",
+        "locator": {
+          "path": "adl/tests/provider_moonshot_kimi_k3.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04617",
+      "evidence": {
+        "subject_id": "FILE-04617",
+        "path": "adl/tests/provider_shadow_comparison.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a2fd7962dedf51b98337cbac7247cf0a0c0a0e047724caa3f5a96c685695700d",
+        "locator": {
+          "path": "adl/tests/provider_shadow_comparison.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04618",
+      "evidence": {
+        "subject_id": "FILE-04618",
+        "path": "adl/tests/provider_shadow_fallback.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ef8a7f6a0dc0c01e5c33edfcc291fc3e34d14688564453f5acb90a2592449623",
+        "locator": {
+          "path": "adl/tests/provider_shadow_fallback.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04619",
+      "evidence": {
+        "subject_id": "FILE-04619",
+        "path": "adl/tests/provider_shadow_isolation.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "81f29bd0d6c0b3aab5f0d09c33d49dbc5f325106bd6a30c1a3e42f5b9a6a2b0e",
+        "locator": {
+          "path": "adl/tests/provider_shadow_isolation.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04620",
+      "evidence": {
+        "subject_id": "FILE-04620",
+        "path": "adl/tests/provider_shadow_open_pr_review.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fad84c799a359e6d68a562b0ba0c7f290e3b95c7e1c6080249e7a3404871c15a",
+        "locator": {
+          "path": "adl/tests/provider_shadow_open_pr_review.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04621",
+      "evidence": {
+        "subject_id": "FILE-04621",
+        "path": "adl/tests/provider_tests/http_family.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b0ee213ae6e13f6e381900ab74c16cc770b7010de0428c25e3470d90f816eaa",
+        "locator": {
+          "path": "adl/tests/provider_tests/http_family.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04622",
+      "evidence": {
+        "subject_id": "FILE-04622",
+        "path": "adl/tests/provider_tests/profiles.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1874ab1d89829f4c8cb8484586c305b21ef48e56f688e71c8c85a97e8448195c",
+        "locator": {
+          "path": "adl/tests/provider_tests/profiles.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04638",
+      "evidence": {
+        "subject_id": "FILE-04638",
+        "path": "adl/tools/release/test_retained_proof_gap_denominator.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "84e891f947788a04142f618ca686ed499ac96758eff212e928f994f9ec9b2fa9",
+        "locator": {
+          "path": "adl/tools/release/test_retained_proof_gap_denominator.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04653",
+      "evidence": {
+        "subject_id": "FILE-04653",
+        "path": "adl/tools/skills/repo-packet-builder/tests/README.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "60053171641f4de1805c67bd61b54471677d9087ca8127bf1ce9e009357bd156",
+        "locator": {
+          "path": "adl/tools/skills/repo-packet-builder/tests/README.md",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04654",
+      "evidence": {
+        "subject_id": "FILE-04654",
+        "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "59c4c5de57d5aac07549a97bf508c00cbc2b5234e63f984a2eece6a8e07acb33",
+        "locator": {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04655",
+      "evidence": {
+        "subject_id": "FILE-04655",
+        "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0f116cc4671ffc167b9afe8a82ed21742a94a3475940f08f6b6be5e55c68d5d4",
+        "locator": {
+          "path": "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04656",
+      "evidence": {
+        "subject_id": "FILE-04656",
+        "path": "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4e5ccd52400c9db631910856d7c0f852669da85ee5b245e8b61467f7b61a2726",
+        "locator": {
+          "path": "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04660",
+      "evidence": {
+        "subject_id": "FILE-04660",
+        "path": "adl/tools/test_check_coverage_impact.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a7b56c13c299a185a92bb1b057bc78ca292ed4a9ea1c6256297984abd698790a",
+        "locator": {
+          "path": "adl/tools/test_check_coverage_impact.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04661",
+      "evidence": {
+        "subject_id": "FILE-04661",
+        "path": "adl/tools/test_ci_path_policy.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2ed3b719ae780a9037edb5969206466a3ee6bd65e53b58676f9d8a723470b945",
+        "locator": {
+          "path": "adl/tools/test_ci_path_policy.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04662",
+      "evidence": {
+        "subject_id": "FILE-04662",
+        "path": "adl/tools/test_ci_runtime_contracts.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "868c7f8d1a3f608fd8c511554d1e021619d8608edbcff9f0f1fd5f0edf36da0a",
+        "locator": {
+          "path": "adl/tools/test_ci_runtime_contracts.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04663",
+      "evidence": {
+        "subject_id": "FILE-04663",
+        "path": "adl/tools/test_csmctl_linux_backend.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "269948ee76eb3b8741e0d43a00ca67eb895acd0b0dad2204c054104536afbeca",
+        "locator": {
+          "path": "adl/tools/test_csmctl_linux_backend.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04664",
+      "evidence": {
+        "subject_id": "FILE-04664",
+        "path": "adl/tools/test_csmctl_observatory_origins.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ce9a026bc64f5506420e08eb31d5b60f28578afd1fa817f0b1240b1da4bf7161",
+        "locator": {
+          "path": "adl/tools/test_csmctl_observatory_origins.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04665",
+      "evidence": {
+        "subject_id": "FILE-04665",
+        "path": "adl/tools/test_html_observatory.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "72686b49e97ecb8fb2a71a11788e7afb2b401568352a4333163b042d1523575a",
+        "locator": {
+          "path": "adl/tools/test_html_observatory.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04666",
+      "evidence": {
+        "subject_id": "FILE-04666",
+        "path": "adl/tools/test_install_adl_pr_cycle_skill.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1133f0d187d7f73b0c97c98aac7a91656251de249d8690cb4a9c2b8697f709a2",
+        "locator": {
+          "path": "adl/tools/test_install_adl_pr_cycle_skill.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04667",
+      "evidence": {
+        "subject_id": "FILE-04667",
+        "path": "adl/tools/test_issue607_warm_polis.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "fff1336ae94ae374c428119a4cd26cd8f747118873659949203cd67e24b5a2c8",
+        "locator": {
+          "path": "adl/tools/test_issue607_warm_polis.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04668",
+      "evidence": {
+        "subject_id": "FILE-04668",
+        "path": "adl/tools/test_issue694_conversation_history_reload.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "21e834af8dc4ba713c50f0abd7982d92f0dd8e8b5271861d5cf3bca5e17a00cb",
+        "locator": {
+          "path": "adl/tools/test_issue694_conversation_history_reload.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04669",
+      "evidence": {
+        "subject_id": "FILE-04669",
+        "path": "adl/tools/test_issue713_a2a_history.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a9c628ae65b7966b3cabc9a6a2a58df7db1937aef4ddebe043a310389809a07f",
+        "locator": {
+          "path": "adl/tools/test_issue713_a2a_history.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04670",
+      "evidence": {
+        "subject_id": "FILE-04670",
+        "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d2174416b0685afaedd999076eb03eaeb8aeaa244c489705b447a1e3a0465207",
+        "locator": {
+          "path": "adl/tools/test_run_authoritative_coverage_lane.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04671",
+      "evidence": {
+        "subject_id": "FILE-04671",
+        "path": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "bcdc88a2a38d95b5fa84b7101400c730e7bd60249e089ef4f1144672643d9803",
+        "locator": {
+          "path": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04672",
+      "evidence": {
+        "subject_id": "FILE-04672",
+        "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "48e4b784224706f47ab30c306fbb0521fc6fc6006182e9941560244688962be4",
+        "locator": {
+          "path": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04673",
+      "evidence": {
+        "subject_id": "FILE-04673",
+        "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0d965e2b87e7b4a7838376368f575ba59854dc63efa08fc9901bfffd383a6da5",
+        "locator": {
+          "path": "adl/tools/test_runtime_v3_cross_binary_generation.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04674",
+      "evidence": {
+        "subject_id": "FILE-04674",
+        "path": "adl/tools/test_runtime_v3_generation_install.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3fcea1000fc295e2e23ff54ea253b8d8a0ab413da41d130e04b5e807d4f24b6c",
+        "locator": {
+          "path": "adl/tools/test_runtime_v3_generation_install.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04675",
+      "evidence": {
+        "subject_id": "FILE-04675",
+        "path": "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7e713aeecd5cd6e8fb4293cf02b6009966a212b1dfcfa0cc4a298afb2b147dcd",
+        "locator": {
+          "path": "adl/tools/test_v0917_html_observatory_integrated_proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04676",
+      "evidence": {
+        "subject_id": "FILE-04676",
+        "path": "adl/tools/test_validation_manager.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "94136a42761aae18b98db458e8e9a16e4f9bb9266153c6307adf4cee024b8031",
+        "locator": {
+          "path": "adl/tools/test_validation_manager.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04677",
+      "evidence": {
+        "subject_id": "FILE-04677",
+        "path": "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "190a8113ec1e578bfe6f4bf081f81a5dc02e2365807c3d3974bb162f0d4e1032",
+        "locator": {
+          "path": "adl/tools/test_xcl_terraform_provider_major_bounds.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04728",
+      "evidence": {
+        "subject_id": "FILE-04728",
+        "path": "csdlc-v2/tests/card_identity.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "63c0269920c80f19c471a292dbf7cfd431876d409926065859d5e17d1cf8636e",
+        "locator": {
+          "path": "csdlc-v2/tests/card_identity.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04729",
+      "evidence": {
+        "subject_id": "FILE-04729",
+        "path": "csdlc-v2/tests/code_repository_migration.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2fa7068dd0fcef27ad4ef7106af1cd1d32a7f6f3951740cab50650859cb1ee48",
+        "locator": {
+          "path": "csdlc-v2/tests/code_repository_migration.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04730",
+      "evidence": {
+        "subject_id": "FILE-04730",
+        "path": "csdlc-v2/tests/gate10a.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1d56424178ce566ab72a56041b2855fc03fa2669442272c149b381c40ff700d0",
+        "locator": {
+          "path": "csdlc-v2/tests/gate10a.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04731",
+      "evidence": {
+        "subject_id": "FILE-04731",
+        "path": "csdlc-v2/tests/gate10b.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "7d9a0647040d1049866aa3ff74d81f72c687ebb492f7125f607d638bd70a7ee8",
+        "locator": {
+          "path": "csdlc-v2/tests/gate10b.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04732",
+      "evidence": {
+        "subject_id": "FILE-04732",
+        "path": "csdlc-v2/tests/gate2.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ae6bdc9971d926d2a1c2851cbae59a9a1bed69181424906be6be25d17b3bb67f",
+        "locator": {
+          "path": "csdlc-v2/tests/gate2.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04733",
+      "evidence": {
+        "subject_id": "FILE-04733",
+        "path": "csdlc-v2/tests/gate4.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "490479bc9540e6006310679853873fdb6e31e0879de6b730c4508868766d2652",
+        "locator": {
+          "path": "csdlc-v2/tests/gate4.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04734",
+      "evidence": {
+        "subject_id": "FILE-04734",
+        "path": "csdlc-v2/tests/gate5.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c76c15ecd3597368223b3eef27b321d08673441e854fb712cc8e4721355ca435",
+        "locator": {
+          "path": "csdlc-v2/tests/gate5.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04735",
+      "evidence": {
+        "subject_id": "FILE-04735",
+        "path": "csdlc-v2/tests/gate6.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "819ede016c05ebb0dd06acbc91281879c16241cccfc86894ae8e863d4c5c09ed",
+        "locator": {
+          "path": "csdlc-v2/tests/gate6.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04736",
+      "evidence": {
+        "subject_id": "FILE-04736",
+        "path": "csdlc-v2/tests/gate8.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0d2e4ba7bc5e1da635f7e717c2a1d263c01bcca37721009fa0de46215cb33888",
+        "locator": {
+          "path": "csdlc-v2/tests/gate8.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04737",
+      "evidence": {
+        "subject_id": "FILE-04737",
+        "path": "csdlc-v2/tests/gate9.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "72f61a0b2c4d19dabcdf53d34eccb1b91b32c738e465953ce9a554a6cb5b170c",
+        "locator": {
+          "path": "csdlc-v2/tests/gate9.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04738",
+      "evidence": {
+        "subject_id": "FILE-04738",
+        "path": "csdlc-v2/tests/gate_github_actions.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f160f7576da3d8e3521cbea32397e175338561f99625add1dbd50cab8ebd4897",
+        "locator": {
+          "path": "csdlc-v2/tests/gate_github_actions.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04739",
+      "evidence": {
+        "subject_id": "FILE-04739",
+        "path": "csdlc-v2/tests/gate_github_route_policy.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "439f2579a891ac754f64e6c13b9bf500d25c7c8902cccda4f9502ddc45825d4c",
+        "locator": {
+          "path": "csdlc-v2/tests/gate_github_route_policy.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04740",
+      "evidence": {
+        "subject_id": "FILE-04740",
+        "path": "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b30e985b64de082464b02b0fb52a438e5c7427c7bfc30ee46f006f76b7b30cb8",
+        "locator": {
+          "path": "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04741",
+      "evidence": {
+        "subject_id": "FILE-04741",
+        "path": "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1c4c4c06c136c6aef26e0eea43e038095ee59d1a35b0b7c130fb4cc9ef468810",
+        "locator": {
+          "path": "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04742",
+      "evidence": {
+        "subject_id": "FILE-04742",
+        "path": "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "92c23688904a4447af349ba12c86930d30e9a16e3347db246d1d29ed824c9388",
+        "locator": {
+          "path": "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04743",
+      "evidence": {
+        "subject_id": "FILE-04743",
+        "path": "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0f0ddabd6a2786ae14a99483691dac9cb07d0feeffcbe02d7b15297049eeecd",
+        "locator": {
+          "path": "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04744",
+      "evidence": {
+        "subject_id": "FILE-04744",
+        "path": "csdlc-v2/tests/projection_recovery_integration.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f01af46ed6c6b210015d3aeb9fddb71f9b77c479ba25d62c379a851bcb2f5078",
+        "locator": {
+          "path": "csdlc-v2/tests/projection_recovery_integration.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04745",
+      "evidence": {
+        "subject_id": "FILE-04745",
+        "path": "csdlc-v2/tests/publication_ready.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "be332deec951e57a2d97b960ad94389e1b82995bb27359f359f9f553e53436ec",
+        "locator": {
+          "path": "csdlc-v2/tests/publication_ready.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04746",
+      "evidence": {
+        "subject_id": "FILE-04746",
+        "path": "csdlc-v2/tests/publication_tail.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ee6586300d9ae52632ace69bcb751922d157c343dcec53bb8a4a963f992afda7",
+        "locator": {
+          "path": "csdlc-v2/tests/publication_tail.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04771",
+      "evidence": {
+        "subject_id": "FILE-04771",
+        "path": "csdlc-v3/tests/command_manifest.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0aa182cc4da1daa862080a516ab37f84926388011bf452ef002626e612195a4f",
+        "locator": {
+          "path": "csdlc-v3/tests/command_manifest.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04772",
+      "evidence": {
+        "subject_id": "FILE-04772",
+        "path": "csdlc-v3/tests/foundation.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "80207d8c5ce1454c725fa03657242048bf9bcc32b69c9ac5f77f19a602f295b4",
+        "locator": {
+          "path": "csdlc-v3/tests/foundation.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04773",
+      "evidence": {
+        "subject_id": "FILE-04773",
+        "path": "csdlc-v3/tests/local_commands.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "20a15ab6d6187f315632fdf45212d031325a306329dc6c92b9fc91cefcdec8fa",
+        "locator": {
+          "path": "csdlc-v3/tests/local_commands.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04774",
+      "evidence": {
+        "subject_id": "FILE-04774",
+        "path": "csdlc-v3/tests/operational_cli_commands.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2a38a836f093e58acb302938e4bcdadbb099e83d83b7892c5c7e863cac03dfcd",
+        "locator": {
+          "path": "csdlc-v3/tests/operational_cli_commands.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04775",
+      "evidence": {
+        "subject_id": "FILE-04775",
+        "path": "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "eed4285f89fddac9239aaf683800ac121a40d47a3b11832ae5912d5cfb18f333",
+        "locator": {
+          "path": "csdlc-v3/tests/proof_parity_install_commands.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04776",
+      "evidence": {
+        "subject_id": "FILE-04776",
+        "path": "csdlc-v3/tests/proof_worktree_binding.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c6b428b9e79d412f8d25c8172bc83901a16b889e057d615d4a7b20d9804ad5b7",
+        "locator": {
+          "path": "csdlc-v3/tests/proof_worktree_binding.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04777",
+      "evidence": {
+        "subject_id": "FILE-04777",
+        "path": "csdlc-v3/tests/real_issue_canary.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8fc15ff7ab8be0296ade839a0e1fc69ce5930ddfc54a2f11a1f265ea892e2599",
+        "locator": {
+          "path": "csdlc-v3/tests/real_issue_canary.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04778",
+      "evidence": {
+        "subject_id": "FILE-04778",
+        "path": "csdlc-v3/tests/remote_publication_commands.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2c2c78e19258064b431dfbc67d05339c132f177657e5e8116dbf9d4320bcac21",
+        "locator": {
+          "path": "csdlc-v3/tests/remote_publication_commands.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04779",
+      "evidence": {
+        "subject_id": "FILE-04779",
+        "path": "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "71fca2abb1323f157a00478746e5dbfd8f8b6fe6387861ca193dafe398be4bf5",
+        "locator": {
+          "path": "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04780",
+      "evidence": {
+        "subject_id": "FILE-04780",
+        "path": "csdlc-v3/tests/transactions.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6c3df7054f17b976a74cc6250267fea18b07dae951723cec5d8fc9585fc91800",
+        "locator": {
+          "path": "csdlc-v3/tests/transactions.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04789",
+      "evidence": {
+        "subject_id": "FILE-04789",
+        "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1ee8e4f9792645e482a703b91a068bd9faa60afd8108c20a627a4618b2c9782b",
+        "locator": {
+          "path": "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04790",
+      "evidence": {
+        "subject_id": "FILE-04790",
+        "path": "demos/html-observatory/tests/agent_continuity.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "2a65d6cd69e9ea28754848436baa405b0290ef5d589aaa32bed1cfa843397789",
+        "locator": {
+          "path": "demos/html-observatory/tests/agent_continuity.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04791",
+      "evidence": {
+        "subject_id": "FILE-04791",
+        "path": "demos/html-observatory/tests/agent_orientation.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "104393e0cf5ea26c4463e8f92cddfddd6e2b8802ead2a0b83e0f74c599dd2d45",
+        "locator": {
+          "path": "demos/html-observatory/tests/agent_orientation.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04792",
+      "evidence": {
+        "subject_id": "FILE-04792",
+        "path": "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e77b5bef7e5a3c257f45e4a20598cc835b601f1c8210f125df0405781978c13b",
+        "locator": {
+          "path": "demos/html-observatory/tests/agent_to_agent_activity.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04793",
+      "evidence": {
+        "subject_id": "FILE-04793",
+        "path": "demos/html-observatory/tests/conversation_sessions.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "60085a14cfb893721ac6acefb58a245e14781ada6a6af21bbdc8671a6cf598ef",
+        "locator": {
+          "path": "demos/html-observatory/tests/conversation_sessions.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04794",
+      "evidence": {
+        "subject_id": "FILE-04794",
+        "path": "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d4e6df705623939e9608b74fcf98e7c3778cc7918b0d475452ca7831788593a4",
+        "locator": {
+          "path": "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04795",
+      "evidence": {
+        "subject_id": "FILE-04795",
+        "path": "demos/html-observatory/tests/polis_identity.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "6b8678127eae1a80e6ca9a216b149262dd25d1763218d2ba0aa023f50826a429",
+        "locator": {
+          "path": "demos/html-observatory/tests/polis_identity.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04796",
+      "evidence": {
+        "subject_id": "FILE-04796",
+        "path": "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1331a6fe00820ac1b6e598be6335abac812bdf9f10cfc795843075ec009749e9",
+        "locator": {
+          "path": "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-04797",
+      "evidence": {
+        "subject_id": "FILE-04797",
+        "path": "demos/html-observatory/tests/system_clock_cache.test.mjs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "de8884c11c96375ecf7d7b8677402cbe27fc27bd5222651c8e0d42175816a72d",
+        "locator": {
+          "path": "demos/html-observatory/tests/system_clock_cache.test.mjs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05404",
+      "evidence": {
+        "subject_id": "FILE-05404",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b80f55af4ed92006d8612792e325b952e3b4bb61456d8fcdd011675ddef921ac",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05803",
+      "evidence": {
+        "subject_id": "FILE-05803",
+        "path": "docs/templates/planning/fixtures/minimal/readme.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1df861fce7cffb1e1c29530256938d9ab18bdc242a33705e2c256f1407837fff",
+        "locator": {
+          "path": "docs/templates/planning/fixtures/minimal/readme.md",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05804",
+      "evidence": {
+        "subject_id": "FILE-05804",
+        "path": "docs/templates/planning/fixtures/minimal/readme_generated.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "270bf7ca4619198da61d45893c23c6d3e1ad16687e6f4ba23b2c8865929971e8",
+        "locator": {
+          "path": "docs/templates/planning/fixtures/minimal/readme_generated.md",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05805",
+      "evidence": {
+        "subject_id": "FILE-05805",
+        "path": "docs/templates/planning/fixtures/minimal/sprint.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "0ae4d42e2e40f9548f2196a0f48edfc2fac9e76b37c34ec6c6e60d51fedb658d",
+        "locator": {
+          "path": "docs/templates/planning/fixtures/minimal/sprint.md",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05899",
+      "evidence": {
+        "subject_id": "FILE-05899",
+        "path": "infra/aws/csm-runtime-spot/tests/recovery.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "416b0f0fda5ece9999cb946f5836f32c08de0c81ea176276f51d0e791da27bc4",
+        "locator": {
+          "path": "infra/aws/csm-runtime-spot/tests/recovery.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05900",
+      "evidence": {
+        "subject_id": "FILE-05900",
+        "path": "infra/aws/csm-runtime-spot/tests/run_contract.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "54337124eb3b34e52c9a177753f5911c632e66fabc8facd272b5bb6f828519fd",
+        "locator": {
+          "path": "infra/aws/csm-runtime-spot/tests/run_contract.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05901",
+      "evidence": {
+        "subject_id": "FILE-05901",
+        "path": "infra/aws/csm-runtime-spot/tests/run_live_proof.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d4d929aecae3adb6d02e93d643ed2625bd7c11ed27b72fd9bfaa96327a489417",
+        "locator": {
+          "path": "infra/aws/csm-runtime-spot/tests/run_live_proof.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05902",
+      "evidence": {
+        "subject_id": "FILE-05902",
+        "path": "infra/aws/csm-runtime-spot/tests/test_live_proof.py",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b0923d93a3a2c900cfb89c765867d918f304990084f2103259a22452ab9b7617",
+        "locator": {
+          "path": "infra/aws/csm-runtime-spot/tests/test_live_proof.py",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05945",
+      "evidence": {
+        "subject_id": "FILE-05945",
+        "path": "infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "86788ef7d2b16285bd284f568093b0b6530131b82816403f12a8e0385433a7d2",
+        "locator": {
+          "path": "infra/aws/runtime/gpu-proof/tests/issue607_warm.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05958",
+      "evidence": {
+        "subject_id": "FILE-05958",
+        "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/tests/issue607_preparation.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ac9c2aef93b65f09bd026554e50260c6505bc5bffcf94b57520ccb0fe3292c05",
+        "locator": {
+          "path": "infra/aws/runtime/gpu-proof/warm-storage/preparation/tests/issue607_preparation.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-05961",
+      "evidence": {
+        "subject_id": "FILE-05961",
+        "path": "infra/aws/runtime/gpu-proof/warm-storage/tests/issue607_storage.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f072c68001b3fd58897b8d6d96a46db24940b8577e62e0b95a64e0d55f041e8b",
+        "locator": {
+          "path": "infra/aws/runtime/gpu-proof/warm-storage/tests/issue607_storage.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06051",
+      "evidence": {
+        "subject_id": "FILE-06051",
+        "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "17ddc69333fcbeff29f25089f647a08099db41fc9fb67741f64547c8eddc0809",
+        "locator": {
+          "path": "infra/gcp/workloads/modules/two-node-ollama-runtime/tests/issue509_launch_contract.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06063",
+      "evidence": {
+        "subject_id": "FILE-06063",
+        "path": "infra/gcp/workloads/warm-polis/preparation/tests/issue663_preparation.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "095701923452f4cf8e7ed269384787a2445337d2d82243fb387d859675c0a865",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/preparation/tests/issue663_preparation.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06073",
+      "evidence": {
+        "subject_id": "FILE-06073",
+        "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/tests/issue663_snapshot_catalog.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a500eb62162f6a7bb5ed244477256ac2feaab573c293c8ab46f5d1af203684d3",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/snapshot-catalog/tests/issue663_snapshot_catalog.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06079",
+      "evidence": {
+        "subject_id": "FILE-06079",
+        "path": "infra/gcp/workloads/warm-polis/tests/issue663_warm_polis.tftest.hcl",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f3f8242971ea7e64da149adbb5edef27b7e937ff73a8bea92db629fafef14cde",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/tests/issue663_warm_polis.tftest.hcl",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06080",
+      "evidence": {
+        "subject_id": "FILE-06080",
+        "path": "infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "1b7b1ee98ffbabed816c947c5482ab7ea1a19c9423c2d4c71c73e3917875c581",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/tests/validate-deadline-guard.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06081",
+      "evidence": {
+        "subject_id": "FILE-06081",
+        "path": "infra/gcp/workloads/warm-polis/tests/validate-live-residual-inventory.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "f2c9724a390b30cb56665f165b603b9c9c109babcc4bef76e9d4968ab62f2ac8",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/tests/validate-live-residual-inventory.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06082",
+      "evidence": {
+        "subject_id": "FILE-06082",
+        "path": "infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "81cb91cee58246daa5cd6caf99415a1c60e91d1ac2e4ac9f9e9b521bb05af0db",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/tests/validate-snapshot-retirement.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    },
+    {
+      "ref": "FILE-06083",
+      "evidence": {
+        "subject_id": "FILE-06083",
+        "path": "infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a97b318c2158ffcb2f9211384067e2042f648a511d5c7f1568632730e9d3b1f9",
+        "locator": {
+          "path": "infra/gcp/workloads/warm-polis/tests/validate-warm-start-policy.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the tests specialist disposition."
+    }
+  ],
+  "findings": [
+    {
+      "id": "D520-SEC-004",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "The real-local Shepherd proof accepts off-host Ollama URLs",
+      "impact": "A malicious or mistyped environment value can exfiltrate prompts and return forged model digest and GPU-residency evidence.",
+      "source_lane": "tests",
+      "owner": "#814 under #522",
+      "affected_acceptance_refs": [
+        "RUST-01:AC-1",
+        "RUST-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "line": 16
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-004",
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+        "locator": {
+          "path": "adl-runtime/tests/shepherd_local_model.rs",
+          "line": 16
+        }
+      },
+      "detail": "A starts_with(http://localhost:) check accepts http://localhost:11434@attacker.example, whose parsed hostname is attacker.example. The generated runner then sends the prompt off-host and trusts the remote /api/ps response.",
+      "denominator_refs": [
+        "FILE-04566"
+      ]
+    },
+    {
+      "id": "D520-TEST-001",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "Hot-reload cancellation tests can pass without observing a pending reload",
+      "impact": "The suite can report cancellation behavior as proven even when the watcher never observed the transient write, while fixed sleeps remain scheduler-sensitive in CI.",
+      "source_lane": "tests",
+      "owner": "#816 under #522",
+      "affected_acceptance_refs": [
+        "HOT-01:AC-2",
+        "HOT-01:AC-3"
+      ],
+      "locator": {
+        "path": "adl-runtime/tests/config_reload.rs",
+        "line": 182
+      },
+      "evidence": {
+        "subject_id": "D520-TEST-001",
+        "path": "adl-runtime/tests/config_reload.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+        "locator": {
+          "path": "adl-runtime/tests/config_reload.rs",
+          "line": 182
+        }
+      },
+      "detail": "Both tests sleep for 15ms after a transient write and revert or delete without synchronizing on watcher receipt or pending-debounce state. Generation staying zero therefore passes both the exercised and never-observed cases.",
+      "denominator_refs": [
+        "FILE-04548"
+      ]
+    }
+  ]
+}

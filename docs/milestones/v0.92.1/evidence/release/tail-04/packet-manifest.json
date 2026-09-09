@@ -1,0 +1,257 @@
+{
+  "schema": "adl.v0921.internal_review_packet_manifest.v1",
+  "entries": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/SECOND_REVIEW_SUMMARY.md",
+      "sha256": "f2a2ad2ba848f8ab0a07d7382770e63579f9d22c18471523887b91874b211823"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/acceptance_coverage.json",
+      "sha256": "3362464668f9b4629ec352bcff2b0e963990cb26cd146bf7c9a820051407c54c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb",
+      "sha256": "277c56d4a40025f0654f4d5ff89d4be89a3ff71994da3246ef2f6f6e49b9d8d0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/assignments.json",
+      "sha256": "eef8c85d128bfc8ed023d12e81143734645b8756797310ab19370c77da704712"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/build-denominator.rb",
+      "sha256": "ae1c05c08a07e2bf0861767fdbc9a537379afe60e405da02961d1fea7cf1dd7c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/canonical-surface-inventory.json",
+      "sha256": "8c2d14663f18d98eb137fb0a57356e4d7ade72eb1ba3f22962bb888edde6ba33"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/finding-input.json",
+      "sha256": "e288eacd1951da12738b257d145099ef61d8d71bcad0a33df0e2861ea588c7b7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+      "sha256": "4c66fab6c371140e960acf75ce643fcc5e5feafe9f88d4a56137ec8ba82386a2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/architecture-review.md",
+      "sha256": "29910166808203a795ad751ca1904938da7456a3c88bf8843343ece3eb3084f3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/code-review.md",
+      "sha256": "47256875ae6621b964ab2cc4258f12c2f8eeca92e061be7cea39ab1dad5b1b34"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/dependency-review.md",
+      "sha256": "c0e9f3fdc32d229fd029ff22219c081b9c2651940a2043c5f6d1c49ebe22f620"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/docs-review.md",
+      "sha256": "e1d360e4800d8385e88287f9eab78e03047a553225b99063a602635566d96396"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/proof-gap-reconciliation.md",
+      "sha256": "2e5053a47a054c353047bdee808e5550559c40176b3c85459987a4260970f20f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/security-review.md",
+      "sha256": "9156729848ee4cc0328a6f090a3882782c85ee03528916e1551302772927a936"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/historical/first-review/tests-review.md",
+      "sha256": "3735cb94efc9e7c911136e6b6c2875721661ffd6768c365cee8858d732245f4b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-001.md",
+      "sha256": "4f53126ce861866c6f571e4bbb3bece1ab39c16d097a17ae39dcd0e2c08b0629"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-002.md",
+      "sha256": "53cdf38237f11bae93be2488853c57580e13987e6828c58a0cef91bec9c7bffe"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-003.md",
+      "sha256": "ad46725aca9cfa730a447e8ebb7d95dbd2edae0c9f5021cda1e930422a647162"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-004.md",
+      "sha256": "643e885163184c387023134a6052d466a4064eb404b31c1f93a0d8215effb606"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-005.md",
+      "sha256": "4d44c2568a7fcc9aec69bc0a5ded29d3fe242f9bf37b5d5a205435b41483a93c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-006.md",
+      "sha256": "95db128ccaf05cc4674610d81acf78987392859413424cc2831537f9958c6ab6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-007.md",
+      "sha256": "deeb521dbda52ab85918bd65418815cee6326389041b3da3ecfcee2415d2df16"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-008.md",
+      "sha256": "ab52299575580840db4302be3104dc8c654c735fcc1577e0ad54ac35f10f266c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-009.md",
+      "sha256": "38c8f2143f1a82e5a55196becbfb5179e06612d0fd9acabec70718f9d62d9226"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-010.md",
+      "sha256": "ec52ceec7b1af94311efb176e1fbbb0ac1b8cc096f3e1ebff8a4e2cc57fbc615"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-011.md",
+      "sha256": "f758907eec807e7a32e945495c1f33c0b7ee421bdbef34c0c0a66a61b16af6de"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-012.md",
+      "sha256": "a3dc6c516e80dfaedb73c46995c417dd8adcfc3248e533f7b01b61582be13b8e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-013.md",
+      "sha256": "9968a20c0d68671409ec113ed4a48b3d37e91f9e0715fb9442db4583416e0417"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-014.md",
+      "sha256": "ec935f5876f214c3a4954368ecf77e5ebe36ff22793a0cf560a2d7fc8ede4e49"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-015.md",
+      "sha256": "650254c933ad6dd77b3f1b23c0d3dea6033e182df772abb74023f3058b14e662"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/bodies/R520-016.md",
+      "sha256": "93e40d88731cc5d9ca90c5bb75d684975466e2624d06fa0392804b50f6ddfef8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/issue_candidates.json",
+      "sha256": "80b4bc53f81395b5b56a4bf01cda46c572f8f0f477b7dfa61a5cc761843fa0c9"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue-planning/issue_candidates.md",
+      "sha256": "f202090ee56124e34bebf29420ef765454fce57cc859930724b8104f0d51f6c5"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/issue_inventory.json",
+      "sha256": "1297dabeaa7233bb25c1693e5db60f18e7a066abd3be83d5c22e4c2b94dff0d2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/lane-results.json",
+      "sha256": "0faa8e7435c106e17164d78e48ad2e9ed6d6433f87e41f7292cbdb914932ec65"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/live-milestone-response.json",
+      "sha256": "8e0d774beb63d8cfdfe5537af17124e0bb7103e40de6a657f69651eac7333611"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/live-milestone-snapshot.json",
+      "sha256": "0212ee186c036165433811b776b3b0ffc0723421e940d2209b40cc7e3dd4af53"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/proof-results.json",
+      "sha256": "3a86ea248ce7ddd85af5466e5dc33ebf52b61efbecbde567acbb9c6c8451fffe"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/pull_request_inventory.json",
+      "sha256": "76bca49157beadf7995d61f89a43262c2eb717c0dc9f471edb5983295da64975"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/quality-report.json",
+      "sha256": "8c133bc0010a2e0549932a39e5e6610a804b9f00f83a35aebf2fe0a7e4da76f1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/redaction-report.json",
+      "sha256": "91bb5c6e93cdc98a9e5540e1cc04f72aed114e644527ed9440b7cbb8826e5923"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/cloud-authorization.md",
+      "sha256": "259b26d278ac23c4a92ca0651f2fabe0b47a40fd6a9dd500918bb444154015b8"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/release-truth.md",
+      "sha256": "b898a8870989faf3cdc921f20a435e5aa3caa681061b33106fd8f04c125775fa"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/retained-corporate-runtime.md",
+      "sha256": "5a84f8f8d315dd99722701873147f6b700f9ab98f4ea8e9a99a4c56883e51d6b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/retained-csdlc-v3.md",
+      "sha256": "c2576b7799a5f93dbf5c24502d4f598a0eab01b2fdd980e947a776514ad2e4d7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/retained-distributed-runtime.md",
+      "sha256": "53e304abf7cb2087b1b98bcfca3ff8404a41873d159190778eb76dfe48639b76"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/retained-tail01-gate.md",
+      "sha256": "60116876dca53f8b936605ce9fe1630426b4d8d875e66c42885d78abe92556fc"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/runtime-recovery.md",
+      "sha256": "b2253d0c1a28ffae7e0f7ba77309f005a1d5200bc171bdd70a20b24656615044"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/update-522-request.json",
+      "sha256": "37cc066368b3785d73fb12bac3a93a72923a88de344a30017492d7ca69fb82d7"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/remediation/validation-integrity.md",
+      "sha256": "cc2e64ffbf1e4dbf1cf98bc216d35ddacccf29d00e299d89f8bf1d986d2f25fb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/repo_inventory.json",
+      "sha256": "2ad9b417b14468334ac32db97af5d2ff4d196fd5cfaa592d777de30eeabf36f1"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/run_manifest.json",
+      "sha256": "a22b07a6b1f52058a48a448b8e368749dab599d905b586a535d35c840b2ea988"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
+      "sha256": "7072585c2287a173e612e7d9429af4eedfffc95de3565dc6231e386525d8c3fd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+      "sha256": "710003a167a528475bfee5c4720a965ba009a76b0fed8fbfb84a6b9f6b5684c3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+      "sha256": "18dbaa51b165bb65acf401e6f751272cb62cc919ef5671a9f47afed42997c3e2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+      "sha256": "be89fdc22627ba29401a86425af5373d0e994998f073ede9aa810b7aed0b7f8c"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+      "sha256": "d995201b433f4a4218014f31c61e3215f0719b02296254b567ef1eb6a2b9be15"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+      "sha256": "a44b189ddacf64f107a52f76a62dc9f22f2b5fe396c7d13e87bdb7906b89560d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+      "sha256": "b240cb6ff099d3b49fadff0cea7ead5ade18e4da6c20a099e82cb6800ba4bb16"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+      "sha256": "0e1b11bea6b5779f562f60c940b2a34d5c3c0f5c1caade1cbbcc47a9762626b2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+      "sha256": "05494c0a47213626087cf2935387813b67618ed013b0bdf7c4300cad33f98e32"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/typed-create-recovery.md",
+      "sha256": "95990554d8abeded19ad7e7bf33bd54c4f127fb218cf9002550817c86d805003"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/validation-results.json",
+      "sha256": "620722d96d1c18d15585ea3b2fc46c33d1561f1ec3d061c4c18e1fd0cbf8ed34"
+    }
+  ]
+}

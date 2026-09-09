@@ -20,26 +20,26 @@ Run ID: issue-0520
 Version: 1.0.5
 Title: [v0.92.1][TAIL-04] Internal review
 Branch: codex/520-internal-review
-Card Status: ready_waiting_on_758
-Status: not_started
+Card Status: review_packet_assembled_remediation_in_progress
+Status: in_progress
 Generated: 2026-09-09T19:19:55Z
 
 Execution:
-- Actor: `not_started`
-- Model: `not_started`
-- Provider: `not_started`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Actor: `Codex primary reviewer with independent specialist agents`
+- Model: `Codex multi-agent review`
+- Provider: `OpenAI Codex`
+- Start Time: `2026-09-09T19:19:55Z`
+- End Time: `in_progress`
 
 ## Summary
 
-Prepared internal-review rerun; execution is blocked only until #758/PR #805 merges.
+Completed the complete nine-lane second review of frozen candidate fb6cbc7f619daa54f901fd2d12f480add682ace3, captured 14 unique defects, and routed every defect to #814-#821 under #522. Exact-head packet review, publication, and terminal closeout remain in progress.
 
 ## PVF Lane Truth
 - Initial PVF lane: `review-complete`
 - Planned PVF lane: `review-complete-exact-candidate`
-- Final PVF lane: `not_started`
-- Lane change reason: `not_applicable_pre_execution`
+- Final PVF lane: `review-complete-exact-candidate`
+- Lane change reason: `The planned exact-candidate review lane executed after both dependency gates merged.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `bounded repository review`
@@ -57,7 +57,7 @@ Prepared internal-review rerun; execution is blocked only until #758/PR #805 mer
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `prepared_waiting_on_758`
+- Completion state: `findings_captured_repairs_in_progress`
 - Issue goal ref: `issue-520-internal-review-rerun`
 - Sprint goal ref: `v0.92.1-tail-review`
 - Goal metrics rollup ref: `v0.92.1-tail-review`
@@ -68,31 +68,31 @@ Prepared internal-review rerun; execution is blocked only until #758/PR #805 mer
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
 - Variance analysis required: `unknown`
-- Variance analysis completed: `not_applicable_pre_execution`
-- Variance category: `not_applicable`
-- Variance note: `Execution metrics do not exist before the rerun starts.`
+- Variance analysis completed: `pending_terminal_metrics`
+- Variance category: `in_progress`
+- Variance note: `Terminal elapsed, token, PR, and CI metrics are not yet available.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/520/cards/sor.md`
-- Tracked implementation artifacts: `Prepared gate, plan, validator, negative fixtures, and readiness report; no current-candidate review artifacts claimed.`
-- Additional proof artifacts: `.csdlc/prepared/issues/520/rerun-readiness.json and rerun-readiness.md`
+- Tracked implementation artifacts: `Complete denominator, nine specialist lane results, canonical 14-finding register, summary, remediation issue bodies, proof results, validation results, redaction report, quality report, and packet manifest.`
+- Additional proof artifacts: `docs/milestones/v0.92.1/evidence/release/tail-04/SECOND_REVIEW_SUMMARY.md; docs/milestones/v0.92.1/evidence/release/tail-04/findings.json; authenticated typed GitHub issues #814-#821 and #522 remediation-wave comment`
 
 ## Actions taken
-- `Updated the review gate from historical #519 to merged #718 and pending #758.`
-- `Required the candidate to equal freshly fetched origin/main and contain both gate merge commits.`
-- `Kept all specialist lanes and complete denominators ready for execution after the final gate.`
+- `Froze fetched origin/main at fb6cbc7f619daa54f901fd2d12f480add682ace3 after confirming #718 and #758 gate ancestry.`
+- `Inventoried 6,098 changed paths, 791 canonical surfaces, 119 milestone issues, 176 acceptance surfaces, and 7,184 uniquely assigned review references across nine lanes.`
+- `Synthesized 14 unique findings without waivers and routed every finding to typed remediation issues #814-#821 under #522.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; preparation is committed only on the bound #520 branch until review execution and publication.`
 - Worktree-only paths remaining: `All #520 preparation and future review artifacts remain on the bound branch until publication.`
-- Integration state: `worktree_preparation_only`
-- Verification scope: `bound #520 FastWork worktree`
-- Integration method used: `native C-SDLC v3 edit and issue-scoped preparation commits`
+- Integration state: `bound_worktree_review_complete_publication_pending`
+- Verification scope: `exact frozen candidate and complete TAIL-04 second-review packet`
+- Integration method used: `native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations`
 - Verification performed:
-  - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; git diff --check`
-    `Proves validator negative fixtures and diff hygiene before review execution.`
-- Result: `Preparation only; no PR, merge, or completed review claimed.`
+  - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file`
+    `Proves fail-closed negative cases, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
+- Result: `Local review packet validation passes; independent exact-head review and PR publication remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby docs/milestones/v0.92.1/evidence/release/tail-04/build-denominator.rb; git diff --check`
-    `Negative fixtures prove fail-closed packet checks; gate preflight must reject execution until #758 merges; diff check proves patch hygiene.`
+  - `ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check`
+    `Assembles deterministic review artifacts and rejects candidate drift, missing denominators, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.`
 - Results:
-  - `Preparation validator passes; live gate preflight correctly blocks on unmerged PR #805.`
+  - `Fourteen findings captured; production negative suite and full packet validator pass at the frozen candidate.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,20 +123,20 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: prepared_gate_blocked
+    status: local_packet_pass_exact_head_review_pending
     checks_run:
-      - "production validator negative fixtures pass and live gate rejects unmerged #758"
+      - "production negative fixtures and exact-candidate full packet validator pass"
   determinism:
-    status: prepared
-    replay_verified: not_applicable_pre_execution
+    status: candidate_bound_deterministic
+    replay_verified: assembler and validators replay successfully
     ordering_guarantees_verified: candidate and denominators are sorted and exact-revision bound by the builder
   security_privacy:
-    status: prepared
+    status: redaction_and_portability_pass
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: preparation_present
+    status: complete_packet_present
     required_artifacts_present: true
     schema_changes:
       present: false
@@ -144,35 +144,35 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `production validator negative-fixture suite`
-- Fixtures or scripts used: `.csdlc/prepared/issues/520/test-production-validator.rb`
-- Replay verification (same inputs -> same artifacts/order): `not_applicable_pre_execution`
+- Determinism tests executed: `production validator negative-fixture suite and deterministic packet assembly`
+- Fixtures or scripts used: `.csdlc/prepared/issues/520/test-production-validator.rb; docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb`
+- Replay verification (same inputs -> same artifacts/order): `packet assembly and JSON validation replayed without divergence`
 - Ordering guarantees (sorting / tie-break rules used): `gate observations and denominators use deterministic ordering`
-- Artifact stability notes: `Current review outputs will be regenerated only after the exact candidate is frozen.`
+- Artifact stability notes: `Every generated artifact and manifest row is bound to candidate fb6cbc7f619daa54f901fd2d12f480add682ace3.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `preparation contains no credentials or provider calls`
-- Prompt / tool argument redaction verified: `no prompt or tool arguments are recorded in preparation artifacts`
-- Absolute path leakage check: `tracked preparation artifacts use repository-relative references`
+- Secret leakage scan performed: `packet scanned for credential and machine-local path patterns`
+- Prompt / tool argument redaction verified: `no provider prompts, tool arguments, or credentials are retained in the packet`
+- Absolute path leakage check: `tracked review artifacts use repository-relative references`
 - Sandbox / policy invariants preserved: `All tracked changes are confined to the bound #520 worktree.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_applicable_pre_execution`
+- Trace bundle path(s): `docs/milestones/v0.92.1/evidence/release/tail-04`
 - Run artifact root: `docs/milestones/v0.92.1/evidence/release/tail-04`
-- Replay command used for verification: `not_applicable_pre_execution`
-- Replay result: `not_applicable_pre_execution`
+- Replay command used for verification: `ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb`
+- Replay result: `passed before exact-head packet review`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/prepared/issues/520/rerun-readiness.md`
+- Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-04/findings.json`
 - Required artifacts present: `true`
-- Artifact schema/version checks: `production validator fixtures pass`
-- Hash/byte-stability checks: `deferred until exact candidate and regenerated packet exist`
-- Missing/optional artifacts and rationale: `Current candidate-bound specialist reports and synthesis cannot exist until #758 merges.`
+- Artifact schema/version checks: `full production validator passes`
+- Hash/byte-stability checks: `packet manifest covers 63 packet files at the current assembled state`
+- Missing/optional artifacts and rationale: `No optional proof is claimed; independent exact-head packet review and hosted CI are deliberately pending.`
 
 ## Decisions / Deviations
-- `#718 is satisfied through merged PR #809; #758/PR #805 remains the sole execution gate.`
-- `Historical #520 reports are not credited as proof for the rerun candidate.`
+- `The historical first-review prose is preserved under historical/first-review and is not credited as current proof.`
+- `All product repairs remain outside #520 and are owned by #814-#821 under #522.`
 
 ## Follow-ups / Deferred work
-- `After #758 merges, fetch origin/main and run the gate builder immediately.`
-- `Execute every mandatory specialist lane, synthesize, validate, and obtain independent exact-head review.`
+- `Complete and verify all #814-#821 remediation, with #821 dependency-last.`
+- `Obtain independent exact-head #520 packet review, fix any packet findings, publish, shepherd CI, and reconcile terminal truth.`

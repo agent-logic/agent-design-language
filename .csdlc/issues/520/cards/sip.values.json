@@ -10,7 +10,7 @@
   "branch": "codex/520-internal-review",
   "version": "1.0.5",
   "card": "sip",
-  "card_status": "ready_waiting_on_758",
+  "card_status": "review_in_progress",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
   "slug": "tail-04-internal-review",
@@ -27,7 +27,7 @@
   "validation_plan": "Freeze exact fetched origin/main after both gates, rebuild complete denominators, rerun all mandatory specialist lanes, synthesize without dropping findings, run the production validator and negative fixtures, then obtain independent exact-head packet review.",
   "demo_proof_requirements": "No live provider or cloud demo. Review evidence must be deterministic, candidate-bound, and complete.",
   "non_goals": "- Do not fix product findings inside #520; route them through #522.\n- Do not perform the external review owned by #521.\n- Do not approve the release, merge product work, deploy, restart Runtime, or spend cloud/provider funds.",
-  "notes_risks": "Execution is blocked until #758/PR #805 is merged. The candidate must be fetched origin/main, equal the reviewed revision, and contain merge commits for both #718 and #758.",
+  "notes_risks": "The post-#718/post-#758 candidate is frozen at fb6cbc7f619daa54f901fd2d12f480add682ace3. The complete second review found 14 unique defects; remediation is owned by #814 through #821 under #522. Release approval remains outside #520.",
   "target_files_surfaces_inline": "TAIL-04 review packet, issue #520 lifecycle truth, and complete v0.92.1 base-to-candidate surfaces",
   "validation_plan_inline": "gate preflight, complete denominator, all specialist lanes, synthesis, production validator, negative fixtures, and exact-head review",
   "timestamp": "2026-09-09T19:19:55Z"

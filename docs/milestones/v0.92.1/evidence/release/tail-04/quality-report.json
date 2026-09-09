@@ -1,0 +1,231 @@
+{
+  "schema": "adl.v0921.internal_review_summary.v1",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "outcome": "passed",
+  "observations": [
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-RET-001",
+      "result": "finding",
+      "detail": "D520-RET-001: The retained-proof denominator still contains 198 unproved required rows",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-RET-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+          "line": 26
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-V3F-001",
+      "result": "finding",
+      "detail": "D520-V3F-001: V3-F exact-head proof is stale at the frozen release candidate",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-V3F-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "993b438accbb09b0afe5ee22dfa866de7a4fb191f4b8aedc51e67ab878eb2e43",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+          "line": 4
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-REL-001",
+      "result": "finding",
+      "detail": "D520-REL-001: The canonical current release-status projection is stale and invalid",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-REL-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "39d6f7578ff1f96ba00ecc147958eeab67c28abd7444b3a84f3751c51422daf5",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md",
+          "line": 3
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-003",
+      "result": "finding",
+      "detail": "D520-DOC-003: Issue 519 lifecycle cards contradict its completed publication state",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-003",
+        "path": ".csdlc/issues/519/cards/sor.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b87e8bc55514f92526608b737870ab5c0cbe69d039a07659bc95645a826ac24e",
+        "locator": {
+          "path": ".csdlc/issues/519/cards/sor.md",
+          "line": 11
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-004",
+      "result": "finding",
+      "detail": "D520-DOC-004: Feature-proof coverage contains fourteen corrupted ownership-link suffixes",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-DOC-004",
+        "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "ebda3c03d84f7b971b8cc1b47727f8370bad7f99ecffb40f5ab9a40fc3237857",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+          "line": 47
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-001",
+      "result": "finding",
+      "detail": "D520-EVID-001: Eighteen GCP-E JSON readbacks are emitted as YAML",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-001",
+        "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "898117f84f8452779a015e7e74936059859b721ae728e20494a6bcb9834dfff1",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+          "line": 83
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-002",
+      "result": "finding",
+      "detail": "D520-EVID-002: Four retained cloud failure artifacts are zero-byte files named JSON",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-EVID-002",
+        "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "locator": {
+          "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-001",
+      "result": "finding",
+      "detail": "D520-RUNTIME-001: Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-001",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2478
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-002",
+      "result": "finding",
+      "detail": "D520-RUNTIME-002: Greeting retries replace the stable ledger work identity with attempt-specific IDs",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-RUNTIME-002",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2423
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-001",
+      "result": "finding",
+      "detail": "D520-SEC-001: GCP mutation approval is self-asserted by the local mutation principal",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-001",
+        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+          "line": 17
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-002",
+      "result": "finding",
+      "detail": "D520-SEC-002: AWS authorization is not cryptographically bound to the saved Terraform plan",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-002",
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65",
+        "locator": {
+          "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+          "line": 92
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-003",
+      "result": "finding",
+      "detail": "D520-SEC-003: The OBS-B redaction validation lane is vacuous",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-003",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-004",
+      "result": "finding",
+      "detail": "D520-SEC-004: The real-local Shepherd proof accepts off-host Ollama URLs",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-SEC-004",
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+        "locator": {
+          "path": "adl-runtime/tests/shepherd_local_model.rs",
+          "line": 16
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-D520-TEST-001",
+      "result": "finding",
+      "detail": "D520-TEST-001: Hot-reload cancellation tests can pass without observing a pending reload",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-D520-TEST-001",
+        "path": "adl-runtime/tests/config_reload.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+        "locator": {
+          "path": "adl-runtime/tests/config_reload.rs",
+          "line": 182
+        }
+      }
+    }
+  ]
+}

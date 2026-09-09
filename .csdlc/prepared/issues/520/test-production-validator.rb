@@ -114,7 +114,7 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
         if [ "$3" = "758" ]; then closing=805; closed_at="2026-09-09T00:00:03Z"; fi
         printf '{"number":%s,"state":"CLOSED","closedAt":"%s","closedByPullRequestsReferences":[{"number":%s}]}\n' "$3" "$closed_at" "$closing"
       elif [ "$1" = "pr" ] && [ "$2" = "list" ]; then
-        printf '%s\n' '[{"number":527,"title":"WP-01 PR","state":"MERGED","mergedAt":"2026-09-01T00:00:00Z","url":"https://example.invalid/pr/527"}]'
+        printf '%s\n' '[{"number":527,"title":"WP-01 PR","state":"MERGED","mergedAt":"2026-09-01T00:00:00Z","url":"https://example.invalid/pr/527","milestone":{"title":"v0.92.1"}}]'
       else
         printf '%s\n' '[{"number":480,"title":"WP-01","state":"CLOSED","closedByPullRequestsReferences":[{"number":527}]}]'
       fi

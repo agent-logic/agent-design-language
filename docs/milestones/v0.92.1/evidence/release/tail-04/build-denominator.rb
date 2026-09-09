@@ -210,10 +210,10 @@ loop do
   response = json_command!("gh", "api", "graphql", "-f", "query=#{pull_request_query}", *variables)
   page = response.dig("data", "repository", "pullRequests")
   pull_request_pages << page
-  pull_requests.concat(page.fetch("nodes").filter_map do |row|
+  pull_requests.concat(page.fetch("nodes").map do |row|
     next unless row.dig("milestone", "title") == "v0.92.1"
     row.slice("number", "title", "state", "mergedAt", "url")
-  end)
+  end.compact)
   break unless page.dig("pageInfo", "hasNextPage")
   cursor = page.dig("pageInfo", "endCursor")
 end

@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.1][TAIL-04] Internal review"
 branch: "codex/520-internal-review"
 generated_at: "2026-09-09T19:19:55Z"
-card_status: "ready_waiting_on_758"
+card_status: "candidate_findings_captured"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/520/cards/sip.md"
   - ".csdlc/issues/520/cards/vpp.md"
 review_results:
-  findings_status: "pre_review"
-  recommended_outcome: "pending"
-notes: "The previous #520 reports are historical inputs only. Independent review must bind the new exact candidate and complete regenerated packet."
+  findings_status: "fourteen_findings_routed_remediation_in_progress"
+  recommended_outcome: "changes_required_release_blocked"
+notes: "This records specialist-review results, not the still-pending independent exact-head review of the assembled #520 packet. Release remains blocked while any required remediation or retained proof is unresolved."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- No current-candidate findings yet; the rerun is blocked until #758/PR #805 merges and the exact fetched origin/main candidate is frozen.
+- The complete nine-lane second review found 14 unique defects: 5 P1, 7 P2, and 2 P3. Exact evidence and ownership are recorded in docs/milestones/v0.92.1/evidence/release/tail-04/findings.json and SECOND_REVIEW_SUMMARY.md.
 
 ### Dispositions
 
-- No dispositions yet. Route every supported product finding to #522 and retain all unresolved findings in the canonical register.
+- All 14 findings are accepted and routed under #522: runtime #814; cloud authorization #815; validation integrity #816; release truth and evidence hygiene #817; retained-proof execution #818-#821. No finding is waived or silently deferred.
 
 ### Recommended Outcome
 
-- pending
+- changes_required_release_blocked
 
 ## Notes
 
-The previous #520 reports are historical inputs only. Independent review must bind the new exact candidate and complete regenerated packet.
+This records specialist-review results, not the still-pending independent exact-head review of the assembled #520 packet. Release remains blocked while any required remediation or retained proof is unresolved.

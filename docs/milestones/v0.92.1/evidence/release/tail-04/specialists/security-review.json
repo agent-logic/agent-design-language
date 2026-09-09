@@ -1,0 +1,437 @@
+{
+  "schema": "adl.v0921.internal_review_lane.v1",
+  "lane": "security",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "denominator_refs": [
+    "FILE-03039",
+    "FILE-03188",
+    "FILE-03339",
+    "FILE-03417",
+    "FILE-03436",
+    "FILE-03477",
+    "FILE-03588",
+    "FILE-03703",
+    "FILE-03741",
+    "FILE-04296",
+    "FILE-04354",
+    "FILE-04512",
+    "FILE-04536",
+    "FILE-04537",
+    "FILE-04538",
+    "FILE-04639",
+    "FILE-04756",
+    "FILE-05046",
+    "FILE-05430"
+  ],
+  "observations": [
+    {
+      "ref": "FILE-03039",
+      "evidence": {
+        "subject_id": "FILE-03039",
+        "path": ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3c76573c30707184fb29a4cdbf3a3351fe262376128970d0b5257d95b98d6164",
+        "locator": {
+          "path": ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03188",
+      "evidence": {
+        "subject_id": "FILE-03188",
+        "path": ".csdlc/prepared/issues/500/validate-design-readiness.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b451cc861d831d9f1c49fd4ef5929a781fb0932ec570e8693b64f431e43b14fd",
+        "locator": {
+          "path": ".csdlc/prepared/issues/500/validate-design-readiness.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03339",
+      "evidence": {
+        "subject_id": "FILE-03339",
+        "path": ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "077051200d509677554337bfca68a6df09dfccbe6150cd2d8b1afcc9c1b7d951",
+        "locator": {
+          "path": ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03417",
+      "evidence": {
+        "subject_id": "FILE-03417",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "finding",
+      "detail": "Exact-candidate review produced D520-SEC-003."
+    },
+    {
+      "ref": "FILE-03436",
+      "evidence": {
+        "subject_id": "FILE-03436",
+        "path": ".csdlc/prepared/issues/514/validate-redaction.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "91464b8c53701dc5d4ecb0bf85be6fd978d5908195730051ecd5d938eaad09bc",
+        "locator": {
+          "path": ".csdlc/prepared/issues/514/validate-redaction.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03477",
+      "evidence": {
+        "subject_id": "FILE-03477",
+        "path": ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "b9649602b49df9ab7570a7b05074c6786f505a7f1d536208a8b93f8d2869bee3",
+        "locator": {
+          "path": ".csdlc/prepared/issues/515/validate-provider-shadow-redaction.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03588",
+      "evidence": {
+        "subject_id": "FILE-03588",
+        "path": ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "986cd9e8a87d315f5ca42f864b3cfd914549b10812487ae0183fdbf49f0c0280",
+        "locator": {
+          "path": ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03703",
+      "evidence": {
+        "subject_id": "FILE-03703",
+        "path": ".csdlc/prepared/issues/570/validate-authority-boundary.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "94831da56d1368e3ca69c84b95af5977bf7aeec00a8422a6d24e8d55a0bf5611",
+        "locator": {
+          "path": ".csdlc/prepared/issues/570/validate-authority-boundary.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-03741",
+      "evidence": {
+        "subject_id": "FILE-03741",
+        "path": ".csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "282e8f62288e9b540bfe0a65556eb62cfddc49872d208e10ec141f16f84968d0",
+        "locator": {
+          "path": ".csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-04296",
+      "evidence": {
+        "subject_id": "FILE-04296",
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65",
+        "locator": {
+          "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "finding",
+      "detail": "Exact-candidate review produced D520-SEC-002."
+    },
+    {
+      "ref": "FILE-04354",
+      "evidence": {
+        "subject_id": "FILE-04354",
+        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "finding",
+      "detail": "Exact-candidate review produced D520-SEC-001."
+    },
+    {
+      "ref": "FILE-04512",
+      "evidence": {
+        "subject_id": "FILE-04512",
+        "path": "adl-runtime-kernel/src/layer8_authority/mod.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "45f4f3fe1c478353933f4699046a73d1ca9bc265bf44d7611f5009714213f945",
+        "locator": {
+          "path": "adl-runtime-kernel/src/layer8_authority/mod.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-04536",
+      "evidence": {
+        "subject_id": "FILE-04536",
+        "path": "adl-runtime/src/distributed/authority_protocol.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "76a3355566c6d74cf0ca6166f0ab71e14b6571124f4510dae14e0a9c70d91cbf",
+        "locator": {
+          "path": "adl-runtime/src/distributed/authority_protocol.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-04537",
+      "evidence": {
+        "subject_id": "FILE-04537",
+        "path": "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "9ea3807e721d8198115b0fd5efd270a12af46906346b7a7c5d6e220221d8324d",
+        "locator": {
+          "path": "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-04538",
+      "evidence": {
+        "subject_id": "FILE-04538",
+        "path": "adl-runtime/src/distributed/authority_store_adapters.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4e3bdb2acd4b21d46e46ae65880bd65b397cfbbc910883062c260cff114119ce",
+        "locator": {
+          "path": "adl-runtime/src/distributed/authority_store_adapters.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-04639",
+      "evidence": {
+        "subject_id": "FILE-04639",
+        "path": "adl/tools/run_authoritative_coverage_lane.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3230c5d032df1170085e42ec5185f3bfbe7de8a561ba8aba2ac700fcba08cef8",
+        "locator": {
+          "path": "adl/tools/run_authoritative_coverage_lane.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-04756",
+      "evidence": {
+        "subject_id": "FILE-04756",
+        "path": "csdlc-v3/src/authority.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "3b46640f422ec1a798a1a88d0e2e93f64863ffeb04c781641c00cb4661214b25",
+        "locator": {
+          "path": "csdlc-v3/src/authority.rs",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-05046",
+      "evidence": {
+        "subject_id": "FILE-05046",
+        "path": "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "db18b7fd11535293393aca1c586569f67a40d2e180d671bab766a11f42a7410a",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    },
+    {
+      "ref": "FILE-05430",
+      "evidence": {
+        "subject_id": "FILE-05430",
+        "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a97032c4e744c8835d215dff9846182bdf6110512af0009c69987e5fbe6771bb",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+          "line": 1
+        }
+      },
+      "conclusion": "verified_no_gap",
+      "detail": "Exact-candidate denominator row was enumerated and received the security specialist disposition."
+    }
+  ],
+  "findings": [
+    {
+      "id": "D520-SEC-001",
+      "severity": "P1",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "GCP mutation approval is self-asserted by the local mutation principal",
+      "impact": "A process with repository write access and existing gcloud permissions can forge approval and incur cloud mutations or spend without operator consent.",
+      "source_lane": "security",
+      "owner": "#815 under #522",
+      "affected_acceptance_refs": [
+        "GCP-D:AC-1",
+        "GCP-D:AC-2",
+        "GCP-D:AC-3",
+        "GCP-D:AC-4",
+        "TAIL-10:AC-3"
+      ],
+      "locator": {
+        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        "line": 17
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-001",
+        "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "79fcc17ddf34fdc1bf2b88640c744c0755d70825a28d178387d5fce48331dbd9",
+        "locator": {
+          "path": ".csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh",
+          "line": 17
+        }
+      },
+      "detail": "The validator accepts a locally written status=approved plus timestamps without authenticating an operator, signature, MAC, immutable receipt, or out-of-band principal. The negative suite itself manufactures an accepted approved packet.",
+      "denominator_refs": [
+        "FILE-04354"
+      ]
+    },
+    {
+      "id": "D520-SEC-002",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "AWS authorization is not cryptographically bound to the saved Terraform plan",
+      "impact": "Readiness can attest operator approval and resource bounds for different bytes than Terraform eventually applies.",
+      "source_lane": "security",
+      "owner": "#815 under #522",
+      "affected_acceptance_refs": [
+        "AWS-D:AC-1",
+        "AWS-D:AC-2",
+        "AWS-D:AC-3",
+        "TAIL-10:AC-3"
+      ],
+      "locator": {
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+        "line": 92
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-002",
+        "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "c233d93087926cd445766d1b6dc5b63d35cd04c1a474f1b460060d23d61e6d65",
+        "locator": {
+          "path": ".csdlc/prepared/issues/727/validate-issue-727-authorization-envelope.sh",
+          "line": 92
+        }
+      },
+      "detail": "The validator trusts self-declared account verification and authorized_by fields and compares the claimed digest only with a separately mutable text file; it never hashes the saved tfplan bytes or binds the inspected plan JSON to that binary plan.",
+      "denominator_refs": [
+        "FILE-04296"
+      ]
+    },
+    {
+      "id": "D520-SEC-003",
+      "severity": "P2",
+      "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "status": "open",
+      "title": "The OBS-B redaction validation lane is vacuous",
+      "impact": "The named privacy lane can pass while Runtime projections or retained evidence contain actual credentials or provider payloads.",
+      "source_lane": "security",
+      "owner": "#816 under #522",
+      "affected_acceptance_refs": [
+        "OBS-B:AC-2"
+      ],
+      "locator": {
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        "line": 1
+      },
+      "evidence": {
+        "subject_id": "D520-SEC-003",
+        "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "a12948ee1cc779c3073723dac59473a01b4394d7dd478ed529be1b34fcbb85d4",
+        "locator": {
+          "path": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+          "line": 1
+        }
+      },
+      "detail": "The script only greps a planning bootstrap request for the word redacted. It does not inspect any projected Runtime payload, UI asset, retained evidence, or negative fixture.",
+      "denominator_refs": [
+        "FILE-03417"
+      ]
+    }
+  ]
+}

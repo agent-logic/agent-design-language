@@ -144,10 +144,13 @@ live_now = JSON.parse(live_out).map do |row|
 end.sort_by { |row| row.fetch("number") }
 fail!("captured milestone snapshot is stale, truncated, or invented") unless live_issues.sort_by { |row| row.fetch("number") } == live_now
 
-pr_query_argv = ["gh", "pr", "list", "--repo", "agent-logic/agent-design-language", "--milestone", "v0.92.1", "--state", "all", "--limit", "10000", "--json", "number,title,state,mergedAt,url"]
+pr_query_argv = ["gh", "pr", "list", "--repo", "agent-logic/agent-design-language", "--state", "all", "--limit", "10000", "--json", "number,title,state,mergedAt,url,milestone"]
 pr_out, pr_err, pr_status = Open3.capture3(*pr_query_argv)
 fail!("live milestone PR query failed: #{pr_err.strip}") unless pr_status.success?
-live_prs_now = JSON.parse(pr_out).sort_by { |row| row.fetch("number") }
+live_prs_now = JSON.parse(pr_out)
+  .select { |row| row.dig("milestone", "title") == "v0.92.1" }
+  .map { |row| row.reject { |key, _value| key == "milestone" } }
+  .sort_by { |row| row.fetch("number") }
 fail!("captured milestone PR snapshot is stale, truncated, or invented") unless live_prs.sort_by { |row| row.fetch("number") } == live_prs_now
 
 creation_receipt_path = "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"

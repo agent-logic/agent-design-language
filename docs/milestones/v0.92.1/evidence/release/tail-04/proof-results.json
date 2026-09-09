@@ -1,0 +1,71 @@
+{
+  "schema": "adl.v0921.internal_review_summary.v1",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "outcome": "passed",
+  "observations": [
+    {
+      "subject_id": "SUMMARY-PROOF-RESULTS-D520-RET-001",
+      "result": "finding",
+      "detail": "D520-RET-001: The retained-proof denominator still contains 198 unproved required rows",
+      "evidence": {
+        "subject_id": "SUMMARY-PROOF-RESULTS-D520-RET-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+          "line": 26
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-PROOF-RESULTS-D520-V3F-001",
+      "result": "finding",
+      "detail": "D520-V3F-001: V3-F exact-head proof is stale at the frozen release candidate",
+      "evidence": {
+        "subject_id": "SUMMARY-PROOF-RESULTS-D520-V3F-001",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "993b438accbb09b0afe5ee22dfa866de7a4fb191f4b8aedc51e67ab878eb2e43",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/mapping.json",
+          "line": 4
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-001",
+      "result": "finding",
+      "detail": "D520-EVID-001: Eighteen GCP-E JSON readbacks are emitted as YAML",
+      "evidence": {
+        "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-001",
+        "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "898117f84f8452779a015e7e74936059859b721ae728e20494a6bcb9834dfff1",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh",
+          "line": 83
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-002",
+      "result": "finding",
+      "detail": "D520-EVID-002: Four retained cloud failure artifacts are zero-byte files named JSON",
+      "evidence": {
+        "subject_id": "SUMMARY-PROOF-RESULTS-D520-EVID-002",
+        "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "locator": {
+          "path": ".csdlc/evidence/730/preapply-bucket-describe.json",
+          "line": 1
+        }
+      }
+    }
+  ]
+}

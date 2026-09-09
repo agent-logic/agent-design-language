@@ -10,8 +10,8 @@ title: "[v0.92.1][TAIL-04] Internal review"
 branch: "codex/520-internal-review"
 generated_at: "2026-09-09T19:19:55Z"
 card_status: "approved"
-status: "ready_waiting_on_758"
-activation_state: "blocked_on_dependency_758"
+status: "in_progress"
+activation_state: "active_second_review"
 plan_revision: 1
 initial_pvf_lane: "review-complete"
 planned_pvf_lane: "review-complete-exact-candidate"
@@ -53,7 +53,7 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: #718/PR #809 satisfied; #758/PR #805 must merge before execution"
+    description: "Confirm dependency readiness and starting state: #718/PR #809 and #758/PR #805 are merged and present in frozen candidate fb6cbc7f619daa54f901fd2d12f480add682ace3"
     expected_output: ".csdlc/issues/520/cards/sip.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "pending_dependency_758"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress_exact_head_review_and_publication"
 affected_areas:
   - "tail-04-internal-review"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Do not reuse the historical candidate or prior reports as current proof. Rebuild candidate-bound manifests and reports after #758 merges."
+notes: "Fourteen unique defects are captured and routed to #814-#821. #520 remains open until independent exact-head packet review, publication, and truthful terminal reconciliation complete."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [pending_dependency_758] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress_exact_head_review_and_publication] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -154,7 +154,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: #718/PR #809 satisfied; #758/PR #805 must merge before execution
+1. Confirm dependency readiness and starting state: #718/PR #809 and #758/PR #805 are merged and present in frozen candidate fb6cbc7f619daa54f901fd2d12f480add682ace3
 2. Review repo inputs and scoped surfaces before editing: issue #520, milestone v0.92.1 specification and issue graph, TAIL-04 runbook and validators, merged gate evidence
 3. Implement only the bounded deliverables: gate manifest, complete denominators, specialist reports, finding register, synthesis, validation and review evidence
 4. Run focused proof gates for acceptance: complete inventory and disposition; exact evidence binding; explicit partial/inert/unproven outcomes; no non-proving pass credit; exact-head packet validation
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Do not reuse the historical candidate or prior reports as current proof. Rebuild candidate-bound manifests and reports after #758 merges.
+Fourteen unique defects are captured and routed to #814-#821. #520 remains open until independent exact-head packet review, publication, and truthful terminal reconciliation complete.

@@ -1,0 +1,19 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 522,
+      "pull_request": null,
+      "cutover_issue": 505,
+      "expected_head_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "credential_names": ["GITHUB_TOKEN"],
+      "mutation": {
+        "action": "issue_comment",
+        "body": "## Second #520 internal-review remediation wave\n\nThe complete second review at candidate `fb6cbc7f619daa54f901fd2d12f480add682ace3` produced 14 findings: five P1, seven P2, and two P3. Every finding is captured and owned:\n\n- #814 — Runtime greeting recovery, stable work identity, and local-model boundary\n- #815 — authenticated AWS/GCP mutation authorization\n- #816 — Observatory redaction and hot-reload validation integrity\n- #817 — exact-candidate release truth and retained-evidence formats\n- #818 — 17 corporate/Runtime retained-proof rows\n- #819 — 152 C-SDLC v3 retained-proof rows\n- #820 — 25 distributed-Runtime retained-proof rows\n- #821 — four final TAIL-01 obligations after all prerequisites pass\n\nThe canonical source register is `docs/milestones/v0.92.1/evidence/release/tail-04/findings.json`. No finding is resolved by issue creation alone; each requires focused proof and exact-head review. #821 remains dependency-last and must fail closed while any prerequisite finding remains."
+      }
+    }
+  }
+}

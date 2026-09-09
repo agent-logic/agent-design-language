@@ -1,0 +1,71 @@
+{
+  "schema": "adl.v0921.internal_review_summary.v1",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "outcome": "passed",
+  "observations": [
+    {
+      "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-RUNTIME-001",
+      "result": "finding",
+      "detail": "D520-RUNTIME-001: Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+      "evidence": {
+        "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-RUNTIME-001",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2478
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-RUNTIME-002",
+      "result": "finding",
+      "detail": "D520-RUNTIME-002: Greeting retries replace the stable ledger work identity with attempt-specific IDs",
+      "evidence": {
+        "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-RUNTIME-002",
+        "path": "adl-runtime-kernel/src/control.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+        "locator": {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "line": 2423
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-SEC-004",
+      "result": "finding",
+      "detail": "D520-SEC-004: The real-local Shepherd proof accepts off-host Ollama URLs",
+      "evidence": {
+        "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-SEC-004",
+        "path": "adl-runtime/tests/shepherd_local_model.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+        "locator": {
+          "path": "adl-runtime/tests/shepherd_local_model.rs",
+          "line": 16
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-TEST-001",
+      "result": "finding",
+      "detail": "D520-TEST-001: Hot-reload cancellation tests can pass without observing a pending reload",
+      "evidence": {
+        "subject_id": "SUMMARY-VALIDATION-RESULTS-D520-TEST-001",
+        "path": "adl-runtime/tests/config_reload.rs",
+        "source": "candidate",
+        "revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+        "locator": {
+          "path": "adl-runtime/tests/config_reload.rs",
+          "line": 182
+        }
+      }
+    }
+  ]
+}

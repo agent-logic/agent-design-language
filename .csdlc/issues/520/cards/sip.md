@@ -8,7 +8,7 @@ Run ID: issue-0520
 Version: 1.0.5
 Title: [v0.92.1][TAIL-04] Internal review
 Branch: codex/520-internal-review
-Card Status: ready_waiting_on_758
+Card Status: review_in_progress
 Generated: 2026-09-09T19:19:55Z
 
 Context:
@@ -177,7 +177,7 @@ ci_validation_required: true
 
 ## Notes / Risks
 
-Execution is blocked until #758/PR #805 is merged. The candidate must be fetched origin/main, equal the reviewed revision, and contain merge commits for both #718 and #758.
+The post-#718/post-#758 candidate is frozen at fb6cbc7f619daa54f901fd2d12f480add682ace3. The complete second review found 14 unique defects; remediation is owned by #814 through #821 under #522. Release approval remains outside #520.
 
 ## Instructions to the Agent
 - Read this file.

@@ -1,6 +1,6 @@
 {
   "identity": null,
-  "status": "pre_review",
+  "status": "review_in_progress",
   "content": null,
   "schema": "csdlc.v3.card_values.v1",
   "issue": 520,
@@ -10,7 +10,7 @@
   "branch": "codex/520-internal-review",
   "version": "1.0.5",
   "card": "srp",
-  "card_status": "ready_waiting_on_758",
+  "card_status": "candidate_findings_captured",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
   "slug": "tail-04-internal-review",
@@ -19,10 +19,10 @@
   "spp_card": ".csdlc/issues/520/cards/spp.md",
   "vpp_card": ".csdlc/issues/520/cards/vpp.md",
   "sor_card": ".csdlc/issues/520/cards/sor.md",
-  "findings_status": "pre_review",
-  "recommended_outcome": "pending",
-  "review_findings": "No current-candidate findings yet; the rerun is blocked until #758/PR #805 merges and the exact fetched origin/main candidate is frozen.",
-  "review_dispositions": "No dispositions yet. Route every supported product finding to #522 and retain all unresolved findings in the canonical register.",
-  "review_notes": "The previous #520 reports are historical inputs only. Independent review must bind the new exact candidate and complete regenerated packet.",
+  "findings_status": "fourteen_findings_routed_remediation_in_progress",
+  "recommended_outcome": "changes_required_release_blocked",
+  "review_findings": "The complete nine-lane second review found 14 unique defects: 5 P1, 7 P2, and 2 P3. Exact evidence and ownership are recorded in docs/milestones/v0.92.1/evidence/release/tail-04/findings.json and SECOND_REVIEW_SUMMARY.md.",
+  "review_dispositions": "All 14 findings are accepted and routed under #522: runtime #814; cloud authorization #815; validation integrity #816; release truth and evidence hygiene #817; retained-proof execution #818-#821. No finding is waived or silently deferred.",
+  "review_notes": "This records specialist-review results, not the still-pending independent exact-head review of the assembled #520 packet. Release remains blocked while any required remediation or retained proof is unresolved.",
   "timestamp": "2026-09-09T19:19:55Z"
 }

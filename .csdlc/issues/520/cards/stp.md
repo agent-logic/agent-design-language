@@ -7,7 +7,7 @@ labels:
   - "track:roadmap"
 issue_number: 520
 generated_at: "2026-09-09T19:19:55Z"
-card_status: "ready_waiting_on_758"
+card_status: "review_in_progress"
 status: "draft"
 action: "edit"
 supersedes: []
@@ -71,9 +71,9 @@ Every declared review denominator is complete, every row is dispositioned, every
 
 ## Dependencies
 
-- #718/PR #809 merged.
-- #758/PR #805 must merge before execution.
-- Exact fetched origin/main after both merges is the sole candidate.
+- #718/PR #809 merged and is present in the frozen candidate.
+- #758/PR #805 merged and is present in the frozen candidate.
+- Exact fetched origin/main fb6cbc7f619daa54f901fd2d12f480add682ace3 is the sole reviewed candidate.
 
 ## Target Files / Surfaces
 
@@ -97,9 +97,9 @@ No live provider or cloud demo. Review evidence must be deterministic, candidate
 
 ## Issue-Graph Notes
 
-- #718/PR #809 is merged and satisfied.
-- #758/PR #805 is the remaining execution gate.
-- #522 owns product remediation; #521 owns external review.
+- #718 and #758 gates are satisfied in the frozen candidate.
+- #522 owns the remediation wave through #814-#821.
+- #521 owns external review.
 
 ## Notes
 
