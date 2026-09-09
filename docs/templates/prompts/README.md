@@ -170,8 +170,9 @@ Execution preflight is intentionally stricter than enum validation:
 ## Host-Path Scan Wording
 
 Lifecycle cards must not record concrete machine-local absolute paths. It is
-acceptable to describe the scan patterns that were checked, such as `/Users/`,
-`/home/`, `/tmp/`, and `/var/folders/`, when the card also states that no
+acceptable to describe the scan patterns that were checked, such as a macOS
+user-home prefix, Linux home prefix, temporary-directory prefix, and macOS
+per-user temporary folder prefix, when the card also states that no
 concrete host-local paths were recorded. Do not include example usernames,
 temporary directories, or full local artifact paths in durable cards.
 

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 // PVF: lane=exact-child-tests; proof=identity/enrollment positive and negative behavior;
 // deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
 #[path = "../src/distributed/identity.rs"]

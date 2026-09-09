@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[allow(dead_code)]
 #[path = "../src/distributed/capability_advertisement.rs"]
 mod capability_advertisement;
@@ -13,6 +15,7 @@ mod lease;
 #[allow(dead_code)]
 #[path = "../src/distributed/membership.rs"]
 mod membership;
+#[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
 #[allow(dead_code)]

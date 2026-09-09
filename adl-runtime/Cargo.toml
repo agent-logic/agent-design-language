@@ -2,6 +2,7 @@
 name = "adl-runtime"
 version = "0.92.0"
 edition = "2021"
+rust-version = "1.92"
 license = "MIT OR Apache-2.0"
 description = "CSM runtime contracts and component topology for ADL"
 
@@ -11,6 +12,9 @@ path = "src/lib.rs"
 
 [features]
 internal-test-fixtures = []
+
+[lints.clippy]
+result_large_err = "allow"
 
 [[test]]
 name = "distributed_runtime_transport"

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 791,
+  "phase": "bound",
+  "generation": 5,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/791-primary-write-guard",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard",
+  "template_registry_version": "1.0.4",
+  "operational_authority": true,
+  "digest": "0efd55e8c43784b3ea4c0c5cfaf3fc9258ee9c58a64ce449e60f2d1f6cc44518"
+}

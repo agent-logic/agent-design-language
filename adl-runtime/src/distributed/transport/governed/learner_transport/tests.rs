@@ -949,6 +949,7 @@ impl RaftNetworkFactory<PolisTypeConfig> for AuthorizedLearnerMemoryNetwork {
 }
 
 impl AuthorizedLearnerMemoryConnection {
+    #[allow(clippy::result_large_err)]
     fn peer<E>(&self) -> Result<PolisRaft, RPCError<u64, BasicNode, RaftError<u64, E>>>
     where
         E: std::error::Error,

@@ -23,7 +23,7 @@ Issue completion is exactly one exact-revision publication-candidate packet; lin
 
 1. AC-1: The exact reviewed candidate revision and artifact digests are recorded
 2. AC-2: Publication artifacts contain correct and unambiguous closing relationships
-3. AC-3: The packet passes redaction and path-portability checks
+3. AC-3: The packet and all manifest-referenced document byte streams pass redaction and path-portability checks
 4. AC-4: No merge, tag, release, or issue-close mutation occurs
 
 ## Dependencies
@@ -43,4 +43,4 @@ Issue completion is exactly one exact-revision publication-candidate packet; lin
 - Tag
 - Release
 - Issue closure
-- Product or documentation repair
+- Product or documentation repair beyond safe redaction/path-portability normalization required for the publication manifest denominator

@@ -20,6 +20,6 @@ Status: planned demonstrations; none are yet claimed as passing.
 
 | Demo | Owner | Proof | Non-claim |
 |---|---|---|---|
-| D12 Canonical peer addressing | #718 | Two ordinary agents exchange governed messages and model-generated replies by canonical name | Helper-only or transport-only success is not acceptance; no new cross-node transport claim |
-| D13 Capability orientation | #717 | Admitted test agent receives current capability map and exact orientation receipt before first turn | Orientation grants no authority; no live provider required |
+| D12 Canonical peer addressing predecessor | v0.92.1 #718 | Consume reviewed merged proof that two ordinary agents exchange governed model-generated replies by canonical name | Do not rerun or recreate #718 as v0.92.2 work |
+| D13 Capability orientation predecessor | v0.92.1 #717 | Consume reviewed merged proof that an admitted test agent receives the capability map and exact receipt before first turn | Orientation grants no authority; do not recreate #717 |
 | D14 Live-only Observatory | #720 | Startup/navigation cannot expose retained historical telemetry as live | Historical evidence remains intact |

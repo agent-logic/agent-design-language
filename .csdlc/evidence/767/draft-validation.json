@@ -1,0 +1,49 @@
+{
+  "issue": 767,
+  "scope": "Documentation projection only; not product acceptance or release authorization.",
+  "results": [
+    {
+      "argv": [
+        "python3",
+        "docs/milestones/v0.92.1/evidence/release/current-status/validate.py"
+      ],
+      "result": {
+        "result": "pass",
+        "documents": 4,
+        "lanes": 14,
+        "work_packages": 35,
+        "sources": 66,
+        "negative_fixtures": 6,
+        "release_authorized": false
+      }
+    },
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--links"
+      ],
+      "result": {
+        "schema": "adl.tail02.local_validation.v1",
+        "mode": "--links",
+        "status": "pass",
+        "checks": 1124,
+        "final_acceptance": false
+      }
+    },
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "--claims"
+      ],
+      "result": {
+        "schema": "adl.tail02.local_validation.v1",
+        "mode": "--claims",
+        "status": "pass",
+        "checks": 286,
+        "final_acceptance": false
+      }
+    }
+  ]
+}

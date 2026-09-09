@@ -45,9 +45,9 @@ mod resource_weather;
 mod snapshot_catalog;
 
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::BTreeSet,
     fs,
-    path::{Path, PathBuf},
+    path::PathBuf,
     sync::{Arc, Mutex},
 };
 
@@ -1198,6 +1198,7 @@ fn active_check<'a>(
     }
 }
 
+#[allow(dead_code)]
 fn recover_target_to_committed(
     fixture: &mut Fixture,
     migration: &MigrationStore,

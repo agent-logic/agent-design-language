@@ -40,8 +40,8 @@ No row may be marked proven from a planned demo, a zero-test invocation, or gree
 |---|---|---|
 | Shared finding/run contract | CF-EVIDENCE | Review/memory/renderer conformance fixtures and compatible-version negatives |
 | Pre-synthesis independence | CF-REVIEW | Isolated lane inputs and retained disagreements |
-| Canonical-name A2A | RT-A2A / #718 | Invalid-name/continuity tests plus two non-Shepherd agents exchanging model-generated replies |
-| Capability orientation | RT-ORIENT / #717 | First-turn delivery, complete canonical inventory, stale-entry negatives and version/digest provenance |
+| Canonical-name A2A predecessor | v0.92.1 / #718 | Consume the reviewed merged invalid-name/continuity and two-agent model-generated reply proof; no v0.92.2 recreation |
+| Capability orientation predecessor | v0.92.1 / #717 | Consume reviewed merged first-turn, canonical-inventory, stale-entry, and version/digest proof; no v0.92.2 recreation |
 | Live Observatory | OBS-LIVE / #720 | Live navigation remains functional; no retained mode, historical polling or evidence deletion |
 
 ## C-SDLC simplification sprint

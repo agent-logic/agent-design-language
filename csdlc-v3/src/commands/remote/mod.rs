@@ -159,6 +159,15 @@ pub enum GithubMutation {
         title: Option<String>,
         body: Option<String>,
     },
+    IssueClose {
+        rationale: String,
+        current_body: String,
+        disposition: IssueCloseDisposition,
+        #[serde(default)]
+        duplicate_of: Option<u64>,
+        #[serde(default)]
+        github_state_reason: Option<IssueCloseStateReason>,
+    },
     PullRequestCreate {
         base: String,
         head: String,
@@ -172,6 +181,21 @@ pub enum GithubMutation {
         body: Option<String>,
     },
     PullRequestReady,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum IssueCloseDisposition {
+    Duplicate,
+    Superseded,
+    NoOp,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum IssueCloseStateReason {
+    Completed,
+    NotPlanned,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1333,6 +1357,23 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
                 "issue edit requires a body so authenticated readback can bind the operation marker",
             ))
         }
+        GithubMutation::IssueClose {
+            rationale,
+            current_body,
+            disposition,
+            duplicate_of,
+            github_state_reason,
+        } if rationale.trim().is_empty()
+            || current_body.contains("<!-- csdlc-v3-operation:")
+            || request.pull_request.is_some()
+            || matches!(disposition, IssueCloseDisposition::Duplicate) && duplicate_of.is_none()
+            || github_state_reason == &Some(IssueCloseStateReason::Completed) =>
+        {
+            Err(remote_finding(
+                "github_issue_close_invalid",
+                "issue close requires a non-empty rationale, an unmarked current body, no PR number, duplicate owner for duplicate disposition, and a non-completion state reason",
+            ))
+        }
         GithubMutation::PullRequestCreate {
             base, head, title, ..
         } if !crate::adapters::supported_pr_branch(base)
@@ -1374,6 +1415,9 @@ fn github_mutation_invocation(
         GithubMutation::IssueEdit { .. } => {
             format!("repos/{}/issues/{}", request.repository, request.issue)
         }
+        GithubMutation::IssueClose { .. } => {
+            format!("repos/{}/issues/{}", request.repository, request.issue)
+        }
         GithubMutation::PullRequestCreate { .. } => format!("repos/{}/pulls", request.repository),
         GithubMutation::PullRequestUpdate { .. } => format!(
             "repos/{}/pulls/{}",
@@ -1403,7 +1447,9 @@ fn github_mutation_invocation(
     };
     let method = if matches!(
         request.mutation,
-        GithubMutation::IssueEdit { .. } | GithubMutation::PullRequestUpdate { .. }
+        GithubMutation::IssueEdit { .. }
+            | GithubMutation::IssueClose { .. }
+            | GithubMutation::PullRequestUpdate { .. }
     ) {
         "PATCH"
     } else {
@@ -1472,6 +1518,23 @@ fn write_mutation_input(
                 "body": body.as_ref().map(|body| body_with_operation_marker(body, operation_marker))
             })
         }
+        GithubMutation::IssueClose {
+            rationale,
+            current_body,
+            disposition,
+            duplicate_of,
+            github_state_reason,
+        } => {
+            let state_reason = github_state_reason.unwrap_or(IssueCloseStateReason::NotPlanned);
+            serde_json::json!({
+                "state": "closed",
+                "state_reason": state_reason.as_github_value(),
+                "body": body_with_operation_marker(
+                    &issue_close_readback_body(current_body, rationale, *disposition, *duplicate_of),
+                    operation_marker,
+                )
+            })
+        }
         GithubMutation::PullRequestCreate {
             base,
             head,
@@ -1497,6 +1560,52 @@ fn write_mutation_input(
     })?;
     write_private_create_new(&path, &bytes)?;
     Ok(path)
+}
+
+fn issue_close_readback_body(
+    current_body: &str,
+    rationale: &str,
+    disposition: IssueCloseDisposition,
+    duplicate_of: Option<u64>,
+) -> String {
+    let duplicate_line = duplicate_of
+        .map(|issue| format!("\nDuplicate owner: #{issue}"))
+        .unwrap_or_default();
+    let close_section = format!(
+        "Closed by native C-SDLC v3 issue-close.\nDisposition: {}{duplicate_line}\nRationale: {}",
+        disposition.as_str(),
+        rationale.trim()
+    );
+    if current_body.trim().is_empty() {
+        close_section
+    } else {
+        format!("{}\n\n{}", current_body.trim_end(), close_section)
+    }
+}
+
+impl IssueCloseDisposition {
+    fn as_str(self) -> &'static str {
+        match self {
+            IssueCloseDisposition::Duplicate => "duplicate",
+            IssueCloseDisposition::Superseded => "superseded",
+            IssueCloseDisposition::NoOp => "no_op",
+        }
+    }
+}
+
+impl IssueCloseStateReason {
+    fn as_github_value(self) -> &'static str {
+        match self {
+            IssueCloseStateReason::Completed => "completed",
+            IssueCloseStateReason::NotPlanned => "not_planned",
+        }
+    }
+
+    fn matches_readback(self, value: &serde_json::Value) -> bool {
+        value
+            .as_str()
+            .is_none_or(|observed| observed == self.as_github_value())
+    }
 }
 
 fn body_with_operation_marker(body: &str, operation_marker: &str) -> String {
@@ -1539,6 +1648,18 @@ fn validate_mutation_response(
             Err(remote_finding(
                 "github_issue_readback_mismatch",
                 "edited issue response did not match the requested issue",
+            ))
+        }
+        GithubMutation::IssueClose { .. } if value["number"].as_u64() != Some(request.issue) => {
+            Err(remote_finding(
+                "github_issue_readback_mismatch",
+                "closed issue response did not match the requested issue",
+            ))
+        }
+        GithubMutation::IssueClose { .. } if value["state"].as_str() != Some("closed") => {
+            Err(remote_finding(
+                "github_issue_close_readback_missing",
+                "closed issue response did not report closed state",
             ))
         }
         GithubMutation::PullRequestCreate { .. } if value["number"].as_u64().is_none() => {
@@ -1681,6 +1802,11 @@ fn github_mutation_reconciliation_invocation(
             request.repository.clone(),
             request.issue.to_string(),
         ],
+        GithubMutation::IssueClose { .. } => vec![
+            "issue".into(),
+            request.repository.clone(),
+            request.issue.to_string(),
+        ],
         GithubMutation::PullRequestCreate { head, .. } => vec![
             "pull-requests-by-head".into(),
             request.repository.clone(),
@@ -1740,6 +1866,32 @@ fn match_reconciled_mutation(
                         candidate["body"].as_str()
                             == Some(body_with_operation_marker(body, operation_marker).as_str())
                     })
+            }
+            GithubMutation::IssueClose {
+                rationale,
+                current_body,
+                disposition,
+                duplicate_of,
+                github_state_reason,
+            } => {
+                candidate["number"].as_u64() == Some(request.issue)
+                    && candidate["state"].as_str() == Some("closed")
+                    && github_state_reason
+                        .unwrap_or(IssueCloseStateReason::NotPlanned)
+                        .matches_readback(&candidate["state_reason"])
+                    && candidate["body"].as_str()
+                        == Some(
+                            body_with_operation_marker(
+                                &issue_close_readback_body(
+                                    current_body,
+                                    rationale,
+                                    *disposition,
+                                    *duplicate_of,
+                                ),
+                                operation_marker,
+                            )
+                            .as_str(),
+                        )
             }
             GithubMutation::PullRequestCreate {
                 base,

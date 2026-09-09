@@ -2,7 +2,7 @@
 
 Date: 2026-05-21
 Reviewer: Codex
-Scope: `/Users/daniel/git/agent-design-language/.worktrees/adl-wp-3182`
+Scope: repository worktree `.worktrees/adl-wp-3182`
 Issue: `#3182`
 Branch: `codex/3182-v0912-review-handoff-truth`
 

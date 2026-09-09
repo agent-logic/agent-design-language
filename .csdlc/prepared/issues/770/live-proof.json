@@ -1,0 +1,36 @@
+{
+  "probe": {
+    "issue": 770,
+    "status": "passed",
+    "cloud_disposal": "pending; this probe does not destroy infrastructure",
+    "host_key_policy": "first-connection trust in isolated known_hosts; subsequent mismatches rejected",
+    "instance_id": "i-069dd5d48f0e562dc",
+    "public_ip": "34.212.90.208",
+    "root_volume_id": "vol-0323a95feaad832c8",
+    "security_group_id": "sg-05ad970b8c4f0f4a8",
+    "ssh_cidr": "47.146.81.109/32",
+    "imds_v2": true,
+    "encrypted_root": true,
+    "application_ingress": [],
+    "observed_ssh_source": "47.146.81.109",
+    "ssh_authenticated": true,
+    "local_health": true,
+    "external_application_port_blocked": true,
+    "temporary_listener_stopped": true
+  },
+  "execution": {
+    "issue": 770,
+    "started_utc": "2026-09-09T17:40:23.042657+00:00",
+    "status": "proof_passed",
+    "instance_id": "i-069dd5d48f0e562dc",
+    "root_volume_id": "vol-0323a95feaad832c8",
+    "security_group_id": "sg-05ad970b8c4f0f4a8",
+    "terraform_destroy": "passed",
+    "disposal_verified": true,
+    "finished_utc": "2026-09-09T17:43:11.778509+00:00"
+  },
+  "authorization": "Operator approved 20-minute, USD 1 proof and disposal in Planning #6",
+  "key_discovery": "Issue 4837 documented the existing identity; public-key equality verified against existing EC2 key adl-4603-ssh-debug-20260701",
+  "state_recovery": "Initial saved-plan apply used stack-local state. First empty alternate-state destroy was non-proving. Continued using exact existing resources and actual state; final AWS disposal readbacks passed.",
+  "bounds": "2026-09-09T17:39:25Z to 17:43:11Z, under four minutes; t3.micro Spot cap USD 0.02/hour, encrypted 8 GiB EBS. Actual billed cost not yet measured."
+}

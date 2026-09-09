@@ -1,0 +1,1958 @@
+{
+  "schema": "adl.v0921.release_status_projection.v1",
+  "issue": 767,
+  "projection_status": "refreshed_with_explicit_release_debt",
+  "as_of": "2026-09-09T18:09:55.770152+00:00",
+  "source_revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+  "release_decision": "blocked",
+  "release_authorized": false,
+  "source_admission_candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "vocabulary": {
+    "implemented": "Implementation or governed delivery disposition exists; does not imply full proof.",
+    "proved": "Only the explicitly bounded observed evidence scope is established.",
+    "deferred": "Explicit operator scope deferral; not delivered.",
+    "blocked": "Required evidence, remediation or authorization remains outstanding.",
+    "not_applicable": "Named requirement is outside the governed scope, with rationale."
+  },
+  "sources": [
+    {
+      "path": ".csdlc/evidence/262/http-playback-browser-proof.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "860cb655c212260e7b0d1772df6abbdb680271e75d4f69f61fb35cdae809eb21"
+    },
+    {
+      "path": ".csdlc/evidence/262/http-playback-native-proof.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "32a22015cda260076ae6b37c7716ebcfcdebcfcefe82c6e6eb166ce8b6d3babc"
+    },
+    {
+      "path": ".csdlc/evidence/262/live-production/public-production-proof.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "ae5895ce1ff184ab1a515c5991538430d221e73ecd412ef1eeb109460e5d8103"
+    },
+    {
+      "path": ".csdlc/evidence/264/submission-gate-validation.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "5a5af16d65adda7a0e5f69bab5c7115c95bd58bdd6e4e46e0e779e545c90754d"
+    },
+    {
+      "path": ".csdlc/evidence/497/corp-c-operational-control-acceptance.log",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "c744cd34768a30e8b4f9d1785b88e47b689d6f03576803606bc6dedbfd3a2652"
+    },
+    {
+      "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "f052ebf3002db93901b0312915896b44347b1fde7fd4e94fd1040f3c29032109"
+    },
+    {
+      "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "5c92ac46be5ad8f50fff77abb8b782b861ec52c2b5577be52be84b2bc51a0a92"
+    },
+    {
+      "path": ".csdlc/evidence/740/backend-canary-state.redacted.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "01f2a5ef69b2cf3a4ed6afb0b5cbac95d8c2b36bd503468a7c20120b73a0b8a1"
+    },
+    {
+      "path": ".csdlc/evidence/740/gcp-b1-iam-policy.redacted.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "0bd165d57748a9610a58684881f0074ef1ce15005c47cc31a250b4c845184e1b"
+    },
+    {
+      "path": ".csdlc/evidence/740/gcp-b1-readback.redacted.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "59af1cf23038815201c9ae9c868704777abec48468c94d067851fe1dcbf7dbf8"
+    },
+    {
+      "path": ".csdlc/evidence/740/live-proof.redacted.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "9557668d2ef46215a7c860e9af6c8245579e154cfccafd93d331e55d9bb7ac37"
+    },
+    {
+      "path": ".csdlc/prepared/issues/262/record-podcast-http-playback.rb",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "44ae40aad7b6ceabdbc62fefcd83043087f21d210778707302909ca6f04a5392"
+    },
+    {
+      "path": ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "4a9ac7daafbd2980bc6d4bc986a5c729f33ac9c7f7377bc868403bdbdfe73d9c"
+    },
+    {
+      "path": "adl-runtime-kernel/src/config_reload.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "53f60a3bda8bb559df02601f55b3a40422817bf813f9f78c0bf401da0a1ff9c8"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_contract/main.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6"
+    },
+    {
+      "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6"
+    },
+    {
+      "path": "adl/src/provider/mod.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "3594abab72af0e9f133b0cb9b9e4cf09ac47ee324cd7f03d33438472879254c7"
+    },
+    {
+      "path": "adl/src/provider/profiles.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "eaede14e77171736c6093a0b898f4402f482865530232a2d95b699c4d8105e8e"
+    },
+    {
+      "path": "adl/src/resilience.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "b70a442eb5550f4fdac397b049840e3213e375505bc85ed07db92f3275d298d0"
+    },
+    {
+      "path": "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "63f7e638da6d651bafb0686f259ca2f0b41803dfbbc8be0e27331886adcb138f"
+    },
+    {
+      "path": "csdlc-v3/Cargo.toml",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "4d8c5bf5d3859e02fb7ff270018ea5c56ca37a29f17b69a7979809ace2df8ba0"
+    },
+    {
+      "path": "csdlc-v3/src/authority.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "3b46640f422ec1a798a1a88d0e2e93f64863ffeb04c781641c00cb4661214b25"
+    },
+    {
+      "path": "csdlc-v3/src/commands/local/mod.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "1cbc46b5f8c5c369f4ccfcaedccec4aa2cd3839879b25b2209ff8a86a1fa9244"
+    },
+    {
+      "path": "csdlc-v3/src/commands/remote/mod.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "33d8a8c45faa93a34a5c4d51267ade40bef29d958b013468e45f7da93866b483"
+    },
+    {
+      "path": "csdlc-v3/src/lifecycle/mod.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "8b7c43e6b1868a0a7a34787f76c2bb6637b6ddc2a72663e90e42b9df90fe2e9b"
+    },
+    {
+      "path": "csdlc-v3/src/repository/mod.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "2cb16bb7f71688dcde016565a9c9e497f3fd70de01e2918c1b9290a158183727"
+    },
+    {
+      "path": "csdlc-v3/src/review/mod.rs",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "62a0c2bfdf1ae2fddb39618b8c8e2c7dd373478a8aea2d105d965883ece727a6"
+    },
+    {
+      "path": "docs/csdlc-v3/CONTRACT.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "a88492cf2a0c29b967136d73f7de6d9dcc4f453f72bc2680f7e27566f8dce7b3"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "ffb5dffe4d20d162a4264100e40708dee3ae92004e698deebed12193ec0ce3bb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "86e98264b2bfe34877ce7f35a05f2df694a0420361784cef310b417426269833"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "6f5e3066f398f7e551c9c16690d0d07cc80aa2fb81098e426f01ec10664cd2cf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "d9d1a7523eec907f659b17b7ec36b4b628a10a3f1cbb7500633983edead6d14b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "8c6ad4506b5ecf21d6c158450d2dc69a621753ac1495ac1503c4d2e8c9c4ab86"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "a4aa3d47d26f02cd49e62cd7c55966c4315169ffd184dcdddb6626af43cae19e"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "087e27ff4a1c2ef5ecddccc1182bffed89d43a076b61616a62c833eeaf1dd72b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "643cd1397b30b608c9a4ea33abc938c3435ca9a5a23f5e279d929760ddf6398b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "02e2137c8aba30d870aabcd6cf60f87af02c6456c4f9f21e38893a8604f90a6a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "f9ab01720008cb2a8c61575f3e4b0aaf025fd73f866d2de616dba3467565a4f4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "17ff0bd4a480e3488ba7ed16e460dab3d41b68803661a4fcb2ad4f6606997738"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "2a63cabd8c6f8b92d368b219540a73eeec18cc639ffd1efa463c9c0853120613"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "796dcf3ccaff7184ec029e5d43d40fabe28780636e7821855a17e382d57ba7a4"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "53f88675ff7779ef403a94f735b80f9cb29deb1db05ed18b7df6043506b7f557"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "15b7beff7c315d1c119fbf4f34c4655dd7cc7509b4d4ad49733ad5dcd348aedf"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/current-exceptions.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "c68666f42cd971a514cd011ec63cf2aade52443db068edb9f12e0c1f2044f1b2"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/exception-dispositions.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "1d1a403b0c89a3bed7faf7620f15deab90532744e32437b537ff5f03dcf0ce4f"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/ownership.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "124d0e9d35beb824c9edc174b6d9a4ed36717f57f5b8662b18a0e1dad1c8cd2a"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "485b89b19d9acdc31727ff3211c6dc5857dca241e1896670ea6e3efde0742b61"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "d90a5161929a3ee4d7ea0883ee87464ab5d539d1da7f7280551cf98d9a263bf0"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/source-proof-snapshot.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "736ea3e0b59d032a111f87019bac888933ef0b0b099dc79ebaeb8d8d6be1ba4b"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "4e1ea4b400f7782657071dc6b1c304d5a23315404bf30a148467a039203e39dd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "cdc460d44cd4cef831407322b130c78c5c821879f18048330efe4a6f9b5d55cd"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "c8a468200250b6098b0df3d10bbd7741f65c18651123e4aa8666cf5e587d9ad1"
+    },
+    {
+      "path": "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "4a714baf16d13f71c9b4289e333f32d05b1cc7294c3b87cfb162688142da9db3"
+    },
+    {
+      "path": "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "71579a682ef3fe789c39e1b890707227825685baeecfa4cd4dd900d3ac2e9907"
+    },
+    {
+      "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "5ed6f495bfd5f50ca976e9f361bb104a5e54702035042da7b6f57ecfc100f4e8"
+    },
+    {
+      "path": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "1b246f8ed69cc950df1dfd67178fe3becb8db503689214678a4fde1b7eff084d"
+    },
+    {
+      "path": "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "f3fab1f1b2d05c1db47ac333ff38046e0934e64a327d90a06ca5a959de71d4b0"
+    },
+    {
+      "path": "infra/aws/account-foundation/main.tf",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "0761a801cd8b552a1151b0fa20ca4644dd501008c32ff60cd3184d9fcfdd58a7"
+    },
+    {
+      "path": "infra/aws/bootstrap/main.tf",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "bd865c3bf5b223b43e09ef187d77bc8589c42028e8a5db093a4385876e294794"
+    },
+    {
+      "path": "infra/aws/runtime/private-node/main.tf",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "46f275be76664a02f12517b672bdfba34fdb6e85fee4b950ba00d01a4b91b3a4"
+    },
+    {
+      "path": "infra/gcp/bootstrap/main.tf",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "77d2e115c5fafed2b8e5f3dd51724df3005ef8b765686f5582940c5474363293"
+    },
+    {
+      "path": "infra/gcp/platform/main.tf",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "64a5e7a767209d2aff3722c9aa76bee197434657a549f32ab5739b6fdfe6b5ac"
+    },
+    {
+      "path": "infra/gcp/workloads/gpu-smoke-instance/main.tf",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "334676b6bfa928624d50e59d8a2e2ba28a70829d02415def052d9ea9054675f7"
+    },
+    {
+      "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "60c022659a3c01ee10b91db48c8193e019da8fc345c380725de6752ef3a4901e"
+    },
+    {
+      "path": "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "afd45c8651e1696af9253a29bcdd9efc09e33d02db06c2368fa6e4185f5c064d"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df"
+    },
+    {
+      "path": ".csdlc/evidence/432/terminal-receipt.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "3864144601d9bdd7c5570c1ecdbbe995480678d37d33ec4a1955cc312126dfaa"
+    },
+    {
+      "path": ".csdlc/evidence/316/planning-audit.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "92526cb94f955fffc7263f40f12eac3503821e205ac33628a6237a00e4c06bad"
+    },
+    {
+      "path": ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
+      "revision": "11a3fe88e0bc30e46a9fd3a7ff39f01807e3477f",
+      "sha256": "2c4215d7be9d9cdf2edcd49be8fdc30aa8ab04991d17c7cc09d6f1dc97f07ed8"
+    }
+  ],
+  "work_packages": [
+    {
+      "id": "WP-01",
+      "issue": 480,
+      "implementation_revision": "23856abbc7cde90dd9d1c6467dd6c61aca1bc274",
+      "merge_revision": "001c270beda2b35b60e0be04f3c3bd331a156c48",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 5
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "CORP-A",
+      "issue": 482,
+      "implementation_revision": "2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c",
+      "merge_revision": "e2c1d1649b0c930a5a1254575a07ef2a4496d48d",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "CORP-B",
+      "issue": 483,
+      "implementation_revision": "a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239",
+      "merge_revision": "4a0b49c0071bacdaab19d6d9eb8c44380beb51be",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proof_gap": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-A",
+      "issue": 484,
+      "implementation_revision": "e9fdf5b07bdcbde235511c52c40fb8c626cc95a7",
+      "merge_revision": "e5f30c60c68a60d43f51c70b4615065197a34404",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json",
+        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-B",
+      "issue": 485,
+      "implementation_revision": "2a5d25239853499b6ac73b37d968d2b97e75a586",
+      "merge_revision": "a71d699d52831b32bb68ed9c7c7e837925949de4",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 7
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-C",
+      "issue": 486,
+      "implementation_revision": "cfd5f0edabfde2e380a5534d619e7832f484bb8c",
+      "merge_revision": "1964b2e1f6e24a9dcb5788394502a2421300751a",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "infra/aws/bootstrap/main.tf"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-D",
+      "issue": 487,
+      "implementation_revision": "79be6b5b0327be752817197738887d25335e71a9",
+      "merge_revision": "1d31016a8df3cf07a4c3f2e6acd2694bd10570c2",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "implementation_gap": 3,
+        "proven": 1
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "infra/aws/account-foundation/main.tf"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-E",
+      "issue": 488,
+      "implementation_revision": "4e904b6629ff3060094dbef3613388e6e5245b8d",
+      "merge_revision": "a6b404cd6e74d7528745325036ceb1a85fd47bd2",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-F",
+      "issue": 489,
+      "implementation_revision": "485b4197908231bb2065e1e29c7c5013536e1975",
+      "merge_revision": "69ba35e066d1389a9f194659acb066a7dca82a40",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+        "infra/aws/runtime/private-node/main.tf"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "GCP-A",
+      "issue": 490,
+      "implementation_revision": "f0be8c8d1a2f12df8b2d8169997583dd66a9a521",
+      "merge_revision": "daa05de9332c82e3f9f2191975ef95b0ed4e211d",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        772
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "GCP-B",
+      "issue": 491,
+      "implementation_revision": "695ca0f6cec62357349390afda3952e39cd92337",
+      "merge_revision": "75ee9e6b2888a81b355d1fb496b488329a4c7d30",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proof_gap": 2,
+        "implementation_gap": 1,
+        "proven": 1
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "infra/gcp/bootstrap/main.tf"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        772
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "GCP-C",
+      "issue": 492,
+      "implementation_revision": "179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa",
+      "merge_revision": "b9a98710e2a0a50565c3835386f7f6a348a26eae",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        772
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "GCP-D",
+      "issue": 493,
+      "implementation_revision": "d5b1584bb55e92974e6d3481b59d2e28a17db441",
+      "merge_revision": "c0bf217934508d6dbc70d78633e6a95d5ddd9d06",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
+        "infra/gcp/platform/main.tf"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        772
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "GCP-E",
+      "issue": 494,
+      "implementation_revision": "de959c6263f671fa8fe1df851ea6ae1d25686831",
+      "merge_revision": "dc08b5abf10682ed9ace5deefd0e1389ea6899b6",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "infra/gcp/workloads/gpu-smoke-instance/main.tf"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        772
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "XCL-01",
+      "issue": 495,
+      "implementation_revision": "6177249dfb46fe3cf95fbcc996469517928f525d",
+      "merge_revision": "c78c60f5a45a87a96159d4910a831b69b62b042c",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 5
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "infra/runtime-portable/runtime-workload-contract.v1.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "AWS-G",
+      "issue": 496,
+      "implementation_revision": "59a3d0bd106f8bdd0def53dbe1564667ee6adac4",
+      "merge_revision": "83077ca029d52c9d613ed5a373da30f1dd42d9b3",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        770
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "CORP-C",
+      "issue": 497,
+      "implementation_revision": null,
+      "merge_revision": null,
+      "delivery_basis": {
+        "kind": "recordless_acceptance",
+        "acceptance_checked": true,
+        "acceptance_log": ".csdlc/evidence/497/corp-c-operational-control-acceptance.log",
+        "acceptance_log_sha256": "c744cd34768a30e8b4f9d1785b88e47b689d6f03576803606bc6dedbfd3a2652",
+        "sidecar_issue": 624,
+        "sidecar_url": "https://github.com/agent-logic/agent-design-language/issues/624",
+        "sidecar_state": "closed",
+        "sidecar_body_sha256": "df9a29ad73d443581986e96cd450797d0667503c789983bb1b6339ff68a9280f"
+      },
+      "retained_classifications": {
+        "accepted_recordless": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        ".csdlc/evidence/497/corp-c-operational-control-acceptance.log"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "CORP-D",
+      "issue": 498,
+      "implementation_revision": "dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8",
+      "merge_revision": "c51c8c7a8b51395986af8185f6e6ca2edaf4f435",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "RUST-01",
+      "issue": 499,
+      "implementation_revision": "940c42d246be5d54f34b7b300526a644cc881580",
+      "merge_revision": "e986de6d06aacd385de93dd033def77a718c1581",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 5
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl/src/resilience.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        766
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "V3-A",
+      "issue": 500,
+      "implementation_revision": "d02f90008acadcc10df048b7f089cc4b98ef608f",
+      "merge_revision": "1dddcce35d061bc128c2431b4f31cf09e0f4d435",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/csdlc-v3/CONTRACT.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        771
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "V3-B",
+      "issue": 501,
+      "implementation_revision": "9056f19245f93bc9efa3b55561671a8f002c6536",
+      "merge_revision": "1972aa47bd7047b8594a03bf770fb92f7fb63d51",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "csdlc-v3/src/repository/mod.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        771
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "V3-C",
+      "issue": 502,
+      "implementation_revision": "ed6f01c1e33b8057142491fca3028641ce5efc74",
+      "merge_revision": "76de907734ab69efe00b5bc0bf24f066002d0131",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "csdlc-v3/src/lifecycle/mod.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        771
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "V3-D",
+      "issue": 503,
+      "implementation_revision": "974abc520454690f0b392162b9ced783e8584017",
+      "merge_revision": "5692d95ee6e4ee632833be348fa5601ddccbca1a",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "csdlc-v3/src/commands/local/mod.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        771
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "V3-E",
+      "issue": 504,
+      "implementation_revision": "9ef650bc174a81849ffb09ae4d21b699fee1368d",
+      "merge_revision": "f68ca996541b8825090261fd70845bf1c406b410",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "csdlc-v3/src/review/mod.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        771
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "V3-F",
+      "issue": 505,
+      "implementation_revision": "74ddb31702482172eea4ba3d74700536eab32e49",
+      "merge_revision": "d3f98ed005cf44c359ac482e271e6b8634e93f23",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "csdlc-v3/Cargo.toml",
+        "csdlc-v3/src/authority.rs",
+        "csdlc-v3/src/commands/remote/mod.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        771
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "DRT-A",
+      "issue": 506,
+      "implementation_revision": "4676aef4189376b3f64d17efdb717732274e3240",
+      "merge_revision": "badcf9067da6eb46fc9f59e9da8b11a41e2f24f6",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_contract/main.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        758,
+        759
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "DRT-B",
+      "issue": 507,
+      "implementation_revision": "cca85d6fd4976e2b2358d0d130b8291a88cb1c95",
+      "merge_revision": "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3,
+        "proof_gap": 1
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        758,
+        759
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "DRT-C",
+      "issue": 508,
+      "implementation_revision": "cca4f7f675241a0a473b38006c8be2eb95165028",
+      "merge_revision": "a1c440cc7b1e3708961680c802585d0b80e2263f",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522,
+        758,
+        759
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "DRT-D",
+      "issue": 509,
+      "implementation_revision": "c89a584e53f152ed499a5d56d479296590044714",
+      "merge_revision": "5a1109ffa795d411e0e15cdfd29adf68e2c2d953",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "HOT-01",
+      "issue": 510,
+      "implementation_revision": "fac5eaa63a82eaf50fe455df14cc22ebb08a2678",
+      "merge_revision": "000fb7beb5fe4107e3e80d5de9183be224716a6d",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl-runtime-kernel/src/config_reload.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "OBS-A",
+      "issue": 511,
+      "implementation_revision": null,
+      "merge_revision": null,
+      "delivery_basis": {
+        "kind": "captured_absorption_closeout",
+        "comment_url": "https://github.com/agent-logic/agent-design-language/issues/511#issuecomment-5554002940",
+        "comment_body_sha256": "1fa565177d5686266d3dd6a5fd14c2b24036ef0b24704cfc83ba19b185856c4e",
+        "target_issue": 512,
+        "target_state": "closed",
+        "authority_marker": "csdlc-github-operation"
+      },
+      "retained_classifications": {
+        "proof_gap": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "OBS-B",
+      "issue": 512,
+      "implementation_revision": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+      "merge_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 3,
+        "proof_gap": 1
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        ".csdlc/evidence/512/exact-browser-operator-proof.md"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "DEC-01",
+      "issue": 513,
+      "implementation_revision": "489bc0f3af68b059e5c26ff22600d945b3d21db8",
+      "merge_revision": "5bc84a0f27a522b6d500551d64f8d12dc2357427",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "PROV-A",
+      "issue": 514,
+      "implementation_revision": "1b0fd87496bb09200a5cb1bbb0529e8730be1b20",
+      "merge_revision": "18f1c76667dc6913c2553b53228e73e8de9d11c9",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl/src/provider/profiles.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    },
+    {
+      "id": "PROV-B",
+      "issue": 515,
+      "implementation_revision": "9e6a8bd104d79f77edc4460ee5424cea83ef9cdc",
+      "merge_revision": "17b883e93abff7a155cd783a3d76f52ba2eabbf2",
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
+      "retained_classifications": {
+        "proven": 4
+      },
+      "retained_review_current": false,
+      "implementation_evidence": [
+        "adl/src/provider/mod.rs"
+      ],
+      "current_release_proof": "blocked",
+      "proof_debt_owners": [
+        522
+      ],
+      "limit": "Retained classifications preserve source-time scope. Closed #761 supplies path classification and sampled review support; closed #764 supplies the retained proof denominator. Neither establishes complete current candidate proof; outstanding acceptance remains with the listed open owners."
+    }
+  ],
+  "features": [
+    {
+      "id": "REPO",
+      "name": "Repository and milestone opening",
+      "work_packages": [
+        "WP-01"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Execution-wave creation receipt and repository planning delivered.",
+      "limit": "Opening receipt is not product proof or release approval.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "CORP",
+      "name": "Corporate and IP",
+      "work_packages": [
+        "CORP-A",
+        "CORP-B",
+        "CORP-C",
+        "CORP-D"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance.",
+      "limit": "Recordless acceptance is an amendment, not a fabricated test run; retained criteria need complete candidate review.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "CSDLC",
+      "name": "C-SDLC v3",
+      "work_packages": [
+        "V3-A",
+        "V3-B",
+        "V3-C",
+        "V3-D",
+        "V3-E",
+        "V3-F"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522,
+        771
+      ],
+      "delivered": "Native command implementation and authenticated #505/PR591 cutover delivered.",
+      "limit": "Operational authority remains conditional on selector/receipt validation. Review and tooling debt does not reverse the completed cutover.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "DRT",
+      "name": "Distributed multi-agent Runtime",
+      "work_packages": [
+        "DRT-A",
+        "DRT-B",
+        "DRT-C"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522,
+        758,
+        759
+      ],
+      "delivered": "Distributed contract, continuity qualification and failure-mode implementation retained.",
+      "limit": "Removal remediation #757 is closed. Admission-triggered A2A initiation and health-task isolation remain #758/#759 work; closed #345 retains its input contract, not new consumption proof.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "POD",
+      "name": "Podcast",
+      "work_packages": [],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "proved",
+      "release_status": "blocked",
+      "debt_owners": [
+        522,
+        526
+      ],
+      "delivered": "Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained.",
+      "limit": "Public hosting is observed; actual browser/player playback remains unproved. Closed #264 retains the operator authorization boundary for directory submission and public launch; unresolved acceptance belongs to #522 and ceremony authorization to #526.",
+      "demo_scope": "Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch."
+    },
+    {
+      "id": "HOT",
+      "name": "Axum configuration hot reload",
+      "work_packages": [
+        "HOT-01"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Config reload implementation and retained validation supplied by #510.",
+      "limit": "Retained tests are not a new live reload demonstration or complete candidate review.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "OBS",
+      "name": "Observatory redesign",
+      "work_packages": [
+        "OBS-A",
+        "OBS-B"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512.",
+      "limit": "Unity #84 and TLS #251 remain deferred. Closed #122 retains public-exposure scope provenance; current acceptance evidence remains a #522 obligation.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "DEC",
+      "name": "Runtime v2/v3 decoupling",
+      "work_packages": [
+        "DEC-01"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Runtime authority topology and generation ownership migration package retained.",
+      "limit": "Compatibility and rollback evidence require complete current review; no implied Runtime v4 qualification.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "PROV",
+      "name": "Provider inference profiles",
+      "work_packages": [
+        "PROV-A",
+        "PROV-B"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Shared profile implementation and isolated comparison/shadow implementation retained.",
+      "limit": "Source-time validation does not authorize shadow output or prove every provider deployment.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "GCP-DRT",
+      "name": "GCP qualification sidecar",
+      "work_packages": [
+        "DRT-D"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Governed six-resident replay wrapper and retained run evidence delivered by #509.",
+      "limit": "No new GCP run is performed here; no #269 execution credit is implied.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "AWS",
+      "name": "AWS account move-in",
+      "work_packages": [
+        "AWS-A",
+        "AWS-B",
+        "AWS-C",
+        "AWS-D",
+        "AWS-E",
+        "AWS-F",
+        "AWS-G"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522,
+        770
+      ],
+      "delivered": "Seven phase implementation and receipt packages retained.",
+      "limit": "Recovery/access and full review obligations remain explicit; no inference of universal account compliance.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "GCP",
+      "name": "GCP account move-in",
+      "work_packages": [
+        "GCP-A",
+        "GCP-B",
+        "GCP-C",
+        "GCP-D",
+        "GCP-E"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522,
+        772
+      ],
+      "delivered": "Five phase packages plus #740 private/versioned backend recovery proof retained.",
+      "limit": "GCP-B audit/log posture remains owned by #772; recovery proof does not establish audit configuration.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "XCL",
+      "name": "Cross-cloud Terraform conversion",
+      "work_packages": [
+        "XCL-01"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522
+      ],
+      "delivered": "Portable workload contract and AWS/GCP Terraform implementation retained.",
+      "limit": "Provider-major bounds landed through #765. Complete current parity and rollback acceptance remains a #522 proof obligation.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    },
+    {
+      "id": "RUST",
+      "name": "Rust resilience refactoring",
+      "work_packages": [
+        "RUST-01"
+      ],
+      "delivery_status": "implemented",
+      "proof_status": "blocked",
+      "demo_status": "blocked",
+      "release_status": "blocked",
+      "debt_owners": [
+        522,
+        766
+      ],
+      "delivered": "Resilience owner-boundary refactoring and retained behavior checks supplied by #499.",
+      "limit": "Required toolchain and complete candidate validation remain separately owned; no LoC acceptance rule.",
+      "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection."
+    }
+  ],
+  "exclusions": [
+    {
+      "id": "UNITY",
+      "issue": 84,
+      "status": "deferred",
+      "reason": "Operator-deferred backlog; excluded from OBS-B release gate."
+    },
+    {
+      "id": "TLS",
+      "issue": 251,
+      "status": "deferred",
+      "reason": "Operator-deferred backlog; excluded from OBS-B release gate."
+    },
+    {
+      "id": "DRT-D-269",
+      "issue": 269,
+      "status": "not_applicable",
+      "reason": "DRT-D does not execute #269 or implicitly qualify Runtime v4."
+    },
+    {
+      "id": "PROVIDER-PROVENANCE",
+      "issue": 457,
+      "status": "not_applicable",
+      "reason": "Historical provider-profile provenance, not active execution authority."
+    }
+  ],
+  "remediation_observation": [
+    {
+      "closedAt": "2026-09-09T17:42:02Z",
+      "number": 768,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+      "updatedAt": "2026-09-09T17:42:02Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/768"
+    },
+    {
+      "closedAt": "2026-09-09T17:25:21Z",
+      "number": 762,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+      "updatedAt": "2026-09-09T17:25:22Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/762"
+    },
+    {
+      "closedAt": "2026-09-09T17:05:12Z",
+      "number": 765,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
+      "updatedAt": "2026-09-09T17:05:12Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/765"
+    },
+    {
+      "closedAt": "2026-09-09T17:18:15Z",
+      "number": 776,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+      "updatedAt": "2026-09-09T17:18:15Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/776"
+    },
+    {
+      "closedAt": null,
+      "number": 769,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
+      "updatedAt": "2026-09-09T04:21:36Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/769"
+    },
+    {
+      "closedAt": "2026-09-09T17:33:40Z",
+      "number": 767,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+      "updatedAt": "2026-09-09T17:33:40Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/767"
+    },
+    {
+      "closedAt": null,
+      "number": 766,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
+      "updatedAt": "2026-09-09T04:21:30Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/766"
+    },
+    {
+      "closedAt": "2026-09-09T17:29:18Z",
+      "number": 764,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+      "updatedAt": "2026-09-09T17:29:18Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/764"
+    },
+    {
+      "closedAt": "2026-09-09T17:11:27Z",
+      "number": 761,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+      "updatedAt": "2026-09-09T17:11:27Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/761"
+    },
+    {
+      "closedAt": null,
+      "number": 759,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+      "updatedAt": "2026-09-09T04:21:17Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/759"
+    },
+    {
+      "closedAt": "2026-09-09T17:13:22Z",
+      "number": 757,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+      "updatedAt": "2026-09-09T17:13:22Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/757"
+    },
+    {
+      "closedAt": null,
+      "number": 772,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+      "updatedAt": "2026-09-09T04:21:41Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/772"
+    },
+    {
+      "closedAt": null,
+      "number": 771,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+      "updatedAt": "2026-09-09T04:21:39Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/771"
+    },
+    {
+      "closedAt": null,
+      "number": 770,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+      "updatedAt": "2026-09-09T04:21:37Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/770"
+    },
+    {
+      "closedAt": "2026-09-09T16:30:50Z",
+      "number": 763,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
+      "updatedAt": "2026-09-09T16:30:50Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/763"
+    },
+    {
+      "closedAt": null,
+      "number": 758,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+      "updatedAt": "2026-09-09T04:20:07Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/758"
+    },
+    {
+      "closedAt": "2026-09-09T16:25:47Z",
+      "number": 760,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+      "updatedAt": "2026-09-09T16:25:47Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/760"
+    }
+  ],
+  "publication_refresh_required": false,
+  "refresh_rule": "Refresh observations and semantic dispositions after relevant source changes; this completed documentation refresh does not grant release authority.",
+  "checklist": [
+    {
+      "id": "C01",
+      "obligation": "#432 reviewed, merged, and ancestral",
+      "status": "proved",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
+      "disposition": "Historical #432 review and merge are established by PR441 and its terminal receipt; merge a213902a63c284c12dd724655860a6fad013180a is ancestral to the projection source. This does not re-prove current repository invariants.",
+      "owner": null
+    },
+    {
+      "id": "C02",
+      "obligation": "Reviewed planning package merged; closed #431 retained as provenance only",
+      "status": "proved",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
+      "disposition": "Planning PR472 merged at 5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5, ancestral to the projection source. The retained #316 review records no findings at de8e2fc004145b91d015de5a1dc941656b5fd5ec; #431 remains provenance.",
+      "owner": null
+    },
+    {
+      "id": "C03",
+      "obligation": "Operator declared v0.92.1 ready to open",
+      "status": "blocked",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
+      "disposition": "No explicit operator opening declaration was located. The #480 creation receipt establishes creation, not the separate declaration.",
+      "owner": 522
+    },
+    {
+      "id": "C04",
+      "obligation": "Milestone operator created the number-free WP-01 opening conductor",
+      "status": "proved",
+      "evidence": "evidence/wp-01/final-creation-receipt.json",
+      "disposition": "Conductor #480 and its 45-child execution wave are recorded by the reconciled creation receipt. This proves creation, not all child acceptance.",
+      "owner": null
+    },
+    {
+      "id": "C05",
+      "obligation": "No tracked milestone dependency on local untracked paths",
+      "status": "blocked",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
+      "disposition": "Historical #316 planning portability checks passed. Current milestone dependency portability has not been re-proved; historical checks do not establish current absence of local-path dependencies.",
+      "owner": 522
+    },
+    {
+      "id": "C06",
+      "obligation": "#316 planning reconciliation creates no execution issues or implementation claims",
+      "status": "proved",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
+      "disposition": "The retained #316 planning audit explicitly records planning_only scope and no remote issue creation or routing mutation; this is planning reconciliation, not execution completion.",
+      "owner": null
+    },
+    {
+      "id": "C07",
+      "obligation": "AWS-A through AWS-G deliver the seven ordered AWS move-in results; existing #122 remains separately owned",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#aws",
+      "disposition": "Seven AWS phase delivery packages exist; candidate review/proof and SSH recovery remain #522/#770 work. #122 public exposure is a separate scope boundary, also tracked in C18.",
+      "owner": 522
+    },
+    {
+      "id": "C08",
+      "obligation": "GCP-A through GCP-E deliver the five ordered GCP move-in results before DRT-D",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#gcp",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C09",
+      "obligation": "XCL-01 converts the exact #194/#268 CloudFormation behavior into reviewed AWS/GCP Terraform implementations with rollback retained",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#xcl",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C10",
+      "obligation": "RUST-01 completes one behavior-preserving resilience owner-boundary refactor without a LoC quota",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#rust",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C11",
+      "obligation": "Corporate and IP lane reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#corp",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C12",
+      "obligation": "C-SDLC v3 lane reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#csdlc",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C13",
+      "obligation": "Distributed multi-agent Runtime lane reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#drt",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C14",
+      "obligation": "#345 AWS GPU Shepherd hardening reviewed, merged, and consumed where required",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/345",
+      "disposition": "Required consumption proof remains distinct from issue closure; review with Runtime candidate.",
+      "owner": 522
+    },
+    {
+      "id": "C15",
+      "obligation": "Podcast lane reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#pod",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C16",
+      "obligation": "Axum configuration hot reload lane reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#hot",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C17",
+      "obligation": "Observatory redesign lane reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#obs",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C18",
+      "obligation": "#122 public-exposure proof reviewed against its owned scope",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/122",
+      "disposition": "Closed #122 retains the public-exposure scope boundary. Current acceptance must be checked against that exact scope under #522.",
+      "owner": 522
+    },
+    {
+      "id": "C19",
+      "obligation": "#84 Unity and #251 TLS 1.2 explicitly recorded as deferred backlog; neither claimed delivered nor required for OBS-B/#512",
+      "status": "deferred",
+      "evidence": "WBS_v0.92.1.md",
+      "disposition": "Explicit operator deferral of #84 and #251; neither is delivered nor an OBS-B gate.",
+      "owner": null
+    },
+    {
+      "id": "C20",
+      "obligation": "DEC-01 Runtime v2/v3 ownership, compatibility, migration, and rollback proof reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#dec",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C21",
+      "obligation": "PROV-A shared inference-profile/Ollama materialization reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#prov",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C22",
+      "obligation": "PROV-B non-authoritative local-model shadow comparison reviewed and merged",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#prov",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C23",
+      "obligation": "DRT-D GCP six-resident replay, cost, and zero-resource cleanup reviewed and merged or explicitly operator-gated",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#gcp-drt",
+      "disposition": "Implementation or governed delivery exists; complete candidate review/proof remains blocked as specified in the lane evidence.",
+      "owner": 522
+    },
+    {
+      "id": "C24",
+      "obligation": "Individual issue closeout remains asynchronous and non-gating",
+      "status": "proved",
+      "evidence": "WBS_v0.92.1.md",
+      "disposition": "Asynchronous closeout is the declared workflow; individual closure is not product proof.",
+      "owner": null
+    },
+    {
+      "id": "C25",
+      "obligation": "Cross-lane dependency and collision review complete",
+      "status": "implemented",
+      "evidence": "evidence/release/tail-01/reconciliation/current-exceptions.json",
+      "disposition": "Historical content resolution is recorded; candidate-wide review refresh remains #522 scope.",
+      "owner": 522
+    },
+    {
+      "id": "C26",
+      "obligation": "Runtime v4 compatibility disposition recorded",
+      "status": "blocked",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md#dec",
+      "disposition": "DRT-D excludes #269 execution, but that does not settle the broader Runtime v4 compatibility disposition. #522 must retain the explicit compatibility decision.",
+      "owner": 522
+    },
+    {
+      "id": "C27",
+      "obligation": "Proof coverage, release notes, and residual risks reviewed",
+      "status": "implemented",
+      "evidence": "evidence/release/current-status/EVIDENCE_MAP.md",
+      "disposition": "The final source and issue-state refresh is implemented in #799. Independent reconstruction and focused validation are required before publication; product proof and release authorization remain separate.",
+      "owner": 799
+    },
+    {
+      "id": "C28",
+      "obligation": "v0.92.2 CodeFriend Beta 1 handoff accepted",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/523",
+      "disposition": "Planning #523 is closed; handoff acceptance and successor review remain distinct #524/#525 work.",
+      "owner": 525
+    },
+    {
+      "id": "C29",
+      "obligation": "#188 is used only for convergence/quality, #190 only for successor planning, and #189 only for ceremony",
+      "status": "proved",
+      "evidence": "WBS_v0.92.1.md",
+      "disposition": "Retained stage ownership explicitly maps #188 to quality, #190 to successor planning, #189 to ceremony.",
+      "owner": null
+    },
+    {
+      "id": "C30",
+      "obligation": "#457 remains historical provider-profile provenance rather than active execution authority",
+      "status": "not_applicable",
+      "evidence": "WBS_v0.92.1.md",
+      "disposition": "Historical provenance; no active execution authority.",
+      "owner": null
+    },
+    {
+      "id": "C31",
+      "obligation": "TAIL-01 quality gate",
+      "status": "implemented",
+      "evidence": "evidence/release/tail-01/reconciliation/ownership.json",
+      "disposition": "Quality-gate work and historical accounting delivered; release decision remains blocked.",
+      "owner": 522
+    },
+    {
+      "id": "C32",
+      "obligation": "TAIL-02 docs and release-truth pass",
+      "status": "implemented",
+      "evidence": "evidence/release/tail-02/final-validation.json",
+      "disposition": "Documentation projection #767 and reproduction repair #768 are closed; #799 completes the final source and ownership refresh. Remaining product acceptance belongs to #522.",
+      "owner": 522
+    },
+    {
+      "id": "C33",
+      "obligation": "TAIL-03 publication finalization",
+      "status": "implemented",
+      "evidence": "evidence/release/tail-03/candidate.json",
+      "disposition": "Publication candidate finalized; downstream security/publication checks remain #769.",
+      "owner": 769
+    },
+    {
+      "id": "C34",
+      "obligation": "TAIL-04 internal review",
+      "status": "implemented",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/767",
+      "disposition": "Internal review produced the accepted finding D520-DOC-001 recorded in #767. #520 remains open; a performed review is not release acceptance.",
+      "owner": 520
+    },
+    {
+      "id": "C35",
+      "obligation": "TAIL-05 external review",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/521",
+      "disposition": "Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition.",
+      "owner": 521
+    },
+    {
+      "id": "C36",
+      "obligation": "TAIL-06 remediation and release preflight",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/522",
+      "disposition": "Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition.",
+      "owner": 522
+    },
+    {
+      "id": "C37",
+      "obligation": "TAIL-07 next-milestone planning",
+      "status": "implemented",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/523",
+      "disposition": "Next-milestone planning issue #523 closed; successor closeout/review remain #524/#525.",
+      "owner": 525
+    },
+    {
+      "id": "C38",
+      "obligation": "TAIL-08 next-milestone closeout planning",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/524",
+      "disposition": "Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition.",
+      "owner": 524
+    },
+    {
+      "id": "C39",
+      "obligation": "TAIL-09 next-milestone planning review",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/525",
+      "disposition": "Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition.",
+      "owner": 525
+    },
+    {
+      "id": "C40",
+      "obligation": "TAIL-10 release ceremony",
+      "status": "blocked",
+      "evidence": "https://github.com/agent-logic/agent-design-language/issues/526",
+      "disposition": "Stage remains open in the retained 2026-09-09 issue observation; its owner must supply completion evidence or an explicit disposition.",
+      "owner": 526
+    }
+  ],
+  "release_tail_observation": [
+    {
+      "closedAt": "2026-08-19T22:14:32Z",
+      "number": 432,
+      "state": "CLOSED",
+      "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
+      "updatedAt": "2026-08-19T22:14:32Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/432"
+    },
+    {
+      "closedAt": "2026-08-26T16:29:17Z",
+      "number": 480,
+      "state": "CLOSED",
+      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "updatedAt": "2026-08-26T16:29:17Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/480"
+    },
+    {
+      "closedAt": "2026-09-09T01:51:29Z",
+      "number": 517,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-01] Quality gate",
+      "updatedAt": "2026-09-09T01:51:29Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/517"
+    },
+    {
+      "closedAt": "2026-09-09T03:02:17Z",
+      "number": 518,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+      "updatedAt": "2026-09-09T03:02:17Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/518"
+    },
+    {
+      "closedAt": "2026-09-09T04:16:56Z",
+      "number": 519,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-03] Publication finalization",
+      "updatedAt": "2026-09-09T04:16:56Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/519"
+    },
+    {
+      "closedAt": null,
+      "number": 520,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-04] Internal review",
+      "updatedAt": "2026-08-26T03:30:56Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/520"
+    },
+    {
+      "closedAt": null,
+      "number": 521,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-05] External / third-party review",
+      "updatedAt": "2026-08-26T03:33:11Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/521"
+    },
+    {
+      "closedAt": null,
+      "number": 522,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06] Review findings remediation",
+      "updatedAt": "2026-08-26T03:35:22Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/522"
+    },
+    {
+      "closedAt": "2026-09-09T00:47:05Z",
+      "number": 523,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+      "updatedAt": "2026-09-09T00:47:05Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/523"
+    },
+    {
+      "closedAt": null,
+      "number": 524,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+      "updatedAt": "2026-08-26T03:39:43Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/524"
+    },
+    {
+      "closedAt": null,
+      "number": 525,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+      "updatedAt": "2026-08-26T03:42:13Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/525"
+    },
+    {
+      "closedAt": null,
+      "number": 526,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-10] Release ceremony",
+      "updatedAt": "2026-08-26T03:44:41Z",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/526"
+    }
+  ],
+  "checklist_source_revision": "7ecc70b517ef2f7ee86a6456d8c778daf8c558d3",
+  "refresh_issue": 799,
+  "issue_observation": {
+    "path": "docs/milestones/v0.92.1/evidence/release/current-status/issue-observation.json",
+    "sha256": "e2db07b9fe669fa0f223072deea91a6f92d237da9b6b0fd581165a3e95c2f08c"
+  }
+}
