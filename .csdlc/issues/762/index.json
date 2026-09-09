@@ -3,13 +3,81 @@
   "issue": 762,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d0ba68bfaa79ffd888628e5eb20a4d0796c9b8145bd49d79401650a4be62b327",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "c6d06bba73858ac9408bf305d15676feaccd628170ba77b340210fa031bc2176",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "e9ec7a9b221c827b0ba2f8d68b3765743a4fd61e123c5437ebec721b0b1adeb3",
   "branch": "codex/762-proof-worktree-binding",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-762-proof-worktree-binding",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_762_fixed",
+    "assigned_by": "Planning #7",
+    "revision": "git-blake3:b5dd3c4832f5abbdde5bc77dbf7f15e50972b5ca:2880ad60a8f5e61d486d92d4c51089b1c19d7b50806d0aed5720165677273a54",
+    "scope": [
+      ".csdlc/evidence/762/base-integration/clippy.log",
+      ".csdlc/evidence/762/base-integration/csdlc-owner.log",
+      ".csdlc/evidence/762/base-integration/proof-worktree.log",
+      ".csdlc/evidence/762/clippy.log",
+      ".csdlc/evidence/762/csdlc-owner.log",
+      ".csdlc/evidence/762/proof-worktree.log",
+      ".csdlc/evidence/762/repair/clippy.log",
+      ".csdlc/evidence/762/repair/csdlc-owner.log",
+      ".csdlc/evidence/762/repair/proof-worktree.log",
+      ".csdlc/evidence/762/review-remediation.md",
+      ".csdlc/prepared/issues/762/design.md",
+      ".csdlc/prepared/issues/762/diagram.mmd",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/proof_worktree_binding.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/review_762_fixed",
+    "scope": [
+      ".csdlc/evidence/762/base-integration/clippy.log",
+      ".csdlc/evidence/762/base-integration/csdlc-owner.log",
+      ".csdlc/evidence/762/base-integration/proof-worktree.log",
+      ".csdlc/evidence/762/clippy.log",
+      ".csdlc/evidence/762/csdlc-owner.log",
+      ".csdlc/evidence/762/proof-worktree.log",
+      ".csdlc/evidence/762/repair/clippy.log",
+      ".csdlc/evidence/762/repair/csdlc-owner.log",
+      ".csdlc/evidence/762/repair/proof-worktree.log",
+      ".csdlc/evidence/762/review-remediation.md",
+      ".csdlc/prepared/issues/762/design.md",
+      ".csdlc/prepared/issues/762/diagram.mmd",
+      "csdlc-v3/src/commands/proof.rs",
+      "csdlc-v3/src/main.rs",
+      "csdlc-v3/tests/command_manifest.rs",
+      "csdlc-v3/tests/operational_cli_commands.rs",
+      "csdlc-v3/tests/proof_parity_install_commands.rs",
+      "csdlc-v3/tests/proof_worktree_binding.rs",
+      "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+      "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md"
+    ],
+    "reviewed_revision": "git-blake3:b5dd3c4832f5abbdde5bc77dbf7f15e50972b5ca:2880ad60a8f5e61d486d92d4c51089b1c19d7b50806d0aed5720165677273a54",
+    "findings": [
+      {
+        "id": "R762-001",
+        "severity": "p1",
+        "summary": "Exact receipt and binary endpoints are preflighted before writes; zero-write regressions pass after main integration.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:b5dd3c4832f5abbdde5bc77dbf7f15e50972b5ca:2880ad60a8f5e61d486d92d4c51089b1c19d7b50806d0aed5720165677273a54",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Native binder/editor remediation and OS sandboxing arbitrary proof executables remain separate scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +92,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2e4304726e5eca212469dcfc0ddd379caa22a45a163f29e983f64fd72f90784a",
+      "values_digest": "6275eb36a3457ebb814062b4474473af32782bac14b5a58f965aec7589a0aee9",
       "rendered_digest": "0d72f75be2e3323521df9098a4c53c6a20516b2276e42f39bbcd153ab2ad18cb",
       "ast_digest": "0c90348c6b0ffd900293e06d5d13f6eabf85413287fed55b9354104bb15ab57a"
     },
     "stp": {
-      "values_digest": "99745b756bb82e5cefde88a6d9c1b248af5ddeb30046f7724ba5b4cbe500c3ab",
+      "values_digest": "d18fa42424012835c44763f8fbb5b256b1e28ed0c8bd3d364a415db265d6e28b",
       "rendered_digest": "f2724665064f2bb99c6e513857a45eec1af4fc6932cdcd62a5f06cfd0ea38f6f",
       "ast_digest": "96e480081aba9a017f89fbdf0572f07c0d4284c3e0c41dbe291867f7836f8151"
     },
     "spp": {
-      "values_digest": "80cf447770a58c10a3729aa36e4873061210ae81002a761093d5d2bcab65423c",
+      "values_digest": "571ede052538a99461115cb3e4f5661d0f6d67a338daf0c57fd038eb3d743bba",
       "rendered_digest": "8cf0e8f1acba41058ac2055e2aca1ea5bff5e66034be0395d5443f5d11bd7062",
       "ast_digest": "567d597e1e202fbee326a5e8f0a1c04f1571921dfcb83f2da517552ba120e516"
     },
     "vpp": {
-      "values_digest": "e6e256dc889b7743a51e41b80e3a1e345e6c287c5546328db75822197ed6ecbb",
+      "values_digest": "067866c7169df0d370a65dafa38ca7c001e7e3bbf5aad7252906891f23456d27",
       "rendered_digest": "0e7ae6e3bb744565e3b15d991dc75cbb7c6be29611e73be5199be6d7833adc17",
       "ast_digest": "2abdf254ff65c5b6972eddcf84f9787ffffe26daa49379fa213b14a9cd75711f"
     },
     "srp": {
-      "values_digest": "102ecea5f3577dc1edd687392c05e85681107a1cfac28f7880f9942fca447ff0",
-      "rendered_digest": "aa2fca3bc9c8c7b4456144a700a67d376513a36a3256e150e79d7152eb8edc87",
-      "ast_digest": "30d72956bbee6c170b6953f3a5945121c09952818e43d5f1a50f5ce1f650d521"
+      "values_digest": "22398a8dc5984c50ec1da4dc56e2ad6fa60d7c1b041580e06c587ca09504197f",
+      "rendered_digest": "b7b221b35d38d720c92f2d4c7b9b16b97c3184c93f4627d209cc7ebf1c172060",
+      "ast_digest": "4e102baf5d47f888064a40aa7bc2e8c6a5b927aa817ed66fe25e17440e2f401f"
     },
     "sor": {
-      "values_digest": "d3b3f65cf0a3799d7b38acc63251e79c1ec6fba9ef1b356fdb2b1767a1ce3d60",
+      "values_digest": "da469adebbfc0f18b0401995f6068eda4440a9096c420e0012f8bea7b47117d4",
       "rendered_digest": "8d8a0e2cc8f63a1a4dd1f50676ed336eb356a9e1b9fc1c3048eaa5c2ef94a63d",
       "ast_digest": "66696518ea8f5df70deec02f62dc90e6eef8eb449d7bc5513f9f3c97c90cb824"
     }
@@ -96,6 +164,13 @@
       "to": "implemented",
       "actor": "Planning #7",
       "reason": "Refresh PR #783 against merged current authority and native binder/intent repairs; resolve bounded help and dispatch conflicts and repeat exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "Planning #7",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -238,6 +313,20 @@
       "actor": "Planning #7",
       "reason": "Record passing combined-main validation before fresh integration review for PR #783.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Issue 762 implements native proof/install ownership guards and disables historical shadow/soak execution. Goal created after typed v2 binding under explicit issue-scoped operator exception. Worktree-only implementation; independent review and hosted integration CI follow; no merge or issue closure. Repaired R762-001 by preflighting exact regular-or-absent output endpoints; fresh typed repair validation passed. Integrated main d6a66a55651dc5c17769b2418eb7d92f0c5382ee; all 188 combined owner tests, dedicated topology test and strict clippy passed.\",\"changes\":[\"Derive operational context from invoking checkout and authenticate Git topology, native selector, bound index and lifecycle digest before writes.\",\"Constrain output paths, recheck ownership at durable writes, reject historical execution and emit structured denial reports on stdout.\",\"Replace primary-mutating construction fixtures with stable-binary linked-worktree tests and explicit historical terminal-verifier data.\",\"Preflight exact install receipt and regular-or-absent output endpoints before any binary replacement; assert zero writes for symlink and directory targets.\"],\"artifacts\":[\"csdlc-v3/src/commands/proof.rs\",\"csdlc-v3/src/main.rs\",\"csdlc-v3/tests/proof_worktree_binding.rs\",\"csdlc-v3/tests/proof_parity_install_commands.rs\",\"csdlc-v3/tests/terminal_cleanup_cutover_commands.rs\",\"csdlc-v3/tests/command_manifest.rs\",\"docs/csdlc-v3/PROOF_WORKTREE_BINDING.md\",\"csdlc-v3/tests/operational_cli_commands.rs\",\".csdlc/evidence/762/review-remediation.md\"],\"validation\":[{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Required Rust static validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"base-integration/clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Required C-SDLC v3 CLI and lifecycle integration regression coverage for changed public dispatcher.\",\"outcome\":\"passed\",\"evidence_ref\":\"base-integration/csdlc-owner.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_worktree_binding\"],\"purpose\":\"Required deterministic linked-worktree identity and negative confinement proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"base-integration/proof-worktree.log\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "Planning #7",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "Planning #7",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
