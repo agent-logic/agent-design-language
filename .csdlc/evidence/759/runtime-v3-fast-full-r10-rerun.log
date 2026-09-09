@@ -1007,4 +1007,3 @@ test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisio
 test src/birthday_identity.rs - birthday_identity::VerifiedBirthdayEvidence (line 98) - compile fail ... ok
 
 test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.00s
-

@@ -499,7 +499,7 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:36:58.0799558Z ^[[1m^
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:36:58.3321038Z ^[[1m^[[92m   Compiling^[[0m axum v0.8.9
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:20.9617311Z ^[[1m^[[92m    Finished^[[0m `test` profile [unoptimized + debuginfo] target(s) in 2m 28s
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:21.0310704Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-34ad7507a58c5805)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:21.0340275Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:21.0340275Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:21.0340585Z running 194 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:21.0353679Z test acip::tests::legacy_seven_field_v1_envelope_is_normalized ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:21.0362840Z test agent_orientation::tests::custom_orientation_source_path_still_loads_explicit_package ... ok
@@ -695,17 +695,17 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:24.2715976Z test w
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:24.5496789Z test resident_cycle::tests::resident_cycle_supports_governed_update_and_authority_rotation ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:25.1411272Z test control::layer8_conversation_ingress_tests::production_conversation_history_restores_operator_and_agent_once_in_order ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5649342Z test conversation_sessions_tests::resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5650518Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5650518Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5650989Z test result: ok. 194 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.53s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5651578Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5651578Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5664712Z ^[[1m^[[92m     Running^[[0m unittests src/bin/adl-runtime-governed-operations.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_governed_operations-007924471718a532)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5676682Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5676682Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5676908Z running 0 tests
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5677178Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5677178Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5677611Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5678433Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5678433Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5680125Z ^[[1m^[[92m     Running^[[0m unittests src/bin/adl-runtime-kernel.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-88811676737ed428)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5691225Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5691225Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5691397Z running 14 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5695477Z test observability::master_log_liveness_tests::forward_progress_while_behind_does_not_trigger_restart ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5696822Z test observability::master_log_liveness_tests::caught_up_master_log_clears_a_previous_stall_window ... ok
@@ -721,17 +721,17 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5708374Z test t
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5709308Z test tests::observability_shutdown_failure_preserves_runtime_result ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5710272Z test tests::resident_shepherd_governed_probe_prompt_includes_orientation_before_ready ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5951094Z test tests::control_listener_retries_until_a_live_owner_releases_the_port ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5952684Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5952684Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5953351Z test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5953944Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5953944Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5955661Z ^[[1m^[[92m     Running^[[0m unittests src/bin/adl-runtime-shadow-fixture.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_shadow_fixture-d12ca2ab54baa210)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5964636Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5964636Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5964818Z running 0 tests
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5966589Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5966589Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5967101Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5967792Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5967792Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5968697Z ^[[1m^[[92m     Running^[[0m tests/adaptive_learning.rs (adl-runtime-kernel/target/debug/deps/adaptive_learning-f4fc5f767e31fec8)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5980076Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5980076Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5980265Z running 19 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.5986240Z test fixture_matrix_tracks_the_governed_negative_surface ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.6128848Z test policy_digest_mismatch_fails_before_mutation_or_persistence ... ok
@@ -752,11 +752,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.8439216Z test t
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.8483371Z test resident_cycle_restart_restores_and_continues_deterministically ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:26.8635842Z test unsafe_ids_rationale_paths_and_unknown_fields_fail_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0005390Z test two_sequence_history_survives_restart_and_supports_authoritative_rollback ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0006020Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0006020Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0006288Z test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.40s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0006664Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0006664Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0013765Z ^[[1m^[[92m     Running^[[0m tests/agent_roster.rs (adl-runtime-kernel/target/debug/deps/agent_roster-2a2b2d8a2f284525)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0028088Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0028088Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0028458Z running 20 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0033032Z test agent_sample_api_serializes_backing_model_and_continuity_truth ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0049118Z test canonical_name_is_projected_and_old_v1_entries_remain_readable ... ok
@@ -778,11 +778,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0153461Z test t
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0797770Z test roster_rejects_population_above_the_explicit_resource_bound ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.0824519Z test first_page_projects_only_the_requested_entries_in_stable_id_order ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1134436Z test large_local_roster_remains_page_bounded_and_deterministic ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1135015Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1135015Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1135394Z test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1135759Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1135759Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1152941Z ^[[1m^[[92m     Running^[[0m tests/assembly.rs (adl-runtime-kernel/target/debug/deps/assembly-14daefbb872442e6)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1168003Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1168003Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1168431Z running 11 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1244351Z test chronosense_uses_qualified_trusted_time_and_fails_closed_before_it_is_ready ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1252310Z test fatal_kernel_exit_performs_exactly_one_operational_executor_shutdown ... ok
@@ -795,19 +795,19 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.1921114Z test c
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.2376955Z test sntp_recovers_after_startup_without_restarting_the_kernel ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.2433021Z test unavailable_sntp_does_not_block_kernel_startup_or_erase_bootstrap_time ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3975304Z test agent_scheduler_checkpoint_cancellation_and_storage_are_real ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3975822Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3975822Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3976105Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3976492Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3976492Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3982752Z ^[[1m^[[92m     Running^[[0m tests/birth_witness.rs (adl-runtime-kernel/target/debug/deps/birth_witness-e1395df7f5eeb1a2)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3995030Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3995030Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3995236Z running 2 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.3998745Z test public_packet_rejects_unknown_fields ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5977866Z test runtime_service_builds_validates_and_emits_receipt ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5978921Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5978921Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5979529Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5980450Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5980450Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5982821Z ^[[1m^[[92m     Running^[[0m tests/birthday.rs (adl-runtime-kernel/target/debug/deps/birthday-61469d01514eef67)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5995113Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5995113Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.5995482Z running 6 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6028962Z test accepts_complete_candidate_and_emits_canonical_semantics ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6039041Z test decisions_are_stable_across_evidence_order_and_round_trip ... ok
@@ -815,18 +815,18 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6039917Z test r
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6124446Z test rejects_each_missing_evidence_surface ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6127087Z test rejects_every_declared_lifecycle_lookalike ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6246259Z test rejects_integrity_privacy_path_and_claim_boundary_failures ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6247300Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6247300Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6247844Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6248654Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6248654Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6250552Z ^[[1m^[[92m     Running^[[0m tests/capability_envelope.rs (adl-runtime-kernel/target/debug/deps/capability_envelope-99ac6da6781ebce3)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6261160Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6261160Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6261365Z running 1 test
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6263649Z test verified_continuity_entrypoints_are_public ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6264108Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6264108Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6264467Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6265145Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6265145Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6266890Z ^[[1m^[[92m     Running^[[0m tests/cognition.rs (adl-runtime-kernel/target/debug/deps/cognition-88e84642012970ea)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6278924Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6278924Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6279113Z running 7 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6289285Z test invalid_context_policy_and_unbound_review_fail_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6290240Z test decisions_are_json_safe_and_do_not_embed_provider_or_prompt_payloads ... ok
@@ -835,18 +835,18 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6292769Z test m
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6293894Z test score_and_policy_thresholds_are_bounded_to_zero_through_one_hundred ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6294857Z test review_required_path_requires_bound_review_record_without_claiming_allow ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6295502Z test cognition_components_form_typed_supervised_contracts ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6295977Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6295977Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6296383Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6296900Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6296900Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6297485Z ^[[1m^[[92m     Running^[[0m tests/cognitive_profile.rs (adl-runtime-kernel/target/debug/deps/cognitive_profile-8e4c644b62c89db6)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6306250Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6306250Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6306425Z running 1 test
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6309371Z test public_authority_payload_rejects_unknown_fields ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6309828Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6309828Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6310233Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6310818Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6310818Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6311884Z ^[[1m^[[92m     Running^[[0m tests/configuration.rs (adl-runtime-kernel/target/debug/deps/configuration-7e62b50200584776)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6324372Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6324372Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6324543Z running 38 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6330075Z test configured_registry_fails_closed_for_factory_and_surface_drift ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6330966Z test configuration_keeps_runtime_bindings_outside_canonical_projection ... ok
@@ -886,11 +886,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6709050Z test w
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.6801017Z test service_convergence_rejects_each_out_of_range_field ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7154299Z test sysinfo_observer_reports_portable_core_metrics_and_explicit_gpu_absence ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7416933Z test signed_checkpoint_restore_allows_provider_changes_and_rejects_security_changes ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7417572Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7417572Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7417988Z test result: ok. 38 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7418854Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7418854Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7422821Z ^[[1m^[[92m     Running^[[0m tests/continuity.rs (adl-runtime-kernel/target/debug/deps/continuity-be2bd4bfbec8bad0)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7435917Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7435917Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7436104Z running 7 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7443715Z test checkpoint_and_lifelog_storage_must_be_disjoint ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7501146Z test graceful_stop_shuts_down_even_when_checkpoint_deadline_expires ... ok
@@ -899,11 +899,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7519359Z test r
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7832878Z test checkpoint_quiesces_then_serializes_in_bounded_parallel_and_loads ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.7842239Z test incompatible_identity_and_service_schema_refuse_recovery ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8107028Z test corrupt_snapshot_is_quarantined_and_preserved ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8107636Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8107636Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8108369Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8109230Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8109230Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8113198Z ^[[1m^[[92m     Running^[[0m tests/contracts.rs (adl-runtime-kernel/target/debug/deps/contracts-403349e8d0ded9e5)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8124637Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8124637Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8124828Z running 13 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8129602Z test compatible_capabilities_resolve_independent_of_registration_order ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8131026Z test deterministic_resolution_never_selects_a_higher_version_shell ... ok
@@ -918,11 +918,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8150319Z test p
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8151077Z test runtime_kernel_manifest_has_no_repo_local_path_dependencies ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8152045Z test service_contract_rejects_unbounded_ports_and_determinism_escalation ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8152726Z test service_contract_shape_rejects_schema_and_empty_identity ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8153076Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8153076Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8153370Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8153795Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8153795Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8154369Z ^[[1m^[[92m     Running^[[0m tests/control.rs (adl-runtime-kernel/target/debug/deps/control-71340010c208f796)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8170755Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8170755Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8170953Z running 28 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8179964Z test bootstrap_promotes_once_after_explicit_degraded_readiness ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:27.8567122Z test duplicate_shutdown_executes_once_and_conflicting_reuse_fails ... ok
@@ -952,11 +952,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:28.0202947Z test t
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:28.1581553Z test observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_replacement ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:29.2435463Z test signed_ingress_checkpoints_replays_and_is_observatory_visible ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0199855Z test tls_shutdown_is_bounded_with_a_stalled_active_response ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0200704Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0200704Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0201641Z test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.20s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0202591Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0202591Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0217906Z ^[[1m^[[92m     Running^[[0m tests/conversation_continuity.rs (adl-runtime-kernel/target/debug/deps/conversation_continuity-a8e4a3427c82fe17)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0229994Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0229994Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0230170Z running 10 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0256793Z test ambiguous_dispatch_remains_ambiguous_after_restart ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0258068Z test completed_attempt_is_idempotent_after_restart ... ok
@@ -968,11 +968,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0309284Z test r
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0329148Z test stale_acknowledgement_watermark_is_refused ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0339159Z test retryable_attempt_cannot_downgrade_ambiguous_attempt_after_restart ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0346792Z test retryable_attempt_cannot_downgrade_completed_attempt_after_restart ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0347415Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0347415Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0347881Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0348783Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0348783Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0350910Z ^[[1m^[[92m     Running^[[0m tests/conversation_history.rs (adl-runtime-kernel/target/debug/deps/conversation_history-6f540eecd13da253)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0361199Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0361199Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0361493Z running 7 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0408703Z test a2a_exchange_restores_verbatim_causal_records_after_restart ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0419815Z test export_and_redaction_require_explicit_authority ... ok
@@ -981,11 +981,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0421965Z test d
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0432742Z test authorized_pagination_rejects_stale_cursor_after_restart ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0442339Z test revoked_access_and_private_memory_fail_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0465205Z test search_export_redaction_and_restore_apply_public_safe_redactions ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0465806Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0465806Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0466262Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0466872Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0466872Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0469292Z ^[[1m^[[92m     Running^[[0m tests/conversation_journal.rs (adl-runtime-kernel/target/debug/deps/conversation_journal-3ce89eb2620b617c)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0478491Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0478491Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0478957Z running 7 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0496824Z test durable_journal_record_kinds_remain_foundation_only ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0499163Z test durable_journal_rejects_empty_authority_or_payload_identity ... ok
@@ -994,29 +994,29 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0510013Z test d
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0516504Z test durable_journal_appends_and_reloads_committed_events ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0524715Z test durable_journal_supports_current_schema_migration_marker_and_rejects_future_schema ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0534383Z test durable_journal_retention_and_deletion_markers_are_auditable_without_replay_policy ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0535374Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0535374Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0535774Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0536411Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0536411Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0537991Z ^[[1m^[[92m     Running^[[0m tests/durable_conversation_history_integration.rs (adl-runtime-kernel/target/debug/deps/durable_conversation_history_integration-711da78364ecba6d)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0549522Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0549522Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0549697Z running 1 test
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0798820Z test durable_history_parent_chain_survives_restart_and_deletion_coherently ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0799472Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0799472Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0799743Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0800231Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0800231Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0802188Z ^[[1m^[[92m     Running^[[0m tests/durable_state.rs (adl-runtime-kernel/target/debug/deps/durable_state-c37c9afc14add242)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0814702Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0814702Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0815093Z running 5 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0832680Z test legacy_flat_persistence_fails_closed_before_database_open ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0962682Z test governed_state_compare_and_set_has_one_atomic_winner_and_exact_successor ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.0989517Z test governed_state_and_lifelog_survive_restart_without_flat_files ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1013187Z test redb_local_checkpoint_persists_restores_and_rejects_identity_drift ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1404163Z test concurrent_writes_advance_sequences_and_head_atomically ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1404703Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1404703Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1405142Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1405750Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1405750Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1410239Z ^[[1m^[[92m     Running^[[0m tests/governance.rs (adl-runtime-kernel/target/debug/deps/governance-4835758f232015ee)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1422210Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1422210Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1422713Z running 11 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.1979059Z test admission_fails_closed_for_missing_authority_stale_policy_and_forgery ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.2008990Z test allowed_action_crosses_signed_gate_before_nondeterministic_shell ... ok
@@ -1029,11 +1029,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.2993260Z test d
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.3148813Z test multi_hop_delegation_uses_remaining_depth_not_absolute_depth ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.3181021Z test resource_exhaustion_and_revocation_preserve_refusal_evidence ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4901813Z test shell_failure_is_quarantined_with_deterministic_result_record ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4902454Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4902454Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4902881Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.35s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4903290Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4903290Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4909360Z ^[[1m^[[92m     Running^[[0m tests/governed_operations.rs (adl-runtime-kernel/target/debug/deps/governed_operations-910bd0a459ccc413)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4922721Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4922721Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4922913Z running 28 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.4981062Z test parity_c_boundary_contract::retained_evidence_excludes_credentials_private_state_and_machine_paths ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:30.5000282Z test parity_c_boundary_contract::runtime_v2_aws_and_cross_lane_paths_are_absent ... ok
@@ -1063,11 +1063,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.4243600Z test p
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.4452632Z test parity_c_time_continuity::shutdown_orders_batch_and_blocks_later_actuation ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5134159Z test parity_c_provider_scheduler_tools::scheduler_dispatch_is_deterministic_and_bounded ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5304045Z test parity_c_time_continuity::unqualified_or_regressing_time_cannot_authorize_actuation ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5304860Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5304860Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5305515Z test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.04s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5306133Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5306133Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5309020Z ^[[1m^[[92m     Running^[[0m tests/guardian_soak.rs (adl-runtime-kernel/target/debug/deps/guardian_soak-b66abd4035aeea51)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5323694Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5323694Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.5323983Z running 8 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.7984194Z test missing_vector_keeps_the_real_runtime_available_until_operator_shutdown ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.8069157Z test production_like_soak_rollback_packet_retains_cutover_boundaries ... ok
@@ -1077,11 +1077,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:32.9708688Z test g
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:33.1514835Z test pressure_checkpoint_failure_keeps_signal_shutdown_responsive ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:33.3308426Z test signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1970694Z test pressure_closes_ingress_serializes_live_work_and_stops_cleanly ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1971373Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1971373Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1971959Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.66s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1972430Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1972430Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1977898Z ^[[1m^[[92m     Running^[[0m tests/identity_memory.rs (adl-runtime-kernel/target/debug/deps/identity_memory-9d790290c9025a0f)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1989963Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1989963Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.1990177Z running 11 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.2139130Z test forged_identity_binding_is_rejected_before_memory_append ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.2168814Z test invalid_private_state_reference_fails_closed ... ok
@@ -1094,11 +1094,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3180122Z test r
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3317293Z test restored_checkpoint_preserves_summary_across_next_checkpoint ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3330296Z test signed_checkpoint_uses_v2_wire_schema_and_legacy_v1_fails_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3431046Z test signed_identity_binding_allows_memory_checkpoint_and_redacted_lifelog ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3431497Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3431497Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3431813Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3432279Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3432279Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3435571Z ^[[1m^[[92m     Running^[[0m tests/kernel.rs (adl-runtime-kernel/target/debug/deps/kernel-fc8fb3b99a7ea0fd)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3448879Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3448879Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3449040Z running 25 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3466594Z test bounded_reject_channel_reports_saturation ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.3470877Z test corrupt_capsule_fails_closed_during_shutdown ... ok
@@ -1125,11 +1125,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4150079Z test t
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4194959Z test shutdown_remains_responsive_during_restart_backoff ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4258960Z test restart_policy_rebuilds_failed_component ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4543629Z test one_for_all_restarts_transitive_dependents ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4544242Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4544242Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4544812Z test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4545858Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4545858Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4550347Z ^[[1m^[[92m     Running^[[0m tests/kernel_continuity_control.rs (adl-runtime-kernel/target/debug/deps/kernel_continuity_control-7446e5865dae32b4)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4564009Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4564009Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.4564243Z running 35 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.5561438Z test caller_path_rejected ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:37.5887520Z test corrupt_content ... ok
@@ -1166,22 +1166,22 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.5819342Z test w
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6249741Z test wrong_service_set ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6269544Z test wrong_topology ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6350162Z test zero_residue ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6350432Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6350432Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6350730Z test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.18s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6351143Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6351143Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6360902Z ^[[1m^[[92m     Running^[[0m tests/layer8_authority.rs (adl-runtime-kernel/target/debug/deps/layer8_authority-1491559e08ef91c6)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6372523Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6372523Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6372740Z running 5 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6439318Z test layer8_identity_precheck_refusals_are_hash_chain_audited ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6447099Z test layer8_authority_core_rejects_empty_recipient_non_address_scopes ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6471397Z test layer8_capability_policy_and_corrupt_audit_fail_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6659702Z test layer8_signed_exchange_rejects_tamper_noncanonical_payloads_and_ack_substitution ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6671071Z test layer8_authority_core_rejects_replay_and_requires_known_recipient ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6671682Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6671682Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6672137Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6672756Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6672756Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6674846Z ^[[1m^[[92m     Running^[[0m tests/live_continuity.rs (adl-runtime-kernel/target/debug/deps/live_continuity-a8a6c95be5878c02)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6687333Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6687333Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6687501Z running 8 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6700963Z test live_snapshot_schema_is_stable ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6705450Z test minimum_generation_refuses_rollback_or_missing_state ... ok
@@ -1191,11 +1191,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.6902327Z test f
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7044424Z test signed_live_checkpoint_round_trips ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7266680Z test validly_signed_broken_predecessor_chain_is_refused ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7352982Z test legacy_generation_can_upgrade_into_a_current_signed_lineage ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7353409Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7353409Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7353747Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7354215Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7354215Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7358901Z ^[[1m^[[92m     Running^[[0m tests/memory_palace.rs (adl-runtime-kernel/target/debug/deps/memory_palace-5ae08d0aaba73f6e)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7369504Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7369504Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7369655Z running 12 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7415895Z test duplicate_records_and_citations_are_rejected ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7439453Z test citation_path_hash_and_presence_fail_closed ... ok
@@ -1209,11 +1209,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7557652Z test s
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7558896Z test stale_future_and_invalid_temporal_anchors_fail_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7567164Z test identifiers_secrets_and_normalized_room_collisions_fail_closed ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7603682Z test reference_identifier_privacy_and_canonical_packet_bounds_fail_closed ... ok
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7604309Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7604309Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7604774Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7605417Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7605417Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7607256Z ^[[1m^[[92m     Running^[[0m tests/observability.rs (adl-runtime-kernel/target/debug/deps/observability-28210acb99062c55)
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7619466Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7619466Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7619614Z running 36 tests
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7629064Z test master_log_auditor_accepts_wp12_clean_report_shape ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:38.7630084Z test master_log_auditor_rejects_bad_sequences_errors_and_missing_drain ... ok
@@ -1251,11 +1251,11 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:39.2665217Z test w
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:39.4154657Z test terminate_vector_child_reports_incomplete_after_bounded_force_kill ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:42.2398875Z test runtime_vector_pipeline_s3_archive_outage_does_not_block_master_log_progress ... ok
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7990709Z test pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses ... FAILED
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7991816Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7991816Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7992040Z failures:
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7992351Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7992351Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7993141Z ---- pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses stdout ----
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7994271Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7994271Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7995468Z thread 'pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses' (9434) panicked at tests/observability.rs:552:13:
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.7997801Z timed out waiting for master log progress (true) and s3 failure telemetry (false); stdout: {"timestamp":"2026-09-09T16:38:38.770369Z","level":"INFO","message":"Log level is enabled.","level":"\"info\"","target":"vector::app"}
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8000518Z {"timestamp":"2026-09-09T16:38:38.771161Z","level":"INFO","message":"Loading configs.","paths":"[\"/home/runner/work/agent-design-language/agent-design-language/adl-runtime-kernel/target/observability-tests/s3-archive-vector-outage-9427/observability/config/runtime-v3-vector.json\"]","target":"vector::app"}
@@ -1266,15 +1266,15 @@ adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8006354Z {"time
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8008082Z {"timestamp":"2026-09-09T16:38:38.843221Z","level":"INFO","message":"API is disabled, enable by setting `api.enabled` to `true` and use commands like `vector top`.","target":"vector::app"}
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8011466Z {"timestamp":"2026-09-09T16:38:38.843553Z","level":"INFO","message":"Starting file server.","include":"[\"/home/runner/work/agent-design-language/agent-design-language/adl-runtime-kernel/target/observability-tests/s3-archive-vector-outage-9427/observability/spool/runtime-v3.current.jsonl\"]","exclude":"[]","target":"vector::sources::file","span":{"component_id":"runtime_v3_ingress","component_kind":"source","component_type":"file","name":"source"},"spans":[{"component_id":"runtime_v3_ingress","component_kind":"source","component_type":"file","name":"source"}]}
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8015670Z {"timestamp":"2026-09-09T16:38:38.846945Z","level":"INFO","message":"Found new file to watch.","file":"/home/runner/work/agent-design-language/agent-design-language/adl-runtime-kernel/target/observability-tests/s3-archive-vector-outage-9427/observability/spool/runtime-v3.current.jsonl","target":"vector::internal_events::file::source","span":{"name":"file_server"},"spans":[{"component_id":"runtime_v3_ingress","component_kind":"source","component_type":"file","name":"source"},{"name":"file_server"}]}
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8017769Z ; stderr: 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8017769Z ; stderr:
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8018570Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8018926Z 
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8018933Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8018926Z
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8018933Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8019012Z failures:
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8019353Z     pinned_vector_s3_archive_outage_emits_sink_failure_while_master_log_progresses
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8019704Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8019704Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8019991Z test result: FAILED. 35 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.04s
-adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8020392Z 
+adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8020392Z
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8020860Z ^[[1m^[[91merror^[[0m: test failed, to rerun pass `--test observability`
 adl-runtime-v3-fast	Runtime v3 focused tests	2026-09-09T16:38:58.8094413Z ##[error]Process completed with exit code 101.
 adl-ci	Aggregate split adl-ci lanes	﻿2026-09-09T16:39:17.4314607Z ##[group]Run set -euo pipefail

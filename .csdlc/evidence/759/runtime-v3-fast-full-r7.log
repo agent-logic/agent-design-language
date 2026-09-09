@@ -1008,4 +1008,3 @@ test src/birthday_continuity.rs - birthday_continuity::BirthdayContinuityAuthori
 test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisioner (line 142) - compile fail ... ok
 
 test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s
-

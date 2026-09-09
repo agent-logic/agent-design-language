@@ -1008,4 +1008,3 @@ test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisio
 test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisioner (line 137) - compile fail ... ok
 
 test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.99s
-

@@ -774,7 +774,7 @@ timed out waiting for master log progress (true) and s3 failure telemetry (false
 {"timestamp":"2026-09-09T17:37:32.655358Z","level":"INFO","message":"API is disabled, enable by setting `api.enabled` to `true` and use commands like `vector top`.","target":"vector::app"}
 {"timestamp":"2026-09-09T17:37:32.655493Z","level":"INFO","message":"Starting file server.","include":"[\"/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-health-task-failures/adl-runtime-kernel/target/observability-tests/s3-archive-vector-outage-4460/observability/spool/runtime-v3.current.jsonl\"]","exclude":"[]","target":"vector::sources::file","span":{"component_id":"runtime_v3_ingress","component_kind":"source","component_type":"file","name":"source"},"spans":[{"component_id":"runtime_v3_ingress","component_kind":"source","component_type":"file","name":"source"}]}
 {"timestamp":"2026-09-09T17:37:32.655941Z","level":"INFO","message":"Found new file to watch.","file":"/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-health-task-failures/adl-runtime-kernel/target/observability-tests/s3-archive-vector-outage-4460/observability/spool/runtime-v3.current.jsonl","target":"vector::internal_events::file::source","span":{"name":"file_server"},"spans":[{"component_id":"runtime_v3_ingress","component_kind":"source","component_type":"file","name":"source"},{"name":"file_server"}]}
-; stderr: 
+; stderr:
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 
