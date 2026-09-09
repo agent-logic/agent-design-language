@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 815,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/815-cloud-authorization-authenticity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-815-cloud-authorization-authenticity",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "d01d7c2344f1879d9470c1651f470bf9778a2405ac7f88105debe16b1fa83383"
+}

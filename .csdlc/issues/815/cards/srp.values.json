@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 815,
+  "issue_padded": "0815",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/815",
+  "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
+  "branch": "codex/815-cloud-authorization-authenticity",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-815-cloud-authorization-authenticity"
+}

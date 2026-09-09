@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 815,
+  "issue_padded": "0815",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/815",
+  "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
+  "branch": "codex/815-cloud-authorization-authenticity",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-815-cloud-authorization-authenticity",
+  "timestamp": "2026-09-09T21:20:00Z",
+  "slug": "cloud-authorization-authenticity",
+  "status": "implemented",
+  "summary": "Cloud mutation approval now requires an externally anchored operator signature; AWS additionally binds authenticated account identity, actual tfplan bytes, its digest sidecar, and a Terraform-derived reviewed projection.",
+  "integration_state": "worktree_only",
+  "integration_result": "Implementation and local proof are tracked on codex/815-cloud-authorization-authenticity in the bound FastWork worktree; PR publication and merge are not yet claimed.",
+  "validation_result": "The #815 no-cloud matrix passed for valid signed packets and rejected unsigned/forged approval, changed plan bytes, changed digest sidecar, changed JSON, Terraform projection drift, expiry, and cross-account/project replay. GCP provider-call preflight, AWS/GCP read-only availability, Python compilation, shell syntax, native six-card validation, and diff hygiene passed.",
+  "verification_scope": "#727 AWS authorization validator and template/runbook; #731 GCP authorization validator and mutation preflight; shared #815 verifier, canonical signature contract, GCP template, and deterministic local fixtures.",
+  "validation_effect": "Proves editable JSON and mutable digest sidecars cannot independently grant mutation authority, provider identity and exact plan bytes are bound, every required tamper/replay case fails before provider invocation, and read-only proof remains usable without approval.",
+  "notes_risks_inline": "No paid cloud mutation ran. Production requires an operator-controlled Ed25519 private key and a non-group/world-writable allowed-signers file at $HOME/keys/adl-cloud-authorization.allowed_signers. Historical unsigned packets are not reusable authority."
+}
