@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 761,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+    "slug": "review-lane-denominators",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair packet routing and denominator integrity for #761.",
+      "deliverables": [
+        "Builder and validator",
+        "Exact regression fixture and negative tests",
+        "Packet and synthesis coverage contract"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Classify complete inventory before sampling.",
+        "AC-2: Record lane denominator, selected paths, exclusions, selection rule and digest.",
+        "AC-3: Reject empty or category-invalid materially present mandatory lanes.",
+        "AC-4: Distinguish complete deterministic routing scans from sampled manual review.",
+        "AC-5: Exact 5481-path #520 fixture populates all six mandatory lanes.",
+        "AC-6: Empty, invalid-category and digest-mismatch negatives fail deterministically."
+      ],
+      "dependencies": [
+        "#520 source candidate c24f8fa65ce445b03ce6cd69007307291d78b60c"
+      ],
+      "repo_inputs": [
+        "adl/tools/skills/repo-packet-builder",
+        "adl/tools/skills/repo-review-synthesis/references/output-contract.md"
+      ],
+      "non_goals": [
+        "Semantic review proof",
+        "Unrelated lifecycle tooling repair"
+      ]
+    }
+  }
+}

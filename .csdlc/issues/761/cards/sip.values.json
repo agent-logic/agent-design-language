@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 761,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+    "slug": "review-lane-denominators",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prevent global evidence sampling from starving required review lanes.",
+      "required_outcome": "Complete auditable lane denominators with category-valid samples and fail-closed validation.",
+      "declared_scope": [
+        "adl/tools/skills/repo-packet-builder",
+        "adl/tools/skills/repo-review-synthesis/references/output-contract.md"
+      ],
+      "authority_boundary": [
+        "Typed v2 exception authorized by operator while #749 native repair is in flight."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Focused Python validation; preserve exact #520 denominator."
+      ]
+    }
+  }
+}

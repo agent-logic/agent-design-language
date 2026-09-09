@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import hashlib
 import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -76,13 +77,13 @@ def run_git(repo_root: Path, args: list[str]) -> tuple[int, str]:
         capture_output=True,
         text=True,
     )
-    return result.returncode, result.stdout.strip()
+    return result.returncode, result.stdout if "-z" in args else result.stdout.strip()
 
 
 def tracked_files(repo_root: Path) -> list[str]:
-    code, stdout = run_git(repo_root, ["ls-files"])
+    code, stdout = run_git(repo_root, ["ls-files", "-z"])
     if code == 0 and stdout:
-        return [line for line in stdout.splitlines() if line.strip()]
+        return [path for path in stdout.split("\0") if path]
     files: list[str] = []
     for path in sorted(repo_root.rglob("*")):
         if not path.is_file():
@@ -151,6 +152,8 @@ def is_test_path(path: Path) -> bool:
     stem = path.stem.lower()
     return (
         bool(parts & {"test", "tests", "__tests__", "spec", "specs"})
+        or stem.startswith("test_")
+        or stem.startswith("validate_")
         or stem.endswith("_test")
         or stem.endswith("_spec")
         or ".test." in lowered
@@ -197,9 +200,9 @@ def category_for(path: Path) -> str:
 
 def lanes_for(category: str, path: Path) -> list[str]:
     lanes: set[str] = set()
-    if category in {"code", "manifest", "ci"}:
+    if category == "code":
         lanes.add("code")
-    if category in {"manifest", "ci"} or path.suffix.lower() in {".sh", ".py", ".js", ".ts"}:
+    if category in {"code", "test", "manifest", "ci"}:
         lanes.add("security")
     if category == "test":
         lanes.add("tests")
@@ -302,8 +305,6 @@ def build_evidence(repo_root: Path, files: list[str]) -> list[dict[str, object]]
         if path.name.lower() in {"readme.md", "readme"}:
             score += 20
             reasons.append("top-level onboarding surface")
-        if score == 0:
-            continue
         scored.append(
             (
                 -score,
@@ -317,19 +318,101 @@ def build_evidence(repo_root: Path, files: list[str]) -> list[dict[str, object]]
                 },
             )
         )
-    return [entry for _, _, entry in sorted(scored)[:120]]
+    return [entry for _, _, entry in sorted(scored)]
+
+
+REVIEW_LANES = ("code", "security", "tests", "docs", "architecture", "dependencies", "diagrams")
+SELECTION_LIMIT = 30
+SELECTION_RULE = "category-round-robin-then-path-v1; at most 30 paths per lane"
+
+
+def paths_digest(paths: list[str]) -> str:
+    """SHA-256 of sorted UTF-8 paths, each followed by LF (empty set = empty bytes)."""
+    return hashlib.sha256("".join(p + "\n" for p in sorted(paths)).encode()).hexdigest()
+
+
+def selected_paths(paths: list[str]) -> list[str]:
+    # Represent each eligible category before another path from the same category.
+    groups: dict[str, list[str]] = defaultdict(list)
+    for path in sorted(paths):
+        groups[category_for(Path(path))].append(path)
+    ordered = []
+    for index in range(max((len(group) for group in groups.values()), default=0)):
+        for category in sorted(groups):
+            if index < len(groups[category]):
+                ordered.append(groups[category][index])
+                if len(ordered) == SELECTION_LIMIT:
+                    return sorted(ordered)
+    return sorted(ordered)
+
+
+def lane_denominators(files: list[str]) -> dict[str, object]:
+    source = sorted(files)
+    lanes = {}
+    for lane in REVIEW_LANES:
+        eligible = [p for p in source if lane in lanes_for(category_for(Path(p)), Path(p))]
+        selected = selected_paths(eligible)
+        selected_set, eligible_set = set(selected), set(eligible)
+        lanes[lane] = {
+            "source_count": len(eligible), "source_paths": eligible,
+            "source_sha256": paths_digest(eligible),
+            "selected_count": len(selected), "selected_paths": selected,
+            "selected_sha256": paths_digest(selected),
+            "exclusions": {"not_eligible": [p for p in source if p not in eligible_set],
+                           "not_sampled": [p for p in eligible if p not in selected_set]},
+            "selection_rule": SELECTION_RULE,
+            "coverage": "complete path classification; sampled manual review pending",
+        }
+    return {"schema": f"{SCHEMA_PREFIX}.denominators.v1", "source_paths": source,
+            "source_count": len(source), "source_sha256": paths_digest(source), "lanes": lanes}
 
 
 def assignments_from_evidence(evidence: list[dict[str, object]]) -> dict[str, list[str]]:
-    assignments: dict[str, list[str]] = defaultdict(list)
-    for entry in evidence:
-        for lane in entry["specialist_lanes"]:
-            assignments[lane].append(str(entry["path"]))
-    for lane in ["code", "security", "tests", "docs", "architecture", "dependencies", "diagrams"]:
-        assignments.setdefault(lane, [])
-    assignments["redaction"] = ["run_manifest.json", "repo_scope.md", "repo_inventory.json", "evidence_index.json"]
+    denominator = lane_denominators([str(entry["path"]) for entry in evidence])
+    assignments = {lane: row["selected_paths"] for lane, row in denominator["lanes"].items()}
+    assignments["redaction"] = ["run_manifest.json", "repo_scope.md", "repo_inventory.json",
+                                "evidence_index.json", "lane_denominators.json", "specialist_assignments.json"]
     assignments["synthesis"] = ["all specialist artifacts after review lanes complete"]
-    return {lane: limited(sorted(set(paths)), 30) for lane, paths in sorted(assignments.items())}
+    return assignments
+
+
+def validate_packet(denominator: dict, evidence: list[dict], assignments: dict,
+                    expected_files: list[str]) -> None:
+    """Validate against an independently supplied complete scope, not a self-declared sample."""
+    if len(expected_files) != len(set(expected_files)):
+        raise ValueError("duplicate source paths")
+    for path in expected_files:
+        if not isinstance(path, str) or not path or Path(path).is_absolute() or ".." in Path(path).parts or "\n" in path or "\r" in path:
+            raise ValueError("invalid source path")
+    expected = lane_denominators(expected_files)
+    if denominator != expected:
+        raise ValueError("denominator integrity mismatch: source, selection, exclusion, rule or digest")
+    if len(evidence) != len(expected_files) or {e.get("path") for e in evidence} != set(expected_files):
+        raise ValueError("evidence must cover the complete source denominator")
+    for entry in evidence:
+        path = Path(entry["path"])
+        category = category_for(path)
+        if entry.get("category") != category or entry.get("specialist_lanes") != lanes_for(category, path):
+            raise ValueError("category-invalid evidence")
+    if assignments != assignments_from_evidence(evidence):
+        raise ValueError("empty or category-invalid assignments, or selection mismatch")
+
+
+def scoped_files(repo_root: Path, target_path: str | None, diff_base: str | None) -> list[str]:
+    if diff_base:
+        code, output = run_git(repo_root, ["diff", "--name-only", "-z", diff_base, "HEAD", "--"])
+        if code:
+            raise ValueError("cannot resolve diff scope")
+        files = [p for p in output.split("\0") if p]
+    else:
+        files = tracked_files(repo_root)
+    if target_path:
+        target = Path(target_path).as_posix().rstrip("/")
+        if Path(target).is_absolute() or ".." in Path(target).parts:
+            raise ValueError("target path must be repository-relative")
+        if target != ".":
+            files = [p for p in files if p == target or p.startswith(target + "/")]
+    return sorted(set(files))
 
 
 def write_json(path: Path, data: object) -> None:
@@ -373,7 +456,7 @@ def write_scope(
 
 - Runtime behavior was not executed.
 - Specialist review lanes were not run by this packet builder.
-- Generated/vendor/cache surfaces are excluded by default.
+- Tracked generated/vendor/cache paths remain in the denominator; fallback filesystem discovery excludes cache directories.
 
 ## Assumptions
 
@@ -382,7 +465,9 @@ def write_scope(
 
 ## Known Limits
 
-- The packet contains path evidence and metadata, not source excerpts.
+- The packet contains a complete deterministic path-classification scan, not semantic review proof.
+- Specialist assignments are bounded manual-review samples; exclusions are recorded in lane_denominators.json.
+- No selected path has been manually reviewed by this builder.
 - Publication safety requires a separate redaction/evidence audit.
 - Path or diff scope must be expanded explicitly if downstream reviewers need more context.
 
@@ -436,15 +521,14 @@ def main() -> int:
         artifact_root = repo_root / artifact_root
     artifact_root.mkdir(parents=True, exist_ok=True)
 
-    files = tracked_files(repo_root)
-    if args.target_path:
-        prefix = Path(args.target_path).as_posix().rstrip("/") + "/"
-        files = [path for path in files if path == args.target_path or path.startswith(prefix)]
+    files = scoped_files(repo_root, args.target_path, args.diff_base)
 
     canonical_name, worktree_name = derive_repo_identity(repo_root)
     inv = inventory(repo_root, files, canonical_name)
     evidence = build_evidence(repo_root, files)
     assignments = assignments_from_evidence(evidence)
+    denominator = lane_denominators(files)
+    validate_packet(denominator, evidence, assignments, files)
     now = dt.datetime.now(dt.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
     manifest = {
@@ -465,6 +549,7 @@ def main() -> int:
         "publication_allowed": False,
     }
 
+    write_json(artifact_root / "lane_denominators.json", denominator)
     write_json(artifact_root / "run_manifest.json", manifest)
     write_scope(artifact_root / "repo_scope.md", args, canonical_name, worktree_name, inv)
     write_json(artifact_root / "repo_inventory.json", inv)

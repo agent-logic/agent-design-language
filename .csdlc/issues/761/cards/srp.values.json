@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 761,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+    "slug": "review-lane-denominators",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/skills/repo-packet-builder, adl/tools/skills/repo-review-synthesis/references/output-contract.md",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify full inventory precedes selection and samples are category-valid.",
+        "Verify exact fixture, integrity negatives and honest coverage claims."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
