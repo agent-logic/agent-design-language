@@ -284,6 +284,20 @@ fn admission_greeting_retry_delay_millis() -> u64 {
     }
 }
 
+struct AdmissionGreetingWorkerGuard<'a> {
+    active: &'a Mutex<BTreeSet<String>>,
+    agent_id: String,
+}
+
+impl Drop for AdmissionGreetingWorkerGuard<'_> {
+    fn drop(&mut self) {
+        self.active
+            .lock()
+            .expect("active admission greeting state poisoned")
+            .remove(&self.agent_id);
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 enum DynamicAgentStoreEntry {
@@ -1063,6 +1077,7 @@ pub struct ControlService<C> {
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
     pending_agent_removals: Mutex<BTreeMap<String, DynamicAgentRemovalIntent>>,
     admission_greetings: Mutex<BTreeMap<String, AdmissionGreetingRecord>>,
+    active_admission_greetings: Mutex<BTreeSet<String>>,
     resident_agent_bindings: RwLock<BTreeMap<String, AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Mutex<()>,
@@ -1193,6 +1208,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             dynamic_agents: Mutex::new(Vec::new()),
             pending_agent_removals: Mutex::new(BTreeMap::new()),
             admission_greetings: Mutex::new(BTreeMap::new()),
+            active_admission_greetings: Mutex::new(BTreeSet::new()),
             resident_agent_bindings: RwLock::new(BTreeMap::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Mutex::new(()),
@@ -2204,6 +2220,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         agent_id: &str,
     ) -> Result<Option<ObservatoryConversationResult>, ControlError> {
+        if !self
+            .active_admission_greetings
+            .lock()
+            .expect("active admission greeting state poisoned")
+            .insert(agent_id.to_owned())
+        {
+            return Ok(None);
+        }
+        let _worker = AdmissionGreetingWorkerGuard {
+            active: &self.active_admission_greetings,
+            agent_id: agent_id.to_owned(),
+        };
         let claim = {
             let _transaction = self
                 .dynamic_agent_admission
@@ -2224,9 +2252,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 return Ok(None);
             };
             if current.terminal()
-                || (current.disposition == AdmissionGreetingDisposition::Retrying
-                    && current.owner_runtime_incarnation_id.as_deref()
-                        == Some(self.runtime_incarnation_id.as_str()))
                 || (current.disposition == AdmissionGreetingDisposition::Pending
                     && now < current.next_attempt_at_unix_millis)
             {
@@ -3612,6 +3637,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .agent_orientation_deliveries
             .lock()
             .expect("agent orientation delivery state poisoned");
+        for agent_id in removals.keys() {
+            population.remove_dynamic(agent_id);
+            deliveries.remove(agent_id);
+        }
         for (agent, persisted_orientation) in &agents {
             validate_persisted_agent_admission(agent)?;
             if let Some(orientation) = persisted_orientation {
@@ -8519,7 +8548,24 @@ mod layer8_conversation_ingress_tests {
             let service = Arc::clone(&service);
             tokio::spawn(async move { service.recover_admission_greeting("ember").await })
         };
-        tokio::time::sleep(Duration::from_millis(5)).await;
+        tokio::time::timeout(Duration::from_secs(1), async {
+            loop {
+                if service
+                    .admission_greetings
+                    .lock()
+                    .unwrap()
+                    .get("ember")
+                    .is_some_and(|record| {
+                        record.disposition == AdmissionGreetingDisposition::Retrying
+                    })
+                {
+                    break;
+                }
+                tokio::task::yield_now().await;
+            }
+        })
+        .await
+        .expect("worker persists its in-flight claim");
         assert!(service
             .recover_admission_greeting("ember")
             .await
