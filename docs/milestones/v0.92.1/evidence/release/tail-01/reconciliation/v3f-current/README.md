@@ -21,7 +21,9 @@ cannot resolve the four review-freshness rows.
 in-scope actionable finding prevents mapping acceptance. The mapping validator
 also rejects stale source SHA, incomplete scope, stale fixture blobs, different
 suite bytes, missing semantic criterion review, dirty execution, receipt drift,
-and altered CORP-A dispositions. Its scope comparison includes additions and
+and altered CORP-A dispositions. Historical census and exception bytes must match
+their immutable Git blobs at the reviewed source SHA; updating both a baseline
+and its mapping hash does not authorize historical changes. Its scope comparison includes additions and
 deletions under the declared source prefixes. Evidence-only descendant commits
 may carry the packet; any change to the coupled source invalidates it.
 
@@ -34,3 +36,5 @@ PVF: required deterministic local mapping contract, small CPU/Git and no
 credentials or network. Full detached component suite: required deterministic
 local proof, medium CPU/disk, external Cargo target. Independent substantive
 review is required separately. No cloud, UI demo, merge or release action.
+
+Validator contract tests: `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py`. These use explicitly synthetic receipts in isolated Git fixtures and are not V3-F execution or substantive review proof. They cover stale substitutions, blocked review, dirty/staged/untracked/committed source drift, filtered test logs, evidence-only descendants, and rewritten historical baselines with refreshed hashes.

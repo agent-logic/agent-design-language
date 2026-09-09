@@ -43,6 +43,11 @@ def scope_at(revision):
     return {line.split('\t', 1)[1]: line.split()[2] for line in lines}
 
 
+def historical_digest(path, source):
+    relative = path.relative_to(ROOT).as_posix()
+    return digest(subprocess.check_output(['git', '-C', str(ROOT), 'show', source + ':' + relative]))
+
+
 def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'):
     assignment = read('assignment.json') if assignment is None else assignment
     review = read('review.json') if review is None else review
@@ -56,6 +61,9 @@ def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'
     expected = scope_at(source)
     require(expected == assignment['scope'] == review['scope'], 'complete_review_scope')
     require(expected == scope_at(candidate), 'current_source_drift')
+    if candidate == 'HEAD':
+        require(not git('status', '--porcelain', '--untracked-files=all', '--', *PREFIXES),
+                'current_source_dirty')
     require(subprocess.run(['git', '-C', str(ROOT), 'merge-base', '--is-ancestor',
                             source, candidate], capture_output=True).returncode == 0,
             'source_ancestry')
@@ -74,15 +82,19 @@ def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'
             suite['head_after'] == source, 'detached_clean_execution')
     log = (HERE / 'suite.log').read_bytes()
     require(suite['log'] == 'suite.log' and digest(log) == suite['log_sha256'], 'suite_log_digest')
-    counts = re.findall(r'test result: ok\. (\d+) passed; (\d+) failed;', log.decode())
-    passed = sum(int(p) for p, _ in counts)
+    counts = re.findall(r'test result: ok\. (\d+) passed; (\d+) failed; (\d+) ignored; (\d+) measured; (\d+) filtered out', log.decode())
+    require(counts and all(int(row[4]) == 0 for row in counts), 'unfiltered_suite')
+    passed = sum(int(row[0]) for row in counts)
     require(suite['exit_code'] == 0 and suite['failed'] == 0 and
             suite['passed'] == passed and passed >= 188 and
             not re.search(r'test result: FAILED|error: test failed', log.decode()), 'passing_full_suite')
     for name in ['assignment.json', 'review.json', 'suite.json', 'historical-fixture.diff']:
         require(mapping['receipt_sha256'][name] == digest((HERE / name).read_bytes()), 'receipt_digest')
     historical = HERE.parent / 'current-exceptions.json'
-    require(digest(historical.read_bytes()) == mapping['historical_exceptions_sha256'], 'historical_immutable')
+    require(digest(historical.read_bytes()) == historical_digest(historical, source) == historical_digest(historical, candidate) == mapping['historical_exceptions_sha256'], 'historical_immutable')
+    if candidate == 'HEAD':
+        require(not git('status', '--porcelain', '--', historical.relative_to(ROOT).as_posix()),
+                'historical_index_dirty')
     originals = {r['id']: r['text_digest'] for r in json.loads(historical.read_text())['post_review_505']['criteria']}
     require(len(mapping['rows']) == 4 and {r['id'] for r in mapping['rows']} == CRITERIA, 'four_rows')
     fixture = 'csdlc-v3/tests/terminal_cleanup_cutover_commands.rs'
@@ -92,7 +104,10 @@ def validate(mapping, assignment=None, review=None, suite=None, candidate='HEAD'
                 row['source_sha'] == source and row['fixture_blob'] == expected[fixture] and
                 row['disposition'] == 'current_review_and_suite_proven', 'row_proof_binding')
     old = HERE.parent / 'census.json'
-    require(digest(old.read_bytes()) == mapping['historical_census_sha256'], 'historical_census_immutable')
+    require(digest(old.read_bytes()) == historical_digest(old, source) == historical_digest(old, candidate) == mapping['historical_census_sha256'], 'historical_census_immutable')
+    if candidate == 'HEAD':
+        require(not git('status', '--porcelain', '--', old.relative_to(ROOT).as_posix()),
+                'historical_index_dirty')
     corp = [r for r in json.loads(old.read_text())['rows'] if
             r['row_id'] in {f'CORP-A:CORP-A-ac-{i}' for i in range(1, 4)}]
     require(corp == mapping['preserved_corp_a'] and len(corp) == 3 and all(
