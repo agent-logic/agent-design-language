@@ -33,6 +33,14 @@ The retained redacted packet is `.csdlc/evidence/772/gcp-b-audit-log-posture.red
 
 The retained auth-readiness receipt is `.csdlc/evidence/772/gcp-b-audit-log-auth-readiness.redacted.json`. It is diagnostic evidence only and does not satisfy `GCP-B-ac-1` by itself.
 
+## Live proof result
+
+After operator auth refresh, the issue-owned runner generated `.csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json` for candidate `c24f8fa65ce445b03ce6cd69007307291d78b60c` using proof runner head `4d9dd072ecf4c46795cb28a9530b7ac66d6b4348`.
+
+The retained packet records a read-only GCP posture check: the project readback is active, the bootstrap provider identity exists and is not disabled, the active operator digest matches the approved actor digest, IAM audit configuration is readable, required Logging/Cloud Resource Manager/IAM/Service Usage APIs are present, `_Required` and `_Default` logging buckets are readable, sinks are readable, and representative Cloud Audit log entries were observed within the 30-day proof window.
+
+The proof artifact SHA-256 is `0f15781020d340e87b99e2fe505ac87c20816755ad805817f712493836ce95ce`; its Git blob is `66201a6a476b379a988975989866446a61d7a01a`.
+
 The runner requires the raw project and service-account identifiers as process-local environment inputs: `GCP_B_PROJECT_ID` and `GCP_B_BOOTSTRAP_SERVICE_ACCOUNT`. Those values are used only for live readback and digest computation. They are not written to the retained packet.
 
 For short-lived credential execution, pass the runner's environment-only credential input plus the approved actor digest input. In that mode the runner calls the Cloud Resource Manager, IAM, Service Usage, and Cloud Logging REST APIs directly with an authorization header sourced from process environment. The short-lived credential is never placed in argv, copied into a file, or written to retained evidence.

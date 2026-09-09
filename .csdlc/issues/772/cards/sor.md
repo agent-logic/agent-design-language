@@ -20,7 +20,7 @@ Version: 1.0.4
 Title: [v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture
 Branch: codex/772-prove-gcp-b-audit-log-posture
 Card Status: ready
-Status: blocked_before_implementation
+Status: implemented_pending_publication
 Generated: 2026-09-09T00:00:00-07:00
 
 Execution:
@@ -28,36 +28,36 @@ Execution:
 - Model: `gpt-5`
 - Provider: `OpenAI`
 - Start Time: `2026-09-09T00:00:00-07:00`
-- End Time: `not_started`
+- End Time: `2026-09-09T18:11:00Z`
 
 ## Summary
 
-Prepared and bound #772 lifecycle state, identified #769 as the redaction dependency, and held implementation because the issue-bound goal could not be created while the stale blocked #764 goal remains active.
+Implemented #772 read-only GCP-B audit/log posture proof, generated retained redacted live evidence after operator auth refresh, updated the current exception reconciliation row for GCP-B-ac-1, and validated the proof/redaction surfaces.
 
 ## PVF Lane Truth
 - Initial PVF lane: `security-cloud-proof`
 - Planned PVF lane: `authorized-read-only-gcp-audit-log-posture-proof`
-- Final PVF lane: `pending`
-- Lane change reason: `No execution lane has run yet.`
+- Final PVF lane: `authorized-read-only-gcp-audit-log-posture-proof`
+- Lane change reason: `Execution stayed in the planned read-only GCP audit/log posture lane.`
 
 ## Issue Metrics Truth
 - Expected runtime class: `Bash, jq, gcloud read-only`
 - Estimated elapsed seconds: `5400`
-- Actual elapsed seconds: `not_started`
-- Actual active work seconds: `not_started`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
 - Estimated total tokens: `unknown`
-- Actual total tokens: `not_started`
+- Actual total tokens: `unknown`
 - Estimated validation seconds: `600`
-- Actual validation seconds: `not_started`
+- Actual validation seconds: `unknown`
 - Actual PR wait seconds: `0`
 - Actual CI wait seconds: `0`
 - Budget source: `issue-local estimate`
-- Goal metrics data source: `not_started`
-- Goal metrics source ref: `pending issue-bound goal`
-- Data-source confidence: `low`
+- Goal metrics data source: `partial command receipts and retained artifacts`
+- Goal metrics source ref: `current Codex session goal plus issue-local validation outputs`
+- Data-source confidence: `medium`
 - Estimate error percent: `unknown until terminal closeout`
-- Completion state: `blocked_before_implementation`
-- Issue goal ref: `pending: create_goal failed because prior blocked #764 goal slot is still active`
+- Completion state: `implementation_validated_pending_pr_review_publication`
+- Issue goal ref: `Issue #772 session goal created for read-only GCP audit/log posture proof`
 - Sprint goal ref: `v0.92.1 TAIL-06 retained proof-gap closeout`
 - Goal metrics rollup ref: `v0.92.1`
 - Validation planning prompt: `.csdlc/issues/772/cards/vpp.md`
@@ -69,29 +69,29 @@ Prepared and bound #772 lifecycle state, identified #769 as the redaction depend
 - Variance analysis required: `false`
 - Variance analysis completed: `not_applicable`
 - Variance category: `not_applicable`
-- Variance note: `No implementation execution has started.`
+- Variance note: `Exact elapsed and token metrics are not reconstructed from chat history; retained command/artifact proof is used for execution truth.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/772/cards/sor.md`
-- Tracked implementation artifacts: `not_started`
-- Additional proof artifacts: `none`
+- Tracked implementation artifacts: `.csdlc/prepared/issues/772/run-gcp-b-audit-log-posture.sh; .csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh; docs/milestones/v0.92.1/evidence/cloud/gcp-b/audit-log-posture.md; docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/current-exceptions.json`
+- Additional proof artifacts: `.csdlc/evidence/772/gcp-b-audit-log-auth-readiness.redacted.json; .csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json`
 
 ## Actions taken
-- `Prepared #772 with native C-SDLC v3 issue route.`
-- `Bound #772 to `/Volumes/FastWork/adl-worktrees/adl-issue-772-gcp-b-audit-log-posture`.`
-- `Identified #769/R520-013 as the redaction gate for retained publication evidence.`
+- `Prepared and bound #772 with native C-SDLC v3 issue route.`
+- `Implemented the issue-owned read-only GCP-B audit/log posture runner and validator with redaction and negative self-test coverage.`
+- `Generated retained redacted live proof after operator auth refresh and updated the GCP-B-ac-1 current-exception row from proof_gap to proven pending exact-head review.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none; only lifecycle projections/request packets were created`
-- Worktree-only paths remaining: `implementation pending after issue-bound goal creation succeeds`
-- Integration state: `bound_worktree_preimplementation`
-- Verification scope: `readiness and dependency classification only`
+- Main-repo paths updated: `issue branch updates retained proof, runner, validator, cloud evidence doc, reconciliation packet, and lifecycle output truth`
+- Worktree-only paths remaining: `none after branch publication; all required artifacts are tracked on the issue branch`
+- Integration state: `issue_branch_pending_pr`
+- Verification scope: `issue worktree and retained redacted GCP-B proof artifact`
 - Integration method used: `native C-SDLC v3 issue and bind`
 - Verification performed:
   - `git status --short --branch`
-    `Confirmed dedicated #772 bound branch/worktree exists; source implementation has not started.`
-- Result: `#772 lifecycle is prepared and bound; implementation is held before source/cloud proof.`
+    `Confirmed dedicated #772 branch/worktree contains the implemented proof artifacts.`
+- Result: `#772 implementation is validated on the issue branch and ready for exact-head review/publication.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -106,10 +106,16 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_started`
-    `not_started`
+  - `.csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh .csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json`
+    `Validated the retained live proof packet.`
+  - `.csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh <valid-fixture> --self-test`
+    `Replayed validator negative coverage for stale candidate, wrong project/provider/digest, missing audit config, wrong actor, missing readback, and unsafe retention.`
+  - `.csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh .csdlc/evidence/772/gcp-b-audit-log-auth-readiness.redacted.json --auth-readiness`
+    `Validated the auth-readiness transition artifact.`
+  - `git diff --check`
+    `Confirmed diff hygiene.`
 - Results:
-  - `not_started`
+  - `passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -122,56 +128,61 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_started
+    status: passed
     checks_run:
-      - "not_started"
+      - "issue-owned proof validator"
+      - "validator self-test"
+      - "auth-readiness validator"
+      - "redaction scan"
+      - "JSON parse checks"
+      - "git diff hygiene"
   determinism:
-    status: not_started
-    replay_verified: false
+    status: passed
+    replay_verified: true
     ordering_guarantees_verified: not_applicable
   security_privacy:
-    status: pending
-    secrets_leakage_detected: not_checked
-    prompt_or_tool_arg_leakage_detected: not_checked
-    absolute_path_leakage_detected: not_checked
+    status: passed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: pending
-    required_artifacts_present: false
+    status: present
+    required_artifacts_present: true
     schema_changes:
       present: false
       approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_started`
-- Fixtures or scripts used: `not_started`
-- Replay verification (same inputs -> same artifacts/order): `not_started`
-- Ordering guarantees (sorting / tie-break rules used): `not_started`
-- Artifact stability notes: `not_started`
+- Determinism tests executed: `validator self-test with stale candidate, wrong project, wrong provider, missing audit config, wrong actor, missing readback, and unsafe retention fixtures`
+- Fixtures or scripts used: `.csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh`
+- Replay verification (same inputs -> same artifacts/order): `validator and self-test replayed against retained proof and fixture inputs`
+- Ordering guarantees (sorting / tie-break rules used): `retained proof stores sorted/readable summaries rather than raw log payload authority`
+- Artifact stability notes: `retained live proof SHA-256 0f15781020d340e87b99e2fe505ac87c20816755ad805817f712493836ce95ce and Git blob 66201a6a476b379a988975989866446a61d7a01a`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_started`
-- Prompt / tool argument redaction verified: `not_started`
-- Absolute path leakage check: `not_started`
+- Secret leakage scan performed: `rg scan over .csdlc/evidence/772 and cloud evidence doc for local paths, token/key markers, raw project ID, and raw service-account ID returned no matches`
+- Prompt / tool argument redaction verified: `retained artifacts use aliases and SHA-256 digests, not raw provider identifiers or credential arguments`
+- Absolute path leakage check: `passed for retained evidence and cloud evidence doc`
 - Sandbox / policy invariants preserved: `No tracked implementation writes on main.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `.csdlc/evidence/772 and docs/milestones/v0.92.1/evidence/cloud/gcp-b after implementation`
+- Trace bundle path(s): `.csdlc/evidence/772; docs/milestones/v0.92.1/evidence/cloud/gcp-b/audit-log-posture.md`
 - Run artifact root: `.csdlc/evidence/772`
-- Replay command used for verification: `pending`
-- Replay result: `pending`
+- Replay command used for verification: `.csdlc/prepared/issues/772/validate-gcp-b-audit-log-posture.sh .csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json`
+- Replay result: `passed`
 
 ## Artifact Verification
 - Primary proof surface: `.csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json`
-- Required artifacts present: `false`
-- Artifact schema/version checks: `pending`
-- Hash/byte-stability checks: `pending`
-- Missing/optional artifacts and rationale: `No implementation proof artifacts exist yet.`
+- Required artifacts present: `true`
+- Artifact schema/version checks: `passed`
+- Hash/byte-stability checks: `passed`
+- Missing/optional artifacts and rationale: `No optional raw GCP payloads are retained by design.`
 
 ## Decisions / Deviations
-- `Held implementation because create_goal failed against an existing blocked #764 goal slot.`
-- `Kept #769 redaction dependency explicit instead of claiming retained-publication readiness.`
+- `Converted the earlier auth-readiness receipt to a resolved transition record after operator auth refresh made read-only GCP access available.`
+- `Resolved the #740 GCP-B-ac-1 audit/log proof gap through #772 without reopening #740 or claiming unrelated retained criteria.`
 
 ## Follow-ups / Deferred work
-- `Clear the stale #764 goal slot, then create the #772 issue-bound goal before source/cloud-proof execution.`
-- `Implement #772 proof runner and validator, run authorized read-only GCP proof, redaction audit, and fresh independent review.`
+- `Obtain fresh independent exact-head review and publish PR with Closes #772.`
+- `Monitor PR CI after publication; no additional implementation follow-up is known.`

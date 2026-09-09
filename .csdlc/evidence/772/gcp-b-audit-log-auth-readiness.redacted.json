@@ -46,9 +46,10 @@
     }
   ],
   "live_audit_log_posture_proof": {
-    "status": "not_generated",
-    "reason": "no_noninteractive_current_gcp_auth_source_available",
-    "required_next_action": "refresh_gcloud_user_or_adc_auth_or provide a current approved bootstrap credential, then rerun the issue-owned read-only proof runner"
+    "status": "generated_after_auth_refresh",
+    "reason": "operator_refresh_made_existing_gcloud_auth_readable_for_read_only_proof",
+    "evidence_path": ".csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json",
+    "evidence_sha256": "0f15781020d340e87b99e2fe505ac87c20816755ad805817f712493836ce95ce"
   },
   "redaction": {
     "retained_payload": "auth_status_summary_only",

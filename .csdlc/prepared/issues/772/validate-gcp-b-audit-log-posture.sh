@@ -113,8 +113,18 @@ validate_auth_readiness() {
     and (any(.attempts[]; .route == "copied_existing_user_auth_config" and .result == "reauthentication_required"))
     and (any(.attempts[]; .route == "application_default_credentials" and .result == "reauthentication_required"))
     and (any(.attempts[]; .route == "service_account_impersonation_from_user_account" and .result == "reauthentication_required"))
-    and .live_audit_log_posture_proof.status == "not_generated"
-    and .live_audit_log_posture_proof.reason == "no_noninteractive_current_gcp_auth_source_available"
+    and (
+      (
+        .live_audit_log_posture_proof.status == "not_generated"
+        and .live_audit_log_posture_proof.reason == "no_noninteractive_current_gcp_auth_source_available"
+      )
+      or
+      (
+        .live_audit_log_posture_proof.status == "generated_after_auth_refresh"
+        and .live_audit_log_posture_proof.evidence_path == ".csdlc/evidence/772/gcp-b-audit-log-posture.redacted.json"
+        and (.live_audit_log_posture_proof.evidence_sha256 | test("^[0-9a-f]{64}$"))
+      )
+    )
     and .redaction.retained_payload == "auth_status_summary_only"
     and .redaction.retained_local_paths == false
     and .redaction.retained_tokens_or_keys == false
