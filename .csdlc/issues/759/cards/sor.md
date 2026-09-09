@@ -2,9 +2,8 @@
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/sor.md`
 
-Authority notice: V3-F/#505 is the pending tooling changeover decision; until
-that operator-reviewed cutover is approved, merged, and terminally reconciled,
-C-SDLC v2 remains live authority.
+Authority notice: C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.
+
 Legacy `pr` editor routes are historical/retired compatibility orientation,
 not current lifecycle authority.
 
@@ -32,7 +31,7 @@ Execution:
 
 ## Summary
 
-Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovered integration drift. After current-main resync to origin/main b631e8ddf3bc924cd46aed48be8aa65f232dd508, r16 validation passed at source head 5ca71c72b929a77c7502da7908f2730e60acaf04. The stale active SOR template authority notice is routed separately as #804 and is not fixed in #759.
+Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovered integration drift. After current-main resync to origin/main 8e97531ea402eec909d610f48a2dd9a005914d47, r16 validation remains the source proof at source head 5ca71c72b929a77c7502da7908f2730e60acaf04 because the later main merge changed no #759 runtime-scoped source/test paths. Issue #804 now owns and has corrected the stale active SOR template authority notice on main; #759 did not absorb that template/schema fix.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime-focused`
@@ -90,8 +89,8 @@ Implemented the #759 dynamic-agent health sweep repair and repaired CI-discovere
 - Integration method used: `native C-SDLC v3 bind plus git commit in issue worktree`
 - Verification performed:
   - `git status --short --branch; git diff --check HEAD`
-    `Confirmed current-main resync and no whitespace errors at source SHA 5ca71c72b929a77c7502da7908f2730e60acaf04; subsequent card-truth edits are metadata-only and preserve the r16 validation evidence.`
-- Result: `Local branch implementation exists; PR #779 previously published and red on stale remote run 34381946883. The branch is repaired and locally validated at source SHA 5ca71c72b929a77c7502da7908f2730e60acaf04 with r16 evidence/card truth current in the issue worktree; it awaits fresh review, republish, and CI.`
+    `Confirmed current-main resync to origin/main 8e97531ea402eec909d610f48a2dd9a005914d47 and no #759 runtime-scoped source/test changes across the merge; r16 source validation remains applicable and exact-range diff-check is rerun after the merge.`
+- Result: `Local branch implementation exists; PR #779 previously published and red on stale remote run 34381946883. The branch is repaired, contains current origin/main, and is locally validated by r16 source evidence plus post-merge no-runtime-scoped-change ancestry/diff checks; it awaits fresh exact-head review, republish, and CI.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -166,7 +165,7 @@ verification_summary:
 - Required artifacts present: `true`
 - Artifact schema/version checks: `No schema changes.`
 - Hash/byte-stability checks: `SHA256 hashes recorded for full runtime, focused dynamic health, focused resident shepherd, SNTP isolated harness, restored shutdown-grace harness, Vector S3 outage isolated harness, strict clippy, HTML Observatory proof, fmt, and diff logs.`
-- Missing/optional artifacts and rationale: `Hosted CI rerun is pending fresh review and republish after current-main resync.`
+- Missing/optional artifacts and rationale: `Hosted CI rerun is pending fresh exact-head review and republish after the latest current-main resync.`
 
 ## Decisions / Deviations
 - `Reviewer-reported stale SOR authority notice is a separate active template/schema defect, not #759 Runtime behavior; created #804 and did not include the template/schema fix in #759.`

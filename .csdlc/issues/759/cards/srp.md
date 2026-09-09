@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "findings_present"
   recommended_outcome: "block"
-notes: "Pre-PR review /root/review_759_381612a2 made no source mutations and found no Runtime source behavior issue. Runtime source behavior, r16 evidence hashes, and #804 routing for the stale active SOR template authority notice were non-findings. The P2 card-truth finding has been remediated locally and awaits fresh exact-head review."
+notes: "Pre-PR review /root/review_759_381612a2 made no source mutations and found no Runtime source behavior issue. Runtime source behavior, r16 evidence hashes, and #804 routing for the stale active SOR template authority notice were non-findings. The P2 card-truth finding has been remediated locally; the later current-main merge changed no #759 runtime-scoped source/test paths and requires a new exact-head review before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Pre-PR review /root/review_759_381612a2 made no source mutations and found no Runtime source behavior issue. Runtime source behavior, r16 evidence hashes, and #804 routing for the stale active SOR template authority notice were non-findings. The P2 card-truth finding has been remediated locally and awaits fresh exact-head review.
+Pre-PR review /root/review_759_381612a2 made no source mutations and found no Runtime source behavior issue. Runtime source behavior, r16 evidence hashes, and #804 routing for the stale active SOR template authority notice were non-findings. The P2 card-truth finding has been remediated locally; the later current-main merge changed no #759 runtime-scoped source/test paths and requires a new exact-head review before publication.
