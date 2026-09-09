@@ -90,6 +90,34 @@ Default lanes:
 - `redaction`
 - `synthesis`
 
+### lane_denominators.json
+
+Required: `source_paths`, `source_count`, `source_sha256`, and `lanes` for code,
+security, tests, docs, architecture, dependencies, and diagrams. Each lane records
+its complete eligible `source_paths`/count/SHA-256, selected paths/count/SHA-256,
+`exclusions.not_eligible`, `exclusions.not_sampled`, `selection_rule`, and `coverage`.
+Digests hash sorted UTF-8 paths with one trailing LF per path; the empty set hashes
+empty bytes. The source inventory includes all scoped Git paths, including deleted
+paths in a diff; unreadable files have line_count -1. Diff mode compares the given
+base to HEAD. Path scope intersects that inventory.
+
+Classification scans the complete denominator. Manual assignments are at most 30
+paths per lane, selected by category round-robin and then lexical path order. Code
+requires code-category paths; dependency manifests alone cannot satisfy code review.
+Security includes code, tests, dependencies and CI, including Rust source.
+An absent lane has an explicit zero denominator; a present lane cannot have an
+empty assignment. Selection is routing evidence, never semantic review completion.
+
+Validate against an independently retained complete path inventory:
+
+```sh
+python3 adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py PACKET --source-inventory SOURCE_PATHS.txt
+```
+
+The validator rejects inconsistent denominators, exclusions, digests, categories,
+and assignments. Do not generate the independent inventory from the packet being
+validated: that would fail to detect an omitted source path.
+
 ## Rules
 
 - Use repo-relative paths.
