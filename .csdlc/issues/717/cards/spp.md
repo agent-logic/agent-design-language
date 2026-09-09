@@ -6,7 +6,7 @@ issue: 717
 task_id: "issue-0717"
 run_id: "issue-0717"
 version: "1.0.4"
-title: "[v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities"
+title: "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities"
 branch: "codex/717-polis-capability-orientation"
 generated_at: "2026-09-09T18:30:00Z"
 card_status: "approved"
@@ -78,11 +78,11 @@ codex_plan:
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "in_progress"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "polis-capability-orientation"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Use stable machine-readable markers solely as validation anchors; keep natural-language guidance primary."
+notes: "Exact-inventory validation applies to candidate and active packages; authenticated historical deliveries remain digest-validated so a Runtime upgrade cannot strand existing agents."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
@@ -113,7 +113,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
 
 ## Plan Summary
 
-Design-time operative plan for `[v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities`.
+Design-time operative plan for `[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities`.
 
 Expand the compact Welcome Package, bind its operational service entries to REQUIRED_OPERATIONAL_ADAPTERS, validate all declared capability markers exactly once, and reconcile milestone truth.
 
@@ -144,9 +144,9 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [in_progress] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Use stable machine-readable markers solely as validation anchors; keep natural-language guidance primary.
+Exact-inventory validation applies to candidate and active packages; authenticated historical deliveries remain digest-validated so a Runtime upgrade cannot strand existing agents.

@@ -2,7 +2,7 @@
 issue_card_schema: adl.issue.v1
 wp: "RT-ORIENT"
 slug: "polis-capability-orientation"
-title: "[v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities"
+title: "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities"
 labels:
   - "track:roadmap"
 issue_number: 717

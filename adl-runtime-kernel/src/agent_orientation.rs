@@ -241,10 +241,22 @@ fn validate_resource_shape(
     if !digest_is_hex {
         return Err(AgentOrientationError::InvalidContent);
     }
-    validate_package_content(&resource.content)
+    validate_package_envelope(&resource.content)
 }
 
 fn validate_package_content(content: &str) -> Result<(), AgentOrientationError> {
+    validate_package_envelope(content)?;
+    validate_capability_inventory(content)?;
+    Ok(())
+}
+
+// Persisted deliveries predate the machine-readable capability inventory. Their
+// schema, version, projection, source and content digest remain authoritative
+// provenance, but upgrading the Runtime must not retroactively require markers
+// that did not exist when those deliveries were admitted. Candidate and active
+// packages still pass `validate_package_content`, including exact inventory
+// validation, before they can be delivered to a newly admitted agent.
+fn validate_package_envelope(content: &str) -> Result<(), AgentOrientationError> {
     if content.trim().is_empty()
         || content.len() > 128 * 1024
         || !content.contains("Axioma Polis Welcome Package")
@@ -252,7 +264,6 @@ fn validate_package_content(content: &str) -> Result<(), AgentOrientationError> 
     {
         return Err(AgentOrientationError::InvalidContent);
     }
-    validate_capability_inventory(content)?;
     Ok(())
 }
 
@@ -462,6 +473,46 @@ mod tests {
         );
         assert_eq!(
             AgentOrientationResource::from_content("v1", "welcome.md", stale),
+            Err(AgentOrientationError::InvalidContent)
+        );
+    }
+
+    #[test]
+    fn persisted_pre_inventory_orientation_retains_digest_provenance() {
+        let content = "Axioma Polis agent orientation package\n\
+Version: v1\n\
+Source: docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\n\
+Authority: non-authoritative orientation only.\n\n\
+# Axioma Polis Welcome Package v1\n\n\
+This package grants no authority by itself.\n";
+        let digest = blake3::hash(content.as_bytes()).to_hex().to_string();
+        let historical = AgentOrientationResource {
+            schema: AGENT_ORIENTATION_RESOURCE_SCHEMA.to_owned(),
+            version: "v1".to_owned(),
+            digest_algorithm: AGENT_ORIENTATION_DIGEST_ALGORITHM.to_owned(),
+            digest,
+            source_path: DEFAULT_AGENT_ORIENTATION_SOURCE_PATH.to_owned(),
+            projection: "full".to_owned(),
+            content: content.to_owned(),
+        };
+
+        historical
+            .validate_persisted()
+            .expect("authenticated pre-inventory delivery remains upgrade-compatible");
+        assert_eq!(
+            AgentOrientationResource::from_content(
+                "v1",
+                DEFAULT_AGENT_ORIENTATION_SOURCE_PATH,
+                content,
+            ),
+            Err(AgentOrientationError::InvalidContent),
+            "the same legacy content cannot become a new candidate package"
+        );
+
+        let mut tampered = historical;
+        tampered.content.push_str("tampered");
+        assert_eq!(
+            tampered.validate_persisted(),
             Err(AgentOrientationError::InvalidContent)
         );
     }

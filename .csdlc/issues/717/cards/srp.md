@@ -5,7 +5,7 @@ name: "<slug>-review-prompt"
 issue: 717
 task_id: "issue-0717"
 version: "1.0.4"
-title: "[v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities"
+title: "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities"
 branch: "codex/717-polis-capability-orientation"
 generated_at: "<timestamp>"
 card_status: "ready"

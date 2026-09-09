@@ -6,7 +6,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.4/sip.md`
 Task ID: issue-0717
 Run ID: issue-0717
 Version: 1.0.4
-Title: [v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities
+Title: [v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities
 Branch: codex/717-polis-capability-orientation
 Card Status: ready
 Generated: 2026-09-09T18:30:00Z

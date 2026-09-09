@@ -11771,6 +11771,53 @@ mod orientation_tests {
     }
 
     #[test]
+    fn dynamic_agent_store_upgrade_accepts_authenticated_pre_inventory_orientation() {
+        let content = "Axioma Polis agent orientation package\n\
+Version: v1\n\
+Source: docs/runtime/AXIOMA_POLIS_WELCOME_PACKAGE_V1.md\n\
+Authority: non-authoritative orientation only.\n\n\
+# Axioma Polis Welcome Package v1\n\n\
+This package grants no authority by itself.\n";
+        let historical_orientation = AgentOrientationResource {
+            schema: crate::agent_orientation::AGENT_ORIENTATION_RESOURCE_SCHEMA.to_owned(),
+            version: "v1".to_owned(),
+            digest_algorithm: crate::agent_orientation::AGENT_ORIENTATION_DIGEST_ALGORITHM
+                .to_owned(),
+            digest: blake3::hash(content.as_bytes()).to_hex().to_string(),
+            source_path: crate::agent_orientation::DEFAULT_AGENT_ORIENTATION_SOURCE_PATH.to_owned(),
+            projection: "full".to_owned(),
+            content: content.to_owned(),
+        };
+        let root = tempfile::tempdir().expect("test tempdir");
+        let store_path = root.path().join("dynamic-agents.json");
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![DynamicAgentStoreEntry::Current {
+                    declaration: admission("ember", "ember.axioma"),
+                    orientation: historical_orientation.clone(),
+                }],
+            })
+            .expect("store serializes"),
+        )
+        .expect("store writes");
+
+        let restarted = service_with_resident();
+        restarted
+            .configure_dynamic_agent_store(store_path)
+            .expect("pre-inventory dynamic store survives Runtime upgrade");
+
+        assert_eq!(
+            restarted
+                .orientation_for_agent("ember")
+                .expect("restored agent retains historical orientation")
+                .digest,
+            historical_orientation.digest
+        );
+    }
+
+    #[test]
     fn startup_orientation_initialization_restamps_existing_residents_from_config() {
         let service = service_with_resident();
         let root = tempfile::tempdir().expect("test tempdir");

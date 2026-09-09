@@ -3,7 +3,7 @@
   "issue": 717,
   "issue_padded": "0717",
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/717",
-  "title": "[v0.92.2][Runtime] Teach admitted agents about Polis modules and capabilities",
+  "title": "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities",
   "branch": "codex/717-polis-capability-orientation",
   "version": "1.0.4",
   "card": "spp",
@@ -40,10 +40,10 @@
   "acceptance_criteria_inline": "complete capability map and authority distinctions delivered before first turn; deterministic drift rejection; provenance preserved",
   "step_1_status": "completed",
   "step_2_status": "completed",
-  "step_3_status": "in_progress",
-  "step_4_status": "pending",
-  "step_5_status": "pending",
+  "step_3_status": "completed",
+  "step_4_status": "completed",
+  "step_5_status": "in_progress",
   "risks_inline": "stale prose, duplicate registry truth, excess prompt size, false deployment availability claims",
   "validation_plan_inline": "agent_orientation tests, adjacent first-turn delivery tests, formatting, diff hygiene, and bounded subagent review",
-  "notes_risks_inline": "Use stable machine-readable markers solely as validation anchors; keep natural-language guidance primary."
+  "notes_risks_inline": "Exact-inventory validation applies to candidate and active packages; authenticated historical deliveries remain digest-validated so a Runtime upgrade cannot strand existing agents."
 }
