@@ -81,7 +81,7 @@ Repaired six release-truth defects: exact-candidate V3-F inputs, live canonical 
 ## Actions taken
 - `Regenerated canonical status from exact Git bytes and read-only live issue truth; added candidate-aware validation and repaired ownership links.`
 - `Normalized eighteen retained GCP-E readbacks to JSON and replaced four zero-byte files with truthful structured failure envelopes.`
-- `Recorded #519 terminal projection without rewriting historical cards; refreshed V3-F source scope and detached locked suite; resolved two independent README review findings.`
+- `Recorded #519 terminal projection without rewriting historical cards; refreshed V3-F source review and detached locked suite; resolved all three independent README findings.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; work remains on issue branch pending review and publication`
@@ -110,7 +110,7 @@ Rules:
   - `python3 .csdlc/prepared/issues/817/validate-release-truth.py; python3 .csdlc/prepared/issues/817/validate-release-truth.py --negative; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py; python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py --negative; clean detached cargo test --locked --manifest-path csdlc-v3/Cargo.toml; native card validation; JSON parse sweep; git diff --check`
     `Proves exact release projections, malformed-link rejection, parseable retained JSON, truthful failure envelopes, immutable #519 historical cards, and current V3-F behavior at the exact source candidate.`
 - Results:
-  - `PASS for release-truth positive and 3 negatives, current-status positive and 9 negatives, JSON integrity, diff hygiene, and detached locked C-SDLC v3 suite with 211 passed and 0 failed; final V3-F review receipt still pending.`
+  - `PASS: release-truth positive and 3 negatives; current-status positive and 9 negatives; 34 GCP-E JSON files parse and are nonempty; V3-F mapping positive and 14 negatives; detached locked C-SDLC v3 suite 211 passed and 0 failed; native six-card validation and diff hygiene.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

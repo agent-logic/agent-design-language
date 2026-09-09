@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/817/cards/sip.md"
   - ".csdlc/issues/817/cards/vpp.md"
 review_results:
-  findings_status: "pending_review"
+  findings_status: "v3f_resolved_pending_final_issue_review"
   recommended_outcome: "pending"
-notes: "Review must verify every finding mapping, exact-candidate truth, and non-rewrite boundary."
+notes: "Independent exact-source V3-F rereview by codex:/root/fix_816_validation PASS at c0a9edef5b2d8d755d4b56d1b5456058b13db1d9 with 163 paths reviewed and no remaining findings. Final whole-issue exact-head review remains pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Review not yet performed.
+- V3-F review found P2 stale active-template-set guidance, P3 stale compatibility-set status, and P2 a nonexistent historical rendering implication in docs/templates/prompts/README.md.
 
 ### Dispositions
 
-- Pending implementation and exact-head review.
+- All three findings fixed. README now names 1.0.5 as active, 1.0.0 through 1.0.4 as historical, and historical sets as immutable audit inputs with schema-only metadata checks and no current rendering route.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Review must verify every finding mapping, exact-candidate truth, and non-rewrite boundary.
+Independent exact-source V3-F rereview by codex:/root/fix_816_validation PASS at c0a9edef5b2d8d755d4b56d1b5456058b13db1d9 with 163 paths reviewed and no remaining findings. Final whole-issue exact-head review remains pending.
