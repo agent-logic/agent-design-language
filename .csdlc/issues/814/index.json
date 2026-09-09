@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 814,
   "phase": "bound",
-  "generation": 4,
+  "generation": 5,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/814-greeting-recovery-local-model-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-814-greeting-recovery-local-model-boundary",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "fda7c806dd3855f3a6e02b96842b61fde3ccdb324ebbdabd19fec76b8b3bb7d4"
+  "digest": "770b1f1163ee3056821416143dc16d52a9f10396bec39beb1fe5434e1d2fdeed"
 }

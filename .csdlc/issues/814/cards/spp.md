@@ -38,7 +38,7 @@ source_refs:
     ref: ".csdlc/issues/814/cards/sip.md"
 scope:
   files:
-    - "adl-runtime-kernel/src/control.rs; adl-runtime/tests/shepherd_local_model.rs; tightly coupled tests."
+    - "adl-runtime-kernel/src/control.rs; adl-runtime-kernel/src/ingress.rs; adl-runtime/tests/shepherd_local_model.rs; tightly coupled tests."
   components:
     - "greeting-recovery-local-model-boundary"
   out_of_scope:
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Reproduce each review finding with a focused regression, repair only the bounded state and URL-validation paths, then run the Runtime-focused proof lane and independent exact-head review."
+plan_summary: "Reproduce each review finding with a focused regression, repair the bounded greeting state and URL-validation paths, model stable logical DomainWork identity separately from adapter-attempt execution identity, then run Runtime-focused proof and independent exact-head review."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.1][TAIL-06.09][runtime] Repair greeting recovery identity and local-model boundary`.
 
-Reproduce each review finding with a focused regression, repair only the bounded state and URL-validation paths, then run the Runtime-focused proof lane and independent exact-head review.
+Reproduce each review finding with a focused regression, repair the bounded greeting state and URL-validation paths, model stable logical DomainWork identity separately from adapter-attempt execution identity, then run Runtime-focused proof and independent exact-head review.
 
 ## PVF Lane Plan
 

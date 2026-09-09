@@ -1,4 +1,16 @@
-use std::{collections::BTreeMap, fs, net::IpAddr, time::Duration};
+use std::{
+    collections::BTreeMap,
+    fs,
+    io::{Read, Write},
+    net::{IpAddr, TcpListener},
+    process::{Command, Stdio},
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc,
+    },
+    thread,
+    time::{Duration, Instant},
+};
 
 use adl_runtime_kernel::{
     LocalShepherdConfig, LocalShepherdExecutor, OperationExecutor, OperationRequest,
@@ -144,9 +156,59 @@ fn local_model_origin_accepts_only_structural_loopback_http_origins() {
 
 #[test]
 fn local_model_runner_denies_redirects() {
-    assert!(OLLAMA_ATTESTED_RUNNER.contains("class RejectRedirects"));
-    assert!(OLLAMA_ATTESTED_RUNNER.contains("Ollama endpoint redirects are denied"));
-    assert!(!OLLAMA_ATTESTED_RUNNER.contains("urllib.request.urlopen"));
+    let redirect_target = TcpListener::bind("127.0.0.1:0").unwrap();
+    redirect_target.set_nonblocking(true).unwrap();
+    let target_address = redirect_target.local_addr().unwrap();
+    let target_reached = Arc::new(AtomicBool::new(false));
+    let target_reached_worker = Arc::clone(&target_reached);
+    let target = thread::spawn(move || {
+        let deadline = Instant::now() + Duration::from_secs(2);
+        while Instant::now() < deadline {
+            match redirect_target.accept() {
+                Ok(_) => {
+                    target_reached_worker.store(true, Ordering::SeqCst);
+                    return;
+                }
+                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                    thread::sleep(Duration::from_millis(10));
+                }
+                Err(error) => panic!("redirect target accept failed: {error}"),
+            }
+        }
+    });
+
+    let source = TcpListener::bind("127.0.0.1:0").unwrap();
+    let source_address = source.local_addr().unwrap();
+    let redirect = thread::spawn(move || {
+        let (mut stream, _) = source.accept().unwrap();
+        let mut request = [0_u8; 1024];
+        let _ = stream.read(&mut request).unwrap();
+        write!(
+            stream,
+            "HTTP/1.1 302 Found\r\nLocation: http://{target_address}/api/tags\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+        )
+        .unwrap();
+    });
+
+    let mut child = Command::new("python3")
+        .arg("-c")
+        .arg(OLLAMA_ATTESTED_RUNNER)
+        .env("ADL_OLLAMA_HOST", format!("http://{source_address}"))
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("python3 must be available for the attested local-model runner");
+    child.stdin.take().unwrap().write_all(b"{}\n").unwrap();
+    let output = child.wait_with_output().unwrap();
+    redirect.join().unwrap();
+    target.join().unwrap();
+
+    assert!(!output.status.success());
+    assert!(
+        String::from_utf8_lossy(&output.stderr).contains("Ollama endpoint redirects are denied")
+    );
+    assert!(!target_reached.load(Ordering::SeqCst));
 }
 
 #[tokio::test]

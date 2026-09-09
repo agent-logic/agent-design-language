@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implemented the three #520 Runtime/security remediation findings owned by #814. Interrupted final greeting claims now exhaust durably without redispatch, retry-visible logical identity remains stable while internal execution attempts remain independently idempotent, and the real-local Shepherd proof accepts only structural loopback HTTP origins while denying redirects.
+Implemented all three #520 findings owned by #814 and resolved both first-review gaps. Interrupted final greeting claims exhaust durably without redispatch; DomainWork/result identity stays logical and stable while adapter attempts use an explicit private execution identity; structural loopback origin validation and an executed two-endpoint fixture prove redirect denial.
 
 ## PVF Lane Truth
 - Initial PVF lane: `runtime_focused`
@@ -75,13 +75,13 @@ Implemented the three #520 Runtime/security remediation findings owned by #814. 
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/814/cards/sor.md`
-- Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; adl-runtime/tests/shepherd_local_model.rs`
+- Tracked implementation artifacts: `adl-runtime-kernel/src/control.rs; adl-runtime-kernel/src/ingress.rs; adl-runtime/tests/shepherd_local_model.rs`
 - Additional proof artifacts: `Typed #814 lifecycle cards and exact command results retained in this execution session.`
 
 ## Actions taken
 - `Added a fail-closed max-attempt recovery boundary that persists terminal failure rather than claiming another greeting attempt after restart.`
-- `Separated immutable logical work identity from internal retry execution identity and validated stored conversation, turn, correlation, work, and receipt bindings.`
-- `Replaced prefix URL checks with structural loopback authority validation and a redirect-denying local runner policy, with negative fixtures.`
+- `Separated immutable logical DomainWork/result identity from private adapter-attempt execution identity and proved the completed ingress ledger retains only the stable logical key.`
+- `Replaced prefix URL checks with structural loopback authority validation and executed the real Python runner against a local redirect source and target, proving denial before the target is reached.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; implementation is committed only after review preparation`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib; cargo test --locked --manifest-path adl-runtime/Cargo.toml --test shepherd_local_model -- --include-ignored --skip real_local_model_smoke; cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --lib --tests -- -D warnings; cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test shepherd_local_model -- -D warnings; bash adl/tools/run_owner_validation_lane.sh runtime; cargo fmt --check; git diff --check`
     `Proves the complete kernel unit denominator, local-model authority negatives, warning-free compilation, proportional owner contract, formatting, and patch hygiene.`
 - Results:
-  - `passed: 218 kernel tests, 2 Shepherd boundary tests, both Clippy targets, Runtime owner lane, formatting, and diff hygiene`
+  - `passed: 218 kernel tests, 2 Shepherd boundary tests including executed redirect denial, both Clippy targets, Runtime owner lane, formatting, and diff hygiene`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `All HTTP redirects are denied in the local proof instead of attempting to classify redirect targets.`
 
 ## Follow-ups / Deferred work
-- `Obtain independent exact-head review and fix every actionable finding.`
+- `Obtain fresh independent exact-head rereview of the two resolved findings and the full bounded diff.`
 - `Publish a truthful PR with Closes #814 and observe required CI.`

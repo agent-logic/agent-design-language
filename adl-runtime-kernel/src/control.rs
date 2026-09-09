@@ -984,7 +984,7 @@ struct ConversationDispatch {
     cancellation: CancellationToken,
     dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
-    execution_id: String,
+    adapter_execution_id: String,
 }
 
 enum AdmissionGreetingWork {
@@ -2313,7 +2313,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         dispatch: ConversationDispatch,
     ) -> Result<ConversationDispatch, Box<ObservatoryConversationResult>> {
-        let execution_id = dispatch.execution_id.clone();
+        let adapter_execution_id = dispatch.adapter_execution_id.clone();
         let Some(metadata) = dispatch.initiation.as_ref() else {
             return Err(Box::new(ObservatoryConversationResult::from_parts(
                 ObservatoryConversationResultParts {
@@ -2353,7 +2353,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             metadata.delegated_carrier.clone(),
         ) {
             ConversationAcceptance::Dispatch { mut dispatch, .. } => {
-                dispatch.execution_id = execution_id;
+                dispatch.adapter_execution_id = adapter_execution_id;
                 Ok(dispatch)
             }
             ConversationAcceptance::Response(response) => Err(Box::new(response)),
@@ -2463,7 +2463,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         now.saturating_add(admission_greeting_retry_delay_millis());
                     record.updated_at_unix_millis = now;
                     let attempt = record.attempts;
-                    dispatch.execution_id = format!("{}-attempt-{attempt}", record.idempotency_key);
+                    dispatch.adapter_execution_id =
+                        format!("{}-attempt-{attempt}", record.idempotency_key);
                     if let Err(error) = self.persist_dynamic_agent_snapshot(&path, &greetings) {
                         greetings.insert(agent_id.to_owned(), previous);
                         self.admission_greeting_dispatches
@@ -3218,7 +3219,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 sequence,
                 cancellation,
                 dispatch_gate: session.dispatch_gate.clone(),
-                execution_id: work_id.clone(),
+                adapter_execution_id: work_id.clone(),
                 work_id,
             },
         }
@@ -3570,15 +3571,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 (_, None) => outcome("failed", "conversation_ingress_unavailable"),
                 (Ok(payload), Some(ingress)) => {
                     let deadline = tokio::time::Instant::now() + AGENT_PROVIDER_EXECUTION_TIMEOUT;
-                    let submit = ingress.submit_with_cancellation(
+                    let adapter_execution_id = (dispatch.adapter_execution_id != dispatch.work_id)
+                        .then(|| dispatch.adapter_execution_id.clone());
+                    let submit = ingress.submit_with_adapter_execution_id(
                         DomainWork {
                             schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
-                            work_id: dispatch.execution_id.clone(),
+                            work_id: dispatch.work_id.clone(),
                             kind: work_kind.to_owned(),
                             payload,
                         },
                         dispatch.intent.correlation_id.clone(),
                         dispatch.cancellation.clone(),
+                        adapter_execution_id,
                     );
                     #[cfg(test)]
                     let submitted = if let Some(hook) = self.conversation_attachment_test_hook(
@@ -9270,7 +9274,7 @@ mod layer8_conversation_ingress_tests {
                     .lock()
                     .unwrap()
                     .get("ember")
-                    .is_some_and(|dispatch| dispatch.execution_id != dispatch.work_id)
+                    .is_some_and(|dispatch| dispatch.adapter_execution_id != dispatch.work_id)
                 {
                     break;
                 }
@@ -9287,7 +9291,7 @@ mod layer8_conversation_ingress_tests {
                 dispatch.initiation.as_ref().unwrap().initiated_work_id,
                 stable_key
             );
-            assert_ne!(dispatch.execution_id, stable_key);
+            assert_ne!(dispatch.adapter_execution_id, stable_key);
         }
         let delivered = retry
             .await
@@ -9312,6 +9316,13 @@ mod layer8_conversation_ingress_tests {
             assert_eq!(tasks.len(), 1);
             assert_eq!(tasks[0]["initiated_work_id"], stable_key);
         }
+        let ingress = service.canonical_ingress.as_ref().unwrap().snapshot();
+        assert!(ingress.completed.contains_key(&stable_key));
+        assert_eq!(ingress.completed[&stable_key].work_id, stable_key);
+        assert!(ingress
+            .completed
+            .keys()
+            .all(|work_id| !work_id.contains("-attempt-")));
         let record = service.admission_greetings.lock().unwrap()["ember"].clone();
         assert_eq!(record.disposition, AdmissionGreetingDisposition::Completed);
         assert_eq!(record.attempts, 2);
