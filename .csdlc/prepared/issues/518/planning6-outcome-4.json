@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 15,
+  "expected_digest": "936ce4e82e744c6dec87765f4f5637cf284c2d357eac422dd107bbfcd5417151",
+  "actor": "codex:planning-6",
+  "reason": "Record proved local progress only; final handoff S4 remains pending issue 517.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}

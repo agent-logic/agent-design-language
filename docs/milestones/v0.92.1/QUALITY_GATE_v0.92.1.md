@@ -20,7 +20,7 @@ Each lane must provide exact-scope validation, nonzero proving denominators, rev
 
 All dependency checks are merge-based. Individual typed finish, receipt reconciliation, and worktree cleanup remain asynchronous bookkeeping and do not block otherwise ready downstream execution.
 
-The active existing-issue denominator includes #251, #122, #84, and #345. The gate rejects missing TLS 1.2, public-exposure, Unity, or GPU Shepherd evidence when the consuming Observatory or distributed Runtime claim requires it.
+The current existing-issue scope retains #122 public exposure and #345 GPU Shepherd obligations. #84 Unity and #251 TLS 1.2 are explicit operator-deferred backlog and are not OBS-B/#512 dependencies or delivered features. Required evidence for admitted public-exposure, authentic Observatory and distributed Runtime claims remains mandatory.
 
 DEC-01 must prove exclusive v2/v3 ownership and reversible compatibility without claiming Runtime v4. PROV-A/PROV-B must prove shared configuration and shadow isolation; #457 supplies provenance only. DRT-D must prove provider identity, cost, and zero-resource cleanup and must not execute #269. Integration evidence must preserve the exact #188 convergence/quality, #190 successor-planning, and #189 ceremony routing.
 
@@ -42,6 +42,9 @@ The corrected 366 required lanes classify as 121 passing, 0 failing, 245 non-pro
 
 The machine-readable denominator, blocker register, predecessor receipt, and decision are retained under `docs/milestones/v0.92.1/evidence/release/tail-01/`. TAIL-01 performs no remediation and does not unlock downstream release-tail execution while this decision is blocked.
 
+## Documentation-review continuation
+
+PR #748 merged the TAIL-01 decision as `e734438b5fdba099ed607e0604254430ddd7d091`. The operator authorized #518 documentation review and handoff to proceed with that decision as an explicit finding. This permits review of the blocked candidate; it does not change the machine-readable release decision, grant release credit, or approve publication of a release.
 ## Post-PR #748 accounting reconciliation
 
 The historical evaluation above remains preserved. Its 245 non-proving rows

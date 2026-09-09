@@ -1,0 +1,61 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 21,
+  "expected_digest": "77f16b2a8f3d20fffa3c48d80082b04cd91372a6c407c0df80e1eb1f2cacb9d4",
+  "actor": "codex:planning-6",
+  "reason": "Add a separately tracked Cargo audit step while preserving completed initial documentation work and the final issue 517 gate.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm the authorized v2 transition route and verify audit findings against the bound baseline.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Correct the bounded current documentation surfaces and retain historical proof unchanged.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Validate inventory, links, claim dispositions and diff hygiene; obtain independent review.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Complete the additional 24-manifest Cargo audit, document its limits and obtain independent review.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "After issue 517 passing reviewed merge, refresh the exact candidate and finalize the context-free external handoff.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      }
+    ]
+  }
+}

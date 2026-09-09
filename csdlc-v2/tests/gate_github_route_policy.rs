@@ -3,8 +3,11 @@ use serde_json::Value;
 use std::{env, fs};
 
 const ROUTE_OWNER_CONTRACT: &str = "Covered C-SDLC GitHub route owners: issue actions = `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication = `csdlc-publish`; terminal delivery = `csdlc-finish`.";
+const NATIVE_ROUTE_OWNER_CONTRACT: &str = "Covered native routes under `.adl/bin/native-v3/csdlc`: issue actions = `github-issue`; PR state = `github-pr`; publication = `publish`; terminal delivery = `finish`. Standalone `csdlc-*` v2 owners apply only to explicitly authorized rollback or bounded transition remediation.";
 const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes except for the audited break-glass transport below. A missing binary, unfamiliar error, timeout, or operator preference is not by itself break-glass authority.";
 const BREAK_GLASS_DEFAULT_CONTRACT: &str =
+    "The active typed C-SDLC authority remains the default and final lifecycle authority.";
+const RETAINED_V2_BREAK_GLASS_CONTRACT: &str =
     "Typed C-SDLC v2 remains the default and final lifecycle authority.";
 const BREAK_GLASS_RECONCILIATION_CONTRACT: &str = "After a transported write, readiness, review, publication, merge-ready, terminal, and finish claims remain denied until the typed owner reconciles exact remote state and the immutable reconciliation event records success.";
 const CONNECTOR_403_CONTRACT: &str = "A connector `403 Resource not accessible by integration` is an integration authorization failure. It is not evidence that the shared token resolver or operator-approved token failed, and it does not authorize connector retry or the audited raw-`gh` exception.";
@@ -40,19 +43,25 @@ fn github_route_policy_is_consistent_and_fail_closed() {
         ("client boundary", boundary.as_str()),
     ] {
         let document = normalized_policy(document);
+        let known_owner_contract = document.contains(ROUTE_OWNER_CONTRACT)
+            || (name == "AGENTS.md" && document.contains(NATIVE_ROUTE_OWNER_CONTRACT));
         assert!(
-            document.contains(ROUTE_OWNER_CONTRACT),
-            "{name} must retain the exact GitHub route-owner contract"
+            known_owner_contract,
+            "{name} must retain an explicitly known GitHub route-owner contract"
         );
         assert!(
             document.contains(ROUTE_PROHIBITION_CONTRACT),
             "{name} must retain the exact fail-closed route and exception boundary"
         );
-        assert!(
-            document.contains(BREAK_GLASS_DEFAULT_CONTRACT),
-            "{name} must preserve typed v2 as default and final authority"
-        );
     }
+    assert!(
+        normalized_policy(&agents).contains(BREAK_GLASS_DEFAULT_CONTRACT),
+        "root policy must preserve the active typed authority after cutover"
+    );
+    assert!(
+        normalized_policy(&boundary).contains(RETAINED_V2_BREAK_GLASS_CONTRACT),
+        "retained v2 client boundary must preserve typed authority over raw transport"
+    );
     assert!(
         normalized_policy(&boundary).contains(BREAK_GLASS_RECONCILIATION_CONTRACT),
         "client boundary must deny later lifecycle claims until exact typed reconciliation"

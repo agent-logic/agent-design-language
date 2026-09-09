@@ -1,0 +1,235 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 754,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "bd10ba7e092b3cd84298f95989c0ec51914511eb026442d3db710b2314fd4421",
+  "phase": "published",
+  "generation": 10,
+  "digest": "2dea04e702194bbb4a8e047a0f2b4ff2838d73bca2cfef08084a36ae5c9c8a75",
+  "branch": "codex/754-registry-104-compatibility",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility",
+  "review_assignment": {
+    "reviewer": "codex:754-final-review",
+    "assigned_by": "codex:registry-ci-repair",
+    "revision": "git-blake3:7f2520be466a08684bec3a2504d5c531780fec52:c0cb8b29916f5ab06b36d5633eadf2c4f6a20f1b451f42cf569fed32640439b9",
+    "scope": [
+      "csdlc-v2/src/registry.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/evidence/754/clippy.log",
+      ".csdlc/evidence/754/format.log",
+      ".csdlc/evidence/754/registry-focused.log",
+      ".csdlc/prepared/issues/754/design.md",
+      ".csdlc/prepared/issues/754/diagram.mmd",
+      ".csdlc/prepared/issues/754/validation-summary.json"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:754-final-review",
+    "scope": [
+      "csdlc-v2/src/registry.rs",
+      "csdlc-v2/tests/gate9.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/evidence/754/clippy.log",
+      ".csdlc/evidence/754/format.log",
+      ".csdlc/evidence/754/registry-focused.log",
+      ".csdlc/prepared/issues/754/design.md",
+      ".csdlc/prepared/issues/754/diagram.mmd",
+      ".csdlc/prepared/issues/754/validation-summary.json"
+    ],
+    "reviewed_revision": "git-blake3:7f2520be466a08684bec3a2504d5c531780fec52:c0cb8b29916f5ab06b36d5633eadf2c4f6a20f1b451f42cf569fed32640439b9",
+    "findings": [],
+    "residual_risks": [
+      "Independent read-only review; no tests rerun or GitHub state checked. Full-matrix proof composed from initial unaffected targets and corrected-target reruns, not one final successful broad command."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 754,
+    "pull_request": 755,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/755",
+    "base": "main",
+    "head": "codex/754-registry-104-compatibility",
+    "revision": "git-blake3:7f2520be466a08684bec3a2504d5c531780fec52:c0cb8b29916f5ab06b36d5633eadf2c4f6a20f1b451f42cf569fed32640439b9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/754/design.md",
+  "diagram_path": ".csdlc/prepared/issues/754/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:root",
+      "revision": "557ab4fb1539c0b89deb53c4993f92cec4aaa683cef4a2b025b71d56bdc764aa"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2c672c65e47816ec9921723eb1fef394e3acc669cb1a877d845c5c4512d050b3",
+      "rendered_digest": "194ed3c6d1380bee2f42b69c65088a3bb42345b1e6fd9b79dd0f25a8245cba43",
+      "ast_digest": "39ee1a8e153b7e15b3645f904c572eea809a5aa1af97315603d98d45568d909c"
+    },
+    "stp": {
+      "values_digest": "f9e16aa3dc0694ca65b3bb15c0a40ddb86586e7b8743b68ea832b529d05938e9",
+      "rendered_digest": "c09ae9c26d185e0018ae37fb773c93a3934c4671274d036b1f5e2e0bc2e06d88",
+      "ast_digest": "aa160acabee2c5f2c70d7ee380404c7cf4e8b58494e5a938f4189afe0ebec1b5"
+    },
+    "spp": {
+      "values_digest": "f7486dd878db361a9df91d86965b3b1bcae6eaa4aee71493198fca4e7793ab4c",
+      "rendered_digest": "2e82924e62b4a4409bc7432405a8488fdc533456109ac4ff183b1c4ad42891e5",
+      "ast_digest": "b2fc4f51b5fe5e1047109d6271cd03ed995c4928d61e1daacdef6de225752253"
+    },
+    "vpp": {
+      "values_digest": "a0581109041db8c43754ada6fe50f91da04648f4d0b6d2a39c60f93dcc04f095",
+      "rendered_digest": "6fd00c91b4e7eab4eae2876cf573cc03db88e36475c3758cee0e283998647c4a",
+      "ast_digest": "c4682731846bf62445200ea6cec07b7b4b2ad0270fb0bc90b6a4c24feca5938b"
+    },
+    "srp": {
+      "values_digest": "8d74e0b3f7bd77f84936e2044f4d0d05e7a4409710b4b9ec2131dc05d6e5628e",
+      "rendered_digest": "02708d1204fdf236e5dcd719ac6a42fce0849855524c4c50d8b5ba79afa43e24",
+      "ast_digest": "fab105aa4b006222801666ab57110d92ae671d4f4e8b9922ae08679882e484ba"
+    },
+    "sor": {
+      "values_digest": "c56425ad17721c8bf1f170ca6eff69671888e103e0edf0d819fea1402e076960",
+      "rendered_digest": "f7e9727aad8db7afc8cb7b501ff6349658f5bf9c8ac16861c51da1b66146b9d6",
+      "ast_digest": "3804ed160b2d1c66ae1f9c360c005ac7905ccd6f5d58447d523a9aabe715c885"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:registry-ci-repair",
+      "reason": "Reviewed issue-specific transition bootstrap for already bound native754 worktree."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:registry-ci-repair",
+      "reason": "{\"actor\":\"codex:registry-ci-repair\",\"base_branch\":\"codex/754-registry-staging\",\"branch\":\"codex/754-registry-104-compatibility\",\"code_repository\":null,\"expected_digest\":\"fc390c73187b615141f39cdce5c43ae9392f01ae9a7cd1b20504254d983949d5\",\"expected_generation\":4,\"expected_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":754,\"observed_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:registry-ci-repair",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:registry-ci-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:registry-ci-repair",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:registry-ci-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Reviewed issue-specific transition bootstrap for already bound native754 worktree.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Declare direct governed Cargo targets; external build environment provided by validation runner.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tests\",\"proof_role\":\"Required deterministic local standalone tests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Required deterministic local standalone format\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Required deterministic local standalone clippy\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Bind exact owned validation target for registry compatibility and post-cutover regression proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Add precise issue-owned regression target alongside full standalone proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"tests\",\"proof_role\":\"Required deterministic local standalone tests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1000,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"format\",\"proof_role\":\"Required deterministic local standalone format\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1000,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Required deterministic local standalone clippy\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1000,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"registry-focused\",\"proof_role\":\"Required deterministic local standalone tests\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate9\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:registry-ci-repair",
+      "reason": "{\"base_branch\":\"codex/754-registry-staging\",\"branch\":\"codex/754-registry-104-compatibility\",\"expected_digest\":\"fc390c73187b615141f39cdce5c43ae9392f01ae9a7cd1b20504254d983949d5\",\"expected_generation\":4,\"expected_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"679eb99b944c09f1c9ab39aa5e677a87efb99239\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-754-registry-104-compatibility\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Include standalone-discovered stale authority assertions alongside registry regression, as parent authorized.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Include standalone-discovered stale authority assertions alongside registry regression, as parent authorized.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/registry.rs\",\"csdlc-v2/tests/gate9.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:registry-ci-repair",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:registry-ci-repair",
+      "reason": "Source fix and regressions are committed and focused validation passed; independent final review/publication remain.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:registry-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:registry-ci-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:registry-ci-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

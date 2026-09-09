@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 68
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one exact-revision documentation review and context-free external-review handoff for v0.92.1.",
+      "required_outcome": "One exact-revision documentation-review packet with a context-free external-review handoff, grounded claims, and explicit residual risks.",
+      "declared_scope": [
+        ".csdlc/issues/518",
+        ".csdlc/prepared/issues/518",
+        ".csdlc/prepared/issues/518/audit-cargo-manifests.py",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "AGENTS.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "REVIEW.md",
+        "adl/CONTRIBUTING.md",
+        "adl/README.md",
+        "adl/tools/README.md",
+        "csdlc-v2/AGENTS.md",
+        "csdlc-v2/README.md",
+        "csdlc-v3/AGENTS.md",
+        "csdlc-v3/README.md",
+        "docs/README.md",
+        "docs/architecture/ADL_ARCHITECTURE.md",
+        "docs/codex_playbook.md",
+        "docs/default_workflow.md",
+        "docs/milestones/v0.92.1",
+        "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+        "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+        "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/README.md",
+        "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/evidence/release/tail-02",
+        "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+        "docs/onboarding.md",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/planning/codefriend/README.md",
+        "docs/templates/planning/1.1.0/release_plan.md",
+        "docs/tooling/README.md",
+        "docs/tooling/editor/README.md"
+      ],
+      "authority_boundary": [
+        "Operator authorized v2 for issue 518 transition remediation.",
+        "Operator clarified nothing is blocked after issue 517 reviewed merge; finish documentation review without equating it to release approval.",
+        "Retain the blocked TAIL-01 release decision and all machine-readable proof as source evidence.",
+        "Correct current documentation, including quality-gate scope prose, without product changes or release publication."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked issue work on main",
+        "Bind every claim and review artifact to one exact candidate revision",
+        "Use resolvable repository paths or canonical issue references",
+        "Do not publish, merge, tag, or release"
+      ]
+    }
+  }
+}

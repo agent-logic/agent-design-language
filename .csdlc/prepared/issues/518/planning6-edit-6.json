@@ -1,0 +1,18 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "7a86889a4eb9316eddaf90dc3ee4fe45339140f15913428eed79424bdd03ba94",
+  "actor": "codex:planning-6",
+  "reason": "Apply explicit operator start-now and use-v2 instructions while preserving the final issue 517 quality gate.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Do not finalize acceptance or external handoff before issue 517 passing reviewed merge.",
+      "Do not claim a feature or release proved without exact-revision evidence.",
+      "Revalidate if the candidate changes.",
+      "Do not edit another issue owner quality evidence."
+    ]
+  }
+}

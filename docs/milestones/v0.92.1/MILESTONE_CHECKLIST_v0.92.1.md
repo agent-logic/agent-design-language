@@ -22,7 +22,8 @@
 - [ ] Podcast lane reviewed and merged
 - [ ] Axum configuration hot reload lane reviewed and merged
 - [ ] Observatory redesign lane reviewed and merged
-- [ ] #251 TLS 1.2, #122 public exposure, and #84 Unity Observatory proof reviewed and merged
+- [ ] #122 public-exposure proof reviewed against its owned scope
+- [ ] #84 Unity and #251 TLS 1.2 explicitly recorded as deferred backlog; neither claimed delivered nor required for OBS-B/#512
 - [ ] DEC-01 Runtime v2/v3 ownership, compatibility, migration, and rollback proof reviewed and merged
 - [ ] PROV-A shared inference-profile/Ollama materialization reviewed and merged
 - [ ] PROV-B non-authoritative local-model shadow comparison reviewed and merged

@@ -1,5 +1,7 @@
 # Distributed Test Plan Consultation
 
+Historical consultation: the text below records the #146/#142 planning-time exchange and its original DRT identifiers. It is not current execution authority. Current DRT-A through DRT-D contracts and reviewed-merge gates are in `WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml`; actual issue mapping is in `evidence/wp-01/final-creation-receipt.json`. Historical terminal/cleanup waits do not introduce new current dependencies.
+
 ## Boundary
 
 Issue `#146` retains ownership of v0.92.1 planning. The task named `ADL V2 V0.91.8 (2)`, which owns active `#142` implementation work, reviewed only the proposed qualification boundary. It made no `#146` edits and took no v0.92.1 execution ownership.

@@ -1,5 +1,8 @@
 # ADL Feature List
 
+Current accounting: merged #517 follow-up PR #752 reconciles all 245 historical non-proving rows and five exception groups. Accounting is complete; historical gate results are preserved and release authorization remains separate.
+Current v0.92.1 review status is recorded in [the TAIL-02 packet](../milestones/v0.92.1/evidence/release/tail-02/README.md). Requirements below do not establish delivered acceptance; #517 merged its quality evaluation with release acceptance blocked; the documentation handoff preserves that finding. #84 Unity and #251 TLS are explicitly deferred backlog, not accepted milestone features.
+
 ## Purpose
 
 This document is the canonical ADL capability overview.

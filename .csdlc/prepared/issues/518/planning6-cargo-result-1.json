@@ -1,0 +1,12 @@
+{
+  "issue": 518,
+  "card": "sor",
+  "expected_generation": 27,
+  "expected_digest": "6daf3130e06b43aed62734fb921d4951ea1e237de492b46cd9fab3794d9c4fcf",
+  "actor": "codex:planning-6",
+  "reason": "Record completed 24-manifest audit and independent review without final release acceptance; S4 remains pending issue 517.",
+  "operation": {
+    "operation": "append_reference",
+    "value": "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md"
+  }
+}

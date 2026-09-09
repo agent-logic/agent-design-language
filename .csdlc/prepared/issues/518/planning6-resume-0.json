@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 35,
+  "expected_digest": "335b063972f4769f066fca08e29765f053aaa3dbf1425223db31f67685d356bc",
+  "actor": "codex:planning-6",
+  "reason": "Resume final handoff after merged predecessor and terminal reconciliation; local 775-file checks passed and independent review in progress.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "in_progress"
+  }
+}

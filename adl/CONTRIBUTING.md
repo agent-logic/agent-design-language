@@ -1,12 +1,12 @@
-# Contributing to Swarm (ADL Reference Runtime)
+# Contributing to ADL Runtime (ADL Reference Runtime)
 
-Swarm is the **reference runtime + CLI** for Agent Design Language (ADL).
+ADL Runtime is the **reference runtime + CLI** for Agent Design Language (ADL).
 
 All contribution workflow, governance, and repository-wide policies are defined in the root:
 
 - `../CONTRIBUTING.md`
 
-This file exists only to clarify Swarm-specific expectations and to prevent process drift.
+This file exists only to clarify ADL Runtime-specific expectations and to prevent process drift.
 
 ---
 
@@ -20,11 +20,11 @@ Please read:
 
 ---
 
-## Swarm-Specific Expectations
+## ADL Runtime-Specific Expectations
 
 In addition to the root contribution rules:
 
-- Tests must remain **hermetic** (no real network calls, no real providers).
+- Default unit tests remain **hermetic**. Integration and live-provider proof follows the declared PVF lane and resource/authorization policy; it is not part of the default unit-test promise.
 - Runtime changes must not alter deterministic planning semantics.
 - Changes affecting ADL meaning must be proposed in `/adl-spec` first.
 - Coverage discipline (>=80% per file or documented exception) applies.
@@ -43,4 +43,4 @@ cargo test
 
 ---
 
-Swarm defers to the root `CONTRIBUTING.md` for all process, workflow, and governance rules.
+ADL Runtime defers to the root `CONTRIBUTING.md` for all process, workflow, and governance rules.

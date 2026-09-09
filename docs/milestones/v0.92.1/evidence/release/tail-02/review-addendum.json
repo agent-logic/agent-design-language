@@ -1,0 +1,21 @@
+{
+  "schema": "adl.tail02.review_addendum.v1",
+  "reviewer": "subagent:/root/review_518_docs",
+  "base_commit": "07de1cacbf",
+  "result": "no actionable findings",
+  "scope": "Three-file dependency observation and local finding-disposition correction; not final lifecycle acceptance",
+  "original_review_manifest_scope": "independent-review.json hashes were verified against commit 07de1cacbf: 41 matches, zero mismatches. They are source-time review evidence, not current-file hashes after this addendum.",
+  "reviewed_delta_sha256": {
+    "README.md": "8d7d3d7070b9a5640e9d7f517717e91ee6cc9a1b90611ce4f62b002ecfd84b0d",
+    "dependency-observation.json": "c46fc24d9e116f60e8a7ce0374687366c96dbbc68e63166979e7f4405a7eecdd",
+    "finding-dispositions.json": "cffa68d6f11be7c6d61edb6f4587adb20ec157089622fc6bb455c67f83643398"
+  },
+  "final_acceptance": false,
+  "local_validation": {
+    "schema": "adl.tail02.local_validation.v1",
+    "mode": "--all",
+    "status": "pass",
+    "checks": 1991,
+    "final_acceptance": false
+  }
+}

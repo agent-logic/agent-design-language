@@ -1,0 +1,1274 @@
+{
+  "schema": "adl.tail02.source_proof_snapshot.v1",
+  "documentation_baseline": "bf617859982f8b9613737344400626eb90768930",
+  "source_path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+  "source_sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d",
+  "source_candidate": "bf159eb416950dfa3399933829726a7b7e71f897",
+  "source_decision": "blocked",
+  "status": "historical_diagnostic_not_current_acceptance",
+  "source_counts": {
+    "execution_issues": 35,
+    "release_tail_stages": 11,
+    "backlog": 0,
+    "retained_predecessors": 39,
+    "acceptance_rows": 393
+  },
+  "rows": [
+    {
+      "planned_id": "WP-01",
+      "issue": 480,
+      "revision": "23856abbc7cde90dd9d1c6467dd6c61aca1bc274",
+      "merge_revision": "001c270beda2b35b60e0be04f3c3bd331a156c48",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "de5a7b32d6db8a14a800f30935dbaef909b32c02",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/480/audit.jsonl",
+          ".csdlc/issues/480/cards/sip.values.json",
+          ".csdlc/issues/480/cards/sor.md",
+          ".csdlc/issues/480/cards/sor.values.json",
+          ".csdlc/issues/480/cards/spp.values.json",
+          ".csdlc/issues/480/cards/srp.md",
+          ".csdlc/issues/480/cards/srp.values.json",
+          ".csdlc/issues/480/cards/stp.values.json",
+          ".csdlc/issues/480/cards/vpp.values.json",
+          ".csdlc/issues/480/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/480",
+        ".csdlc/issues/480/cards/srp.md",
+        ".csdlc/issues/480/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 5
+      }
+    },
+    {
+      "planned_id": "CORP-A",
+      "issue": 482,
+      "revision": "2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c",
+      "merge_revision": "e2c1d1649b0c930a5a1254575a07ef2a4496d48d",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "04b7db20f31c26a336b342ebd035869c290c6099",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/evidence/482/diff-hygiene.log",
+          ".csdlc/evidence/540/runtime-check.log",
+          ".csdlc/evidence/540/runtime-clippy.log",
+          ".csdlc/evidence/540/runtime-config-origin.log",
+          ".csdlc/evidence/540/runtime-control-cors.log",
+          ".csdlc/evidence/540/runtime-fmt.log",
+          ".csdlc/evidence/541/authority-reference-search.log",
+          ".csdlc/evidence/541/diff-hygiene.log",
+          ".csdlc/evidence/541/docs-authority-validator.log",
+          ".csdlc/issues/482/audit.jsonl",
+          ".csdlc/issues/482/cards/sip.values.json",
+          ".csdlc/issues/482/cards/sor.md",
+          ".csdlc/issues/482/cards/sor.values.json",
+          ".csdlc/issues/482/cards/spp.values.json",
+          ".csdlc/issues/482/cards/srp.md",
+          ".csdlc/issues/482/cards/srp.values.json",
+          ".csdlc/issues/482/cards/stp.values.json",
+          ".csdlc/issues/482/cards/vpp.values.json",
+          ".csdlc/issues/482/index.json",
+          ".csdlc/issues/540/audit.jsonl",
+          ".csdlc/issues/540/cards/sip.md",
+          ".csdlc/issues/540/cards/sip.values.json",
+          ".csdlc/issues/540/cards/sor.md",
+          ".csdlc/issues/540/cards/sor.values.json",
+          ".csdlc/issues/540/cards/spp.md",
+          ".csdlc/issues/540/cards/spp.values.json",
+          ".csdlc/issues/540/cards/srp.md",
+          ".csdlc/issues/540/cards/srp.values.json",
+          ".csdlc/issues/540/cards/stp.md",
+          ".csdlc/issues/540/cards/stp.values.json",
+          ".csdlc/issues/540/cards/vpp.md",
+          ".csdlc/issues/540/cards/vpp.values.json",
+          ".csdlc/issues/540/index.json",
+          ".csdlc/issues/541/audit.jsonl",
+          ".csdlc/issues/541/cards/sip.md",
+          ".csdlc/issues/541/cards/sip.values.json",
+          ".csdlc/issues/541/cards/sor.md",
+          ".csdlc/issues/541/cards/sor.values.json",
+          ".csdlc/issues/541/cards/spp.md",
+          ".csdlc/issues/541/cards/spp.values.json",
+          ".csdlc/issues/541/cards/srp.md",
+          ".csdlc/issues/541/cards/srp.values.json",
+          ".csdlc/issues/541/cards/stp.md",
+          ".csdlc/issues/541/cards/stp.values.json",
+          ".csdlc/issues/541/cards/vpp.md",
+          ".csdlc/issues/541/cards/vpp.values.json",
+          ".csdlc/issues/541/index.json",
+          ".csdlc/locks/540.lock",
+          ".csdlc/prepared/issues/482/canonical-critical-asset-denominator.v1.json",
+          ".csdlc/prepared/issues/482/validate-asset-denominator.rb",
+          ".csdlc/prepared/issues/482/validate-provenance-and-license.rb",
+          ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb",
+          ".csdlc/prepared/issues/540/design.md",
+          ".csdlc/prepared/issues/540/diagram.mmd",
+          ".csdlc/prepared/issues/541/design.md",
+          ".csdlc/prepared/issues/541/diagram.mmd",
+          ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+          "adl-runtime-kernel/src/config.rs",
+          "adl-runtime-kernel/tests/configuration.rs",
+          "adl-runtime-kernel/tests/control.rs",
+          "adl/tools/README.md",
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+          "docs/onboarding.md",
+          "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+          "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/482",
+        ".csdlc/issues/482/cards/srp.md",
+        ".csdlc/issues/482/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "CORP-B",
+      "issue": 483,
+      "revision": "a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239",
+      "merge_revision": "4a0b49c0071bacdaab19d6d9eb8c44380beb51be",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "5be9f0207682f2654550d48e6852016218a80f31",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/483/audit.jsonl",
+          ".csdlc/issues/483/cards/sip.values.json",
+          ".csdlc/issues/483/cards/sor.md",
+          ".csdlc/issues/483/cards/sor.values.json",
+          ".csdlc/issues/483/cards/spp.values.json",
+          ".csdlc/issues/483/cards/srp.md",
+          ".csdlc/issues/483/cards/srp.values.json",
+          ".csdlc/issues/483/cards/stp.values.json",
+          ".csdlc/issues/483/cards/vpp.values.json",
+          ".csdlc/issues/483/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/483",
+        ".csdlc/issues/483/cards/srp.md",
+        ".csdlc/issues/483/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "AWS-A",
+      "issue": 484,
+      "revision": "e9fdf5b07bdcbde235511c52c40fb8c626cc95a7",
+      "merge_revision": "e5f30c60c68a60d43f51c70b4615065197a34404",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "1f81b33ffba9a652983071372466e53413f1a989",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/484/audit.jsonl",
+          ".csdlc/issues/484/cards/sip.values.json",
+          ".csdlc/issues/484/cards/sor.md",
+          ".csdlc/issues/484/cards/sor.values.json",
+          ".csdlc/issues/484/cards/spp.values.json",
+          ".csdlc/issues/484/cards/srp.md",
+          ".csdlc/issues/484/cards/srp.values.json",
+          ".csdlc/issues/484/cards/stp.values.json",
+          ".csdlc/issues/484/cards/vpp.values.json",
+          ".csdlc/issues/484/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/484",
+        ".csdlc/issues/484/cards/srp.md",
+        ".csdlc/issues/484/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "AWS-B",
+      "issue": 485,
+      "revision": "2a5d25239853499b6ac73b37d968d2b97e75a586",
+      "merge_revision": "a71d699d52831b32bb68ed9c7c7e837925949de4",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "9ec2e5e453a0a4a300fcf3e0871e7827939d577e",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/485/audit.jsonl",
+          ".csdlc/issues/485/cards/sip.values.json",
+          ".csdlc/issues/485/cards/sor.md",
+          ".csdlc/issues/485/cards/sor.values.json",
+          ".csdlc/issues/485/cards/spp.values.json",
+          ".csdlc/issues/485/cards/srp.md",
+          ".csdlc/issues/485/cards/srp.values.json",
+          ".csdlc/issues/485/cards/stp.values.json",
+          ".csdlc/issues/485/cards/vpp.values.json",
+          ".csdlc/issues/485/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/485",
+        ".csdlc/issues/485/cards/srp.md",
+        ".csdlc/issues/485/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 7
+      }
+    },
+    {
+      "planned_id": "AWS-C",
+      "issue": 486,
+      "revision": "cfd5f0edabfde2e380a5534d619e7832f484bb8c",
+      "merge_revision": "1964b2e1f6e24a9dcb5788394502a2421300751a",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "150b9e1bae67eb18521fd273c4005f0beb3c6a19",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/486/audit.jsonl",
+          ".csdlc/issues/486/cards/sip.values.json",
+          ".csdlc/issues/486/cards/sor.md",
+          ".csdlc/issues/486/cards/sor.values.json",
+          ".csdlc/issues/486/cards/spp.values.json",
+          ".csdlc/issues/486/cards/srp.md",
+          ".csdlc/issues/486/cards/srp.values.json",
+          ".csdlc/issues/486/cards/stp.values.json",
+          ".csdlc/issues/486/cards/vpp.values.json",
+          ".csdlc/issues/486/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/486",
+        ".csdlc/issues/486/cards/srp.md",
+        ".csdlc/issues/486/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "AWS-D",
+      "issue": 487,
+      "revision": "79be6b5b0327be752817197738887d25335e71a9",
+      "merge_revision": "1d31016a8df3cf07a4c3f2e6acd2694bd10570c2",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "7eb5db939995ee9f191f4149b706dd50e8a89f9f",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/487/audit.jsonl",
+          ".csdlc/issues/487/cards/sip.values.json",
+          ".csdlc/issues/487/cards/sor.md",
+          ".csdlc/issues/487/cards/sor.values.json",
+          ".csdlc/issues/487/cards/spp.values.json",
+          ".csdlc/issues/487/cards/srp.md",
+          ".csdlc/issues/487/cards/srp.values.json",
+          ".csdlc/issues/487/cards/stp.values.json",
+          ".csdlc/issues/487/cards/vpp.values.json",
+          ".csdlc/issues/487/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/487",
+        ".csdlc/issues/487/cards/srp.md",
+        ".csdlc/issues/487/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "implementation_gap": 3,
+        "proof_gap": 1
+      }
+    },
+    {
+      "planned_id": "AWS-E",
+      "issue": 488,
+      "revision": "4e904b6629ff3060094dbef3613388e6e5245b8d",
+      "merge_revision": "a6b404cd6e74d7528745325036ceb1a85fd47bd2",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "5cf661679a50cb58dde806c01336c0351e8e1f3f",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/488/audit.jsonl",
+          ".csdlc/issues/488/cards/sip.values.json",
+          ".csdlc/issues/488/cards/sor.md",
+          ".csdlc/issues/488/cards/sor.values.json",
+          ".csdlc/issues/488/cards/spp.values.json",
+          ".csdlc/issues/488/cards/srp.md",
+          ".csdlc/issues/488/cards/srp.values.json",
+          ".csdlc/issues/488/cards/stp.values.json",
+          ".csdlc/issues/488/cards/vpp.values.json",
+          ".csdlc/issues/488/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/488",
+        ".csdlc/issues/488/cards/srp.md",
+        ".csdlc/issues/488/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "AWS-F",
+      "issue": 489,
+      "revision": "485b4197908231bb2065e1e29c7c5013536e1975",
+      "merge_revision": "69ba35e066d1389a9f194659acb066a7dca82a40",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "cd3819e661ad0625e2bcda5cedf04cdfa362dc57",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/489/audit.jsonl",
+          ".csdlc/issues/489/cards/sip.values.json",
+          ".csdlc/issues/489/cards/sor.md",
+          ".csdlc/issues/489/cards/sor.values.json",
+          ".csdlc/issues/489/cards/spp.values.json",
+          ".csdlc/issues/489/cards/srp.md",
+          ".csdlc/issues/489/cards/srp.values.json",
+          ".csdlc/issues/489/cards/stp.values.json",
+          ".csdlc/issues/489/cards/vpp.values.json",
+          ".csdlc/issues/489/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/489",
+        ".csdlc/issues/489/cards/srp.md",
+        ".csdlc/issues/489/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "GCP-A",
+      "issue": 490,
+      "revision": "f0be8c8d1a2f12df8b2d8169997583dd66a9a521",
+      "merge_revision": "daa05de9332c82e3f9f2191975ef95b0ed4e211d",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "e3e261bb3c92021a3e37c9904bbb0e7784b1839b",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/evidence/490/review-assignment-request-c44cc3bd.json",
+          ".csdlc/evidence/490/review-record-pass-c44cc3bd.json",
+          ".csdlc/issues/490/audit.jsonl",
+          ".csdlc/issues/490/cards/sip.values.json",
+          ".csdlc/issues/490/cards/sor.md",
+          ".csdlc/issues/490/cards/sor.values.json",
+          ".csdlc/issues/490/cards/spp.values.json",
+          ".csdlc/issues/490/cards/srp.md",
+          ".csdlc/issues/490/cards/srp.values.json",
+          ".csdlc/issues/490/cards/stp.values.json",
+          ".csdlc/issues/490/cards/vpp.values.json",
+          ".csdlc/issues/490/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/490",
+        ".csdlc/issues/490/cards/srp.md",
+        ".csdlc/issues/490/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "GCP-B",
+      "issue": 491,
+      "revision": "695ca0f6cec62357349390afda3952e39cd92337",
+      "merge_revision": "75ee9e6b2888a81b355d1fb496b488329a4c7d30",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "48afa5a782cc7759804e3880c16aad8687b59274",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/491/audit.jsonl",
+          ".csdlc/issues/491/cards/sip.values.json",
+          ".csdlc/issues/491/cards/sor.md",
+          ".csdlc/issues/491/cards/sor.values.json",
+          ".csdlc/issues/491/cards/spp.values.json",
+          ".csdlc/issues/491/cards/srp.md",
+          ".csdlc/issues/491/cards/srp.values.json",
+          ".csdlc/issues/491/cards/stp.values.json",
+          ".csdlc/issues/491/cards/vpp.values.json",
+          ".csdlc/issues/491/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/491",
+        ".csdlc/issues/491/cards/srp.md",
+        ".csdlc/issues/491/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3,
+        "implementation_gap": 1
+      }
+    },
+    {
+      "planned_id": "GCP-C",
+      "issue": 492,
+      "revision": "179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa",
+      "merge_revision": "b9a98710e2a0a50565c3835386f7f6a348a26eae",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "1b13a2f12be9f09c698e90cbb39560c4d95da5a9",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/492/audit.jsonl",
+          ".csdlc/issues/492/cards/sip.values.json",
+          ".csdlc/issues/492/cards/sor.md",
+          ".csdlc/issues/492/cards/sor.values.json",
+          ".csdlc/issues/492/cards/spp.values.json",
+          ".csdlc/issues/492/cards/srp.md",
+          ".csdlc/issues/492/cards/srp.values.json",
+          ".csdlc/issues/492/cards/stp.values.json",
+          ".csdlc/issues/492/cards/vpp.values.json",
+          ".csdlc/issues/492/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/492",
+        ".csdlc/issues/492/cards/srp.md",
+        ".csdlc/issues/492/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "GCP-D",
+      "issue": 493,
+      "revision": "d5b1584bb55e92974e6d3481b59d2e28a17db441",
+      "merge_revision": "c0bf217934508d6dbc70d78633e6a95d5ddd9d06",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "0e197b3c08f6dbab60eeae3b6c5d9be6597f57d7",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/493/audit.jsonl",
+          ".csdlc/issues/493/cards/sip.values.json",
+          ".csdlc/issues/493/cards/sor.md",
+          ".csdlc/issues/493/cards/sor.values.json",
+          ".csdlc/issues/493/cards/spp.values.json",
+          ".csdlc/issues/493/cards/srp.md",
+          ".csdlc/issues/493/cards/srp.values.json",
+          ".csdlc/issues/493/cards/stp.values.json",
+          ".csdlc/issues/493/cards/vpp.values.json",
+          ".csdlc/issues/493/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/493",
+        ".csdlc/issues/493/cards/srp.md",
+        ".csdlc/issues/493/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "GCP-E",
+      "issue": 494,
+      "revision": "de959c6263f671fa8fe1df851ea6ae1d25686831",
+      "merge_revision": "dc08b5abf10682ed9ace5deefd0e1389ea6899b6",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "a1e38c14adbf3b6d88dbae0dcc28a309ffba8f86",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/494/audit.jsonl",
+          ".csdlc/issues/494/cards/sip.values.json",
+          ".csdlc/issues/494/cards/sor.md",
+          ".csdlc/issues/494/cards/sor.values.json",
+          ".csdlc/issues/494/cards/spp.values.json",
+          ".csdlc/issues/494/cards/srp.md",
+          ".csdlc/issues/494/cards/srp.values.json",
+          ".csdlc/issues/494/cards/stp.values.json",
+          ".csdlc/issues/494/cards/vpp.values.json",
+          ".csdlc/issues/494/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/494",
+        ".csdlc/issues/494/cards/srp.md",
+        ".csdlc/issues/494/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "XCL-01",
+      "issue": 495,
+      "revision": "6177249dfb46fe3cf95fbcc996469517928f525d",
+      "merge_revision": "c78c60f5a45a87a96159d4910a831b69b62b042c",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "99b9b271cc92901b189ea2090444e49a903cf0d6",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/495/audit.jsonl",
+          ".csdlc/issues/495/cards/sip.values.json",
+          ".csdlc/issues/495/cards/sor.md",
+          ".csdlc/issues/495/cards/sor.values.json",
+          ".csdlc/issues/495/cards/spp.values.json",
+          ".csdlc/issues/495/cards/srp.md",
+          ".csdlc/issues/495/cards/srp.values.json",
+          ".csdlc/issues/495/cards/stp.values.json",
+          ".csdlc/issues/495/cards/vpp.values.json",
+          ".csdlc/issues/495/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/495",
+        ".csdlc/issues/495/cards/srp.md",
+        ".csdlc/issues/495/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 5
+      }
+    },
+    {
+      "planned_id": "AWS-G",
+      "issue": 496,
+      "revision": "59a3d0bd106f8bdd0def53dbe1564667ee6adac4",
+      "merge_revision": "83077ca029d52c9d613ed5a373da30f1dd42d9b3",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "e16a5499bdda3d9025fec5f4ea91955233abf3db",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/496/audit.jsonl",
+          ".csdlc/issues/496/cards/sip.values.json",
+          ".csdlc/issues/496/cards/sor.md",
+          ".csdlc/issues/496/cards/sor.values.json",
+          ".csdlc/issues/496/cards/spp.values.json",
+          ".csdlc/issues/496/cards/srp.md",
+          ".csdlc/issues/496/cards/srp.values.json",
+          ".csdlc/issues/496/cards/stp.values.json",
+          ".csdlc/issues/496/cards/vpp.values.json",
+          ".csdlc/issues/496/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/496",
+        ".csdlc/issues/496/cards/srp.md",
+        ".csdlc/issues/496/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "CORP-C",
+      "issue": 497,
+      "revision": null,
+      "merge_revision": null,
+      "disposition": "satisfied_recordless_acceptance",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": null,
+        "result": "not_pass",
+        "post_review_paths": [],
+        "non_substantive_tail": true
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/497",
+        ".csdlc/issues/497/cards/srp.md",
+        ".csdlc/issues/497/cards/sor.md"
+      ],
+      "closure_disposition": {
+        "kind": "recordless_acceptance",
+        "acceptance_checked": true,
+        "acceptance_log": ".csdlc/evidence/497/corp-c-operational-control-acceptance.log",
+        "acceptance_log_sha256": "c744cd34768a30e8b4f9d1785b88e47b689d6f03576803606bc6dedbfd3a2652",
+        "sidecar_issue": 624,
+        "sidecar_url": "https://github.com/agent-logic/agent-design-language/issues/624",
+        "sidecar_state": "closed",
+        "sidecar_body_sha256": "df9a29ad73d443581986e96cd450797d0667503c789983bb1b6339ff68a9280f"
+      },
+      "acceptance_status_counts": {
+        "accepted_recordless": 4
+      }
+    },
+    {
+      "planned_id": "CORP-D",
+      "issue": 498,
+      "revision": "dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8",
+      "merge_revision": "c51c8c7a8b51395986af8185f6e6ca2edaf4f435",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "ac6b1891ddf6f82996a3419d204f9caa4de286fc",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/498/audit.jsonl",
+          ".csdlc/issues/498/cards/sip.values.json",
+          ".csdlc/issues/498/cards/sor.md",
+          ".csdlc/issues/498/cards/sor.values.json",
+          ".csdlc/issues/498/cards/spp.values.json",
+          ".csdlc/issues/498/cards/srp.md",
+          ".csdlc/issues/498/cards/srp.values.json",
+          ".csdlc/issues/498/cards/stp.values.json",
+          ".csdlc/issues/498/cards/vpp.values.json",
+          ".csdlc/issues/498/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/498",
+        ".csdlc/issues/498/cards/srp.md",
+        ".csdlc/issues/498/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "RUST-01",
+      "issue": 499,
+      "revision": "940c42d246be5d54f34b7b300526a644cc881580",
+      "merge_revision": "e986de6d06aacd385de93dd033def77a718c1581",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "3a9aa6db62eb966a3bd070e06a544f5cdc7b1626",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/499/audit.jsonl",
+          ".csdlc/issues/499/cards/sip.values.json",
+          ".csdlc/issues/499/cards/sor.md",
+          ".csdlc/issues/499/cards/sor.values.json",
+          ".csdlc/issues/499/cards/spp.values.json",
+          ".csdlc/issues/499/cards/srp.md",
+          ".csdlc/issues/499/cards/srp.values.json",
+          ".csdlc/issues/499/cards/stp.values.json",
+          ".csdlc/issues/499/cards/vpp.values.json",
+          ".csdlc/issues/499/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/499",
+        ".csdlc/issues/499/cards/srp.md",
+        ".csdlc/issues/499/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 5
+      }
+    },
+    {
+      "planned_id": "V3-A",
+      "issue": 500,
+      "revision": "d02f90008acadcc10df048b7f089cc4b98ef608f",
+      "merge_revision": "1dddcce35d061bc128c2431b4f31cf09e0f4d435",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "c5182e209c7c0bc645440c1659b4f42c885595d3",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/500/audit.jsonl",
+          ".csdlc/issues/500/cards/sip.values.json",
+          ".csdlc/issues/500/cards/sor.md",
+          ".csdlc/issues/500/cards/sor.values.json",
+          ".csdlc/issues/500/cards/spp.values.json",
+          ".csdlc/issues/500/cards/srp.md",
+          ".csdlc/issues/500/cards/srp.values.json",
+          ".csdlc/issues/500/cards/stp.values.json",
+          ".csdlc/issues/500/cards/vpp.values.json",
+          ".csdlc/issues/500/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/500",
+        ".csdlc/issues/500/cards/srp.md",
+        ".csdlc/issues/500/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "V3-B",
+      "issue": 501,
+      "revision": "9056f19245f93bc9efa3b55561671a8f002c6536",
+      "merge_revision": "1972aa47bd7047b8594a03bf770fb92f7fb63d51",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "c7439484b8b783fdc1d36e8480d8178e848dbdc8",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/501/audit.jsonl",
+          ".csdlc/issues/501/cards/sip.values.json",
+          ".csdlc/issues/501/cards/sor.md",
+          ".csdlc/issues/501/cards/sor.values.json",
+          ".csdlc/issues/501/cards/spp.values.json",
+          ".csdlc/issues/501/cards/srp.md",
+          ".csdlc/issues/501/cards/srp.values.json",
+          ".csdlc/issues/501/cards/stp.values.json",
+          ".csdlc/issues/501/cards/vpp.values.json",
+          ".csdlc/issues/501/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/501",
+        ".csdlc/issues/501/cards/srp.md",
+        ".csdlc/issues/501/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "V3-C",
+      "issue": 502,
+      "revision": "ed6f01c1e33b8057142491fca3028641ce5efc74",
+      "merge_revision": "76de907734ab69efe00b5bc0bf24f066002d0131",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "5d05309d3ad48deedfa86f43edef5fe84a3dad13",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/502/audit.jsonl",
+          ".csdlc/issues/502/cards/sip.values.json",
+          ".csdlc/issues/502/cards/sor.md",
+          ".csdlc/issues/502/cards/sor.values.json",
+          ".csdlc/issues/502/cards/spp.values.json",
+          ".csdlc/issues/502/cards/srp.md",
+          ".csdlc/issues/502/cards/srp.values.json",
+          ".csdlc/issues/502/cards/stp.values.json",
+          ".csdlc/issues/502/cards/vpp.values.json",
+          ".csdlc/issues/502/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/502",
+        ".csdlc/issues/502/cards/srp.md",
+        ".csdlc/issues/502/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "V3-D",
+      "issue": 503,
+      "revision": "974abc520454690f0b392162b9ced783e8584017",
+      "merge_revision": "5692d95ee6e4ee632833be348fa5601ddccbca1a",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "d5e0a158d4d4acd85510f100e9477efcd5c5dcdf",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/503/audit.jsonl",
+          ".csdlc/issues/503/cards/sip.values.json",
+          ".csdlc/issues/503/cards/sor.md",
+          ".csdlc/issues/503/cards/sor.values.json",
+          ".csdlc/issues/503/cards/spp.values.json",
+          ".csdlc/issues/503/cards/srp.md",
+          ".csdlc/issues/503/cards/srp.values.json",
+          ".csdlc/issues/503/cards/stp.values.json",
+          ".csdlc/issues/503/cards/vpp.values.json",
+          ".csdlc/issues/503/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/503",
+        ".csdlc/issues/503/cards/srp.md",
+        ".csdlc/issues/503/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "V3-E",
+      "issue": 504,
+      "revision": "9ef650bc174a81849ffb09ae4d21b699fee1368d",
+      "merge_revision": "f68ca996541b8825090261fd70845bf1c406b410",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "44b14fdc283f415ebfb4ee4f1b234203a85a2d8b",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/504/audit.jsonl",
+          ".csdlc/issues/504/cards/sip.values.json",
+          ".csdlc/issues/504/cards/sor.md",
+          ".csdlc/issues/504/cards/sor.values.json",
+          ".csdlc/issues/504/cards/spp.values.json",
+          ".csdlc/issues/504/cards/srp.md",
+          ".csdlc/issues/504/cards/srp.values.json",
+          ".csdlc/issues/504/cards/stp.values.json",
+          ".csdlc/issues/504/cards/vpp.values.json",
+          ".csdlc/issues/504/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/504",
+        ".csdlc/issues/504/cards/srp.md",
+        ".csdlc/issues/504/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "V3-F",
+      "issue": 505,
+      "revision": "74ddb31702482172eea4ba3d74700536eab32e49",
+      "merge_revision": "d3f98ed005cf44c359ac482e271e6b8634e93f23",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "9d0918ea6ba4a90ec674d29bc030878c0b22527f",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/505/audit.jsonl",
+          ".csdlc/issues/505/cards/sip.values.json",
+          ".csdlc/issues/505/cards/sor.md",
+          ".csdlc/issues/505/cards/sor.values.json",
+          ".csdlc/issues/505/cards/spp.values.json",
+          ".csdlc/issues/505/cards/srp.md",
+          ".csdlc/issues/505/cards/srp.values.json",
+          ".csdlc/issues/505/cards/stp.values.json",
+          ".csdlc/issues/505/cards/vpp.values.json",
+          ".csdlc/issues/505/index.json",
+          "csdlc-v3/src/commands/terminal.rs",
+          "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/505",
+        ".csdlc/issues/505/cards/srp.md",
+        ".csdlc/issues/505/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "DRT-A",
+      "issue": 506,
+      "revision": "4676aef4189376b3f64d17efdb717732274e3240",
+      "merge_revision": "badcf9067da6eb46fc9f59e9da8b11a41e2f24f6",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "dfa63786b98246d9eb0e919e03aa6508646d87bd",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/506/audit.jsonl",
+          ".csdlc/issues/506/cards/sip.values.json",
+          ".csdlc/issues/506/cards/sor.md",
+          ".csdlc/issues/506/cards/sor.values.json",
+          ".csdlc/issues/506/cards/spp.values.json",
+          ".csdlc/issues/506/cards/srp.md",
+          ".csdlc/issues/506/cards/srp.values.json",
+          ".csdlc/issues/506/cards/stp.values.json",
+          ".csdlc/issues/506/cards/vpp.values.json",
+          ".csdlc/issues/506/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/506",
+        ".csdlc/issues/506/cards/srp.md",
+        ".csdlc/issues/506/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 3
+      }
+    },
+    {
+      "planned_id": "DRT-B",
+      "issue": 507,
+      "revision": "cca85d6fd4976e2b2358d0d130b8291a88cb1c95",
+      "merge_revision": "d022d6c198669bcbc10cd98bee4d7c8520f9c4d4",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "cd5251801646070e1af21bea50b11902c21e61c8",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/507/audit.jsonl",
+          ".csdlc/issues/507/cards/sip.values.json",
+          ".csdlc/issues/507/cards/sor.md",
+          ".csdlc/issues/507/cards/sor.values.json",
+          ".csdlc/issues/507/cards/spp.values.json",
+          ".csdlc/issues/507/cards/srp.md",
+          ".csdlc/issues/507/cards/srp.values.json",
+          ".csdlc/issues/507/cards/stp.values.json",
+          ".csdlc/issues/507/cards/vpp.values.json",
+          ".csdlc/issues/507/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/507",
+        ".csdlc/issues/507/cards/srp.md",
+        ".csdlc/issues/507/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "DRT-C",
+      "issue": 508,
+      "revision": "cca4f7f675241a0a473b38006c8be2eb95165028",
+      "merge_revision": "a1c440cc7b1e3708961680c802585d0b80e2263f",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "1fcb977bc1460a44d52729bddd07a79301b6c275",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/508/audit.jsonl",
+          ".csdlc/issues/508/cards/sip.values.json",
+          ".csdlc/issues/508/cards/sor.md",
+          ".csdlc/issues/508/cards/sor.values.json",
+          ".csdlc/issues/508/cards/spp.values.json",
+          ".csdlc/issues/508/cards/srp.md",
+          ".csdlc/issues/508/cards/srp.values.json",
+          ".csdlc/issues/508/cards/stp.values.json",
+          ".csdlc/issues/508/cards/vpp.values.json",
+          ".csdlc/issues/508/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/508",
+        ".csdlc/issues/508/cards/srp.md",
+        ".csdlc/issues/508/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "DRT-D",
+      "issue": 509,
+      "revision": "c89a584e53f152ed499a5d56d479296590044714",
+      "merge_revision": "5a1109ffa795d411e0e15cdfd29adf68e2c2d953",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "310ad9b65701bdc20e6aaa52056fb511dda2dfcc",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/509/audit.jsonl",
+          ".csdlc/issues/509/cards/sip.values.json",
+          ".csdlc/issues/509/cards/sor.md",
+          ".csdlc/issues/509/cards/sor.values.json",
+          ".csdlc/issues/509/cards/spp.values.json",
+          ".csdlc/issues/509/cards/srp.md",
+          ".csdlc/issues/509/cards/srp.values.json",
+          ".csdlc/issues/509/cards/stp.values.json",
+          ".csdlc/issues/509/cards/vpp.values.json",
+          ".csdlc/issues/509/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/509",
+        ".csdlc/issues/509/cards/srp.md",
+        ".csdlc/issues/509/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "HOT-01",
+      "issue": 510,
+      "revision": "fac5eaa63a82eaf50fe455df14cc22ebb08a2678",
+      "merge_revision": "000fb7beb5fe4107e3e80d5de9183be224716a6d",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "65b1c38de88b127c5b34ef64bcb5c3b78433a174",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/510/audit.jsonl",
+          ".csdlc/issues/510/cards/sip.values.json",
+          ".csdlc/issues/510/cards/sor.md",
+          ".csdlc/issues/510/cards/sor.values.json",
+          ".csdlc/issues/510/cards/spp.values.json",
+          ".csdlc/issues/510/cards/srp.md",
+          ".csdlc/issues/510/cards/srp.values.json",
+          ".csdlc/issues/510/cards/stp.values.json",
+          ".csdlc/issues/510/cards/vpp.values.json",
+          ".csdlc/issues/510/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/510",
+        ".csdlc/issues/510/cards/srp.md",
+        ".csdlc/issues/510/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "OBS-A",
+      "issue": 511,
+      "revision": null,
+      "merge_revision": null,
+      "disposition": "satisfied_by_captured_absorption",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": null,
+        "result": "not_pass",
+        "post_review_paths": [],
+        "non_substantive_tail": true
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/511",
+        ".csdlc/issues/511/cards/srp.md",
+        ".csdlc/issues/511/cards/sor.md"
+      ],
+      "closure_disposition": {
+        "kind": "captured_absorption_closeout",
+        "comment_url": "https://github.com/agent-logic/agent-design-language/issues/511#issuecomment-5554002940",
+        "comment_body_sha256": "1fa565177d5686266d3dd6a5fd14c2b24036ef0b24704cfc83ba19b185856c4e",
+        "target_issue": 512,
+        "target_state": "closed",
+        "authority_marker": "csdlc-github-operation"
+      },
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "OBS-B",
+      "issue": 512,
+      "revision": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
+      "merge_revision": "af5f8036ab7a0619751ab55fa9bd4891f377cd9d",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "a57e551a14089a6ed53de05f7ff88041880d175e",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/512/audit.jsonl",
+          ".csdlc/issues/512/cards/sip.values.json",
+          ".csdlc/issues/512/cards/sor.md",
+          ".csdlc/issues/512/cards/sor.values.json",
+          ".csdlc/issues/512/cards/spp.values.json",
+          ".csdlc/issues/512/cards/srp.md",
+          ".csdlc/issues/512/cards/srp.values.json",
+          ".csdlc/issues/512/cards/stp.values.json",
+          ".csdlc/issues/512/cards/vpp.values.json",
+          ".csdlc/issues/512/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/512",
+        ".csdlc/issues/512/cards/srp.md",
+        ".csdlc/issues/512/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "DEC-01",
+      "issue": 513,
+      "revision": "489bc0f3af68b059e5c26ff22600d945b3d21db8",
+      "merge_revision": "5bc84a0f27a522b6d500551d64f8d12dc2357427",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "ca83c7a5f96c7190696adb3ec06f4c14bf647848",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/513/audit.jsonl",
+          ".csdlc/issues/513/cards/sip.values.json",
+          ".csdlc/issues/513/cards/sor.md",
+          ".csdlc/issues/513/cards/sor.values.json",
+          ".csdlc/issues/513/cards/spp.values.json",
+          ".csdlc/issues/513/cards/srp.md",
+          ".csdlc/issues/513/cards/srp.values.json",
+          ".csdlc/issues/513/cards/stp.values.json",
+          ".csdlc/issues/513/cards/vpp.values.json",
+          ".csdlc/issues/513/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/513",
+        ".csdlc/issues/513/cards/srp.md",
+        ".csdlc/issues/513/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "PROV-A",
+      "issue": 514,
+      "revision": "1b0fd87496bb09200a5cb1bbb0529e8730be1b20",
+      "merge_revision": "18f1c76667dc6913c2553b53228e73e8de9d11c9",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "521422349892e58f828044a5238c2ea687d9b28a",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/514/audit.jsonl",
+          ".csdlc/issues/514/cards/sip.values.json",
+          ".csdlc/issues/514/cards/sor.values.json",
+          ".csdlc/issues/514/cards/spp.values.json",
+          ".csdlc/issues/514/cards/srp.md",
+          ".csdlc/issues/514/cards/srp.values.json",
+          ".csdlc/issues/514/cards/stp.values.json",
+          ".csdlc/issues/514/cards/vpp.values.json",
+          ".csdlc/issues/514/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/514",
+        ".csdlc/issues/514/cards/srp.md",
+        ".csdlc/issues/514/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    },
+    {
+      "planned_id": "PROV-B",
+      "issue": 515,
+      "revision": "9e6a8bd104d79f77edc4460ee5424cea83ef9cdc",
+      "merge_revision": "17b883e93abff7a155cd783a3d76f52ba2eabbf2",
+      "disposition": "proof_debt",
+      "review_truth": {
+        "current": false,
+        "reviewed_revision": "9cb2a07564e1e73dd5089a08230745be69f56099",
+        "result": "pass",
+        "post_review_paths": [
+          ".csdlc/issues/515/audit.jsonl",
+          ".csdlc/issues/515/cards/sip.values.json",
+          ".csdlc/issues/515/cards/sor.md",
+          ".csdlc/issues/515/cards/sor.values.json",
+          ".csdlc/issues/515/cards/spp.values.json",
+          ".csdlc/issues/515/cards/srp.md",
+          ".csdlc/issues/515/cards/srp.values.json",
+          ".csdlc/issues/515/cards/stp.values.json",
+          ".csdlc/issues/515/cards/vpp.values.json",
+          ".csdlc/issues/515/index.json"
+        ],
+        "non_substantive_tail": false
+      },
+      "artifacts": [
+        "https://github.com/agent-logic/agent-design-language/issues/515",
+        ".csdlc/issues/515/cards/srp.md",
+        ".csdlc/issues/515/cards/sor.md"
+      ],
+      "closure_disposition": null,
+      "acceptance_status_counts": {
+        "proof_gap": 4
+      }
+    }
+  ],
+  "explicit_current_scope_exclusions": [
+    {
+      "issue": 84,
+      "scope": "Unity integration",
+      "disposition": "operator-deferred backlog; not an OBS-B gate"
+    },
+    {
+      "issue": 251,
+      "scope": "TLS 1.2",
+      "disposition": "operator-deferred backlog; not an OBS-B gate"
+    }
+  ]
+}

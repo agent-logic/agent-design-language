@@ -1,0 +1,36 @@
+{
+  "schema": "adl.tail02.local_validation_record.v1",
+  "results": [
+    {
+      "mode": "--inventory",
+      "exit_code": 0,
+      "stdout": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--inventory\",\"status\":\"pass\",\"checks\":737,\"final_acceptance\":false}",
+      "stderr": ""
+    },
+    {
+      "mode": "--links",
+      "exit_code": 0,
+      "stdout": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--links\",\"status\":\"pass\",\"checks\":967,\"final_acceptance\":false}",
+      "stderr": ""
+    },
+    {
+      "mode": "--claims",
+      "exit_code": 0,
+      "stdout": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--claims\",\"status\":\"pass\",\"checks\":286,\"final_acceptance\":false}",
+      "stderr": ""
+    },
+    {
+      "mode": "--all",
+      "exit_code": 0,
+      "stdout": "{\"schema\":\"adl.tail02.local_validation.v1\",\"mode\":\"--all\",\"status\":\"pass\",\"checks\":1990,\"final_acceptance\":false}",
+      "stderr": ""
+    },
+    {
+      "mode": "--final",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Final acceptance unavailable: refresh the candidate after issue 517 passing reviewed merge and record independent exact-revision review."
+    }
+  ],
+  "final_acceptance": false
+}

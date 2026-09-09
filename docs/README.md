@@ -1,5 +1,7 @@
 # Documentation Index
 
+Current engineering and release-tail review: [v0.92.1](milestones/v0.92.1/README.md). Acceptance remains pending; completed milestone links below retain their historical meaning.
+
 This directory is the main documentation entrypoint for ADL milestone records, contributor workflow docs, tooling guides, and architecture references.
 
 Use this index to find the right source of truth quickly.

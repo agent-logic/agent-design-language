@@ -1,0 +1,18 @@
+{
+  "issue": 518,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "fdf600c37f7b31a2b1bf1e127094282f8029113943d86d9c0b3b78c889bd67f3",
+  "actor": "codex:planning-6",
+  "reason": "Apply explicit operator start-now and use-v2 instructions while preserving the final issue 517 quality gate.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "Operator authorized independent documentation corrections on 2026-09-08 and explicitly authorized v2 transition remediation: use v2, dont get blocked.",
+      "Native v3 remains the repository default; this v2 exception applies to issue 518 only.",
+      "Final exact-revision acceptance and external handoff require issue 517 passing reviewed merge.",
+      "No product implementation, changes to issue 517 quality evidence, or release publication."
+    ]
+  }
+}

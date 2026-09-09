@@ -1,0 +1,51 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "d18b6e2c916fb18c54f68f0c3ca257f1b42655a6ae555d6afd18b5579db72173",
+  "actor": "codex:planning-6",
+  "reason": "Apply explicit operator start-now and use-v2 instructions while preserving the final issue 517 quality gate.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Confirm the authorized v2 transition route and verify audit findings against the bound baseline.",
+        "acceptance_ids": [
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Correct the bounded current documentation surfaces and retain historical proof unchanged.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Validate inventory, links, claim dispositions and diff hygiene; obtain independent review.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "After issue 517 passing reviewed merge, refresh the exact candidate and finalize the context-free external handoff.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      }
+    ]
+  }
+}

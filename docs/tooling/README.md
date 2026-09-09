@@ -153,14 +153,14 @@ Important repo-local tooling surfaces include:
 - `bash adl/tools/run_build_platform_benchmark.sh` — shared Wuji, Nessus, AWS
   Spot, and CodeBuild timing workload; see
   [Build Platform Benchmarks](BUILD_PLATFORM_BENCHMARKS.md)
-- lifecycle authority is the independent binary set under `.adl/bin/csdlc-v2/`
+- lifecycle authority is native v3 via `.adl/bin/native-v3/csdlc`, subject to its selector and authenticated receipt; retained v2 binaries require explicit rollback or transition authorization
 - `adl/tools/report_large_rust_modules.sh` — non-blocking Rust source-and-test module size report; by default it scans both `adl/src` and `adl/tests`, and current snapshots should live under `.adl/reports/manual/` instead of tracked repo docs
 - `adl/tools/sync_task_bundle_prompts.sh` — refresh canonical local task-bundle prompt layout from compatibility paths
 
 Historical evidence may mention removed v1 aliases, but active tests and docs
 must not expose them as executable control-plane routes.
 
-## Current Status
+## Historical status snapshot
 
 - Current closure milestone: **v0.87**
 - Next active milestone: **v0.87.1**

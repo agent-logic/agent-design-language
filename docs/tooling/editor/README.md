@@ -1,14 +1,12 @@
 # Task Bundle Editor
 
-> Compatibility note: this is the legacy STP/SIP/SOR task-bundle editor. The
-> current C-SDLC prompt form editor for all six cards, including VPP, is
-> `docs/tooling/csdlc-prompt-editor/`, backed by the SemVer prompt-template
-> registry in `docs/templates/prompts/current.json`.
-
-Issue #505 / V3-F is the pending tooling changeover decision. Until that
-operator-reviewed cutover is approved, merged, and terminally reconciled,
-C-SDLC v2 remains the live lifecycle authority. Browser/editor surfaces must
-not route current lifecycle work through retired `pr` commands before cutover.
+This is the legacy STP/SIP/SOR task-bundle editor. It is not the current
+six-card lifecycle editor. The previously advertised
+`docs/tooling/csdlc-prompt-editor/` replacement is absent from the tracked tree;
+do not infer that a supported replacement browser editor is available.
+Use typed card editing with `docs/templates/prompts/current.json` and the current
+[workflow](../../default_workflow.md). V3-F/#505 completed through PR #591;
+retired `pr` commands remain unavailable as lifecycle authority.
 
 This directory contains the bounded editor surface for ADL task bundles and
 historical workflow-skill handoff.

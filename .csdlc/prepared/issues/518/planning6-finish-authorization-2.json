@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 32,
+  "expected_digest": "95f2401b2d7d2852fb4ba557faf42be91fc10f6b12c971750035613a6ec31816",
+  "actor": "codex:planning-6",
+  "reason": "Apply operator clarification: nothing is blocked; issue 517 reviewed merge satisfies documentation dependency while release decision remains explicitly blocked.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Complete final documentation handoff against the merged issue 517 baseline. Operator clarified nothing is blocked: passing reviewed merge means predecessor review and integration, not a release PASS decision. Preserve TAIL-01 blocked release truth in the handoff. Refresh current inventory and snapshots, correct remaining scope prose, validate exact content and obtain independent review before typed publication."
+  }
+}
