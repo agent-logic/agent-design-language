@@ -1,5 +1,7 @@
 # Demo Matrix — v0.92.1
 
+Review status: these requirements and planned outcomes are not an acceptance ledger. See [the TAIL-02 review packet](evidence/release/tail-02/README.md) for source revisions, observed proof gaps and deferred scope. Final acceptance and external handoff remain pending #517; issue closure alone is not semantic proof.
+
 | Lane | Demonstration |
 |---|---|
 | Corporate and IP | Redacted transfer packet passes completeness and authority checks |

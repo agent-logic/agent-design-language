@@ -1,5 +1,7 @@
 # Planned Issue Catalog — v0.92.1
 
+Current status: WP-01/#480 created the wave. See `evidence/wp-01/final-creation-receipt.json` for the exact issue mapping. The number-free creation narrative below is retained source-time planning history, not a statement that the issues are still uncreated.
+
 This is the complete issue-creation plan. The planning merge only makes the package eligible to open. When the operator declares v0.92.1 ready, the operator creates the number-free WP-01 opening conductor; WP-01 then creates the remaining unnumbered entries. This document does not create issues and must not preallocate GitHub numbers.
 
 ## Existing issues

@@ -6,7 +6,7 @@
 
 The roots are parallel after the shared opening gates except for the explicit cloud-conversion, DRT-D, and PROV-B edges. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
 
-Within those lanes, #251 TLS 1.2, #122 public exposure, #345 GPU Shepherd hardening, OBS-A, and #84 preparation may proceed concurrently. #84 final proof joins #251 and #122; OBS-B joins OBS-A and #84; GPU-backed distributed qualification consumes #345.
+Within those lanes, #122 public exposure, #345 GPU Shepherd hardening and OBS-A retain their owned scope. OBS-B/#512 consumes OBS-A/#511 and authentic Runtime projections. #84 Unity and #251 TLS 1.2 are operator-deferred backlog and are not OBS-B gates. GPU-backed distributed qualification retains its required #345 proof.
 
 ## Lane contracts
 

@@ -1,5 +1,7 @@
 # ADL Review Guide
 
+Current engineering review: [v0.92.1 documentation packet](docs/milestones/v0.92.1/evidence/release/tail-02/README.md). Quality acceptance and final external handoff remain pending; the v0.92 review entry below is retained completed-milestone history.
+
 **Purpose:** This document gives a reviewer, human or AI, a consistent way to review ADL without freezing the project into one exact repo shape. It captures stable review principles, the invariants ADL cares about most, recurring historical failure modes, and a practical structure for the final review output.
 
 This guide is intentionally:

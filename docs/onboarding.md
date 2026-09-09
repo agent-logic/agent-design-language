@@ -17,34 +17,15 @@ Use this page when you need to orient quickly in the ADL repo.
 
 ## Workflow Context
 
-Gate 10D2 is the current C-SDLC authority. Current issue lifecycle work uses
-the independent typed Rust owner binaries under `.adl/bin/csdlc-v2/`, selected
-through the typed contracts in `csdlc-v2/operator/skills/`, until an explicit
-operator-reviewed V3-F/#505 cutover changes that contract. The old
-`adl_pr_cycle`, `pr.sh`, prompt-template wrapper, and five-command compatibility
-routes are historical surfaces, not current lifecycle authority.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-Issue #505 is the pending V3-F tooling changeover decision. Before the default
-route changes, operators must receive the pre-change notice in
-`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md`. Until #505 is explicitly
-approved and PR #591 is merged, v2 remains live authority and v3 must be
-treated as construction/cutover evidence only. Merge is the atomic authority
-cutover; terminal reconciliation records the completed transition afterward.
-
-C-SDLC v3 is the planned clean replacement line, but before V3-F it is only
-construction and cutover-readiness evidence. Do not use v3 to bind worktrees,
-mutate issue state, publish pull requests, finish issues, clean worktrees, or
-retire v2. A prepared v3 issue should still be simple to start: once
-dependencies are satisfied, inspection, typed bind, and first useful work should
-take three minutes or less without bypassing v2 authority, review, validation,
-publication, finish, or cleanup truth.
+Follow `docs/default_workflow.md` for current command discovery. The three-minute prepared-issue start target preserves typed validation, review and authority guards.
 
 Canonical issue state lives under `.csdlc/issues/<issue>/`, with typed request
 material normally prepared under `.csdlc/prepared/issues/<issue>/` or
 Git-common invocation paths when the request is transient. Generated cards are
 typed projections; do not edit their Markdown directly. Use the matching
-`csdlc-edit`, `csdlc-validate`, `csdlc-review`, `csdlc-publish`,
-`csdlc-finish`, and `csdlc-clean` routes for lifecycle state changes.
+native `edit`, `validate`, `review`, `publish`, `finish` and `clean` routes for lifecycle state changes.
 
 The canonical repository is `agent-logic/agent-design-language`. The
 `danielbaustin/agent-design-language` remote is legacy provenance unless a
@@ -55,12 +36,12 @@ not be treated as the default target for current issue or PR work.
 The primary checkout is inspection-only and should stay clean on `main`. Before
 starting issue work, check `git status --short --branch` and
 `git worktree list --porcelain`; if a feature branch or tracked changes are
-sitting in the primary checkout, route the recovery through typed v2
-`csdlc-doctor` / `csdlc-bind` evidence when available. Use only the narrowest
+sitting in the primary checkout, route the recovery through native v3
+`doctor` / `bind` evidence when available. Use only the narrowest
 manual fallback needed to preserve work in an issue worktree and restore root
-to clean `main`. Native C-SDLC bootstrap for ADL issues runs from an isolated
-staging checkout, then `csdlc-bind` moves approved work into the canonical
-FastWork issue worktree. See
+to clean `main`. Native C-SDLC preparation and binding use `.adl/bin/native-v3/csdlc`
+`issue` and `bind` with their declared typed inputs, followed by work in the
+registered FastWork issue worktree. See
 `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for the
 cross-session handoff and broadcast-note rules.
 
@@ -71,9 +52,9 @@ explicitly records a different existing topology.
 
 An initialized issue, green CI result, or published PR is not terminal proof by
 itself. Keep review, publication, finish, and cleanup truth separate:
-`csdlc-review` records exact-head review, `csdlc-publish` records publication,
-`csdlc-finish` derives terminal authority from live GitHub state, and
-`csdlc-clean` removes the exact registered worktree after truthful closeout.
+native `review` records exact-head review, native `publish` records publication,
+native `finish` derives terminal authority from live GitHub state, and
+native `clean` removes the exact registered worktree after truthful closeout.
 Compression-safe finish validation is allowed only when the issue is low-risk
 docs/static-tooling work and the SOR truthfully records focused local validation
 instead of full local validation. CI remains required before merge.

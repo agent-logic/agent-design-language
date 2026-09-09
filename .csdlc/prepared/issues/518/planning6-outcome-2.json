@@ -1,0 +1,22 @@
+{
+  "issue": 518,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "23a5f1ea5e6cb8ae2a12a8b7148530f2937944fcb676d26359e70cd3ff312d01",
+  "actor": "codex:planning-6",
+  "reason": "Record actual bounded corrections and local review; retain final issue 517 dependency without promoting preliminary checks to acceptance.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Independent documentation corrections and preliminary review packet are implemented in the worktree under explicit v2 transition authorization. Final exact-candidate handoff remains pending issue 517 passing reviewed merge; no PR or release acceptance claimed.",
+    "changes": [
+      "Corrected current lifecycle, durable card, milestone deferral, creation/sprint and closeout inventory documentation.",
+      "Preserved the 737-document audit, 45-child creation map, 35-row historical diagnostic snapshot and 15 finding dispositions.",
+      "Resolved independent review P2 about current command routing; re-review found no actionable issues."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/local-validation.json",
+      "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json"
+    ]
+  }
+}

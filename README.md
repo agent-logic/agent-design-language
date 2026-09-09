@@ -346,8 +346,7 @@ production markets.
 - Most recently completed engineering milestone: v0.92
 - Most recently published public release: v0.91.7
   ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
-- Current milestone state: the v0.92 package and issue wave are complete and
-  retained; subsequent work is routed through the next-milestone handoff.
+- Current engineering/review context: [v0.92.1](docs/milestones/v0.92.1/README.md), with quality and release-tail acceptance pending. The completed v0.92 package remains retained historical evidence; this entry does not declare a new public release.
 - Primary implementation language: Rust
 
 ADL is under active development. The repository contains implemented runtime

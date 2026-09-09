@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The exact documentation candidate, canonical inventory, links and claims, residual risks, and external-review handoff.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the canonical document denominator complete?",
+        "Can every path, link, issue reference, and claim be resolved context-free?",
+        "Are residual risks and non-claims explicit?",
+        "Is the packet bound to one exact candidate revision?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

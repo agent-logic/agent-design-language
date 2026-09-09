@@ -1,6 +1,20 @@
 # Sprint Plan — v0.92.1
 
-## Opening
+## Current release-tail coordination
+
+WP-01/#480 has created the wave; its exact mapping is retained in
+`evidence/wp-01/final-creation-receipt.json`. Issue #538 membership version 7
+coordinates the complete #516–#526 admission-through-ceremony roster. The older
+Sprint 9–11 allocations below are historical scheduling input, not current
+ownership. Issue-level result and reviewed-merge gates remain authoritative;
+parallel preparation does not establish completion. The operator authorized
+#518 independent documentation corrections while #517 is in flight; final
+acceptance and external handoff still require #517's passing reviewed merge.
+
+#84 Unity and #251 TLS are explicitly deferred backlog. Historical sprint
+assignments below do not reactivate them or make them OBS-B/#512 dependencies.
+
+## Historical opening and sprint allocation
 
 - Close #432 with canonical, ancestral repository-authority proof.
 - Preserve closed #431 as planning provenance without assigning it future work.

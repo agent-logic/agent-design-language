@@ -6,7 +6,8 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 
 ## What Is Here
 
-- `.adl/bin/csdlc-v2/`: installed typed C-SDLC v2 owner binaries for issue lifecycle work.
+- `.adl/bin/native-v3/csdlc`: native post-cutover lifecycle entrypoint.
+- `.adl/bin/csdlc-v2/`: retained owner binaries only for explicitly authorized rollback or bounded transition remediation.
 - `demo_v0871_operator_surface.sh`: canonical `v0.87.1` operator-surface proof wrapper for runtime bring-up and artifact inspection.
 - `demo_v0871_runtime_state.sh`: canonical `v0.87.1` runtime-state proof wrapper for paused-vs-completed persistence inspection.
 - `demo_v0871_suite.sh`: canonical `v0.87.1` WP-13 demo-suite entrypoint for the implemented provider, operator, runtime-state, review-surface, and multi-agent proof surfaces.
@@ -125,6 +126,8 @@ cd ./adl/ && bash tools/enforce_coverage_gates.sh coverage-summary.json
 # report large Rust source and test modules without failing the build
 ./adl/tools/report_large_rust_modules.sh
 
+# The following v2 commands apply only to explicitly authorized rollback or
+# bounded transition remediation. Default native v3 routing: docs/default_workflow.md.
 # edit and validate prompt cards through typed requests
 .adl/bin/csdlc-v2/csdlc-edit --repo <worktree> apply --request <edit-request.json>
 .adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
@@ -142,7 +145,7 @@ are not the preferred public workflow:
 
 - v1 lifecycle aliases are removed and must not be used for issue work
 - `adl_pr_cycle` install/resync helpers are retained only for historical or
-  compatibility inspection, not for current Gate 10D2 lifecycle operation
+  compatibility inspection, not for current native v3 lifecycle operation
 - `codex_pr.sh` and `codexw.sh` are retired fail-closed wrappers kept only to
   print migration guidance; do not use them for new work
 

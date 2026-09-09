@@ -1,0 +1,13 @@
+{
+  "issue": 518,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "26ae86b8e108edf52c69d88bf06f424b974b76ed40559a3d9c1b22f693a5ddf0",
+  "actor": "codex:planning-6",
+  "reason": "Apply explicit operator start-now and use-v2 instructions while preserving the final issue 517 quality gate.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Correct the 15 source-grounded findings from the 737-document audit now under explicit operator authorization. Use bounded v2 transition remediation. Preserve historical proof and concurrent owner paths. Final candidate freeze, acceptance and external handoff wait for issue 517 passing reviewed merge."
+  }
+}

@@ -1,11 +1,13 @@
 # C-SDLC v3 Package Boundary
 
-`csdlc-v3/**` is the construction surface for the planned clean replacement of
-C-SDLC v2. It is not the live lifecycle authority yet. Root `AGENTS.md`,
-`csdlc-v2/AGENTS.md`, and the typed v2 operator skills remain authoritative
-until the explicit V3-F/#505 cutover decision approves the transition.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-## Current construction state
+## Historical construction state
+
+The following milestones describe pre-cutover construction. Their restrictions
+apply to those historical stages; current operation follows the native authority
+contract and root `AGENTS.md`.
+
 
 - V3-A/#500 established the v3 contract and predecessor map as construction
   evidence. Corrective follow-up #571 repaired the predecessor owner/proof-lane

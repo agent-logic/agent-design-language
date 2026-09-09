@@ -1,11 +1,12 @@
-# C-SDLC v2 operator playbook
+# C-SDLC operator playbook
 
-Use the independent Rust binaries and typed skills under `csdlc-v2/`. Keep
-the primary checkout on clean `main`, bind a tracked issue with `csdlc-bind`,
-and make implementation changes only in the bound worktree. Edit cards through
-`csdlc-edit`/Markdown ASTs, validate with `csdlc-validate`, review with
-`csdlc-review`, publish only with current review evidence, and close out with
-`csdlc-closeout`.
+C-SDLC v3 is operational after V3-F/#505 and merged PR #591. Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`. Use `.adl/bin/native-v3/csdlc`; inspect its help and typed request contracts before invoking a lifecycle route. Missing or stale proof suspends authority. V2 is retained only for an explicitly authorized rollback or bounded transition remediation.
 
-Historical v1 commands are retained in
-`docs/legacy/CODEX_PLAYBOOK_V1.md` for migration evidence only.
+Follow [the default workflow](default_workflow.md) and root `AGENTS.md`.
+Keep the primary checkout on clean `main`; implementation belongs in the bound
+issue worktree. Preserve all six durable cards, use editor skills and typed
+requests, and run focused validation. Independent review must be current for
+the exact revision before publication. Terminal delivery and cleanup remain
+separate typed operations. There is no `csdlc-closeout` writer.
+
+Historical v1 commands in `docs/legacy/CODEX_PLAYBOOK_V1.md` are migration evidence.

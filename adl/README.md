@@ -1,5 +1,7 @@
 # ADL Runtime (`adl/`)
 
+Current engineering/review context: [v0.92.1](../docs/milestones/v0.92.1/README.md), with quality and release acceptance pending. The runtime package version and completed v0.92 history below are separate from milestone acceptance.
+
 The ADL runtime is the reference Rust runtime and CLI for **Agent Design Language (ADL)**. It takes schema-validated ADL documents, resolves them into a deterministic execution plan, and executes them with explicit semantics for concurrency, retries, failures, signing, tracing, and bounded remote execution.
 
 The runtime is built for readers and builders who want AI workflow execution to be predictable, inspectable, and reviewable. It emphasizes clear execution behavior, stable artifacts, and reproducible runs over hidden orchestration logic.

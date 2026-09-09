@@ -1,0 +1,129 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+    "slug": "tail-02-documentation-review-external-handoff",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 7,
+      "summary": "Correct the 15 source-grounded findings from the 737-document audit now under explicit operator authorization. Use bounded v2 transition remediation. Preserve historical proof and concurrent owner paths. Final candidate freeze, acceptance and external handoff wait for issue 517 passing reviewed merge.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm the authorized v2 transition route and verify audit findings against the bound baseline.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Correct the bounded current documentation surfaces and retain historical proof unchanged.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Validate inventory, links, claim dispositions and diff hygiene; obtain independent review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "After issue 517 passing reviewed merge, refresh the exact candidate and finalize the context-free external handoff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/518",
+        ".csdlc/prepared/issues/518",
+        ".csdlc/prepared/issues/518/validate-documentation-handoff.rb",
+        "AGENTS.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "REVIEW.md",
+        "adl/CONTRIBUTING.md",
+        "adl/README.md",
+        "adl/tools/README.md",
+        "csdlc-v2/AGENTS.md",
+        "csdlc-v2/README.md",
+        "csdlc-v3/AGENTS.md",
+        "csdlc-v3/README.md",
+        "docs/README.md",
+        "docs/architecture/ADL_ARCHITECTURE.md",
+        "docs/codex_playbook.md",
+        "docs/default_workflow.md",
+        "docs/milestones/v0.92.1",
+        "docs/milestones/v0.92.1/CANONICAL_DOC_INVENTORY_v0.92.1.md",
+        "docs/milestones/v0.92.1/DECISIONS_v0.92.1.md",
+        "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+        "docs/milestones/v0.92.1/DISTRIBUTED_TEST_PLAN_CONSULTATION.md",
+        "docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md",
+        "docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/README.md",
+        "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/WBS_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/evidence/release/tail-02",
+        "docs/milestones/v0.92.1/features/OBSERVATORY_REDESIGN_v0.92.1.md",
+        "docs/onboarding.md",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/planning/codefriend/README.md",
+        "docs/templates/planning/1.1.0/release_plan.md",
+        "docs/tooling/README.md",
+        "docs/tooling/editor/README.md"
+      ],
+      "invariants": [
+        "One exact revision anchors the packet",
+        "Every claimed input is resolvable",
+        "Documentation never overstates product or release state",
+        "The issue does not publish the candidate"
+      ],
+      "risks": [
+        "A canonical document could be omitted",
+        "A local-only path could make the handoff non-portable",
+        "Candidate drift could stale the review",
+        "Documentation could conceal a residual risk"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Do not finalize acceptance or external handoff before issue 517 passing reviewed merge.",
+        "Do not claim a feature or release proved without exact-revision evidence.",
+        "Revalidate if the candidate changes.",
+        "Do not edit another issue owner quality evidence."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/518/design.md",
+      "design_digest": "8f4ca2061dfb5453165a1a01bb2c5423da24424e4ac188640d521a9914efb46b",
+      "diagram_ref": ".csdlc/prepared/issues/518/diagram.mmd",
+      "diagram_digest": "9025468b12687281f293fbcb9b0c9155d8aa6aaed3360937fb9ed29e7a5e9958"
+    }
+  }
+}
