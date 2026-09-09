@@ -28,6 +28,8 @@ use csdlc_v3::{
 };
 use serde::Serialize;
 
+const AUTHORITY_HELP: &str = "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.";
+
 const ROOT_USAGE: &str =
     "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
@@ -58,7 +60,7 @@ fn run(args: Vec<String>) -> Result<String, String> {
         return Err(ROOT_USAGE.into());
     };
     match command.as_str() {
-        "--help" | "-h" => Ok(ROOT_USAGE.into()),
+        "--help" | "-h" => Ok(format!("{ROOT_USAGE}\n\nauthority: {AUTHORITY_HELP}")),
         "foundation" => run_foundation(rest),
         "local" => run_local(rest),
         "remote" => run_remote_overview(rest),
@@ -103,7 +105,7 @@ fn run_local_route(route: &str, args: &[String]) -> Result<String, String> {
         format!("usage: csdlc {route} --request <path> --registry <path> --registrations <path>");
     if args == ["--help"] || args == ["-h"] {
         return Ok(format!(
-            "{usage}\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+            "{usage}\n\nstatus: implemented\nauthority: {AUTHORITY_HELP}"
         ));
     }
     run_local_report(route, args)
@@ -290,7 +292,7 @@ fn run_local_construction_report(
 fn run_proof_route(command: &str, args: &[String]) -> Result<String, String> {
     if args == ["--help"] || args == ["-h"] {
         return Ok(format!(
-            "usage: csdlc {command} --request <path>\n\nstatus: implemented_construction\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+            "usage: csdlc {command} --request <path>\n\nstatus: implemented_construction\nauthority: {AUTHORITY_HELP}"
         ));
     }
     let request_path = RequestOnlyArgs::parse(command, args)?.request;
@@ -585,22 +587,21 @@ fn discover_binary_checkout_repo_root() -> Option<PathBuf> {
 
 fn remote_usage(command: &str) -> String {
     format!(
-        "usage: csdlc {command} --request <path> [--observe-github] [--execute]\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+        "usage: csdlc {command} --request <path> [--observe-github] [--execute]\n\nstatus: implemented\nauthority: {AUTHORITY_HELP}"
     )
 }
 
 fn terminal_usage(command: &str) -> String {
     format!(
-        "usage: csdlc {command} --request <path>\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover."
+        "usage: csdlc {command} --request <path>\n\nstatus: implemented\nauthority: {AUTHORITY_HELP}"
     )
 }
 
 fn run_remote_overview(args: &[String]) -> Result<String, String> {
     if args == ["--help"] || args == ["-h"] || args.is_empty() {
-        return Ok(
-            "usage: csdlc remote --help\n\nstatus: implemented\nauthority: C-SDLC v3 is not live authority before #505 cutover.\nroutes: github, github-issue, github-pr, pr-state, publish, review"
-                .into(),
-        );
+        return Ok(format!(
+            "usage: csdlc remote --help\n\nstatus: implemented\nauthority: {AUTHORITY_HELP}\nroutes: github, github-issue, github-pr, pr-state, publish, review"
+        ));
     }
     Err("usage: csdlc remote --help".into())
 }

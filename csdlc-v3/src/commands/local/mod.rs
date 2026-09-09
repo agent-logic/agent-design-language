@@ -1,9 +1,8 @@
-//! Non-authoritative V3-D local preparation workflow model.
+//! Native C-SDLC v3 local preparation, binding and card operations.
 //!
-//! These types model the local issue-input → card-rendering → topology-bind →
-//! doctor/PVF-plan path for V3-D. They do not mutate repository state, create
-//! worktrees, execute PVF lanes, publish PRs, write GitHub state, finish,
-//! cleanup, migrate v2, or grant operational authority.
+//! Operational execution requires authenticated canonical selector and receipt
+//! validation, plus exact checkout, registration and lifecycle digest checks. The retained planning-only
+//! functions remain non-mutating models and do not grant operational authority.
 
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -44,7 +43,7 @@ pub enum LocalCommand {
     Eligibility,
 }
 
-/// Local preparation request accepted by the construction-only workflow.
+/// Typed request shared by retained planning and guarded operational routes.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LocalPreparationRequest {
     pub issue: u64,

@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 760,
+  "phase": "bound",
+  "generation": 5,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/760-current-v3-authority",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-760-current-v3-authority",
+  "template_registry_version": "1.0.4",
+  "operational_authority": true,
+  "digest": "6369cb2452dcab1760a3c59c2853aaa4e039c84c3e2fb3ca395a00d8e09079b6"
+}

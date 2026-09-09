@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 760,
+  "issue_padded": "0760",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/760",
+  "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+  "branch": "codex/760-current-v3-authority",
+  "version": "v0.92.1",
+  "card": "sip",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-760-current-v3-authority",
+  "goal": "Align current C-SDLC v3 authority surfaces with completed #505/PR591 cutover and authenticated selector truth.",
+  "summary": "R520-004/A520-ARCH-003: correct current docs, help, module/package metadata and regression assertions; preserve immutable historical records.",
+  "required_outcome": "Consistent current authority routing plus cross-surface fitness proof and independent exact-head review.",
+  "required_outcome_type": "implementation",
+  "repo_inputs": "Issue760; parent522; source520 at c24f8fa65ce445b03ce6cd69007307291d78b60c; native selector and authenticated receipt.",
+  "target_files_surfaces": "Current authority docs and links, native CLI help, module/package metadata, active prompt registry metadata, command manifest assertions and bounded fitness tests.",
+  "non_goals": "No historical evidence rewrites, authority guard changes, checkout-identity or proof-route behavior repairs, Runtime changes or v2 default rollback.",
+  "validation_plan": "Focused command/help and authenticated selector tests; cross-surface positive/negative checks; obsolete-guidance scan; installed candidate CLI demonstration; independent review.",
+  "dependencies": "Source520 and parent522; coordinate with R520-006/007 without duplicating their code."
+}
