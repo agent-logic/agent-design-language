@@ -106,24 +106,30 @@ require_readme() {
 ADL_REPO_ROOT="${ROOT_DIR}" bash "${ROOT_DIR}/adl/tools/validate_v0917_csm_service_4903_status.sh" >/dev/null
 python3 "${ROOT_DIR}/adl/tools/validate_wp08_heartbeat_live_proof.py" "${CLOUDWATCH}" >/dev/null
 python3 "${ROOT_DIR}/adl/tools/validate_wp08_acip_sns_live_proof.py" "${ACIP_SNS}" "${SNS_RESOURCE}" >/dev/null
-python3 "${ROOT_DIR}/adl/tools/validate_v0917_html_observatory.py" \
-  --html "${HTML}" \
-  --css "${CSS}" \
-  --js "${JS}" \
-  --packet "${PACKET}" \
-  --report "${REPORT}" \
-  --csm-service "${CSM_SERVICE}" \
-  --csm-api "${CSM_API}" \
-  --cloudwatch "${CLOUDWATCH}" \
-  --cloudwatch-events "${CLOUDWATCH_EVENTS}" \
-  --acip-sns "${ACIP_SNS}" \
-  --sns-resource "${SNS_RESOURCE}" \
-  --csm-status "${CSM_STATUS}" \
-  --csm-health "${CSM_HEALTH}" \
-  --csm-ready "${CSM_READY}" \
-  --csm-metrics "${CSM_METRICS}" \
-  --csm-events "${CSM_EVENTS}" \
-  --runtime-v3-config "${RUNTIME_V3_CONFIG}" >/dev/null
+legacy_observatory_ui=0
+if grep -Fq 'id="dashboard-connect-live"' "${HTML}"; then
+  legacy_observatory_ui=1
+  python3 "${ROOT_DIR}/adl/tools/validate_v0917_html_observatory.py" \
+    --html "${HTML}" \
+    --css "${CSS}" \
+    --js "${JS}" \
+    --packet "${PACKET}" \
+    --report "${REPORT}" \
+    --csm-service "${CSM_SERVICE}" \
+    --csm-api "${CSM_API}" \
+    --cloudwatch "${CLOUDWATCH}" \
+    --cloudwatch-events "${CLOUDWATCH_EVENTS}" \
+    --acip-sns "${ACIP_SNS}" \
+    --sns-resource "${SNS_RESOURCE}" \
+    --csm-status "${CSM_STATUS}" \
+    --csm-health "${CSM_HEALTH}" \
+    --csm-ready "${CSM_READY}" \
+    --csm-metrics "${CSM_METRICS}" \
+    --csm-events "${CSM_EVENTS}" \
+    --runtime-v3-config "${RUNTIME_V3_CONFIG}" >/dev/null
+else
+  bash "${ROOT_DIR}/adl/tools/test_html_observatory.sh" >/dev/null
+fi
 prove_shared_localhost_certificate
 python3 -m json.tool "${PACKET}" >/dev/null
 cargo test \
@@ -137,7 +143,10 @@ cargo test \
   observatory_websocket_allows_public_reads_and_requires_login_for_writes \
   -- --nocapture >/dev/null
 
-require_readme "Magic UI Pro AI Agent Template"
+if [[ "${legacy_observatory_ui}" == "1" ]]; then
+  require_readme "Magic UI Pro AI Agent Template"
+  require_readme "communication rail"
+fi
 require_readme "bounded runtime capture"
 require_readme "CSM API"
 require_readme "CloudWatch"
@@ -148,7 +157,6 @@ require_readme "20997"
 require_readme "CA-issued full chain"
 require_readme "browser-owned AWS publish authority"
 require_readme "WP-08"
-require_readme "communication rail"
 grep -Fq "Runtime v3 opt-in + CSM Runtime + AWS CloudWatch + ACIP/SNS" "${HTML}" || {
   echo "HTML Observatory status bar must name the Runtime v3 opt-in and ACIP/SNS data source" >&2
   exit 1
