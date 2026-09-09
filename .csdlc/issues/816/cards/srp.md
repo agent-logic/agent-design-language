@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/816/cards/sip.md"
   - ".csdlc/issues/816/cards/vpp.md"
 review_results:
-  findings_status: "pending_review"
+  findings_status: "resolved_pending_rereview"
   recommended_outcome: "pending"
-notes: "Review the committed implementation, publication denominator, negative fixtures, and synchronization semantics."
+notes: "Fresh reviewer must verify the causal production projection and all nine negative classes at the new exact head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Independent exact-head review pending.
+- P1: source scanning did not prove production serialized Runtime output. P2: line grep could accept a duplicate sensitive key with one redacted decoy.
 
 ### Dispositions
 
-- No disposition before review.
+- P1 fixed by emitting and scanning project_v1 output from the exact production projection path. P2 fixed with structural JSON parsing, duplicate-key rejection, exact sensitive-field values, and a decoy-plus-leak negative fixture.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Review the committed implementation, publication denominator, negative fixtures, and synchronization semantics.
+Fresh reviewer must verify the causal production projection and all nine negative classes at the new exact head.

@@ -1,7 +1,4 @@
-# role|repository-relative path
-runtime|adl-runtime/src/distributed/projection.rs
-runtime|adl-runtime/src/distributed/serving_authority.rs
-runtime|adl-runtime/src/distributed/observatory_serving_eligibility.rs
+# role|repository-relative published path
 ui|demos/html-observatory/index.html
 ui|demos/html-observatory/app.js
 ui|demos/html-observatory/styles.css

@@ -575,6 +575,9 @@ fn coherent_projection_is_deterministic_redacted_and_openapi_aligned() {
     let first = run();
     let second = run();
     assert_eq!(first, second);
+    if let Ok(output) = std::env::var("ADL_OBS_B_PROJECTION_OUTPUT") {
+        std::fs::write(output, &first).unwrap();
+    }
     let first_len = first.len();
     let text = String::from_utf8(first).unwrap();
     for secret in [

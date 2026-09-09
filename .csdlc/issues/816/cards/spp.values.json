@@ -58,7 +58,7 @@
   "issue_goal_token_budget": "not_collected",
   "deliverables": "Two validator/test repairs.",
   "inputs": "Issue #816.",
-  "notes_risks": "Implementation and focused proof are complete; independent exact-head review and publication remain.",
+  "notes_risks": "The first exact-head review found two proof gaps. Both are repaired; fresh exact-head rereview and publication remain.",
   "demo_proof_requirements": "Local test proof.",
   "tooling_notes": "Native v3 and focused owner tests.",
   "issue_graph_note": "Child of #522.",
