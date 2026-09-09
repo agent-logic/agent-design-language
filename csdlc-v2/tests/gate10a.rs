@@ -1209,17 +1209,35 @@ fn operator_guidance_is_bound_to_manifest_and_coexistence_contract() {
             .unwrap();
     assert_eq!(manifest.skills.len(), 11);
     assert_eq!(selector.default_generation, Generation::V3);
+    // Pre-cutover and malformed-selector behavior has isolated Git fixtures in
+    // operator::tests::tracked_v3_selector_activates_only_after_origin_main_contains_it.
+    let canonical = std::process::Command::new("git")
+        .arg("-C")
+        .arg(root.join(".."))
+        .args([
+            "show",
+            "refs/remotes/origin/main:csdlc-v2/operator/generation-selector.json",
+        ])
+        .output()
+        .unwrap();
+    let expected = if canonical.status.success()
+        && canonical.stdout == fs::read(root.join("operator/generation-selector.json")).unwrap()
+    {
+        Generation::V3
+    } else {
+        Generation::V2
+    };
     assert_eq!(
         resolve_operator_generation(&root.join(".."), 5294, None).unwrap(),
-        Generation::V2,
-        "the feature-branch selector must not activate v3 before it is canonical on origin/main"
+        expected,
+        "the checkout must follow canonical origin/main cutover authority"
     );
     assert!(resolve_operator_generation(&root.join(".."), 5294, Some(Generation::V1)).is_err());
-    for text in [&root_agents, &nested_agents] {
-        assert!(text.contains("v1"));
-        assert!(text.contains("csdlc-install"));
-        assert!(text.contains("eleven"));
-    }
+    assert!(root_agents.contains("C-SDLC v3"));
+    assert!(root_agents.contains("typed"));
+    assert!(root_agents.contains("v1"));
+    assert!(nested_agents.contains("csdlc-install"));
+    assert!(nested_agents.contains("eleven"));
 }
 
 #[test]
