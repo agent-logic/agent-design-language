@@ -14,7 +14,7 @@ use crate::review::{
 };
 use crate::REMOTE_DELIVERY_PREDECESSORS;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 const ISSUE: u64 = 504;
@@ -771,6 +771,7 @@ struct SequencedProcessAdapter {
     outputs: std::collections::VecDeque<crate::adapters::ProcessOutput>,
     invocations: Vec<crate::adapters::CommandInvocation>,
     intent_path: Option<PathBuf>,
+    credential_available: bool,
 }
 
 impl SequencedProcessAdapter {
@@ -779,6 +780,7 @@ impl SequencedProcessAdapter {
             outputs: outputs.into(),
             invocations: Vec::new(),
             intent_path: None,
+            credential_available: true,
         }
     }
 
@@ -786,9 +788,25 @@ impl SequencedProcessAdapter {
         self.intent_path = Some(intent_path);
         self
     }
+
+    fn without_credential(mut self) -> Self {
+        self.credential_available = false;
+        self
+    }
 }
 
 impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
+    fn preflight_child_credential(
+        &mut self,
+        invocation: &crate::adapters::CommandInvocation,
+    ) -> Result<(), crate::adapters::AdapterError> {
+        if invocation.child_credential_name().is_some() && !self.credential_available {
+            Err(crate::adapters::AdapterError::CredentialResolutionFailed)
+        } else {
+            Ok(())
+        }
+    }
+
     fn run(
         &mut self,
         invocation: crate::adapters::CommandInvocation,
@@ -802,6 +820,24 @@ impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
         self.invocations.push(invocation);
         self.outputs.pop_front().expect("scripted process output")
     }
+}
+
+fn persist_mutation_intent(root: &Path, request: &super::GithubMutationRequest) -> PathBuf {
+    let operation_digest = super::github_mutation_operation_digest(request);
+    let selector_digest = super::canonical_authority_selector_digest(root).unwrap();
+    let mut intent_request = request.clone();
+    intent_request.recovery = None;
+    let intent = super::GithubMutationIntent {
+        schema: "csdlc.v3.github_mutation_intent.v1".into(),
+        operation_digest: operation_digest.clone(),
+        operation_marker: super::github_mutation_operation_marker(&operation_digest),
+        authority_selector_digest: selector_digest,
+        request: intent_request,
+        adapter: super::GITHUB_OPERATIONAL_ADAPTER.into(),
+    };
+    let path = super::github_mutation_intent_path(root, &operation_digest).unwrap();
+    super::persist_json_create_new(&path, &intent).unwrap();
+    path
 }
 
 fn process_output(
@@ -953,8 +989,32 @@ fn mutation_request(
         operator_approval: Some("caller-forged operator approval for #505".into()),
         expected_head_sha: exact_head_sha.into(),
         credential_names: vec!["GITHUB_TOKEN".into()],
+        recovery: None,
         mutation,
     }
+}
+
+// PVF: deterministic local CPU contract; fake transport; no live mutation.
+#[test]
+fn missing_credential_fails_before_persisting_mutation_intent() {
+    let root = mutation_repo("credential-preflight", true);
+    let head = mutation_head(&root);
+    let request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "credential preflight".into(),
+        },
+    );
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let intent_path =
+        super::github_mutation_intent_path(&root, &operation_digest).expect("intent path");
+    let mut process = SequencedProcessAdapter::new(vec![]).without_credential();
+
+    let finding = super::execute_github_mutation(&root, &request, &mut process)
+        .expect_err("missing credential must fail before durable intent");
+    assert_eq!(finding.code, "github_credential_unavailable");
+    assert!(!intent_path.exists());
+    assert!(process.invocations.is_empty());
 }
 
 #[test]
@@ -1006,6 +1066,122 @@ fn mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles() {
     assert!(!result.receipt.idempotent_replay);
     assert!(
         super::github_mutation_receipt_path(&root, &operation_digest)
+            .expect("receipt path")
+            .exists()
+    );
+}
+
+// PVF: deterministic local CPU contract; fake transport; no live mutation.
+#[test]
+fn retained_intent_requires_explicit_authenticated_absence_recovery_before_retry() {
+    let root = mutation_repo("absence-recovery", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueCreate {
+            title: "Recovered v3 issue".into(),
+            body: "Recover this through v3.".into(),
+            labels: vec!["v3".into()],
+            assignees: vec![],
+            milestone: None,
+        },
+    );
+    request.issue = 0;
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&operation_digest);
+    let intent_path = persist_mutation_intent(&root, &request);
+
+    let mut unapproved_retry = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        serde_json::json!({"items":[]}),
+    )])
+    .requiring_intent(intent_path.clone());
+    let finding = super::execute_github_mutation(&root, &request, &mut unapproved_retry)
+        .expect_err("authenticated absence alone does not silently replay");
+    assert_eq!(finding.code, "github_mutation_not_reconciled");
+    assert_eq!(unapproved_retry.invocations.len(), 1);
+    assert_eq!(
+        unapproved_retry.invocations[0].argv()[0],
+        "issues-by-marker"
+    );
+
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut approved_retry = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({"items":[]}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "id": 67890,
+                "number": 745,
+                "title": "Recovered v3 issue",
+                "body": format!("Recover this through v3.\n\n{marker}"),
+                "labels": [{"name": "v3"}],
+                "assignees": [],
+                "milestone": null
+            }),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            serde_json::json!({
+                "items": [{
+                    "id": 67890,
+                    "number": 745,
+                    "title": "Recovered v3 issue",
+                    "body": format!("Recover this through v3.\n\n{marker}"),
+                    "labels": [{"name": "v3"}],
+                    "assignees": [],
+                    "milestone": null
+                }]
+            }),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    let result = super::execute_github_mutation(&root, &request, &mut approved_retry)
+        .expect("explicit recovery retries after authenticated absence");
+    assert_eq!(result.receipt.issue, 745);
+    assert_eq!(result.reconciliation.issue, 745);
+    assert!(!result.receipt.idempotent_replay);
+    assert_eq!(approved_retry.invocations.len(), 3);
+    assert_eq!(approved_retry.invocations[0].argv()[0], "issues-by-marker");
+    assert_eq!(approved_retry.invocations[1].argv()[0], "POST");
+    assert_eq!(approved_retry.invocations[2].argv()[0], "issues-by-marker");
+    assert!(intent_path.exists());
+    assert!(
+        super::github_mutation_receipt_path(&root, &operation_digest)
+            .expect("receipt path")
+            .exists()
+    );
+}
+
+// PVF: deterministic local CPU contract; fake transport; no live mutation.
+#[test]
+fn retained_intent_with_unavailable_readback_stays_fail_closed_even_with_recovery() {
+    let root = mutation_repo("unknown-recovery-denied", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "uncertain comment".into(),
+        },
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let operation_digest = super::github_mutation_operation_digest(&request);
+    let intent_path = persist_mutation_intent(&root, &request);
+    let mut process = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::TimedOut,
+        serde_json::json!({}),
+    )])
+    .requiring_intent(intent_path);
+
+    let finding = super::execute_github_mutation(&root, &request, &mut process)
+        .expect_err("unavailable readback is still unknown outcome");
+    assert_eq!(finding.code, "github_mutation_reconciliation_unavailable");
+    assert_eq!(process.invocations.len(), 1);
+    assert!(
+        !super::github_mutation_receipt_path(&root, &operation_digest)
             .expect("receipt path")
             .exists()
     );

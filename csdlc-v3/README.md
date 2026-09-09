@@ -27,7 +27,7 @@ contract and root `AGENTS.md`.
   testing upcoming sprint umbrellas against typed issue readback evidence before
   cutover. It is planning evidence only and does not start child execution.
 - V3-G/#570 repaired v2-first documentation and skill guidance for advance
-  notice. The live route still remains typed v2 until V3-F/#505.
+  notice. At that historical stage, typed v2 remained the live route before V3-F/#505.
 
 ## Clean replacement target
 
@@ -238,8 +238,8 @@ succeeds.
 
 Before cutover, the same command fails closed instead of mutating GitHub.
 
-After the canonical evidence-bound v2 selector activates v3 authority for the
-exact reviewed #505 head, named local routes automatically enter native
+When the canonical native v3 selector and authenticated cutover receipt validate
+against `origin/main`, named local routes automatically enter native
 operational mode from `--repo-root`, the canonical selector, retained cutover
 approval, typed request, and requested worktree. There is no caller-controlled
 authority switch. Operational `schedule` requests must provide all six
@@ -261,17 +261,11 @@ That canary reads live issue state through typed C-SDLC v2 issue transport,
 parses the current umbrella membership for #536 and #537, and then verifies the
 result through non-authoritative v3 sprint readiness.
 
-For docs and cutover-readiness work, use the issue-owned validators declared by
-the active issue, such as the #570 stale-route and skill-guidance scans. Passing
-v3 construction checks is evidence for the v3 package only; live lifecycle work
-still routes through typed C-SDLC v2 until V3-F/#505.
+For current operation and focused validation, follow the issue-owned PVF plan
+and `docs/csdlc-v3/CURRENT_AUTHORITY.md`. The #505 / PR #591 cutover is complete;
+native mutation requires authenticated selector and reconciliation proof.
 
-Issue #505 is the pending V3-F authority-transition decision. Until #505 is
-explicitly approved, merged, and terminally reconciled, v3 remains
-non-authoritative construction and cutover evidence. Operators must receive the
-pre-change notice in `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any
-default route changes from v2 to v3.
-
-Operators preparing for the one-binary replacement should read
-`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md`. That notice is advance guidance,
-not authority cutover.
+The original `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and
+`docs/csdlc-v3/CUTOVER_READINESS_NOTICE.md` are historical pre-cutover evidence,
+not live routing guidance. The canary described above also retains its
+pre-cutover scope; it does not select today's default authority.

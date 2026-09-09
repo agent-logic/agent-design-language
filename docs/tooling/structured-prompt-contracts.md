@@ -4,10 +4,10 @@
 
 ADL now treats the core workflow artifacts as structured prompt surfaces with machine-checkable contracts:
 
-Issue #505 / V3-F is the pending tooling changeover decision. Until that
-operator-reviewed cutover is approved, merged, and terminally reconciled,
-C-SDLC v2 remains the live lifecycle authority; this contract text does not
-make C-SDLC v3 operational authority before cutover.
+C-SDLC v3 is operational after #505 / PR #591. The authenticated canonical
+selector and reconciliation receipt must validate before operational authority
+is available; missing or stale proof suspends authority. V2 is restricted to
+explicitly authorized rollback or bounded transition remediation.
 
 - `Structured Issue Prompt` (SIP)
 - `Structured Task Prompt` (STP)
@@ -280,8 +280,9 @@ This first contract layer does not attempt to solve all editing-control-plane va
 
 Deferred work includes:
 
-- full lifecycle enforcement across the typed C-SDLC v2 init, bind, review,
-  publish, finish, and clean owners while v2 remains live authority
+- full structural contract coverage across the native C-SDLC v3 issue, bind,
+  review, publish, finish, and clean routes; this contract inventory does not
+  bypass their existing authority or lifecycle guards
 - migration of all historical artifacts
 - freezing high-value prose beyond section presence and selected stable scalars
 - full schema coverage for every future authoring/editor surface
