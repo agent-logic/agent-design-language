@@ -75,3 +75,27 @@ v3 binding left cards in the primary checkout and native edit returned
 `invalid_operational_roots`. V2 adopted the exact existing branch/worktree and
 materialized the prepared six-card bundle. This is a bounded exception, not a
 repository-wide authority rollback; no selector was changed.
+
+## Observed predecessor result
+
+At the 2026-09-08 readback, #517 / PR #748 remained open at
+`899b60aab7b374a68284828d28a1308e0a1c9f9c`. Aggregate CI and coverage passed,
+but its quality decision remained **blocked** and downstream release unlock
+remained false. The PR reports 121 proving passes and 245 non-proving rows.
+[dependency-observation.json](dependency-observation.json) records the five
+unresolved exceptions with the immutable source URL and blob hash:
+
+- Two executed issues lack current exact-head review (7 affected rows).
+- WP-01, GCP-E, HOT-01 and OBS-B live/spec records need synchronization (4 rows).
+- Current criteria lack candidate-bound proof or amendment authority (11 rows).
+- Retained predecessor criteria lack successor proof mappings (227 rows).
+- Shared paths lack explicit owner sign-off (3 rows).
+
+These exception row counts are not a separate disjoint issue denominator.
+Documentation corrections here do not resolve review or semantic proof debt.
+The live/spec synchronization item is relevant to #518; a follow-up reconciliation
+must preserve source-time specifications and identify accepted amendments rather
+than changing required criteria to manufacture a pass. The remaining proof and
+sign-off items stay with their evidence owners. Final handoff requires both the
+reviewed merge and a passing quality result; green CI or a merged blocked
+quality decision is insufficient.

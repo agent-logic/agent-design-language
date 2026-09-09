@@ -1,0 +1,64 @@
+{
+  "schema": "adl.tail02.dependency_observation.v1",
+  "observed_date": "2026-09-08",
+  "issue": 517,
+  "issue_state": "OPEN",
+  "pull_request": 748,
+  "pull_request_state": "OPEN",
+  "pull_request_head": "899b60aab7b374a68284828d28a1308e0a1c9f9c",
+  "aggregate_ci": "SUCCESS",
+  "aggregate_coverage": "SUCCESS",
+  "quality_gate": "blocked",
+  "downstream_release_unlock": false,
+  "source_path": "docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
+  "source_blob_sha256": "ede57e98659a924ae3176b35cff90daf99876b4de96586254ecafd582eb79390",
+  "source_url": "https://github.com/agent-logic/agent-design-language/blob/899b60aab7b374a68284828d28a1308e0a1c9f9c/docs/milestones/v0.92.1/evidence/release/tail-01/blockers.json",
+  "unresolved": [
+    {
+      "id": "execution-exact-head-review-gaps",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "2 executed issues retain substantive post-review changes without current exact-head review.",
+      "disposition": "open",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 7
+    },
+    {
+      "id": "consolidated-live-spec-sync-debt",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "Live criteria for WP-01, GCP-E, HOT-01, OBS-B are equivalent or stronger expansions of the spec, except OBS-B moves backlog authority to canonical planning and adds no-mock proof; synchronize the records.",
+      "disposition": "follow_up",
+      "owner": "release planning maintainers",
+      "affected_row_count": 4
+    },
+    {
+      "id": "semantic-criterion-proof-gaps",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "11 current planned criteria lack candidate-bound proof or explicit amendment authority.",
+      "disposition": "follow_up",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 11
+    },
+    {
+      "id": "retained-predecessor-criterion-proof-gaps",
+      "severity": "P1",
+      "classification": "product_blocker",
+      "summary": "Retained predecessor criteria have no criterion-level mapping to candidate-bound successor evidence.",
+      "disposition": "open",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 227
+    },
+    {
+      "id": "consolidated-owned-path-resolution-proof-debt",
+      "severity": "P2",
+      "classification": "proof_debt",
+      "summary": "Shared paths lack explicit owner sign-off; no final-content requirement loss was demonstrated.",
+      "disposition": "follow_up",
+      "owner": "release evidence maintainers",
+      "affected_row_count": 3
+    }
+  ],
+  "scope_boundary": "This is observation of an unmerged predecessor candidate, not adopted acceptance evidence. Merge alone does not satisfy the passing quality-result gate."
+}

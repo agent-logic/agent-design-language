@@ -1,0 +1,12 @@
+{
+  "issue": 518,
+  "card": "sor",
+  "expected_generation": 18,
+  "expected_digest": "b51b881681b62d37dafbb718d010c52b859d45d829d39a4a5c56fe1d06c2d27b",
+  "actor": "codex:planning-6",
+  "reason": "Record verified predecessor quality blocker and independent review of the observation delta; do not promote green CI to release acceptance.",
+  "operation": {
+    "operation": "append_reference",
+    "value": "docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json"
+  }
+}

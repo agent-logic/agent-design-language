@@ -63,7 +63,8 @@
       }
     ],
     "owner": "C-SDLC documentation owner; coordinate with SIM-02; #518 records and reviews the correction",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D02",
@@ -84,7 +85,8 @@
       }
     ],
     "owner": "#518 / contributor-doc owner",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D03",
@@ -157,7 +159,8 @@
       }
     ],
     "owner": "#518",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D05",
@@ -173,7 +176,8 @@
       }
     ],
     "owner": "#518 with #538 coordination truth",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D06",
@@ -199,7 +203,8 @@
       }
     ],
     "owner": "#518 inventory; later release-tail owners supply their results",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D07",
@@ -257,7 +262,8 @@
       }
     ],
     "owner": "#518 review findings; #519 publication-finalization owner",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D09",
@@ -278,7 +284,8 @@
       }
     ],
     "owner": "#518 identifies; #523 owns successor plan reconciliation",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D10",
@@ -299,8 +306,9 @@
       }
     ],
     "owner": "C-SDLC editor/documentation owner; #518 findings ledger",
-    "status": "corrected_pending_independent_review",
-    "remaining": "Missing replacement browser editor is reported explicitly; this issue does not implement an editor."
+    "status": "corrected_reviewed_locally",
+    "remaining": "Missing replacement browser editor is reported explicitly; this issue does not implement an editor.",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D11",
@@ -321,7 +329,8 @@
       }
     ],
     "owner": "C-SDLC operating-contract owner; coordinate SIM-02",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D12",
@@ -337,7 +346,8 @@
       }
     ],
     "owner": "#518 with #517 gate contract",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D13",
@@ -358,7 +368,8 @@
       }
     ],
     "owner": "#518",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D14",
@@ -379,7 +390,8 @@
       }
     ],
     "owner": "#518",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   },
   {
     "id": "D15",
@@ -400,6 +412,7 @@
       }
     ],
     "owner": "#518 contributor-doc findings",
-    "status": "corrected_pending_independent_review"
+    "status": "corrected_reviewed_locally",
+    "review_evidence": "independent-review.json; reviewed work committed as 07de1cacbf; not final lifecycle approval"
   }
 ]

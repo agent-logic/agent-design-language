@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1306ff5e06f5b37967af3816cc2e40385bde403b8c0139fe84886389c2ad2c8f",
   "phase": "bound",
-  "generation": 18,
-  "digest": "b51b881681b62d37dafbb718d010c52b859d45d829d39a4a5c56fe1d06c2d27b",
+  "generation": 19,
+  "digest": "533438ea255333d62265f1c6934cf2e478319769855521707a8f229a42a831cf",
   "branch": "codex/518-documentation-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-518-documentation-review",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dbcee64c7771f71af6bb4624299b8cb645111c83f9924ac5e41baaae57d08cad",
+      "values_digest": "0671567c63a16afea68a2211de27643cf59949c6001912357c5cfca1e703bcec",
       "rendered_digest": "ab65f26cfb6d7ab2980ce8c3ea93b902e673a7a6168561106ce90a3522c9e256",
       "ast_digest": "7a789d5174353cc113ec409598bece1c5f6985b888ce54ac7a62e3a62518dbfa"
     },
     "stp": {
-      "values_digest": "778d9115c9f0ef514bfc786b73db744b6bcb58bbe79301aff69015a6770e3a88",
+      "values_digest": "ccb4ec5bfc22bcce1616b38898fefac3005544f704e2560dbc73cb78a845b292",
       "rendered_digest": "2662d77d88ac3dadce640f9134a13a6dc1ab6c98cb1f9a73640fcd6b113b93cd",
       "ast_digest": "b5a899d2d0f905bdb7dfba2f67d79fce40b5bb07bcad53ac041dd7bbf2b5a253"
     },
     "spp": {
-      "values_digest": "4452c2da55eafbabc617b35a7f1eae19006e62e3f5aaaa890122d68bf2c6f4f4",
+      "values_digest": "d756da53f4dc94964a918b5a01a4ca2229edaf05a8aed4f2ada90665117bdb1a",
       "rendered_digest": "49e260e0d318b592eda38d3cba63f00ae62345ba10d63d5442a8915af927800e",
       "ast_digest": "28b958f09a37cfb8663b7d1e78aa0f0e7f240b0f194738ddcb5f5cb34af70db8"
     },
     "vpp": {
-      "values_digest": "3395973b78ee92dee17970c610f9546f56ce5e711dc5553031b0a31832bd3670",
+      "values_digest": "8b6152ed701b00d7531cf07c09adbf19099d35700c9970986cad92c6c5060bfd",
       "rendered_digest": "f7200ee827cba08c029333e69bcddee3ae8041852800215921f7a18d6907f305",
       "ast_digest": "76589f52384ddc5c49e3a11eca08874b9f7321c49d6ea1040c2aba0850e486b8"
     },
     "srp": {
-      "values_digest": "e53948b54fafe640438c5e3771eb271106b8cd8feebc3899bc05d67cb832b040",
+      "values_digest": "a97c17c944f6af10b8fc95da6dd1058afca21ff48bb3e5cb3c775bd7a893e3a3",
       "rendered_digest": "68a5206a895ed4f034ce8e93d776d31519a9c77b6e4e432ff7354a82e2978fb4",
       "ast_digest": "dfe1977a91466e8dff1b6a7a4b84780dd9d406d6e350046849fbf1bc5e112ebd"
     },
     "sor": {
-      "values_digest": "4f3dbe84726319df372e40519fc6ebd9801f1fea138fbc3b2c552a005dbdd47c",
-      "rendered_digest": "14069376c4e0b4c0f72abf85354393aa79ee85f32ba00f4d42b40b4d5685b5d3",
-      "ast_digest": "9ab50a99f01ede309feb9962481007dd06e65e7bf6b362b5d83fac6c2477907d"
+      "values_digest": "b282933ab630039856f3522faf015fe61b96673df811b2c1f698ca1305b8f6c0",
+      "rendered_digest": "4b29596444ff21b4ecb544b92434b067842efd161912d76a0d1c0242daba0723",
+      "ast_digest": "00a4317d0569f152705454f35d91ff353e2cdfe18a0090104bef7b03e1631c56"
     }
   },
   "transitions": [
@@ -210,6 +210,13 @@
       "actor": "codex:planning-6",
       "reason": "Record proved local progress only; final handoff S4 remains pending issue 517.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:planning-6",
+      "reason": "Record verified predecessor quality blocker and independent review of the observation delta; do not promote green CI to release acceptance.",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\"docs/milestones/v0.92.1/evidence/release/tail-02/review-addendum.json\"}"
     }
   ]
 }
