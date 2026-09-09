@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep.
 
 ## Lane Registry Inputs
 

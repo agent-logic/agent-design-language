@@ -10,7 +10,7 @@
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout",
-  "plan_summary": "Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.",
+  "plan_summary": "Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep.",
   "initial_pvf_lane": "focused_terminal",
   "planned_pvf_lane": "focused_terminal",
   "selected_lanes_inline": "focused_terminal",
