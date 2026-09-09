@@ -28,7 +28,7 @@ pr_start:
   slug: "issue-metadata"
 ---
 
-Canonical Template Source: `docs/templates/prompts/1.0.4/stp.md`
+Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
 Generated: 2026-09-09T18:56:10.034282+00:00
 
 # Structured Task Prompt

@@ -1961,3 +1961,156 @@ fn issue_metadata_invalid_baseline_cannot_create_intent_or_write() {
         assert_eq!(adapter.invocations.len(), 1);
     }
 }
+
+// PVF: required deterministic local regression, small CPU/disk, synthetic transport;
+// proves pagination/replay policy, not authenticated live GitHub execution.
+#[test]
+fn comment_pagination_reuses_later_match_and_rejects_incomplete_or_ambiguous_scan() {
+    use crate::adapters::ProcessStatus;
+    for scenario in [
+        "later-match",
+        "later-failure",
+        "later-truncation",
+        "later-invalid-json",
+        "later-non-array",
+        "later-oversized",
+        "duplicate",
+        "page-bound",
+    ] {
+        let root = mutation_repo(&format!("comment-pages-{scenario}"), true);
+        let head = mutation_head(&root);
+        let mut request = mutation_request(
+            &head,
+            super::GithubMutation::IssueComment {
+                body: "existing comment".into(),
+            },
+        );
+        request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+        let operation_digest = super::github_mutation_operation_digest(&request);
+        let marker = super::github_mutation_operation_marker(&operation_digest);
+        let intent = persist_mutation_intent(&root, &request);
+        let matching = serde_json::json!({"id":101,"body":format!("existing comment\n\n{marker}")});
+        let mut first = (1..=100)
+            .map(|id| serde_json::json!({"id":id,"body":"unrelated"}))
+            .collect::<Vec<_>>();
+        if scenario == "duplicate" {
+            first[0] = serde_json::json!({"id":1,"body":format!("existing comment\n\n{marker}")});
+        }
+        let mut outputs = vec![process_output(
+            ProcessStatus::Exit(0),
+            serde_json::json!(first),
+        )];
+        match scenario {
+            "later-failure" => outputs.push(process_output(
+                ProcessStatus::TimedOut,
+                serde_json::json!([]),
+            )),
+            "later-truncation" => {
+                let mut output = process_output(ProcessStatus::Exit(0), serde_json::json!([]));
+                output.truncated = true;
+                outputs.push(output);
+            }
+            "later-invalid-json" => {
+                let mut output = process_output(ProcessStatus::Exit(0), serde_json::json!([]));
+                output.stdout = "invalid JSON".into();
+                outputs.push(output);
+            }
+            "later-non-array" => outputs.push(process_output(
+                ProcessStatus::Exit(0),
+                serde_json::json!({}),
+            )),
+            "later-oversized" => outputs.push(process_output(
+                ProcessStatus::Exit(0),
+                serde_json::json!(vec![serde_json::json!({"id": 1}); 101]),
+            )),
+            "page-bound" => {
+                for _ in 1..100 {
+                    outputs.push(process_output(
+                        ProcessStatus::Exit(0),
+                        serde_json::json!(first),
+                    ));
+                }
+            }
+            _ => outputs.push(process_output(
+                ProcessStatus::Exit(0),
+                serde_json::json!([matching]),
+            )),
+        }
+        let mut process = SequencedProcessAdapter::new(outputs).requiring_intent(intent);
+        let result = super::execute_github_mutation(&root, &request, &mut process);
+        assert!(
+            process
+                .invocations
+                .iter()
+                .all(|i| i.program == super::GITHUB_READ_ONLY_ADAPTER),
+            "{scenario} must not POST"
+        );
+        for (index, call) in process.invocations.iter().enumerate() {
+            assert_eq!(call.argv()[3], (index + 1).to_string());
+            assert!(call.child_credential_name().is_some());
+        }
+        match scenario {
+            "later-match" => {
+                let result = result.expect("reuse page two comment");
+                assert!(result.receipt.idempotent_replay);
+                assert_eq!(result.reconciliation.remote_object_id, Some(101));
+            }
+            "duplicate" => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_ambiguous"
+            ),
+            "page-bound" => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_incomplete"
+            ),
+            "later-invalid-json" | "later-non-array" | "later-oversized" => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_invalid_json"
+            ),
+            _ => assert_eq!(
+                result.unwrap_err().code,
+                "github_mutation_reconciliation_unavailable"
+            ),
+        }
+    }
+}
+
+// PVF: required deterministic local regression, small CPU/disk, synthetic transport.
+#[test]
+fn comment_pagination_allows_explicit_retry_only_after_complete_absence() {
+    use crate::adapters::ProcessStatus;
+    let root = mutation_repo("comment-pages-absent", true);
+    let head = mutation_head(&root);
+    let mut request = mutation_request(
+        &head,
+        super::GithubMutation::IssueComment {
+            body: "new comment".into(),
+        },
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let digest = super::github_mutation_operation_digest(&request);
+    let marker = super::github_mutation_operation_marker(&digest);
+    let intent = persist_mutation_intent(&root, &request);
+    let first = serde_json::json!((1..=100)
+        .map(|id| serde_json::json!({"id":id,"body":"unrelated"}))
+        .collect::<Vec<_>>());
+    let new_comment = serde_json::json!({"id":101,"body":format!("new comment\n\n{marker}")});
+    let mut process = SequencedProcessAdapter::new(vec![
+        process_output(ProcessStatus::Exit(0), first.clone()),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([])),
+        process_output(ProcessStatus::Exit(0), new_comment.clone()),
+        process_output(ProcessStatus::Exit(0), first),
+        process_output(ProcessStatus::Exit(0), serde_json::json!([new_comment])),
+    ])
+    .requiring_intent(intent);
+    let result = super::execute_github_mutation(&root, &request, &mut process)
+        .expect("complete authenticated absence permits explicit retry");
+    assert!(!result.receipt.idempotent_replay);
+    assert_eq!(result.reconciliation.remote_object_id, Some(101));
+    assert_eq!(process.invocations.len(), 5);
+    assert_eq!(process.invocations[0].argv()[3], "1");
+    assert_eq!(process.invocations[1].argv()[3], "2");
+    assert_eq!(process.invocations[2].argv()[0], "POST");
+    assert_eq!(process.invocations[3].argv()[3], "1");
+    assert_eq!(process.invocations[4].argv()[3], "2");
+}

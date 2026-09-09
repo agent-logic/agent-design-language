@@ -57,10 +57,10 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "approve"
-notes: "review_797_design confirmed unconditional identity read, supplied-body regression case, explicit metadata semantics and retained retry target."
+notes: "Initial findings resolved; merged main comment-pagination changes with both test groups retained. Exact merged-head re-review required."
 ---
 
-Canonical Template Source: `docs/templates/prompts/1.0.4/srp.md`
+Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
 
 # Structured Review Prompt
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-review_797_design confirmed unconditional identity read, supplied-body regression case, explicit metadata semantics and retained retry target.
+Initial findings resolved; merged main comment-pagination changes with both test groups retained. Exact merged-head re-review required.

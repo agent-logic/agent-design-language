@@ -1,0 +1,13 @@
+   Compiling csdlc-v3 v0.1.0 (<issue-worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.85s
+     Running tests/terminal_cleanup_cutover_commands.rs (<external-target>/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
+
+running 5 tests
+test cleanup_rejects_caller_boolean_without_durable_terminal_receipt ... ok
+test cleanup_rejects_disposable_terminal_receipt_path ... ok
+test cleanup_rejects_stale_or_mismatched_terminal_receipts ... ok
+test non_regular_terminal_receipt_preserves_absent_state ... ok
+test conflicting_terminal_receipt_preserves_state ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.21s
+

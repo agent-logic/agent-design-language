@@ -21,7 +21,7 @@
   "recommended_outcome": "approve",
   "review_findings": "P2 supplied-body path skipped issue-vs-PR identity check; P3 schema accepted no-op/null-only or blank metadata.",
   "review_dispositions": "P2 identity bypass and P3 schema mismatch fixed. Independent rereview found no further substantive findings. Final committed-head verification follows.",
-  "review_notes": "review_797_design confirmed unconditional identity read, supplied-body regression case, explicit metadata semantics and retained retry target.",
+  "review_notes": "Initial findings resolved; merged main comment-pagination changes with both test groups retained. Exact merged-head re-review required.",
   "initial_pvf_lane": "owner_binary",
   "planned_pvf_lane": "owner_binary",
   "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/797",

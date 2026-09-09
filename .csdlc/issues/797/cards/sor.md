@@ -1,9 +1,11 @@
 # issue-metadata
 
-Canonical Template Source: `docs/templates/prompts/1.0.4/sor.md`
+Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
-Authority notice: C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.
-
+Authority notice: C-SDLC v3 is operational after V3-F/#505 and merged PR #591.
+Authority requires the authenticated canonical native selector and reconciliation
+receipt; missing or stale proof suspends authority. Retained typed v2 requires
+explicit issue-scoped rollback or remediation approval.
 Legacy `pr` editor routes are historical/retired compatibility orientation,
 not current lifecycle authority.
 
@@ -101,14 +103,14 @@ Rules:
 - Verification scope describes where the verification commands were run.
 - worktree_only means at least one required path still exists only outside the main repository path.
 - Completed output records must not leave `Status` as `NOT_STARTED`.
-- By typed `csdlc-finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure).
+- By native v3 `csdlc finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure).
 
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests; cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands; cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --lib --bin csdlc -- -D warnings; native six-card validation`
     `Proves deterministic metadata semantics, exact readback and durable uncertainty handling, plus CLI integration.`
 - Results:
-  - `Passed 36 focused remote-owner tests, 12 operational CLI tests, 13 remote publication/help tests, clippy with warnings denied and whitespace checks. Native six-card validation follows final record edits.`
+  - `After merging current main: 38 remote-owner tests, 12 operational CLI tests, 13 publication/help tests and clippy passed. Native six-card validation follows template registry refresh.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +125,7 @@ verification_summary:
   validation:
     status: passed
     checks_run:
-      - "61 focused native tests and clippy; no live mutation proof"
+      - "63 focused native tests and clippy; no live metadata mutation proof"
   determinism:
     status: passed
     replay_verified: true

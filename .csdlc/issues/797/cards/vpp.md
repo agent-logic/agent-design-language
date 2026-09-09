@@ -44,7 +44,7 @@ failure_policy: "Resolve failures before publication; never retry metadata write
 notes: "API writes are not conditional transactions; stale readback fails closed. IssueEdit explicit recovery does not replay PATCH."
 ---
 
-Canonical Template Source: `docs/templates/prompts/1.0.4/vpp.md`
+Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 # Structured Validation Planning Prompt
 

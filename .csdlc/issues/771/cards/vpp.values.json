@@ -1,0 +1,145 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 771,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+    "slug": "v3f-exact-head-proof",
+    "version": "v0.92.1",
+    "generation": 41
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "current-mapping",
+          "proof_role": "Required current exact-source review and full detached-suite binding for all four V3-F rows.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 4000,
+          "argv": [
+            "python3",
+            "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+            "--v3f-current"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "mapping-negative",
+          "proof_role": "Required stale SHA/blob/suite substitution denial.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 4000,
+          "argv": [
+            "python3",
+            "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py",
+            "--v3f-current",
+            "--negative"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "mapping-contract",
+          "proof_role": "Required synthetic validator anti-forgery and drift contracts; not source review proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 4000,
+          "argv": [
+            "python3",
+            "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "template-schemas",
+          "proof_role": "Required Python-readable schema parity smoke; native renderer validation is in exact detached suite.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 4000,
+          "argv": [
+            "python3",
+            "adl/tools/test_prompt_template_structure_schemas.py",
+            "--template-set",
+            "1.0.5"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "clippy",
+          "proof_role": "Required native source static validation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any missing identity, path or mutation-isolation proof; hosted CI remains required for integration.",
+      "design_ref": ".csdlc/prepared/issues/771/design.md",
+      "design_digest": "c5de487bd08d61541324c06b3d20ea8f93bfcf33927f62edbe45fd8316c27fec",
+      "diagram_ref": ".csdlc/prepared/issues/771/diagram.mmd",
+      "diagram_digest": "f6dfe12a29db3619d547dcb7b2fb5fa10d87c88ac68e4089a8fc88f9064e6551"
+    }
+  }
+}

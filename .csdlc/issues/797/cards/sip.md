@@ -1,7 +1,7 @@
 # ADL Input Card
 
 Semantic role: Structured Issue Prompt (`SIP`).
-Canonical Template Source: `docs/templates/prompts/1.0.4/sip.md`
+Canonical Template Source: `docs/templates/prompts/1.0.5/sip.md`
 
 Task ID: issue-0797
 Run ID: issue-0797
@@ -20,7 +20,7 @@ Context:
 
 ## Agent Execution Rules
 - This issue is not started yet; do not assume a branch or worktree already exists.
-- Do not use v1 wrappers; bind execution with `csdlc-bind` only if execution later becomes necessary.
+- Do not use v1 wrappers; bind execution with native v3 `csdlc bind` only if execution later becomes necessary.
 - Do not delete or recreate cards.
 - Do not switch branches unless explicitly instructed.
 - Do not work on `main`.
@@ -119,9 +119,9 @@ Deterministic fake-transport proof; no live metadata mutation required.
 ## Constraints / Policies
 
 - Follow `AGENTS.md`.
-- Use the typed C-SDLC v2 operator skills and Rust binaries for lifecycle routing.
+- Use authenticated native C-SDLC v3 for lifecycle routing. Retained typed v2 requires explicit issue-scoped rollback or remediation approval.
 - Edit cards only with editor skills.
-- Work only in the bound issue worktree after `csdlc-bind`.
+- Work only in the bound issue worktree after native v3 `csdlc bind`.
 - Keep validation focused on the touched surface.
 
 ## System Invariants (must remain true)
@@ -172,5 +172,5 @@ API writes are not conditional transactions; stale readback fails closed. IssueE
 - Read this file.
 - Read the linked source issue prompt before starting work.
 - Do not create a branch or worktree from this card alone.
-- When execution is approved, run `csdlc-bind` and then perform the work described above.
+- When execution is approved, run native v3 `csdlc bind` and then perform the work described above.
 - Write execution outcome truth to the paired `sor.md` file during execution.

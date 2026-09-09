@@ -107,7 +107,7 @@ review_hooks:
 notes: "API writes are not conditional transactions; stale readback fails closed. IssueEdit explicit recovery does not replay PATCH."
 ---
 
-Canonical Template Source: `docs/templates/prompts/1.0.4/spp.md`
+Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 # Structured Plan Prompt
 

@@ -8,7 +8,7 @@
   "checks": [
     {
       "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --lib commands::remote::tests",
-      "passed": 36
+      "passed": 38
     },
     {
       "command": "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --test operational_cli_commands",
@@ -28,5 +28,5 @@
     "No product/runtime proof claimed; hosted CI supplies aggregate integration checks.",
     "Issue edits do not replay PATCH after uncertain mismatch."
   ],
-  "review": "Independent review_797_design found identity and schema gaps; both resolved. Final exact-head review required."
+  "review": "Initial findings resolved; exact-head review refreshed after merging main."
 }

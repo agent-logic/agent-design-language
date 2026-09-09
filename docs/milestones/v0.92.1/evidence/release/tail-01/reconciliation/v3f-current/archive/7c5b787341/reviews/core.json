@@ -1,0 +1,73 @@
+{
+  "source_sha": "7c5b7873418249726d7c7d14f6e7f787358a80bf",
+  "reviewer": "codex:/root/review_771_core",
+  "completed_at": "2026-09-09T17:34:06.023535+00:00",
+  "scope": {
+    "csdlc-v3/operator/authority-selector.json": "7918c4a7a85ec8334a18cb2eef1de397e05024af",
+    "csdlc-v3/operator/native-authority-pr-observation.json": "cc13ba1e9afc0f7cd9fa68b46fff847ba4b1858c",
+    "csdlc-v3/operator/native-authority-receipt.json": "28a16774fd74239a5b74485ace6b60e53c299582",
+    "csdlc-v3/src/authority.rs": "ea3a6e6daa89fdb12361edcbb5d997c186e4eafb",
+    "csdlc-v3/src/commands/local/mod.rs": "037824abda938d53084ecd55fe1e3eaabc155a7f",
+    "csdlc-v3/src/commands/terminal.rs": "e48a3248511760119caffcf044e7bb159526877d",
+    "csdlc-v3/tests/local_commands.rs": "7b742879ff9c3282e1355e62802df6321ddf459e",
+    "csdlc-v3/tests/operational_cli_commands.rs": "02920acb84ceb78beefb0c17a4464b6a6b7d435f",
+    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs": "486ebe4c88ea109ddddedfc9a998f2952edca58a"
+  },
+  "result": "pass",
+  "complete_reviewed_paths": [
+    "csdlc-v3/operator/authority-selector.json",
+    "csdlc-v3/operator/native-authority-pr-observation.json",
+    "csdlc-v3/operator/native-authority-receipt.json",
+    "csdlc-v3/src/authority.rs",
+    "csdlc-v3/src/commands/local/mod.rs",
+    "csdlc-v3/src/commands/terminal.rs",
+    "csdlc-v3/tests/local_commands.rs",
+    "csdlc-v3/tests/operational_cli_commands.rs",
+    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs"
+  ],
+  "unreviewed_paths": [],
+  "findings": [
+    {
+      "id": "V3F-771-R1",
+      "severity": "P1",
+      "actionable": true,
+      "in_scope": true,
+      "disposition": "fixed",
+      "evidence": "csdlc-v3/src/commands/local/mod.rs structure_valid now resolves template parent/schemas/<kind>.structure.json, validates template_set/card_kind/template_path and checks scaffold/headings/locked lines. csdlc-v3/tests/local_commands.rs current_registry_versioned_templates_resolve_all_structure_schemas initializes and validates all six actual current-registry templates. Source fix verified; parent owns exact-SHA suite execution receipt."
+    },
+    {
+      "id": "V3F-771-R2",
+      "severity": "P2",
+      "actionable": true,
+      "in_scope": true,
+      "disposition": "fixed",
+      "evidence": "csdlc-v3/src/commands/terminal.rs persist_terminal_finish checks receipt symlink_metadata, regular-file type and exact existing receipt bytes before write_staged(state). conflicting_terminal_receipt_preserves_state supplies the valid prior state digest and a distinct authenticated PR, and asserts Blocked plus exact state and receipt byte preservation. non_regular_terminal_receipt_preserves_absent_state checks directory denial before state creation."
+    }
+  ],
+  "semantic_criteria_assessments": {
+    "V3-F-ac-1": {
+      "status": "context",
+      "rationale": "The #505 STP requires requirements179 and180 mapping. This core assignment supplies implementation semantics: separate authenticated terminal finish, exact registered worktree cleanup, operator-approved cutover and rollback. The requirements-to-evidence mapping artifacts are assigned to the evidence reviewer, so this receipt alone does not certify completeness of that mapping."
+    },
+    "V3-F-ac-2": {
+      "status": "pass",
+      "rationale": "Within assigned core source, native local routes preserve typed contract, canonical authority, exact HEAD, lifecycle CAS, six cards and bound topology; schedule retains six readiness dimensions and shepherd its routing priority. Current real-registry structure regression closes prior776 blocker. Planning-only fixtures remain explicitly non-authoritative. End-to-end parity measurement requires the separate exact-SHA suite and evidence receipts."
+    },
+    "V3-F-ac-3": {
+      "status": "pass",
+      "rationale": "Reviewed cutover journal recovery and rollback logic and every terminal fixture. Apply binds binary, readiness, independent review and merged authority observation under Git-common advisory lock; rollback requires canonical tracked suspended selector and matching installed binary digest, supports fresh linked worktree common journal and idempotent removal. Fixtures exercise retained journal phases, stale selector denial and fresh-worktree rollback. Synthetic pre-cutover doctor receipts are verifier inputs, not fresh canary execution; separate proof-worktree execution and historical canary receipts remain necessary."
+    },
+    "V3-F-ac-4": {
+      "status": "pass",
+      "rationale": "Canonical authority requires exact origin/main selector and digest-linked native receipt, terminal receipt and PR observation, canonical issue505/PR591, closed/merged linkage and existing ancestor merge object. No feature-only selector activation or automatic v2 fallback. Apply requires independent exact revision review and authenticated merged591/closed505 readback; public apply without adapter authority blocks. Rollback requires tracked canonical suspended selector. Retirement policy/notification evidence is outside this core assignment."
+    }
+  },
+  "boundary_limits": [
+    "All nine assigned paths were read substantively in full, not just diff or test names; checked working bytes and committed blobs against preassignment.",
+    "This is independent source review, not an independently executed full-suite receipt. Parent is executing the locked suite on the identical detached SHA.",
+    "No network observations or writes were performed. Checked-in historical PR observations are retained canonical evidence, not current live GitHub status.",
+    "Terminal conflict repair proves preflight conflict/non-regular receipt rejection preserves state. It does not prove arbitrary I/O failure, concurrent-writer, OS-crash or cross-file transactional atomicity.",
+    "Synthetic terminal canary fixtures test the verifier contract, not production command execution. Existing test names mentioning atomically are bounded by actual assertions.",
+    "No CORP-A dispositions are reopened or reclassified by this scoped review."
+  ]
+}
