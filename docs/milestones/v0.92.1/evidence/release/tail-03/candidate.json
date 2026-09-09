@@ -5,14 +5,14 @@
   "status": "preparation",
   "source_issue": 518,
   "source_pr": 753,
-  "source_head": "cc7f7a7469c8648664dd0fc07740ab42309e2eca",
-  "reviewed_source_head": "0f9d9c28d26b00602846a21019a7327d36a39d20",
+  "source_head": "1048fb54dd502a3a3a114d49fe37f50e11f5cd70",
+  "reviewed_source_head": "ed6c1284add897bfd7e48f558ceb8c49154b5471",
   "review_index": {
     "path": ".csdlc/issues/518/index.json",
-    "sha256": "c6882725eb09b457e99d65ea48ea3d6caba747d7d1533eb6b3fc0048a42778af"
+    "sha256": "eff53977b49872fbb24b9a84ad4e6b812de5a4bec69848ff2bc25daa70a2884c"
   },
   "handoff_manifest": "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
-  "document_count": 775,
+  "document_count": 791,
   "artifacts": [
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/CARGO_MANIFEST_REVIEW.md",
@@ -20,7 +20,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/README.md",
-      "sha256": "f897c82090b42741caa7f022a2e7a2e28d1042b043237c3eb5b7a361380b4bef"
+      "sha256": "fa030d835f43281bbe00467c3f8bd45fdf985a5b12372b402e8b6ca745a988b3"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/cargo-independent-review.json",
@@ -36,11 +36,15 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/dependency-observation.json",
-      "sha256": "bab6c84e795066f398be56a7c03e1843f2ccc1c53b7f505a68f37681c7d164f6"
+      "sha256": "529c00ad8dfba78fa3e48954a8cb16c37fa503bfc2846ea2ab7ce2b02e80b9dd"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/document-inventory.json",
       "sha256": "e4e751ba66fbd13e7a5bc996c06d0af5e4fcdcd4120c1adaa16fa2857d6f58f6"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-02/final-validation.json",
+      "sha256": "06cbbfb06daab0a43dbe72579c925a342a47bed6aecb20399bd9b9be7d978bae"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/finding-dispositions.json",
@@ -48,7 +52,7 @@
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/handoff-content.json",
-      "sha256": "c854e8e13f991eec0ebbdbfb2332536562cb0c269ec02fbdb332c32ce96badb5"
+      "sha256": "b7bb0aa93b51b299523faa3357bc0e7e5754191ac8687f5931f4c33c6d299197"
     },
     {
       "path": "docs/milestones/v0.92.1/evidence/release/tail-02/independent-review.json",
@@ -80,7 +84,7 @@
     }
   ],
   "final_blockers": [
-    "PR #753 must merge and its exact reviewed candidate must be revalidated before this packet is final."
+    "PR #753 remains open under operator review hold; final acceptance requires its reviewed merge and fresh validation."
   ],
   "release_approval": false,
   "mutations_performed": []

@@ -1,7 +1,7 @@
 {
   "baseRefName": "main",
-  "body": "Complete the v0.92.1 documentation handoff against merged #517 and terminal reconciliation PR #750. Correct current lifecycle guidance, scope/deferral claims and review entrypoints; retain historical evidence and explicitly preserve the blocked release decision.\n\nThe packet binds 775 current files to content hashes, preserves the original 737-document audit and 15 finding dispositions, and audits all 24 Cargo manifests and 20 local dependencies without changing versions.\n\nValidation: six focused PVF lanes passed; combined documentation checks: 2,803. Independent review approved substantive commit `0f9d9c28d26b00602846a21019a7327d36a39d20` after three stale entrypoints were corrected. This is documentation acceptance, not release approval.\n\nCloses #518",
-  "headRefOid": "cc7f7a7469c8648664dd0fc07740ab42309e2eca",
+  "body": "Complete the v0.92.1 documentation handoff, including issue #517 accounting reconciliation from merged PR #752 and terminal reconciliation PR #750. All 245 historical non-proving rows and five exception groups have accounting dispositions; the historical assessment remains intact and release approval remains separate.\n\nThe packet binds 791 current files to content hashes, preserves the original 737-document audit and 15 finding dispositions, and audits all 24 Cargo manifests and 20 local dependencies without changing versions. Current guidance, deferrals and review entrypoints are reconciled.\n\nValidation: 2,824 combined documentation checks, 800 final handoff checks and Cargo 24/20 pass. Independent review approved substantive commit `ed6c1284add897bfd7e48f558ceb8c49154b5471`. The external P2 about stale exception status and the subsequent WBS-policy finding are corrected.\n\nOperator review hold: leave this PR unmerged pending review.\n\nCloses #518",
+  "headRefOid": "1048fb54dd502a3a3a114d49fe37f50e11f5cd70",
   "mergeCommit": null,
   "mergedAt": null,
   "number": 753,

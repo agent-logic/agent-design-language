@@ -12,10 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Provisional #519 packet and validator prepared in bound worktree. Independent preparation review passed with no actionable findings; self-test passed 775 documents, 13 artifacts and three negative fixtures. Final mode correctly blocks. #518 merged-candidate refresh, final typed review and publication remain pending.
+Provisional candidate refreshed to PR753 head 1048fb54dd502a3a3a114d49fe37f50e11f5cd70 and reviewed source ed6c1284add897bfd7e48f558ceb8c49154b5471, covering 791 documents. Final acceptance still waits for #518 reviewed merge; PR753 has an explicit operator review hold.
 
 ## Artifacts
 
+- docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json
+- docs/milestones/v0.92.1/evidence/release/tail-03/README.md
+- docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json
+- .csdlc/prepared/issues/519/validate-publication-candidate.rb
 - docs/milestones/v0.92.1/evidence/release/tail-03/candidate.json
 - docs/milestones/v0.92.1/evidence/release/tail-03/README.md
 - docs/milestones/v0.92.1/evidence/release/tail-03/source-pr.json
@@ -35,6 +39,9 @@ Provisional #519 packet and validator prepared in bound worktree. Independent pr
 - Created immutable source candidate and explicit #518/#519 closing relationships.
 - Implemented hash, review-scope, linkage, redaction and merge-content checks.
 - Independent preparation review passed; no merge, tag, release or issue-close mutation.
+- Updated immutable source hashes and saved live PR observation.
+- Distinguished historical quality exceptions from completed accounting dispositions.
+- Original preparation validator independently reviewed; refreshed content requires final review after predecessor merge.
 
 ## Validation
 
