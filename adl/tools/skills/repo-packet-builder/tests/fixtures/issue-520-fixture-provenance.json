@@ -1,0 +1,18 @@
+{
+  "source_base": "f0a011a5c59d46c763d669f69a10308b3f870ba4",
+  "source_candidate": "c24f8fa65ce445b03ce6cd69007307291d78b60c",
+  "path_count": 5481,
+  "sha256": "59c4c5de57d5aac07549a97bf508c00cbc2b5234e63f984a2eece6a8e07acb33",
+  "current_uncapped_classification": {
+    "diagrams": 2264,
+    "docs": 1883,
+    "redaction": 5481,
+    "synthesis": 5481,
+    "architecture": 388,
+    "code": 382,
+    "security": 236,
+    "dependencies": 28,
+    "tests": 80
+  },
+  "proof_role": "exact changed-path fixture; routing counts are not semantic review proof"
+}

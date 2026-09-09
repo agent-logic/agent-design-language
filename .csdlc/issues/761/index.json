@@ -1,0 +1,249 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 761,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b5d72d1f02bf37da94b5b6c1f2e19940f18c148ad231fb4e16ce7f32520f2207",
+  "phase": "published",
+  "generation": 11,
+  "digest": "254b53315dcb501c6dfb6bad68c93b71425e148e73f1730269feee9705d33369",
+  "branch": "codex/761-review-lane-denominators",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-761-review-lane-denominators",
+  "review_assignment": {
+    "reviewer": "codex:review_761",
+    "assigned_by": "codex:planning-6",
+    "revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+    "scope": [
+      "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+      "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "adl/tools/skills/repo-review-synthesis/references/output-contract.md"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:review_761",
+    "scope": [
+      "adl/tools/skills/repo-packet-builder/references/output-contract.md",
+      "adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/scripts/validate_repo_packet.py",
+      "adl/tools/skills/repo-packet-builder/tests/README.md",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-changed-paths.txt",
+      "adl/tools/skills/repo-packet-builder/tests/fixtures/issue-520-fixture-provenance.json",
+      "adl/tools/skills/repo-packet-builder/tests/test_denominators.py",
+      "adl/tools/skills/repo-review-synthesis/references/output-contract.md"
+    ],
+    "reviewed_revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+    "findings": [
+      {
+        "id": "R761-001",
+        "severity": "p2",
+        "summary": "NUL Git filenames were trimmed; fixed and regression-tested for whitespace and Unicode.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:e08a060104cd46a09b01cc31ff9c744f94c6cbcc:6755825fde8fc5be7d0e5561a2172eb0da4ca3b22aeb65b4f864825864262f59",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Path classification and samples do not prove semantic review completion."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 761,
+    "pull_request": 777,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/777",
+    "base": "main",
+    "head": "codex/761-review-lane-denominators",
+    "revision": "git-blake3:4733c1131ce715db05eccb445c8206c0da6304eb:c9c2488a27f77f378cdfac6bd57f25ee983710846b4756e100cbf7b07d6c4977",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/761/design.md",
+  "diagram_path": ".csdlc/prepared/issues/761/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:planning-6",
+      "revision": "1d7815d5e7855103ca6af5d5fb1846a75cff9bf7495141137002eff436f1c26d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3ceabe9efb83332c818cc20bb1b49a8960d9833dc8b03f8d39c0b9f5a8ddd216",
+      "rendered_digest": "005bb45084657010ae8ca71bf4bd853724a999d795d36ff13e95390dead3caa9",
+      "ast_digest": "a2c0f190f562b554eb82a6508d4f763f9c9bc77ec9591e65467cb48f5e81a31b"
+    },
+    "stp": {
+      "values_digest": "68c738ec715c358efb20eb93cdc9fcd4faff893fc6a3dfa0dc5a5191b753a108",
+      "rendered_digest": "e5bbf3ca0a960facf0cfa7231b803f5f9f51243c4f9fd5f7d742e10d1446e32b",
+      "ast_digest": "0f8eda3ce2584fa3e696896bbadfbc25c82d9cc0146847345e3e258e39f2ad47"
+    },
+    "spp": {
+      "values_digest": "1657c74a34f86887905a6ccbe8ff1f03bb515833feb29cab98ff7257ec6120cc",
+      "rendered_digest": "69f318461fea43745580e7db61922208c8be5ff09da9f54b22b5f19e0a2f7b99",
+      "ast_digest": "e5eec78166fac0836c5719cd8b422e2b815fb2b57e00e421ad29d30be562551c"
+    },
+    "vpp": {
+      "values_digest": "2122ff8dcea6c22533b167d50afffb891981a7087c4ae90716da031b705acf1d",
+      "rendered_digest": "64a01c2526be9b8cb606b9f986d4aca2fdb8b9c30c8d840751fab682d090430b",
+      "ast_digest": "2f9340a744f34fdf532432b2a6d54b652ace7d8aca5e5f820db396a913f32236"
+    },
+    "srp": {
+      "values_digest": "bdc006220efa8ba1cbd0274cf3e777fd1c567fd0ab1cda1948b609f9d8a81061",
+      "rendered_digest": "20b2ba084a1efce85d0ae4f07e60c7405bf77eb172c78cc267fd205c35448541",
+      "ast_digest": "d6b6fff0f0d7e363eee3d3377cfb3df852324d03acec661f1746ff18231111f7"
+    },
+    "sor": {
+      "values_digest": "d5995f67cc007eae8dd06156554badc9f294439888b682609673b900a842056c",
+      "rendered_digest": "d015a874158cb86c821e5209fcbc06c21150333560029e7159c744b4c2499810",
+      "ast_digest": "5e87fbe4eee0d4054c5b62ce9297053181e0d5e5e6dafbd5b5fc75fd66b7c554"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:planning-6",
+      "reason": "Issue-specific planning and design are ready for bound execution."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:planning-6",
+      "reason": "{\"actor\":\"codex:planning-6\",\"base_branch\":\"main\",\"branch\":\"codex/761-review-lane-denominators\",\"code_repository\":null,\"expected_digest\":\"f91058d5ddb1393e58d0b28d77b286a6fe5562af721b10b5619a996740c93149\",\"expected_generation\":7,\"expected_head\":\"8f8f34bfc21234636086b2b4bbec20612e777b86\",\"expected_repository\":\"agent-logic/agent-design-language\",\"issue\":761,\"observed_head\":\"8f8f34bfc21234636086b2b4bbec20612e777b86\",\"operation\":\"adopt_existing_bind\",\"pre_state\":\"ready\",\"repository\":\"agent-logic/agent-design-language\",\"result_state\":\"bound\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-761-review-lane-denominators\"}"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning-6",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:planning-6",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:planning-6",
+      "reason": "Issue-specific planning and design are ready for bound execution.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:planning-6",
+      "reason": "Explicitly defer new issue-owned test target until implementation creates it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"packet-denominator-contract\",\"proof_role\":\"Deterministic Python routing and validation contract proof; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"-m\",\"unittest\",\"discover\",\"-s\",\"adl/tools/skills/repo-packet-builder/tests\",\"-v\"],\"parallel_group\":\"local\",\"defer_reason\":\"Test target will be authored by issue 761 before execution validation; no existing regression test covers this defect.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:planning-6",
+      "reason": "Name exact issue-owned Python validation target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/tools/skills/repo-packet-builder\",\"adl/tools/skills/repo-review-synthesis/references/output-contract.md\",\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:planning-6",
+      "reason": "Focused Python test now exists and passes; clear preimplementation deferral.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"packet-denominator-contract\",\"proof_role\":\"Deterministic Python routing and validation contract proof; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"-v\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:planning-6",
+      "reason": "Exact future validator deliverable supports bootstrap readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"Builder, validator, exact fixture and coverage docs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:planning-6",
+      "reason": "Explicit fail-closed validation contract.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed on incomplete test proof, denominator corruption or unresolved review findings.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:planning-6",
+      "reason": "Primary bootstrap projects validation target that exists in issue worktree.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"packet-denominator-contract\",\"proof_role\":\"Deterministic Python routing and validation contract proof; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"-v\"],\"parallel_group\":\"local\",\"defer_reason\":\"Validator is implemented in bound issue worktree; unavailable in inspection checkout until merge.\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:planning-6",
+      "reason": "{\"base_branch\":\"main\",\"branch\":\"codex/761-review-lane-denominators\",\"expected_digest\":\"f91058d5ddb1393e58d0b28d77b286a6fe5562af721b10b5619a996740c93149\",\"expected_generation\":7,\"expected_head\":\"8f8f34bfc21234636086b2b4bbec20612e777b86\",\"expected_repository\":\"agent-logic/agent-design-language\",\"observed_head\":\"8f8f34bfc21234636086b2b4bbec20612e777b86\",\"operation\":\"adopt_existing_bind\",\"worktree\":\"/Volumes/FastWork/adl-worktrees/adl-issue-761-review-lane-denominators\"}",
+      "operation": "adopt_existing_bind"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:planning-6",
+      "reason": "Bound validation target exists; execute focused proof locally.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"packet-denominator-contract\",\"proof_role\":\"Deterministic Python routing and validation contract proof; not a release gate.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/skills/repo-packet-builder/tests/test_denominators.py\",\"-v\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:planning-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:planning-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:planning-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:planning-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
