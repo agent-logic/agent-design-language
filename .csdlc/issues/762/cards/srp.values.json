@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 762,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+    "slug": "proof-worktree-binding",
+    "version": "v0.92.1",
+    "generation": 9
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Code, security and evidence review of issue 762 changes.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review authenticated context, path confinement, dormant routes and zero-write negative assertions at exact head."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

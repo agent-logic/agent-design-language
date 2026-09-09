@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 762,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+    "slug": "proof-worktree-binding",
+    "version": "v0.92.1",
+    "generation": 9
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Authenticate invoking issue worktree, branch, exact HEAD and common Git directory before mutation.",
+      "required_outcome": "Repair A520-ARCH-005 and C520-CODE-005: executable location supplies provenance only; authenticated issue context owns writes.",
+      "declared_scope": [
+        "csdlc-v3/src/main.rs",
+        "csdlc-v3/src/commands/proof.rs",
+        "csdlc-v3/tests/proof_parity_install_commands.rs",
+        "csdlc-v3/tests/proof_worktree_binding.rs",
+        "docs/csdlc-v3/PROOF_WORKTREE_BINDING.md"
+      ],
+      "authority_boundary": [
+        "Native v3 remains default. Operator explicitly authorized typed v2 for issue 762 lifecycle remediation on 2026-09-09."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Keep main inspection-only. Work beneath FastWork policy parent. Preserve other sessions."
+      ]
+    }
+  }
+}

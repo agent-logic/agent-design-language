@@ -1,0 +1,159 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 762,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d0ba68bfaa79ffd888628e5eb20a4d0796c9b8145bd49d79401650a4be62b327",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "800b28d4390368655235f2cac0e91f2afc0260097e682740958227858cd4ad68",
+  "branch": "codex/762-proof-worktree-binding",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-762-proof-worktree-binding",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/762/design.md",
+  "diagram_path": ".csdlc/prepared/issues/762/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "Planning #7",
+      "revision": "b23da49e00997146f824a917b855636d1b5aba5afb306c3596799a5d6a1edd4d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c12635186924ce5438c5583e9c224baf60c680627cb762beb369e5281ea9b65b",
+      "rendered_digest": "0d72f75be2e3323521df9098a4c53c6a20516b2276e42f39bbcd153ab2ad18cb",
+      "ast_digest": "0c90348c6b0ffd900293e06d5d13f6eabf85413287fed55b9354104bb15ab57a"
+    },
+    "stp": {
+      "values_digest": "665158080680e7d92bd5e34b999ce76f255354c7104e8369932a2de482c653b5",
+      "rendered_digest": "f2724665064f2bb99c6e513857a45eec1af4fc6932cdcd62a5f06cfd0ea38f6f",
+      "ast_digest": "96e480081aba9a017f89fbdf0572f07c0d4284c3e0c41dbe291867f7836f8151"
+    },
+    "spp": {
+      "values_digest": "1b90ea13f8a97df0006e40e516c3d0c084bee2216553f10108f54b79fcb0dbb6",
+      "rendered_digest": "8cf0e8f1acba41058ac2055e2aca1ea5bff5e66034be0395d5443f5d11bd7062",
+      "ast_digest": "567d597e1e202fbee326a5e8f0a1c04f1571921dfcb83f2da517552ba120e516"
+    },
+    "vpp": {
+      "values_digest": "e9faf77a79f835f93ee727a411447f66dd973a03ac6939fead710b85e810e7f8",
+      "rendered_digest": "0e7ae6e3bb744565e3b15d991dc75cbb7c6be29611e73be5199be6d7833adc17",
+      "ast_digest": "2abdf254ff65c5b6972eddcf84f9787ffffe26daa49379fa213b14a9cd75711f"
+    },
+    "srp": {
+      "values_digest": "1dfb2e5644115097696d8167b1831c6e743ce4514fd8522696739ccbc8b10374",
+      "rendered_digest": "dfc24eade9765bac8c0c2526e80f1dc435abd98fa21d1c48347563e9170af0ee",
+      "ast_digest": "793954ff6a61d073fb6a82e4f3efa433c7c1fdfe26ffd273ae41f1e9e2df647f"
+    },
+    "sor": {
+      "values_digest": "d274b98617c92adbba7af8b8554d74f4aec7ee5813a47fe287b10e8e30d20cb3",
+      "rendered_digest": "3e7b871b074609cadd723aed7811099e3b0258e1913fa04e36d53801619afa8b",
+      "ast_digest": "821457176a66d1d2c5d532e90fe11821f86b428218fc11636b58caa00fbce50c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "Planning #7",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "Planning #7",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "Planning #7",
+      "reason": "Declare planned new integration target before implementation",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"proof-worktree\",\"proof_role\":\"Required deterministic local topology and negative-guard integration proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_worktree_binding\"],\"parallel_group\":\"csdlc\",\"defer_reason\":\"New issue-owned target will be authored in S4 after binding; required before publication.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "Planning #7",
+      "reason": "Select existing proof-route regression target for preparation; extend with new topology target after authoring",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"proof-worktree\",\"proof_role\":\"Required deterministic local topology and negative-guard integration proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_parity_install_commands\"],\"parallel_group\":\"csdlc\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "Planning #7",
+      "reason": "Bound issue ready; begin authenticated context implementation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "Planning #7",
+      "reason": "New topology target authored; run required local ownership proof, owner regression suite and static checks. Hosted CI remains required.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"proof-worktree\",\"proof_role\":\"Required deterministic linked-worktree identity and negative confinement proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"proof_worktree_binding\"],\"parallel_group\":\"csdlc\",\"defer_reason\":null},{\"lane\":\"csdlc-owner\",\"proof_role\":\"Required C-SDLC v3 CLI and lifecycle integration regression coverage for changed public dispatcher.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"parallel_group\":\"csdlc\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Required Rust static validation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"csdlc\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "Planning #7",
+      "reason": "Implementation and focused proof authored; final validation and independent review follow.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "Planning #7",
+      "reason": "Implementation and focused proof authored; final validation and independent review follow.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "Planning #7",
+      "reason": "Implementation and focused proof authored; final validation and independent review follow.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "Planning #7",
+      "reason": "Implementation and focused proof authored; final validation and independent review follow.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "Planning #7",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
