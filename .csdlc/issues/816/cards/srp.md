@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "resolved_pending_rereview"
   recommended_outcome: "pending"
-notes: "Fresh reviewer must verify production output, complete declared Runtime/UI/evidence coverage, exclusion classification, omitted-artifact rejection, and causal hot-reload tests at the new exact head."
+notes: "Fresh reviewer must verify the prior substantive proofs and exact replayability of every command recorded in SOR at the new immutable head."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- First review: P1 source scanning did not prove serialized Runtime output; P2 line grep accepted duplicate sensitive keys. First rereview: P1 structural sensitive-field checks did not cover every manifest publication. Post-CI exact-head review: P2 the self-selected manifest omitted a declared #512 evidence artifact containing a machine-local path.
+- First review: P1 source scanning did not prove serialized Runtime output; P2 line grep accepted duplicate sensitive keys. First rereview: P1 structural sensitive-field checks did not cover every manifest publication. Post-CI review: P2 the self-selected manifest omitted declared #512 evidence. Second rereview: P2 SOR named a non-replayable root cargo fmt command instead of the two manifest-qualified commands actually run.
 
 ### Dispositions
 
-- Fixed by executing project_v1, rejecting duplicate JSON keys, structurally validating every included JSON, scanning non-JSON text, deriving manifest completeness from all tracked #512 evidence plus SRP/SOR declarations, recording reviewed non-publication exclusions, redacting the exposed path, and proving an omitted declared artifact fails.
+- Fixed production serialization and structural scanning; derived exact manifest completeness with reviewed exclusions and omitted-artifact rejection; redacted the exposed path; preserved causal hot-reload synchronization; corrected SOR validation truth to the two passing manifest-qualified cargo fmt commands.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Fresh reviewer must verify production output, complete declared Runtime/UI/evidence coverage, exclusion classification, omitted-artifact rejection, and causal hot-reload tests at the new exact head.
+Fresh reviewer must verify the prior substantive proofs and exact replayability of every command recorded in SOR at the new immutable head.
