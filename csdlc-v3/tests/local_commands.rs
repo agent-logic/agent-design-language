@@ -37,7 +37,7 @@ fn request() -> LocalPreparationRequest {
         repository: "agent-logic/agent-design-language".into(),
         branch: "codex/503-v3-d-local-preparation-workflow-exec".into(),
         worktree: "adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec".into(),
-        registry_version: "1.0.3".into(),
+        registry_version: "1.0.4".into(),
         expected_lifecycle_digest: None,
         schedule_readiness: None,
         shepherd_routing: None,
@@ -48,18 +48,18 @@ fn request() -> LocalPreparationRequest {
 
 fn registry() -> PromptRegistry {
     PromptRegistry {
-        version: "1.0.3".into(),
+        version: "1.0.4".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
             .map(str::to_string)
             .collect::<BTreeSet<_>>(),
         template_paths: [
-            ("sip", "docs/templates/prompts/1.0.3/sip.md"),
-            ("stp", "docs/templates/prompts/1.0.3/stp.md"),
-            ("spp", "docs/templates/prompts/1.0.3/spp.md"),
-            ("vpp", "docs/templates/prompts/1.0.3/vpp.md"),
-            ("srp", "docs/templates/prompts/1.0.3/srp.md"),
-            ("sor", "docs/templates/prompts/1.0.3/sor.md"),
+            ("sip", "docs/templates/prompts/1.0.4/sip.md"),
+            ("stp", "docs/templates/prompts/1.0.4/stp.md"),
+            ("spp", "docs/templates/prompts/1.0.4/spp.md"),
+            ("vpp", "docs/templates/prompts/1.0.4/vpp.md"),
+            ("srp", "docs/templates/prompts/1.0.4/srp.md"),
+            ("sor", "docs/templates/prompts/1.0.4/sor.md"),
         ]
         .into_iter()
         .map(|(kind, path)| (kind.to_owned(), path.to_owned()))
@@ -166,17 +166,17 @@ fn card_roundtrip_uses_active_registry_denominator() {
     let active = PromptRegistry::from_current_json(&bytes).expect("active registry parses");
     assert_eq!(active, registry());
 
-    let plan = plan_cards(503, "1.0.3", &active).expect("complete active registry");
-    assert_eq!(plan.registry_version, "1.0.3");
+    let plan = plan_cards(503, "1.0.4", &active).expect("complete active registry");
+    assert_eq!(plan.registry_version, "1.0.4");
     assert_eq!(plan.card_kinds, ["sip", "stp", "spp", "vpp", "srp", "sor"]);
 
     let incomplete = PromptRegistry {
-        version: "1.0.3".into(),
+        version: "1.0.4".into(),
         card_kinds: ["sip", "stp"].into_iter().map(str::to_string).collect(),
         template_paths: BTreeMap::new(),
     };
     let findings =
-        plan_cards(503, "1.0.3", &incomplete).expect_err("missing card kinds block rendering");
+        plan_cards(503, "1.0.4", &incomplete).expect_err("missing card kinds block rendering");
     assert!(findings
         .iter()
         .all(|finding| finding.status == PlanStatus::Blocked));
@@ -260,7 +260,7 @@ fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
         assert_eq!(rendered[idx]["kind"], kind);
         assert_eq!(
             rendered[idx]["template_ref"],
-            format!("docs/templates/prompts/1.0.3/{kind}.md")
+            format!("docs/templates/prompts/1.0.4/{kind}.md")
         );
         assert_eq!(
             rendered[idx]["rendered_ref"],
@@ -853,7 +853,7 @@ fn operational_registry(root: &Path) -> PromptRegistry {
         template_paths.insert(kind.to_owned(), path.to_string_lossy().into_owned());
     }
     PromptRegistry {
-        version: "1.0.3".into(),
+        version: "1.0.4".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
             .map(str::to_owned)

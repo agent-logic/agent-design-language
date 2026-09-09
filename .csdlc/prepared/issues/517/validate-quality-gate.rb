@@ -93,7 +93,7 @@ def current_review_truth?(unit)
   truth = unit["review_truth"] || {}
   reviewed_revision = truth["reviewed_revision"].to_s
   implementation_revision = unit["revision"].to_s
-  cache_key = [unit["issue"], reviewed_revision, implementation_revision, Array(truth["post_review_paths"])]
+  cache_key = [unit["issue"], reviewed_revision, implementation_revision, truth["post_review_paths"]]
   @current_review_truth_cache ||= {}
   return @current_review_truth_cache[cache_key] if @current_review_truth_cache.key?(cache_key)
 
@@ -101,7 +101,14 @@ def current_review_truth?(unit)
   return false unless reviewed_revision.match?(/\A[0-9a-f]{40}\z/) && implementation_revision.match?(/\A[0-9a-f]{40}\z/)
   return false unless git_success?("merge-base", "--is-ancestor", reviewed_revision, implementation_revision)
 
-  @current_review_truth_cache[cache_key] = lifecycle_metadata_tail?(unit["issue"], truth["post_review_paths"])
+  declared_paths = truth["post_review_paths"]
+  return false unless declared_paths.is_a?(Array) && declared_paths.all? { |path| path.is_a?(String) }
+  stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "diff", "--no-renames", "--name-only", "-z", reviewed_revision, implementation_revision, "--")
+  return false unless status.success?
+  actual_paths = stdout.split("\0")
+  return false unless declared_paths.sort == actual_paths.sort
+
+  @current_review_truth_cache[cache_key] = lifecycle_metadata_tail?(unit["issue"], actual_paths)
 end
 
 def lane_result(collection, unit, row, candidate)
@@ -350,6 +357,14 @@ def negative
       retained = d["lane_results"]["non_proving"].find { |id| id.include?("retained-") }
       d["lane_results"]["non_proving"].delete(retained)
       d["lane_results"]["absent"] << retained
+    end],
+    "missing-review-paths" => ["denominator_projection_mismatch", lambda do |a, _d, _b, _g|
+      unit = a["execution_issues"].find { |candidate| candidate["issue"] == 480 }
+      unit["review_truth"].delete("post_review_paths")
+    end],
+    "omitted-review-paths" => ["denominator_projection_mismatch", lambda do |a, _d, _b, _g|
+      unit = a["execution_issues"].find { |candidate| candidate["issue"] == 480 }
+      unit["review_truth"]["post_review_paths"] = []
     end],
     "substantive-review-tail" => ["denominator_projection_mismatch", lambda do |a, _d, _b, _g|
       unit = a["execution_issues"].find { |candidate| candidate["acceptance_rows"].any? { |row| row.dig("proof", "classification") == "proven" } }

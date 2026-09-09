@@ -333,6 +333,41 @@ impl<R: CredentialResolver> ProcessAdapter for RealProcessAdapter<R> {
     }
 }
 
+/// Git branch syntax plus the existing typed-argv safety contract. Apply before
+/// persisting a PR-create intent so every accepted head can be read back.
+pub(crate) fn supported_pr_branch(value: &str) -> bool {
+    !value.is_empty()
+        && value != "@"
+        && !value.starts_with('-')
+        && !value.ends_with('.')
+        && !value.contains("..")
+        && !value.contains("@{")
+        && !value
+            .chars()
+            .any(|c| c <= ' ' || c == '\u{7f}' || "~^:?*[\\".contains(c))
+        && value
+            .split('/')
+            .all(|part| !part.is_empty() && !part.starts_with('.') && !part.ends_with(".lock"))
+        && CommandInvocation::new(
+            GITHUB_READ_ONLY_ADAPTER,
+            ["pull-requests-by-head", "owner/repo", value],
+        )
+        .is_ok()
+}
+
+fn encode_query_value(value: &str) -> String {
+    value
+        .bytes()
+        .map(|byte| {
+            if byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_' | b'.' | b'~') {
+                char::from(byte).to_string()
+            } else {
+                format!("%{byte:02X}")
+            }
+        })
+        .collect()
+}
+
 fn github_read_only_curl_invocation(
     invocation: &CommandInvocation,
 ) -> Result<CommandInvocation, ProcessOutput> {
@@ -356,11 +391,7 @@ fn github_read_only_curl_invocation(
                 || number
                     .chars()
                     .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
-        || (operation == "pull-requests-by-head"
-            && (number.is_empty()
-                || number.chars().any(|ch| {
-                    !(ch.is_ascii_alphanumeric() || matches!(ch, '-' | '_' | '.' | '/'))
-                })))
+        || (operation == "pull-requests-by-head" && !supported_pr_branch(number))
     {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
@@ -414,7 +445,7 @@ fn github_read_only_curl_invocation(
                 "--header".to_owned(),
                 "X-GitHub-Api-Version: 2022-11-28".to_owned(),
                 format!(
-                    "https://api.github.com/repos/{repository}/pulls?head={owner}%3A{number}&state=all&per_page=100"
+                    "https://api.github.com/repos/{repository}/pulls?head={}&state=all&per_page=100", encode_query_value(&format!("{owner}:{number}"))
                 ),
             ],
         )
@@ -833,9 +864,33 @@ mod tests {
         assert_eq!(
             curl.argv().last().map(String::as_str),
             Some(
-                "https://api.github.com/repos/agent-logic/agent-design-language/pulls?head=agent-logic%3Acodex/517-tail-01-quality-gate&state=all&per_page=100"
+                "https://api.github.com/repos/agent-logic/agent-design-language/pulls?head=agent-logic%3Acodex%2F517-tail-01-quality-gate&state=all&per_page=100"
             )
         );
+    }
+
+    // PVF: deterministic local CPU, real URL construction; no network.
+    #[test]
+    fn branch_query_preserves_special_characters() {
+        for (head, encoded) in [
+            ("codex/fix+retry", "codex%2Ffix%2Bretry"),
+            ("codex/a&state=closed", "codex%2Fa%26state%3Dclosed"),
+            ("codex/é#%", "codex%2F%C3%A9%23%25"),
+        ] {
+            assert!(supported_pr_branch(head));
+            let input = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                ["pull-requests-by-head", "owner/repo", head],
+            )
+            .unwrap();
+            let output = github_read_only_curl_invocation(&input).unwrap();
+            assert_eq!(output.argv().last().unwrap(), &format!("https://api.github.com/repos/owner/repo/pulls?head=owner%3A{encoded}&state=all&per_page=100"));
+        }
+        for invalid in [
+            "", "@", "-bad", "a..b", "a@{b", "a//b", "a/.b", "a.lock", "a?b", "a b", "a;echo",
+        ] {
+            assert!(!supported_pr_branch(invalid), "{invalid}");
+        }
     }
 
     #[test]

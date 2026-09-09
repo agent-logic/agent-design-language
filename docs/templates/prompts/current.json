@@ -1,7 +1,7 @@
 {
   "schema": "adl.csdlc.prompt_template_registry.v1",
-  "csdlc_prompt_template_set": "1.0.3",
-  "semver": "1.0.3",
+  "csdlc_prompt_template_set": "1.0.4",
+  "semver": "1.0.4",
   "status": "active",
   "object_kind": "csdlc_prompt_template_set",
   "authority_notice": "V3-F/#505 is the pending tooling changeover decision; until that operator-reviewed cutover is approved, merged, and terminally reconciled, C-SDLC v2 remains live authority.",
@@ -9,40 +9,40 @@
   "templates": {
     "sip": {
       "semantic_role": "Structured Issue Prompt",
-      "path": "docs/templates/prompts/1.0.3/sip.md",
-      "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/sip.structure.json"
+      "path": "docs/templates/prompts/1.0.4/sip.md",
+      "structure_schema_path": "docs/templates/prompts/1.0.4/schemas/sip.structure.json"
     },
     "stp": {
       "semantic_role": "Structured Task Prompt",
-      "path": "docs/templates/prompts/1.0.3/stp.md",
-      "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/stp.structure.json"
+      "path": "docs/templates/prompts/1.0.4/stp.md",
+      "structure_schema_path": "docs/templates/prompts/1.0.4/schemas/stp.structure.json"
     },
     "spp": {
       "semantic_role": "Structured Plan Prompt",
-      "path": "docs/templates/prompts/1.0.3/spp.md",
-      "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/spp.structure.json"
+      "path": "docs/templates/prompts/1.0.4/spp.md",
+      "structure_schema_path": "docs/templates/prompts/1.0.4/schemas/spp.structure.json"
     },
     "vpp": {
       "semantic_role": "Structured Validation Planning Prompt",
-      "path": "docs/templates/prompts/1.0.3/vpp.md",
-      "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/vpp.structure.json"
+      "path": "docs/templates/prompts/1.0.4/vpp.md",
+      "structure_schema_path": "docs/templates/prompts/1.0.4/schemas/vpp.structure.json"
     },
     "srp": {
       "semantic_role": "Structured Review Prompt",
-      "path": "docs/templates/prompts/1.0.3/srp.md",
-      "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/srp.structure.json"
+      "path": "docs/templates/prompts/1.0.4/srp.md",
+      "structure_schema_path": "docs/templates/prompts/1.0.4/schemas/srp.structure.json"
     },
     "sor": {
       "semantic_role": "Structured Outcome Record",
-      "path": "docs/templates/prompts/1.0.3/sor.md",
-      "structure_schema_path": "docs/templates/prompts/1.0.3/schemas/sor.structure.json"
+      "path": "docs/templates/prompts/1.0.4/sor.md",
+      "structure_schema_path": "docs/templates/prompts/1.0.4/schemas/sor.structure.json"
     }
   },
   "generations": {
     "legacy_import": {
-      "template_set": "1.0.3",
+      "template_set": "1.0.4",
       "projection_family": "legacy_full",
-      "path": "docs/templates/prompts/1.0.3"
+      "path": "docs/templates/prompts/1.0.4"
     },
     "csdlc_v2_native": {
       "template_set": "1.0.0",

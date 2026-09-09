@@ -1376,7 +1376,7 @@ fn write_proof_command_fixture(
             "repository": "agent-logic/agent-design-language",
             "branch": "codex/505-v3-f-authority-transition-decision-exec",
             "worktree": repository_root,
-            "registry_version": "1.0.3",
+            "registry_version": "1.0.4",
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
             "card_updates": {}
         }))

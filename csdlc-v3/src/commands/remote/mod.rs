@@ -1254,14 +1254,14 @@ fn validate_mutation(request: &GithubMutationRequest) -> Result<(), RemoteRouteF
         }
         GithubMutation::PullRequestCreate {
             base, head, title, ..
-        } if base.trim().is_empty()
-            || head.trim().is_empty()
+        } if !crate::adapters::supported_pr_branch(base)
+            || !crate::adapters::supported_pr_branch(head)
             || title.trim().is_empty()
             || request.pull_request.is_some() =>
         {
             Err(remote_finding(
                 "github_pr_create_invalid",
-                "PR create requires non-empty base/head/title and no existing PR number",
+                "PR create requires supported Git branch base/head, non-empty title, and no existing PR number",
             ))
         }
         GithubMutation::PullRequestUpdate { title, body }

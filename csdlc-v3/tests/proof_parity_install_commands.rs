@@ -271,7 +271,7 @@ fn v3_doctor_spec_for(issue: u64, title: &str) -> Value {
             "repository": issue_repository(issue),
             "branch": fixture_branch(),
             "worktree": construction_worktree,
-            "registry_version": "1.0.3",
+            "registry_version": "1.0.4",
             "expected_lifecycle_digest": issue_digest(issue),
             "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
             "card_updates": {}

@@ -3,19 +3,19 @@
 Semantic role: Structured Issue Prompt (`SIP`).
 Canonical Template Source: `docs/templates/prompts/1.0.4/sip.md`
 
-Task ID: issue-0517
-Run ID: issue-0517
-Version: v0.92.1
-Title: [v0.92.1][TAIL-01] Quality gate
-Branch: codex/517-tail-01-quality-gate
-Card Status: ready
-Generated: 2026-09-09T00:56:48.157331+00:00
+Task ID: issue-<issue_padded>
+Run ID: issue-<issue_padded>
+Version: <version>
+Title: <title>
+Branch: <branch>
+Card Status: <card_status>
+Generated: <timestamp>
 
 Context:
-- Issue: https://github.com/agent-logic/agent-design-language/issues/517
+- Issue: <issue_url>
 - PR:
-- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/517
-- Docs: docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md
+- Source Issue Prompt: <source_issue_prompt>
+- Docs: <docs_context>
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: .csdlc/issues/517/cards/sor.md
+  output_card: <output_card>
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,37 +84,37 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: tail-01-quality-gate
-- Required outcome type: quality_gate_decision
-- Demo required: false
+- Source issue-prompt slug: <slug>
+- Required outcome type: <required_outcome_type>
+- Demo required: <demo_required>
 
 ## Goal
 
-Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate.
+<goal>
 
 ## Required Outcome
 
-One exact-candidate quality-gate decision. Current result is BLOCKED with 121 passes, 245 non-proving rows and five owned exceptions; release unlock remains false.
+<required_outcome>
 
 ## Acceptance Criteria
 
-AC-1: Every required proving lane passes; AC-2: Skipped, absent, zero-test, stale, and non-proving results fail closed; AC-3: The exact candidate revision and complete denominator are recorded; AC-4: Every exception has an explicit owner and no unresolved exception remains; AC-1 and no-unresolved-exception release conditions remain unmet; the decision records this truth.
+<acceptance_criteria>
 
 ## Inputs
 
-agent-logic/agent-design-language#517; agent-logic/agent-design-language#516; docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-01; docs/milestones/v0.92.1/SPRINT_v0.92.1.md
+<inputs>
 
 ## Target Files / Surfaces
 
-quality-gate evidence and validator; native PR branch reconciliation; issue517 lifecycle cards
+<target_files_surfaces>
 
 ## Validation Plan
 
-Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI
+<validation_plan>
 
 ## Demo / Proof Requirements
 
-No live demo for this decision and local contract repair
+<demo_proof_requirements>
 
 ## Constraints / Policies
 
@@ -162,11 +162,11 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-No product proof remediation; no release approval, merge or ceremony. Operator authorized review repairs and publication for PR748.
+<non_goals>
 
 ## Notes / Risks
 
-Gate remains blocked; proof debt is not resolved by this PR. Publication does not authorize release.
+<notes_risks>
 
 ## Instructions to the Agent
 - Read this file.

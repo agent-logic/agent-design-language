@@ -1,0 +1,449 @@
+{
+  "schema": "adl.csdlc.prompt_card_structure.v1",
+  "template_set": "1.0.4",
+  "card_kind": "sor",
+  "template_path": "docs/templates/prompts/1.0.4/sor.md",
+  "authority_notice": "V3-F/#505 is the pending tooling changeover decision; until that operator-reviewed cutover is approved, merged, and terminally reconciled, C-SDLC v2 remains live authority.",
+  "legacy_route_notice": "Legacy pr editor routes are historical/retired compatibility orientation, not current lifecycle authority.",
+  "parser": "markdown-rs 1.0.0",
+  "editable_sections": [
+    "Acceptance Criteria",
+    "Actions taken",
+    "Affected Areas",
+    "Artifact Verification",
+    "Artifacts produced",
+    "Decisions / Deviations",
+    "Deliverables",
+    "Demo / Proof Requirements",
+    "Demo Expectations",
+    "Dependencies",
+    "Determinism Evidence",
+    "Failure Semantics",
+    "Follow-ups / Deferred work",
+    "Goal",
+    "Inputs",
+    "Issue-Graph Notes",
+    "Non-goals",
+    "Non-goals / Out of scope",
+    "Notes",
+    "Notes / Risks",
+    "Outputs",
+    "Parallelization Plan",
+    "Plan Summary",
+    "Policy Refs",
+    "Proposed Steps",
+    "Replay Artifacts",
+    "Repo Inputs",
+    "Required Outcome",
+    "Risks And Edge Cases",
+    "Scope Basis",
+    "Security / Privacy Checks",
+    "Selected Validation Lanes",
+    "Summary",
+    "Target Files / Surfaces",
+    "Test Strategy",
+    "Tooling Notes",
+    "Validation",
+    "Validation Commands",
+    "Validation Plan",
+    "Validation Planning Summary"
+  ],
+  "scaffold_lines": [
+    "---",
+    "```yaml",
+    "```",
+    "labels:",
+    "supersedes: []",
+    "duplicates: []",
+    "depends_on: []",
+    "canonical_files: []",
+    "demo_names: []",
+    "pr_start:",
+    "enabled: true",
+    "source_refs:",
+    "scope:",
+    "files:",
+    "components:",
+    "out_of_scope:",
+    "constraints:",
+    "assumptions:",
+    "proposed_steps:",
+    "codex_plan:",
+    "affected_areas:",
+    "invariants_to_preserve:",
+    "risks_and_edge_cases:",
+    "test_strategy:",
+    "required_permissions:",
+    "stop_conditions:",
+    "alternatives_considered:",
+    "review_hooks:",
+    "review_results:"
+  ],
+  "scaffold_line_prefixes": [
+    "- kind:",
+    "kind:",
+    "ref:",
+    "- id:",
+    "description:",
+    "expected_output:",
+    "allowed_mode:",
+    "- step:",
+    "status:",
+    "- description:",
+    "reason_not_chosen:"
+  ],
+  "rendered_value_line_prefixes": [
+    "Task ID:",
+    "Run ID:",
+    "Version:",
+    "Title:",
+    "Branch:",
+    "Card Status:",
+    "Status:",
+    "Generated:",
+    "- Actor:",
+    "- Model:",
+    "- Start Time:",
+    "- End Time:",
+    "- Issue:",
+    "- PR:",
+    "- Source Issue Prompt:",
+    "- Docs:",
+    "- Other:",
+    "- Agent:",
+    "- Provider:",
+    "- Tools allowed:",
+    "- Sandbox / approvals:",
+    "- Source issue-prompt slug:",
+    "- Required outcome type:",
+    "- Demo required:",
+    "- Local ignored output-card scaffold at",
+    "- Main-repo paths updated:",
+    "- Worktree-only paths remaining:",
+    "- Integration state:",
+    "- Verification scope:",
+    "- Integration method used:",
+    "- Result:",
+    "- `",
+    "- ``",
+    "`Verified ",
+    "    `",
+    "    ``",
+    "- `csdlc-validate",
+    "Source issue-prompt slug:",
+    "Required outcome type:",
+    "Demo required:",
+    "Canonical Template Source:",
+    "Generated from",
+    "name:",
+    "issue:",
+    "task_id:",
+    "run_id:",
+    "version:",
+    "title:",
+    "branch:",
+    "generated_at:",
+    "card_status:",
+    "activation_state:",
+    "plan_revision:",
+    "confidence:",
+    "plan_summary:",
+    "execution_handoff:",
+    "notes:",
+    "initial_pvf_lane:",
+    "planned_pvf_lane:",
+    "planned_pvf_lane_source:",
+    "lane_registry_path:",
+    "lane_registry_template_set:",
+    "validation_runtime_class:",
+    "validation_resource_profile:",
+    "validation_family:",
+    "validation_size_split:",
+    "expected_proof_cost:",
+    "expected_runtime_class:",
+    "estimate_elapsed_seconds:",
+    "estimate_total_tokens:",
+    "estimate_validation_seconds:",
+    "issue_goal_token_budget:",
+    "variance_threshold_percent:",
+    "planned_validation_seconds:",
+    "planned_validation_tokens:",
+    "estimate_confidence:",
+    "estimate_data_source:",
+    "estimate_source_ref:",
+    "issue_goal_ref:",
+    "sprint_goal_ref:",
+    "goal_metrics_rollup_ref:",
+    "selected_lanes:",
+    "parallel_groups:",
+    "validation_commands:",
+    "failure_policy:",
+    "- Registry path:",
+    "- Registry template set:",
+    "- Initial PVF lane from issue creation:",
+    "- Planned PVF lane for execution:",
+    "- Parallel groups:",
+    "- Validation runtime class:",
+    "- Validation resource profile:",
+    "- Validation family:",
+    "- Validation size split:",
+    "- Issue goal ref:",
+    "- Sprint goal ref:",
+    "- Goal metrics rollup ref:",
+    "- Expected proof cost:",
+    "- Planned validation seconds:",
+    "- Planned validation token budget:",
+    "- Planning lane source:",
+    "- Revision rule:",
+    "- Expected runtime class:",
+    "- Estimated elapsed seconds:",
+    "- Estimated total tokens:",
+    "- Estimated validation seconds:",
+    "- Issue goal token budget:",
+    "- Variance threshold percent:",
+    "- Estimate confidence:",
+    "- Estimate data source:",
+    "- Estimate source ref:",
+    "- Initial PVF lane:",
+    "- Planned PVF lane:",
+    "- Final PVF lane:",
+    "- Lane change reason:",
+    "- Actual elapsed seconds:",
+    "- Actual active work seconds:",
+    "- Actual total tokens:",
+    "- Actual validation seconds:",
+    "- Budget source:",
+    "- Actual PR wait seconds:",
+    "- Actual CI wait seconds:",
+    "- Goal metrics data source:",
+    "- Goal metrics source ref:",
+    "- Data-source confidence:",
+    "- Estimate error percent:",
+    "- Completion state:",
+    "- Variance analysis required:",
+    "- Variance analysis completed:",
+    "- Variance category:",
+    "- Variance note:",
+    "- Validation planning prompt:"
+  ],
+  "frontmatter_keys": [],
+  "headings": [
+    {
+      "level": 1,
+      "text": null
+    },
+    {
+      "level": 2,
+      "text": "Summary"
+    },
+    {
+      "level": 2,
+      "text": "PVF Lane Truth"
+    },
+    {
+      "level": 2,
+      "text": "Issue Metrics Truth"
+    },
+    {
+      "level": 2,
+      "text": "Variance Analysis"
+    },
+    {
+      "level": 2,
+      "text": "Artifacts produced"
+    },
+    {
+      "level": 2,
+      "text": "Actions taken"
+    },
+    {
+      "level": 2,
+      "text": "Main Repo Integration (REQUIRED)"
+    },
+    {
+      "level": 2,
+      "text": "Validation"
+    },
+    {
+      "level": 2,
+      "text": "Verification Summary"
+    },
+    {
+      "level": 2,
+      "text": "Determinism Evidence"
+    },
+    {
+      "level": 2,
+      "text": "Security / Privacy Checks"
+    },
+    {
+      "level": 2,
+      "text": "Replay Artifacts"
+    },
+    {
+      "level": 2,
+      "text": "Artifact Verification"
+    },
+    {
+      "level": 2,
+      "text": "Decisions / Deviations"
+    },
+    {
+      "level": 2,
+      "text": "Follow-ups / Deferred work"
+    }
+  ],
+  "fenced_blocks": [
+    {
+      "ordinal": 0,
+      "info": "yaml",
+      "heading_path": [
+        "<dynamic-heading>",
+        "Verification Summary"
+      ]
+    }
+  ],
+  "locked_lines": [
+    {
+      "heading_path": [
+        "<dynamic-heading>"
+      ],
+      "text": "Execution Record Requirements:"
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>"
+      ],
+      "text": "- The output card is a machine-auditable execution record."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>"
+      ],
+      "text": "- All sections must be fully populated. Empty sections, placeholders, or implicit claims are not allowed."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>"
+      ],
+      "text": "- Every command listed must include both what was run and what it verified."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>"
+      ],
+      "text": "- If something is not applicable, include a one-line justification."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>"
+      ],
+      "text": "Execution:"
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Issue Metrics Truth"
+      ],
+      "text": "- Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Issue Metrics Truth"
+      ],
+      "text": "- Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Variance Analysis"
+      ],
+      "text": "- Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Variance Analysis"
+      ],
+      "text": "- Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Verification performed:"
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "Rules:"
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Final artifacts must exist in the main repository, not only in a worktree."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Do not leave docs, code, or generated artifacts only under a `adl-wp-*` worktree."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Prefer git-aware transfer into the main repo (`git checkout BRANCH -- PATH` or commit + cherry-pick)."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- If artifacts exist only in the worktree, the task is NOT complete."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Integration state describes lifecycle state of the integrated artifact set, not where verification happened."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Verification scope describes where the verification commands were run."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- worktree_only means at least one required path still exists only outside the main repository path."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- Completed output records must not leave `Status` as `NOT_STARTED`."
+    },
+    {
+      "heading_path": [
+        "<dynamic-heading>",
+        "Main Repo Integration (REQUIRED)"
+      ],
+      "text": "- By typed `csdlc-finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure)."
+    }
+  ]
+}

@@ -1,105 +1,101 @@
-# Validation Planning Prompt
+---
+schema_version: "0.1"
+artifact_type: "structured_validation_planning_prompt"
+name: "tail-01-quality-gate-validation-plan"
+issue: 517
+task_id: "issue-0517"
+run_id: "issue-0517"
+version: "v0.92.1"
+title: "[v0.92.1][TAIL-01] Quality gate"
+branch: "codex/517-tail-01-quality-gate"
+generated_at: "2026-09-09T00:56:48.157331+00:00"
+card_status: "ready"
+status: "in_progress"
+initial_pvf_lane: "local_cpu"
+planned_pvf_lane: "local_cpu"
+lane_registry_path: "docs/templates/prompts/current.json"
+lane_registry_template_set: "1.0.4"
+validation_runtime_class: "deterministic_local_cpu"
+validation_resource_profile: "small"
+validation_family: "local_contract"
+validation_size_split: "focused"
+expected_proof_cost: "Bounded local CPU; no live mutations for test proof"
+planned_validation_seconds: "3600"
+planned_validation_tokens: "25000"
+issue_goal_ref: "issue-517-pr748-review-remediation"
+sprint_goal_ref: "not recorded"
+goal_metrics_rollup_ref: "not recorded"
+source_refs:
+  - kind: "issue"
+    ref: "https://github.com/agent-logic/agent-design-language/issues/517"
+  - kind: "stp"
+    ref: ".csdlc/issues/517/cards/stp.md"
+  - kind: "sip"
+    ref: ".csdlc/issues/517/cards/sip.md"
+  - kind: "spp"
+    ref: ".csdlc/issues/517/cards/spp.md"
+selected_lanes:
+  - "quality-denominator; zero-test-shield; exact-scope; native adapter and remote contracts"
+parallel_groups:
+  - "quality and native contracts"
+validation_commands:
+  - "Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI"
+failure_policy: "Fail closed on an unmet predecessor, incomplete denominator, non-proving lane, candidate drift, or unowned exception."
+notes: "Gate remains blocked; proof debt is not resolved by this PR. Publication does not authorize release."
+---
 
-Template: 1.0.0
+Canonical Template Source: `docs/templates/prompts/1.0.4/vpp.md`
 
-Issue: 517
+# Structured Validation Planning Prompt
 
-Repository: agent-logic/agent-design-language
+## Validation Planning Summary
 
-Card: vpp
+Produce one fail-closed quality-gate decision for the exact converged v0.92.1 candidate. Repair review findings before reviewed publication; preserve the blocked release decision.
 
-Status: ready
+## Lane Registry Inputs
 
-## Summary
+- Registry path: `docs/templates/prompts/current.json`
+- Registry template set: `1.0.4`
+- Initial PVF lane from issue creation: `local_cpu`
+- Planned PVF lane for execution: `local_cpu`
 
-Execute the smallest proving validation DAG.
+## Selected Validation Lanes
 
-## Lane Inputs
+- quality-denominator; zero-test-shield; exact-scope; native adapter and remote contracts
 
-Design: .csdlc/prepared/issues/517/design.md
+## Parallelization Plan
 
-Diagram: .csdlc/prepared/issues/517/diagram.mmd
+- Parallel groups: quality and native contracts
+- Validation runtime class: `deterministic_local_cpu`
+- Validation resource profile: `small`
+- Validation family: `local_contract`
+- Validation size split: `focused`
 
-## Selected Lanes
+## Goal Accounting Hooks
 
-[
-  {
-    "lane": "quality-denominator",
-    "proof_role": "Prove the complete required-lane denominator for the exact candidate.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-3"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
-    "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/517/validate-quality-gate.rb"
-    ],
-    "parallel_group": "quality",
-    "defer_reason": "The issue-owned validator is an execution deliverable."
-  },
-  {
-    "lane": "zero-test-shield",
-    "proof_role": "Demonstrate fail-closed handling for skipped, absent, zero-test, stale, and insufficient evidence.",
-    "acceptance_ids": [
-      "AC-2"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 2000,
-    "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/517/validate-quality-gate.rb",
-      "--negative"
-    ],
-    "parallel_group": "quality",
-    "defer_reason": "The issue-owned negative validator is an execution deliverable."
-  },
-  {
-    "lane": "exact-scope",
-    "proof_role": "Bind the decision, exceptions, and artifacts to the exact candidate.",
-    "acceptance_ids": [
-      "AC-3",
-      "AC-4"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 180,
-    "budget_tokens": 1000,
-    "argv": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "parallel_group": "hygiene",
-    "defer_reason": null
-  }
-]
+- Issue goal ref: `issue-517-pr748-review-remediation`
+- Sprint goal ref: `not recorded`
+- Goal metrics rollup ref: `not recorded`
 
-## Parallelization
+## Proof Cost / Runtime Expectations
 
-Only declared parallel groups may overlap.
+- Expected proof cost: `Bounded local CPU; no live mutations for test proof`
+- Planned validation seconds: `3600`
+- Planned validation token budget: `25000`
+- Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
 
-## Budgets
+## Validation Commands
 
-Seconds: 3600
-
-Tokens: 25000
-
-## Commands
-
-- `ruby .csdlc/prepared/issues/517/validate-quality-gate.rb`
-- `ruby .csdlc/prepared/issues/517/validate-quality-gate.rb --negative`
-- `git diff --check`
+- Ruby quality-gate validator and eleven negative cases; native library, remote publication and operational CLI tests; formatting and Clippy; independent exact-head review; required hosted CI
 
 ## Failure Semantics
 
-Fail closed on an unmet predecessor, incomplete denominator, non-proving lane, candidate drift, or unowned exception.
+- Fail closed on an unmet predecessor, incomplete denominator, non-proving lane, candidate drift, or unowned exception.
 
 ## Handoff
 
-Retain typed evidence before convergence.
+Use this VPP to bridge planning and execution. Keep lane assignment fail-closed, keep blocked or skipped states explicit, and update `SOR` if actual validation differs materially from this plan.
+
+## Notes
+
+Gate remains blocked; proof debt is not resolved by this PR. Publication does not authorize release.

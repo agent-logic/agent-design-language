@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "tail-01-quality-gate-review-prompt"
-issue: 517
-task_id: "issue-0517"
-version: "v0.92.1"
-title: "[v0.92.1][TAIL-01] Quality gate"
-branch: "codex/517-tail-01-quality-gate"
-generated_at: "2026-09-09T00:56:48.157331+00:00"
-card_status: "ready"
+name: "<slug>-review-prompt"
+issue: <issue>
+task_id: "issue-<issue_padded>"
+version: "<version>"
+title: "<title>"
+branch: "<branch>"
+generated_at: "<timestamp>"
+card_status: "<card_status>"
 status: "draft"
 source_refs:
   - kind: "issue"
-    ref: "https://github.com/agent-logic/agent-design-language/issues/517"
+    ref: "<issue_url>"
   - kind: "stp"
-    ref: ".csdlc/issues/517/cards/stp.md"
+    ref: "<stp_card>"
   - kind: "sip"
-    ref: ".csdlc/issues/517/cards/sip.md"
+    ref: "<sip_card>"
   - kind: "spp"
-    ref: ".csdlc/issues/517/cards/spp.md"
+    ref: "<spp_card>"
   - kind: "vpp"
-    ref: ".csdlc/issues/517/cards/vpp.md"
+    ref: "<vpp_card>"
   - kind: "sor"
-    ref: ".csdlc/issues/517/cards/sor.md"
+    ref: "<sor_card>"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - ".csdlc/issues/517/cards/stp.md"
-  - ".csdlc/issues/517/cards/sip.md"
-  - ".csdlc/issues/517/cards/vpp.md"
+  - "<stp_card>"
+  - "<sip_card>"
+  - "<vpp_card>"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - ".csdlc/issues/517/cards/stp.md"
-  - ".csdlc/issues/517/cards/sip.md"
-  - ".csdlc/issues/517/cards/vpp.md"
+  - "<stp_card>"
+  - "<sip_card>"
+  - "<vpp_card>"
 review_results:
-  findings_status: "no_findings"
-  recommended_outcome: "pass"
-notes: "Review result applies to this repair work product; publication requires an independent final committed-head recheck. Release remains BLOCKED."
+  findings_status: "<findings_status>"
+  recommended_outcome: "<recommended_outcome>"
+notes: "<review_notes>"
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.4/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- .csdlc/issues/517/cards/stp.md
-- .csdlc/issues/517/cards/sip.md
-- .csdlc/issues/517/cards/vpp.md
+- <stp_card>
+- <sip_card>
+- <vpp_card>
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent reviewer review_748_repairs checked branch handling, complete Git review paths, current card truth, and version1.0.4 templates; no unresolved findings in the reviewed work product. Final immutable-head attestation is retained with publication evidence.
+- <review_findings>
 
 ### Dispositions
 
-- Original branch finding repaired with shared pre-intent validation and encoded readback; missing-path finding repaired with actual complete Git diff; stale cards repaired via versioned typed fields. Rename-source and stale-template review followups corrected and rechecked.
+- <review_dispositions>
 
 ### Recommended Outcome
 
-- pass
+- <recommended_outcome>
 
 ## Notes
 
-Review result applies to this repair work product; publication requires an independent final committed-head recheck. Release remains BLOCKED.
+<review_notes>
