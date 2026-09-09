@@ -218,6 +218,47 @@ fn cleanup_denies_nonexistent_parent_traversal_escape() {
 }
 
 #[test]
+fn cleanup_denies_existing_relative_candidate_before_canonicalization() {
+    let fixture = fixture_root("cleanup_existing_relative_candidate");
+    let approved = fixture.join("approved");
+    let primary = fixture.join("primary");
+    let candidate = approved.join("registered");
+    fs::create_dir_all(&fixture).expect("fixture root");
+    fs::create_dir_all(&approved).expect("approved parent");
+    init_repo(&primary);
+    let head = git_stdout(&primary, &["rev-parse", "HEAD"]);
+    let receipt = write_terminal_receipt(&primary, 630, 641, &head);
+    git(&primary, &["worktree", "add", candidate.to_str().unwrap()]);
+
+    let relative_candidate = candidate
+        .strip_prefix(std::env::current_dir().expect("current dir"))
+        .expect("candidate should be relative to repository cwd")
+        .to_path_buf();
+    let plan = cleanup_plan(
+        &approved,
+        &primary,
+        &relative_candidate,
+        false,
+        Some(receipt.clone()),
+        None,
+    );
+    let blocked = prepare_terminal_route("clean", &plan).expect("clean plan");
+    assert_eq!(blocked.status, TerminalRouteStatus::Blocked);
+    assert!(blocked
+        .findings
+        .iter()
+        .any(|finding| finding.code == "path_not_normalized"));
+
+    let absolute = cleanup_plan(&approved, &primary, &candidate, false, Some(receipt), None);
+    let eligible = prepare_terminal_route("clean", &absolute).expect("absolute clean plan");
+    assert_eq!(eligible.status, TerminalRouteStatus::Ready);
+    assert!(matches!(
+        eligible.cleanup,
+        Some(CleanupDecision::Live { .. }) | Some(CleanupDecision::Removable { .. })
+    ));
+}
+
+#[test]
 fn cleanup_uses_git_registration_and_preserves_distinct_outcomes() {
     let fixture = fixture_root("cleanup_distinct");
     let primary = fixture.join("primary");

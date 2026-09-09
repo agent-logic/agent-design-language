@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 784,
+  "issue_padded": "0784",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/784",
+  "title": "[v0.92.1][Runtime] Return completed A2A replies to the initiating agent",
+  "branch": "codex/784-runtime-a2a-closed-loop",
+  "version": "1.0.4",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-784-runtime-a2a-closed-loop",
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "Independent bounded review initially found operator-dependent continuation, provider-path mismatch, sequencing, attribution, and size-bound defects. Each was corrected. Final review reported no actionable findings.",
+  "review_dispositions": "Continuation now runs automatically through the same provider-conversation path, retains raw peer output only as initiated_reply, reports typed continuation failure, holds the parent gate through completion, and bounds continuation context.",
+  "review_notes": "Focused review covered Runtime A2A close-loop correctness, provider parity with ordinary turns, causal sequencing, result attribution, and bounded context."
+}

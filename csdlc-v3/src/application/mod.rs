@@ -206,11 +206,13 @@ pub struct IssueProjection {
 
 impl IssueProjection {
     pub fn load(context: &RepositoryContext, issue: u64) -> Result<Self, FoundationError> {
+        let record_path = context.issue_record_path(issue);
+        let record_ref = context.relative_display(&record_path);
         let record = context
             .issue_record_text(issue)
             .map_err(FoundationError::Repository)?;
         let record = parse_json(&record, "v2 issue record")?;
-        validate_issue_record(&record, issue)?;
+        validate_issue_record(&record, issue, &record_ref)?;
         let schema = required_string(&record, "schema", "v2 issue record")?.to_owned();
         let phase = required_string(&record, "phase", "v2 issue record")?.to_owned();
         let digest = required_string(&record, "digest", "v2 issue record")?.to_owned();
@@ -359,7 +361,11 @@ fn parse_json(text: &str, label: &'static str) -> Result<Value, FoundationError>
     })
 }
 
-fn validate_issue_record(record: &Value, issue: u64) -> Result<(), FoundationError> {
+fn validate_issue_record(
+    record: &Value,
+    issue: u64,
+    record_ref: &str,
+) -> Result<(), FoundationError> {
     let object = record
         .as_object()
         .ok_or_else(|| FoundationError::InvalidProjection {
@@ -390,13 +396,20 @@ fn validate_issue_record(record: &Value, issue: u64) -> Result<(), FoundationErr
         "transitions",
         "worktree",
     ];
-    for key in object.keys() {
-        if !ALLOWED.contains(&key.as_str()) {
-            return Err(FoundationError::InvalidProjection {
-                label: "v2 issue record",
-                message: format!("unsupported field {key:?}"),
-            });
-        }
+    let mut unsupported = object
+        .keys()
+        .filter(|key| !ALLOWED.contains(&key.as_str()))
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    unsupported.sort_unstable();
+    if !unsupported.is_empty() {
+        return Err(FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: format!(
+                "issue {issue} record {record_ref} has unsupported top-level fields: {}",
+                unsupported.join(", ")
+            ),
+        });
     }
     if required_string(record, "schema", "v2 issue record")? != "csdlc.issue.index.v1" {
         return Err(FoundationError::InvalidProjection {
