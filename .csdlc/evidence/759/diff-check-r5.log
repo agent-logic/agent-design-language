@@ -1,0 +1,3 @@
+sha=d13eda27131429c58b05fccedaeef239aa5398c6
+argv=git diff --check HEAD
+status=0

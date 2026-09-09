@@ -17,7 +17,7 @@ information contract rather than a view of the same data.
 - **Overview** — runtime readiness, agent count, event total and host CPU as
   live stat cards; the polis topology graph; the live event stream; and the
   Inspector (see below).
-- **Chat** — the Layer 8 channel. The conversation leads the surface; operator
+- **Chat** — the Layer 8 communication rail. The conversation leads the surface; operator
   access, the multi-agent room, the attention inbox and signed control collapse
   into disclosures. Login state is shown explicitly, since it is the difference
   between a read-only view and being able to send.
@@ -175,6 +175,10 @@ The HTML Observatory reads its Runtime v3 browser API base and endpoints from
 static host as `index.html`; if it cannot be loaded, the browser falls back to
 the versioned defaults listed above.
 
+The dashboard styling descends from the Magic UI Pro AI Agent Template, but the
+runtime data and control states remain ADL-owned proof surfaces rather than
+template sample data.
+
 Do not use unversioned `/health` or `/ready` paths for Runtime v3 overnight
 monitoring. `/v1/ready` is the watcher-ready signal: it returns `200` with
 `ready: true` only when the runtime is observability-ready and weather
@@ -214,8 +218,8 @@ read the runtime-owned Observatory feed without an Origin header when the
 operator's deployment policy allows it.
 
 The Runtime v3 browser path consumes the public runtime-owned read feed at
-`/v1/observatory`, the watcher readiness surface at `/v1/ready`, and the public
-read stream at `/v1/observatory/ws`. The Operator Channel can submit a complete
+`/v1/observatory?schema=v3`, the watcher readiness surface at `/v1/ready`, and the public
+read stream at `/v1/observatory/ws?schema=v3`. The Operator Channel can submit a complete
 pre-signed `adl.runtime.control_command.v1` envelope to `/v1/control`, and can
 log in for WSS writes when authenticated socket control is available. The
 browser never creates or stores the signing key; Runtime v3 verifies the

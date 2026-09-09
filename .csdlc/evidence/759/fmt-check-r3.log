@@ -1,0 +1,3 @@
+sha=d9175cb78019c4cf3eb19e78d2fe95be6910b70d
+argv=cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check
+status=0

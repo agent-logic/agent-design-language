@@ -898,6 +898,13 @@ impl ConversationAttachmentTestHook {
     }
 }
 
+#[cfg(test)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum DynamicAgentHealthTaskFailure {
+    Panic,
+    Cancel,
+}
+
 enum ConversationAcceptance {
     Dispatch {
         accepted: Box<ObservatoryConversationResult>,
@@ -955,6 +962,8 @@ pub struct ControlService<C> {
     runtime_agent_delegation_sequences: Mutex<BTreeMap<String, u64>>,
     runtime_agent_authority_store: Option<Arc<Layer8AuthorityStore>>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
+    #[cfg(test)]
+    dynamic_agent_health_task_failures: Mutex<BTreeMap<String, DynamicAgentHealthTaskFailure>>,
     #[cfg(test)]
     conversation_attachment_test_hook: Mutex<Option<Arc<ConversationAttachmentTestHook>>>,
 }
@@ -1090,6 +1099,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             runtime_agent_delegation_sequences: Mutex::new(BTreeMap::new()),
             runtime_agent_authority_store: None,
             api_policy: Mutex::new(None),
+            #[cfg(test)]
+            dynamic_agent_health_task_failures: Mutex::new(BTreeMap::new()),
             #[cfg(test)]
             conversation_attachment_test_hook: Mutex::new(None),
         }
@@ -3799,6 +3810,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .expect("dynamic agents state poisoned")
             .clone();
         let mut checks = tokio::task::JoinSet::new();
+        let mut declarations_by_task = BTreeMap::new();
         for declaration in declarations {
             if self
                 .pending_agent_migrations
@@ -3808,7 +3820,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             {
                 continue;
             }
-            checks.spawn(async move {
+            let task_declaration = declaration.clone();
+            #[cfg(test)]
+            let forced_failure = self
+                .dynamic_agent_health_task_failures
+                .lock()
+                .expect("dynamic agent health task failure hook poisoned")
+                .get(&declaration.id)
+                .copied();
+            let handle = checks.spawn(async move {
+                #[cfg(test)]
+                match forced_failure {
+                    Some(DynamicAgentHealthTaskFailure::Panic) => {
+                        panic!("forced dynamic agent health task panic")
+                    }
+                    Some(DynamicAgentHealthTaskFailure::Cancel) => {
+                        std::future::pending::<()>().await;
+                    }
+                    None => {}
+                }
                 let (readiness, failure_reason) = match verify_ollama_model(&declaration).await {
                     Ok(()) => (InferenceReadinessState::Ready, None),
                     Err(failure) => (
@@ -3818,10 +3848,45 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 };
                 (declaration, readiness, failure_reason, now_unix_millis())
             });
+            declarations_by_task.insert(handle.id(), task_declaration);
+            #[cfg(test)]
+            if forced_failure == Some(DynamicAgentHealthTaskFailure::Cancel) {
+                handle.abort();
+            }
         }
-        while let Some(Ok((declaration, readiness, failure_reason, observed_at_unix_millis))) =
-            checks.join_next().await
-        {
+        while let Some(result) = checks.join_next_with_id().await {
+            let (declaration, readiness, failure_reason, observed_at_unix_millis) = match result {
+                Ok((
+                    task_id,
+                    (declaration, readiness, failure_reason, observed_at_unix_millis),
+                )) => {
+                    declarations_by_task.remove(&task_id);
+                    (
+                        declaration,
+                        readiness,
+                        failure_reason,
+                        observed_at_unix_millis,
+                    )
+                }
+                Err(error) => {
+                    let Some(declaration) = declarations_by_task.remove(&error.id()) else {
+                        continue;
+                    };
+                    let reason = if error.is_cancelled() {
+                        "dynamic_agent_health_task_cancelled"
+                    } else if error.is_panic() {
+                        "dynamic_agent_health_task_panicked"
+                    } else {
+                        "dynamic_agent_health_task_failed"
+                    };
+                    (
+                        declaration,
+                        InferenceReadinessState::Failed,
+                        Some(reason.to_owned()),
+                        now_unix_millis(),
+                    )
+                }
+            };
             let mut population = self
                 .agent_population
                 .write()
@@ -3851,6 +3916,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "Ollama provider health verification failed".to_owned()
             };
         }
+    }
+
+    #[cfg(test)]
+    fn force_dynamic_agent_health_task_failure_for_test(
+        &self,
+        agent_id: &str,
+        failure: DynamicAgentHealthTaskFailure,
+    ) {
+        self.dynamic_agent_health_task_failures
+            .lock()
+            .expect("dynamic agent health task failure hook poisoned")
+            .insert(agent_id.to_owned(), failure);
     }
 
     async fn admit_agent(
@@ -9866,6 +9943,14 @@ mod agent_lifecycle {
         }
     }
 
+    fn declaration_with_id(endpoint: &str, id: &str, name: &str) -> AgentAdmissionRequest {
+        let mut request = declaration(endpoint.to_owned());
+        request.id = id.to_owned();
+        request.name = name.to_owned();
+        request.display_name = name.to_owned();
+        request
+    }
+
     #[test]
     fn vertex_ai_agent_admission_uses_explicit_provider_route() {
         let request = vertex_declaration();
@@ -10133,6 +10218,106 @@ mod agent_lifecycle {
         tampered.bundle_digest = freeze_dried_agent_digest(&tampered).unwrap();
         assert!(destination.rehydrate_agent(tampered).await.is_err());
         assert!(destination.remove_agent("shepherd").is_err());
+        ollama_task.abort();
+    }
+
+    #[tokio::test]
+    async fn dynamic_agent_health_sweep_drains_after_task_panic() {
+        let temp = tempfile::tempdir().unwrap();
+        let service = service(temp.path().join("dynamic-agents.json"));
+        let (endpoint, ollama_task) = ollama().await;
+        let failed = declaration_with_id(&endpoint, "panic-health-check", "panic.axioma");
+        let healthy = declaration_with_id(&endpoint, "healthy-peer", "healthy.axioma");
+
+        service.admit_agent(failed.clone()).await.unwrap();
+        service.admit_agent(healthy.clone()).await.unwrap();
+        service.force_dynamic_agent_health_task_failure_for_test(
+            &failed.id,
+            DynamicAgentHealthTaskFailure::Panic,
+        );
+
+        service.refresh_dynamic_agent_health().await;
+
+        let population = service.agent_population.read().unwrap();
+        let failed_sample = population
+            .sample
+            .iter()
+            .find(|agent| agent.id == failed.id)
+            .expect("failed agent remains projected");
+        assert_eq!(
+            failed_sample.inference_readiness,
+            InferenceReadinessState::Failed
+        );
+        assert_eq!(failed_sample.health, "failed");
+        assert!(
+            failed_sample
+                .detail
+                .contains("dynamic_agent_health_task_panicked"),
+            "failed agent detail preserves task failure reason: {}",
+            failed_sample.detail
+        );
+        let healthy_sample = population
+            .sample
+            .iter()
+            .find(|agent| agent.id == healthy.id)
+            .expect("healthy peer remains projected");
+        assert_eq!(healthy_sample.health, "healthy");
+        assert_eq!(healthy_sample.state, "ready");
+        assert!(
+            healthy_sample.detail.contains("verified"),
+            "healthy peer projection must not be overwritten: {}",
+            healthy_sample.detail
+        );
+        ollama_task.abort();
+    }
+
+    #[tokio::test]
+    async fn dynamic_agent_health_sweep_drains_after_task_cancellation() {
+        let temp = tempfile::tempdir().unwrap();
+        let service = service(temp.path().join("dynamic-agents.json"));
+        let (endpoint, ollama_task) = ollama().await;
+        let failed = declaration_with_id(&endpoint, "cancel-health-check", "cancel.axioma");
+        let healthy = declaration_with_id(&endpoint, "healthy-peer", "healthy.axioma");
+
+        service.admit_agent(failed.clone()).await.unwrap();
+        service.admit_agent(healthy.clone()).await.unwrap();
+        service.force_dynamic_agent_health_task_failure_for_test(
+            &failed.id,
+            DynamicAgentHealthTaskFailure::Cancel,
+        );
+
+        service.refresh_dynamic_agent_health().await;
+
+        let population = service.agent_population.read().unwrap();
+        let failed_sample = population
+            .sample
+            .iter()
+            .find(|agent| agent.id == failed.id)
+            .expect("cancelled agent remains projected");
+        assert_eq!(
+            failed_sample.inference_readiness,
+            InferenceReadinessState::Failed
+        );
+        assert_eq!(failed_sample.health, "failed");
+        assert!(
+            failed_sample
+                .detail
+                .contains("dynamic_agent_health_task_cancelled"),
+            "cancelled agent detail preserves task failure reason: {}",
+            failed_sample.detail
+        );
+        let healthy_sample = population
+            .sample
+            .iter()
+            .find(|agent| agent.id == healthy.id)
+            .expect("healthy peer remains projected");
+        assert_eq!(healthy_sample.health, "healthy");
+        assert_eq!(healthy_sample.state, "ready");
+        assert!(
+            healthy_sample.detail.contains("verified"),
+            "healthy peer projection must not be overwritten: {}",
+            healthy_sample.detail
+        );
         ollama_task.abort();
     }
 }
