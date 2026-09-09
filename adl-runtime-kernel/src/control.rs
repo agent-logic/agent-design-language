@@ -66,6 +66,15 @@ const AGENT_PROVIDER_EXECUTION_TIMEOUT: Duration = Duration::from_secs(15 * 60);
 const AGENT_CONVERSATION_MESSAGE_PART_LIMIT_BYTES: usize = 32 * 1024;
 const AGENT_CONVERSATION_MESSAGE_TOTAL_LIMIT_BYTES: usize = 256 * 1024;
 const AGENT_CONVERSATION_MESSAGE_MAX_PARTS: usize = 64;
+
+pub fn resident_shepherd_runtime_id(index: usize, config: &ResidentShepherdInitConfig) -> String {
+    if index == 0 {
+        "shepherd".to_owned()
+    } else {
+        format!("shepherd:{}", config.name)
+    }
+}
+
 pub const API_DOCS_PATH: &str = "/v1/docs/";
 pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
 pub const RUNTIME_OPENAPI_PATH: &str = "/v1/openapi.json";
@@ -161,13 +170,25 @@ enum DynamicAgentStoreEntry {
         declaration: AgentAdmissionRequest,
         orientation: AgentOrientationResource,
     },
+    Removing {
+        removal: DynamicAgentRemovalIntent,
+    },
     Legacy(AgentAdmissionRequest),
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+struct DynamicAgentRemovalIntent {
+    declaration: AgentAdmissionRequest,
+    orientation: AgentOrientationResource,
+    parent_checkpoint_generation: Option<u64>,
+    parent_checkpoint_digest: Option<String>,
 }
 
 impl DynamicAgentStoreEntry {
     fn declaration(&self) -> &AgentAdmissionRequest {
         match self {
             Self::Current { declaration, .. } => declaration,
+            Self::Removing { removal } => &removal.declaration,
             Self::Legacy(declaration) => declaration,
         }
     }
@@ -175,6 +196,7 @@ impl DynamicAgentStoreEntry {
     fn orientation(&self) -> Option<&AgentOrientationResource> {
         match self {
             Self::Current { orientation, .. } => Some(orientation),
+            Self::Removing { removal } => Some(&removal.orientation),
             Self::Legacy(_) => None,
         }
     }
@@ -925,9 +947,12 @@ pub struct ControlService<C> {
     agent_partial_store: RwLock<Option<Arc<AgentPartialCheckpointStore>>>,
     agent_archive_operation: tokio::sync::Mutex<()>,
     dynamic_agents: Mutex<Vec<AgentAdmissionRequest>>,
+    pending_agent_removals: Mutex<BTreeMap<String, DynamicAgentRemovalIntent>>,
     resident_agent_bindings: RwLock<BTreeMap<String, AgentAdmissionRequest>>,
     pending_agent_migrations: Mutex<BTreeMap<String, FreezeDriedAgent>>,
     dynamic_agent_admission: Mutex<()>,
+    #[cfg(test)]
+    dynamic_agent_removal_failure: Mutex<Option<(&'static str, &'static str)>>,
     control_addr: Mutex<SocketAddr>,
     canonical_ingress: Option<CanonicalIngress>,
     layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
@@ -1053,9 +1078,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             agent_partial_store: RwLock::new(None),
             agent_archive_operation: tokio::sync::Mutex::new(()),
             dynamic_agents: Mutex::new(Vec::new()),
+            pending_agent_removals: Mutex::new(BTreeMap::new()),
             resident_agent_bindings: RwLock::new(BTreeMap::new()),
             pending_agent_migrations: Mutex::new(BTreeMap::new()),
             dynamic_agent_admission: Mutex::new(()),
+            #[cfg(test)]
+            dynamic_agent_removal_failure: Mutex::new(None),
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             canonical_ingress: None,
             layer8_authority: None,
@@ -1370,11 +1398,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     pub fn with_resident_agent_bindings(self, configs: &ResidentShepherdSetInitConfig) -> Self {
         let bindings = configs
             .iter()
-            .map(|config| {
-                let id = config
-                    .name
-                    .split_once('.')
-                    .map_or_else(|| config.name.clone(), |(id, _)| id.to_owned());
+            .enumerate()
+            .map(|(index, config)| {
+                let id = resident_shepherd_runtime_id(index, config);
                 (
                     id.clone(),
                     AgentAdmissionRequest {
@@ -2757,7 +2783,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             turn_sequence: Some(dispatch.sequence),
             error: Some(error),
         };
-        let mut dispatch_gate_completed = false;
         let dynamic_binding = self
             .dynamic_agents
             .lock()
@@ -2775,6 +2800,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         let orientation_context = self
             .orientation_for_agent(&dispatch.intent.recipient_id)
             .map(|orientation| orientation.content);
+        let continuation_binding = dynamic_binding.clone();
+        let continuation_orientation = orientation_context.clone();
         let agent_task = match dynamic_binding {
             Some(agent) => serde_json::json!({
                 "op": "conversation_message",
@@ -2895,8 +2922,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                             match reply {
                                 Some(reply) => match requested_agent_initiation {
                                     Ok(Some(delegated)) => {
-                                        dispatch.dispatch_gate.complete(dispatch.sequence);
-                                        dispatch_gate_completed = true;
                                         let initiated = match self
                                             .accept_runtime_delegated_agent_initiation(&delegated)
                                         {
@@ -2910,9 +2935,29 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                             }
                                             ConversationAcceptance::Response(response) => response,
                                         };
+                                        let continued_reply = self
+                                            .continue_after_agent_result(
+                                                &dispatch,
+                                                continuation_binding.as_ref(),
+                                                continuation_orientation.as_deref(),
+                                                &initiated,
+                                            )
+                                            .await;
+                                        let (status, error, final_reply) = match continued_reply {
+                                            Ok(continued_reply) => (
+                                                initiated.status,
+                                                initiated.error,
+                                                Some(continued_reply),
+                                            ),
+                                            Err(_) => (
+                                                "failed",
+                                                Some("agent_result_continuation_failed"),
+                                                Some(reply),
+                                            ),
+                                        };
                                         ObservatoryConversationResult {
                                             schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-                                            status: initiated.status,
+                                            status,
                                             conversation_id: dispatch
                                                 .intent
                                                 .conversation_id
@@ -2940,18 +2985,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                                                 delegated.intent.message.as_deref(),
                                                 &delegated.intent.message_parts,
                                             ),
-                                            initiated_reply: initiated.reply,
+                                            initiated_reply: initiated.reply.clone(),
                                             // The initiating agent's operator-facing reply and
                                             // the recipient's governed result are separate facts.
                                             // The latter remains correlated through the initiated
                                             // identifiers and Runtime events; do not replace the
                                             // former with peer output.
-                                            reply: Some(reply),
+                                            reply: final_reply,
                                             accepted_sequence: initiated
                                                 .accepted_sequence
                                                 .or(Some(result.accepted_sequence)),
                                             turn_sequence: Some(dispatch.sequence),
-                                            error: initiated.error,
+                                            error,
                                         }
                                     }
                                     Ok(None) => ObservatoryConversationResult {
@@ -3031,9 +3076,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 Some(&dispatch.intent.correlation_id),
             );
         }
-        if !dispatch_gate_completed {
-            dispatch.dispatch_gate.complete(dispatch.sequence);
-        }
+        dispatch.dispatch_gate.complete(dispatch.sequence);
         if let Some(turn) = self
             .conversation_sessions
             .lock()
@@ -3070,6 +3113,54 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 return None;
             }
         }
+    }
+
+    async fn continue_after_agent_result(
+        &self,
+        dispatch: &ConversationDispatch,
+        binding: Option<&AgentAdmissionRequest>,
+        orientation_context: Option<&str>,
+        initiated: &ObservatoryConversationResult,
+    ) -> Result<String, &'static str> {
+        let binding = binding.ok_or("agent_result_continuation_unavailable")?;
+        let operator_message = assemble_agent_conversation_message(
+            dispatch.intent.message.as_deref(),
+            &dispatch.intent.message_parts,
+        )
+        .ok_or("agent_result_continuation_invalid")?;
+        let peer_result = serde_json::json!({
+            "schema": "adl.runtime.agent_to_agent_result_context.v1",
+            "recipient_id": initiated.recipient_id,
+            "conversation_id": initiated.conversation_id,
+            "turn_id": initiated.turn_id,
+            "correlation_id": initiated.correlation_id,
+            "work_id": initiated.initiated_work_id,
+            "status": initiated.status,
+            "reply": initiated.reply,
+            "error": initiated.error,
+        });
+        let prompt = crate::assembly::provider_agent_result_continuation_prompt(
+            orientation_context,
+            &dispatch.intent.recipient_id,
+            &operator_message,
+            &peer_result,
+        )
+        .ok_or("agent_result_continuation_too_large")?;
+        if dispatch.cancellation.is_cancelled() {
+            return Err("operation cancelled");
+        };
+        let output = crate::control::invoke_provider_conversation(
+            &binding.provider,
+            &binding.endpoint,
+            &binding.model,
+            &prompt,
+            &dispatch.cancellation,
+        )
+        .await?;
+        if output.agent_to_agent.is_some() || output.message.trim().is_empty() {
+            return Err("agent_result_continuation_invalid");
+        }
+        Ok(output.message)
     }
 
     fn cancel_conversation_turn(
@@ -3189,7 +3280,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub fn configure_dynamic_agent_store(&self, path: PathBuf) -> Result<(), ControlError> {
-        let agents = if path.exists() {
+        let entries = if path.exists() {
             let bytes = fs::read(&path).map_err(|error| ControlError::Io(error.to_string()))?;
             let store: DynamicAgentStore = serde_json::from_slice(&bytes)
                 .map_err(|error| ControlError::Encoding(error.to_string()))?;
@@ -3201,14 +3292,31 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Vec::new()
         };
         let mut seen = BTreeSet::new();
-        let agents = agents
-            .into_iter()
-            .map(|entry| {
-                let declaration = entry.declaration().clone();
-                let orientation = entry.orientation().cloned();
-                (declaration, orientation)
-            })
-            .collect::<Vec<_>>();
+        let mut agents = Vec::new();
+        let mut removals = BTreeMap::new();
+        for entry in entries {
+            match entry {
+                DynamicAgentStoreEntry::Removing { removal } => {
+                    validate_persisted_agent_admission(&removal.declaration)?;
+                    removal
+                        .orientation
+                        .validate_persisted()
+                        .map_err(|_| ControlError::InvalidIdentifier)?;
+                    if !seen.insert(removal.declaration.id.clone()) {
+                        return Err(ControlError::InvalidIdentifier);
+                    }
+                    removals.insert(removal.declaration.id.clone(), removal);
+                }
+                entry => {
+                    let declaration = entry.declaration().clone();
+                    let orientation = entry.orientation().cloned();
+                    if !seen.insert(declaration.id.clone()) {
+                        return Err(ControlError::InvalidIdentifier);
+                    }
+                    agents.push((declaration, orientation));
+                }
+            }
+        }
         let mut population = self
             .agent_population
             .write()
@@ -3225,9 +3333,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .validate_persisted()
                     .map_err(|_| ControlError::InvalidIdentifier)?;
             }
-            if !seen.insert(agent.id.clone()) {
-                return Err(ControlError::InvalidIdentifier);
-            }
             let mut sample = agent_sample(agent);
             sample.name = persisted_agent_canonical_name(agent);
             let resource = persisted_orientation
@@ -3242,6 +3347,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .lock()
             .expect("dynamic agents state poisoned") =
             agents.iter().map(|(agent, _)| agent.clone()).collect();
+        *self
+            .pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned") = removals;
         *self
             .dynamic_agent_store
             .lock()
@@ -3273,6 +3382,92 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .agent_partial_store
             .write()
             .expect("agent partial store state poisoned") = Some(Arc::new(store));
+        self.reconcile_pending_agent_removals()?;
+        Ok(())
+    }
+
+    fn reconcile_pending_agent_removals(&self) -> Result<(), ControlError> {
+        let pending = self
+            .pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned")
+            .clone();
+        if pending.is_empty() {
+            return Ok(());
+        }
+        let store = self
+            .agent_partial_store
+            .read()
+            .expect("agent partial store state poisoned")
+            .clone()
+            .ok_or(ControlError::Internal)?;
+        for removal in pending.values() {
+            match (
+                removal.parent_checkpoint_generation,
+                removal.parent_checkpoint_digest.as_deref(),
+            ) {
+                (Some(generation), Some(digest)) => store
+                    .ensure_tombstone(&removal.declaration.id, generation, digest.to_owned())
+                    .map_err(|error| ControlError::Io(error.to_string()))?,
+                (None, None) => {}
+                _ => return Err(ControlError::InvalidIdentifier),
+            }
+        }
+        let path = self
+            .dynamic_agent_store
+            .lock()
+            .expect("dynamic agent store state poisoned")
+            .clone()
+            .ok_or(ControlError::Internal)?;
+        let agents = self
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .clone();
+        let orientations = self
+            .agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned")
+            .clone();
+        persist_dynamic_agents(&path, &agents, &orientations)?;
+        self.pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned")
+            .clear();
+        Ok(())
+    }
+
+    #[cfg(test)]
+    fn inject_dynamic_agent_removal_failure(&self, phase: &'static str, boundary: &'static str) {
+        *self
+            .dynamic_agent_removal_failure
+            .lock()
+            .expect("dynamic agent removal failure state poisoned") = Some((phase, boundary));
+    }
+
+    #[cfg(test)]
+    fn fail_dynamic_agent_removal_at(
+        &self,
+        phase: &'static str,
+        boundary: &'static str,
+    ) -> Result<(), ControlError> {
+        let mut failure = self
+            .dynamic_agent_removal_failure
+            .lock()
+            .expect("dynamic agent removal failure state poisoned");
+        if failure.as_ref() == Some(&(phase, boundary)) {
+            failure.take();
+            return Err(ControlError::Io("injected removal interruption".to_owned()));
+        }
+        Ok(())
+    }
+
+    #[cfg(not(test))]
+    fn fail_dynamic_agent_removal_at(
+        &self,
+        _phase: &'static str,
+        _boundary: &'static str,
+    ) -> Result<(), ControlError> {
         Ok(())
     }
 
@@ -3758,6 +3953,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .dynamic_agents
             .lock()
             .expect("dynamic agents state poisoned");
+        if self
+            .pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned")
+            .contains_key(&request.id)
+        {
+            return Err(AgentAdmissionFailure::Conflict("agent_removal_pending"));
+        }
         let mut agents = agents_guard.clone();
         let status = match agents.iter().find(|agent| agent.id == request.id) {
             Some(existing) if existing == &request => "already_present",
@@ -3813,6 +4016,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .ok_or(AgentAdmissionFailure::Unavailable(
                 "dynamic_store_unconfigured",
             ))?;
+        if self
+            .pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned")
+            .contains_key(agent_id)
+        {
+            self.reconcile_pending_agent_removals()
+                .map_err(|_| AgentAdmissionFailure::Unavailable("removal_reconciliation_failed"))?;
+            return Ok("removed");
+        }
         let mut agents = self
             .dynamic_agents
             .lock()
@@ -3825,28 +4038,58 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .filter(|agent| agent.id != agent_id)
             .cloned()
             .collect::<Vec<_>>();
-        if let Some(store) = self
+        let declaration = agents
+            .iter()
+            .find(|agent| agent.id == agent_id)
+            .cloned()
+            .expect("resident declaration checked above");
+        let orientation = self
+            .agent_orientation_deliveries
+            .lock()
+            .expect("agent orientation delivery state poisoned")
+            .get(agent_id)
+            .cloned()
+            .ok_or(AgentAdmissionFailure::Unavailable(
+                "agent_orientation_unavailable",
+            ))?;
+        let partial_store = self
             .agent_partial_store
             .read()
             .expect("agent partial store state poisoned")
-            .clone()
-        {
+            .clone();
+        let parent = if partial_store.as_ref().is_some_and(|store| store.enabled()) {
             let parent = self.recorder.snapshot().continuity_head.ok_or(
                 AgentAdmissionFailure::Unavailable("continuity_head_unavailable"),
             )?;
-            store
-                .write_tombstone(agent_id, parent.generation, parent.integrity)
-                .map_err(|_| {
-                    AgentAdmissionFailure::Unavailable("agent_tombstone_persistence_failed")
-                })?;
-        }
+            Some((parent.generation, parent.integrity))
+        } else {
+            None
+        };
         let orientation_by_agent = self
             .agent_orientation_deliveries
             .lock()
             .expect("agent orientation delivery state poisoned")
             .clone();
-        persist_dynamic_agents(&path, &next, &orientation_by_agent)
-            .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
+        let intent = DynamicAgentRemovalIntent {
+            declaration,
+            orientation,
+            parent_checkpoint_generation: parent.as_ref().map(|(generation, _)| *generation),
+            parent_checkpoint_digest: parent.as_ref().map(|(_, digest)| digest.clone()),
+        };
+        persist_dynamic_agents_with_removal(
+            &path,
+            &next,
+            &orientation_by_agent,
+            &intent,
+            |boundary| self.fail_dynamic_agent_removal_at("intent", boundary),
+        )
+        .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
+        self.fail_dynamic_agent_removal_at("semantic", "after_intent_commit")
+            .map_err(|_| AgentAdmissionFailure::Unavailable("injected_removal_interruption"))?;
+        self.pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned")
+            .insert(agent_id.to_owned(), intent);
         *agents = next;
         self.agent_population
             .write()
@@ -3864,6 +4107,27 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.agent_orientation_deliveries
             .lock()
             .expect("agent orientation delivery state poisoned")
+            .remove(agent_id);
+        self.fail_dynamic_agent_removal_at("semantic", "after_projection_removal")
+            .map_err(|_| AgentAdmissionFailure::Unavailable("injected_removal_interruption"))?;
+        if let (Some(store), Some((generation, digest))) = (partial_store, parent) {
+            store
+                .ensure_tombstone(agent_id, generation, digest)
+                .map_err(|_| {
+                    AgentAdmissionFailure::Unavailable("agent_tombstone_persistence_failed")
+                })?;
+        }
+        self.fail_dynamic_agent_removal_at("semantic", "after_tombstone_commit")
+            .map_err(|_| AgentAdmissionFailure::Unavailable("injected_removal_interruption"))?;
+        persist_dynamic_agents_with_hook(&path, &agents, &orientation_by_agent, |boundary| {
+            self.fail_dynamic_agent_removal_at("final_roster", boundary)
+        })
+        .map_err(|_| AgentAdmissionFailure::Unavailable("persistence_failed"))?;
+        self.fail_dynamic_agent_removal_at("semantic", "after_final_roster_commit")
+            .map_err(|_| AgentAdmissionFailure::Unavailable("injected_removal_interruption"))?;
+        self.pending_agent_removals
+            .lock()
+            .expect("pending agent removals state poisoned")
             .remove(agent_id);
         Ok("removed")
     }
@@ -7338,6 +7602,50 @@ mod layer8_conversation_ingress_tests {
         agent_initiation_service_with_layer8_sender("beacon", "ember", fail, delay).await
     }
 
+    #[test]
+    fn resident_shepherd_bindings_use_the_same_runtime_ids_as_the_population_feed() {
+        let shepherd = |name: &str, display_name: &str| ResidentShepherdInitConfig {
+            name: name.to_owned(),
+            display_name: display_name.to_owned(),
+            office: "resident shepherd".to_owned(),
+            provider: "ollama".to_owned(),
+            model: "qwen3:8b".to_owned(),
+            endpoint: "http://127.0.0.1:11434".to_owned(),
+            preload: Default::default(),
+        };
+        let configs = ResidentShepherdSetInitConfig::Many(vec![
+            shepherd("beacon.axioma", "Beacon Axioma"),
+            shepherd("lumen.axioma", "Lumen Axioma"),
+        ]);
+        let population = AgentPopulationFeed::resident_shepherds_from_config(&configs);
+        let service = ControlService::new_with_observatory_config_and_agents(
+            "conversation-runtime",
+            RuntimeRecorder::new(16),
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            16,
+            std::iter::empty(),
+            population.clone(),
+        )
+        .with_resident_agent_bindings(&configs);
+        let bindings = service
+            .resident_agent_bindings
+            .read()
+            .expect("resident agent bindings lock poisoned");
+        let population_ids = population
+            .sample
+            .iter()
+            .map(|agent| agent.id.as_str())
+            .collect::<Vec<_>>();
+
+        assert_eq!(population_ids, ["shepherd", "shepherd:lumen.axioma"]);
+        assert_eq!(
+            bindings.keys().map(String::as_str).collect::<Vec<_>>(),
+            population_ids
+        );
+        assert_eq!(bindings["shepherd"].name, "beacon.axioma");
+    }
+
     async fn agent_initiation_service_with_layer8_sender(
         sender_id: &str,
         recipient_id: &str,
@@ -7580,33 +7888,58 @@ mod layer8_conversation_ingress_tests {
                     .expect("fixture requests poisoned")
                     .push(serde_json::json!({"request_line": request_line, "body": body}));
                 let response_body = if request_line.starts_with("POST /api/chat ") {
-                    serde_json::json!({
-                        "model": "beacon-model",
-                        "message": {
-                            "role": "assistant",
-                            "content": "I can ask Ember through the governed action channel.",
-                            "tool_calls": [{
-                                "function": {
-                                    "name": "initiate_agent",
-                                    "arguments": {
-                                        "recipient_id": "ember",
-                                        "message_parts": [
-                                            "Multipart governed handoff follows.",
-                                            "Ember, please answer Beacon through governed A2A.",
-                                            "Include the welcome-package orientation receipt in your reasoning context."
-                                        ]
+                    let closes_loop =
+                        body["messages"][0]["content"]
+                            .as_str()
+                            .is_some_and(|prompt| {
+                                prompt.contains("A governed agent-to-agent action you initiated")
+                            });
+                    if closes_loop {
+                        serde_json::json!({
+                            "model": "beacon-model",
+                            "message": {
+                                "role": "assistant",
+                                "content": "Ember returned a governed response, so the loop is closed."
+                            },
+                            "done": true
+                        })
+                    } else {
+                        serde_json::json!({
+                            "model": "beacon-model",
+                            "message": {
+                                "role": "assistant",
+                                "content": "I can ask Ember through the governed action channel.",
+                                "tool_calls": [{
+                                    "function": {
+                                        "name": "initiate_agent",
+                                        "arguments": {
+                                            "recipient_id": "ember",
+                                            "message_parts": [
+                                                "Multipart governed handoff follows.",
+                                                "Ember, please answer Beacon through governed A2A.",
+                                                "Include the welcome-package orientation receipt in your reasoning context."
+                                            ]
+                                        }
                                     }
-                                }
-                            }]
-                        },
-                        "done": true
-                    })
+                                }]
+                            },
+                            "done": true
+                        })
+                    }
                 } else if request_line.starts_with("POST /api/generate ") {
-                    serde_json::json!({
-                        "model": "ember-model",
-                        "response": "Ember generated a governed response for Beacon.",
-                        "done": true
-                    })
+                    if body["model"] == "beacon-model" {
+                        serde_json::json!({
+                            "model": "beacon-model",
+                            "response": "Ember returned a governed response, so the loop is closed.",
+                            "done": true
+                        })
+                    } else {
+                        serde_json::json!({
+                            "model": "ember-model",
+                            "response": "Ember generated a governed response for Beacon.",
+                            "done": true
+                        })
+                    }
                 } else {
                     serde_json::json!({"error": "unexpected fixture route"})
                 };
@@ -7951,8 +8284,8 @@ mod layer8_conversation_ingress_tests {
         );
         assert_eq!(
             delivered.reply.as_deref(),
-            Some("I can ask Ember through the governed action channel."),
-            "Beacon's operator reply must remain distinct from Ember's governed result"
+            Some("Ember returned a governed response, so the loop is closed."),
+            "Beacon must synthesize the governed peer result before completing the operator turn"
         );
         assert_eq!(
             delivered.initiated_reply.as_deref(),
@@ -7983,7 +8316,7 @@ mod layer8_conversation_ingress_tests {
         assert_eq!(history.records[1].speaker_id, "agent:beacon");
         assert_eq!(
             history.records[1].body,
-            "I can ask Ember through the governed action channel."
+            "Ember returned a governed response, so the loop is closed."
         );
         assert_eq!(
             history.records[2].history_kind.as_deref(),
@@ -8097,8 +8430,8 @@ mod layer8_conversation_ingress_tests {
                 .expect("provider request fixture poisoned");
             assert_eq!(
                 requests.len(),
-                2,
-                "initiator and recipient must both execute"
+                3,
+                "initiator, recipient, and initiating-agent follow-up must execute"
             );
             assert_eq!(requests[0]["request_line"], "POST /api/chat HTTP/1.1");
             assert_eq!(
@@ -8151,6 +8484,24 @@ mod layer8_conversation_ingress_tests {
                 1,
                 "second multipart chunk must not be duplicated: {recipient_prompt}"
             );
+            assert_eq!(requests[2]["request_line"], "POST /api/chat HTTP/1.1");
+            assert_eq!(requests[2]["body"]["model"], "beacon-model");
+            let follow_up_prompt = requests[2]["body"]["messages"][0]["content"]
+                .as_str()
+                .expect("initiator continuation prompt should be a string");
+            assert!(follow_up_prompt.contains(
+                "A governed agent-to-agent action you initiated for the current operator turn has completed"
+            ));
+            assert!(follow_up_prompt.contains("Ember generated a governed response for Beacon."));
+            assert_eq!(
+                follow_up_prompt
+                    .matches("Ember generated a governed response for Beacon.")
+                    .count(),
+                1,
+                "completed peer result must enter the next initiator turn exactly once: {follow_up_prompt}"
+            );
+            assert!(follow_up_prompt.contains("\"status\": \"delivered\""));
+            assert!(follow_up_prompt.contains("\"recipient_id\": \"ember\""));
         }
         let events = recorder.events();
         assert!(
@@ -9043,6 +9394,235 @@ mod agent_lifecycle {
             .configure_dynamic_agent_store(store)
             .expect("configure dynamic store");
         service
+    }
+
+    fn dynamic_admission(id: &str) -> AgentAdmissionRequest {
+        AgentAdmissionRequest {
+            schema: AGENT_ADMISSION_SCHEMA.to_owned(),
+            id: id.to_owned(),
+            name: format!("{id}.axioma"),
+            display_name: format!("{id} Axioma"),
+            office: "local assistant".to_owned(),
+            role: String::new(),
+            provider: "ollama".to_owned(),
+            model: "test-model".to_owned(),
+            endpoint: "http://127.0.0.1:11434".to_owned(),
+        }
+    }
+
+    #[test]
+    fn startup_finishes_durable_removal_intent_before_agent_becomes_resident() {
+        let temp = tempfile::tempdir().unwrap();
+        let store_path = temp.path().join("dynamic-agents.json");
+        let removal = DynamicAgentRemovalIntent {
+            declaration: dynamic_admission("ember"),
+            orientation: AgentOrientationResource::bundled_default(),
+            parent_checkpoint_generation: None,
+            parent_checkpoint_digest: None,
+        };
+        std::fs::write(
+            &store_path,
+            serde_json::to_vec_pretty(&DynamicAgentStore {
+                schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                agents: vec![DynamicAgentStoreEntry::Removing { removal }],
+            })
+            .unwrap(),
+        )
+        .unwrap();
+
+        let runtime = service(store_path.clone());
+        assert!(runtime.dynamic_agents.lock().unwrap().is_empty());
+        assert!(!runtime
+            .agent_population
+            .read()
+            .unwrap()
+            .sample
+            .iter()
+            .any(|agent| agent.id == "ember"));
+        assert!(runtime
+            .pending_agent_removals
+            .lock()
+            .unwrap()
+            .contains_key("ember"));
+
+        runtime
+            .configure_agent_partial_checkpoints(
+                temp.path().join("agent-partials"),
+                AgentPartialCheckpointInitConfig::default(),
+            )
+            .unwrap();
+        assert!(runtime.pending_agent_removals.lock().unwrap().is_empty());
+        let persisted: DynamicAgentStore =
+            serde_json::from_slice(&std::fs::read(&store_path).unwrap()).unwrap();
+        assert!(persisted.agents.is_empty());
+
+        let restarted = service(store_path);
+        assert!(restarted.dynamic_agents.lock().unwrap().is_empty());
+        assert!(restarted.pending_agent_removals.lock().unwrap().is_empty());
+    }
+
+    #[tokio::test]
+    async fn every_removal_commit_boundary_converges_to_authoritative_absence_on_restart() {
+        let atomic_boundaries = [
+            "before_temp_open",
+            "after_temp_open",
+            "after_write",
+            "after_file_sync",
+            "after_rename",
+            "after_directory_sync",
+        ];
+        let cases = atomic_boundaries
+            .iter()
+            .map(|boundary| {
+                (
+                    "intent",
+                    *boundary,
+                    matches!(*boundary, "after_rename" | "after_directory_sync"),
+                )
+            })
+            .chain(
+                atomic_boundaries
+                    .iter()
+                    .map(|boundary| ("final_roster", *boundary, true)),
+            )
+            .chain(
+                ["before_local_prune", "after_local_prune"]
+                    .into_iter()
+                    .map(|boundary| ("tombstone", boundary, true)),
+            )
+            .chain(
+                atomic_boundaries
+                    .iter()
+                    .map(|boundary| ("tombstone", *boundary, true)),
+            )
+            .chain([("tombstone", "after_local_commit", true)])
+            .chain([
+                ("semantic", "after_intent_commit", true),
+                ("semantic", "after_projection_removal", true),
+                ("semantic", "after_tombstone_commit", true),
+                ("semantic", "after_final_roster_commit", true),
+            ]);
+        for (phase, boundary, removal_committed) in cases {
+            let temp = tempfile::tempdir().unwrap();
+            let store_path = temp.path().join("dynamic-agents.json");
+            let checkpoint_root = temp.path().join("agent-partials");
+            let declaration = dynamic_admission("ember");
+            let orientation = AgentOrientationResource::bundled_default();
+            std::fs::write(
+                &store_path,
+                serde_json::to_vec_pretty(&DynamicAgentStore {
+                    schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+                    agents: vec![DynamicAgentStoreEntry::Current {
+                        declaration,
+                        orientation,
+                    }],
+                })
+                .unwrap(),
+            )
+            .unwrap();
+
+            let recorder = RuntimeRecorder::new(16);
+            let mut continuity = crate::LiveContinuity::new(
+                temp.path().join("continuity"),
+                "test-continuity-key",
+                &[7_u8; 32],
+                crate::LiveKernelSnapshot::new("1".repeat(64), "2".repeat(64), BTreeMap::new()),
+                0,
+            );
+            continuity
+                .establish_genesis(&recorder, Duration::from_secs(1))
+                .await
+                .unwrap();
+            let parent = recorder.snapshot().continuity_head.unwrap();
+
+            let runtime = ControlService::new_with_observatory_config_and_agents(
+                "runtime-test",
+                recorder.clone(),
+                FakeLifecycle,
+                ControlAuthority::new(BTreeMap::new()),
+                16,
+                std::iter::empty(),
+                AgentPopulationFeed::resident_shepherd(),
+            );
+            runtime
+                .configure_dynamic_agent_store(store_path.clone())
+                .unwrap();
+            runtime
+                .configure_agent_partial_checkpoints(
+                    checkpoint_root.clone(),
+                    AgentPartialCheckpointInitConfig::default(),
+                )
+                .unwrap();
+            if phase == "tombstone" {
+                runtime
+                    .agent_partial_store
+                    .read()
+                    .unwrap()
+                    .as_ref()
+                    .unwrap()
+                    .inject_tombstone_failure(boundary);
+            } else {
+                runtime.inject_dynamic_agent_removal_failure(phase, boundary);
+            }
+            assert!(matches!(
+                runtime.remove_agent("ember"),
+                Err(AgentAdmissionFailure::Unavailable(_))
+            ));
+            drop(runtime);
+
+            let restarted = ControlService::new_with_observatory_config_and_agents(
+                "runtime-test",
+                recorder,
+                FakeLifecycle,
+                ControlAuthority::new(BTreeMap::new()),
+                16,
+                std::iter::empty(),
+                AgentPopulationFeed::resident_shepherd(),
+            );
+            restarted
+                .configure_dynamic_agent_store(store_path.clone())
+                .unwrap();
+            restarted
+                .configure_agent_partial_checkpoints(
+                    checkpoint_root,
+                    AgentPartialCheckpointInitConfig::default(),
+                )
+                .unwrap();
+            assert_eq!(
+                restarted.dynamic_agents.lock().unwrap().is_empty(),
+                removal_committed,
+                "phase {phase}, boundary {boundary}"
+            );
+            assert!(restarted.pending_agent_removals.lock().unwrap().is_empty());
+            assert_eq!(
+                !restarted
+                    .agent_population
+                    .read()
+                    .unwrap()
+                    .sample
+                    .iter()
+                    .any(|agent| agent.id == "ember"),
+                removal_committed,
+                "phase {phase}, boundary {boundary}"
+            );
+            let persisted: DynamicAgentStore =
+                serde_json::from_slice(&std::fs::read(&store_path).unwrap()).unwrap();
+            assert_eq!(
+                persisted.agents.is_empty(),
+                removal_committed,
+                "phase {phase}, boundary {boundary}"
+            );
+            if removal_committed {
+                assert!(restarted
+                    .agent_partial_store
+                    .read()
+                    .unwrap()
+                    .as_ref()
+                    .unwrap()
+                    .has_tombstone("ember", parent.generation, &parent.integrity)
+                    .unwrap());
+            }
+        }
     }
 
     fn restored_history(turn_count: u64) -> Vec<AgentConversationCheckpoint> {
@@ -10952,25 +11532,103 @@ fn persist_dynamic_agents(
     )
 }
 
+fn persist_dynamic_agents_with_hook(
+    path: &Path,
+    agents: &[AgentAdmissionRequest],
+    orientation_by_agent: &BTreeMap<String, AgentOrientationResource>,
+    hook: impl FnMut(&'static str) -> Result<(), ControlError>,
+) -> Result<(), ControlError> {
+    let agents = agents
+        .iter()
+        .map(|declaration| {
+            let orientation = orientation_by_agent
+                .get(&declaration.id)
+                .cloned()
+                .ok_or(ControlError::InvalidIdentifier)?;
+            Ok(DynamicAgentStoreEntry::Current {
+                declaration: declaration.clone(),
+                orientation,
+            })
+        })
+        .collect::<Result<Vec<_>, ControlError>>()?;
+    persist_json_atomically_with_hook(
+        path,
+        &DynamicAgentStore {
+            schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+            agents,
+        },
+        hook,
+    )
+}
+
+fn persist_dynamic_agents_with_removal(
+    path: &Path,
+    agents: &[AgentAdmissionRequest],
+    orientation_by_agent: &BTreeMap<String, AgentOrientationResource>,
+    removal: &DynamicAgentRemovalIntent,
+    hook: impl FnMut(&'static str) -> Result<(), ControlError>,
+) -> Result<(), ControlError> {
+    let mut entries = agents
+        .iter()
+        .map(|declaration| {
+            let orientation = orientation_by_agent
+                .get(&declaration.id)
+                .cloned()
+                .ok_or(ControlError::InvalidIdentifier)?;
+            Ok(DynamicAgentStoreEntry::Current {
+                declaration: declaration.clone(),
+                orientation,
+            })
+        })
+        .collect::<Result<Vec<_>, ControlError>>()?;
+    entries.push(DynamicAgentStoreEntry::Removing {
+        removal: removal.clone(),
+    });
+    entries.sort_by(|left, right| left.declaration().id.cmp(&right.declaration().id));
+    persist_json_atomically_with_hook(
+        path,
+        &DynamicAgentStore {
+            schema: DYNAMIC_AGENT_STORE_SCHEMA.to_owned(),
+            agents: entries,
+        },
+        hook,
+    )
+}
+
 fn persist_json_atomically(path: &Path, value: &impl Serialize) -> Result<(), ControlError> {
+    persist_json_atomically_with_hook(path, value, |_| Ok(()))
+}
+
+fn persist_json_atomically_with_hook(
+    path: &Path,
+    value: &impl Serialize,
+    mut hook: impl FnMut(&'static str) -> Result<(), ControlError>,
+) -> Result<(), ControlError> {
     let parent = path.parent().ok_or(ControlError::InvalidIdentifier)?;
     fs::create_dir_all(parent).map_err(|error| ControlError::Io(error.to_string()))?;
     let temp = path.with_extension("json.tmp");
     let bytes = serde_json::to_vec_pretty(value)
         .map_err(|error| ControlError::Encoding(error.to_string()))?;
+    hook("before_temp_open")?;
     let mut file = OpenOptions::new()
         .write(true)
         .create(true)
         .truncate(true)
         .open(&temp)
         .map_err(|error| ControlError::Io(error.to_string()))?;
+    hook("after_temp_open")?;
     file.write_all(&bytes)
-        .and_then(|_| file.sync_all())
         .map_err(|error| ControlError::Io(error.to_string()))?;
+    hook("after_write")?;
+    file.sync_all()
+        .map_err(|error| ControlError::Io(error.to_string()))?;
+    hook("after_file_sync")?;
     fs::rename(&temp, path).map_err(|error| ControlError::Io(error.to_string()))?;
+    hook("after_rename")?;
     File::open(parent)
         .and_then(|directory| directory.sync_all())
         .map_err(|error| ControlError::Io(error.to_string()))?;
+    hook("after_directory_sync")?;
     Ok(())
 }
 

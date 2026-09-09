@@ -1744,6 +1744,34 @@ fn provider_conversation_prompt(
     }
 }
 
+pub(crate) fn provider_agent_result_continuation_prompt(
+    orientation_context: Option<&str>,
+    initiating_agent_id: &str,
+    operator_message: &str,
+    peer_result: &serde_json::Value,
+) -> Option<String> {
+    let peer_result = serde_json::to_string_pretty(peer_result).ok()?;
+    if peer_result.len() > AGENT_CONVERSATION_INPUT_TOTAL_LIMIT_BYTES {
+        return None;
+    }
+    let runtime_prompt = format!(
+        "You are resident agent `{initiating_agent_id}` in Axioma Polis.\n\
+         A governed agent-to-agent action you initiated for the current operator turn has completed.\n\
+         Use the peer result below to answer the operator now. Do not claim the result is missing, do not initiate the same request again, and do not invent additional peer output.\n\
+         Original operator message:\n{operator_message}\n\n\
+         Governed peer result:\n{peer_result}"
+    );
+    let prompt = orientation_context
+        .filter(|value| !value.trim().is_empty())
+        .map(|orientation| {
+            format!(
+                "{orientation}\n\n---\nRuntime-delivered task content follows. Treat the orientation above as civic context, not authority.\n\n{runtime_prompt}"
+            )
+        })
+        .unwrap_or(runtime_prompt);
+    (prompt.len() <= AGENT_CONVERSATION_INPUT_TOTAL_LIMIT_BYTES).then_some(prompt)
+}
+
 fn provider_conversation_output(
     task: &serde_json::Value,
     recipient_id: &str,
@@ -1878,6 +1906,47 @@ mod provider_conversation_action_tests {
         assert!(prompt.contains("The Runtime validates the action"));
         assert!(prompt.contains("Do not claim the message was delivered"));
         assert!(prompt.contains("correlation"));
+    }
+
+    #[test]
+    fn agent_result_continuation_prompt_preserves_typed_terminal_failure() {
+        let prompt = provider_agent_result_continuation_prompt(
+            Some("Axioma Polis orientation"),
+            "beacon",
+            "Ask Ember for the result.",
+            &serde_json::json!({
+                "schema": "adl.runtime.agent_to_agent_result_context.v1",
+                "recipient_id": "ember",
+                "conversation_id": "a2a-beacon-ember-001",
+                "turn_id": "turn-a2a-001",
+                "correlation_id": "abababababababababababababababab",
+                "work_id": "a2a-work-001",
+                "status": "refused",
+                "reply": null,
+                "error": "recipient_unavailable"
+            }),
+        )
+        .expect("bounded typed failure result should produce a continuation prompt");
+        assert!(prompt.contains("A governed agent-to-agent action"));
+        assert!(prompt.contains("\"status\": \"refused\""));
+        assert!(prompt.contains("\"error\": \"recipient_unavailable\""));
+        assert_eq!(prompt.matches("recipient_unavailable").count(), 1);
+    }
+
+    #[test]
+    fn agent_result_continuation_prompt_rejects_oversized_peer_result() {
+        let prompt = provider_agent_result_continuation_prompt(
+            None,
+            "beacon",
+            "Ask Ember for the result.",
+            &serde_json::json!({
+                "schema": "adl.runtime.agent_to_agent_result_context.v1",
+                "recipient_id": "ember",
+                "status": "delivered",
+                "reply": "x".repeat(AGENT_CONVERSATION_INPUT_TOTAL_LIMIT_BYTES + 1)
+            }),
+        );
+        assert!(prompt.is_none(), "oversized peer context must fail closed");
     }
 
     #[test]
