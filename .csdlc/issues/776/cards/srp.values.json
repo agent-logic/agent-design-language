@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 776,
+  "issue_padded": "0776",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/776",
+  "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+  "branch": "codex/776-versioned-template-structure-schemas",
+  "version": "1.0.4",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-776-versioned-template-structure-schemas",
+  "slug": "versioned-template-structure-schemas",
+  "stp_card": ".csdlc/issues/776/cards/stp.md",
+  "sip_card": ".csdlc/issues/776/cards/sip.md",
+  "spp_card": ".csdlc/issues/776/cards/spp.md",
+  "vpp_card": ".csdlc/issues/776/cards/vpp.md",
+  "sor_card": ".csdlc/issues/776/cards/sor.md",
+  "review_findings": "Pending exact-head independent review.",
+  "review_dispositions": "Pending exact-head independent review.",
+  "recommended_outcome": "Pending exact-head independent review.",
+  "review_notes": "Review must verify sibling versioned schema resolution, schema identity binding, six-card current-registry coverage, and preservation of fail-closed structure checks."
+}
