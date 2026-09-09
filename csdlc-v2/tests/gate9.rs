@@ -43,6 +43,113 @@ fn native_sample_authority_resolves_distinct_native_and_import_families() {
     );
 }
 
+// PVF: deterministic local filesystem contract proof; small resource profile.
+// Required for #754 acceptance and the C-SDLC v2 standalone CI lane.
+fn registry_fixture(version: &str) -> (tempfile::TempDir, serde_json::Value) {
+    let root = tempfile::tempdir().expect("registry fixture");
+    let mut registry: serde_json::Value =
+        serde_json::from_slice(include_bytes!("../../docs/templates/prompts/current.json"))
+            .unwrap();
+    registry["csdlc_prompt_template_set"] = version.into();
+    registry["semver"] = version.into();
+    registry["generations"]["legacy_import"]["template_set"] = version.into();
+    registry["generations"]["legacy_import"]["path"] =
+        format!("docs/templates/prompts/{version}").into();
+    let manifest = root.path().join("csdlc-v2/operator/native-card-shape.json");
+    std::fs::create_dir_all(manifest.parent().unwrap()).unwrap();
+    std::fs::write(
+        manifest,
+        include_bytes!("../operator/native-card-shape.json"),
+    )
+    .unwrap();
+    (root, registry)
+}
+
+fn write_registry(root: &std::path::Path, registry: &serde_json::Value) {
+    let path = root.join("docs/templates/prompts/current.json");
+    std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+    std::fs::write(path, serde_json::to_vec(registry).unwrap()).unwrap();
+}
+
+#[test]
+fn native_registry_accepts_explicit_legacy_registry_versions() {
+    for version in ["1.0.3", "1.0.4"] {
+        let (root, registry) = registry_fixture(version);
+        write_registry(root.path(), &registry);
+        csdlc_v2::registry::validate_native_registry(root.path())
+            .unwrap_or_else(|error| panic!("{version}: {error:?}"));
+    }
+}
+
+#[test]
+fn native_registry_rejects_incompatible_authority_before_sample_writes() {
+    for version in ["1.0.3", "1.0.4"] {
+        let other = if version == "1.0.3" { "1.0.4" } else { "1.0.3" };
+        let other_path = format!("docs/templates/prompts/{other}");
+        for (pointer, replacement) in [
+            ("/semver", other),
+            ("/generations/legacy_import/template_set", other),
+            ("/generations/legacy_import/path", other_path.as_str()),
+            ("/generations/csdlc_v2_native/template_set", "1.0.4"),
+            (
+                "/generations/csdlc_v2_native/projection_family",
+                "legacy_full",
+            ),
+            (
+                "/generations/csdlc_v2_native/shape_manifest_path",
+                "../native-card-shape.json",
+            ),
+        ] {
+            let (root, mut registry) = registry_fixture(version);
+            *registry.pointer_mut(pointer).unwrap() = replacement.into();
+            write_registry(root.path(), &registry);
+            let output = root.path().join("samples");
+            let error = generate_sample_packets(root.path(), &output).unwrap_err();
+            assert_eq!(
+                error.code,
+                csdlc_v2::ErrorCode::InvalidManifest,
+                "{version}: {pointer}"
+            );
+            assert!(!output.exists(), "{version}: {pointer} wrote output");
+        }
+    }
+    let (root, registry) = registry_fixture("1.0.5");
+    write_registry(root.path(), &registry);
+    let output = root.path().join("samples");
+    assert_eq!(
+        generate_sample_packets(root.path(), &output)
+            .unwrap_err()
+            .code,
+        csdlc_v2::ErrorCode::InvalidManifest
+    );
+    assert!(!output.exists());
+}
+
+#[test]
+fn native_registry_rejects_missing_and_drifted_shapes_before_sample_writes() {
+    for missing in [false, true] {
+        let (root, registry) = registry_fixture("1.0.4");
+        write_registry(root.path(), &registry);
+        let manifest = root.path().join("csdlc-v2/operator/native-card-shape.json");
+        if missing {
+            std::fs::remove_file(manifest).unwrap();
+        } else {
+            let mut shape: serde_json::Value =
+                serde_json::from_slice(&std::fs::read(&manifest).unwrap()).unwrap();
+            shape["cards"]["sip"][0] = "unapproved heading".into();
+            std::fs::write(manifest, serde_json::to_vec(&shape).unwrap()).unwrap();
+        }
+        let output = root.path().join("samples");
+        assert_eq!(
+            generate_sample_packets(root.path(), &output)
+                .unwrap_err()
+                .code,
+            csdlc_v2::ErrorCode::InvalidManifest
+        );
+        assert!(!output.exists());
+    }
+}
+
 fn passing_budgets() -> Vec<BudgetEvidence> {
     BudgetKind::iter()
         .map(|name| {

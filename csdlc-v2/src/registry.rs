@@ -55,8 +55,11 @@ pub fn validate_native_registry(root: &Path) -> Result<()> {
     )?;
     let registry: Registry = read_json(&registry_path)?;
     if registry.schema != "adl.csdlc.prompt_template_registry.v1"
-        || registry.csdlc_prompt_template_set != "1.0.3"
-        || registry.semver != "1.0.3"
+        || !matches!(
+            registry.csdlc_prompt_template_set.as_str(),
+            "1.0.3" | "1.0.4"
+        )
+        || registry.semver != registry.csdlc_prompt_template_set
         || registry.status != "active"
         || registry.object_kind != "csdlc_prompt_template_set"
         || registry.lifecycle != ["SIP", "STP", "SPP", "VPP", "SRP", "SOR"]
@@ -69,9 +72,13 @@ pub fn validate_native_registry(root: &Path) -> Result<()> {
             "legacy import registry entry is missing",
         )
     })?;
-    if legacy.template_set != "1.0.3"
+    let legacy_path = format!(
+        "docs/templates/prompts/{}",
+        registry.csdlc_prompt_template_set
+    );
+    if legacy.template_set != registry.csdlc_prompt_template_set
         || legacy.projection_family != "legacy_full"
-        || legacy.path.as_deref() != Some("docs/templates/prompts/1.0.3")
+        || legacy.path.as_deref() != Some(legacy_path.as_str())
     {
         return invalid("legacy import registry identity is incompatible");
     }
