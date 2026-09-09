@@ -12,8 +12,11 @@ alb_security_group_id = null
 
 # Optional direct smoke access. Prefer your /32, not 0.0.0.0/0.
 operator_ingress_cidrs = []
-ssh_ingress_cidrs      = []
-key_name               = null
+
+# Required independent recovery path. Replace with your actual public IPv4 /32
+# and one existing key pair whose private key you can use. Do not create a second key.
+ssh_ingress_cidrs = ["203.0.113.10/32"]
+key_name          = "REPLACE-existing-approved-key-pair"
 
 # User-data may install/start Runtime, but do not commit secret values.
 user_data = null

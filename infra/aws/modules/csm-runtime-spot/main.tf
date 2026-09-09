@@ -61,7 +61,7 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_from_operator" {
   ip_protocol       = "tcp"
   from_port         = 22
   to_port           = 22
-  description       = "Optional operator SSH"
+  description       = "Operator SSH recovery"
 }
 
 resource "aws_vpc_security_group_egress_rule" "all" {
@@ -80,6 +80,17 @@ resource "aws_instance" "runtime" {
   key_name                    = var.key_name
   iam_instance_profile        = var.iam_instance_profile
   user_data                   = var.user_data
+
+  lifecycle {
+    precondition {
+      condition     = try(length(trimspace(var.key_name)) > 0, false)
+      error_message = "Public Spot Runtime requires one existing operator-approved EC2 key pair (key_name)."
+    }
+    precondition {
+      condition     = length(var.ssh_ingress_cidrs) > 0
+      error_message = "Public Spot Runtime requires explicit authorized SSH ingress CIDRs; use your operator /32 for recovery."
+    }
+  }
 
   instance_market_options {
     market_type = "spot"
