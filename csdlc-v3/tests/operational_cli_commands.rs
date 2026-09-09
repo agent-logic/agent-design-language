@@ -716,15 +716,9 @@ fn proof_and_rollback_commands_reach_real_handlers() {
         &fixture,
     );
     assert!(!proof.status.success(), "blocked proof must return nonzero");
-    let proof_json: serde_json::Value = serde_json::from_slice(
-        String::from_utf8_lossy(&proof.stderr)
-            .strip_prefix("csdlc: ")
-            .unwrap()
-            .as_bytes(),
-    )
-    .unwrap();
+    let proof_json: serde_json::Value = serde_json::from_slice(&proof.stdout).unwrap();
     assert_eq!(proof_json["status"], "blocked");
-    assert_eq!(proof_json["findings"][0]["code"], "proof_manifest_missing");
+    assert_eq!(proof_json["findings"][0]["code"], "proof_binding_missing");
 
     let rollback_path = fixture.join("rollback.json");
     let rollback_request = TerminalRouteRequest {

@@ -1,0 +1,5 @@
+flowchart LR
+  C[Invoking checkout] --> A[Authenticate issue and Git context]
+  A --> G[Exact head and containment guards]
+  G --> W[Issue worktree write]
+  H[Historical route] --> B[Blocked without mutation]
