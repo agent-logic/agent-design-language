@@ -57,7 +57,7 @@ proposed_steps:
     expected_output: "<sip_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
-    description: "Review repo inputs and scoped surfaces before editing: Native terminal contracts, all 199 issue rows, complete timelines for 62 no-current-closing-link cases, PR613 explicit checkpoint body."
+    description: "Review repo inputs and scoped surfaces before editing: Native terminal contracts, all 201 issue rows, complete timelines for 62 no-current-closing-link cases, PR613 explicit checkpoint body."
     expected_output: "<stp_card>"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
@@ -65,7 +65,7 @@ proposed_steps:
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep."
+    description: "Run focused proof gates for acceptance: Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "No-PR disposition cannot impersonate merged implementation proof."
 test_strategy:
-  - "Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep."
+  - "Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -155,9 +155,9 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 ## Proposed Steps
 
 1. Confirm dependency readiness and starting state: User authorized all closed issues closeout and tooling repair in Planning #6.
-2. Review repo inputs and scoped surfaces before editing: Native terminal contracts, all 199 issue rows, complete timelines for 62 no-current-closing-link cases, PR613 explicit checkpoint body.
+2. Review repo inputs and scoped surfaces before editing: Native terminal contracts, all 201 issue rows, complete timelines for 62 no-current-closing-link cases, PR613 explicit checkpoint body.
 3. Implement only the bounded deliverables: csdlc-v3/src/commands/terminal.rs, narrowly coupled adapters/tests, docs/csdlc-v3
-4. Run focused proof gates for acceptance: Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.
+4. Run focused proof gates for acceptance: Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 199-issue audited closeout sweep.
+- Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep.
 
 ## Execution Handoff
 

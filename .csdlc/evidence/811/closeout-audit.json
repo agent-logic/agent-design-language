@@ -2,8 +2,8 @@
   "schema": "adl.closeout_audit.v1",
   "date": "2026-09-09",
   "scope": "Union of closed v0.92.1 milestone and version-label issues",
-  "total": 199,
-  "merged_pr": 137,
+  "total": 201,
+  "merged_pr": 139,
   "explicit_no_pr_disposition": 62,
   "issues": [
     {
@@ -2365,6 +2365,19 @@
       "head_sha": "1c14af3544040d364b3cf0ea1fcce9972f8cef9c"
     },
     {
+      "issue": 758,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_pr",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/805"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/758/terminal-receipt.json",
+      "receipt_state_digest": "ff10a005f9a4e32b61091a44c6535f226bb9024d328419c7486f95f955711634",
+      "pull_request": 805,
+      "terminal_route": "merged_pr",
+      "head_sha": "d453299053afb6812974edefa9ecbe9e87edaad9"
+    },
+    {
       "issue": 759,
       "closeout_status": "native_terminal_verified",
       "disposition": "merged_implementation",
@@ -2597,6 +2610,19 @@
       "pull_request": 806,
       "terminal_route": "merged_pr",
       "head_sha": "9d335b391fa049226c149d864a629836ec399f99"
+    },
+    {
+      "issue": 810,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_pr",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/812"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/810/terminal-receipt.json",
+      "receipt_state_digest": "6145f1a20054918b0fa7e4fc59765ef94d18cd9a000f6d43e997b2e90fd4210f",
+      "pull_request": 812,
+      "terminal_route": "merged_pr",
+      "head_sha": "78d3dfeef652b60145666f0c253a1e3fc14a5fe0"
     }
   ]
 }

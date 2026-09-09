@@ -98,7 +98,7 @@ Persist authenticated terminal closeout for every closed issue, including approv
 
 ## Acceptance Criteria
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 201-issue audited closeout sweep.
 
 ## Inputs
 
@@ -110,11 +110,11 @@ csdlc-v3/src/commands/terminal.rs, narrowly coupled adapters/tests, docs/csdlc-v
 
 ## Validation Plan
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 201-issue audited closeout sweep.
 
 ## Demo / Proof Requirements
 
-Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 199-issue audited closeout sweep.
+Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression. Then rerun the 201-issue audited closeout sweep.
 
 ## Constraints / Policies
 

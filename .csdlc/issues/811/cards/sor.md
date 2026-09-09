@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Native no-PR closeout implemented; all 199 audited closed issues now have receipts (137 merged, 62 explicit dispositions). Tooling repair awaits PR integration.
+Native no-PR closeout implemented; all 201 audited closed issues now have receipts (139 merged, 62 explicit dispositions). Tooling repair awaits PR integration.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -81,7 +81,7 @@ Native no-PR closeout implemented; all 199 audited closed issues now have receip
 ## Actions taken
 - `Added guarded no-PR route and immutable disposition receipts`
 - `Fixed independent-review P2: actual local HEAD must match receipt context`
-- `Reconciled all 62 remaining closed issues and verified all 199 receipts`
+- `Reconciled all 62 remaining closed issues and verified all 201 receipts`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `Local Git metadata only: terminal states and receipts for audited issues`
