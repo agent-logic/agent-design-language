@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/824/cards/sip.md"
   - ".csdlc/issues/824/cards/vpp.md"
 review_results:
-  findings_status: "all_findings_resolved_pending_rereview"
-  recommended_outcome: "pending"
-notes: "Both findings are fixed. Fresh independent exact-head rereview is required before publication."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Independent exact-head rereview by subagent:/root/fix_814_runtime returned PASS with no actionable P0-P3 findings at 84f72df2a7205f76962b722cdababfcb0642ea2c."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Exact-head review at 848e4fdf found two P2 gaps: deterministic pre-dispatch failure could consume the one recovery, and SOR retained placeholders and contradictory local/hosted validation truth.
+- Three historical P2 findings were identified across two review rounds: deterministic pre-dispatch failure could consume the one recovery; SOR retained placeholders and contradictory local/hosted truth; repeated recovery could leave a private GraphQL input after the consumed-recovery check failed.
 
 ### Dispositions
 
-- Credential preflight, private input creation, and typed invocation construction now complete before recovery consumption; consumption remains immediately before process.run. A missing-credential regression proves recovery remains available. Every SOR field is populated and local proof is separated from pending hosted CI.
+- All three findings are resolved. Deterministic preparation precedes recovery consumption; missing credentials preserve the retry; already-consumed recovery is checked before private input creation; every post-creation error removes the input; repeated recovery proves exact input absence; SOR is fully populated and separates local proof from hosted CI.
 
 ### Recommended Outcome
 
-- pending
+- pass
 
 ## Notes
 
-Both findings are fixed. Fresh independent exact-head rereview is required before publication.
+Independent exact-head rereview by subagent:/root/fix_814_runtime returned PASS with no actionable P0-P3 findings at 84f72df2a7205f76962b722cdababfcb0642ea2c.
