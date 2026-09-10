@@ -1376,6 +1376,9 @@ fn dispatch_github_mutation_after_intent(
     process: &mut impl ProcessAdapter,
 ) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
     preflight_github_credential(context.credential_name, process)?;
+    if context.recovery_intent_digest.is_some() {
+        ensure_recovery_available(repo_root, context.operation_digest)?;
+    }
     let input_path = write_mutation_input(
         repo_root,
         context.operation_digest,
@@ -1383,17 +1386,27 @@ fn dispatch_github_mutation_after_intent(
         request,
         context.ready_target,
     )?;
-    let invocation = github_mutation_invocation(request, &input_path)?
-        .with_child_credential(context.credential_name.to_owned())
-        .map_err(|_| {
-            remote_finding(
-                "github_credential_scope_invalid",
-                "GitHub credential name is not safe for child-process injection",
-            )
-        })?;
-    if let Some(intent_digest) = context.recovery_intent_digest {
-        persist_recovery_receipt(repo_root, request, context.operation_digest, intent_digest)?;
-    }
+    let prepared = (|| {
+        let invocation = github_mutation_invocation(request, &input_path)?
+            .with_child_credential(context.credential_name.to_owned())
+            .map_err(|_| {
+                remote_finding(
+                    "github_credential_scope_invalid",
+                    "GitHub credential name is not safe for child-process injection",
+                )
+            })?;
+        if let Some(intent_digest) = context.recovery_intent_digest {
+            persist_recovery_receipt(repo_root, request, context.operation_digest, intent_digest)?;
+        }
+        Ok(invocation)
+    })();
+    let invocation = match prepared {
+        Ok(invocation) => invocation,
+        Err(finding) => {
+            let _ = fs::remove_file(&input_path);
+            return Err(finding);
+        }
+    };
     let output = process.run(invocation.clone());
     let _ = fs::remove_file(&input_path);
     // curl's --fail-with-body contract uses 22 only for an authenticated HTTP
@@ -2034,13 +2047,7 @@ fn persist_recovery_receipt(
     operation_digest: &str,
     intent_digest: &str,
 ) -> Result<(), RemoteRouteFinding> {
-    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
-    if path.exists() {
-        return Err(remote_finding(
-            "github_mutation_recovery_already_consumed",
-            "the single authenticated-absence recovery was already consumed",
-        ));
-    }
+    let path = ensure_recovery_available(repo_root, operation_digest)?;
     let receipt = GithubMutationRecoveryReceipt {
         schema: "csdlc.v3.github_mutation_recovery.v1".into(),
         operation_digest: operation_digest.into(),
@@ -2052,6 +2059,20 @@ fn persist_recovery_receipt(
         expected_head_sha: request.expected_head_sha.clone(),
     };
     persist_json_create_new(&path, &receipt)
+}
+
+fn ensure_recovery_available(
+    repo_root: &Path,
+    operation_digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
+    if path.exists() {
+        return Err(remote_finding(
+            "github_mutation_recovery_already_consumed",
+            "the single authenticated-absence recovery was already consumed",
+        ));
+    }
+    Ok(path)
 }
 
 fn reconcile_github_mutation(

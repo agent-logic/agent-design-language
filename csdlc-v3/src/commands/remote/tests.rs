@@ -1144,6 +1144,10 @@ fn pull_request_ready_is_idempotent_and_authenticated_absence_recovery_is_one_sh
         "github_mutation_recovery_already_consumed"
     );
     assert_eq!(repeated.invocations.len(), 1);
+    assert!(!root
+        .join(".git/csdlc-v3/runtime")
+        .join(format!("github-mutation-{digest}.json"))
+        .exists());
 
     let root = mutation_repo("pr-ready-recovery-success", true);
     let head = mutation_head(&root);
