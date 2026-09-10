@@ -92,6 +92,8 @@ def validate(data, texts):
         for target in re.findall(r"\]\(([^)]+)\)", text):
             if "://" not in target and not target.startswith("#"):
                 check((BASE / target.split("#")[0]).is_file(), f"broken document link: {name}/{target}")
+        check(re.search(r"\)\.com/agent-logic/agent-design-language/", text) is None,
+              f"corrupted ownership-link tail: {name}")
     original = subprocess.run(
         ["git", "show", f"{data['checklist_source_revision']}:docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md"],
         cwd=ROOT, capture_output=True, text=True)
@@ -143,6 +145,12 @@ def main():
     incomplete_refresh = copy.deepcopy(data)
     incomplete_refresh["publication_refresh_required"] = True
     mutations.append((incomplete_refresh, texts))
+    corrupt_link = dict(texts)
+    corrupt_link["FEATURE_PROOF_COVERAGE_v0.92.1.md"] += (
+        "\n[#522](https://github.com/agent-logic/agent-design-language/issues/522)"
+        ".com/agent-logic/agent-design-language/issues/522).\n"
+    )
+    mutations.append((data, corrupt_link))
     for changed, documents in mutations:
         if not validate(changed, documents):
             raise SystemExit("negative fixture accepted")

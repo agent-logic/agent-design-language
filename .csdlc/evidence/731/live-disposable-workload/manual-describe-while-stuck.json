@@ -1,0 +1,12 @@
+{
+  "schema": "adl.retained_command_failure.v1",
+  "status": "failed",
+  "command_class": "gcloud.compute.instances.describe",
+  "error_class": "not_found",
+  "exit_code": null,
+  "exit_status_observation": "not_captured",
+  "stdout_empty": true,
+  "stderr_artifact": ".csdlc/evidence/731/live-disposable-workload/manual-describe-while-stuck.err",
+  "stderr_sha256": "1ab827e04020e69d913d17db84d07fbcd21451ced43da96e4d143d943e01f726",
+  "disposition": "manual diagnostic observed resource absence; retained as failure evidence, not an instance readback"
+}

@@ -9,29 +9,30 @@ used by prompt-card structure validation.
 
 ## Current Set
 
-- Template set: `1.0.3`
+- Template set: `1.0.5`
 - Lifecycle: `SIP -> STP -> SPP -> VPP -> SRP -> SOR`
-- Template root: `docs/templates/prompts/1.0.3/`
+- Template root: `docs/templates/prompts/1.0.5/`
 - Registry: `docs/templates/prompts/current.json`
-- Structure schemas: `docs/templates/prompts/1.0.3/schemas/*.structure.json`
+- Structure schemas: `docs/templates/prompts/1.0.5/schemas/*.structure.json`
 - Implementation owner: Rust tooling owns the canonical template registry,
   field model, schema extraction, and validation path. Python sprint helpers may
   load schema artifacts, fill templates, or call the Rust-backed validators, but
   they should not become a separate template authority.
 
-The registry is generation-aware. `legacy_import` continues to select the
-full `1.0.3` template set, while `csdlc_v2_native` selects the independently
+The registry is generation-aware. `legacy_import` selects the full active
+`1.0.5` template set, while `csdlc_v2_native` selects the independently
 compiled compact `1.0.0` projection family. Native v2 initialization validates
 that entry against `csdlc-v2/operator/native-card-shape.json` before writing;
 the two families are compatible lifecycle representations, not interchangeable
 template versions.
 
-## Previous Set
+## Previous Sets
 
-- Template set: `1.0.2`
+- Template sets: `1.0.0` through `1.0.4`
 - Lifecycle: `SIP -> STP -> SPP -> VPP -> SRP -> SOR`
-- Status: superseded by `1.0.3` for new issue-bundle generation.
-- Template root: `docs/templates/prompts/1.0.2/`
+- Status: historical and superseded by `1.0.5` for new issue-bundle generation.
+- Template roots: `docs/templates/prompts/1.0.0/` through
+  `docs/templates/prompts/1.0.4/`
 
 ## Values Renderer
 
@@ -90,25 +91,26 @@ intentionally:
 ```sh
 csdlc tooling prompt-template \
   write-structure-schemas \
-  --template-set 1.0.3 \
-  --out-dir docs/templates/prompts/1.0.3/schemas
+  --template-set 1.0.5 \
+  --out-dir docs/templates/prompts/1.0.5/schemas
 ```
 
 Then run both Rust and Python-readable schema checks:
 
 ```sh
-csdlc tooling prompt-template validate-schemas --template-set 1.0.3
-python3 adl/tools/test_prompt_template_structure_schemas.py --template-set 1.0.3
+csdlc tooling prompt-template validate-schemas --template-set 1.0.5
+python3 adl/tools/test_prompt_template_structure_schemas.py --template-set 1.0.5
 ```
 
-If `csdlc` is not already on `PATH`, use the repo-owned binary at
-`adl/target/debug/csdlc` when present. Rebuild it only when working on the
-binary surface itself or when no trusted repo binary exists.
+If `csdlc` is not already on `PATH`, use the installed repo-owned binary at
+`.adl/bin/csdlc`. Rebuild it only when working on the binary surface itself or
+when no trusted repo binary exists.
 
 `current.json` should not move to a new active template set until every card
 kind in that set has renderer fixtures, values validation, and compatibility
-notes. `1.0.3` is the first active six-card set, so new issue bundles include
-`VPP` as validation-planning truth between `SPP` and `SRP`.
+notes. `1.0.3` was the first six-card set; the active `1.0.5` set retains `VPP`
+as validation-planning truth between `SPP` and `SRP` and carries the current
+C-SDLC v3 authority wording.
 
 ## Local Editor
 
@@ -124,12 +126,12 @@ cargo run --manifest-path adl/Cargo.toml --bin csdlc -- tooling csdlc-prompt-edi
 ## Versioning Policy
 
 - Template-set versions use SemVer.
-- `1.0.0/` through `1.0.2/` are immutable after adoption except for obvious
+- `1.0.0/` through `1.0.4/` are immutable after adoption except for obvious
   typo fixes.
 - Future semantic changes create a new SemVer directory, such as `1.1.0/` or
   `2.0.0/`, then update `current.json`.
-- Tools should resolve the active paths from `current.json` when practical, but
-  may use the `1.0.0/` paths directly during the first adoption window.
+- Tools should resolve active paths from `current.json`; direct version paths
+  are for intentional compatibility or historical validation only.
 
 ## Template Objects
 
@@ -180,6 +182,8 @@ temporary directories, or full local artifact paths in durable cards.
 
 Older files under `adl/templates/cards/` and legacy structured-prompt template
 docs remain compatibility surfaces. New card generation should treat the active
-registry target from `current.json` as canonical, while staged future sets such
-as `docs/templates/prompts/1.0.3/` may be rendered and schema-validated
-explicitly through `--template-set` before activation.
+registry target from `current.json` as canonical. Historical or compatibility
+sets such as `docs/templates/prompts/1.0.3/` remain immutable inputs for
+intentional compatibility audits. Their schema metadata may be checked with
+the version-aware schema smoke test; no current historical-card rendering
+route is implied.

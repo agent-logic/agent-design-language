@@ -1,0 +1,12 @@
+{
+  "schema": "adl.retained_command_failure.v1",
+  "status": "failed",
+  "command_class": "gcloud.iam.service-accounts.describe",
+  "error_class": "not_found",
+  "exit_code": null,
+  "exit_status_observation": "not_captured",
+  "stdout_empty": true,
+  "stderr_artifact": ".csdlc/evidence/731/live-foundation-apply/post-failed-sa.err",
+  "stderr_sha256": "5fd7234e7b961529a73ad49ac0bff4526c797f31dbcb872429bdeaddc8c9efa6",
+  "disposition": "post-failure diagnostic observed service-account absence; retained as failure evidence, not a service-account readback"
+}
