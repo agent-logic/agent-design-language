@@ -540,8 +540,9 @@ fn github_operational_curl_invocation(
             truncated: false,
         });
     };
-    if !matches!(method.as_str(), "POST" | "PATCH")
-        || !endpoint.starts_with("repos/")
+    let graphql_ready = method == "GRAPHQL" && endpoint == "mark-pull-request-ready";
+    if (!endpoint.starts_with("repos/") || !matches!(method.as_str(), "POST" | "PATCH"))
+        && !graphql_ready
         || endpoint.contains("..")
         || endpoint
             .chars()
@@ -571,7 +572,11 @@ fn github_operational_curl_invocation(
             "--show-error".to_owned(),
             "--location".to_owned(),
             "--request".to_owned(),
-            method.clone(),
+            if graphql_ready {
+                "POST".to_owned()
+            } else {
+                method.clone()
+            },
             "--header".to_owned(),
             "Accept: application/vnd.github+json".to_owned(),
             "--header".to_owned(),
@@ -580,7 +585,11 @@ fn github_operational_curl_invocation(
             "Content-Type: application/json".to_owned(),
             "--data-binary".to_owned(),
             format!("@{input_path}"),
-            format!("https://api.github.com/{endpoint}"),
+            if graphql_ready {
+                "https://api.github.com/graphql".to_owned()
+            } else {
+                format!("https://api.github.com/{endpoint}")
+            },
         ],
     )
     .map_err(|_| ProcessOutput {
@@ -1000,6 +1009,48 @@ mod tests {
 
         let rejected = github_read_only_curl_invocation(&invocation).expect_err("unsafe head");
         assert_eq!(rejected.status, ProcessStatus::Exit(2));
+    }
+
+    // PVF: deterministic local CPU argv contract; no credentials or network.
+    #[test]
+    fn github_operational_adapter_supports_only_the_typed_ready_graphql_mutation() {
+        let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("target")
+            .join(format!("csdlc-v3-ready-input-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+        let input = dir.join("request.json");
+        fs::write(&input, b"{}").unwrap();
+        let invocation = CommandInvocation::new(
+            GITHUB_OPERATIONAL_ADAPTER,
+            [
+                "GRAPHQL".to_owned(),
+                "mark-pull-request-ready".to_owned(),
+                input.to_string_lossy().into_owned(),
+            ],
+        )
+        .unwrap();
+        let curl = github_operational_curl_invocation(&invocation).unwrap();
+        assert!(curl
+            .argv()
+            .windows(2)
+            .any(|args| args == ["--request", "POST"]));
+        assert_eq!(
+            curl.argv().last().map(String::as_str),
+            Some("https://api.github.com/graphql")
+        );
+
+        let unsupported = CommandInvocation::new(
+            GITHUB_OPERATIONAL_ADAPTER,
+            [
+                "GRAPHQL".to_owned(),
+                "arbitrary-mutation".to_owned(),
+                input.to_string_lossy().into_owned(),
+            ],
+        )
+        .unwrap();
+        assert!(github_operational_curl_invocation(&unsupported).is_err());
+        fs::remove_file(input).unwrap();
+        fs::remove_dir(dir).unwrap();
     }
 
     // PVF: deterministic local subprocess environment contract; no network.

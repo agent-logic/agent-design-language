@@ -1,0 +1,178 @@
+# pr-ready-reconciliation
+
+Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
+
+Authority notice: C-SDLC v3 is operational after V3-F/#505 and merged PR #591.
+Authority requires the authenticated canonical native selector and reconciliation
+receipt; missing or stale proof suspends authority. Retained typed v2 requires
+explicit issue-scoped rollback or remediation approval.
+Legacy `pr` editor routes are historical/retired compatibility orientation,
+not current lifecycle authority.
+
+Execution Record Requirements:
+- The output card is a machine-auditable execution record.
+- All sections must be fully populated. Empty sections, placeholders, or implicit claims are not allowed.
+- Every command listed must include both what was run and what it verified.
+- If something is not applicable, include a one-line justification.
+
+Task ID: issue-0824
+Run ID: issue-0824
+Version: v0.92.1
+Title: [v0.92.1][tooling] Reconcile native pull-request ready mutations
+Branch: codex/824-pr-ready-reconciliation
+Card Status: ready
+Status: IN_PROGRESS
+Generated: 2026-09-10T00:00:00Z
+
+Execution:
+- Actor: `codex:/root/fix_815_cloud_auth`
+- Model: `not_collected`
+- Provider: `OpenAI`
+- Start Time: `2026-09-10T00:00:00Z`
+- End Time: `not_finished`
+
+## Summary
+
+Repaired native pull-request ready mutation routing with a narrow GraphQL operation, authenticated exact-target resolution, exact response/readback validation, and durable one-shot recovery consumption.
+
+## PVF Lane Truth
+- Initial PVF lane: `tooling`
+- Planned PVF lane: `tooling`
+- Final PVF lane: `tooling`
+- Lane change reason: `No lane change`
+
+## Issue Metrics Truth
+- Expected runtime class: `small`
+- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
+- Actual elapsed seconds: `<actual_elapsed_seconds>`
+- Actual active work seconds: `<actual_active_work_seconds>`
+- Estimated total tokens: `<estimated_total_tokens>`
+- Actual total tokens: `<actual_total_tokens>`
+- Estimated validation seconds: `<estimated_validation_seconds>`
+- Actual validation seconds: `<actual_validation_seconds>`
+- Actual PR wait seconds: `<actual_pr_wait_seconds>`
+- Actual CI wait seconds: `<actual_ci_wait_seconds>`
+- Budget source: `No explicit token budget`
+- Goal metrics data source: `not_collected`
+- Goal metrics source ref: `not_collected`
+- Data-source confidence: `unknown`
+- Estimate error percent: `<estimate_error_percent>`
+- Completion state: `implementation_validated_pending_publication`
+- Issue goal ref: `Issue #824 session goal`
+- Sprint goal ref: `Parent #522`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/824/cards/vpp.md`
+- Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
+- Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
+
+## Variance Analysis
+- Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
+- Variance analysis required: `unknown`
+- Variance analysis completed: `not_applicable`
+- Variance category: `not_collected`
+- Variance note: `Execution ongoing.`
+- Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
+
+## Artifacts produced
+- Local ignored output-card scaffold at `.csdlc/issues/824/cards/sor.md`
+- Tracked implementation artifacts: `csdlc-v3 remote mutation state machine, operational adapter, focused unit and CLI tests, and issue #824 redacted regression packet/validator.`
+- Additional proof artifacts: `.csdlc/prepared/issues/824/814-pull-request-ready-reconciliation.json and validate-pr-ready-reconciliation.sh.`
+
+## Actions taken
+- `Replaced the invalid ready REST endpoint with the typed markPullRequestReadyForReview GraphQL mutation.`
+- `Resolved and retained exact PR node identity/head/draft state, validated the mutation response, and reconciled authenticated ready state.`
+- `Persisted recovery consumption before the sole retry and added stale-head, wrong-PR, still-draft, already-ready, rejection, success, and repeated-recovery tests.`
+
+## Main Repo Integration (REQUIRED)
+- Main-repo paths updated: `none; work remains on issue branch`
+- Worktree-only paths remaining: `all issue #824 implementation and lifecycle paths`
+- Integration state: `worktree_only`
+- Verification scope: `Full csdlc-v3 all-target test suite plus strict clippy, formatting, issue validator, operational CLI fake-transport proof, and diff hygiene.`
+- Integration method used: `pending native publication`
+- Verification performed:
+  - `not_run`
+    `deferred until hosted CI`
+- Result: `pending publication`
+
+Rules:
+- Final artifacts must exist in the main repository, not only in a worktree.
+- Do not leave docs, code, or generated artifacts only under a `adl-wp-*` worktree.
+- Prefer git-aware transfer into the main repo (`git checkout BRANCH -- PATH` or commit + cherry-pick).
+- If artifacts exist only in the worktree, the task is NOT complete.
+- Integration state describes lifecycle state of the integrated artifact set, not where verification happened.
+- Verification scope describes where the verification commands were run.
+- worktree_only means at least one required path still exists only outside the main repository path.
+- Completed output records must not leave `Status` as `NOT_STARTED`.
+- By native v3 `csdlc finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure).
+
+## Validation
+- Validation commands and their purpose:
+  - `bash .csdlc/prepared/issues/824/validate-pr-ready-reconciliation.sh; cargo test --manifest-path csdlc-v3/Cargo.toml -p csdlc-v3 --all-targets --no-fail-fast; cargo clippy --manifest-path csdlc-v3/Cargo.toml -p csdlc-v3 --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check; git diff --check`
+    `Exercises the exact positive transition and every required negative without network or paid mutation, and checks the complete C-SDLC v3 target for regressions.`
+- Results:
+  - `PASS: 202 all-target tests, 3 focused ready tests, 1 adapter test, 1 operational CLI proof, strict clippy, formatting, and diff hygiene.`
+
+Validation command/path rules:
+- Prefer repository-relative paths in recorded commands and artifact references.
+- Do not record absolute host paths in output records unless they are explicitly required and justified.
+- `absolute_path_leakage_detected: false` means the final recorded artifact does not contain unjustified absolute host paths.
+- Do not list commands without describing their effect.
+
+## Verification Summary
+
+```yaml
+verification_summary:
+  validation:
+    status: <verification_validation_status>
+    checks_run:
+      - "<verification_check_1>"
+  determinism:
+    status: <verification_determinism_status>
+    replay_verified: <verification_replay_verified>
+    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+  security_privacy:
+    status: <verification_security_privacy_status>
+    secrets_leakage_detected: <verification_secrets_leakage_detected>
+    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
+    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+  artifacts:
+    status: <verification_artifacts_status>
+    required_artifacts_present: <verification_required_artifacts_present>
+    schema_changes:
+      present: <verification_schema_changes_present>
+      approved: <verification_schema_changes_approved>
+```
+
+## Determinism Evidence
+- Determinism tests executed: `<determinism_tests_executed>`
+- Fixtures or scripts used: `<fixtures_or_scripts_used>`
+- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
+- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
+- Artifact stability notes: `<artifact_stability_notes>`
+
+## Security / Privacy Checks
+- Secret leakage scan performed: `<secret_leakage_scan_performed>`
+- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
+- Absolute path leakage check: `<absolute_path_leakage_check>`
+- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+
+## Replay Artifacts
+- Trace bundle path(s): `<trace_bundle_paths>`
+- Run artifact root: `<run_artifact_root>`
+- Replay command used for verification: `<replay_command>`
+- Replay result: `<replay_result>`
+
+## Artifact Verification
+- Primary proof surface: `<primary_proof_surface>`
+- Required artifacts present: `<required_artifacts_present>`
+- Artifact schema/version checks: `<artifact_schema_checks>`
+- Hash/byte-stability checks: `<hash_byte_stability_checks>`
+- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+
+## Decisions / Deviations
+- `<decision_or_deviation_1>`
+- `<decision_or_deviation_2>`
+
+## Follow-ups / Deferred work
+- `<follow_up_1>`
+- `<follow_up_2>`

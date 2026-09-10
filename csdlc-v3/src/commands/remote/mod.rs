@@ -275,6 +275,29 @@ pub struct GithubMutationIntent {
     /// First authenticated resolution, retained unchanged across retries.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub resolved_edit: Option<GithubMutation>,
+    /// First authenticated PR identity used by the narrow ready mutation.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resolved_ready_target: Option<GithubReadyTarget>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GithubReadyTarget {
+    pub number: u64,
+    pub node_id: String,
+    pub head_sha: String,
+    pub draft: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+struct GithubMutationRecoveryReceipt {
+    schema: String,
+    operation_digest: String,
+    intent_digest: String,
+    recovery: GithubMutationRecovery,
+    repository: String,
+    issue: u64,
+    pull_request: Option<u64>,
+    expected_head_sha: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1009,6 +1032,7 @@ pub fn execute_github_mutation(
         request: intent_request,
         adapter: GITHUB_OPERATIONAL_ADAPTER.into(),
         resolved_edit: None,
+        resolved_ready_target: None,
     };
     let intent_path = github_mutation_intent_path(repo_root, &operation_digest)?;
     let receipt_path = github_mutation_receipt_path(repo_root, &operation_digest)?;
@@ -1018,6 +1042,7 @@ pub fn execute_github_mutation(
     if intent_path.exists() {
         let existing = load_mutation_intent(&intent_path, &operation_digest)?;
         intent.resolved_edit = existing.resolved_edit.clone();
+        intent.resolved_ready_target = existing.resolved_ready_target.clone();
         if existing != intent {
             return Err(remote_finding(
                 "github_mutation_intent_mismatch",
@@ -1026,6 +1051,8 @@ pub fn execute_github_mutation(
         }
     } else if matches!(request.mutation, GithubMutation::IssueEdit { .. }) {
         intent.resolved_edit = Some(resolve_issue_edit(request, process)?);
+    } else if matches!(request.mutation, GithubMutation::PullRequestReady) {
+        intent.resolved_ready_target = Some(resolve_ready_target(request, process)?);
     }
     let intent_digest = github_mutation_intent_digest(&intent);
     let mut effective_request = request.clone();
@@ -1073,12 +1100,14 @@ pub fn execute_github_mutation(
                     && request.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
+                persist_recovery_receipt(repo_root, request, &operation_digest, &intent_digest)?;
                 let (response_digest, invocation) = dispatch_github_mutation_after_intent(
                     repo_root,
                     request,
                     &operation_digest,
                     &operation_marker,
                     &credential_name,
+                    intent.resolved_ready_target.as_ref(),
                     process,
                 )?;
                 let (reconciliation, _) =
@@ -1114,12 +1143,35 @@ pub fn execute_github_mutation(
 
     preflight_github_credential(&credential_name, process)?;
     persist_json_create_new(&intent_path, &intent)?;
+    if intent
+        .resolved_ready_target
+        .as_ref()
+        .is_some_and(|target| !target.draft)
+    {
+        let (reconciliation, invocation) =
+            reconcile_github_mutation(request, &operation_digest, &operation_marker, process)?;
+        let receipt = finalize_mutation_receipt(
+            request,
+            &operation_digest,
+            &intent_digest,
+            None,
+            &reconciliation,
+            true,
+        );
+        persist_json_create_new(&receipt_path, &receipt)?;
+        return Ok(GithubMutationResult {
+            receipt,
+            reconciliation,
+            invocation,
+        });
+    }
     let (response_digest, invocation) = dispatch_github_mutation_after_intent(
         repo_root,
         request,
         &operation_digest,
         &operation_marker,
         &credential_name,
+        intent.resolved_ready_target.as_ref(),
         process,
     )?;
     let (reconciliation, _) = reconcile_github_mutation(
@@ -1250,6 +1302,38 @@ fn resolve_issue_edit(
     })
 }
 
+fn resolve_ready_target(
+    request: &GithubMutationRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<GithubReadyTarget, RemoteRouteFinding> {
+    let invocation = github_mutation_reconciliation_invocation(request, "")?
+        .with_child_credential(mutation_credential_name(request)?)
+        .map_err(|_| {
+            remote_finding("github_credential_scope_invalid", "invalid credential name")
+        })?;
+    let value = read_mutation_reconciliation_page(invocation, process)?;
+    let number = value["number"].as_u64();
+    let node_id = value["node_id"].as_str().map(str::to_owned);
+    let head_sha = value["head"]["sha"].as_str().map(str::to_owned);
+    let draft = value["draft"].as_bool();
+    if number != request.pull_request
+        || head_sha.as_deref() != Some(request.expected_head_sha.as_str())
+        || node_id.as_deref().is_none_or(str::is_empty)
+        || draft.is_none()
+    {
+        return Err(remote_finding(
+            "github_pr_ready_target_mismatch",
+            "authenticated PR identity, node id, draft state, and exact head are required",
+        ));
+    }
+    Ok(GithubReadyTarget {
+        number: number.unwrap_or_default(),
+        node_id: node_id.unwrap_or_default(),
+        head_sha: head_sha.unwrap_or_default(),
+        draft: draft.unwrap_or(true),
+    })
+}
+
 fn preflight_github_credential(
     credential_name: &str,
     process: &mut impl ProcessAdapter,
@@ -1278,10 +1362,17 @@ fn dispatch_github_mutation_after_intent(
     operation_digest: &str,
     operation_marker: &str,
     credential_name: &str,
+    ready_target: Option<&GithubReadyTarget>,
     process: &mut impl ProcessAdapter,
 ) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
     preflight_github_credential(credential_name, process)?;
-    let input_path = write_mutation_input(repo_root, operation_digest, operation_marker, request)?;
+    let input_path = write_mutation_input(
+        repo_root,
+        operation_digest,
+        operation_marker,
+        request,
+        ready_target,
+    )?;
     let invocation = github_mutation_invocation(request, &input_path)?
         .with_child_credential(credential_name.to_owned())
         .map_err(|_| {
@@ -1292,6 +1383,12 @@ fn dispatch_github_mutation_after_intent(
         })?;
     let output = process.run(invocation.clone());
     let _ = fs::remove_file(&input_path);
+    if matches!(output.status, ProcessStatus::Exit(code) if code != 0) {
+        return Err(remote_finding(
+            "github_mutation_rejected",
+            "GitHub rejected the authenticated mutation request",
+        ));
+    }
     if output.status == ProcessStatus::Exit(0) && !output.truncated {
         validate_mutation_response(request, &output.stdout)?;
     }
@@ -1602,12 +1699,8 @@ fn github_mutation_invocation(
             return CommandInvocation::new(
                 GITHUB_OPERATIONAL_ADAPTER,
                 [
-                    "POST".into(),
-                    format!(
-                        "repos/{}/pulls/{}/ready_for_review",
-                        request.repository,
-                        request.pull_request.unwrap_or_default()
-                    ),
+                    "GRAPHQL".into(),
+                    "mark-pull-request-ready".into(),
                     input_path.to_string_lossy().into_owned(),
                 ],
             )
@@ -1650,6 +1743,7 @@ fn write_mutation_input(
     digest: &str,
     operation_marker: &str,
     request: &GithubMutationRequest,
+    ready_target: Option<&GithubReadyTarget>,
 ) -> Result<PathBuf, RemoteRouteFinding> {
     let dir = git_control_dir(repo_root)
         .ok_or_else(|| {
@@ -1757,7 +1851,18 @@ fn write_mutation_input(
                 "draft": draft
             })
         }
-        GithubMutation::PullRequestReady => serde_json::json!({}),
+        GithubMutation::PullRequestReady => {
+            let target = ready_target.ok_or_else(|| {
+                remote_finding(
+                    "github_pr_ready_target_missing",
+                    "ready mutation requires an authenticated retained PR node identity",
+                )
+            })?;
+            serde_json::json!({
+                "query": "mutation MarkPullRequestReady($pullRequestId: ID!) { markPullRequestReadyForReview(input: {pullRequestId: $pullRequestId}) { pullRequest { number headRefOid isDraft } } }",
+                "variables": {"pullRequestId": target.node_id}
+            })
+        }
     };
     let bytes = serde_json::to_vec(&value).map_err(|_| {
         remote_finding(
@@ -1829,15 +1934,20 @@ fn validate_mutation_response(
     request: &GithubMutationRequest,
     stdout: &str,
 ) -> Result<(), RemoteRouteFinding> {
-    if matches!(request.mutation, GithubMutation::PullRequestReady) {
-        return Ok(());
-    }
     let value: serde_json::Value = serde_json::from_str(stdout).map_err(|_| {
         remote_finding(
             "github_mutation_invalid_json",
             "GitHub mutation returned non-JSON output",
         )
     })?;
+    if matches!(request.mutation, GithubMutation::PullRequestReady)
+        && value.get("errors").is_some_and(|errors| !errors.is_null())
+    {
+        return Err(remote_finding(
+            "github_mutation_rejected",
+            "GitHub GraphQL rejected the authenticated ready mutation",
+        ));
+    }
     match request.mutation {
         GithubMutation::IssueCreate { .. } if value["number"].as_u64().is_none() => {
             Err(remote_finding(
@@ -1883,8 +1993,49 @@ fn validate_mutation_response(
                 "updated PR response did not match the requested PR",
             ))
         }
+        GithubMutation::PullRequestReady
+            if value["data"]["markPullRequestReadyForReview"]["pullRequest"]["number"].as_u64()
+                != request.pull_request
+                || value["data"]["markPullRequestReadyForReview"]["pullRequest"]["headRefOid"]
+                    .as_str()
+                    != Some(request.expected_head_sha.as_str())
+                || value["data"]["markPullRequestReadyForReview"]["pullRequest"]["isDraft"]
+                    .as_bool()
+                    != Some(false) =>
+        {
+            Err(remote_finding(
+                "github_pr_ready_response_mismatch",
+                "ready mutation response must bind the exact PR, head, and ready state",
+            ))
+        }
         _ => Ok(()),
     }
+}
+
+fn persist_recovery_receipt(
+    repo_root: &Path,
+    request: &GithubMutationRequest,
+    operation_digest: &str,
+    intent_digest: &str,
+) -> Result<(), RemoteRouteFinding> {
+    let path = github_mutation_recovery_path(repo_root, operation_digest)?;
+    if path.exists() {
+        return Err(remote_finding(
+            "github_mutation_recovery_already_consumed",
+            "the single authenticated-absence recovery was already consumed",
+        ));
+    }
+    let receipt = GithubMutationRecoveryReceipt {
+        schema: "csdlc.v3.github_mutation_recovery.v1".into(),
+        operation_digest: operation_digest.into(),
+        intent_digest: intent_digest.into(),
+        recovery: GithubMutationRecovery::RetryAfterAuthenticatedAbsence,
+        repository: request.repository.clone(),
+        issue: request.issue,
+        pull_request: request.pull_request,
+        expected_head_sha: request.expected_head_sha.clone(),
+    };
+    persist_json_create_new(&path, &receipt)
 }
 
 fn reconcile_github_mutation(
@@ -2239,6 +2390,21 @@ fn github_mutation_intent_path(
     })?;
     Ok(git_dir
         .join("csdlc-v3/remote/intents")
+        .join(format!("{digest}.json")))
+}
+
+fn github_mutation_recovery_path(
+    repo_root: &Path,
+    digest: &str,
+) -> Result<PathBuf, RemoteRouteFinding> {
+    let git_dir = git_control_dir(repo_root).ok_or_else(|| {
+        remote_finding(
+            "git_control_dir_unavailable",
+            "Git control directory is required for mutation recovery receipts",
+        )
+    })?;
+    Ok(git_dir
+        .join("csdlc-v3/remote/recoveries")
         .join(format!("{digest}.json")))
 }
 

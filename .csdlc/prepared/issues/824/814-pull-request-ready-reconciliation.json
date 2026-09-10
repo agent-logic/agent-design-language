@@ -1,0 +1,29 @@
+{
+  "schema": "csdlc.v3.local_tooling_regression.v1",
+  "captured_at": "2026-09-09T21:40:00Z",
+  "repository": "agent-logic/agent-design-language",
+  "source_issue": 814,
+  "pull_request": 822,
+  "exact_head": "184f5479146cf76c278e5a00c70d41c278f1671c",
+  "operation": "pull_request_ready",
+  "authority_selector_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "attempts": [
+    {
+      "recovery": null,
+      "operation_digest": "2334da8690f32f52d1c209492fded2c0f0c033d4b56e3ac72c1538018f0799b2",
+      "result": "github_mutation_reconciliation_pending"
+    },
+    {
+      "recovery": "retry_after_authenticated_absence",
+      "result": "github_mutation_reconciliation_pending"
+    }
+  ],
+  "authenticated_readback": {
+    "headRefOid": "184f5479146cf76c278e5a00c70d41c278f1671c",
+    "isDraft": true,
+    "state": "OPEN",
+    "mergeStateStatus": "CLEAN"
+  },
+  "credential_handling": "credential source name retained; credential value and command environment omitted",
+  "disposition": "captured_for_typed_follow_on; no raw GitHub mutation used"
+}
