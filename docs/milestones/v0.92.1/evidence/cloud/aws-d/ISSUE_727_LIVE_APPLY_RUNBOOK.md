@@ -51,7 +51,11 @@ If that validator fails, do not apply.
 
 ## Saved-plan discipline
 
-The saved plan is the mutation boundary. A plan generated before authorization
+The saved plan is the mutation boundary. The authorization validator hashes the
+saved `.tfplan` bytes directly, compares that digest to both the sidecar and the
+signed packet, runs `terraform show -json` against those exact bytes, and
+requires the resulting canonical JSON to match the signed reviewed projection.
+A plan generated before authorization
 must not be regenerated, edited, or replaced after authorization. If source,
 backend, workspace, variables, provider lockfiles, or ambient identity change,
 discard the authorization request and produce a new plan/digest for operator
@@ -60,6 +64,35 @@ review.
 Keep backend config, tfvars, saved plans, state, and raw provider output in
 repo-local ignored paths under `.adl/requests/727/`. Do not use `/private/tmp`
 for #727 artifacts.
+
+## Authentic operator approval
+
+The editable JSON packet is not authority by itself. Production validation
+uses the fixed external trust anchor
+`$HOME/keys/adl-cloud-authorization.allowed_signers` and OpenSSH namespace
+`adl-cloud-authorization-v1`. The allowed-signers file must be outside the
+repository and not group- or world-writable. It contains the approved operator
+principal and Ed25519 public key; the corresponding private key is never stored
+in the repository or passed to provider-running automation.
+
+After filling the v2 packet, produce its canonical unsigned payload with:
+
+```sh
+python3 .csdlc/prepared/issues/815/verify-cloud-authorization.py canonicalize \
+  --packet .adl/requests/727/operator-authorization.json \
+  > .adl/requests/727/operator-authorization.payload
+ssh-keygen -Y sign -f <external-operator-private-key> \
+  -n adl-cloud-authorization-v1 \
+  .adl/requests/727/operator-authorization.payload
+```
+
+Place the armored detached signature in
+`operator_authorization.signature.value`, then delete the unsigned payload and
+its detached sidecar. The signature covers repository, issue, exact AWS account
+ID, region, Terraform root/workspace/state key, expiry, resource allowlist,
+cost/rollback bounds, actual plan digest, and reviewed plan-JSON digest. The
+validator also compares the signed account ID to authenticated STS readback, so
+the packet cannot be replayed in another AWS account.
 
 ## Apply stop lines
 
@@ -70,6 +103,9 @@ Stop before mutation if any of the following is true:
 - region is not `us-west-2`;
 - backend/workspace/state key are ambiguous or differ from the authorization;
 - the plan digest differs from `operator-authorization.json`;
+- the digest sidecar differs from the actual `.tfplan` bytes;
+- `terraform show -json` from those bytes differs from the signed reviewed projection;
+- the detached operator signature is absent, forged, expired, or untrusted;
 - the plan contains resources outside the permitted resource list;
 - estimated cost or logging volume exceeds the operator ceiling;
 - rollback/destroy authority is unclear;

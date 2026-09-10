@@ -1,0 +1,33 @@
+{
+  "schema": "adl.gcp_d1.mutation_authorization_request.v2",
+  "issue": 731,
+  "repository": "agent-logic/agent-design-language",
+  "project": "cs-host-377d41e71a824f92802120",
+  "region": "us-west2",
+  "zone": "us-west2-a",
+  "network": "axioma-dev-csm-private",
+  "subnet": "axioma-dev-csm-private-us-west2",
+  "plan_digest": "<sha256 of exact saved foundation.tfplan bytes>",
+  "plan_json_digest": "<sha256 of canonical compact sorted foundation plan JSON>",
+  "plan_file": ".csdlc/evidence/731/terraform-plan-denominator/foundation.tfplan",
+  "plan_json": ".csdlc/evidence/731/terraform-plan-denominator/foundation-plan.json",
+  "run_id": "<bounded gcp-d1 run id>",
+  "instance_name": "<bounded disposable instance name>",
+  "cleanup_deadline_utc": "<YYYY-MM-DDTHH:MM:SSZ, no more than 30 minutes after approval>",
+  "impersonated_identity": "axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+  "proof_run_spend_cap_usd": 1,
+  "foundation_steady_state_30d_cap_usd": 5,
+  "rollback_commands": ["<exact bounded rollback commands>"],
+  "operator_authorization": {
+    "status": "approved",
+    "approved_by": "<principal from $HOME/keys/adl-cloud-authorization.allowed_signers>",
+    "approved_at_utc": "<YYYY-MM-DDTHH:MM:SSZ>",
+    "authorization_text": "Authorize only the exact signed issue #731 packet and plan bytes.",
+    "required_before": ["terraform apply", "gcloud compute instances create", "any live GCP mutation or spend"],
+    "signature": {
+      "algorithm": "ssh-ed25519",
+      "namespace": "adl-cloud-authorization-v1",
+      "value": "<armored detached signature over canonical JSON with this signature object omitted>"
+    }
+  }
+}

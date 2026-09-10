@@ -28,17 +28,17 @@ rollback_foundation() {
 trap rollback_foundation EXIT
 
 test -f "$packet" || fail "missing mutation authorization packet"
-bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh "$packet"
+verified_dir="$out_dir/verified-authorization"
+receipt_json="$(ADL_GCP_D1_TERRAFORM_BIN="$terraform_bin" \
+  bash .csdlc/prepared/issues/731/validate-gcp-d1-authorization-packet.sh "$packet" "$verified_dir")"
 
-test "$(jq -r '.operator_authorization.status' "$packet")" = "approved" || fail "authorization packet is not approved"
-
-project_id="$(jq -r '.project' "$packet")"
-region="$(jq -r '.region' "$packet")"
-network="$(jq -r '.network' "$packet")"
-subnet="$(jq -r '.subnet' "$packet")"
-plan_file="$(jq -r '.plan_file' "$packet")"
-plan_digest="$(jq -r '.plan_digest' "$packet")"
-impersonated_identity="$(jq -r '.impersonated_identity' "$packet")"
+project_id="$(jq -r '.project' <<<"$receipt_json")"
+region="$(jq -r '.region' <<<"$receipt_json")"
+network="$(jq -r '.network' <<<"$receipt_json")"
+subnet="$(jq -r '.subnet' <<<"$receipt_json")"
+plan_file="$(jq -r '.verified_plan_file' <<<"$receipt_json")"
+plan_digest="$(jq -r '.plan_digest' <<<"$receipt_json")"
+impersonated_identity="$(jq -r '.impersonated_identity' <<<"$receipt_json")"
 case "$impersonated_identity" in
   *@*.iam.gserviceaccount.com) ;;
   *) fail "impersonated identity must be a service account email" ;;
@@ -48,8 +48,8 @@ gcloud_authorized() {
   "$gcloud_bin" --impersonate-service-account "$impersonated_identity" "$@"
 }
 
-test -f "$plan_file" || fail "missing saved Terraform plan $plan_file"
-actual_plan_digest="$(shasum -a 256 "$plan_file" | awk '{print $1}')"
+test -f "$repo_root/$plan_file" || fail "missing verified Terraform plan $plan_file"
+actual_plan_digest="$(shasum -a 256 "$repo_root/$plan_file" | awk '{print $1}')"
 test "$actual_plan_digest" = "$plan_digest" || fail "saved plan digest mismatch"
 
 access_token="$(gcloud_authorized auth print-access-token --project "$project_id" 2>/dev/null || true)"
