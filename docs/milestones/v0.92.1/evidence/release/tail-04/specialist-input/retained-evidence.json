@@ -4687,7 +4687,7 @@
     {
       "ref": "FILE-00055",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/485/agent-activity-audit.log (SHA-256 ebeb5949876472ded5cfcce9c81ee02c8bab2a11528c567944475ff774355f65, 190 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane agent-activity-audit under /Volumes/FastWork/adl-worktrees/adl-iss\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/485/agent-activity-audit.log (SHA-256 ebeb5949876472ded5cfcce9c81ee02c8bab2a11528c567944475ff774355f65, 190 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane agent-activity-audit under <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/485/agent-activity-audit.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:ebeb5949876472ded5cfcce9c81ee02c8bab2a11528c567944475ff774355f65"
@@ -4696,7 +4696,7 @@
     {
       "ref": "FILE-00056",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/485/agent-iam-guardrails.log (SHA-256 d0c3e1093d27ee05d0ba473ecc55f03785289bf88510b9d29481f287f55f3efe, 190 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane agent-iam-guardrails under /Volumes/FastWork/adl-worktrees/adl-iss\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/485/agent-iam-guardrails.log (SHA-256 d0c3e1093d27ee05d0ba473ecc55f03785289bf88510b9d29481f287f55f3efe, 190 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane agent-iam-guardrails under <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/485/agent-iam-guardrails.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:d0c3e1093d27ee05d0ba473ecc55f03785289bf88510b9d29481f287f55f3efe"
@@ -4705,7 +4705,7 @@
     {
       "ref": "FILE-00057",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/485/agent-toolkit-configuration.log (SHA-256 56cb27fe7f07b7ffc199feee3325cac40e15ded30e8a62e20a6c2062e35c92b1, 197 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane agent-toolkit-configuration under /Volumes/FastWork/adl-worktrees/\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/485/agent-toolkit-configuration.log (SHA-256 56cb27fe7f07b7ffc199feee3325cac40e15ded30e8a62e20a6c2062e35c92b1, 197 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane agent-toolkit-configuration under <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/485/agent-toolkit-configuration.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:56cb27fe7f07b7ffc199feee3325cac40e15ded30e8a62e20a6c2062e35c92b1"
@@ -4714,7 +4714,7 @@
     {
       "ref": "FILE-00058",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/485/billing-readback.log (SHA-256 df0cc7c7dc738d92aab25198d44802b597925b543f9f2f1156b28aa05f4c5fcd, 186 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane billing-readback under /Volumes/FastWork/adl-worktrees/adl-issue-4\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/485/billing-readback.log (SHA-256 df0cc7c7dc738d92aab25198d44802b597925b543f9f2f1156b28aa05f4c5fcd, 186 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane billing-readback under <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/485/billing-readback.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:df0cc7c7dc738d92aab25198d44802b597925b543f9f2f1156b28aa05f4c5fcd"
@@ -4732,7 +4732,7 @@
     {
       "ref": "FILE-00060",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/485/identity-census.log (SHA-256 5dde1460b7f40f5057e887569c2175d1006923e0ffb9aea6d1a03f64ecd3f12c, 185 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane identity-census under /Volumes/FastWork/adl-worktrees/adl-issue-48\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/485/identity-census.log (SHA-256 5dde1460b7f40f5057e887569c2175d1006923e0ffb9aea6d1a03f64ecd3f12c, 185 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane identity-census under <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/485/identity-census.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:5dde1460b7f40f5057e887569c2175d1006923e0ffb9aea6d1a03f64ecd3f12c"
@@ -4741,7 +4741,7 @@
     {
       "ref": "FILE-00061",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/485/root-recovery.log (SHA-256 2f994d385b97e68f23430d21b0633529cd46e7aa8eb98076e442f5a332b9b990, 183 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane root-recovery under /Volumes/FastWork/adl-worktrees/adl-issue-485-\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/485/root-recovery.log (SHA-256 2f994d385b97e68f23430d21b0633529cd46e7aa8eb98076e442f5a332b9b990, 183 bytes, 1 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"wrote redacted readbacks for lane root-recovery under <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/485/root-recovery.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:2f994d385b97e68f23430d21b0633529cd46e7aa8eb98076e442f5a332b9b990"
@@ -5695,7 +5695,7 @@
     {
       "ref": "FILE-00170",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/508/drt-c-focused-r2.log (SHA-256 4fd466fb75b5d34bbdb405890814b481ca156bb3eeefb6c0c7da5f21d6e19fb0, 2899 bytes, 73 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-508-drt-c-final-qual\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/508/drt-c-focused-r2.log (SHA-256 4fd466fb75b5d34bbdb405890814b481ca156bb3eeefb6c0c7da5f21d6e19fb0, 2899 bytes, 73 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/508/drt-c-focused-r2.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:4fd466fb75b5d34bbdb405890814b481ca156bb3eeefb6c0c7da5f21d6e19fb0"
@@ -6478,7 +6478,7 @@
     {
       "ref": "FILE-00260",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/528/clippy-r3-fix.log (SHA-256 2e106721d5cbf3e4f75979c5f9ddfa3b58a91cd9d7597b67222669bbfdb5e5bd, 185 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-528-vertex-ai-gemini-provider-transp\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/528/clippy-r3-fix.log (SHA-256 2e106721d5cbf3e4f75979c5f9ddfa3b58a91cd9d7597b67222669bbfdb5e5bd, 185 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking adl v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/528/clippy-r3-fix.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:2e106721d5cbf3e4f75979c5f9ddfa3b58a91cd9d7597b67222669bbfdb5e5bd"
@@ -6586,7 +6586,7 @@
     {
       "ref": "FILE-00272",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/528/vertex-ai-r3-fix-focused.log (SHA-256 58a6ef50d2a386f239c06d09c92f4027ba15a327a612ec6388112a253b1f1b08, 7852 bytes, 205 lines, non-JSON retained artifact, 66 proof/result markers; opening anchor \"Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-528-vertex-ai-gemini-provider-trans\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/528/vertex-ai-r3-fix-focused.log (SHA-256 58a6ef50d2a386f239c06d09c92f4027ba15a327a612ec6388112a253b1f1b08, 7852 bytes, 205 lines, non-JSON retained artifact, 66 proof/result markers; opening anchor \"Compiling adl v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/528/vertex-ai-r3-fix-focused.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:58a6ef50d2a386f239c06d09c92f4027ba15a327a612ec6388112a253b1f1b08"
@@ -6811,7 +6811,7 @@
     {
       "ref": "FILE-00297",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/558/focused-learner-replication.log (SHA-256 b2e1f2713cecd3951fb2f57996e0e2546a4a43433258407ddc7c409e85b86a00, 17561 bytes, 174 lines, non-JSON retained artifact, 6 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/558/focused-learner-replication.log (SHA-256 b2e1f2713cecd3951fb2f57996e0e2546a4a43433258407ddc7c409e85b86a00, 17561 bytes, 174 lines, non-JSON retained artifact, 6 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/558/focused-learner-replication.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:b2e1f2713cecd3951fb2f57996e0e2546a4a43433258407ddc7c409e85b86a00"
@@ -7117,7 +7117,7 @@
     {
       "ref": "FILE-00331",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/594/runtime-log-archive.log (SHA-256 f93ea85dc41192f27c2607111605aec91f27e21a8142ecfae79583960ffce025, 1415 bytes, 14 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-594-runtime-logs-s3-\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/594/runtime-log-archive.log (SHA-256 f93ea85dc41192f27c2607111605aec91f27e21a8142ecfae79583960ffce025, 1415 bytes, 14 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/594/runtime-log-archive.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:f93ea85dc41192f27c2607111605aec91f27e21a8142ecfae79583960ffce025"
@@ -7621,7 +7621,7 @@
     {
       "ref": "FILE-00391",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/617/canonical-agent-name.log (SHA-256 05590da8f4212f8593075c3ce34c93174445b144b5f9376bf9ad81327ecaa795, 871 bytes, 10 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-617-runtime-api-cano\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/617/canonical-agent-name.log (SHA-256 05590da8f4212f8593075c3ce34c93174445b144b5f9376bf9ad81327ecaa795, 871 bytes, 10 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/617/canonical-agent-name.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:05590da8f4212f8593075c3ce34c93174445b144b5f9376bf9ad81327ecaa795"
@@ -7765,7 +7765,7 @@
     {
       "ref": "FILE-00408",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/628/628-clippy.log (SHA-256 5d9ea3707ff7efa52c77f50280b27d2e1861ca468271c170560d9f4d8d9a27c5, 185 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/c\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/628/628-clippy.log (SHA-256 5d9ea3707ff7efa52c77f50280b27d2e1861ca468271c170560d9f4d8d9a27c5, 185 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking csdlc-v3 v0.1.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/628/628-clippy.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:5d9ea3707ff7efa52c77f50280b27d2e1861ca468271c170560d9f4d8d9a27c5"
@@ -7792,7 +7792,7 @@
     {
       "ref": "FILE-00411",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/628/628-full-v3-regression.log (SHA-256 3d6f7e7c5beeea911c532d90512d845044a5db472ccc4ee4e3c89319a7760f1b, 8216 bytes, 136 lines, non-JSON retained artifact, 16 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/628/628-full-v3-regression.log (SHA-256 3d6f7e7c5beeea911c532d90512d845044a5db472ccc4ee4e3c89319a7760f1b, 8216 bytes, 136 lines, non-JSON retained artifact, 16 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/628/628-full-v3-regression.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:3d6f7e7c5beeea911c532d90512d845044a5db472ccc4ee4e3c89319a7760f1b"
@@ -7810,7 +7810,7 @@
     {
       "ref": "FILE-00413",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/628/628-local-route-tests.log (SHA-256 d19f1c8dbb7abc9561ee6d55107ce93cc7670ec81a5994449f946f271ed6a99c, 1702 bytes, 26 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/628/628-local-route-tests.log (SHA-256 d19f1c8dbb7abc9561ee6d55107ce93cc7670ec81a5994449f946f271ed6a99c, 1702 bytes, 26 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/628/628-local-route-tests.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:d19f1c8dbb7abc9561ee6d55107ce93cc7670ec81a5994449f946f271ed6a99c"
@@ -7828,7 +7828,7 @@
     {
       "ref": "FILE-00415",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/628/628-rustfmt.log (SHA-256 0bcaefa4beb8260829b3782da8a7b32d5fbcb3742f0a4028d87716dedc1f0067, 2610 bytes, 25 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Formatting /Volumes/FastWork/adl-worktrees/adl-issue-628-v3-h2-local-lifecycle-exec/csdlc-v3/src/ada\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/628/628-rustfmt.log (SHA-256 0bcaefa4beb8260829b3782da8a7b32d5fbcb3742f0a4028d87716dedc1f0067, 2610 bytes, 25 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Formatting <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/628/628-rustfmt.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:0bcaefa4beb8260829b3782da8a7b32d5fbcb3742f0a4028d87716dedc1f0067"
@@ -7891,7 +7891,7 @@
     {
       "ref": "FILE-00422",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/630/630-full-v3-regression.log (SHA-256 83a27dd5372842771fc93085c0ee47f15ec6f45399027e12c9a415a3f88e3a5b, 8974 bytes, 151 lines, non-JSON retained artifact, 20 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-630-v3-h4-finish-clean-cutover-\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/630/630-full-v3-regression.log (SHA-256 83a27dd5372842771fc93085c0ee47f15ec6f45399027e12c9a415a3f88e3a5b, 8974 bytes, 151 lines, non-JSON retained artifact, 20 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/630/630-full-v3-regression.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:83a27dd5372842771fc93085c0ee47f15ec6f45399027e12c9a415a3f88e3a5b"
@@ -8161,7 +8161,7 @@
     {
       "ref": "FILE-00453",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/662/runtime-kernel-lib-check.log (SHA-256 51edc1d2bc2781f287961736b4896b77f5a949a2f5defd3da236ae4298bc3677, 205 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-662-agent-to-agent-in\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/662/runtime-kernel-lib-check.log (SHA-256 51edc1d2bc2781f287961736b4896b77f5a949a2f5defd3da236ae4298bc3677, 205 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/662/runtime-kernel-lib-check.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:51edc1d2bc2781f287961736b4896b77f5a949a2f5defd3da236ae4298bc3677"
@@ -8620,7 +8620,7 @@
     {
       "ref": "FILE-00509",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log (SHA-256 150bd35ca52d13e1aacc7948c58faa309bbdeb1841812af86b34421e5bd15c51, 1045 bytes, 15 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-693-runtime-a2a-acti\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log (SHA-256 150bd35ca52d13e1aacc7948c58faa309bbdeb1841812af86b34421e5bd15c51, 1045 bytes, 15 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/693/runtime-guardian-soak-ci-remediation.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:150bd35ca52d13e1aacc7948c58faa309bbdeb1841812af86b34421e5bd15c51"
@@ -8710,7 +8710,7 @@
     {
       "ref": "FILE-00520",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/695/agent-partial-checkpoint.log (SHA-256 af0b5cfe16f4ba3ba62a7d2d465da564e9d3078cd0fe28ef8ebaef55abcd55cc, 21636 bytes, 463 lines, non-JSON retained artifact, 8 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-695-runtime-agent-pa\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/695/agent-partial-checkpoint.log (SHA-256 af0b5cfe16f4ba3ba62a7d2d465da564e9d3078cd0fe28ef8ebaef55abcd55cc, 21636 bytes, 463 lines, non-JSON retained artifact, 8 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/695/agent-partial-checkpoint.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:af0b5cfe16f4ba3ba62a7d2d465da564e9d3078cd0fe28ef8ebaef55abcd55cc"
@@ -8764,7 +8764,7 @@
     {
       "ref": "FILE-00527",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/708/runtime-kernel-clippy.log (SHA-256 57c692344571c94ec31e80a2a7a30e5f5b693e6d85cc39ee71c4e44af35166fd, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-or\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/708/runtime-kernel-clippy.log (SHA-256 57c692344571c94ec31e80a2a7a30e5f5b693e6d85cc39ee71c4e44af35166fd, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/708/runtime-kernel-clippy.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:57c692344571c94ec31e80a2a7a30e5f5b693e6d85cc39ee71c4e44af35166fd"
@@ -8773,7 +8773,7 @@
     {
       "ref": "FILE-00528",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/708/runtime-kernel-compile.log (SHA-256 5068d482f8133f72b7fa70b01de4341beb8670f4192997a7787d09be53884768, 391 bytes, 4 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Command: TMPDIR=/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-orientation-resource/.tm\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/708/runtime-kernel-compile.log (SHA-256 5068d482f8133f72b7fa70b01de4341beb8670f4192997a7787d09be53884768, 391 bytes, 4 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Command: TMPDIR=<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/708/runtime-kernel-compile.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:5068d482f8133f72b7fa70b01de4341beb8670f4192997a7787d09be53884768"
@@ -8791,7 +8791,7 @@
     {
       "ref": "FILE-00530",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/708/runtime-orientation-contract.log (SHA-256 6a53ea5c703a6faf90ae734ed56440ac35362c8828b4a212db1cc43c68085a36, 1219 bytes, 15 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-708-runtime-agent-or\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/708/runtime-orientation-contract.log (SHA-256 6a53ea5c703a6faf90ae734ed56440ac35362c8828b4a212db1cc43c68085a36, 1219 bytes, 15 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/708/runtime-orientation-contract.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:6a53ea5c703a6faf90ae734ed56440ac35362c8828b4a212db1cc43c68085a36"
@@ -9997,7 +9997,7 @@
     {
       "ref": "FILE-00665",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/731/remediation-guards/mock-terraform.log (SHA-256 7c764b23dbc52e0e101cb2782227097950b5dd9ab4368c345d2201a19c1b004c, 309 bytes, 2 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"-chdir=infra/gcp/platform apply -input=false -auto-approve /Volumes/FastWork/adl-worktrees/adl-issue\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/731/remediation-guards/mock-terraform.log (SHA-256 7c764b23dbc52e0e101cb2782227097950b5dd9ab4368c345d2201a19c1b004c, 309 bytes, 2 lines, non-JSON retained artifact, 1 proof/result markers; opening anchor \"-chdir=infra/gcp/platform apply -input=false -auto-approve <machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/731/remediation-guards/mock-terraform.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:7c764b23dbc52e0e101cb2782227097950b5dd9ab4368c345d2201a19c1b004c"
@@ -10879,7 +10879,7 @@
     {
       "ref": "FILE-00767",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/assembly-sntp-isolated-r13.log (SHA-256 35d135c6561762839306cf3d0e9161811ac2f5f69cf79e3cba83aebc2d944432, 13130 bytes, 117 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/assembly-sntp-isolated-r13.log (SHA-256 35d135c6561762839306cf3d0e9161811ac2f5f69cf79e3cba83aebc2d944432, 13130 bytes, 117 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/assembly-sntp-isolated-r13.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:35d135c6561762839306cf3d0e9161811ac2f5f69cf79e3cba83aebc2d944432"
@@ -10915,7 +10915,7 @@
     {
       "ref": "FILE-00771",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/assembly-sntp-isolated-r9.log (SHA-256 037bf28400bee8666895e4d124ab2b1512f25e22904fb63b56e45d3d292832ac, 13130 bytes, 117 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/assembly-sntp-isolated-r9.log (SHA-256 037bf28400bee8666895e4d124ab2b1512f25e22904fb63b56e45d3d292832ac, 13130 bytes, 117 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/assembly-sntp-isolated-r9.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:037bf28400bee8666895e4d124ab2b1512f25e22904fb63b56e45d3d292832ac"
@@ -11311,7 +11311,7 @@
     {
       "ref": "FILE-00815",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/focused-resident-shepherd-id-r12.log (SHA-256 f72e527473352a51c60751f2608dcd175a3f866d051e226209468169132f4d51, 525 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/focused-resident-shepherd-id-r12.log (SHA-256 f72e527473352a51c60751f2608dcd175a3f866d051e226209468169132f4d51, 525 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/focused-resident-shepherd-id-r12.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:f72e527473352a51c60751f2608dcd175a3f866d051e226209468169132f4d51"
@@ -11374,7 +11374,7 @@
     {
       "ref": "FILE-00822",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/focused-resident-shepherd-id-r6.log (SHA-256 6098bdd964a8d4dffc323908afede7ce8c8c8c2ea9ddcf3ba1725cb6128c99e0, 526 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/focused-resident-shepherd-id-r6.log (SHA-256 6098bdd964a8d4dffc323908afede7ce8c8c8c2ea9ddcf3ba1725cb6128c99e0, 526 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/focused-resident-shepherd-id-r6.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:6098bdd964a8d4dffc323908afede7ce8c8c8c2ea9ddcf3ba1725cb6128c99e0"
@@ -11500,7 +11500,7 @@
     {
       "ref": "FILE-00836",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/observability-s3-outage-isolated-r14.log (SHA-256 8ecb1dc7388d5b5a68ab28e77a961e6526683eb3d47ecefdd47bf233faa7f494, 524 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/observability-s3-outage-isolated-r14.log (SHA-256 8ecb1dc7388d5b5a68ab28e77a961e6526683eb3d47ecefdd47bf233faa7f494, 524 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/observability-s3-outage-isolated-r14.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:8ecb1dc7388d5b5a68ab28e77a961e6526683eb3d47ecefdd47bf233faa7f494"
@@ -11545,7 +11545,7 @@
     {
       "ref": "FILE-00841",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/reproduce-resident-shepherd-ci-red-r6.log (SHA-256 a1d2df6a3b142432eb6be1a10bab4190b969886b7ade69f0412c46ffb7ae6808, 525 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/reproduce-resident-shepherd-ci-red-r6.log (SHA-256 a1d2df6a3b142432eb6be1a10bab4190b969886b7ade69f0412c46ffb7ae6808, 525 bytes, 8 lines, non-JSON retained artifact, 2 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/reproduce-resident-shepherd-ci-red-r6.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:a1d2df6a3b142432eb6be1a10bab4190b969886b7ade69f0412c46ffb7ae6808"
@@ -11554,7 +11554,7 @@
     {
       "ref": "FILE-00842",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/reproduce-runtime-v3-fast-full-r6.log (SHA-256 b4b35640a48baafd424cb3f54ab8290ab2eb3fad63fc92a692ba13d08d3d469b, 70091 bytes, 1004 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/reproduce-runtime-v3-fast-full-r6.log (SHA-256 b4b35640a48baafd424cb3f54ab8290ab2eb3fad63fc92a692ba13d08d3d469b, 70091 bytes, 1004 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/reproduce-runtime-v3-fast-full-r6.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:b4b35640a48baafd424cb3f54ab8290ab2eb3fad63fc92a692ba13d08d3d469b"
@@ -11581,7 +11581,7 @@
     {
       "ref": "FILE-00845",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r10.log (SHA-256 9ab875840345e06b9a6e799de0f8b16742af8162782043a2a526a0c0fb1f1b8c, 63245 bytes, 886 lines, non-JSON retained artifact, 73 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r10.log (SHA-256 9ab875840345e06b9a6e799de0f8b16742af8162782043a2a526a0c0fb1f1b8c, 63245 bytes, 886 lines, non-JSON retained artifact, 73 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r10.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:9ab875840345e06b9a6e799de0f8b16742af8162782043a2a526a0c0fb1f1b8c"
@@ -11590,7 +11590,7 @@
     {
       "ref": "FILE-00846",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r11.log (SHA-256 9cbbeae697cfd3710974e6ab2f209ffb80c836fc30373920fe9693904b5d7dff, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r11.log (SHA-256 9cbbeae697cfd3710974e6ab2f209ffb80c836fc30373920fe9693904b5d7dff, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r11.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:9cbbeae697cfd3710974e6ab2f209ffb80c836fc30373920fe9693904b5d7dff"
@@ -11608,7 +11608,7 @@
     {
       "ref": "FILE-00848",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r14.log (SHA-256 fcb5dba8893d7b7b6f776203d604d82983c0bfdb46b9ed96dd0648bfcddf8adb, 58184 bytes, 786 lines, non-JSON retained artifact, 66 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r14.log (SHA-256 fcb5dba8893d7b7b6f776203d604d82983c0bfdb46b9ed96dd0648bfcddf8adb, 58184 bytes, 786 lines, non-JSON retained artifact, 66 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r14.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:fcb5dba8893d7b7b6f776203d604d82983c0bfdb46b9ed96dd0648bfcddf8adb"
@@ -11617,7 +11617,7 @@
     {
       "ref": "FILE-00849",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r15.log (SHA-256 fa55d84b9444f3ae96702cbb8be01f2fc30fb03d8afea9827561b1440ba123e2, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r15.log (SHA-256 fa55d84b9444f3ae96702cbb8be01f2fc30fb03d8afea9827561b1440ba123e2, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r15.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:fa55d84b9444f3ae96702cbb8be01f2fc30fb03d8afea9827561b1440ba123e2"
@@ -11635,7 +11635,7 @@
     {
       "ref": "FILE-00851",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r6.log (SHA-256 82e23b3acd84081d279c26f1270181716e169d1adfe63fd58c6f897ca62b2505, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r6.log (SHA-256 82e23b3acd84081d279c26f1270181716e169d1adfe63fd58c6f897ca62b2505, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r6.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:82e23b3acd84081d279c26f1270181716e169d1adfe63fd58c6f897ca62b2505"
@@ -11644,7 +11644,7 @@
     {
       "ref": "FILE-00852",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r7.log (SHA-256 ed8a1136726085ff91d1ffbd81d2041f0c2e62207a15630a6eb0c75adee4af8e, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r7.log (SHA-256 ed8a1136726085ff91d1ffbd81d2041f0c2e62207a15630a6eb0c75adee4af8e, 70796 bytes, 1010 lines, non-JSON retained artifact, 86 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r7.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:ed8a1136726085ff91d1ffbd81d2041f0c2e62207a15630a6eb0c75adee4af8e"
@@ -11662,7 +11662,7 @@
     {
       "ref": "FILE-00854",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r8.log (SHA-256 fc68268f4f755d4ef47e5fde0b8250101d3c96e9044856d964f361701ceca698, 58181 bytes, 786 lines, non-JSON retained artifact, 66 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/runtime-v3-fast-full-r8.log (SHA-256 fc68268f4f755d4ef47e5fde0b8250101d3c96e9044856d964f361701ceca698, 58181 bytes, 786 lines, non-JSON retained artifact, 66 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/runtime-v3-fast-full-r8.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:fc68268f4f755d4ef47e5fde0b8250101d3c96e9044856d964f361701ceca698"
@@ -11680,7 +11680,7 @@
     {
       "ref": "FILE-00856",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r10.log (SHA-256 0ac39edc27ccd5e04eb46401aec22c8d78d33bff04abdccb59cfea31b48130bb, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r10.log (SHA-256 0ac39edc27ccd5e04eb46401aec22c8d78d33bff04abdccb59cfea31b48130bb, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/strict-clippy-r10.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:0ac39edc27ccd5e04eb46401aec22c8d78d33bff04abdccb59cfea31b48130bb"
@@ -11689,7 +11689,7 @@
     {
       "ref": "FILE-00857",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r11.log (SHA-256 e7f96b01c3c1c6b53d892c7aa0adf70e03e5a067c8a20307ba9cbc80e14eaa86, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r11.log (SHA-256 e7f96b01c3c1c6b53d892c7aa0adf70e03e5a067c8a20307ba9cbc80e14eaa86, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/strict-clippy-r11.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:e7f96b01c3c1c6b53d892c7aa0adf70e03e5a067c8a20307ba9cbc80e14eaa86"
@@ -11761,7 +11761,7 @@
     {
       "ref": "FILE-00865",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r6.log (SHA-256 94fe537e33530b5ecdca38e01bbbc444bfb66916c39095aa6fe1b78fb394c636, 215 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r6.log (SHA-256 94fe537e33530b5ecdca38e01bbbc444bfb66916c39095aa6fe1b78fb394c636, 215 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/strict-clippy-r6.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:94fe537e33530b5ecdca38e01bbbc444bfb66916c39095aa6fe1b78fb394c636"
@@ -11770,7 +11770,7 @@
     {
       "ref": "FILE-00866",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r7.log (SHA-256 f5fa0719f4e6c65d274a7b66e68866dacd902ab35e71da8c91627dd6d998ab0b, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-759-dynamic-agent-he\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/759/strict-clippy-r7.log (SHA-256 f5fa0719f4e6c65d274a7b66e68866dacd902ab35e71da8c91627dd6d998ab0b, 214 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Compiling adl-runtime-kernel v0.92.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/759/strict-clippy-r7.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:f5fa0719f4e6c65d274a7b66e68866dacd902ab35e71da8c91627dd6d998ab0b"
@@ -12175,7 +12175,7 @@
     {
       "ref": "FILE-00929",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/791/clippy.log (SHA-256 3c1718c01b6f260ae501dd1ef814ff6ae1d79e3111c210a2b7d768c5de4a7802, 178 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard/csdlc-v3\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/791/clippy.log (SHA-256 3c1718c01b6f260ae501dd1ef814ff6ae1d79e3111c210a2b7d768c5de4a7802, 178 bytes, 2 lines, non-JSON retained artifact, 0 proof/result markers; opening anchor \"Checking csdlc-v3 v0.1.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/791/clippy.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:3c1718c01b6f260ae501dd1ef814ff6ae1d79e3111c210a2b7d768c5de4a7802"
@@ -12184,7 +12184,7 @@
     {
       "ref": "FILE-00930",
       "conclusion": "verified_no_gap",
-      "detail": "Read exact retained artifact .csdlc/evidence/791/focused-tests.log (SHA-256 063ee89b2b330e161a19077b89b61bc2a491a203ea0e28fb0c821fe9470c54c4, 6464 bytes, 98 lines, non-JSON retained artifact, 6 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-791-primary-write-guard/csdlc-v\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
+      "detail": "Read exact retained artifact .csdlc/evidence/791/focused-tests.log (SHA-256 063ee89b2b330e161a19077b89b61bc2a491a203ea0e28fb0c821fe9470c54c4, 6464 bytes, 98 lines, non-JSON retained artifact, 6 proof/result markers; opening anchor \"Compiling csdlc-v3 v0.1.0 (<machine-local-path>\"). Its bytes and packet classification expose no additional retention, authenticity, or proof-status gap on this assigned surface.",
       "review_basis": {
         "kind": "retained_proof",
         "subject": ".csdlc/evidence/791/focused-tests.log@fb6cbc7f619daa54f901fd2d12f480add682ace3 sha256:063ee89b2b330e161a19077b89b61bc2a491a203ea0e28fb0c821fe9470c54c4"

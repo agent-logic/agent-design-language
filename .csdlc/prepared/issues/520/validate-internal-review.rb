@@ -348,9 +348,26 @@ entries.each do |entry|
   fail!("artifact digest mismatch: #{path}") unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
 end
 manifest_paths = entries.map { |entry| entry.fetch("path") }
+packet_manifest_path = File.join(root, "packet-manifest.json")
+expected_manifest_paths = Dir.glob(File.join(root, "**", "*"))
+  .select { |path| File.file?(path) && path != packet_manifest_path }
+  .sort
+fail!("packet manifest does not exactly cover every declared packet artifact") unless manifest_paths.sort == expected_manifest_paths
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| manifest_paths.include?(File.join(root, name)) }
 fail!("packet manifest omits lane reports") unless results.all? { |row| manifest_paths.include?(row.fetch("report_path")) }
 fail!("packet manifest omits raw milestone API response") unless manifest_paths.include?(response_path)
+
+machine_local_prefixes = [
+  ["", "Volumes", "FastWork"].join(File::SEPARATOR) + File::SEPARATOR,
+  ["", "Users"].join(File::SEPARATOR) + File::SEPARATOR,
+  ["", "private", "tmp"].join(File::SEPARATOR),
+  ["", "var", "folders"].join(File::SEPARATOR)
+]
+leaking_paths = expected_manifest_paths.select do |path|
+  content = File.binread(path)
+  machine_local_prefixes.any? { |prefix| content.include?(prefix) }
+end
+fail!("packet contains machine-local absolute paths: #{leaking_paths.join(', ')}") unless leaking_paths.empty?
 
   {schema: "adl.v0921.internal_review_validation.v2", mode: mode, status: "passed", candidate_sha: candidate, changed_paths: changed.length, issues: issue_rows.length, acceptance_surfaces: acceptance_rows.length, assignments: assignments.length, findings: findings.length}
 end

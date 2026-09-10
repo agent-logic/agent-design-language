@@ -46,7 +46,7 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       {"path" => path, "sha256" => Digest::SHA256.hexdigest(content), "source" => "candidate", "revision" => candidate, "subject_id" => subject_id, "locator" => {"path" => path, "line" => 1}}
     end
 
-    root = File.join(repo, "packet")
+    root = "packet"
     FileUtils.mkdir_p(root)
     issue = {"number" => 480, "title" => "WP-01", "state" => "CLOSED", "pull_requests" => [527]}
     response_path = File.join(root, "github-response.json")
@@ -227,6 +227,17 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
     quality_path = File.join(root, "quality-report.json")
     reject_mutation.call("summary_outcome_contradiction", [quality_path, File.join(root, "packet-manifest.json")]) do
       doc = JSON.parse(File.read(quality_path)); doc["outcome"] = "findings"; write_json(quality_path, doc)
+    end
+    reject_mutation.call("omitted_declared_packet_artifact", [File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(File.join(root, "packet-manifest.json")))
+      doc.fetch("entries").reject! { |entry| entry.fetch("path") == report_path }
+      write_json(File.join(root, "packet-manifest.json"), doc)
+    end
+    reject_mutation.call("machine_local_path_leakage", [quality_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(quality_path))
+      leaked_prefix = ["", "Volumes", "FastWork"].join(File::SEPARATOR)
+      doc.fetch("observations").first["detail"] = "leaked #{leaked_prefix}/worktree"
+      write_json(quality_path, doc)
     end
   end
 end

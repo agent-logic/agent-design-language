@@ -69,7 +69,7 @@
       "reviewer": "subagent:/root/fix_816_validation",
       "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/retained-evidence.json; no observation was synthesized by the assembler.",
       "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
-      "report_sha256": "5eb12d32cfa16b1428d7f56a85b656c8c1d2ab5d32216379587f9ef2be5d7065"
+      "report_sha256": "2d12935407fe0a2efad11920ee639a587ff9b09c74071f5b378877458925b632"
     },
     {
       "assignment_id": "LANE-SECURITY",

@@ -20,6 +20,27 @@ def write_json(name, value)
   path
 end
 
+def redact_machine_local_paths(value)
+  prefixes = [
+    ["", "Volumes", "FastWork"].join(File::SEPARATOR) + File::SEPARATOR,
+    ["", "Users"].join(File::SEPARATOR) + File::SEPARATOR,
+    ["", "private", "tmp"].join(File::SEPARATOR),
+    ["", "var", "folders"].join(File::SEPARATOR)
+  ]
+  case value
+  when Hash
+    value.transform_values { |item| redact_machine_local_paths(item) }
+  when Array
+    value.map { |item| redact_machine_local_paths(item) }
+  when String
+    prefixes.reduce(value) do |text, prefix|
+      text.gsub(%r{#{Regexp.escape(prefix)}[^\s\"')]+}, "<machine-local-path>")
+    end
+  else
+    value
+  end
+end
+
 def candidate_blob(candidate, path)
   output, error, status = Open3.capture3("git", "show", "#{candidate}:#{path}", chdir: ROOT)
   abort("candidate path unavailable: #{path}: #{error.strip}") unless status.success?
@@ -89,6 +110,9 @@ specialist_inputs = assignments.to_h do |assignment|
   input_path = File.join(PACKET, "specialist-input", "#{lane.tr('_', '-')}.json")
   abort("missing independent specialist input: #{input_path.sub(ROOT + '/', '')}") unless File.file?(input_path)
   input = JSON.parse(File.read(input_path))
+  redacted_input = redact_machine_local_paths(input)
+  write_json("specialist-input/#{lane.tr('_', '-')}.json", redacted_input) unless redacted_input == input
+  input = redacted_input
   abort("specialist input schema mismatch: #{lane}") unless input.fetch("schema") == "adl.v0921.internal_review_specialist_input.v1"
   abort("specialist input is not exact-candidate complete: #{lane}") unless
     input.fetch("lane") == lane && input.fetch("candidate_sha") == candidate && input.fetch("status") == "completed"

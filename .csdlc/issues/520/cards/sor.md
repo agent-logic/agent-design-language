@@ -91,7 +91,7 @@ Completed the complete nine-lane second review of frozen candidate fb6cbc7f619da
 - Integration method used: `native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations`
 - Verification performed:
   - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file`
-    `Proves fail-closed negative cases, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
+    `Proves 19 fail-closed negative cases, exact manifest coverage, packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
 - Result: `Local review packet validation passes; independent exact-head review and PR publication remain pending.`
 
 Rules:
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check`
-    `Assembles deterministic review artifacts and rejects candidate drift, missing denominators, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.`
+    `Assembles deterministic review artifacts and rejects candidate drift, missing denominators, omitted packet artifacts, machine-local paths, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.`
 - Results:
   - `Fourteen findings captured; production negative suite and full packet validator pass at the frozen candidate.`
 
@@ -151,9 +151,9 @@ verification_summary:
 - Artifact stability notes: `Every generated artifact and manifest row is bound to candidate fb6cbc7f619daa54f901fd2d12f480add682ace3.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `packet scanned for credential and machine-local path patterns`
+- Secret leakage scan performed: `every declared packet artifact scanned for credential and machine-local path patterns`
 - Prompt / tool argument redaction verified: `no provider prompts, tool arguments, or credentials are retained in the packet`
-- Absolute path leakage check: `tracked review artifacts use repository-relative references`
+- Absolute path leakage check: `packet-wide fail-closed portability scan passes; tracked review artifacts use repository-relative references`
 - Sandbox / policy invariants preserved: `All tracked changes are confined to the bound #520 worktree.`
 
 ## Replay Artifacts
@@ -166,7 +166,7 @@ verification_summary:
 - Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-04/findings.json`
 - Required artifacts present: `true`
 - Artifact schema/version checks: `full production validator passes`
-- Hash/byte-stability checks: `packet manifest covers 63 packet files at the current assembled state`
+- Hash/byte-stability checks: `packet manifest exactly covers all 74 non-manifest packet files at the current assembled state`
 - Missing/optional artifacts and rationale: `No optional proof is claimed; independent exact-head packet review and hosted CI are deliberately pending.`
 
 ## Decisions / Deviations
