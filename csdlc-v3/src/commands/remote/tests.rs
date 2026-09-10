@@ -939,7 +939,7 @@ fn pull_request_ready_distinguishes_rejection_still_draft_and_bad_identity() {
             ready_readback(&head, true),
         ),
         process_output(
-            crate::adapters::ProcessStatus::Exit(1),
+            crate::adapters::ProcessStatus::Exit(22),
             serde_json::json!({"message":"forbidden"}),
         ),
     ])

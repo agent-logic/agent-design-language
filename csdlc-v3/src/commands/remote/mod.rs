@@ -1383,7 +1383,10 @@ fn dispatch_github_mutation_after_intent(
         })?;
     let output = process.run(invocation.clone());
     let _ = fs::remove_file(&input_path);
-    if matches!(output.status, ProcessStatus::Exit(code) if code != 0) {
+    // curl's --fail-with-body contract uses 22 only for an authenticated HTTP
+    // rejection. Other nonzero exits can occur after an uncertain transport
+    // boundary, so they must fall through to exact authenticated readback.
+    if output.status == ProcessStatus::Exit(22) {
         return Err(remote_finding(
             "github_mutation_rejected",
             "GitHub rejected the authenticated mutation request",
