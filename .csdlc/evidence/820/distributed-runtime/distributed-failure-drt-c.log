@@ -1,6 +1,5 @@
-   Compiling adl-runtime-kernel v0.92.0 (<worktree>/adl-runtime-kernel)
    Compiling adl-runtime v0.92.0 (<worktree>/adl-runtime)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.89s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
      Running tests/distributed_failure/drt_c_qualification.rs (adl-runtime/target/debug/deps/distributed_failure_drt_c-48d60db0a653bfcf)
 
 running 1 test

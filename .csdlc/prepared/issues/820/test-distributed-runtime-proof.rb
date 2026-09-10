@@ -49,8 +49,8 @@ Dir.mktmpdir("issue820-negative-") do |dir|
         resolution = doc["rows"][0]["resolution"]
         resolution["approval_state"] = "approved"
         resolution["proposal_digest"] = Digest::SHA256.hexdigest([
-          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["proposed_disposition"],
-          resolution["removal_scope"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
+          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["type"], resolution["category"],
+          resolution["proposed_disposition"], resolution["removal_scope"], resolution["replacement_text"], resolution["behavioral_pass_claim"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
           resolution["approval_state"], resolution["operator_review_target"], resolution["operator_review_effect"]
         ].join("\0"))
       end
@@ -60,8 +60,20 @@ Dir.mktmpdir("issue820-negative-") do |dir|
         resolution = doc["rows"][0]["resolution"]
         resolution["operator_review_effect"] = "Approval is automatic."
         resolution["proposal_digest"] = Digest::SHA256.hexdigest([
-          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["proposed_disposition"],
-          resolution["removal_scope"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
+          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["type"], resolution["category"],
+          resolution["proposed_disposition"], resolution["removal_scope"], resolution["replacement_text"], resolution["behavioral_pass_claim"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
+          resolution["approval_state"], resolution["operator_review_target"], resolution["operator_review_effect"]
+        ].join("\0"))
+      end
+    end,
+    "coordinated-governance-semantics" => lambda do |plan, receipt|
+      [plan, receipt].each do |doc|
+        resolution = doc["rows"][0]["resolution"]
+        resolution["category"] = "behavioral_proof"
+        resolution["replacement_text"] = "Criterion is satisfied by production behavior."
+        resolution["proposal_digest"] = Digest::SHA256.hexdigest([
+          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["type"], resolution["category"],
+          resolution["proposed_disposition"], resolution["removal_scope"], resolution["replacement_text"], resolution["behavioral_pass_claim"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
           resolution["approval_state"], resolution["operator_review_target"], resolution["operator_review_effect"]
         ].join("\0"))
       end

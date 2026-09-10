@@ -103,6 +103,8 @@ receipt.fetch("rows").each do |row|
   assert(Digest::SHA256.hexdigest(row.fetch("criterion_text")) == row.fetch("criterion_text_digest"), "criterion digest mismatch")
   resolution = row.fetch("resolution")
   assert(resolution.fetch("type") == "governed_disposition_proposal", "row lacks governed disposition")
+  assert(resolution.fetch("category") == "candidate_fixture_not_production_execution", "row category drift")
+  assert(resolution.fetch("replacement_text").nil?, "row invents replacement text")
   assert(resolution.fetch("status") == "pending_operator_review", "row bypasses operator review")
   assert(resolution.fetch("approval_state") == "pending_operator_review", "approval state bypasses operator review")
   assert(resolution.fetch("operator_review_target") == "Merging the closing PR for issue #820 approves only this exact proposal and digest.", "operator review target drift")
@@ -110,7 +112,7 @@ receipt.fetch("rows").each do |row|
   assert(resolution.fetch("behavioral_pass_claim") == false, "row claims behavioral pass")
   assert(resolution.fetch("candidate_fixture_execution") == "passed", "candidate fixture support missing")
   assert(resolution.fetch("proof_boundary").include?(original.fetch("remaining_action")), "remaining action lost")
-  expected_digest = Digest::SHA256.hexdigest([row.fetch("row_id"), row.fetch("criterion_text_digest"), resolution.fetch("proposed_disposition"), resolution.fetch("removal_scope"), resolution.fetch("criterion_specific_basis"), resolution.fetch("proof_boundary"), resolution.fetch("approval_state"), resolution.fetch("operator_review_target"), resolution.fetch("operator_review_effect")].join("\0"))
+  expected_digest = Digest::SHA256.hexdigest([row.fetch("row_id"), row.fetch("criterion_text_digest"), resolution.fetch("type"), resolution.fetch("category"), resolution.fetch("proposed_disposition"), resolution.fetch("removal_scope"), resolution.fetch("replacement_text"), resolution.fetch("behavioral_pass_claim"), resolution.fetch("criterion_specific_basis"), resolution.fetch("proof_boundary"), resolution.fetch("approval_state"), resolution.fetch("operator_review_target"), resolution.fetch("operator_review_effect")].join("\0"))
   assert(resolution.fetch("proposal_digest") == expected_digest, "proposal digest mismatch")
   row.fetch("candidate_evidence").each do |evidence|
     bytes = git_bytes("show", "#{EXPECTED_CANDIDATE}:#{evidence.fetch('path')}")
