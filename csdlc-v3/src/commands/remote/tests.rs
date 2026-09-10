@@ -1190,6 +1190,72 @@ fn pull_request_ready_is_idempotent_and_authenticated_absence_recovery_is_one_sh
     let result = super::execute_github_mutation(&root, &request, &mut recovery).unwrap();
     assert_eq!(result.receipt.pull_request, Some(822));
     assert!(!result.receipt.idempotent_replay);
+
+    let root = mutation_repo("pr-ready-pre-dispatch-retry", true);
+    let head = mutation_head(&root);
+    let mut request = ready_request(&head);
+    let digest = super::github_mutation_operation_digest(&request);
+    let intent_path = super::github_mutation_intent_path(&root, &digest).unwrap();
+    let mut first = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut first)
+            .unwrap_err()
+            .code,
+        "github_mutation_reconciliation_pending"
+    );
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut missing_credential = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        ready_readback(&head, true),
+    )])
+    .requiring_intent(intent_path.clone())
+    .without_credential();
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut missing_credential)
+            .unwrap_err()
+            .code,
+        "github_credential_unavailable"
+    );
+    assert!(!super::github_mutation_recovery_path(&root, &digest)
+        .unwrap()
+        .exists());
+
+    let mut retry = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_response(&head),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, false),
+        ),
+    ])
+    .requiring_intent(intent_path);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut retry)
+            .unwrap()
+            .receipt
+            .pull_request,
+        Some(822)
+    );
 }
 
 fn mutation_repo(name: &str, active: bool) -> PathBuf {

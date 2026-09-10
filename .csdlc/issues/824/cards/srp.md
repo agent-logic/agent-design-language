@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/824/cards/sip.md"
   - ".csdlc/issues/824/cards/vpp.md"
 review_results:
-  findings_status: "pending_review"
+  findings_status: "all_findings_resolved_pending_rereview"
   recommended_outcome: "pending"
-notes: "Review the exact committed head for GraphQL request narrowing, exact PR/head binding, explicit provider rejection, durable one-shot recovery, and all required negative fixtures."
+notes: "Both findings are fixed. Fresh independent exact-head rereview is required before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Implementation review has not yet run.
+- Exact-head review at 848e4fdf found two P2 gaps: deterministic pre-dispatch failure could consume the one recovery, and SOR retained placeholders and contradictory local/hosted validation truth.
 
 ### Dispositions
 
-- Pending independent exact-head review.
+- Credential preflight, private input creation, and typed invocation construction now complete before recovery consumption; consumption remains immediately before process.run. A missing-credential regression proves recovery remains available. Every SOR field is populated and local proof is separated from pending hosted CI.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Review the exact committed head for GraphQL request narrowing, exact PR/head binding, explicit provider rejection, durable one-shot recovery, and all required negative fixtures.
+Both findings are fixed. Fresh independent exact-head rereview is required before publication.

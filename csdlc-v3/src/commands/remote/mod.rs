@@ -300,6 +300,14 @@ struct GithubMutationRecoveryReceipt {
     expected_head_sha: String,
 }
 
+struct GithubMutationDispatchContext<'a> {
+    operation_digest: &'a str,
+    operation_marker: &'a str,
+    credential_name: &'a str,
+    ready_target: Option<&'a GithubReadyTarget>,
+    recovery_intent_digest: Option<&'a str>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GithubMutationReconciliationReceipt {
     pub schema: String,
@@ -1100,14 +1108,16 @@ pub fn execute_github_mutation(
                     && request.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
-                persist_recovery_receipt(repo_root, request, &operation_digest, &intent_digest)?;
                 let (response_digest, invocation) = dispatch_github_mutation_after_intent(
                     repo_root,
                     request,
-                    &operation_digest,
-                    &operation_marker,
-                    &credential_name,
-                    intent.resolved_ready_target.as_ref(),
+                    GithubMutationDispatchContext {
+                        operation_digest: &operation_digest,
+                        operation_marker: &operation_marker,
+                        credential_name: &credential_name,
+                        ready_target: intent.resolved_ready_target.as_ref(),
+                        recovery_intent_digest: Some(&intent_digest),
+                    },
                     process,
                 )?;
                 let (reconciliation, _) =
@@ -1168,10 +1178,13 @@ pub fn execute_github_mutation(
     let (response_digest, invocation) = dispatch_github_mutation_after_intent(
         repo_root,
         request,
-        &operation_digest,
-        &operation_marker,
-        &credential_name,
-        intent.resolved_ready_target.as_ref(),
+        GithubMutationDispatchContext {
+            operation_digest: &operation_digest,
+            operation_marker: &operation_marker,
+            credential_name: &credential_name,
+            ready_target: intent.resolved_ready_target.as_ref(),
+            recovery_intent_digest: None,
+        },
         process,
     )?;
     let (reconciliation, _) = reconcile_github_mutation(
@@ -1359,28 +1372,28 @@ fn preflight_github_credential(
 fn dispatch_github_mutation_after_intent(
     repo_root: &Path,
     request: &GithubMutationRequest,
-    operation_digest: &str,
-    operation_marker: &str,
-    credential_name: &str,
-    ready_target: Option<&GithubReadyTarget>,
+    context: GithubMutationDispatchContext<'_>,
     process: &mut impl ProcessAdapter,
 ) -> Result<(Option<String>, CommandInvocation), RemoteRouteFinding> {
-    preflight_github_credential(credential_name, process)?;
+    preflight_github_credential(context.credential_name, process)?;
     let input_path = write_mutation_input(
         repo_root,
-        operation_digest,
-        operation_marker,
+        context.operation_digest,
+        context.operation_marker,
         request,
-        ready_target,
+        context.ready_target,
     )?;
     let invocation = github_mutation_invocation(request, &input_path)?
-        .with_child_credential(credential_name.to_owned())
+        .with_child_credential(context.credential_name.to_owned())
         .map_err(|_| {
             remote_finding(
                 "github_credential_scope_invalid",
                 "GitHub credential name is not safe for child-process injection",
             )
         })?;
+    if let Some(intent_digest) = context.recovery_intent_digest {
+        persist_recovery_receipt(repo_root, request, context.operation_digest, intent_digest)?;
+    }
     let output = process.run(invocation.clone());
     let _ = fs::remove_file(&input_path);
     // curl's --fail-with-body contract uses 22 only for an authenticated HTTP
