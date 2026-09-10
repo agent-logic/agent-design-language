@@ -5,9 +5,14 @@
   "issue_url": "https://github.com/agent-logic/agent-design-language/issues/821",
   "title": "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations",
   "branch": "codex/821-current-quality-gate",
-  "version": "1.0.5",
+  "version": "v0.92.1",
   "card": "srp",
-  "card_status": "ready",
+  "card_status": "draft",
   "repository": "agent-logic/agent-design-language",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-821-current-quality-gate"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-821-current-quality-gate",
+  "findings_status": "no_findings",
+  "recommended_outcome": "needs_followup",
+  "review_findings": "Preparation review found incorrect #819 ancestry; fixed after verifying PR827 merge ancestor. Follow-up preparation review found no actionable findings.",
+  "review_dispositions": "Resolved ancestry wording. Final candidate execution, exact-head acceptance and release recommendation remain pending.",
+  "review_notes": "review_821_preparation reviewed preparation only, including four-row identity, finding inputs and truthful proof boundaries. Final draft-publication exact-head review is in progress; this card does not approve final gate acceptance."
 }

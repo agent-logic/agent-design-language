@@ -4,11 +4,11 @@ artifact_type: "structured_review_prompt"
 name: "<slug>-review-prompt"
 issue: 821
 task_id: "issue-0821"
-version: "1.0.5"
+version: "v0.92.1"
 title: "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations"
 branch: "codex/821-current-quality-gate"
 generated_at: "<timestamp>"
-card_status: "ready"
+card_status: "draft"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - "<sip_card>"
   - "<vpp_card>"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "no_findings"
+  recommended_outcome: "needs_followup"
+notes: "review_821_preparation reviewed preparation only, including four-row identity, finding inputs and truthful proof boundaries. Final draft-publication exact-head review is in progress; this card does not approve final gate acceptance."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Preparation review found incorrect #819 ancestry; fixed after verifying PR827 merge ancestor. Follow-up preparation review found no actionable findings.
 
 ### Dispositions
 
-- <review_dispositions>
+- Resolved ancestry wording. Final candidate execution, exact-head acceptance and release recommendation remain pending.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- needs_followup
 
 ## Notes
 
-<review_notes>
+review_821_preparation reviewed preparation only, including four-row identity, finding inputs and truthful proof boundaries. Final draft-publication exact-head review is in progress; this card does not approve final gate acceptance.

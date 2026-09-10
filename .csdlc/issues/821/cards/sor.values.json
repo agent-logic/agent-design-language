@@ -25,9 +25,9 @@
   "validation_result": "All three retained validators passed. Historical gate remains blocked; #819 receipt has 51 executed rows and 101 removal proposals, with separate PR #827 merge approval evidence.",
   "verification_validation_status": "preparation_checks_pass_final_candidate_pending",
   "main_repo_paths_updated": "none",
-  "worktree_only_paths_remaining": "All issue #821 artifacts; no PR opened.",
+  "worktree_only_paths_remaining": "Issue #821 preparation; draft publication being prepared. Final proof not executed.",
   "decision_or_deviation_1": "Keep historical blocked gate immutable during preparation; do not regenerate from stale admission input.",
-  "decision_or_deviation_2": "Record approved criterion removals separately from behavioral passes.",
+  "decision_or_deviation_2": "Operator requested draft publication before prerequisite completion; final review and non-draft promotion remain pending. Approved criterion removals remain separate from behavioral passes.",
   "follow_up_1": "Integrate #818/#820 proof and verify final candidate inputs and all P1/P2 dispositions.",
   "follow_up_2": "Regenerate final quality gate, obtain exact-head review, and publish with required CI green.",
   "issue_goal_ref": "issue-821-active-session-goal"

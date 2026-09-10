@@ -85,7 +85,7 @@ Prepared exact four-row proof map and 12-finding P1/P2 input census. Native issu
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
-- Worktree-only paths remaining: `All issue #821 artifacts; no PR opened.`
+- Worktree-only paths remaining: `Issue #821 preparation; draft publication being prepared. Final proof not executed.`
 - Integration state: `worktree_only`
 - Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
@@ -171,7 +171,7 @@ verification_summary:
 
 ## Decisions / Deviations
 - `Keep historical blocked gate immutable during preparation; do not regenerate from stale admission input.`
-- `Record approved criterion removals separately from behavioral passes.`
+- `Operator requested draft publication before prerequisite completion; final review and non-draft promotion remain pending. Approved criterion removals remain separate from behavioral passes.`
 
 ## Follow-ups / Deferred work
 - `Integrate #818/#820 proof and verify final candidate inputs and all P1/P2 dispositions.`

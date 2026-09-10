@@ -1,6 +1,6 @@
 # Issue #821 execution plan
 
-Status: active preparation. Final-candidate proof has not run.
+Status: active preparation for draft PR publication. Final-candidate proof has not run.
 
 This issue consumes exactly `TAIL-01:retained-188-ac-1` through `ac-4` from the immutable #764 denominator. `preparation.json` preserves their criterion digests, source hashes, current prerequisite observations and individual proof requirements. These checks establish accounting integrity, not completion.
 
@@ -28,3 +28,5 @@ Candidate movement or changed prerequisite evidence requires refreshing the proo
 The prerequisite integration and exact-candidate input refresh remain pending. Preparation is suitable for reviewing the proof plan, not for recommending release.
 
 Preparation validation: both retained validator commands above passed. The historical gate still reports its blocked decision; neither result establishes final proof. Independent preparation review found incorrect #819 ancestry wording; Git ancestry verified PR #827 is already included and the packet was corrected. Final exact-candidate review remains pending.
+
+Operator requested draft publication before prerequisites finish. The draft exposes the reviewed preparation and outstanding proof requirements; it must not become merge-ready until all four obligations and final-candidate review pass.

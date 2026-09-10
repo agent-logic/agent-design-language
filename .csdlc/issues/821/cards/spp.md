@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Prepare exact four-row consumption map and existing command sequence, record live prerequisite state, then regenerate final gate after #818/#820 integration, reconcile census, review exact candidate and publish."
+plan_summary: "Publish reviewed preparation as a draft PR at operator request; preserve exact four-row mapping and 12-finding census. After #818/#820 integration, refresh candidate proof, reconcile all required lanes, review final head and convert PR to non-draft only when acceptance is proven."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "<notes_risks_inline>"
+notes: "User requested visible PR progress before dependencies complete. Draft publication is not final acceptance, release approval or completion."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations`.
 
-Prepare exact four-row consumption map and existing command sequence, record live prerequisite state, then regenerate final gate after #818/#820 integration, reconcile census, review exact candidate and publish.
+Publish reviewed preparation as a draft PR at operator request; preserve exact four-row mapping and 12-finding census. After #818/#820 integration, refresh candidate proof, reconcile all required lanes, review final head and convert PR to non-draft only when acceptance is proven.
 
 ## PVF Lane Plan
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-<notes_risks_inline>
+User requested visible PR progress before dependencies complete. Draft publication is not final acceptance, release approval or completion.

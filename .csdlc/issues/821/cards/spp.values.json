@@ -23,7 +23,7 @@
   "initial_pvf_lane": "release-evidence",
   "planned_pvf_lane": "release-evidence",
   "planned_pvf_lane_source": "Issue #821 acceptance and existing TAIL-01 required-lane denominator",
-  "plan_summary": "Prepare exact four-row consumption map and existing command sequence, record live prerequisite state, then regenerate final gate after #818/#820 integration, reconcile census, review exact candidate and publish.",
+  "plan_summary": "Publish reviewed preparation as a draft PR at operator request; preserve exact four-row mapping and 12-finding census. After #818/#820 integration, refresh candidate proof, reconcile all required lanes, review final head and convert PR to non-draft only when acceptance is proven.",
   "risks": "Candidate movement invalidates final evidence; closed issues alone do not prove lane success; preparation cannot discharge current-gate obligations.",
   "notes_risks": "Operator requested starting now with known prerequisite status; this authorizes preparation only before integration.",
   "estimate_elapsed_seconds": "unknown",
@@ -34,5 +34,6 @@
   "step_2_status": "completed",
   "step_3_status": "in_progress",
   "step_4_status": "pending",
-  "step_5_status": "pending"
+  "step_5_status": "pending",
+  "notes_risks_inline": "User requested visible PR progress before dependencies complete. Draft publication is not final acceptance, release approval or completion."
 }
