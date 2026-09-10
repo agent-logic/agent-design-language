@@ -1,0 +1,1216 @@
+{
+  "schema": "adl.v0921.issue820.distributed_runtime_reconciliation.v1",
+  "issue": 820,
+  "parent_issue": 522,
+  "finding": "D520-RET-001",
+  "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "candidate_surface_paths": [
+    "adl-runtime/src/qualification/mod.rs",
+    "adl-runtime/tests/distributed_contract",
+    "adl-runtime/tests/distributed_failure",
+    "docs/milestones/v0.92.1/evidence/runtime/drt-a",
+    "docs/milestones/v0.92.1/evidence/runtime/drt-b",
+    "docs/milestones/v0.92.1/evidence/runtime/drt-c"
+  ],
+  "candidate_surface_tree_sha256": "d2934667f9a99639810478e2b7bbebea90af16e7807f8a711239e0185492427d",
+  "generated_at": "2026-09-10T22:27:32.299041Z",
+  "commands": [
+    {
+      "id": "distributed-contract",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_contract"
+      ],
+      "started_at": "2026-09-10T22:27:29.698074Z",
+      "finished_at": "2026-09-10T22:27:30.064269Z",
+      "exit_code": 0,
+      "status": "passed",
+      "output_sha256": "fa54c20e460a44611db237967f6140577448e9aa3f722b9dccfeff8281047dd5"
+    },
+    {
+      "id": "distributed-failure-drt-c",
+      "argv": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime/Cargo.toml",
+        "--test",
+        "distributed_failure_drt_c"
+      ],
+      "started_at": "2026-09-10T22:27:30.064851Z",
+      "finished_at": "2026-09-10T22:27:30.345865Z",
+      "exit_code": 0,
+      "status": "passed",
+      "output_sha256": "344f25cdee992dfde38d995aca21e26a05deee267912a0cc2c2b99bf90fa24f6"
+    }
+  ],
+  "row_count": 25,
+  "candidate_fixture_execution_passed": 25,
+  "behavioral_pass_count": 0,
+  "operator_approval_pending": 25,
+  "unclassified": 0,
+  "release_ready": false,
+  "rows": [
+    {
+      "row_id": "DRT-A:retained-181-ac-4",
+      "criterion_id": "DRT-A:retained-181-ac-4",
+      "criterion_text": "The contract distinguishes production proof from harness orchestration and forbids in-process substitutes or hard-coded success counts.",
+      "criterion_text_digest": "76a0dbcbed0f2bc143dc8a22f9497719a20a8949f24f0f1163a6ae35f3ff5dc9",
+      "owner": "#506",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-A:retained-181-ac-4 (76a0dbcbed0f2bc143dc8a22f9497719a20a8949f24f0f1163a6ae35f3ff5dc9) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "a7c1c09f09b3339ecb727b66678d7a170fb08137904ba1b409fd2e59c45b89b6",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Scenario constructor names deterministic fixtures and generic expected strings; it does not establish an explicit ban on in-process production substitutes or hard-coded success evidence.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Bind the production-proof versus contract-fixture distinction explicitly to the release requirement. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json",
+          "sha256": "c447d1b55775e9a10674a80fbab138b7c3cc020bf53505e65c4a742e213e4ba4",
+          "git_blob": "12efdcf18cf9608d3d021e8306fa5e18dd10bac8"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-1",
+      "criterion_id": "DRT-A:retained-182-ac-1",
+      "criterion_text": "Canonical encode-decode-reencode is byte-stable for every supported message family.",
+      "criterion_text_digest": "82c249d7e386619f86ef7443c61e8cabb34f88c05d4bdf29e863195ae8557dc9",
+      "owner": "#506",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-A:retained-182-ac-1 (82c249d7e386619f86ef7443c61e8cabb34f88c05d4bdf29e863195ae8557dc9) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "e1a0db9af617999565e3c6bba64df153e63a56dcc3a366ad3e8965f840228419",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Replay tests roundtrip one semantic envelope fixture, not every supported message family.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Enumerate supported message families and map each to byte-stable codec proof. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json",
+          "sha256": "c447d1b55775e9a10674a80fbab138b7c3cc020bf53505e65c4a742e213e4ba4",
+          "git_blob": "12efdcf18cf9608d3d021e8306fa5e18dd10bac8"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-2",
+      "criterion_id": "DRT-A:retained-182-ac-2",
+      "criterion_text": "Identity, authority, permit, causation, correlation, sequence, term, and polis bindings reject every declared mutation.",
+      "criterion_text_digest": "623a019ffc849906b7ebc757d3d50151b8bbb2337327e5b61088ffde79291941",
+      "owner": "#506",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-A:retained-182-ac-2 (623a019ffc849906b7ebc757d3d50151b8bbb2337327e5b61088ffde79291941) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "f70c30b5823fd33bad0dc2d3cda6dedc775b1644e2be6b3ae89262d40abac7c8",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "ACIP qualification probes mutate an in-memory synthetic probe and evaluate fixed strings/booleans. This establishes the fixture model, not production signed-message admission across the complete retained binding/mutation denominator.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Map existing signed ACIP production admission tests to every declared mutation, including repaired-positive controls, or add bounded missing proof. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json",
+          "sha256": "c447d1b55775e9a10674a80fbab138b7c3cc020bf53505e65c4a742e213e4ba4",
+          "git_blob": "12efdcf18cf9608d3d021e8306fa5e18dd10bac8"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-3",
+      "criterion_id": "DRT-A:retained-182-ac-3",
+      "criterion_text": "Duplicate, reordered, stale, malformed, unsigned, wrong-domain, and cross-polis messages produce typed deterministic outcomes.",
+      "criterion_text_digest": "91d52a4c8575af1a8c1843cc8497898fad8397f0495681d5ef67ad5b239096ca",
+      "owner": "#506",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-A:retained-182-ac-3 (91d52a4c8575af1a8c1843cc8497898fad8397f0495681d5ef67ad5b239096ca) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "986e29b9382a988d1c30d0454744d68e9eb2f647f28dd054f5088cdd436ddc76",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "ACIP qualification probes mutate an in-memory synthetic probe and evaluate fixed strings/booleans. This establishes the fixture model, not production signed-message admission across the complete retained binding/mutation denominator.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Map existing signed ACIP production admission tests to every declared mutation, including repaired-positive controls, or add bounded missing proof. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json",
+          "sha256": "c447d1b55775e9a10674a80fbab138b7c3cc020bf53505e65c4a742e213e4ba4",
+          "git_blob": "12efdcf18cf9608d3d021e8306fa5e18dd10bac8"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-A:retained-182-ac-4",
+      "criterion_id": "DRT-A:retained-182-ac-4",
+      "criterion_text": "Independent replay from retained inputs reproduces the exact committed outcome and digest.",
+      "criterion_text_digest": "e3da9825a0c8de26df141a5975c3287492247eec51bc98a4d0fb545f2301bd70",
+      "owner": "#506",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-A:retained-182-ac-4 (e3da9825a0c8de26df141a5975c3287492247eec51bc98a4d0fb545f2301bd70) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "0f10b0bf53ebb371b83442796d7658b113731db606606603547b8a302a10a3d3",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "Envelope projection roundtrip and contract digests do not demonstrate replay of committed production outcomes from retained inputs.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate committed-input replay artifact with exact outcome and digest. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-a/qualification-contract.json",
+          "sha256": "c447d1b55775e9a10674a80fbab138b7c3cc020bf53505e65c4a742e213e4ba4",
+          "git_blob": "12efdcf18cf9608d3d021e8306fa5e18dd10bac8"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-1",
+      "criterion_id": "DRT-B:retained-183-ac-1",
+      "criterion_text": "The exact #142 merge SHA is ancestral to the tested revision and its retained Guardian/API/WSS/WP-04.16 proof passes.",
+      "criterion_text_digest": "dc3d158a66967b63df4bd7c422cfe736748ea9594a2dc09020aff2734d6e0f7b",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-183-ac-1 (dc3d158a66967b63df4bd7c422cfe736748ea9594a2dc09020aff2734d6e0f7b) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "f252240146d77f5cb9e890958ae0891d3ff2492c19988e0aa9e21dcf04b4a2bc",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-2",
+      "criterion_id": "DRT-B:retained-183-ac-2",
+      "criterion_text": "Three independently started voters commit governed work; two voters preserve quorum; one voter cannot mutate.",
+      "criterion_text_digest": "891a884517277ee9662ea8e27d83527a8cfd3ebdd1ec8df66bc447d76cf65135",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-183-ac-2 (891a884517277ee9662ea8e27d83527a8cfd3ebdd1ec8df66bc447d76cf65135) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "553d54dbfc3592c53fcef89d077d52c2c5705ad428544fcf88c4d8df948096e8",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-3",
+      "criterion_id": "DRT-B:retained-183-ac-3",
+      "criterion_text": "The old Observatory lease expires before successor binding and stale-owner writes are denied.",
+      "criterion_text_digest": "eaab1a742ae3ecda06f8bd3b032420440c6404bdc71839af3ebeb01847337e7b",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-183-ac-3 (eaab1a742ae3ecda06f8bd3b032420440c6404bdc71839af3ebeb01847337e7b) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "cc50207dcff7ea74842c27c0e7d55fcf51449704371f08c1f061f1d5167d4ace",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-183-ac-4",
+      "criterion_id": "DRT-B:retained-183-ac-4",
+      "criterion_text": "Snapshot restore, voter restart, agent continuity, replay, and cleanup pass without shared state roots or direct executor bypass.",
+      "criterion_text_digest": "8b362059cca797d697920cc4f17532f8ce9945d27bb40eb947a1e664bfde5418",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-183-ac-4 (8b362059cca797d697920cc4f17532f8ce9945d27bb40eb947a1e664bfde5418) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "ea7a16317b8889b7b8565deaab06569db94c2d3d4b3e281a90676145aa563572",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-1",
+      "criterion_id": "DRT-B:retained-184-ac-1",
+      "criterion_text": "AWS identity resolves to the approved Agent Logic business account before provisioning.",
+      "criterion_text_digest": "122958fc68a0a381194aa1905684588ed758954e6c8eb1e2b2f81cdf8e0fef08",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-184-ac-1 (122958fc68a0a381194aa1905684588ed758954e6c8eb1e2b2f81cdf8e0fef08) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "29218140261520a1160c137fb9abaad92b1936d74f80c80a145a6d93ea20df10",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-2",
+      "criterion_id": "DRT-B:retained-184-ac-2",
+      "criterion_text": "AWS voters use separate AZs, private authenticated transport, distinct state and independently materialized snapshots.",
+      "criterion_text_digest": "d2b3931131b4356a16130abab2b15138bd5dd0722a44ce53e94e4a06a5cb2c67",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-184-ac-2 (d2b3931131b4356a16130abab2b15138bd5dd0722a44ce53e94e4a06a5cb2c67) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "b11c10eb7d98733512e5866982075d73a4cf7d163e0ec3ac22780870c6479a5f",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-3",
+      "criterion_id": "DRT-B:retained-184-ac-3",
+      "criterion_text": "Isolating Wuji preserves AWS-only quorum continuity while the isolated stale voter cannot mutate; loss of quorum halts mutation.",
+      "criterion_text_digest": "9b4bf955696df07925d1262055cc9463cdb6657851e76680087a3d057d254707",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-184-ac-3 (9b4bf955696df07925d1262055cc9463cdb6657851e76680087a3d057d254707) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "bae6950c2e01aee7c770aae595c7a01570697163524964614f7f559bf4221d6c",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-B:retained-184-ac-4",
+      "criterion_id": "DRT-B:retained-184-ac-4",
+      "criterion_text": "Healing converges term, commit index, state digest, fence, and Observatory ownership before traffic resumes; every phase cleans up.",
+      "criterion_text_digest": "48613229cacfbee35565ce50c11e293ddc1c922f0994b6397b3f454473bd51f4",
+      "owner": "#507",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_contract/main.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-B:retained-184-ac-4 (48613229cacfbee35565ce50c11e293ddc1c922f0994b6397b3f454473bd51f4) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "43b0132be3c5edf06f5e81341be17d6717eeee62ad01129ce032f5c177692de0",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "507 packet constructs deterministic resident hashes, workload receipt identifiers and replay cursors; it does not contain the required actual local/hybrid process, quorum, lease, AWS/AZ, partition or recovery execution receipts.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Locate actual requirement-specific production receipts from existing runtime proof owners; do not relabel deterministic contract fixtures as execution. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "sha256": "b188cf66ecb84a28f118b9625b6f797821acc28fdb412ea06670e770654fffc6",
+          "git_blob": "c2966c41e6473c09c5d9624cd5e62e135f0beb39"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "sha256": "a4f26c1c55072fb58d910548715eef120738be59509d2933e101d465d3fc5426",
+          "git_blob": "f6a9e55d410ca9f1e83a7929f4ec4af853eed24d"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-1",
+      "criterion_id": "DRT-C:retained-185-ac-1",
+      "criterion_text": "Voting, agent, Shepherd, operator, and Observatory identities use separated keys and roles; Shepherd cannot vote.",
+      "criterion_text_digest": "d7211f439c0e87773a8ed96e8a4a5a380f50efa9fc48b8f600e40d4e41104a07",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-185-ac-1 (d7211f439c0e87773a8ed96e8a4a5a380f50efa9fc48b8f600e40d4e41104a07) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "cf3f7b9a2d790a804ddc528f9d659ecf95b5edcf0dfb1251dd7a31964a1d5342",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-2",
+      "criterion_id": "DRT-C:retained-185-ac-2",
+      "criterion_text": "Production TLS chains to an approved trust anchor and no self-signed certificate appears on a production path.",
+      "criterion_text_digest": "3e4bb733824b8a375b6a2ad4328c367676fe93cd0e1967b3c061d657f7903c05",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-185-ac-2 (3e4bb733824b8a375b6a2ad4328c367676fe93cd0e1967b3c061d657f7903c05) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "c3dafefed89e34098c451ea62af3ee734ebcbdf31cf371547d297f5fcfcd7705",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-3",
+      "criterion_id": "DRT-C:retained-185-ac-3",
+      "criterion_text": "Forged, stale, wrong-domain, missing-capability, cross-polis, malformed, and pre-auth disclosure attempts are denied with typed receipts.",
+      "criterion_text_digest": "9d0da038696016a01c03c7146b33e0ed1d3067c220aa357b47bebc4e00793dcc",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-185-ac-3 (9d0da038696016a01c03c7146b33e0ed1d3067c220aa357b47bebc4e00793dcc) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "413cf2a777cf39b8bad0ae7438cc2d189f90146eb5a9a648218b9bbf6376e335",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-185-ac-4",
+      "criterion_id": "DRT-C:retained-185-ac-4",
+      "criterion_text": "Provider timeout, stall, malformed output, and partial failure preserve state and authority invariants.",
+      "criterion_text_digest": "b4f26d62ced9b440f26d6bf63bb6084c6134ef4e2cb54cbbaf4e6ab1291b6417",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-185-ac-4 (b4f26d62ced9b440f26d6bf63bb6084c6134ef4e2cb54cbbaf4e6ab1291b6417) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "e924d5aa6200d497d8fd93d60ceea8e260c408697fa7442ac4a64ad4b627d275",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-1",
+      "criterion_id": "DRT-C:retained-186-ac-1",
+      "criterion_text": "Exactly one Observatory owns the quorum lease at any instant and successor binding follows old-lease expiry.",
+      "criterion_text_digest": "e21b9ef6e84b39d4b20d911462505d7193e5f3b05c5209389498de0bdd70690e",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-186-ac-1 (e21b9ef6e84b39d4b20d911462505d7193e5f3b05c5209389498de0bdd70690e) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "c274916a0d4db57a5287ce04ca9124f8a6c73732809ed1899be1a55ba4cb76ce",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-2",
+      "criterion_id": "DRT-C:retained-186-ac-2",
+      "criterion_text": "Every displayed operation correlates agent, node, polis, identity, authority, trace, term, commit index, and state revision.",
+      "criterion_text_digest": "989afbfba7a1b91f8f66e0aac0cd07335dcbbd6ac7ebdd5123dad8792df30549",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-186-ac-2 (989afbfba7a1b91f8f66e0aac0cd07335dcbbd6ac7ebdd5123dad8792df30549) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "d92608eec742ef81e7e58d80034c06a86051deb565f00079842d34c4d0da0ecb",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-3",
+      "criterion_id": "DRT-C:retained-186-ac-3",
+      "criterion_text": "Partitions and leadership changes cannot present stale authority as current or combine an incoherent cut.",
+      "criterion_text_digest": "18540a498be06f9056597aa763c3d33bba3e2641d015a72e2423438716264531",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-186-ac-3 (18540a498be06f9056597aa763c3d33bba3e2641d015a72e2423438716264531) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "9a1570831b025d20e7f52960cdaa0372da379cd52dadb77eba09dfb39d6934a6",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-186-ac-4",
+      "criterion_id": "DRT-C:retained-186-ac-4",
+      "criterion_text": "Secrets, credentials, private legal data, and unredacted provider payloads never appear in retained or visible evidence.",
+      "criterion_text_digest": "bf56798728eb215a7c9eed74ce5ac21a624cbb1272c6ccf8bb89bc2639a22a8e",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-186-ac-4 (bf56798728eb215a7c9eed74ce5ac21a624cbb1272c6ccf8bb89bc2639a22a8e) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "fd10b439190c9aa0bf0ba2f5b732482e83b8e797462382a99a5a9d730c1f57a4",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-1",
+      "criterion_id": "DRT-C:retained-187-ac-1",
+      "criterion_text": "Both soak durations complete under declared workload, fault, resource, and error thresholds.",
+      "criterion_text_digest": "db936eb095fd1e9500d2523f282da284fd03f85758dfab66ddc8ed6fdb38ebfd",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-187-ac-1 (db936eb095fd1e9500d2523f282da284fd03f85758dfab66ddc8ed6fdb38ebfd) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "cc41aaa0968abc67699dab2cadafd8b2db1ee722fd8d0d637b0eb9dff5d5243f",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-2",
+      "criterion_id": "DRT-C:retained-187-ac-2",
+      "criterion_text": "Receipts bind exact commands, terms, committed indexes, envelopes, source revisions, model digests, clocks, and cleanup outcomes.",
+      "criterion_text_digest": "22e7975b6a1c8f700795150e08a8f711cfca049e17aaef162e0d90ceb8062b85",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-187-ac-2 (22e7975b6a1c8f700795150e08a8f711cfca049e17aaef162e0d90ceb8062b85) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "1d091d734613afe10fe8b79722813fb0de00ffdb66b450907a03e40c8f05ac88",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-3",
+      "criterion_id": "DRT-C:retained-187-ac-3",
+      "criterion_text": "Independent replay reproduces the declared deterministic outcomes without live-provider dependence.",
+      "criterion_text_digest": "b9b9c0077b66301e39e89497c0a0f6876f4eb56055bbce98695ca65833453e3a",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-187-ac-3 (b9b9c0077b66301e39e89497c0a0f6876f4eb56055bbce98695ca65833453e3a) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "946ffc5f096388b6ecaeaebc73d25d78ef9e741105ec2fa52d9356c2a9300b56",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    },
+    {
+      "row_id": "DRT-C:retained-187-ac-4",
+      "criterion_id": "DRT-C:retained-187-ac-4",
+      "criterion_text": "Provider and process readback proves cleanup after normal completion and every injected or unexpected failure phase.",
+      "criterion_text_digest": "bf6907f6977ed5a30bec264a54f02664e5332d6d84fab0d0adfdb9b0eda1a748",
+      "owner": "#508",
+      "source_assessment": "non_proving",
+      "source_evidence_paths": [
+        "adl-runtime/src/qualification/mod.rs",
+        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+        "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json"
+      ],
+      "resolution": {
+        "type": "governed_disposition_proposal",
+        "category": "candidate_fixture_not_production_execution",
+        "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
+        "removal_scope": "Remove only DRT-C:retained-187-ac-4 (bf6907f6977ed5a30bec264a54f02664e5332d6d84fab0d0adfdb9b0eda1a748) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed.",
+        "replacement_text": null,
+        "proposal_digest": "73d1cb0cb0f82c1601ac0f782e59ecf70c150f60ee6ed2b6ea5e6814b3586e92",
+        "behavioral_pass_claim": false,
+        "approval_state": "pending_operator_review",
+        "criterion_specific_basis": "508 deterministic_drt_c constructs asserted failure categories, runtime_emitted/redacted flags, digest strings, fixed clock windows and cleanup absent strings. Equality to this generated JSON does not prove the required executed failure/Observatory/soak/replay/cleanup behavior.",
+        "proof_boundary": "Candidate-bound qualification execution confirms the retained fixture contract only. Consume actual requirement-specific Runtime evidence; fixed generated qualification metadata is contract proof only. It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.",
+        "operator_review_target": "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
+        "operator_review_effect": "Before merge this proposal remains pending and release-blocking.",
+        "status": "pending_operator_review",
+        "candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+        "candidate_fixture_execution": "passed"
+      },
+      "candidate_evidence": [
+        {
+          "path": "adl-runtime/src/qualification/mod.rs",
+          "sha256": "d2f5466ce9a8956f5493cb6bb6710f0059f327a85c3e4c7f6f2b4dfb3259e820",
+          "git_blob": "6b82d72a774f1fa82f803d983bf48c3cd5717eb4"
+        },
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "sha256": "c2066097a9f2a480624c75b1734b77ff24fba249e52b39c534fb8a19bb3ba4a6",
+          "git_blob": "7d803dd5a6d078bc766b32273e07c1e3e6582293"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-c/qualification.json",
+          "sha256": "0214553472e1365c592e14b82e9a848c3a58d4066a7432c20d6ec95cb5eea959",
+          "git_blob": "ef641f6c7c67a3719e88ddb049d676f6be0fdc01"
+        }
+      ]
+    }
+  ]
+}

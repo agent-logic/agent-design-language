@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running tests/distributed_contract/main.rs (adl-runtime/target/debug/deps/distributed_contract-ad339ce77e800eb0)
+
+running 7 tests
+test drt_d_gcp_portability ... ok
+test acip_authority ... ok
+test replay_conformance ... ok
+test drt_b_continuity_reclamation ... ok
+test drt_b_six_resident_uts ... ok
+test qualification_contract ... ok
+test negative_matrix ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
