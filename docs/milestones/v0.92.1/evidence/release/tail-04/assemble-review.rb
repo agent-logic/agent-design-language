@@ -33,9 +33,11 @@ def redact_machine_local_paths(value)
   when Array
     value.map { |item| redact_machine_local_paths(item) }
   when String
-    prefixes.reduce(value) do |text, prefix|
+    redacted = prefixes.reduce(value) do |text, prefix|
       text.gsub(%r{#{Regexp.escape(prefix)}[^\s\"')]+}, "<machine-local-path>")
     end
+    root_prefix = ["", "root"].join(File::SEPARATOR) + File::SEPARATOR
+    redacted.gsub(%r{(?<!:)#{Regexp.escape(root_prefix)}[^\s\"')]+}, "<machine-local-path>")
   else
     value
   end

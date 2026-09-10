@@ -365,7 +365,8 @@ machine_local_prefixes = [
 ]
 leaking_paths = expected_manifest_paths.select do |path|
   content = File.binread(path)
-  machine_local_prefixes.any? { |prefix| content.include?(prefix) }
+  root_prefix = ["", "root"].join(File::SEPARATOR) + File::SEPARATOR
+  machine_local_prefixes.any? { |prefix| content.include?(prefix) } || content.match?(%r{(?<!:)#{Regexp.escape(root_prefix)}})
 end
 fail!("packet contains machine-local absolute paths: #{leaking_paths.join(', ')}") unless leaking_paths.empty?
 

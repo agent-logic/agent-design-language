@@ -91,7 +91,7 @@ Completed the complete nine-lane second review of frozen candidate fb6cbc7f619da
 - Integration method used: `native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations`
 - Verification performed:
   - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file`
-    `Proves 19 fail-closed negative cases, exact manifest coverage, packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
+    `Proves 20 fail-closed negative cases, exact manifest coverage, context-aware packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
 - Result: `Local review packet validation passes; independent exact-head review and PR publication remain pending.`
 
 Rules:

@@ -5,7 +5,7 @@
   "branch": "codex/520-internal-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
   "registry_version": "1.0.5",
-  "expected_lifecycle_digest": "cfb7f3b074bbbac92c357709eb7e8857443cab50cf0c03dc8835b86e80c5cf9f",
+  "expected_lifecycle_digest": "62128eb33aff332fbb550629af75abe157c2fef0420badd3b014696966d549cd",
   "commands": [
     "prepare_issue",
     "bind_worktree",
@@ -70,7 +70,7 @@
       "verification_scope": "exact frozen candidate and complete TAIL-04 second-review packet",
       "integration_method_used": "native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations",
       "integration_verification_command": "ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file",
-      "integration_verification_effect": "Proves 19 fail-closed negative cases, exact manifest coverage, packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.",
+      "integration_verification_effect": "Proves 20 fail-closed negative cases, exact manifest coverage, context-aware packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.",
       "integration_result": "Local review packet validation passes; independent exact-head review and PR publication remain pending.",
       "validation_command": "ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check",
       "validation_effect": "Assembles deterministic review artifacts and rejects candidate drift, missing denominators, omitted packet artifacts, machine-local paths, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.",

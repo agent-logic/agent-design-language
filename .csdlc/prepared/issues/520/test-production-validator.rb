@@ -239,5 +239,11 @@ Dir.mktmpdir("issue-520-production-", File.expand_path("../../../../.adl", __dir
       doc.fetch("observations").first["detail"] = "leaked #{leaked_prefix}/worktree"
       write_json(quality_path, doc)
     end
+    reject_mutation.call("root_home_path_leakage", [quality_path, File.join(root, "packet-manifest.json")]) do
+      doc = JSON.parse(File.read(quality_path))
+      leaked_prefix = ["", "root"].join(File::SEPARATOR)
+      doc.fetch("observations").first["detail"] = "leaked #{leaked_prefix}/worktree"
+      write_json(quality_path, doc)
+    end
   end
 end

@@ -60,7 +60,7 @@
   "verification_scope": "exact frozen candidate and complete TAIL-04 second-review packet",
   "integration_method_used": "native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations",
   "integration_verification_command": "ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file",
-  "integration_verification_effect": "Proves 19 fail-closed negative cases, exact manifest coverage, packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.",
+  "integration_verification_effect": "Proves 20 fail-closed negative cases, exact manifest coverage, context-aware packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.",
   "integration_result": "Local review packet validation passes; independent exact-head review and PR publication remain pending.",
   "validation_command": "ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check",
   "validation_effect": "Assembles deterministic review artifacts and rejects candidate drift, missing denominators, omitted packet artifacts, machine-local paths, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.",
