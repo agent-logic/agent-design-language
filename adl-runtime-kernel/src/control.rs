@@ -300,9 +300,15 @@ impl AdmissionGreetingRecord {
                 .bytes()
                 .all(|byte| byte.is_ascii_hexdigit())
             && self.correlation_id == self.idempotency_key[..32]
+            && self.work_id == self.idempotency_key
+            && self.conversation_id == format!("admission-beacon-{}", &self.idempotency_key[..20])
+            && self.turn_id == format!("welcome-{}", &self.idempotency_key[..20])
             && self.max_attempts == ADMISSION_GREETING_MAX_ATTEMPTS
             && self.attempts <= self.max_attempts
             && !self.message_parts.is_empty()
+            && self.terminal_receipt.as_ref().is_none_or(|receipt| {
+                receipt.idempotency_key == self.idempotency_key && receipt.attempts == self.attempts
+            })
     }
 
     fn terminal(&self) -> bool {
@@ -978,6 +984,7 @@ struct ConversationDispatch {
     cancellation: CancellationToken,
     dispatch_gate: Arc<ConversationDispatchGate>,
     work_id: String,
+    adapter_execution_id: String,
 }
 
 enum AdmissionGreetingWork {
@@ -2306,6 +2313,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         &self,
         dispatch: ConversationDispatch,
     ) -> Result<ConversationDispatch, Box<ObservatoryConversationResult>> {
+        let adapter_execution_id = dispatch.adapter_execution_id.clone();
         let Some(metadata) = dispatch.initiation.as_ref() else {
             return Err(Box::new(ObservatoryConversationResult::from_parts(
                 ObservatoryConversationResultParts {
@@ -2344,7 +2352,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             false,
             metadata.delegated_carrier.clone(),
         ) {
-            ConversationAcceptance::Dispatch { dispatch, .. } => Ok(dispatch),
+            ConversationAcceptance::Dispatch { mut dispatch, .. } => {
+                dispatch.adapter_execution_id = adapter_execution_id;
+                Ok(dispatch)
+            }
             ConversationAcceptance::Response(response) => Err(Box::new(response)),
         }
     }
@@ -2403,6 +2414,43 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             } else {
                 None
             };
+            let can_resume_claimed_attempt = current.disposition
+                == AdmissionGreetingDisposition::Retrying
+                && resumed_dispatch.is_some();
+            if current.attempts >= current.max_attempts && !can_resume_claimed_attempt {
+                let previous = current;
+                let record = greetings
+                    .get_mut(agent_id)
+                    .expect("admission greeting checked above");
+                record.owner_runtime_incarnation_id = None;
+                record.disposition = AdmissionGreetingDisposition::TerminalFailure;
+                record.next_attempt_at_unix_millis = 0;
+                record.last_status = Some("retry_budget_exhausted".to_owned());
+                record.updated_at_unix_millis = now;
+                record.terminal_receipt = Some(AdmissionGreetingTerminalReceipt {
+                    idempotency_key: record.idempotency_key.clone(),
+                    status: "terminal_failure".to_owned(),
+                    attempts: record.attempts,
+                    recorded_at_unix_millis: now,
+                });
+                let idempotency_key = record.idempotency_key.clone();
+                let attempts = record.attempts;
+                if let Err(error) = self.persist_dynamic_agent_snapshot(&path, &greetings) {
+                    greetings.insert(agent_id.to_owned(), previous);
+                    return Err(error);
+                }
+                tracing::info!(
+                    target: "adl_runtime_kernel",
+                    schema = "adl.runtime_v3.admission_greeting.v1",
+                    event = "admission_greeting_state",
+                    agent_id,
+                    idempotency_key,
+                    disposition = AdmissionGreetingDisposition::TerminalFailure.as_str(),
+                    attempts,
+                    "durable admission greeting state exhausted after interrupted attempt"
+                );
+                return Ok(None);
+            }
             if let Some(mut dispatch) = resumed_dispatch {
                 if current.disposition == AdmissionGreetingDisposition::Pending {
                     let previous = current;
@@ -2415,13 +2463,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         now.saturating_add(admission_greeting_retry_delay_millis());
                     record.updated_at_unix_millis = now;
                     let attempt = record.attempts;
-                    if record
-                        .last_status
-                        .as_deref()
-                        .is_some_and(|status| !matches!(status, "timed_out" | "cancelled"))
-                    {
-                        dispatch.work_id = format!("{}-attempt-{attempt}", record.idempotency_key);
-                    }
+                    dispatch.adapter_execution_id =
+                        format!("{}-attempt-{attempt}", record.idempotency_key);
                     if let Err(error) = self.persist_dynamic_agent_snapshot(&path, &greetings) {
                         greetings.insert(agent_id.to_owned(), previous);
                         self.admission_greeting_dispatches
@@ -3176,6 +3219,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 sequence,
                 cancellation,
                 dispatch_gate: session.dispatch_gate.clone(),
+                adapter_execution_id: work_id.clone(),
                 work_id,
             },
         }
@@ -3527,7 +3571,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 (_, None) => outcome("failed", "conversation_ingress_unavailable"),
                 (Ok(payload), Some(ingress)) => {
                     let deadline = tokio::time::Instant::now() + AGENT_PROVIDER_EXECUTION_TIMEOUT;
-                    let submit = ingress.submit_with_cancellation(
+                    let adapter_execution_id = (dispatch.adapter_execution_id != dispatch.work_id)
+                        .then(|| dispatch.adapter_execution_id.clone());
+                    let submit = ingress.submit_with_adapter_execution_id(
                         DomainWork {
                             schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
                             work_id: dispatch.work_id.clone(),
@@ -3536,6 +3582,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         },
                         dispatch.intent.correlation_id.clone(),
                         dispatch.cancellation.clone(),
+                        adapter_execution_id,
                     );
                     #[cfg(test)]
                     let submitted = if let Some(hook) = self.conversation_attachment_test_hook(
@@ -9097,14 +9144,104 @@ mod layer8_conversation_ingress_tests {
     }
 
     #[tokio::test]
+    async fn interrupted_final_admission_greeting_attempt_exhausts_without_redispatch() {
+        let (first, first_kernel, _recorder, _tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let root = tempfile::tempdir().unwrap();
+        let store_path = root.path().join("dynamic-agents.json");
+        configure_admission_greeting_store(&first, &store_path);
+        let stable_key = {
+            let mut greetings = first.admission_greetings.lock().unwrap();
+            let record = greetings.get_mut("ember").unwrap();
+            record.disposition = AdmissionGreetingDisposition::Retrying;
+            record.attempts = ADMISSION_GREETING_MAX_ATTEMPTS;
+            record.owner_runtime_incarnation_id = Some(first.runtime_incarnation_id.clone());
+            record.next_attempt_at_unix_millis = u64::MAX;
+            record.updated_at_unix_millis = now_unix_millis();
+            let key = record.idempotency_key.clone();
+            first
+                .persist_dynamic_agent_snapshot(&store_path, &greetings)
+                .unwrap();
+            key
+        };
+        first_kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+
+        let (restarted, restarted_kernel, _recorder, restarted_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        configure_admission_greeting_store(&restarted, &store_path);
+        assert!(restarted
+            .recover_admission_greeting("ember")
+            .await
+            .unwrap()
+            .is_none());
+
+        let record = restarted.admission_greetings.lock().unwrap()["ember"].clone();
+        assert_eq!(record.idempotency_key, stable_key);
+        assert_eq!(record.work_id, stable_key);
+        assert_eq!(record.attempts, ADMISSION_GREETING_MAX_ATTEMPTS);
+        assert_eq!(
+            record.disposition,
+            AdmissionGreetingDisposition::TerminalFailure
+        );
+        assert_eq!(
+            record.last_status.as_deref(),
+            Some("retry_budget_exhausted")
+        );
+        assert_eq!(
+            record
+                .terminal_receipt
+                .as_ref()
+                .map(|receipt| (receipt.status.as_str(), receipt.attempts)),
+            Some(("terminal_failure", ADMISSION_GREETING_MAX_ATTEMPTS))
+        );
+        assert!(restarted_tasks.lock().unwrap().is_empty());
+        let persisted: DynamicAgentStore =
+            serde_json::from_slice(&std::fs::read(&store_path).unwrap()).unwrap();
+        assert_eq!(persisted.admission_greetings["ember"], record);
+
+        restarted_kernel
+            .shutdown(Duration::from_secs(1))
+            .await
+            .unwrap();
+    }
+
+    #[tokio::test]
+    async fn dynamic_store_rejects_admission_greeting_work_identity_drift() {
+        let (first, first_kernel, _recorder, _tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        let root = tempfile::tempdir().unwrap();
+        let store_path = root.path().join("dynamic-agents.json");
+        configure_admission_greeting_store(&first, &store_path);
+        first_kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+
+        let mut persisted: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&store_path).unwrap()).unwrap();
+        persisted["admission_greetings"]["ember"]["work_id"] =
+            serde_json::Value::String("f".repeat(64));
+        std::fs::write(&store_path, serde_json::to_vec_pretty(&persisted).unwrap()).unwrap();
+
+        let (restarted, restarted_kernel, _recorder, restarted_tasks, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        assert!(matches!(
+            restarted.configure_dynamic_agent_store(store_path),
+            Err(ControlError::InvalidIdentifier)
+        ));
+        assert!(restarted_tasks.lock().unwrap().is_empty());
+        restarted_kernel
+            .shutdown(Duration::from_secs(1))
+            .await
+            .unwrap();
+    }
+
+    #[tokio::test]
     async fn admission_greeting_provider_failure_retries_to_success_with_stable_work_key() {
         let failures_remaining = Arc::new(std::sync::atomic::AtomicUsize::new(1));
-        let (service, kernel, _recorder, observed_tasks, _layer8_root) =
+        let (service, kernel, recorder, observed_tasks, _layer8_root) =
             agent_initiation_service_with_failure_budget(
                 "beacon",
                 "ember",
                 false,
-                Duration::ZERO,
+                Duration::from_millis(100),
                 Some(failures_remaining.clone()),
             )
             .await;
@@ -9121,10 +9258,44 @@ mod layer8_conversation_ingress_tests {
             .unwrap()
             .expect("first provider attempt runs");
         assert_ne!(failed.status, "delivered");
+        assert_eq!(
+            failed.initiated_work_id.as_deref(),
+            Some(stable_key.as_str())
+        );
         tokio::time::sleep(Duration::from_millis(2)).await;
-        let delivered = service
-            .recover_admission_greeting("ember")
+        let retry = {
+            let service = Arc::clone(&service);
+            tokio::spawn(async move { service.recover_admission_greeting("ember").await })
+        };
+        tokio::time::timeout(Duration::from_secs(1), async {
+            loop {
+                if service
+                    .admission_greeting_dispatches
+                    .lock()
+                    .unwrap()
+                    .get("ember")
+                    .is_some_and(|dispatch| dispatch.adapter_execution_id != dispatch.work_id)
+                {
+                    break;
+                }
+                tokio::task::yield_now().await;
+            }
+        })
+        .await
+        .expect("retry reaches a fresh internal execution claim");
+        {
+            let dispatches = service.admission_greeting_dispatches.lock().unwrap();
+            let dispatch = &dispatches["ember"];
+            assert_eq!(dispatch.work_id, stable_key);
+            assert_eq!(
+                dispatch.initiation.as_ref().unwrap().initiated_work_id,
+                stable_key
+            );
+            assert_ne!(dispatch.adapter_execution_id, stable_key);
+        }
+        let delivered = retry
             .await
+            .unwrap()
             .unwrap()
             .expect("retry dispatches again");
         assert_eq!(
@@ -9136,12 +9307,45 @@ mod layer8_conversation_ingress_tests {
             failures_remaining.load(std::sync::atomic::Ordering::SeqCst),
             0
         );
-        assert_eq!(observed_tasks.lock().unwrap().len(), 1);
+        assert_eq!(
+            delivered.initiated_work_id.as_deref(),
+            Some(stable_key.as_str())
+        );
+        {
+            let tasks = observed_tasks.lock().unwrap();
+            assert_eq!(tasks.len(), 1);
+            assert_eq!(tasks[0]["initiated_work_id"], stable_key);
+        }
+        let ingress = service.canonical_ingress.as_ref().unwrap().snapshot();
+        assert!(ingress.completed.contains_key(&stable_key));
+        assert_eq!(ingress.completed[&stable_key].work_id, stable_key);
+        assert!(ingress
+            .completed
+            .keys()
+            .all(|work_id| !work_id.contains("-attempt-")));
         let record = service.admission_greetings.lock().unwrap()["ember"].clone();
         assert_eq!(record.disposition, AdmissionGreetingDisposition::Completed);
         assert_eq!(record.attempts, 2);
         assert_eq!(record.idempotency_key, stable_key);
         assert_eq!(record.work_id, stable_key);
+        let turn = service.conversation_sessions.lock().unwrap().sessions[&record.conversation_id]
+            .turns[&record.turn_id]
+            .terminal
+            .clone()
+            .unwrap();
+        assert_eq!(turn.initiated_work_id.as_deref(), Some(stable_key.as_str()));
+        assert!(recorder
+            .events()
+            .iter()
+            .filter(|event| {
+                matches!(
+                    event.event.as_str(),
+                    "agent_to_agent_initiated"
+                        | "agent_to_agent_failed"
+                        | "agent_to_agent_completed"
+                )
+            })
+            .all(|event| event.correlation_id.as_deref() == Some(&stable_key[..32])));
 
         kernel.shutdown(Duration::from_secs(1)).await.unwrap();
     }

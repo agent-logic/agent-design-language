@@ -78,6 +78,8 @@ struct Envelope {
     nonce: u64,
     work: DomainWork,
     correlation_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    adapter_execution_id: Option<String>,
 }
 
 impl PortProtocol for Envelope {
@@ -164,7 +166,24 @@ impl CanonicalIngress {
         correlation_id: String,
         cancellation: CancellationToken,
     ) -> Result<DomainResult, IngressError> {
+        self.submit_with_adapter_execution_id(work, correlation_id, cancellation, None)
+            .await
+    }
+
+    pub(crate) async fn submit_with_adapter_execution_id(
+        &self,
+        work: DomainWork,
+        correlation_id: String,
+        cancellation: CancellationToken,
+        adapter_execution_id: Option<String>,
+    ) -> Result<DomainResult, IngressError> {
         validate(&work)?;
+        if adapter_execution_id
+            .as_deref()
+            .is_some_and(|value| !safe_identifier(value))
+        {
+            return Err(IngressError::Invalid);
+        }
         let _lease = self.begin_admission()?;
         let (reply, result) = oneshot::channel();
         let nonce = self.nonce.fetch_add(1, Ordering::Relaxed);
@@ -182,6 +201,7 @@ impl CanonicalIngress {
                 nonce,
                 work,
                 correlation_id,
+                adapter_execution_id,
             })
             .await
         {
@@ -262,18 +282,20 @@ impl CanonicalIngress {
     async fn dispatch(
         &self,
         work: &DomainWork,
+        adapter_execution_id: Option<&str>,
         cancellation: CancellationToken,
     ) -> Result<DomainResult, IngressError> {
         let dispatcher = self
             .dispatchers
             .get(&work.kind)
             .ok_or(IngressError::UnsupportedKind)?;
+        let adapter_execution_id = adapter_execution_id.unwrap_or(&work.work_id);
         let operation = dispatcher
             .submit_with_cancellation(
                 OperationRequest {
                     schema: OPERATION_REQUEST_SCHEMA.to_owned(),
-                    request_id: work.work_id.clone(),
-                    idempotency_key: work.work_id.clone(),
+                    request_id: adapter_execution_id.to_owned(),
+                    idempotency_key: adapter_execution_id.to_owned(),
                     principal: "canonical-ingress".to_owned(),
                     payload: work.payload.clone(),
                     permit: None,
@@ -326,7 +348,11 @@ impl Component for CanonicalIngressComponent {
                     let Some(envelope) = envelope.map_err(|error| ComponentError::new(error.to_string()))? else { return Ok(()); };
                     let Some(pending) = self.ingress.pending.lock().await.remove(&envelope.nonce) else { continue; };
                     let result = self.ingress
-                        .dispatch(&envelope.work, pending.cancellation)
+                        .dispatch(
+                            &envelope.work,
+                            envelope.adapter_execution_id.as_deref(),
+                            pending.cancellation,
+                        )
                         .await;
                     if result.is_ok() {
                         self.ingress.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
@@ -373,22 +399,23 @@ impl ComponentFactory for CanonicalIngress {
 }
 
 fn validate(work: &DomainWork) -> Result<(), IngressError> {
-    let safe = |value: &str| {
-        !value.is_empty()
-            && value.len() <= 128
-            && value
-                .bytes()
-                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b':' | b'_' | b'-'))
-    };
     if work.schema != DOMAIN_WORK_SCHEMA
-        || !safe(&work.work_id)
-        || !safe(&work.kind)
+        || !safe_identifier(&work.work_id)
+        || !safe_identifier(&work.kind)
         || work.payload.is_empty()
         || work.payload.len() > 1_048_576
     {
         return Err(IngressError::Invalid);
     }
     Ok(())
+}
+
+fn safe_identifier(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 128
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b':' | b'_' | b'-'))
 }
 
 fn apply(
