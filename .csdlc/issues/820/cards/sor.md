@@ -28,8 +28,8 @@ Execution:
 - Actor: `codex`
 - Model: `not_collected`
 - Provider: `OpenAI`
-- Start Time: `2026-09-10T22:27:29.698074Z`
-- End Time: `2026-09-10T22:27:30.345865Z`
+- Start Time: `2026-09-10T22:33:42.370526Z`
+- End Time: `2026-09-10T22:33:53.718600Z`
 
 ## Summary
 
@@ -44,12 +44,12 @@ Implemented a strict 25-row distributed-Runtime retained-proof packet. Candidate
 ## Issue Metrics Truth
 - Expected runtime class: `medium`
 - Estimated elapsed seconds: `900`
-- Actual elapsed seconds: `1`
+- Actual elapsed seconds: `11`
 - Actual active work seconds: `not_collected`
 - Estimated total tokens: `not_collected`
 - Actual total tokens: `not_collected`
 - Estimated validation seconds: `120`
-- Actual validation seconds: `1`
+- Actual validation seconds: `11`
 - Actual PR wait seconds: `not_collected`
 - Actual CI wait seconds: `not_collected`
 - Budget source: `No explicit token budget`
@@ -70,7 +70,7 @@ Implemented a strict 25-row distributed-Runtime retained-proof packet. Candidate
 - Variance analysis required: `true`
 - Variance analysis completed: `complete`
 - Variance category: `faster_than_estimate`
-- Variance note: `Focused qualification execution completed in under one second with warm local dependencies, faster than the conservative 120-second validation estimate.`
+- Variance note: `Focused qualification execution completed in 11 seconds with warm local dependencies, faster than the conservative 120-second validation estimate.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
@@ -81,7 +81,7 @@ Implemented a strict 25-row distributed-Runtime retained-proof packet. Candidate
 ## Actions taken
 - `Consumed exactly the 25 DRT-prefixed non-proving rows from the frozen #764 denominator.`
 - `Executed the unchanged distributed qualification producers at candidate fb6cbc7f619daa54f901fd2d12f480add682ace3 while preserving the fixture-versus-production proof boundary.`
-- `Generated 25 criterion-specific digest-bound removal proposals pending operator review and rejected nine fail-closed mutation classes.`
+- `Generated 25 criterion-specific digest-bound removal proposals pending operator review and rejected twelve fail-closed mutation classes, including coordinated plan/receipt forgery attempts.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; publication pending`
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_contract; cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_failure_drt_c; ruby .csdlc/prepared/issues/820/validate-distributed-runtime-proof.rb; ruby .csdlc/prepared/issues/820/test-distributed-runtime-proof.rb; git diff --check`
-    `Confirms exact candidate/source binding, 25 unique DRT rows, two passing qualification test binaries, zero behavioral pass claims, 25 operator-pending dispositions, and rejection of nine receipt mutations.`
+    `Confirms exact candidate/source binding, 25 unique DRT rows, two passing qualification test binaries, zero behavioral pass claims, 25 operator-pending dispositions, and rejection of twelve receipt and coordinated plan/receipt mutations.`
 - Results:
   - `passed`
 
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Nine deterministic receipt mutations: missing row, duplicate row, synthetic behavioral pass, approval bypass, premature release readiness, proposal tampering, owner drift, evidence hash drift, and proof-surface drift.`
+- Determinism tests executed: `Twelve deterministic mutations: missing row, duplicate row, synthetic behavioral pass, approval bypass, premature release readiness, proposal tampering, owner drift, evidence hash drift, proof-surface drift, plan candidate drift, coordinated approval forgery, and coordinated operator-effect forgery.`
 - Fixtures or scripts used: `.csdlc/prepared/issues/820 build, run, validate, and negative-matrix scripts`
 - Replay verification (same inputs -> same artifacts/order): `Validator re-hashes candidate Git bytes and producer logs and rechecks every disposition digest.`
 - Ordering guarantees (sorting / tie-break rules used): `Plan generation precedes proof execution; receipt generation precedes positive and negative validation.`

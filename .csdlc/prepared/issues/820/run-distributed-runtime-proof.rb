@@ -28,7 +28,7 @@ end
 def execute(id, argv)
   started = Time.now.utc
   output, status = Open3.capture2e(*argv)
-  normalized = output.sub(/\n+\z/, "\n")
+  normalized = output.gsub(Dir.pwd, "<worktree>").sub(/\n+\z/, "\n")
   [{"id" => id, "argv" => argv, "started_at" => started.iso8601(6), "finished_at" => Time.now.utc.iso8601(6), "exit_code" => status.exitstatus, "status" => status.success? ? "passed" : "failed", "output_sha256" => Digest::SHA256.hexdigest(normalized)}, normalized]
 end
 

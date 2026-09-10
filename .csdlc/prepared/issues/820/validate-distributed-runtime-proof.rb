@@ -41,6 +41,16 @@ expected_ids = expected_rows.map { |row| row.fetch("row_id") }.sort
 source = JSON.parse(source_bytes).fetch("rows").to_h { |row| [row.fetch("row_id"), row] }
 denominator = expected_rows.to_h { |row| [row.fetch("row_id"), row] }
 
+assert(plan.fetch("schema") == "adl.v0921.issue820.distributed_runtime_resolution_plan.v1", "plan schema mismatch")
+assert(plan.fetch("issue") == 820 && plan.fetch("parent_issue") == 522, "plan issue identity mismatch")
+assert(plan.fetch("finding") == "D520-RET-001", "plan finding mismatch")
+assert(plan.fetch("candidate") == EXPECTED_CANDIDATE, "plan candidate mismatch")
+assert(plan.fetch("denominator") == DENOMINATOR && plan.fetch("source_mapping") == SOURCE, "plan source pointer mismatch")
+assert(plan.fetch("row_count") == 25 && plan.fetch("disposition_proposal_count") == 25, "plan count mismatch")
+assert(plan.fetch("candidate_execution_support_count") == 25 && plan.fetch("behavioral_pass_count") == 0, "plan proof count mismatch")
+assert(receipt.fetch("schema") == "adl.v0921.issue820.distributed_runtime_reconciliation.v1", "receipt schema mismatch")
+assert(receipt.fetch("issue") == 820 && receipt.fetch("parent_issue") == 522, "receipt issue identity mismatch")
+assert(receipt.fetch("finding") == "D520-RET-001", "receipt finding mismatch")
 assert(expected_ids.length == 25, "denominator must contain exactly 25 DRT rows")
 assert(plan.fetch("rows").map { |row| row.fetch("row_id") }.sort == expected_ids, "plan denominator mismatch")
 assert(receipt.fetch("rows").map { |row| row.fetch("row_id") }.sort == expected_ids, "receipt denominator mismatch")
@@ -94,10 +104,13 @@ receipt.fetch("rows").each do |row|
   resolution = row.fetch("resolution")
   assert(resolution.fetch("type") == "governed_disposition_proposal", "row lacks governed disposition")
   assert(resolution.fetch("status") == "pending_operator_review", "row bypasses operator review")
+  assert(resolution.fetch("approval_state") == "pending_operator_review", "approval state bypasses operator review")
+  assert(resolution.fetch("operator_review_target") == "Merging the closing PR for issue #820 approves only this exact proposal and digest.", "operator review target drift")
+  assert(resolution.fetch("operator_review_effect") == "Before merge this proposal remains pending and release-blocking.", "operator review effect drift")
   assert(resolution.fetch("behavioral_pass_claim") == false, "row claims behavioral pass")
   assert(resolution.fetch("candidate_fixture_execution") == "passed", "candidate fixture support missing")
   assert(resolution.fetch("proof_boundary").include?(original.fetch("remaining_action")), "remaining action lost")
-  expected_digest = Digest::SHA256.hexdigest([row.fetch("row_id"), row.fetch("criterion_text_digest"), resolution.fetch("proposed_disposition"), resolution.fetch("removal_scope"), resolution.fetch("criterion_specific_basis"), resolution.fetch("proof_boundary")].join("\0"))
+  expected_digest = Digest::SHA256.hexdigest([row.fetch("row_id"), row.fetch("criterion_text_digest"), resolution.fetch("proposed_disposition"), resolution.fetch("removal_scope"), resolution.fetch("criterion_specific_basis"), resolution.fetch("proof_boundary"), resolution.fetch("approval_state"), resolution.fetch("operator_review_target"), resolution.fetch("operator_review_effect")].join("\0"))
   assert(resolution.fetch("proposal_digest") == expected_digest, "proposal digest mismatch")
   row.fetch("candidate_evidence").each do |evidence|
     bytes = git_bytes("show", "#{EXPECTED_CANDIDATE}:#{evidence.fetch('path')}")

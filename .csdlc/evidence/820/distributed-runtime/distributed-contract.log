@@ -1,11 +1,13 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+   Compiling adl-runtime-kernel v0.92.0 (<worktree>/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (<worktree>/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.36s
      Running tests/distributed_contract/main.rs (adl-runtime/target/debug/deps/distributed_contract-ad339ce77e800eb0)
 
 running 7 tests
-test drt_d_gcp_portability ... ok
 test acip_authority ... ok
-test replay_conformance ... ok
+test drt_d_gcp_portability ... ok
 test drt_b_continuity_reclamation ... ok
+test replay_conformance ... ok
 test drt_b_six_resident_uts ... ok
 test qualification_contract ... ok
 test negative_matrix ... ok

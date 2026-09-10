@@ -4,6 +4,7 @@
 require "json"
 require "open3"
 require "tmpdir"
+require "digest"
 
 VALIDATOR = ".csdlc/prepared/issues/820/validate-distributed-runtime-proof.rb"
 PLAN = ".csdlc/prepared/issues/820/distributed-runtime-resolution-plan.json"
@@ -37,6 +38,46 @@ Dir.mktmpdir("issue820-negative-") do |dir|
     _stdout, _stderr, result = run_validator(PLAN, path)
     raise "validator accepted #{name}" if result.success?
   end
-end
 
-puts "validated issue 820 negative matrix: #{mutations.length} fail-closed mutations rejected"
+
+  paired_mutations = {
+    "plan-candidate" => lambda do |plan, _receipt|
+      plan["candidate"] = "0" * 40
+    end,
+    "coordinated-approval" => lambda do |plan, receipt|
+      [plan, receipt].each do |doc|
+        resolution = doc["rows"][0]["resolution"]
+        resolution["approval_state"] = "approved"
+        resolution["proposal_digest"] = Digest::SHA256.hexdigest([
+          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["proposed_disposition"],
+          resolution["removal_scope"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
+          resolution["approval_state"], resolution["operator_review_target"], resolution["operator_review_effect"]
+        ].join("\0"))
+      end
+    end,
+    "coordinated-operator-effect" => lambda do |plan, receipt|
+      [plan, receipt].each do |doc|
+        resolution = doc["rows"][0]["resolution"]
+        resolution["operator_review_effect"] = "Approval is automatic."
+        resolution["proposal_digest"] = Digest::SHA256.hexdigest([
+          doc["rows"][0]["row_id"], doc["rows"][0]["criterion_text_digest"], resolution["proposed_disposition"],
+          resolution["removal_scope"], resolution["criterion_specific_basis"], resolution["proof_boundary"],
+          resolution["approval_state"], resolution["operator_review_target"], resolution["operator_review_effect"]
+        ].join("\0"))
+      end
+    end
+  }
+  paired_mutations.each do |name, mutation|
+    plan = JSON.parse(File.read(PLAN))
+    receipt = JSON.parse(File.read(RECEIPT))
+    mutation.call(plan, receipt)
+    plan_path = File.join(dir, "#{name}-plan.json")
+    receipt_path = File.join(dir, "#{name}-receipt.json")
+    File.write(plan_path, JSON.pretty_generate(plan) + "\n")
+    File.write(receipt_path, JSON.pretty_generate(receipt) + "\n")
+    _stdout, _stderr, result = run_validator(plan_path, receipt_path)
+    raise "validator accepted #{name}" if result.success?
+  end
+
+  puts "validated issue 820 negative matrix: #{mutations.length + paired_mutations.length} fail-closed mutations rejected"
+end

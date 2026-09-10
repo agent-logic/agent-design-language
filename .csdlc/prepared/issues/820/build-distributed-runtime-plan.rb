@@ -27,7 +27,10 @@ rows = denominator.map do |denom|
   scope = "Remove only #{source.fetch('row_id')} (#{denom.fetch('criterion_text_digest')}) from the v0.92.1 D520-RET-001 distributed-Runtime retained gate; no product behavior is claimed implemented or removed."
   basis = source.fetch("rationale")
   boundary = "Candidate-bound qualification execution confirms the retained fixture contract only. #{source.fetch('remaining_action')} It does not prove live multi-node, cloud, partition, soak, security, replay, or cleanup behavior."
-  proposal_digest = Digest::SHA256.hexdigest([source.fetch("row_id"), denom.fetch("criterion_text_digest"), disposition, scope, basis, boundary].join("\0"))
+  approval_state = "pending_operator_review"
+  operator_target = "Merging the closing PR for issue #820 approves only this exact proposal and digest."
+  operator_effect = "Before merge this proposal remains pending and release-blocking."
+  proposal_digest = Digest::SHA256.hexdigest([source.fetch("row_id"), denom.fetch("criterion_text_digest"), disposition, scope, basis, boundary, approval_state, operator_target, operator_effect].join("\0"))
 
   {
     "row_id" => source.fetch("row_id"),
@@ -45,11 +48,11 @@ rows = denominator.map do |denom|
       "replacement_text" => nil,
       "proposal_digest" => proposal_digest,
       "behavioral_pass_claim" => false,
-      "approval_state" => "pending_operator_review",
+      "approval_state" => approval_state,
       "criterion_specific_basis" => basis,
       "proof_boundary" => boundary,
-      "operator_review_target" => "Merging the closing PR for issue #820 approves only this exact proposal and digest.",
-      "operator_review_effect" => "Before merge this proposal remains pending and release-blocking."
+      "operator_review_target" => operator_target,
+      "operator_review_effect" => operator_effect
     }
   }
 end
