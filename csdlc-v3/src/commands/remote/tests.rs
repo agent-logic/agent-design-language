@@ -971,6 +971,33 @@ fn pull_request_ready_distinguishes_rejection_still_draft_and_bad_identity() {
         "github_pr_ready_response_mismatch"
     );
 
+    let root = mutation_repo("pr-ready-transport-uncertain", true);
+    let head = mutation_head(&root);
+    let request = ready_request(&head);
+    let digest = super::github_mutation_operation_digest(&request);
+    let intent_path = super::github_mutation_intent_path(&root, &digest).unwrap();
+    let mut transport_error = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(6),
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+    ])
+    .requiring_intent(intent_path);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut transport_error)
+            .unwrap_err()
+            .code,
+        "github_mutation_reconciliation_pending"
+    );
+
     let root = mutation_repo("pr-ready-still-draft", true);
     let head = mutation_head(&root);
     let request = ready_request(&head);
