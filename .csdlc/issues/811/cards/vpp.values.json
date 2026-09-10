@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 811,
+  "issue_padded": "0811",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/811",
+  "title": "Reconcile every closed issue including no-PR dispositions",
+  "branch": "codex/811-all-issue-closeout",
+  "version": "1.0.5",
+  "card": "vpp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout",
+  "plan_summary": "Focused terminal cleanup tests: no-PR closed/retired/superseded/umbrella success, wrong identity/open issue/stale evidence/conflicting receipt failures; existing merged closeout regression and supported closing keywords. Then rerun the 201-issue audited closeout sweep.",
+  "initial_pvf_lane": "focused_terminal",
+  "planned_pvf_lane": "focused_terminal",
+  "selected_lanes_inline": "focused_terminal",
+  "validation_commands_inline": "cargo test --manifest-path csdlc-v3/Cargo.toml --test terminal_cleanup_cutover_commands",
+  "validation_family": "tooling",
+  "validation_resource_profile": "small",
+  "failure_policy": "Fail closed on evidence mismatch; no broad runtime suite locally.",
+  "status": "ready"
+}

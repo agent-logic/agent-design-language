@@ -1,0 +1,2628 @@
+{
+  "schema": "adl.closeout_audit.v1",
+  "date": "2026-09-09",
+  "scope": "Union of closed v0.92.1 milestone and version-label issues",
+  "total": 201,
+  "merged_pr": 139,
+  "explicit_no_pr_disposition": 62,
+  "issues": [
+    {
+      "issue": 51,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5227058016",
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5227092590",
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5227281270",
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5227861824",
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5335548488",
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5531500255",
+        "https://github.com/agent-logic/agent-design-language/issues/51#issuecomment-5531526914"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/51/terminal-receipt.json",
+      "receipt_state_digest": "bd67a01844df0292642b9749b64c6655288c570b6ba2c50e8f7e10df9c5be286",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 122,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/122/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/122/terminal-receipt.json",
+      "receipt_state_digest": "8026833cd3c99fdb30ee1953498343df10c87b4c2d417b6e0d3625171cad8801",
+      "pull_request": 553,
+      "terminal_route": "merged_pr",
+      "head_sha": "c6189b927198726787683a0fa8b45a644d1e01ff"
+    },
+    {
+      "issue": 146,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/146/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/146/terminal-receipt.json",
+      "receipt_state_digest": "145d534f27d955e2deb66db38951a3dd2d8e618d2f0f4cd651270594b85ee1c3",
+      "pull_request": 206,
+      "terminal_route": "merged_pr",
+      "head_sha": "b9bfd3b5ee4337ac5e25be6ae3f8b3840ed8ba24"
+    },
+    {
+      "issue": 149,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/149#issuecomment-5246607805"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/149/terminal-receipt.json",
+      "receipt_state_digest": "383493665efb55fc830265b6a410421bbd3a08004135e8931e56b5a4b2cef562",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 150,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/150#issuecomment-5246608226"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/150/terminal-receipt.json",
+      "receipt_state_digest": "1a19a0e6124a1a1f6c5148044a725d43e0fc006e37c38d502910eb1b838cc386",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 151,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/151#issuecomment-5246608864"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/151/terminal-receipt.json",
+      "receipt_state_digest": "ce7ee6529b00501293fbd7fb20a8537a8576a4f725a9d5e5a69b098de7efeb99",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 152,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/152#issuecomment-5246609326"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/152/terminal-receipt.json",
+      "receipt_state_digest": "de09d2c8bea4cfc0cdb2e4c8ed85c9b549d4134fa079aaa34ccf5fe2001258b0",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 153,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/153#issuecomment-5246609788"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/153/terminal-receipt.json",
+      "receipt_state_digest": "c17038b5b9333e5d27cd5210a0131374430ab08c25e13ad06791324bd0d1cb5b",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 154,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/154#issuecomment-5246610316"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/154/terminal-receipt.json",
+      "receipt_state_digest": "eb681b3dc196bf5dfc92dcd48e6a02bb50cbd0ccc4b2d409595821c285fefcfa",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 155,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/155#issuecomment-5246610784"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/155/terminal-receipt.json",
+      "receipt_state_digest": "a202df4e7481ef0138607b3ea0a14ead713f63d6f84f0851dd8a6a7dcab8f014",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 156,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/156#issuecomment-5246611682"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/156/terminal-receipt.json",
+      "receipt_state_digest": "1fb26217787f063fbd9b26966131006350d3d9929da1095d43a113bd9188a752",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 157,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/157#issuecomment-5246612142"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/157/terminal-receipt.json",
+      "receipt_state_digest": "e2c8d77e294e3619f081ef886a02f58c0f73d8b5a1aabc36d85726be3ff3ac61",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 158,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/158#issuecomment-5246612572"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/158/terminal-receipt.json",
+      "receipt_state_digest": "56a171a18f1d57711565fb1e577f2f9c88c659af6a10c579fabc6c8692a501f6",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 159,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/159#issuecomment-5246613273"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/159/terminal-receipt.json",
+      "receipt_state_digest": "048a74033a0308981a24a0c08bb1bcc99f4ac19da26c2c9899aa5f9f653652d6",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 160,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/160#issuecomment-5246613742"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/160/terminal-receipt.json",
+      "receipt_state_digest": "da9eda753fcd9ff06261d85f0506643ec5e604877f99c039bff48ff333a65dea",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 161,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/161#issuecomment-5246614280"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/161/terminal-receipt.json",
+      "receipt_state_digest": "df92d68b2a42d60cce47e0521918d60008d7c90d51a9878d8ac4b9e629f1bde1",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 162,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/162#issuecomment-5246614795"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/162/terminal-receipt.json",
+      "receipt_state_digest": "3302c9da81d697e0e0b106b2737af2d595a20bc0ecba7a45a84a80b503ef7b97",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 163,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/163#issuecomment-5246615277"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/163/terminal-receipt.json",
+      "receipt_state_digest": "6adf839c5e73dbd4d400add48759ca73ffbf911d86a83978e9e34c0e8bf81a5c",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 164,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/164#issuecomment-5246615686"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/164/terminal-receipt.json",
+      "receipt_state_digest": "cd789c6af726cdc718a39525165694cb5f2c002f85d5e575dbf920ab6d17ad1b",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 165,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/165#issuecomment-5246616092"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/165/terminal-receipt.json",
+      "receipt_state_digest": "4e17bfae108174c84320971e05bbdd2676e8eeed7069f7d18af1c5fff23b9f72",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 166,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/166#issuecomment-5246616563"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/166/terminal-receipt.json",
+      "receipt_state_digest": "62a0df61781251634b493d1ebac2f8036b3f65dd130322a8703033016bd4c8f8",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 167,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/167#issuecomment-5246616982"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/167/terminal-receipt.json",
+      "receipt_state_digest": "999d5fd7a9ac89f56323d6038cf9ccf35c8f390f64238c93ff1f91a409a6970e",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 168,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/168#issuecomment-5246617304"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/168/terminal-receipt.json",
+      "receipt_state_digest": "ffd9e61c3fef80f85ad428f0fde34e7d8821a471a581b715b3331acdd8657076",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 169,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/169#issuecomment-5246617748"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/169/terminal-receipt.json",
+      "receipt_state_digest": "7f2e9cfb897c853cd9dfd957ff7ba8d47bbed25f94081323635565b8c351300e",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 170,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/170#issuecomment-5246618248"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/170/terminal-receipt.json",
+      "receipt_state_digest": "be469ac196829801a94ab14273c1abd9a83b636dd4a215a2d000e9ade3b0447c",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 171,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/171#issuecomment-5246618715"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/171/terminal-receipt.json",
+      "receipt_state_digest": "e80d1ebbe7c881526719f2be34ad36da719f9e2063d190ea0ba666cf123b8c1f",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 172,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/172#issuecomment-5246619169"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/172/terminal-receipt.json",
+      "receipt_state_digest": "792425d43478ea97ce5269ad7f192e1d9b2b45b578f6194b6e779f8a38186138",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 173,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/173#issuecomment-5246619707"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/173/terminal-receipt.json",
+      "receipt_state_digest": "0a47f44d084fd74cf1d9e113d610943c77961e92721bc374f9c5507219ff186b",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 174,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/174#issuecomment-5246620182"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/174/terminal-receipt.json",
+      "receipt_state_digest": "8a950604dbfc9f672c4144e304d8eb939b248b1695957e31215415819dde6753",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 175,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/175#issuecomment-5246620599"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/175/terminal-receipt.json",
+      "receipt_state_digest": "8d24839f491113a4732edf61510389820a60e9a35158773a8c4f2d22bded1c96",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 176,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/176#issuecomment-5246621021"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/176/terminal-receipt.json",
+      "receipt_state_digest": "1b4ffa69757b846927b1e68e27d0f0941658a0075f0447d08dfe03f23c1741a2",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 177,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/177#issuecomment-5246621466"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/177/terminal-receipt.json",
+      "receipt_state_digest": "d3d9fe2d140bb086d4dd21a27c640e84d517038b4a42f47f2ba48f420c6656df",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 178,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/178#issuecomment-5246621872"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/178/terminal-receipt.json",
+      "receipt_state_digest": "7e975c24cb6dd252ef216139a38d419db77473d5086fc0b5356f356accdc7925",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 179,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/179#issuecomment-5246622387"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/179/terminal-receipt.json",
+      "receipt_state_digest": "d8a0fc1223a163c155cd74116d3a7b3b71b47e6405fae7b5cb5e3637b4ca2540",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 180,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/180#issuecomment-5246622860"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/180/terminal-receipt.json",
+      "receipt_state_digest": "488f4dd5a094bdb43db316fb4a453561caa5ffa2d47fb435d43af6a7434bc5ba",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 181,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/181#issuecomment-5246623300"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/181/terminal-receipt.json",
+      "receipt_state_digest": "8d83b8014ad6cc7a1639f96cdda6a7d898f6f8dc6eb8de717700f6715d1615be",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 182,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/182#issuecomment-5246623798"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/182/terminal-receipt.json",
+      "receipt_state_digest": "01a2afddcff69fb1f9a8e56fb954ac29571acd91a48c66a56d0284201dbe4fd5",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 183,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/183#issuecomment-5246624286"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/183/terminal-receipt.json",
+      "receipt_state_digest": "da9e4a9a7ce7121db5e4bbcfbfdcd90d1cb4a06fbca77fb1944766b93674536a",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 184,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/184#issuecomment-5246624733"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/184/terminal-receipt.json",
+      "receipt_state_digest": "90a6bc14d34f12abd5689dd7905989075c5270323ca2e2a6a03a517cc4e14b78",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 185,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/185#issuecomment-5246625265"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/185/terminal-receipt.json",
+      "receipt_state_digest": "8ff02ccb541d7572904115dad705b9ceb6e8f4aa3a6bcc39dd9e4568aa8c33e3",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 186,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/186#issuecomment-5246625904"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/186/terminal-receipt.json",
+      "receipt_state_digest": "a6da8d6bdb3dcc7014b6100a90c30395d81861dabe66f793789f91838d91798c",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 187,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/187#issuecomment-5246626425"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/187/terminal-receipt.json",
+      "receipt_state_digest": "cd16fd8a5dddf0e8ade820936724315e47cf52e4570261216b07359660555399",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 188,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/188#issuecomment-5246627020"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/188/terminal-receipt.json",
+      "receipt_state_digest": "e9b1b7bac19021eb1b163954fa5f3abb39b6995dfc6b8cf30dea02dff24e306d",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 189,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/189#issuecomment-5246627504"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/189/terminal-receipt.json",
+      "receipt_state_digest": "98e87e6b21f8425a19f4a22cfdc7c3d8b1ac0796526de3593f40ba94b4dc3b08",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 190,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_without_execution",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/190#issuecomment-5246627961"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/190/terminal-receipt.json",
+      "receipt_state_digest": "ab4c2873c4638296c601ffc8aee7952e2eabc9f6156863bb4264ac130740299e",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 261,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/261/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/261/terminal-receipt.json",
+      "receipt_state_digest": "583a14811ae3e0f626a870f45c9e357eb4ff80116b284fd704f5358ea30550b3",
+      "pull_request": 611,
+      "terminal_route": "merged_pr",
+      "head_sha": "78af9095a16886f8c0876e139113620dca806984"
+    },
+    {
+      "issue": 262,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/262/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/262/terminal-receipt.json",
+      "receipt_state_digest": "81f4bacb079ca84714af78753893b90e04f880d5f3731b0b07f4104c9a16ffc1",
+      "pull_request": 618,
+      "terminal_route": "merged_pr",
+      "head_sha": "842b7d57d09b66a6f9ea9a43a4e5d02be43aa3bb"
+    },
+    {
+      "issue": 263,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/263/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/263/terminal-receipt.json",
+      "receipt_state_digest": "326b9c5ff262aa23f7ae609d2e1d74ea8219548e4697c97c4727bc6aca3e6aa6",
+      "pull_request": 626,
+      "terminal_route": "merged_pr",
+      "head_sha": "a77e8e6c8e6e3c59330a5c15ce45924985735b7c"
+    },
+    {
+      "issue": 264,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/264/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/264/terminal-receipt.json",
+      "receipt_state_digest": "636e7b9613460c63a4405a6c01dca6c3eec957d8164099aa7e22cb9f5f0529eb",
+      "pull_request": 649,
+      "terminal_route": "merged_pr",
+      "head_sha": "a285a690b86f95f6fc3ea3dd150ded76b32c469b"
+    },
+    {
+      "issue": 342,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/342/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/342/terminal-receipt.json",
+      "receipt_state_digest": "69fb3a77af0a1c48f23f94a3079906d665ad6ebeb1527a1bed7c72ed496e9664",
+      "pull_request": 586,
+      "terminal_route": "merged_pr",
+      "head_sha": "822c81e9d0ad15e479960de542d419e64c80e1f9"
+    },
+    {
+      "issue": 345,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/345/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/345/terminal-receipt.json",
+      "receipt_state_digest": "82ab922550237da7d8e2bc540075f98103ffbc6325569563a44a92cafb456d36",
+      "pull_request": 593,
+      "terminal_route": "merged_pr",
+      "head_sha": "ae702043682e18783a07234673150e3f1fd692f5"
+    },
+    {
+      "issue": 387,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/387/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/387/terminal-receipt.json",
+      "receipt_state_digest": "2714a014e31c246fd30562fe505fec4923936b51ef6d5c2aeeed2ee21f169028",
+      "pull_request": 389,
+      "terminal_route": "merged_pr",
+      "head_sha": "2a7211f4dd54fde111009ef21f72a4e3028257f8"
+    },
+    {
+      "issue": 431,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/431/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/431/terminal-receipt.json",
+      "receipt_state_digest": "403ca6cdfe654cadf1ff4f15ea9a8f5f495f6b2b753bdf5c53d7277d0855444b",
+      "pull_request": 440,
+      "terminal_route": "merged_pr",
+      "head_sha": "fd2308ac9b7d392f1d8061da61663b2faa688018"
+    },
+    {
+      "issue": 432,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/432/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/432/terminal-receipt.json",
+      "receipt_state_digest": "ab6c0fbdf26f3fffd44ee94b84594fecf38cd27092a337c1116561bc62cd3fc4",
+      "pull_request": 441,
+      "terminal_route": "merged_pr",
+      "head_sha": "eac47945b935ff3ef0d365ea4735e1969f27ab18"
+    },
+    {
+      "issue": 433,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_placeholder",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:86"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/433/terminal-receipt.json",
+      "receipt_state_digest": "d87fd36e686536c2d24633c14549de40ed0747169c19e480a9bf07e1f3087ae8",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 434,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_placeholder",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:86"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/434/terminal-receipt.json",
+      "receipt_state_digest": "625b39d5b60ce04a853a79a63ca11b896f5597e14b9b5bce1a7830b6f321bd1a",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 435,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_placeholder",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:86"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/435/terminal-receipt.json",
+      "receipt_state_digest": "e03a9c0910d19f5db42de8f72d9a9f73ed3debc5566cf13d3d0e537140dd86d9",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 436,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_placeholder",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:86"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/436/terminal-receipt.json",
+      "receipt_state_digest": "6e22d8dbc133ff533bd323955d6f100f159d8620f81510c703bcf23739a6bf6d",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 437,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_placeholder",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:86"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/437/terminal-receipt.json",
+      "receipt_state_digest": "aa6bd248aafc5f9d7ed02121567b20ade60642130f5928a0d110fed6d5777524",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 438,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "retired_placeholder",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:86"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/438/terminal-receipt.json",
+      "receipt_state_digest": "928d25691217fe3e8066ba0d7132b99273a7ffedae7b6d17f467f42730b8db43",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 439,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "duplicate_of_431",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/439#issuecomment-5347739956"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/439/terminal-receipt.json",
+      "receipt_state_digest": "0272269dd926df90995548d18e464c99c32d9d4635f24ddbf1aa0c35085612f9",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 457,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "historical_planning_provenance",
+      "evidence": [
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md:88"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/457/terminal-receipt.json",
+      "receipt_state_digest": "9708b00318111d87df3b1760ba6d073ca69bebc3e411f6c38f90ba9b8c2236ec",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 471,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/471/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/471/terminal-receipt.json",
+      "receipt_state_digest": "82d47f7cee03e7a7678cc81e3d7c09e2ced904eded289d20041266b926389da0",
+      "pull_request": 475,
+      "terminal_route": "merged_pr",
+      "head_sha": "8413200cab238a46a28e19223569a559404dce2c"
+    },
+    {
+      "issue": 480,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/480/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/480/terminal-receipt.json",
+      "receipt_state_digest": "ecb73187d5d3c651de5bf568091a32a1b7c114afa42774af2437fcd80c4b8832",
+      "pull_request": 527,
+      "terminal_route": "merged_pr",
+      "head_sha": "23856abbc7cde90dd9d1c6467dd6c61aca1bc274"
+    },
+    {
+      "issue": 482,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/482/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/482/terminal-receipt.json",
+      "receipt_state_digest": "8080b18f04b5c4b0b7b8daf9f514ec80180f0308df5dc7b673def55febafb8e1",
+      "pull_request": 545,
+      "terminal_route": "merged_pr",
+      "head_sha": "2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c"
+    },
+    {
+      "issue": 483,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/483/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/483/terminal-receipt.json",
+      "receipt_state_digest": "997768a47e4a5cdf8764848b709a1431853714291bca69166b0afd0966627b61",
+      "pull_request": 562,
+      "terminal_route": "merged_pr",
+      "head_sha": "a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239"
+    },
+    {
+      "issue": 484,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/484/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/484/terminal-receipt.json",
+      "receipt_state_digest": "4b68dd023a76a28c813509d7cf123f96d2dcbe73ebaea047a94db97a8ae08a28",
+      "pull_request": 556,
+      "terminal_route": "merged_pr",
+      "head_sha": "e9fdf5b07bdcbde235511c52c40fb8c626cc95a7"
+    },
+    {
+      "issue": 485,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/485/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/485/terminal-receipt.json",
+      "receipt_state_digest": "cdaab4c0ba4db7835aab46ae8bc3b432092325deaa93b28683d28db506be5811",
+      "pull_request": 564,
+      "terminal_route": "merged_pr",
+      "head_sha": "2a5d25239853499b6ac73b37d968d2b97e75a586"
+    },
+    {
+      "issue": 486,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/486/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/486/terminal-receipt.json",
+      "receipt_state_digest": "d0ac76d53b4a3eecd15e4cfc6701f05ba5159d03bd27e3f5c4ecde5b8c4b2e92",
+      "pull_request": 567,
+      "terminal_route": "merged_pr",
+      "head_sha": "cfd5f0edabfde2e380a5534d619e7832f484bb8c"
+    },
+    {
+      "issue": 487,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/487/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/487/terminal-receipt.json",
+      "receipt_state_digest": "c21539f4861b30291f7e32e160b7be9f37fe5614c8c79789067f3330e7ff33fa",
+      "pull_request": 574,
+      "terminal_route": "merged_pr",
+      "head_sha": "79be6b5b0327be752817197738887d25335e71a9"
+    },
+    {
+      "issue": 488,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/488/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/488/terminal-receipt.json",
+      "receipt_state_digest": "731f18e6f0f35cb4f281ed0172ff855144fb25b6c8bf9b796b237d47f7f63502",
+      "pull_request": 576,
+      "terminal_route": "merged_pr",
+      "head_sha": "4e904b6629ff3060094dbef3613388e6e5245b8d"
+    },
+    {
+      "issue": 489,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/489/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/489/terminal-receipt.json",
+      "receipt_state_digest": "f748ba838dcce1b1a131e6bb8d82ae6af02d7dcc2f2b35d754db4be4b8a902fb",
+      "pull_request": 577,
+      "terminal_route": "merged_pr",
+      "head_sha": "485b4197908231bb2065e1e29c7c5013536e1975"
+    },
+    {
+      "issue": 490,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/490/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/490/terminal-receipt.json",
+      "receipt_state_digest": "826ee5033e09c3a2919d56b2c6c4b8fd8eec5424c97d915c17548cdee38bd759",
+      "pull_request": 566,
+      "terminal_route": "merged_pr",
+      "head_sha": "f0be8c8d1a2f12df8b2d8169997583dd66a9a521"
+    },
+    {
+      "issue": 491,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/491/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/491/terminal-receipt.json",
+      "receipt_state_digest": "4929ce7c00140d802e36cc7dd928edc9fc629c040dc489d3ee3037e3ed673a26",
+      "pull_request": 575,
+      "terminal_route": "merged_pr",
+      "head_sha": "695ca0f6cec62357349390afda3952e39cd92337"
+    },
+    {
+      "issue": 492,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/492/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/492/terminal-receipt.json",
+      "receipt_state_digest": "54967c46d889300d704a314e2c4a34576d3939d9f7722d30ef235b0e8bc3a45a",
+      "pull_request": 580,
+      "terminal_route": "merged_pr",
+      "head_sha": "179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa"
+    },
+    {
+      "issue": 493,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/493/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/493/terminal-receipt.json",
+      "receipt_state_digest": "7cec0eed934ddcb37c6d755414992fbda1d442ae6588f5ab36ca592133162a2e",
+      "pull_request": 587,
+      "terminal_route": "merged_pr",
+      "head_sha": "d5b1584bb55e92974e6d3481b59d2e28a17db441"
+    },
+    {
+      "issue": 494,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/494/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/494/terminal-receipt.json",
+      "receipt_state_digest": "307913c1432474442a6123592bc5d4134deece2e43666dfe1b40338167dcf88e",
+      "pull_request": 595,
+      "terminal_route": "merged_pr",
+      "head_sha": "de959c6263f671fa8fe1df851ea6ae1d25686831"
+    },
+    {
+      "issue": 495,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/495/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/495/terminal-receipt.json",
+      "receipt_state_digest": "81bdf7424512db22e0df244a88a0de75974c2fe75b7db15d0424ccdd762c70f2",
+      "pull_request": 590,
+      "terminal_route": "merged_pr",
+      "head_sha": "6177249dfb46fe3cf95fbcc996469517928f525d"
+    },
+    {
+      "issue": 496,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/496/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/496/terminal-receipt.json",
+      "receipt_state_digest": "3319270088f5c75ab3fc885db46c9001a085e9fe2eaee2d67e781c0717e962e0",
+      "pull_request": 599,
+      "terminal_route": "merged_pr",
+      "head_sha": "59a3d0bd106f8bdd0def53dbe1564667ee6adac4"
+    },
+    {
+      "issue": 497,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_without_current_closing_link",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/613",
+        "/Volumes/FastWork/v0921-closeout-session/finish-497-result.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/497/terminal-receipt.json",
+      "receipt_state_digest": "acbe53a85ccd0a90e94b75e1d78ea46f89ef1477b0d3cfc113db5b5041fde04d",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 498,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/498/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/498/terminal-receipt.json",
+      "receipt_state_digest": "41d1c807d46eda8209314f082f9e7fbab6221412147ce584829be4fd1594edcf",
+      "pull_request": 637,
+      "terminal_route": "merged_pr",
+      "head_sha": "dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8"
+    },
+    {
+      "issue": 499,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/499/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/499/terminal-receipt.json",
+      "receipt_state_digest": "daf94274ed688a8bdbe25c6cb1eee4bc46c7e15e13d002c9e5c8348deac46b4f",
+      "pull_request": 547,
+      "terminal_route": "merged_pr",
+      "head_sha": "940c42d246be5d54f34b7b300526a644cc881580"
+    },
+    {
+      "issue": 500,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/500/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/500/terminal-receipt.json",
+      "receipt_state_digest": "05732f5d82cb934c5a4bc3664558609db74961dbdcf4a0427b54b1a447a8ea9c",
+      "pull_request": 565,
+      "terminal_route": "merged_pr",
+      "head_sha": "d02f90008acadcc10df048b7f089cc4b98ef608f"
+    },
+    {
+      "issue": 501,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/501/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/501/terminal-receipt.json",
+      "receipt_state_digest": "4050016eb0a366b4fae8878123c75feee75967dabc433ea96e00bb58f28fb84b",
+      "pull_request": 568,
+      "terminal_route": "merged_pr",
+      "head_sha": "9056f19245f93bc9efa3b55561671a8f002c6536"
+    },
+    {
+      "issue": 502,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/502/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/502/terminal-receipt.json",
+      "receipt_state_digest": "0d0a5816789c69a630564eeccb6702dea9fc4a27065f32eb8c3efb569a2ddf07",
+      "pull_request": 572,
+      "terminal_route": "merged_pr",
+      "head_sha": "ed6f01c1e33b8057142491fca3028641ce5efc74"
+    },
+    {
+      "issue": 503,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/503/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/503/terminal-receipt.json",
+      "receipt_state_digest": "494e5e88c651196daabc9aafc8a70ca8236b58c4e145bd4820ef5357cb359338",
+      "pull_request": 581,
+      "terminal_route": "merged_pr",
+      "head_sha": "974abc520454690f0b392162b9ced783e8584017"
+    },
+    {
+      "issue": 504,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/504/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/504/terminal-receipt.json",
+      "receipt_state_digest": "d8fd6824fb747a2f80545c7714b7d35d2f7347e16f72c4dc444aba0c6fc6e1aa",
+      "pull_request": 588,
+      "terminal_route": "merged_pr",
+      "head_sha": "9ef650bc174a81849ffb09ae4d21b699fee1368d"
+    },
+    {
+      "issue": 505,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/505/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/505/terminal-receipt.json",
+      "receipt_state_digest": "33423490185fdb4a384e30235eff263670fb45251604cb6b06164f328454a34d",
+      "pull_request": 591,
+      "terminal_route": "merged_pr",
+      "head_sha": "74ddb31702482172eea4ba3d74700536eab32e49"
+    },
+    {
+      "issue": 506,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/506/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/506/terminal-receipt.json",
+      "receipt_state_digest": "4e823549bc137ec81e81dfb64dd851614a33e897bbabf13b0fc5fcd7058a6d45",
+      "pull_request": 616,
+      "terminal_route": "merged_pr",
+      "head_sha": "4676aef4189376b3f64d17efdb717732274e3240"
+    },
+    {
+      "issue": 507,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/507/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/507/terminal-receipt.json",
+      "receipt_state_digest": "ece836c0c7a2bc751f6513d83c7b670a8af8cfd772e1a12e8e5f986fc08bc5b4",
+      "pull_request": 619,
+      "terminal_route": "merged_pr",
+      "head_sha": "cca85d6fd4976e2b2358d0d130b8291a88cb1c95"
+    },
+    {
+      "issue": 508,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/508/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/508/terminal-receipt.json",
+      "receipt_state_digest": "92c2a2f57e7e597be3eeb5a352df9b53aedecedc17e4290639e9831f87245f46",
+      "pull_request": 623,
+      "terminal_route": "merged_pr",
+      "head_sha": "cca4f7f675241a0a473b38006c8be2eb95165028"
+    },
+    {
+      "issue": 509,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/509/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/509/terminal-receipt.json",
+      "receipt_state_digest": "acc8407e965c56c243a655353343b6a82354f2ee5608b5d7811fc2a95c3ea5aa",
+      "pull_request": 652,
+      "terminal_route": "merged_pr",
+      "head_sha": "c89a584e53f152ed499a5d56d479296590044714"
+    },
+    {
+      "issue": 510,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/510/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/510/terminal-receipt.json",
+      "receipt_state_digest": "91abf06072f1d6ef7e6a0b4bb81a1bbe91d7109b71c587a3111d92fd159f8553",
+      "pull_request": 546,
+      "terminal_route": "merged_pr",
+      "head_sha": "fac5eaa63a82eaf50fe455df14cc22ebb08a2678"
+    },
+    {
+      "issue": 511,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "absorbed_into_512",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/511#issuecomment-5554002940"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/511/terminal-receipt.json",
+      "receipt_state_digest": "5afc08c8431b2ce82aededd4aa836960b757f459f35ca853c94b15ccb5aef714",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 512,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/512/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/512/terminal-receipt.json",
+      "receipt_state_digest": "36631cc9b575058e2414e264e3cfa3edca1e6bbc06726c13ba012e0d1a955938",
+      "pull_request": 719,
+      "terminal_route": "merged_pr",
+      "head_sha": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4"
+    },
+    {
+      "issue": 513,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/513/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/513/terminal-receipt.json",
+      "receipt_state_digest": "c94b6da33d99f2fab579d37de62293b6f3b8cb666cf580c18f143af3209c4c1f",
+      "pull_request": 557,
+      "terminal_route": "merged_pr",
+      "head_sha": "489bc0f3af68b059e5c26ff22600d945b3d21db8"
+    },
+    {
+      "issue": 514,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/514/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/514/terminal-receipt.json",
+      "receipt_state_digest": "9c2ff7a96b5b4b10871bd6e8357c481e91158b244664d42774aa3d56f2205e73",
+      "pull_request": 549,
+      "terminal_route": "merged_pr",
+      "head_sha": "1b0fd87496bb09200a5cb1bbb0529e8730be1b20"
+    },
+    {
+      "issue": 515,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/515/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/515/terminal-receipt.json",
+      "receipt_state_digest": "fc26ebe910c24311972b523acedc8b4ea385be98be23bf6b68b89a24e3110100",
+      "pull_request": 621,
+      "terminal_route": "merged_pr",
+      "head_sha": "9e6a8bd104d79f77edc4460ee5424cea83ef9cdc"
+    },
+    {
+      "issue": 516,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/516/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/516/terminal-receipt.json",
+      "receipt_state_digest": "7c8cbe6a9b684020a86e5262e6af00c3d5fa623358752d9c98b4bdd4feb41f57",
+      "pull_request": 737,
+      "terminal_route": "merged_pr",
+      "head_sha": "ba92be3834b8380d39ce35343a316c2d50b597f8"
+    },
+    {
+      "issue": 517,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/517/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/517/terminal-receipt.json",
+      "receipt_state_digest": "a8cf4084f0f4f7f4c72fe6b2451900d2b7290939ea9f1aed938d2a3191352ed2",
+      "pull_request": 752,
+      "terminal_route": "merged_pr",
+      "head_sha": "92d1317c83e4d49d95daa5f9a490e3730928bf55"
+    },
+    {
+      "issue": 518,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/518/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/518/terminal-receipt.json",
+      "receipt_state_digest": "2c8245a1530ca072b4c0cd11e8169918674d176bc451a4cf0dff16ca913f32e0",
+      "pull_request": 753,
+      "terminal_route": "merged_pr",
+      "head_sha": "4db787bd9e14f42411435e9bbc3c57af6fa5664b"
+    },
+    {
+      "issue": 519,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/519/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/519/terminal-receipt.json",
+      "receipt_state_digest": "eefeb591a81df177c350f3ac240d354bfa9f73cc76ba435c49de8409a4f1b091",
+      "pull_request": 756,
+      "terminal_route": "merged_pr",
+      "head_sha": "c24f8fa65ce445b03ce6cd69007307291d78b60c"
+    },
+    {
+      "issue": 523,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/523/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/523/terminal-receipt.json",
+      "receipt_state_digest": "ee24d3a0a5d1f1bbada5b569c4c1bb3051e7138b1bcda7a0129866458ba675f1",
+      "pull_request": 743,
+      "terminal_route": "merged_pr",
+      "head_sha": "9d9306ba9073b9e8225f9f38fc8daf7ea393c5a8"
+    },
+    {
+      "issue": 528,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/528/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/528/terminal-receipt.json",
+      "receipt_state_digest": "6b965dcb806815755510ed9b806e07a3ade996a808b234675955bcff68f5a569",
+      "pull_request": 603,
+      "terminal_route": "merged_pr",
+      "head_sha": "502626325d377042ee096fff31675998c3bcbd56"
+    },
+    {
+      "issue": 529,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [],
+      "receipt": ".git/csdlc-v3/local/evidence/529/terminal-receipt.json",
+      "receipt_state_digest": "c3366799d7716c256a2d34f2d8fed0b5c6acd76c80ae6025c9f4c0667174367a",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 530,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [],
+      "receipt": ".git/csdlc-v3/local/evidence/530/terminal-receipt.json",
+      "receipt_state_digest": "97373400e142a1dbf9047126b107447c0a37ced37490faa850bf9fefe55f082d",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 531,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/531/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/531/terminal-receipt.json",
+      "receipt_state_digest": "3f045b627150bcfee8fa5df3c62343c3c54e76f4fc420ed11244e71536dbdd29",
+      "pull_request": 600,
+      "terminal_route": "merged_pr",
+      "head_sha": "a58579667412b22361c7c454b9db747eb26a99ff"
+    },
+    {
+      "issue": 532,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/532#issuecomment-5507097420"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/532/terminal-receipt.json",
+      "receipt_state_digest": "b8aa794d0903766b634ca6a8c1c8ea9e730603d291f8194b18b0f16d672ba9db",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 533,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/533#issuecomment-5455465946",
+        "https://github.com/agent-logic/agent-design-language/issues/533#issuecomment-5529660562"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/533/terminal-receipt.json",
+      "receipt_state_digest": "9bcb48a0065a04b8f7d2be4d128642011e904629ef769deb78de8a6bbde2e2fe",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 534,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/534/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/534/terminal-receipt.json",
+      "receipt_state_digest": "6346a3033a5564aa50379e1576ff5758504ab17fd019e94071c603022741bdd4",
+      "pull_request": 715,
+      "terminal_route": "merged_pr",
+      "head_sha": "dce8d8b47d419dd40e71ab704e2faee8d2990ed8"
+    },
+    {
+      "issue": 535,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/535#issuecomment-5529660604"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/535/terminal-receipt.json",
+      "receipt_state_digest": "428820d297f3e418d1878f46d816711234ab8bf42387110f5cc69369c2d214cd",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 536,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/536/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/536/terminal-receipt.json",
+      "receipt_state_digest": "e8da6ff8b2660cd36bf40d857a7e7ce1920863dcd5c4c2dd6b86c3f1f4a0847f",
+      "pull_request": 729,
+      "terminal_route": "merged_pr",
+      "head_sha": "6d7e63f4317c5c683ab4d349c521e096c368adc7"
+    },
+    {
+      "issue": 537,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/537#issuecomment-5529660614"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/537/terminal-receipt.json",
+      "receipt_state_digest": "f398218950fa8136737fbdb9af1c056dcec2f1d0de69e83637fa75275b5e0fef",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 539,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "superseded_by_538",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/539#issuecomment-5447220469"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/539/terminal-receipt.json",
+      "receipt_state_digest": "8c013da4d6cf4a4cb67cbb8bc0c1f09c346cc8aed3854570f0921214f6d527c3",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 541,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/541/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/541/terminal-receipt.json",
+      "receipt_state_digest": "3c3b7ea232f683ffcfe031828ca8f80785194ec0409e7f76ca81d794b99735bf",
+      "pull_request": 542,
+      "terminal_route": "merged_pr",
+      "head_sha": "bd57bb0a5246a70c859b53e86f707fbb5b8decc3"
+    },
+    {
+      "issue": 544,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/544/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/544/terminal-receipt.json",
+      "receipt_state_digest": "90aa3a81dfc3c25ed0757721b35635ad21c5759dea838ce2549eab3e98b7db2f",
+      "pull_request": 548,
+      "terminal_route": "merged_pr",
+      "head_sha": "46e9d67378b2ca799326aac6000553a27300cffd"
+    },
+    {
+      "issue": 550,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/550/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/550/terminal-receipt.json",
+      "receipt_state_digest": "c64979b43cb977b1f1d603ddadaac8dcaf130ea54269e9db8e96007cc858da26",
+      "pull_request": 552,
+      "terminal_route": "merged_pr",
+      "head_sha": "d6a9be4d91c27dc3acd55b199b61cc2ffcc6a04a"
+    },
+    {
+      "issue": 551,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/551/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/551/terminal-receipt.json",
+      "receipt_state_digest": "4652e4df4482389a6e64080d7bf00368b7cc9fd8fdb95446eec06ed9d2fd53cd",
+      "pull_request": 573,
+      "terminal_route": "merged_pr",
+      "head_sha": "c7118688b2b2a52d13e38763786b3a9ae4a9dd71"
+    },
+    {
+      "issue": 558,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/558/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/558/terminal-receipt.json",
+      "receipt_state_digest": "d87c21e44b6ccb8de4b3bb610772b35503664761e8eaf306786b32e818b37a3d",
+      "pull_request": 559,
+      "terminal_route": "merged_pr",
+      "head_sha": "6df008e183decf5829be5bdb8ef057c8bbb5a1e1"
+    },
+    {
+      "issue": 560,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/560/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/560/terminal-receipt.json",
+      "receipt_state_digest": "5b9cb0679ed643a854f683d3f8c7194bf3ff37001aca36f39a4ae90944e1786c",
+      "pull_request": 561,
+      "terminal_route": "merged_pr",
+      "head_sha": "c58326d8796c4963ed4defa4bae4269667f332ee"
+    },
+    {
+      "issue": 563,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/563/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/563/terminal-receipt.json",
+      "receipt_state_digest": "4a0e2880886cc1a18460b0ab0fdf968372ffeb291b54e753b6e388837d17f66e",
+      "pull_request": 569,
+      "terminal_route": "merged_pr",
+      "head_sha": "e8f5c952521bae9822b7d668da4572f7aa0f0b77"
+    },
+    {
+      "issue": 570,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/570/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/570/terminal-receipt.json",
+      "receipt_state_digest": "765633053d91b1acc3004146e36d7c364439ccf3f8acaeea2b03aea79d93d984",
+      "pull_request": 584,
+      "terminal_route": "merged_pr",
+      "head_sha": "ee8b32201b8efaaed6040eacf3b017193f43d110"
+    },
+    {
+      "issue": 571,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/571/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/571/terminal-receipt.json",
+      "receipt_state_digest": "5e49a3282106cd008c68610878e710d124e7419da9b8c6e768d054d19cc4ff25",
+      "pull_request": 585,
+      "terminal_route": "merged_pr",
+      "head_sha": "2155f3fbb84598f19b65fcec855c6e41790b1c71"
+    },
+    {
+      "issue": 578,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/578/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/578/terminal-receipt.json",
+      "receipt_state_digest": "c4f05c416202c46d01882762b0aefc8f49a2b50732fb3962c2d3b4d9f3842510",
+      "pull_request": 582,
+      "terminal_route": "merged_pr",
+      "head_sha": "169523cb12602c7c812514a8bebbbb908fe54e4a"
+    },
+    {
+      "issue": 579,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/579/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/579/terminal-receipt.json",
+      "receipt_state_digest": "b017c0c2f07da59933c077514bc7fb1654dd8c057404351a9fa2430a7fb0456a",
+      "pull_request": 583,
+      "terminal_route": "merged_pr",
+      "head_sha": "d0be89861afba7f2b67f1bcdc0ed84ee66cfde35"
+    },
+    {
+      "issue": 589,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/589/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/589/terminal-receipt.json",
+      "receipt_state_digest": "d7ed4eada4feb2d0e8cc87a928b4708cd618bd66eec08c2d24aade1fda1097a5",
+      "pull_request": 598,
+      "terminal_route": "merged_pr",
+      "head_sha": "0768ac3b67a592b683577963283e7edb74ff809c"
+    },
+    {
+      "issue": 592,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/592/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/592/terminal-receipt.json",
+      "receipt_state_digest": "542042e4a8f98c91a4cfdbe1ead4d64312ae2691d80832d56b3102e0ef3ab9d8",
+      "pull_request": 650,
+      "terminal_route": "merged_pr",
+      "head_sha": "5e8165934330676d51be20ae3240b5eadb239f8e"
+    },
+    {
+      "issue": 594,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/594/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/594/terminal-receipt.json",
+      "receipt_state_digest": "a61ec7aa33f83a6d27bfd09ddf88f974c2af67e44a0c66a50ef82117592d3c5d",
+      "pull_request": 643,
+      "terminal_route": "merged_pr",
+      "head_sha": "b5e3ff8ea2e762d802439fc587c541df0fb9767e"
+    },
+    {
+      "issue": 602,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/602/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/602/terminal-receipt.json",
+      "receipt_state_digest": "5b2d7cccbc771a4b980460f3350ba9f6fa290ce89c056045de5ae8cee00f3899",
+      "pull_request": 614,
+      "terminal_route": "merged_pr",
+      "head_sha": "c9c28bb43d89b786ca22cb450f993e0c933bc522"
+    },
+    {
+      "issue": 604,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/604/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/604/terminal-receipt.json",
+      "receipt_state_digest": "12181d120b3757654e8ecc31d258ab4aad409cd786d9999531c6deef3d3caf3f",
+      "pull_request": 610,
+      "terminal_route": "merged_pr",
+      "head_sha": "505597ccb1199443caebb5ef92c2b3f63ff82420"
+    },
+    {
+      "issue": 607,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/607/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/607/terminal-receipt.json",
+      "receipt_state_digest": "92d38ec77ed2677412c64a9f0fcb1806ece7ef1fed94111d5ac5e2e0fa299566",
+      "pull_request": 657,
+      "terminal_route": "merged_pr",
+      "head_sha": "cd9f3bda4d5a54b510ef9d0ef7bc8238e12c2d97"
+    },
+    {
+      "issue": 608,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/608/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/608/terminal-receipt.json",
+      "receipt_state_digest": "d4eccbc2cd12ceecbb3d4c9fded34d9d3b708b6ace53f16607671b78132a8507",
+      "pull_request": 609,
+      "terminal_route": "merged_pr",
+      "head_sha": "2121c732f0c84f75f262c0f63194ac5a31044a9a"
+    },
+    {
+      "issue": 617,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/617/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/617/terminal-receipt.json",
+      "receipt_state_digest": "66cb62f1030b6becee9d47d1dafbd9ea13844f07d88c9c9305fb7a4500767360",
+      "pull_request": 636,
+      "terminal_route": "merged_pr",
+      "head_sha": "5b53a153ae9720d45a867409b08924459946c27c"
+    },
+    {
+      "issue": 622,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/622/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/622/terminal-receipt.json",
+      "receipt_state_digest": "aeca516ff0d9ed477fdcaba445fbdf7a11547c53f680f1a27fea009336388231",
+      "pull_request": 646,
+      "terminal_route": "merged_pr",
+      "head_sha": "4c442cef90b06c4a491860ce1e9d9053dfed26eb"
+    },
+    {
+      "issue": 624,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/624/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/624/terminal-receipt.json",
+      "receipt_state_digest": "beede544296fe268d41a87165e2b3992c056f372b449d2d71bf7a3026dfa1098",
+      "pull_request": 655,
+      "terminal_route": "merged_pr",
+      "head_sha": "120357a5bc2490e038ce5fe7166adf61a957af9f"
+    },
+    {
+      "issue": 625,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "coordination_umbrella_closed",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/issues/625#issuecomment-5514552284",
+        "https://github.com/agent-logic/agent-design-language/issues/625#issuecomment-5547780086"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/625/terminal-receipt.json",
+      "receipt_state_digest": "89aadd8e90afc132a47ef99cb346281a9945ef243ee0a5b6e0586f7f3c2b037c",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 627,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/627/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/627/terminal-receipt.json",
+      "receipt_state_digest": "acda648de3be40bb025c19bbcd6a8f0724412956d805bfe518b9634991adde84",
+      "pull_request": 635,
+      "terminal_route": "merged_pr",
+      "head_sha": "83e5b39252070acf50b46360b6ae3d642776f43e"
+    },
+    {
+      "issue": 628,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/628/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/628/terminal-receipt.json",
+      "receipt_state_digest": "ec59494b67c2de278bf7aacfc530ece3de80c039cf73149a703d69da9c9d89f0",
+      "pull_request": 639,
+      "terminal_route": "merged_pr",
+      "head_sha": "da01620d4e70855f2859b4f6e0ea33d4072e12e5"
+    },
+    {
+      "issue": 629,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/629/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/629/terminal-receipt.json",
+      "receipt_state_digest": "a01e9a1367b7c556a7bfe26c096abb0cd55a13f5babf1b895f3ccc637902e666",
+      "pull_request": 641,
+      "terminal_route": "merged_pr",
+      "head_sha": "8ad0d56ae7db6421fcbc2016a2f1c8590094577e"
+    },
+    {
+      "issue": 630,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/630/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/630/terminal-receipt.json",
+      "receipt_state_digest": "0beb78626b3860e01ba23ff29fd846a5c66b66e8489c4617dd81a7356af2ecd3",
+      "pull_request": 642,
+      "terminal_route": "merged_pr",
+      "head_sha": "75a8b981cd772d4f43ff73ec5609bb58123a8155"
+    },
+    {
+      "issue": 631,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/631/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/631/terminal-receipt.json",
+      "receipt_state_digest": "d0204b3a8f7b4978496b0bc02382a2feaa3f0e2592eda0454faca5ee7efdb8fb",
+      "pull_request": 669,
+      "terminal_route": "merged_pr",
+      "head_sha": "f43356321108b91031024fc1fccf11233f188bce"
+    },
+    {
+      "issue": 632,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/632/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/632/terminal-receipt.json",
+      "receipt_state_digest": "9d9b25fda5c672f5ad62f7d675cfcc48b1a0277fbf811ca54f0cafb5002d8a73",
+      "pull_request": 647,
+      "terminal_route": "merged_pr",
+      "head_sha": "3e3b79e6734ca00b46f873857e5e650bf47bc8bf"
+    },
+    {
+      "issue": 640,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/640/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/640/terminal-receipt.json",
+      "receipt_state_digest": "ea0c4ed5b979d778a65edc62292a45ca0b549e973ae63e169181bfb38294d5a4",
+      "pull_request": 653,
+      "terminal_route": "merged_pr",
+      "head_sha": "56c12e223d78d41be08ddfc1cf4ebd9360c15c44"
+    },
+    {
+      "issue": 645,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/645/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/645/terminal-receipt.json",
+      "receipt_state_digest": "e68fea54aed34e41b2bbb73ac1abbc86989648ddd0e232e9987fdeb2cd072d5a",
+      "pull_request": 654,
+      "terminal_route": "merged_pr",
+      "head_sha": "e9cd46aab76a155fc093cf2018404dcd2345e620"
+    },
+    {
+      "issue": 648,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/648/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/648/terminal-receipt.json",
+      "receipt_state_digest": "a327daa2ee72382abf2dc188fa7e2cb8a10d422427c947cac7147fd8d282c82b",
+      "pull_request": 651,
+      "terminal_route": "merged_pr",
+      "head_sha": "75aa053aaca688e98882edd54a7a6393e52a0cb3"
+    },
+    {
+      "issue": 656,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/656/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/656/terminal-receipt.json",
+      "receipt_state_digest": "40e4f7d3a27c72ea7e4b28567ee1e0dc85fba6ca5a795b42a21e5dd2f3be7830",
+      "pull_request": 658,
+      "terminal_route": "merged_pr",
+      "head_sha": "05e93e7173fcde3cb6a55c2dcbde8d2f59742c78"
+    },
+    {
+      "issue": 659,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/659/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/659/terminal-receipt.json",
+      "receipt_state_digest": "ce1d5284532da650e369a2c2c13fedb6c92b45253ca1f778f5a6d34c76e14836",
+      "pull_request": 676,
+      "terminal_route": "merged_pr",
+      "head_sha": "30716d4806f350d4fd6aeb6c2e58b4cb9ce9d6f2"
+    },
+    {
+      "issue": 660,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/660/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/660/terminal-receipt.json",
+      "receipt_state_digest": "4ddf879fc8577fbb07ed0b13d6d6c8d5b3bca0b05c6a1a846a99b1648e28e6f8",
+      "pull_request": 664,
+      "terminal_route": "merged_pr",
+      "head_sha": "fdc3356e5777addf067bbdd61a01ee3f1ccbe5e1"
+    },
+    {
+      "issue": 661,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/661/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/661/terminal-receipt.json",
+      "receipt_state_digest": "dda98b0beb6fa77cdaff4fd9aa1358e6b9919293d59586dc84afab3db6ca772f",
+      "pull_request": 666,
+      "terminal_route": "merged_pr",
+      "head_sha": "f7211e3bba9d6759d7cae18511e397dd33e8ecee"
+    },
+    {
+      "issue": 662,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/662/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/662/terminal-receipt.json",
+      "receipt_state_digest": "d3aa89eadcdaec497ab9441487af62ca36440de3d61fceb9ab436ed63fef7d13",
+      "pull_request": 668,
+      "terminal_route": "merged_pr",
+      "head_sha": "f2d09fa64efed868b043809387efe573eee54941"
+    },
+    {
+      "issue": 663,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/663/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/663/terminal-receipt.json",
+      "receipt_state_digest": "30a20353ab55d1cc50eff036749870c0a292f86795fdcdeb7e73071ec2a49b4d",
+      "pull_request": 667,
+      "terminal_route": "merged_pr",
+      "head_sha": "4f1a94c8ba9c56d01cf4f6c0e5e4ddd24e9187dc"
+    },
+    {
+      "issue": 665,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/665/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/665/terminal-receipt.json",
+      "receipt_state_digest": "84fc44d2c8ce0c26bab1eb60972ee92e902519519178dea4aa3a73f7b9d19ccc",
+      "pull_request": 673,
+      "terminal_route": "merged_pr",
+      "head_sha": "8e3648f0268107e8d842887b623d6972587c8cb5"
+    },
+    {
+      "issue": 670,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/670/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/670/terminal-receipt.json",
+      "receipt_state_digest": "d525b07fdb0bd2e41370af5189d23f18452940db6b6a0346a746eeda3e446f9e",
+      "pull_request": 684,
+      "terminal_route": "merged_pr",
+      "head_sha": "f698a7dc521a6c51bcff6f91cdca83cccce53fb6"
+    },
+    {
+      "issue": 674,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/674/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/674/terminal-receipt.json",
+      "receipt_state_digest": "2defd1a3a239d9a177fa71d59aacff4efa5096057922a5e75a351a60ed0d4996",
+      "pull_request": 681,
+      "terminal_route": "merged_pr",
+      "head_sha": "2ba92e600b061c05f99403410c18dcc904fee0a2"
+    },
+    {
+      "issue": 675,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/675/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/675/terminal-receipt.json",
+      "receipt_state_digest": "109216448d0552448ad5dad66eeeaacb74c9e3a04726583cda6e0a9b58603f9c",
+      "pull_request": 677,
+      "terminal_route": "merged_pr",
+      "head_sha": "33567c629d373d92a5cc1dc2e21433b10b5ce7c9"
+    },
+    {
+      "issue": 678,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/678/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/678/terminal-receipt.json",
+      "receipt_state_digest": "e4e716c95fc485ea5c909247ad058fbdd035c2c6422f6d340b7eccd36a99959b",
+      "pull_request": 682,
+      "terminal_route": "merged_pr",
+      "head_sha": "072d29ad17a9aacdd87384a0c5423f0077869c1b"
+    },
+    {
+      "issue": 679,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/679/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/679/terminal-receipt.json",
+      "receipt_state_digest": "9a0dfeb9507131f66e4e67ae8a5150ab53ac11ecc59309ea8302fe67f0a51a54",
+      "pull_request": 685,
+      "terminal_route": "merged_pr",
+      "head_sha": "b1888c1abe43e50a1c3139bac8d40c98445a61fb"
+    },
+    {
+      "issue": 686,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/686/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/686/terminal-receipt.json",
+      "receipt_state_digest": "144f954ae8ba508b10a5a400059696fe13fee6f0382e2757b166067bc52ac8c6",
+      "pull_request": 692,
+      "terminal_route": "merged_pr",
+      "head_sha": "6eeb163b5d105c598f7794d2412eab29f8f83a07"
+    },
+    {
+      "issue": 687,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/687/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/687/terminal-receipt.json",
+      "receipt_state_digest": "90ff4548d4780f6077f4270ea633c7409548fbfcb6c0bd3efd502eaa2552b8b3",
+      "pull_request": 691,
+      "terminal_route": "merged_pr",
+      "head_sha": "a1ec53a5c5ff0eb0c16a572b9e8bbb7f85d959be"
+    },
+    {
+      "issue": 688,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "false_premise_bootstrap",
+      "evidence": [
+        ".csdlc/issues/689/cards/stp.md:36"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/688/terminal-receipt.json",
+      "receipt_state_digest": "e67fe9538b265041b7f45631711eea12c9ca381e0586ba28acac222efa43def6",
+      "pull_request": null,
+      "terminal_route": "explicit_no_pr_disposition",
+      "head_sha": "d6697012598c94ce3c53b70e998733d3e242b839"
+    },
+    {
+      "issue": 689,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/689/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/689/terminal-receipt.json",
+      "receipt_state_digest": "3b59d053f7476921d011c41589e52bd01d75c1de53e080f389a3c9432ab4e2d2",
+      "pull_request": 690,
+      "terminal_route": "merged_pr",
+      "head_sha": "c7cf4565330eb85671743c04620139ebde0402fa"
+    },
+    {
+      "issue": 693,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/693/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/693/terminal-receipt.json",
+      "receipt_state_digest": "5866973ff505ac77923645f8cb54e24c365eb92869196d916f9d31adbf04c77e",
+      "pull_request": 696,
+      "terminal_route": "merged_pr",
+      "head_sha": "1946974be9839a13df6c4736b0f3ea34f0d1debc"
+    },
+    {
+      "issue": 694,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/694/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/694/terminal-receipt.json",
+      "receipt_state_digest": "ad995fa5364b2920b7b7493b77d8a886c32a1010fe461b0bf1181b895ec2d3c0",
+      "pull_request": 697,
+      "terminal_route": "merged_pr",
+      "head_sha": "84e491112855e6ac6e803452b023b4c59b8b7316"
+    },
+    {
+      "issue": 695,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/695/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/695/terminal-receipt.json",
+      "receipt_state_digest": "ce206c60723e6dad754d9e9423cfd647c6e894e08e7b4124ee0597fa5ee03ab4",
+      "pull_request": 706,
+      "terminal_route": "merged_pr",
+      "head_sha": "0f6e12ff6eee0152b35e7c4096af614f672e2ff8"
+    },
+    {
+      "issue": 707,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/707/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/707/terminal-receipt.json",
+      "receipt_state_digest": "a78c34c2b891624fa05b6369fb4d6f0c69c091f060ea66c61311e5c17c37bfd9",
+      "pull_request": 711,
+      "terminal_route": "merged_pr",
+      "head_sha": "581b64e7114e22c7b7a925f2396ff02dd4eaf272"
+    },
+    {
+      "issue": 708,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/708/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/708/terminal-receipt.json",
+      "receipt_state_digest": "eb9aa0861635b10c5af7b35a0673bb157e9f73b733c2d32e75789bf14a823c25",
+      "pull_request": 709,
+      "terminal_route": "merged_pr",
+      "head_sha": "7b753133251ea8f7d01a6471ede2d40ca39d4813"
+    },
+    {
+      "issue": 713,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/713/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/713/terminal-receipt.json",
+      "receipt_state_digest": "1448b51a07d241beaddc07b8e81beca0a877fc5b0324174ab88d502a208cf94b",
+      "pull_request": 714,
+      "terminal_route": "merged_pr",
+      "head_sha": "8f61aa746b503c95419a8f97c3fcfbf5ed1014c3"
+    },
+    {
+      "issue": 717,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/717/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/717/terminal-receipt.json",
+      "receipt_state_digest": "5799cb81c9841674cfbd12920712daf6ede4b60ff2ae7dfb1ab6862e7573e1f5",
+      "pull_request": 800,
+      "terminal_route": "merged_pr",
+      "head_sha": "7b41451113cd5aa363fbf077517aa2a84d5ffc4d"
+    },
+    {
+      "issue": 718,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/718/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/718/terminal-receipt.json",
+      "receipt_state_digest": "223bbd88a5bab54519d2ced2a39dec673d15f1e6f06d64021579a6a1469e12ac",
+      "pull_request": 809,
+      "terminal_route": "merged_pr",
+      "head_sha": "bfe203f4c5e963711c6de6ded85de2d93235fe4e"
+    },
+    {
+      "issue": 721,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/721/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/721/terminal-receipt.json",
+      "receipt_state_digest": "3e44e2c8d43c94eb7bbfd5ea4bbc892f0f07b3be0ffa747ff799535d3a966b17",
+      "pull_request": 726,
+      "terminal_route": "merged_pr",
+      "head_sha": "8cb8345f18d0603f94a45d726c6fef8245bd9f8e"
+    },
+    {
+      "issue": 723,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/723/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/723/terminal-receipt.json",
+      "receipt_state_digest": "718712a7731bb7ee10d11b94f3614d8aea55a876600ed045faae0e88a660e139",
+      "pull_request": 735,
+      "terminal_route": "merged_pr",
+      "head_sha": "efe1a148afbdc73fcaf052e4b40b01ba9a24a671"
+    },
+    {
+      "issue": 724,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/724/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/724/terminal-receipt.json",
+      "receipt_state_digest": "0e931b756c6ae15fa9324a3b1797dcae1f4dd99bc0bc55e761bb8e6a8baf2b70",
+      "pull_request": 734,
+      "terminal_route": "merged_pr",
+      "head_sha": "90a95cacccaa03ed5b56d06cd7d3e8fd4f02689d"
+    },
+    {
+      "issue": 725,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/725/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/725/terminal-receipt.json",
+      "receipt_state_digest": "b4c7d4f13cd3384903f5709694bcb336a86c49274bbf769c57743745f7c7e1f0",
+      "pull_request": 732,
+      "terminal_route": "merged_pr",
+      "head_sha": "9ec7a8295b52251e1826956e0ea7f70a87149589"
+    },
+    {
+      "issue": 727,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/727/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/727/terminal-receipt.json",
+      "receipt_state_digest": "aa43689762c0115252b17358d299b481fd9b465d64af9d74f540ba74973546ec",
+      "pull_request": 733,
+      "terminal_route": "merged_pr",
+      "head_sha": "04d998cb51d77f88fa4007832f11cc9e16f03558"
+    },
+    {
+      "issue": 728,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/728/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/728/terminal-receipt.json",
+      "receipt_state_digest": "f5344ab33769119e19b7fbc0d0e8b7043f8352b659e878e95c2bff9d85f6dc50",
+      "pull_request": 736,
+      "terminal_route": "merged_pr",
+      "head_sha": "a598ed6376795b2ad9109817df5e41f1136142e6"
+    },
+    {
+      "issue": 730,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/730/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/730/terminal-receipt.json",
+      "receipt_state_digest": "1418142b57f8d07be257cddc2e3a27c5f7d6de4aa4c775dcd57bcfcda9c71891",
+      "pull_request": 738,
+      "terminal_route": "merged_pr",
+      "head_sha": "305547e0519c3a92174bc33e20f11d948a99e016"
+    },
+    {
+      "issue": 731,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/731/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/731/terminal-receipt.json",
+      "receipt_state_digest": "d6776d10c6bf157cf3da5b9f0374437ab1f2600d393820008cb2c4cfd318568c",
+      "pull_request": 742,
+      "terminal_route": "merged_pr",
+      "head_sha": "e71cc7065964be6127e5f7b353a48b3fe11d4673"
+    },
+    {
+      "issue": 740,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/740/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/740/terminal-receipt.json",
+      "receipt_state_digest": "40fd346f10325f85ef271f698ec5ce7b349479302333559719d725ae661a9382",
+      "pull_request": 741,
+      "terminal_route": "merged_pr",
+      "head_sha": "54b4a2dc2b853d72e4189c12e2c235901fc14bde"
+    },
+    {
+      "issue": 744,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/744/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/744/terminal-receipt.json",
+      "receipt_state_digest": "f3b919df581e4d765e3e5310e545f07dc9207d9407fafc34c29af59da694aa24",
+      "pull_request": 781,
+      "terminal_route": "merged_pr",
+      "head_sha": "f1fb987793ab49e3529eb16588ded95b33ba424b"
+    },
+    {
+      "issue": 745,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/745/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/745/terminal-receipt.json",
+      "receipt_state_digest": "706d95ab2501d00d54dd99b5990590e06035ba3d0296800f9d61b90a8134e994",
+      "pull_request": 747,
+      "terminal_route": "merged_pr",
+      "head_sha": "2b4cbeb761be77f1b318a978b5334eeb214afa1c"
+    },
+    {
+      "issue": 757,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/757/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/757/terminal-receipt.json",
+      "receipt_state_digest": "311bb96d067aec3001e4d8bb612e6b2cb62ea1c7a44dd438494e59459176b0f5",
+      "pull_request": 782,
+      "terminal_route": "merged_pr",
+      "head_sha": "1c14af3544040d364b3cf0ea1fcce9972f8cef9c"
+    },
+    {
+      "issue": 758,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_pr",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/805"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/758/terminal-receipt.json",
+      "receipt_state_digest": "ff10a005f9a4e32b61091a44c6535f226bb9024d328419c7486f95f955711634",
+      "pull_request": 805,
+      "terminal_route": "merged_pr",
+      "head_sha": "d453299053afb6812974edefa9ecbe9e87edaad9"
+    },
+    {
+      "issue": 759,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/759/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/759/terminal-receipt.json",
+      "receipt_state_digest": "023a6f8aa389772c1d0d784d395c405e07ddd0f0d55af782c48104c6e79f97c4",
+      "pull_request": 779,
+      "terminal_route": "merged_pr",
+      "head_sha": "1387f11147f8e0f950c0b4e385efe3265d12bcd7"
+    },
+    {
+      "issue": 760,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/760/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/760/terminal-receipt.json",
+      "receipt_state_digest": "83c231c758de7de2c92885e364b84e857db7cfcc785433900d72c796c0df4dd1",
+      "pull_request": 773,
+      "terminal_route": "merged_pr",
+      "head_sha": "d3e4b597801c621c50099e58a33636bc188d4481"
+    },
+    {
+      "issue": 761,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/761/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/761/terminal-receipt.json",
+      "receipt_state_digest": "f3abe3fc1684b1bf34b95d893462f091c2415599a16db27c51d2db68401da156",
+      "pull_request": 777,
+      "terminal_route": "merged_pr",
+      "head_sha": "61c7214c415119f9f6dce56296550c2510ed2408"
+    },
+    {
+      "issue": 762,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/762/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/762/terminal-receipt.json",
+      "receipt_state_digest": "be4e026e973ffa946aee9303690304fa1ea8178b64006ea15b9374084d9cb58a",
+      "pull_request": 783,
+      "terminal_route": "merged_pr",
+      "head_sha": "fba2bdf5c7168faa9dcd2d957c121e33a63c0fd6"
+    },
+    {
+      "issue": 763,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/763/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/763/terminal-receipt.json",
+      "receipt_state_digest": "911fb43d3c9da428c04dce3bb0d127e39e590421cbbacbbc2da06430882aa67f",
+      "pull_request": 774,
+      "terminal_route": "merged_pr",
+      "head_sha": "4a5de0f1c8e9649095885f2cf8cc37c074652858"
+    },
+    {
+      "issue": 764,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/764/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/764/terminal-receipt.json",
+      "receipt_state_digest": "4abd0e37bf72dd3c5713155638ec89fe4aaf665163492f69d2ef03f4d40147b8",
+      "pull_request": 780,
+      "terminal_route": "merged_pr",
+      "head_sha": "82b4341b8799e218b5e83d79b01d24f282c69f19"
+    },
+    {
+      "issue": 765,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/765/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/765/terminal-receipt.json",
+      "receipt_state_digest": "01a0d4b270c26b879ddf24975b77a02d842623f84a313bf63c17e2fbde446513",
+      "pull_request": 775,
+      "terminal_route": "merged_pr",
+      "head_sha": "f49dbbf8bc37131fd481a5aa10f7c5fe0abce3c7"
+    },
+    {
+      "issue": 766,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/766/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/766/terminal-receipt.json",
+      "receipt_state_digest": "8d90da049037c12b08e1a61657a33d4d95b5bdf5bac0d69bb9d7859d3ba551fb",
+      "pull_request": 787,
+      "terminal_route": "merged_pr",
+      "head_sha": "9f48acd67f1f0ccfe9f4dc563c74267b7092a9a3"
+    },
+    {
+      "issue": 767,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/767/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/767/terminal-receipt.json",
+      "receipt_state_digest": "5c412b4a058c461afb555eb33b5d943997dedec391abe3c09b2e55b7eb1de0c9",
+      "pull_request": 785,
+      "terminal_route": "merged_pr",
+      "head_sha": "cb92bc675a247e8c032c6a6b7ff910e0fe99b535"
+    },
+    {
+      "issue": 768,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/768/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/768/terminal-receipt.json",
+      "receipt_state_digest": "39d1a1391e1f71e56e70d0135b9de8854e90547e90d60f9aa848dac0ca367987",
+      "pull_request": 793,
+      "terminal_route": "merged_pr",
+      "head_sha": "bd96896bb22488d7b42781d6eb6ffdf122cd5ea8"
+    },
+    {
+      "issue": 769,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/769/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/769/terminal-receipt.json",
+      "receipt_state_digest": "cf08183331ec0c88a6035f85f34609f098d8b496663ae6d157327c42336d7e22",
+      "pull_request": 798,
+      "terminal_route": "merged_pr",
+      "head_sha": "11c6883210388f565a960e93444c8eb76037736e"
+    },
+    {
+      "issue": 770,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/770/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/770/terminal-receipt.json",
+      "receipt_state_digest": "7b74b8ac1ff93eb65bb09b86a8e23f17bec3c5c5c245fe76649574b7e1b7fb38",
+      "pull_request": 796,
+      "terminal_route": "merged_pr",
+      "head_sha": "dcbaf37f91f99f4a2674c7dbf91869a75dd4a79d"
+    },
+    {
+      "issue": 771,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/771/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/771/terminal-receipt.json",
+      "receipt_state_digest": "f58d38c817627e0a82f837befe9f8e668019d9363cef30aad4ed705414cb788a",
+      "pull_request": 801,
+      "terminal_route": "merged_pr",
+      "head_sha": "d3e715365ef61a0435b9db9a27c8911a84d7fe4b"
+    },
+    {
+      "issue": 772,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/772/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/772/terminal-receipt.json",
+      "receipt_state_digest": "91bea0e8178e143dc0b617a1cdd0d57775050f2b81fde12f395d31250905db9a",
+      "pull_request": 807,
+      "terminal_route": "merged_pr",
+      "head_sha": "2bf9cc9e32b81422064b1ef14758d270d7fab50b"
+    },
+    {
+      "issue": 776,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/776/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/776/terminal-receipt.json",
+      "receipt_state_digest": "8cfddcd07860ac2392418a88164ffe133b48d9f8db373cf3b9b360398944f69d",
+      "pull_request": 790,
+      "terminal_route": "merged_pr",
+      "head_sha": "8cfce9d372c77078620c617619bf0b631cff07b8"
+    },
+    {
+      "issue": 784,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/784/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/784/terminal-receipt.json",
+      "receipt_state_digest": "2cd251a46ba124b96576fb340d4feecda0fb1ad60a05f282dedc0e47ee0223f3",
+      "pull_request": 789,
+      "terminal_route": "merged_pr",
+      "head_sha": "0eb01166766576ad18235892af416906f4f29e86"
+    },
+    {
+      "issue": 799,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/799/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/799/terminal-receipt.json",
+      "receipt_state_digest": "3f956e4bb44b49d82ebbd576ccf1e5d80c2d3169d3ab7ac75c31f014e26d9873",
+      "pull_request": 803,
+      "terminal_route": "merged_pr",
+      "head_sha": "6e280ee354e698f6d009ab3246d24fec2f06ae0d"
+    },
+    {
+      "issue": 804,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_implementation",
+      "evidence": [
+        ".git/csdlc-v3/local/evidence/804/terminal-receipt.json"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/804/terminal-receipt.json",
+      "receipt_state_digest": "66d5300128ea0f5234742de01db865b273edaf20dd1df9133f3ab011938e3a48",
+      "pull_request": 806,
+      "terminal_route": "merged_pr",
+      "head_sha": "9d335b391fa049226c149d864a629836ec399f99"
+    },
+    {
+      "issue": 810,
+      "closeout_status": "native_terminal_verified",
+      "disposition": "merged_pr",
+      "evidence": [
+        "https://github.com/agent-logic/agent-design-language/pull/812"
+      ],
+      "receipt": ".git/csdlc-v3/local/evidence/810/terminal-receipt.json",
+      "receipt_state_digest": "6145f1a20054918b0fa7e4fc59765ef94d18cd9a000f6d43e997b2e90fd4210f",
+      "pull_request": 812,
+      "terminal_route": "merged_pr",
+      "head_sha": "78d3dfeef652b60145666f0c253a1e3fc14a5fe0"
+    }
+  ]
+}

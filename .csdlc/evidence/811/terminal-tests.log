@@ -1,0 +1,44 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.39s
+     Running tests/terminal_cleanup_cutover_commands.rs (csdlc-v3/target/debug/deps/terminal_cleanup_cutover_commands-78b70174ca08c7fc)
+
+running 36 tests
+test cleanup_denies_nonexistent_parent_traversal_escape ... ok
+test cleanup_denies_symlink_escape_from_approved_parent ... ok
+test cleanup_denies_nonexistent_child_under_symlink_escape ... ok
+test clean_cli_reports_requested_but_unperformed_mutation_before_cutover ... ok
+test cutover_requires_operator_approval_rollback_and_fail_closed_undo ... ok
+test cleanup_rejects_caller_boolean_without_durable_terminal_receipt ... ok
+test cleanup_rejects_disposable_terminal_receipt_path ... ok
+test cleanup_rejects_stale_or_mismatched_terminal_receipts ... ok
+test no_pr_closeout_rejects_ambiguous_or_unapproved_requests_before_observation ... ok
+test no_pr_closeout_requires_closed_exact_issue_and_fresh_timestamps ... ok
+test cleanup_rejects_registered_worktree_at_stale_head ... ok
+test observed_finish_denies_nonmerged_or_open_issue_readbacks ... ok
+test observed_finish_derives_terminal_closeout_from_github_pr_and_issue_readbacks ... ok
+test part_of_publication_cannot_terminally_close ... ok
+test cleanup_denies_existing_relative_candidate_before_canonicalization ... ok
+test cleanup_uses_git_registration_and_preserves_distinct_outcomes ... ok
+test pre_cutover_finish_denies_terminal_persistence ... ok
+test public_finish_fails_closed_without_authenticated_adapter ... ok
+test public_finish_has_no_direct_verified_readback_constructor ... ok
+test public_finish_requires_exact_closing_inputs_before_adapter_boundary ... ok
+test retained_unit_tests_cover_verified_readback_denials ... ok
+test conflicting_terminal_receipt_preserves_state ... ok
+test non_regular_terminal_receipt_preserves_absent_state ... ok
+test post_cutover_cleanup_removes_exact_clean_registered_terminal_worktree ... ok
+test no_pr_closeout_persists_idempotently_and_cleanup_binds_disposition ... ok
+test post_cutover_finish_persists_typed_state_and_receipt_idempotently ... ok
+test cutover_rejects_intermediate_output_parent_symlink_escape ... ok
+test executable_cutover_cannot_bypass_request_findings ... ok
+test executable_cutover_requires_authenticated_github_authority_before_mutation ... ok
+test approved_cutover_refuses_existing_receipt_before_mutation ... ok
+test authenticated_cutover_rejects_unmerged_authority_pr ... ok
+test cutover_and_rollback_share_one_mutation_lock ... ok
+test rollback_fails_closed_on_stale_selector_digest ... ok
+test approved_cutover_atomically_installs_selector_and_rollback_receipt ... ok
+test tracked_selector_revert_rolls_back_from_fresh_worktree ... ok
+test cutover_recovers_interrupted_boundaries_and_rollback_is_idempotent ... ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.82s
+

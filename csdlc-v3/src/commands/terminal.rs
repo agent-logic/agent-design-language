@@ -27,11 +27,36 @@ pub struct TerminalRouteRequest {
     #[serde(default)]
     pub terminal_state: Option<TerminalStateWriteRequest>,
     #[serde(default)]
+    pub no_pr_closeout: Option<NoPrCloseout>,
+    #[serde(default)]
     pub cleanup: Option<CleanupRouteRequest>,
     #[serde(default)]
     pub cutover: Option<CutoverDecisionRequest>,
     #[serde(default)]
     pub credential_names: Vec<String>,
+}
+
+/// Explicit operator disposition; never substitutes for merged implementation proof.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NoPrCloseout {
+    pub disposition: NoPrDisposition,
+    pub operator: String,
+    pub rationale: String,
+    pub evidence_refs: Vec<String>,
+    pub expected_issue_updated_at: String,
+    pub expected_issue_closed_at: String,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum NoPrDisposition {
+    RetiredWithoutExecution,
+    Duplicate,
+    Superseded,
+    Absorbed,
+    CoordinationCompleted,
+    HistoricalDisposition,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -69,9 +94,11 @@ pub struct DurableTerminalReceipt {
     pub schema: String,
     pub repository: String,
     pub issue: u64,
-    pub pull_request: u64,
+    pub pull_request: Option<u64>,
     pub head_sha: String,
     pub disposition: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub no_pr_closeout: Option<NoPrCloseout>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub state_digest: Option<String>,
 }
@@ -156,6 +183,11 @@ pub enum FinishDecision {
         pull_request: u64,
         issue: u64,
         head_sha: String,
+    },
+    NoPrClosedOut {
+        issue: u64,
+        head_sha: String,
+        closeout: NoPrCloseout,
     },
     CheckpointDenied {
         reason: String,
@@ -390,12 +422,16 @@ pub fn prepare_terminal_finish_with_github_observation(
     process: &mut impl ProcessAdapter,
 ) -> Result<TerminalRoutePlan, TerminalFinding> {
     let mut findings = Vec::new();
-    let finish = match observe_terminal_github_readback(request, process)
-        .and_then(|readback| derive_finish_from_verified(request, readback))
-        .and_then(|decision| {
-            persist_terminal_finish(request, &decision)?;
-            Ok(decision)
-        }) {
+    let observed = if request.no_pr_closeout.is_some() {
+        observe_no_pr_closeout(request, process)
+    } else {
+        observe_terminal_github_readback(request, process)
+            .and_then(|readback| derive_finish_from_verified(request, readback))
+    };
+    let finish = match observed.and_then(|decision| {
+        persist_terminal_finish(request, &decision)?;
+        Ok(decision)
+    }) {
         Ok(decision) => Some(decision),
         Err(finding) => {
             findings.push(finding);
@@ -421,6 +457,65 @@ pub fn prepare_terminal_finish_with_github_observation(
         finish,
         cleanup: None,
         cutover: None,
+    })
+}
+
+fn observe_no_pr_closeout(
+    request: &TerminalRouteRequest,
+    process: &mut impl ProcessAdapter,
+) -> Result<FinishDecision, TerminalFinding> {
+    let closeout = request
+        .no_pr_closeout
+        .as_ref()
+        .expect("selected no-PR route");
+    let head = request.expected_head_sha.as_deref().unwrap_or_default();
+    if request.issue == 0
+        || request.pull_request.is_some()
+        || request.mode.is_some()
+        || head.len() != 40
+        || !head.bytes().all(|b| b.is_ascii_hexdigit())
+        || closeout.operator.trim().is_empty()
+        || closeout.rationale.trim().is_empty()
+        || closeout.evidence_refs.is_empty()
+        || closeout.evidence_refs.iter().any(|r| r.trim().is_empty())
+        || closeout.expected_issue_updated_at.trim().is_empty()
+        || closeout.expected_issue_closed_at.trim().is_empty()
+    {
+        return Err(finding("invalid_no_pr_closeout", "no-PR closeout requires explicit operator, rationale, evidence, exact head and closure observations, without a PR or publication mode"));
+    }
+    validate_repository_name(&request.repository)?;
+    let credential = single_credential_name(request)?;
+    let issue = run_github_observation(
+        process,
+        &credential,
+        "issue",
+        &request.repository,
+        request.issue,
+    )?;
+    if issue["number"].as_u64() != Some(request.issue) || !issue["pull_request"].is_null() {
+        return Err(finding(
+            "github_observation_issue_mismatch",
+            "no-PR closeout requires the exact issue identity",
+        ));
+    }
+    if issue["state"].as_str() != Some("closed") {
+        return Err(finding(
+            "closing_issue_still_open",
+            "no-PR closeout requires an authenticated closed issue",
+        ));
+    }
+    if issue["updated_at"].as_str() != Some(closeout.expected_issue_updated_at.as_str())
+        || issue["closed_at"].as_str() != Some(closeout.expected_issue_closed_at.as_str())
+    {
+        return Err(finding(
+            "stale_issue_closeout",
+            "closed issue timestamps differ from the approved disposition snapshot",
+        ));
+    }
+    Ok(FinishDecision::NoPrClosedOut {
+        issue: request.issue,
+        head_sha: head.to_owned(),
+        closeout: closeout.clone(),
     })
 }
 
@@ -830,22 +925,37 @@ fn persist_terminal_finish(
         return Ok(());
     };
     let repository_root = canonical_dir(&write_request.repository_root, "repository_root")?;
+    if request.no_pr_closeout.is_some()
+        && request.expected_head_sha.as_deref() != Some(worktree_head(&repository_root)?.as_str())
+    {
+        return Err(finding(
+            "no_pr_head_mismatch",
+            "no-PR closeout head must equal the actual reconciliation checkout HEAD",
+        ));
+    }
     if !canonical_v3_authority(&repository_root, request.expected_head_sha.as_deref())? {
         return Err(finding(
             "terminal_persistence_denied_pre_cutover",
             "v3 finish cannot persist terminal state before the canonical selector activates v3",
         ));
     }
-    let FinishDecision::TerminalClosedOut {
-        pull_request,
-        issue,
-        head_sha,
-    } = decision
-    else {
-        return Err(finding(
-            "terminal_state_requires_closeout",
-            "only a verified terminal closeout may be persisted",
-        ));
+    let (pull_request, issue, head_sha, no_pr_closeout) = match decision {
+        FinishDecision::TerminalClosedOut {
+            pull_request,
+            issue,
+            head_sha,
+        } => (Some(*pull_request), *issue, head_sha, None),
+        FinishDecision::NoPrClosedOut {
+            issue,
+            head_sha,
+            closeout,
+        } => (None, *issue, head_sha, Some(closeout.clone())),
+        _ => {
+            return Err(finding(
+                "terminal_state_requires_closeout",
+                "only a verified terminal closeout may be persisted",
+            ))
+        }
     };
     let local_root = super::local::operational_state_root(&repository_root).map_err(|_| {
         finding(
@@ -879,15 +989,20 @@ fn persist_terminal_finish(
     };
     ensure_output_parent_inside_repo(boundary, &state_path, "terminal_state")?;
     ensure_output_parent_inside_repo(boundary, &receipt_path, "terminal_receipt")?;
-    let state_bytes = serde_json::to_vec_pretty(&serde_json::json!({
+    let mut state = serde_json::json!({
         "schema": "csdlc.v3.terminal_state.v1",
         "repository": request.repository,
         "issue": issue,
         "pull_request": pull_request,
         "head_sha": head_sha,
         "disposition": "closed_out"
-    }))
-    .map_err(|error| finding("terminal_state_serialize_failed", &error.to_string()))?;
+    });
+    if let Some(closeout) = &no_pr_closeout {
+        state["no_pr_closeout"] = serde_json::to_value(closeout)
+            .map_err(|e| finding("terminal_state_serialize_failed", &e.to_string()))?;
+    }
+    let state_bytes = serde_json::to_vec_pretty(&state)
+        .map_err(|error| finding("terminal_state_serialize_failed", &error.to_string()))?;
     let state_digest = blake3::hash(&state_bytes).to_hex().to_string();
     if let Ok(existing) = fs::read(&state_path) {
         let existing_digest = blake3::hash(&existing).to_hex().to_string();
@@ -903,8 +1018,9 @@ fn persist_terminal_finish(
     let receipt = DurableTerminalReceipt {
         schema: "csdlc.v3.terminal_receipt.v1".into(),
         repository: request.repository.clone(),
-        issue: *issue,
-        pull_request: *pull_request,
+        issue,
+        pull_request,
+        no_pr_closeout,
         head_sha: head_sha.clone(),
         disposition: "closed_out".into(),
         state_digest: Some(state_digest),
@@ -1041,9 +1157,10 @@ fn verify_terminal_receipt(
     if receipt.schema != "csdlc.v3.terminal_receipt.v1"
         || receipt.repository != terminal_request.repository
         || receipt.issue != terminal_request.issue
-        || Some(receipt.pull_request) != terminal_request.pull_request
+        || receipt.pull_request != terminal_request.pull_request
         || Some(receipt.head_sha.as_str()) != terminal_request.expected_head_sha.as_deref()
         || receipt.disposition != "closed_out"
+        || receipt.no_pr_closeout != terminal_request.no_pr_closeout
     {
         return Err(finding(
             "terminal_receipt_mismatch",
@@ -2545,6 +2662,7 @@ mod tests {
             mode: Some(TerminalPublicationMode::Closing),
             public_adapter_receipt: None,
             terminal_state: None,
+            no_pr_closeout: None,
             cleanup: None,
             cutover: None,
             credential_names: Vec::new(),

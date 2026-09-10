@@ -1,0 +1,20 @@
+   Compiling csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-811-all-issue-closeout/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+     Running tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-2ebdcc2a29bb4021)
+
+running 12 tests
+test simple_issue_create_projects_github_style_flags_into_typed_dispatch ... ok
+test simple_issue_close_emits_typed_duplicate_close_dispatch ... ok
+test v2_selector_keeps_named_local_cli_in_construction_mode ... ok
+test proof_and_rollback_commands_reach_real_handlers ... ok
+test simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input ... ok
+test simple_issue_close_rejects_ambiguous_or_invalid_input ... ok
+test simple_issue_create_execute_fails_closed_under_v2_authority ... ok
+test remote_operational_dispatch_is_reachable_and_fails_closed_under_v2_selector ... ok
+test executable_github_routes_reject_wrong_mutation_family_before_dispatch ... ok
+test edit_recovers_after_process_exit_between_directory_swaps ... ok
+test bind_recovers_after_branch_creation_before_worktree_registration ... ok
+test bind_recovers_after_process_exit_following_git_side_effect ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s
+

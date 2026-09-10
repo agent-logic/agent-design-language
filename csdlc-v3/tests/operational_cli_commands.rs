@@ -908,6 +908,7 @@ fn proof_and_rollback_commands_reach_real_handlers() {
         mode: None,
         public_adapter_receipt: None,
         terminal_state: None,
+        no_pr_closeout: None,
         cleanup: None,
         cutover: Some(CutoverDecisionRequest {
             operator: "".into(),
