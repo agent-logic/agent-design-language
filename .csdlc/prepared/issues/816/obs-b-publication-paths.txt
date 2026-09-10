@@ -1,0 +1,30 @@
+# role|repository-relative declared path|reviewed classification
+ui|demos/html-observatory/index.html
+ui|demos/html-observatory/app.js
+ui|demos/html-observatory/styles.css
+ui|demos/html-observatory/runtime-v3.config.json
+ui|demos/html-observatory/README.md
+evidence|.csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md
+evidence|.csdlc/evidence/512/diff-hygiene.log
+evidence|.csdlc/evidence/512/doctor-after-canary.json
+evidence|.csdlc/evidence/512/exact-browser-operator-proof.md
+excluded|.csdlc/evidence/512/exact-browser-operator-screenshot.png|binary screenshot; non-publication visual was manually reviewed and contains no secret or machine-local filesystem path
+evidence|.csdlc/evidence/512/observatory-layer8-authority.log
+evidence|.csdlc/evidence/512/observatory-node-suite.log
+evidence|.csdlc/evidence/512/observatory-runtime-v3-contract.log
+evidence|.csdlc/evidence/512/observatory-transcript-history.log
+evidence|.csdlc/evidence/512/system-clock-cache-proof.md
+evidence|.csdlc/evidence/512/terminal-receipt.json
+evidence|.csdlc/evidence/512/v3-local-canary.json
+evidence|.csdlc/evidence/512/v3-shadow-mixed-mode.json
+excluded|adl/tools/test_html_observatory.sh|non-publication executable test harness
+excluded|demos/html-observatory/tests/accessibility_responsive.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/agent_continuity.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/agent_orientation.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/agent_to_agent_activity.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/conversation_sessions.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/large_polis_performance_recovery.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/operator_attention_inbox.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/polis_identity.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/security_privacy_adversarial.test.mjs|non-publication test source
+excluded|demos/html-observatory/tests/system_clock_cache.test.mjs|non-publication test source

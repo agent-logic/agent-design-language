@@ -1,0 +1,30 @@
+{
+  "issue": 816,
+  "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/816-validation-integrity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-816-validation-integrity",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "4ffb419e49f65e19fdc3f0a2602e01e22f2bb2985b3d57b5c021dbd1167b9031",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "card_updates": {
+    "srp": {
+      "findings_status": "resolved_pending_rereview",
+      "recommended_outcome": "pending",
+      "review_findings": "First review: P1 source scanning did not prove serialized Runtime output; P2 line grep accepted duplicate sensitive keys. First rereview: P1 structural sensitive-field checks did not cover every manifest publication.",
+      "review_dispositions": "Fixed by executing project_v1, rejecting duplicate JSON keys, structurally validating every manifest JSON, scanning non-JSON text for sensitive assignments, and exercising a payload leak through an actual manifest entry.",
+      "review_notes": "Fresh reviewer must verify production output plus complete Runtime, UI, and evidence manifest coverage at the new exact head."
+    },
+    "sor": {
+      "summary": "OBS-B executes production project_v1 serialization and scans its JSON plus every UI/evidence manifest entry. Every JSON publication receives structural duplicate-key and sensitive-field validation; non-JSON publications receive token/path and sensitive-assignment checks; ten negative classes include an actual manifest-path payload leak. Hot-reload cancellation remains causally synchronized.",
+      "additional_proof_artifacts": "Terminal proof: production project_v1 JSON, 13 published UI/evidence paths, 1 clean fixture, 10 negative fixtures including manifest-path leakage; 8 config-reload integration tests; 2 kernel unit tests; repeated redaction and cancellation runs.",
+      "validation_effect": "Proves production-derived Runtime JSON and every manifest publication are scanned; JSON structure is unambiguous; text sensitive assignments and manifest-path leakage are rejected; cancellation assertions follow observed watcher transitions.",
+      "validation_result": "Passed: production project_v1 JSON, all 13 actual UI/evidence publication paths, 1 clean and 10 negative redaction fixtures, all 8 config-reload integration tests, 2 kernel unit tests, and repeated causal proofs.",
+      "fixtures_or_scripts_used": ".csdlc/prepared/issues/816/obs-b-publication-paths.txt, validate-publication-json.py, fixtures/obs-b-publication-clean.json, production distributed projection test fixture, and generated manifest-path leak fixture",
+      "prompt_tool_arg_redaction_verified": "Every manifest JSON is parsed with duplicate-key rejection and exact sensitive-field values; non-JSON publications reject raw sensitive assignments; manifest-path leakage is a required negative.",
+      "verification_check_1": "production Runtime projection plus all 13 publication paths, 11 positive/negative fixture groups, and repeated causal cancellation runs"
+    }
+  },
+  "schedule_readiness": null,
+  "shepherd_routing": null
+}

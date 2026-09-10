@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.issue_review_assignment.v1",
+  "issue": 816,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 4,
+  "expected_digest": "43dcb203196aab003d86e98d401e1b195b8279052ae0958adb359e322e816ce4",
+  "reviewer": "subagent:/root/fix_815_cloud_auth",
+  "assigned_by": "subagent:/root/fix_816_validation",
+  "scope": [
+    ".csdlc/issues/816",
+    ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+    ".csdlc/prepared/issues/816/fixtures/obs-b-publication-clean.json",
+    ".csdlc/prepared/issues/816/obs-b-publication-paths.txt",
+    "adl-runtime-kernel/src/config_reload.rs",
+    "adl-runtime/tests/config_reload.rs"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "adl.obs_b.publication_fixture.v1",
+  "runtime_projection": {
+    "polis_id": "polis-fixture",
+    "authority_state": "ready",
+    "provider_payload": "[REDACTED]",
+    "prompt": "[REDACTED]",
+    "output": "[REDACTED]",
+    "tool_arguments": "[REDACTED]"
+  },
+  "redaction": {
+    "credential_material_retained": false,
+    "host_paths_retained": false
+  }
+}

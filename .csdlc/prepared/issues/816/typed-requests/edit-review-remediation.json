@@ -1,0 +1,54 @@
+{
+  "issue": 816,
+  "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/816-validation-integrity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-816-validation-integrity",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "43dcb203196aab003d86e98d401e1b195b8279052ae0958adb359e322e816ce4",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "card_updates": {
+    "spp": {
+      "step_5_status": "in_progress",
+      "status": "IN_PROGRESS",
+      "notes_risks": "The first exact-head review found two proof gaps. Both are repaired; fresh exact-head rereview and publication remain."
+    },
+    "srp": {
+      "findings_status": "resolved_pending_rereview",
+      "recommended_outcome": "pending",
+      "review_findings": "P1: source scanning did not prove production serialized Runtime output. P2: line grep could accept a duplicate sensitive key with one redacted decoy.",
+      "review_dispositions": "P1 fixed by emitting and scanning project_v1 output from the exact production projection path. P2 fixed with structural JSON parsing, duplicate-key rejection, exact sensitive-field values, and a decoy-plus-leak negative fixture.",
+      "review_notes": "Fresh reviewer must verify the causal production projection and all nine negative classes at the new exact head."
+    },
+    "sor": {
+      "summary": "OBS-B now executes the production project_v1 serialization path, scans its emitted JSON plus the UI/evidence publication set, structurally rejects duplicate JSON keys and non-redacted sensitive fields, and proves nine negative classes. Hot-reload cancellation tests remain causally synchronized on watcher state.",
+      "tracked_implementation_artifacts": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh; .csdlc/prepared/issues/816; adl-runtime/tests/distributed_projection.rs; adl-runtime-kernel/src/config_reload.rs; adl-runtime/tests/config_reload.rs",
+      "additional_proof_artifacts": "Terminal proof: production project_v1 JSON, 13 published UI/evidence paths, 1 clean fixture, 9 negative fixtures; 8 config-reload integration tests; 2 kernel unit tests; repeated redaction and cancellation runs.",
+      "actions_taken_line_1": "Execute the production project_v1 serialization path and structurally scan its emitted Runtime JSON instead of counting Rust source as publication output.",
+      "actions_taken_line_2": "Parse publication JSON with duplicate-key rejection and require each provider_payload, prompt, output, and tool_arguments value to be exactly [REDACTED].",
+      "actions_taken_line_3": "Preserved the read-only watcher status synchronization that proves transient candidates become pending and are cancelled before generation changes.",
+      "validation_command": "bash .csdlc/prepared/issues/512/validate-obs-b-redaction.sh; cargo test --locked --manifest-path adl-runtime/Cargo.toml --test config_reload; cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml config_reload --lib; repeated focused cancellation and redaction runs; cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test config_reload -- -D warnings; cargo fmt --check; python3 -m py_compile .csdlc/prepared/issues/816/validate-publication-json.py; git diff --check",
+      "validation_effect": "Proves production-derived serialized Runtime output is redacted, publication JSON is structurally unambiguous, negative leakage is rejected, and cancellation assertions follow observed watcher transitions.",
+      "validation_result": "Passed: production project_v1 JSON, 13 actual UI/evidence publication paths, 1 clean and 9 negative redaction fixtures, all 8 config-reload integration tests, 2 kernel unit tests, and repeated causal proofs.",
+      "fixtures_or_scripts_used": ".csdlc/prepared/issues/816/obs-b-publication-paths.txt, validate-publication-json.py, fixtures/obs-b-publication-clean.json, and the production distributed projection test fixture",
+      "replay_verification": "The validator regenerates Runtime JSON through project_v1 on every run and rejects duplicate-key decoy-plus-leak input.",
+      "ordering_guarantees": "Runtime bytes exist before structural scanning; cancellation tests observe pending state before the cancelling action and cancellation state before asserting generation zero.",
+      "artifact_stability_notes": "The generated Runtime projection uses deterministic production JCS serialization; manifest paths remain repository-relative and unique.",
+      "prompt_tool_arg_redaction_verified": "Structural traversal requires all four sensitive fields to equal [REDACTED] and rejects duplicate keys before object construction.",
+      "replay_command": "bash .csdlc/prepared/issues/512/validate-obs-b-redaction.sh && cargo test --locked --manifest-path adl-runtime/Cargo.toml --test config_reload",
+      "primary_proof_surface": ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh, adl-runtime/tests/distributed_projection.rs, and adl-runtime/tests/config_reload.rs",
+      "verification_check_1": "production Runtime projection plus 13 publication paths, 10 positive/negative fixture groups, and 50 repeated cancellation runs"
+    }
+  },
+  "schedule_readiness": null,
+  "shepherd_routing": null
+}

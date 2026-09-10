@@ -107,12 +107,14 @@ impl<T> ConfigReloadController<T> {
 #[derive(Debug)]
 pub struct HotReloadHandle<T> {
     receiver: watch::Receiver<Arc<ConfigSnapshot<T>>>,
+    status_receiver: watch::Receiver<ConfigReloadStatus>,
 }
 
 impl<T> Clone for HotReloadHandle<T> {
     fn clone(&self) -> Self {
         Self {
             receiver: self.receiver.clone(),
+            status_receiver: self.status_receiver.clone(),
         }
     }
 }
@@ -129,6 +131,41 @@ impl<T> HotReloadHandle<T> {
             .map_err(|_| ConfigReloadError::WatcherClosed)?;
         Ok(self.current())
     }
+
+    /// Returns the latest watcher state without affecting reload behavior.
+    pub fn reload_status(&self) -> ConfigReloadStatus {
+        *self.status_receiver.borrow()
+    }
+
+    /// Waits until the watcher state changes and returns the new state.
+    pub async fn reload_status_changed(&mut self) -> Result<ConfigReloadStatus, ConfigReloadError> {
+        self.status_receiver
+            .changed()
+            .await
+            .map_err(|_| ConfigReloadError::WatcherClosed)?;
+        Ok(self.reload_status())
+    }
+}
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct ConfigReloadStatus {
+    candidate_observations: u64,
+    pending_candidate: bool,
+    pending_cancellations: u64,
+}
+
+impl ConfigReloadStatus {
+    pub fn candidate_observations(self) -> u64 {
+        self.candidate_observations
+    }
+
+    pub fn pending_candidate(self) -> bool {
+        self.pending_candidate
+    }
+
+    pub fn pending_cancellations(self) -> u64 {
+        self.pending_cancellations
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -136,6 +173,11 @@ pub struct ConfigReloadOutcome {
     pub reloads_applied: u64,
     pub invalid_updates_rejected: u64,
     pub shutdown_requested: bool,
+}
+
+struct ConfigReloadWatchers<T> {
+    snapshot: watch::Sender<Arc<ConfigSnapshot<T>>>,
+    status: watch::Sender<ConfigReloadStatus>,
 }
 
 #[derive(Debug)]
@@ -220,6 +262,7 @@ where
         applier(initial.value())?;
     }
     let (sender, receiver) = watch::channel(Arc::new(initial));
+    let (status_sender, status_receiver) = watch::channel(ConfigReloadStatus::default());
     let task_shutdown = shutdown.clone();
     let task_path = path.clone();
     let task = tokio::spawn(async move {
@@ -230,13 +273,19 @@ where
             options,
             task_shutdown,
             signature,
-            sender,
+            ConfigReloadWatchers {
+                snapshot: sender,
+                status: status_sender,
+            },
         )
         .await
     });
 
     Ok(ConfigReloadController {
-        handle: HotReloadHandle { receiver },
+        handle: HotReloadHandle {
+            receiver,
+            status_receiver,
+        },
         shutdown,
         task,
     })
@@ -249,7 +298,7 @@ async fn watch_config<T>(
     options: ConfigReloadOptions,
     shutdown: CancellationToken,
     mut last_evaluated: FileSignature,
-    sender: watch::Sender<Arc<ConfigSnapshot<T>>>,
+    watchers: ConfigReloadWatchers<T>,
 ) -> ConfigReloadOutcome
 where
     T: Send + Sync + 'static,
@@ -261,6 +310,7 @@ where
     let mut generation = 0;
     let mut reloads_applied = 0;
     let mut invalid_updates_rejected = 0;
+    let mut status = ConfigReloadStatus::default();
 
     loop {
         tokio::select! {
@@ -276,12 +326,25 @@ where
                     Ok(raw) => {
                         let signature = FileSignature::from_bytes(&raw);
                         if signature == last_evaluated {
-                            pending = None;
+                            if pending.take().is_some() {
+                                status.pending_candidate = false;
+                                status.pending_cancellations += 1;
+                                watchers.status.send_replace(status);
+                            }
                         } else if pending.as_ref().map(|(pending, _, _)| pending) != Some(&signature) {
                             pending = Some((signature, raw, Instant::now() + options.debounce));
+                            status.candidate_observations += 1;
+                            status.pending_candidate = true;
+                            watchers.status.send_replace(status);
                         }
                     }
-                    Err(_) => pending = None,
+                    Err(_) => {
+                        if pending.take().is_some() {
+                            status.pending_candidate = false;
+                            status.pending_cancellations += 1;
+                            watchers.status.send_replace(status);
+                        }
+                    }
                 }
 
                 let ready = pending
@@ -294,6 +357,8 @@ where
                 let Some((signature, raw, _)) = pending.take() else {
                     continue;
                 };
+                status.pending_candidate = false;
+                watchers.status.send_replace(status);
                 generation += 1;
                 match parse_snapshot(&path, &parser, &raw, generation).and_then(|snapshot| {
                     if let Some(applier) = applier.as_ref() {
@@ -302,7 +367,7 @@ where
                     Ok(snapshot)
                 }) {
                     Ok(snapshot) => {
-                        sender.send_replace(Arc::new(snapshot));
+                        watchers.snapshot.send_replace(Arc::new(snapshot));
                         last_evaluated = signature;
                         reloads_applied += 1;
                     }
