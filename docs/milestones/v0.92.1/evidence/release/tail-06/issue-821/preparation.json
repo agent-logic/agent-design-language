@@ -1,0 +1,105 @@
+{
+  "schema": "adl.v0921.tail06.issue821.preparation.v1",
+  "issue": 821,
+  "status": "preparation_only",
+  "observed_at": "2026-09-10T22:28:37.547068+00:00",
+  "preparation_base": "add8f48867e55be9256244767758abba6f348091",
+  "final_candidate": null,
+  "source_inputs": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json",
+      "sha256": "8c363c98887f90fdd7084896d594270eeca3c0d73e515c41c7179239f7b1e9df"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/release-stage-mapping.json",
+      "sha256": "dcb4d6fc325d310c48ebddb7c02c4d91f0d76685bdf7ec8a472f48698e5e56f4"
+    }
+  ],
+  "dependencies": [
+    {
+      "issue": 818,
+      "observed_state": "OPEN",
+      "final_proof_required": true
+    },
+    {
+      "issue": 819,
+      "observed_state": "CLOSED",
+      "merged_pr": 827,
+      "integration_in_preparation_base": "present",
+      "final_proof_required": true,
+      "merge_commit": "1e9b543e40e0e4c980878384d64ab368717b0091",
+      "ancestry_check": "pass"
+    },
+    {
+      "issue": 820,
+      "observed_state": "OPEN",
+      "final_proof_required": true
+    }
+  ],
+  "rows": [
+    {
+      "row_id": "TAIL-01:retained-188-ac-1",
+      "criterion_id": "TAIL-01:retained-188-ac-1",
+      "criterion_text_digest": "e7fba2ffb7e41ef5e4e124ce97c1151f7d26dd20c0d5f387b381c349c4bb0831",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "pending_final_candidate",
+      "criterion": "CORP-08, V3-16, and DRT-07 are terminal and exact revisions are ancestral to the review revision.",
+      "planned_proof": "Verify terminal successor proof and Git ancestry independently for corporate Runtime, C-SDLC v3 and distributed Runtime.",
+      "proof_artifacts": []
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-2",
+      "criterion_id": "TAIL-01:retained-188-ac-2",
+      "criterion_text_digest": "7be23d5ca21e9ca702200136c470aae393f22b48203a026dffc495067d985074",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "pending_final_candidate",
+      "criterion": "Every required lane artifact and quality gate is independently recomputed or explicitly rejected.",
+      "planned_proof": "Independently recompute every required lane and gate against the chosen final candidate; reject skips, missing evidence and non-proving results.",
+      "proof_artifacts": []
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-3",
+      "criterion_id": "TAIL-01:retained-188-ac-3",
+      "criterion_text_digest": "6200b85a7deb245c892668756bb301ce3d882402d67cca857d20c6115983232c",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "pending_final_candidate",
+      "criterion": "All P1/P2 findings receive verified terminal dispositions before recommendation.",
+      "planned_proof": "Reconcile every second #520 P1/P2 finding to verified terminal evidence before recommendation.",
+      "proof_artifacts": []
+    },
+    {
+      "row_id": "TAIL-01:retained-188-ac-4",
+      "criterion_id": "TAIL-01:retained-188-ac-4",
+      "criterion_text_digest": "3d073ef1e4834070e5329992ecaabe7a900c2d4de957b0ff01f45624509dc914",
+      "mapping_file": "release-stage-mapping.json",
+      "reconciliation_class": "current_gate_obligation",
+      "proof_requirement": "current release gate obligation requires candidate-bound proof",
+      "successor_authority": "release-stage-mapping.json",
+      "owner": "#517",
+      "disposition": "pending_final_candidate",
+      "criterion": "The review does not treat one lane's success as evidence for another lane.",
+      "planned_proof": "Review lane-to-criterion mappings independently; no cross-lane substitution or aggregate CI proxy.",
+      "proof_artifacts": []
+    }
+  ],
+  "preparation_checks": {
+    "exact_four_unique_rows": "pass",
+    "mapping_identity_and_criterion_digest": "pass",
+    "historical_gate_validator": "pass; retained gate decision remains blocked; 393 inventoried and 366 required lanes",
+    "historical_corrections_validator": "pass; no release authorization"
+  },
+  "final_gate_status": "not_run",
+  "review_status": "preparation_review_finding_resolved_final_review_pending"
+}

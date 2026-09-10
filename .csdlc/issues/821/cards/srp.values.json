@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 821,
+  "issue_padded": "0821",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/821",
+  "title": "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations",
+  "branch": "codex/821-current-quality-gate",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-821-current-quality-gate"
+}

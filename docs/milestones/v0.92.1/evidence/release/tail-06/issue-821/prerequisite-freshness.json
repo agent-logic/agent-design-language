@@ -1,0 +1,23 @@
+{
+  "schema": "adl.v0921.tail06.issue821.prerequisite_freshness.v1",
+  "issue": 821,
+  "prerequisite_issue": 819,
+  "retained_candidate": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "comparison_candidate": "add8f48867e55be9256244767758abba6f348091",
+  "scope": [
+    "csdlc-v3",
+    "docs/csdlc-v3",
+    ".csdlc/evidence/505",
+    ".csdlc/issues/505",
+    ".csdlc/prepared/issues/571/validate-v3a-followup.rb"
+  ],
+  "changed_paths": [
+    "csdlc-v3/src/commands/terminal.rs",
+    "csdlc-v3/src/main.rs",
+    "csdlc-v3/tests/operational_cli_commands.rs",
+    "csdlc-v3/tests/terminal_cleanup_cutover_commands.rs",
+    "docs/csdlc-v3/NO_PR_CLOSEOUT.md"
+  ],
+  "result": "source_changed_requires_final_candidate_proof",
+  "non_claim": "Historical receipt validation and source comparison are not final exact-head review or release approval."
+}
