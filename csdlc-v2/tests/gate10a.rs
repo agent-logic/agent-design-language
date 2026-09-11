@@ -62,7 +62,7 @@ fn current_operator_guidance_has_no_sunset_v1_route() {
         assert!(workflow.starts_with("# Default C-SDLC workflow\n"));
         for contract in [
             "C-SDLC v3 is operational after V3-F/#505 and merged PR #591.",
-            "Authority requires the native selector and authenticated reconciliation proof against canonical `origin/main`.",
+            "Authority requires the native selector, authenticated receipt and reconciliation proof against canonical `origin/main`.",
             "Use `.adl/bin/native-v3/csdlc`",
             "Missing or stale proof suspends authority.",
             "V2 is retained only for an explicitly authorized rollback or bounded transition remediation.",

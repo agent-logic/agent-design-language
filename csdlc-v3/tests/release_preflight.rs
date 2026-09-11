@@ -1,0 +1,279 @@
+//! PVF: deterministic local Git/CLI contract proof, small CPU/disk, required for #856.
+//! Fixtures prove consistency and nonmutation, never live release approval.
+use serde_json::{json, Value};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+};
+
+fn git(root: &Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "git {args:?}: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8(output.stdout)
+        .unwrap()
+        .trim_end()
+        .to_string()
+}
+fn hash(root: &Path, path: &str) -> String {
+    blake3::hash(&fs::read(root.join(path)).unwrap())
+        .to_hex()
+        .to_string()
+}
+struct Fixture {
+    root: PathBuf,
+    request: Value,
+    gate: Value,
+}
+impl Fixture {
+    fn new() -> Self {
+        let source = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf();
+        let root = source.join(format!(
+            "csdlc-v3/target/release-preflight-{}",
+            std::process::id()
+        ));
+        if root.exists() {
+            fs::remove_dir_all(&root).unwrap();
+        }
+        assert!(Command::new("git")
+            .args(["clone", "--quiet", "--shared"])
+            .arg(&source)
+            .arg(&root)
+            .status()
+            .unwrap()
+            .success());
+        git(&root, &["config", "user.name", "Release fixture"]);
+        git(&root, &["config", "user.email", "fixture@example.invalid"]);
+        let canonical = git(&source, &["rev-parse", "origin/main"]);
+        git(
+            &root,
+            &["update-ref", "refs/remotes/origin/main", &canonical],
+        );
+        // Copy candidate inputs under development, independent of the implementer's commit state.
+        for path in git(&source, &["ls-files"])
+            .lines()
+            .filter(|p| p.ends_with("Cargo.toml") || p.ends_with("Cargo.lock"))
+        {
+            fs::copy(source.join(path), root.join(path)).unwrap();
+        }
+        let inventory = "docs/milestones/v0.92.1/RELEASE_ARTIFACTS.json";
+        fs::copy(source.join(inventory), root.join(inventory)).unwrap();
+        fs::copy(
+            source.join("adl/tools/release_ceremony.sh"),
+            root.join("adl/tools/release_ceremony.sh"),
+        )
+        .unwrap();
+        for issue in [522, 525, 526] {
+            fs::write(
+                root.join(format!("docs/milestones/v0.92.1/fixture-{issue}.md")),
+                format!("# Explicit fixture evidence for {issue}\nNot live acceptance.\n"),
+            )
+            .unwrap();
+        }
+        git(&root, &["add", "."]);
+        git(
+            &root,
+            &[
+                "-c",
+                "core.hooksPath=/dev/null",
+                "commit",
+                "-qm",
+                "candidate fixture",
+            ],
+        );
+        let sha = git(&root, &["rev-parse", "HEAD"]);
+        let notes = "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md";
+        let notes_digest = hash(&root, notes);
+        let gate = json!({"schema":"csdlc.v3.release_gate.v1","repository":"agent-logic/agent-design-language","version":"v0.92.1","candidate_sha":sha,"notes_path":notes,"notes_digest":notes_digest,"inventory_digest":hash(&root,inventory),"status":"ready_for_preflight","evidence":([522,525,526].map(|issue| {let path=format!("docs/milestones/v0.92.1/fixture-{issue}.md");json!({"issue":issue,"digest":hash(&root,&path),"path":path})}))});
+        let request = json!({"repository":"agent-logic/agent-design-language","version":"v0.92.1","candidate_sha":sha,"notes_path":notes,"notes_digest":notes_digest,"gate_path":root.join(".git/gate.json"),"gate_digest":""});
+        let mut fixture = Self {
+            root,
+            request,
+            gate,
+        };
+        fixture.write_gate();
+        fixture
+    }
+    fn write_gate(&mut self) {
+        fs::write(
+            self.root.join(".git/gate.json"),
+            serde_json::to_vec(&self.gate).unwrap(),
+        )
+        .unwrap();
+        self.request["gate_digest"] = hash(&self.root, ".git/gate.json").into();
+    }
+    fn run(&self, expected: Option<&str>) {
+        fs::write(
+            self.root.join(".git/request.json"),
+            serde_json::to_vec(&self.request).unwrap(),
+        )
+        .unwrap();
+        let refs = git(&self.root, &["show-ref"]);
+        let status = git(&self.root, &["status", "--porcelain"]);
+        let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+            .current_dir(&self.root)
+            .args(["release-preflight", "--request", ".git/request.json"])
+            .output()
+            .unwrap();
+        let report: Value = serde_json::from_slice(&output.stdout)
+            .unwrap_or_else(|_| panic!("{}", String::from_utf8_lossy(&output.stderr)));
+        assert_eq!(output.status.success(), expected.is_none(), "{report}");
+        assert_eq!(report["eligible"], expected.is_none());
+        assert_eq!(report["mutation_allowed"], false);
+        assert_eq!(report["release_authorized"], false);
+        if let Some(code) = expected {
+            assert!(
+                report["findings"][0].as_str().unwrap().contains(code),
+                "{report}"
+            );
+            assert!(!output.stderr.is_empty());
+        } else {
+            assert!(output.stderr.is_empty());
+        }
+        assert_eq!(refs, git(&self.root, &["show-ref"]));
+        assert_eq!(status, git(&self.root, &["status", "--porcelain"]));
+    }
+    fn commit_input(&mut self) {
+        git(&self.root, &["add", "."]);
+        git(
+            &self.root,
+            &[
+                "-c",
+                "core.hooksPath=/dev/null",
+                "commit",
+                "-qm",
+                "changed candidate",
+            ],
+        );
+        let sha = git(&self.root, &["rev-parse", "HEAD"]);
+        self.request["candidate_sha"] = sha.clone().into();
+        self.gate["candidate_sha"] = sha.into();
+        self.write_gate();
+    }
+}
+impl Drop for Fixture {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.root);
+    }
+}
+#[test]
+fn exact_candidate_preflight_and_negative_matrix() {
+    let mut f = Fixture::new();
+    f.run(None);
+    let original = f.request.clone();
+    for (key, value, error) in [
+        ("candidate_sha", "abc", "full_candidate_sha_required"),
+        ("candidate_sha", &"0".repeat(40), "candidate_head_mismatch"),
+        ("notes_digest", "wrong", "release_notes_digest_mismatch"),
+        ("notes_path", "../notes", "release_notes_path_mismatch"),
+        ("gate_digest", "wrong", "native_v3_gate_digest_mismatch"),
+        ("repository", "wrong/repo", "unsupported_release_identity"),
+    ] {
+        f.request[key] = value.into();
+        f.run(Some(error));
+        f.request = original.clone();
+    }
+    fs::remove_file(f.root.join(".git/gate.json")).unwrap();
+    f.run(Some("native_v3_gate_missing"));
+    f.write_gate();
+    fs::write(f.root.join(".git/gate.json"), b"malformed").unwrap();
+    f.request["gate_digest"] = hash(&f.root, ".git/gate.json").into();
+    f.run(Some("native_v3_gate_malformed"));
+    f.write_gate();
+    let original_gate = f.gate.clone();
+    for (key, value) in [
+        ("candidate_sha", "stale"),
+        ("version", "v0.92.0"),
+        ("repository", "wrong/repo"),
+        ("status", "blocked"),
+        ("notes_digest", "changed"),
+    ] {
+        f.gate[key] = value.into();
+        f.write_gate();
+        f.run(Some("native_v3_gate_stale_or_ineligible"));
+        f.gate = original_gate.clone();
+        f.write_gate();
+    }
+    f.gate["evidence"] = json!([]);
+    f.write_gate();
+    f.run(Some("release_tail_evidence_required"));
+    f.gate = original_gate.clone();
+    f.write_gate();
+    f.gate["evidence"][0]["digest"] = "wrong".into();
+    f.write_gate();
+    f.run(Some("release_tail_evidence_mismatch"));
+    f.gate = original_gate.clone();
+    f.write_gate();
+    f.gate["inventory_digest"] = "wrong".into();
+    f.write_gate();
+    f.run(Some("release_inventory_digest_mismatch"));
+    f.gate = original_gate;
+    f.write_gate();
+    let manifest = f.root.join("adl/Cargo.toml");
+    let bytes = fs::read_to_string(&manifest).unwrap();
+    fs::write(&manifest, bytes.replace("0.92.1", "0.92.0")).unwrap();
+    f.run(Some("candidate_checkout_dirty"));
+    f.commit_input();
+    f.run(Some("release_package_version_mismatch"));
+    fs::write(&manifest, bytes).unwrap();
+    f.commit_input();
+    f.run(None);
+    let lock = f.root.join("adl/Cargo.lock");
+    let bytes = fs::read_to_string(&lock).unwrap();
+    fs::write(
+        &lock,
+        bytes.replacen(
+            "name = \"adl\"\nversion = \"0.92.1\"",
+            "name = \"adl\"\nversion = \"0.92.0\"",
+            1,
+        ),
+    )
+    .unwrap();
+    f.commit_input();
+    f.run(Some("release_lock_version_mismatch"));
+    fs::write(&lock, bytes).unwrap();
+    f.commit_input();
+    f.run(None);
+    let lock = f.root.join("adl/Cargo.lock");
+    let lock_bytes = fs::read_to_string(&lock).unwrap();
+    fs::write(&lock, "version = 4\npackage = []\n").unwrap();
+    f.commit_input();
+    f.run(Some("release_lock_owner_missing"));
+    let without_owner = lock_bytes
+        .split("[[package]]")
+        .filter(|part| !part.trim_start().starts_with("name = \"adl\"\n"))
+        .collect::<Vec<_>>()
+        .join("[[package]]");
+    fs::write(&lock, without_owner).unwrap();
+    f.commit_input();
+    f.run(Some("release_lock_owner_missing"));
+    let sourced_owner = lock_bytes.replacen(
+        "name = \"adl\"\nversion = \"0.92.1\"",
+        "name = \"adl\"\nversion = \"0.92.1\"\nsource = \"registry+https://example.invalid\"",
+        1,
+    );
+    fs::write(&lock, sourced_owner).unwrap();
+    f.commit_input();
+    f.run(Some("release_lock_owner_missing"));
+    fs::write(&lock, lock_bytes).unwrap();
+    f.commit_input();
+    f.run(None);
+    let notes = f.root.join(f.request["notes_path"].as_str().unwrap());
+    fs::write(notes, "changed notes").unwrap();
+    f.commit_input();
+    f.run(Some("release_notes_digest_mismatch"));
+    git(&f.root, &["update-ref", "-d", "refs/remotes/origin/main"]);
+    f.run(Some("native_v3_authority_suspended"));
+}
