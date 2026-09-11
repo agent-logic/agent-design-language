@@ -1,0 +1,34 @@
+{
+  "issue": 520,
+  "title": "[v0.92.1][TAIL-04] Internal review",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/520-internal-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "2eee69c4487e2dc75d56e0354be7cb56e9b590614715952629ec5b64f1c9c625",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "card_updates": {
+    "spp": {
+      "step_5_status": "in_progress_resolving_exact_head_review_findings",
+      "notes_risks_inline": "Exact-head review at 48a2003d6ca7ea0e785f58990c18c82c846f71c9 rejected synthetic lane observations, non-terminal acceptance rows, contradictory summary outcomes, unrelated test proof, weak locators, and stale review-plan truth. All six packet findings are accepted and in repair; publication remains denied."
+    },
+    "srp": {
+      "status": "changes_requested",
+      "card_status": "exact_head_review_findings_in_repair",
+      "findings_status": "six_packet_findings_open_in_addition_to_fourteen_product_findings",
+      "recommended_outcome": "changes_required_do_not_publish",
+      "review_findings": "Independent exact-head review of 48a2003d6ca7ea0e785f58990c18c82c846f71c9 found six packet defects: two P1 and three P2 methodology/proof defects plus one P3 lifecycle-truth defect. The assembler manufactured lane observations; acceptance rows were non-terminal; summaries contradicted findings; test proof covered one unrelated command; locators were not line-bound; and review-plan/assignment state was stale.",
+      "review_dispositions": "All six packet findings are accepted. The assembler now requires completed independent specialist inputs, the validator requires terminal acceptance dispositions and bounded locators, summary outcomes derive from findings, test proof requires multiple declared invocations, and lifecycle truth is being refreshed. A fresh exact-head review is mandatory after all replacement evidence is assembled.",
+      "review_notes": "Reviewer: subagent:/root/fix_814_runtime. Reviewed revision: 48a2003d6ca7ea0e785f58990c18c82c846f71c9. No publication or pass is claimed. The 14 product findings remain valid candidate defects but their complete denominator review evidence must be rebuilt truthfully."
+    },
+    "sor": {
+      "completion_state": "exact_head_review_rejected_packet_repair_in_progress",
+      "integration_state": "bound_worktree_changes_requested",
+      "integration_result": "Independent exact-head review rejected commit 48a2003d6c with six actionable packet defects; publication is denied until all are resolved and freshly reviewed.",
+      "validation_result": "The earlier validator pass exposed insufficient semantic guards. New negative fixtures now reject the six demonstrated failure classes; replacement specialist evidence remains pending.",
+      "verification_validation_status": "changes_requested_repair_in_progress",
+      "follow_up_1": "Collect independently authored exact-candidate specialist inputs for all nine lanes and terminally disposition all 176 acceptance rows.",
+      "follow_up_2": "Reassemble, replay all validators and declared test invocations, obtain a fresh exact-head review, and publish only after PASS."
+    }
+  }
+}

@@ -1,0 +1,6287 @@
+{
+  "issues": [
+    {
+      "number": 51,
+      "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 84,
+      "title": "[backlog][Observatory] Complete live Unity Observatory Runtime v3 integration",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 122,
+      "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+      "state": "CLOSED",
+      "pull_requests": [
+        553
+      ]
+    },
+    {
+      "number": 146,
+      "title": "[v0.92][planning] Establish the v0.92.1 corporate foundation, C-SDLC v3, and distributed Runtime qualification milestone",
+      "state": "CLOSED",
+      "pull_requests": [
+        148,
+        206
+      ]
+    },
+    {
+      "number": 251,
+      "title": "[backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 261,
+      "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+      "state": "CLOSED",
+      "pull_requests": [
+        611
+      ]
+    },
+    {
+      "number": 262,
+      "title": "[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback",
+      "state": "CLOSED",
+      "pull_requests": [
+        618
+      ]
+    },
+    {
+      "number": 263,
+      "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+      "state": "CLOSED",
+      "pull_requests": [
+        626
+      ]
+    },
+    {
+      "number": 264,
+      "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+      "state": "CLOSED",
+      "pull_requests": [
+        649
+      ]
+    },
+    {
+      "number": 342,
+      "title": "[v0.92.1][WP-24A] Podcast Studio first ten episodes",
+      "state": "CLOSED",
+      "pull_requests": [
+        586
+      ]
+    },
+    {
+      "number": 345,
+      "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+      "state": "CLOSED",
+      "pull_requests": [
+        593
+      ]
+    },
+    {
+      "number": 387,
+      "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+      "state": "CLOSED",
+      "pull_requests": [
+        389
+      ]
+    },
+    {
+      "number": 480,
+      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "state": "CLOSED",
+      "pull_requests": [
+        527
+      ]
+    },
+    {
+      "number": 482,
+      "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+      "state": "CLOSED",
+      "pull_requests": [
+        545
+      ]
+    },
+    {
+      "number": 483,
+      "title": "[v0.92.1][CORP-B] Corporate account custody register",
+      "state": "CLOSED",
+      "pull_requests": [
+        562
+      ]
+    },
+    {
+      "number": 484,
+      "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+      "state": "CLOSED",
+      "pull_requests": [
+        556
+      ]
+    },
+    {
+      "number": 485,
+      "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+      "state": "CLOSED",
+      "pull_requests": [
+        564
+      ]
+    },
+    {
+      "number": 486,
+      "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+      "state": "CLOSED",
+      "pull_requests": [
+        567
+      ]
+    },
+    {
+      "number": 487,
+      "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+      "state": "CLOSED",
+      "pull_requests": [
+        574
+      ]
+    },
+    {
+      "number": 488,
+      "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+      "state": "CLOSED",
+      "pull_requests": [
+        576
+      ]
+    },
+    {
+      "number": 489,
+      "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+      "state": "CLOSED",
+      "pull_requests": [
+        577
+      ]
+    },
+    {
+      "number": 490,
+      "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        566
+      ]
+    },
+    {
+      "number": 491,
+      "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+      "state": "CLOSED",
+      "pull_requests": [
+        575
+      ]
+    },
+    {
+      "number": 492,
+      "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+      "state": "CLOSED",
+      "pull_requests": [
+        580
+      ]
+    },
+    {
+      "number": 493,
+      "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+        587
+      ]
+    },
+    {
+      "number": 494,
+      "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+      "state": "CLOSED",
+      "pull_requests": [
+        595
+      ]
+    },
+    {
+      "number": 495,
+      "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+      "state": "CLOSED",
+      "pull_requests": [
+        590
+      ]
+    },
+    {
+      "number": 496,
+      "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        599
+      ]
+    },
+    {
+      "number": 497,
+      "title": "[v0.92.1][CORP-C] Corporate IP-transfer acceptance",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 498,
+      "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+      "state": "CLOSED",
+      "pull_requests": [
+        637
+      ]
+    },
+    {
+      "number": 499,
+      "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+      "state": "CLOSED",
+      "pull_requests": [
+        547
+      ]
+    },
+    {
+      "number": 500,
+      "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        565
+      ]
+    },
+    {
+      "number": 501,
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+        568
+      ]
+    },
+    {
+      "number": 502,
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+      "state": "CLOSED",
+      "pull_requests": [
+        572
+      ]
+    },
+    {
+      "number": 503,
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+      "state": "CLOSED",
+      "pull_requests": [
+        581
+      ]
+    },
+    {
+      "number": 504,
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+      "state": "CLOSED",
+      "pull_requests": [
+        588
+      ]
+    },
+    {
+      "number": 505,
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+      "state": "CLOSED",
+      "pull_requests": [
+        591
+      ]
+    },
+    {
+      "number": 506,
+      "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+      "state": "CLOSED",
+      "pull_requests": [
+        616
+      ]
+    },
+    {
+      "number": 507,
+      "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+        619
+      ]
+    },
+    {
+      "number": 508,
+      "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+        623
+      ]
+    },
+    {
+      "number": 509,
+      "title": "[v0.92.1][DRT-D] GCP portability qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+        652
+      ]
+    },
+    {
+      "number": 510,
+      "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+      "state": "CLOSED",
+      "pull_requests": [
+        546
+      ]
+    },
+    {
+      "number": 511,
+      "title": "[v0.92.1][OBS-A] Observatory experience design",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 512,
+      "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+      "state": "CLOSED",
+      "pull_requests": [
+        719
+      ]
+    },
+    {
+      "number": 513,
+      "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+      "state": "CLOSED",
+      "pull_requests": [
+        557
+      ]
+    },
+    {
+      "number": 514,
+      "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+      "state": "CLOSED",
+      "pull_requests": [
+        549
+      ]
+    },
+    {
+      "number": 515,
+      "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+      "state": "CLOSED",
+      "pull_requests": [
+        621
+      ]
+    },
+    {
+      "number": 516,
+      "title": "[v0.92.1][INT-01] Release-tail admission",
+      "state": "CLOSED",
+      "pull_requests": [
+        737
+      ]
+    },
+    {
+      "number": 517,
+      "title": "[v0.92.1][TAIL-01] Quality gate",
+      "state": "CLOSED",
+      "pull_requests": [
+        748,
+        752
+      ]
+    },
+    {
+      "number": 518,
+      "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+      "state": "CLOSED",
+      "pull_requests": [
+        753
+      ]
+    },
+    {
+      "number": 519,
+      "title": "[v0.92.1][TAIL-03] Publication finalization",
+      "state": "CLOSED",
+      "pull_requests": [
+        756
+      ]
+    },
+    {
+      "number": 520,
+      "title": "[v0.92.1][TAIL-04] Internal review",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 521,
+      "title": "[v0.92.1][TAIL-05] External / third-party review",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 522,
+      "title": "[v0.92.1][TAIL-06] Review findings remediation",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 523,
+      "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+      "state": "CLOSED",
+      "pull_requests": [
+        743
+      ]
+    },
+    {
+      "number": 524,
+      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 525,
+      "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 526,
+      "title": "[v0.92.1][TAIL-10] Release ceremony",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 528,
+      "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+      "state": "CLOSED",
+      "pull_requests": [
+        603
+      ]
+    },
+    {
+      "number": 529,
+      "title": "[v0.92.1][Sprint 1] Independent foundations",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 530,
+      "title": "[v0.92.1][Sprint 2] Parallel cloud foundations",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 531,
+      "title": "[v0.92.1][Sprint 3] Cloud convergence",
+      "state": "CLOSED",
+      "pull_requests": [
+        600
+      ]
+    },
+    {
+      "number": 532,
+      "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 533,
+      "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 534,
+      "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+      "state": "CLOSED",
+      "pull_requests": [
+        715
+      ]
+    },
+    {
+      "number": 535,
+      "title": "[v0.92.1][Sprint 7] Distributed Runtime qualification",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 536,
+      "title": "[v0.92.1][Sprint 8] Podcast and Observatory",
+      "state": "CLOSED",
+      "pull_requests": [
+        729
+      ]
+    },
+    {
+      "number": 537,
+      "title": "[v0.92.1][Sprint 9] Provider comparison and convergence",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 538,
+      "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 539,
+      "title": "[v0.92.1][Sprint 11] Handoff and release",
+      "state": "CLOSED",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 544,
+      "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+      "state": "CLOSED",
+      "pull_requests": [
+        548
+      ]
+    },
+    {
+      "number": 558,
+      "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+      "state": "CLOSED",
+      "pull_requests": [
+        559
+      ]
+    },
+    {
+      "number": 560,
+      "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+      "state": "CLOSED",
+      "pull_requests": [
+        561
+      ]
+    },
+    {
+      "number": 563,
+      "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+      "state": "CLOSED",
+      "pull_requests": [
+        569
+      ]
+    },
+    {
+      "number": 592,
+      "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+      "state": "CLOSED",
+      "pull_requests": [
+        650
+      ]
+    },
+    {
+      "number": 617,
+      "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+      "state": "CLOSED",
+      "pull_requests": [
+        636
+      ]
+    },
+    {
+      "number": 656,
+      "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+      "state": "CLOSED",
+      "pull_requests": [
+        658
+      ]
+    },
+    {
+      "number": 659,
+      "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+      "state": "CLOSED",
+      "pull_requests": [
+        676
+      ]
+    },
+    {
+      "number": 660,
+      "title": "[v0.92.1][podcast][emergency] Remove unintended public /podcast/ exposure and keep show under _preview",
+      "state": "CLOSED",
+      "pull_requests": [
+        664
+      ]
+    },
+    {
+      "number": 661,
+      "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+      "state": "CLOSED",
+      "pull_requests": [
+        666
+      ]
+    },
+    {
+      "number": 662,
+      "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+      "state": "CLOSED",
+      "pull_requests": [
+        668
+      ]
+    },
+    {
+      "number": 665,
+      "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+      "state": "CLOSED",
+      "pull_requests": [
+        673
+      ]
+    },
+    {
+      "number": 671,
+      "title": "[backlog][podcast][51.d follow-up] Register The Cognitive Stack after approval",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 693,
+      "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+      "state": "CLOSED",
+      "pull_requests": [
+        696
+      ]
+    },
+    {
+      "number": 708,
+      "title": "[v0.92.1][Runtime] Inject versioned Polis welcome package into admitted agent context",
+      "state": "CLOSED",
+      "pull_requests": [
+        709
+      ]
+    },
+    {
+      "number": 717,
+      "title": "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities",
+      "state": "CLOSED",
+      "pull_requests": [
+        800
+      ]
+    },
+    {
+      "number": 718,
+      "title": "[v0.92.1][Runtime] Route agent-to-agent communication by canonical agent name",
+      "state": "CLOSED",
+      "pull_requests": [
+        809
+      ]
+    },
+    {
+      "number": 727,
+      "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+      "state": "CLOSED",
+      "pull_requests": [
+        733
+      ]
+    },
+    {
+      "number": 728,
+      "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+      "state": "CLOSED",
+      "pull_requests": [
+        736
+      ]
+    },
+    {
+      "number": 730,
+      "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+      "state": "CLOSED",
+      "pull_requests": [
+        738
+      ]
+    },
+    {
+      "number": 731,
+      "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
+      "state": "CLOSED",
+      "pull_requests": [
+        739,
+        742
+      ]
+    },
+    {
+      "number": 740,
+      "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+      "state": "CLOSED",
+      "pull_requests": [
+        741
+      ]
+    },
+    {
+      "number": 744,
+      "title": "[v0.92.2][tooling] Recover native v3 issue-create intents after credential preflight failure",
+      "state": "CLOSED",
+      "pull_requests": [
+        781
+      ]
+    },
+    {
+      "number": 745,
+      "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+      "state": "CLOSED",
+      "pull_requests": [
+        747
+      ]
+    },
+    {
+      "number": 757,
+      "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+      "state": "CLOSED",
+      "pull_requests": [
+        782
+      ]
+    },
+    {
+      "number": 758,
+      "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+      "state": "CLOSED",
+      "pull_requests": [
+        805
+      ]
+    },
+    {
+      "number": 759,
+      "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+      "state": "CLOSED",
+      "pull_requests": [
+        779
+      ]
+    },
+    {
+      "number": 760,
+      "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+      "state": "CLOSED",
+      "pull_requests": [
+        773
+      ]
+    },
+    {
+      "number": 761,
+      "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+      "state": "CLOSED",
+      "pull_requests": [
+        777
+      ]
+    },
+    {
+      "number": 762,
+      "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+      "state": "CLOSED",
+      "pull_requests": [
+        783
+      ]
+    },
+    {
+      "number": 763,
+      "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
+      "state": "CLOSED",
+      "pull_requests": [
+        774
+      ]
+    },
+    {
+      "number": 764,
+      "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+      "state": "CLOSED",
+      "pull_requests": [
+        780
+      ]
+    },
+    {
+      "number": 765,
+      "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
+      "state": "CLOSED",
+      "pull_requests": [
+        775
+      ]
+    },
+    {
+      "number": 766,
+      "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
+      "state": "CLOSED",
+      "pull_requests": [
+        787
+      ]
+    },
+    {
+      "number": 767,
+      "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+      "state": "CLOSED",
+      "pull_requests": [
+        785
+      ]
+    },
+    {
+      "number": 768,
+      "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+      "state": "CLOSED",
+      "pull_requests": [
+        793
+      ]
+    },
+    {
+      "number": 769,
+      "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
+      "state": "CLOSED",
+      "pull_requests": [
+        798
+      ]
+    },
+    {
+      "number": 770,
+      "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+      "state": "CLOSED",
+      "pull_requests": [
+        796
+      ]
+    },
+    {
+      "number": 771,
+      "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+      "state": "CLOSED",
+      "pull_requests": [
+        801
+      ]
+    },
+    {
+      "number": 772,
+      "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+      "state": "CLOSED",
+      "pull_requests": [
+        807
+      ]
+    },
+    {
+      "number": 776,
+      "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+      "state": "CLOSED",
+      "pull_requests": [
+        790
+      ]
+    },
+    {
+      "number": 814,
+      "title": "[v0.92.1][TAIL-06.09][runtime] Repair greeting recovery identity and local-model boundary",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 815,
+      "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 816,
+      "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 817,
+      "title": "[v0.92.1][TAIL-06.12][release] Refresh candidate proof and canonical release truth",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 818,
+      "title": "[v0.92.1][TAIL-06.08a][quality] Close corporate Runtime retained proof gaps",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 819,
+      "title": "[v0.92.1][TAIL-06.08b][quality] Close C-SDLC v3 retained proof gaps",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 820,
+      "title": "[v0.92.1][TAIL-06.08c][quality] Close distributed Runtime retained proof gaps",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    },
+    {
+      "number": 821,
+      "title": "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations",
+      "state": "OPEN",
+      "pull_requests": [
+
+      ]
+    }
+  ],
+  "pull_requests": [
+
+  ],
+  "issue_pages": [
+    {
+      "nodes": [
+        {
+          "number": 51,
+          "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
+          "state": "CLOSED"
+        },
+        {
+          "number": 84,
+          "title": "[backlog][Observatory] Complete live Unity Observatory Runtime v3 integration",
+          "state": "OPEN"
+        },
+        {
+          "number": 122,
+          "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+          "state": "CLOSED"
+        },
+        {
+          "number": 146,
+          "title": "[v0.92][planning] Establish the v0.92.1 corporate foundation, C-SDLC v3, and distributed Runtime qualification milestone",
+          "state": "CLOSED"
+        },
+        {
+          "number": 251,
+          "title": "[backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity",
+          "state": "OPEN"
+        },
+        {
+          "number": 261,
+          "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+          "state": "CLOSED"
+        },
+        {
+          "number": 262,
+          "title": "[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback",
+          "state": "CLOSED"
+        },
+        {
+          "number": 263,
+          "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+          "state": "CLOSED"
+        },
+        {
+          "number": 264,
+          "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+          "state": "CLOSED"
+        },
+        {
+          "number": 342,
+          "title": "[v0.92.1][WP-24A] Podcast Studio first ten episodes",
+          "state": "CLOSED"
+        },
+        {
+          "number": 345,
+          "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+          "state": "CLOSED"
+        },
+        {
+          "number": 387,
+          "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+          "state": "CLOSED"
+        },
+        {
+          "number": 480,
+          "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+          "state": "CLOSED"
+        },
+        {
+          "number": 482,
+          "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+          "state": "CLOSED"
+        },
+        {
+          "number": 483,
+          "title": "[v0.92.1][CORP-B] Corporate account custody register",
+          "state": "CLOSED"
+        },
+        {
+          "number": 484,
+          "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+          "state": "CLOSED"
+        },
+        {
+          "number": 485,
+          "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+          "state": "CLOSED"
+        },
+        {
+          "number": 486,
+          "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+          "state": "CLOSED"
+        },
+        {
+          "number": 487,
+          "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+          "state": "CLOSED"
+        },
+        {
+          "number": 488,
+          "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+          "state": "CLOSED"
+        },
+        {
+          "number": 489,
+          "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+          "state": "CLOSED"
+        },
+        {
+          "number": 490,
+          "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+          "state": "CLOSED"
+        },
+        {
+          "number": 491,
+          "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+          "state": "CLOSED"
+        },
+        {
+          "number": 492,
+          "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+          "state": "CLOSED"
+        },
+        {
+          "number": 493,
+          "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 494,
+          "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+          "state": "CLOSED"
+        },
+        {
+          "number": 495,
+          "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+          "state": "CLOSED"
+        },
+        {
+          "number": 496,
+          "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+          "state": "CLOSED"
+        },
+        {
+          "number": 497,
+          "title": "[v0.92.1][CORP-C] Corporate IP-transfer acceptance",
+          "state": "CLOSED"
+        },
+        {
+          "number": 498,
+          "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+          "state": "CLOSED"
+        },
+        {
+          "number": 499,
+          "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+          "state": "CLOSED"
+        },
+        {
+          "number": 500,
+          "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+          "state": "CLOSED"
+        },
+        {
+          "number": 501,
+          "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 502,
+          "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+          "state": "CLOSED"
+        },
+        {
+          "number": 503,
+          "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+          "state": "CLOSED"
+        },
+        {
+          "number": 504,
+          "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+          "state": "CLOSED"
+        },
+        {
+          "number": 505,
+          "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+          "state": "CLOSED"
+        },
+        {
+          "number": 506,
+          "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+          "state": "CLOSED"
+        },
+        {
+          "number": 507,
+          "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+          "state": "CLOSED"
+        },
+        {
+          "number": 508,
+          "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+          "state": "CLOSED"
+        },
+        {
+          "number": 509,
+          "title": "[v0.92.1][DRT-D] GCP portability qualification",
+          "state": "CLOSED"
+        },
+        {
+          "number": 510,
+          "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+          "state": "CLOSED"
+        },
+        {
+          "number": 511,
+          "title": "[v0.92.1][OBS-A] Observatory experience design",
+          "state": "CLOSED"
+        },
+        {
+          "number": 512,
+          "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 513,
+          "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 514,
+          "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+          "state": "CLOSED"
+        },
+        {
+          "number": 515,
+          "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+          "state": "CLOSED"
+        },
+        {
+          "number": 516,
+          "title": "[v0.92.1][INT-01] Release-tail admission",
+          "state": "CLOSED"
+        },
+        {
+          "number": 517,
+          "title": "[v0.92.1][TAIL-01] Quality gate",
+          "state": "CLOSED"
+        },
+        {
+          "number": 518,
+          "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+          "state": "CLOSED"
+        },
+        {
+          "number": 519,
+          "title": "[v0.92.1][TAIL-03] Publication finalization",
+          "state": "CLOSED"
+        },
+        {
+          "number": 520,
+          "title": "[v0.92.1][TAIL-04] Internal review",
+          "state": "OPEN"
+        },
+        {
+          "number": 521,
+          "title": "[v0.92.1][TAIL-05] External / third-party review",
+          "state": "OPEN"
+        },
+        {
+          "number": 522,
+          "title": "[v0.92.1][TAIL-06] Review findings remediation",
+          "state": "OPEN"
+        },
+        {
+          "number": 523,
+          "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+          "state": "CLOSED"
+        },
+        {
+          "number": 524,
+          "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+          "state": "OPEN"
+        },
+        {
+          "number": 525,
+          "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+          "state": "OPEN"
+        },
+        {
+          "number": 526,
+          "title": "[v0.92.1][TAIL-10] Release ceremony",
+          "state": "OPEN"
+        },
+        {
+          "number": 528,
+          "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+          "state": "CLOSED"
+        },
+        {
+          "number": 529,
+          "title": "[v0.92.1][Sprint 1] Independent foundations",
+          "state": "CLOSED"
+        },
+        {
+          "number": 530,
+          "title": "[v0.92.1][Sprint 2] Parallel cloud foundations",
+          "state": "CLOSED"
+        },
+        {
+          "number": 531,
+          "title": "[v0.92.1][Sprint 3] Cloud convergence",
+          "state": "CLOSED"
+        },
+        {
+          "number": 532,
+          "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+          "state": "CLOSED"
+        },
+        {
+          "number": 533,
+          "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 534,
+          "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+          "state": "CLOSED"
+        },
+        {
+          "number": 535,
+          "title": "[v0.92.1][Sprint 7] Distributed Runtime qualification",
+          "state": "CLOSED"
+        },
+        {
+          "number": 536,
+          "title": "[v0.92.1][Sprint 8] Podcast and Observatory",
+          "state": "CLOSED"
+        },
+        {
+          "number": 537,
+          "title": "[v0.92.1][Sprint 9] Provider comparison and convergence",
+          "state": "CLOSED"
+        },
+        {
+          "number": 538,
+          "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+          "state": "OPEN"
+        },
+        {
+          "number": 539,
+          "title": "[v0.92.1][Sprint 11] Handoff and release",
+          "state": "CLOSED"
+        },
+        {
+          "number": 544,
+          "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+          "state": "CLOSED"
+        },
+        {
+          "number": 558,
+          "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+          "state": "CLOSED"
+        },
+        {
+          "number": 560,
+          "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+          "state": "CLOSED"
+        },
+        {
+          "number": 563,
+          "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 592,
+          "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+          "state": "CLOSED"
+        },
+        {
+          "number": 617,
+          "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+          "state": "CLOSED"
+        },
+        {
+          "number": 656,
+          "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 659,
+          "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+          "state": "CLOSED"
+        },
+        {
+          "number": 660,
+          "title": "[v0.92.1][podcast][emergency] Remove unintended public /podcast/ exposure and keep show under _preview",
+          "state": "CLOSED"
+        },
+        {
+          "number": 661,
+          "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+          "state": "CLOSED"
+        },
+        {
+          "number": 662,
+          "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 665,
+          "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+          "state": "CLOSED"
+        },
+        {
+          "number": 671,
+          "title": "[backlog][podcast][51.d follow-up] Register The Cognitive Stack after approval",
+          "state": "OPEN"
+        },
+        {
+          "number": 693,
+          "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+          "state": "CLOSED"
+        },
+        {
+          "number": 708,
+          "title": "[v0.92.1][Runtime] Inject versioned Polis welcome package into admitted agent context",
+          "state": "CLOSED"
+        },
+        {
+          "number": 717,
+          "title": "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities",
+          "state": "CLOSED"
+        },
+        {
+          "number": 718,
+          "title": "[v0.92.1][Runtime] Route agent-to-agent communication by canonical agent name",
+          "state": "CLOSED"
+        },
+        {
+          "number": 727,
+          "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 728,
+          "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+          "state": "CLOSED"
+        },
+        {
+          "number": 730,
+          "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+          "state": "CLOSED"
+        },
+        {
+          "number": 731,
+          "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
+          "state": "CLOSED"
+        },
+        {
+          "number": 740,
+          "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+          "state": "CLOSED"
+        },
+        {
+          "number": 744,
+          "title": "[v0.92.2][tooling] Recover native v3 issue-create intents after credential preflight failure",
+          "state": "CLOSED"
+        },
+        {
+          "number": 745,
+          "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+          "state": "CLOSED"
+        },
+        {
+          "number": 757,
+          "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+          "state": "CLOSED"
+        },
+        {
+          "number": 758,
+          "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+          "state": "CLOSED"
+        },
+        {
+          "number": 759,
+          "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+          "state": "CLOSED"
+        },
+        {
+          "number": 760,
+          "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+          "state": "CLOSED"
+        },
+        {
+          "number": 761,
+          "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+          "state": "CLOSED"
+        },
+        {
+          "number": 762,
+          "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+          "state": "CLOSED"
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": true,
+        "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOS0wOVQwNDoyMToyM1rPAAAAAUGPuZ0="
+      }
+    },
+    {
+      "nodes": [
+        {
+          "number": 763,
+          "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
+          "state": "CLOSED"
+        },
+        {
+          "number": 764,
+          "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+          "state": "CLOSED"
+        },
+        {
+          "number": 765,
+          "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
+          "state": "CLOSED"
+        },
+        {
+          "number": 766,
+          "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
+          "state": "CLOSED"
+        },
+        {
+          "number": 767,
+          "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+          "state": "CLOSED"
+        },
+        {
+          "number": 768,
+          "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+          "state": "CLOSED"
+        },
+        {
+          "number": 769,
+          "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
+          "state": "CLOSED"
+        },
+        {
+          "number": 770,
+          "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+          "state": "CLOSED"
+        },
+        {
+          "number": 771,
+          "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+          "state": "CLOSED"
+        },
+        {
+          "number": 772,
+          "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+          "state": "CLOSED"
+        },
+        {
+          "number": 776,
+          "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+          "state": "CLOSED"
+        },
+        {
+          "number": 814,
+          "title": "[v0.92.1][TAIL-06.09][runtime] Repair greeting recovery identity and local-model boundary",
+          "state": "OPEN"
+        },
+        {
+          "number": 815,
+          "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
+          "state": "OPEN"
+        },
+        {
+          "number": 816,
+          "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
+          "state": "OPEN"
+        },
+        {
+          "number": 817,
+          "title": "[v0.92.1][TAIL-06.12][release] Refresh candidate proof and canonical release truth",
+          "state": "OPEN"
+        },
+        {
+          "number": 818,
+          "title": "[v0.92.1][TAIL-06.08a][quality] Close corporate Runtime retained proof gaps",
+          "state": "OPEN"
+        },
+        {
+          "number": 819,
+          "title": "[v0.92.1][TAIL-06.08b][quality] Close C-SDLC v3 retained proof gaps",
+          "state": "OPEN"
+        },
+        {
+          "number": 820,
+          "title": "[v0.92.1][TAIL-06.08c][quality] Close distributed Runtime retained proof gaps",
+          "state": "OPEN"
+        },
+        {
+          "number": 821,
+          "title": "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations",
+          "state": "OPEN"
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false,
+        "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOS0wOVQyMDo0MTozN1rPAAAAAUIic9U="
+      }
+    }
+  ],
+  "closing_reference_pages": {
+    "51": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "84": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "122": [
+      {
+        "nodes": [
+          {
+            "number": 553
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "146": [
+      {
+        "nodes": [
+          {
+            "number": 148
+          },
+          {
+            "number": 206
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "Mg"
+        }
+      }
+    ],
+    "251": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "261": [
+      {
+        "nodes": [
+          {
+            "number": 611
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "262": [
+      {
+        "nodes": [
+          {
+            "number": 618
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "263": [
+      {
+        "nodes": [
+          {
+            "number": 626
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "264": [
+      {
+        "nodes": [
+          {
+            "number": 649
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "342": [
+      {
+        "nodes": [
+          {
+            "number": 586
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "345": [
+      {
+        "nodes": [
+          {
+            "number": 593
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "387": [
+      {
+        "nodes": [
+          {
+            "number": 389
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "480": [
+      {
+        "nodes": [
+          {
+            "number": 527
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "482": [
+      {
+        "nodes": [
+          {
+            "number": 545
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "483": [
+      {
+        "nodes": [
+          {
+            "number": 562
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "484": [
+      {
+        "nodes": [
+          {
+            "number": 556
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "485": [
+      {
+        "nodes": [
+          {
+            "number": 564
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "486": [
+      {
+        "nodes": [
+          {
+            "number": 567
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "487": [
+      {
+        "nodes": [
+          {
+            "number": 574
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "488": [
+      {
+        "nodes": [
+          {
+            "number": 576
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "489": [
+      {
+        "nodes": [
+          {
+            "number": 577
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "490": [
+      {
+        "nodes": [
+          {
+            "number": 566
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "491": [
+      {
+        "nodes": [
+          {
+            "number": 575
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "492": [
+      {
+        "nodes": [
+          {
+            "number": 580
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "493": [
+      {
+        "nodes": [
+          {
+            "number": 587
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "494": [
+      {
+        "nodes": [
+          {
+            "number": 595
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "495": [
+      {
+        "nodes": [
+          {
+            "number": 590
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "496": [
+      {
+        "nodes": [
+          {
+            "number": 599
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "497": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "498": [
+      {
+        "nodes": [
+          {
+            "number": 637
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "499": [
+      {
+        "nodes": [
+          {
+            "number": 547
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "500": [
+      {
+        "nodes": [
+          {
+            "number": 565
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "501": [
+      {
+        "nodes": [
+          {
+            "number": 568
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "502": [
+      {
+        "nodes": [
+          {
+            "number": 572
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "503": [
+      {
+        "nodes": [
+          {
+            "number": 581
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "504": [
+      {
+        "nodes": [
+          {
+            "number": 588
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "505": [
+      {
+        "nodes": [
+          {
+            "number": 591
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "506": [
+      {
+        "nodes": [
+          {
+            "number": 616
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "507": [
+      {
+        "nodes": [
+          {
+            "number": 619
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "508": [
+      {
+        "nodes": [
+          {
+            "number": 623
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "509": [
+      {
+        "nodes": [
+          {
+            "number": 652
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "510": [
+      {
+        "nodes": [
+          {
+            "number": 546
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "511": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "512": [
+      {
+        "nodes": [
+          {
+            "number": 719
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "513": [
+      {
+        "nodes": [
+          {
+            "number": 557
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "514": [
+      {
+        "nodes": [
+          {
+            "number": 549
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "515": [
+      {
+        "nodes": [
+          {
+            "number": 621
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "516": [
+      {
+        "nodes": [
+          {
+            "number": 737
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "517": [
+      {
+        "nodes": [
+          {
+            "number": 748
+          },
+          {
+            "number": 752
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "Mg"
+        }
+      }
+    ],
+    "518": [
+      {
+        "nodes": [
+          {
+            "number": 753
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "519": [
+      {
+        "nodes": [
+          {
+            "number": 756
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "520": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "521": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "522": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "523": [
+      {
+        "nodes": [
+          {
+            "number": 743
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "524": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "525": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "526": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "528": [
+      {
+        "nodes": [
+          {
+            "number": 603
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "529": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "530": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "531": [
+      {
+        "nodes": [
+          {
+            "number": 600
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "532": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "533": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "534": [
+      {
+        "nodes": [
+          {
+            "number": 715
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "535": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "536": [
+      {
+        "nodes": [
+          {
+            "number": 729
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "537": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "538": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "539": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "544": [
+      {
+        "nodes": [
+          {
+            "number": 548
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "558": [
+      {
+        "nodes": [
+          {
+            "number": 559
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "560": [
+      {
+        "nodes": [
+          {
+            "number": 561
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "563": [
+      {
+        "nodes": [
+          {
+            "number": 569
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "592": [
+      {
+        "nodes": [
+          {
+            "number": 650
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "617": [
+      {
+        "nodes": [
+          {
+            "number": 636
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "656": [
+      {
+        "nodes": [
+          {
+            "number": 658
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "659": [
+      {
+        "nodes": [
+          {
+            "number": 676
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "660": [
+      {
+        "nodes": [
+          {
+            "number": 664
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "661": [
+      {
+        "nodes": [
+          {
+            "number": 666
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "662": [
+      {
+        "nodes": [
+          {
+            "number": 668
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "665": [
+      {
+        "nodes": [
+          {
+            "number": 673
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "671": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "693": [
+      {
+        "nodes": [
+          {
+            "number": 696
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "708": [
+      {
+        "nodes": [
+          {
+            "number": 709
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "717": [
+      {
+        "nodes": [
+          {
+            "number": 800
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "718": [
+      {
+        "nodes": [
+          {
+            "number": 809
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "727": [
+      {
+        "nodes": [
+          {
+            "number": 733
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "728": [
+      {
+        "nodes": [
+          {
+            "number": 736
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "730": [
+      {
+        "nodes": [
+          {
+            "number": 738
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "731": [
+      {
+        "nodes": [
+          {
+            "number": 739
+          },
+          {
+            "number": 742
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "Mg"
+        }
+      }
+    ],
+    "740": [
+      {
+        "nodes": [
+          {
+            "number": 741
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "744": [
+      {
+        "nodes": [
+          {
+            "number": 781
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "745": [
+      {
+        "nodes": [
+          {
+            "number": 747
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "757": [
+      {
+        "nodes": [
+          {
+            "number": 782
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "758": [
+      {
+        "nodes": [
+          {
+            "number": 805
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "759": [
+      {
+        "nodes": [
+          {
+            "number": 779
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "760": [
+      {
+        "nodes": [
+          {
+            "number": 773
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "761": [
+      {
+        "nodes": [
+          {
+            "number": 777
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "762": [
+      {
+        "nodes": [
+          {
+            "number": 783
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "763": [
+      {
+        "nodes": [
+          {
+            "number": 774
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "764": [
+      {
+        "nodes": [
+          {
+            "number": 780
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "765": [
+      {
+        "nodes": [
+          {
+            "number": 775
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "766": [
+      {
+        "nodes": [
+          {
+            "number": 787
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "767": [
+      {
+        "nodes": [
+          {
+            "number": 785
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "768": [
+      {
+        "nodes": [
+          {
+            "number": 793
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "769": [
+      {
+        "nodes": [
+          {
+            "number": 798
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "770": [
+      {
+        "nodes": [
+          {
+            "number": 796
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "771": [
+      {
+        "nodes": [
+          {
+            "number": 801
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "772": [
+      {
+        "nodes": [
+          {
+            "number": 807
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "776": [
+      {
+        "nodes": [
+          {
+            "number": 790
+          }
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": "MQ"
+        }
+      }
+    ],
+    "814": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "815": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "816": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "817": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "818": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "819": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "820": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ],
+    "821": [
+      {
+        "nodes": [
+
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
+      }
+    ]
+  },
+  "pull_request_pages": [
+    {
+      "nodes": [
+        {
+          "number": 1,
+          "title": "[v0.92][Cutover] Promote Agent Logic ADL to canonical authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-06T21:12:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/1",
+          "milestone": null
+        },
+        {
+          "number": 2,
+          "title": "[v0.92][Cutover] Retain terminal canonical repository evidence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-06T21:27:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/2",
+          "milestone": null
+        },
+        {
+          "number": 4,
+          "title": "[v0.92][C-SDLC v2] Repair claim-free sprint readiness",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T02:22:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/4",
+          "milestone": null
+        },
+        {
+          "number": 5,
+          "title": "[v0.92][C-SDLC v2][Sprint 3] Make WP-04 packets bind-ready",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T03:31:53Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/5",
+          "milestone": null
+        },
+        {
+          "number": 7,
+          "title": "[v0.92][Codecov] Authenticate canonical coverage uploads with OIDC",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T02:55:39Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/7",
+          "milestone": null
+        },
+        {
+          "number": 8,
+          "title": "[v0.92][C-SDLC v2][sprint-4] Repair first-birthday wave readiness (#5903)",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T02:56:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/8",
+          "milestone": null
+        },
+        {
+          "number": 9,
+          "title": "fix(runtime): use one browser-trusted localhost TLS identity",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T05:34:03Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/9",
+          "milestone": null
+        },
+        {
+          "number": 11,
+          "title": "ci: optimize PR validation on the 16-core GitHub runner",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T01:59:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/11",
+          "milestone": null
+        },
+        {
+          "number": 12,
+          "title": "[v0.92][WP-05] Make estimation and cycle-time evidence authoritative",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T17:45:56Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/12",
+          "milestone": null
+        },
+        {
+          "number": 14,
+          "title": "[v0.92][WP-24] Complete the ten-article ADL launch series",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T17:08:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/14",
+          "milestone": null
+        },
+        {
+          "number": 15,
+          "title": "[v0.92][WP-06] Harden remote validation runners",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T02:00:46Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/15",
+          "milestone": null
+        },
+        {
+          "number": 16,
+          "title": "docs(v0.92): finalize Sprint 2 execution readiness",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T18:04:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/16",
+          "milestone": null
+        },
+        {
+          "number": 21,
+          "title": "[v0.92][csdlc-v2][closeout] Reconcile all closed issues into terminal truth",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T18:46:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/21",
+          "milestone": null
+        },
+        {
+          "number": 23,
+          "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T19:27:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/23",
+          "milestone": null
+        },
+        {
+          "number": 24,
+          "title": "[v0.92][WP-07] Complete prompt-card enum typing audit",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T02:00:56Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/24",
+          "milestone": null
+        },
+        {
+          "number": 25,
+          "title": "[v0.92][C-SDLC v2] Resolve multiple merged closeout authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-07T19:53:38Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/25",
+          "milestone": null
+        },
+        {
+          "number": 28,
+          "title": "[v0.92][WP-03] Runtime launch and resilience consolidation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T03:15:24Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/28",
+          "milestone": null
+        },
+        {
+          "number": 29,
+          "title": "fix(runtime): harden native receipt revision validation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T05:48:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/29",
+          "milestone": null
+        },
+        {
+          "number": 30,
+          "title": "[CI][WP-02A] Skip unselected workspace coverage producers",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T03:47:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/30",
+          "milestone": null
+        },
+        {
+          "number": 31,
+          "title": "[v0.92][C-SDLC v2] Harden canonical PR publication identity",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T03:29:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/31",
+          "milestone": null
+        },
+        {
+          "number": 33,
+          "title": "[v0.92][Sprint 1] Close foundation and throughput",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T03:24:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/33",
+          "milestone": null
+        },
+        {
+          "number": 34,
+          "title": "[v0.92][C-SDLC v2] Handle closed machine-output pipes",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T05:41:46Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/34",
+          "milestone": null
+        },
+        {
+          "number": 36,
+          "title": "fix(builder): include pinned Ruby runtime",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T03:57:53Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/36",
+          "milestone": null
+        },
+        {
+          "number": 37,
+          "title": "Fix false-positive C-SDLC doctor execution readiness",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T14:23:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/37",
+          "milestone": null
+        },
+        {
+          "number": 38,
+          "title": "[v0.92][CI][runners] Make larger-runner eligibility branch-independent and observable (#32)",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T04:27:39Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/38",
+          "milestone": null
+        },
+        {
+          "number": 39,
+          "title": "[v0.92][WP-04] Freeze the distributed Guardian architecture and security gate",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T15:57:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/39",
+          "milestone": null
+        },
+        {
+          "number": 40,
+          "title": "fix(runtime): restore native receipt revision validation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T15:17:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/40",
+          "milestone": null
+        },
+        {
+          "number": 42,
+          "title": "[readiness][C-SDLC v2] Prepare #5883 duplicate csdlc-init retirement",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/42",
+          "milestone": null
+        },
+        {
+          "number": 43,
+          "title": "[readiness][C-SDLC v2] Prepare #5895 retired csdlc-migrate cleanup",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/43",
+          "milestone": null
+        },
+        {
+          "number": 44,
+          "title": "[readiness][v0.92][C-SDLC v2] Prepare #5881 claim removal",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/44",
+          "milestone": null
+        },
+        {
+          "number": 46,
+          "title": "[Backlog][C-SDLC v2] Prove retired csdlc-migrate is absent",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T15:49:20Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/46",
+          "milestone": null
+        },
+        {
+          "number": 48,
+          "title": "[tooling] Prove bounded Codex background dispatch (#35)",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T16:00:53Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/48",
+          "milestone": null
+        },
+        {
+          "number": 49,
+          "title": "[Backlog][C-SDLC v2] Retire duplicate csdlc-init entrypoint",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T17:51:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/49",
+          "milestone": null
+        },
+        {
+          "number": 50,
+          "title": "chore(csdlc): make WP-24A execution-ready",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T16:09:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/50",
+          "milestone": null
+        },
+        {
+          "number": 52,
+          "title": "[v0.92][C-SDLC v2] Remove claims from the lifecycle",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T16:54:51Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/52",
+          "milestone": null
+        },
+        {
+          "number": 54,
+          "title": "[v0.92][WP-04.01] Node identity and authenticated enrollment",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T17:35:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/54",
+          "milestone": null
+        },
+        {
+          "number": 57,
+          "title": "[v0.92][podcast] Rename preview to Cognitive Spacetime",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T17:34:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/57",
+          "milestone": null
+        },
+        {
+          "number": 58,
+          "title": "[C-SDLC v2] Make doctor honor split repository authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T18:16:25Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/58",
+          "milestone": null
+        },
+        {
+          "number": 60,
+          "title": "[C-SDLC v2][validation] Make named Rust test selectors target only their declared lane",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T17:59:43Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/60",
+          "milestone": null
+        },
+        {
+          "number": 62,
+          "title": "[v0.92][WP-04.02] Distributed certificate purposes and lifecycle",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T18:38:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/62",
+          "milestone": null
+        },
+        {
+          "number": 64,
+          "title": "[defect][ci][coverage] Route hosted coverage aggregation to the 16-core runner",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T18:44:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/64",
+          "milestone": null
+        },
+        {
+          "number": 65,
+          "title": "[C-SDLC v2] Make execution-proof receipts non-self-referential",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T18:37:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/65",
+          "milestone": null
+        },
+        {
+          "number": 67,
+          "title": "[v0.92][WP-04.03] Maintained QUIC/TLS transport adapter",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T06:17:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/67",
+          "milestone": null
+        },
+        {
+          "number": 68,
+          "title": "[C-SDLC v2][GitHub] Classify issue-read failures",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T19:57:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/68",
+          "milestone": null
+        },
+        {
+          "number": 69,
+          "title": "feat(podcast): complete Cognitive Spacetime episode 001",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T06:19:51Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/69",
+          "milestone": null
+        },
+        {
+          "number": 70,
+          "title": "[v0.92][C-SDLC v2] Resolve historical bind topology records canonically",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T20:35:45Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/70",
+          "milestone": null
+        },
+        {
+          "number": 71,
+          "title": "[C-SDLC v2] Allow audited implemented SIP scope correction",
+          "state": "MERGED",
+          "mergedAt": "2026-08-08T20:55:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/71",
+          "milestone": null
+        },
+        {
+          "number": 72,
+          "title": "[v0.92][runtime][shepherd] Add bounded local Gemma Shepherd foundation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T06:26:18Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/72",
+          "milestone": null
+        },
+        {
+          "number": 76,
+          "title": "[v0.92][WP-14] Reconcile ACIP and A2A protocol contracts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T07:10:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/76",
+          "milestone": null
+        },
+        {
+          "number": 77,
+          "title": "[planning][C-SDLC v3] Complete the reviewed Rust architecture and implementation plan",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T22:09:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/77",
+          "milestone": null
+        },
+        {
+          "number": 80,
+          "title": "[v0.92][C-SDLC v2] Prove stale claim records do not block bind",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T07:33:50Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/80",
+          "milestone": null
+        },
+        {
+          "number": 81,
+          "title": "[v0.92][C-SDLC v2] Permit bind-safe deferred Rust targets",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T07:34:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/81",
+          "milestone": null
+        },
+        {
+          "number": 82,
+          "title": "[v0.92][C-SDLC v2] Support non-closing incremental publication linkage",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T07:54:47Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/82",
+          "milestone": null
+        },
+        {
+          "number": 85,
+          "title": "[C-SDLC v2] Add typed STP correction after review recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T07:40:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/85",
+          "milestone": null
+        },
+        {
+          "number": 86,
+          "title": "[v0.92][Codex goals] Route blocked-goal replacement to platform authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T07:42:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/86",
+          "milestone": null
+        },
+        {
+          "number": 88,
+          "title": "[v0.92][WP-04.04] Seed discovery and authenticated join",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T23:03:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/88",
+          "milestone": null
+        },
+        {
+          "number": 89,
+          "title": "[v0.92][WP-04.09] Signed capability advertisements",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T22:29:20Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/89",
+          "milestone": null
+        },
+        {
+          "number": 91,
+          "title": "Close v0.92 Sprint 2 runtime and protocol wave",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T08:35:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/91",
+          "milestone": null
+        },
+        {
+          "number": 93,
+          "title": "[v0.92][WP-04.10] Signed resource-weather advertisements",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T22:34:27Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/93",
+          "milestone": null
+        },
+        {
+          "number": 94,
+          "title": "[v0.92][runtime][ci] Fix ACIP minor-version strict Clippy failure",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T22:39:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/94",
+          "milestone": null
+        },
+        {
+          "number": 95,
+          "title": "[v0.92][Provider] Add first-class Deepgram speech provider",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T00:30:03Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/95",
+          "milestone": null
+        },
+        {
+          "number": 97,
+          "title": "[v0.92][C-SDLC v2][blocker] Reconcile umbrella receipts with v3 source-evidence topology",
+          "state": "MERGED",
+          "mergedAt": "2026-08-09T22:20:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/97",
+          "milestone": null
+        },
+        {
+          "number": 98,
+          "title": "[v0.92][runtime-v3] Unify TLS/mTLS and retire self-signed Runtime certificates",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T02:59:26Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/98",
+          "milestone": null
+        },
+        {
+          "number": 99,
+          "title": "[v0.92][C-SDLC v2] Fix same-issue stale topology bind regression",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T00:11:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/99",
+          "milestone": null
+        },
+        {
+          "number": 102,
+          "title": "[v0.92][WP-04.05] Membership state and topology convergence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T00:23:43Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/102",
+          "milestone": null
+        },
+        {
+          "number": 103,
+          "title": "[v0.92][readiness] Prepare Sprint 5 without starting child work",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T02:08:10Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/103",
+          "milestone": null
+        },
+        {
+          "number": 104,
+          "title": "[v0.92][WP-08] Implement deterministic birthday contract",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T02:35:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/104",
+          "milestone": null
+        },
+        {
+          "number": 105,
+          "title": "[v0.92][tools] Enforce repo-native GitHub lifecycle routes",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T01:18:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/105",
+          "milestone": null
+        },
+        {
+          "number": 106,
+          "title": "[v0.92][WP-04.06] Failure detection and partition classification",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T02:38:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/106",
+          "milestone": null
+        },
+        {
+          "number": 107,
+          "title": "[v0.92][WP-04.07] Epoch and lease authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T02:42:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/107",
+          "milestone": null
+        },
+        {
+          "number": 108,
+          "title": "[v0.92][C-SDLC v2] Support split-repository publication for pre-code_repository bound records",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T02:24:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/108",
+          "milestone": null
+        },
+        {
+          "number": 118,
+          "title": "[v0.92][WP-09] Stable name and identity architecture",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T07:52:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/118",
+          "milestone": null
+        },
+        {
+          "number": 119,
+          "title": "[v0.92][C-SDLC] Use fresh sessions for standard SRP review",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T03:35:41Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/119",
+          "milestone": null
+        },
+        {
+          "number": 120,
+          "title": "[v0.92][WP-04.07][defect] Harden lease mutation authority and bounded proof",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T06:12:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/120",
+          "milestone": null
+        },
+        {
+          "number": 123,
+          "title": "[v0.92][WP-04.07] Support quorum fencing and restart-safe lease epochs",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T07:01:56Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/123",
+          "milestone": null
+        },
+        {
+          "number": 124,
+          "title": "[v0.92][publication] Recover the 10 Medium launch article drafts to Google Drive",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T15:38:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/124",
+          "milestone": null
+        },
+        {
+          "number": 125,
+          "title": "[v0.92][WP-04.08] Fencing and single-owner enforcement",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T08:11:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/125",
+          "milestone": null
+        },
+        {
+          "number": 126,
+          "title": "[v0.92][WP-04.12] Snapshot catalog and transfer manifest",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T08:51:36Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/126",
+          "milestone": null
+        },
+        {
+          "number": 127,
+          "title": "[v0.92][WP-10] Continuity across bounded cycles",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T10:48:47Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/127",
+          "milestone": null
+        },
+        {
+          "number": 128,
+          "title": "[v0.92][WP-04.11] Bounded placement decisions",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T09:16:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/128",
+          "milestone": null
+        },
+        {
+          "number": 129,
+          "title": "[v0.92][WP-04.13] Migration state machine",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T10:29:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/129",
+          "milestone": null
+        },
+        {
+          "number": 130,
+          "title": "[v0.92][WP-04.14] Quorum-bound relocation recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T11:42:24Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/130",
+          "milestone": null
+        },
+        {
+          "number": 131,
+          "title": "[v0.92][WP-11][runtime] Implement the first Memory Palace context-topology slice",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T12:26:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/131",
+          "milestone": null
+        },
+        {
+          "number": 134,
+          "title": "[v0.92][WP-04.15] Expose revisioned redacted authority snapshots",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T12:56:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/134",
+          "milestone": null
+        },
+        {
+          "number": 135,
+          "title": "[v0.92][WP-12][runtime] Implement the canonical capability envelope",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T13:59:33Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/135",
+          "milestone": null
+        },
+        {
+          "number": 136,
+          "title": "[v0.92][WP-04.15] Add authenticated distributed reviewer projection",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T13:53:18Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/136",
+          "milestone": null
+        },
+        {
+          "number": 138,
+          "title": "[v0.92][WP-04.16] Register three-platform distributed native proof workflow",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T14:44:18Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/138",
+          "milestone": null
+        },
+        {
+          "number": 139,
+          "title": "[v0.92][WP-13] ACP / cognitive profiles",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T15:43:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/139",
+          "milestone": null
+        },
+        {
+          "number": 140,
+          "title": "[v0.92][WP-04.16] Distributed integration, adversarial, and native-platform proof",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T15:59:37Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/140",
+          "milestone": null
+        },
+        {
+          "number": 145,
+          "title": "[v0.92][WP-04.07][defect] Reconcile terminal truth and strict Clippy proof",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T18:27:23Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/145",
+          "milestone": null
+        },
+        {
+          "number": 147,
+          "title": "[v0.92][WP-13][defect] Anchor cognitive-profile authority and verify full revision lineage",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T19:35:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/147",
+          "milestone": null
+        },
+        {
+          "number": 148,
+          "title": "[v0.92][planning] Establish the v0.92.1 corporate, C-SDLC v3, and distributed Runtime milestone",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T00:08:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/148",
+          "milestone": null
+        },
+        {
+          "number": 195,
+          "title": "[v0.92][WP-13A][runtime] Implement the Adaptive Learning DAG",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T21:34:11Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/195",
+          "milestone": null
+        },
+        {
+          "number": 196,
+          "title": "[v0.92][ADR] Author the milestone architecture decision record set",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T00:56:07Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/196",
+          "milestone": null
+        },
+        {
+          "number": 197,
+          "title": "[v0.92][WP-04.16a] Secure and durably persist three-voter OpenRaft transport",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T02:05:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/197",
+          "milestone": null
+        },
+        {
+          "number": 198,
+          "title": "[v0.92][WP-15] Birth witnesses and receipts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-10T23:16:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/198",
+          "milestone": null
+        },
+        {
+          "number": 206,
+          "title": "[v0.92][planning] Establish the v0.92.1 corporate, C-SDLC v3, and distributed Runtime milestone",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T01:23:30Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/206",
+          "milestone": null
+        },
+        {
+          "number": 212,
+          "title": "[v0.92][WP-18A-HTML] Complete the HTML Observatory Runtime v3 client",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/212",
+          "milestone": null
+        },
+        {
+          "number": 215,
+          "title": "[v0.92][WP-14 follow-up] Repair production ACIP authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T03:02:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/215",
+          "milestone": null
+        },
+        {
+          "number": 218,
+          "title": "[v0.92][WP-16] Birthday review packet",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T03:40:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/218",
+          "milestone": null
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": true,
+        "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOC0xMVQwMzozNTo0OVrO_VGW9Q=="
+      }
+    },
+    {
+      "nodes": [
+        {
+          "number": 219,
+          "title": "[v0.92][C-SDLC v2] Support truthful pre-bind contract repair",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T05:12:07Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/219",
+          "milestone": null
+        },
+        {
+          "number": 220,
+          "title": "[v0.92][Sprint 4] First-birthday core review",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T04:16:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/220",
+          "milestone": null
+        },
+        {
+          "number": 221,
+          "title": "[v0.92][WP-14] Retain merge-safe native proof",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T06:23:41Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/221",
+          "milestone": null
+        },
+        {
+          "number": 222,
+          "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T22:32:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/222",
+          "milestone": null
+        },
+        {
+          "number": 223,
+          "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/223",
+          "milestone": null
+        },
+        {
+          "number": 224,
+          "title": "[v0.92][sprint] Move WP-20 to final release tail",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T17:10:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/224",
+          "milestone": null
+        },
+        {
+          "number": 227,
+          "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T17:11:43Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/227",
+          "milestone": null
+        },
+        {
+          "number": 228,
+          "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T22:57:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/228",
+          "milestone": null
+        },
+        {
+          "number": 229,
+          "title": "[v0.92][WP-04.16b1] Establish the quorum-committed authority protocol",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T12:56:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/229",
+          "milestone": null
+        },
+        {
+          "number": 230,
+          "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T15:06:18Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/230",
+          "milestone": null
+        },
+        {
+          "number": 231,
+          "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T16:08:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/231",
+          "milestone": null
+        },
+        {
+          "number": 232,
+          "title": "[v0.92][sprint] Reconcile Sprint 5 and release-tail lifecycle truth",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T19:53:04Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/232",
+          "milestone": null
+        },
+        {
+          "number": 233,
+          "title": "[v0.92][tooling] Route focused Observatory validation without optional jobs",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T21:32:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/233",
+          "milestone": null
+        },
+        {
+          "number": 235,
+          "title": "[v0.92][CI] Prevent optional workflow fanout and runner waste",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T21:29:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/235",
+          "milestone": null
+        },
+        {
+          "number": 236,
+          "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T22:29:57Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/236",
+          "milestone": null
+        },
+        {
+          "number": 238,
+          "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T22:28:20Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/238",
+          "milestone": null
+        },
+        {
+          "number": 240,
+          "title": "Fix derived terminal metadata-head reconciliation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-11T23:09:32Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/240",
+          "milestone": null
+        },
+        {
+          "number": 241,
+          "title": "[v0.92][recovery] Preserve active session handoffs",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T02:48:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/241",
+          "milestone": null
+        },
+        {
+          "number": 242,
+          "title": "fix(runtime): bind capability authority to Birthday continuity",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T06:57:40Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/242",
+          "milestone": null
+        },
+        {
+          "number": 243,
+          "title": "[v0.92][runtime][birth-witness] Add production policy and receipt boundary",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T07:46:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/243",
+          "milestone": null
+        },
+        {
+          "number": 245,
+          "title": "Enforce FastWork worktrees and archive Codex sessions safely",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T04:49:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/245",
+          "milestone": null
+        },
+        {
+          "number": 247,
+          "title": "Stabilize Runtime cleanup synchronization and process terminal precedence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T05:15:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/247",
+          "milestone": null
+        },
+        {
+          "number": 249,
+          "title": "[v0.92][Runtime v3] Make process-backend output-limit and timeout precedence deterministic",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/249",
+          "milestone": null
+        },
+        {
+          "number": 250,
+          "title": "[v0.92] Governed distributed membership transitions",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T07:41:11Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/250",
+          "milestone": null
+        },
+        {
+          "number": 253,
+          "title": "[v0.92][Runtime v3] Eliminate hosted Guardian executable spawn flake",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T07:36:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/253",
+          "milestone": null
+        },
+        {
+          "number": 255,
+          "title": "[v0.92][CI] Stop hosted coverage aggregate from recompiling Rust",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T08:58:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/255",
+          "milestone": null
+        },
+        {
+          "number": 289,
+          "title": "[v0.92][WP-19] Birthday-to-governance evidence handoff",
+          "state": "MERGED",
+          "mergedAt": "2026-08-12T11:20:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/289",
+          "milestone": null
+        },
+        {
+          "number": 290,
+          "title": "[v0.92][runtime][authority] Seal #258 authority store boundary slice",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T09:13:23Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/290",
+          "milestone": null
+        },
+        {
+          "number": 302,
+          "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T05:45:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/302",
+          "milestone": null
+        },
+        {
+          "number": 303,
+          "title": "[v0.92][C-SDLC] Fix initialized decomposition duplicate-edge recovery (#291)",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T05:46:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/303",
+          "milestone": null
+        },
+        {
+          "number": 304,
+          "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T09:58:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/304",
+          "milestone": null
+        },
+        {
+          "number": 305,
+          "title": "[v0.92][C-SDLC v2] Add anchored projection classification and recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T06:21:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/305",
+          "milestone": null
+        },
+        {
+          "number": 320,
+          "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T08:48:43Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/320",
+          "milestone": null
+        },
+        {
+          "number": 321,
+          "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T07:37:24Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/321",
+          "milestone": null
+        },
+        {
+          "number": 324,
+          "title": "[v0.92][tools] Add typed bound issue identity/repository migration",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T08:29:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/324",
+          "milestone": null
+        },
+        {
+          "number": 325,
+          "title": "[v0.92][C-SDLC] Exact-authority archived projection cleanup",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T10:29:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/325",
+          "milestone": null
+        },
+        {
+          "number": 326,
+          "title": "[v0.92][WP-04.16b3.1a][203.b] Bind governed transport to authority adapters",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T13:09:27Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/326",
+          "milestone": null
+        },
+        {
+          "number": 328,
+          "title": "[v0.92][C-SDLC][297] Add production recovery-to-cleanup bridge",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T11:50:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/328",
+          "milestone": null
+        },
+        {
+          "number": 329,
+          "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T12:48:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/329",
+          "milestone": null
+        },
+        {
+          "number": 332,
+          "title": "[v0.92][C-SDLC][defect] Support initialized code-repository declaration for legacy issue authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T13:49:43Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/332",
+          "milestone": null
+        },
+        {
+          "number": 333,
+          "title": "[v0.92][203.c] Govern distributed Runtime authority callers",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T14:24:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/333",
+          "milestone": null
+        },
+        {
+          "number": 334,
+          "title": "[v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T14:43:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/334",
+          "milestone": null
+        },
+        {
+          "number": 335,
+          "title": "[v0.92][WP-04.16b3.1a] Reconcile authority adapter parent integration",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T15:01:39Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/335",
+          "milestone": null
+        },
+        {
+          "number": 336,
+          "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T15:30:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/336",
+          "milestone": null
+        },
+        {
+          "number": 337,
+          "title": "[v0.92][205.a] Establish the durable serving-authority foundation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T16:28:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/337",
+          "milestone": null
+        },
+        {
+          "number": 338,
+          "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T16:37:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/338",
+          "milestone": null
+        },
+        {
+          "number": 339,
+          "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T18:38:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/339",
+          "milestone": null
+        },
+        {
+          "number": 346,
+          "title": "[v0.92][WP-18C.04a][114.a] Implement durable conversation journal foundation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T17:31:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/346",
+          "milestone": null
+        },
+        {
+          "number": 347,
+          "title": "[v0.92][C-SDLC][defect] Fail closed on bridge cleanup recovery residue",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T17:44:19Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/347",
+          "milestone": null
+        },
+        {
+          "number": 348,
+          "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T18:14:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/348",
+          "milestone": null
+        },
+        {
+          "number": 351,
+          "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T19:18:41Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/351",
+          "milestone": null
+        },
+        {
+          "number": 352,
+          "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T19:48:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/352",
+          "milestone": null
+        },
+        {
+          "number": 354,
+          "title": "[v0.92][C-SDLC v2][defect] Anchor republished review evidence to the publication commit",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T19:47:33Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/354",
+          "milestone": null
+        },
+        {
+          "number": 355,
+          "title": "[v0.92][WP-04.16b3.1b] Seal Observatory authority projection",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T21:11:54Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/355",
+          "milestone": null
+        },
+        {
+          "number": 357,
+          "title": "[v0.92][WP-04.16b3.1b] Expose minimal sealed Observatory projection accessors",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T21:42:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/357",
+          "milestone": null
+        },
+        {
+          "number": 359,
+          "title": "[v0.92][WP-04.16b3.1b] Seal Observatory transition intent and time",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T22:23:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/359",
+          "milestone": null
+        },
+        {
+          "number": 361,
+          "title": "[v0.92][WP-04.16b3.1b] Add authentic Observatory transition fixtures",
+          "state": "MERGED",
+          "mergedAt": "2026-08-13T23:30:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/361",
+          "milestone": null
+        },
+        {
+          "number": 362,
+          "title": "[v0.92][WP-04.16b3.1b] Add Observatory serving eligibility",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T01:28:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/362",
+          "milestone": null
+        },
+        {
+          "number": 364,
+          "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T00:49:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/364",
+          "milestone": null
+        },
+        {
+          "number": 366,
+          "title": "[v0.92][WP-04.16b3.1b] Seal committed child eligibility provenance",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T02:25:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/366",
+          "milestone": null
+        },
+        {
+          "number": 368,
+          "title": "[v0.92][WP-04.16b3.1b] Bind sealed child projections to one authority lineage",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T03:21:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/368",
+          "milestone": null
+        },
+        {
+          "number": 370,
+          "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T19:02:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/370",
+          "milestone": null
+        },
+        {
+          "number": 371,
+          "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T20:25:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/371",
+          "milestone": null
+        },
+        {
+          "number": 372,
+          "title": "[v0.92][runtime-v3] Add bounded soak contracts for #266",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T21:33:51Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/372",
+          "milestone": null
+        },
+        {
+          "number": 375,
+          "title": "[v0.92][runtime-v3][20.b] Integrate production workload and short qualification harness",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T22:22:24Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/375",
+          "milestone": null
+        },
+        {
+          "number": 376,
+          "title": "[v0.92][runtime-v3][20.b1] Add dependency-degradation recovery receipts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T22:34:55Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/376",
+          "milestone": null
+        },
+        {
+          "number": 377,
+          "title": "[v0.92][WP-04.16b3.1b][205.d] Prove integrated serving-authority behavior",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T23:44:25Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/377",
+          "milestone": null
+        },
+        {
+          "number": 378,
+          "title": "[v0.92][runtime-v3][20.b2] Add Vector/log-stagnation recovery receipts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-14T23:33:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/378",
+          "milestone": null
+        },
+        {
+          "number": 379,
+          "title": "[v0.92][WP-04.16b3.2] Execute quorum-approved migration workflow",
+          "state": "MERGED",
+          "mergedAt": "2026-08-15T00:35:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/379",
+          "milestone": null
+        },
+        {
+          "number": 380,
+          "title": "[v0.92][WP-04.16b3.3] Execute quorum-approved recovery workflow",
+          "state": "MERGED",
+          "mergedAt": "2026-08-15T00:56:32Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/380",
+          "milestone": null
+        },
+        {
+          "number": 381,
+          "title": "[v0.92][WP-04.16c] Bridge Runtime continuity through migration and recovery authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-15T01:25:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/381",
+          "milestone": null
+        },
+        {
+          "number": 382,
+          "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T00:06:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/382",
+          "milestone": null
+        },
+        {
+          "number": 383,
+          "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T00:25:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/383",
+          "milestone": null
+        },
+        {
+          "number": 384,
+          "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T01:22:15Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/384",
+          "milestone": null
+        },
+        {
+          "number": 385,
+          "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T17:17:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/385",
+          "milestone": null
+        },
+        {
+          "number": 386,
+          "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T02:26:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/386",
+          "milestone": null
+        },
+        {
+          "number": 389,
+          "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T04:03:47Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/389",
+          "milestone": null
+        },
+        {
+          "number": 390,
+          "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T04:58:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/390",
+          "milestone": null
+        },
+        {
+          "number": 391,
+          "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T05:35:40Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/391",
+          "milestone": null
+        },
+        {
+          "number": 392,
+          "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T06:14:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/392",
+          "milestone": null
+        },
+        {
+          "number": 393,
+          "title": "[v0.92][WP-18C.07a][117.a] Prove Observatory accessibility and responsive UX",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T07:18:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/393",
+          "milestone": null
+        },
+        {
+          "number": 394,
+          "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T07:54:26Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/394",
+          "milestone": null
+        },
+        {
+          "number": 395,
+          "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T17:40:53Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/395",
+          "milestone": null
+        },
+        {
+          "number": 396,
+          "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T19:15:54Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/396",
+          "milestone": null
+        },
+        {
+          "number": 397,
+          "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T19:12:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/397",
+          "milestone": null
+        },
+        {
+          "number": 398,
+          "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T18:25:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/398",
+          "milestone": null
+        },
+        {
+          "number": 399,
+          "title": "[v0.92][ADR 0065][207.a] Reconcile ACIP evidence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T19:03:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/399",
+          "milestone": null
+        },
+        {
+          "number": 402,
+          "title": "[tooling][csdlc-v2] Repair implemented-phase card recovery truth edits",
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T02:31:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/402",
+          "milestone": null
+        },
+        {
+          "number": 403,
+          "title": "[v0.92][tooling][csdlc-v2] Repair implemented-phase card recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T20:20:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/403",
+          "milestone": null
+        },
+        {
+          "number": 405,
+          "title": "[tooling][csdlc-v2] Allow recovered STP repo input repair",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T20:46:56Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/405",
+          "milestone": null
+        },
+        {
+          "number": 406,
+          "title": "[v0.92][WP-18C.07] Qualify production Polis interface integration",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T21:01:31Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/406",
+          "milestone": null
+        },
+        {
+          "number": 408,
+          "title": "[tooling][csdlc-v2] Add implemented-phase SIP Goal recovery",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T22:13:47Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/408",
+          "milestone": null
+        },
+        {
+          "number": 409,
+          "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T22:41:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/409",
+          "milestone": null
+        },
+        {
+          "number": 410,
+          "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T23:16:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/410",
+          "milestone": null
+        },
+        {
+          "number": 411,
+          "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-17T23:34:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/411",
+          "milestone": null
+        },
+        {
+          "number": 412,
+          "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T00:10:36Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/412",
+          "milestone": null
+        },
+        {
+          "number": 413,
+          "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T00:47:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/413",
+          "milestone": null
+        },
+        {
+          "number": 416,
+          "title": "[v0.92][AWS tooling] Retain exact builder preflight diagnostics",
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T18:31:51Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/416",
+          "milestone": null
+        },
+        {
+          "number": 419,
+          "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
+          "state": "MERGED",
+          "mergedAt": "2026-08-18T23:49:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/419",
+          "milestone": null
+        },
+        {
+          "number": 420,
+          "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T00:03:26Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/420",
+          "milestone": null
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": true,
+        "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOC0xOFQyMzo1NjozN1rPAAAAAQDcd9s="
+      }
+    },
+    {
+      "nodes": [
+        {
+          "number": 422,
+          "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T01:05:04Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/422",
+          "milestone": null
+        },
+        {
+          "number": 423,
+          "title": "[v0.92][C-SDLC][defect] Accept intentional deletion deliverables during readiness validation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T01:19:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/423",
+          "milestone": null
+        },
+        {
+          "number": 424,
+          "title": "Add CSMctl runtime startup control",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T05:55:23Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/424",
+          "milestone": null
+        },
+        {
+          "number": 427,
+          "title": "[v0.92][WP-18] Implement local birthday demo after HTML Observatory",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T07:13:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/427",
+          "milestone": null
+        },
+        {
+          "number": 428,
+          "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T07:27:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/428",
+          "milestone": null
+        },
+        {
+          "number": 429,
+          "title": "[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T17:43:26Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/429",
+          "milestone": null
+        },
+        {
+          "number": 430,
+          "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T23:51:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/430",
+          "milestone": null
+        },
+        {
+          "number": 440,
+          "title": "[v0.92.1][planning] Publish complete milestone execution package",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T22:13:47Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/440",
+          "milestone": null
+        },
+        {
+          "number": 441,
+          "title": "[v0.92.1][repository] Make .adl local-only",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T22:14:31Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/441",
+          "milestone": null
+        },
+        {
+          "number": 442,
+          "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T21:44:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/442",
+          "milestone": null
+        },
+        {
+          "number": 444,
+          "title": "[v0.92][ci] Route #341 provider-neutral proof through focused validation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T22:41:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/444",
+          "milestone": null
+        },
+        {
+          "number": 445,
+          "title": "[v0.92][sprint] Demonstration, handoff, and publication",
+          "state": "MERGED",
+          "mergedAt": "2026-08-19T22:40:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/445",
+          "milestone": null
+        },
+        {
+          "number": 447,
+          "title": "[v0.92][WP-20] Reconcile demo proof coverage",
+          "state": "MERGED",
+          "mergedAt": "2026-08-21T02:19:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/447",
+          "milestone": null
+        },
+        {
+          "number": 453,
+          "title": "[v0.92][Runtime] Wire capability envelopes and governed cognitive profiles into resident cycles",
+          "state": "MERGED",
+          "mergedAt": "2026-08-21T02:44:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/453",
+          "milestone": null
+        },
+        {
+          "number": 455,
+          "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
+          "state": "MERGED",
+          "mergedAt": "2026-08-21T04:44:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/455",
+          "milestone": null
+        },
+        {
+          "number": 456,
+          "title": "[v0.92][Runtime] Wire governed Adaptive Learning into resident execution",
+          "state": "MERGED",
+          "mergedAt": "2026-08-21T03:36:03Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/456",
+          "milestone": null
+        },
+        {
+          "number": 458,
+          "title": "[v0.92][Runtime] Converge Memory Palace production authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-21T17:12:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/458",
+          "milestone": null
+        },
+        {
+          "number": 459,
+          "title": "[v0.92][Runtime] Compose production Birthday witness activation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-21T20:04:40Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/459",
+          "milestone": null
+        },
+        {
+          "number": 460,
+          "title": "[v0.92][WP-21A] Begin proof-led repository reduction",
+          "state": "MERGED",
+          "mergedAt": "2026-08-23T04:55:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/460",
+          "milestone": null
+        },
+        {
+          "number": 462,
+          "title": "[v0.92][Runtime][security] Make lifecycle TLS authority config-only",
+          "state": "MERGED",
+          "mergedAt": "2026-08-22T00:59:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/462",
+          "milestone": null
+        },
+        {
+          "number": 463,
+          "title": "Fix Observatory fixed-port startup contract",
+          "state": "MERGED",
+          "mergedAt": "2026-08-23T04:56:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/463",
+          "milestone": null
+        },
+        {
+          "number": 464,
+          "title": "[v0.92][runtime-v3][20.c] Qualify six resident agents on AWS",
+          "state": "MERGED",
+          "mergedAt": "2026-08-22T19:07:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/464",
+          "milestone": null
+        },
+        {
+          "number": 465,
+          "title": "[v0.92][WP-21A] Rust refactoring and maintainability pass",
+          "state": "MERGED",
+          "mergedAt": "2026-08-24T16:54:37Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/465",
+          "milestone": null
+        },
+        {
+          "number": 466,
+          "title": "[v0.92][WP-22] Execute the canonical quality gate",
+          "state": "MERGED",
+          "mergedAt": "2026-08-24T20:29:50Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/466",
+          "milestone": null
+        },
+        {
+          "number": 468,
+          "title": "[v0.92][WP-22A] Correct quality-gate evidence hydration",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T00:49:54Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/468",
+          "milestone": null
+        },
+        {
+          "number": 469,
+          "title": "[v0.92][WP-23] Review documentation and prepare external handoff",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T00:56:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/469",
+          "milestone": null
+        },
+        {
+          "number": 470,
+          "title": "[v0.92][WP-25] Complete internal review",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T02:02:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/470",
+          "milestone": null
+        },
+        {
+          "number": 472,
+          "title": "[v0.92][WP-28] Reconcile v0.92.1 and plan CodeFriend Beta 1",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T03:23:22Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/472",
+          "milestone": null
+        },
+        {
+          "number": 473,
+          "title": "[v0.92][WP-27] Remediate review findings (#315)",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T16:15:04Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/473",
+          "milestone": null
+        },
+        {
+          "number": 474,
+          "title": "[v0.92][WP-28A] Define the terminal closeout plan",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T16:05:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/474",
+          "milestone": null
+        },
+        {
+          "number": 475,
+          "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T05:06:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/475",
+          "milestone": null
+        },
+        {
+          "number": 477,
+          "title": "[v0.92][WP-27] Reconcile post-merge review truth",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T16:33:03Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/477",
+          "milestone": null
+        },
+        {
+          "number": 478,
+          "title": "[v0.92][WP-29] Complete next-milestone readiness review",
+          "state": "MERGED",
+          "mergedAt": "2026-08-25T18:38:54Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/478",
+          "milestone": null
+        },
+        {
+          "number": 479,
+          "title": "[v0.92][WP-30] Complete release ceremony",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T00:50:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/479",
+          "milestone": null
+        },
+        {
+          "number": 481,
+          "title": "Close v0.92 quality and release tail",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T02:09:24Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/481",
+          "milestone": null
+        },
+        {
+          "number": 527,
+          "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T16:29:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/527",
+          "milestone": null
+        },
+        {
+          "number": 542,
+          "title": "[v0.92.1][docs] Align onboarding with Gate 10D2 authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T17:21:27Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/542",
+          "milestone": null
+        },
+        {
+          "number": 543,
+          "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T17:39:10Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/543",
+          "milestone": null
+        },
+        {
+          "number": 545,
+          "title": "[v0.92.1][CORP-A] Complete critical-asset schedule",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T19:33:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/545",
+          "milestone": null
+        },
+        {
+          "number": 546,
+          "title": "[v0.92.1][HOT-01] Add runtime config hot reload",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T20:21:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/546",
+          "milestone": null
+        },
+        {
+          "number": 547,
+          "title": "[v0.92.1][RUST-01] Refactor resilience owner boundaries",
+          "state": "MERGED",
+          "mergedAt": "2026-08-27T20:26:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/547",
+          "milestone": null
+        },
+        {
+          "number": 548,
+          "title": "[v0.92.1][C-SDLC] Prevent bootstrap state on primary checkout",
+          "state": "MERGED",
+          "mergedAt": "2026-08-27T18:44:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/548",
+          "milestone": null
+        },
+        {
+          "number": 549,
+          "title": "[v0.92.1][PROV-A] Add shared provider inference profiles",
+          "state": "MERGED",
+          "mergedAt": "2026-08-27T02:05:32Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/549",
+          "milestone": null
+        },
+        {
+          "number": 552,
+          "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T23:24:15Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/552",
+          "milestone": null
+        },
+        {
+          "number": 553,
+          "title": "[v0.92.1][Observatory] Deploy public CSM edge Terraform with Route53 and ACM",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T00:16:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/553",
+          "milestone": null
+        },
+        {
+          "number": 555,
+          "title": "[v0.92.1][shared-gate] Restore coverage baseline",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T20:49:27Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/555",
+          "milestone": null
+        },
+        {
+          "number": 556,
+          "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T20:34:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/556",
+          "milestone": null
+        },
+        {
+          "number": 557,
+          "title": "[v0.92.1][DEC-01] Separate Runtime v2/v3 authority",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T21:27:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/557",
+          "milestone": null
+        },
+        {
+          "number": 559,
+          "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+          "state": "MERGED",
+          "mergedAt": "2026-08-26T22:25:33Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/559",
+          "milestone": null
+        },
+        {
+          "number": 561,
+          "title": "fix(#560): stabilize Runtime v2 workspace coverage",
+          "state": "MERGED",
+          "mergedAt": "2026-08-27T01:36:11Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/561",
+          "milestone": null
+        },
+        {
+          "number": 562,
+          "title": "[v0.92.1][CORP-B] Corporate account custody register",
+          "state": "MERGED",
+          "mergedAt": "2026-08-27T19:20:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/562",
+          "milestone": null
+        },
+        {
+          "number": 564,
+          "title": "[v0.92.1][AWS-B] Establish AWS access and billing baseline",
+          "state": "MERGED",
+          "mergedAt": "2026-08-27T19:58:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/564",
+          "milestone": null
+        },
+        {
+          "number": 565,
+          "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T00:18:07Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/565",
+          "milestone": null
+        },
+        {
+          "number": 566,
+          "title": "[v0.92.1][GCP-A] Accept GCP hierarchy and cost decision",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T00:51:50Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/566",
+          "milestone": null
+        },
+        {
+          "number": 567,
+          "title": "[v0.92.1][AWS-C] Terraform bootstrap backend and operator runbook",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T01:31:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/567",
+          "milestone": null
+        },
+        {
+          "number": 568,
+          "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T03:03:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/568",
+          "milestone": null
+        },
+        {
+          "number": 569,
+          "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T01:55:03Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/569",
+          "milestone": null
+        },
+        {
+          "number": 572,
+          "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T17:00:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/572",
+          "milestone": null
+        },
+        {
+          "number": 573,
+          "title": "[v0.92.1][runtime][observatory] Hot-load Polis identity and domain",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T18:07:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/573",
+          "milestone": null
+        },
+        {
+          "number": 574,
+          "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T03:42:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/574",
+          "milestone": null
+        },
+        {
+          "number": 575,
+          "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T03:56:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/575",
+          "milestone": null
+        },
+        {
+          "number": 576,
+          "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T04:50:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/576",
+          "milestone": null
+        },
+        {
+          "number": 577,
+          "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T17:11:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/577",
+          "milestone": null
+        },
+        {
+          "number": 580,
+          "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T18:28:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/580",
+          "milestone": null
+        },
+        {
+          "number": 581,
+          "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+          "state": "MERGED",
+          "mergedAt": "2026-08-29T02:11:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/581",
+          "milestone": null
+        },
+        {
+          "number": 582,
+          "title": "[v0.92.1][PROV] Add GLM-5.3-Flash provider profile",
+          "state": "MERGED",
+          "mergedAt": "2026-08-31T03:26:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/582",
+          "milestone": null
+        },
+        {
+          "number": 583,
+          "title": "[v0.92.1][AWS-F corrective] Repair runtime platform edge exposure and proof gaps",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T19:38:47Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/583",
+          "milestone": null
+        },
+        {
+          "number": 584,
+          "title": "[v0.92.1][V3-G] Docs and skill cutover readiness",
+          "state": "MERGED",
+          "mergedAt": "2026-08-31T00:54:30Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/584",
+          "milestone": null
+        },
+        {
+          "number": 585,
+          "title": "[v0.92.1][V3-A follow-up] Predecessor proof and lifecycle gate corrections",
+          "state": "MERGED",
+          "mergedAt": "2026-08-31T00:55:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/585",
+          "milestone": null
+        },
+        {
+          "number": 586,
+          "title": "[v0.92.1][WP-24A] Add The Cognitive Stack episode package checkpoint",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T01:58:43Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/586",
+          "milestone": null
+        },
+        {
+          "number": 587,
+          "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+          "state": "MERGED",
+          "mergedAt": "2026-08-28T21:26:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/587",
+          "milestone": null
+        },
+        {
+          "number": 588,
+          "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+          "state": "MERGED",
+          "mergedAt": "2026-08-31T00:55:36Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/588",
+          "milestone": null
+        },
+        {
+          "number": 590,
+          "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T02:23:45Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/590",
+          "milestone": null
+        },
+        {
+          "number": 591,
+          "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+          "state": "MERGED",
+          "mergedAt": "2026-09-07T03:34:56Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/591",
+          "milestone": null
+        },
+        {
+          "number": 593,
+          "title": "[v0.92.1][Sidecar] Harden AWS GPU Shepherd proof runner",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T06:36:19Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/593",
+          "milestone": null
+        },
+        {
+          "number": 595,
+          "title": "[v0.92.1][GCP-E] Execute GCP GPU readiness smoke test",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T01:13:45Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/595",
+          "milestone": null
+        },
+        {
+          "number": 597,
+          "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T06:36:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/597",
+          "milestone": null
+        },
+        {
+          "number": 598,
+          "title": "fix(runtime): make Wuji Guardian startup and recovery converge",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T18:45:04Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/598",
+          "milestone": null
+        },
+        {
+          "number": 599,
+          "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T03:35:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/599",
+          "milestone": null
+        },
+        {
+          "number": 600,
+          "title": "[v0.92.1][Sprint 3] Cloud convergence closeout",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T06:53:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/600",
+          "milestone": null
+        },
+        {
+          "number": 601,
+          "title": "[v0.92.1][V3-D] Materialize #503 terminal truth on main",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T08:13:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/601",
+          "milestone": null
+        },
+        {
+          "number": 603,
+          "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T10:41:29Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/603",
+          "milestone": null
+        },
+        {
+          "number": 606,
+          "title": "[v0.92.1][Sidecar] Integrate final AWS GPU proof remediation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T16:39:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/606",
+          "milestone": null
+        },
+        {
+          "number": 609,
+          "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T19:04:07Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/609",
+          "milestone": null
+        },
+        {
+          "number": 610,
+          "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T23:25:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/610",
+          "milestone": null
+        },
+        {
+          "number": 611,
+          "title": "[v0.92.1][podcast] Finalize Cognitive Stack show identity",
+          "state": "MERGED",
+          "mergedAt": "2026-09-01T23:58:31Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/611",
+          "milestone": null
+        },
+        {
+          "number": 612,
+          "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/612",
+          "milestone": null
+        },
+        {
+          "number": 613,
+          "title": "[v0.92.1][CORP-C] Corporate operational-control transfer acceptance",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T06:06:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/613",
+          "milestone": null
+        },
+        {
+          "number": 614,
+          "title": "[v0.92.1][Runtime] Add config-driven agent lifecycle to csmctl",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T06:32:15Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/614",
+          "milestone": null
+        },
+        {
+          "number": 615,
+          "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T02:28:55Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/615",
+          "milestone": null
+        },
+        {
+          "number": 616,
+          "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T01:34:40Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/616",
+          "milestone": null
+        },
+        {
+          "number": 618,
+          "title": "[v0.92][podcast] Publish The Cognitive Stack hosting bundle",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T06:16:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/618",
+          "milestone": null
+        },
+        {
+          "number": 619,
+          "title": "[v0.92.1][DRT-B] Six-resident UTS qualification proof",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T02:50:45Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/619",
+          "milestone": null
+        },
+        {
+          "number": 621,
+          "title": "[v0.92.1][PROV-B] Add local-model shadow execution",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T06:38:57Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/621",
+          "milestone": null
+        },
+        {
+          "number": 623,
+          "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T03:52:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/623",
+          "milestone": null
+        },
+        {
+          "number": 626,
+          "title": "Prepare podcast directory submission runbooks",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T06:51:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/626",
+          "milestone": null
+        },
+        {
+          "number": 633,
+          "title": "[v0.92.2][planning] Refresh first-pass milestone documentation (#620)",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T08:51:20Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/633",
+          "milestone": null
+        },
+        {
+          "number": 634,
+          "title": "[v0.92.1][CORP-C] Route operational hardening to sidecar",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T08:12:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/634",
+          "milestone": null
+        },
+        {
+          "number": 635,
+          "title": "[v0.92.1][V3-H.1] Define v3 command denominator shell",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T19:10:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/635",
+          "milestone": null
+        },
+        {
+          "number": 636,
+          "title": "[v0.92.1][Runtime API] Expose canonical agent names",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T09:08:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/636",
+          "milestone": null
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": true,
+        "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOS0wMlQwODoxNjowNFrPAAAAAQd2Vvg="
+      }
+    },
+    {
+      "nodes": [
+        {
+          "number": 637,
+          "title": "[v0.92.1][CORP-D] Accept corporate diligence",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T08:55:06Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/637",
+          "milestone": null
+        },
+        {
+          "number": 638,
+          "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle routes",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/638",
+          "milestone": null
+        },
+        {
+          "number": 639,
+          "title": "[v0.92.1][V3-H.2] Implement v3 local lifecycle routes",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T20:12:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/639",
+          "milestone": null
+        },
+        {
+          "number": 641,
+          "title": "[v0.92.1][V3-H.3] Implement v3 GitHub, PR, and publication routes",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T03:03:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/641",
+          "milestone": null
+        },
+        {
+          "number": 642,
+          "title": "[v0.92.1][V3-H.4] Implement v3 terminal cleanup cutover route planning",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T03:38:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/642",
+          "milestone": null
+        },
+        {
+          "number": 643,
+          "title": "[v0.92.1][runtime-v3] Archive Runtime logs to S3",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T18:56:27Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/643",
+          "milestone": null
+        },
+        {
+          "number": 644,
+          "title": "Superseded by #669: [v0.92.1][V3-H.5] Proof/parity/install routes",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/644",
+          "milestone": null
+        },
+        {
+          "number": 646,
+          "title": "[v0.92.1][PROV-C] Production-wire provider and profile hot loading",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T18:57:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/646",
+          "milestone": null
+        },
+        {
+          "number": 647,
+          "title": "[v0.92.1][V3-H.6] Record v3 canaries, guidance, and cutover readiness",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T23:50:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/647",
+          "milestone": null
+        },
+        {
+          "number": 649,
+          "title": "[v0.92.1][podcast][51.d] Prepare directory submission authorization gate",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T19:47:12Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/649",
+          "milestone": null
+        },
+        {
+          "number": 650,
+          "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI (#592)",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T19:41:32Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/650",
+          "milestone": null
+        },
+        {
+          "number": 651,
+          "title": "[v0.92.1][PROV-C][corrective] Repair provider reload ownership",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T07:12:40Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/651",
+          "milestone": null
+        },
+        {
+          "number": 652,
+          "title": "[v0.92.1][DRT-D] GCP portability qualification",
+          "state": "MERGED",
+          "mergedAt": "2026-09-02T20:38:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/652",
+          "milestone": null
+        },
+        {
+          "number": 653,
+          "title": "[v0.92.1][Runtime] Back the resident Shepherd with a configured model",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T08:05:15Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/653",
+          "milestone": null
+        },
+        {
+          "number": 654,
+          "title": "[v0.92.1][C-SDLC v2] Reject stacked closing publication without GitHub relation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T17:02:57Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/654",
+          "milestone": null
+        },
+        {
+          "number": 655,
+          "title": "[v0.92.1][corporate] Add operational-control hardening sidecar packet (#624)",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T07:59:57Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/655",
+          "milestone": null
+        },
+        {
+          "number": 657,
+          "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T10:21:26Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/657",
+          "milestone": null
+        },
+        {
+          "number": 658,
+          "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T20:05:31Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/658",
+          "milestone": null
+        },
+        {
+          "number": 664,
+          "title": "[v0.92.1][podcast][emergency] Withhold public podcast route",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T20:06:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/664",
+          "milestone": null
+        },
+        {
+          "number": 666,
+          "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through provider",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T20:01:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/666",
+          "milestone": null
+        },
+        {
+          "number": 667,
+          "title": "[v0.92.1][GCP][runtime-v3] Add warm two-node Polis and GPU startup parity",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T19:26:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/667",
+          "milestone": null
+        },
+        {
+          "number": 668,
+          "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-03T20:15:58Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/668",
+          "milestone": null
+        },
+        {
+          "number": 669,
+          "title": "[v0.92.1][V3-H.5] Prove v3 parity, shadow, soak, and install readiness",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T23:23:45Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/669",
+          "milestone": null
+        },
+        {
+          "number": 672,
+          "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+          "state": "CLOSED",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/672",
+          "milestone": null
+        },
+        {
+          "number": 673,
+          "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T01:17:52Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/673",
+          "milestone": null
+        },
+        {
+          "number": 676,
+          "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T01:43:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/676",
+          "milestone": null
+        },
+        {
+          "number": 677,
+          "title": "[v0.92.1][Runtime] Make agent-to-agent initiation first-class in live Observatory",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T23:11:51Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/677",
+          "milestone": null
+        },
+        {
+          "number": 681,
+          "title": "[v0.92.1][Runtime] Add Axioma Polis Welcome Package",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T23:14:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/681",
+          "milestone": null
+        },
+        {
+          "number": 682,
+          "title": "[v0.92.1][Runtime] Route stable CSM through active generation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T23:14:42Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/682",
+          "milestone": null
+        },
+        {
+          "number": 683,
+          "title": "[provider] Add first-class Moonshot/Kimi K3 provider support",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T23:10:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/683",
+          "milestone": null
+        },
+        {
+          "number": 684,
+          "title": "[v0.92.1][GCP][runtime-v3] Live-qualify snapshot-backed warm two-node Polis",
+          "state": "MERGED",
+          "mergedAt": "2026-09-04T06:06:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/684",
+          "milestone": null
+        },
+        {
+          "number": 685,
+          "title": "[v0.92.1][Observatory] Add deployable static edge plan",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T18:38:04Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/685",
+          "milestone": null
+        },
+        {
+          "number": 690,
+          "title": "[v0.92.1][Runtime] Route operators to canonical Runtime v3 service control",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T18:43:37Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/690",
+          "milestone": null
+        },
+        {
+          "number": 691,
+          "title": "[v0.92.1][Runtime] Make provider inference readiness explicit and truthful",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T17:44:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/691",
+          "milestone": null
+        },
+        {
+          "number": 692,
+          "title": "[runtime] Govern Runtime v3 configuration generation handoff",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T18:49:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/692",
+          "milestone": null
+        },
+        {
+          "number": 696,
+          "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T21:09:55Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/696",
+          "milestone": null
+        },
+        {
+          "number": 697,
+          "title": "[v0.92.1][Runtime][Observatory][bug] Restore complete conversation transcripts from Runtime history",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T20:10:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/697",
+          "milestone": null
+        },
+        {
+          "number": 705,
+          "title": "[v0.92.1] Close out merged issue projections",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T22:00:05Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/705",
+          "milestone": null
+        },
+        {
+          "number": 706,
+          "title": "[v0.92.1][Runtime] Snapshot resident agents every five minutes and archive partials to S3",
+          "state": "MERGED",
+          "mergedAt": "2026-09-05T23:32:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/706",
+          "milestone": null
+        },
+        {
+          "number": 709,
+          "title": "Runtime: inject versioned Polis welcome package into agent context",
+          "state": "MERGED",
+          "mergedAt": "2026-09-07T02:37:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/709",
+          "milestone": null
+        },
+        {
+          "number": 711,
+          "title": "[v0.92.1][Runtime] Make installed generations coherent and enable real A2A",
+          "state": "MERGED",
+          "mergedAt": "2026-09-07T17:49:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/711",
+          "milestone": null
+        },
+        {
+          "number": 714,
+          "title": "[Runtime] Persist and recover causal A2A conversation history",
+          "state": "MERGED",
+          "mergedAt": "2026-09-07T02:38:27Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/714",
+          "milestone": null
+        },
+        {
+          "number": 715,
+          "title": "[v0.92.1][Sprint 6] Close C-SDLC v3 delivery and cutover",
+          "state": "MERGED",
+          "mergedAt": "2026-09-07T17:51:35Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/715",
+          "milestone": null
+        },
+        {
+          "number": 716,
+          "title": "Simplify Runtime v3 startup authority",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T02:43:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/716",
+          "milestone": null
+        },
+        {
+          "number": 719,
+          "title": "[v0.92.1][OBS-B] Implement the redesigned Observatory",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T05:51:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/719",
+          "milestone": null
+        },
+        {
+          "number": 722,
+          "title": "[v0.92.1] Close out tail merged issue terminals",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T06:56:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/722",
+          "milestone": null
+        },
+        {
+          "number": 726,
+          "title": "[v0.92.1][tools][csdlc-v3] Fix terminal authority reporting and issue-create parity",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T10:02:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/726",
+          "milestone": null
+        },
+        {
+          "number": 729,
+          "title": "[v0.92.1][docs] Close out Sprint 8 (#536)",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T07:47:07Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/729",
+          "milestone": null
+        },
+        {
+          "number": 732,
+          "title": "[csdlc-v3] Remove remaining v2 authority and build dependencies",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T11:13:19Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/732",
+          "milestone": null
+        },
+        {
+          "number": 733,
+          "title": "[v0.92.1][AWS-D-R] Apply account-foundation live proof",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T10:43:39Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/733",
+          "milestone": null
+        },
+        {
+          "number": 734,
+          "title": "[v0.92.1][csdlc-v3] Add a simple gh-style issue creation command",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T11:13:44Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/734",
+          "milestone": null
+        },
+        {
+          "number": 735,
+          "title": "Fix C-SDLC v3 proof, shadow, and install tests",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T17:04:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/735",
+          "milestone": null
+        },
+        {
+          "number": 736,
+          "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T09:19:55Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/736",
+          "milestone": null
+        },
+        {
+          "number": 737,
+          "title": "[v0.92.1][INT-01] Publish release-tail admission and gap analysis",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T19:26:48Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/737",
+          "milestone": null
+        },
+        {
+          "number": 738,
+          "title": "[v0.92.1][GCP-B1] Recover impersonated Terraform remote state",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T10:24:19Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/738",
+          "milestone": null
+        },
+        {
+          "number": 739,
+          "title": "[v0.92.1][GCP-D1] Deploy private foundation and prove disposable workload disposal",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T10:46:36Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/739",
+          "milestone": null
+        },
+        {
+          "number": 741,
+          "title": "[v0.92.1][GCP-B1] Repair post-merge proof safety",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T11:12:09Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/741",
+          "milestone": null
+        },
+        {
+          "number": 742,
+          "title": "[v0.92.1][GCP D1] Follow-up live guard remediation",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T11:18:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/742",
+          "milestone": null
+        },
+        {
+          "number": 743,
+          "title": "docs(523): reconcile v0.92.2 planning and first SIM sprint",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T00:47:04Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/743",
+          "milestone": null
+        },
+        {
+          "number": 747,
+          "title": "[v0.92.1][docs] Complete ADR plan and record v3 recovery defect",
+          "state": "MERGED",
+          "mergedAt": "2026-09-08T22:26:59Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/747",
+          "milestone": null
+        },
+        {
+          "number": 748,
+          "title": "[v0.92.1][TAIL-01] Establish exact-candidate quality gate and resolve review findings",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T01:09:08Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/748",
+          "milestone": null
+        },
+        {
+          "number": 750,
+          "title": "[v0.92.1] Close out remaining merged issue terminals",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T01:39:02Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/750",
+          "milestone": null
+        },
+        {
+          "number": 752,
+          "title": "[v0.92.1][TAIL-01] Complete criterion and closeout accounting",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T01:51:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/752",
+          "milestone": null
+        },
+        {
+          "number": 753,
+          "title": "docs(518): complete documentation review and external-review handoff",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T03:02:16Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/753",
+          "milestone": null
+        },
+        {
+          "number": 755,
+          "title": "fix(csdlc-v2): restore registry compatibility and post-cutover checks",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T02:48:54Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/755",
+          "milestone": null
+        },
+        {
+          "number": 756,
+          "title": "docs(519): finalize exact-revision publication candidate",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T04:16:55Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/756",
+          "milestone": null
+        },
+        {
+          "number": 773,
+          "title": "[v0.92.1][TAIL-06.04] Align current C-SDLC v3 authority surfaces",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T16:25:45Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/773",
+          "milestone": null
+        },
+        {
+          "number": 774,
+          "title": "[v0.92.1][TAIL-06.07] Repair detached-head cutover and rollback tests",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T16:30:49Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/774",
+          "milestone": null
+        },
+        {
+          "number": 775,
+          "title": "[v0.92.1][TAIL-06.09] Bound XCL Terraform provider majors",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:05:10Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/775",
+          "milestone": null
+        },
+        {
+          "number": 777,
+          "title": "fix(review): build complete per-lane denominators (#761)",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:11:25Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/777",
+          "milestone": null
+        },
+        {
+          "number": 778,
+          "title": "Fix native v3 bind handoff to issue worktree",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T16:22:07Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/778",
+          "milestone": null
+        },
+        {
+          "number": 779,
+          "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T19:00:39Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/779",
+          "milestone": null
+        },
+        {
+          "number": 780,
+          "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:29:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/780",
+          "milestone": null
+        },
+        {
+          "number": 781,
+          "title": "Recover native v3 GitHub mutation intents safely",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T16:32:33Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/781",
+          "milestone": null
+        },
+        {
+          "number": 782,
+          "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:13:21Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/782",
+          "milestone": null
+        },
+        {
+          "number": 783,
+          "title": "[v0.92.1][TAIL-06.06] Bind proof and install writes to issue worktrees",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:25:20Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/783",
+          "milestone": null
+        },
+        {
+          "number": 785,
+          "title": "[v0.92.1][TAIL-06.11] Project current release status",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:33:38Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/785",
+          "milestone": null
+        },
+        {
+          "number": 786,
+          "title": "Reconcile C-SDLC v3 PR branch readback defect",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:15:37Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/786",
+          "milestone": null
+        },
+        {
+          "number": 787,
+          "title": "[v0.92.1][TAIL-06.10] Pin required Rust CI toolchain",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:19:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/787",
+          "milestone": null
+        },
+        {
+          "number": 788,
+          "title": "Harden native retained C-SDLC contracts",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:14:10Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/788",
+          "milestone": null
+        },
+        {
+          "number": 789,
+          "title": "[v0.92.1][Runtime] Close the agent-to-agent result loop",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:20:14Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/789",
+          "milestone": null
+        },
+        {
+          "number": 790,
+          "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve versioned structure schemas",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:18:13Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/790",
+          "milestone": null
+        },
+        {
+          "number": 793,
+          "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:42:01Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/793",
+          "milestone": null
+        },
+        {
+          "number": 795,
+          "title": "[v0.92.2][tooling] Keep lifecycle writes out of primary",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T17:48:57Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/795",
+          "milestone": null
+        },
+        {
+          "number": 796,
+          "title": "fix(aws): require SSH recovery for public Spot Runtime (#770)",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:15:17Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/796",
+          "milestone": null
+        },
+        {
+          "number": 798,
+          "title": "[v0.92.1][TAIL-06.13] Scan publication manifest documents for redaction",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:15:36Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/798",
+          "milestone": null
+        },
+        {
+          "number": 800,
+          "title": "[v0.92.1][Runtime] Teach agents about Polis capabilities",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:09:41Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/800",
+          "milestone": null
+        },
+        {
+          "number": 801,
+          "title": "[v0.92.1][TAIL-06.15] Repair V3-F regressions and refresh exact-source proof",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:56:53Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/801",
+          "milestone": null
+        },
+        {
+          "number": 802,
+          "title": "[v0.92.2][tooling] Add native typed duplicate and no-op issue closure",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:20:00Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/802",
+          "milestone": null
+        },
+        {
+          "number": 803,
+          "title": "[v0.92.1][docs] Complete final release-status refresh",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:20:28Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/803",
+          "milestone": null
+        },
+        {
+          "number": 805,
+          "title": "fix(runtime): recover admission-triggered A2A delivery",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T19:49:39Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/805",
+          "milestone": null
+        },
+        {
+          "number": 806,
+          "title": "[v0.92.1][defect] Correct active SOR authority notice",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:29:31Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/806",
+          "milestone": null
+        },
+        {
+          "number": 807,
+          "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T18:31:15Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/807",
+          "milestone": null
+        },
+        {
+          "number": 808,
+          "title": "[C-SDLC v3] Support existing-issue labels and milestones",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T19:10:34Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/808",
+          "milestone": null
+        },
+        {
+          "number": 809,
+          "title": "[v0.92.1][Runtime] Route A2A by canonical agent name",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T19:16:40Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/809",
+          "milestone": null
+        },
+        {
+          "number": 812,
+          "title": "Restore the Observatory Panopticon design",
+          "state": "MERGED",
+          "mergedAt": "2026-09-09T19:49:15Z",
+          "url": "https://github.com/agent-logic/agent-design-language/pull/812",
+          "milestone": null
+        },
+        {
+          "number": 813,
+          "title": "fix(csdlc): close out issues without implementation PRs",
+          "state": "OPEN",
+          "mergedAt": null,
+          "url": "https://github.com/agent-logic/agent-design-language/pull/813",
+          "milestone": null
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false,
+        "endCursor": "Y3Vyc29yOnYyOpK0MjAyNi0wOS0wOVQxOTo1Mjo1MVrPAAAAAQuOCO8="
+      }
+    }
+  ]
+}

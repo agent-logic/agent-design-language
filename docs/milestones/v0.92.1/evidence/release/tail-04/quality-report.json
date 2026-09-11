@@ -1,0 +1,142 @@
+{
+  "schema": "adl.v0921.internal_review_summary.v1",
+  "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+  "outcome": "findings",
+  "observations": [
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-ARCHITECTURE",
+      "result": "verified",
+      "detail": "architecture specialist completed its exact assignment with outcome passed.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-ARCHITECTURE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
+        "source": "packet",
+        "sha256": "692d433b5e4db0ec556d774c88f58568f674067345898899104aac1133c90056",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-CODE",
+      "result": "finding",
+      "detail": "code specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-CODE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+        "source": "packet",
+        "sha256": "42c0817020d95c66175e31ffb899ea1d8c31fc207021d32fbdd930800a396860",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-DEMOS",
+      "result": "verified",
+      "detail": "demos specialist completed its exact assignment with outcome passed.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-DEMOS",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+        "source": "packet",
+        "sha256": "da99113b9c3eba18c9826eb0a8c52df06ab8ef1afff7e76a589bb95aab88b617",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-DEPENDENCY",
+      "result": "verified",
+      "detail": "dependency specialist completed its exact assignment with outcome passed.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-DEPENDENCY",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+        "source": "packet",
+        "sha256": "6f19bd159371df456aee5e1840a4f47deba62ef98e167e81bf80529390db6ee1",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-DOCUMENTATION",
+      "result": "finding",
+      "detail": "documentation specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-DOCUMENTATION",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+        "source": "packet",
+        "sha256": "5e34fd1a301e58283090a41c613d61a0af3dd1c2872e7c3447e5e96c58fa3b01",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-PROVIDER_CLOUD",
+      "result": "finding",
+      "detail": "provider_cloud specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-PROVIDER_CLOUD",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+        "source": "packet",
+        "sha256": "ff416d8ed7129e4d72df2c83a7d0b28942eb3c30db0a3265706ed22d20b8804a",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-RETAINED_EVIDENCE",
+      "result": "finding",
+      "detail": "retained_evidence specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-RETAINED_EVIDENCE",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+        "source": "packet",
+        "sha256": "2d12935407fe0a2efad11920ee639a587ff9b09c74071f5b378877458925b632",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-SECURITY",
+      "result": "finding",
+      "detail": "security specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-SECURITY",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+        "source": "packet",
+        "sha256": "b69771f5da9238e6165f7a77890d935fdceca5bbc4cb22f9c33d361f63213cf0",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+          "line": 1
+        }
+      }
+    },
+    {
+      "subject_id": "SUMMARY-QUALITY-REPORT-TESTS",
+      "result": "finding",
+      "detail": "tests specialist completed its exact assignment with outcome findings.",
+      "evidence": {
+        "subject_id": "SUMMARY-QUALITY-REPORT-TESTS",
+        "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+        "source": "packet",
+        "sha256": "b0611d39e64dad893b2c8714b9148ad0772f86e9617a84e8563d8ea57062b213",
+        "locator": {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+          "line": 1
+        }
+      }
+    }
+  ]
+}

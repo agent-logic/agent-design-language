@@ -1,0 +1,231 @@
+{
+  "schema": "adl.v0921.internal_review_lane_results.v1",
+  "results": [
+    {
+      "assignment_id": "LANE-ARCHITECTURE",
+      "lane": "architecture",
+      "outcome": "passed",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_814_runtime",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/architecture.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/architecture-review.json",
+      "report_sha256": "692d433b5e4db0ec556d774c88f58568f674067345898899104aac1133c90056"
+    },
+    {
+      "assignment_id": "LANE-CODE",
+      "lane": "code",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_814_runtime",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/code.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/code-review.json",
+      "report_sha256": "42c0817020d95c66175e31ffb899ea1d8c31fc207021d32fbdd930800a396860"
+    },
+    {
+      "assignment_id": "LANE-DEMOS",
+      "lane": "demos",
+      "outcome": "passed",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_816_validation",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/demos.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/demos-review.json",
+      "report_sha256": "da99113b9c3eba18c9826eb0a8c52df06ab8ef1afff7e76a589bb95aab88b617"
+    },
+    {
+      "assignment_id": "LANE-DEPENDENCY",
+      "lane": "dependency",
+      "outcome": "passed",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_815_cloud_auth",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/dependency.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/dependency-review.json",
+      "report_sha256": "6f19bd159371df456aee5e1840a4f47deba62ef98e167e81bf80529390db6ee1"
+    },
+    {
+      "assignment_id": "LANE-DOCUMENTATION",
+      "lane": "documentation",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_816_validation",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/documentation.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/documentation-review.json",
+      "report_sha256": "5e34fd1a301e58283090a41c613d61a0af3dd1c2872e7c3447e5e96c58fa3b01"
+    },
+    {
+      "assignment_id": "LANE-PROVIDER-CLOUD",
+      "lane": "provider_cloud",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_815_cloud_auth",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/provider-cloud.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/provider-cloud-review.json",
+      "report_sha256": "ff416d8ed7129e4d72df2c83a7d0b28942eb3c30db0a3265706ed22d20b8804a"
+    },
+    {
+      "assignment_id": "LANE-RETAINED-EVIDENCE",
+      "lane": "retained_evidence",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_816_validation",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/retained-evidence.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/retained-evidence-review.json",
+      "report_sha256": "2d12935407fe0a2efad11920ee639a587ff9b09c74071f5b378877458925b632"
+    },
+    {
+      "assignment_id": "LANE-SECURITY",
+      "lane": "security",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_815_cloud_auth",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/security.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/security-review.json",
+      "report_sha256": "b69771f5da9238e6165f7a77890d935fdceca5bbc4cb22f9c33d361f63213cf0"
+    },
+    {
+      "assignment_id": "LANE-TESTS",
+      "lane": "tests",
+      "outcome": "findings",
+      "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+      "reviewer": "subagent:/root/fix_814_runtime",
+      "evidence": "Independent specialist input consumed from docs/milestones/v0.92.1/evidence/release/tail-04/specialist-input/tests.json; no observation was synthesized by the assembler.",
+      "report_path": "docs/milestones/v0.92.1/evidence/release/tail-04/specialists/tests-review.json",
+      "report_sha256": "b0611d39e64dad893b2c8714b9148ad0772f86e9617a84e8563d8ea57062b213",
+      "test_invocations": [
+        {
+          "id": "runtime-kernel-lib-216",
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib"
+          ],
+          "working_directory": ".",
+          "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+          "executed_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+          "command_artifacts": [
+            {
+              "path": "adl-runtime-kernel/Cargo.toml",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "b3bfb6061d46ee3104ea14cca36b455013319e6aae1d5d71ef4ac78b4c7ef91a",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "b3bfb6061d46ee3104ea14cca36b455013319e6aae1d5d71ef4ac78b4c7ef91a",
+              "candidate_matches_current": true
+            },
+            {
+              "path": "adl-runtime-kernel/src/control.rs",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "d0cd5367770ebc2e55102a0d93f6112c5ac323ab6da4147b1047fc73b9f4a027",
+              "candidate_matches_current": true
+            },
+            {
+              "path": "adl-runtime-kernel/src/ingress.rs",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "fb86443e96d7e7deeca544b01d9588c2fbdc9c0ec370be9586b662d24c7f008f",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "fb86443e96d7e7deeca544b01d9588c2fbdc9c0ec370be9586b662d24c7f008f",
+              "candidate_matches_current": true
+            }
+          ],
+          "exit_status": 0,
+          "captured_output": "\nrunning 216 tests\ntest agent_orientation::tests::bundled_orientation_matches_canonical_runtime_capability_inventory ... ok\ntest agent_orientation::tests::persisted_pre_inventory_orientation_retains_digest_provenance ... ok\ntest acip::tests::legacy_seven_field_v1_envelope_is_normalized ... ok\ntest agent_orientation::tests::orientation_rejects_missing_stale_duplicate_and_invented_capabilities ... ok\ntest agent_orientation::tests::bundled_orientation_teaches_governed_use_and_deployment_aware_authority ... ok\ntest agent_partial_checkpoint::tests::object_keys_are_privacy_safe_and_stable ... ok\ntest agent_orientation::tests::custom_orientation_source_path_still_loads_explicit_package ... ok\ntest agent_orientation::tests::configured_default_source_path_loads_the_configured_file ... ok\ntest agent_orientation::tests::default_orientation_uses_configured_repo_path_not_cwd_shadow_source ... ok\ntest agent_partial_checkpoint::tests::archive_truth_is_never_current_without_a_valid_receipt ... ok\ntest agent_partial_checkpoint::tests::default_cadence_is_five_minutes_and_overlap_is_skipped_per_agent ... ok\ntest agent_partial_checkpoint::tests::restart_ignores_uncommitted_temporary_partial ... ok\ntest agent_partial_checkpoint::tests::conflicting_records_at_the_same_sequence_fail_closed ... ok\ntest agent_partial_checkpoint::tests::removal_fences_capture_that_started_before_tombstone ... ok\ntest agent_partial_checkpoint::tests::ensure_tombstone_is_idempotent_across_restart_reconciliation ... ok\ntest agent_partial_checkpoint::tests::partials_are_atomic_bounded_and_restore_highest_valid_sequence ... ok\ntest agent_partial_checkpoint::tests::spool_saturation_survives_restart ... ok\ntest assembly::provider_conversation_action_tests::agent_result_continuation_prompt_preserves_typed_terminal_failure ... ok\ntest agent_partial_checkpoint::tests::archived_receipt_reconciles_state_when_record_already_exists_locally ... ok\ntest assembly::provider_conversation_action_tests::conversation_task_input_accepts_32k_single_part_and_multipart_input ... ok\ntest assembly::provider_conversation_action_tests::provider_action_envelope_fails_closed_on_self_target ... ok\ntest assembly::provider_conversation_action_tests::provider_conversation_prompt_teaches_first_class_agent_action_contract ... ok\ntest assembly::provider_conversation_action_tests::provider_json_action_envelope_uses_canonical_name ... ok\ntest assembly::provider_conversation_action_tests::provider_native_action_projects_agent_initiation_envelope ... ok\ntest assembly::provider_conversation_action_tests::provider_native_action_projects_multipart_agent_initiation_envelope ... ok\ntest assembly::provider_conversation_action_tests::provider_plain_json_reply_remains_plain_message_without_action_schema ... ok\ntest assembly::provider_conversation_action_tests::agent_result_continuation_prompt_rejects_oversized_peer_result ... ok\ntest birth_witness::authority_tests::canonical_witness_identity_rejects_case_variant_equivocation ... ok\ntest agent_partial_checkpoint::tests::later_tombstone_prevents_removed_agent_state_from_restoring ... ok\ntest birth_witness::authority_tests::accepts_exact_policy_complete_witnesses_and_emits_canonical_semantics ... ok\ntest birth_witness::authority_tests::forged_signature_and_wrong_signing_key_fail_closed ... ok\ntest birth_witness::authority_tests::equivalent_witness_orders_are_byte_stable ... ok\ntest birth_witness::authority_tests::missing_duplicate_and_substituted_witnesses_fail_closed ... ok\ntest birth_witness::authority_tests::policy_candidate_and_roster_bindings_fail_closed ... ok\ntest birth_witness::authority_tests::packet_validator_reconstructs_every_public_field ... ok\ntest birth_witness::authority_tests::rejected_or_digest_stale_birthday_candidate_is_not_witnessable ... ok\ntest birth_witness::authority_tests::stale_candidate_and_evidence_substitutions_fail_closed ... ok\ntest birth_witness::authority_tests::unsafe_identifiers_and_policy_collisions_fail_closed_without_echoing_values ... ok\ntest birth_witness::authority_tests::private_or_machine_local_public_evidence_never_enters_receipt ... ok\ntest birth_witness::authority_tests::valid_signed_rejection_yields_caveated_not_claimed_receipt ... ok\ntest agent_partial_checkpoint::tests::retention_keeps_partial_budget_plus_latest_tombstone ... ok\ntest birthday_continuity::authority_tests::copied_state_and_host_paths_fail_closed ... ok\ntest birthday_continuity::authority_tests::missing_or_reordered_cycle_fails_closed ... ok\ntest birth_witness::authority_tests::fixture_matrix_executes_every_declared_negative ... ok\ntest birthday_continuity::authority_tests::forged_witness_and_identity_substitution_fail_closed ... ok\ntest agent_partial_checkpoint::tests::archive_saturation_does_not_prevent_agent_removal ... ok\ntest birthday_continuity::authority_tests::missing_runtime_witness_and_wrong_provenance_fail_closed ... ok\ntest birthday_continuity::authority_tests::record_tamper_and_unknown_fields_fail_closed ... ok\ntest birthday_continuity::authority_tests::terminal_generation_overflow_fails_closed ... ok\ntest birthday_identity::authority_tests::builds_from_signed_lineage_and_governed_projection ... ok\ntest birthday_continuity::authority_tests::wrong_signer_and_generation_fail_closed ... ok\ntest birthday_continuity::authority_tests::verified_tokens_cannot_be_reordered_duplicated_or_relabelled ... ok\ntest birthday_identity::authority_tests::rejects_forged_mismatched_and_stale_authorities ... ok\ntest birthday_identity::authority_tests::rejects_invented_provenance_wrong_continuity_and_projection_substitution ... ok\ntest birthday_identity::authority_tests::rejects_non_origin_bases_unknown_fields_and_unsafe_paths ... ok\ntest birthday_identity::authority_tests::semantic_output_rejects_host_paths_and_traversal ... ok\ntest birthday_identity::authority_tests::rejects_projection_tamper_and_raw_private_mislabelling ... ok\ntest birthday_identity::authority_tests::replay_order_is_deterministic_and_record_tampering_fails ... ok\ntest capability_envelope::authority_tests::canonical_digest_round_trip_is_stable ... ok\ntest capability_envelope::authority_tests::authority_escalation_conflict_and_missing_denials_fail_closed ... ok\ntest capability_envelope::authority_tests::identifier_collisions_fail_closed_while_exact_duplicates_canonicalize ... ok\ntest capability_envelope::authority_tests::canonical_envelope_is_deterministic_and_emits_native_semantics ... ok\ntest capability_envelope::authority_tests::invalid_birthday_identity_and_cross_binding_fail_closed ... ok\ntest capability_envelope::authority_tests::exported_validator_rejects_rehashed_field_and_policy_forgery ... ok\ntest capability_envelope::authority_tests::policy_itself_fails_closed_on_missing_roots_and_collisions ... ok\ntest capability_envelope::authority_tests::omitted_zero_and_escalated_resource_limits_fail_closed ... ok\ntest capability_envelope::authority_tests::unknown_fields_fail_during_deserialization_at_every_layer ... ok\ntest capability_envelope::authority_tests::stale_unknown_missing_and_duplicate_evidence_fail_closed ... ok\ntest capability_envelope::authority_tests::unsupported_claim_omission_and_missing_provenance_fail_closed ... ok\ntest capability_envelope::authority_tests::unsupported_provider_model_tool_and_skill_fail_closed ... ok\ntest cognitive_profile::authority_tests::canonical_creation_is_deterministic_and_public_projection_is_narrow ... ok\ntest capability_envelope::authority_tests::secrets_private_paths_and_host_paths_fail_closed ... ok\ntest agent_partial_checkpoint::tests::spool_coalesces_to_newest_and_reports_degraded_history ... ok\ntest cognitive_profile::authority_tests::exported_validator_rejects_rehashed_forgery ... ok\ntest cognitive_profile::authority_tests::exact_duplicates_canonicalize_and_case_collisions_fail ... ok\ntest cognitive_profile::authority_tests::identity_continuity_capability_and_birthday_substitution_fail_closed ... ok\ntest cognitive_profile::authority_tests::broken_revision_link_and_unexplained_delta_fail_closed ... ok\ntest agent_partial_checkpoint::tests::concurrent_newer_snapshot_remains_pending_after_older_upload ... ok\ntest cognitive_profile::authority_tests::missing_nonclaims_and_public_everything_fail_closed ... ok\ntest agent_partial_checkpoint::tests::tampered_receipt_cannot_manufacture_current_archive_state ... ok\ntest agent_partial_checkpoint::tests::verified_archive_receipt_survives_store_restart ... ok\ntest cognitive_profile::authority_tests::self_authorized_policy_statement_and_transplant_fail_closed ... ok\ntest agent_partial_checkpoint::tests::corrupt_spool_record_is_quarantined_without_starving_other_agents ... ok\ntest cognitive_profile::authority_tests::unknown_json_fields_fail_closed ... ok\ntest cognitive_profile::authority_tests::privacy_secrets_paths_and_raw_state_fail_closed ... ok\ntest component::tests::consumer_exit_closes_route_and_restart_rebinds_existing_producer ... ok\ntest component::tests::external_input_enforces_its_declared_capacity_and_policy ... ok\ntest config::shutdown_policy_tests::aggregate_shutdown_policy_enforces_boundary_and_overflow ... ok\ntest cognitive_profile::authority_tests::stale_missing_duplicate_and_forbidden_evidence_fail_closed ... ok\ntest cognitive_profile::authority_tests::revision_updates_link_and_explain_exact_delta ... ok\ntest control::acip_replay_tests::domain_capacity_is_partitioned_by_principal ... ok\ntest control::acip_replay_tests::failed_concurrent_reservations_never_resurrect ... ok\ntest control::acip_replay_tests::rejected_excessive_advances_do_not_consume_domain_capacity ... ok\ntest control::acip_replay_tests::structured_domains_do_not_delimiter_collide ... ok\ntest cognitive_profile::authority_tests::old_key_governs_rotation_and_new_key_governs_followup ... ok\ntest birthday_continuity::authority_tests::verified_continuity_token_rejects_self_consistent_substitutions ... ok\ntest birthday_continuity::authority_tests::continuity_record_replays_identically_across_two_signed_cycles ... ok\ntest control::agent_lifecycle::archived_restore_monotonically_merges_newer_completed_turns ... ok\ntest cognitive_profile::authority_tests::unsupported_labels_diagnosis_and_status_inference_fail_closed ... ok\ntest control::agent_lifecycle::archived_restore_rehydrates_complete_a2a_transcript_history ... ok\ntest agent_partial_checkpoint::tests::successful_catchup_preserves_dropped_interval_history ... ok\ntest control::agent_lifecycle::agent_lifecycle_is_idempotent_portable_and_restart_safe ... ok\ntest control::agent_lifecycle::vertex_ai_agent_admission_uses_explicit_provider_route ... ok\ntest control::agent_lifecycle::vertex_ai_provider_invocation_fails_closed_before_live_paid_call ... ok\ntest cognitive_profile::authority_tests::trusted_genesis_and_complete_four_revision_chain_replay ... ok\ntest control::conversation_dispatch_gate_tests::later_turn_queue_wait_expires_without_advancing_the_gate ... ok\ntest control::conversation_dispatch_gate_tests::session_capacity_evicts_only_the_oldest_terminal_session ... ok\ntest control::conversation_dispatch_gate_tests::session_capacity_refuses_when_every_session_is_active ... ok\ntest cognitive_profile::authority_tests::deep_rehash_truncation_substitution_and_rotation_attacks_fail_closed ... ok\ntest control::agent_lifecycle::dynamic_agent_health_sweep_drains_after_task_panic ... ok\ntest control::agent_lifecycle::dynamic_agent_health_sweep_drains_after_task_cancellation ... ok\ntest agent_partial_checkpoint::tests::wedged_archive_command_is_killed_by_whole_process_timeout ... ok\ntest control::conversation_dispatch_gate_tests::later_turn_cannot_overtake_an_unfinished_earlier_sequence ... ok\ntest agent_partial_checkpoint::tests::archived_partial_restores_when_local_copy_is_absent ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_initiation_delivers_configured_provider_work_and_activity ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_fresh_conversations_advance_sender_delegation_sequence ... ok\ntest config_reload::tests::config_reload_invalid_update_retains_last_known_good ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_initiation_replay_and_conflict_are_explicit ... ok\ntest assembly::capability_authority_tests::live_assembly_is_the_capability_authority_provisioning_boundary ... ok\ntest control::agent_lifecycle::startup_finishes_durable_removal_intent_before_agent_becomes_resident ... ok\ntest config_reload::tests::config_reload_debounces_duplicate_same_content_and_shutdown ... ok\ntest cognitive_profile::authority_tests::real_continuity_composes_through_capability_and_cognition ... ok\ntest control::layer8_conversation_ingress_tests::governed_room_ws_intent_rejects_implicit_broadcast_without_consuming_sequence ... ok\ntest control::layer8_conversation_ingress_tests::governed_room_ws_intent_rejects_non_initial_first_sequence ... ok\ntest control::layer8_conversation_ingress_tests::governed_room_ws_intent_routes_explicit_runtime_recipients ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_layer8_uses_authoritative_roster_for_denials ... ok\ntest control::agent_lifecycle::agent_partial_checkpoint_coordinator_tracks_roster_cycles_and_restart_restore ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_rejects_tampered_carrier_context ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_public_initiation_rejects_configured_sender_impersonation ... ok\ntest control::layer8_conversation_ingress_tests::canonical_agent_name_resolution_is_explicit_and_fail_closed ... ok\ntest control::layer8_conversation_ingress_tests::admission_greeting_provider_failure_retries_to_success_with_stable_work_key ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_runtime_internal_initiation_accepts_every_resident_sender ... ok\ntest control::layer8_conversation_ingress_tests::layer8_ingress_authorizes_before_dispatch ... ok\ntest control::layer8_conversation_ingress_tests::layer8_ingress_refuses_before_conversation_side_effects ... ok\ntest control::layer8_conversation_ingress_tests::layer8_ingress_continue_authorizes_before_dispatch ... ok\ntest control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_delivers_verified_ack_with_redacted_correlation ... ok\ntest control::layer8_conversation_ingress_tests::layer8_ingress_continue_refuses_before_turn_side_effects ... ok\ntest control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_recipient_signed_delivery_refusal ... ok\ntest control::layer8_conversation_ingress_tests::newly_admitted_agent_receives_one_runtime_triggered_beacon_greeting ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_initiation_terminal_failures_are_truthful ... ok\ntest control::layer8_conversation_ingress_tests::resident_shepherd_bindings_use_the_same_runtime_ids_as_the_population_feed ... ok\ntest control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_tampered_credential_generation_before_side_effects ... ok\ntest control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_unrelated_signed_payload ... ok\ntest control::layer8_conversation_ingress_tests::recipient_acknowledgement_route_serves_delivery_without_raw_correlation ... ok\ntest control::layer8_conversation_ingress_tests::legacy_dynamic_store_migrates_existing_agent_without_redelivery ... ok\ntest control::layer8_conversation_ingress_tests::in_flight_admission_greeting_is_not_reclaimed_by_same_runtime ... ok\ntest control::orientation_tests::orientation_is_delivered_to_existing_resident_and_injected_before_task_content ... ok\ntest control::orientation_tests::dynamic_store_rejects_name_collision_with_resident_before_roster_mutation ... ok\ntest control::orientation_tests::resident_shepherd_preload_receives_orientation_before_ready_probe ... ok\ntest control::layer8_conversation_ingress_tests::aborted_admission_greeting_worker_recovers_in_same_runtime ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_accepts_32k_multipart_arguments ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_accepts_json_encoded_arguments ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_is_a_typed_action_separate_from_prose ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_parts_only_32k_arguments_keep_each_part_bounded ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_parts_only_arguments_do_not_duplicate_payload_into_message ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_rejects_more_than_64_logical_message_parts ... ok\ntest control::provider_conversation_tool_tests::native_tool_call_rejects_over_32k_message_part ... ok\ntest control::provider_conversation_tool_tests::ordinary_assistant_content_stays_an_operator_reply ... ok\ntest control::provider_conversation_tool_tests::unknown_or_ambiguous_tool_calls_fail_closed ... ok\ntest control::provider_conversation_tool_tests::unsupported_tools_fall_back_to_plain_generation_without_a2a ... ok\ntest control::shepherd_readiness_tests::readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss ... ok\ntest control::shepherd_readiness_tests::readiness_uses_the_same_trusted_clock_as_shepherd_admission ... ok\ntest conversation_rooms::tests::delivery_states_preserve_partial_failure_without_hiding_recipient_identity ... ok\ntest conversation_rooms::tests::implicit_broadcast_and_duplicate_recipients_fail_closed ... ok\ntest conversation_rooms::tests::room_route_reuses_layer8_address_recipients_authority_scope ... ok\ntest conversation_rooms::tests::room_turn_ordering_and_replay_are_deterministic ... ok\ntest conversation_rooms::tests::room_turn_requires_explicit_stable_recipient_set ... ok\ntest conversation_rooms::tests::unknown_ineligible_and_cross_polis_recipients_fail_closed ... ok\ntest conversation_sessions_tests::cleanup_race_guard_releases_every_barrier_during_unwind ... ok\ntest control::orientation_tests::dynamic_store_rejects_duplicate_canonical_names_before_roster_mutation ... ok\ntest ingress::tests::cancelled_incarnation_closes_only_its_queued_requests ... ok\ntest ingress::tests::conversation_public_output_projects_agent_initiation_action ... ok\ntest ingress::tests::legacy_id_addressed_agent_initiation_remains_bounded_compatible ... ok\ntest ingress::tests::malformed_agent_initiation_action_is_not_projected ... ok\ntest control::layer8_conversation_ingress_tests::admission_greeting_refusal_retries_to_persisted_terminal_receipt ... ok\ntest ingress::tests::pause_and_submit_admission_are_one_atomic_transition ... ok\ntest ingress::tests::too_many_agent_initiation_logical_message_parts_are_not_projected ... ok\ntest ingress::tests::oversized_agent_initiation_message_part_is_not_projected ... ok\ntest control::orientation_tests::dynamic_agent_restart_preserves_admission_time_orientation_provenance ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_model_action_from_conversation_delivers_peer_response ... ok\ntest control::orientation_tests::dynamic_agent_store_upgrade_accepts_authenticated_pre_inventory_orientation ... ok\ntest layer8_authority::additional_tests::signed_exchange_binds_sender_recipient_payload_and_acknowledgement ... ok\ntest layer8_authority::additional_tests::authorization_requires_identity_capability_policy_and_replay_freshness ... ok\ntest operations::continuity_resume_tests::cancellation_while_waiting_never_reopens_after_release ... ok\ntest operations::continuity_resume_tests::delayed_old_incarnation_only_drains_its_requests_and_never_owns_replacement_cleanup ... ok\ntest operations::continuity_resume_tests::expiry_while_waiting_never_reopens_after_release ... ok\ntest protocol_adapters::tests::protocol_builder_local_agent_computes_result_without_payload_echo ... ok\ntest protocol_adapters::tests::protocol_builder_local_agent_rejects_arbitrary_payload_receipts ... ok\ntest control::orientation_tests::startup_orientation_initialization_restamps_existing_residents_from_config ... ok\ntest protocol_adapters::tests::protocol_builder_non_agent_local_adapters_fail_closed ... ok\ntest control::layer8_conversation_ingress_tests::interrupted_admission_greeting_recovers_once_after_runtime_restart ... ok\ntest control::orientation_tests::production_runtime_init_reload_replaces_active_orientation_fail_closed ... ok\ntest protocol_adapters::tests::rustls_mutual_tls_client_requires_configured_identity ... ok\ntest protocol_adapters::tests::protocol_frame_rejects_mac_valid_future_issued_freshness ... ok\ntest protocol_adapters::tests::protocol_frame_rejects_mac_valid_semantic_binding_mutations ... ok\ntest layer8_authority::generated_tests::direct_agent_exchange_uses_signed_identity_message_and_signed_acknowledgement ... ok\ntest control::orientation_tests::orientation_reload_preserves_existing_agents_and_applies_to_new_admissions ... ok\ntest supervisor::tests::queued_signal_requires_uncancelled_current_live_ownership ... ok\ntest layer8_authority::generated_tests::substituted_recipient_signature_and_payload_tampering_fail_closed ... ok\ntest tls::tests::trust_roots_accept_ca_certificates_and_enforce_ca_key_usage ... ok\ntest tls::tests::trust_roots_reject_the_served_leaf_certificate ... ok\ntest weather::tests::disk_pressure_uses_the_filesystem_containing_continuity_state ... ok\ntest tls::tests::server_identity_validation_rejects_time_and_usage_failures ... ok\ntest layer8_authority::generated_tests::authority_authorizes_once_then_fails_closed_on_replay_scope_and_revocation ... ok\ntest weather::tests::disk_scope_resolves_a_symlinked_continuity_ancestor ... ok\ntest layer8_authority::additional_tests::stale_identity_and_wrong_key_fail_closed_before_grant ... ok\ntest control::layer8_conversation_ingress_tests::agent_to_agent_runtime_internal_initiation_allows_resident_agent_pairs ... ok\ntest control::layer8_conversation_ingress_tests::removal_cancels_an_in_flight_admission_greeting ... ok\ntest resident_cycle::tests::legacy_profile_builder_remains_fail_closed_for_resident_cycle ... ok\ntest resident_cycle::tests::resident_cycle_rejects_stale_continuity_and_authority_rotation_mismatch ... ok\ntest resident_cycle::tests::resident_cycle_supports_governed_update_and_authority_rotation ... ok\ntest resident_cycle::tests::live_assembly_builds_verified_capability_and_profile_handles ... ok\ntest resident_cycle::tests::resident_cycle_rehydrates_and_rejects_tamper ... ok\ntest control::layer8_conversation_ingress_tests::production_conversation_history_restores_operator_and_agent_once_in_order ... ok\ntest control::agent_lifecycle::every_removal_commit_boundary_converges_to_authoritative_absence_on_restart ... ok\ntest conversation_sessions_tests::resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress ... ok\n\ntest result: ok. 216 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.44s\n\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s\n     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)\n",
+          "captured_output_sha256": "17a2b5cfd8923d49bd8175ea300f61d7c66d464f08e5a36bd6868575ca717270",
+          "success_markers": [
+            "running 216 tests",
+            "test result: ok. 216 passed; 0 failed"
+          ],
+          "outcome": "passed",
+          "result_summary": "216 passed, 0 failed; passing suite did not expose the two greeting recovery findings."
+        },
+        {
+          "id": "runtime-config-reload-8",
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "config_reload"
+          ],
+          "working_directory": ".",
+          "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+          "executed_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+          "command_artifacts": [
+            {
+              "path": "adl-runtime/Cargo.toml",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "2af165a7ae8c4afbf87ba5cbf04dd8c064f80a29843366fbaa514055b3519a14",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "2af165a7ae8c4afbf87ba5cbf04dd8c064f80a29843366fbaa514055b3519a14",
+              "candidate_matches_current": true
+            },
+            {
+              "path": "adl-runtime/tests/config_reload.rs",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "922107fbfffb3c0e9cb0ccbc5fe87bb96c088520df43f19ab9f7cc74bdedbbe9",
+              "candidate_matches_current": true
+            }
+          ],
+          "exit_status": 0,
+          "captured_output": "\nrunning 8 tests\ntest initial_snapshot_is_applied_before_the_watcher_starts ... ok\ntest file_events_are_debounced ... ok\ntest valid_reload_atomically_replaces_snapshot ... ok\ntest watcher_shutdown_is_clean ... ok\ntest unreadable_file_cancels_a_pending_reload ... ok\ntest reverting_during_debounce_cancels_the_pending_reload ... ok\ntest invalid_update_retains_last_known_good ... ok\ntest concurrent_readers_observe_complete_configurations ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.58s\n\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s\n     Running tests/config_reload.rs (adl-runtime/target/debug/deps/config_reload-d895edc697725ef9)\n",
+          "captured_output_sha256": "d0d691b70eb26875b12e458caadf24bd7db3be5123e72e0a7d709a07218fd6ad",
+          "success_markers": [
+            "running 8 tests",
+            "test result: ok. 8 passed; 0 failed"
+          ],
+          "outcome": "passed",
+          "result_summary": "8 passed, 0 failed; static review still found D520-TEST-001 because cancellation tests do not first prove a pending reload existed."
+        },
+        {
+          "id": "runtime-shepherd-local-model",
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "shepherd_local_model"
+          ],
+          "working_directory": ".",
+          "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+          "executed_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+          "command_artifacts": [
+            {
+              "path": "adl-runtime/Cargo.toml",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "2af165a7ae8c4afbf87ba5cbf04dd8c064f80a29843366fbaa514055b3519a14",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "2af165a7ae8c4afbf87ba5cbf04dd8c064f80a29843366fbaa514055b3519a14",
+              "candidate_matches_current": true
+            },
+            {
+              "path": "adl-runtime/tests/shepherd_local_model.rs",
+              "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
+              "candidate_sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+              "current_head": "c2dcce42bd855bc49449e92bb638318abb84bd6a",
+              "current_sha256": "4b1d2e1bed937cbd8ee754aacf2c1a27ec3ee458829046001a95c2708b373e88",
+              "candidate_matches_current": true
+            }
+          ],
+          "exit_status": 0,
+          "captured_output": "\nrunning 1 test\ntest real_local_model_smoke ... ignored, requires an explicitly configured Ollama Gemma GPU runtime and model\n\ntest result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s\n     Running tests/shepherd_local_model.rs (adl-runtime/target/debug/deps/shepherd_local_model-6743ba48f5ab6c16)\n",
+          "captured_output_sha256": "31268050ad73f7a0e79557074c3eb6121fc2a8648c9a36f84e896d8cd40788e4",
+          "success_markers": [
+            "running 1 test",
+            "test result: ok. 0 passed; 0 failed; 1 ignored"
+          ],
+          "outcome": "non_proving",
+          "result_summary": "0 passed, 0 failed, 1 ignored; the real GPU/model test was not executed and static review found D520-SEC-004 in its URL admission boundary."
+        }
+      ],
+      "execution_scope": "Executed all three replayable argv arrays in the issue #520 worktree at head c2dcce42bd855bc49449e92bb638318abb84bd6a, with every command artifact hashed both at frozen candidate fb6cbc7f619daa54f901fd2d12f480add682ace3 and at the executed head. The 216-test Runtime kernel suite and 8-test config-reload suite passed. The Shepherd harness succeeded but ran zero tests because its sole real-local-model test was ignored without an explicitly configured GPU/model, so it remains non-proving. Other assigned test files received static exact-candidate blob review only; no live cloud, browser, GPU, or provider proof is claimed."
+    }
+  ]
+}
