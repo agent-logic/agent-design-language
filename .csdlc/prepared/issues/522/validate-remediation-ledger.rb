@@ -2,6 +2,7 @@
 require "digest"
 require "json"
 require "open3"
+require_relative "run-candidate-validation"
 
 EXTERNAL_FINDING_IDS = %w[TPR-001 TPR-002 TPR-003 TPR-004 TPR-005].freeze
 RETURNED_FINDING_IDS = %w[
@@ -231,10 +232,21 @@ dispositions.each do |row|
     fail!("remediation PR/head/merge identity is false") unless pr_doc.fetch("state") == "MERGED" && pr_doc.fetch("headRefOid") == head_sha && pr_doc.dig("mergeCommit", "oid") == merge_sha
     issue_matches = if native_review_close
       dependency_pr = 858
-      dependency_out, dependency_err, dependency_status = Open3.capture3("gh", "pr", "view", dependency_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,mergedAt")
+      dependency_out, dependency_err, dependency_status = Open3.capture3("gh", "pr", "view", dependency_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,mergedAt,headRefOid,mergeCommit")
       fail!("cannot verify #833 closure dependency: #{dependency_err.strip}") unless dependency_status.success?
       dependency = JSON.parse(dependency_out)
-      issue_doc.fetch("state") == "CLOSED" && dependency.fetch("state") == "MERGED" && issue_doc.fetch("closedAt") > dependency.fetch("mergedAt")
+      reconciliation_path = File.join(root, "833-terminal-reconciliation.json")
+      receipt_path = File.join(root, "833-native-terminal-receipt.json")
+      fail!("#833 native terminal reconciliation artifacts are missing") unless File.file?(reconciliation_path) && File.file?(receipt_path)
+      reconciliation = read_json(reconciliation_path)
+      receipt_blob = File.binread(receipt_path)
+      receipt = JSON.parse(receipt_blob)
+      dependency_identity = reconciliation.fetch("dependency")
+      receipt_identity = reconciliation.fetch("native_terminal_receipt")
+      receipt_valid = receipt.fetch("schema") == "csdlc.v3.terminal_receipt.v1" && receipt.fetch("repository") == "agent-logic/agent-design-language" && receipt.fetch("issue") == 833 && receipt.fetch("disposition") == "closed_out" && nonempty?(receipt.fetch("state_digest"))
+      reconciliation_valid = reconciliation.fetch("schema") == "adl.v0921.issue833_terminal_reconciliation.v1" && reconciliation.fetch("issue") == 833 && reconciliation.fetch("outcome") == "terminal_reconciled" && reconciliation.fetch("closed_at") == issue_doc.fetch("closedAt") && receipt_identity.fetch("path") == receipt_path && receipt_identity.fetch("sha256") == Digest::SHA256.hexdigest(receipt_blob)
+      dependency_valid = dependency.fetch("state") == "MERGED" && dependency_identity.fetch("issue") == 856 && dependency_identity.fetch("pull_request") == dependency_pr && dependency_identity.fetch("head_sha") == dependency.fetch("headRefOid") && dependency_identity.fetch("merge_sha") == dependency.dig("mergeCommit", "oid") && dependency_identity.fetch("merged_at") == dependency.fetch("mergedAt")
+      receipt_valid && reconciliation_valid && dependency_valid && issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedAt") > dependency.fetch("mergedAt")
     else
       issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
     end
@@ -300,8 +312,8 @@ dispositions.each do |row|
         producer = validation_doc.fetch("producer")
         fail!("validation producer is not the issue-owned runner") unless producer == ".csdlc/prepared/issues/522/run-candidate-validation.rb"
         fail!("validation producer digest mismatch") unless validation_doc.fetch("producer_sha256") == Digest::SHA256.hexdigest(git_blob(evidence_sha, producer))
-        output_bound = commands.all? { |command| %w[stdout_sha256 stderr_sha256 stdout_bytes stderr_bytes].all? { |key| command.key?(key) } }
-        replay_bound = commands.all? { |command| system(*command.fetch("argv"), out: File::NULL, err: File::NULL) }
+        output_bound = commands.all? { |command| %w[stdout_sha256 stderr_sha256 stdout_bytes stderr_bytes semantic_output_sha256 denominator_parser].all? { |key| command.key?(key) } }
+        replay_bound = commands.all? { |command| replay_validation_command?(command) }
         fail!("executed validation receipt is not reproducible") unless replay_bound
       end
       fail!("validation evidence does not prove executed commands at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && output_bound
@@ -350,6 +362,10 @@ fixed_review_paths = fixed_remediations.map { |remediation| remediation.fetch("r
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
 fixed_validation_paths = fixed_remediations.flat_map { |remediation| remediation.fetch("validation").map { |validation| validation.fetch("evidence") } }
 fail!("packet manifest omits fixed-disposition validation receipts") unless fixed_validation_paths.all? { |path| paths.include?(path) }
+if fixed_remediations.any? { |remediation| remediation["closure_kind"] == "native_review_close" }
+  terminal_paths = %w[833-terminal-reconciliation.json 833-native-terminal-receipt.json].map { |name| File.join(root, name) }
+  fail!("packet manifest omits #833 native terminal reconciliation") unless terminal_paths.all? { |path| paths.include?(path) }
+end
   {schema: "adl.v0921.remediation_validation.v3", mode: mode, status: "passed", source_findings: source.length, original_source_findings: 19, returned_findings: returned.length, dispositions: dispositions.length}
 end
 
