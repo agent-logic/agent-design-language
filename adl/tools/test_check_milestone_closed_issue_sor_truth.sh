@@ -12,8 +12,8 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
   exit 1
 }
 
-grep -Fq 'csdlc-doctor' "$ROOT/adl/tools/release_ceremony.sh"
-grep -Fq 'closed_out' "$ROOT/adl/tools/release_ceremony.sh"
+grep -Fq 'release-preflight' "$ROOT/adl/tools/release_ceremony.sh"
+grep -Fq '.adl/bin/native-v3/csdlc' "$ROOT/adl/tools/release_ceremony.sh"
 if grep -Fq 'check_milestone_closed_issue_sor_truth.sh' "$ROOT/adl/tools/release_ceremony.sh"; then
   echo "release ceremony still delegates to the retired milestone helper" >&2
   exit 1

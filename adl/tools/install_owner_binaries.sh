@@ -5,6 +5,8 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 MANIFEST="$ROOT_DIR/adl/Cargo.toml"
 STABLE_BIN_DIR="${ADL_OWNER_BIN_DIR:-$ROOT_DIR/.adl/bin}"
 SOURCE_BIN_DIR=""
+SOURCE_COMPONENT="adl"
+SOURCE_PATHS=(adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src adl/tools/adl_provider_adapter.rs)
 NO_BUILD=0
 EXPLICIT_BINS=0
 BINS=()
@@ -16,7 +18,8 @@ Usage:
   adl/tools/install_owner_binaries.sh [--bin <name>]... [--stable-bin-dir <dir>] [--source-bin-dir <dir>] [--no-build]
 
 Installs ADL owner binaries into a stable repo-local generated directory outside
-Cargo target. Re-running without relevant source changes is a no-op and does
+Cargo target. Use --bin csdlc for the native v3 owner (installed in .adl/bin/native-v3).
+Re-running without relevant source changes is a no-op and does
 not replace binaries.
 EOF
 }
@@ -63,6 +66,16 @@ if [[ "${#BINS[@]}" -eq 0 ]]; then
 fi
 
 for bin in "${BINS[@]}"; do
+  if [[ "$bin" == "csdlc" ]]; then
+    [[ "${#BINS[@]}" == 1 ]] || { echo 'install_owner_binaries: install csdlc separately from ADL owners' >&2; exit 2; }
+    SOURCE_COMPONENT="csdlc-v3"
+    SOURCE_PATHS=(csdlc-v3/Cargo.toml csdlc-v3/Cargo.lock csdlc-v3/src)
+    MANIFEST="$ROOT_DIR/csdlc-v3/Cargo.toml"
+    if [[ "$STABLE_BIN_DIR" == "$ROOT_DIR/.adl/bin" ]]; then STABLE_BIN_DIR="$ROOT_DIR/.adl/bin/native-v3"; fi
+  fi
+ done
+
+for bin in "${BINS[@]}"; do
   if [[ "$bin" == "csm" ]]; then
     INSTALL_VECTOR_COMPONENT=1
     break
@@ -80,7 +93,7 @@ source_hash() {
   if git -C "$ROOT_DIR" rev-parse --show-toplevel >/dev/null 2>&1; then
     (
       cd "$ROOT_DIR"
-      git ls-files --cached --others --exclude-standard -- adl/Cargo.toml adl/Cargo.lock adl/build.rs adl/src adl/tools/adl_provider_adapter.rs |
+      git ls-files --cached --others --exclude-standard -- "${SOURCE_PATHS[@]}" |
         grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
         LC_ALL=C sort |
         while IFS= read -r path; do
@@ -94,7 +107,7 @@ source_hash() {
   fi
   (
     cd "$ROOT_DIR"
-    find adl -type f \( -path 'adl/src/*' -o -path 'adl/tools/adl_provider_adapter.rs' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
+    find "$SOURCE_COMPONENT" -type f \( -path "$SOURCE_COMPONENT/src/*" -o -path 'adl/tools/adl_provider_adapter.rs' -o -name Cargo.toml -o -name Cargo.lock -o -name build.rs \) -print 2>/dev/null |
       grep -Ev '(^adl/src/cli/tests/|/tests\.rs$|/tests/)' |
       LC_ALL=C sort |
       while IFS= read -r path; do
@@ -137,7 +150,7 @@ if [[ "$NO_BUILD" != "1" ]]; then
     SOURCE_BIN_DIR="$OWNER_BUILD_ROOT/cargo-target/debug"
   fi
 elif [[ -z "$SOURCE_BIN_DIR" ]]; then
-  SOURCE_BIN_DIR="${CARGO_TARGET_DIR:-$ROOT_DIR/adl/target}/debug"
+  SOURCE_BIN_DIR="${CARGO_TARGET_DIR:-$ROOT_DIR/$SOURCE_COMPONENT/target}/debug"
 fi
 
 mkdir -p "$STABLE_BIN_DIR/.provenance"

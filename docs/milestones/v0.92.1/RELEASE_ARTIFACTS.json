@@ -1,0 +1,245 @@
+{
+  "schema": "csdlc.v3.release_artifacts.v1",
+  "version": "v0.92.1",
+  "packages": [
+    {
+      "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
+      "package": "issue467-terminal-digest-verifier",
+      "version": "0.1.0",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Standalone proof helper, demo or AWS utility; no package API change in this release"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.toml",
+      "package": "adl-wp5340-source-authority-validator",
+      "version": "0.1.0",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Standalone proof helper, demo or AWS utility; no package API change in this release"
+    },
+    {
+      "manifest": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.toml",
+      "package": "wp13-receipt-verifier",
+      "version": "0.1.0",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Standalone proof helper, demo or AWS utility; no package API change in this release"
+    },
+    {
+      "manifest": "adl-characterization/Cargo.toml",
+      "package": "adl-characterization",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    },
+    {
+      "manifest": "adl-resilience/Cargo.toml",
+      "package": "adl-resilience",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    },
+    {
+      "manifest": "adl-runtime-kernel/Cargo.toml",
+      "package": "adl-runtime-kernel",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    },
+    {
+      "manifest": "adl-runtime/Cargo.toml",
+      "package": "adl-runtime",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-adapters/Cargo.toml",
+      "package": "adl-adapters",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-cli/Cargo.toml",
+      "package": "adl-cli",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-compiler/Cargo.toml",
+      "package": "adl-compiler",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-engine/Cargo.toml",
+      "package": "adl-engine",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-language/Cargo.toml",
+      "package": "adl-language",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-records/Cargo.toml",
+      "package": "adl-records",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.toml",
+      "package": "adl-runtime-v3-adapter",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-conductor/Cargo.toml",
+      "package": "adl-workcell-conductor",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-convergence/Cargo.toml",
+      "package": "adl-workcell-convergence",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl-v2/crates/adl-workcell-task-adapter/Cargo.toml",
+      "package": "adl-workcell-task-adapter",
+      "version": "0.92.1",
+      "workspace": "adl-v2/Cargo.toml",
+      "policy": "coordinated",
+      "rationale": "ADL workspace package; inherits the coordinated release version"
+    },
+    {
+      "manifest": "adl/Cargo.toml",
+      "package": "adl",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    },
+    {
+      "manifest": "csdlc-v2/Cargo.toml",
+      "package": "csdlc-v2",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    },
+    {
+      "manifest": "csdlc-v3/Cargo.toml",
+      "package": "csdlc-v3",
+      "version": "0.1.0",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Native lifecycle owner uses independent 0.1 API version"
+    },
+    {
+      "manifest": "demos/transpiler_demo/Cargo.toml",
+      "package": "transpiler_demo",
+      "version": "0.8.0",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Standalone proof helper, demo or AWS utility; no package API change in this release"
+    },
+    {
+      "manifest": "tools/aws_remote_validation/Cargo.toml",
+      "package": "adl-aws-remote-validation-tool",
+      "version": "0.91.8",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Standalone proof helper, demo or AWS utility; no package API change in this release"
+    },
+    {
+      "manifest": "tools/remote_validation/Cargo.toml",
+      "package": "adl-remote-validation",
+      "version": "0.92.1",
+      "workspace": null,
+      "policy": "coordinated",
+      "rationale": "ADL release package family"
+    }
+  ],
+  "lockfiles": [
+    "adl-characterization/Cargo.lock",
+    "adl-resilience/Cargo.lock",
+    "adl-runtime-kernel/Cargo.lock",
+    "adl-runtime/Cargo.lock",
+    "adl-v2/Cargo.lock",
+    "adl/Cargo.lock",
+    "csdlc-v2/Cargo.lock",
+    "csdlc-v3/Cargo.lock",
+    "demos/transpiler_demo/Cargo.lock",
+    "tools/aws_remote_validation/Cargo.lock",
+    "tools/remote_validation/Cargo.lock"
+  ],
+  "historical_lockfiles": [
+    {
+      "path": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.lock",
+      "rationale": "Historical proof helper snapshot"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5340/source-authority-validator/Cargo.lock",
+      "rationale": "Historical proof helper snapshot"
+    },
+    {
+      "path": ".csdlc/prepared/issues/5347/receipt-verifier/Cargo.lock",
+      "rationale": "Historical proof helper snapshot"
+    },
+    {
+      "path": "adl-v2/crates/adl-adapters/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    },
+    {
+      "path": "adl-v2/crates/adl-compiler/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    },
+    {
+      "path": "adl-v2/crates/adl-engine/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    },
+    {
+      "path": "adl-v2/crates/adl-language/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    },
+    {
+      "path": "adl-v2/crates/adl-records/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    },
+    {
+      "path": "adl-v2/crates/adl-runtime-v3-adapter/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    },
+    {
+      "path": "adl-v2/crates/adl-workcell-conductor/Cargo.lock",
+      "rationale": "Superseded member lockfile; Cargo uses adl-v2/Cargo.lock for this workspace"
+    }
+  ]
+}

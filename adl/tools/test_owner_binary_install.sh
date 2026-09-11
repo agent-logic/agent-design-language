@@ -380,3 +380,26 @@ cp "$repo/adl/Cargo.lock" "$tmpdir/user-lock.before"
 assert_lock_restored_after_build "$tmpdir/user-lock.before" 0 "$tmpdir/dependency-drift.log"
 
 echo "owner binary stable install: ok"
+
+# PVF #856: native owner selection, source provenance and no-op installation.
+mkdir -p "$repo/csdlc-v3/src"
+printf '[package]\nname = "csdlc-v3"\nversion = "0.1.0"\n' >"$repo/csdlc-v3/Cargo.toml"
+printf '# native fixture lock\n' >"$repo/csdlc-v3/Cargo.lock"
+printf 'fn main() {}\n' >"$repo/csdlc-v3/src/main.rs"
+printf '#!/usr/bin/env bash\necho native-fixture\n' >"$source_bin_dir/csdlc"
+chmod +x "$source_bin_dir/csdlc"
+"$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build >/dev/null
+native_bin="$repo/.adl/bin/native-v3/csdlc"
+native_provenance="$repo/.adl/bin/native-v3/.provenance/csdlc.sha256"
+[[ -x "$native_bin" && -f "$native_provenance" ]]
+native_hash="$(cat "$native_provenance")"
+printf '// unrelated ADL change\n' >>"$repo/adl/src/lib.rs"
+noop="$("$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build)"
+[[ "$noop" == *'owner-binary unchanged: csdlc'* ]]
+printf '// changed native input\n' >>"$repo/csdlc-v3/src/main.rs"
+"$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --source-bin-dir "$source_bin_dir" --no-build >/dev/null
+[[ "$(cat "$native_provenance")" != "$native_hash" ]]
+if "$BASH_BIN" "$repo/adl/tools/install_owner_binaries.sh" --bin csdlc --bin adl --no-build >/dev/null 2>&1; then
+  echo 'mixed-manifest owner install accepted' >&2; exit 1
+fi
+echo 'PASS native v3 stable install provenance'
