@@ -1,121 +1,149 @@
 # Feature Proof Coverage — v0.92.1
 
-## Current release disposition
+## Current release projection
 
-**Release decision: blocked.** This is a reviewable projection of retained delivery and proof at `80e5961a7537f833ce676bb244fd574da4504a29`, observed 2026-09-09. This completes the documentation refresh required by #767, including landed remediation dispositions; it grants no release authorization.
+**Release decision: blocked.** Frozen candidate: `64a99fd71b9770e15cb0dc393d669450d3a5f5b4`.
 
-`implemented` means implementation or a governed delivery disposition exists; `proved` applies only to the explicitly named observed scope. `blocked` identifies outstanding proof, remediation or authorization. `deferred` records an explicit scope deferral; `not_applicable` identifies a requirement outside the governed scope. These states are not interchangeable.
+All 393 inventoried rows have exactly one disposition. Of 366 historically required rows, 143 criteria were explicitly removed by merged operator-reviewed PRs, leaving 223 requirements in the denominator. Removal changes the release requirement; it is **not a behavioral pass**. The 198-row remediation partition is fully joined to its successor evidence; the 32 preserved/separately accounted rows and 15 excluded accounting rows remain visible.
 
-The [evidence map](evidence/release/current-status/EVIDENCE_MAP.md) identifies all 35 execution work packages, existing podcast ownership, exact source revisions, retained proof classifications, current limits and debt owners. [Machine-readable status](evidence/release/current-status/status.json) binds source hashes and a timestamped issue observation. The final #767 refresh is recorded by #799. Closed #761 delivered complete path classification and sampled-review support; closed #764 delivered a denominator and routing proposal, not proof completion. Its 198 remediation rows remain unproved, alongside 29 preserved dispositions and three separately accounted review-freshness resolutions. Remaining candidate review and proof are owned by open #522 and the named open child issues; no unissued child work is treated as complete. A blocked proof column does **not** mean implementation failed or that historical accounting is incomplete.
+PR #829 merged preparation only. Its four final #821 obligations remain unresolved. The 51 #819 execution rows retain their original candidate and require refresh where proof producers changed. No current execution or release approval is inferred from issue closure, merge, or source presence.
+
+[Machine-readable status](evidence/release/current-status/status.json), [quality gate](evidence/release/current-status/quality-gate.json), [blocker register](evidence/release/current-status/blockers.json), and [full evidence map](evidence/release/current-status/EVIDENCE_MAP.md) are generated together. Historical #517 and #767 packets remain source-time evidence in Git; this projection does not rewrite them.
+
+| Disposition | Rows |
+|---|---:|
+| approved_removal | 143 |
+| awaiting_final_gate | 24 |
+| ceremony_not_run | 3 |
+| execution_refresh_required | 51 |
+| final_gate_proof_required | 4 |
+| historical_evidence_retained | 136 |
+| preserved_review_disposition | 32 |
 
 <!-- release-status:start -->
-| ID | Feature | Delivery | Proof | Demo | Release |
-|---|---|---|---|---|---|
-| REPO | Repository and milestone opening | implemented | blocked | blocked | blocked |
-| CORP | Corporate and IP | implemented | blocked | blocked | blocked |
-| CSDLC | C-SDLC v3 | implemented | blocked | blocked | blocked |
-| DRT | Distributed multi-agent Runtime | implemented | blocked | blocked | blocked |
-| POD | Podcast | implemented | blocked | proved | blocked |
-| HOT | Axum configuration hot reload | implemented | blocked | blocked | blocked |
-| OBS | Observatory redesign | implemented | blocked | blocked | blocked |
-| DEC | Runtime v2/v3 decoupling | implemented | blocked | blocked | blocked |
-| PROV | Provider inference profiles | implemented | blocked | blocked | blocked |
-| GCP-DRT | GCP qualification sidecar | implemented | blocked | blocked | blocked |
-| AWS | AWS account move-in | implemented | blocked | blocked | blocked |
-| GCP | GCP account move-in | implemented | blocked | blocked | blocked |
-| XCL | Cross-cloud Terraform conversion | implemented | blocked | blocked | blocked |
-| RUST | Rust resilience refactoring | implemented | blocked | blocked | blocked |
+| Feature | Delivery | Approved removals | Prior execution needing refresh | Release |
+|---|---|---:|---:|---|
+| REPO — Repository and milestone opening | implemented | 0 | 0 | awaiting_final_gate |
+| CORP — Corporate and IP | implemented | 17 | 0 | awaiting_final_gate |
+| CSDLC — C-SDLC v3 | implemented | 101 | 51 | awaiting_final_gate |
+| DRT — Distributed multi-agent Runtime | implemented | 25 | 0 | awaiting_final_gate |
+| POD — Podcast | implemented | 0 | 0 | awaiting_final_gate |
+| HOT — Axum configuration hot reload | implemented | 0 | 0 | awaiting_final_gate |
+| OBS — Observatory redesign | implemented | 0 | 0 | awaiting_final_gate |
+| DEC — Runtime v2/v3 decoupling | implemented | 0 | 0 | awaiting_final_gate |
+| PROV — Provider inference profiles | implemented | 0 | 0 | awaiting_final_gate |
+| GCP-DRT — GCP qualification sidecar | implemented | 0 | 0 | awaiting_final_gate |
+| AWS — AWS account move-in | implemented | 0 | 0 | awaiting_final_gate |
+| GCP — GCP account move-in | implemented | 0 | 0 | awaiting_final_gate |
+| XCL — Cross-cloud Terraform conversion | implemented | 0 | 0 | awaiting_final_gate |
+| RUST — Rust resilience refactoring | implemented | 0 | 0 | awaiting_final_gate |
 <!-- release-status:end -->
 
-The Podcast demo `proved` cell covers retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks only; actual browser/player playback remains unproved; it excludes directory submission and public-launch authorization.
+### Release-tail stages
 
-### Explicit scope dispositions
+- INT-01: awaiting_final_gate (#522).
+- TAIL-01: awaiting_final_gate (#522).
+- TAIL-02: awaiting_final_gate (#522).
+- TAIL-03: awaiting_final_gate (#522).
+- TAIL-04: awaiting_final_gate (#522).
+- TAIL-05: awaiting_final_gate (#521).
+- TAIL-06: awaiting_final_gate (#522).
+- TAIL-07: awaiting_final_gate (#522).
+- TAIL-08: awaiting_final_gate (#524).
+- TAIL-09: awaiting_final_gate (#525).
+- TAIL-10: ceremony_not_run (#526).
 
-- **UNITY: deferred** — Operator-deferred backlog; excluded from OBS-B release gate. [#84](https://github.com/agent-logic/agent-design-language/issues/84).
-- **TLS: deferred** — Operator-deferred backlog; excluded from OBS-B release gate. [#251](https://github.com/agent-logic/agent-design-language/issues/251).
-- **DRT-D-269: not_applicable** — DRT-D does not execute #269 or implicitly qualify Runtime v4. [#269](https://github.com/agent-logic/agent-design-language/issues/269).
-- **PROVIDER-PROVENANCE: not_applicable** — Historical provider-profile provenance, not active execution authority. [#457](https://github.com/agent-logic/agent-design-language/issues/457).
+### Scope exclusions
 
-Historical #517 / PR #752 accounting covers all 245 non-proving rows and five exception groups with zero unowned accounting rows. [The retained accounting boundary](evidence/release/tail-01/reconciliation/ownership.json) does not convert those rows into current product proof or authorize release.
+- UNITY: deferred — Operator-deferred backlog; excluded from OBS-B release gate.
+- TLS: deferred — Operator-deferred backlog; excluded from OBS-B release gate.
+- DRT-D-269: not_applicable — DRT-D does not execute #269 or implicitly qualify Runtime v4.
+- PROVIDER-PROVENANCE: not_applicable — Historical provider-profile provenance, not active execution authority.
 
-Reproduce this projection with `python3 docs/milestones/v0.92.1/evidence/release/current-status/validate.py`. This checks documentation consistency and retained evidence bytes, not live cloud/product behavior.
+Validate with `python3 .csdlc/prepared/issues/835/project_release.py --check`. `--require-ready` deliberately fails while release blockers remain.
 
-## Delivered scope and remaining proof
+## Bounded feature and demo evidence
 
 ### Repository and milestone opening
 
-Execution-wave creation receipt and repository planning delivered. Opening receipt is not product proof or release approval. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+Execution-wave creation receipt and repository planning delivered.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#repo).
 
 ### Corporate and IP
 
-Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance. Recordless acceptance is an amendment, not a fabricated test run; retained criteria need complete candidate review. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#corp).
 
 ### C-SDLC v3
 
-Native command implementation and authenticated #505/PR591 cutover delivered. Operational authority remains conditional on selector/receipt validation. The closed #771 proof is stale after later C-SDLC changes; #817 owns the exact-candidate refresh. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#817](https://github.com/agent-logic/agent-design-language/issues/817).
+Native command implementation and authenticated #505/PR591 cutover delivered.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#csdlc).
 
 ### Distributed multi-agent Runtime
 
-Distributed contract, continuity qualification and failure-mode implementation retained. Remediations #757-#759 are closed; #814 owns the remaining greeting-recovery model-boundary defect. Closed #345 retains its input contract, not new consumption proof. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#814](https://github.com/agent-logic/agent-design-language/issues/814).
+Distributed contract, continuity qualification and failure-mode implementation retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#drt).
 
 ### Podcast
 
-Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained. Public hosting is observed; actual browser/player playback remains unproved. Closed #264 retains the operator authorization boundary for directory submission and public launch; unresolved acceptance belongs to #522 and ceremony authorization to #526. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#526](https://github.com/agent-logic/agent-design-language/issues/526).
+Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained.
+
+Retained demo status: proved. Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#pod).
 
 ### Axum configuration hot reload
 
-Config reload implementation and retained validation supplied by #510. Retained tests are not a new live reload demonstration or complete candidate review. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+Config reload implementation and retained validation supplied by #510.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#hot).
 
 ### Observatory redesign
 
-OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512. Unity #84 and TLS #251 remain deferred. Closed #122 retains public-exposure scope provenance; current acceptance evidence remains a #522 obligation. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#obs).
 
 ### Runtime v2/v3 decoupling
 
-Runtime authority topology and generation ownership migration package retained. Compatibility and rollback evidence require complete current review; no implied Runtime v4 qualification. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+Runtime authority topology and generation ownership migration package retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#dec).
 
 ### Provider inference profiles
 
-Shared profile implementation and isolated comparison/shadow implementation retained. Source-time validation does not authorize shadow output or prove every provider deployment. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+Shared profile implementation and isolated comparison/shadow implementation retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#prov).
 
 ### GCP qualification sidecar
 
-Governed six-resident replay wrapper and retained run evidence delivered by #509. No new GCP run is performed here; no #269 execution credit is implied. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522).
+Governed six-resident replay wrapper and retained run evidence delivered by #509.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#gcp-drt).
 
 ### AWS account move-in
 
-Seven phase implementation and receipt packages retained. SSH remediation #770 is closed; #815 owns exact-plan operator-authorization authenticity. No universal account compliance is inferred. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#815](https://github.com/agent-logic/agent-design-language/issues/815).
+Seven phase implementation and receipt packages retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#aws).
 
 ### GCP account move-in
 
-Five phase packages plus #740 private/versioned backend recovery proof retained. Audit/log remediation #772 is closed; #815 owns mutation-authorization authenticity and #817 owns retained GCP-E format repair. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#815](https://github.com/agent-logic/agent-design-language/issues/815), [#817](https://github.com/agent-logic/agent-design-language/issues/817).
+Five phase packages plus #740 private/versioned backend recovery proof retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#gcp).
 
 ### Cross-cloud Terraform conversion
 
-Portable workload contract and AWS/GCP Terraform implementation retained. Provider-major bounds landed through closed #765; #815 owns exact-plan authorization binding. Complete current parity and rollback acceptance remains a #522 proof obligation. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#815](https://github.com/agent-logic/agent-design-language/issues/815).
+Portable workload contract and AWS/GCP Terraform implementation retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#xcl).
 
 ### Rust resilience refactoring
 
-Resilience owner-boundary refactoring and retained behavior checks supplied by #499. Toolchain remediation #766 is closed; #814 owns the remaining Runtime model-boundary repair. No LoC acceptance rule applies. Remaining ownership: [#522](https://github.com/agent-logic/agent-design-language/issues/522), [#814](https://github.com/agent-logic/agent-design-language/issues/814).
+Resilience owner-boundary refactoring and retained behavior checks supplied by #499.
 
-## Required proof baseline
-
-The original requirements remain requirements; they are not pass results.
-
-| Lane | Required proof |
-|---|---|
-| Corporate and IP | Reviewed redacted transfer and rights authority |
-| C-SDLC v3 | Typed schema, migration, rollback, and behavioral proof |
-| Distributed multi-agent Runtime | #345 GPU Shepherd hardening plus authentic multi-agent UTS work, continuity, and resources |
-| Podcast | Identity, rights, feed, episode, Studio, playback, and release authority |
-| Axum configuration hot reload | Parse/validate/swap, last-known-good, debounce, failure, concurrency |
-| Observatory redesign | OBS-A/#511 and OBS-B/#512 authentic Runtime projections, accessibility, redaction, and empty/degraded/recovery behavior; #84 Unity and #251 TLS remain deferred; closed #122 retains public-exposure scope provenance; #522 owns remaining acceptance |
-| Runtime v2/v3 decoupling | Complete source/reverse-reference census, exclusive ownership, compatibility, migration, and rollback |
-| Provider inference profiles | Profile schema, deterministic Ollama materialization, invalid-profile/last-known-good behavior, redaction, shadow isolation, and comparison fallback |
-| GCP qualification sidecar | Exact six-resident identity/workload replay, continuity, cost, and zero-resource cleanup; no #269 execution |
-| AWS account move-in | Seven exact phase-result receipts: inventory, access/billing with governed Agent Toolkit setup and attributable activity, Terraform bootstrap, audit/security, adoption, Runtime modules, and retirement decision |
-| GCP account move-in | Five exact phase-result receipts: hierarchy/cost, Terraform bootstrap, organization/billing, private platform, and GPU readiness |
-| Cross-cloud Terraform conversion | Exact #194/#268 template census, portable contract, provider-specific plans/deployments, parity, rollback, and cleanup-zero |
-| Rust resilience refactoring | API and behavior parity, fault/trace/retry/timeout/cancellation proof, module ownership, and exact validation-impact comparison; no LoC quota |
-
-Repository authority (#432), exact scope, review identity, and immutable revision binding apply to every row.
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#rust).
