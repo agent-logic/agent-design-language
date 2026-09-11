@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 526,
+  "phase": "bound",
+  "generation": 5,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/526-release-ceremony",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-526-release-ceremony",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "0ede2544742f4753f7cb360cefbe8e6556d192b44d0668ffd75eb8a29317bcfb"
+}
