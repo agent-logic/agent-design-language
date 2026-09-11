@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-The v0.92.2 planning corpus contains 45 reconciled issue rows, including ordinary unassigned OBS-S3 and ARCH-ADR issues; focused validation and independent exact-head review pass, and only PR publication remains.
+The v0.92.2 planning corpus contains 45 reconciled issue rows, including ordinary unassigned OBS-S3 and ARCH-ADR issues; all review findings are corrected and exact-head independent review passes.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs_only`
@@ -76,7 +76,7 @@ The v0.92.2 planning corpus contains 45 reconciled issue rows, including ordinar
 ## Artifacts produced
 - Local ignored output-card scaffold at `not_applicable; this tracked SOR is the canonical output record, not a local ignored scaffold`
 - Tracked implementation artifacts: `docs/milestones/v0.92.2 planning corpus, validator, and .csdlc/issues/525 cards`
-- Additional proof artifacts: `Native v3 validation results and final independent exact-head review at cad5ff95a9ba243b909411cb7c70d2efd203e679.`
+- Additional proof artifacts: `Native v3 validation results and final independent exact-head review at b97a43e41d107d64dd24f045f1b31150accabaa7.`
 
 ## Actions taken
 - `Bound issue #525 to its FastWork worktree and replaced placeholder design cards through native v3 edit.`
@@ -86,13 +86,13 @@ The v0.92.2 planning corpus contains 45 reconciled issue rows, including ordinar
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none before merge`
 - Worktree-only paths remaining: `all issue #525 committed changes remain on codex/525-next-milestone-review until merge`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `bound issue worktree at the committed candidate`
-- Integration method used: `branch commit pending PR publication and merge`
+- Integration method used: `PR #857 open and pending merge`
 - Verification performed:
   - `git status --short --branch`
     `Confirms the primary checkout stays clean on main and issue changes stay in the bound worktree.`
-- Result: `worktree-only candidate; not yet merged`
+- Result: `PR #857 open; not yet merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test`
-    `Checks 45-row wave/spec/catalog/WBS parity, issue authority, dependencies, required OBS-S3 details, ADR ownership, links, and negative mutations.`
+    `Checks 45-row wave/spec/catalog/WBS parity, issue authority, dependencies, the complete ten-clause OBS-S3 acceptance set, projection uniqueness and dependency parity, ADR ownership, links, and negative mutations.`
 - Results:
-  - `passed with 45 work packages and 18 rejected negative fixtures; native six-card validation and git diff --check also passed`
+  - `passed with 45 work packages and 31 rejected negative fixtures; independent adversarial review, native six-card validation, and git diff --check also passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

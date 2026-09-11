@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "pass"
-notes: "Independent review verified 45-row parity, WP-01 creation authority, non-gating OBS-S3 and ARCH-ADR boundaries, complete OBS-S3 operational requirements, validator negatives, placeholder-free SOR, and diff hygiene."
+notes: "Independent review verified all ten OBS-S3 acceptance omissions and four projection mutations are rejected, the baseline passes with 45 rows and 31 negative fixtures, exact-range diff hygiene passes, and the worktree is clean."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Final bounded review at cad5ff95a9ba243b909411cb7c70d2efd203e679 found no actionable findings.
+- Final bounded review at b97a43e41d107d64dd24f045f1b31150accabaa7 found no actionable findings.
 
 ### Dispositions
 
-- Earlier findings were corrected; final exact-head disposition is PASS.
+- The two additional P2 findings were corrected by enforcing all ten OBS-S3 acceptance obligations, projection-row uniqueness, and OBS-S3 dependency parity; exact-head disposition is PASS.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent review verified 45-row parity, WP-01 creation authority, non-gating OBS-S3 and ARCH-ADR boundaries, complete OBS-S3 operational requirements, validator negatives, placeholder-free SOR, and diff hygiene.
+Independent review verified all ten OBS-S3 acceptance omissions and four projection mutations are rejected, the baseline passes with 45 rows and 31 negative fixtures, exact-range diff hygiene passes, and the worktree is clean.
