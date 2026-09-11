@@ -27,14 +27,16 @@ Status: planned. Uncreated rows use number-free planning identifiers; three admi
 | PLAT-MEMORY | Memory Palace integration | Deliver the next bounded production Runtime/CodeFriend Memory Palace slice | CF-EVIDENCE, CF-MEMORY |
 | SPEC-RETEST | Speculative decoding requalification | Retest the retained prototype and issue an evidence-backed keep, repair, or retire decision | WP-01 |
 | OBS-LIVE (#720) | Existing Observatory issue | Remove retained-mode hazards from live product | Existing live UI; no WP-01 wait |
-| SIM-UMBRELLA | C-SDLC first sprint | Coordinate the first C-SDLC simplification sprint | Completes after SIM-07; coordination opens before SIM-01 |
-| SIM-01 | C-SDLC first sprint | Read-only diagnostics and baseline journeys | Own readiness; parallel Runtime; no WP-01 wait |
+| SIM-UMBRELLA | C-SDLC first sprint | Produce one sprint scorecard | Completes after SIM-09; coordination opens before SIM-01 |
+| SIM-01 | C-SDLC first sprint | Make diagnostics observably read-only | Own readiness; parallel Runtime; no WP-01 wait |
 | SIM-02 | C-SDLC first sprint | One current installed command contract | SIM-01 |
-| SIM-03 | C-SDLC first sprint | Typed evidence and intent-oriented commands | SIM-02 |
+| SIM-03 | C-SDLC first sprint | Deliver one intent-oriented CLI | SIM-02 |
 | SIM-04 | C-SDLC first sprint | One semantic issue transaction owner | SIM-03 |
 | SIM-05 | C-SDLC first sprint | Derived cards and precise evidence invalidation | SIM-04 |
-| SIM-06 | C-SDLC first sprint | Conversion rehearsal and writer fencing | SIM-05 |
-| SIM-07 | C-SDLC first sprint | Independent qualification and authorized transition | SIM-06 |
+| SIM-06 | C-SDLC first sprint | Deliver one safe conversion rehearsal | SIM-05 |
+| SIM-07 | C-SDLC first sprint | Produce one independent transition qualification | SIM-06 |
+| SIM-08 | C-SDLC first sprint | Produce one transition operations packet | SIM-07 |
+| SIM-09 | C-SDLC first sprint | Run one authorized consecutive-issue pilot | SIM-08; separate activation authority |
 | TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | TAIL-01 converges integration plus all admitted supporting/existing tracks |
 
 ## Parallelism
@@ -43,8 +45,10 @@ CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSD
 
 ## Work-Package Rule
 
-The milestone inventory reconciles one bounded issue per expanded row. Every row must produce one named primary result. Supporting code, documentation, fixtures, and tests may travel with that result only when they are necessary to implement or prove it; independently useful results require separate rows before issue creation. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched eight-issue sprint. Reuse #720; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 41 rows: the original 30 planning rows, two newly admitted rows (`PLAT-PAIR` and `OPS-GCP`), one admitted existing issue and the eight-issue SIM sprint. With WP-01 resolved, 39 rows remain prospective creations and one reuses an existing issue. Eight prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority and is outside #523.
+For the three broadest product rows, cohesion is explicit: CF-EVIDENCE owns one admissible-evidence contract whose identity, provenance, redaction, retention, and consumer clauses cannot ship independently; CF-COG owns one reporter whose analysis facets share one evidence-to-explanation contract; CF-PROOF owns one release-gate packet whose documentation and two repository runs are required evidence sections, not separately accepted products. SIM-08 and SIM-09 are separate because operations preparation and live pilot exposure remain independently valuable and separately authorized.
+
+The milestone inventory reconciles one bounded issue per expanded row. Every row must produce one named primary result. Supporting code, documentation, fixtures, and tests may travel with that result only when they are necessary to implement or prove it; independently useful results require separate rows before issue creation. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched ten-issue sprint. Reuse #720; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 43 rows: the original 30 planning rows, two newly admitted rows (`PLAT-PAIR` and `OPS-GCP`), one admitted existing issue and the ten-issue SIM sprint. With WP-01 resolved, 41 rows remain prospective creations and one reuses an existing issue. Ten prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority and is outside #523.
 
 ## Immediate existing work
 
-#717 and #718 execute under v0.92.1 and are consumed here only after merge. #720 must not delay #512. Other backlog issues are not admitted by this package.
+#717 and #718 are closed merged v0.92.1 predecessors and are consumed here as completed inputs. #720 remains independently admitted under its existing authority. Other backlog issues are not admitted by this package.

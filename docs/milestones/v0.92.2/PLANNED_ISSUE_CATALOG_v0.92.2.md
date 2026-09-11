@@ -4,14 +4,16 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 
 | Order | Planned ID | Title | Creation boundary |
 |---:|---|---|---|
-| S0 | SIM-UMBRELLA | Coordinate the first C-SDLC simplification sprint | Dedicated first sprint; coordination opens before SIM-01; closes after SIM-07 |
+| S0 | SIM-UMBRELLA | Produce one C-SDLC simplification sprint scorecard | Dedicated first sprint; coordination opens before SIM-01; closes after SIM-09 |
 | S1 | SIM-01 | Read-only diagnostics and baseline journeys | Dedicated first sprint; own readiness, parallel Runtime |
 | S2 | SIM-02 | One current installed command contract | Dedicated first sprint; after SIM-01 |
 | S3 | SIM-03 | Typed evidence and intent-oriented commands | Dedicated first sprint; after SIM-02 |
 | S4 | SIM-04 | One semantic issue transaction owner | Dedicated first sprint; after SIM-03 |
 | S5 | SIM-05 | Derived cards and precise evidence invalidation | Dedicated first sprint; after SIM-04 |
 | S6 | SIM-06 | Conversion rehearsal and writer fencing | Dedicated first sprint; after SIM-05 |
-| S7 | SIM-07 | Independent qualification and authorized transition | Dedicated first sprint; after SIM-06 |
+| S7 | SIM-07 | Produce one independent transition qualification | Dedicated first sprint; after SIM-06 |
+| S8 | SIM-08 | Produce one transition operations packet | Dedicated first sprint; after SIM-07 |
+| S9 | SIM-09 | Run one authorized consecutive-issue pilot | Dedicated first sprint; after SIM-08 and separate activation authority |
 | 1 | WP-01 | Publish and open the v0.92.2 CodeFriend Beta 1 execution wave | Milestone setup authority |
 | 2 | CF-SHELL | Deliver one operable CodeFriend shell | After WP-01 |
 | 3 | CF-ADAPTER | Portable Adapter v2 and repository ingestion | After WP-01; parallel with CF-SHELL |
@@ -46,7 +48,7 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 31 | TAIL-09 | Next-milestone planning review | After TAIL-08 |
 | 32 | TAIL-10 | Release ceremony and milestone close | After TAIL-09 |
 
-WP-01 reuses existing #720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. #717/#718 execute in v0.92.1 and are consumed here as predecessor capabilities after merge. Other backlog is excluded. CodeFriend new-wave creation retains its prior-milestone closure gate. The operator-selected SIM sprint can launch first through its dedicated authority and own readiness, without WP-01 or unrelated closeout. Creating its eight issue identities is a separate launch operation; #523 creates none.
+WP-01 reuses existing #720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. Closed merged #717/#718 are consumed here as v0.92.1 predecessor capabilities. Other backlog is excluded. CodeFriend new-wave creation retains its prior-milestone closure gate. The operator-selected SIM sprint can launch first through its dedicated authority and own readiness, without WP-01 or unrelated closeout. Creating its ten issue identities is a separate launch operation; #523 creates none.
 
 Each catalog row owns one primary result. Lists of supporting artifacts or proof do not authorize additional independently valuable work; WP-01 must split any row whose execution contract cannot preserve that boundary before creating its issue.
 

@@ -48,9 +48,9 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
-- [ ] All 41 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
-- [ ] All 41 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
-- [ ] The denominator contains the original 30 rows, newly admitted PLAT-PAIR and OPS-GCP, eight SIM rows, and reused #720 exactly once; #717/#718 remain predecessor inputs rather than extra rows
+- [ ] All 43 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 43 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] The denominator contains the original 30 rows, newly admitted PLAT-PAIR and OPS-GCP, ten SIM rows, and reused #720 exactly once; #717/#718 remain predecessor inputs rather than extra rows
 - [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven

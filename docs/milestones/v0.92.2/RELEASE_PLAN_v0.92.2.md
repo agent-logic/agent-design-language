@@ -8,7 +8,7 @@ CF-INTEGRATE forms a release candidate only after every Beta 1 exit-bar track ha
 
 ## Release denominator
 
-The release denominator is exactly the 41 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It comprises the original 30 planning rows, newly admitted PLAT-PAIR and OPS-GCP, eight C-SDLC simplification rows (SIM-UMBRELLA plus SIM-01 through SIM-07), and one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must reconcile all 41 rows to current canonical issue and merge truth; an unmapped, duplicated, missing, or unreviewed row is a no-go condition.
+The release denominator is exactly the 43 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It comprises the original 30 planning rows, newly admitted PLAT-PAIR and OPS-GCP, ten C-SDLC simplification rows (SIM-UMBRELLA plus SIM-01 through SIM-09), and one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must reconcile all 43 rows to current canonical issue and merge truth; an unmapped, duplicated, missing, or unreviewed row is a no-go condition.
 
 ## Canonical Tail
 
@@ -47,4 +47,4 @@ The known unadmitted product candidate that must remain visible is `.adl/docs/TB
 
 ## First-sprint convergence
 
-The independently launched SIM sprint runs first. TAIL-01 consumes completed SIM-UMBRELLA (including SIM-07 qualification and its authorized activation/pilot boundary). The sprint does not gate CF-INTEGRATE or the v0.92.1 #717/#718 bugfix lanes. If activation is not authorized, record the unresolved program gate; do not silently call the sprint or milestone complete.
+The independently launched SIM sprint runs first. TAIL-01 consumes completed SIM-UMBRELLA after SIM-07 qualification, SIM-08 operations preparation, and the separately authorized SIM-09 pilot. The sprint does not gate CF-INTEGRATE; closed merged v0.92.1 #717/#718 are predecessor inputs, not active bugfix lanes. If activation is not authorized, record the unresolved program gate; do not silently call the sprint or milestone complete.

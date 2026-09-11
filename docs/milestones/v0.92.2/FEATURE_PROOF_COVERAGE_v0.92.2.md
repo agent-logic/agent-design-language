@@ -48,4 +48,4 @@ No row may be marked proven from a planned demo, a zero-test invocation, or gree
 
 ## C-SDLC simplification sprint
 
-SIM-01 through SIM-07 own the installed journey, strict observation, finite recovery, immutable evidence, unified semantic state, projection integrity, conversion/fencing and qualification proofs in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA aggregates the scorecard and closes after all packages; TAIL-01 consumes its result. The #523 native correctness repairs are baseline inputs, not SIM acceptance.
+SIM-01 through SIM-09 own the installed journey, strict observation, finite recovery, immutable evidence, unified semantic state, projection integrity, conversion, qualification, transition operations, and authorized-pilot proofs in the [plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA aggregates the scorecard and closes after all packages; TAIL-01 consumes its result. The #523 native correctness repairs are baseline inputs, not SIM acceptance.

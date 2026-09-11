@@ -1,6 +1,6 @@
 # v0.92.2 Execution Readiness
 
-Status: the new execution wave remains gated. Existing admitted issue #720 uses its own typed readiness. #717 and #718 execute in v0.92.1 and are predecessor inputs rather than new-wave rows.
+Status: the new execution wave remains gated. Existing admitted issue #720 uses its own typed readiness. Closed merged #717 and #718 are predecessor inputs rather than new-wave rows.
 
 ## Opening Gates
 
@@ -23,8 +23,8 @@ Execution pauses for missing issue authority, scope conflict, unavailable eviden
 
 ## Early contract and existing-issue gates
 
-CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #720 remains independently executable. #717 and #718 retain their linked issue acceptance under v0.92.1, including #718 model-generated reply proof and its separately bounded provider authorization; v0.92.2 consumes only their reviewed merged outcomes.
+CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #720 remains independently executable. Closed merged #717 and #718 retain their v0.92.1 acceptance evidence, including #718 model-generated reply proof and separately bounded provider authorization; v0.92.2 consumes only those reviewed merged outcomes.
 
 ## First SIM sprint
 
-SIM-01 has its own readiness and can start alongside Runtime without WP-01 or unrelated prior closeout. SIM-02 through SIM-07 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-07. Dedicated sprint issue creation and disjoint owner assignment precede execution. The CodeFriend opening gates above do not apply to this independently admitted sprint. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.
+SIM-01 has its own readiness and can start alongside Runtime without WP-01 or unrelated prior closeout. SIM-02 through SIM-09 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-09. Dedicated sprint issue creation and disjoint owner assignment precede execution. The CodeFriend opening gates above do not apply to this independently admitted sprint. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.

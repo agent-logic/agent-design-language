@@ -25,8 +25,8 @@ def check(wave, specs):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 41 or len(set(ids)) != 41:
-        failures.append("Expected 41 unique work packages")
+    if len(ids) != 43 or len(set(ids)) != 43:
+        failures.append("Expected 43 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
     atomic_results = wave.get("atomic_results", {})
@@ -49,14 +49,14 @@ def check(wave, specs):
             failures.append(f"{key} must reuse existing authority without new-wave dependencies")
         if spec_by_id.get(key, {}).get("issue") != issue:
             failures.append(f"{key} specification lost existing identity")
-    for n in range(1, 8):
+    for n in range(1, 10):
         key = f"SIM-{n:02}"
         expected = [] if n == 1 else [f"SIM-{n-1:02}"]
         row = by_id.get(key, {})
         if row.get("depends_on") != expected or row.get("startup_policy") != "dedicated_sprint_own_readiness_parallel_runtime":
             failures.append(f"{key} must preserve first-sprint ordering and independent Runtime-parallel startup")
-    if by_id.get("SIM-UMBRELLA", {}).get("depends_on") != ["SIM-07"]:
-        failures.append("SIM umbrella completion must follow SIM-07")
+    if by_id.get("SIM-UMBRELLA", {}).get("depends_on") != ["SIM-09"]:
+        failures.append("SIM umbrella completion must follow SIM-09")
     if "SIM-UMBRELLA" in by_id["CF-INTEGRATE"]["depends_on"]:
         failures.append("SIM sprint must not gate product integration")
     visiting, visited = set(), set()

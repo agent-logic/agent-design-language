@@ -33,7 +33,7 @@
   "status": "implemented",
   "activation_state": "executed",
   "target_files_surfaces_inline": "docs/milestones/v0.92.2 canonical planning, wave, specification, reconciliation, proof, readiness, release-tail, and validation surfaces",
-  "deliverables_inline": "A consistent 41-row package, bounded PLAT-PAIR and OPS-GCP plans, validator proof, and current review truth.",
+  "deliverables_inline": "A consistent 43-row package, bounded PLAT-PAIR and OPS-GCP plans, validator proof, and current review truth.",
   "validation_plan_inline": "Planning validator self-test, negative fixtures, stale-denominator/disposition scans, git diff hygiene, independent exact-head review.",
   "non_goals_inline": "Issue creation, implementation, cloud mutation, paid experiment, release approval, merge, or ceremony.",
   "dependencies_inline": "Merged #523/PR #743 is planning provenance; no live dependency blocks #524 documentation work.",
@@ -55,6 +55,6 @@
   "notes_risks": "Fresh independent review remains pending after this lifecycle-truth edit.",
   "timestamp": "2026-09-11T02:25:31Z",
   "repo_inputs_inline": "Issue #524; merged #523/PR #743; canonical v0.92.2 package; named NVIDIA PAIR and GCP move-in sources.",
-  "acceptance_criteria_inline": "41 unique rows; distinct atomic results; exact dependency and release-tail validation; current admitted/deferred truth; no issue creation.",
+  "acceptance_criteria_inline": "43 unique rows; distinct atomic results; exact dependency and release-tail validation; current admitted/deferred truth; no issue creation.",
   "notes_risks_inline": "Fresh exact-head review is still required before publication."
 }

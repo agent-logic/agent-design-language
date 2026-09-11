@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- Prior review found an implicit denominator, a non-reproducible delta claim, and placeholder lifecycle truth. The branch now has an explicit 41-row denominator, machine-checked atomic results, current source dispositions, and populated execution truth; fresh exact-head review remains pending.
+- Prior reviews found implicit denominator, stale claims, placeholder lifecycle truth, bundled transition work, and PAIR vocabulary drift. The branch now has a 43-row denominator, split qualification/operations/pilot results, current predecessor truth, and corrected PAIR terminology; fresh exact-head review remains pending.
 
 ### Dispositions
 

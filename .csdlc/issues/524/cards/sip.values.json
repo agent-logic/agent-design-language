@@ -32,6 +32,6 @@
   "timestamp": "2026-09-11T02:25:31Z",
   "docs_context": "v0.92.2 canonical milestone planning package",
   "inputs": "Issue #524; merged #523/PR #743; v0.92.1 release-tail standards; operator-authorized TBD schedules.",
-  "acceptance_criteria_inline": "41-row denominator; one atomic result per WP; valid dependency graph and release tail; explicit source dispositions; no execution authority.",
+  "acceptance_criteria_inline": "43-row denominator; one atomic result per WP; valid dependency graph and release tail; explicit source dispositions; no execution authority.",
   "notes_risks_inline": "Ignored TBD files are planning references only and are not copied or executed."
 }

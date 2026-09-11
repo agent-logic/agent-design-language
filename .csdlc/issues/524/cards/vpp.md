@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-Validate the complete number-free planning package, its 41 distinct primary results, dependency graph, release tail, and source dispositions.
+Validate the complete number-free planning package, its 43 distinct primary results, dependency graph, release tail, and source dispositions.
 
 ## Lane Registry Inputs
 

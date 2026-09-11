@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 524,
   "phase": "bound",
-  "generation": 5,
+  "generation": 6,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/524-v0922-closeout-plan",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-524-v0922-closeout-plan",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "019a889e3d966ccb20caf793ddede58442fa0fc4a4093983733a7fe1729e30be"
+  "digest": "8cf25d6786bf2590dbf7e000c25093f46fee497b467d4ac33d87b1a533f17bcc"
 }

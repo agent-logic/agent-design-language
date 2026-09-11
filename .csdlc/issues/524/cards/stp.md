@@ -43,15 +43,15 @@ Produce one validated and independently reviewed v0.92.2 closeout and release-ta
 
 ## Required Outcome
 
-A context-free canonical package with a 41-row denominator, exact dependency graph, bounded issue outcomes, canonical tail, and explicit deferred/admitted source truth.
+A context-free canonical package with a 43-row denominator, exact dependency graph, bounded issue outcomes, canonical tail, and explicit deferred/admitted source truth.
 
 ## Deliverables
 
-Reconciled milestone package; explicit 41-row denominator; PLAT-PAIR and OPS-GCP routes; focused validator proof; fresh independent review.
+Reconciled milestone package; explicit 43-row denominator; PLAT-PAIR and OPS-GCP routes; focused validator proof; fresh independent review.
 
 ## Acceptance Criteria
 
-All canonical files agree on 41 unique rows; dependencies and release-tail order validate; PLAT-PAIR and OPS-GCP are single-result number-free plans; closeout remains asynchronous; no stale unadmitted wording remains.
+All canonical files agree on 43 unique rows; dependencies and release-tail order validate; every row has one primary result; closeout remains asynchronous; no stale unadmitted wording remains.
 
 ## Repo Inputs
 

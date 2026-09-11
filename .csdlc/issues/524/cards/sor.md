@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Reconciled 41 v0.92.2 work packages, registered one distinct primary result for every WP, and scheduled bounded NVIDIA PAIR and GCP move-in work without issue creation or execution authority.
+Reconciled 43 v0.92.2 work packages, split transition qualification, operations, and pilot work, and scheduled bounded NVIDIA PAIR and GCP move-in work without issue creation or execution authority.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs-bounded`
@@ -79,7 +79,7 @@ Reconciled 41 v0.92.2 work packages, registered one distinct primary result for 
 - Additional proof artifacts: `Focused validator output and forthcoming independent exact-head review.`
 
 ## Actions taken
-- `Added an explicit 41-row release denominator across canonical planning surfaces.`
+- `Added an explicit 43-row release denominator and split independently valuable transition results.`
 - `Scheduled PLAT-PAIR and OPS-GCP as bounded number-free work without creating issues or authorizing execution.`
 - `Preserved the canonical release-tail order and asynchronous issue-closeout boundary.`
 
@@ -110,7 +110,7 @@ Rules:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; targeted stale-denominator scans`
     `Verifies row/spec parity, dependency and tail invariants, negative fixtures, and diff hygiene.`
 - Results:
-  - `Passed: 41 unique work packages, 41 unique atomic results, eleven negative fixtures, complete deliverable/proof presence, and clean diff hygiene.`
+  - `Passed: 43 unique work packages, 43 unique atomic results, eleven negative fixtures, complete deliverable/proof presence, and clean diff hygiene.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Planning validator self-test with nine intended-rejection fixtures.`
+- Determinism tests executed: `Planning validator self-test with eleven intended-rejection fixtures.`
 - Fixtures or scripts used: `docs/milestones/v0.92.2/validate_planning.py`
 - Replay verification (same inputs -> same artifacts/order): `Repeated focused execution is deterministic for unchanged package bytes.`
 - Ordering guarantees (sorting / tie-break rules used): `Validator enforces exact canonical release-tail order and dependency graph.`

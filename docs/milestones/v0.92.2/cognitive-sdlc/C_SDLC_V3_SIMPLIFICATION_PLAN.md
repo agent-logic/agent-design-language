@@ -3,7 +3,7 @@
 Status: tracked planning candidate promoted through #523 / PR #743; implementation and cutover are not authorized by this document.
 
 Authoring context: Planning #5, 2026-09-08; revised by Planning #6 on 2026-09-08 following the statistical review and operator direction.
-Target release: **v0.92.2**. Program size: **eight planned issues: one umbrella plus SIM-01 through SIM-07**. This is the C-SDLC program count, not the total milestone count. Promotion is included in #523 / PR #743; no separate plan-update issue is required.
+Target release: **v0.92.2**. Program size: **ten planned issues: one umbrella plus SIM-01 through SIM-09**. This is the C-SDLC program count, not the total milestone count. Promotion is included in #523 / PR #743; #524 narrows bundled transition work without opening issues.
 Source baseline: `bf159eb416950dfa3399933829726a7b7e71f897` on ADL `main`.
 Audience: milestone planners, C-SDLC maintainers, implementation agents, and independent reviewers.
 
@@ -91,17 +91,19 @@ The umbrella owns dependency ordering, the release scorecard, adjudication of fa
 
 | Package | Deliverable and boundary | Acceptance / handoff |
 | --- | --- | --- |
-| SIM-01 | Reproduce S1 using isolated fixtures, then separate observation from mutation/recovery. Move state-directory creation and mutation locks out of read-only paths. Freeze the installed baseline and historical public-journey corpus; introduce attempt/outcome measurement here. | Diagnostics leave issue files, journals, registrations, and projections unchanged for healthy, interrupted, missing, and corrupt state. They report recovery-required explicitly. Retain baseline traces, environment identity, manual inputs and outcome denominators; exercise root and genuine non-primary worktree entrypoints. |
+| SIM-01 | Make diagnostics observably read-only. | Diagnostics leave issue files, journals, registrations, and projections unchanged; retained baseline traces are proof fixtures, not a second product. |
 | SIM-02 | Define the single current command contract and separate historical construction fixtures/guidance from operational discovery. Preserve historical bytes where they are retained proof. | Installed executable provenance, help, schemas, nested guidance, command descriptors, and tests agree about current authority and effects; no automatic construction fallback on operational errors. |
-| SIM-03 | Add validated evidence types and canonical context resolution; implement the intent-oriented CLI against the existing operational behavior first. | New callers supply intent and changed content rather than hand-built context/receipt chains; stale requests, ambiguous topology, wrong repository, and stale review are rejected. |
+| SIM-03 | Deliver one intent-oriented CLI. | Callers supply intent and changed content; typed evidence and context resolution are internal safeguards of this one command result. |
 | SIM-04 | Extend the existing lifecycle/transaction owner to hold the complete semantic issue record; route local transitions and verified remote/terminal outcomes through it. | Every mutating journey is visible in one issue generation/audit history; no command writes an independent lifecycle phase or terminal truth. Crash and concurrent-writer proofs cover real application entrypoints. Recommended transitions remain admissible against unchanged relevant facts; supported amendments and interruptions have finite legal recovery. |
 | SIM-05 | Derive the six cards and separate semantic versus projection integrity. Provide explicit projection rebuild through the transaction/application owner. | Projection-only drift is classified independently; semantic changes invalidate the right evidence; regeneration is deterministic and cannot invent acceptance or completion. Classify scope/acceptance, plan, proof, binding, implementation, review and display changes; declare source states, prerequisites, resulting state and affected evidence with causal invalidation records. |
-| SIM-06 | Implement explicit conversion, transition manifest, writer fencing, and restore tooling. Rehearse the coordinated breaking change on copies of representative active records. | Exact census, lossless semantic mapping, old/new revision evidence, interrupted-conversion recovery, and pre-resume restore all pass. Unsupported records stop conversion with an issue-specific disposition. |
-| SIM-07 | Independently review the complete candidate, qualify the journey evidence accumulated since SIM-01, and prepare the deployment runbook and prospective measurement protocol. Activate only in the separately authorized pause. | No unresolved actionable review findings; required aggregate CI settled; conversion/readback and all pre-resume acceptance gates pass before writers resume. After authorized activation, report a consecutive-issue pilot including failures and abandonment; keep reliability claims bounded by exposure. |
+| SIM-06 | Deliver one safe conversion rehearsal. | One representative copied-record conversion proves census, mapping, fencing, interruption recovery, and restore as inseparable safety properties. |
+| SIM-07 | Produce one independent transition qualification. | A current reviewer records pass, fail, or not-proven against the complete candidate and accumulated journey evidence. |
+| SIM-08 | Produce one transition operations packet. | Deployment, rollback, and prospective-measurement instructions are reviewed without activating writers. |
+| SIM-09 | Run one authorized consecutive-issue pilot. | Separate pause/activation authority exists and every pilot attempt, failure, abandonment, and disposition is retained. |
 
-Scheduling: this is the first coherent v0.92.2 sprint, authorized to proceed in parallel with Runtime work. Its own issue readiness and disjoint ownership govern startup; it does not wait for WP-01, the CodeFriend build or unrelated prior closeout. SIM-UMBRELLA opens and coordinates the sprint, and completes only after SIM-07.
+Scheduling: this is the first coherent v0.92.2 sprint, authorized to proceed in parallel with Runtime work. Its own issue readiness and disjoint ownership govern startup; it does not wait for WP-01, the CodeFriend build or unrelated prior closeout. SIM-UMBRELLA opens and coordinates the sprint, and completes only after SIM-09.
 
-Order: SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07. Preparation may overlap only with disjoint ownership. Earlier correctness repairs may ship separately; the incompatible CLI/state replacement activates once, after the full transition proof. No intermediate deployment may introduce two writers for one issue.
+Order: SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07 → SIM-08 → SIM-09. Preparation may overlap only with disjoint ownership. Earlier correctness repairs may ship separately; the incompatible CLI/state replacement activates once, after the full transition proof. No intermediate deployment may introduce two writers for one issue.
 
 ## Journey benchmark and package handoffs
 
@@ -177,7 +179,7 @@ Final acceptance requires the journey and measurement scorecard above, one opera
 
 ## Planning status and next boundary
 
-The operator has selected v0.92.2 and the eight-issue program structure. GitHub umbrella and SIM issue numbers remain unassigned. Other v0.92.2 work exists outside this program; reconcile overlaps before assigning owners. This tracked planning document is not a C-SDLC card, execution binding, approved architecture decision, or operational authority. The eight rows are reconciled into the milestone wave; issue numbers and execution owners remain to be resolved at the dedicated sprint launch.
+The operator has selected v0.92.2 and the ten-issue program structure. GitHub umbrella and SIM issue numbers remain unassigned. Other v0.92.2 work exists outside this program; reconcile overlaps before assigning owners. This tracked planning document is not a C-SDLC card, execution binding, approved architecture decision, or operational authority. The ten rows are reconciled into the milestone wave; issue numbers and execution owners remain to be resolved at the dedicated sprint launch.
 
 Only the source review and document checks have been performed. Failure reproduction, runtime tests, performance measurements, compatibility conversion, independent implementation review, and transition rehearsal remain future work. The principal residual risks are preserving evidence invalidation semantics, fencing existing writers, and reconciling a remote success across a local crash.
 

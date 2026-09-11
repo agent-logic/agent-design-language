@@ -46,4 +46,4 @@ Reuse #720 under [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v
 
 ## Operator addition to PR #743
 
-Promote `.adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md` into the [tracked first-sprint plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA and SIM-01 through SIM-07 are explicitly admitted, with their own startup alongside Runtime. This adds eight planned issue rows; it does not admit other backlog or implement the program. Source originals and prior reviews remain preserved.
+Promote `.adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md` into the [tracked first-sprint plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA and SIM-01 through SIM-09 are explicitly admitted, with their own startup alongside Runtime. This adds ten planned issue rows; it does not admit other backlog or implement the program. Source originals and prior reviews remain preserved.

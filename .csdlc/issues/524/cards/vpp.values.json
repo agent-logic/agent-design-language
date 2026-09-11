@@ -17,13 +17,13 @@
   "target_files_surfaces": "docs/milestones/v0.92.2 and issue-local review/evidence records.",
   "non_goals": "No runtime, Rust, cloud, provider, paid, or release execution proof.",
   "dependencies": "Planning edits must be complete before final exact-head validation and review.",
-  "acceptance_criteria": "41 unique work packages; exact wave/spec parity; correct dependencies; canonical tail; admitted/deferred source truth; clean diff.",
+  "acceptance_criteria": "43 unique work packages; exact wave/spec parity; correct dependencies; canonical tail; admitted/deferred source truth; clean diff.",
   "validation_plan": "Planning validator self-test and negative fixtures; git diff --check; targeted stale-denominator and source-disposition scans; independent exact-head review.",
   "initial_pvf_lane": "docs-bounded",
   "planned_pvf_lane": "docs-bounded",
   "planned_pvf_lane_source": "Issue #524 declared documentation lane.",
   "slug": "v0922-closeout-plan",
-  "summary": "Focused documentation proof covers the complete 41-row v0.92.2 package and its release-tail and scheduling invariants.",
+  "summary": "Focused documentation proof covers the complete 43-row v0.92.2 package and its release-tail and scheduling invariants.",
   "selected_lanes_inline": "planning-structure; dependency-graph; denominator; source-disposition; diff-hygiene; independent-review",
   "validation_family": "milestone_planning",
   "validation_runtime_class": "deterministic_local_cpu",
@@ -45,6 +45,6 @@
   "spp_card": ".csdlc/issues/524/cards/spp.md",
   "parallel_groups_inline": "planning validator and diff hygiene may run independently after edits settle",
   "validation_commands_inline": "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; atomic-result parity check",
-  "plan_summary": "Validate the complete number-free planning package, its 41 distinct primary results, dependency graph, release tail, and source dispositions.",
+  "plan_summary": "Validate the complete number-free planning package, its 43 distinct primary results, dependency graph, release tail, and source dispositions.",
   "notes_risks_inline": "No runtime, cloud, provider, paid, or release execution is claimed."
 }

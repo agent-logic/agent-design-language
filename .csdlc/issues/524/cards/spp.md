@@ -61,11 +61,11 @@ proposed_steps:
     expected_output: ".csdlc/issues/524/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: A consistent 41-row package, bounded PLAT-PAIR and OPS-GCP plans, validator proof, and current review truth."
+    description: "Implement only the bounded deliverables: A consistent 43-row package, bounded PLAT-PAIR and OPS-GCP plans, validator proof, and current review truth."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: 41 unique rows; distinct atomic results; exact dependency and release-tail validation; current admitted/deferred truth; no issue creation."
+    description: "Run focused proof gates for acceptance: 43 unique rows; distinct atomic results; exact dependency and release-tail validation; current admitted/deferred truth; no issue creation."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -156,8 +156,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. Confirm dependency readiness and starting state: Merged #523/PR #743 is planning provenance; no live dependency blocks #524 documentation work.
 2. Review repo inputs and scoped surfaces before editing: Issue #524; merged #523/PR #743; canonical v0.92.2 package; named NVIDIA PAIR and GCP move-in sources.
-3. Implement only the bounded deliverables: A consistent 41-row package, bounded PLAT-PAIR and OPS-GCP plans, validator proof, and current review truth.
-4. Run focused proof gates for acceptance: 41 unique rows; distinct atomic results; exact dependency and release-tail validation; current admitted/deferred truth; no issue creation.
+3. Implement only the bounded deliverables: A consistent 43-row package, bounded PLAT-PAIR and OPS-GCP plans, validator proof, and current review truth.
+4. Run focused proof gates for acceptance: 43 unique rows; distinct atomic results; exact dependency and release-tail validation; current admitted/deferred truth; no issue creation.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas

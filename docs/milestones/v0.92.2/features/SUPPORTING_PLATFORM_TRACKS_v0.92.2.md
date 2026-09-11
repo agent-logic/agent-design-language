@@ -1,6 +1,6 @@
 # v0.92.2 Supporting Platform and Publication Tracks
 
-Status: new work remains planned until WP-01 opens the wave. Existing #720 retains its own issue authority. #717/#718 execute under v0.92.1 and are consumed here as predecessors after merge.
+Status: new work remains planned until WP-01 opens the wave. Existing #720 retains its own issue authority. Closed merged #717/#718 are consumed here as v0.92.1 predecessor inputs.
 
 These tracks support CodeFriend Beta 1 without being folded into one oversized product issue.
 
