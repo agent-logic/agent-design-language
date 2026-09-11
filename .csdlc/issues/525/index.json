@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 525,
   "phase": "bound",
-  "generation": 4,
+  "generation": 5,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/525-next-milestone-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-525-next-milestone-review",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "b7aa86a226af69078abe8914c60713abfc23d6280a47feed4a2fda82693838a7"
+  "digest": "97810f2630ba617e5c3cfffbb440b6abacc04ae561a93e33b90284e134022ca7"
 }

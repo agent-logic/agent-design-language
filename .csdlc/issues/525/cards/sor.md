@@ -74,9 +74,9 @@ The v0.92.2 planning corpus now contains 45 reconciled issue rows, including ord
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `.csdlc/issues/525/cards/sor.md`
+- Local ignored output-card scaffold at `not_applicable; this tracked SOR is the canonical output record, not a local ignored scaffold`
 - Tracked implementation artifacts: `docs/milestones/v0.92.2 planning corpus, validator, and .csdlc/issues/525 cards`
-- Additional proof artifacts: `Native v3 validation result and bounded subagent review output.`
+- Additional proof artifacts: `Native v3 validation results and two bounded pre-PR reviews; current findings are being remediated before final rereview.`
 
 ## Actions taken
 - `Bound issue #525 to its FastWork worktree and replaced placeholder design cards through native v3 edit.`
@@ -110,7 +110,7 @@ Rules:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test`
     `Checks 45-row wave/spec/catalog/WBS parity, issue authority, dependencies, required OBS-S3 details, ADR ownership, links, and negative mutations.`
 - Results:
-  - `passed with 45 work packages and 17 rejected negative fixtures; native six-card validation and git diff --check also passed`
+  - `passed with 45 work packages and 18 rejected negative fixtures; native six-card validation and git diff --check also passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.

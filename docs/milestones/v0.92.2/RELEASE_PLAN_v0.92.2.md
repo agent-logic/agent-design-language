@@ -8,7 +8,7 @@ CF-INTEGRATE forms a release candidate only after every Beta 1 exit-bar track ha
 
 ## Release denominator
 
-The release denominator is exactly the 45 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It is the prior 43-row inventory plus OBS-S3 and ARCH-ADR, with one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must reconcile all 45 rows to current canonical issue and merge truth; an unmapped, duplicated, missing, or unreviewed row is a no-go condition.
+The release denominator is exactly the 45 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It is the prior 43-row inventory plus OBS-S3 and ARCH-ADR, with one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must account for the identity and current status of all 45 rows, but merge/review completion is a no-go condition only for TAIL-01's declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues with their own acceptance and are not indirect release-tail gates.
 
 ## Canonical Tail
 
