@@ -22,7 +22,7 @@
 - Status: `present`
 - Paths: `ADR_PLAN_v0.92.1.md`, `CANONICAL_DOC_INVENTORY_v0.92.1.md`, `DECISIONS_v0.92.1.md`, `DEMO_MATRIX_v0.92.1.md`, `DESIGN_v0.92.1.md`, `DISTRIBUTED_TEST_PLAN_CONSULTATION.md`, `FEATURE_PROOF_COVERAGE_v0.92.1.md`, `MILESTONE_CHECKLIST_v0.92.1.md`
 - Signals:
-  - | Observatory projection and authenticity | Update existing deferred record | [ADR 0069](../../architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md) retains its 
+  - | Observatory projection and authenticity | Update existing deferred record | [ADR 0069](../../architecture/adr/0069-observatory-governed-runtime-consumer-boundary.md) retains its
   - retained evidence of review and semantic-proof debt. Neither curation nor
   - | Execution specifications | [WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml) | Lane outcomes and proof contracts |
   - | Feature/proof coverage | [FEATURE_PROOF_COVERAGE_v0.92.1.md](FEATURE_PROOF_COVERAGE_v0.92.1.md) | Feature-to-proof ownership |
@@ -45,7 +45,7 @@
   - ## Release Closeout Review Denominator
   - its review packet. Missing evidence remains an open finding. Final handoff
   - 1. **Repository authority first.** #432's reviewed implementation is merged and ancestral before the milestone operator creates WP-01 or an execution root consumes it. Administrati
-  - 11. **The release tail follows the established ten-step standard.** Quality, docs/release truth, publication finalization, internal review, external review, remediation/preflight, 
+  - 11. **The release tail follows the established ten-step standard.** Quality, docs/release truth, publication finalization, internal review, external review, remediation/preflight,
 
 ### validation_evidence
 
