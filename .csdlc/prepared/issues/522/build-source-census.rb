@@ -95,5 +95,14 @@ returned = {
   end
 }
 
+# The identifiers are a stable local projection, but the denominator comes from
+# the immutable reviewed artifacts.  Refuse to publish the projection if either
+# artifact gains, loses, or renames a finding heading.
+parsed_headings = [report_path, addendum_path].flat_map do |path|
+  blob(review_head, path).lines.grep(/^### P[0-3] — /).map(&:strip)
+end
+declared_headings = returned.fetch("findings").map { |finding| finding.fetch("source_heading") }
+abort("returned-finding projection is not exhaustive") unless parsed_headings == declared_headings
+
 File.write(File.join(ROOT, "source-findings.json"), JSON.pretty_generate(source) + "\n")
 File.write(File.join(ROOT, "returned-findings.json"), JSON.pretty_generate(returned) + "\n")

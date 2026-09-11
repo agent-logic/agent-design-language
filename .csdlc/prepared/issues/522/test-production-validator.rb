@@ -25,9 +25,11 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   reports << {"issue"=>issue,"pull_request"=>pr,"merge_sha"=>merge,"path"=>path,"sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{path}`),"packet_manifest_path"=>mp,"packet_manifest_sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{mp}`),"binding"=>"missing_revision","reviewed_revision"=>nil,"finding_ids"=>external_findings.map{|f|f["id"]},"finding_digests"=>external_findings.to_h{|f|[f["id"],Digest::SHA256.hexdigest(canonical_json(f))]}}
   findings = internal_findings + external_findings
   returned_findings = RETURNED_FINDING_IDS.each_with_index.map do |id, index|
-    {"id"=>id,"severity"=>([0, 3, 4].include?(index) ? "P1" : "P2"),"title"=>"returned gap #{index + 1}","evidence"=>"review evidence #{index + 1}","source_artifact"=>"review/returned.md","source_heading"=>"Finding #{index + 1}"}
+    severity = ([0, 3, 4].include?(index) ? "P1" : "P2")
+    title = "returned gap #{index + 1}"
+    {"id"=>id,"severity"=>severity,"title"=>title,"evidence"=>"review evidence #{index + 1}","source_artifact"=>"review/returned.md","source_heading"=>"### #{severity} — #{title}"}
   end
-  FileUtils.mkdir_p("review"); File.write("review/returned.md",returned_findings.each_with_index.map { |finding,index| "## Finding #{index + 1}\n#{finding.fetch('title')}\n" }.join("\n"))
+  FileUtils.mkdir_p("review"); File.write("review/returned.md",returned_findings.map { |finding| "#{finding.fetch('source_heading')}\n#{finding.fetch('evidence')}\n" }.join("\n"))
   FileUtils.mkdir_p("remediation"); File.write("remediation/fix.txt","fixed\n")
   sh!("git","add","."); sh!("git","commit","-qm","remediation"); head=`git rev-parse HEAD`.strip
   File.write("ledger","candidate"); sh!("git","add","."); sh!("git","commit","-qm","ledger"); ledger=`git rev-parse HEAD`.strip

@@ -55,7 +55,6 @@ def pr_identity(number)
   [doc.fetch("headRefOid"), doc.dig("mergeCommit", "oid")]
 end
 
-ledger_candidate = JSON.parse(File.read(File.join(ROOT, "source-findings.json"))).fetch("ledger_candidate_sha")
 review_path = File.join(ROOT, "candidate-review.json")
 validation_path = File.join(ROOT, "candidate-validation.json")
 identity_rows = ISSUES.to_h do |issue, (pull_request, paths)|
@@ -65,37 +64,54 @@ identity_rows = ISSUES.to_h do |issue, (pull_request, paths)|
   end
   [issue, {"issue" => issue, "pull_request" => pull_request, "head_sha" => head_sha, "merge_sha" => merge_sha, "artifacts" => artifacts}]
 end
-validation_doc = {
-  "schema" => "adl.v0921.candidate_validation.v1",
-  "candidate_sha" => ledger_candidate,
-  "outcome" => "passed",
-  "failures" => [],
-  "commands" => [
-    {"argv" => ["ruby", ".csdlc/prepared/issues/833/validate-external-review-handoff.rb", "--all"], "exit_code" => 0, "denominator" => 8},
-    {"argv" => ["ruby", ".csdlc/prepared/issues/833/test-issue-818-candidate-current-supersession.rb"], "exit_code" => 0, "denominator" => 8},
-    {"argv" => ["python3", "docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/validate.py"], "exit_code" => 0, "denominator" => 14},
-    {"argv" => ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate9"], "exit_code" => 0, "denominator" => 11}
-  ],
-  "observations" => identity_rows.values.flat_map do |row|
-    row.fetch("artifacts").map do |artifact|
-      {"artifact_revision" => row.fetch("head_sha"), "artifact_path" => artifact.fetch("path"), "artifact_sha256" => artifact.fetch("sha256"), "result" => "verified", "behavior" => "Immutable remediation or proof artifact retained by merged PR ##{row.fetch('pull_request')} for issue ##{row.fetch('issue')}."}
-    end
-  end
-}
-File.write(validation_path, JSON.pretty_generate(validation_doc) + "\n")
+abort("executed candidate validation is missing; run run-candidate-validation.rb") unless File.file?(validation_path)
+validation_doc = JSON.parse(File.read(validation_path))
+abort("candidate validation did not pass") unless validation_doc["outcome"] == "passed"
 
-abort("candidate review is missing") unless File.file?(review_path)
+residuals = [
+  {"id" => "MERGE-LINKAGE-001", "owner_issue" => 849, "target_milestone" => "v0.92.2", "status" => "operator_deferred", "proof_rows" => 4,
+   "rationale" => "Publication-linkage proof remains explicitly deferred; it is not a behavioral pass.",
+   "release_consequence" => "The four affected criteria remain unproved in v0.92.1."},
+  {"id" => "EXECUTABLE-PROOF-ROWS", "owner_issue" => 852, "target_milestone" => "v0.92.2", "status" => "operator_deferred", "proof_rows" => 5,
+   "rationale" => "Five evidence-linkage rows were moved by operator decision from superseded #851.",
+   "release_consequence" => "The five rows remain unproved and must not be represented as passes."},
+  {"id" => "PROOF-INSUFFICIENT-ROWS", "owner_issue" => 852, "target_milestone" => "v0.92.2", "status" => "operator_deferred", "proof_rows" => 7,
+   "rationale" => "Five cloud-control and two execution-proof rows lack sufficient proof.",
+   "release_consequence" => "The seven rows remain limitations, not behavioral passes."}
+]
+
+semantic_dispositions = GROUPS.map do |ids, issues, resolution|
+  row = {
+    "kind" => ids == ["D520-RET-001"] ? "fixed_with_deferred_proof" : "fixed",
+    "source_finding_ids" => ids,
+    "resolution" => resolution,
+    "release_consequence" => "The listed source finding is dispositioned without promoting separately declared residual proof gaps to passes.",
+    "remediation_issues" => issues
+  }
+  row["residuals"] = residuals if ids == ["D520-RET-001"]
+  row
+end
+subject_path = File.join(ROOT, "review-subject.json")
+subject_doc = {"schema" => "adl.v0921.remediation_review_subject.v1", "source_finding_count" => 25, "dispositions" => semantic_dispositions}
+File.write(subject_path, JSON.pretty_generate(subject_doc) + "\n")
+abort("candidate review is missing; commit review-subject.json and obtain exact-head review") unless File.file?(review_path)
 review_doc = JSON.parse(File.read(review_path))
+subject_digest = Digest::SHA256.file(subject_path).hexdigest
+abort("candidate review does not bind the review-subject digest") unless review_doc["reviewed_content_sha256"] == subject_digest
+reviewed_sha = review_doc.fetch("candidate_sha")
+abort("candidate review SHA is not immutable") unless reviewed_sha.match?(/\A[0-9a-f]{40}\z/)
+abort("review-subject at reviewed SHA differs from current subject") unless Digest::SHA256.hexdigest(git_blob(reviewed_sha, subject_path)) == subject_digest
 
 remediations = identity_rows.to_h do |issue, identity|
   head_sha = identity.fetch("head_sha")
   merge_sha = identity.fetch("merge_sha")
   artifacts = identity.fetch("artifacts")
   review = {
-    "basis" => "candidate_current",
+    "basis" => "reviewed_subject_digest",
     "reviewer" => review_doc.fetch("reviewer"),
-    "reviewed_sha" => review_doc.fetch("candidate_sha"),
-    "observed_pr_head_sha" => review_doc.fetch("candidate_sha"),
+    "reviewed_sha" => reviewed_sha,
+    "observed_pr_head_sha" => reviewed_sha,
+    "reviewed_content_sha256" => subject_digest,
     "observed_at" => review_doc.fetch("observed_at"),
     "outcome" => review_doc.fetch("outcome"),
     "findings" => review_doc.fetch("findings"),
@@ -104,7 +120,7 @@ remediations = identity_rows.to_h do |issue, identity|
     "sha256" => Digest::SHA256.file(review_path).hexdigest
   }
   validation = [{
-    "basis" => "candidate_current",
+    "basis" => "executed_candidate",
     "evidence" => validation_path,
     "sha256" => Digest::SHA256.file(validation_path).hexdigest,
     "outcome" => validation_doc.fetch("outcome")
@@ -114,14 +130,10 @@ remediations = identity_rows.to_h do |issue, identity|
   [issue, row]
 end
 
-dispositions = GROUPS.map do |ids, issues, resolution|
-  {
-    "kind" => "fixed",
-    "source_finding_ids" => ids,
-    "resolution" => resolution,
-    "release_consequence" => "The listed finding IDs are resolved; separately declared v0.92.2 residuals remain limitations and are not behavioral passes.",
-    "remediations" => issues.map { |issue| remediations.fetch(issue) }
-  }
+dispositions = semantic_dispositions.map do |semantic|
+  semantic.reject { |key, _| key == "remediation_issues" }.merge(
+    "remediations" => semantic.fetch("remediation_issues").map { |issue| remediations.fetch(issue) }
+  )
 end
 File.write(File.join(ROOT, "dispositions.json"), JSON.pretty_generate({"schema" => "adl.v0921.finding_dispositions.v3", "dispositions" => dispositions}) + "\n")
 

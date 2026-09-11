@@ -192,6 +192,11 @@ returned.each do |finding|
   source_blob = returned_blobs.fetch(finding.fetch("source_artifact"))
   fail!("returned finding is not provenance-bound to its source artifact") unless source_blob.include?(finding.fetch("source_heading")) && source_blob.include?(finding.fetch("title"))
 end
+parsed_returned_headings = returned_artifacts.flat_map do |artifact|
+  returned_blobs.fetch(artifact.fetch("path")).lines.grep(/^### P[0-3] — /).map(&:strip)
+end
+declared_returned_headings = returned.map { |finding| finding.fetch("source_heading") }
+fail!("returned finding projection omits or invents a reviewed heading") unless parsed_returned_headings == declared_returned_headings
 source += returned
 source_ids += returned_ids
 
@@ -203,7 +208,7 @@ fail!("finding census does not disposition every source finding exactly once") u
 fail!("nonempty finding census has no dispositions") if source.any? && dispositions.empty?
 dispositions.each do |row|
   case row.fetch("kind")
-  when "fixed"
+  when "fixed", "fixed_with_deferred_proof"
     fail!("fixed disposition lacks resolution or release consequence") unless %w[resolution release_consequence].all? { |key| nonempty?(row.fetch(key)) }
     remediations = row.fetch("remediations")
     fail!("fixed disposition has no remediation") if remediations.empty?
@@ -220,7 +225,11 @@ dispositions.each do |row|
     fail!("cannot verify remediation issue: #{issue_err.strip}") unless issue_status.success?
     issue_doc = JSON.parse(issue_out)
     native_review_close = remediation["closure_kind"] == "native_review_close" && remediation_issue == 833 && remediation["closure_dependency_issue"] == 522
-    issue_matches = issue_doc.fetch("state") == "CLOSED" && (native_review_close || issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr })
+    issue_matches = if native_review_close
+      issue_doc.fetch("state") == "OPEN"
+    else
+      issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
+    end
     fail!("remediation issue closure does not match declared authority") unless issue_matches
     pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", remediation_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,headRefOid,mergeCommit")
     fail!("cannot verify remediation PR: #{pr_err.strip}") unless pr_status.success?
@@ -239,10 +248,14 @@ dispositions.each do |row|
     case review_basis
     when "exact_implementation_head"
       fail!("exact-head review does not match remediation head") unless reviewed_sha == head_sha && review.fetch("observed_pr_head_sha") == head_sha
-    when "candidate_current"
-      fail!("candidate-current review is not immutable") unless reviewed_sha.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{reviewed_sha}^{commit}")
-      system("git", "merge-base", "--is-ancestor", merge_sha, reviewed_sha) or fail!("candidate-current review predates remediation merge")
-      system("git", "merge-base", "--is-ancestor", reviewed_sha, ledger_candidate) or fail!("candidate-current review is not ancestral to ledger candidate")
+    when "reviewed_subject_digest"
+      fail!("reviewed-subject review is not immutable") unless reviewed_sha.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{reviewed_sha}^{commit}")
+      system("git", "merge-base", "--is-ancestor", merge_sha, reviewed_sha) or fail!("reviewed-subject review predates remediation merge")
+      subject_path = File.join(root, "review-subject.json")
+      fail!("review subject is missing") unless File.file?(subject_path)
+      subject_digest = Digest::SHA256.file(subject_path).hexdigest
+      fail!("review does not bind current semantic subject") unless review.fetch("reviewed_content_sha256") == subject_digest
+      fail!("reviewed commit does not contain current semantic subject") unless Digest::SHA256.hexdigest(git_blob(reviewed_sha, subject_path)) == subject_digest
     else
       fail!("unsupported remediation review basis")
     end
@@ -252,6 +265,7 @@ dispositions.each do |row|
     fail!("exact-head review digest mismatch") unless Digest::SHA256.file(review_path).hexdigest == review.fetch("sha256")
     review_doc = read_json(review_path)
     fail!("review report does not prove canonical passing reviewed-candidate result") unless review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && review_doc.fetch("blockers") == [] && (review_doc["candidate_sha"] || review_doc["head_sha"]) == reviewed_sha
+    fail!("review report does not bind the semantic review subject") if review_basis == "reviewed_subject_digest" && review_doc.fetch("reviewed_content_sha256") != review.fetch("reviewed_content_sha256")
     fail!("review report does not prove these findings resolved") unless (row.fetch("source_finding_ids") - review_doc.fetch("resolved_finding_ids")).empty?
     validations = remediation.fetch("validation")
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
@@ -266,26 +280,37 @@ dispositions.each do |row|
       case validation_basis
       when "exact_implementation_head"
         fail!("validation evidence is not bound to remediation head") unless evidence_sha == head_sha
-      when "candidate_current"
-        fail!("candidate-current validation is not immutable") unless evidence_sha&.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{evidence_sha}^{commit}")
-        system("git", "merge-base", "--is-ancestor", merge_sha, evidence_sha) or fail!("candidate-current validation predates remediation merge")
-        system("git", "merge-base", "--is-ancestor", evidence_sha, ledger_candidate) or fail!("candidate-current validation is not ancestral to ledger candidate")
+      when "executed_candidate"
+        fail!("executed validation candidate is not immutable") unless evidence_sha&.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{evidence_sha}^{commit}")
+        system("git", "merge-base", "--is-ancestor", merge_sha, evidence_sha) or fail!("executed validation predates remediation merge")
+        system("git", "merge-base", "--is-ancestor", evidence_sha, reviewed_sha) or fail!("executed validation is not ancestral to reviewed subject")
       else
         fail!("unsupported validation basis")
       end
-      observations = validation_doc.fetch("observations")
       commands = validation_doc.fetch("commands")
       commands_bound = commands.is_a?(Array) && commands.any? && commands.all? do |command|
         nonempty?(command.fetch("argv")) && command.fetch("exit_code") == 0 && command.fetch("denominator") > 0
       end
-      behavior_bound = observations.is_a?(Array) && observations.any? && observations.all? do |observation|
-        artifact_revision = observation.fetch("artifact_revision", head_sha)
-        blob = git_blob(artifact_revision, observation.fetch("artifact_path"))
-        Digest::SHA256.hexdigest(blob) == observation.fetch("artifact_sha256") && %w[verified passed].include?(observation.fetch("result")) && nonempty?(observation.fetch("behavior"))
+      output_bound = true
+      if validation_basis == "executed_candidate"
+        producer = validation_doc.fetch("producer")
+        fail!("validation producer is not the issue-owned runner") unless producer == ".csdlc/prepared/issues/522/run-candidate-validation.rb"
+        fail!("validation producer digest mismatch") unless validation_doc.fetch("producer_sha256") == Digest::SHA256.hexdigest(git_blob(evidence_sha, producer))
+        output_bound = commands.all? { |command| %w[stdout_sha256 stderr_sha256 stdout_bytes stderr_bytes].all? { |key| command.key?(key) } }
       end
-      observed_artifacts = observations.map { |observation| [observation.fetch("artifact_revision", head_sha), observation.fetch("artifact_path"), observation.fetch("artifact_sha256")] }
-      remediation_artifacts_bound = artifacts.all? { |artifact| observed_artifacts.include?([head_sha, artifact.fetch("path"), artifact.fetch("sha256")]) }
-      fail!("validation evidence does not prove behavior at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && behavior_bound && remediation_artifacts_bound
+      fail!("validation evidence does not prove executed commands at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && output_bound
+    end
+    if row.fetch("kind") == "fixed_with_deferred_proof"
+      residuals = row.fetch("residuals")
+      fail!("fixed-with-residual disposition has no structured residuals") if residuals.empty?
+      residuals.each do |residual|
+        fail!("residual metadata is incomplete") unless %w[id owner_issue target_milestone status proof_rows rationale release_consequence].all? { |key| residual.key?(key) && !residual[key].to_s.empty? }
+        fail!("residual is not explicitly operator-deferred to v0.92.2") unless residual.fetch("status") == "operator_deferred" && residual.fetch("target_milestone") == "v0.92.2" && residual.fetch("proof_rows") > 0
+        owner_out, owner_err, owner_status = Open3.capture3("gh", "issue", "view", residual.fetch("owner_issue").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,title")
+        fail!("cannot verify residual owner: #{owner_err.strip}") unless owner_status.success?
+        owner = JSON.parse(owner_out)
+        fail!("residual owner must remain open and explicitly target v0.92.2") unless owner.fetch("state") == "OPEN" && owner.fetch("title").include?("v0.92.2")
+      end
     end
     end
   when "deferred"
@@ -311,7 +336,7 @@ entries.each do |entry|
 end
 paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| paths.include?(File.join(root, name)) }
-fixed_remediations = dispositions.select { |row| row.fetch("kind") == "fixed" }.flat_map { |row| row.fetch("remediations") }
+fixed_remediations = dispositions.select { |row| %w[fixed fixed_with_deferred_proof].include?(row.fetch("kind")) }.flat_map { |row| row.fetch("remediations") }
 fixed_review_paths = fixed_remediations.map { |remediation| remediation.fetch("review").fetch("report_path") }
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
 fixed_validation_paths = fixed_remediations.flat_map { |remediation| remediation.fetch("validation").map { |validation| validation.fetch("evidence") } }
