@@ -1,8 +1,8 @@
    Compiling csdlc-v3 v0.1.0 (<worktree>/csdlc-v3)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.05s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.57s
      Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
 
-running 74 tests
+running 79 tests
 test adapters::merge_adapter_tests::merge_put_is_narrow_and_readback_cannot_supply_arbitrary_query ... ok
 test adapters::tests::branch_query_preserves_special_characters ... ok
 test adapters::tests::comment_page_argv_is_bounded_and_reaches_curl_url ... ok
@@ -18,6 +18,7 @@ test commands::proof::shadow_diagnostic_category_is_redacted_and_stable ... ok
 test commands::proof::tests::active_install_authority_uses_only_the_canonical_generation_selector ... ok
 test commands::proof::tests::native_install_denies_unbound_internal_execution ... ok
 test commands::proof::tests::shadow_paths_reject_symlink_escapes_for_existing_and_future_targets ... ok
+test commands::remote::merge::directory_tests::directory_sync_orders_every_link_and_propagates_faults ... ok
 test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
 test commands::remote::tests::accepted_review_requires_typed_evidence_digest_and_scope ... ok
 test commands::remote::tests::already_removed_cleanup_still_requires_terminal_and_preview_gates ... ok
@@ -39,12 +40,16 @@ test commands::remote::tests::issue_metadata_readback_requires_exact_requested_s
 test commands::remote::tests::issue_metadata_resolves_add_remove_and_preserves_body_before_intent ... ok
 test commands::remote::tests::issue_metadata_uncertain_write_reuses_retained_target_and_rejects_drift ... ok
 test commands::remote::tests::merge_cases::merge_already_merged_and_wrong_parent_or_result ... ok
+test commands::remote::tests::merge_cases::merge_alternate_review_path_cannot_bypass_uncertain_target_guard ... ok
 test commands::remote::tests::merge_cases::merge_checks_base_again_and_rejects_postmerge_parent_drift ... ok
 test commands::remote::tests::merge_cases::merge_eligibility_negative_matrix_never_writes_intent_or_dispatches ... ok
 test commands::remote::tests::merge_cases::merge_lock_blocks_concurrent_dispatch ... ok
+test commands::remote::tests::merge_cases::merge_partial_response_reconciles_from_authenticated_state ... ok
 test commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation ... ok
+test commands::remote::tests::merge_cases::merge_response_disagreement_stays_blocked_on_replay ... ok
 test commands::remote::tests::merge_cases::merge_result_is_consumed_by_existing_finish_observation_without_mutation ... ok
 test commands::remote::tests::merge_cases::merge_review_and_method_guards_before_network ... ok
+test commands::remote::tests::merge_cases::merge_same_principal_and_malformed_review_policy_rejected ... ok
 test commands::remote::tests::merge_cases::merge_uncertain_transport_is_reconciliation_only ... ok
 test commands::remote::tests::missing_credential_fails_before_persisting_mutation_intent ... ok
 test commands::remote::tests::mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles ... ok
@@ -79,7 +84,7 @@ test tests::contract_schema ... ok
 test tests::predecessor_coverage ... ok
 test tests::proportional_lifecycle ... ok
 
-test result: ok. 74 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.13s
+test result: ok. 79 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 22.39s
 
      Running unittests src/main.rs (csdlc-v3/target/debug/deps/csdlc-8c2632752cd87a08)
 
@@ -101,7 +106,7 @@ test implemented_terminal_routes_expose_guarded_operational_help ... ok
 test proof_routes_distinguish_operational_and_historical_execution ... ok
 test tracked_command_denominators_match_cli_surface_and_cutover_boundary ... ok
 
-test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
 
      Running tests/foundation.rs (csdlc-v3/target/debug/deps/foundation-4ad91646f7f0391e)
 
@@ -163,7 +168,7 @@ test operational_shepherd_preserves_v2_state_priority_and_operations ... ok
 test pre_cutover_v2_selector_denies_every_operational_local_route ... ok
 test topology_bind_requires_exact_registered_worktree ... ok
 
-test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.98s
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.31s
 
      Running tests/operational_cli_commands.rs (csdlc-v3/target/debug/deps/operational_cli_commands-2ebdcc2a29bb4021)
 
@@ -183,7 +188,7 @@ test simple_issue_create_projects_github_style_flags_into_typed_dispatch ... ok
 test simple_issue_create_supports_body_file_and_rejects_ambiguous_or_invalid_input ... ok
 test v2_selector_keeps_named_local_cli_in_construction_mode ... ok
 
-test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.33s
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.22s
 
      Running tests/proof_parity_install_commands.rs (csdlc-v3/target/debug/deps/proof_parity_install_commands-02e6c4e48c9cc407)
 
@@ -197,7 +202,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 running 1 test
 test stable_binary_authenticates_invoking_worktree_before_every_operational_write ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 22.19s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 22.33s
 
      Running tests/real_issue_canary.rs (csdlc-v3/target/debug/deps/real_issue_canary-68acac0d7c397e1c)
 
@@ -209,7 +214,7 @@ test full_replacement_denominator_blocks_cutover_until_operator_approval ... ok
 test lifecycle_and_durable_storage_canary_derives_terminal_state_from_real_issue_4646 ... ok
 test v3_h3_real_issue_canary_consumes_current_publication_or_terminal_truth_without_v3_authority ... ok
 
-test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.89s
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.88s
 
      Running tests/remote_publication_commands.rs (csdlc-v3/target/debug/deps/remote_publication_commands-f8a466b5853f1044)
 
@@ -270,7 +275,7 @@ test retained_unit_tests_cover_verified_readback_denials ... ok
 test rollback_fails_closed_on_stale_selector_digest ... ok
 test tracked_selector_revert_rolls_back_from_fresh_worktree ... ok
 
-test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.85s
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.53s
 
      Running tests/transactions.rs (csdlc-v3/target/debug/deps/transactions-3db9e1f3f3c542ba)
 
@@ -302,4 +307,5 @@ test transition_matrix_explicitly_classifies_every_state_command_pair ... ok
 test transition_merge_ready_requires_current_readiness_evidence ... ok
 test transition_review_recovery_matches_retained_v2_behavior ... ok
 
-test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+

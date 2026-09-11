@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/844/cards/sip.md"
   - ".csdlc/issues/844/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "block"
-notes: "Read-only independent review of1bdb3e783289a997bba664a93c4a4981f811a073 by review_771_core and review_771_routes."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Both independent reviewers accepted f459758a5a85dda149c7cba8217d55efbaf356c5. Final delta contains validation logs and lifecycle evidence only."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- 844-REV-1 through4: principal normalization,strict policy booleans,uncertain target identity and durable directory ancestry. See .csdlc/evidence/844/REVIEW_REMEDIATION.md.
+- Four initial findings resolved; no remaining actionable findings. See .csdlc/evidence/844/REVIEW_REMEDIATION.md.
 
 ### Dispositions
 
-- All four implemented with focused passing regressions; independent rereview pending.
+- All four fixes accepted independently by review_771_core and review_771_routes.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 
-Read-only independent review of1bdb3e783289a997bba664a93c4a4981f811a073 by review_771_core and review_771_routes.
+Both independent reviewers accepted f459758a5a85dda149c7cba8217d55efbaf356c5. Final delta contains validation logs and lifecycle evidence only.

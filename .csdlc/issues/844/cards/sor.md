@@ -57,7 +57,7 @@ Implemented typed merge-only github-pr mutation, exact review and authenticated 
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation validated; independent review and publication pending`
+- Completion state: `implementation validated and independently reviewed; publication and hosted CI pending`
 - Issue goal ref: `Planning #7 active issue844 session goal`
 - Sprint goal ref: `not_applicable; issue-local goal`
 - Goal metrics rollup ref: `not_collected`
@@ -81,7 +81,7 @@ Implemented typed merge-only github-pr mutation, exact review and authenticated 
 ## Actions taken
 - `Implemented explicit merge-only request and authenticated complete eligibility.`
 - `Bound durable intent and two-parent merged readback; excluded concurrent or repeated mutation.`
-- `Repaired all four independent findings and passed targeted regressions; refreshed full suite and rereview pending.`
+- `Repaired all four independent findings; 236 native tests, strict clippy and formatting passed; both reviewers accepted source revision.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main remains clean`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --manifest-path csdlc-v3/Cargo.toml --all-targets -- --test-threads=1; cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; cargo fmt --manifest-path csdlc-v3/Cargo.toml -- --check`
     `Tests prove successful merge,25 eligibility negatives,review/method/routes,locking,drift,replay and finish; clippy/fmt check native owner.`
 - Results:
-  - `231 native tests and strict clippy passed before final metadata; hosted CI and independent review pending.`
+  - `236 native tests passed; strict clippy and formatting passed. Independent core and route reviews accepted f459758a5a85dda149c7cba8217d55efbaf356c5; hosted CI pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: true
     schema_changes:
       present: true
-      approved: false
+      approved: true
 ```
 
 ## Determinism Evidence
@@ -174,5 +174,5 @@ verification_summary:
 - `REST has head CAS only; base race detected by poststate and never called reconciled success.`
 
 ## Follow-ups / Deferred work
-- `Independent exact-head review, native publication and required CI.`
+- `Native publication and required hosted CI.`
 - `Merge authorization, terminal finish and cleanup remain separate after publication.`
