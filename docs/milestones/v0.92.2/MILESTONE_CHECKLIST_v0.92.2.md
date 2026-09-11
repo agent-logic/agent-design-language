@@ -54,3 +54,12 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] Every admitted supporting track converged at TAIL-01
 - [ ] Any changed candidate received refreshed artifacts, affected proof and current internal/external review
 - [ ] Release candidate and manifest exactly match the reviewed and approved digests
+
+## Successor planning accounting
+
+- [ ] TAIL-07/08 refreshed the tracked TBD reconciliation against the current local inventory
+- [ ] Every newly discovered active source is admitted, completed provenance, routed to an existing issue or milestone, or explicitly backlog/deferred
+- [ ] Polis Music Studio and NVIDIA PAIR remain visible unadmitted candidates unless separately authorized
+- [ ] v0.92.1 cloud plans remain existing-work/provenance inputs rather than duplicate successor rows
+- [ ] Runtime v4 remains routed to v0.93
+- [ ] No evidence packet, review output, or local concept silently expands the v0.92.2 denominator

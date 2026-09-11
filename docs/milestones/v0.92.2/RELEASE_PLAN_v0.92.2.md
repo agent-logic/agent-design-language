@@ -35,6 +35,12 @@ TAIL-06 records the candidate revision and complete artifact-manifest digest bef
 
 Product integration may finish before independent supporting work. TAIL-01 converges every admitted v0.92.2 support issue, including #720, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval.
 
+## TBD disposition checkpoint
+
+TAIL-07 and TAIL-08 must refresh the tracked [TBD scheduling reconciliation](TBD_SCHEDULING_RECONCILIATION_v0.92.2.md) against the then-current local inventory. The refresh is an accounting gate, not authority to add work. Every active source discovered after the retained #620 audit must be classified as admitted work, merged/completed provenance, an existing issue or milestone, or explicit backlog/deferred work before TAIL-09 review.
+
+The current local delta contains two unadmitted product candidates that must remain visible: `.adl/docs/TBD/codefriend_ai/POLIS_MUSIC_STUDIO_CONCEPT.md` and `.adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md`. Neither is part of the v0.92.2 denominator unless the operator separately admits it. The GCP move-in and issue #122/#268 cloud plans are existing v0.92.1/cloud planning or execution provenance, not new successor work. The Runtime v4 plugin-system design remains scheduled for v0.93. Issue-local C-SDLC audit snapshots and review outputs are evidence, not product backlog rows.
+
 ## First-sprint convergence
 
 The independently launched SIM sprint runs first. TAIL-01 consumes completed SIM-UMBRELLA (including SIM-07 qualification and its authorized activation/pilot boundary). The sprint does not gate CF-INTEGRATE or the v0.92.1 #717/#718 bugfix lanes. If activation is not authorized, record the unresolved program gate; do not silently call the sprint or milestone complete.

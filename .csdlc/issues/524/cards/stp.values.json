@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 524,
+  "issue_padded": "0524",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/524",
+  "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+  "branch": "codex/524-v0922-closeout-plan",
+  "version": "v0.92.1",
+  "card": "stp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-524-v0922-closeout-plan",
+  "goal": "Produce one reviewed v0.92.2 closeout and release-tail plan.",
+  "summary": "Complete the two owned v0.92.2 planning documents without executing successor work.",
+  "required_outcome": "A concrete successor closeout plan with explicit denominator, gates, canonical tail and asynchronous bookkeeping boundary.",
+  "required_outcome_type": "documentation",
+  "repo_inputs": "Issue #524; merged #523 planning package; v0.92.1 release-tail standards; current v0.92.2 documents.",
+  "target_files_surfaces": "docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md and docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md.",
+  "non_goals": "No successor execution, current release, implementation or issue creation.",
+  "dependencies": "#523 merged as PR #743.",
+  "acceptance_criteria": "Explicit closeout denominator and operator gates; standard tail order; merge-only downstream dependencies; no closeout serialization.",
+  "validation_plan": "Run focused planning-document checks and exact diff hygiene."
+}
