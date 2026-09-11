@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 833,
+  "phase": "bound",
+  "generation": 3,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/833-external-review-immutable-candidate",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-833-external-review-immutable-candidate",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "a75e176d246ab5f7240f0daabb6a2f79200053e4740d53808534eab059b2908b"
+}
