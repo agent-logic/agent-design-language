@@ -1,6 +1,6 @@
 # v0.92.2 ADR Plan
 
-Status: planned candidates; this file does not accept ADRs.
+Status: planned candidates owned by the `ARCH-ADR` work package; this file does not accept ADRs. WP-01 creates the work-package issue and assigns its canonical identity.
 
 | Candidate | Decision surface | Owner | Trigger |
 |---|---|---|---|
@@ -14,3 +14,5 @@ Status: planned candidates; this file does not accept ADRs.
 | ADR-CF-08 | Human publication boundary and renderer parity | CF-UX | Before publish controls stabilize |
 
 Each candidate must cite alternatives, consequences, reversibility, and evidence. Implementation does not silently accept the decision.
+
+`ARCH-ADR` must begin by reconciling this seed list against the final WP-01 issue wave. It may add, combine, retire, or defer candidates only with source-grounded rationale, explicit ownership, and status truth. Its primary result is one milestone ADR set and supersession map—not implementation of the decisions and not automatic acceptance of candidate text.

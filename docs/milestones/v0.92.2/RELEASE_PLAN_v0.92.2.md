@@ -8,7 +8,7 @@ CF-INTEGRATE forms a release candidate only after every Beta 1 exit-bar track ha
 
 ## Release denominator
 
-The release denominator is exactly the 43 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It comprises the original 30 planning rows, newly admitted PLAT-PAIR and OPS-GCP, ten C-SDLC simplification rows (SIM-UMBRELLA plus SIM-01 through SIM-09), and one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must reconcile all 43 rows to current canonical issue and merge truth; an unmapped, duplicated, missing, or unreviewed row is a no-go condition.
+The release denominator is exactly the 45 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It is the prior 43-row inventory plus OBS-S3 and ARCH-ADR, with one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must account for the identity and current status of all 45 rows, but merge/review completion is a no-go condition only for TAIL-01's declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues with their own acceptance and are not indirect release-tail gates.
 
 ## Canonical Tail
 
@@ -37,7 +37,7 @@ The release candidate is a normal Git revision and published artifacts are versi
 
 TAIL-06 records the candidate revision and complete artifact-manifest digest before and after each remediation. Any substantive candidate or claim/artifact change rebuilds affected artifacts, reruns affected proof, refreshes TAIL-01 quality truth, and obtains current internal and external review against the revised candidate. Repeat within the remediation gate until findings, evidence and review agree. Earlier review remains immutable historical evidence, never approval of new bytes. TAIL-10 requires exact equality among release candidate, reviewed candidate, approved manifest and release authorization. Deferral cannot waive unresolved P1 or privacy/provenance failures. The outer ten-step order stays unchanged.
 
-Product integration may finish before independent supporting work. TAIL-01 converges every admitted v0.92.2 support issue, including #720, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval.
+Product integration may finish before independent supporting work. TAIL-01 converges the declared release-gating support set, including #720, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval. OBS-S3 and ARCH-ADR are explicitly excluded from both CF-INTEGRATE and TAIL-01 dependencies; they remain ordinary required additional issues with their own acceptance rather than closeout-tail work.
 
 ## TBD disposition checkpoint
 
