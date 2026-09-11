@@ -1,0 +1,320 @@
+{
+  "WP-01": {
+    "body": "## Outcome\n\nDeliver the complete reviewed v0.92.2 planning package and create every issue in its 69-task execution plan, one independently reviewed sprint batch at a time, so CodeFriend Beta 1 can be implemented and proved through the milestone.\n\n## Scope\n\nPreserve the eight atomic task-family splits, eleven tightened completion contracts, all seven required planning tasks and every retained baseline obligation. Each task must deliver one complete usable result with concrete acceptance and executed validation appropriate to that result. Schemas, scaffolds, unspecified slices and unevaluated packets do not satisfy implementation or qualification work.\n\nCreate the 60 new issues across the eleven recorded creation batches and reconcile the nine existing task issues. Every issue must have a unique canonical identity, full reviewed body, milestone/version metadata and numeric execution prerequisites. Create PUB-CSDLC as the ordinary iterative manuscript revision task: author feedback is handled during the work, delivering this milestone's complete reviewed manuscript version; later revisions remain expected.\n\n## Acceptance\n\n- [ ] All 69 core tasks have unique GitHub issues; no missing tasks or duplicates remain, and no additional sprint umbrella issues are invented.\n- [ ] Every creation batch receives independent draft review before native creation and independent live-body review before the next batch is created. All actionable findings are resolved.\n- [ ] The nine existing tasks retain their complete scope and receive current milestone, label, dependency and scheduling reconciliation with authenticated native receipts and fresh readbacks.\n- [ ] Every active planning document, execution wave/specification, atomic contract, WBS, catalog, sprint/readiness and release projection agrees with the final issue map.\n- [ ] The global implementation-start gate requires all 69 core task identities and their completed issue reviews; it adds no artificial all-to-all task dependencies. Each task must subsequently satisfy its own native readiness and execution prerequisites.\n- [ ] CF-INTEGRATE precedes independent CF-PROOF qualification. TAIL-10 explicitly requires TAIL-09, OBS-S3 and ARCH-ADR completion, and validation rejects removal or weakening of those requirements.\n- [ ] Planning and launch contract checks, negative fixtures, native six-card validation, relative links and diff hygiene pass. Independent exact-head review precedes PR publication, and tracked review/execution records accurately identify completed review and remaining implementation.\n\n## Sidecar\n\nExisting #671 is assigned to v0.92.2 as a sidecar. It is separate from the 69-task execution graph and startup denominator and retains its own public-launch/provider-submission approval requirements. Milestone association is not execution or publication authorization.\n\n## Boundaries\n\nNo implementation starts during this issue-creation session. Issue creation and planning evidence do not prove a working Beta 1. Do not claim runtime/provider qualification, paid execution, deployment, public publication, merge or release acceptance from this work. The milestone's product tasks must deliver working execution and independent qualification before closeout.\n\n## Evidence and validation\n\nCanonical source: `docs/milestones/v0.92.2/`. Creation/review evidence: `.csdlc/evidence/864/sprint01-launch/` through `sprint11-launch/`, `all-issue-launch.json`, existing issue reconciliation and sidecar receipts.\n\nRun `python3 docs/milestones/v0.92.2/validate_planning.py --self-test`, each retained issue-launch validator, native v3 six-card validation and focused link/diff checks. Use native v3 GitHub actions for mutations and exact authenticated readback for verification.\n\nOwned paths: `docs/milestones/v0.92.2/**`, `.csdlc/issues/864/**`, `.csdlc/evidence/864/**` and native transaction records. PR #865 uses `Closes #864`. Earlier first-batch-only scope described that completed phase and is superseded by the operator's instruction to create and review all sprints.\n\n\n<!-- csdlc-v3-operation:3fbbf85484841584d4a47bafca65a32e30cc7a2f92059108cb2f1b8c8a118795 -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 864,
+    "state": "OPEN",
+    "title": "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
+  },
+  "RT-PROVIDER": {
+    "body": "## Summary\n\nMake Runtime v3 dynamic agent admission provider-neutral. `csmctl agent add --config <agent.yaml>` currently accepts a generic provider field, but the Runtime admission and conversation paths hard-code a narrow provider allowlist and defer or reject otherwise valid registered providers.\n\n## Goal\n\nAllow an operator to add, inspect, communicate with, checkpoint, migrate, rehydrate, and remove an agent backed by any provider adapter registered with the Runtime, without restarting the Runtime or editing its canonical initialization file.\n\n## Required Outcome\n\nDynamic agent lifecycle operations dispatch through the Runtime's provider registry and capability contract rather than provider-name match statements. Provider-specific authentication, endpoint validation, request execution, tool capability, streaming, accounting, and failure classification remain owned by the selected provider adapter.\n\n## Deliverables\n\n- Provider-neutral dynamic admission and conversation dispatch through the canonical provider registry.\n- A provider capability contract covering conversation, tools, streaming, agent-to-agent communication, credentials, and model discovery or validation.\n- Secure credential references in agent configuration; secret values never appear in agent YAML, API responses, logs, checkpoints, or lifecycle evidence.\n- `csmctl` lifecycle support for dynamically admitted agents regardless of backing provider.\n- Truthful roster/API/Observatory projection of provider, model, endpoint class, capabilities, health, and readiness.\n- Focused fixtures and integration tests for local and hosted providers.\n\n## Acceptance Criteria\n\n- `csmctl agent add --config <agent.yaml>` accepts every provider registered with the running Runtime and rejects only an unknown provider or a provider whose declared capability requirements are unsatisfied.\n- Adding or replacing a dynamic agent does not require a Runtime or Guardian restart and does not require editing the Runtime initialization file.\n- OpenAI/ChatGPT, Anthropic/Claude, Gemini through the appropriate Google provider route, Ollama local, and an OpenAI-compatible local endpoint each pass add, generated conversation, roster projection, checkpoint, removal, and rehydration tests.\n- Agent-to-agent communication uses the same provider-neutral execution path and canonical agent names for every admitted provider.\n- Provider adapters declare whether tools, streaming, model discovery, token accounting, and health checks are supported; the Runtime does not infer these capabilities from provider names.\n- Hosted providers require HTTPS and approved credential references. Local plaintext endpoints remain limited to loopback, private, or explicitly trusted local-network bindings.\n- Admission performs no recurring paid inference. Health checks and model validation follow provider capabilities and the metered-call safeguards tracked by #854.\n- Provider failures retain actionable classifications such as credentials, quota, unsupported capability, model unavailable, transport, timeout, and invalid response.\n- The API and Observatory report the effective provider/model and current capability/readiness state without exposing credentials.\n- Deterministic tests prove that a newly registered fixture provider works without modifying Runtime admission or conversation match statements.\n\n## Repo Inputs\n\n- `adl-runtime-kernel/src/control.rs`\n- `adl-runtime-kernel/src/config.rs`\n- `adl/src/cli/csmctl_cmd.rs`\n- Existing provider adapter and capability architecture\n- `docs/architecture/PROVIDER_CAPABILITY_AND_TRANSPORT_ARCHITECTURE.md`\n- Issue #602 dynamic agent lifecycle behavior\n- Issue #854 metered cloud inference safeguards\n\n## Dependencies\n\n- Coordinate with #854 so provider validation does not reintroduce periodic metered inference.\n- Reuse existing provider adapters and credential-source contracts rather than duplicating provider clients inside Runtime control code.\n\n## Demo Expectations\n\n- On a running Runtime, add one local agent and hosted agents backed by OpenAI, Anthropic, and Gemini using `csmctl`, exchange operator and agent-to-agent messages, inspect their roster/API metadata, checkpoint them, remove them, and rehydrate them without restarting Runtime.\n\n## Non-goals\n\n- Hard-coding only the four providers used by the initial acceptance demonstration.\n- Embedding provider secrets in agent configuration.\n- Requiring all providers to support identical optional capabilities.\n- Restarting Runtime merely to add, replace, or remove an agent.\n- Changing subscription or cloud billing configuration.\n\n## Issue-Graph Notes\n\n- Target v0.92.2.\n- Complements #854: #854 stops wasteful metered probes; this issue makes dynamic agents use any registered provider safely.\n\n## Notes\n\nThe current implementation accepts `ollama`, `openai-compatible`, and `vertex_ai` at portions of validation, but live dynamic verification and conversation execution are narrower and Vertex live calls are deferred. Provider registration must become the authority instead of parallel string allowlists.\n\n## Tooling Notes\n\n- Use native C-SDLC v3 lifecycle commands.\n- Stop after issue creation and bootstrap preparation; do not start implementation as part of issue creation.\n\n\n<!-- csdlc-v3-operation:1843a1b2f6f539048c6e90e358bba2ebfea7a2def63d0b29f17231c5a2bc91aa -->\n\n<!-- csdlc-v3-operation:07b7c2e9d2d54cc3b965dce7eb4e724336f99b6887792cbb68f8aab92902e31f -->\n\n## Operator-authorized task split\n\nThe operator requested one complete task per issue in the #864 / PR #865 planning review. Additional work is preserved in `docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md`. The earlier scope-only edit created no follow-on issues; the operator subsequently authorized their creation and independent review through #864. All implementation tasks include their required tests, failure handling and documentation.\n\nThis existing issue maps to **RT-PROVIDER** and retains every lifecycle, provider matrix, capability, credential, transport, failure-classification and projection requirement above. **PLAT-PROVIDER** separately delivers validated editable definitions consumed by this lifecycle. RT-PROVIDER depends on PLAT-PROVIDER; PLAT-PROVIDER depends on RT-COST/#854. A configuration schema alone cannot close #855.\n\n\n<!-- csdlc-v3-operation:62034fbe312460f75163c205796b343b94f13f409e4288a4e63cd798e0f1a95d -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #876 (PLAT-PROVIDER). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\n\n<!-- csdlc-v3-operation:cbc52684623ff0cbea02d5106fb60ad2e0de54ec45ecadfa149a362e41d2e2e9 -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACvUlH8g",
+        "name": "track:roadmap",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACviQhAg",
+        "name": "area:runtime",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACvpCW8Q",
+        "name": "type:feature",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 855,
+    "state": "OPEN",
+    "title": "[v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle"
+  },
+  "ARCH-SPLIT": {
+    "body": "# Outcome\n\nProduce one reviewed, decision-ready repository decomposition plan for v0.92.2 that separates ADL, Runtime/CSM, C-SDLC, infrastructure, and the private v0.93 enterprise-security package into coherent product and visibility boundaries.\n\n# Context\n\nThe current repository contains historically colocated products that have no required functional coupling. The candidate plan must evaluate a five-repository target:\n\n1. `agent-design-language`\n2. `agent-logic-runtime`\n3. `cognitive-sdlc`\n4. `agent-logic-infrastructure`\n5. `agent-logic-enterprise-security` (private; implementation scheduled for v0.93)\n\nThe plan is intended to reduce unrelated build and validation work, allow the products to evolve and release independently, support independent commercialization, and give Agent Logic deliberate control over what is public or private.\n\n# Scope\n\n- Ground the proposed boundaries in the current source inventory and v0.93 enterprise-security planning authority.\n- Define ownership, dependency direction, public/private visibility, versioned contracts, validation boundaries, release boundaries, and migration ordering.\n- Require public ADL and Runtime products to remain complete and independently buildable without access to private repositories.\n- Define the disclosure boundary for public contracts versus proprietary implementation, customer material, credentials, sensitive qualification evidence, and private operations.\n- Obtain independent Claude and Gemini reviews and resolve actionable planning findings.\n- Produce a decision-ready recommendation and bounded first execution step.\n\n# Non-goals\n\n- Do not split repositories, move code, delete compatibility paths, or create the private repository.\n- Do not authorize v0.93 implementation work.\n- Do not introduce new functional coupling between C-SDLC and Runtime/CSM.\n- Do not claim that moving code alone reduces maintained code volume.\n\n# Acceptance criteria\n\n- [ ] The plan identifies exactly one primary owner for every proposed product boundary.\n- [ ] C-SDLC and Runtime/CSM are explicitly independent in both dependency directions.\n- [ ] Cross-repository dependencies use published, versioned contracts rather than checkout-relative source access.\n- [ ] The private enterprise-security repository covers the six bounded v0.93 security work packages without becoming a hidden dependency of public products.\n- [ ] Public/private classification and disclosure-review rules are explicit.\n- [ ] Migration steps are independently reviewable, reversible where practical, and each produces one concrete result.\n- [ ] Build, validation, release, operational, commercialization, and visibility benefits are stated without treating them as completed outcomes.\n- [ ] Claude and Gemini independently review the candidate plan; actionable findings are either resolved or recorded for operator decision.\n- [ ] The final recommendation authorizes at most the dependency-and-ownership audit, not repository extraction.\n\n# Source evidence\n\n- `.adl/docs/TBD/ADL_REPOSITORY_DECOMPOSITION_CANDIDATE_PLAN.md`\n- `docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md`\n- `docs/milestones/v0.93/DESIGN_v0.93.md`\n- `docs/milestones/v0.93/WBS_v0.93.md`\n- `docs/milestones/v0.93/SPRINT_v0.93.md`\n\n# Validation\n\n- Verify every referenced tracked path exists.\n- Check the plan for machine-local paths, credentials, unsupported completion claims, and accidental public/private dependency inversion.\n- Record both independent review results and the disposition of every actionable finding.\n\n# Milestone routing\n\nTarget version: `v0.92.2`, now open as milestone 2. This issue retains the repository-decomposition decision scope above; milestone opening and the authorized creation wave belong to WP-01/#864.\n\n\n<!-- csdlc-v3-operation:52a23fba726edf298e4309fdd54309e40879fa283fef8ddcf8a5571dd16bbd68 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\n\n<!-- csdlc-v3-operation:ecdf08bd3c43881399db00e78047572a9e8c487a8ca9a94011c5c7cbcd4dd182 -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACvgLwWA",
+        "name": "type:planning",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACwHBo0Q",
+        "name": "area:architecture",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0rB5Mg",
+        "name": "v0.92.2",
+        "description": "",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 848,
+    "state": "OPEN",
+    "title": "[v0.92.2][planning] Decide repository decomposition and public/private product boundaries"
+  },
+  "CSDLC-MERGE": {
+    "body": "## Problem\n\nAt reviewed revision `25498d7709cb5fe13242aac81988ecdb344db968` (PR #847, issue #844), native PR merge admission does not bind or validate the PR's current closing/non-closing relation to the reviewed `PublicationLinkage`.\n\nA `PartOf` PR body can change to `Closes #<parent>` without a head change. Exact-head review and check admission can still succeed, allowing merge to close the parent. Conversely, removing the closing relation from a `Closing` PR can leave its target open. Later `finish` validation cannot undo the merge or issue closure.\n\nIndependent reviewer: `review_835`; severity P2; finding `MERGE-LINKAGE-001`. Discovered during #835 release proof and handed to #522/#833. Operator explicitly allocated this repair to **v0.92.2**. This allocation is not a behavioral pass or v0.92.1 release approval.\n\n## Evidence\n\n- `csdlc-v3/src/commands/remote/mod.rs:205`: `PullRequestMerge` lacks `PublicationLinkage` and mode.\n- `csdlc-v3/src/commands/remote/merge.rs:38`: authenticated query omits PR body/closing relation.\n- `csdlc-v3/src/commands/remote/merge.rs:345`: review admission binds repository, issue and revision, but not the current PR relation.\n\nExisting publication and finish guards retain their prior guarantees; the defect is the new merge path. The exact merged revision passed 240 unfiltered C-SDLC tests, strict all-target Clippy and the V3-A contract check; these checks do not cover this missing guard.\n\n## Required change\n\nBind the reviewed, qualified `PublicationLinkage` and publication mode into merge admission and durable intent. Authenticate and validate the current PR relation before dispatch. Reject absent, mixed, ambiguous, wrong-target, wrong-repository and mode-incompatible relations. Reconciliation must preserve truthful linkage and issue-state observations.\n\n## Acceptance criteria\n\n- [ ] Merge consumes the reviewed linkage value bound to the exact source revision and qualified target issue.\n- [ ] Same-head body drift from `PartOf` to a closing relation is rejected before mutation; the parent remains open.\n- [ ] A `Closing` PR with its closing relation removed or changed is rejected before mutation.\n- [ ] Missing, mixed, wrong-target, wrong-repository and split-repository unqualified linkage are rejected.\n- [ ] A valid non-closing merge proves checkpoint completion while its parent remains open; a valid closing merge preserves the existing terminal contract.\n- [ ] Durable intent, uncertain replay and exact authenticated reconciliation retain their existing safeguards.\n- [ ] Documentation retains the remote CAS limitation: head CAS does not atomically freeze body, base or policy. Do not claim that preflight alone eliminates a later remote race.\n- [ ] Independent exact-head review accepts the repair and the affected release mappings are updated without rewriting historical failed evidence.\n\n## Focused validation\n\nPVF: required deterministic native C-SDLC owner contract; local Git/filesystem and fake authenticated transport; small CPU; no paid cloud resources or live destructive merge required. Add same-head body-drift negative cases and valid Closing/PartOf cases in the existing merge tests. Assert no mutation dispatch for rejected inputs. Run focused remote tests and the native C-SDLC suite appropriate to the final diff; keep live GitHub proof separate from fake-transport proof.\n\nAffected retained criteria: `V3-A:retained-161-ac-8`, `V3-E:retained-175-ac-10`, `V3-E:retained-175-ac-11`, `V3-E:retained-177-ac-3`. Historical `V3-E:V3-E-ac-2` remains qualified when extended to merge admission.\n\n## Scope\n\nRepair merge linkage only. No authority-generation change, blanket release approval, unrelated runtime work, or rewriting closed #835/#844 records. Preserve the findings in #522/#833 until verified correction or an explicit release disposition.\n\n\n<!-- csdlc-v3-operation:f0a15a8a92ffa124a512ee54c3246d60fa3d4eb397e090dda82b504d93ae4aa0 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\n\n<!-- csdlc-v3-operation:76c0d44480c5fb6746b512506b460e87b5aa661efa56ce18ad11fc33b94ffcf2 -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+        "name": "type:bug",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 849,
+    "state": "OPEN",
+    "title": "[v0.92.2][C-SDLC v3][P2] Preserve publication linkage during native PR merge"
+  },
+  "QUAL-RUNTIME": {
+    "body": "## Outcome\n\nEmit one correlated, redacted Runtime-owned failure event when canonical ingress dispatch fails, and prove its relationship to the authenticated WSS error response.\n\n## Complete task\n\n- Implement failure-event emission on the real Runtime ingress dispatch path while preserving success behavior.\n- Bind the event to the same authenticated request/correlation identity as its WSS failure response.\n- Prove actual dispatch failure, response/event correlation and redaction through production paths.\n- Reject forged or mismatched event evidence; retain current focused validation and independent exact-head review.\n\nA synthetic event, caller-set failure flag, reference trace or unexecuted test is not completion.\n\n## Scope preserved in separate tasks\n\nThe previous consolidated five-row work is split by the operator's newer one-task instruction:\n\n| Task | Complete result |\n|---|---|\n| QUAL-RUNTIME / #852 | Runtime dispatch failure-event repair and its WSS/redaction regressions |\n| QUAL-RESIDENT | Six distinct production resident workloads plus signed dehydration/restore and resumed-work qualification |\n| QUAL-PROVIDER | Actual provider subprocess loss, timeout/interruption and healthy recovery qualification |\n| QUAL-INVENTORY | Immutable before/after Cargo-registered validation inventories |\n| QUAL-EVIDENCE | Exact criterion/source/producer/execution binding and independent-review admission for all five rows |\n\nQUAL-EVIDENCE preserves RUST-01-ac-4, DRT-B-ac-2/ac-3 and DRT-C-ac-2/ac-3, the original 19-finding denominator, and the separate five cloud-control/two execution-proof gaps. Closed #522/#833 remain historical consumers; this issue does not reopen or close them. The operator authorized creation and review of all milestone tasks through #864; these separate tasks cannot disappear when #852 closes. Their creation does not establish execution or qualification.\n\n## Preserved partial work\n\nThe previous #851 worktree and branch `codex/851-reconcile-five-proof-links` contain unreviewed partial implementation and evidence. Preserve all bytes and inspect actual ownership before reuse. Neither the partial code nor this scope edit proves delivery. The pre-split source issue body is retained by #864's review evidence.\n\n## Acceptance\n\n1. Real canonical dispatch failure emits its correlated Runtime-owned event.\n2. Authenticated WSS failure response and event correlate without exposing secrets.\n3. Forged, mismatched and redaction-negative cases are rejected.\n4. Existing success semantics remain intact and focused proof/required CI pass at the reviewed implementation revision.\n\n## Non-goals\n\nNo paid cloud/GPU mutation, broad Runtime refactor, five-row aggregate qualification inside this repair, release approval, or automatic closure of #522/#833. The historical instruction to keep all five rows consolidated is superseded by the operator-authorized split above.\n\n\n## Operator-authorized task split\n\nThe operator requested one complete task per issue in the #864 / PR #865 planning review. Additional work is preserved in `docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md`. The earlier scope-only edit created no follow-on issues; the operator subsequently authorized their creation and independent review through #864. All implementation tasks include their required tests, failure handling and documentation.\n\n\n<!-- csdlc-v3-operation:00f3b0642c6414ce252e13a7fd0502844582cb1d7e7b657b65e0051419cb1db9 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\nSeparate complete tasks: QUAL-RESIDENT / #900, QUAL-PROVIDER / #901, QUAL-INVENTORY / #899, QUAL-EVIDENCE / #902. Their scopes and acceptance remain separate from this issue.\n\n\n<!-- csdlc-v3-operation:f96fcaa7808817bf9db27a339e75e01e1bd838b285ee98f295e73a2508ae2e63 -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+        "name": "type:bug",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACvgLwWg",
+        "name": "area:tooling",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACviQhAg",
+        "name": "area:runtime",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 852,
+    "state": "OPEN",
+    "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events"
+  },
+  "RT-COST": {
+    "body": "## Problem\n\nRuntime v3 continuously invokes metered cloud models to prove that already-ready resident agents remain healthy. The resident Shepherd recovery loop treats `retry_max_millis` as both a failure backoff ceiling and the successful-state re-probe interval. With the default value of 60 seconds, a healthy cloud-backed Shepherd receives one paid inference request every minute indefinitely.\n\nThe live Axioma Wuji deployment generated 8,474 `kimi-k3` requests\u2014approximately 5.9 days at one request per minute\u2014and helped exhaust the account's entire $60 monthly Ollama Cloud allowance. A second cloud agent generated 7,243 `glm-5.3-flash` requests. These were predominantly infrastructure-generated probes rather than operator conversations or useful agent work.\n\n## Required outcome\n\nStop routine Runtime health monitoring from consuming metered inference. A successful provider/model readiness result must remain ready without periodic generated-content calls. Recovery probes may run after startup failure or a real execution failure, but ordinary health and observability must use non-metered signals wherever the provider supports them.\n\n## Acceptance criteria\n\n- A healthy resident Shepherd does not invoke its inference endpoint again merely because `retry_max_millis` elapsed.\n- `retry_initial_millis` and `retry_max_millis` apply only to recovery after a failed preload, failed readiness attempt, or actual provider execution failure.\n- Successful startup transitions the resident to an event-driven steady state that waits for shutdown, configuration change, provider failure, or another explicit lifecycle signal.\n- Provider reachability, model availability, and generated-inference readiness are represented as distinct signals; monitoring does not manufacture user-like prompts.\n- Cloud and other metered providers default to no periodic inference probes. Any explicitly configured synthetic inference check is opt-in, visibly metered, and has a conservative minimum interval and budget.\n- Runtime observability attributes every provider request to a reason such as `operator_conversation`, `agent_to_agent`, `startup_probe`, `recovery_probe`, or `synthetic_monitor`, with agent, provider, and model identity.\n- Per-agent/provider counters expose request count and estimated or reported token usage so runaway consumption is detectable.\n- A deterministic soak test proves that a healthy resident produces exactly one startup inference probe and zero additional provider calls across multiple retry intervals.\n- Failure-and-recovery tests prove bounded exponential retry and prove that recovery stops polling after readiness is restored.\n- A cloud-provider fixture proves that ordinary readiness/status/API polling causes zero metered model invocations.\n\n## Scope\n\n- `adl-runtime-kernel/src/resident_shepherd.rs`\n- Resident-agent/provider readiness and recovery control paths that share the same defect\n- Runtime provider-call observability and focused regression tests\n- Configuration documentation for any retained synthetic monitoring option\n\n## Non-goals\n\n- Do not remove startup validation entirely.\n- Do not disable useful operator conversations or agent-to-agent work.\n- Do not change Ollama subscription or billing settings.\n- Do not add credits or enable automatic credit reload.\n- Do not redesign unrelated Runtime supervision or checkpoint behavior.\n\n## Evidence\n\n- Ollama account usage on 2026-09-11: `$60 of $60 used`, with 8,474 `kimi-k3`, 7,243 `glm-5.3-flash`, and 11 `glm-5.3` requests.\n- `run_resident_shepherd_recovery` sleeps for `policy.retry_max` after success and then repeats the real governed inference attempt.\n- Default `resident_shepherd.preload.retry_max_millis` is 60,000 ms.\n- 8,474 one-minute probes correspond to approximately 5.9 days of continuous execution.\n\n## Validation\n\n- Focused deterministic resident-Shepherd recovery tests.\n- Provider-call reason and counter contract tests.\n- Runtime soak test spanning several configured retry intervals with a counting fixture.\n- Exact-head review and the smallest applicable Runtime validation lane before publication.\n\n\n\n<!-- csdlc-v3-operation:37272f707b3e90a8d55f22518a3c66188e7d116805e4ebc1b24259c1675e9793 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\n\n<!-- csdlc-v3-operation:d86b10bf1d833b91f00e47f2fbd58ab34240d2df2198df6b573d03c84173c51c -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACvUlH8g",
+        "name": "track:roadmap",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+        "name": "type:bug",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACviQhAg",
+        "name": "area:runtime",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 854,
+    "state": "OPEN",
+    "title": "[v0.92.2][runtime][cost] Stop metered cloud inference health-probe loops"
+  },
+  "CSDLC-MAN": {
+    "body": "## Outcome\n\nProvide installable, complete operator man pages for C-SDLC v3 so routine use and recovery never require reading Rust source files.\n\n## Problem\n\nC-SDLC v3 currently exposes terse `--help` output and scattered Markdown contracts, but no authoritative operator command reference. Required behavior such as `finish --observe-github`, checkout-dependent output paths, credential resolution, lifecycle transitions, mutation boundaries, request schemas, and recovery steps must currently be inferred from implementation files such as `csdlc-v3/src/commands/remote/mod.rs`.\n\n## Deliverables\n\n- An installable `csdlc(1)` overview covering the lifecycle, authority model, command families, global conventions, credentials, exit status, files, and diagnostics.\n- Cohesive command-reference man pages for every supported native v3 command, with exact syntax, required and optional flags, mutation/read-only classification, request schema references, and at least one valid example.\n- Explicit documentation of primary-checkout versus linked-worktree behavior and canonical state/evidence paths.\n- A troubleshooting section for common fail-closed findings, including stale authority, missing credentials, stale exact-head review, incorrect checkout topology, missing `--observe-github`, and reconciliation failures.\n- Installation and discovery support so `man csdlc` and command-page lookup work after the supported owner-binary installation flow.\n- A machine-checked parity inventory proving every command and exposed option is represented in the man-page suite.\n\n## Acceptance criteria\n\n- [ ] An operator can start, inspect, review, publish, merge, finish, and clean a normal issue using the man pages without reading source code.\n- [ ] Every command listed by native v3 help is covered by an authoritative man-page entry.\n- [ ] Examples are executable or fixture-validated and use current request schemas and canonical paths.\n- [ ] Pages clearly distinguish observation, mutation, lifecycle authority, terminal reconciliation, and cleanup.\n- [ ] Installed pages are discoverable through the supported installation path on macOS and Linux.\n- [ ] Focused tests fail when a command or option is added without corresponding manual coverage.\n\n## Non-goals\n\n- Changing lifecycle semantics or weakening fail-closed guards.\n- Redesigning the CLI.\n- Documenting retired v1/v2 commands as current authority.\n\n## Validation\n\n- Man-page rendering/lint checks.\n- CLI-to-man-page command and option parity test.\n- Clean-install lookup proof on supported macOS and Linux environments.\n- Focused example/fixture validation and `git diff --check`.\n\n\n\n<!-- csdlc-v3-operation:30fe6dc4e544fa3317e87a9e70b0887611abacd59f1bf1b54423f9d0763e31a9 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\n\n<!-- csdlc-v3-operation:1448afb09e53545a36043c8492d6a80509030968adc517a6fce94b1f444a863a -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACv_YZaQ",
+        "name": "type:docs",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACwrlbBA",
+        "name": "area:csdlc",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0rB5Mg",
+        "name": "v0.92.2",
+        "description": "",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 861,
+    "state": "OPEN",
+    "title": "[v0.92.2][C-SDLC v3][docs] Write complete operator man pages"
+  },
+  "CSDLC-DECOMPOSE": {
+    "body": "## Outcome\n\nDecompose the C-SDLC v3 local command owner into cohesive internal components while preserving all public behavior.\n\n## Complete task\n\n- Extract local binding, editing, validation, registry/registration, transaction and state-persistence responsibilities into cohesive modules.\n- Leave `csdlc-v3/src/commands/local/mod.rs` as thin module wiring and stable dispatch.\n- Preserve CLI behavior, request/receipt schemas, durable paths, authority checks, operation digests, error codes, idempotency and fail-closed semantics.\n- Retain focused regressions and boundary tests; record a recursive before/after responsibility and source-size inventory.\n\n## Acceptance\n\n1. Every extracted local module has one named responsibility and no command-domain cycles.\n2. All local production routes use the decomposition; moving code into a replacement god module does not qualify.\n3. Public and serialized contracts, digests, error codes and paths remain compatible.\n4. Local/native authority, mutation, terminal and negative-path regression proof passes at the reviewed revision.\n\n## Remote decomposition routing\n\n`CSDLC-REMOTE` separately completes the remote command owner, after this local extraction and CSDLC-MERGE/#849. It retains authority/credentials, GitHub issue/PR operations, publication/readback, mutation reconciliation, receipts and validation decomposition plus its own unchanged-contract proof. No remote work is discarded when #862 closes, and no child is created by this scope correction.\n\n## Non-goals\n\nRemote command decomposition in this issue, lifecycle feature changes, schema redesign, weakened guards, or unrelated cleanup. Coordinate shared paths and installed-binary ownership with the SIM sprint before implementation.\n\n\n## Operator-authorized task split\n\nThe operator requested one complete task per issue in the #864 / PR #865 planning review. Additional work is preserved in `docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md`. The earlier scope-only edit created no follow-on issues; the operator subsequently authorized their creation and independent review through #864. All implementation tasks include their required tests, failure handling and documentation.\n\n\n<!-- csdlc-v3-operation:59c2d9609840f5ff7993e765cb441904734af432a3c34d4eb8dc388d7c4012e9 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\nSeparate complete tasks: CSDLC-REMOTE / #907. Their scopes and acceptance remain separate from this issue.\n\n\n<!-- csdlc-v3-operation:cecdae1f02b944b3a812c800f49cd9f1fb7d479564a19c8b70a40a18186201b9 -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACv_Z2xw",
+        "name": "type:tooling",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACwrlbBA",
+        "name": "area:csdlc",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0rB5Mg",
+        "name": "v0.92.2",
+        "description": "",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 862,
+    "state": "OPEN",
+    "title": "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner"
+  },
+  "OBS-LIVE": {
+    "body": "## Goal\n\nMake the production/live Observatory fail-safe for demonstrations by removing one-click paths that silently replace live Runtime v3 telemetry with frozen retained-packet data.\n\n## Required outcome\n\n- Remove the Published and Retained topbar modes from the live Observatory and pin the product surface to Live.\n- Remove or isolate refreshRetained and its three-second static-file polling so the live build cannot continuously fetch v0.91.7 retained JSON.\n- Remove the orphaned setRuntimeTestStatus local assignments currently reported near app.js lines 3293, 4298, and 4371.\n- Preserve historical retained artifacts as repository evidence; do not delete evidence merely to hide it from the product UI.\n- Ensure the live UI cannot silently present historical/frozen data as current polis telemetry.\n\n## Acceptance criteria\n\n1. The live Observatory offers no Published or Retained mode controls.\n2. Normal startup and navigation cannot replace live telemetry with docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api data.\n3. No obsolete three-second retained refresh timer runs in the live product path.\n4. The three unused status assignments are removed.\n5. Focused tests prove Live remains functional and no retained-mode route is reachable from the live UI.\n6. Documentation distinguishes retained historical evidence from the live Observatory product.\n\n## Non-goals\n\n- Do not delete immutable v0.91.7 evidence.\n- Do not redesign the Observatory.\n- Do not widen issue #512 or delay its publication.\n\n## Scheduling\n\nTarget v0.92.2, now open as milestone 2. This existing issue retains its independently admitted execution authority; WP-01/#864 and the later creation batches add no dependency edge or scope to this task.\n\n<!-- csdlc-github-operation:v0922-observatory-remove-retained-live-demo-hazards -->\n\n## Current milestone execution links\n\nMilestone association is scheduling metadata. This task retains its own owner and readiness authority and has no WP-01 dependency. The global launch requirement below governs new implementation admission.\n\nBefore any new implementation admission, all 69 core milestone tasks must have issue identities and all creation batches must receive independent review. This global launch requirement does not add a WP-01 execution dependency or interrupt already admitted owner work; preserve the existing owner\u2019s readiness and authority.\n\n\n<!-- csdlc-v3-operation:c3a981c0317c5555f7f7563cd33adfe570a6e7d5516ff57ee12012e27fc3203f -->",
+    "labels": [
+      {
+        "id": "LA_kwDOTvc2y88AAAACvUlH9w",
+        "name": "area:demo",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACv-tNhA",
+        "name": "area:quality",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACwHBpzQ",
+        "name": "type:chore",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAACxMQT3w",
+        "name": "area:observatory",
+        "description": "",
+        "color": "ededed"
+      },
+      {
+        "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+        "name": "version:v0.92.2",
+        "description": "ADL v0.92.2 milestone work",
+        "color": "ededed"
+      }
+    ],
+    "milestone": {
+      "number": 2,
+      "title": "v0.92.2",
+      "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+      "dueOn": null
+    },
+    "number": 720,
+    "state": "OPEN",
+    "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 10,
+  "issues": [
+    {
+      "task": "CF-INTEGRATE",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "3c9266c933f6d2422bb7fca630b2863e6d666275052525fbde2e642d1cc457a2"
+    },
+    {
+      "task": "CF-PROOF",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "f24b5b247ec260cab1956ca78982307d0bd409654116003ba81ef60e9133749c"
+    }
+  ]
+}

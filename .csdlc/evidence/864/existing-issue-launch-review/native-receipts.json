@@ -1,0 +1,11 @@
+{
+  "WP-01": ".csdlc/evidence/864/existing-issue-launch-review/issue-864-native-update.json",
+  "RT-PROVIDER": ".csdlc/evidence/864/existing-issue-launch-review/issue-855-native-update.json",
+  "ARCH-SPLIT": ".csdlc/evidence/864/existing-issue-launch-review/issue-848-native-update.json",
+  "CSDLC-MERGE": ".csdlc/evidence/864/existing-issue-launch-review/issue-849-native-update.json",
+  "QUAL-RUNTIME": ".csdlc/evidence/864/existing-issue-launch-review/issue-852-native-update.json",
+  "RT-COST": ".csdlc/evidence/864/existing-issue-launch-review/issue-854-native-update.json",
+  "CSDLC-MAN": ".csdlc/evidence/864/existing-issue-launch-review/issue-861-native-update.json",
+  "CSDLC-DECOMPOSE": ".csdlc/evidence/864/existing-issue-launch-review/issue-862-native-update.json",
+  "OBS-LIVE": ".csdlc/evidence/864/existing-issue-launch-review/issue-720-native-update.json"
+}

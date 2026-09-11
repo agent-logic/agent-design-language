@@ -1,0 +1,33 @@
+{
+  "body": "## Problem\n\nRuntime v3 continuously invokes metered cloud models to prove that already-ready resident agents remain healthy. The resident Shepherd recovery loop treats `retry_max_millis` as both a failure backoff ceiling and the successful-state re-probe interval. With the default value of 60 seconds, a healthy cloud-backed Shepherd receives one paid inference request every minute indefinitely.\n\nThe live Axioma Wuji deployment generated 8,474 `kimi-k3` requests\u2014approximately 5.9 days at one request per minute\u2014and helped exhaust the account's entire $60 monthly Ollama Cloud allowance. A second cloud agent generated 7,243 `glm-5.3-flash` requests. These were predominantly infrastructure-generated probes rather than operator conversations or useful agent work.\n\n## Required outcome\n\nStop routine Runtime health monitoring from consuming metered inference. A successful provider/model readiness result must remain ready without periodic generated-content calls. Recovery probes may run after startup failure or a real execution failure, but ordinary health and observability must use non-metered signals wherever the provider supports them.\n\n## Acceptance criteria\n\n- A healthy resident Shepherd does not invoke its inference endpoint again merely because `retry_max_millis` elapsed.\n- `retry_initial_millis` and `retry_max_millis` apply only to recovery after a failed preload, failed readiness attempt, or actual provider execution failure.\n- Successful startup transitions the resident to an event-driven steady state that waits for shutdown, configuration change, provider failure, or another explicit lifecycle signal.\n- Provider reachability, model availability, and generated-inference readiness are represented as distinct signals; monitoring does not manufacture user-like prompts.\n- Cloud and other metered providers default to no periodic inference probes. Any explicitly configured synthetic inference check is opt-in, visibly metered, and has a conservative minimum interval and budget.\n- Runtime observability attributes every provider request to a reason such as `operator_conversation`, `agent_to_agent`, `startup_probe`, `recovery_probe`, or `synthetic_monitor`, with agent, provider, and model identity.\n- Per-agent/provider counters expose request count and estimated or reported token usage so runaway consumption is detectable.\n- A deterministic soak test proves that a healthy resident produces exactly one startup inference probe and zero additional provider calls across multiple retry intervals.\n- Failure-and-recovery tests prove bounded exponential retry and prove that recovery stops polling after readiness is restored.\n- A cloud-provider fixture proves that ordinary readiness/status/API polling causes zero metered model invocations.\n\n## Scope\n\n- `adl-runtime-kernel/src/resident_shepherd.rs`\n- Resident-agent/provider readiness and recovery control paths that share the same defect\n- Runtime provider-call observability and focused regression tests\n- Configuration documentation for any retained synthetic monitoring option\n\n## Non-goals\n\n- Do not remove startup validation entirely.\n- Do not disable useful operator conversations or agent-to-agent work.\n- Do not change Ollama subscription or billing settings.\n- Do not add credits or enable automatic credit reload.\n- Do not redesign unrelated Runtime supervision or checkpoint behavior.\n\n## Evidence\n\n- Ollama account usage on 2026-09-11: `$60 of $60 used`, with 8,474 `kimi-k3`, 7,243 `glm-5.3-flash`, and 11 `glm-5.3` requests.\n- `run_resident_shepherd_recovery` sleeps for `policy.retry_max` after success and then repeats the real governed inference attempt.\n- Default `resident_shepherd.preload.retry_max_millis` is 60,000 ms.\n- 8,474 one-minute probes correspond to approximately 5.9 days of continuous execution.\n\n## Validation\n\n- Focused deterministic resident-Shepherd recovery tests.\n- Provider-call reason and counter contract tests.\n- Runtime soak test spanning several configured retry intervals with a counting fixture.\n- Exact-head review and the smallest applicable Runtime validation lane before publication.\n\n\n\n<!-- csdlc-v3-operation:37272f707b3e90a8d55f22518a3c66188e7d116805e4ebc1b24259c1675e9793 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACvUlH8g",
+      "name": "track:roadmap",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+      "name": "type:bug",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACviQhAg",
+      "name": "area:runtime",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    }
+  ],
+  "milestone": null,
+  "number": 854,
+  "state": "OPEN",
+  "title": "[v0.92.2][runtime][cost] Stop metered cloud inference health-probe loops"
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 9,
+  "reviewer": "/root/docs_final_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "83d6968c65b772a113a00a49be6f071d297abf0252b7549a5bc1dc0e114352c3",
+  "issues": {
+    "ARCH-ADR": {
+      "number": 911,
+      "result": "pass"
+    },
+    "PUB-MEDIUM": {
+      "number": 912,
+      "result": "pass"
+    },
+    "PUB-CSDLC": {
+      "number": 913,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified against reviewed draft source. Global all-69 creation/review startup gate retained; no implementation or activation proof."
+}
