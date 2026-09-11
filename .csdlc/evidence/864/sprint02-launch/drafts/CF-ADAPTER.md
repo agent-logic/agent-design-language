@@ -39,4 +39,3 @@ pvf: `local_checkout_packet_consumed`, `revision_and_scope_bound`, `outside_root
 stop_conditions: `host_bound_packet`, `credential_capture`, `required_proof_not_executed`, `partial_artifact_claimed_complete`.
 
 non_goals: `unrelated_scope`, `schema_or_scaffold_only_completion`, `jira`, `linear`, `slack`, `broad_workspace`.
-

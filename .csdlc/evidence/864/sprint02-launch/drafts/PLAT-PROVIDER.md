@@ -37,4 +37,3 @@ pvf: `editable_definition_consumed`, `endpoint_profile_parity`, `last_known_good
 stop_conditions: `hardcoded_instance_data`, `credential_in_config`, `missing_v0921_hotload_authority`, `required_proof_not_executed`, `partial_artifact_claimed_complete`.
 
 non_goals: `unrelated_scope`, `schema_or_scaffold_only_completion`, `provider_rewrite`, `public_benchmark_marketing`.
-

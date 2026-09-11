@@ -1,0 +1,35 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 2,
+  "reviewer": "/root/task_contract_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "c9595e5a2d1778d6ba6c51815b26385ce1a5326b00598088b08e324a62428f49",
+  "issues": {
+    "PLAT-PROVIDER": {
+      "number": 876,
+      "result": "pass"
+    },
+    "PLAT-UTS": {
+      "number": 877,
+      "result": "pass"
+    },
+    "CF-ADAPTER": {
+      "number": 878,
+      "result": "pass"
+    },
+    "CF-ADAPTER-GITHUB": {
+      "number": 879,
+      "result": "pass"
+    },
+    "CF-ADAPTER-CI": {
+      "number": 880,
+      "result": "pass"
+    },
+    "CF-EVIDENCE": {
+      "number": 881,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified."
+}

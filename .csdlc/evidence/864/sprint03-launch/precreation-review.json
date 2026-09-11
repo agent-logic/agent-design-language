@@ -1,0 +1,70 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 3,
+  "issues": [
+    {
+      "task": "CF-COG",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "3594a402b939b3a90b458b0be84ede1f4ebca100bdd5640fdda77932f05606a3"
+    },
+    {
+      "task": "CF-COG-IMPACT",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "b497453123923ca350d69f3a3484d08d31d7ede3df47a6eae40e882d48a0ec7d"
+    },
+    {
+      "task": "CF-COG-RATIONALE",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "9c601dbb2d34d02441f45a0b73ba39e22354f9b40ac8b7802b705c43db3a0d97"
+    },
+    {
+      "task": "CF-MEMORY",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "5890ff2d3674fa363a7b01fd75cec70a57e352aa18384361ab84cbda7afd4cd4"
+    },
+    {
+      "task": "CF-COG-DRIFT",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "6cdd099f106a468623257519aaf05f2fc4d865ead6bb5816c8b37b91899d651a"
+    },
+    {
+      "task": "CF-GOV",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "ce40c5a81367076dc8d7a8a637324450f20ec94dd8df899a5bdc7d36ff99c3a8"
+    },
+    {
+      "task": "CF-GOV-CI",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "89a109cd560f190b6927a2fc300c430b44be1d1196ef5c471e1b21b9d2fb3fad"
+    },
+    {
+      "task": "PLAT-MEMORY",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "137bf95550fd51c9c125ad4bb4aeefa00fbefbce837ee37120e84e6109e48fc0"
+    }
+  ]
+}

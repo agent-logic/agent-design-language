@@ -37,4 +37,3 @@ pvf: `ci_packet_consumed`, `local_contract_parity`, `missing_revision_rejected`,
 stop_conditions: `missing_required_input`, `required_proof_failed`, `scope_or_contract_conflict`, `required_proof_not_executed`, `partial_artifact_claimed_complete`, `host_bound_packet`, `credential_capture`.
 
 non_goals: `unrelated_scope`, `schema_or_scaffold_only_completion`, `jira`, `linear`, `slack`, `broad_workspace`.
-

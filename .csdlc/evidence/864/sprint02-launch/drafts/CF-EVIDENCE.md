@@ -38,4 +38,3 @@ pvf: `determinism`, `tamper_detection`, `redaction_negative_suite`, `retention_c
 stop_conditions: `unredacted_secret`, `mutable_identity`, `unverifiable_provenance`, `required_proof_not_executed`, `partial_artifact_claimed_complete`.
 
 non_goals: `public_evidence_hosting`.
-

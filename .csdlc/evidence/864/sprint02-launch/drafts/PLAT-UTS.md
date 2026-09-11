@@ -39,4 +39,3 @@ pvf: `schema_conformance`, `consumer_fixture`, `compatibility_check`, `package_i
 stop_conditions: `ambiguous_authority`, `silent_breaking_change`, `required_proof_not_executed`, `partial_artifact_claimed_complete`.
 
 non_goals: `universal_ecosystem_standard`.
-
