@@ -1,0 +1,38 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 5,
+  "issues": [
+    {
+      "task": "QUAL-INVENTORY",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "8dc99e52c04a9fbf55f597e76f878c40fb9a1be93cbd06d371e58532b70a6dcc"
+    },
+    {
+      "task": "QUAL-RESIDENT",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "c0bffb29a6e1a12fe7fb570a844d6ed32f366e3a00721714a1574a76c77114c2"
+    },
+    {
+      "task": "QUAL-PROVIDER",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "c65bcb2e1c90d631176b504d65139413b43f928e74610c511b17647899dd2dc2"
+    },
+    {
+      "task": "QUAL-EVIDENCE",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "a0b7cb6f192a63a32c912c4a0438ac7a3c7f2ca9dc1271190e3fddbcb05b2d04"
+    }
+  ]
+}
