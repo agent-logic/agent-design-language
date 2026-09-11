@@ -13,7 +13,7 @@
   "timestamp": "2026-09-11T21:51:25.506803+00:00",
   "wp": "WP-01",
   "slug": "v0922-wp01",
-  "status": "in_progress",
+  "status": "reviewed_complete_issue_launch",
   "required_outcome_type": "planning_reconciliation",
   "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/864",
   "demo_required": "false",

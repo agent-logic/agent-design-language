@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/864/cards/sip.md"
   - ".csdlc/issues/864/cards/vpp.md"
 review_results:
-  findings_status: "not_reviewed"
-  recommended_outcome: "block"
-notes: "No first-sprint acceptance is revoked; new source changes require fresh final review."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Planning self-test passed with 298 negative fixtures; all eleven issue-launch validators passed with 291 negatives. Existing nine final native/readback review and separate671 membership checks passed; focused links/diff and native six-card validation passed before result recording. Tracked review records completed source revision d891782c21a8380093514ae77b6dd92ff3b8c2cf; native card-only result recording receives a separate exact-tip review and typed receipt before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- First-sprint exact-tip PASS at244c200b is retained. Subsequent batch reviews are recorded in each launch packet before final consolidated review.
+- Complete issue-launch source review PASS at d891782c21a8380093514ae77b6dd92ff3b8c2cf by /root/final_launch_audit. All 60 new issue drafts and live issues received independent review; all nine existing issue final bodies received independent live review.
 
 ### Dispositions
 
-- Each task requires precreation and postcreation independent review; fix all actionable findings.
+- Resolved launch metadata/dependency/scheduling drift in all existing issues. Added exact native birth and existing-review/hash/identity checks, postreview author independence and sidecar separation. Original TAIL-10 OBS-S3/ARCH-ADR gate and completed-review truth fixes remain enforced. No unresolved actionable findings.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 
-No first-sprint acceptance is revoked; new source changes require fresh final review.
+Planning self-test passed with 298 negative fixtures; all eleven issue-launch validators passed with 291 negatives. Existing nine final native/readback review and separate671 membership checks passed; focused links/diff and native six-card validation passed before result recording. Tracked review records completed source revision d891782c21a8380093514ae77b6dd92ff3b8c2cf; native card-only result recording receives a separate exact-tip review and typed receipt before publication.

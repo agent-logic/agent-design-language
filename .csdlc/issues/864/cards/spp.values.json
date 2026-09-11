@@ -12,7 +12,7 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
   "timestamp": "2026-09-11T21:51:25.506803+00:00",
   "slug": "v0922-wp01",
-  "status": "in_progress",
+  "status": "complete",
   "activation_state": "executed",
   "initial_pvf_lane": "docs",
   "planned_pvf_lane": "docs",
@@ -42,8 +42,8 @@
   "validation_plan_inline": "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review.",
   "risks_inline": "stale denominator or duplicate issue binding",
   "step_1_status": "complete",
-  "step_2_status": "in_progress",
-  "step_3_status": "pending",
-  "step_4_status": "pending",
-  "step_5_status": "pending"
+  "step_2_status": "complete",
+  "step_3_status": "complete",
+  "step_4_status": "complete",
+  "step_5_status": "complete"
 }

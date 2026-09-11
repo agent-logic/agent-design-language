@@ -21,19 +21,19 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Status: in_progress
+Status: reviewed_complete_issue_launch
 Generated: 2026-09-11T21:51:25.506803+00:00
 
 Execution:
 - Actor: `Codex`
-- Model: `gpt-5`
+- Model: `GPT-6`
 - Provider: `OpenAI`
 - Start Time: `2026-09-11T21:40:36+00:00`
 - End Time: `not_collected_for_revision`
 
 ## Summary
 
-First10 new issues created/reviewed and published; proceeding through all50 remaining tasks under explicit operator instruction.
+All 69 core issues are assigned and independently reviewed: 60 new issues across eleven batches and nine reconciled existing tasks; zero unassigned. #671 is a separate v0.92.2 sidecar. No implementation started.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs`
@@ -54,10 +54,10 @@ First10 new issues created/reviewed and published; proceeding through all50 rema
 - Actual CI wait seconds: `not_collected_for_revision`
 - Budget source: `unbounded_issue_goal`
 - Goal metrics data source: `Revision metrics not finalized; inherited opening-phase timing is not attributed to this correction.`
-- Goal metrics source ref: `First-sprint creation goal for #864; no final source-time usage snapshot recorded.`
+- Goal metrics source ref: `Issue864 complete issue-launch handoff goal; token/time totals not attributed from earlier phases.`
 - Data-source confidence: `not_collected`
 - Estimate error percent: `unknown`
-- Completion state: `remaining_sprint_creation_in_progress`
+- Completion state: `all_69_issues_created_reviewed_pr_open`
 - Issue goal ref: `issue-864-reconciliation-goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -75,23 +75,23 @@ First10 new issues created/reviewed and published; proceeding through all50 rema
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/864/cards/sor.md`
-- Tracked implementation artifacts: `docs/milestones/v0.92.2 planning projections and validator`
-- Additional proof artifacts: `.csdlc/evidence/864/sprint01-launch including drafts, native receipts, identities, live readbacks and launch validator.`
+- Tracked implementation artifacts: `docs/milestones/v0.92.2 complete planning projections and deterministic launch validators`
+- Additional proof artifacts: `.csdlc/evidence/864/all-issue-launch.json; sprint01-launch through sprint11-launch; existing-issue-launch-review; sidecar-671; final-validation.json`
 
 ## Actions taken
-- `Reviewed complete task bodies and froze full SIM03 inventory before creation.`
-- `Created ten issues with authenticated native receipts and reconciled exact numeric dependencies and milestone metadata.`
-- `Independently reviewed all ten live bodies, reconciled all planning projections and fixed validator findings.`
+- `Created 60 complete task issues through native v3, eleven independently reviewed creation batches, preserving every atomic task and baseline obligation.`
+- `Reconciled nine existing issues with milestone/version metadata and exact dependency links; assigned #671 as separate milestone sidecar without changing its execution approval gates.`
+- `Independently reviewed all 69 live issues, reconciled every active planning projection, and strengthened proof against missing/stale/wrong issue or review bindings.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
-- Worktree-only paths remaining: `current #864 correction`
+- Worktree-only paths remaining: `Current864 reviewed launch publication; scratch invocations remain untracked.`
 - Integration state: `pr_open`
-- Verification scope: `planning contracts only`
+- Verification scope: `Complete planning and issue-launch evidence; no product implementation or qualification proof.`
 - Integration method used: `Existing PR #865; reviewed correction publication uses native GitHub route.`
 - Verification performed:
   - `native github-pr authenticated reconciliation and native publish --observe-github for the final reviewed tip`
-    `All ten live issue bodies, titles, milestone2 and version:v0.92.2 labels match reviewed contracts and native receipts.`
+    `All 69 live core issue bodies, identities, milestone2/version labels and numeric prerequisites match reviewed contracts and native evidence ; #671 independently verified as sidecar.`
 - Result: `open_unmerged`
 
 Rules:
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check`
-    `109 planning and31 launch negative fixtures passed; native six-card validation generation11 passed before result recording; independent exact source review passed at9f0971c5988341e887d1290f6d462e9d799d4c5d.`
+    `Planning self-test passed with 298 negative fixtures; all eleven issue-launch validators passed with 291 negatives. Existing nine final native/readback review and separate671 membership checks passed; focused links/diff and native six-card validation passed before result recording.`
 - Results:
-  - `pending`
+  - `pass`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: pass
     checks_run:
-      - "69/9/60 graph, all 100 inherited obligations, all seven planning tasks, and complete-result acceptance preserved."
+      - "69 core tasks,60 new, 9 existing,0 unassigned; all 100 inherited obligations, all seven planning tasks and complete-result acceptance preserved ; #671 outside core."
   determinism:
     status: pass
     replay_verified: true
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `109 planning negative variants and31 issue-body/identity/metadata/receipt/review negative variants rejected.`
-- Fixtures or scripts used: `validate_planning.py negative fixtures`
+- Determinism tests executed: `298 planning negatives and 291 issue-launch negatives rejected.`
+- Fixtures or scripts used: `validate_planning.py; validate_launch_bindings.py; sprint01 launch validator; generic issue-batch validator`
 - Replay verification (same inputs -> same artifacts/order): `repeatable local CPU validation`
 - Ordering guarantees (sorting / tie-break rules used): `Ten-step tail sequence preserved; TAIL-10 additionally requires OBS-S3 and ARCH-ADR acceptance completion.`
-- Artifact stability notes: `SRP records completed launch review at 9f0971c5988341e887d1290f6d462e9d799d4c5d; final card-only tip receives a separate exact-head typed receipt outside tracked source.`
+- Artifact stability notes: `SRP records completed source review at d891782c21a8380093514ae77b6dd92ff3b8c2cf; final card-only tip receives an independent exact-head typed receipt outside tracked source.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable; no secrets handled`
@@ -174,5 +174,5 @@ verification_summary:
 - `The cited TBD split-plan path is absent and remains #848 recovery work.`
 
 ## Follow-ups / Deferred work
-- `Complete every remaining issue without gaps, review every batch and publish consolidated launch truth.`
-- `No implementation, writer pause/activation, merge or release approval is implied.`
+- `Publish final independently reviewed tip to existing PR865 through native review/publication; implementation then follows each issue own readiness and dependencies after core creation/review gate.`
+- `No product implementation, live activation, merge or release approval performed.`
