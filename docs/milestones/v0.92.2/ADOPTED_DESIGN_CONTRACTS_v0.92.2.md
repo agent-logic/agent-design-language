@@ -10,7 +10,7 @@ Local checkout, GitHub revision/PR and CI inputs normalize to the same immutable
 
 ## Shared finding and run contract — CF-EVIDENCE owner
 
-CF-EVIDENCE must merge a versioned schema and executable review/memory/renderer conformance fixtures before those consumers begin implementation. Evidence identity and finding identity are separate. The minimum shared semantic fields are:
+CF-EVIDENCE must deliver the production evidence admission/store boundary, including its versioned schema and executable review/memory/renderer conformance fixtures, before those consumers begin implementation. Adapter admission must exercise identity, provenance, redaction, retention and deletion through that boundary; schema or fixture delivery alone cannot close the task. Evidence identity and finding identity are separate. The minimum shared semantic fields are:
 
 | Record | Required semantics |
 |---|---|
@@ -24,7 +24,7 @@ Finding IDs must not use mutable display prose or line number alone. Identity co
 
 Run outcomes distinguish complete, incomplete, failed, cancelled and withheld publication. Failed/partial lanes do not satisfy the four-perspective review requirement. The same fixture must be consumed by CF-REVIEW, CF-MEMORY and CF-UX without private schema forks. Scope, finding, renderer or target changes invalidate applicable publication approval.
 
-## Independent review and synthesis — CF-REVIEW owner
+## Independent review and synthesis — CF-REVIEW and CF-SYNTHESIS owners
 
 All four perspectives receive the same scoped, redacted evidence and their perspective instructions. A perspective must commit its result before seeing peer findings. Synthesis is the first step to consume all results; it retains source attribution, disagreements and severity rationale. Independence concerns information flow and reviewer roles, not a requirement to buy four vendors. Test that no lane input contains peer output and that contradictory findings survive synthesis with an explicit disposition.
 
@@ -37,3 +37,7 @@ The tracked baseline above resolves the former CLI/web/repository/integration am
 ## Source disposition
 
 The prior TBD scheduling reconciliation names local source documents as active inputs. From this correction onward, this tracked contract, the milestone feature/specification documents, and the selected issue snapshot are the adopted execution-planning requirements. Local product brief, technical architecture, MVP build plan, review packet and security model remain historical rationale. Their unadopted scope is not automatically admitted. In particular, broader tournaments, autonomous source changes and customer-scale service work remain outside Beta 1. #523's retained source manifest binds the source versions reviewed.
+
+## Complete consumer ownership
+
+CF-REVIEW executes isolated perspectives; CF-SYNTHESIS merges their attributed results; CF-REMEDIATE and CF-TESTPLAN each generate their own usable plan from synthesis. CF-UX enforces exact-artifact approval while CF-RENDER-MD, CF-RENDER-HTML and CF-RENDER-PDF each deliver a working exporter. PLAT-MEMORY connects the actual second-review path to Memory Palace. The [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) bind all split tasks and eleven strengthened closure requirements; an interface contract does not count as a completed implementation.

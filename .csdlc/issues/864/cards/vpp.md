@@ -8,7 +8,7 @@ run_id: "issue-0864"
 version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
-generated_at: "2026-09-11T21:26:03Z"
+generated_at: "2026-09-11T21:51:25.506803+00:00"
 card_status: "ready"
 status: "complete"
 initial_pvf_lane: "docs"
@@ -35,13 +35,13 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/864/cards/spp.md"
 selected_lanes:
-  - "docs planning contract and issue-inventory reconciliation"
+  - "deterministic local planning/docs/Python contract; native six-card validation"
 parallel_groups:
   - "none"
 validation_commands:
-  - "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; authenticated issue list readback"
-failure_policy: "Fail closed on denominator, duplicate, dependency, tail-order, or issue-binding drift."
-notes: "No Runtime or release proof is claimed."
+  - "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check"
+failure_policy: "Fail on missing split tasks, inherited requirements, invalid stop semantics, graph or projection mismatch, and partial-work acceptance."
+notes: "No Runtime/provider/cloud execution applies to this planning correction."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-Prove planning consistency and rejection of malformed projections.
+Validate the complete task graph, inherited acceptance, partial-work rejection, planning projections and native card truth.
 
 ## Lane Registry Inputs
 
@@ -61,7 +61,7 @@ Prove planning consistency and rejection of malformed projections.
 
 ## Selected Validation Lanes
 
-- docs planning contract and issue-inventory reconciliation
+- deterministic local planning/docs/Python contract; native six-card validation
 
 ## Parallelization Plan
 
@@ -86,11 +86,11 @@ Prove planning consistency and rejection of malformed projections.
 
 ## Validation Commands
 
-- python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; authenticated issue list readback
+- python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check
 
 ## Failure Semantics
 
-- Fail closed on denominator, duplicate, dependency, tail-order, or issue-binding drift.
+- Fail on missing split tasks, inherited requirements, invalid stop semantics, graph or projection mismatch, and partial-work acceptance.
 
 ## Handoff
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-No Runtime or release proof is claimed.
+No Runtime/provider/cloud execution applies to this planning correction.

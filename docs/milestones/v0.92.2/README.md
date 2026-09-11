@@ -14,6 +14,7 @@ Beta 1 must provide the product shell and onboarding; portable repository ingest
 - [Vision](VISION_v0.92.2.md)
 - [Design](DESIGN_v0.92.2.md)
 - [Decisions](DECISIONS_v0.92.2.md)
+- [Atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md)
 - [WBS](WBS_v0.92.2.md)
 - [Sprint plan](SPRINT_v0.92.2.md)
 - [Planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md)
@@ -42,4 +43,8 @@ The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope
 
 Reuse #720, #848, #849, #852, #854, #855, #861, and #862 for their mapped execution rows; #864 is WP-01. #848 delivers the repository-decomposition decision only and does not itself authorize split implementation. #717 capability orientation and #718 canonical-name A2A are v0.92.1 predecessor inputs. Other backlog is excluded. See [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) and [adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md).
 
-The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It does not wait for CodeFriend startup. The complete work denominator is 51 rows: nine existing bindings and 42 prospective creations. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It does not wait for CodeFriend startup. The complete work denominator is 69 rows: nine existing bindings and 60 prospective creations. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+
+## Complete-task delivery
+
+The eight task families are split into independently usable ingestion routes, architecture analyses, local/CI fitness execution, review/synthesis/action planning, approval/rendering, provider configuration/lifecycle, Runtime repair/qualification, and local/remote C-SDLC refactors. The eleven tightened contracts require working consumers or finished named writing deliverables. All seven planning tasks remain required; their completion never substitutes for the integrated Beta 1 product. The [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) define these boundaries across the full 69-row wave.

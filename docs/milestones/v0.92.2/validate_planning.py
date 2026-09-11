@@ -10,6 +10,10 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
+
+sys.dont_write_bytecode = True
+from validate_atomic_tasks import atomic_failures, atomic_negative_checks
 
 
 REQUIRED_OBS_S3_ACCEPTANCE = {
@@ -85,13 +89,14 @@ def projection_failures(catalog_rows, wbs_rows, expected_ids, wave_by_id):
     if expanded_wbs_ids != expected_ids:
         failures.append("WBS and issue wave identifiers differ")
 
-    expected_obs_dependencies = set(wave_by_id["OBS-S3"]["depends_on"])
-    catalog_obs = [row for row in catalog_rows if len(row) > 3 and normalized_planned_id(row[1]) == "OBS-S3"]
-    wbs_obs = [row for row in wbs_rows if len(row) > 3 and normalized_planned_id(row[0]) == "OBS-S3"]
-    if len(catalog_obs) != 1 or projected_dependency_ids(catalog_obs[0][3], expected_ids) != expected_obs_dependencies:
-        failures.append("OBS-S3 catalog dependencies differ from the issue wave")
-    if len(wbs_obs) != 1 or projected_dependency_ids(wbs_obs[0][3], expected_ids) != expected_obs_dependencies:
-        failures.append("OBS-S3 WBS dependencies differ from the issue wave")
+    for key in expected_ids:
+        expected = set(wave_by_id[key]["depends_on"])
+        for label, rows, id_column in (("catalog", catalog_rows, 1), ("WBS", wbs_rows, 0)):
+            matches = [row for row in rows if len(row) > 3 and normalized_planned_id(row[id_column]) == key]
+            if len(matches) != 1 or projected_dependency_ids(matches[0][3], expected_ids) != expected:
+                failures.append(f"{key} {label} dependencies differ from the issue wave")
+            if len(matches) == 1 and matches[0][2] != wave_by_id[key]["title"]:
+                failures.append(f"{key} {label} task outcome differs from the issue wave")
     return failures
 
 
@@ -103,8 +108,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 51 or len(set(ids)) != 51:
-        failures.append("Expected 51 unique work packages")
+    if len(ids) != 69 or len(set(ids)) != 69:
+        failures.append("Expected 69 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
     atomic_results = wave.get("atomic_results", {})
@@ -137,7 +142,7 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         "CSDLC-MERGE": 849,
         "QUAL-RUNTIME": 852,
         "RT-COST": 854,
-        "PLAT-PROVIDER": 855,
+        "RT-PROVIDER": 855,
         "CSDLC-MAN": 861,
         "CSDLC-DECOMPOSE": 862,
     }
@@ -148,7 +153,7 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         "CSDLC-MERGE": ["WP-01"],
         "QUAL-RUNTIME": ["WP-01"],
         "RT-COST": ["WP-01"],
-        "PLAT-PROVIDER": ["WP-01", "RT-COST"],
+        "RT-PROVIDER": ["PLAT-PROVIDER"],
         "CSDLC-MAN": ["WP-01"],
         "CSDLC-DECOMPOSE": ["WP-01"],
     }
@@ -196,8 +201,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
     for previous, current in zip(tail, tail[1:]):
         if by_id.get(current, {}).get("depends_on") != [previous]:
             failures.append(f"Tail edge {previous} -> {current} missing")
-    product = {r for r in ids if r.startswith("CF-")} - {"CF-INTEGRATE"}
-    if set(by_id["CF-INTEGRATE"]["depends_on"]) != product | {"PLAT-PROVIDER", "PLAT-MEMORY"}:
+    product = {r for r in ids if r.startswith("CF-")} - {"CF-INTEGRATE", "CF-PROOF"}
+    if set(by_id["CF-INTEGRATE"]["depends_on"]) != product | {"PLAT-PROVIDER", "RT-PROVIDER", "PLAT-MEMORY"}:
         failures.append("Product integration prerequisites differ")
     if by_id.get("PLAT-PAIR", {}).get("depends_on") != ["PLAT-PROVIDER"]:
         failures.append("PLAT-PAIR must consume the canonical provider-definition contract")
@@ -215,8 +220,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("ARCH-ADR must remain unassigned until WP-01 creates its issue")
     if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
         failures.append("OPS-AWS title lost its complete #484-bound atomic result")
-    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST", "OBS-LIVE", "ARCH-SPLIT", "CSDLC-MERGE", "QUAL-RUNTIME", "RT-COST", "CSDLC-MAN", "CSDLC-DECOMPOSE"}
-    if set(by_id["TAIL-01"]["depends_on"]) != support | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
+    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST", "OBS-LIVE", "ARCH-SPLIT", "CSDLC-MERGE", "QUAL-RUNTIME", "RT-COST", "CSDLC-MAN", "CSDLC-DECOMPOSE", "CSDLC-REMOTE", "QUAL-RESIDENT", "QUAL-PROVIDER", "QUAL-INVENTORY", "QUAL-EVIDENCE"}
+    if set(by_id["TAIL-01"]["depends_on"]) != support | {"CF-INTEGRATE", "CF-PROOF", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
     additional = {"OBS-S3", "ARCH-ADR"}
     if additional & set(by_id["CF-INTEGRATE"]["depends_on"]) or additional & set(by_id["TAIL-01"]["depends_on"]):
@@ -226,7 +231,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("OBS-S3 lost one or more required deployment acceptance obligations")
     obligations = {
         "CF-EVIDENCE": {"finding_run_contract_merged_before_consumers"},
-        "CF-REVIEW": {"isolated_pre_synthesis_inputs", "disagreement_preserved"},
+        "CF-REVIEW": {"isolated_pre_synthesis_inputs"},
+        "CF-SYNTHESIS": {"disagreement_preserved"},
         "TAIL-06": {"changed_candidate_artifacts_rebuilt", "affected_proof_rerun", "current_internal_external_review"},
         "TAIL-10": {"final_candidate_and_manifest_match_review", "no_unresolved_p1"},
     }
@@ -314,6 +320,8 @@ def main():
     }
     reconciliation = (root / "TBD_SCHEDULING_RECONCILIATION_v0.92.2.md").read_text()
     failures = check(wave, specs, source_manifest, reconciliation)
+    atomic = json.loads((root / "ATOMIC_TASK_CONTRACTS_v0.92.2.json").read_text())
+    failures.extend(atomic_failures(wave, specs, atomic))
     expected_ids = {row["id"] for row in wave["work_packages"]}
     catalog_rows = markdown_table_rows(root / "PLANNED_ISSUE_CATALOG_v0.92.2.md")
     wbs_rows = markdown_table_rows(root / "WBS_v0.92.2.md")
@@ -327,8 +335,8 @@ def main():
             failures.append(f"{required} missing from proof or supporting-track projection")
     if "owned by the `ARCH-ADR` work package" not in adr_plan:
         failures.append("ADR plan is not explicitly owned by ARCH-ADR")
-    if "complete work denominator is 51 rows" not in readme:
-        failures.append("README denominator does not match the 51-row issue wave")
+    if "complete work denominator is 69 rows" not in readme:
+        failures.append("README denominator does not match the 69-row issue wave")
     for path in root.rglob("*.md"):
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http:", "https:", "#")):
@@ -358,10 +366,19 @@ def main():
         broken_catalog = copy.deepcopy(catalog_rows)
         next(row for row in broken_catalog if len(row) > 3 and normalized_planned_id(row[1]) == "OBS-S3")[3] = "After WP-01; consume completed #679 / merged PR #685"
         projection_cases.append(("catalog bypasses OBS-LIVE", broken_catalog, wbs_rows))
+        broken_catalog = copy.deepcopy(catalog_rows)
+        next(row for row in broken_catalog if len(row) > 3 and normalized_planned_id(row[1]) == "CF-PROOF")[2] = "Write a proof plan"
+        projection_cases.append(("catalog substitutes a planning task", broken_catalog, wbs_rows))
+        broken_wbs = copy.deepcopy(wbs_rows)
+        next(row for row in broken_wbs if len(row) > 3 and normalized_planned_id(row[0]) == "PUB-CSDLC")[2] = "Advance an unspecified packet"
+        projection_cases.append(("WBS substitutes partial progress", catalog_rows, broken_wbs))
         for name, catalog_case, wbs_case in projection_cases:
             if not projection_failures(catalog_case, wbs_case, expected_ids, {row["id"]: row for row in wave["work_packages"]}):
                 failures.append("Negative fixture not rejected: " + name)
         rejected += len(projection_cases)
+        atomic_missed, atomic_count = atomic_negative_checks(wave, specs, atomic)
+        failures.extend(atomic_missed)
+        rejected += atomic_count
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
                       "existing_issues": [720, 848, 849, 852, 854, 855, 861, 862, 864], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))

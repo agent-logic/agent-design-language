@@ -47,3 +47,9 @@ Reuse #720, #848, #849, #852, #854, #855, #861, #862, and conductor #864 under [
 ## Operator addition to PR #743
 
 Promote `.adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md` into the [tracked first-sprint plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA and SIM-01 through SIM-09 are explicitly admitted, with their own startup alongside Runtime. This adds ten planned issue rows; it does not admit other backlog or implement the program. Source originals and prior reviews remain preserved.
+
+## #864 current execution mapping
+
+The retained #620 audit above remains source evidence; its original owner names and selection notes are historical. Current execution follows the 69-row wave and [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md): ingestion, analysis, fitness, review/action plans and approval/renderers use their split owners. PLAT-PROVIDER owns editable definitions after RT-COST and merged #622; RT-PROVIDER/#855 owns provider lifecycle. QUAL-RUNTIME/#852 retains the failure-event repair with four separate qualification/evidence successors; CSDLC-DECOMPOSE/#862 retains local decomposition with CSDLC-REMOTE separate.
+
+PLAT-UTS must ship an installable package consumed by Runtime ACC/UTS dispatch. PLAT-RUST selects and completes an exact production responsibility. PUB-MEDIUM finishes a selected article; PUB-CSDLC finishes a named manuscript revision checklist. PLAT-MEMORY's selected consumer is the production second-review path. These current requirements supersede vague slice, packet or unnamed-consumer language in the audit without altering its historical record. All seven planning tasks remain required; no source audit authorizes creation or implementation.

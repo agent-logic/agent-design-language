@@ -4,11 +4,11 @@ Status: planned; no date commitment.
 
 ## Candidate Formation
 
-CF-INTEGRATE forms a release candidate only after every Beta 1 exit-bar track has merged reviewed authority and the ADL plus external OSS proof packets exist. A candidate is not a release.
+CF-INTEGRATE first forms the installed integrated candidate from complete, merged and reviewed Beta 1 consumers. CF-PROOF then independently executes ADL and pinned external OSS qualification against that candidate. TAIL-01 requires both completed results and their current evidence before release preparation proceeds. A candidate is not a release.
 
 ## Release denominator
 
-The release denominator is exactly the 51 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). Nine rows reuse #720, #848, #849, #852, #854, #855, #861, #862, and #864; 42 remain prospective. Issues #717 and #718 are merged v0.92.1 predecessor inputs. TAIL-01 must account for all 51 rows, but merge/review completion is a no-go condition only for its declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues outside the closeout-tail gate. #848 delivers the split decision but no split implementation authority.
+The release denominator is exactly the 69 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). Nine rows reuse #720, #848, #849, #852, #854, #855, #861, #862, and #864; 60 remain prospective. Issues #717 and #718 are merged v0.92.1 predecessor inputs. TAIL-01 must account for all 69 rows, but merge/review completion is a no-go condition only for its declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues outside the closeout-tail gate. #848 delivers the split decision but no split implementation authority.
 
 ## Canonical Tail
 
@@ -48,3 +48,13 @@ The known unadmitted product candidate that must remain visible is `.adl/docs/TB
 ## First-sprint convergence
 
 The independently launched SIM sprint runs first. TAIL-01 consumes completed SIM-UMBRELLA after SIM-07 qualification, SIM-08 operations preparation, and the separately authorized SIM-09 pilot. The sprint does not gate CF-INTEGRATE; closed merged v0.92.1 #717/#718 are predecessor inputs, not active bugfix lanes. If activation is not authorized, record the unresolved program gate; do not silently call the sprint or milestone complete.
+
+## Complete-task release accounting
+
+The [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) control the eight split families and eleven strengthened completion criteria. Candidate formation requires actual installed-product qualification, not merely authored review packets. Every implementation row must identify its production consumer and executed success/failure evidence. Article and manuscript rows deliver their complete selected writing outputs; the seven planning rows finish their declared decisions, documents or rehearsal. None may substitute for a missing Beta 1 feature, and integration must not absorb partial upstream work.
+
+Before issue execution, reconcile the narrowed #852 failure-event task, #855 provider-lifecycle task and #862 local-decomposition task with typed issue authority and their prospective successors. Child creation remains separately authorized; this documentation correction creates none.
+
+## Final milestone completion
+
+OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE and TAIL-01. They are still required milestone work: TAIL-10 must account for their completed acceptance, together with every other required row, before claiming the milestone closed. This final accounting does not change the canonical ten-stage order or add early product gates.

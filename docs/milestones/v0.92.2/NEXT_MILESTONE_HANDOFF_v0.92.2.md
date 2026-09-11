@@ -22,3 +22,7 @@ Runtime v4 remains scheduled for v0.93 under the recorded operator disposition. 
 ## Non-Gating Rule
 
 For the future successor of v0.92.2, final handoff uses TAIL-06 dispositions and current merged evidence; preparatory planning may overlap when explicitly authorized. This is distinct from the current operator-authorized #523/#524/#525 lane, which prepares v0.92.2 alongside v0.92.1 closeout. Asynchronous individual bookkeeping is not a planning start gate.
+
+## Atomic completion accounting
+
+Carry forward the final 69-row issue mapping, eight family splits and eleven strengthened contracts from the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). Record separately the seven required planning deliverables and each implemented consumer's success/failure proof. A missing Beta 1 behavior is an unresolved current-milestone blocker, not an implied successor task. TAIL-07 and TAIL-08 produce complete successor planning and closeout-planning results without authorizing future milestones or issue creation; the canonical TAIL-01 through TAIL-10 sequence remains unchanged.

@@ -10,16 +10,16 @@
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
-  "timestamp": "2026-09-11T21:26:03Z",
+  "timestamp": "2026-09-11T21:51:25.506803+00:00",
   "slug": "v0922-wp01",
   "stp_card": ".csdlc/issues/864/cards/stp.md",
   "sip_card": ".csdlc/issues/864/cards/sip.md",
   "spp_card": ".csdlc/issues/864/cards/spp.md",
   "vpp_card": ".csdlc/issues/864/cards/vpp.md",
   "sor_card": ".csdlc/issues/864/cards/sor.md",
-  "findings_status": "pass_no_actionable_findings",
-  "recommended_outcome": "publish_for_operator_review",
-  "review_findings": "Independent rereview passed with no actionable findings after native v3 card normalization.",
-  "review_dispositions": "The initial lifecycle-card placeholder finding is fixed; planning arithmetic, dependencies, exact existing bindings, decision-only ARCH-SPLIT scope, and the canonical closeout tail were independently verified.",
-  "review_notes": "All 42 prospective rows remain number-free and no child issues were created. Publication grants review visibility only, not child creation, merge, or release authority."
+  "findings_status": "pass_precommit_exact_review_pending",
+  "recommended_outcome": "exact_head_review_then_update_pr",
+  "review_findings": "Independent semantic and docs subagents found no remaining actionable findings after corrections.",
+  "review_dispositions": "Restored all inherited obligations; fixed stop-condition semantics; integration precedes qualification; retained complete #855/#852 requirements; aligned eleven task titles and corrected SIM count.",
+  "review_notes": "task_contract_review and docs_final_review reviewed the completed working revision. Exact-commit verification follows. Seven planning tasks retained; no children created."
 }

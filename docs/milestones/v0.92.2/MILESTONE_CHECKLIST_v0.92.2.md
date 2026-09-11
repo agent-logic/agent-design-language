@@ -50,9 +50,9 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
-- [ ] All 51 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
-- [ ] All 51 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
-- [ ] Nine existing bindings appear exactly once and the remaining 42 rows stay number-free until separately authorized creation
+- [ ] All 69 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 69 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] Nine existing bindings appear exactly once and the remaining 60 rows stay number-free until separately authorized creation
 - [ ] #848 is reconciled as the ARCH-SPLIT decision row, not split-implementation authority; v0.92.1 #717/#718 remain predecessor inputs
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
@@ -70,3 +70,16 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] v0.92.1 cloud plans remain existing-work/provenance inputs rather than duplicate successor rows
 - [ ] Runtime v4 remains routed to v0.93
 - [ ] No evidence packet, review output, or local concept silently expands the v0.92.2 denominator
+
+## Complete implementation admission
+
+- [ ] All eight family splits and eleven tightened contracts match the atomic-task manifest.
+- [ ] Each implementation has a real consumer and nonzero success/failure proof; no schema, scaffold or authored packet substitutes for execution.
+- [ ] All seven planning tasks are retained and finish their own declared results.
+- [ ] Existing #852/#855/#862 scope reconciliation is recorded before their execution.
+
+## Final required-work accounting
+
+- [ ] CF-INTEGRATE delivered the installed candidate before independent CF-PROOF qualification.
+- [ ] TAIL-01 consumed both integration and qualification results.
+- [ ] TAIL-10 reconciles completion of every required row, including OBS-S3 and ARCH-ADR under their own acceptance, without making either an early integration or TAIL-01 dependency.

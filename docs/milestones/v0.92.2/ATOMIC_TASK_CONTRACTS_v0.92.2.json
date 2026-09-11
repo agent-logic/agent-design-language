@@ -1,0 +1,1692 @@
+{
+  "schema": "adl.milestone.atomic_tasks.v1",
+  "review_source": "PR #865 at d97f24621b05aae01fae09c531414c4cc9d52030",
+  "operator_direction": "Split eight bundles; tighten eleven completion contracts; preserve all seven planning tasks; no child creation.",
+  "split_families": {
+    "CF-ADAPTER": [
+      "CF-ADAPTER",
+      "CF-ADAPTER-GITHUB",
+      "CF-ADAPTER-CI"
+    ],
+    "CF-COG": [
+      "CF-COG",
+      "CF-COG-DRIFT",
+      "CF-COG-IMPACT",
+      "CF-COG-RATIONALE"
+    ],
+    "CF-GOV": [
+      "CF-GOV",
+      "CF-GOV-CI"
+    ],
+    "CF-REVIEW": [
+      "CF-REVIEW",
+      "CF-SYNTHESIS",
+      "CF-REMEDIATE",
+      "CF-TESTPLAN"
+    ],
+    "CF-UX": [
+      "CF-UX",
+      "CF-RENDER-MD",
+      "CF-RENDER-HTML",
+      "CF-RENDER-PDF"
+    ],
+    "PLAT-PROVIDER": [
+      "PLAT-PROVIDER",
+      "RT-PROVIDER"
+    ],
+    "QUAL-RUNTIME": [
+      "QUAL-RUNTIME",
+      "QUAL-RESIDENT",
+      "QUAL-PROVIDER",
+      "QUAL-INVENTORY",
+      "QUAL-EVIDENCE"
+    ],
+    "CSDLC-DECOMPOSE": [
+      "CSDLC-DECOMPOSE",
+      "CSDLC-REMOTE"
+    ]
+  },
+  "tightened_tasks": [
+    "CF-SHELL",
+    "CF-EVIDENCE",
+    "CF-PROOF",
+    "CF-INTEGRATE",
+    "PLAT-UTS",
+    "PLAT-RUST",
+    "PUB-MEDIUM",
+    "PUB-CSDLC",
+    "PLAT-MEMORY",
+    "SIM-03",
+    "SIM-04"
+  ],
+  "planning_tasks": [
+    "WP-01",
+    "ARCH-SPLIT",
+    "OPS-GCP",
+    "ARCH-ADR",
+    "SIM-08",
+    "TAIL-07",
+    "TAIL-08"
+  ],
+  "existing_bindings": {
+    "WP-01": 864,
+    "RT-PROVIDER": 855,
+    "ARCH-SPLIT": 848,
+    "CSDLC-MERGE": 849,
+    "QUAL-RUNTIME": 852,
+    "RT-COST": 854,
+    "CSDLC-MAN": 861,
+    "CSDLC-DECOMPOSE": 862,
+    "OBS-LIVE": 720
+  },
+  "task_count": 69,
+  "prospective_count": 60,
+  "existing_scope_reconciliation": {
+    "855": {
+      "task": "RT-PROVIDER",
+      "retained_result": "Provider-neutral dynamic agent lifecycle",
+      "separate_tasks": [
+        "PLAT-PROVIDER"
+      ]
+    },
+    "852": {
+      "task": "QUAL-RUNTIME",
+      "retained_result": "Runtime dispatch failure event repair",
+      "separate_tasks": [
+        "QUAL-RESIDENT",
+        "QUAL-PROVIDER",
+        "QUAL-INVENTORY",
+        "QUAL-EVIDENCE"
+      ],
+      "criteria_preserved": [
+        "RUST-01-ac-4",
+        "DRT-B-ac-2",
+        "DRT-B-ac-3",
+        "DRT-C-ac-2",
+        "DRT-C-ac-3"
+      ]
+    },
+    "862": {
+      "task": "CSDLC-DECOMPOSE",
+      "retained_result": "Local command module decomposition",
+      "separate_tasks": [
+        "CSDLC-REMOTE"
+      ]
+    }
+  },
+  "expected_dependencies": {
+    "WP-01": [],
+    "CF-SHELL": [
+      "WP-01",
+      "CF-REVIEW"
+    ],
+    "CF-ADAPTER": [
+      "WP-01"
+    ],
+    "CF-ADAPTER-GITHUB": [
+      "CF-ADAPTER"
+    ],
+    "CF-ADAPTER-CI": [
+      "CF-ADAPTER"
+    ],
+    "CF-EVIDENCE": [
+      "CF-ADAPTER"
+    ],
+    "CF-COG": [
+      "CF-EVIDENCE"
+    ],
+    "CF-COG-DRIFT": [
+      "CF-COG",
+      "CF-MEMORY"
+    ],
+    "CF-COG-IMPACT": [
+      "CF-COG"
+    ],
+    "CF-COG-RATIONALE": [
+      "CF-COG"
+    ],
+    "CF-GOV": [
+      "CF-EVIDENCE"
+    ],
+    "CF-GOV-CI": [
+      "CF-GOV"
+    ],
+    "CF-REVIEW": [
+      "CF-EVIDENCE",
+      "RT-PROVIDER"
+    ],
+    "CF-SYNTHESIS": [
+      "CF-REVIEW"
+    ],
+    "CF-REMEDIATE": [
+      "CF-SYNTHESIS"
+    ],
+    "CF-TESTPLAN": [
+      "CF-SYNTHESIS"
+    ],
+    "CF-MEMORY": [
+      "CF-EVIDENCE"
+    ],
+    "CF-UX": [
+      "CF-SHELL",
+      "CF-EVIDENCE"
+    ],
+    "CF-RENDER-MD": [
+      "CF-UX",
+      "CF-SYNTHESIS",
+      "CF-REMEDIATE",
+      "CF-TESTPLAN"
+    ],
+    "CF-RENDER-HTML": [
+      "CF-RENDER-MD"
+    ],
+    "CF-RENDER-PDF": [
+      "CF-RENDER-MD"
+    ],
+    "CF-PROOF": [
+      "CF-INTEGRATE"
+    ],
+    "CF-INTEGRATE": [
+      "CF-SHELL",
+      "CF-ADAPTER",
+      "CF-ADAPTER-GITHUB",
+      "CF-ADAPTER-CI",
+      "CF-EVIDENCE",
+      "CF-COG",
+      "CF-COG-DRIFT",
+      "CF-COG-IMPACT",
+      "CF-COG-RATIONALE",
+      "CF-GOV",
+      "CF-GOV-CI",
+      "CF-REVIEW",
+      "CF-SYNTHESIS",
+      "CF-REMEDIATE",
+      "CF-TESTPLAN",
+      "CF-MEMORY",
+      "CF-UX",
+      "CF-RENDER-MD",
+      "CF-RENDER-HTML",
+      "CF-RENDER-PDF",
+      "PLAT-PROVIDER",
+      "RT-PROVIDER",
+      "PLAT-MEMORY"
+    ],
+    "PLAT-PROVIDER": [
+      "WP-01",
+      "RT-COST"
+    ],
+    "RT-PROVIDER": [
+      "PLAT-PROVIDER"
+    ],
+    "ARCH-SPLIT": [
+      "WP-01"
+    ],
+    "CSDLC-MERGE": [
+      "WP-01"
+    ],
+    "QUAL-RUNTIME": [
+      "WP-01"
+    ],
+    "QUAL-RESIDENT": [
+      "QUAL-RUNTIME",
+      "RT-PROVIDER"
+    ],
+    "QUAL-PROVIDER": [
+      "RT-PROVIDER"
+    ],
+    "QUAL-INVENTORY": [
+      "WP-01"
+    ],
+    "QUAL-EVIDENCE": [
+      "QUAL-RUNTIME",
+      "QUAL-RESIDENT",
+      "QUAL-PROVIDER",
+      "QUAL-INVENTORY"
+    ],
+    "RT-COST": [
+      "WP-01"
+    ],
+    "CSDLC-MAN": [
+      "WP-01"
+    ],
+    "CSDLC-DECOMPOSE": [
+      "WP-01"
+    ],
+    "CSDLC-REMOTE": [
+      "CSDLC-DECOMPOSE",
+      "CSDLC-MERGE"
+    ],
+    "PLAT-MLX": [
+      "PLAT-PROVIDER"
+    ],
+    "PLAT-PAIR": [
+      "PLAT-PROVIDER"
+    ],
+    "PLAT-UTS": [
+      "WP-01"
+    ],
+    "PLAT-RUST": [
+      "WP-01"
+    ],
+    "OPS-AWS": [
+      "WP-01"
+    ],
+    "OPS-GCP": [
+      "WP-01"
+    ],
+    "PUB-MEDIUM": [
+      "WP-01"
+    ],
+    "PUB-CSDLC": [
+      "WP-01"
+    ],
+    "PLAT-MEMORY": [
+      "CF-EVIDENCE",
+      "CF-MEMORY"
+    ],
+    "SPEC-RETEST": [
+      "WP-01"
+    ],
+    "OBS-LIVE": [],
+    "OBS-S3": [
+      "WP-01",
+      "OBS-LIVE"
+    ],
+    "ARCH-ADR": [
+      "WP-01"
+    ],
+    "SIM-UMBRELLA": [
+      "SIM-09"
+    ],
+    "SIM-01": [],
+    "SIM-02": [
+      "SIM-01"
+    ],
+    "SIM-03": [
+      "SIM-02"
+    ],
+    "SIM-04": [
+      "SIM-03"
+    ],
+    "SIM-05": [
+      "SIM-04"
+    ],
+    "SIM-06": [
+      "SIM-05"
+    ],
+    "SIM-07": [
+      "SIM-06"
+    ],
+    "SIM-08": [
+      "SIM-07"
+    ],
+    "SIM-09": [
+      "SIM-08"
+    ],
+    "TAIL-01": [
+      "CF-INTEGRATE",
+      "CF-PROOF",
+      "PLAT-MLX",
+      "PLAT-PAIR",
+      "PLAT-UTS",
+      "PLAT-RUST",
+      "OPS-AWS",
+      "OPS-GCP",
+      "PUB-MEDIUM",
+      "PUB-CSDLC",
+      "SPEC-RETEST",
+      "OBS-LIVE",
+      "ARCH-SPLIT",
+      "CSDLC-MERGE",
+      "QUAL-RUNTIME",
+      "QUAL-RESIDENT",
+      "QUAL-PROVIDER",
+      "QUAL-INVENTORY",
+      "QUAL-EVIDENCE",
+      "RT-COST",
+      "CSDLC-MAN",
+      "CSDLC-DECOMPOSE",
+      "CSDLC-REMOTE",
+      "SIM-UMBRELLA"
+    ],
+    "TAIL-02": [
+      "TAIL-01"
+    ],
+    "TAIL-03": [
+      "TAIL-02"
+    ],
+    "TAIL-04": [
+      "TAIL-03"
+    ],
+    "TAIL-05": [
+      "TAIL-04"
+    ],
+    "TAIL-06": [
+      "TAIL-05"
+    ],
+    "TAIL-07": [
+      "TAIL-06"
+    ],
+    "TAIL-08": [
+      "TAIL-07"
+    ],
+    "TAIL-09": [
+      "TAIL-08"
+    ],
+    "TAIL-10": [
+      "TAIL-09"
+    ]
+  },
+  "completion_contracts": {
+    "CF-SHELL": {
+      "task": "A fresh operator configures, starts, inspects, cancels and retries an actual bounded review and opens its real artifacts through the installed product.",
+      "consumer": "installed_codefriend_review_command",
+      "success_evidence": [
+        "fresh_operator_real_review",
+        "actual_artifacts_opened",
+        "cancel_retry_recovery"
+      ],
+      "failure_evidence": [
+        "mock_runner_rejected",
+        "placeholder_status_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-ADAPTER": {
+      "task": "The local CodeFriend ingestion entrypoint emits a bounded immutable packet usable by evidence admission.",
+      "consumer": "local_repository_ingestion",
+      "success_evidence": [
+        "local_checkout_packet_consumed",
+        "revision_and_scope_bound"
+      ],
+      "failure_evidence": [
+        "outside_root_rejected",
+        "partial_input_explicit"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-ADAPTER-GITHUB": {
+      "task": "The GitHub CodeFriend ingestion entrypoint resolves and records an exact revision and emits the same consumable packet as local ingestion.",
+      "consumer": "github_repository_ingestion",
+      "success_evidence": [
+        "pinned_revision_packet_consumed",
+        "local_contract_parity"
+      ],
+      "failure_evidence": [
+        "wrong_revision_rejected",
+        "credential_capture_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-ADAPTER-CI": {
+      "task": "The CI CodeFriend ingestion entrypoint consumes declared checkout and revision inputs and emits the common packet with explicit partial-input state.",
+      "consumer": "ci_repository_ingestion",
+      "success_evidence": [
+        "ci_packet_consumed",
+        "local_contract_parity"
+      ],
+      "failure_evidence": [
+        "missing_revision_rejected",
+        "partial_input_explicit"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-EVIDENCE": {
+      "task": "The adapter invokes a real evidence admission/store boundary that enforces stable identity, immutable provenance, redaction before retention/model use, retention/deletion and the shared finding/run contract.",
+      "consumer": "adapter_to_evidence_admission",
+      "success_evidence": [
+        "adapter_packet_admitted",
+        "durable_evidence_readback",
+        "retention_delete_executed",
+        "consumer_conformance"
+      ],
+      "failure_evidence": [
+        "schema_only_rejected",
+        "secret_before_retention_rejected",
+        "tampered_provenance_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-COG": {
+      "task": "The architecture reporter emits evidence-linked dependency, layering, coupling and connascence findings from the admitted repository graph.",
+      "consumer": "repository_structure_reporter",
+      "success_evidence": [
+        "known_graph_findings",
+        "evidence_to_explanation_trace"
+      ],
+      "failure_evidence": [
+        "unsupported_language_unknown",
+        "false_positive_sample"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-COG-DRIFT": {
+      "task": "The architecture comparison entrypoint reports explainable structural drift between compatible baseline and current graphs.",
+      "consumer": "architecture_drift_reporter",
+      "success_evidence": [
+        "known_structural_delta",
+        "stable_baseline_comparison"
+      ],
+      "failure_evidence": [
+        "incompatible_baseline_rejected",
+        "partial_coverage_not_resolved"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-COG-IMPACT": {
+      "task": "The change-risk entrypoint traces a changed symbol or module through dependency boundaries and emits bounded blast-radius findings.",
+      "consumer": "change_impact_reporter",
+      "success_evidence": [
+        "known_change_blast_radius",
+        "evidence_linked_impact"
+      ],
+      "failure_evidence": [
+        "unknown_edge_explicit",
+        "opaque_score_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-COG-RATIONALE": {
+      "task": "The architecture rationale entrypoint relates independently deployable boundaries to available ADR evidence and reports missing or conflicting rationale explicitly.",
+      "consumer": "architecture_rationale_reporter",
+      "success_evidence": [
+        "quanta_boundary_fixture",
+        "adr_rationale_trace"
+      ],
+      "failure_evidence": [
+        "missing_rationale_unknown",
+        "unsupported_claim_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-GOV": {
+      "task": "The local policy runner evaluates declared machine-checkable architecture invariants and emits deterministic pass/fail results with actionable locations.",
+      "consumer": "local_fitness_runner",
+      "success_evidence": [
+        "passing_invariant_executes",
+        "failing_invariant_executes"
+      ],
+      "failure_evidence": [
+        "human_judgment_not_machine_pass",
+        "hidden_policy_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-GOV-CI": {
+      "task": "The CI adapter invokes the same local fitness runner and propagates its pass, fail and error states to actual CI exit status and artifacts.",
+      "consumer": "ci_fitness_adapter",
+      "success_evidence": [
+        "ci_pass_exit",
+        "ci_fail_exit",
+        "local_result_parity"
+      ],
+      "failure_evidence": [
+        "runner_error_not_success",
+        "missing_artifact_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-REVIEW": {
+      "task": "The production review runner executes correctness, security, adversarial and constitutional lanes on one scoped packet and retains attributed lane results before synthesis.",
+      "consumer": "isolated_review_runner",
+      "success_evidence": [
+        "four_lanes_execute",
+        "attributed_evidence_findings",
+        "provider_route_consumed",
+        "isolated_pre_synthesis_inputs"
+      ],
+      "failure_evidence": [
+        "peer_output_in_input_rejected",
+        "partial_lane_not_complete",
+        "no_source_mutation"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-SYNTHESIS": {
+      "task": "The synthesis entrypoint consumes committed lane results and emits deduplicated findings with source attribution, severity rationale and explicit disagreement.",
+      "consumer": "review_synthesis",
+      "success_evidence": [
+        "duplicate_control",
+        "severity_rationale",
+        "disagreement_retained",
+        "disagreement_preserved"
+      ],
+      "failure_evidence": [
+        "incomplete_lane_set_rejected",
+        "unsupported_finding_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-REMEDIATE": {
+      "task": "The remediation planner consumes synthesized findings and produces dependency-ordered actionable repairs with ownership, evidence and acceptance criteria without changing source.",
+      "consumer": "remediation_planner",
+      "success_evidence": [
+        "findings_to_actions_trace",
+        "bounded_action_acceptance"
+      ],
+      "failure_evidence": [
+        "unrelated_action_rejected",
+        "source_mutation_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-TESTPLAN": {
+      "task": "The test planner consumes synthesized findings and maps each selected finding to a concrete behavior, test location, fixture and expected failure without changing source.",
+      "consumer": "test_planner",
+      "success_evidence": [
+        "finding_to_behavior_trace",
+        "concrete_test_plan_consumed"
+      ],
+      "failure_evidence": [
+        "implementation_mirroring_rejected",
+        "source_mutation_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-UX": {
+      "task": "The publication-control entrypoint binds approval to exact run, findings, renderer and target identities and supports withholding and invalidation before any publication.",
+      "consumer": "publication_approval_control",
+      "success_evidence": [
+        "approval_binding",
+        "withheld_state",
+        "manifest_complete"
+      ],
+      "failure_evidence": [
+        "changed_artifact_invalidates",
+        "unapproved_publish_denied"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-RENDER-MD": {
+      "task": "The Markdown renderer consumes the governed publication contract and produces a complete usable report and manifest with traceable claims.",
+      "consumer": "markdown_report_renderer",
+      "success_evidence": [
+        "markdown_report_rendered",
+        "manifest_binding",
+        "claim_parity"
+      ],
+      "failure_evidence": [
+        "unapproved_render_denied",
+        "redaction_rechecked"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-RENDER-HTML": {
+      "task": "The HTML renderer consumes the governed publication contract and produces a navigable report with traceable findings and the same claims as Markdown.",
+      "consumer": "html_report_renderer",
+      "success_evidence": [
+        "html_report_opened",
+        "markdown_claim_parity",
+        "manifest_binding"
+      ],
+      "failure_evidence": [
+        "unsafe_markup_escaped",
+        "unapproved_render_denied"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-RENDER-PDF": {
+      "task": "The PDF renderer consumes the governed publication contract and produces a readable visually inspected PDF with intact citations and the same claims as Markdown.",
+      "consumer": "pdf_report_renderer",
+      "success_evidence": [
+        "pdf_rendered_and_inspected",
+        "markdown_claim_parity",
+        "manifest_binding"
+      ],
+      "failure_evidence": [
+        "clipped_content_rejected",
+        "unapproved_render_denied"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CF-PROOF": {
+      "task": "After integration, an independent repeatable qualification suite runs the installed exact candidate on ADL and the pinned external Rust repository, including fresh-operator setup, real review, second-run comparison and all three exports.",
+      "consumer": "installed_beta1_qualification_suite",
+      "success_evidence": [
+        "adl_actual_product_run",
+        "external_actual_product_run",
+        "fresh_operator_walkthrough",
+        "exports_and_second_run"
+      ],
+      "failure_evidence": [
+        "authored_packet_without_execution_rejected",
+        "synthetic_only_acceptance_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "qualification"
+    },
+    "CF-INTEGRATE": {
+      "task": "The installed Beta 1 product connects completed consumers into one operator journey and passes integration success and failure acceptance before independent repository qualification.",
+      "consumer": "installed_beta1_end_to_end",
+      "success_evidence": [
+        "all_exit_bar_items_executed",
+        "exact_candidate_manifest",
+        "complete_operator_journey"
+      ],
+      "failure_evidence": [
+        "unfinished_feature_absorption_rejected",
+        "missing_exit_bar_item_rejected",
+        "unresolved_p1_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "PLAT-PROVIDER": {
+      "task": "The Runtime provider-definition loader applies validated endpoint and profile data through the existing adapter boundary with last-known-good behavior on invalid replacement.",
+      "consumer": "provider_definition_loader",
+      "success_evidence": [
+        "editable_definition_consumed",
+        "endpoint_profile_parity",
+        "last_known_good"
+      ],
+      "failure_evidence": [
+        "secret_value_in_config_rejected",
+        "invalid_reload_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "RT-PROVIDER": {
+      "task": "The csmctl and Runtime admission/conversation/lifecycle path uses the provider registry so agents can be added, used, checkpointed, removed and rehydrated without Runtime restart or provider-name allowlists.",
+      "consumer": "registered_provider_agent_lifecycle",
+      "success_evidence": [
+        "new_fixture_provider_works_without_match_edits",
+        "local_and_hosted_lifecycle_matrix",
+        "generated_operator_and_a2a_replies",
+        "truthful_roster_projection",
+        "openai_anthropic_google_ollama_local_compatible_lifecycle_matrix",
+        "add_generated_conversation_checkpoint_remove_rehydrate_without_restart",
+        "checkpoint_migration_credential_reference_preservation",
+        "capabilities_tools_streaming_model_discovery_accounting_declared",
+        "hosted_https_and_trusted_local_endpoint_policy",
+        "actionable_quota_credentials_model_transport_timeout_errors",
+        "no_runtime_or_guardian_restart_or_init_file_edit_for_add_replace",
+        "canonical_name_a2a_for_every_provider",
+        "api_and_observatory_effective_provider_model_endpoint_capability_readiness",
+        "hosted_https_local_loopback_private_or_trusted_plaintext",
+        "credential_references_no_values_in_yaml_api_logs_checkpoints_evidence",
+        "credentials_quota_capability_model_transport_timeout_invalid_response_classification"
+      ],
+      "failure_evidence": [
+        "unknown_provider_rejected",
+        "capability_mismatch_rejected",
+        "credentials_never_serialized",
+        "recurring_paid_probe_absent"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "QUAL-RUNTIME": {
+      "task": "Canonical Runtime ingress emits correlated redacted failure events that match authenticated WSS error responses through the real dispatch path.",
+      "consumer": "runtime_failure_event_repair",
+      "success_evidence": [
+        "actual_dispatch_failure_event",
+        "authenticated_wss_correlation"
+      ],
+      "failure_evidence": [
+        "forged_event_rejected",
+        "mismatched_correlation_rejected",
+        "secret_redaction"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "QUAL-RESIDENT": {
+      "task": "The six-resident production workload/restore harness executes distinct tick/ACC/UTS workloads, then signed dehydration/restore and resumed work with exact population and lineage receipts.",
+      "consumer": "resident_restore_qualification",
+      "success_evidence": [
+        "six_distinct_workload_effects",
+        "production_signed_restore",
+        "resumed_work_effects"
+      ],
+      "failure_evidence": [
+        "tamper_rejected",
+        "omission_rejected",
+        "substitution_rejected",
+        "mock_vs_live_explicit"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "qualification"
+    },
+    "QUAL-PROVIDER": {
+      "task": "The production provider harness induces real subprocess loss, timeout and interruption and demonstrates bounded recovery using a healthy configured provider.",
+      "consumer": "provider_recovery_qualification",
+      "success_evidence": [
+        "actual_process_loss",
+        "actual_timeout_interrupt",
+        "healthy_recovery"
+      ],
+      "failure_evidence": [
+        "caller_failure_flags_not_proof",
+        "reference_trace_not_execution"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "qualification"
+    },
+    "QUAL-INVENTORY": {
+      "task": "The inventory tool resolves immutable revisions a71d699d52831b32bb68ed9c7c7e837925949de4 and e986de6d06aacd385de93dd033def77a718c1581 and records Cargo-registered validation denominators with explicit execution status.",
+      "consumer": "registered_validation_inventory",
+      "success_evidence": [
+        "both_exact_revisions_measured",
+        "cargo_registered_inventory"
+      ],
+      "failure_evidence": [
+        "source_count_not_execution",
+        "lexical_relocation_not_reduction"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "qualification"
+    },
+    "QUAL-EVIDENCE": {
+      "task": "The five-row evidence consumer admits only current criterion-specific producer and execution records, preserving the complete RUST-01/DRT-B/DRT-C requirement mapping and independent review.",
+      "consumer": "criterion_evidence_validator",
+      "success_evidence": [
+        "five_criterion_mappings_complete",
+        "producer_revision_and_criterion_digest_bound",
+        "independent_review_bound",
+        "criterion_text_digest_source_and_producer_revision_execution_logs",
+        "historical_19_findings_5_cloud_control_2_execution_gaps_preserved",
+        "all_scenarios_present",
+        "self_authored_and_missing_review_evidence_rejected"
+      ],
+      "failure_evidence": [
+        "synthetic_metadata_rejected",
+        "cross_criterion_substitution_rejected",
+        "stale_or_partial_evidence_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CSDLC-DECOMPOSE": {
+      "task": "The local command owner is decomposed into cohesive production modules while binding, editing, registration, transactions and persistence retain their public contracts.",
+      "consumer": "local_command_decomposition",
+      "success_evidence": [
+        "local_thin_dispatch",
+        "local_regression_parity",
+        "before_after_responsibility_inventory"
+      ],
+      "failure_evidence": [
+        "public_contract_drift_rejected",
+        "replacement_god_module_rejected",
+        "domain_cycle_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "CSDLC-REMOTE": {
+      "task": "The remote command owner is decomposed into cohesive production modules while authority, credentials, GitHub operations, publication, receipts and reconciliation retain public contracts.",
+      "consumer": "remote_command_decomposition",
+      "success_evidence": [
+        "remote_thin_dispatch",
+        "remote_regression_parity",
+        "before_after_responsibility_inventory"
+      ],
+      "failure_evidence": [
+        "public_contract_drift_rejected",
+        "replacement_god_module_rejected",
+        "domain_cycle_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "test_only_consumer",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "PLAT-UTS": {
+      "task": "One versioned installable UTS package is consumed by the Runtime ACC/UTS tool-dispatch path with a declared compatibility contract.",
+      "consumer": "runtime_acc_uts_dispatch",
+      "success_evidence": [
+        "package_installed",
+        "runtime_consumer_executes_tool",
+        "version_compatibility_checked"
+      ],
+      "failure_evidence": [
+        "document_only_standard_rejected",
+        "fixture_only_consumer_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "PLAT-RUST": {
+      "task": "One selected production Rust responsibility is fully extracted or simplified while preserving observable behavior, with recursive source accounting and focused regressions.",
+      "consumer": "selected_production_rust_responsibility",
+      "success_evidence": [
+        "exact_module_and_invariant_selected_before_creation",
+        "production_callers_preserved",
+        "recursive_before_after_inventory"
+      ],
+      "failure_evidence": [
+        "unselected_surface_rejected",
+        "facade_only_reduction_claim_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "PUB-MEDIUM": {
+      "task": "One selected v0.92.2 article is fully written, source checked and ready for editorial decision without publishing.",
+      "consumer": "selected_medium_manuscript",
+      "success_evidence": [
+        "article_selected_before_creation",
+        "complete_manuscript",
+        "source_and_citation_check"
+      ],
+      "failure_evidence": [
+        "outline_only_rejected",
+        "unspecified_article_rejected"
+      ],
+      "reject_completion": [
+        "outline_only",
+        "unspecified_revision",
+        "future_work_list"
+      ],
+      "result_type": "document"
+    },
+    "PUB-CSDLC": {
+      "task": "One named C-SDLC manuscript revision completes its frozen revision checklist and source/citation checks, ready for a human research decision without submission.",
+      "consumer": "named_csdlc_manuscript_revision",
+      "success_evidence": [
+        "revision_checklist_frozen_before_creation",
+        "complete_revised_manuscript",
+        "source_and_citation_check"
+      ],
+      "failure_evidence": [
+        "advance_packet_only_rejected",
+        "unspecified_increment_rejected"
+      ],
+      "reject_completion": [
+        "outline_only",
+        "unspecified_revision",
+        "future_work_list"
+      ],
+      "result_type": "document"
+    },
+    "PLAT-MEMORY": {
+      "task": "The CodeFriend second-review comparison path retrieves its prior compatible run from Memory Palace through the production retrieval boundary with enforced privacy and deletion behavior.",
+      "consumer": "codefriend_comparison_memory_palace_consumer",
+      "success_evidence": [
+        "production_second_review_retrieval",
+        "deterministic_compatible_baseline",
+        "redaction_and_deletion_enforced"
+      ],
+      "failure_evidence": [
+        "test_only_integration_rejected",
+        "unspecified_slice_rejected",
+        "incompatible_baseline_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "SIM-03": {
+      "task": "The installed intent CLI executes the declared local and remote command inventory against production operations, resolving context and evidence internally while preserving guards.",
+      "consumer": "installed_csdlc_intent_commands",
+      "success_evidence": [
+        "command_inventory_frozen_before_creation",
+        "installed_public_journeys_execute",
+        "context_resolved_internally"
+      ],
+      "failure_evidence": [
+        "schema_only_rejected",
+        "unimplemented_route_rejected",
+        "stale_review_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    },
+    "SIM-04": {
+      "task": "The operational application routes every local transition and verified remote/terminal outcome through one semantic issue transaction owner, proven at actual entrypoints under crash and concurrency.",
+      "consumer": "csdlc_application_transaction_owner",
+      "success_evidence": [
+        "all_mutating_paths_use_owner",
+        "production_crash_recovery",
+        "generation_conflict_rejected"
+      ],
+      "failure_evidence": [
+        "unused_library_rejected",
+        "independent_shadow_phase_rejected",
+        "unfenced_activation_rejected"
+      ],
+      "reject_completion": [
+        "plan_only",
+        "schema_only",
+        "scaffold_only",
+        "unspecified_slice",
+        "zero_executed_scenarios"
+      ],
+      "result_type": "implementation"
+    }
+  },
+  "baseline_obligation_owners": {
+    "CF-ADAPTER": {
+      "acceptance": {
+        "portable_paths": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ],
+        "bounded_inputs": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ],
+        "partial_state_explicit": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ],
+        "adapter_parity": [
+          "CF-ADAPTER"
+        ]
+      },
+      "pvf": {
+        "fixture_conformance": [
+          "CF-ADAPTER"
+        ],
+        "negative_inputs": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ],
+        "portability": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ]
+      },
+      "stop_conditions": {
+        "host_bound_packet": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ],
+        "credential_capture": [
+          "CF-ADAPTER",
+          "CF-ADAPTER-GITHUB",
+          "CF-ADAPTER-CI"
+        ]
+      },
+      "non_goals": {
+        "jira": [
+          "CF-ADAPTER"
+        ],
+        "linear": [
+          "CF-ADAPTER"
+        ],
+        "slack": [
+          "CF-ADAPTER"
+        ],
+        "broad_workspace": [
+          "CF-ADAPTER"
+        ]
+      }
+    },
+    "CF-COG": {
+      "acceptance": {
+        "finding_to_evidence_trace": [
+          "CF-COG",
+          "CF-COG-DRIFT",
+          "CF-COG-IMPACT",
+          "CF-COG-RATIONALE"
+        ],
+        "confidence_or_unknowns": [
+          "CF-COG",
+          "CF-COG-DRIFT",
+          "CF-COG-IMPACT",
+          "CF-COG-RATIONALE"
+        ],
+        "explicit_boundary_model": [
+          "CF-COG"
+        ],
+        "actionable_risk": [
+          "CF-COG"
+        ]
+      },
+      "pvf": {
+        "known_fixture": [
+          "CF-COG"
+        ],
+        "reviewer_calibration": [
+          "CF-COG",
+          "CF-COG-DRIFT",
+          "CF-COG-IMPACT",
+          "CF-COG-RATIONALE"
+        ],
+        "false_positive_sample": [
+          "CF-COG",
+          "CF-COG-DRIFT",
+          "CF-COG-IMPACT",
+          "CF-COG-RATIONALE"
+        ]
+      },
+      "stop_conditions": {
+        "unsupported_architecture_claim": [
+          "CF-COG",
+          "CF-COG-DRIFT",
+          "CF-COG-IMPACT",
+          "CF-COG-RATIONALE"
+        ],
+        "opaque_score_only": [
+          "CF-COG",
+          "CF-COG-DRIFT",
+          "CF-COG-IMPACT",
+          "CF-COG-RATIONALE"
+        ]
+      },
+      "non_goals": {
+        "automatic_architecture_rewrite": [
+          "CF-COG"
+        ]
+      }
+    },
+    "CF-GOV": {
+      "acceptance": {
+        "machine_checkable_invariants": [
+          "CF-GOV"
+        ],
+        "human_judgment_separated": [
+          "CF-GOV"
+        ],
+        "deterministic_results": [
+          "CF-GOV"
+        ],
+        "clear_failure_output": [
+          "CF-GOV"
+        ]
+      },
+      "pvf": {
+        "pass_fixture": [
+          "CF-GOV"
+        ],
+        "fail_fixture": [
+          "CF-GOV"
+        ],
+        "repeatability": [
+          "CF-GOV"
+        ],
+        "ci_contract": [
+          "CF-GOV"
+        ]
+      },
+      "stop_conditions": {
+        "policy_hidden_in_tests": [
+          "CF-GOV"
+        ],
+        "nondeterministic_gate": [
+          "CF-GOV"
+        ]
+      },
+      "non_goals": {
+        "general_ci_orchestration": [
+          "CF-GOV"
+        ]
+      }
+    },
+    "CF-REVIEW": {
+      "acceptance": {
+        "perspectives_preserved": [
+          "CF-REVIEW"
+        ],
+        "isolated_pre_synthesis_inputs": [
+          "CF-REVIEW"
+        ],
+        "disagreement_preserved": [
+          "CF-SYNTHESIS"
+        ],
+        "evidence_citations": [
+          "CF-REVIEW"
+        ],
+        "severity_rationale": [
+          "CF-SYNTHESIS"
+        ],
+        "duplicate_control": [
+          "CF-SYNTHESIS"
+        ],
+        "no_silent_mutation": [
+          "CF-REVIEW"
+        ]
+      },
+      "pvf": {
+        "review_fixtures": [
+          "CF-REVIEW"
+        ],
+        "isolated_lane_inputs": [
+          "CF-REVIEW"
+        ],
+        "synthesis_contract": [
+          "CF-SYNTHESIS"
+        ],
+        "severity_calibration": [
+          "CF-SYNTHESIS"
+        ],
+        "action_plan_schema": [
+          "CF-REMEDIATE",
+          "CF-TESTPLAN"
+        ]
+      },
+      "stop_conditions": {
+        "finding_without_evidence": [
+          "CF-REVIEW"
+        ],
+        "hidden_perspective": [
+          "CF-REVIEW"
+        ],
+        "source_mutation": [
+          "CF-REVIEW"
+        ]
+      },
+      "non_goals": {
+        "security_tournament": [
+          "CF-REVIEW"
+        ],
+        "autonomous_fixing": [
+          "CF-REVIEW"
+        ]
+      }
+    },
+    "CF-UX": {
+      "acceptance": {
+        "human_approval_required": [
+          "CF-UX"
+        ],
+        "output_parity": [
+          "CF-RENDER-MD",
+          "CF-RENDER-HTML",
+          "CF-RENDER-PDF"
+        ],
+        "manifest_complete": [
+          "CF-UX"
+        ],
+        "withheld_state_supported": [
+          "CF-UX"
+        ]
+      },
+      "pvf": {
+        "approval_negative_test": [
+          "CF-UX"
+        ],
+        "renderer_snapshot": [
+          "CF-RENDER-MD",
+          "CF-RENDER-HTML",
+          "CF-RENDER-PDF"
+        ],
+        "manifest_validation": [
+          "CF-UX"
+        ],
+        "redaction_recheck": [
+          "CF-RENDER-MD",
+          "CF-RENDER-HTML",
+          "CF-RENDER-PDF"
+        ]
+      },
+      "stop_conditions": {
+        "automatic_publication": [
+          "CF-UX"
+        ],
+        "renderer_claim_drift": [
+          "CF-RENDER-MD",
+          "CF-RENDER-HTML",
+          "CF-RENDER-PDF"
+        ]
+      },
+      "non_goals": {
+        "public_customer_scale": [
+          "CF-UX"
+        ]
+      }
+    },
+    "PLAT-PROVIDER": {
+      "acceptance": {
+        "behavior_data_separated": [
+          "PLAT-PROVIDER"
+        ],
+        "definitions_validated": [
+          "PLAT-PROVIDER"
+        ],
+        "endpoint_and_profile_parity": [
+          "PLAT-PROVIDER"
+        ]
+      },
+      "pvf": {
+        "schema_negative_suite": [
+          "PLAT-PROVIDER"
+        ],
+        "provider_fixture_parity": [
+          "PLAT-PROVIDER"
+        ]
+      },
+      "stop_conditions": {
+        "hardcoded_instance_data": [
+          "PLAT-PROVIDER"
+        ],
+        "credential_in_config": [
+          "PLAT-PROVIDER"
+        ],
+        "missing_v0921_hotload_authority": [
+          "PLAT-PROVIDER"
+        ]
+      },
+      "non_goals": {
+        "provider_rewrite": [
+          "PLAT-PROVIDER"
+        ],
+        "public_benchmark_marketing": [
+          "PLAT-PROVIDER"
+        ]
+      }
+    },
+    "QUAL-RUNTIME": {
+      "acceptance": {
+        "actual_execution_receipts": [
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER"
+        ],
+        "failure_event_correlation": [
+          "QUAL-RUNTIME"
+        ],
+        "exact_criterion_binding": [
+          "QUAL-EVIDENCE"
+        ],
+        "independent_review": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ]
+      },
+      "pvf": {
+        "resident_execution": [
+          "QUAL-RESIDENT"
+        ],
+        "provider_failure_recovery": [
+          "QUAL-PROVIDER"
+        ],
+        "wss_redaction": [
+          "QUAL-RUNTIME"
+        ],
+        "evidence_integrity_negatives": [
+          "QUAL-EVIDENCE"
+        ]
+      },
+      "stop_conditions": {
+        "synthetic_only_proof": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ],
+        "stale_revision": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ],
+        "missing_scenario": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ]
+      },
+      "non_goals": {
+        "paid_cloud_mutation": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ],
+        "broad_runtime_refactor": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ],
+        "release_approval": [
+          "QUAL-RUNTIME",
+          "QUAL-RESIDENT",
+          "QUAL-PROVIDER",
+          "QUAL-INVENTORY",
+          "QUAL-EVIDENCE"
+        ]
+      }
+    },
+    "CSDLC-DECOMPOSE": {
+      "acceptance": {
+        "thin_entrypoints": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "no_command_domain_cycles": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "public_contract_compatible": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "decomposition_inventory_complete": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ]
+      },
+      "pvf": {
+        "native_v3_regression": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "serialized_contract_goldens": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "module_dependency_check": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "before_after_inventory": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ]
+      },
+      "stop_conditions": {
+        "behavior_change": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "replacement_god_module": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "weakened_guard": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ]
+      },
+      "non_goals": {
+        "new_lifecycle_features": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "schema_redesign": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ],
+        "unrelated_cleanup": [
+          "CSDLC-DECOMPOSE",
+          "CSDLC-REMOTE"
+        ]
+      }
+    }
+  },
+  "provider_acceptance_matrix": {
+    "routes": [
+      "OpenAI/ChatGPT",
+      "Anthropic/Claude",
+      "Gemini through approved Google provider route",
+      "Ollama local",
+      "OpenAI-compatible local endpoint"
+    ],
+    "each_route": [
+      "add",
+      "replace",
+      "generated_operator_conversation",
+      "canonical_name_a2a",
+      "roster_api_observatory_projection",
+      "checkpoint",
+      "remove",
+      "rehydrate"
+    ],
+    "registry_fixture": "A newly registered fixture provider works without editing admission or conversation match statements.",
+    "capabilities": [
+      "conversation",
+      "tools",
+      "streaming",
+      "A2A",
+      "credential_sources",
+      "model_discovery_or_validation",
+      "token_accounting",
+      "health_checks"
+    ],
+    "authority": "Live/provider-cost execution remains separately authorized; deterministic fixtures do not establish hosted-provider qualification."
+  },
+  "criterion_consumer_boundary": {
+    "criteria": [
+      "RUST-01-ac-4",
+      "DRT-B-ac-2",
+      "DRT-B-ac-3",
+      "DRT-C-ac-2",
+      "DRT-C-ac-3"
+    ],
+    "historical_consumers": [
+      522,
+      833
+    ],
+    "original_finding_denominator": 19,
+    "separate_cloud_control_gaps": 5,
+    "separate_execution_proof_gaps": 2,
+    "nonclaim": "Reconcile historical consumers without reopening, closing or claiming their original findings newly proved."
+  }
+}

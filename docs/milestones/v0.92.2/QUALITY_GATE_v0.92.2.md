@@ -32,3 +32,9 @@ The result is `pass`, `fail`, or `not proven`. Partial success is recorded by tr
 A remediation changing the candidate or published claims invalidates affected review/proof/manifests. Record new candidate and manifest digests, rerun affected lanes, and refresh internal/external review before the release decision. The declared release-gating supporting and existing issues converge here, rather than gating early product integration.
 
 OBS-S3 and ARCH-ADR are required, independently deliverable milestone issues with their own acceptance. They are not closeout-tail dependencies and may not be inferred from product CI: OBS-S3 cannot close without authenticated deployment proof, and ARCH-ADR cannot close without its source-grounded decision inventory and status/supersession record. Neither blocks CF-INTEGRATE or TAIL-01.
+
+## Atomic delivery gate
+
+Reconcile all 69 rows against the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). Every split implementation must have its own working consumer and current success/failure proof; shared demos do not close sibling tasks automatically. The eleven tightened contracts reject schemas, scaffolds, undefined slices, outlines and zero-execution qualification. CF-PROOF must have run the installed product on ADL and the pinned external Rust repository; CF-INTEGRATE must pass the full journey on the exact candidate without unfinished upstream features.
+
+Keep all seven required planning tasks visible under their own decision/document/rehearsal criteria. QUAL-EVIDENCE checks independently executed Runtime results; it cannot replace QUAL-RUNTIME, QUAL-RESIDENT, QUAL-PROVIDER or QUAL-INVENTORY. Local and remote C-SDLC decomposition each require their own behavior-preservation evidence.

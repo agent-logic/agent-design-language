@@ -10,7 +10,7 @@
   "card_status": "ready",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
-  "timestamp": "2026-09-11T21:26:03Z",
+  "timestamp": "2026-09-11T21:51:25.506803+00:00",
   "slug": "v0922-wp01",
   "status": "complete",
   "initial_pvf_lane": "docs",
@@ -30,10 +30,10 @@
   "stp_card": ".csdlc/issues/864/cards/stp.md",
   "sip_card": ".csdlc/issues/864/cards/sip.md",
   "spp_card": ".csdlc/issues/864/cards/spp.md",
-  "selected_lanes_inline": "docs planning contract and issue-inventory reconciliation",
+  "selected_lanes_inline": "deterministic local planning/docs/Python contract; native six-card validation",
   "parallel_groups_inline": "none",
-  "validation_commands_inline": "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; authenticated issue list readback",
-  "failure_policy": "Fail closed on denominator, duplicate, dependency, tail-order, or issue-binding drift.",
-  "notes_risks_inline": "No Runtime or release proof is claimed.",
-  "plan_summary": "Prove planning consistency and rejection of malformed projections."
+  "validation_commands_inline": "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check",
+  "failure_policy": "Fail on missing split tasks, inherited requirements, invalid stop semantics, graph or projection mismatch, and partial-work acceptance.",
+  "notes_risks_inline": "No Runtime/provider/cloud execution applies to this planning correction.",
+  "plan_summary": "Validate the complete task graph, inherited acceptance, partial-work rejection, planning projections and native card truth."
 }

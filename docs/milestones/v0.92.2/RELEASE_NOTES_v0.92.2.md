@@ -26,3 +26,7 @@ The release is not planned to include Jira, Linear, Slack, broad Workspace integ
 ## Evidence Note
 
 No capability above should remain in final release notes unless the release packet cites its merged implementation and current proving evidence.
+
+## Evidence granularity
+
+Final notes must map each claim to the separate implementation owners in the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md): three ingestion routes; structure, drift, impact and rationale analysis; local and CI fitness execution; review, synthesis and the two action planners; publication approval and three renderers; provider configuration and lifecycle. Runtime repair/qualification and local/remote C-SDLC refactors retain separate evidence. All seven planning tasks remain required, but their completed documents must not be presented as implemented product capabilities. The eleven tightened completion criteria apply before any corresponding capability is claimed.

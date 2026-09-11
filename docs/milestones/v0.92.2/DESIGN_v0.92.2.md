@@ -24,7 +24,9 @@ CodeFriend consumes the shared provider and Runtime contracts. It does not creat
 
 ## Integration Strategy
 
-Independent tracks may proceed in parallel after the milestone-opening package. The integration track begins only from merged, reviewed outputs. Proof work may develop fixtures in parallel, but Beta 1 acceptance requires one integrated ADL self-review and one bounded external open-source repository run.
+Independent tasks follow the exact dependencies in the [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml). Local ingestion precedes the GitHub and CI routes; structure analysis precedes drift, impact and rationale analysis; local fitness execution precedes CI gating. Isolated review precedes synthesis, then separate remediation and test-plan generation. Approval control precedes Markdown rendering; HTML and PDF consume that shared approved contract. Provider configuration precedes RT-PROVIDER/#855 lifecycle execution. These are complete behaviors under the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md).
+
+CF-INTEGRATE first connects merged, reviewed, complete consumers into one installed candidate. CF-PROOF then independently executes that product on ADL and the pinned external Rust repository, including second-run comparison and all three exports. TAIL-01 requires both completed results. A schema, scaffold, unused library or prewritten packet cannot substitute for those executed journeys.
 
 ## Failure Posture
 

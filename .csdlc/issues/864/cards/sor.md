@@ -21,8 +21,8 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Status: implementation_complete_pending_final_review
-Generated: 2026-09-11T21:26:03Z
+Status: implementation_complete_pending_exact_review
+Generated: 2026-09-11T21:51:25.506803+00:00
 
 Execution:
 - Actor: `Codex`
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Reconciled all open #720-#862 issues into a 51-row milestone plan with nine existing bindings and 42 prospective rows; created no child issues.
+Split eight bundles into 69 complete tasks (nine existing, 60 prospective), tightened eleven contracts, updated all active planning docs and reconciled four existing issue bodies via native v3.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs`
@@ -47,17 +47,17 @@ Reconciled all open #720-#862 issues into a 51-row milestone plan with nine exis
 - Actual elapsed seconds: `718`
 - Actual active work seconds: `unknown`
 - Estimated total tokens: `unknown`
-- Actual total tokens: `280946`
+- Actual total tokens: `not_collected_for_revision`
 - Estimated validation seconds: `30`
 - Actual validation seconds: `1`
 - Actual PR wait seconds: `0`
 - Actual CI wait seconds: `0`
 - Budget source: `unbounded_issue_goal`
 - Goal metrics data source: `Codex goal receipt`
-- Goal metrics source ref: `thread-goal issue-864`
-- Data-source confidence: `high`
+- Goal metrics source ref: `Planning #1.1 issue-864 goal`
+- Data-source confidence: `partial`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_pending_publication`
+- Completion state: `reviewed_revision_pending_publication`
 - Issue goal ref: `issue-864-reconciliation-goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -76,23 +76,23 @@ Reconciled all open #720-#862 issues into a 51-row milestone plan with nine exis
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/864/cards/sor.md`
 - Tracked implementation artifacts: `docs/milestones/v0.92.2 planning projections and validator`
-- Additional proof artifacts: `Native lifecycle cards and independent review result`
+- Additional proof artifacts: `.csdlc/evidence/864/task-scope-revision; atomic-task manifest and independent reviews`
 
 ## Actions taken
-- `Inventoried every open issue from #720 through #862 and bound each exactly once.`
-- `Updated catalog, WBS, issue wave, specifications, reconciliation, release projections, and validator.`
-- `Preserved TAIL-01 through TAIL-10 and created no child issues.`
+- `Split eight families while retaining all previous requirements and nine existing issue identities.`
+- `Tightened eleven complete-result contracts and reconciled all active planning documents using subagents.`
+- `Reconciled existing issue scopes through native v3 with authenticated readbacks; no child created.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none; worktree publication pending`
-- Worktree-only paths remaining: `all issue #864 changes`
-- Integration state: `worktree_only_pending_pr`
-- Verification scope: `planning package only`
-- Integration method used: `pending pull request`
+- Main-repo paths updated: `none`
+- Worktree-only paths remaining: `current #864 correction`
+- Integration state: `pr_open`
+- Verification scope: `planning contracts only`
+- Integration method used: `existing PR #865; exact revision update follows review`
 - Verification performed:
-  - `pending CI`
-    `pending`
-- Result: `pending`
+  - `native github-issue authenticated reconciliation and exact body readback; final PR update remains pending`
+    `#852/#855/#862/#864 scope readbacks match reviewed bodies`
+- Result: `open_unmerged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check`
-    `Proves 51 unique rows, nine exact existing bindings, 42 prospective rows, dependency consistency, and 31 malformed fixture rejections.`
+  - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check`
+    `75 negative planning fixtures, current six-card validation and diff hygiene passed; semantic/docs subagents passed precommit review.`
 - Results:
   - `passed`
 
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: pass
     checks_run:
-      - "All open issues reconciled and no child issue creation observed."
+      - "69/9/60 graph, all 100 inherited obligations, all seven planning tasks, and complete-result acceptance preserved."
   determinism:
     status: pass
     replay_verified: true
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `31 negative planning mutations rejected`
+- Determinism tests executed: `75 negative planning mutations rejected`
 - Fixtures or scripts used: `validate_planning.py negative fixtures`
 - Replay verification (same inputs -> same artifacts/order): `repeatable local CPU validation`
 - Ordering guarantees (sorting / tie-break rules used): `TAIL-01 through TAIL-10 preserved in exact sequence`
-- Artifact stability notes: `Planning package remains reviewable and number-free for prospective rows.`
+- Artifact stability notes: `This committed SOR is prepublication evidence; final exact-head review and publication receipts are retained by the native remote owner.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable; no secrets handled`
@@ -174,5 +174,5 @@ verification_summary:
 - `The cited TBD split-plan path is absent and remains #848 recovery work.`
 
 ## Follow-ups / Deferred work
-- `Obtain exact-head review and publish PR #864.`
-- `Do not create prospective issues before this planning PR is reviewed and merged.`
+- `Exact-head review and update PR #865; stop before merge or child creation.`
+- `No child creation, merge, milestone close or implementation execution authorized by this result.`

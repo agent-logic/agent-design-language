@@ -8,7 +8,7 @@ run_id: "issue-0864"
 version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
-generated_at: "2026-09-11T21:26:03Z"
+generated_at: "2026-09-11T21:51:25.506803+00:00"
 card_status: "ready"
 status: "complete"
 activation_state: "executed"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Inventory live issues, bind existing authority, update all projections and validator, review, then publish."
+plan_summary: "Split eight task families; tighten eleven contracts; reconcile all active planning docs and existing issue scopes; validate and independently review, then update PR #865 for operator review."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -61,11 +61,11 @@ proposed_steps:
     expected_output: ".csdlc/issues/864/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: reconciled catalog, WBS, issue wave, specifications, reconciliation, release projections, validator"
+    description: "Implement only the bounded deliverables: 69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: 51/9/42 arithmetic, exact mappings, canonical closeout, no child creation"
+    description: "Run focused proof gates for acceptance: 69/9/60 reconciliation; complete-task contracts and baseline obligations enforced; no children created; current independent review before publication."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "stale denominator or duplicate issue binding"
 test_strategy:
-  - "planning self-test, diff check, live issue readback, independent review"
+  - "validate_planning.py --self-test; native validate; diff check; semantic and docs subagents."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "#848 source document path is currently absent"
+notes: "All requested splits and completion criteria corrected; exact commit review/publication follow. Concrete per-task selections remain explicit before-child-creation gates."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave`.
 
-Inventory live issues, bind existing authority, update all projections and validator, review, then publish.
+Split eight task families; tighten eleven contracts; reconcile all active planning docs and existing issue scopes; validate and independently review, then update PR #865 for operator review.
 
 ## PVF Lane Plan
 
@@ -156,8 +156,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. Confirm dependency readiness and starting state: v0.92.1 closed and v0.92.2 milestone open
 2. Review repo inputs and scoped surfaces before editing: planning package and authenticated GitHub issue readback
-3. Implement only the bounded deliverables: reconciled catalog, WBS, issue wave, specifications, reconciliation, release projections, validator
-4. Run focused proof gates for acceptance: 51/9/42 arithmetic, exact mappings, canonical closeout, no child creation
+3. Implement only the bounded deliverables: 69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.
+4. Run focused proof gates for acceptance: 69/9/60 reconciliation; complete-task contracts and baseline obligations enforced; no children created; current independent review before publication.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- planning self-test, diff check, live issue readback, independent review
+- validate_planning.py --self-test; native validate; diff check; semantic and docs subagents.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-#848 source document path is currently absent
+All requested splits and completion criteria corrected; exact commit review/publication follow. Concrete per-task selections remain explicit before-child-creation gates.

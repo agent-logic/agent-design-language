@@ -9,7 +9,7 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Generated: 2026-09-11T21:26:03Z
+Generated: 2026-09-11T21:49:19.194291+00:00
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/864
@@ -90,27 +90,27 @@ review_surfaces:
 
 ## Goal
 
-Reconcile all open existing issues from #720 through #862 into the v0.92.2 planning package without creating child issues.
+Correct the operator-reviewed v0.92.2 wave so each implementation issue delivers one complete task.
 
 ## Required Outcome
 
-A validated issue wave binds all existing work, preserves the canonical release tail, and identifies the remaining number-free creation list.
+69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.
 
 ## Acceptance Criteria
 
-All open #720-#862 issues are mapped exactly once; arithmetic is 51 total, 9 existing, 42 prospective; TAIL-01..10 is unchanged; no child issues are created.
+All eight splits and eleven completion contracts validated; all active planning docs agree; inherited requirements retained; no child issue created.
 
 ## Inputs
 
-Issue #864, live GitHub issue inventory, and docs/milestones/v0.92.2 planning package.
+Issue #864, operator correction in Planning #1.1, live #852/#855/#862 scope and canonical planning package.
 
 ## Target Files / Surfaces
 
-docs/milestones/v0.92.2 planning catalog, WBS, issue wave, execution specifications, reconciliation, release and validation projections.
+docs/milestones/v0.92.2/**; issue #864 native cards and bounded scope-reconciliation evidence.
 
 ## Validation Plan
 
-Run validate_planning.py --self-test, git diff --check, live issue inventory reconciliation, and independent pre-PR review.
+Planning self-test with atomic/baseline/dependency negatives; native six-card validation; diff hygiene; independent semantic and docs review.
 
 ## Demo / Proof Requirements
 
@@ -166,7 +166,7 @@ No child issue creation, implementation, merge, release approval, or repository 
 
 ## Notes / Risks
 
-Issue #848 decides repository decomposition but does not authorize split implementation.
+Concrete product/proof selections remain explicit before-child-creation gates; no product implementation is claimed.
 
 ## Instructions to the Agent
 - Read this file.

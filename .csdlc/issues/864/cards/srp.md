@@ -7,7 +7,7 @@ task_id: "issue-0864"
 version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
-generated_at: "2026-09-11T21:26:03Z"
+generated_at: "2026-09-11T21:51:25.506803+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/864/cards/sip.md"
   - ".csdlc/issues/864/cards/vpp.md"
 review_results:
-  findings_status: "pass_no_actionable_findings"
-  recommended_outcome: "publish_for_operator_review"
-notes: "All 42 prospective rows remain number-free and no child issues were created. Publication grants review visibility only, not child creation, merge, or release authority."
+  findings_status: "pass_precommit_exact_review_pending"
+  recommended_outcome: "exact_head_review_then_update_pr"
+notes: "task_contract_review and docs_final_review reviewed the completed working revision. Exact-commit verification follows. Seven planning tasks retained; no children created."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent rereview passed with no actionable findings after native v3 card normalization.
+- Independent semantic and docs subagents found no remaining actionable findings after corrections.
 
 ### Dispositions
 
-- The initial lifecycle-card placeholder finding is fixed; planning arithmetic, dependencies, exact existing bindings, decision-only ARCH-SPLIT scope, and the canonical closeout tail were independently verified.
+- Restored all inherited obligations; fixed stop-condition semantics; integration precedes qualification; retained complete #855/#852 requirements; aligned eleven task titles and corrected SIM count.
 
 ### Recommended Outcome
 
-- publish_for_operator_review
+- exact_head_review_then_update_pr
 
 ## Notes
 
-All 42 prospective rows remain number-free and no child issues were created. Publication grants review visibility only, not child creation, merge, or release authority.
+task_contract_review and docs_final_review reviewed the completed working revision. Exact-commit verification follows. Seven planning tasks retained; no children created.

@@ -20,3 +20,7 @@ Beta 1 is usable end to end on ADL and on one bounded external open-source repos
 ## Non-Goals
 
 Beta 1 is not autonomous remediation, a general enterprise connector platform, a public multi-tenant service, an ATE implementation, or the Runtime v4 delivery milestone.
+
+## Delivery unit
+
+Each implementation issue delivers one complete behavior that an operator or production consumer can use, with its failure handling and proof. Splitting the work preserves the complete Beta 1 exit bar: integration connects finished features rather than inheriting unfinished work. The seven required planning tasks deliver their own decisions, documents or rehearsal and do not count as implemented functionality. See the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md).

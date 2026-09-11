@@ -13,7 +13,10 @@ Status: planning candidate. Inventory completeness is not execution or release p
 | Vision | [VISION_v0.92.2.md](VISION_v0.92.2.md) |
 | Adopted shared contracts | [ADOPTED_DESIGN_CONTRACTS_v0.92.2.md](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) |
 | Existing issue reconciliation | [EXISTING_ISSUE_RECONCILIATION_v0.92.2.md](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) |
+| Atomic task contracts | [ATOMIC_TASK_CONTRACTS_v0.92.2.md](ATOMIC_TASK_CONTRACTS_v0.92.2.md) |
+| Atomic task manifest | [ATOMIC_TASK_CONTRACTS_v0.92.2.json](ATOMIC_TASK_CONTRACTS_v0.92.2.json) |
 | Planning validator | [validate_planning.py](validate_planning.py) |
+| Atomic task validator | [validate_atomic_tasks.py](validate_atomic_tasks.py) |
 | Design | [DESIGN_v0.92.2.md](DESIGN_v0.92.2.md) |
 | Decisions | [DECISIONS_v0.92.2.md](DECISIONS_v0.92.2.md) |
 | Work breakdown | [WBS_v0.92.2.md](WBS_v0.92.2.md) |
@@ -53,3 +56,9 @@ Status: planning candidate. Inventory completeness is not execution or release p
 ## Validation Contract
 
 The package validator should require every inventory row, parse both YAML files, reject unresolved placeholders and machine-local paths, verify uncreated rows remain number-free and admitted existing issue bindings are reused exactly once, enforce the exact ten-step tail, and resolve all relative Markdown links.
+
+## Current scope and historical evidence
+
+Active Markdown projections, both execution YAML files and the atomic-task manifest must agree on the 69-task wave, nine existing bindings, 60 prospective tasks, eight splits, eleven completion contracts and seven retained planning tasks. Feature owner tables and release proof must use the split consumers rather than the former bundled owners.
+
+The statistical study directory and `evidence/issue-523/` preserve historical observations and source provenance. Their original counts and recommendations are not the current task denominator and are not rewritten by this correction. The tracked simplification plan remains active planning; its source-promotion manifest identifies the original promoted bytes rather than certifying later edits.

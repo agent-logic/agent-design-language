@@ -6,26 +6,11 @@ Status: planned; sequence expresses dependencies, not calendar deadlines.
 
 SIM-UMBRELLA opens coordination; SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07 → SIM-08 → SIM-09 is one coherent sprint. It starts through its own readiness and dedicated issue launch, in parallel with Runtime, without waiting for WP-01 or unrelated prior closeout. The umbrella completes after SIM-09 and converges at TAIL-01. Resolve C-SDLC/Runtime shared-path and installed-binary ownership before overlapping writes. An eventual C-SDLC writer pause requires separate explicit authorization; it does not pause Runtime/provider services. See the [complete plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md).
 
-## CodeFriend wave 1 — Open and Establish Contracts
+## CodeFriend implementation waves
 
-- WP-01 validates the package and opens only the approved work wave.
-- Existing #848, #849, #852, #854, #855, #861, and #862 retain their mapped work-package authority; #848 decides whether repository-split implementation is admitted at all.
-- CF-SHELL and CF-ADAPTER begin in parallel.
-- CF-EVIDENCE establishes artifact identity, provenance, redaction, and retention contracts.
-- PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, and ARCH-ADR begin as independent bounded tracks.
-- PLAT-PROVIDER begins only after v0.92.1 issue #622 is merged; PLAT-MLX and the bounded PLAT-PAIR experiment follow the provider-definition contract.
-- OBS-S3 begins only after WP-01 creates its issue and OBS-LIVE is complete; it applies the existing #679/PR #685 design and remains non-gating for product integration.
+CF-ADAPTER opens local ingestion; CF-ADAPTER-GITHUB and CF-ADAPTER-CI follow it. CF-EVIDENCE admits local packets. CF-REVIEW follows CF-EVIDENCE and RT-PROVIDER; CF-SHELL then proves a real review journey. CF-SYNTHESIS follows the lane runner; CF-REMEDIATE and CF-TESTPLAN follow synthesis. CF-COG provides structure, followed by CF-COG-IMPACT and CF-COG-RATIONALE; CF-COG-DRIFT additionally consumes CF-MEMORY. CF-GOV-CI follows the working local CF-GOV runner. CF-UX owns approval; CF-RENDER-MD consumes approval, synthesis and both action plans; CF-RENDER-HTML and CF-RENDER-PDF follow Markdown for parity. RT-COST precedes PLAT-PROVIDER (also consuming merged #622), then RT-PROVIDER/#855. PLAT-MLX and PLAT-PAIR consume PLAT-PROVIDER. PLAT-MEMORY consumes CF-EVIDENCE and CF-MEMORY. CF-INTEGRATE connects the complete product consumers, all ingestion routes, RT-PROVIDER and PLAT-MEMORY first. CF-PROOF then independently qualifies that installed integrated product on ADL and the pinned external repository. TAIL-01 consumes both completed results.
 
-## CodeFriend wave 2 — Parallel Analysis Surfaces
-
-- CF-COG, CF-GOV, CF-REVIEW, and CF-MEMORY proceed in parallel from the evidence contract.
-- CF-UX connects the product shell to governed publication and output renderers.
-- PLAT-MEMORY consumes the stabilized evidence and longitudinal-memory contracts.
-
-## CodeFriend wave 3 — Proof and Integration
-
-- CF-PROOF completes documentation, examples, deterministic fixtures, ADL self-review, and the bounded external open-source review.
-- CF-INTEGRATE reconciles product flow, schemas, operator controls, failure behavior, supporting-track results, and proof artifacts.
+WP-01 creates only separately authorized rows. All seven planning tasks remain required. Supporting tasks retain the exact dependencies in the issue wave. QUAL-EVIDENCE consumes the four independently completed Runtime repair/proof tasks. CSDLC-REMOTE follows local decomposition and CSDLC-MERGE; shared-path ownership with SIM is reconciled before execution.
 
 ## Milestone closeout — Canonical Release Tail
 
