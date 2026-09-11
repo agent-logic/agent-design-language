@@ -19,11 +19,16 @@ install or select C-SDLC lifecycle authority.
 
 ## C-SDLC lifecycle owner
 
-The sole ordinary C-SDLC lifecycle executable is generated separately at:
+The sole ordinary C-SDLC lifecycle owner has an authenticated repository
+launcher generated at:
 
 ```text
 .adl/bin/native-v3/csdlc
 ```
+
+The native install and cutover routes place the same owner at the canonical
+stable destination `.adl/bin/csdlc`. The two locations do not represent
+different lifecycle generations or authorities.
 
 Its authority is conditional on the canonical v3 selector, authenticated
 receipt, reconciliation, and exact typed request evidence described in

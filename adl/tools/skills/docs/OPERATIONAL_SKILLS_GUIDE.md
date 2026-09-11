@@ -65,13 +65,13 @@ The tracked skill set is:
 - `stp-editor`
 - `test-generator`
 - `use-case-writer`
-- typed v2 lifecycle binaries
+- native v3 lifecycle routes
 
 ## Workflow Shape
 
 The normal workflow is:
 
-0. `csdlc-doctor` to determine current state before selecting the typed lifecycle binary
+0. `csdlc doctor` to determine current state before selecting the typed lifecycle route
 1. `pr-init`
 2. qualitative card review
 3. `pr-ready`
@@ -92,7 +92,7 @@ Closeout-wait prep lane:
 - while one issue is in `pr_waiting`, `janitor_active`, or
   `merged_needs_closeout`, a separate prep-scout lane may inspect and classify
   the next issue from clean root `main`
-- this is a preparation-only lane using typed v2 readiness inspection, not a
+- this is a preparation-only lane using native v3 readiness inspection, not a
   second execution lane
 - the lane may use repo-native issue inspection and readiness commands, but it
   must stop before `pr run`, implementation binding, or PR publication
@@ -109,9 +109,9 @@ The first-class issue-lifecycle shepherd contract above those phases lives at:
 
 - `docs/tooling/ISSUE_LIFECYCLE_SHEPHERD_CONTRACT.md`
 
-The typed v2 command surface for that contract is:
+The native v3 command surface for that contract is:
 
-- `csdlc-shepherd --input <shepherd-input.json>`
+- `csdlc shepherd --request <shepherd-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
 
 `repo-code-review` is cross-cutting rather than phase-specific.
 `test-generator` is a bounded helper skill for focused tests for a concrete issue, diff, file, or worktree.
@@ -120,7 +120,7 @@ The typed v2 command surface for that contract is:
 `medium-article-writer` is a bounded helper skill for turning one concrete article brief into a reviewer-friendly Medium packet without publishing.
 `arxiv-paper-writer` is a bounded helper skill for turning one concrete scholarly source packet into a reviewer-friendly arXiv-style manuscript packet without submitting, publishing, or inventing citations.
 `diagram-author` is a bounded helper skill for turning one source packet, issue, code slice, or doc surface into a reviewable diagram-as-code packet with explicit backend selection, optional SVG/PNG rendering, and truth boundaries.
-Typed v2 lifecycle binaries own orchestration phases directly.
+Native v3 lifecycle routes own orchestration phases directly.
 `sprint-conductor` is a sprint orchestrator that sequences one local current
 issue while coordinating broader sprint intent through a declared Sprint
 Execution Packet, then finishes with sprint review and closeout. SEP can record
@@ -139,7 +139,7 @@ proves explicit nested-goal support.
 `issue-splitter` is a bounded issue-scope helper for deciding whether one issue should stay intact, split now, defer splitting, or stop for operator review.
 `issue-watcher` is a bounded wait-window helper for watching one issue, PR, branch, or dependency gate and routing blockers without mutating state.
 The issue-lifecycle shepherd contract defines the shared ownership model above
-typed v2 doctor/bind/review/publish, `issue-watcher`, `pr-janitor`,
+native v3 doctor/bind/review/publish routes, `issue-watcher`, `pr-janitor`,
 and `pr-closeout` so healthy waiting states and merged-needs-closeout states do
 not disappear into session memory.
 `pr-stack-manager` is a bounded stack-topology helper for ancestry, base alignment, and dependency-order analysis.
@@ -181,13 +181,16 @@ For new or fully re-rendered prompt cards, use typed semantic requests rather
 than editing rendered Markdown directly:
 
 ```bash
-.adl/bin/csdlc-v2/csdlc-edit --repo <worktree> apply --request <edit-request.json>
-.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
+.adl/bin/native-v3/csdlc edit --request <edit-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+.adl/bin/native-v3/csdlc validate --request <validate-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 ```
 
-Resolve the active generation with `.adl/bin/csdlc-v2/csdlc-install resolve`
-before selecting an owner binary. Install only into `.adl/bin/csdlc-v2/`;
-Cargo target directories are build caches, not operational authority.
+Resolve authority through `csdlc-v3/operator/authority-selector.json` and its
+authenticated receipt before selecting the native v3 owner. Missing or stale
+proof suspends authority; it does not authorize fallback to v2. Cargo target
+directories are build caches, not operational authority. Retained v2 commands
+may be used only for an explicitly authorized rollback or bounded transition
+remediation.
 
 For docs-only, milestone-truth, or workflow-doc issues, prefer the
 `docs-bounded` fast path described later in this guide instead of reflexively
@@ -305,7 +308,7 @@ fallback.
 Preferred commands:
 
 ```bash
-csdlc-github-issue run --request <issue-read-or-mutation-request.json>
+csdlc github-issue --request <issue-read-or-mutation-request.json> --execute
 ```
 
 Use typed issue mutation commands for covered issue setup and repair paths.
@@ -324,11 +327,11 @@ Use this surface when:
 
 Pair it with:
 
-- `csdlc-doctor --repo <repo> --issue <issue>` for structural execution
+- `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>` for structural execution
   readiness and drift diagnosis
 
-Typed GitHub observation does not replace lifecycle truth. `csdlc-doctor`, the
-editor skills, and the remaining typed lifecycle binaries still own readiness,
+Typed GitHub observation does not replace lifecycle truth. `csdlc doctor`, the
+editor skills, and the remaining native v3 lifecycle routes still own readiness,
 card truth, PR publication, janitor work, and closeout.
 
 ### `issue-watcher`
@@ -373,7 +376,7 @@ It must stop before mutating issue, PR, branch, card, or implementation state.
 
 The current automation model is:
 
-- `csdlc-doctor` inspects current issue state before the matching typed lifecycle or editor operation runs
+- `csdlc doctor` inspects current issue state before the matching typed lifecycle or editor operation runs
 - `pr-init` creates or initializes the issue and root bundle
 - qualitative card review happens separately
 - `pr-ready` is the readiness phase
@@ -536,7 +539,7 @@ The ADL workflow uses one primary checkout and issue-scoped worktrees.
 Before a session starts or resumes tracked issue work, it should check
 `git status --short --branch` and `git worktree list --porcelain` from the
 primary checkout. If root is on a feature branch or has tracked changes, route
-that as `unsafe_root_checkout_execution`: use typed v2 doctor/bind evidence
+that as `unsafe_root_checkout_execution`: use native v3 doctor/bind evidence
 when available, use only the narrowest manual
 fallback needed to preserve work in an issue worktree, restore the primary
 checkout to clean `main`, and leave a short broadcast note in the relevant
@@ -548,11 +551,12 @@ Canonical blocker names:
 - `mismatched_publication_surface`
 - `rebind_to_issue_worktree_required`
 
-## Typed v2 lifecycle routing
+## Native v3 lifecycle routing
 
 ### Purpose
 
-`csdlc-install resolve` plus `csdlc-doctor` are the typed front door for lifecycle routing.
+The authenticated canonical selector plus `csdlc doctor` are the typed front
+door for lifecycle routing.
 
 It:
 
@@ -566,7 +570,7 @@ It:
 
 ### When To Use It
 
-Use typed v2 lifecycle routing when:
+Use native v3 lifecycle routing when:
 
 - the next correct ADL skill is not obvious from the current state
 - the issue may need to resume from partially completed early steps
@@ -600,12 +604,12 @@ routing modes may use any one concrete target identifier from the list above.
 Structured schema:
 
 - `adl/tools/skills/docs/WORKFLOW_CONDUCTOR_SKILL_INPUT_SCHEMA.md`
-- schema id: typed csdlc-doctor output
+- schema id: native v3 `csdlc doctor` output
 
 ### Example Invocation
 
 ```yaml
-Run `csdlc-doctor --repo <repo> --issue <issue>` before selecting a typed lifecycle operation.
+Run `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>` before selecting a typed lifecycle operation.
 
 skill_input_schema: csdlc_doctor.v2
 mode: route_issue
@@ -635,12 +639,12 @@ observed_state:
 
 ### Caller Notes
 
-- typed v2 lifecycle routing is deliberately explicit
+- native v3 lifecycle routing is deliberately explicit
 - it should route into `pr-*` or editor skills rather than reimplementing them
 - it is the best place to apply the execution-policy ideas for required skills, card editors, and subagents
 - it should return explicit `continue`, `ask_operator`, or `stop` handoff intent rather than leaving escalation implicit
-- the legacy executable route is retired for C-SDLC work; resolve the installed
-  generation and invoke the matching typed v2 binary directly
+- the legacy executable route is retired for C-SDLC work; validate the
+  authenticated selector and invoke the matching native v3 route directly
 
 `ready` and `preflight` are compatibility aliases that may still exist in repo
 surfaces, but doctor JSON is the canonical structured automation surface.
@@ -885,8 +889,8 @@ Structured schema:
 
 ### Preferred Commands
 
-- `csdlc-github-issue run --request <issue-create-request.json>`
-- `csdlc-issue --root <repo> create --request <bootstrap-request.json>`
+- `csdlc github-issue --request <issue-create-request.json> --execute`
+- `csdlc issue --request <bootstrap-request.json> --registry docs/templates/prompts/current.json`
 
 For `create_and_bootstrap`, the expected machine-safe path is:
 
@@ -1014,7 +1018,7 @@ Structured schema:
 
 Preferred diagnostic order:
 
-- `csdlc-doctor --repo <repo> --issue <issue>`
+- `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
 
 Use direct inspection only when the repo-native doctor/readiness surfaces are
 unavailable or unusable.
@@ -1124,8 +1128,8 @@ Structured schema:
 
 Preferred execution order:
 
-- `csdlc-doctor --repo <repo> --issue <issue>`
-- `csdlc-bind --root <worktree> --request <bind-request.json>`
+- `csdlc doctor --request <doctor-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
+- `csdlc bind --request <bind-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
 
 ### Output And Stop Boundary
 
@@ -1415,10 +1419,10 @@ policy:
 
 ### Merged-Issue Hygiene
 
-Close out each settled issue through explicit typed `csdlc-finish` and
-`csdlc-clean cleanup` requests. Milestone or main-sync helpers must not infer
+Close out each settled issue through explicit typed `csdlc finish` and
+`csdlc clean` requests. Milestone or main-sync helpers must not infer
 terminal observations, reuse another issue's authority, or batch lifecycle
-mutations through shell. Use `csdlc-doctor` for issue-local diagnosis and
+mutations through shell. Use `csdlc doctor` for issue-local diagnosis and
 retain the typed terminal receipt before considering the issue closed out.
 
 ### Caller Notes
@@ -2869,7 +2873,7 @@ surfaces:
 | `stp-editor` | `STP_EDITOR_SKILL_INPUT_SCHEMA.md` | card-editor shared contract | STP normalization only |
 | `test-generator` | `TEST_GENERATOR_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | focused test generation only |
 | `use-case-writer` | `USE_CASE_WRITER_SKILL_INPUT_SCHEMA.md` | `references/output-contract.md` | use-case packet only |
-| typed v2 lifecycle | `csdlc-doctor` output | typed request contracts | route one bounded lifecycle operation |
+| native v3 lifecycle | `csdlc doctor` output | typed request contracts | route one bounded lifecycle operation |
 
 The card-editor skills share the contract coverage in
 `adl/tools/test_card_editor_skill_contracts.sh`; they do not each need a

@@ -317,6 +317,18 @@ fn current_authority_text_is_consistent(text: &str) -> bool {
 
 fn ordinary_lifecycle_guidance_is_unambiguous(text: &str) -> bool {
     let normalized = text.to_lowercase();
+    let stale_current_claim = [
+        "sole current c-sdlc operational authority is the independent rust binary set in `csdlc-v2/`",
+        "canonical under gate 10d2",
+        "resolve the sole active c-sdlc generation",
+        "resolve the active generation with `.adl/bin/csdlc-v2/",
+        "workflow commands should resolve through `.adl/bin/csdlc-v2/`",
+    ]
+    .iter()
+    .any(|needle| normalized.contains(needle));
+    if stale_current_claim {
+        return false;
+    }
     let names_v2_route = [
         ".adl/bin/csdlc-v2/",
         "csdlc-install resolve",
@@ -329,18 +341,36 @@ fn ordinary_lifecycle_guidance_is_unambiguous(text: &str) -> bool {
     if !names_v2_route {
         return true;
     }
-    let explicitly_bounded = normalized.contains("explicitly authorized rollback")
-        || normalized.contains("bounded transition remediation")
-        || normalized.contains("historical evidence");
-    let stale_current_claim = [
-        "sole current c-sdlc operational authority is the independent rust binary set in `csdlc-v2/`",
-        "canonical under gate 10d2",
-        "resolve the sole active c-sdlc generation",
-        "workflow commands should resolve through `.adl/bin/csdlc-v2/`",
-    ]
-    .iter()
-    .any(|needle| normalized.contains(needle));
-    explicitly_bounded && !stale_current_claim
+    let document_scoped_exception = normalized
+        .lines()
+        .take(12)
+        .any(|line| line.contains("retained exception path only"));
+    if document_scoped_exception {
+        return true;
+    }
+    let lines = normalized.lines().collect::<Vec<_>>();
+    lines.iter().enumerate().all(|(index, line)| {
+        let names_route = [
+            ".adl/bin/csdlc-v2/",
+            "csdlc-install resolve",
+            "csdlc-doctor",
+            "csdlc-issue",
+            "csdlc-bind",
+        ]
+        .iter()
+        .any(|needle| line.contains(needle));
+        if !names_route {
+            return true;
+        }
+        let start = index.saturating_sub(8);
+        let end = (index + 2).min(lines.len().saturating_sub(1));
+        let context = lines[start..=end].join(" ");
+        context.contains("explicitly authorized rollback")
+            || context.contains("explicit operator-authorized rollback")
+            || context.contains("bounded transition remediation")
+            || context.contains("bounded transition-remediation")
+            || context.contains("historical evidence")
+    })
 }
 
 #[test]
@@ -441,6 +471,7 @@ fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
         "retained rollback/transition-only source",
         "product/runtime control surface, not C-SDLC authority",
+        "canonical stable install destination: `.adl/bin/csdlc`",
     ] {
         assert!(inventory.contains(required), "inventory missing {required}");
     }
@@ -467,6 +498,7 @@ fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
         "docs/tooling/structured-prompt-validator-binary-resolution.md",
         "docs/tooling/card-lifecycle.md",
         "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
+        "adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md",
         "docs/tooling/editor/command_adapter.md",
         "docs/tooling/editor/current_skill_wiring_demo.md",
         "adl/tools/README.md",
@@ -478,6 +510,11 @@ fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
             "stale ordinary v2 guidance in {current_doc}"
         );
     }
+    assert_eq!(
+        csdlc_v3::commands::proof::CANONICAL_INSTALL_DESTINATION,
+        ".adl/bin/csdlc",
+        "native install and cutover must share one stable destination"
+    );
 }
 
 #[test]
