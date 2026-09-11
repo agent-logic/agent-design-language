@@ -1,0 +1,52 @@
+   Compiling csdlc-v3 v0.1.0 ([issue-worktree]/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.03s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+
+running 45 tests
+test commands::remote::tests::already_removed_cleanup_still_requires_terminal_and_preview_gates ... ok
+test commands::remote::tests::accepted_review_requires_typed_evidence_digest_and_scope ... ok
+test commands::remote::tests::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
+test commands::remote::tests::cleanup_constructor_rejects_self_made_git_directory_registration ... ok
+test commands::remote::tests::issue_metadata_readback_requires_exact_requested_sets_and_clear ... ok
+test commands::remote::tests::issue_metadata_resolves_add_remove_and_preserves_body_before_intent ... ok
+test commands::remote::tests::cleanup_requires_committed_closed_out_state_and_receipt ... ok
+test commands::remote::tests::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
+test commands::remote::tests::cleanup_removal_executes_and_distinguishes_removed_states ... ok
+test commands::remote::tests::cleanup_is_separate_preview_first_and_path_exact ... ok
+test commands::remote::tests::issue_close_rejects_missing_rationale_duplicate_owner_and_completion_reason ... ok
+test commands::remote::tests::invalid_pr_branch_is_rejected_before_intent_or_dispatch ... ok
+test commands::remote::tests::issue_metadata_omission_clear_and_legacy_serialization_are_distinct ... ok
+test commands::remote::tests::issue_close_restart_reconciles_without_replaying_mutation ... ok
+test commands::remote::tests::legacy_ready_intent_ready_during_resolution_reconciles_without_retry ... ok
+test commands::remote::tests::issue_close_mutation_patches_closed_not_planned_and_reconciles ... ok
+test commands::remote::tests::part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority ... ok
+test commands::remote::tests::part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup ... ok
+test commands::remote::tests::publication_modes_require_exact_relation ... ok
+test commands::remote::tests::comment_pagination_allows_explicit_retry_only_after_complete_absence ... ok
+test commands::remote::tests::issue_create_mutation_posts_and_reconciles_assigned_issue_number ... ok
+test commands::remote::tests::reconciliation_matches_issue_edit_pr_update_and_ready_exact_state ... ok
+test commands::remote::tests::remote_delivery_rejects_unverified_or_wrong_source_observations ... ok
+test commands::remote::tests::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
+test commands::remote::tests::legacy_ready_intent_recovers_without_rewriting_original_intent ... ok
+test commands::remote::tests::issue_metadata_invalid_baseline_cannot_create_intent_or_write ... ok
+test commands::remote::tests::legacy_ready_intent_uncertain_retry_cannot_dispatch_twice ... ok
+test commands::remote::tests::review_binds_exact_scope_revision_reviewer_and_findings ... ok
+test commands::remote::tests::same_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::v3e_denominator_is_exact ... ok
+test commands::remote::tests::verified_receipt_must_match_the_exact_subject_value ... ok
+test commands::remote::tests::whitespace_variant_principal_cannot_self_authorize_publication ... ok
+test commands::remote::tests::issue_metadata_uncertain_write_reuses_retained_target_and_rejects_drift ... ok
+test commands::remote::tests::operational_dispatcher_rejects_forged_exact_review_sha ... ok
+test commands::remote::tests::missing_credential_fails_before_persisting_mutation_intent ... ok
+test commands::remote::tests::mutation_intent_precedes_dispatch_and_uncertain_comment_reconciles ... ok
+test commands::remote::tests::pull_request_ready_uses_graphql_and_reconciles_exact_pr_head_and_state ... ok
+test commands::remote::tests::restart_reconciles_pr_create_without_replaying_mutation ... ok
+test commands::remote::tests::retained_intent_with_unavailable_readback_stays_fail_closed_even_with_recovery ... ok
+test commands::remote::tests::operational_dispatcher_fails_pre_cutover_and_serializes_review_result ... ok
+test commands::remote::tests::retained_intent_requires_explicit_authenticated_absence_recovery_before_retry ... ok
+test commands::remote::tests::pull_request_ready_distinguishes_rejection_still_draft_and_bad_identity ... ok
+test commands::remote::tests::legacy_ready_intent_rejects_unverified_recovery_before_mutation ... ok
+test commands::remote::tests::pull_request_ready_is_idempotent_and_authenticated_absence_recovery_is_one_shot ... ok
+test commands::remote::tests::comment_pagination_reuses_later_match_and_rejects_incomplete_or_ambiguous_scan ... ok
+
+test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 1.55s

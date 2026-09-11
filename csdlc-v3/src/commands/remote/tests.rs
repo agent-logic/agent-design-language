@@ -772,6 +772,7 @@ struct SequencedProcessAdapter {
     invocations: Vec<crate::adapters::CommandInvocation>,
     intent_path: Option<PathBuf>,
     credential_available: bool,
+    recovery_path: Option<PathBuf>,
 }
 
 impl SequencedProcessAdapter {
@@ -781,6 +782,7 @@ impl SequencedProcessAdapter {
             invocations: Vec::new(),
             intent_path: None,
             credential_available: true,
+            recovery_path: None,
         }
     }
 
@@ -816,6 +818,23 @@ impl crate::adapters::ProcessAdapter for SequencedProcessAdapter {
                 self.intent_path.as_ref().is_some_and(|path| path.exists()),
                 "durable intent must exist before external mutation"
             );
+        }
+        if invocation.program == super::GITHUB_OPERATIONAL_ADAPTER {
+            if let Some(path) = &self.recovery_path {
+                let receipt: serde_json::Value = serde_json::from_slice(
+                    &fs::read(path).expect("recovery must be durable before dispatch"),
+                )
+                .unwrap();
+                assert_eq!(
+                    receipt["resolved_ready_target"]["node_id"],
+                    "PR_kwDO-ready-822"
+                );
+                assert_eq!(
+                    receipt["resolved_ready_target"]["head_sha"],
+                    receipt["expected_head_sha"]
+                );
+                assert_eq!(receipt["resolved_ready_target"]["draft"], true);
+            }
         }
         self.invocations.push(invocation);
         self.outputs.pop_front().expect("scripted process output")
@@ -877,6 +896,76 @@ fn ready_response(head: &str) -> serde_json::Value {
             "isDraft": false
         }}}
     })
+}
+
+// PVF: required deterministic local recovery regression; fake transport, small CPU.
+#[test]
+fn legacy_ready_intent_recovers_without_rewriting_original_intent() {
+    let root = mutation_repo("legacy-ready-recovery", true);
+    let head = mutation_head(&root);
+    let mut request = ready_request(&head);
+    let digest = super::github_mutation_operation_digest(&request);
+    let intent_path = persist_mutation_intent(&root, &request);
+    let original = fs::read(&intent_path).unwrap();
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut adapter = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_response(&head),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, false),
+        ),
+    ])
+    .requiring_intent(intent_path.clone());
+    adapter.recovery_path = Some(super::github_mutation_recovery_path(&root, &digest).unwrap());
+    let result = super::execute_github_mutation(&root, &request, &mut adapter).unwrap();
+    assert_eq!(result.receipt.pull_request, Some(822));
+    assert_eq!(fs::read(&intent_path).unwrap(), original);
+    let recovery: serde_json::Value = serde_json::from_slice(
+        &fs::read(super::github_mutation_recovery_path(&root, &digest).unwrap()).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        recovery["resolved_ready_target"]["node_id"],
+        "PR_kwDO-ready-822"
+    );
+    assert_eq!(recovery["resolved_ready_target"]["head_sha"], head);
+    assert_eq!(
+        adapter
+            .invocations
+            .iter()
+            .filter(|i| i.program == super::GITHUB_OPERATIONAL_ADAPTER)
+            .count(),
+        1
+    );
+    let mut again = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        ready_readback(&head, false),
+    )]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut again)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+    assert!(again
+        .invocations
+        .iter()
+        .all(|i| i.program == super::GITHUB_READ_ONLY_ADAPTER));
+    assert!(!root
+        .join(".git/csdlc-v3/runtime")
+        .join(format!("github-mutation-{digest}.json"))
+        .exists());
 }
 
 // PVF: deterministic local CPU contract; fake authenticated transport; no live mutation.
@@ -2522,4 +2611,180 @@ fn comment_pagination_allows_explicit_retry_only_after_complete_absence() {
     assert_eq!(process.invocations[2].argv()[0], "POST");
     assert_eq!(process.invocations[3].argv()[3], "1");
     assert_eq!(process.invocations[4].argv()[3], "2");
+}
+
+// PVF: required deterministic local recovery negatives; fake transport, small CPU.
+#[test]
+fn legacy_ready_intent_rejects_unverified_recovery_before_mutation() {
+    for case in [
+        "no-authorization",
+        "wrong-head",
+        "wrong-number",
+        "missing-node",
+        "lookup-timeout",
+        "credential-missing",
+    ] {
+        let root = mutation_repo(&format!("legacy-{case}"), true);
+        let head = mutation_head(&root);
+        let mut request = ready_request(&head);
+        let digest = super::github_mutation_operation_digest(&request);
+        let path = persist_mutation_intent(&root, &request);
+        let original = fs::read(&path).unwrap();
+        if case != "no-authorization" {
+            request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+        }
+        let mut lookup = ready_readback(&head, true);
+        match case {
+            "wrong-head" => lookup["head"]["sha"] = serde_json::json!("bad-head"),
+            "wrong-number" => lookup["number"] = serde_json::json!(823),
+            "missing-node" => {
+                lookup.as_object_mut().unwrap().remove("node_id");
+            }
+            _ => {}
+        }
+        let mut outputs = vec![process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        )];
+        if case != "no-authorization" {
+            outputs.push(process_output(
+                if case == "lookup-timeout" {
+                    crate::adapters::ProcessStatus::TimedOut
+                } else {
+                    crate::adapters::ProcessStatus::Exit(0)
+                },
+                lookup,
+            ));
+        }
+        let mut adapter = SequencedProcessAdapter::new(outputs);
+        if case == "credential-missing" {
+            adapter = adapter.without_credential();
+        }
+        assert!(
+            super::execute_github_mutation(&root, &request, &mut adapter).is_err(),
+            "{case}"
+        );
+        assert!(
+            adapter
+                .invocations
+                .iter()
+                .all(|i| i.program == super::GITHUB_READ_ONLY_ADAPTER),
+            "{case}"
+        );
+        assert!(
+            !super::github_mutation_recovery_path(&root, &digest)
+                .unwrap()
+                .exists(),
+            "{case}"
+        );
+        assert_eq!(fs::read(&path).unwrap(), original);
+        assert!(!root
+            .join(".git/csdlc-v3/runtime")
+            .join(format!("github-mutation-{digest}.json"))
+            .exists());
+    }
+}
+
+// PVF: required deterministic local one-shot recovery contract; fake transport.
+#[test]
+fn legacy_ready_intent_uncertain_retry_cannot_dispatch_twice() {
+    let root = mutation_repo("legacy-ready-uncertain", true);
+    let head = mutation_head(&root);
+    let mut request = ready_request(&head);
+    let digest = super::github_mutation_operation_digest(&request);
+    let path = persist_mutation_intent(&root, &request);
+    let original = fs::read(&path).unwrap();
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut adapter = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::TimedOut,
+            serde_json::json!({}),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+    ])
+    .requiring_intent(path.clone());
+    adapter.recovery_path = Some(super::github_mutation_recovery_path(&root, &digest).unwrap());
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut adapter)
+            .unwrap_err()
+            .code,
+        "github_mutation_reconciliation_pending"
+    );
+    let mut again = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        ready_readback(&head, true),
+    )]);
+    assert_eq!(
+        super::execute_github_mutation(&root, &request, &mut again)
+            .unwrap_err()
+            .code,
+        "github_mutation_recovery_already_consumed"
+    );
+    assert_eq!(again.invocations.len(), 1);
+    assert_eq!(fs::read(&path).unwrap(), original);
+    assert!(!root
+        .join(".git/csdlc-v3/runtime")
+        .join(format!("github-mutation-{digest}.json"))
+        .exists());
+    let mut completed = SequencedProcessAdapter::new(vec![process_output(
+        crate::adapters::ProcessStatus::Exit(0),
+        ready_readback(&head, false),
+    )]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut completed)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+}
+
+// PVF: required deterministic local already-ready race; fake transport, no mutation.
+#[test]
+fn legacy_ready_intent_ready_during_resolution_reconciles_without_retry() {
+    let root = mutation_repo("legacy-ready-race", true);
+    let head = mutation_head(&root);
+    let mut request = ready_request(&head);
+    let digest = super::github_mutation_operation_digest(&request);
+    let path = persist_mutation_intent(&root, &request);
+    let original = fs::read(&path).unwrap();
+    request.recovery = Some(super::GithubMutationRecovery::RetryAfterAuthenticatedAbsence);
+    let mut adapter = SequencedProcessAdapter::new(vec![
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, true),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, false),
+        ),
+        process_output(
+            crate::adapters::ProcessStatus::Exit(0),
+            ready_readback(&head, false),
+        ),
+    ]);
+    assert!(
+        super::execute_github_mutation(&root, &request, &mut adapter)
+            .unwrap()
+            .receipt
+            .idempotent_replay
+    );
+    assert!(adapter
+        .invocations
+        .iter()
+        .all(|i| i.program == super::GITHUB_READ_ONLY_ADAPTER));
+    assert!(!super::github_mutation_recovery_path(&root, &digest)
+        .unwrap()
+        .exists());
+    assert_eq!(fs::read(&path).unwrap(), original);
 }

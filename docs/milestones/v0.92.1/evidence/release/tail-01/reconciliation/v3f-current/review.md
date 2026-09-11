@@ -1,3 +1,5 @@
-# Independent exact-source review
+# Current V3-F source review
 
-Both preassigned reviewers passed source `4d641e9961505d75a145457103cfa86f65ce51b1` across all 162 coupled paths. Fresh component receipts record changed-file review, verified prior-source reuse, criterion assessments and limits. The primary terminal fixture integration mismatch is fixed without weakening receipt preflight. Full-suite execution is a separate receipt. No new actionable in-scope findings.
+Source: `a32cc903e12375690613b8a4bf003e985390a221`. Independent reviewer: `codex:review_835`.
+
+No actionable findings. All11 changed or added paths were reviewed against the archived163-file baseline;153 files are unchanged and the current complete scope has164 files. The legacy-ready recovery defect is fixed. The suite receipt independently establishes execution; this review does not claim live mutation, a new canary or release approval.

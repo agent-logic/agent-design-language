@@ -234,3 +234,27 @@ small deterministic local CPU/filesystem/Git fixtures and fake transports;
 no live GitHub writes. Existing selector, credentials, durable input permissions
 and stdout/stderr/redaction behavior remain unchanged. Tests cover request and
 PATCH shape, exact readback, retained retry targets and drift rejection.
+
+### Retained pull-request-ready intent recovery
+
+A legacy ready intent may lack `resolved_ready_target`. An explicit
+`retry_after_authenticated_absence` request first performs exact authenticated
+readback. Only a draft result can enter recovery. The missing target is then
+resolved through authenticated PR-number, node-ID, head and draft-state checks.
+The original intent bytes and digest remain unchanged; the create-only recovery
+receipt retains `resolved_ready_target` before mutation dispatch. This optional
+receipt field preserves compatibility with older records.
+
+If resolution observes an already-ready PR, exact read-only reconciliation
+finishes the operation without consuming a mutation retry. A dispatched retry
+consumes the existing one-shot recovery allowance even when transport or
+readback is uncertain. A later invocation may reconcile a completed operation,
+but cannot dispatch another recovery mutation. Invalid or unavailable target
+resolution fails before mutation and does not consume the recovery allowance.
+
+PVF: `legacy_ready_intent_*` are required native-owner recovery regression
+checks using deterministic local Git/filesystem fixtures and fake transport.
+They prove preservation of the original intent, target-bearing receipt before
+dispatch, no-authorization and identity/lookup failures, already-ready races,
+one-shot uncertain recovery, reconciliation replay and private input cleanup.
+No live GitHub mutation or logging-channel change is involved.
