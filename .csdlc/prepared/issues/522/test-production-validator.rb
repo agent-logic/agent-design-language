@@ -16,13 +16,13 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
    sh!("git","add","."); sh!("git","commit","-qm","source #{issue}"); merge=`git rev-parse HEAD`.strip
    reports << {"issue"=>issue,"pull_request"=>pr,"merge_sha"=>merge,"path"=>path,"sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{path}`),"packet_manifest_path"=>mp,"packet_manifest_sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{mp}`),"reviewed_revision"=>internal_candidate,"finding_ids"=>findings.map{|f|f["id"]},"finding_digests"=>findings.to_h{|f|[f["id"],Digest::SHA256.hexdigest(canonical_json(f))]}}
   end
-  File.write("remediated-candidate","ready\n"); sh!("git","add","."); sh!("git","commit","-qm","remediated candidate"); external_candidate=`git rev-parse HEAD`.strip
   external_findings = EXTERNAL_FINDING_IDS.each_with_index.map do |id, index|
-    {"id"=>id,"severity"=>(index < 3 ? "P1" : "P2"),"status"=>"blocking","evidence"=>"source.rb:#{index + 1}","revision"=>external_candidate,"title"=>"gap #{index + 1}"}
+    {"id"=>id,"severity"=>(index < 3 ? "P1" : "P2"),"status"=>"blocking","evidence"=>"source.rb:#{index + 1}","title"=>"gap #{index + 1}"}
   end
-  issue=521; pr=901; path="sources/#{issue}/report.json"; wj(path,{"candidate_sha"=>external_candidate,"outcome"=>"findings","findings"=>external_findings}); mp="sources/#{issue}/manifest.json"; wj(mp,{"entries"=>[{"path"=>path,"sha256"=>Digest::SHA256.file(path).hexdigest}]})
+  issue=521; pr=901; path="sources/#{issue}/report.json"; wj(path,{"candidate_sha"=>nil,"outcome"=>"failed","non_proving"=>true,"findings"=>external_findings}); mp="sources/#{issue}/manifest.json"; wj(mp,{"entries"=>[{"path"=>path,"sha256"=>Digest::SHA256.file(path).hexdigest}]})
   sh!("git","add","."); sh!("git","commit","-qm","source #{issue}"); merge=`git rev-parse HEAD`.strip
-  reports << {"issue"=>issue,"pull_request"=>pr,"merge_sha"=>merge,"path"=>path,"sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{path}`),"packet_manifest_path"=>mp,"packet_manifest_sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{mp}`),"reviewed_revision"=>external_candidate,"finding_ids"=>external_findings.map{|f|f["id"]},"finding_digests"=>external_findings.to_h{|f|[f["id"],Digest::SHA256.hexdigest(canonical_json(f))]}}
+  reports[0]["binding"]="exact_revision"
+  reports << {"issue"=>issue,"pull_request"=>pr,"merge_sha"=>merge,"path"=>path,"sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{path}`),"packet_manifest_path"=>mp,"packet_manifest_sha256"=>Digest::SHA256.hexdigest(`git show #{merge}:#{mp}`),"binding"=>"missing_revision","reviewed_revision"=>nil,"finding_ids"=>external_findings.map{|f|f["id"]},"finding_digests"=>external_findings.to_h{|f|[f["id"],Digest::SHA256.hexdigest(canonical_json(f))]}}
   findings = internal_findings + external_findings
   FileUtils.mkdir_p("remediation"); File.write("remediation/fix.txt","fixed\n")
   sh!("git","add","."); sh!("git","commit","-qm","remediation"); head=`git rev-parse HEAD`.strip
@@ -31,7 +31,7 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   review_path=File.join(root,"review.json"); wj(review_path,{"outcome"=>"passed","candidate_sha"=>head,"findings"=>[],"blockers"=>[],"resolved_finding_ids"=>INTERNAL_FINDING_IDS + EXTERNAL_FINDING_IDS})
   fix_digest=Digest::SHA256.hexdigest(`git show #{head}:remediation/fix.txt`)
   validation_path=File.join(root,"validation.json"); wj(validation_path,{"outcome"=>"passed","head_sha"=>head,"failures"=>[],"observations"=>[{"artifact_path"=>"remediation/fix.txt","artifact_sha256"=>fix_digest,"result"=>"verified","behavior"=>"remediation output is present at exact head"}]})
-  source_path=File.join(root,"source-findings.json"); wj(source_path,{"ledger_candidate_sha"=>ledger,"reviewed_candidate_shas"=>{"520"=>internal_candidate,"521"=>external_candidate},"reports"=>reports,"findings"=>findings})
+  source_path=File.join(root,"source-findings.json"); wj(source_path,{"ledger_candidate_sha"=>ledger,"source_bindings"=>{"520"=>internal_candidate,"521"=>nil},"reports"=>reports,"findings"=>findings})
   remediation={"issue"=>700,"pull_request"=>902,"head_sha"=>head,"merge_sha"=>head,"artifacts"=>[{"path"=>"remediation/fix.txt","sha256"=>fix_digest}]}
   review={
     "reviewer"=>"reviewer", "reviewed_sha"=>head, "observed_pr_head_sha"=>head,
@@ -54,7 +54,7 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   reject.call("empty_remediation_list",[disposition_path,manifest_path]){d=JSON.parse(File.read(disposition_path));d["dispositions"][0]["remediations"]=[];wj(disposition_path,d)}
   reject.call("pass_with_findings",[review_path,manifest_path]){d=JSON.parse(File.read(review_path));d["findings"]=[{"id"=>"still-open"}];wj(review_path,d)}
   reject.call("invented_twentieth_finding",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["findings"] << d["findings"].last.merge("id"=>"TPR-006");wj(source_path,d)}
-  reject.call("collapsed_source_candidates",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["reviewed_candidate_shas"]["521"]=internal_candidate;wj(source_path,d)}
+  reject.call("invented_external_binding",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["source_bindings"]["521"]=internal_candidate;wj(source_path,d)}
   reject.call("digest_mismatch",[validation_path,manifest_path]){File.write(validation_path,"{}")}
   reject.call("stale_head",[disposition_path,manifest_path]){d=JSON.parse(File.read(disposition_path));d["dispositions"][0]["remediations"][0]["head_sha"]=internal_candidate;wj(disposition_path,d)}
   empty_tree=`git mktree </dev/null`.strip; other,err,status=Open3.capture3("git","commit-tree",empty_tree,stdin_data:"unrelated\n"); abort(err) unless status.success?; other=other.strip

@@ -11,9 +11,12 @@ Produce one ledger that accounts for all accepted review findings exactly once:
 #522 coordinates and proves dispositions. Each substantive fix remains a
 separately reviewable change; the ledger cannot erase or silently defer work.
 
-The source census is parsed from the digest-verified #520 and #521 review
-reports read from their live-verified exact merge commits. A packet-authored
-list cannot add, omit, rename, downgrade, or rewrite finding content. Fixed
+The source census is parsed from the digest-verified #520 report and retained
+failed #521 third-party report, both read from their live-verified exact merge
+commits. The #521 source remains explicitly non-proving because it lacked a
+candidate SHA; that missing binding is `TPR-001`, not a reason to erase the
+other four findings. A packet-authored list cannot add, omit, rename,
+downgrade, or rewrite finding content. Fixed
 dispositions require digest-verified machine-readable validation and review
 results that both report pass at the exact remediated head. Deferral eligibility
 is derived from source severity, status, and release-blocking flags; a
@@ -23,11 +26,11 @@ The external-review subset is exactly `TPR-001` through `TPR-005`. The
 internal-review subset is exactly the 14 `D520-*` findings retained by #520.
 Any additional or missing identifier in either source is a census failure.
 
-#520 and #521 are each bound to their own immutable reviewed revision. They
-are not required to share a candidate SHA: #520 necessarily precedes its
-remediation, while #521 reviews the later frozen candidate. Both source-report
-merges and every remediation merge must be ancestral to the final ledger
-candidate.
+#520 is bound to its historical immutable reviewed revision. The retained
+failed #521 source is deliberately recorded with a missing revision and
+`non_proving: true`; the successful exact-candidate re-review belongs to the
+`TPR-001` remediation evidence. Both source-report merges and every remediation
+merge must be ancestral to the final ledger candidate.
 
 A finding may require more than one reviewed remediation PR. The disposition
 still owns the source finding exactly once, while its `remediations` list binds

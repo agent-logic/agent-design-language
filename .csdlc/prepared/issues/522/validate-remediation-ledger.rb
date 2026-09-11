@@ -88,26 +88,34 @@ reports.each do |report|
   fail!("source packet manifest digest mismatch") unless Digest::SHA256.hexdigest(source_manifest_blob) == report.fetch("packet_manifest_sha256")
   source_manifest = JSON.parse(source_manifest_blob)
   fail!("source report is not a manifested merged output") unless source_manifest.fetch("entries").any? { |entry| entry.fetch("path") == path && entry.fetch("sha256") == report.fetch("sha256") }
-  fail!("source report lacks exact reviewed revision") unless report.fetch("reviewed_revision").match?(/\A[0-9a-f]{40}\z/)
-  fail!("source reviewed revision is not an immutable commit") unless system("git", "cat-file", "-e", "#{report.fetch('reviewed_revision')}^{commit}")
   report_doc = JSON.parse(report_blob)
-  fail!("source report is not exact-head bound") unless report_doc.fetch("candidate_sha") == report.fetch("reviewed_revision")
   outcome = report_doc.fetch("outcome")
-  fail!("source review outcome is invalid") unless %w[passed findings].include?(outcome)
+  fail!("source review outcome is invalid") unless %w[passed findings failed].include?(outcome)
   parsed_findings = report_doc.fetch("findings")
-  fail!("source review outcome contradicts findings") unless (outcome == "passed") == parsed_findings.empty?
+  fail!("source review outcome contradicts findings") if (outcome == "passed") != parsed_findings.empty?
   parsed_ids = parsed_findings.map { |finding| finding.fetch("id") }
   fail!("source report finding-ID projection is false") unless report.fetch("finding_ids").sort == parsed_ids.sort
   parsed_digests = parsed_findings.to_h { |finding| [finding.fetch("id"), Digest::SHA256.hexdigest(canonical_json(finding))] }
   fail!("source report finding-content digests are false") unless report.fetch("finding_digests") == parsed_digests
-  fail!("source finding is stale") unless parsed_findings.all? { |finding| finding.fetch("revision") == report.fetch("reviewed_revision") }
+  case report.fetch("binding")
+  when "exact_revision"
+    revision = report.fetch("reviewed_revision")
+    fail!("source report lacks exact reviewed revision") unless revision.match?(/\A[0-9a-f]{40}\z/)
+    fail!("source reviewed revision is not an immutable commit") unless system("git", "cat-file", "-e", "#{revision}^{commit}")
+    fail!("source report is not exact-head bound") unless report_doc.fetch("candidate_sha") == revision
+    fail!("source finding is stale") unless parsed_findings.all? { |finding| finding.fetch("revision") == revision }
+  when "missing_revision"
+    fail!("only the retained failed #521 review may lack revision binding") unless report.fetch("issue") == 521 && report["reviewed_revision"].nil? && report_doc["candidate_sha"].nil? && report_doc["non_proving"] == true && outcome == "failed"
+  else
+    fail!("source report has unsupported revision binding")
+  end
   fail!("source finding severity or evidence is invalid") unless parsed_findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && nonempty?(finding.fetch("status")) && nonempty?(finding.fetch("evidence")) }
 end
 source_reports = reports.to_h { |report| [report.fetch("issue"), JSON.parse(git_blob(report.fetch("merge_sha"), report.fetch("path")))] }
-source_candidates = source_reports.transform_values { |report| report.fetch("candidate_sha") }
-declared_candidates = source_doc.fetch("reviewed_candidate_shas")
-fail!("source candidate declaration must contain exactly #520 and #521") unless declared_candidates.keys.sort == %w[520 521]
-fail!("source reports do not match their ledger-declared candidates") unless declared_candidates == source_candidates.transform_keys(&:to_s)
+source_bindings = reports.to_h { |report| [report.fetch("issue").to_s, report["reviewed_revision"]] }
+declared_bindings = source_doc.fetch("source_bindings")
+fail!("source binding declaration must contain exactly #520 and #521") unless declared_bindings.keys.sort == %w[520 521]
+fail!("source reports do not match their ledger-declared bindings") unless declared_bindings == source_bindings
 internal_ids = source_reports.fetch(520).fetch("findings").map { |finding| finding.fetch("id") }
 external_ids = source_reports.fetch(521).fetch("findings").map { |finding| finding.fetch("id") }
 fail!("internal-review finding denominator is not the 14 accepted D520 findings") unless internal_ids.sort == INTERNAL_FINDING_IDS.sort
