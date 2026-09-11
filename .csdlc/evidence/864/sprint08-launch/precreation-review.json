@@ -1,0 +1,30 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 8,
+  "issues": [
+    {
+      "task": "OPS-AWS",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "f03c2f46447692702ed15de5cdce20713d8fc8c7297cfae28e2fe53a5ef978f0"
+    },
+    {
+      "task": "OPS-GCP",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "c57412ed74a02ab77828ac2f3287404a0bcf330e75360c06e17bf0678847eb09"
+    },
+    {
+      "task": "OBS-S3",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "45f71c61481d041527a02bdd93a9e3f3b911039b176239239cafe08bac104a5a"
+    }
+  ]
+}

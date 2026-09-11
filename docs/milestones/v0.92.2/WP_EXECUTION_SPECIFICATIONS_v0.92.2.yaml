@@ -5,52 +5,147 @@ specifications:
   - id: WP-01
     outcome: A reviewed canonical package and bounded, dependency-correct execution wave.
     owned_surfaces: [docs/milestones/v0.92.2]
-    acceptance: [inventory_complete, issue_wave_number_free, no_unapproved_issue_creation, release_tail_exact]
+    acceptance: [inventory_complete, uncreated_rows_number_free, no_unapproved_issue_creation, release_tail_exact]
     pvf: [docs_contract, yaml_contract, link_integrity]
     stop_conditions: [missing_authority, unresolved_scope_conflict]
     non_goals: [implementation, release_approval]
+    issue: 864
   - id: CF-SHELL
-    outcome: An operator can configure, start, inspect, and control a review without hidden state.
-    owned_surfaces: [product_shell, onboarding, operator_controls]
-    acceptance: [guided_setup, explicit_run_state, inspectable_artifacts, accessible_failure_states]
-    pvf: [operator_journey, component_contract, accessibility]
-    stop_conditions: [implicit_publication, secret_exposure]
-    non_goals: [enterprise_connectors, autonomous_mutation]
+    outcome: "A fresh operator configures, starts, inspects, cancels and retries an actual bounded review and opens its real artifacts through the installed product."
+    owned_surfaces: ["product_shell", "onboarding", "operator_controls"]
+    acceptance: ["guided_setup", "explicit_run_state", "inspectable_artifacts", "accessible_failure_states", "fresh_operator_real_review", "actual_artifacts_opened", "cancel_retry_recovery"]
+    pvf: ["operator_journey", "component_contract", "accessibility", "fresh_operator_real_review", "actual_artifacts_opened", "cancel_retry_recovery", "mock_runner_rejected", "placeholder_status_rejected"]
+    stop_conditions: ["implicit_publication", "secret_exposure", "required_proof_not_executed", "partial_artifact_claimed_complete", "mock_review_runner", "placeholder_artifact_view"]
+    non_goals: ["enterprise_connectors", "autonomous_mutation"]
+    completion_contract: {"task": "A fresh operator configures, starts, inspects, cancels and retries an actual bounded review and opens its real artifacts through the installed product.", "consumer": "installed_codefriend_review_command", "success_evidence": ["fresh_operator_real_review", "actual_artifacts_opened", "cancel_retry_recovery"], "failure_evidence": ["mock_runner_rejected", "placeholder_status_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    selection_gates: ["concrete_product_command", "owned_source_paths", "supported_environment"]
+    issue: 891
   - id: CF-ADAPTER
-    outcome: Local, GitHub, and CI sources produce the same portable repository-packet contract.
-    owned_surfaces: [adapter_v2, repository_packet]
-    acceptance: [portable_paths, bounded_inputs, partial_state_explicit, adapter_parity]
-    pvf: [fixture_conformance, negative_inputs, portability]
-    stop_conditions: [host_bound_packet, credential_capture]
-    non_goals: [jira, linear, slack, broad_workspace]
+    outcome: "The local CodeFriend ingestion entrypoint emits a bounded immutable packet usable by evidence admission."
+    owned_surfaces: ["local_repository_ingestion"]
+    acceptance: ["local_checkout_packet_consumed", "revision_and_scope_bound", "portable_paths", "bounded_inputs", "partial_state_explicit", "adapter_parity"]
+    pvf: ["local_checkout_packet_consumed", "revision_and_scope_bound", "outside_root_rejected", "partial_input_explicit", "fixture_conformance", "negative_inputs", "portability"]
+    stop_conditions: ["host_bound_packet", "credential_capture", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "jira", "linear", "slack", "broad_workspace"]
+    completion_contract: {"task": "The local CodeFriend ingestion entrypoint emits a bounded immutable packet usable by evidence admission.", "consumer": "local_repository_ingestion", "success_evidence": ["local_checkout_packet_consumed", "revision_and_scope_bound"], "failure_evidence": ["outside_root_rejected", "partial_input_explicit"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 878
+  - id: CF-ADAPTER-GITHUB
+    outcome: "The GitHub CodeFriend ingestion entrypoint resolves and records an exact revision and emits the same consumable packet as local ingestion."
+    owned_surfaces: ["github_repository_ingestion"]
+    acceptance: ["pinned_revision_packet_consumed", "local_contract_parity", "portable_paths", "bounded_inputs", "partial_state_explicit"]
+    pvf: ["pinned_revision_packet_consumed", "local_contract_parity", "wrong_revision_rejected", "credential_capture_rejected", "negative_inputs", "portability"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "host_bound_packet", "credential_capture"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "jira", "linear", "slack", "broad_workspace"]
+    completion_contract: {"task": "The GitHub CodeFriend ingestion entrypoint resolves and records an exact revision and emits the same consumable packet as local ingestion.", "consumer": "github_repository_ingestion", "success_evidence": ["pinned_revision_packet_consumed", "local_contract_parity"], "failure_evidence": ["wrong_revision_rejected", "credential_capture_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 879
+  - id: CF-ADAPTER-CI
+    outcome: "The CI CodeFriend ingestion entrypoint consumes declared checkout and revision inputs and emits the common packet with explicit partial-input state."
+    owned_surfaces: ["ci_repository_ingestion"]
+    acceptance: ["ci_packet_consumed", "local_contract_parity", "portable_paths", "bounded_inputs", "partial_state_explicit"]
+    pvf: ["ci_packet_consumed", "local_contract_parity", "missing_revision_rejected", "partial_input_explicit", "negative_inputs", "portability"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "host_bound_packet", "credential_capture"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "jira", "linear", "slack", "broad_workspace"]
+    completion_contract: {"task": "The CI CodeFriend ingestion entrypoint consumes declared checkout and revision inputs and emits the common packet with explicit partial-input state.", "consumer": "ci_repository_ingestion", "success_evidence": ["ci_packet_consumed", "local_contract_parity"], "failure_evidence": ["missing_revision_rejected", "partial_input_explicit"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 880
   - id: CF-EVIDENCE
-    outcome: Every review claim traces to stable, provenance-bound, redacted, policy-retained evidence.
-    owned_surfaces: [governed_evidence_core_contract]
-    acceptance: [stable_identity, immutable_provenance, fail_closed_redaction, explicit_retention, finding_run_contract_merged_before_consumers]
-    pvf: [determinism, tamper_detection, redaction_negative_suite, retention_contract, cross_consumer_conformance]
-    stop_conditions: [unredacted_secret, mutable_identity, unverifiable_provenance]
-    non_goals: [public_evidence_hosting]
+    outcome: "The adapter invokes a real evidence admission/store boundary that enforces stable identity, immutable provenance, redaction before retention/model use, retention/deletion and the shared finding/run contract."
+    owned_surfaces: ["governed_evidence_core_contract"]
+    acceptance: ["stable_identity", "immutable_provenance", "fail_closed_redaction", "explicit_retention", "finding_run_contract_merged_before_consumers", "adapter_packet_admitted", "durable_evidence_readback", "retention_delete_executed", "consumer_conformance"]
+    pvf: ["determinism", "tamper_detection", "redaction_negative_suite", "retention_contract", "cross_consumer_conformance", "adapter_packet_admitted", "durable_evidence_readback", "retention_delete_executed", "consumer_conformance", "schema_only_rejected", "secret_before_retention_rejected", "tampered_provenance_rejected"]
+    stop_conditions: ["unredacted_secret", "mutable_identity", "unverifiable_provenance", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["public_evidence_hosting"]
+    completion_contract: {"task": "The adapter invokes a real evidence admission/store boundary that enforces stable identity, immutable provenance, redaction before retention/model use, retention/deletion and the shared finding/run contract.", "consumer": "adapter_to_evidence_admission", "success_evidence": ["adapter_packet_admitted", "durable_evidence_readback", "retention_delete_executed", "consumer_conformance"], "failure_evidence": ["schema_only_rejected", "secret_before_retention_rejected", "tampered_provenance_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 881
   - id: CF-COG
-    outcome: Architecture and change-risk findings are explainable and evidence grounded.
-    owned_surfaces: [architecture_cognition_reporter]
-    acceptance: [finding_to_evidence_trace, confidence_or_unknowns, explicit_boundary_model, actionable_risk]
-    pvf: [known_fixture, reviewer_calibration, false_positive_sample]
-    stop_conditions: [unsupported_architecture_claim, opaque_score_only]
-    non_goals: [automatic_architecture_rewrite]
+    outcome: "The architecture reporter emits evidence-linked dependency, layering, coupling and connascence findings from the admitted repository graph."
+    owned_surfaces: ["repository_structure_reporter"]
+    acceptance: ["known_graph_findings", "evidence_to_explanation_trace", "finding_to_evidence_trace", "confidence_or_unknowns", "explicit_boundary_model", "actionable_risk"]
+    pvf: ["known_graph_findings", "evidence_to_explanation_trace", "unsupported_language_unknown", "false_positive_sample", "known_fixture", "reviewer_calibration"]
+    stop_conditions: ["unsupported_architecture_claim", "opaque_score_only", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "automatic_architecture_rewrite"]
+    completion_contract: {"task": "The architecture reporter emits evidence-linked dependency, layering, coupling and connascence findings from the admitted repository graph.", "consumer": "repository_structure_reporter", "success_evidence": ["known_graph_findings", "evidence_to_explanation_trace"], "failure_evidence": ["unsupported_language_unknown", "false_positive_sample"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 882
+  - id: CF-COG-DRIFT
+    outcome: "The architecture comparison entrypoint reports explainable structural drift between compatible baseline and current graphs."
+    owned_surfaces: ["architecture_drift_reporter"]
+    acceptance: ["known_structural_delta", "stable_baseline_comparison", "finding_to_evidence_trace", "confidence_or_unknowns"]
+    pvf: ["known_structural_delta", "stable_baseline_comparison", "incompatible_baseline_rejected", "partial_coverage_not_resolved", "reviewer_calibration", "false_positive_sample"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "unsupported_architecture_claim", "opaque_score_only"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "automatic_architecture_rewrite"]
+    completion_contract: {"task": "The architecture comparison entrypoint reports explainable structural drift between compatible baseline and current graphs.", "consumer": "architecture_drift_reporter", "success_evidence": ["known_structural_delta", "stable_baseline_comparison"], "failure_evidence": ["incompatible_baseline_rejected", "partial_coverage_not_resolved"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 886
+  - id: CF-COG-IMPACT
+    outcome: "The change-risk entrypoint traces a changed symbol or module through dependency boundaries and emits bounded blast-radius findings."
+    owned_surfaces: ["change_impact_reporter"]
+    acceptance: ["known_change_blast_radius", "evidence_linked_impact", "finding_to_evidence_trace", "confidence_or_unknowns"]
+    pvf: ["known_change_blast_radius", "evidence_linked_impact", "unknown_edge_explicit", "opaque_score_rejected", "reviewer_calibration", "false_positive_sample"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "unsupported_architecture_claim", "opaque_score_only"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "automatic_architecture_rewrite"]
+    completion_contract: {"task": "The change-risk entrypoint traces a changed symbol or module through dependency boundaries and emits bounded blast-radius findings.", "consumer": "change_impact_reporter", "success_evidence": ["known_change_blast_radius", "evidence_linked_impact"], "failure_evidence": ["unknown_edge_explicit", "opaque_score_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 883
+  - id: CF-COG-RATIONALE
+    outcome: "The architecture rationale entrypoint relates independently deployable boundaries to available ADR evidence and reports missing or conflicting rationale explicitly."
+    owned_surfaces: ["architecture_rationale_reporter"]
+    acceptance: ["quanta_boundary_fixture", "adr_rationale_trace", "finding_to_evidence_trace", "confidence_or_unknowns"]
+    pvf: ["quanta_boundary_fixture", "adr_rationale_trace", "missing_rationale_unknown", "unsupported_claim_rejected", "reviewer_calibration", "false_positive_sample"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "unsupported_architecture_claim", "opaque_score_only"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "automatic_architecture_rewrite"]
+    completion_contract: {"task": "The architecture rationale entrypoint relates independently deployable boundaries to available ADR evidence and reports missing or conflicting rationale explicitly.", "consumer": "architecture_rationale_reporter", "success_evidence": ["quanta_boundary_fixture", "adr_rationale_trace"], "failure_evidence": ["missing_rationale_unknown", "unsupported_claim_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 884
   - id: CF-GOV
-    outcome: Teams can express and run bounded architecture fitness functions locally and in CI.
-    owned_surfaces: [fitness_contract, policy_runner, ci_adapter]
-    acceptance: [machine_checkable_invariants, human_judgment_separated, deterministic_results, clear_failure_output]
-    pvf: [pass_fixture, fail_fixture, repeatability, ci_contract]
-    stop_conditions: [policy_hidden_in_tests, nondeterministic_gate]
-    non_goals: [general_ci_orchestration]
+    outcome: "The local policy runner evaluates declared machine-checkable architecture invariants and emits deterministic pass/fail results with actionable locations."
+    owned_surfaces: ["local_fitness_runner"]
+    acceptance: ["passing_invariant_executes", "failing_invariant_executes", "machine_checkable_invariants", "human_judgment_separated", "deterministic_results", "clear_failure_output"]
+    pvf: ["passing_invariant_executes", "failing_invariant_executes", "human_judgment_not_machine_pass", "hidden_policy_rejected", "pass_fixture", "fail_fixture", "repeatability", "ci_contract"]
+    stop_conditions: ["policy_hidden_in_tests", "nondeterministic_gate", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "general_ci_orchestration"]
+    completion_contract: {"task": "The local policy runner evaluates declared machine-checkable architecture invariants and emits deterministic pass/fail results with actionable locations.", "consumer": "local_fitness_runner", "success_evidence": ["passing_invariant_executes", "failing_invariant_executes"], "failure_evidence": ["human_judgment_not_machine_pass", "hidden_policy_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 887
+  - id: CF-GOV-CI
+    outcome: "The CI adapter invokes the same local fitness runner and propagates its pass, fail and error states to actual CI exit status and artifacts."
+    owned_surfaces: ["ci_fitness_adapter"]
+    acceptance: ["ci_pass_exit", "ci_fail_exit", "local_result_parity"]
+    pvf: ["ci_pass_exit", "ci_fail_exit", "local_result_parity", "runner_error_not_success", "missing_artifact_rejected"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "general_ci_orchestration"]
+    completion_contract: {"task": "The CI adapter invokes the same local fitness runner and propagates its pass, fail and error states to actual CI exit status and artifacts.", "consumer": "ci_fitness_adapter", "success_evidence": ["ci_pass_exit", "ci_fail_exit", "local_result_parity"], "failure_evidence": ["runner_error_not_success", "missing_artifact_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 888
   - id: CF-REVIEW
-    outcome: Four attributed perspectives produce a deduplicated, severity-grounded review plus bounded remediation and test plans.
-    owned_surfaces: [correctness, security, adversarial, constitutional, synthesis, remediation, test_planning]
-    acceptance: [perspectives_preserved, isolated_pre_synthesis_inputs, disagreement_preserved, evidence_citations, severity_rationale, duplicate_control, no_silent_mutation]
-    pvf: [review_fixtures, isolated_lane_inputs, synthesis_contract, severity_calibration, action_plan_schema]
-    stop_conditions: [finding_without_evidence, hidden_perspective, source_mutation]
-    non_goals: [security_tournament, autonomous_fixing]
+    outcome: "The production review runner executes correctness, security, adversarial and constitutional lanes on one scoped packet and retains attributed lane results before synthesis."
+    owned_surfaces: ["isolated_review_runner"]
+    acceptance: ["four_lanes_execute", "attributed_evidence_findings", "provider_route_consumed", "isolated_pre_synthesis_inputs", "perspectives_preserved", "evidence_citations", "no_silent_mutation"]
+    pvf: ["four_lanes_execute", "attributed_evidence_findings", "provider_route_consumed", "peer_output_in_input_rejected", "partial_lane_not_complete", "no_source_mutation", "review_fixtures", "isolated_lane_inputs"]
+    stop_conditions: ["finding_without_evidence", "hidden_perspective", "source_mutation", "required_proof_not_executed", "partial_artifact_claimed_complete", "peer_results_exposed_before_lane_commit", "partial_lane_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "security_tournament", "autonomous_fixing"]
+    completion_contract: {"task": "The production review runner executes correctness, security, adversarial and constitutional lanes on one scoped packet and retains attributed lane results before synthesis.", "consumer": "isolated_review_runner", "success_evidence": ["four_lanes_execute", "attributed_evidence_findings", "provider_route_consumed", "isolated_pre_synthesis_inputs"], "failure_evidence": ["peer_output_in_input_rejected", "partial_lane_not_complete", "no_source_mutation"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 890
+  - id: CF-SYNTHESIS
+    outcome: "The synthesis entrypoint consumes committed lane results and emits deduplicated findings with source attribution, severity rationale and explicit disagreement."
+    owned_surfaces: ["review_synthesis"]
+    acceptance: ["duplicate_control", "severity_rationale", "disagreement_retained", "disagreement_preserved"]
+    pvf: ["duplicate_control", "severity_rationale", "disagreement_retained", "incomplete_lane_set_rejected", "unsupported_finding_rejected", "synthesis_contract", "severity_calibration"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "disagreement_erased", "finding_without_evidence"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "security_tournament", "autonomous_fixing"]
+    completion_contract: {"task": "The synthesis entrypoint consumes committed lane results and emits deduplicated findings with source attribution, severity rationale and explicit disagreement.", "consumer": "review_synthesis", "success_evidence": ["duplicate_control", "severity_rationale", "disagreement_retained", "disagreement_preserved"], "failure_evidence": ["incomplete_lane_set_rejected", "unsupported_finding_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 892
+  - id: CF-REMEDIATE
+    outcome: "The remediation planner consumes synthesized findings and produces dependency-ordered actionable repairs with ownership, evidence and acceptance criteria without changing source."
+    owned_surfaces: ["remediation_planner"]
+    acceptance: ["findings_to_actions_trace", "bounded_action_acceptance"]
+    pvf: ["findings_to_actions_trace", "bounded_action_acceptance", "unrelated_action_rejected", "source_mutation_rejected", "action_plan_schema"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "source_mutation", "unbounded_or_untraceable_action"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "security_tournament", "autonomous_fixing"]
+    completion_contract: {"task": "The remediation planner consumes synthesized findings and produces dependency-ordered actionable repairs with ownership, evidence and acceptance criteria without changing source.", "consumer": "remediation_planner", "success_evidence": ["findings_to_actions_trace", "bounded_action_acceptance"], "failure_evidence": ["unrelated_action_rejected", "source_mutation_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 893
+  - id: CF-TESTPLAN
+    outcome: "The test planner consumes synthesized findings and maps each selected finding to a concrete behavior, test location, fixture and expected failure without changing source."
+    owned_surfaces: ["test_planner"]
+    acceptance: ["finding_to_behavior_trace", "concrete_test_plan_consumed"]
+    pvf: ["finding_to_behavior_trace", "concrete_test_plan_consumed", "implementation_mirroring_rejected", "source_mutation_rejected", "action_plan_schema"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "source_mutation", "test_without_behavior_mapping"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "security_tournament", "autonomous_fixing"]
+    completion_contract: {"task": "The test planner consumes synthesized findings and maps each selected finding to a concrete behavior, test location, fixture and expected failure without changing source.", "consumer": "test_planner", "success_evidence": ["finding_to_behavior_trace", "concrete_test_plan_consumed"], "failure_evidence": ["implementation_mirroring_rejected", "source_mutation_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 894
   - id: CF-MEMORY
     outcome: A second review reports stable, explainable change from the first.
     owned_surfaces: [baseline_store, compatibility, comparison, delta_report]
@@ -58,34 +153,177 @@ specifications:
     pvf: [two_run_fixture, version_mismatch, deleted_artifact, deterministic_delta]
     stop_conditions: [silent_incompatible_compare, identity_collision]
     non_goals: [unbounded organizational_memory]
+    issue: 885
   - id: CF-UX
-    outcome: Approved findings can be published consistently as Markdown, HTML, and PDF with complete governance metadata.
-    owned_surfaces: [approval, claims, nonclaims, privacy, legal, manifests, renderers, release_notes]
-    acceptance: [human_approval_required, output_parity, manifest_complete, withheld_state_supported]
-    pvf: [approval_negative_test, renderer_snapshot, manifest_validation, redaction_recheck]
-    stop_conditions: [automatic_publication, renderer_claim_drift]
-    non_goals: [public_customer_scale]
+    outcome: "The publication-control entrypoint binds approval to exact run, findings, renderer and target identities and supports withholding and invalidation before any publication."
+    owned_surfaces: ["publication_approval_control"]
+    acceptance: ["approval_binding", "withheld_state", "manifest_complete", "human_approval_required", "withheld_state_supported"]
+    pvf: ["approval_binding", "withheld_state", "manifest_complete", "changed_artifact_invalidates", "unapproved_publish_denied", "approval_negative_test", "manifest_validation"]
+    stop_conditions: ["automatic_publication", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "public_customer_scale"]
+    completion_contract: {"task": "The publication-control entrypoint binds approval to exact run, findings, renderer and target identities and supports withholding and invalidation before any publication.", "consumer": "publication_approval_control", "success_evidence": ["approval_binding", "withheld_state", "manifest_complete"], "failure_evidence": ["changed_artifact_invalidates", "unapproved_publish_denied"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 895
+  - id: CF-RENDER-MD
+    outcome: "The Markdown renderer consumes the governed publication contract and produces a complete usable report and manifest with traceable claims."
+    owned_surfaces: ["markdown_report_renderer"]
+    acceptance: ["markdown_report_rendered", "manifest_binding", "claim_parity", "output_parity"]
+    pvf: ["markdown_report_rendered", "manifest_binding", "claim_parity", "unapproved_render_denied", "redaction_rechecked", "renderer_snapshot", "redaction_recheck"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "renderer_claim_drift", "redaction_check_failed", "approval_missing_or_stale"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "public_customer_scale"]
+    completion_contract: {"task": "The Markdown renderer consumes the governed publication contract and produces a complete usable report and manifest with traceable claims.", "consumer": "markdown_report_renderer", "success_evidence": ["markdown_report_rendered", "manifest_binding", "claim_parity"], "failure_evidence": ["unapproved_render_denied", "redaction_rechecked"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 896
+  - id: CF-RENDER-HTML
+    outcome: "The HTML renderer consumes the governed publication contract and produces a navigable report with traceable findings and the same claims as Markdown."
+    owned_surfaces: ["html_report_renderer"]
+    acceptance: ["html_report_opened", "markdown_claim_parity", "manifest_binding", "output_parity"]
+    pvf: ["html_report_opened", "markdown_claim_parity", "manifest_binding", "unsafe_markup_escaped", "unapproved_render_denied", "renderer_snapshot", "redaction_recheck"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "renderer_claim_drift", "unsafe_html_emitted", "redaction_check_failed", "approval_missing_or_stale"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "public_customer_scale"]
+    completion_contract: {"task": "The HTML renderer consumes the governed publication contract and produces a navigable report with traceable findings and the same claims as Markdown.", "consumer": "html_report_renderer", "success_evidence": ["html_report_opened", "markdown_claim_parity", "manifest_binding"], "failure_evidence": ["unsafe_markup_escaped", "unapproved_render_denied"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 897
+  - id: CF-RENDER-PDF
+    outcome: "The PDF renderer consumes the governed publication contract and produces a readable visually inspected PDF with intact citations and the same claims as Markdown."
+    owned_surfaces: ["pdf_report_renderer"]
+    acceptance: ["pdf_rendered_and_inspected", "markdown_claim_parity", "manifest_binding", "output_parity"]
+    pvf: ["pdf_rendered_and_inspected", "markdown_claim_parity", "manifest_binding", "clipped_content_rejected", "unapproved_render_denied", "renderer_snapshot", "redaction_recheck"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "renderer_claim_drift", "clipped_report_content", "redaction_check_failed", "approval_missing_or_stale"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "public_customer_scale"]
+    completion_contract: {"task": "The PDF renderer consumes the governed publication contract and produces a readable visually inspected PDF with intact citations and the same claims as Markdown.", "consumer": "pdf_report_renderer", "success_evidence": ["pdf_rendered_and_inspected", "markdown_claim_parity", "manifest_binding"], "failure_evidence": ["clipped_content_rejected", "unapproved_render_denied"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 898
   - id: CF-PROOF
-    outcome: Documentation and realistic proof show Beta 1 can be operated on ADL and one bounded external open-source repository.
-    owned_surfaces: [beta1_qualification_evidence_packet]
-    acceptance: [fresh_operator_success, reproducible_fixtures, bounded_external_scope, explicit_nonclaims]
-    pvf: [docs_walkthrough, adl_packet_review, external_packet_review, privacy_audit]
-    stop_conditions: [unlicensed_fixture, private_data_leak, synthetic_only_acceptance]
-    non_goals: [broad_public_benchmark]
+    outcome: "After integration, an independent repeatable qualification suite runs the installed exact candidate on ADL and the pinned external Rust repository, including fresh-operator setup, real review, second-run comparison and all three exports."
+    owned_surfaces: ["beta1_qualification_evidence_packet"]
+    acceptance: ["fresh_operator_success", "reproducible_fixtures", "bounded_external_scope", "explicit_nonclaims", "adl_actual_product_run", "external_actual_product_run", "fresh_operator_walkthrough", "exports_and_second_run"]
+    pvf: ["docs_walkthrough", "adl_packet_review", "external_packet_review", "privacy_audit", "adl_actual_product_run", "external_actual_product_run", "fresh_operator_walkthrough", "exports_and_second_run", "authored_packet_without_execution_rejected", "synthetic_only_acceptance_rejected"]
+    stop_conditions: ["unlicensed_fixture", "private_data_leak", "synthetic_only_acceptance", "required_proof_not_executed", "partial_artifact_claimed_complete", "missing_actual_product_run", "external_repository_unpinned"]
+    non_goals: ["broad_public_benchmark"]
+    completion_contract: {"task": "After integration, an independent repeatable qualification suite runs the installed exact candidate on ADL and the pinned external Rust repository, including fresh-operator setup, real review, second-run comparison and all three exports.", "consumer": "installed_beta1_qualification_suite", "success_evidence": ["adl_actual_product_run", "external_actual_product_run", "fresh_operator_walkthrough", "exports_and_second_run"], "failure_evidence": ["authored_packet_without_execution_rejected", "synthetic_only_acceptance_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "qualification"}
+    selection_gates: ["external_repo_revision_license_limits_fixture", "approved_provider_route"]
+    issue: 915
   - id: CF-INTEGRATE
-    outcome: All Beta 1 tracks operate as one governed end-to-end product.
-    owned_surfaces: [integrated_flow, schemas, failure_states, acceptance_packet]
-    acceptance: [all_exit_bar_items_mapped, end_to_end_success, end_to_end_failure, residual_risks_recorded]
-    pvf: [integrated_demo, failure_matrix, coverage_reconciliation, package_validation]
-    stop_conditions: [missing_exit_bar_item, unresolved_p1, unowned_failure]
-    non_goals: [deferred_tracks]
+    outcome: "The installed Beta 1 product connects completed consumers into one operator journey and passes integration success and failure acceptance before independent repository qualification."
+    owned_surfaces: ["integrated_flow", "schemas", "failure_states", "acceptance_packet"]
+    acceptance: ["all_exit_bar_items_mapped", "end_to_end_success", "end_to_end_failure", "residual_risks_recorded", "all_exit_bar_items_executed", "exact_candidate_manifest", "complete_operator_journey"]
+    pvf: ["integrated_demo", "failure_matrix", "coverage_reconciliation", "package_validation", "all_exit_bar_items_executed", "exact_candidate_manifest", "complete_operator_journey", "unfinished_feature_absorption_rejected", "missing_exit_bar_item_rejected", "unresolved_p1_rejected"]
+    stop_conditions: ["missing_exit_bar_item", "unresolved_p1", "unowned_failure", "required_proof_not_executed", "partial_artifact_claimed_complete", "unfinished_upstream_feature"]
+    non_goals: ["deferred_tracks"]
+    completion_contract: {"task": "The installed Beta 1 product connects completed consumers into one operator journey and passes integration success and failure acceptance before independent repository qualification.", "consumer": "installed_beta1_end_to_end", "success_evidence": ["all_exit_bar_items_executed", "exact_candidate_manifest", "complete_operator_journey"], "failure_evidence": ["unfinished_feature_absorption_rejected", "missing_exit_bar_item_rejected", "unresolved_p1_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 914
   - id: PLAT-PROVIDER
-    outcome: Provider behavior consumes validated editable definitions instead of embedded instance data.
-    owned_surfaces: [provider_definition_schema, provider_profiles]
-    acceptance: [behavior_data_separated, definitions_validated, endpoint_and_profile_parity]
-    pvf: [schema_negative_suite, provider_fixture_parity]
-    stop_conditions: [hardcoded_instance_data, credential_in_config, missing_v0921_hotload_authority]
-    non_goals: [provider_rewrite, public_benchmark_marketing]
+    outcome: "The Runtime provider-definition loader applies validated endpoint and profile data through the existing adapter boundary with last-known-good behavior on invalid replacement."
+    owned_surfaces: ["provider_definition_loader"]
+    acceptance: ["editable_definition_consumed", "endpoint_profile_parity", "last_known_good", "behavior_data_separated", "definitions_validated", "endpoint_and_profile_parity"]
+    pvf: ["editable_definition_consumed", "endpoint_profile_parity", "last_known_good", "secret_value_in_config_rejected", "invalid_reload_rejected", "schema_negative_suite", "provider_fixture_parity"]
+    stop_conditions: ["hardcoded_instance_data", "credential_in_config", "missing_v0921_hotload_authority", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "provider_rewrite", "public_benchmark_marketing"]
+    completion_contract: {"task": "The Runtime provider-definition loader applies validated endpoint and profile data through the existing adapter boundary with last-known-good behavior on invalid replacement.", "consumer": "provider_definition_loader", "success_evidence": ["editable_definition_consumed", "endpoint_profile_parity", "last_known_good"], "failure_evidence": ["secret_value_in_config_rejected", "invalid_reload_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 876
+  - id: RT-PROVIDER
+    outcome: "The csmctl and Runtime admission/conversation/lifecycle path uses the provider registry so agents can be added, used, checkpointed, removed and rehydrated without Runtime restart or provider-name allowlists."
+    owned_surfaces: ["registered_provider_agent_lifecycle"]
+    acceptance: ["new_fixture_provider_works_without_match_edits", "local_and_hosted_lifecycle_matrix", "generated_operator_and_a2a_replies", "truthful_roster_projection", "openai_anthropic_google_ollama_local_compatible_lifecycle_matrix", "add_generated_conversation_checkpoint_remove_rehydrate_without_restart", "checkpoint_migration_credential_reference_preservation", "capabilities_tools_streaming_model_discovery_accounting_declared", "hosted_https_and_trusted_local_endpoint_policy", "actionable_quota_credentials_model_transport_timeout_errors", "no_runtime_or_guardian_restart_or_init_file_edit_for_add_replace", "canonical_name_a2a_for_every_provider", "api_and_observatory_effective_provider_model_endpoint_capability_readiness", "hosted_https_local_loopback_private_or_trusted_plaintext", "credential_references_no_values_in_yaml_api_logs_checkpoints_evidence", "credentials_quota_capability_model_transport_timeout_invalid_response_classification"]
+    pvf: ["new_fixture_provider_works_without_match_edits", "local_and_hosted_lifecycle_matrix", "generated_operator_and_a2a_replies", "truthful_roster_projection", "unknown_provider_rejected", "capability_mismatch_rejected", "credentials_never_serialized", "recurring_paid_probe_absent", "openai_anthropic_google_ollama_local_compatible_lifecycle_matrix", "add_generated_conversation_checkpoint_remove_rehydrate_without_restart", "checkpoint_migration_credential_reference_preservation", "capabilities_tools_streaming_model_discovery_accounting_declared", "hosted_https_and_trusted_local_endpoint_policy", "actionable_quota_credentials_model_transport_timeout_errors", "no_runtime_or_guardian_restart_or_init_file_edit_for_add_replace", "canonical_name_a2a_for_every_provider", "api_and_observatory_effective_provider_model_endpoint_capability_readiness", "hosted_https_local_loopback_private_or_trusted_plaintext", "credential_references_no_values_in_yaml_api_logs_checkpoints_evidence", "credentials_quota_capability_model_transport_timeout_invalid_response_classification"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "provider_name_allowlist_required", "credential_serialized", "recurring_metered_probe", "runtime_restart_required_for_admission", "approved_live_provider_authorization_missing", "unsupported_provider_claim"]
+    non_goals: ["hardcoded_provider_shortlist", "secret_values_in_agent_config", "forcing_identical_optional_capabilities", "runtime_restart_for_admission", "billing_or_subscription_changes"]
+    completion_contract: {"task": "The csmctl and Runtime admission/conversation/lifecycle path uses the provider registry so agents can be added, used, checkpointed, removed and rehydrated without Runtime restart or provider-name allowlists.", "consumer": "registered_provider_agent_lifecycle", "success_evidence": ["new_fixture_provider_works_without_match_edits", "local_and_hosted_lifecycle_matrix", "generated_operator_and_a2a_replies", "truthful_roster_projection", "openai_anthropic_google_ollama_local_compatible_lifecycle_matrix", "add_generated_conversation_checkpoint_remove_rehydrate_without_restart", "checkpoint_migration_credential_reference_preservation", "capabilities_tools_streaming_model_discovery_accounting_declared", "hosted_https_and_trusted_local_endpoint_policy", "actionable_quota_credentials_model_transport_timeout_errors", "no_runtime_or_guardian_restart_or_init_file_edit_for_add_replace", "canonical_name_a2a_for_every_provider", "api_and_observatory_effective_provider_model_endpoint_capability_readiness", "hosted_https_local_loopback_private_or_trusted_plaintext", "credential_references_no_values_in_yaml_api_logs_checkpoints_evidence", "credentials_quota_capability_model_transport_timeout_invalid_response_classification"], "failure_evidence": ["unknown_provider_rejected", "capability_mismatch_rejected", "credentials_never_serialized", "recurring_paid_probe_absent"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 855
+    provider_acceptance_matrix: {"routes": ["OpenAI/ChatGPT", "Anthropic/Claude", "Gemini through approved Google provider route", "Ollama local", "OpenAI-compatible local endpoint"], "each_route": ["add", "replace", "generated_operator_conversation", "canonical_name_a2a", "roster_api_observatory_projection", "checkpoint", "remove", "rehydrate"], "registry_fixture": "A newly registered fixture provider works without editing admission or conversation match statements.", "capabilities": ["conversation", "tools", "streaming", "A2A", "credential_sources", "model_discovery_or_validation", "token_accounting", "health_checks"], "authority": "Live/provider-cost execution remains separately authorized; deterministic fixtures do not establish hosted-provider qualification."}
+  - id: ARCH-SPLIT
+    outcome: A reviewed decision defines repository ownership, dependency direction, migration order, and public/private boundaries without moving code.
+    owned_surfaces: [repository_decomposition_plan]
+    acceptance: [one_owner_per_boundary, independent_public_products, versioned_cross_repo_contracts, explicit_visibility_rules, bounded_first_step]
+    pvf: [source_inventory, dependency_direction_review, public_private_boundary_review]
+    stop_conditions: [implementation_scope, hidden_private_dependency, unsupported_completion_claim]
+    non_goals: [repository_extraction, private_repository_creation, v093_implementation]
+    issue: 848
+  - id: CSDLC-MERGE
+    outcome: Native PR merge preserves reviewed publication linkage and rejects same-head relation drift before mutation.
+    owned_surfaces: [native_merge_admission, publication_linkage_intent]
+    acceptance: [closing_linkage_preserved, partof_linkage_preserved, ambiguous_relation_rejected, reconciliation_truth_preserved]
+    pvf: [same_head_body_drift_negatives, closing_and_partof_cases, exact_head_review]
+    stop_conditions: [unqualified_remote_relation, weakened_merge_guard]
+    non_goals: [authority_generation_change, unrelated_runtime_work]
+    issue: 849
+  - id: QUAL-RUNTIME
+    outcome: "Canonical Runtime ingress emits correlated redacted failure events that match authenticated WSS error responses through the real dispatch path."
+    owned_surfaces: ["runtime_failure_event_repair"]
+    acceptance: ["actual_dispatch_failure_event", "authenticated_wss_correlation", "failure_event_correlation", "independent_review"]
+    pvf: ["actual_dispatch_failure_event", "authenticated_wss_correlation", "forged_event_rejected", "mismatched_correlation_rejected", "secret_redaction", "wss_redaction"]
+    stop_conditions: ["required_proof_not_executed", "partial_artifact_claimed_complete", "synthetic_only_proof", "stale_revision", "missing_scenario", "failure_event_missing", "response_event_correlation_mismatch", "secret_in_event"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "paid_cloud_mutation", "broad_runtime_refactor", "release_approval"]
+    completion_contract: {"task": "Canonical Runtime ingress emits correlated redacted failure events that match authenticated WSS error responses through the real dispatch path.", "consumer": "runtime_failure_event_repair", "success_evidence": ["actual_dispatch_failure_event", "authenticated_wss_correlation"], "failure_evidence": ["forged_event_rejected", "mismatched_correlation_rejected", "secret_redaction"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 852
+  - id: QUAL-RESIDENT
+    outcome: "The six-resident production workload/restore harness executes distinct tick/ACC/UTS workloads, then signed dehydration/restore and resumed work with exact population and lineage receipts."
+    owned_surfaces: ["resident_restore_qualification"]
+    acceptance: ["six_distinct_workload_effects", "production_signed_restore", "resumed_work_effects", "actual_execution_receipts", "independent_review"]
+    pvf: ["six_distinct_workload_effects", "production_signed_restore", "resumed_work_effects", "tamper_rejected", "omission_rejected", "substitution_rejected", "mock_vs_live_explicit", "resident_execution"]
+    stop_conditions: ["required_proof_not_executed", "partial_artifact_claimed_complete", "synthetic_only_proof", "stale_revision", "missing_scenario"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "paid_cloud_mutation", "broad_runtime_refactor", "release_approval"]
+    completion_contract: {"task": "The six-resident production workload/restore harness executes distinct tick/ACC/UTS workloads, then signed dehydration/restore and resumed work with exact population and lineage receipts.", "consumer": "resident_restore_qualification", "success_evidence": ["six_distinct_workload_effects", "production_signed_restore", "resumed_work_effects"], "failure_evidence": ["tamper_rejected", "omission_rejected", "substitution_rejected", "mock_vs_live_explicit"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "qualification"}
+    issue: 900
+  - id: QUAL-PROVIDER
+    outcome: "The production provider harness induces real subprocess loss, timeout and interruption and demonstrates bounded recovery using a healthy configured provider."
+    owned_surfaces: ["provider_recovery_qualification"]
+    acceptance: ["actual_process_loss", "actual_timeout_interrupt", "healthy_recovery", "actual_execution_receipts", "independent_review"]
+    pvf: ["actual_process_loss", "actual_timeout_interrupt", "healthy_recovery", "caller_failure_flags_not_proof", "reference_trace_not_execution", "provider_failure_recovery"]
+    stop_conditions: ["required_proof_not_executed", "partial_artifact_claimed_complete", "synthetic_only_proof", "stale_revision", "missing_scenario"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "paid_cloud_mutation", "broad_runtime_refactor", "release_approval"]
+    completion_contract: {"task": "The production provider harness induces real subprocess loss, timeout and interruption and demonstrates bounded recovery using a healthy configured provider.", "consumer": "provider_recovery_qualification", "success_evidence": ["actual_process_loss", "actual_timeout_interrupt", "healthy_recovery"], "failure_evidence": ["caller_failure_flags_not_proof", "reference_trace_not_execution"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "qualification"}
+    issue: 901
+  - id: QUAL-INVENTORY
+    outcome: "The inventory tool resolves immutable revisions a71d699d52831b32bb68ed9c7c7e837925949de4 and e986de6d06aacd385de93dd033def77a718c1581 and records Cargo-registered validation denominators with explicit execution status."
+    owned_surfaces: ["registered_validation_inventory"]
+    acceptance: ["both_exact_revisions_measured", "cargo_registered_inventory", "independent_review"]
+    pvf: ["both_exact_revisions_measured", "cargo_registered_inventory", "source_count_not_execution", "lexical_relocation_not_reduction"]
+    stop_conditions: ["required_proof_not_executed", "partial_artifact_claimed_complete", "synthetic_only_proof", "stale_revision", "missing_scenario"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "paid_cloud_mutation", "broad_runtime_refactor", "release_approval"]
+    completion_contract: {"task": "The inventory tool resolves immutable revisions a71d699d52831b32bb68ed9c7c7e837925949de4 and e986de6d06aacd385de93dd033def77a718c1581 and records Cargo-registered validation denominators with explicit execution status.", "consumer": "registered_validation_inventory", "success_evidence": ["both_exact_revisions_measured", "cargo_registered_inventory"], "failure_evidence": ["source_count_not_execution", "lexical_relocation_not_reduction"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "qualification"}
+    issue: 899
+  - id: QUAL-EVIDENCE
+    outcome: "The five-row evidence consumer admits only current criterion-specific producer and execution records, preserving the complete RUST-01/DRT-B/DRT-C requirement mapping and independent review."
+    owned_surfaces: ["criterion_evidence_validator"]
+    acceptance: ["five_criterion_mappings_complete", "producer_revision_and_criterion_digest_bound", "independent_review_bound", "exact_criterion_binding", "independent_review", "criterion_text_digest_source_and_producer_revision_execution_logs", "historical_19_findings_5_cloud_control_2_execution_gaps_preserved", "all_scenarios_present", "self_authored_and_missing_review_evidence_rejected"]
+    pvf: ["five_criterion_mappings_complete", "producer_revision_and_criterion_digest_bound", "independent_review_bound", "synthetic_metadata_rejected", "cross_criterion_substitution_rejected", "stale_or_partial_evidence_rejected", "evidence_integrity_negatives", "criterion_text_digest_source_and_producer_revision_execution_logs", "historical_19_findings_5_cloud_control_2_execution_gaps_preserved", "all_scenarios_present", "self_authored_and_missing_review_evidence_rejected"]
+    stop_conditions: ["required_proof_not_executed", "partial_artifact_claimed_complete", "synthetic_only_proof", "stale_revision", "missing_scenario"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "paid_cloud_mutation", "broad_runtime_refactor", "release_approval"]
+    completion_contract: {"task": "The five-row evidence consumer admits only current criterion-specific producer and execution records, preserving the complete RUST-01/DRT-B/DRT-C requirement mapping and independent review.", "consumer": "criterion_evidence_validator", "success_evidence": ["five_criterion_mappings_complete", "producer_revision_and_criterion_digest_bound", "independent_review_bound", "criterion_text_digest_source_and_producer_revision_execution_logs", "historical_19_findings_5_cloud_control_2_execution_gaps_preserved", "all_scenarios_present", "self_authored_and_missing_review_evidence_rejected"], "failure_evidence": ["synthetic_metadata_rejected", "cross_criterion_substitution_rejected", "stale_or_partial_evidence_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    criterion_consumer_boundary: {"criteria": ["RUST-01-ac-4", "DRT-B-ac-2", "DRT-B-ac-3", "DRT-C-ac-2", "DRT-C-ac-3"], "historical_consumers": [522, 833], "original_finding_denominator": 19, "separate_cloud_control_gaps": 5, "separate_execution_proof_gaps": 2, "nonclaim": "Reconcile historical consumers without reopening, closing or claiming their original findings newly proved."}
+    issue: 902
+  - id: RT-COST
+    outcome: Healthy agents remain ready without recurring metered inference and provider calls are reason-attributed and countable.
+    owned_surfaces: [resident_readiness_recovery, provider_call_accounting]
+    acceptance: [zero_steady_state_inference_probes, event_driven_readiness, bounded_failure_recovery, request_reason_counters]
+    pvf: [counting_fixture_soak, failure_recovery_backoff, cloud_provider_zero_polling]
+    stop_conditions: [recurring_metered_probe, hidden_provider_request]
+    non_goals: [subscription_changes, disabling_conversations, supervision_redesign]
+    issue: 854
+  - id: CSDLC-MAN
+    outcome: Installable C-SDLC v3 man pages cover every supported command and recovery path without requiring source inspection.
+    owned_surfaces: [csdlc_man_pages, installation_and_parity_checks]
+    acceptance: [all_commands_documented, mutation_boundaries_explicit, topology_and_recovery_documented, installed_lookup_works]
+    pvf: [command_option_parity, render_lint, installed_lookup]
+    stop_conditions: [retired_command_presented_as_current, undocumented_supported_command]
+    non_goals: [lifecycle_semantics_change, cli_redesign]
+    issue: 861
+  - id: CSDLC-DECOMPOSE
+    outcome: "The local command owner is decomposed into cohesive production modules while binding, editing, registration, transactions and persistence retain their public contracts."
+    owned_surfaces: ["local_command_decomposition"]
+    acceptance: ["local_thin_dispatch", "local_regression_parity", "before_after_responsibility_inventory", "thin_entrypoints", "no_command_domain_cycles", "public_contract_compatible", "decomposition_inventory_complete"]
+    pvf: ["local_thin_dispatch", "local_regression_parity", "before_after_responsibility_inventory", "public_contract_drift_rejected", "replacement_god_module_rejected", "domain_cycle_rejected", "native_v3_regression", "serialized_contract_goldens", "module_dependency_check", "before_after_inventory"]
+    stop_conditions: ["behavior_change", "replacement_god_module", "weakened_guard", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "new_lifecycle_features", "schema_redesign", "unrelated_cleanup"]
+    completion_contract: {"task": "The local command owner is decomposed into cohesive production modules while binding, editing, registration, transactions and persistence retain their public contracts.", "consumer": "local_command_decomposition", "success_evidence": ["local_thin_dispatch", "local_regression_parity", "before_after_responsibility_inventory"], "failure_evidence": ["public_contract_drift_rejected", "replacement_god_module_rejected", "domain_cycle_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 862
+  - id: CSDLC-REMOTE
+    outcome: "The remote command owner is decomposed into cohesive production modules while authority, credentials, GitHub operations, publication, receipts and reconciliation retain public contracts."
+    owned_surfaces: ["remote_command_decomposition"]
+    acceptance: ["remote_thin_dispatch", "remote_regression_parity", "before_after_responsibility_inventory", "thin_entrypoints", "no_command_domain_cycles", "public_contract_compatible", "decomposition_inventory_complete"]
+    pvf: ["remote_thin_dispatch", "remote_regression_parity", "before_after_responsibility_inventory", "public_contract_drift_rejected", "replacement_god_module_rejected", "domain_cycle_rejected", "native_v3_regression", "serialized_contract_goldens", "module_dependency_check", "before_after_inventory"]
+    stop_conditions: ["missing_required_input", "required_proof_failed", "scope_or_contract_conflict", "required_proof_not_executed", "partial_artifact_claimed_complete", "behavior_change", "replacement_god_module", "weakened_guard"]
+    non_goals: ["unrelated_scope", "schema_or_scaffold_only_completion", "new_lifecycle_features", "schema_redesign", "unrelated_cleanup"]
+    completion_contract: {"task": "The remote command owner is decomposed into cohesive production modules while authority, credentials, GitHub operations, publication, receipts and reconciliation retain public contracts.", "consumer": "remote_command_decomposition", "success_evidence": ["remote_thin_dispatch", "remote_regression_parity", "before_after_responsibility_inventory"], "failure_evidence": ["public_contract_drift_rejected", "replacement_god_module_rejected", "domain_cycle_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "test_only_consumer", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 907
   - id: PLAT-MLX
     outcome: One bounded MLX and Apple Metal adapter consumes the canonical provider-definition contract.
     owned_surfaces: [mlx_metal_adapter]
@@ -93,6 +331,7 @@ specifications:
     pvf: [mlx_metal_smoke, unsupported_platform_failure]
     stop_conditions: [provider_contract_bypass, unsupported_platform_claim]
     non_goals: [general_local_model_rewrite, public_benchmark_marketing]
+    issue: 903
   - id: PLAT-PAIR
     outcome: A bounded experiment determines whether NVIDIA PAIR improves multi-node local inference for ADL without becoming a provider type.
     owned_surfaces: [pair_experiment_harness, result_packet, disposition]
@@ -100,20 +339,26 @@ specifications:
     pvf: [raw_pair_smoke, runtime_v3_pair_smoke, concurrent_request_comparison, node_loss_fallback, null_benefit_detection]
     stop_conditions: [provider_contract_bypass, paid_or_network_mutation_without_authority, unsupported_performance_claim]
     non_goals: [model_sharding, pooled_vram, production_rollout]
+    issue: 904
   - id: PLAT-UTS
-    outcome: One canonical UTS package is usable by declared supported consumers.
-    owned_surfaces: [uts_schema, package, migration_notes]
-    acceptance: [canonical_contract, supported_consumers_named, compatibility_explicit]
-    pvf: [schema_conformance, consumer_fixture, compatibility_check]
-    stop_conditions: [ambiguous_authority, silent_breaking_change]
-    non_goals: [universal_ecosystem_standard]
+    outcome: "One versioned installable UTS package is consumed by the Runtime ACC/UTS tool-dispatch path with a declared compatibility contract."
+    owned_surfaces: ["uts_schema", "package", "migration_notes"]
+    acceptance: ["canonical_contract", "supported_consumers_named", "compatibility_explicit", "package_installed", "runtime_consumer_executes_tool", "version_compatibility_checked"]
+    pvf: ["schema_conformance", "consumer_fixture", "compatibility_check", "package_installed", "runtime_consumer_executes_tool", "version_compatibility_checked", "document_only_standard_rejected", "fixture_only_consumer_rejected"]
+    stop_conditions: ["ambiguous_authority", "silent_breaking_change", "required_proof_not_executed", "partial_artifact_claimed_complete"]
+    non_goals: ["universal_ecosystem_standard"]
+    completion_contract: {"task": "One versioned installable UTS package is consumed by the Runtime ACC/UTS tool-dispatch path with a declared compatibility contract.", "consumer": "runtime_acc_uts_dispatch", "success_evidence": ["package_installed", "runtime_consumer_executes_tool", "version_compatibility_checked"], "failure_evidence": ["document_only_standard_rejected", "fixture_only_consumer_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 877
   - id: PLAT-RUST
-    outcome: One high-value Rust surface is simpler without behavior change.
-    owned_surfaces: [selected_module, focused_tests, measurement]
-    acceptance: [bounded_surface, behavior_preserved, measurable_reduction]
-    pvf: [focused_regression, before_after_measurement]
-    stop_conditions: [scope_sprawl, behavior_redesign]
-    non_goals: [repo_wide_rewrite]
+    outcome: "One selected production Rust responsibility is fully extracted or simplified while preserving observable behavior, with recursive source accounting and focused regressions."
+    owned_surfaces: ["selected_module", "focused_tests", "measurement"]
+    acceptance: ["bounded_surface", "behavior_preserved", "measurable_reduction", "exact_module_and_invariant_selected_before_creation", "production_callers_preserved", "recursive_before_after_inventory"]
+    pvf: ["focused_regression", "before_after_measurement", "exact_module_and_invariant_selected_before_creation", "production_callers_preserved", "recursive_before_after_inventory", "unselected_surface_rejected", "facade_only_reduction_claim_rejected"]
+    stop_conditions: ["scope_sprawl", "behavior_redesign", "required_proof_not_executed", "partial_artifact_claimed_complete", "production_responsibility_unselected"]
+    non_goals: ["repo_wide_rewrite"]
+    completion_contract: {"task": "One selected production Rust responsibility is fully extracted or simplified while preserving observable behavior, with recursive source accounting and focused regressions.", "consumer": "selected_production_rust_responsibility", "success_evidence": ["exact_module_and_invariant_selected_before_creation", "production_callers_preserved", "recursive_before_after_inventory"], "failure_evidence": ["unselected_surface_rejected", "facade_only_reduction_claim_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    selection_gates: ["exact_module_responsibility_and_invariant"]
+    issue: 906
   - id: OPS-AWS
     outcome: The Agent Logic business AWS inventory is refreshed incrementally from completed issue #484 and becomes repeatable.
     owned_surfaces: [scr_inventory_delta, s3_inventory_delta, model_inventory_delta, staleness_register, maintenance_runbook]
@@ -121,6 +366,7 @@ specifications:
     pvf: [baseline_comparison, account_readback, inventory_validator, redaction_scan]
     stop_conditions: [personal_account, mutation_required, credential_exposure]
     non_goals: [resource_migration, deployment]
+    issue: 908
   - id: OPS-GCP
     outcome: One apply-ready company GCP move-in execution packet reconciles current state, reviewed Terraform, ordered apply and rollback steps, and residual routing without performing cloud mutations.
     owned_surfaces: [gcp_move_in_execution_packet]
@@ -128,27 +374,37 @@ specifications:
     pvf: [readonly_inventory, terraform_fmt_validate_plan, packet_structure, redaction_scan]
     stop_conditions: [personal_project_selected, mutation_without_operator_authority, credential_exposure, duplicate_v0921_scope]
     non_goals: [runtime_deployment, paid_gpu_launch, six_resident_requalification]
+    issue: 909
   - id: PUB-MEDIUM
-    outcome: One reviewable Medium article packet is ready for a human editorial decision.
-    owned_surfaces: [medium_packet]
-    acceptance: [claims_source_grounded, citations_resolvable, publication_not_claimed]
-    pvf: [source_traceability, citation_check, nonpublication_check]
-    stop_conditions: [unsupported_claim, invented_citation, silent_publication]
-    non_goals: [medium_publish, article_series_completion]
+    outcome: "One selected v0.92.2 article is fully written, source checked and ready for editorial decision without publishing."
+    owned_surfaces: ["medium_packet"]
+    acceptance: ["claims_source_grounded", "citations_resolvable", "publication_not_claimed", "article_selected_before_creation", "complete_manuscript", "source_and_citation_check"]
+    pvf: ["source_traceability", "citation_check", "nonpublication_check", "article_selected_before_creation", "complete_manuscript", "source_and_citation_check", "outline_only_rejected", "unspecified_article_rejected"]
+    stop_conditions: ["unsupported_claim", "invented_citation", "silent_publication", "partial_artifact_claimed_complete", "named_document_incomplete", "article_unselected", "outline_without_manuscript"]
+    non_goals: ["medium_publish", "article_series_completion"]
+    completion_contract: {"task": "One selected v0.92.2 article is fully written, source checked and ready for editorial decision without publishing.", "consumer": "selected_medium_manuscript", "success_evidence": ["article_selected_before_creation", "complete_manuscript", "source_and_citation_check"], "failure_evidence": ["outline_only_rejected", "unspecified_article_rejected"], "reject_completion": ["outline_only", "unspecified_revision", "future_work_list"], "result_type": "document"}
+    selection_gates: ["named_article_brief"]
+    issue: 912
   - id: PUB-CSDLC
-    outcome: One reviewable C-SDLC paper packet is ready for a human research decision.
-    owned_surfaces: [csdlc_paper_packet]
-    acceptance: [claims_source_grounded, citations_resolvable, submission_not_claimed]
-    pvf: [source_traceability, citation_check, nonsubmission_check]
-    stop_conditions: [unsupported_claim, invented_citation, silent_submission]
-    non_goals: [arxiv_submission, publication]
+    outcome: "The current C-SDLC manuscript is iteratively revised through author feedback to deliver this milestone's complete reviewed version, with synchronized manuscript and citation sources and no submission."
+    owned_surfaces: ["csdlc_paper_packet"]
+    acceptance: ["claims_source_grounded", "citations_resolvable", "submission_not_claimed", "feedback_items_dispositioned", "complete_revised_manuscript", "source_and_citation_check"]
+    pvf: ["source_traceability", "citation_check", "nonsubmission_check", "feedback_items_dispositioned", "complete_revised_manuscript", "source_and_citation_check", "advance_packet_only_rejected", "unspecified_increment_rejected"]
+    stop_conditions: ["unsupported_claim", "invented_citation", "silent_submission", "partial_artifact_claimed_complete", "named_document_incomplete", "revision_checklist_missing", "incomplete_manuscript_revision"]
+    non_goals: ["arxiv_submission", "publication"]
+    completion_contract: {"task": "The current C-SDLC manuscript is iteratively revised through author feedback to deliver this milestone's complete reviewed version, with synchronized manuscript and citation sources and no submission.", "consumer": "named_csdlc_manuscript_revision", "success_evidence": ["feedback_items_dispositioned", "complete_revised_manuscript", "source_and_citation_check"], "failure_evidence": ["advance_packet_only_rejected", "unspecified_increment_rejected"], "reject_completion": ["outline_only", "unspecified_revision", "future_work_list"], "result_type": "document"}
+    selection_gates: ["current_named_manuscript"]
+    execution_inputs: ["author_feedback", "tracked_revision_and_feedback_dispositions"]
+    issue: 913
   - id: PLAT-MEMORY
-    outcome: One bounded production consumer uses Memory Palace with explicit privacy and compatibility behavior.
-    owned_surfaces: [production_consumer, retrieval_contract, privacy_policy]
-    acceptance: [production_caller, deterministic_retrieval, redaction_fail_closed, compatibility_explicit]
-    pvf: [production_path_test, retrieval_fixture, redaction_negative_suite]
-    stop_conditions: [test_only_integration, private_data_leak, unbounded_memory_claim]
-    non_goals: [complete_speculative_memory_architecture]
+    outcome: "The CodeFriend second-review comparison path retrieves its prior compatible run from Memory Palace through the production retrieval boundary with enforced privacy and deletion behavior."
+    owned_surfaces: ["production_consumer", "retrieval_contract", "privacy_policy"]
+    acceptance: ["production_caller", "deterministic_retrieval", "redaction_fail_closed", "compatibility_explicit", "production_second_review_retrieval", "deterministic_compatible_baseline", "redaction_and_deletion_enforced"]
+    pvf: ["production_path_test", "retrieval_fixture", "redaction_negative_suite", "production_second_review_retrieval", "deterministic_compatible_baseline", "redaction_and_deletion_enforced", "test_only_integration_rejected", "unspecified_slice_rejected", "incompatible_baseline_rejected"]
+    stop_conditions: ["test_only_integration", "private_data_leak", "unbounded_memory_claim", "required_proof_not_executed", "partial_artifact_claimed_complete", "comparison_uses_test_only_memory"]
+    non_goals: ["complete_speculative_memory_architecture"]
+    completion_contract: {"task": "The CodeFriend second-review comparison path retrieves its prior compatible run from Memory Palace through the production retrieval boundary with enforced privacy and deletion behavior.", "consumer": "codefriend_comparison_memory_palace_consumer", "success_evidence": ["production_second_review_retrieval", "deterministic_compatible_baseline", "redaction_and_deletion_enforced"], "failure_evidence": ["test_only_integration_rejected", "unspecified_slice_rejected", "incompatible_baseline_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    issue: 889
   - id: SPEC-RETEST
     outcome: Current evidence determines whether speculative decoding should be kept, repaired, or retired.
     owned_surfaces: [retest_harness, result_packet, disposition]
@@ -156,6 +412,7 @@ specifications:
     pvf: [reproducible_benchmark, output_equivalence, fallback_test]
     stop_conditions: [stale_fixture_only, correctness_regression, unsupported_speed_claim]
     non_goals: [productization_without_requalification]
+    issue: 905
   - id: OBS-LIVE
     outcome: Existing issue 720 makes the live Observatory unable to silently switch to retained historical telemetry.
     owned_surfaces: [observatory_topbar, refreshRetained, obsolete_setRuntimeTestStatus_assignments, live_ui_contract_tests]
@@ -172,6 +429,7 @@ specifications:
     stop_conditions: [wrong_aws_account, unexpected_destructive_plan, credential_or_secret_exposure, runtime_origin_unavailable, architecture_redesign_required]
     non_goals: [customer_scale_hosting, runtime_compute_deployment, terraform_architecture_redesign, multi_tenant_observatory]
     planning_source: completed v0.92.1 issue 679 and merged PR 685
+    issue: 910
   - id: ARCH-ADR
     outcome: One source-grounded ADR set records the architecture decisions required to execute and review v0.92.2.
     owned_surfaces: [milestone_adr_inventory, adr_candidates, accepted_and_rejected_decision_records, supersession_map]
@@ -179,7 +437,9 @@ specifications:
     pvf: [adr_template_validation, source_link_check, decision_inventory_reconciliation, status_and_supersession_check]
     stop_conditions: [unsupported_architecture_claim, missing_decision_owner, hidden_implementation_scope, accidental_acceptance_of_candidate]
     non_goals: [implementing_architecture, approving_adrs_without_operator_authority, rewriting_historical_adrs]
+    issue: 911
   - id: SIM-UMBRELLA
+    issue: 866
     outcome: "One sprint scorecard reconciles every independently owned SIM result after SIM-09."
     owned_surfaces: ["csdlc_v3_simplification/sim-umbrella"]
     acceptance: ["Every SIM result is accounted for and the sprint closes without duplicating implementation scope.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -188,6 +448,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-01
+    issue: 867
     outcome: "Diagnostics observe healthy, interrupted, missing, and corrupt state without mutating it."
     owned_surfaces: ["csdlc_v3_simplification/sim-01"]
     acceptance: ["Diagnostics leave issue files, journals, registrations, and projections unchanged for healthy, interrupted, missing, and corrupt state. They report recovery-required explicitly. Retain baseline traces, environment identity, manual inputs and outcome denominators; exercise root and genuine non-primary worktree entrypoints.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -196,6 +457,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-02
+    issue: 868
     outcome: "Define the single current command contract and separate historical construction fixtures/guidance from operational discovery. Preserve historical bytes where they are retained proof."
     owned_surfaces: ["csdlc_v3_simplification/sim-02"]
     acceptance: ["Installed executable provenance, help, schemas, nested guidance, command descriptors, and tests agree about current authority and effects; no automatic construction fallback on operational errors.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -204,22 +466,29 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-03
-    outcome: "One intent-oriented CLI resolves canonical context and emits validated evidence against existing operational behavior."
+    issue: 869
+    outcome: "The installed intent CLI executes the declared local and remote command inventory against production operations, resolving context and evidence internally while preserving guards."
     owned_surfaces: ["csdlc_v3_simplification/sim-03"]
-    acceptance: ["New callers supply intent and changed content rather than hand-built context/receipt chains; stale requests, ambiguous topology, wrong repository, and stale review are rejected.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
-    pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
-    stop_conditions: ["unresolved_owned_path_collision", "missing_execution_authority", "missing_explicit_pause_authorization_for_activation"]
+    acceptance: ["New callers supply intent and changed content rather than hand-built context/receipt chains; stale requests, ambiguous topology, wrong repository, and stale review are rejected.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "command_inventory_frozen_before_creation", "installed_public_journeys_execute", "context_resolved_internally"]
+    pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards", "command_inventory_frozen_before_creation", "installed_public_journeys_execute", "context_resolved_internally", "schema_only_rejected", "unimplemented_route_rejected", "stale_review_rejected"]
+    stop_conditions: ["unresolved_owned_path_collision", "missing_execution_authority", "missing_explicit_pause_authorization_for_activation", "required_proof_not_executed", "partial_artifact_claimed_complete"]
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    completion_contract: {"task": "The installed intent CLI executes the declared local and remote command inventory against production operations, resolving context and evidence internally while preserving guards.", "consumer": "installed_csdlc_intent_commands", "success_evidence": ["command_inventory_frozen_before_creation", "installed_public_journeys_execute", "context_resolved_internally"], "failure_evidence": ["schema_only_rejected", "unimplemented_route_rejected", "stale_review_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
+    selection_gates: ["supported_installed_command_inventory"]
+    selection_resolution: {status: resolved_before_creation, issue: 869, source: ".csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md", consumer: "self_contained_issue_869_body"}
   - id: SIM-04
-    outcome: "Extend the existing lifecycle/transaction owner to hold the complete semantic issue record; route local transitions and verified remote/terminal outcomes through it."
+    issue: 870
+    outcome: "The operational application routes every local transition and verified remote/terminal outcome through one semantic issue transaction owner, proven at actual entrypoints under crash and concurrency."
     owned_surfaces: ["csdlc_v3_simplification/sim-04"]
-    acceptance: ["Every mutating journey is visible in one issue generation/audit history; no command writes an independent lifecycle phase or terminal truth. Crash and concurrent-writer proofs cover real application entrypoints. Recommended transitions remain admissible against unchanged relevant facts; supported amendments and interruptions have finite legal recovery.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
-    pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
-    stop_conditions: ["unresolved_owned_path_collision", "missing_execution_authority", "missing_explicit_pause_authorization_for_activation"]
+    acceptance: ["Every mutating journey is visible in one issue generation/audit history; no command writes an independent lifecycle phase or terminal truth. Crash and concurrent-writer proofs cover real application entrypoints. Recommended transitions remain admissible against unchanged relevant facts; supported amendments and interruptions have finite legal recovery.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "all_mutating_paths_use_owner", "production_crash_recovery", "generation_conflict_rejected"]
+    pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards", "all_mutating_paths_use_owner", "production_crash_recovery", "generation_conflict_rejected", "unused_library_rejected", "independent_shadow_phase_rejected", "unfenced_activation_rejected"]
+    stop_conditions: ["unresolved_owned_path_collision", "missing_execution_authority", "missing_explicit_pause_authorization_for_activation", "required_proof_not_executed", "partial_artifact_claimed_complete"]
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+    completion_contract: {"task": "The operational application routes every local transition and verified remote/terminal outcome through one semantic issue transaction owner, proven at actual entrypoints under crash and concurrency.", "consumer": "csdlc_application_transaction_owner", "success_evidence": ["all_mutating_paths_use_owner", "production_crash_recovery", "generation_conflict_rejected"], "failure_evidence": ["unused_library_rejected", "independent_shadow_phase_rejected", "unfenced_activation_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
   - id: SIM-05
+    issue: 871
     outcome: "Derive the six cards and separate semantic versus projection integrity. Provide explicit projection rebuild through the transaction/application owner."
     owned_surfaces: ["csdlc_v3_simplification/sim-05"]
     acceptance: ["Projection-only drift is classified independently; semantic changes invalidate the right evidence; regeneration is deterministic and cannot invent acceptance or completion. Classify scope/acceptance, plan, proof, binding, implementation, review and display changes; declare source states, prerequisites, resulting state and affected evidence with causal invalidation records.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -228,6 +497,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-06
+    issue: 872
     outcome: "One fenced, restorable conversion rehearsal succeeds on representative copied records."
     owned_surfaces: ["csdlc_v3_simplification/sim-06"]
     acceptance: ["Exact census, lossless semantic mapping, old/new revision evidence, interrupted-conversion recovery, and pre-resume restore all pass. Unsupported records stop conversion with an issue-specific disposition.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -236,6 +506,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-07
+    issue: 873
     outcome: "One independent qualification records pass, fail, or not-proven for the complete candidate."
     owned_surfaces: ["csdlc_v3_simplification/sim-07"]
     acceptance: ["No unresolved actionable review findings; required aggregate CI settled; conversion/readback and all pre-resume acceptance gates have an explicit result.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "pre_resume_qualification_before_activation"]
@@ -244,6 +515,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-08
+    issue: 874
     outcome: "One reviewed transition operations packet defines deployment, rollback, and prospective measurement without activating writers."
     owned_surfaces: ["csdlc_v3_simplification/sim-08"]
     acceptance: ["Deployment and rollback steps are executable and the measurement denominator is explicit.", "preserve_authority_review_and_cleanup_guards"]
@@ -252,6 +524,7 @@ specifications:
     non_goals: ["live_activation", "Runtime_implementation"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-09
+    issue: 875
     outcome: "One separately authorized consecutive-issue pilot records every attempt, failure, abandonment, and final disposition."
     owned_surfaces: ["csdlc_v3_simplification/sim-09"]
     acceptance: ["Separate pause and activation authority exists; the consecutive denominator is complete; reliability claims remain bounded by exposure."]
@@ -263,42 +536,53 @@ specifications:
     outcome: Integrated quality evidence is reconciled into an explicit pass, fail, or not-proven result.
     acceptance: [quality_gate_evaluated, no_unresolved_p1]
     pvf: [release_evidence_audit]
+    issue: 916
   - id: TAIL-02
     outcome: Canonical documentation matches merged evidence and a context-free external-review handoff is ready.
     acceptance: [docs_truth_current, feature_coverage_reconciled, external_review_handoff_complete]
     pvf: [docs_contract, link_integrity, handoff_validation]
+    issue: 917
   - id: TAIL-03
     outcome: Governed release artifacts and manifests are finalized without releasing them silently.
     acceptance: [artifacts_versioned, manifests_complete, approval_pending_or_explicit]
     pvf: [artifact_integrity]
+    issue: 918
   - id: TAIL-04
     outcome: A current internal milestone review is retained and findings are triaged.
     acceptance: [exact_candidate_review, findings_dispositioned]
     pvf: [internal_review]
+    issue: 919
   - id: TAIL-05
     outcome: A context-free external review is retained against the exact candidate.
     acceptance: [external_handoff_complete, external_findings_retained]
     pvf: [external_review]
+    issue: 920
   - id: TAIL-06
     outcome: Accepted findings are remediated or explicitly deferred with ownership and risk.
     acceptance: [accepted_findings_closed_or_deferred, quality_gate_rechecked, changed_candidate_artifacts_rebuilt, affected_proof_rerun, current_internal_external_review]
     pvf: [remediation_validation]
+    issue: 921
   - id: TAIL-07
     outcome: The successor milestone receives an evidence-backed planning package.
     acceptance: [successor_scope_defined, residual_risks_routed]
     pvf: [planning_contract]
+    issue: 922
   - id: TAIL-08
     outcome: Successor closeout and release-tail responsibilities are planned.
     acceptance: [closeout_roles_defined, async_closeout_preserved]
     pvf: [planning_contract]
+    issue: 923
   - id: TAIL-09
     outcome: Successor planning receives independent review and disposition.
     acceptance: [successor_plan_reviewed, findings_dispositioned]
     pvf: [planning_review]
+    issue: 924
   - id: TAIL-10
-    outcome: Human release authority records ceremony and milestone-close truth.
-    acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1]
-    pvf: [release_authority_check]
+    outcome: Human release authority records ceremony and milestone-close truth only after Observatory deployment and the milestone ADR set satisfy their own acceptance.
+    depends_on: [TAIL-09, OBS-S3, ARCH-ADR]
+    acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1, obs_s3_deployment_acceptance_complete, arch_adr_decision_set_acceptance_complete]
+    pvf: [release_authority_check, required_independent_work_acceptance_check]
+    issue: 925
 release_tail:
   order: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
   merge_dependency_rule: Downstream execution depends on merged authority and explicit gates, never individual closeout bookkeeping.

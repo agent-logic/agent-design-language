@@ -1,0 +1,6 @@
+{
+  "status": "error",
+  "exit_code": 2,
+  "diagnostic": "csdlc: {\"code\":\"github_mutation_not_reconciled\",\"message\":\"authenticated readback did not contain the exact operation marker and expected state\"}",
+  "request_file": "sprint01-SIM-09-create.json"
+}

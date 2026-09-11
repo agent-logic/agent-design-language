@@ -1,0 +1,23 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 6,
+  "reviewer": "/root/docs_final_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "7bf2fe3b0490c1b9bd59477841a6e587ab879757b8e0822c0046d8014709ffc5",
+  "issues": {
+    "PLAT-MLX": {
+      "number": 903,
+      "result": "pass"
+    },
+    "PLAT-PAIR": {
+      "number": 904,
+      "result": "pass"
+    },
+    "SPEC-RETEST": {
+      "number": 905,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified against reviewed draft source. Global all-69 creation/review startup gate retained; no implementation or activation proof."
+}

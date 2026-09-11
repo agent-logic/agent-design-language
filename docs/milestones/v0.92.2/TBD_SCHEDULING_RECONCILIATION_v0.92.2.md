@@ -42,8 +42,24 @@ No v0.92.2 issue number, milestone, label, or execution authority is created by 
 
 The table above is the retained #620 source audit, not a requirement to load ignored files during execution. [Adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md) now carries the selected product, shared-schema and security boundaries in tracked form; the [source digest manifest](evidence/issue-523/adopted-source-manifest.json) preserves source-version provenance. Historical local rationale does not add scope to these adopted requirements.
 
-Reuse #720 under [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md). Closed, merged #717/#718 are consumed as predecessor capabilities; other backlog remains excluded. Runtime v4 stays v0.93 and customer-scale CodeFriend is prioritized for the first milestone after qualified Beta 1, with the exact successor version still undecided.
+Reuse #720, #848, #849, #852, #854, #855, #861, #862, and conductor #864 under [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md). #848 is the bounded ARCH-SPLIT decision row; do not infer implementation admission from it. Closed, merged #717/#718 are predecessor capabilities; other backlog remains excluded. Runtime v4 stays v0.93 and customer-scale CodeFriend is prioritized for the first milestone after qualified Beta 1, with the exact successor version still undecided.
 
 ## Operator addition to PR #743
 
 Promote `.adl/docs/TBD/cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md` into the [tracked first-sprint plan](cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md). SIM-UMBRELLA and SIM-01 through SIM-09 are explicitly admitted, with their own startup alongside Runtime. This adds ten planned issue rows; it does not admit other backlog or implement the program. Source originals and prior reviews remain preserved.
+
+## #864 current execution mapping
+
+The retained #620 audit above remains source evidence; its original owner names and selection notes are historical. Current execution follows the 69-row wave and [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md): ingestion, analysis, fitness, review/action plans and approval/renderers use their split owners. PLAT-PROVIDER owns editable definitions after RT-COST and merged #622; RT-PROVIDER/#855 owns provider lifecycle. QUAL-RUNTIME/#852 retains the failure-event repair with four separate qualification/evidence successors; CSDLC-DECOMPOSE/#862 retains local decomposition with CSDLC-REMOTE separate.
+
+PLAT-UTS must ship an installable package consumed by Runtime ACC/UTS dispatch. PLAT-RUST selects and completes an exact production responsibility. PUB-MEDIUM finishes a selected article; PUB-CSDLC finishes a named manuscript revision checklist. PLAT-MEMORY's selected consumer is the production second-review path. These current requirements supersede vague slice, packet or unnamed-consumer language in the audit without altering its historical record. All seven planning tasks remain required; no source audit authorizes creation or implementation.
+
+## First sprint creation readback
+
+The ten already-admitted SIM rows are now created as umbrella #866 and SIM-01 through SIM-09 #867–#875. The source-audit history above is unchanged. Final accounting is 69 assigned core tasks: nine preexisting and 60 newly created identities, with zero unassigned tasks. The complete authorized creation wave preserves the admitted scope.
+
+## Additional existing sidecar
+
+The operator separately admitted existing #671 podcast public launch/provider submission as a v0.92.2 sidecar. This is not a new atomic task, a changed core startup denominator or a new dependency edge. Retain the original sidecar action approvals and independent status accounting; no source audit or milestone assignment authorizes public effects.
+
+The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

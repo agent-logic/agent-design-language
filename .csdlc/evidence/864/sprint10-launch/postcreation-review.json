@@ -1,0 +1,19 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 10,
+  "reviewer": "/root/planning_docs",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "4bb348c91be04ab72603f4fd59f4500d532efc45f75aeb8272ce2238f8fb3683",
+  "issues": {
+    "CF-INTEGRATE": {
+      "number": 914,
+      "result": "pass"
+    },
+    "CF-PROOF": {
+      "number": 915,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies matched retained native readbacks; complete task semantics, numeric dependencies, metadata and exact reviewed source/receipts independently checked. Generic validator passes with 23 negative fixtures. Creation review only; no implementation or activation proof."
+}

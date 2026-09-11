@@ -1,0 +1,86 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 11,
+  "issues": [
+    {
+      "task": "TAIL-01",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "ee9175a1c567cb96d0a30e93050308f450581652803d90c52920c4ee6113df1f"
+    },
+    {
+      "task": "TAIL-02",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "0ecdcb311df88e17bdeaac569c8c121aed9a6f502f14374acd02e805b287e48e"
+    },
+    {
+      "task": "TAIL-03",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "3d01c5b31b32adf1dbe770e360ab5fe358776128210e5cc993c139e34cb2bed9"
+    },
+    {
+      "task": "TAIL-04",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "a12c38ff4fffed4b508cee56b63e00a140bf09a511e399bfb38dd1d350aeda25"
+    },
+    {
+      "task": "TAIL-05",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "8a18200534c671f4e6a5093ce878805544f62e6f4dd96ae22af0a0c13af8cfae"
+    },
+    {
+      "task": "TAIL-06",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "9bfbb26408ad98f19d35212e0025ee4e5b4102b000bd495f611494cbc895f701"
+    },
+    {
+      "task": "TAIL-07",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "c713fb43b2e52bf8e1cf6fed878ebed6399ac8fb6630802c80694c454c2f82cf"
+    },
+    {
+      "task": "TAIL-08",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "611477d57388867b7089b9a1a882832e3300b05fbcbe9a49573567f7af6768a4"
+    },
+    {
+      "task": "TAIL-09",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "80e53d84f4df6603defa6716d97507272df9390217b7e06a0862ac20ee657106"
+    },
+    {
+      "task": "TAIL-10",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "6856863bab045c9b60798c1c6b01d2cc6485a1344222d61217713d8974673096"
+    }
+  ]
+}

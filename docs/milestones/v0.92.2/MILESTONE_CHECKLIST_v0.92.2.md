@@ -8,6 +8,8 @@ Status: planned.
 - [ ] Operator authorizes issue creation
 - [ ] Number-free IDs mapped once to canonical issues
 - [ ] Dependencies and parallel lanes preserved
+- [ ] All 69 core issue identities are created and every creation-batch review passes before implementation
+- [ ] Sidecar #671 is separately accounted for without adding it to the core startup gate or graph
 
 ## Product
 
@@ -50,13 +52,13 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
-- [ ] All 45 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
-- [ ] All 45 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
-- [ ] The denominator contains the prior 43 rows plus OBS-S3 and ARCH-ADR; reused #720 appears exactly once and #717/#718 remain predecessor inputs rather than extra rows
-- [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
+- [ ] All 69 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 69 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] All 69 assigned core issues appear exactly once: nine preexisting bindings and 60 newly created identities, with zero unassigned rows
+- [ ] #848 is reconciled as the ARCH-SPLIT decision row, not split-implementation authority; v0.92.1 #717/#718 remain predecessor inputs
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
-- [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the closeout tail
+- [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the early TAIL-01 gate and must satisfy TAIL-10 completion dependencies
 - [ ] Any changed candidate received refreshed artifacts, affected proof and current internal/external review
 - [ ] Release candidate and manifest exactly match the reviewed and approved digests
 
@@ -70,3 +72,18 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] v0.92.1 cloud plans remain existing-work/provenance inputs rather than duplicate successor rows
 - [ ] Runtime v4 remains routed to v0.93
 - [ ] No evidence packet, review output, or local concept silently expands the v0.92.2 denominator
+
+## Complete implementation admission
+
+- [ ] All eight family splits and eleven tightened contracts match the atomic-task manifest.
+- [ ] Each implementation has a real consumer and nonzero success/failure proof; no schema, scaffold or authored packet substitutes for execution.
+- [ ] All seven planning tasks are retained and finish their own declared results.
+- [ ] Existing #852/#855/#862 scope reconciliation is recorded before their execution.
+
+## Final required-work accounting
+
+- [ ] CF-INTEGRATE delivered the installed candidate before independent CF-PROOF qualification.
+- [ ] TAIL-01 consumed both integration and qualification results.
+- [ ] TAIL-10 reconciles completion of every required row, including OBS-S3 and ARCH-ADR under their own acceptance, without making either an early integration or TAIL-01 dependency.
+
+TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately verifies authenticated Observatory deployment and the completed, source-grounded ADR set with explicit decision status. These obligations do not block CF-INTEGRATE or the early TAIL-01 quality gate, and do not change the canonical ten-step sequence.

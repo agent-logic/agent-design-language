@@ -1,0 +1,33 @@
+{
+  "body": "## Goal\n\nMake the production/live Observatory fail-safe for demonstrations by removing one-click paths that silently replace live Runtime v3 telemetry with frozen retained-packet data.\n\n## Required outcome\n\n- Remove the Published and Retained topbar modes from the live Observatory and pin the product surface to Live.\n- Remove or isolate refreshRetained and its three-second static-file polling so the live build cannot continuously fetch v0.91.7 retained JSON.\n- Remove the orphaned setRuntimeTestStatus local assignments currently reported near app.js lines 3293, 4298, and 4371.\n- Preserve historical retained artifacts as repository evidence; do not delete evidence merely to hide it from the product UI.\n- Ensure the live UI cannot silently present historical/frozen data as current polis telemetry.\n\n## Acceptance criteria\n\n1. The live Observatory offers no Published or Retained mode controls.\n2. Normal startup and navigation cannot replace live telemetry with docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api data.\n3. No obsolete three-second retained refresh timer runs in the live product path.\n4. The three unused status assignments are removed.\n5. Focused tests prove Live remains functional and no retained-mode route is reachable from the live UI.\n6. Documentation distinguishes retained historical evidence from the live Observatory product.\n\n## Non-goals\n\n- Do not delete immutable v0.91.7 evidence.\n- Do not redesign the Observatory.\n- Do not widen issue #512 or delay its publication.\n\n## Scheduling\n\nTarget v0.92.2. The v0.92.2 milestone is not yet open, so attach this issue when that milestone is created.\n\n<!-- csdlc-github-operation:v0922-observatory-remove-retained-live-demo-hazards -->\n",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACvUlH9w",
+      "name": "area:demo",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACv-tNhA",
+      "name": "area:quality",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACwHBpzQ",
+      "name": "type:chore",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACxMQT3w",
+      "name": "area:observatory",
+      "description": "",
+      "color": "ededed"
+    }
+  ],
+  "milestone": null,
+  "number": 720,
+  "state": "OPEN",
+  "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 6,
+  "issues": [
+    {
+      "task": "PLAT-MLX",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "fe5c4d3a275dfc3ecfc1ff72a5f27687dd43803d6fd411a7c3e90e0af397d90b"
+    },
+    {
+      "task": "PLAT-PAIR",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "39b241d5b3b78075a090ce857853d4b227bfd77b60582ff85397dbd06227a800"
+    },
+    {
+      "task": "SPEC-RETEST",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "f3ac24bf7607fd32a6a4ae61951899b373cc6fbbbdee242705845f99b990e133"
+    }
+  ]
+}

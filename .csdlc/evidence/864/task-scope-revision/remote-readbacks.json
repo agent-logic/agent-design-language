@@ -1,0 +1,38 @@
+{
+  "observed_at": "2026-09-11T21:50:55.517482+00:00",
+  "issues": [
+    {
+      "issue": 852,
+      "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events",
+      "state": "OPEN",
+      "updated_at": "2026-09-11T21:50:37Z",
+      "body_sha256": "bfacde4f1a2e5dc2eccb64d4f64630180e8a31aa0133f8de72f687c3beeb5234",
+      "reviewed_body_matches": true
+    },
+    {
+      "issue": 855,
+      "title": "[v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle",
+      "state": "OPEN",
+      "updated_at": "2026-09-11T21:50:22Z",
+      "body_sha256": "5ef29aa20f34beb5ba8328750aa7f9fc84ea80f26f87c30d44d3c0b132996221",
+      "reviewed_body_matches": true
+    },
+    {
+      "issue": 862,
+      "title": "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner",
+      "state": "OPEN",
+      "updated_at": "2026-09-11T21:50:39Z",
+      "body_sha256": "bedf9083f877bdf20b1c8e870a76fd25284bbe3c3379ed6df112d1113da6d02c",
+      "reviewed_body_matches": true
+    },
+    {
+      "issue": 864,
+      "title": "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave",
+      "state": "OPEN",
+      "updated_at": "2026-09-11T21:50:41Z",
+      "body_sha256": "7af138d2d9976ebc937d176c297c5bab6130b182ea028d44c3189803e9160e68",
+      "reviewed_body_matches": true
+    }
+  ],
+  "children_created": false
+}

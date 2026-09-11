@@ -1,0 +1,77 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "planning_baseline": "ace209ad9c701a855d165da817164ff60a755203",
+  "scope": "first sprint only, no execution or activation",
+  "issues": [
+    {
+      "task": "SIM-01",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "1b2644c57c7d025383e3e06941c17793047d8c8453e11abb22bf0d457857832a"
+    },
+    {
+      "task": "SIM-02",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "f288b3b8fa04d2dc7f2b856bc84b131f8c78a10bedc7fe28748601dea061e263"
+    },
+    {
+      "task": "SIM-03",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "adfc13f30967f798e9050f4b4863ab87e01d4c464a0d05aa2fcd4d8e79bd8429"
+    },
+    {
+      "task": "SIM-04",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "a8a028ca3b3603ea7879b47bcebd7cac445a21fc782c40cb4b741fad53fee801"
+    },
+    {
+      "task": "SIM-05",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "18b18dea61187a44977e31dcafdd139a128fc52505d7764c1a56e195c05edca5"
+    },
+    {
+      "task": "SIM-06",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "673521a1eb8528c797e624286fffc4cde93229b51e4b9d7701249740c51136e0"
+    },
+    {
+      "task": "SIM-07",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "9ea1746f60c5d78afcafd462e5f2eb2104108d388fb697e43df8b7dc3e5004fc"
+    },
+    {
+      "task": "SIM-08",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "45df23a37dbb0d707baaa0e8b9985786f200ce4ef90ffd403d45355e77e71509"
+    },
+    {
+      "task": "SIM-09",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "6bf154ad61d5378af99a67e5277155aacba88bad9283d74f05c038222a8609d1"
+    },
+    {
+      "task": "SIM-UMBRELLA",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "3c52033203d23a80b4cc21184ef78ca746b197a7140996f8d17b9d8795ea5d05"
+    }
+  ]
+}

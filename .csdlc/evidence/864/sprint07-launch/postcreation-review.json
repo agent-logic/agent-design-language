@@ -1,0 +1,19 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 7,
+  "reviewer": "/root/docs_final_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "eea9fcdffd96336bbceba6d36a7330cbddd0ec8d961102cbc6d8b37cabfecc39",
+  "issues": {
+    "PLAT-RUST": {
+      "number": 906,
+      "result": "pass"
+    },
+    "CSDLC-REMOTE": {
+      "number": 907,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified against reviewed draft source. Global all-69 creation/review startup gate retained; no implementation or activation proof."
+}

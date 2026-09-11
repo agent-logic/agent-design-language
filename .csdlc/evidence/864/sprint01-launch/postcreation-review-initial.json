@@ -1,0 +1,51 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 1,
+  "reviewer": "/root/task_contract_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "9d7582b684c464f3ef5f9543801bdff1d979a275a41841fda79e058b1013d883",
+  "issues": {
+    "SIM-UMBRELLA": {
+      "number": 866,
+      "result": "pass"
+    },
+    "SIM-01": {
+      "number": 867,
+      "result": "pass"
+    },
+    "SIM-02": {
+      "number": 868,
+      "result": "pass"
+    },
+    "SIM-03": {
+      "number": 869,
+      "result": "pass"
+    },
+    "SIM-04": {
+      "number": 870,
+      "result": "pass"
+    },
+    "SIM-05": {
+      "number": 871,
+      "result": "pass"
+    },
+    "SIM-06": {
+      "number": 872,
+      "result": "pass"
+    },
+    "SIM-07": {
+      "number": 873,
+      "result": "pass"
+    },
+    "SIM-08": {
+      "number": 874,
+      "result": "pass"
+    },
+    "SIM-09": {
+      "number": 875,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified."
+}

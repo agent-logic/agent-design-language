@@ -1,0 +1,47 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 4,
+  "reviewer": "/root/docs_final_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "bbe5f3f370eeacaf5284a942cd4d9e8baec20e0fb769c1f54ee83c8507c19fd3",
+  "issues": {
+    "CF-REVIEW": {
+      "number": 890,
+      "result": "pass"
+    },
+    "CF-SHELL": {
+      "number": 891,
+      "result": "pass"
+    },
+    "CF-SYNTHESIS": {
+      "number": 892,
+      "result": "pass"
+    },
+    "CF-REMEDIATE": {
+      "number": 893,
+      "result": "pass"
+    },
+    "CF-TESTPLAN": {
+      "number": 894,
+      "result": "pass"
+    },
+    "CF-UX": {
+      "number": 895,
+      "result": "pass"
+    },
+    "CF-RENDER-MD": {
+      "number": 896,
+      "result": "pass"
+    },
+    "CF-RENDER-HTML": {
+      "number": 897,
+      "result": "pass"
+    },
+    "CF-RENDER-PDF": {
+      "number": 898,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified against reviewed draft source. Global all-69 creation/review startup gate retained; no implementation or activation proof."
+}

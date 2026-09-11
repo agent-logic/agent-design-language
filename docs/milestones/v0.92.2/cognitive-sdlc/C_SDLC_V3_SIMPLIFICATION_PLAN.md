@@ -1,9 +1,9 @@
 # v0.92.2 C-SDLC v3 Simplification Plan
 
-Status: tracked planning candidate promoted through #523 / PR #743; implementation and cutover are not authorized by this document.
+Status: tracked program promoted through #523 / PR #743; first sprint issues #866–#875 are now created through #864. Issue creation does not establish execution readiness or authorize cutover.
 
 Authoring context: Planning #5, 2026-09-08; revised by Planning #6 on 2026-09-08 following the statistical review and operator direction.
-Target release: **v0.92.2**. Program size: **ten planned issues: one umbrella plus SIM-01 through SIM-09**. This is the C-SDLC program count, not the total milestone count. Promotion is included in #523 / PR #743; #524 narrows bundled transition work without opening issues.
+Target release: **v0.92.2**. Program size: **ten created issues: umbrella #866 plus SIM-01 through SIM-09 (#867–#875)**. This is the C-SDLC program count, not the total milestone count. Promotion is included in #523 / PR #743; #524 narrows bundled transition work without opening issues.
 Source baseline: `bf159eb416950dfa3399933829726a7b7e71f897` on ADL `main`.
 Audience: milestone planners, C-SDLC maintainers, implementation agents, and independent reviewers.
 
@@ -87,7 +87,7 @@ One command descriptor table defines public help, input schema, effect classific
 
 ## Ordered work packages
 
-The umbrella owns dependency ordering, the release scorecard, adjudication of failures, and final evidence aggregation. It does not duplicate implementation scope. These are planning identifiers, not created issues or execution assignments. Do not take over currently underway work. Before sprint launch, reconcile each package against then-current issues and merged changes. The native validator, PR readback/identity and ready-transition repairs in PR #743 are baseline fixes, not completion of a SIM package.
+The umbrella owns dependency ordering, the release scorecard, adjudication of failures, and final evidence aggregation. It does not duplicate implementation scope. These logical identifiers now map to created issues #866–#875; they are not execution assignments. Do not take over currently underway work. Before execution binding, reconcile each package against then-current issues and merged changes. The native validator, PR readback/identity and ready-transition repairs in PR #743 are baseline fixes, not completion of a SIM package.
 
 | Package | Deliverable and boundary | Acceptance / handoff |
 | --- | --- | --- |
@@ -101,7 +101,7 @@ The umbrella owns dependency ordering, the release scorecard, adjudication of fa
 | SIM-08 | Produce one transition operations packet. | Deployment, rollback, and prospective-measurement instructions are reviewed without activating writers. |
 | SIM-09 | Run one authorized consecutive-issue pilot. | Separate pause/activation authority exists and every pilot attempt, failure, abandonment, and disposition is retained. |
 
-Scheduling: this is the first coherent v0.92.2 sprint, authorized to proceed in parallel with Runtime work. Its own issue readiness and disjoint ownership govern startup; it does not wait for WP-01, the CodeFriend build or unrelated prior closeout. SIM-UMBRELLA opens and coordinates the sprint, and completes only after SIM-09.
+Scheduling: this is the first coherent v0.92.2 sprint, authorized to proceed in parallel with Runtime work. The later operator instruction requires all 69 core issue identities and creation reviews before implementation. After that global startup gate, its own issue readiness and disjoint ownership govern execution; no WP-01, CodeFriend-build or unrelated-closeout dependency is added. SIM-UMBRELLA opens and coordinates the sprint, and completes only after SIM-09.
 
 Order: SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07 → SIM-08 → SIM-09. Preparation may overlap only with disjoint ownership. Earlier correctness repairs may ship separately; the incompatible CLI/state replacement activates once, after the full transition proof. No intermediate deployment may introduce two writers for one issue.
 
@@ -179,8 +179,31 @@ Final acceptance requires the journey and measurement scorecard above, one opera
 
 ## Planning status and next boundary
 
-The operator has selected v0.92.2 and the ten-issue program structure. GitHub umbrella and SIM issue numbers remain unassigned. Other v0.92.2 work exists outside this program; reconcile overlaps before assigning owners. This tracked planning document is not a C-SDLC card, execution binding, approved architecture decision, or operational authority. The ten rows are reconciled into the milestone wave; issue numbers and execution owners remain to be resolved at the dedicated sprint launch.
+The operator has selected v0.92.2 and authorized creation of the first ten-issue sprint. SIM-UMBRELLA is #866; SIM-01 through SIM-09 are #867 through #875 respectively. Other v0.92.2 work exists outside this program; reconcile overlaps before assigning owners. The global all-69-created-and-reviewed startup gate applies before SIM implementation. This tracked planning document is not a C-SDLC card, execution binding, approved architecture decision, or operational authority. Native creation is complete; readiness and bound execution ownership must still be resolved for each issue.
 
-Only the source review and document checks have been performed. Failure reproduction, runtime tests, performance measurements, compatibility conversion, independent implementation review, and transition rehearsal remain future work. The principal residual risks are preserving evidence invalidation semantics, fencing existing writers, and reconciling a remote success across a local crash.
+Source review, document checks and authorized native first-sprint issue creation have been performed. Failure reproduction, runtime tests, performance measurements, compatibility conversion, independent implementation review, and transition rehearsal remain future work. The principal residual risks are preserving evidence invalidation semantics, fencing existing writers, and reconciling a remote success across a local crash.
 
-The operator has authorized updating and promoting this plan through one bounded planning issue. That does not authorize implementing the seven SIM packages or activating conversion. The next program action is to reconcile packages with ongoing C-SDLC work and assign bounded owners through the active typed lifecycle. Promotion is carried by existing #523 / PR #743 at the operator’s direction, so no additional plan-update issue is needed. The source document’s blocked issue-creation attempt remains historical evidence; it is not a startup dependency for this sprint. Implementation, conversion activation and terminal delivery remain separate future work.
+The original promotion authorized a bounded planning change. The later first-sprint instruction additionally authorized creation of #866–#875; this does not waive native execution readiness or authorize live conversion. The next program action is to reconcile packages with ongoing C-SDLC work and assign bounded owners through the active typed lifecycle. Promotion is carried by existing #523 / PR #743 at the operator’s direction, so no additional plan-update issue is needed. The source document’s blocked issue-creation attempt remains historical evidence; it is not a startup dependency for this sprint. Implementation, conversion activation and terminal delivery remain separate future work.
+
+## #864 complete-task clarification
+
+The current [atomic task contracts](../ATOMIC_TASK_CONTRACTS_v0.92.2.md) tighten SIM-03 and SIM-04 without changing this sprint's ordering or activation authority. SIM-03 uses its frozen supported local/remote command inventory and runs that inventory through the installed intent CLI against production operations. SIM-04 routes every local transition and verified remote/terminal outcome through the semantic owner and proves crash/concurrency behavior at actual application entrypoints. A CLI scaffold, unused transaction library or model-only proof cannot close either task.
+
+SIM-08 remains a required planning/operations deliverable with complete deployment/recovery instructions and the authorized rehearsal evidence defined by its execution contract; it does not activate writers. CSDLC-DECOMPOSE/#862 owns local command decomposition, and the separate CSDLC-REMOTE task owns remote decomposition after CSDLC-MERGE. Reconcile their shared paths with SIM ownership before writes. Original statistical reports and promoted-source provenance remain historical evidence.
+
+## First sprint issue mapping
+
+| Planned ID | Created issue |
+|---|---|
+| SIM-UMBRELLA | [#866](https://github.com/agent-logic/agent-design-language/issues/866) |
+| SIM-01 | [#867](https://github.com/agent-logic/agent-design-language/issues/867) |
+| SIM-02 | [#868](https://github.com/agent-logic/agent-design-language/issues/868) |
+| SIM-03 | [#869](https://github.com/agent-logic/agent-design-language/issues/869) |
+| SIM-04 | [#870](https://github.com/agent-logic/agent-design-language/issues/870) |
+| SIM-05 | [#871](https://github.com/agent-logic/agent-design-language/issues/871) |
+| SIM-06 | [#872](https://github.com/agent-logic/agent-design-language/issues/872) |
+| SIM-07 | [#873](https://github.com/agent-logic/agent-design-language/issues/873) |
+| SIM-08 | [#874](https://github.com/agent-logic/agent-design-language/issues/874) |
+| SIM-09 | [#875](https://github.com/agent-logic/agent-design-language/issues/875) |
+
+The [native launch mapping](../../../../.csdlc/evidence/864/sprint01-launch/issues.json) records canonical identities. SIM-03/#869 includes the resolved command inventory in its self-contained body; the [launch inventory](../../../../.csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md) is its retained source. The original source-promotion manifest and statistical reports remain historical evidence. The final core milestone map has 69 assigned tasks: nine preexisting and 60 newly created bindings, with zero unassigned tasks. The first-sprint record remains evidence for its own ten identities.

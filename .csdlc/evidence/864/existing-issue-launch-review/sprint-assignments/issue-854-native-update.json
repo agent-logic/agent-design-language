@@ -1,0 +1,52 @@
+{
+  "schema": "csdlc.v3.operational_remote.v1",
+  "command": "github-issue",
+  "read_only": false,
+  "operational_authority": true,
+  "cutover_issue": 505,
+  "result": {
+    "schema": "csdlc.v3.operational_remote_dispatch.v1",
+    "authority": {
+      "schema": "csdlc.v3.canonical_authority_evidence.v1",
+      "selector_path": "csdlc-v3/operator/authority-selector.json",
+      "selector_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+      "authority_issue": 505,
+      "exact_review_sha": "d5a598594864bc4ade11b060d57d1d7dbc1d71ad",
+      "readiness_evidence_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+      "approval_evidence_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8"
+    },
+    "outcome": {
+      "kind": "github_mutation",
+      "result": {
+        "receipt": {
+          "schema": "csdlc.v3.github_mutation_receipt.v2",
+          "repository": "agent-logic/agent-design-language",
+          "issue": 854,
+          "pull_request": null,
+          "expected_head_sha": "d5a598594864bc4ade11b060d57d1d7dbc1d71ad",
+          "operation_digest": "c529a8ba8a15c96402ccf9e8ca11ed0336792d8a773493defa3d43947e4a9865",
+          "response_digest": "b1ead33956b10f0a2505986d1e905c02c660cf4950cd0a9318d870676a24c7a7",
+          "readback_digest": "250dae7d0c6c379a6baf2b5336dc93cd4ad2569f18538fa97a17ce828a68521c",
+          "intent_digest": "f13b3eff19c09b21f1c4e655a5b1a3bc8f73048402c1fc51d21bbdd1f40aa013",
+          "reconciliation_digest": "9cd240b5950cc7c6791e4b4c46224909349d1cd4ad9261e4b169a483f03564f5",
+          "adapter": "github-api-operational",
+          "authenticated": true,
+          "idempotent_replay": false
+        },
+        "reconciliation": {
+          "schema": "csdlc.v3.github_mutation_reconciliation.v1",
+          "operation_digest": "c529a8ba8a15c96402ccf9e8ca11ed0336792d8a773493defa3d43947e4a9865",
+          "operation_marker": "<!-- csdlc-v3-operation:c529a8ba8a15c96402ccf9e8ca11ed0336792d8a773493defa3d43947e4a9865 -->",
+          "repository": "agent-logic/agent-design-language",
+          "issue": 854,
+          "pull_request": null,
+          "remote_object_id": 5427319548,
+          "expected_head_sha": "d5a598594864bc4ade11b060d57d1d7dbc1d71ad",
+          "readback_digest": "250dae7d0c6c379a6baf2b5336dc93cd4ad2569f18538fa97a17ce828a68521c",
+          "observed_by": "github-api-read-only",
+          "authenticated": true
+        }
+      }
+    }
+  }
+}

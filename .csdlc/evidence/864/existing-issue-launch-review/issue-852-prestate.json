@@ -1,0 +1,33 @@
+{
+  "body": "## Outcome\n\nEmit one correlated, redacted Runtime-owned failure event when canonical ingress dispatch fails, and prove its relationship to the authenticated WSS error response.\n\n## Complete task\n\n- Implement failure-event emission on the real Runtime ingress dispatch path while preserving success behavior.\n- Bind the event to the same authenticated request/correlation identity as its WSS failure response.\n- Prove actual dispatch failure, response/event correlation and redaction through production paths.\n- Reject forged or mismatched event evidence; retain current focused validation and independent exact-head review.\n\nA synthetic event, caller-set failure flag, reference trace or unexecuted test is not completion.\n\n## Scope preserved in separate tasks\n\nThe previous consolidated five-row work is split by the operator's newer one-task instruction:\n\n| Task | Complete result |\n|---|---|\n| QUAL-RUNTIME / #852 | Runtime dispatch failure-event repair and its WSS/redaction regressions |\n| QUAL-RESIDENT | Six distinct production resident workloads plus signed dehydration/restore and resumed-work qualification |\n| QUAL-PROVIDER | Actual provider subprocess loss, timeout/interruption and healthy recovery qualification |\n| QUAL-INVENTORY | Immutable before/after Cargo-registered validation inventories |\n| QUAL-EVIDENCE | Exact criterion/source/producer/execution binding and independent-review admission for all five rows |\n\nQUAL-EVIDENCE preserves RUST-01-ac-4, DRT-B-ac-2/ac-3 and DRT-C-ac-2/ac-3, the original 19-finding denominator, and the separate five cloud-control/two execution-proof gaps. Closed #522/#833 remain historical consumers; this issue does not reopen or close them. Remaining tasks require separately authorized creation and cannot disappear when #852 closes.\n\n## Preserved partial work\n\nThe previous #851 worktree and branch `codex/851-reconcile-five-proof-links` contain unreviewed partial implementation and evidence. Preserve all bytes and inspect actual ownership before reuse. Neither the partial code nor this scope edit proves delivery. The pre-split source issue body is retained by #864's review evidence.\n\n## Acceptance\n\n1. Real canonical dispatch failure emits its correlated Runtime-owned event.\n2. Authenticated WSS failure response and event correlate without exposing secrets.\n3. Forged, mismatched and redaction-negative cases are rejected.\n4. Existing success semantics remain intact and focused proof/required CI pass at the reviewed implementation revision.\n\n## Non-goals\n\nNo paid cloud/GPU mutation, broad Runtime refactor, five-row aggregate qualification inside this repair, release approval, or automatic closure of #522/#833. The historical instruction to keep all five rows consolidated is superseded by the operator-authorized split above.\n\n\n## Operator-authorized task split\n\nThe operator requested one complete task per issue in the #864 / PR #865 planning review. Additional work is preserved as number-free tasks in `docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md`; no follow-on issue is created by this edit. All implementation tasks include their required tests, failure handling and documentation.\n\n\n<!-- csdlc-v3-operation:00f3b0642c6414ce252e13a7fd0502844582cb1d7e7b657b65e0051419cb1db9 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+      "name": "type:bug",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACvgLwWg",
+      "name": "area:tooling",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACviQhAg",
+      "name": "area:runtime",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    }
+  ],
+  "milestone": null,
+  "number": 852,
+  "state": "OPEN",
+  "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events"
+}

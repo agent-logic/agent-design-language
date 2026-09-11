@@ -1,0 +1,51 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 11,
+  "reviewer": "/root/planning_docs",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "b8b2d94837c1a90bc2fc2daae3d1f2a4040ade644c7afb6c89ac74cf79bc8814",
+  "issues": {
+    "TAIL-01": {
+      "number": 916,
+      "result": "pass"
+    },
+    "TAIL-02": {
+      "number": 917,
+      "result": "pass"
+    },
+    "TAIL-03": {
+      "number": 918,
+      "result": "pass"
+    },
+    "TAIL-04": {
+      "number": 919,
+      "result": "pass"
+    },
+    "TAIL-05": {
+      "number": 920,
+      "result": "pass"
+    },
+    "TAIL-06": {
+      "number": 921,
+      "result": "pass"
+    },
+    "TAIL-07": {
+      "number": 922,
+      "result": "pass"
+    },
+    "TAIL-08": {
+      "number": 923,
+      "result": "pass"
+    },
+    "TAIL-09": {
+      "number": 924,
+      "result": "pass"
+    },
+    "TAIL-10": {
+      "number": 925,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies matched retained native readbacks. All ten complete tail results, exact canonical dependencies and obligations, all-69 startup gate, TAIL-10 Observatory/ADR acceptance and explicit future release/communication authority independently reviewed. Generic validator passes with 31 negative fixtures. Creation review only; no implementation, release or activation proof."
+}

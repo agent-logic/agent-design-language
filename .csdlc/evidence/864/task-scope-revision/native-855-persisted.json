@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.v3.github_mutation_receipt.v2",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 855,
+  "pull_request": null,
+  "expected_head_sha": "d97f24621b05aae01fae09c531414c4cc9d52030",
+  "operation_digest": "62034fbe312460f75163c205796b343b94f13f409e4288a4e63cd798e0f1a95d",
+  "response_digest": "c97ce465f968be9d4433fb8ac9b1654617a9207601f556a1dc76ac9dbf22cd55",
+  "readback_digest": "c129f030b1f549a4de1a440c45af1201668e12f745363e5cc42c249385daa31e",
+  "intent_digest": "25cb9a041e955f9fd89fa7ae1e1dd3b9b2e4185007da0f45bfb2ba8e1083dee0",
+  "reconciliation_digest": "5682fed6b5a0aa775f48ebef31344f41abc56da033adff951677275c3ae35b11",
+  "adapter": "github-api-operational",
+  "authenticated": true,
+  "idempotent_replay": false
+}

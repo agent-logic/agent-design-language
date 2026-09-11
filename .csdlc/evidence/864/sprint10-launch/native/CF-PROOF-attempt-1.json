@@ -1,0 +1,5 @@
+{
+  "diagnostic": "csdlc: {\"code\":\"github_mutation_not_reconciled\",\"message\":\"authenticated readback did not contain the exact operation marker and expected state\"}",
+  "exit_code": 2,
+  "request_file": "sprint10-CF-PROOF-create.json"
+}

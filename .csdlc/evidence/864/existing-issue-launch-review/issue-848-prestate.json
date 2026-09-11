@@ -1,0 +1,27 @@
+{
+  "body": "# Outcome\n\nProduce one reviewed, decision-ready repository decomposition plan for v0.92.2 that separates ADL, Runtime/CSM, C-SDLC, infrastructure, and the private v0.93 enterprise-security package into coherent product and visibility boundaries.\n\n# Context\n\nThe current repository contains historically colocated products that have no required functional coupling. The candidate plan must evaluate a five-repository target:\n\n1. `agent-design-language`\n2. `agent-logic-runtime`\n3. `cognitive-sdlc`\n4. `agent-logic-infrastructure`\n5. `agent-logic-enterprise-security` (private; implementation scheduled for v0.93)\n\nThe plan is intended to reduce unrelated build and validation work, allow the products to evolve and release independently, support independent commercialization, and give Agent Logic deliberate control over what is public or private.\n\n# Scope\n\n- Ground the proposed boundaries in the current source inventory and v0.93 enterprise-security planning authority.\n- Define ownership, dependency direction, public/private visibility, versioned contracts, validation boundaries, release boundaries, and migration ordering.\n- Require public ADL and Runtime products to remain complete and independently buildable without access to private repositories.\n- Define the disclosure boundary for public contracts versus proprietary implementation, customer material, credentials, sensitive qualification evidence, and private operations.\n- Obtain independent Claude and Gemini reviews and resolve actionable planning findings.\n- Produce a decision-ready recommendation and bounded first execution step.\n\n# Non-goals\n\n- Do not split repositories, move code, delete compatibility paths, or create the private repository.\n- Do not authorize v0.93 implementation work.\n- Do not introduce new functional coupling between C-SDLC and Runtime/CSM.\n- Do not claim that moving code alone reduces maintained code volume.\n\n# Acceptance criteria\n\n- [ ] The plan identifies exactly one primary owner for every proposed product boundary.\n- [ ] C-SDLC and Runtime/CSM are explicitly independent in both dependency directions.\n- [ ] Cross-repository dependencies use published, versioned contracts rather than checkout-relative source access.\n- [ ] The private enterprise-security repository covers the six bounded v0.93 security work packages without becoming a hidden dependency of public products.\n- [ ] Public/private classification and disclosure-review rules are explicit.\n- [ ] Migration steps are independently reviewable, reversible where practical, and each produces one concrete result.\n- [ ] Build, validation, release, operational, commercialization, and visibility benefits are stated without treating them as completed outcomes.\n- [ ] Claude and Gemini independently review the candidate plan; actionable findings are either resolved or recorded for operator decision.\n- [ ] The final recommendation authorizes at most the dependency-and-ownership audit, not repository extraction.\n\n# Source evidence\n\n- `.adl/docs/TBD/ADL_REPOSITORY_DECOMPOSITION_CANDIDATE_PLAN.md`\n- `docs/milestones/v0.93/features/ENTERPRISE_SECURITY_v0.93.md`\n- `docs/milestones/v0.93/DESIGN_v0.93.md`\n- `docs/milestones/v0.93/WBS_v0.93.md`\n- `docs/milestones/v0.93/SPRINT_v0.93.md`\n\n# Validation\n\n- Verify every referenced tracked path exists.\n- Check the plan for machine-local paths, credentials, unsupported completion claims, and accidental public/private dependency inversion.\n- Record both independent review results and the disposition of every actionable finding.\n\n# Milestone routing\n\nTarget version: `v0.92.2`. The GitHub milestone object does not yet exist; attach this issue when that milestone is opened. This issue does not authorize opening the milestone or creating further v0.92.2 issues.\n\n\n<!-- csdlc-v3-operation:52a23fba726edf298e4309fdd54309e40879fa283fef8ddcf8a5571dd16bbd68 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACvgLwWA",
+      "name": "type:planning",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACwHBo0Q",
+      "name": "area:architecture",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0rB5Mg",
+      "name": "v0.92.2",
+      "description": "",
+      "color": "ededed"
+    }
+  ],
+  "milestone": null,
+  "number": 848,
+  "state": "OPEN",
+  "title": "[v0.92.2][planning] Decide repository decomposition and public/private product boundaries"
+}

@@ -1,0 +1,33 @@
+{
+  "body": "## Outcome\n\nProvide installable, complete operator man pages for C-SDLC v3 so routine use and recovery never require reading Rust source files.\n\n## Problem\n\nC-SDLC v3 currently exposes terse `--help` output and scattered Markdown contracts, but no authoritative operator command reference. Required behavior such as `finish --observe-github`, checkout-dependent output paths, credential resolution, lifecycle transitions, mutation boundaries, request schemas, and recovery steps must currently be inferred from implementation files such as `csdlc-v3/src/commands/remote/mod.rs`.\n\n## Deliverables\n\n- An installable `csdlc(1)` overview covering the lifecycle, authority model, command families, global conventions, credentials, exit status, files, and diagnostics.\n- Cohesive command-reference man pages for every supported native v3 command, with exact syntax, required and optional flags, mutation/read-only classification, request schema references, and at least one valid example.\n- Explicit documentation of primary-checkout versus linked-worktree behavior and canonical state/evidence paths.\n- A troubleshooting section for common fail-closed findings, including stale authority, missing credentials, stale exact-head review, incorrect checkout topology, missing `--observe-github`, and reconciliation failures.\n- Installation and discovery support so `man csdlc` and command-page lookup work after the supported owner-binary installation flow.\n- A machine-checked parity inventory proving every command and exposed option is represented in the man-page suite.\n\n## Acceptance criteria\n\n- [ ] An operator can start, inspect, review, publish, merge, finish, and clean a normal issue using the man pages without reading source code.\n- [ ] Every command listed by native v3 help is covered by an authoritative man-page entry.\n- [ ] Examples are executable or fixture-validated and use current request schemas and canonical paths.\n- [ ] Pages clearly distinguish observation, mutation, lifecycle authority, terminal reconciliation, and cleanup.\n- [ ] Installed pages are discoverable through the supported installation path on macOS and Linux.\n- [ ] Focused tests fail when a command or option is added without corresponding manual coverage.\n\n## Non-goals\n\n- Changing lifecycle semantics or weakening fail-closed guards.\n- Redesigning the CLI.\n- Documenting retired v1/v2 commands as current authority.\n\n## Validation\n\n- Man-page rendering/lint checks.\n- CLI-to-man-page command and option parity test.\n- Clean-install lookup proof on supported macOS and Linux environments.\n- Focused example/fixture validation and `git diff --check`.\n\n\n\n<!-- csdlc-v3-operation:30fe6dc4e544fa3317e87a9e70b0887611abacd59f1bf1b54423f9d0763e31a9 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACv_YZaQ",
+      "name": "type:docs",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACwrlbBA",
+      "name": "area:csdlc",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0rB5Mg",
+      "name": "v0.92.2",
+      "description": "",
+      "color": "ededed"
+    }
+  ],
+  "milestone": null,
+  "number": 861,
+  "state": "OPEN",
+  "title": "[v0.92.2][C-SDLC v3][docs] Write complete operator man pages"
+}

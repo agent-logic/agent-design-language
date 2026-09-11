@@ -1,0 +1,20 @@
+{
+  "body": "## Outcome\n\nPublish the complete, reviewed v0.92.2 planning package and open its execution wave one carefully reviewed sprint at a time.\n\n## Current authorized scope\n\nThe operator authorized issue creation after review of PR #865. The current batch is the first C-SDLC simplification sprint only: umbrella #866 and SIM-01 through SIM-09 (#867\u2013#875). Review every body before creation and verify the published body, identity, milestone, label and numeric dependencies after native creation. Preserve every complete-task contract and all seven planning tasks.\n\nThe planning wave remains 69 tasks: nine earlier issue bindings plus ten new first-sprint bindings, with 50 tasks still unassigned. The eight task-family splits and eleven tightened completion contracts remain in force. OBS-S3 and ARCH-ADR explicitly gate final TAIL-10 completion; integration precedes independent installed-product qualification.\n\n## Deliverables and acceptance\n\n- [ ] Complete canonical planning package, issue wave, execution specifications, atomic contracts, WBS, catalog, sprint/readiness and release gates agree.\n- [ ] The first sprint has exactly ten unique issues with one complete result each, concrete owned paths, dependencies, success/failure proof, PVF classification, stop conditions and non-goals.\n- [ ] SIM-03's complete installed-command inventory is frozen before creation and included in #869.\n- [ ] Authenticated native creation/readback evidence proves correct title, body, version label, milestone and numeric dependency links; no duplicate issues or silently omitted tasks.\n- [ ] All ten published issues receive careful independent review; actionable findings are fixed before launch evidence is published.\n- [ ] Planning and launch negative fixtures, native six-card validation, links and diff hygiene pass; final exact-head review precedes PR update.\n\n## Boundaries\n\nCreation and review of this first sprint is authorized. Implementation starts only through each issue's own native readiness/binding route. No writer pause, live conversion/activation, Runtime/provider interruption, paid resources, merge or release approval is authorized by this launch. Later sprint creation is a subsequent batch after this batch's review, preserving each task's selection gates.\n\n## Source and evidence\n\n`docs/milestones/v0.92.2/`; `.csdlc/evidence/864/sprint01-launch/`; the reviewed atomic-task and final-closeout correction in PR #865. Prior number-free/no-child instructions describe the earlier preparation phase and are superseded for this first batch by the operator's explicit creation instruction. Historical evidence remains unchanged.\n\nValidation: `python3 docs/milestones/v0.92.2/validate_planning.py --self-test`; `python3 .csdlc/evidence/864/sprint01-launch/validate_launch.py`; native v3 `validate`; focused link and diff checks. These establish planning/issue-launch truth, not implemented Beta 1 behavior.\n\nOwned paths: `docs/milestones/v0.92.2/**`, native `.csdlc/issues/864/**`, `.csdlc/evidence/864/**` and native transaction records. PR #865 uses `Closes #864`.\n\n\n<!-- csdlc-v3-operation:3b0eff20a3f3c0cf7c8b8cf2f41037a605b5f7f70782c44d0a80a57a2e12e31b -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    }
+  ],
+  "milestone": {
+    "number": 2,
+    "title": "v0.92.2",
+    "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+    "dueOn": null
+  },
+  "number": 864,
+  "state": "OPEN",
+  "title": "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
+}

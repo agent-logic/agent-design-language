@@ -1,0 +1,30 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 9,
+  "issues": [
+    {
+      "task": "ARCH-ADR",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "a192920098a7239491a70cbea750e08302623151b46523d2d815b87f02f41079"
+    },
+    {
+      "task": "PUB-MEDIUM",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "398aa60fac3e198977e9c89a0ab6fad59939dd83b326f408faa1508754df9747"
+    },
+    {
+      "task": "PUB-CSDLC",
+      "author": "/root/planning_docs",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "907305291e982c8f10c8f1d32c9a628a498b69eebf4b70fd0c669ae1dff0bd74"
+    }
+  ]
+}
