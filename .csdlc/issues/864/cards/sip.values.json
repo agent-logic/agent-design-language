@@ -17,13 +17,13 @@
   "output_card": ".csdlc/issues/864/cards/sor.md",
   "required_outcome_type": "planning_reconciliation",
   "demo_required": "false",
-  "goal": "Correct the operator-reviewed v0.92.2 wave so each implementation issue delivers one complete task.",
-  "required_outcome": "69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.",
-  "acceptance_criteria": "All eight splits and eleven completion contracts validated; all active planning docs agree; inherited requirements retained; no child issue created.",
-  "inputs": "Issue #864, operator correction in Planning #1.1, live #852/#855/#862 scope and canonical planning package.",
+  "goal": "Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.",
+  "required_outcome": "Ten complete and reviewed first-sprint GitHub issues with authenticated native readbacks, command inventory frozen before SIM-03 creation, and reconciled planning documents.",
+  "acceptance_criteria": "Every issue owns one complete task and explicit paths, dependencies, success/failure acceptance and PVF; no duplicate existing issue; ten bodies reviewed before and after creation.",
+  "inputs": "Operator authorization: create the issues one sprint at a time and carefully review them all; reviewed PR #865 at ace209ad; canonical SIM plan/specs.",
   "target_files_surfaces": "docs/milestones/v0.92.2/**; issue #864 native cards and bounded scope-reconciliation evidence.",
   "validation_plan": "Planning self-test with atomic/baseline/dependency negatives; native six-card validation; diff hygiene; independent semantic and docs review.",
   "demo_proof_requirements": "No demo; deterministic documentation and issue-inventory proof only.",
-  "non_goals": "No child issue creation, implementation, merge, release approval, or repository split.",
+  "non_goals": "Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.",
   "notes_risks": "Concrete product/proof selections remain explicit before-child-creation gates; no product implementation is claimed."
 }

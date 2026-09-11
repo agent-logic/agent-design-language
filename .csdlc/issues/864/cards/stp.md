@@ -22,7 +22,7 @@ canonical_files: []
 demo_required: false
 demo_names: []
 issue_graph_notes:
-  - "69 tasks: nine existing and 60 prospective; no child creation."
+  - "69 tasks retained; this batch assigns exactly ten previously prospective SIM identities."
 pr_start:
   enabled: true
   slug: "v0922-wp01"
@@ -35,23 +35,23 @@ Generated: 2026-09-11T21:51:25.506803+00:00
 
 ## Summary
 
-Split mixed task families and enforce complete-result acceptance throughout v0.92.2 planning.
+Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.
 
 ## Goal
 
-Publish a reviewable, dependency-consistent issue wave without creating child issues.
+Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.
 
 ## Required Outcome
 
-69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.
+First-sprint issue launch: one umbrella plus nine SIM tasks, reviewed and linked to canonical planning IDs.
 
 ## Deliverables
 
-Reconciled active planning docs, two YAML files, atomic-task manifest, validator and exact scope-update evidence.
+Ten issue bodies and native creation/readback receipts; frozen command inventory; updated wave/specs/catalog/WBS/sprint/readiness; launch review.
 
 ## Acceptance Criteria
 
-Every corrected task has a real consumer, executable success/failure proof and partial-work rejection. All 100 baseline family obligations retain owners. Nine existing issue identities retained.
+No missing or duplicated sprint task; exact sequential dependencies and umbrella completion relation; no scaffold-only completion; authenticated title/body/label/milestone readback matches reviewed intent.
 
 ## Repo Inputs
 
@@ -63,11 +63,11 @@ Merged v0.92.1 planning package and opened v0.92.2 milestone.
 
 ## Target Files / Surfaces
 
-docs/milestones/v0.92.2/**; native #864 cards and .csdlc/evidence/864/task-scope-revision.
+docs/milestones/v0.92.2/**; native #864 cards; .csdlc/evidence/864/sprint01-launch/**.
 
 ## Validation Plan
 
-75 negative fixtures plus planning, native six-card and diff validation; independent semantic/docs review.
+Focused planning and issue identity/body/obligation validation; native six-card validation; precreation and postcreation independent review.
 
 ## Demo Expectations
 
@@ -75,7 +75,7 @@ Not applicable; docs-only planning proof.
 
 ## Non-goals
 
-Creating child issues or executing planned work.
+Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.
 
 ## Issue-Graph Notes
 

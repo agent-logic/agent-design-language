@@ -10,7 +10,7 @@ title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execut
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
 card_status: "ready"
-status: "complete"
+status: "in_progress"
 activation_state: "executed"
 plan_revision: 1
 initial_pvf_lane: "docs"
@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Remediate review findings at 3fc16781: enforce OBS-S3 and ARCH-ADR completion in TAIL-10 dependencies/acceptance, add negative gate tests, reconcile projections, and update tracked SRP through native v3; independently review and republish #865."
+plan_summary: "Draft the ten first-sprint issues from source, freeze SIM03 command inventory, independently review every body, create sequentially through native v3, reconcile numeric dependencies and planning docs, audit remote readbacks, independently review and publish launch evidence."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -65,7 +65,7 @@ proposed_steps:
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: Both required completion edges and acceptance obligations are validator-enforced; regression mutations fail; tracked review records actual reviewer and revision without stale pending status; current independent review before publication."
+    description: "Run focused proof gates for acceptance: Ten reviewed first-sprint issues with complete execution contracts; all 69 planning tasks retained, no later batch issue created."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -76,13 +76,13 @@ codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
     status: "complete"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "complete"
-  - step: "Implement the bounded deliverables only."
-    status: "complete"
-  - step: "Run focused validation and proof gates."
-    status: "complete"
-  - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "in_progress"
+  - step: "Implement the bounded deliverables only."
+    status: "pending"
+  - step: "Run focused validation and proof gates."
+    status: "pending"
+  - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
+    status: "pending"
 affected_areas:
   - "v0922-wp01"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "P1 remediation independently reviewed at 9de70e4e064076487379a11a98af087fa8ba484c; P2 records that completed review through native editing. Final tip review and publication receipts bind the subsequent card-recording revision. Concrete per-task selections remain before-child-creation gates."
+notes: "Issue creation is newly authorized; prior no-child boundary is historical. Execution and live activation remain separate. Stop for duplicate identity, scope collision or uncertain write until reconciled."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave`.
 
-Remediate review findings at 3fc16781: enforce OBS-S3 and ARCH-ADR completion in TAIL-10 dependencies/acceptance, add negative gate tests, reconcile projections, and update tracked SRP through native v3; independently review and republish #865.
+Draft the ten first-sprint issues from source, freeze SIM03 command inventory, independently review every body, create sequentially through native v3, reconcile numeric dependencies and planning docs, audit remote readbacks, independently review and publish launch evidence.
 
 ## PVF Lane Plan
 
@@ -143,10 +143,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 ## Codex Plan
 
 1. [complete] Confirm dependencies and starting state from the source issue prompt.
-2. [complete] Inspect repo inputs and target surfaces before editing.
-3. [complete] Implement the bounded deliverables only.
-4. [complete] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+2. [in_progress] Inspect repo inputs and target surfaces before editing.
+3. [pending] Implement the bounded deliverables only.
+4. [pending] Run focused validation and proof gates.
+5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -157,7 +157,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. Confirm dependency readiness and starting state: v0.92.1 closed and v0.92.2 milestone open
 2. Review repo inputs and scoped surfaces before editing: planning package and authenticated GitHub issue readback
 3. Implement only the bounded deliverables: 69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.
-4. Run focused proof gates for acceptance: Both required completion edges and acceptance obligations are validator-enforced; regression mutations fail; tracked review records actual reviewer and revision without stale pending status; current independent review before publication.
+4. Run focused proof gates for acceptance: Ten reviewed first-sprint issues with complete execution contracts; all 69 planning tasks retained, no later batch issue created.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-P1 remediation independently reviewed at 9de70e4e064076487379a11a98af087fa8ba484c; P2 records that completed review through native editing. Final tip review and publication receipts bind the subsequent card-recording revision. Concrete per-task selections remain before-child-creation gates.
+Issue creation is newly authorized; prior no-child boundary is historical. Execution and live activation remain separate. Stop for duplicate identity, scope collision or uncertain write until reconciled.

@@ -90,19 +90,19 @@ review_surfaces:
 
 ## Goal
 
-Correct the operator-reviewed v0.92.2 wave so each implementation issue delivers one complete task.
+Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.
 
 ## Required Outcome
 
-69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.
+Ten complete and reviewed first-sprint GitHub issues with authenticated native readbacks, command inventory frozen before SIM-03 creation, and reconciled planning documents.
 
 ## Acceptance Criteria
 
-All eight splits and eleven completion contracts validated; all active planning docs agree; inherited requirements retained; no child issue created.
+Every issue owns one complete task and explicit paths, dependencies, success/failure acceptance and PVF; no duplicate existing issue; ten bodies reviewed before and after creation.
 
 ## Inputs
 
-Issue #864, operator correction in Planning #1.1, live #852/#855/#862 scope and canonical planning package.
+Operator authorization: create the issues one sprint at a time and carefully review them all; reviewed PR #865 at ace209ad; canonical SIM plan/specs.
 
 ## Target Files / Surfaces
 
@@ -162,7 +162,7 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-No child issue creation, implementation, merge, release approval, or repository split.
+Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.
 
 ## Notes / Risks
 

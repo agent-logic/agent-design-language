@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Status: reviewed_implementation
+Status: in_progress
 Generated: 2026-09-11T21:51:25.506803+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Preserved the 69-task planning wave and corrected both review findings: validator-enforced OBS-S3/ARCH-ADR final completion gates and native tracked review truth.
+Operator authorized sprint-at-a-time creation; first batch is SIM-UMBRELLA and SIM01-09. No child creation result recorded yet.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs`
@@ -57,7 +57,7 @@ Preserved the 69-task planning wave and corrected both review findings: validato
 - Goal metrics source ref: `Planning #1.1 issue-864 goal; no final timing or usage snapshot recorded.`
 - Data-source confidence: `not_collected`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed_implementation_handoff`
+- Completion state: `sprint_issue_creation_in_progress`
 - Issue goal ref: `issue-864-reconciliation-goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check`
-    `89 negative planning fixtures and diff hygiene passed. Native six-card validation passed at generation 9 before this result recording; final card validation is required for this native edit. Independent implementation review passed at 9de70e4e064076487379a11a98af087fa8ba484c.`
+    `Prior 89-fixture planning baseline passed. New launch validation and remote issue readback results are not yet recorded.`
 - Results:
-  - `passed`
+  - `pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `The cited TBD split-plan path is absent and remains #848 recovery work.`
 
 ## Follow-ups / Deferred work
-- `Verify the card-recording commit at its exact tip, then publish the reviewed correction to PR #865 for operator review.`
-- `No child creation, merge, milestone close or implementation execution authorized by this result.`
+- `Review drafts, create and reconcile first sprint, independently review final launch record and publish PR update.`
+- `Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.`
