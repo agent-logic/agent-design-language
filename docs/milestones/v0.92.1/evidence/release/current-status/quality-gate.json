@@ -1,0 +1,15 @@
+{
+  "schema": "adl.v0921.current_quality_gate.v1",
+  "candidate": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+  "status_sha256": "8e3e0e5b276f9f894f7c3c9847793be1e3982f73f6656bf503a3c79f91d4acb5",
+  "decision": "blocked",
+  "release_authorized": false,
+  "inventory": 393,
+  "approved_removals": 143,
+  "remaining_required": 223,
+  "unresolved_blockers": [
+    "FINAL-GATE-821",
+    "CURRENT-CANDIDATE-PROOF",
+    "RELEASE-REVIEW"
+  ]
+}

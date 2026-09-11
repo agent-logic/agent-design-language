@@ -1,344 +1,758 @@
 {
-  "schema": "adl.release_issue_observation.v1",
+  "schema": "adl.release_issue_observation.v2",
   "repository": "agent-logic/agent-design-language",
-  "source_revision": "80e5961a7537f833ce676bb244fd574da4504a29",
-  "observed_at": "2026-09-09T22:13:28.048626+00:00",
+  "candidate": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+  "snapshot_revision": "0aa227619f5549bebcdfa802d95351c3079fb89e",
   "issues": [
     {
-      "closedAt": "2026-09-03T20:11:59Z",
-      "number": 51,
-      "state": "CLOSED",
-      "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
-      "updatedAt": "2026-09-03T20:12:27Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/51"
-    },
-    {
-      "closedAt": "2026-08-28T00:16:07Z",
-      "number": 122,
-      "state": "CLOSED",
-      "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
-      "updatedAt": "2026-08-28T00:16:07Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/122"
-    },
-    {
-      "closedAt": "2026-09-02T19:47:13Z",
-      "number": 264,
-      "state": "CLOSED",
-      "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
-      "updatedAt": "2026-09-02T19:47:13Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/264"
-    },
-    {
-      "closedAt": "2026-09-01T06:36:20Z",
-      "number": 345,
-      "state": "CLOSED",
-      "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
-      "updatedAt": "2026-09-01T06:36:20Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/345"
-    },
-    {
-      "closedAt": "2026-08-19T22:14:32Z",
-      "number": 432,
-      "state": "CLOSED",
-      "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
-      "updatedAt": "2026-08-19T22:14:32Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/432"
-    },
-    {
-      "closedAt": "2026-08-26T16:29:17Z",
-      "number": 480,
-      "state": "CLOSED",
-      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
-      "updatedAt": "2026-08-26T16:29:17Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/480"
-    },
-    {
-      "closedAt": "2026-09-09T01:51:29Z",
-      "number": 517,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-01] Quality gate",
-      "updatedAt": "2026-09-09T01:51:29Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/517"
-    },
-    {
-      "closedAt": "2026-09-09T03:02:17Z",
-      "number": 518,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
-      "updatedAt": "2026-09-09T03:02:17Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/518"
-    },
-    {
-      "closedAt": "2026-09-09T04:16:56Z",
-      "number": 519,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-03] Publication finalization",
-      "updatedAt": "2026-09-09T04:16:56Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/519"
-    },
-    {
-      "closedAt": null,
-      "number": 520,
+      "number": 837,
       "state": "OPEN",
-      "title": "[v0.92.1][TAIL-04] Internal review",
-      "updatedAt": "2026-08-26T03:30:56Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/520"
+      "title": "[v0.92.1][TAIL-06.22][architecture] Publish active boot paths and retire stale control-plane guidance",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/837"
     },
     {
-      "closedAt": null,
-      "number": 521,
+      "number": 836,
       "state": "OPEN",
-      "title": "[v0.92.1][TAIL-05] External / third-party review",
-      "updatedAt": "2026-08-26T03:33:11Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/521"
+      "title": "[v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/836"
     },
     {
-      "closedAt": null,
-      "number": 522,
+      "number": 835,
       "state": "OPEN",
-      "title": "[v0.92.1][TAIL-06] Review findings remediation",
-      "updatedAt": "2026-09-09T20:53:20Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/522"
+      "title": "[v0.92.1][TAIL-06.20][release] Recompute release-gate projection after remediation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/835"
     },
     {
-      "closedAt": "2026-09-09T00:47:05Z",
-      "number": 523,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-07] Next-milestone planning",
-      "updatedAt": "2026-09-09T00:47:05Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/523"
-    },
-    {
-      "closedAt": null,
-      "number": 524,
+      "number": 834,
       "state": "OPEN",
-      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
-      "updatedAt": "2026-08-26T03:39:43Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/524"
+      "title": "[v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/834"
     },
     {
-      "closedAt": null,
-      "number": 525,
+      "number": 833,
       "state": "OPEN",
-      "title": "[v0.92.1][TAIL-09] Next milestone review pass",
-      "updatedAt": "2026-08-26T03:42:13Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/525"
+      "title": "[v0.92.1][TAIL-06.18][review] Re-run external review at immutable candidate",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/833"
     },
     {
-      "closedAt": null,
-      "number": 526,
-      "state": "OPEN",
-      "title": "[v0.92.1][TAIL-10] Release ceremony",
-      "updatedAt": "2026-08-26T03:44:41Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/526"
-    },
-    {
-      "closedAt": "2026-09-09T16:22:08Z",
-      "number": 749,
+      "number": 824,
       "state": "CLOSED",
-      "title": "[v0.92.2][tooling] Extract native C-SDLC repairs from #743 and complete bound-worktree handoff",
-      "updatedAt": "2026-09-09T16:22:08Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/749"
+      "title": "[v0.92.1][tooling] Reconcile native pull-request ready mutations",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/824"
     },
     {
-      "closedAt": "2026-09-09T17:14:11Z",
-      "number": 751,
+      "number": 821,
       "state": "CLOSED",
-      "title": "[v0.92.2][tooling] Fix native import diagnostics, credential isolation, and cleanup paths",
-      "updatedAt": "2026-09-09T17:14:11Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/751"
+      "title": "[v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/821"
     },
     {
-      "closedAt": "2026-09-09T17:13:22Z",
-      "number": 757,
+      "number": 820,
       "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
-      "updatedAt": "2026-09-09T17:13:22Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/757"
+      "title": "[v0.92.1][TAIL-06.08c][quality] Close distributed Runtime retained proof gaps",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/820"
     },
     {
-      "closedAt": "2026-09-09T19:49:40Z",
-      "number": 758,
+      "number": 819,
       "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
-      "updatedAt": "2026-09-09T19:49:40Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/758"
+      "title": "[v0.92.1][TAIL-06.08b][quality] Close C-SDLC v3 retained proof gaps",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/819"
     },
     {
-      "closedAt": "2026-09-09T19:00:41Z",
-      "number": 759,
+      "number": 818,
       "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
-      "updatedAt": "2026-09-09T19:00:41Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/759"
+      "title": "[v0.92.1][TAIL-06.08a][quality] Close corporate Runtime retained proof gaps",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/818"
     },
     {
-      "closedAt": "2026-09-09T16:25:47Z",
-      "number": 760,
+      "number": 817,
       "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
-      "updatedAt": "2026-09-09T16:25:47Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/760"
+      "title": "[v0.92.1][TAIL-06.12][release] Refresh candidate proof and canonical release truth",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/817"
     },
     {
-      "closedAt": "2026-09-09T17:11:27Z",
-      "number": 761,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
-      "updatedAt": "2026-09-09T17:11:27Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/761"
-    },
-    {
-      "closedAt": "2026-09-09T17:25:21Z",
-      "number": 762,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
-      "updatedAt": "2026-09-09T17:25:22Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/762"
-    },
-    {
-      "closedAt": "2026-09-09T16:30:50Z",
-      "number": 763,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
-      "updatedAt": "2026-09-09T16:30:50Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/763"
-    },
-    {
-      "closedAt": "2026-09-09T17:29:18Z",
-      "number": 764,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
-      "updatedAt": "2026-09-09T17:29:18Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/764"
-    },
-    {
-      "closedAt": "2026-09-09T17:05:12Z",
-      "number": 765,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
-      "updatedAt": "2026-09-09T17:05:12Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/765"
-    },
-    {
-      "closedAt": "2026-09-09T18:19:14Z",
-      "number": 766,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
-      "updatedAt": "2026-09-09T18:19:14Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/766"
-    },
-    {
-      "closedAt": "2026-09-09T17:33:40Z",
-      "number": 767,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
-      "updatedAt": "2026-09-09T17:33:40Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/767"
-    },
-    {
-      "closedAt": "2026-09-09T17:42:02Z",
-      "number": 768,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
-      "updatedAt": "2026-09-09T17:42:02Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/768"
-    },
-    {
-      "closedAt": "2026-09-09T18:15:38Z",
-      "number": 769,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
-      "updatedAt": "2026-09-09T18:15:38Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/769"
-    },
-    {
-      "closedAt": "2026-09-09T18:15:18Z",
-      "number": 770,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
-      "updatedAt": "2026-09-09T18:15:18Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/770"
-    },
-    {
-      "closedAt": "2026-09-09T18:56:54Z",
-      "number": 771,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
-      "updatedAt": "2026-09-09T18:56:54Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/771"
-    },
-    {
-      "closedAt": "2026-09-09T18:31:16Z",
-      "number": 772,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
-      "updatedAt": "2026-09-09T18:31:16Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/772"
-    },
-    {
-      "closedAt": "2026-09-09T17:18:15Z",
-      "number": 776,
-      "state": "CLOSED",
-      "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
-      "updatedAt": "2026-09-09T17:18:15Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/776"
-    },
-    {
-      "closedAt": "2026-09-09T17:48:58Z",
-      "number": 791,
-      "state": "CLOSED",
-      "title": "[v0.92.2][tooling] Keep native lifecycle writes out of the primary checkout",
-      "updatedAt": "2026-09-09T17:48:58Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/791"
-    },
-    {
-      "closedAt": "2026-09-09T18:20:02Z",
-      "number": 794,
-      "state": "CLOSED",
-      "title": "[v0.92.2][tooling] Add native typed duplicate and no-op issue closure",
-      "updatedAt": "2026-09-09T18:20:02Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/794"
-    },
-    {
-      "closedAt": "2026-09-09T18:20:30Z",
-      "number": 799,
-      "state": "CLOSED",
-      "title": "[v0.92.1][docs] Complete #767 final release-status refresh",
-      "updatedAt": "2026-09-09T18:20:30Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/799"
-    },
-    {
-      "closedAt": null,
-      "number": 814,
-      "state": "OPEN",
-      "title": "[v0.92.1][TAIL-06.09][runtime] Repair greeting recovery identity and local-model boundary",
-      "updatedAt": "2026-09-09T20:38:12Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/814"
-    },
-    {
-      "closedAt": null,
-      "number": 815,
-      "state": "OPEN",
-      "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
-      "updatedAt": "2026-09-09T20:39:08Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/815"
-    },
-    {
-      "closedAt": null,
       "number": 816,
-      "state": "OPEN",
+      "state": "CLOSED",
       "title": "[v0.92.1][TAIL-06.11][quality] Repair redaction and hot-reload validation integrity",
-      "updatedAt": "2026-09-09T20:40:02Z",
       "url": "https://github.com/agent-logic/agent-design-language/issues/816"
     },
     {
-      "closedAt": null,
-      "number": 817,
+      "number": 815,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.10][security] Authenticate AWS and GCP mutation authorization",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/815"
+    },
+    {
+      "number": 814,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.09][runtime] Repair greeting recovery identity and local-model boundary",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/814"
+    },
+    {
+      "number": 776,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.17][csdlc] Resolve structure schemas beside versioned templates",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/776"
+    },
+    {
+      "number": 772,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.16][security] Prove GCP-B audit and log posture",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/772"
+    },
+    {
+      "number": 771,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.15][review] Refresh exact-head proof for V3-F",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/771"
+    },
+    {
+      "number": 770,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.14][security] Require SSH recovery for public Spot Runtime",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/770"
+    },
+    {
+      "number": 769,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.13][security] Redaction-scan the complete publication manifest",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/769"
+    },
+    {
+      "number": 768,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.12][docs] Make the TAIL-02 reproduction route candidate-safe",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/768"
+    },
+    {
+      "number": 767,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.11][release] Project current status into release documents",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/767"
+    },
+    {
+      "number": 766,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.10][tooling] Pin the required Rust CI toolchain",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/766"
+    },
+    {
+      "number": 765,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.09][architecture] Bound XCL Terraform provider majors",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/765"
+    },
+    {
+      "number": 764,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.08][quality] Close retained candidate-bound proof gaps",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/764"
+    },
+    {
+      "number": 763,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.07][csdlc] Repair detached-head cutover and rollback tests",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/763"
+    },
+    {
+      "number": 762,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.06][csdlc] Bind proof and install routes to issue worktrees",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/762"
+    },
+    {
+      "number": 761,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.05][review] Build complete per-lane review denominators",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/761"
+    },
+    {
+      "number": 760,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.04][csdlc] Align current C-SDLC v3 authority surfaces",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/760"
+    },
+    {
+      "number": 759,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.03][runtime] Isolate dynamic-agent health task failures",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/759"
+    },
+    {
+      "number": 758,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.02][runtime] Persist and recover admission-triggered A2A initiation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/758"
+    },
+    {
+      "number": 757,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-06.01][runtime] Make dynamic-agent removal crash-consistent",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/757"
+    },
+    {
+      "number": 745,
+      "state": "CLOSED",
+      "title": "[v0.92.1][docs] Complete ADR plan and architecture decision dispositions",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/745"
+    },
+    {
+      "number": 744,
+      "state": "CLOSED",
+      "title": "[v0.92.2][tooling] Recover native v3 issue-create intents after credential preflight failure",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/744"
+    },
+    {
+      "number": 740,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-B1][corrective] Repair #730 credential retention, authorization binding, legacy-key disposition, and Terraform-backend proof",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/740"
+    },
+    {
+      "number": 731,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-D1] Deploy the bounded private foundation and prove non-GPU workload disposal",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/731"
+    },
+    {
+      "number": 730,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-B1] Replace static-key bootstrap with impersonation and prove recoverable remote state",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/730"
+    },
+    {
+      "number": 728,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-F-R] Prove disposable Runtime deployment and zero residue",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/728"
+    },
+    {
+      "number": 727,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-D-R] Apply and prove the audit/security account foundation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/727"
+    },
+    {
+      "number": 718,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Route agent-to-agent communication by canonical agent name",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/718"
+    },
+    {
+      "number": 717,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Teach admitted agents about Polis modules and capabilities",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/717"
+    },
+    {
+      "number": 708,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Inject versioned Polis welcome package into admitted agent context",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/708"
+    },
+    {
+      "number": 693,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime][bug] Make A2A action selection reliable for model-backed agents",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/693"
+    },
+    {
+      "number": 671,
       "state": "OPEN",
-      "title": "[v0.92.1][TAIL-06.12][release] Refresh candidate proof and canonical release truth",
-      "updatedAt": "2026-09-09T20:41:05Z",
-      "url": "https://github.com/agent-logic/agent-design-language/issues/817"
+      "title": "[backlog][podcast][51.d follow-up] Register The Cognitive Stack after approval",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/671"
+    },
+    {
+      "number": 665,
+      "state": "CLOSED",
+      "title": "[v0.92.1][C-SDLC v2][defect] Recover verified emergency branches into typed lifecycle",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/665"
+    },
+    {
+      "number": 662,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Prove governed agent-to-agent initiation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/662"
+    },
+    {
+      "number": 661,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Route Shepherd conversation replies through its configured provider",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/661"
+    },
+    {
+      "number": 660,
+      "state": "CLOSED",
+      "title": "[v0.92.1][podcast][emergency] Remove unintended public /podcast/ exposure and keep show under _preview",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/660"
+    },
+    {
+      "number": 659,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Replace brittle fixed reload deadlines with configurable convergence",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/659"
+    },
+    {
+      "number": 656,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime] Install CSM, Guardian, and kernel as one atomic generation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/656"
+    },
+    {
+      "number": 617,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Runtime API] Expose canonical agent names in roster and detail responses",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/617"
+    },
+    {
+      "number": 592,
+      "state": "CLOSED",
+      "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/592"
+    },
+    {
+      "number": 563,
+      "state": "CLOSED",
+      "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/563"
+    },
+    {
+      "number": 560,
+      "state": "CLOSED",
+      "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/560"
+    },
+    {
+      "number": 558,
+      "state": "CLOSED",
+      "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/558"
+    },
+    {
+      "number": 544,
+      "state": "CLOSED",
+      "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/544"
+    },
+    {
+      "number": 539,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 11] Handoff and release",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/539"
+    },
+    {
+      "number": 538,
+      "state": "OPEN",
+      "title": "[v0.92.1][Sprint 10] Release qualification, review and release",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/538"
+    },
+    {
+      "number": 537,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 9] Provider comparison and convergence",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/537"
+    },
+    {
+      "number": 536,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 8] Podcast and Observatory",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/536"
+    },
+    {
+      "number": 535,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 7] Distributed Runtime qualification",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/535"
+    },
+    {
+      "number": 534,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/534"
+    },
+    {
+      "number": 533,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/533"
+    },
+    {
+      "number": 532,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/532"
+    },
+    {
+      "number": 531,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 3] Cloud convergence",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/531"
+    },
+    {
+      "number": 530,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 2] Parallel cloud foundations",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/530"
+    },
+    {
+      "number": 529,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sprint 1] Independent foundations",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/529"
+    },
+    {
+      "number": 528,
+      "state": "CLOSED",
+      "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/528"
+    },
+    {
+      "number": 526,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-10] Release ceremony",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/526"
+    },
+    {
+      "number": 525,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/525"
+    },
+    {
+      "number": 524,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/524"
+    },
+    {
+      "number": 523,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/523"
+    },
+    {
+      "number": 522,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-06] Review findings remediation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/522"
+    },
+    {
+      "number": 521,
+      "state": "OPEN",
+      "title": "[v0.92.1][TAIL-05] External / third-party review",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/521"
+    },
+    {
+      "number": 520,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-04] Internal review",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/520"
+    },
+    {
+      "number": 519,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-03] Publication finalization",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/519"
+    },
+    {
+      "number": 518,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-02] Documentation review and external-review handoff",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/518"
+    },
+    {
+      "number": 517,
+      "state": "CLOSED",
+      "title": "[v0.92.1][TAIL-01] Quality gate",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/517"
+    },
+    {
+      "number": 516,
+      "state": "CLOSED",
+      "title": "[v0.92.1][INT-01] Release-tail admission",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/516"
+    },
+    {
+      "number": 515,
+      "state": "CLOSED",
+      "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/515"
+    },
+    {
+      "number": 514,
+      "state": "CLOSED",
+      "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/514"
+    },
+    {
+      "number": 513,
+      "state": "CLOSED",
+      "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/513"
+    },
+    {
+      "number": 512,
+      "state": "CLOSED",
+      "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/512"
+    },
+    {
+      "number": 511,
+      "state": "CLOSED",
+      "title": "[v0.92.1][OBS-A] Observatory experience design",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/511"
+    },
+    {
+      "number": 510,
+      "state": "CLOSED",
+      "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/510"
+    },
+    {
+      "number": 509,
+      "state": "CLOSED",
+      "title": "[v0.92.1][DRT-D] GCP portability qualification",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/509"
+    },
+    {
+      "number": 508,
+      "state": "CLOSED",
+      "title": "[v0.92.1][DRT-C] Final distributed Runtime qualification",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/508"
+    },
+    {
+      "number": 507,
+      "state": "CLOSED",
+      "title": "[v0.92.1][DRT-B] Six-resident UTS qualification",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/507"
+    },
+    {
+      "number": 506,
+      "state": "CLOSED",
+      "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/506"
+    },
+    {
+      "number": 505,
+      "state": "CLOSED",
+      "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/505"
+    },
+    {
+      "number": 504,
+      "state": "CLOSED",
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/504"
+    },
+    {
+      "number": 503,
+      "state": "CLOSED",
+      "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/503"
+    },
+    {
+      "number": 502,
+      "state": "CLOSED",
+      "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/502"
+    },
+    {
+      "number": 501,
+      "state": "CLOSED",
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/501"
+    },
+    {
+      "number": 500,
+      "state": "CLOSED",
+      "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/500"
+    },
+    {
+      "number": 499,
+      "state": "CLOSED",
+      "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/499"
+    },
+    {
+      "number": 498,
+      "state": "CLOSED",
+      "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/498"
+    },
+    {
+      "number": 497,
+      "state": "CLOSED",
+      "title": "[v0.92.1][CORP-C] Corporate IP-transfer acceptance",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/497"
+    },
+    {
+      "number": 496,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/496"
+    },
+    {
+      "number": 495,
+      "state": "CLOSED",
+      "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/495"
+    },
+    {
+      "number": 494,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/494"
+    },
+    {
+      "number": 493,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/493"
+    },
+    {
+      "number": 492,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/492"
+    },
+    {
+      "number": 491,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/491"
+    },
+    {
+      "number": 490,
+      "state": "CLOSED",
+      "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/490"
+    },
+    {
+      "number": 489,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/489"
+    },
+    {
+      "number": 488,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/488"
+    },
+    {
+      "number": 487,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/487"
+    },
+    {
+      "number": 486,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/486"
+    },
+    {
+      "number": 485,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/485"
+    },
+    {
+      "number": 484,
+      "state": "CLOSED",
+      "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/484"
+    },
+    {
+      "number": 483,
+      "state": "CLOSED",
+      "title": "[v0.92.1][CORP-B] Corporate account custody register",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/483"
+    },
+    {
+      "number": 482,
+      "state": "CLOSED",
+      "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/482"
+    },
+    {
+      "number": 480,
+      "state": "CLOSED",
+      "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/480"
+    },
+    {
+      "number": 387,
+      "state": "CLOSED",
+      "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/387"
+    },
+    {
+      "number": 345,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/345"
+    },
+    {
+      "number": 342,
+      "state": "CLOSED",
+      "title": "[v0.92.1][WP-24A] Podcast Studio first ten episodes",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/342"
+    },
+    {
+      "number": 264,
+      "state": "CLOSED",
+      "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/264"
+    },
+    {
+      "number": 263,
+      "state": "CLOSED",
+      "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/263"
+    },
+    {
+      "number": 262,
+      "state": "CLOSED",
+      "title": "[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/262"
+    },
+    {
+      "number": 261,
+      "state": "CLOSED",
+      "title": "[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/261"
+    },
+    {
+      "number": 251,
+      "state": "OPEN",
+      "title": "[backlog][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/251"
+    },
+    {
+      "number": 146,
+      "state": "CLOSED",
+      "title": "[v0.92][planning] Establish the v0.92.1 corporate foundation, C-SDLC v3, and distributed Runtime qualification milestone",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/146"
+    },
+    {
+      "number": 122,
+      "state": "CLOSED",
+      "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/122"
+    },
+    {
+      "number": 84,
+      "state": "OPEN",
+      "title": "[backlog][Observatory] Complete live Unity Observatory Runtime v3 integration",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/84"
+    },
+    {
+      "number": 51,
+      "state": "CLOSED",
+      "title": "[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children",
+      "url": "https://github.com/agent-logic/agent-design-language/issues/51"
     }
   ]
 }
