@@ -7,7 +7,7 @@ Status: unresolved; source inspection only. No release mutation or retired lifec
 
 Safe reproduction: inspect these tracked functions, the manifest version, and absence of the milestone gate at the preparation SHA recorded in `ceremony-preparation.json`. The control flow is version check, typed closeout gate, then plan. No resource or credential access is needed to establish these gaps.
 
-These are local durable findings, not newly created GitHub issues or completed fixes. They must receive an execution owner before the ceremony is considered ready. #526's requested preparation does not silently widen into implementation of shared tooling.
+Repair owner: [#856](https://github.com/agent-logic/agent-design-language/issues/856), created and authenticated by native v3 on 2026-09-11. The issue covers coordinated release versions and current v3 preflight, including focused positive and negative proof. These findings remain unresolved until that repair is reviewed and integrated. #833 and its review worktree are outside this repair scope.
 
 ## Where the version obligation was lost
 
