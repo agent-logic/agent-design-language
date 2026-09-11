@@ -23,6 +23,12 @@ The external-review subset is exactly `TPR-001` through `TPR-005`. The
 internal-review subset is exactly the 14 `D520-*` findings retained by #520.
 Any additional or missing identifier in either source is a census failure.
 
+#520 and #521 are each bound to their own immutable reviewed revision. They
+are not required to share a candidate SHA: #520 necessarily precedes its
+remediation, while #521 reviews the later frozen candidate. Both source-report
+merges and every remediation merge must be ancestral to the final ledger
+candidate.
+
 Every fixed disposition resolves its remediation issue and merged PR live,
 binds the exact PR head and merge commit, proves the merge is ancestral to the
 ledger, and reads validation/remediation artifacts with `git show` from the

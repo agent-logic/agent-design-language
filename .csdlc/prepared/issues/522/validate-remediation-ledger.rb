@@ -103,8 +103,10 @@ reports.each do |report|
   fail!("source finding severity or evidence is invalid") unless parsed_findings.all? { |finding| %w[P0 P1 P2 P3].include?(finding.fetch("severity")) && nonempty?(finding.fetch("status")) && nonempty?(finding.fetch("evidence")) }
 end
 source_reports = reports.to_h { |report| [report.fetch("issue"), JSON.parse(git_blob(report.fetch("merge_sha"), report.fetch("path")))] }
-source_candidates = source_reports.values.map { |report| report.fetch("candidate_sha") }
-fail!("#520 and #521 do not review the same ledger-declared candidate") unless source_candidates.uniq.length == 1 && source_doc.fetch("reviewed_candidate_sha") == source_candidates.first
+source_candidates = source_reports.transform_values { |report| report.fetch("candidate_sha") }
+declared_candidates = source_doc.fetch("reviewed_candidate_shas")
+fail!("source candidate declaration must contain exactly #520 and #521") unless declared_candidates.keys.sort == %w[520 521]
+fail!("source reports do not match their ledger-declared candidates") unless declared_candidates == source_candidates.transform_keys(&:to_s)
 internal_ids = source_reports.fetch(520).fetch("findings").map { |finding| finding.fetch("id") }
 external_ids = source_reports.fetch(521).fetch("findings").map { |finding| finding.fetch("id") }
 fail!("internal-review finding denominator is not the 14 accepted D520 findings") unless internal_ids.sort == INTERNAL_FINDING_IDS.sort
