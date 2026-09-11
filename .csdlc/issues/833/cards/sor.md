@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Immutable-candidate handoff drafted; validation and review pending.
+Immutable external-review evidence and executable ledger are retained; focused proof passes; publication-truth findings were repaired, with fresh exact-head review and unresolved release blockers still pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `documentation`
@@ -57,7 +57,7 @@ Immutable-candidate handoff drafted; validation and review pending.
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `in_progress`
+- Completion state: `in_progress_release_blockers_remain`
 - Issue goal ref: `Issue #833 session goal`
 - Sprint goal ref: `#522`
 - Goal metrics rollup ref: `not_collected`
@@ -75,8 +75,8 @@ Immutable-candidate handoff drafted; validation and review pending.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/833/cards/sor.md`
-- Tracked implementation artifacts: `V0921_EXTERNAL_REVIEW_HANDOFF.md`
-- Additional proof artifacts: `pending`
+- Tracked implementation artifacts: `V0921_EXTERNAL_REVIEW_HANDOFF.md; V0921_EXTERNAL_REVIEW_REPORT.md; V0921_EXECUTABLE_REVIEW_ADDENDUM.md; V0921_EXECUTABLE_REVIEW_LEDGER.md; V0921_EXTERNAL_REVIEW_REMEDIATION.md; ISSUE_834_CANDIDATE_REVALIDATION.md; issue-818-candidate-current-supersession.json`
+- Additional proof artifacts: `validate-external-review-handoff.rb; validate-issue-818-candidate-current-supersession.rb; test-issue-818-candidate-current-supersession.rb`
 
 ## Actions taken
 - `Bound issue #833 in its FastWork worktree.`
@@ -85,14 +85,14 @@ Immutable-candidate handoff drafted; validation and review pending.
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
-- Worktree-only paths remaining: `issue #833 handoff and lifecycle files`
-- Integration state: `worktree_only`
-- Verification scope: `pending`
-- Integration method used: `not_started`
+- Worktree-only paths remaining: `Issue #833 lifecycle and evidence changes in open PR #853`
+- Integration state: `pr_open_changes_repaired_review_pending`
+- Verification scope: `Immutable handoff/report binding, seven malformed handoff negatives, exact 17-row #818 supersession receipt, eight malformed or scope-widened supersession negatives, and diff hygiene.`
+- Integration method used: `Open PR #853 aligned with current main; authenticated native-v3 PR-body mutation removed auto-close of #833.`
 - Verification performed:
-  - `not_run`
-    `not_run`
-- Result: `not_started`
+  - `gh pr view 853 --json body,headRefOid,state; gh issue view 833 --json state; gh issue view 522 --json state`
+    `Confirmed PR #853 references rather than closes #833 and both #833/#522 remain open.`
+- Result: `PR open; not merged; #833 and #522 open; release approval not claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `not_run`
+  - `ruby .csdlc/prepared/issues/833/validate-external-review-handoff.rb; ruby .csdlc/prepared/issues/833/test-issue-818-candidate-current-supersession.rb; ruby .csdlc/prepared/issues/833/validate-issue-818-candidate-current-supersession.rb; git diff --check origin/main...HEAD`
+    `Handoff/report binding passed with seven negative cases; exact #818 17-row scope passed with eight negative cases; diff hygiene passed.`
 - Results:
-  - `not_run`
+  - `passed for the bounded #833 evidence scope`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: in_progress
+    status: bounded_local_proof_passed_fresh_review_pending
     checks_run:
-      - "focused handoff validator pending rerun"
+      - "focused #833 validators and diff hygiene passed at 2dfd0134 before lifecycle-only repair"
   determinism:
     status: in_progress
     replay_verified: not_applicable
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: in_progress
+    status: present_for_bounded_833_scope
     required_artifacts_present: true
     schema_changes:
       present: false
@@ -151,9 +151,9 @@ verification_summary:
 - Artifact stability notes: `Candidate SHA is literal and immutable.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `pending final scan`
+- Secret leakage scan performed: `No secret material introduced; evidence paths are repository-relative.`
 - Prompt / tool argument redaction verified: `not applicable`
-- Absolute path leakage check: `pending final scan`
+- Absolute path leakage check: `Focused diff contains no retained machine-local evidence path claims.`
 - Sandbox / policy invariants preserved: `yes`
 
 ## Replay Artifacts
@@ -164,7 +164,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md`
-- Required artifacts present: `handoff present; external report pending`
+- Required artifacts present: `yes for bounded #833 evidence scope`
 - Artifact schema/version checks: `native six-card validation passed`
 - Hash/byte-stability checks: `candidate commit resolves locally`
 - Missing/optional artifacts and rationale: `External report is a later phase of #833.`
@@ -174,5 +174,5 @@ verification_summary:
 - `Candidate frozen before administrative #522 closure; remediation state and ledger closure are distinct.`
 
 ## Follow-ups / Deferred work
-- `Obtain independent external review.`
-- `Route every returned finding to #522.`
+- `Obtain fresh exact-head review of the lifecycle-only repair.`
+- `Do not merge or close #833/#522 while #821/#856/final-ledger blockers remain.`
