@@ -2,23 +2,18 @@
 
 ## Goal
 
-Retain one independent external review of the unchanged candidate and #520
-packet, preserving reviewer identity, limitations, raw findings, and exact
-revision.
+Retain the independent external review actually received for #521 without
+promoting its failed, non-proving result into exact-candidate evidence.
 
-The reviewed denominator is derived from the digest-verified #520 repository,
-issue/PR, and acceptance inventories. `scope.json` may project that denominator
-for readability, but it cannot define or narrow it. Those artifacts are read
-from the exact merged #520 commit after live issue/PR verification; synthetic
-local files are not predecessor authority. A passing exact-candidate #520
-semantic-validation receipt is mandatory.
+The supplied PDF contains five findings and explicitly rejects the assignment
+because no immutable candidate SHA accompanied it. The repository packet binds
+the PDF name, digest, page count, recorded reviewer-independence statement,
+all five findings, limitations, and their remediation issues. It does not copy
+the operator-supplied PDF into Git or invent provider invocation receipts.
 
-The #520 invocation receipt retains the validator blob digest, exact argv,
-exit status, candidate-bound stdout content, and stdout digest. #521 also
-retains current exact-head review authority for the #520 PR head. Independent
-reviewer provenance and raw output are digest-bound, contentful, and reconcile
-exactly with every projected scope disposition, finding, and limitation.
+The later exact-candidate external re-review is separate work owned by #833.
 
 ## Boundary
 
-#521 reviews; it does not remediate findings or approve release.
+#521 retains the received review. It does not remediate findings, approve the
+release, or claim exact-revision proof that the source review explicitly lacks.

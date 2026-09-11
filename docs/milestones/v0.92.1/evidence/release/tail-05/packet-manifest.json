@@ -1,0 +1,17 @@
+{
+  "schema": "adl.v0921.third_party_review_packet_manifest.v1",
+  "review_issue": 521,
+  "candidate_sha": null,
+  "outcome": "failed",
+  "non_proving": true,
+  "entries": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-05/README.md",
+      "sha256": "ef989058110d5aac44359466b4b9cf31f3f5b36ebf74122e4f46de7d33c38c36"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-05/findings.json",
+      "sha256": "aa475259d36af8aa9d4242432466906789e63b9369b3eef3a7cf97e968545ddd"
+    }
+  ]
+}
