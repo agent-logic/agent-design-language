@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 835,
+  "issue_padded": "0835",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/835",
+  "title": "Recompute v0.92.1 release-gate projection",
+  "branch": "codex/835-release-gate-projection",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-835-release-gate-projection"
+}
