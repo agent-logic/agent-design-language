@@ -79,7 +79,7 @@ ledger.
 ## Artifacts produced
 - Issue-local lifecycle cards under `.csdlc/issues/833/cards/`
 - Tracked implementation artifacts: `V0921_EXTERNAL_REVIEW_HANDOFF.md`, `V0921_EXTERNAL_REVIEW_REPORT.md`, `V0921_EXECUTABLE_REVIEW_ADDENDUM.md`, `ISSUE_834_CANDIDATE_REVALIDATION.md`, and `V0921_EXTERNAL_REVIEW_REMEDIATION.md`
-- Additional proof artifacts: `.csdlc/prepared/issues/833/validate-external-review-handoff.rb`
+- Additional proof artifacts: `.csdlc/prepared/issues/833/validate-external-review-handoff.rb`, `.csdlc/prepared/issues/833/issue-818-candidate-current-supersession.json`, `.csdlc/prepared/issues/833/validate-issue-818-candidate-current-supersession.rb`, and `.csdlc/prepared/issues/833/test-issue-818-candidate-current-supersession.rb`
 
 ## Actions taken
 - `Bound issue #833 in its FastWork worktree.`
@@ -97,6 +97,8 @@ ledger.
 - Verification performed:
   - `ruby .csdlc/prepared/issues/833/validate-external-review-handoff.rb --all`
     `Proves the handoff/report candidate binding and seven negative cases.`
+  - `ISSUE818_SUPERSESSION=.csdlc/prepared/issues/833/issue-818-candidate-current-supersession.json ruby .csdlc/prepared/issues/833/validate-issue-818-candidate-current-supersession.rb`
+    `Proves #818's exact 17-row proposal set was approved by operator merge at PR #832, remains unchanged at the candidate, and does not close #522/#833.`
 - Result: `pass`
 
 Rules:
@@ -116,6 +118,10 @@ Rules:
     `Proves the focused validator syntax.`
   - `ruby .csdlc/prepared/issues/833/validate-external-review-handoff.rb --all`
     `Proves the handoff/report candidate binding and seven negative cases.`
+  - `ISSUE818_SUPERSESSION=.csdlc/prepared/issues/833/issue-818-candidate-current-supersession.json ruby .csdlc/prepared/issues/833/validate-issue-818-candidate-current-supersession.rb`
+    `Proves the #818 supersession receipt against live PR #832 / issue #818 truth and exact candidate ancestry.`
+  - `ruby test-issue-818-candidate-current-supersession.rb`
+    `Proves eight malformed, forged, or scope-widened #818 supersession receipts are rejected.`
 - Results:
   - `pass`
 
@@ -133,6 +139,8 @@ verification_summary:
     status: pass
     checks_run:
       - "focused handoff validator passed"
+      - "#818 supersession validator passed"
+      - "#818 supersession negative fixtures passed"
   determinism:
     status: pass
     replay_verified: not_applicable
@@ -151,8 +159,8 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Focused deterministic handoff validator.`
-- Fixtures or scripts used: `.csdlc/prepared/issues/833/validate-external-review-handoff.rb`
+- Determinism tests executed: `Focused deterministic handoff validator and #818 supersession negative-fixture suite.`
+- Fixtures or scripts used: `.csdlc/prepared/issues/833/validate-external-review-handoff.rb`; `.csdlc/prepared/issues/833/test-issue-818-candidate-current-supersession.rb`
 - Replay verification (same inputs -> same artifacts/order): `not applicable to documentation handoff`
 - Ordering guarantees (sorting / tie-break rules used): `not applicable`
 - Artifact stability notes: `Candidate SHA is literal and immutable.`
@@ -171,7 +179,7 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md`
-- Required artifacts present: `handoff, failed report, executable addendum, #834 candidate revalidation, and remediation disposition records present`
+- Required artifacts present: `handoff, failed report, executable addendum, #834 candidate revalidation, #818 supersession receipt, and remediation disposition records present`
 - Artifact schema/version checks: `native six-card validation passed`
 - Hash/byte-stability checks: `candidate commit resolves locally`
 - Missing/optional artifacts and rationale: `none for #833 publication; #522 final ledger remains a separate open parent gate.`
