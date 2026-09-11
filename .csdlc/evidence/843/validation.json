@@ -1,0 +1,10 @@
+{
+  "source_sha": "a32cc903e12375690613b8a4bf003e985390a221",
+  "regression_before": "failed github_pr_ready_target_missing",
+  "regression_after": "passed",
+  "focused_remote_tests": 45,
+  "full_locked_tests": 225,
+  "clippy": "passed",
+  "independent_source_review": "passed",
+  "release_authorized": false
+}

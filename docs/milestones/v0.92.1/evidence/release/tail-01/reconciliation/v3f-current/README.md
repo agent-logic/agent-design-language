@@ -1,48 +1,13 @@
-# Current V3-F proof refresh — issue 771
+# Current V3-F proof — issue843
 
-This additive packet joins independent substantive review to a full locked
-C-SDLC v3 suite at one immutable source commit. It preserves the historical
-`current-exceptions.json` and `census.json`; it does not rewrite old receipt
-identities, reopen the three resolved CORP-A rows, or authorize release.
+Source: `a32cc903e12375690613b8a4bf003e985390a221`.
 
-`assignment.json` fixes the reviewer, source SHA and complete coupled blob
-scope before review. `historical-fixture.diff` retains the exact historical
-`c5d67168df2c923eb77c592b7545386ad0a39234` to candidate
-`556cb4957407772abfbe135f3e320f1936011c3e` delta. The newly reviewed source
-includes the detached-fixture repair in #763 and proof ownership changes in
-#762 / PR #783. PR #783 and schema repair #776 are now merged and included in the frozen source. The separately approved terminal receipt-conflict repair is also included.
+Independent reviewer `codex:review_835` reviewed all11 changed or added files against the archived baseline;153 files are unchanged, yielding164 current scope files. All four source-review criteria pass. The legacy-ready recovery finding is fixed. Assignment, review and mapping records bind the complete blob manifest.
 
-`suite.json` and `suite.log` record the full `cargo test --locked --manifest-path
-csdlc-v3/Cargo.toml` run from a clean detached checkout, using an external build
-directory. Dependency cache warming is acceleration only. Passing tests alone
-cannot resolve the four review-freshness rows.
+The separate locked C-SDLC suite passed225 tests from a clean detached checkout with an external build directory. `suite.json` binds the exact source, command, checkout state and redacted log digest. This is component execution proof, not live GitHub mutation, a new cloud canary or release authorization.
 
-`reviews/` retains each independently authored lane receipt; `review.json` aggregates their identities, exact path coverage and findings. The previous blocked packet remains under `archive/fba2bdf5c7/`. A blocked result or any open
-in-scope actionable finding prevents mapping acceptance. The mapping validator
-also rejects stale source SHA, incomplete scope, stale fixture blobs, different
-suite bytes, missing semantic criterion review, dirty execution, receipt drift,
-and altered CORP-A dispositions. Historical census and exception bytes must match
-their immutable Git blobs at the reviewed source SHA; updating both a baseline
-and its mapping hash does not authorize historical changes. Its scope comparison includes additions and
-deletions under the declared source prefixes. Evidence-only descendant commits
-may carry the packet; any change to the coupled source invalidates it.
+The previous accepted packet is retained under `archive/c0a9edef5b/`; older packets and component reviews remain historical evidence. `historical-fixture.diff` is retained historical repair evidence, not the current fixture identity. Each current mapping row binds the fixture blob at the source above. Historical census and exception bytes remain unchanged.
 
-Run `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py --v3f-current`
-for current validation, and add `--negative` for substitution tests after an
-admissible baseline exists. An absent or blocked review is a blocking result,
-not a successful proof. Historical reconciliation commands remain unchanged.
+Run `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/validate.py` and repeat with `--negative`. The validator requires exact source/scope, independent semantic review, matching suite bytes, clean execution and immutable historical records. Evidence-only descendants are allowed; changes under the coupled source prefixes invalidate the proof.
 
-PVF: required deterministic local mapping contract, small CPU/Git and no
-credentials or network. Full detached component suite: required deterministic
-local proof, medium CPU/disk, external Cargo target. Independent substantive
-review is required separately. No cloud, UI demo, merge or release action.
-
-Validator contract tests: `python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/v3f-current/test_validate.py`. These use explicitly synthetic receipts in isolated Git fixtures and are not V3-F execution or substantive review proof. They cover stale substitutions, blocked review, dirty/staged/untracked/committed source drift, filtered test logs, evidence-only descendants, and rewritten historical baselines with refreshed hashes.
-
-Team review acceptance checks every preassigned lane receipt, reviewer identity, independent status, exact source/scope, parsed timestamp order, findings and criterion assessments. An aggregate cannot override a blocked or missing component. Current independent component review passes at `4d641e9961505d75a145457103cfa86f65ce51b1`; the separate suite receipt records full detached execution. Earlier blocked components remain immutable in archive/.
-
-Planning provenance: `.csdlc/prepared/issues/771/design.md` retains the original review-only design and its approved digest. Its original no-product-change boundary was superseded for the three named repairs by explicit operator approvals and the later typed STP/SPP replans recorded in `.csdlc/issues/771/audit.jsonl`. It is historical planning evidence, not a restriction overriding those approvals.
-
-PR #801 integration repair: newer main moved primary terminal persistence into Git metadata. The two approved receipt regression fixtures now use the current canonical paths. The old `7fecd63398` proof is retained unchanged in its archive, and the failed integration run and local storage failures are recorded under `.csdlc/evidence/771/ci-integration-*`.
-
-`archive/8a597a5cb9/` is a failed-attempt snapshot, not an accepted proof packet: its mapping still names the prior `7fecd63398` source, while its suite records failure at `8a597a5cb9`. These inconsistent historical bytes are deliberately retained for diagnosis and are not used by the current mapping.
+PVF: required deterministic local mapping checks and detached component execution.15 substitution cases reject stale source, partial scope, missing review, altered suite and historical evidence. No release ceremony or approval is inferred.

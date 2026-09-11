@@ -307,6 +307,8 @@ struct GithubMutationRecoveryReceipt {
     issue: u64,
     pull_request: Option<u64>,
     expected_head_sha: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    resolved_ready_target: Option<GithubReadyTarget>,
 }
 
 struct GithubMutationDispatchContext<'a> {
@@ -1123,19 +1125,37 @@ pub fn execute_github_mutation(
                     && request.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
-                let (response_digest, invocation) = dispatch_github_mutation_after_intent(
-                    repo_root,
-                    request,
-                    GithubMutationDispatchContext {
-                        operation_digest: &operation_digest,
-                        operation_marker: &operation_marker,
-                        credential_name: &credential_name,
-                        ready_target: intent.resolved_ready_target.as_ref(),
-                        recovery_intent_digest: Some(&intent_digest),
-                    },
-                    process,
-                )?;
-                let (reconciliation, _) =
+                // Legacy intents are immutable. Resolve their missing target only
+                // for an explicitly authorized retry after authenticated absence.
+                ensure_recovery_available(repo_root, &operation_digest)?;
+                let ready_target = match &intent.resolved_ready_target {
+                    None if matches!(request.mutation, GithubMutation::PullRequestReady) => {
+                        Some(resolve_ready_target(request, process)?)
+                    }
+                    target => target.clone(),
+                };
+                if ready_target.as_ref().is_some_and(|target| !target.draft) {
+                    let (reconciliation, invocation) = reconcile_github_mutation(
+                        request,
+                        &operation_digest,
+                        &operation_marker,
+                        process,
+                    )?;
+                    (reconciliation, invocation, None, true)
+                } else {
+                    let (response_digest, invocation) = dispatch_github_mutation_after_intent(
+                        repo_root,
+                        request,
+                        GithubMutationDispatchContext {
+                            operation_digest: &operation_digest,
+                            operation_marker: &operation_marker,
+                            credential_name: &credential_name,
+                            ready_target: ready_target.as_ref(),
+                            recovery_intent_digest: Some(&intent_digest),
+                        },
+                        process,
+                    )?;
+                    let (reconciliation, _) =
                     reconcile_github_mutation(request, &operation_digest, &operation_marker, process)
                         .map_err(|finding| {
                             remote_finding(
@@ -1146,7 +1166,8 @@ pub fn execute_github_mutation(
                                 ),
                             )
                         })?;
-                (reconciliation, invocation, response_digest, false)
+                    (reconciliation, invocation, response_digest, false)
+                }
             }
             Err(finding) => return Err(finding),
         };
@@ -1411,7 +1432,13 @@ fn dispatch_github_mutation_after_intent(
                 )
             })?;
         if let Some(intent_digest) = context.recovery_intent_digest {
-            persist_recovery_receipt(repo_root, request, context.operation_digest, intent_digest)?;
+            persist_recovery_receipt(
+                repo_root,
+                request,
+                context.operation_digest,
+                intent_digest,
+                context.ready_target,
+            )?;
         }
         Ok(invocation)
     })();
@@ -2073,6 +2100,7 @@ fn persist_recovery_receipt(
     request: &GithubMutationRequest,
     operation_digest: &str,
     intent_digest: &str,
+    ready_target: Option<&GithubReadyTarget>,
 ) -> Result<(), RemoteRouteFinding> {
     let path = ensure_recovery_available(repo_root, operation_digest)?;
     let receipt = GithubMutationRecoveryReceipt {
@@ -2084,6 +2112,7 @@ fn persist_recovery_receipt(
         issue: request.issue,
         pull_request: request.pull_request,
         expected_head_sha: request.expected_head_sha.clone(),
+        resolved_ready_target: ready_target.cloned(),
     };
     persist_json_create_new(&path, &receipt)
 }
