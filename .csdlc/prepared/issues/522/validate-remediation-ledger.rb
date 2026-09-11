@@ -4,6 +4,14 @@ require "json"
 require "open3"
 
 EXTERNAL_FINDING_IDS = %w[TPR-001 TPR-002 TPR-003 TPR-004 TPR-005].freeze
+RETURNED_FINDING_IDS = %w[
+  D833-REPORT-001
+  D833-REPORT-002
+  D833-REPORT-003
+  D833-EXEC-001
+  D833-EXEC-002
+  D833-EXEC-003
+].freeze
 INTERNAL_FINDING_IDS = %w[
   D520-RET-001
   D520-V3F-001
@@ -39,7 +47,13 @@ EXPECTED_REMEDIATION_ISSUES = {
   "TPR-002" => [834],
   "TPR-003" => [835],
   "TPR-004" => [836],
-  "TPR-005" => [837]
+  "TPR-005" => [837],
+  "D833-REPORT-001" => [833],
+  "D833-REPORT-002" => [833],
+  "D833-REPORT-003" => [833],
+  "D833-EXEC-001" => [833],
+  "D833-EXEC-002" => [856],
+  "D833-EXEC-003" => [833]
 }.freeze
 
 def fail!(message)
@@ -78,7 +92,9 @@ end
 
 def validate_packet!(root:, mode: "all")
 fail!("unsupported mode: #{mode}") unless %w[all census dispositions].include?(mode)
-required = %w[source-findings.json dispositions.json release-blockers.json packet-manifest.json]
+required = %w[source-findings.json returned-findings.json]
+required += %w[dispositions.json release-blockers.json] unless mode == "census"
+required << "packet-manifest.json" if mode == "all"
 missing = required.reject { |name| File.file?(File.join(root, name)) }
 fail!("missing remediation artifacts: #{missing.join(', ')}") unless missing.empty?
 docs = required.to_h { |name| [name, read_json(File.join(root, name))] }
@@ -147,6 +163,40 @@ fail!("source finding IDs are duplicated") unless source_ids.uniq.length == sour
 fail!("combined review finding denominator is not exactly 19") unless source_ids.length == 19
 fail!("declared source finding content differs from parsed reviews") unless source_doc.fetch("findings") == source
 
+returned_doc = docs.fetch("returned-findings.json")
+review_issue = returned_doc.fetch("review_issue")
+review_pr = returned_doc.fetch("review_pull_request")
+review_head = returned_doc.fetch("review_head_sha")
+review_merge = returned_doc.fetch("review_merge_sha")
+fail!("returned findings must come from #833 / PR #853") unless review_issue == 833 && review_pr == 853
+fail!("returned-review identity is invalid") unless [review_head, review_merge].all? { |sha| sha.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{sha}^{commit}") }
+system("git", "merge-base", "--is-ancestor", review_merge, ledger_candidate) or fail!("returned-review merge is not ancestral to immutable ledger candidate")
+review_pr_out, review_pr_err, review_pr_status = Open3.capture3("gh", "pr", "view", review_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,headRefOid,mergeCommit")
+fail!("cannot verify returned-review PR: #{review_pr_err.strip}") unless review_pr_status.success?
+review_pr_doc = JSON.parse(review_pr_out)
+fail!("returned-review PR identity is false") unless review_pr_doc.fetch("state") == "MERGED" && review_pr_doc.fetch("headRefOid") == review_head && review_pr_doc.dig("mergeCommit", "oid") == review_merge
+returned_artifacts = returned_doc.fetch("artifacts")
+fail!("returned-review artifact set is empty") if returned_artifacts.empty?
+returned_blobs = returned_artifacts.to_h do |artifact|
+  path = artifact.fetch("path")
+  blob = git_blob(review_head, path)
+  fail!("returned-review artifact digest mismatch: #{path}") unless Digest::SHA256.hexdigest(blob) == artifact.fetch("sha256")
+  [path, blob]
+end
+returned = returned_doc.fetch("findings")
+returned_ids = returned.map { |finding| finding.fetch("id") }
+fail!("returned-review finding denominator is not exactly the six #833 findings") unless returned_ids.sort == RETURNED_FINDING_IDS.sort && returned_ids.uniq.length == returned_ids.length
+returned.each do |finding|
+  fail!("returned finding severity is invalid") unless %w[P0 P1 P2 P3].include?(finding.fetch("severity"))
+  fail!("returned finding metadata is incomplete") unless %w[title evidence source_artifact source_heading].all? { |key| nonempty?(finding.fetch(key)) }
+  source_blob = returned_blobs.fetch(finding.fetch("source_artifact"))
+  fail!("returned finding is not provenance-bound to its source artifact") unless source_blob.include?(finding.fetch("source_heading")) && source_blob.include?(finding.fetch("title"))
+end
+source += returned
+source_ids += returned_ids
+
+return {schema: "adl.v0921.remediation_validation.v3", mode: mode, status: "passed", source_findings: source.length, original_source_findings: 19, returned_findings: returned.length, dispositions: 0} if mode == "census"
+
 dispositions = docs.fetch("dispositions.json").fetch("dispositions")
 disposed_ids = dispositions.flat_map { |row| row.fetch("source_finding_ids") }
 fail!("finding census does not disposition every source finding exactly once") unless disposed_ids.sort == source_ids.sort && disposed_ids.uniq.length == disposed_ids.length
@@ -168,7 +218,9 @@ dispositions.each do |row|
     issue_out, issue_err, issue_status = Open3.capture3("gh", "issue", "view", remediation_issue.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,closedByPullRequestsReferences")
     fail!("cannot verify remediation issue: #{issue_err.strip}") unless issue_status.success?
     issue_doc = JSON.parse(issue_out)
-    fail!("remediation issue is not closed by declared PR") unless issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
+    native_review_close = remediation["closure_kind"] == "native_review_close" && remediation_issue == 833 && remediation["closure_dependency_issue"] == 522
+    issue_matches = issue_doc.fetch("state") == "CLOSED" && (native_review_close || issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr })
+    fail!("remediation issue closure does not match declared authority") unless issue_matches
     pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", remediation_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,headRefOid,mergeCommit")
     fail!("cannot verify remediation PR: #{pr_err.strip}") unless pr_status.success?
     pr_doc = JSON.parse(pr_out)
@@ -218,6 +270,8 @@ end
 
 blockers = docs.fetch("release-blockers.json").fetch("unresolved")
 fail!("release-blocking findings remain") unless blockers == []
+return {schema: "adl.v0921.remediation_validation.v3", mode: mode, status: "passed", source_findings: source.length, original_source_findings: 19, returned_findings: returned.length, dispositions: dispositions.length} if mode == "dispositions"
+
 entries = docs.fetch("packet-manifest.json").fetch("entries")
 entries.each do |entry|
   path = entry.fetch("path")
@@ -231,7 +285,7 @@ fixed_review_paths = fixed_remediations.map { |remediation| remediation.fetch("r
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
 fixed_validation_paths = fixed_remediations.flat_map { |remediation| remediation.fetch("validation").map { |validation| validation.fetch("evidence") } }
 fail!("packet manifest omits fixed-disposition validation receipts") unless fixed_validation_paths.all? { |path| paths.include?(path) }
-  {schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length}
+  {schema: "adl.v0921.remediation_validation.v3", mode: mode, status: "passed", source_findings: source.length, original_source_findings: 19, returned_findings: returned.length, dispositions: dispositions.length}
 end
 
 if __FILE__ == $PROGRAM_NAME

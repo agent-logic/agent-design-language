@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 522,
+  "issue_padded": "0522",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/522",
+  "title": "[v0.92.1][TAIL-06] Review findings remediation",
+  "branch": "codex/522-third-party-review-remediation",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-522-third-party-review-remediation"
+}

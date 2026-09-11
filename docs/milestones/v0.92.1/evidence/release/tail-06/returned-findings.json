@@ -1,0 +1,67 @@
+{
+  "schema": "adl.v0921.returned_finding_census.v1",
+  "review_issue": 833,
+  "review_pull_request": 853,
+  "review_head_sha": "2dfd01343816beb5cac6df2f644141be973f6fc2",
+  "review_merge_sha": "99700441767c43aa69e379b7b59f0f2a2c82d879",
+  "artifacts": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md",
+      "sha256": "aa3ba0ab36869740c0ee1bb83adb0937545a6d7c1cf9ea576e6f76d6483cebae"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXECUTABLE_REVIEW_ADDENDUM.md",
+      "sha256": "d9f8a945306de01fe279e8a8987a38859fbdfabbd70501c5d1cbbd740a160974"
+    }
+  ],
+  "findings": [
+    {
+      "id": "D833-REPORT-001",
+      "severity": "P1",
+      "title": "Mandated coverage denominator is substantially unexercised by this lane",
+      "evidence": "The chat-only review lane could not discharge the mandated review denominator.",
+      "source_artifact": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md",
+      "source_heading": "### P1 — Mandated coverage denominator is substantially unexercised by this lane"
+    },
+    {
+      "id": "D833-REPORT-002",
+      "severity": "P2",
+      "title": "Predecessor reconciliation is bound to a superseded source candidate",
+      "evidence": "The #834 reconciliation required candidate-current revalidation.",
+      "source_artifact": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md",
+      "source_heading": "### P2 — Predecessor reconciliation is bound to a superseded source candidate"
+    },
+    {
+      "id": "D833-REPORT-003",
+      "severity": "P3",
+      "title": "Merged removal-approval packets retain pre-merge `pending_operator_review` fields",
+      "evidence": "Historical proposal fields required an explicit terminal projection.",
+      "source_artifact": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md",
+      "source_heading": "### P3 — Merged removal-approval packets retain pre-merge `pending_operator_review` fields"
+    },
+    {
+      "id": "D833-EXEC-001",
+      "severity": "P1",
+      "title": "Corporate/Runtime retained proof is stale",
+      "evidence": "The #818 retained proof required candidate-current supersession evidence.",
+      "source_artifact": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXECUTABLE_REVIEW_ADDENDUM.md",
+      "source_heading": "### P1 — Corporate/Runtime retained proof is stale"
+    },
+    {
+      "id": "D833-EXEC-002",
+      "severity": "P1",
+      "title": "Release projection is not candidate-current or ready",
+      "evidence": "Version reconciliation and native-v3 preflight remain owned by #856.",
+      "source_artifact": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXECUTABLE_REVIEW_ADDENDUM.md",
+      "source_heading": "### P1 — Release projection is not candidate-current or ready"
+    },
+    {
+      "id": "D833-EXEC-003",
+      "severity": "P2",
+      "title": "#834 is historical ancestral reconciliation",
+      "evidence": "The historical reconciliation required explicit candidate revalidation and scope qualification.",
+      "source_artifact": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXECUTABLE_REVIEW_ADDENDUM.md",
+      "source_heading": "### P2 — #834 is historical ancestral reconciliation"
+    }
+  ]
+}

@@ -4,7 +4,9 @@
 
 Produce one ledger that accounts for all accepted review findings exactly once:
 14 internal-review findings from #520 and five third-party-review findings from
-#521, for a total denominator of 19.
+#521, plus every finding returned by the immutable-candidate #833 review. The
+original source denominator remains 19; #833 returned six additional findings,
+so the terminal disposition denominator is 25.
 
 ## Boundary
 
@@ -22,9 +24,11 @@ results that both report pass at the exact remediated head. Deferral eligibility
 is derived from source severity, status, and release-blocking flags; a
 disposition cannot self-attest a blocker as non-blocking.
 
-The external-review subset is exactly `TPR-001` through `TPR-005`. The
-internal-review subset is exactly the 14 `D520-*` findings retained by #520.
-Any additional or missing identifier in either source is a census failure.
+The original external-review subset is exactly `TPR-001` through `TPR-005`.
+The internal-review subset is exactly the 14 `D520-*` findings retained by
+#520. The six #833 findings are normalized separately and remain digest-bound
+to the merged report and executable addendum; this preserves the 19-row source
+denominator without omitting findings returned by the required re-review.
 
 #520 is bound to its historical immutable reviewed revision. The retained
 failed #521 source is deliberately recorded with a missing revision and
