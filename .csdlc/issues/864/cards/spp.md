@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "complete"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress"
+    status: "complete"
 affected_areas:
   - "v0922-wp01"
 invariants_to_preserve:
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [complete] Inspect repo inputs and target surfaces before editing.
 3. [complete] Implement the bounded deliverables only.
 4. [complete] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [complete] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 

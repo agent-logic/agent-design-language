@@ -20,6 +20,6 @@
   "findings_status": "no_findings",
   "recommended_outcome": "pass",
   "review_findings": "First-sprint launch review PASS at 9f0971c5988341e887d1290f6d462e9d799d4c5d by /root/planning_docs. All ten draft contracts passed cross-review before creation; /root/task_contract_review independently reread all ten live issues and reported individual PASS results.",
-  "review_dispositions": "Two P2 launch-validator findings fixed: exact allowed body reconstruction rejects unreviewed suffixes; receipt/review identity and digest binding rejects mismatches. Reviewer reverified both corrections. Earlier P1 final-closeout and P2 tracked-review fixes remain preserved.",
+  "review_dispositions": "Two P2 launch-validator findings fixed and reverified: exact allowed body reconstruction rejects unreviewed suffixes; receipt/review identity and digest binding rejects mismatches. Card-only H2 review found SPP final recording step still in_progress despite completed SRP/SOR records; corrected to complete through native edit. Earlier closeout/review fixes remain preserved.",
   "review_notes": "Exact reviewed launch revision 9f0971c5988341e887d1290f6d462e9d799d4c5d; 109 planning and 31 launch negative fixtures pass. Native card-only result recording is separately reviewed at final tip before publication. No implementation or activation proof claimed."
 }

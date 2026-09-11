@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- Two P2 launch-validator findings fixed: exact allowed body reconstruction rejects unreviewed suffixes; receipt/review identity and digest binding rejects mismatches. Reviewer reverified both corrections. Earlier P1 final-closeout and P2 tracked-review fixes remain preserved.
+- Two P2 launch-validator findings fixed and reverified: exact allowed body reconstruction rejects unreviewed suffixes; receipt/review identity and digest binding rejects mismatches. Card-only H2 review found SPP final recording step still in_progress despite completed SRP/SOR records; corrected to complete through native edit. Earlier closeout/review fixes remain preserved.
 
 ### Recommended Outcome
 
