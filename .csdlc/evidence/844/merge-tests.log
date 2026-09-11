@@ -15,4 +15,3 @@ test commands::remote::tests::merge_cases::merge_review_and_method_guards_before
 test commands::remote::tests::merge_cases::merge_uncertain_transport_is_reconciliation_only ... ok
 
 test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 66 filtered out; finished in 5.08s
-

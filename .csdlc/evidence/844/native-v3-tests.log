@@ -303,4 +303,3 @@ test transition_merge_ready_requires_current_readiness_evidence ... ok
 test transition_review_recovery_matches_retained_v2_behavior ... ok
 
 test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
-
