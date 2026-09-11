@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.issue_review_assignment.v1",
+  "issue": 824,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 9,
+  "expected_digest": "ccb627e87979add011d199ef1983ee0c5f6bbad3f9c0ed901f5d22216ab85633",
+  "reviewer": "subagent:/root/fix_814_runtime",
+  "assigned_by": "subagent:/root/fix_815_cloud_auth",
+  "scope": [
+    ".csdlc/issues/824",
+    ".csdlc/prepared/issues/824",
+    ".csdlc/transactions/completed/824",
+    "csdlc-v3/src/adapters/mod.rs",
+    "csdlc-v3/src/commands/remote/mod.rs",
+    "csdlc-v3/src/commands/remote/tests.rs",
+    "csdlc-v3/tests/operational_cli_commands.rs"
+  ]
+}

@@ -55,6 +55,19 @@ fn run(args: &[&str], cwd: &std::path::Path) -> std::process::Output {
         .expect("run csdlc CLI")
 }
 
+fn run_with_env(
+    args: &[&str],
+    cwd: &std::path::Path,
+    envs: &[(&str, &std::ffi::OsStr)],
+) -> std::process::Output {
+    let mut command = Command::new(env!("CARGO_BIN_EXE_csdlc"));
+    command.args(args).current_dir(cwd);
+    for (name, value) in envs {
+        command.env(name, value);
+    }
+    command.output().expect("run csdlc CLI")
+}
+
 struct OperationalFixture {
     root: PathBuf,
     request_path: PathBuf,
@@ -868,6 +881,89 @@ fn executable_github_routes_reject_wrong_mutation_family_before_dispatch() {
         "{}",
         String::from_utf8_lossy(&wrong_issue_route.stderr)
     );
+}
+
+// PVF: deterministic operational CLI contract with a local fake curl; no network mutation.
+#[cfg(unix)]
+#[test]
+fn executable_github_pr_ready_uses_graphql_and_authenticated_readback() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let fixture = operational_fixture("github-pr-ready-positive");
+    let head = git(&fixture.root, &["rev-parse", "HEAD"]);
+    let request = OperationalRemoteDispatchRequest {
+        expected_lifecycle_digest: canonical_authority_selector_digest(&fixture.root)
+            .expect("selector digest"),
+        exact_review_sha: head.clone(),
+        operation: OperationalRemoteOperation::GithubMutation(GithubMutationRequest {
+            repository: "agent-logic/agent-design-language".into(),
+            issue: 824,
+            pull_request: Some(822),
+            cutover_issue: Some(505),
+            operator_approval: Some("offline operational ready fixture".into()),
+            expected_head_sha: head.clone(),
+            credential_names: vec!["GITHUB_TOKEN".into()],
+            recovery: None,
+            mutation: GithubMutation::PullRequestReady,
+        }),
+    };
+    let request_path = fixture.root.join("pr-ready-dispatch.json");
+    fs::write(&request_path, serde_json::to_vec(&request).unwrap()).unwrap();
+    let token_path = fixture.root.join("github.token");
+    fs::write(&token_path, "fixture-token\n").unwrap();
+    let fake_bin = fixture.root.join("fake-bin");
+    fs::create_dir_all(&fake_bin).unwrap();
+    let ready_marker = fixture.root.join("ready-state");
+    let curl_path = fake_bin.join("curl");
+    let script = format!(
+        r#"#!/bin/sh
+case "$*" in
+  *api.github.com/graphql*)
+    : > {marker}
+    printf '%s\n' '{{"data":{{"markPullRequestReadyForReview":{{"pullRequest":{{"number":822,"headRefOid":"{head}","isDraft":false}}}}}}}}'
+    ;;
+  *repos/agent-logic/agent-design-language/pulls/822*)
+    if [ -f {marker} ]; then draft=false; else draft=true; fi
+    printf '{{"number":822,"node_id":"PR_kwDO-ready-822","head":{{"sha":"{head}"}},"draft":%s}}\n' "$draft"
+    ;;
+  *) exit 2 ;;
+esac
+"#,
+        marker = ready_marker.display(),
+        head = head
+    );
+    fs::write(&curl_path, script).unwrap();
+    fs::set_permissions(&curl_path, fs::Permissions::from_mode(0o700)).unwrap();
+    let path = format!(
+        "{}:{}",
+        fake_bin.display(),
+        std::env::var("PATH").unwrap_or_default()
+    );
+
+    let output = run_with_env(
+        &[
+            "github-pr",
+            "--request",
+            request_path.to_str().unwrap(),
+            "--execute",
+        ],
+        &fixture.root,
+        &[
+            ("ADL_GITHUB_TOKEN_FILE", token_path.as_os_str()),
+            ("PATH", std::ffi::OsStr::new(&path)),
+        ],
+    );
+    assert!(output.status.success(), "{output:?}");
+    let result: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(
+        result["result"]["outcome"]["result"]["receipt"]["pull_request"].as_u64(),
+        Some(822)
+    );
+    assert_eq!(
+        result["result"]["outcome"]["result"]["receipt"]["expected_head_sha"].as_str(),
+        Some(head.as_str())
+    );
+    assert!(ready_marker.exists(), "GraphQL mutation was not invoked");
 }
 
 #[test]
