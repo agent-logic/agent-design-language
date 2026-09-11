@@ -6,6 +6,10 @@ Status: planned; no date commitment.
 
 CF-INTEGRATE forms a release candidate only after every Beta 1 exit-bar track has merged reviewed authority and the ADL plus external OSS proof packets exist. A candidate is not a release.
 
+## Release denominator
+
+The release denominator is exactly the 41 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). It comprises the original 30 planning rows, newly admitted PLAT-PAIR and OPS-GCP, eight C-SDLC simplification rows (SIM-UMBRELLA plus SIM-01 through SIM-07), and one reused existing issue, #720. Issues #717 and #718 are merged v0.92.1 predecessor inputs and are not additional denominator rows. TAIL-01 must reconcile all 41 rows to current canonical issue and merge truth; an unmapped, duplicated, missing, or unreviewed row is a no-go condition.
+
 ## Canonical Tail
 
 1. TAIL-01 — quality gate
@@ -39,7 +43,7 @@ Product integration may finish before independent supporting work. TAIL-01 conve
 
 TAIL-07 and TAIL-08 must refresh the tracked [TBD scheduling reconciliation](TBD_SCHEDULING_RECONCILIATION_v0.92.2.md) against the then-current local inventory. The refresh is an accounting gate, not authority to add work. Every active source discovered after the retained #620 audit must be classified as admitted work, merged/completed provenance, an existing issue or milestone, or explicit backlog/deferred work before TAIL-09 review.
 
-The current local delta contains two unadmitted product candidates that must remain visible: `.adl/docs/TBD/codefriend_ai/POLIS_MUSIC_STUDIO_CONCEPT.md` and `.adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md`. Neither is part of the v0.92.2 denominator unless the operator separately admits it. The GCP move-in and issue #122/#268 cloud plans are existing v0.92.1/cloud planning or execution provenance, not new successor work. The Runtime v4 plugin-system design remains scheduled for v0.93. Issue-local C-SDLC audit snapshots and review outputs are evidence, not product backlog rows.
+The known unadmitted product candidate that must remain visible is `.adl/docs/TBD/codefriend_ai/POLIS_MUSIC_STUDIO_CONCEPT.md`. This is not an exhaustive inventory claim; the required TAIL-07/08 refresh supplies that denominator. The operator admitted `.adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md` as PLAT-PAIR and `.adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md` as OPS-GCP. The older issue #122/#268 cloud plans remain v0.92.1/cloud provenance and are not duplicate successor rows. The Runtime v4 plugin-system design remains scheduled for v0.93. Issue-local C-SDLC audit snapshots and review outputs are evidence, not product backlog rows.
 
 ## First-sprint convergence
 

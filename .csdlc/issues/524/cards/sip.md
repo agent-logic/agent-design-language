@@ -9,13 +9,13 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-08] Next-milestone closeout plan
 Branch: codex/524-v0922-closeout-plan
 Card Status: ready
-Generated: <timestamp>
+Generated: 2026-09-11T02:25:31Z
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/524
 - PR:
-- Source Issue Prompt: <source_issue_prompt>
-- Docs: <docs_context>
+- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/524
+- Docs: v0.92.2 canonical milestone planning package
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: <output_card>
+  output_card: .csdlc/issues/524/cards/sor.md
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,9 +84,9 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: <slug>
+- Source issue-prompt slug: v0922-closeout-plan
 - Required outcome type: documentation
-- Demo required: <demo_required>
+- Demo required: false
 
 ## Goal
 
@@ -94,27 +94,27 @@ Produce one reviewed v0.92.2 closeout and release-tail plan.
 
 ## Required Outcome
 
-The two owned v0.92.2 planning documents form a complete, consistent and reviewable successor closeout plan.
+One validated, independently reviewed, number-free v0.92.2 planning package with explicit release-tail and TBD scheduling truth.
 
 ## Acceptance Criteria
 
-Closeout denominator and operator gates are explicit; tail order matches standards; closeout bookkeeping is asynchronous and no issue depends on it rather than merge.
+The canonical denominator, dependencies, gates, tail order, asynchronous closeout rule, and operator-authorized TBD dispositions are explicit and consistent across every canonical planning surface.
 
 ## Inputs
 
-<inputs>
+Issue #524; merged #523/PR #743; v0.92.1 release-tail standards; operator-authorized TBD schedules.
 
 ## Target Files / Surfaces
 
-docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md and docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md.
+docs/milestones/v0.92.2 planning package and issue-local lifecycle/evidence surfaces.
 
 ## Validation Plan
 
-Focused document structure, cross-document consistency, tail-order, operator-gate, path and diff-hygiene checks.
+Run the focused v0.92.2 planning validator with negative fixtures, exact diff hygiene, residual denominator scans, and fresh independent exact-head review.
 
 ## Demo / Proof Requirements
 
-<demo_proof_requirements>
+Not applicable: documentation-planning issue with deterministic structural validation.
 
 ## Constraints / Policies
 
@@ -162,11 +162,11 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-No successor execution, current release action, issue creation, implementation, merge or closeout ceremony.
+No v0.92.2 issue creation, cloud mutation, experiment execution, release action, merge, or closeout ceremony.
 
 ## Notes / Risks
 
-<notes_risks>
+Ignored TBD files remain source references and are not copied into the tracked package; planning does not authorize their execution.
 
 ## Instructions to the Agent
 - Read this file.

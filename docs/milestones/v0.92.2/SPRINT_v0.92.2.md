@@ -11,8 +11,8 @@ SIM-UMBRELLA opens coordination; SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM
 - WP-01 validates the package and opens only the approved work wave.
 - CF-SHELL and CF-ADAPTER begin in parallel.
 - CF-EVIDENCE establishes artifact identity, provenance, redaction, and retention contracts.
-- PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST begin as independent bounded tracks.
-- PLAT-PROVIDER begins only after v0.92.1 issue #622 is merged; PLAT-MLX follows the provider-definition contract.
+- PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST begin as independent bounded tracks.
+- PLAT-PROVIDER begins only after v0.92.1 issue #622 is merged; PLAT-MLX and the bounded PLAT-PAIR experiment follow the provider-definition contract.
 
 ## CodeFriend wave 2 — Parallel Analysis Surfaces
 

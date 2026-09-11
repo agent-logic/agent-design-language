@@ -48,6 +48,9 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
+- [ ] All 41 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 41 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] The denominator contains the original 30 rows, newly admitted PLAT-PAIR and OPS-GCP, eight SIM rows, and reused #720 exactly once; #717/#718 remain predecessor inputs rather than extra rows
 - [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
@@ -59,7 +62,8 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 - [ ] TAIL-07/08 refreshed the tracked TBD reconciliation against the current local inventory
 - [ ] Every newly discovered active source is admitted, completed provenance, routed to an existing issue or milestone, or explicitly backlog/deferred
-- [ ] Polis Music Studio and NVIDIA PAIR remain visible unadmitted candidates unless separately authorized
+- [ ] Polis Music Studio remains a visible unadmitted candidate unless separately authorized
+- [ ] PLAT-PAIR and OPS-GCP retain their admitted source paths, bounded outcomes, and non-goals
 - [ ] v0.92.1 cloud plans remain existing-work/provenance inputs rather than duplicate successor rows
 - [ ] Runtime v4 remains routed to v0.93
 - [ ] No evidence packet, review output, or local concept silently expands the v0.92.2 denominator

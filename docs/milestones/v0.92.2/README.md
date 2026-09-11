@@ -34,7 +34,7 @@ Beta 1 must provide the product shell and onboarding; portable repository ingest
 
 ## Explicit Deferrals
 
-Jira, Linear, Slack, broad Workspace integrations, autonomous source mutation, public customer-scale deployment, security tournaments, ATE, OCI model packaging, and optional OpenRewrite/general modernization are outside Beta 1 unless separately admitted through milestone planning. Runtime v4 is not silently absorbed here. The milestone does include bounded shared-provider configuration and MLX/Metal enablement, UTS productization, recurring Rust reduction, AWS inventory maintenance, publication preparation, Memory Palace integration, and speculative-decoding requalification as separately owned supporting tracks.
+Jira, Linear, Slack, broad Workspace integrations, autonomous source mutation, public customer-scale deployment, security tournaments, ATE, OCI model packaging, and optional OpenRewrite/general modernization are outside Beta 1 unless separately admitted through milestone planning. Runtime v4 is not silently absorbed here. The milestone does include bounded shared-provider configuration and MLX/Metal enablement, a bounded NVIDIA PAIR experiment, UTS productization, recurring Rust reduction, AWS inventory maintenance, a read-only company GCP move-in reconciliation, publication preparation, Memory Palace integration, and speculative-decoding requalification as separately owned supporting tracks.
 
 The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope by this v0.92.2 package. No date commitment is created.
 
@@ -42,4 +42,4 @@ The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope
 
 Reuse #720 for live Observatory cleanup. #717 capability orientation and #718 canonical-name A2A were promoted into v0.92.1 on 2026-09-09 and are predecessor inputs, not v0.92.2 execution rows. Other backlog is excluded. See [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) and [adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md).
 
-The first coherent sprint is the eight-issue C-SDLC simplification program, with SIM-01 through SIM-07 ordered internally. It does not wait for CodeFriend startup. The complete work denominator is 39 rows including #720 and eight SIM program rows. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+The first coherent sprint is the eight-issue C-SDLC simplification program, with SIM-01 through SIM-07 ordered internally. It does not wait for CodeFriend startup. The complete work denominator is 41 rows: the original 30 planning rows, newly admitted PLAT-PAIR and OPS-GCP, eight SIM program rows, and reused #720. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.

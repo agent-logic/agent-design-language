@@ -24,9 +24,11 @@ Status: planned ownership map.
 | Complete Beta 1 | CF-INTEGRATE | Exit-bar reconciliation and end-to-end failure matrix |
 | Config-driven providers | PLAT-PROVIDER | Schema negatives and provider parity after merged #622 |
 | MLX/Metal adapter | PLAT-MLX | Bounded platform smoke and unsupported-platform failure |
+| NVIDIA PAIR experiment | PLAT-PAIR | Reproducible bounded comparison, resource/cost capture, and explicit keep/repair/retire decision |
 | UTS productization | PLAT-UTS | Schema conformance and supported-consumer fixture |
 | Recurring Rust reduction | PLAT-RUST | Behavior parity and before/after measurement |
 | AWS inventory maintenance | OPS-AWS | #484 baseline comparison, business-account readbacks, and redaction validation |
+| Company GCP move-in reconciliation | OPS-GCP | Current sanitized source/destination inventory, dependency ordering, rollback notes, and explicit no-mutation proof |
 | Medium article preparation | PUB-MEDIUM | Source/citation traceability and non-publication check |
 | C-SDLC paper preparation | PUB-CSDLC | Source/citation traceability and non-submission check |
 | Memory Palace production slice | PLAT-MEMORY | Production caller, deterministic retrieval, redaction negatives |

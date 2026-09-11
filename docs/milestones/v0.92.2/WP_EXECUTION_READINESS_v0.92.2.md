@@ -15,7 +15,7 @@ Status: the new execution wave remains gated. Existing admitted issue #720 uses 
 
 CF-SHELL and CF-ADAPTER become ready after WP-01. CF-COG, CF-GOV, CF-REVIEW, and CF-MEMORY become ready after the evidence contract merges and may run in parallel. No track waits for individual closeout bookkeeping; it waits only for its declared merged authority.
 
-PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST become ready after WP-01. PLAT-PROVIDER additionally waits for merged v0.92.1 issue #622, and PLAT-MLX waits for PLAT-PROVIDER. PLAT-MEMORY waits for CF-EVIDENCE and CF-MEMORY. CF-INTEGRATE waits for the product tracks, shared provider definitions and the admitted production memory consumer. TAIL-01 separately converges all other admitted supporting and existing issues; article/paper/inventory completion does not block product integration.
+PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST become ready after WP-01. PLAT-PROVIDER additionally waits for merged v0.92.1 issue #622; PLAT-MLX and PLAT-PAIR wait for PLAT-PROVIDER. PLAT-MEMORY waits for CF-EVIDENCE and CF-MEMORY. CF-INTEGRATE waits for the product tracks, shared provider definitions and the admitted production memory consumer. TAIL-01 separately converges all other admitted supporting and existing issues; experiment, article, paper, and inventory completion does not block product integration.
 
 ## Fail-Closed Conditions
 

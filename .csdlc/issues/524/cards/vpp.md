@@ -1,47 +1,47 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_validation_planning_prompt"
-name: "<slug>-validation-plan"
+name: "v0922-closeout-plan-validation-plan"
 issue: 524
 task_id: "issue-0524"
 run_id: "issue-0524"
 version: "v0.92.1"
 title: "[v0.92.1][TAIL-08] Next-milestone closeout plan"
 branch: "codex/524-v0922-closeout-plan"
-generated_at: "<timestamp>"
+generated_at: "2026-09-11T02:25:31Z"
 card_status: "ready"
-status: "<status>"
+status: "executed"
 initial_pvf_lane: "docs-bounded"
 planned_pvf_lane: "docs-bounded"
-lane_registry_path: "<lane_registry_path>"
-lane_registry_template_set: "<lane_registry_template_set>"
-validation_runtime_class: "<validation_runtime_class>"
-validation_resource_profile: "<validation_resource_profile>"
-validation_family: "<validation_family>"
-validation_size_split: "<validation_size_split>"
-expected_proof_cost: "<expected_proof_cost>"
-planned_validation_seconds: "<planned_validation_seconds>"
-planned_validation_tokens: "<planned_validation_tokens>"
-issue_goal_ref: "<issue_goal_ref>"
-sprint_goal_ref: "<sprint_goal_ref>"
-goal_metrics_rollup_ref: "<goal_metrics_rollup_ref>"
+lane_registry_path: "docs/templates/prompts/current.json"
+lane_registry_template_set: "1.0.5"
+validation_runtime_class: "deterministic_local_cpu"
+validation_resource_profile: "small"
+validation_family: "milestone_planning"
+validation_size_split: "focused"
+expected_proof_cost: "small deterministic local documentation check"
+planned_validation_seconds: "60"
+planned_validation_tokens: "unknown"
+issue_goal_ref: "Issue #524 session goal"
+sprint_goal_ref: "v0.92.1 TAIL-08"
+goal_metrics_rollup_ref: "not_collected"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/524"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/524/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/524/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/524/cards/spp.md"
 selected_lanes:
-  - "<selected_lanes_inline>"
+  - "planning-structure; dependency-graph; denominator; source-disposition; diff-hygiene; independent-review"
 parallel_groups:
-  - "<parallel_groups_inline>"
+  - "planning validator and diff hygiene may run independently after edits settle"
 validation_commands:
-  - "<validation_commands_inline>"
-failure_policy: "<failure_policy>"
-notes: "<notes_risks_inline>"
+  - "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; atomic-result parity check"
+failure_policy: "Fail on any count mismatch, duplicate/missing row, invalid dependency, stale source disposition, release-tail drift, or implied execution authority."
+notes: "No runtime, cloud, provider, paid, or release execution is claimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
@@ -50,47 +50,47 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-<plan_summary>
+Validate the complete number-free planning package, its 41 distinct primary results, dependency graph, release tail, and source dispositions.
 
 ## Lane Registry Inputs
 
-- Registry path: `<lane_registry_path>`
-- Registry template set: `<lane_registry_template_set>`
+- Registry path: `docs/templates/prompts/current.json`
+- Registry template set: `1.0.5`
 - Initial PVF lane from issue creation: `docs-bounded`
 - Planned PVF lane for execution: `docs-bounded`
 
 ## Selected Validation Lanes
 
-- <selected_lanes_inline>
+- planning-structure; dependency-graph; denominator; source-disposition; diff-hygiene; independent-review
 
 ## Parallelization Plan
 
-- Parallel groups: <parallel_groups_inline>
-- Validation runtime class: `<validation_runtime_class>`
-- Validation resource profile: `<validation_resource_profile>`
-- Validation family: `<validation_family>`
-- Validation size split: `<validation_size_split>`
+- Parallel groups: planning validator and diff hygiene may run independently after edits settle
+- Validation runtime class: `deterministic_local_cpu`
+- Validation resource profile: `small`
+- Validation family: `milestone_planning`
+- Validation size split: `focused`
 
 ## Goal Accounting Hooks
 
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
+- Issue goal ref: `Issue #524 session goal`
+- Sprint goal ref: `v0.92.1 TAIL-08`
+- Goal metrics rollup ref: `not_collected`
 
 ## Proof Cost / Runtime Expectations
 
-- Expected proof cost: `<expected_proof_cost>`
-- Planned validation seconds: `<planned_validation_seconds>`
-- Planned validation token budget: `<planned_validation_tokens>`
+- Expected proof cost: `small deterministic local documentation check`
+- Planned validation seconds: `60`
+- Planned validation token budget: `unknown`
 - Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
 
 ## Validation Commands
 
-- <validation_commands_inline>
+- python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; atomic-result parity check
 
 ## Failure Semantics
 
-- <failure_policy>
+- Fail on any count mismatch, duplicate/missing row, invalid dependency, stale source disposition, release-tail drift, or implied execution authority.
 
 ## Handoff
 
@@ -98,4 +98,4 @@ Use this VPP to bridge planning and execution. Keep lane assignment fail-closed,
 
 ## Notes
 
-<notes_risks_inline>
+No runtime, cloud, provider, paid, or release execution is claimed.

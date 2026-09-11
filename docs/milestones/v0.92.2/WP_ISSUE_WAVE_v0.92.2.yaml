@@ -5,6 +5,48 @@ conductor_issue: null
 issue_creation_authority: WP-01
 issue_creation_exceptions:
   dedicated_SIM_sprint_launch: [SIM-UMBRELLA, SIM-01, SIM-02, SIM-03, SIM-04, SIM-05, SIM-06, SIM-07]
+atomic_results:
+  WP-01: authorized_execution_wave
+  CF-SHELL: operable_product_shell
+  CF-ADAPTER: portable_repository_packet_adapter
+  CF-EVIDENCE: governed_evidence_core
+  CF-COG: architecture_cognition_reporter
+  CF-GOV: executable_fitness_function_runner
+  CF-REVIEW: multi_perspective_review_packet
+  CF-MEMORY: longitudinal_comparison_report
+  CF-UX: governed_publication_bundle
+  CF-PROOF: beta1_qualification_evidence_packet
+  CF-INTEGRATE: integrated_beta1_candidate
+  PLAT-PROVIDER: config_driven_provider_contract
+  PLAT-MLX: mlx_metal_provider_adapter
+  PLAT-PAIR: nvidia_pair_experiment_decision
+  PLAT-UTS: supported_uts_package
+  PLAT-RUST: behavior_preserving_rust_reduction
+  OPS-AWS: current_aws_inventory_packet
+  OPS-GCP: apply_ready_gcp_move_in_packet
+  PUB-MEDIUM: medium_article_packet
+  PUB-CSDLC: csdlc_paper_packet
+  PLAT-MEMORY: production_memory_palace_consumer
+  SPEC-RETEST: speculative_decoding_disposition
+  OBS-LIVE: live_only_observatory
+  SIM-UMBRELLA: simplification_sprint_scorecard
+  SIM-01: non_mutating_diagnostic_baseline
+  SIM-02: installed_command_contract
+  SIM-03: intent_oriented_cli
+  SIM-04: semantic_issue_transaction_owner
+  SIM-05: derived_projection_pipeline
+  SIM-06: fenced_conversion_rehearsal
+  SIM-07: independent_transition_qualification
+  TAIL-01: milestone_quality_decision
+  TAIL-02: external_review_handoff
+  TAIL-03: finalized_publication_packet
+  TAIL-04: internal_review_record
+  TAIL-05: external_review_record
+  TAIL-06: findings_disposition_record
+  TAIL-07: successor_planning_package
+  TAIL-08: successor_closeout_plan
+  TAIL-09: successor_planning_review
+  TAIL-10: milestone_close_record
 work_packages:
   - id: WP-01
     lane: milestone_opening
@@ -15,7 +57,7 @@ work_packages:
     proof: [canonical_inventory_check, yaml_parse, link_check]
   - id: CF-SHELL
     lane: product_shell
-    title: CodeFriend product shell, setup, onboarding, and operator controls
+    title: Deliver one operable CodeFriend shell
     issue: null
     depends_on: [WP-01]
     deliverables: [setup_flow, onboarding, run_controls, status_and_artifact_browser]
@@ -50,7 +92,7 @@ work_packages:
     proof: [passing_and_failing_fixtures, deterministic_policy_results, ci_failure_semantics]
   - id: CF-REVIEW
     lane: review_engine
-    title: Four-perspective review, synthesis, remediation, and test planning
+    title: Produce one complete multi-perspective review packet
     issue: null
     depends_on: [CF-EVIDENCE]
     deliverables: [correctness_review, security_review, adversarial_review, constitutional_review, synthesis, remediation_plan, test_plan]
@@ -64,14 +106,14 @@ work_packages:
     proof: [two_run_fixture, schema_compatibility_tests, missing_baseline_behavior]
   - id: CF-UX
     lane: publication
-    title: Human-controlled publication and Markdown, HTML, and PDF outputs
+    title: Produce one governed publication bundle
     issue: null
     depends_on: [CF-SHELL, CF-EVIDENCE]
     deliverables: [publication_approval, claims_and_nonclaims, privacy_legal_checks, artifact_manifest, markdown_output, html_output, pdf_output, release_notes]
     proof: [approval_boundary_tests, renderer_parity, manifest_integrity, withheld_publication_test]
   - id: CF-PROOF
     lane: proof_and_documentation
-    title: Documentation, examples, fixtures, ADL self-review, and external OSS proof
+    title: Produce one Beta 1 qualification evidence packet
     issue: null
     depends_on: [CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX]
     deliverables: [operator_docs, examples, deterministic_fixtures, adl_self_review, bounded_external_oss_review]
@@ -98,6 +140,14 @@ work_packages:
     depends_on: [PLAT-PROVIDER]
     deliverables: [mlx_metal_adapter]
     proof: [mlx_metal_smoke, unsupported_platform_failure]
+  - id: PLAT-PAIR
+    lane: provider_platform_experiment
+    title: NVIDIA PAIR multi-node local-inference experiment
+    issue: null
+    depends_on: [PLAT-PROVIDER]
+    planning_source: .adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md
+    deliverables: [pair_experiment_packet, keep_repair_or_reject_decision]
+    proof: [raw_pair_routing, runtime_v3_pair_path, concurrency_and_failure_comparison, no_provider_type_added]
   - id: PLAT-UTS
     lane: uts_productization
     title: UTS standardization and productization
@@ -120,6 +170,15 @@ work_packages:
     external_dependencies: [completed-issue-484-baseline]
     deliverables: [inventory_delta_from_484, staleness_register, maintenance_runbook]
     proof: [readonly_readbacks, baseline_comparison, account_identity_check, redaction_check]
+  - id: OPS-GCP
+    lane: gcp_foundation
+    title: Produce one apply-ready company GCP move-in execution packet
+    issue: null
+    depends_on: [WP-01]
+    external_dependencies: [merged-v0.92.1-gcp-foundations]
+    planning_source: .adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md
+    deliverables: [apply_ready_gcp_move_in_execution_packet]
+    proof: [company_project_identity, prior_work_reconciliation, terraform_package_validation, ordered_apply_and_rollback_steps, redaction_check]
   - id: PUB-MEDIUM
     lane: publication_preparation
     title: Prepare one v0.92.2 Medium article packet
@@ -233,51 +292,71 @@ work_packages:
     lane: release_tail
     title: Quality gate
     issue: null
-    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-UTS, PLAT-RUST, OPS-AWS, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, SIM-UMBRELLA]
+    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, SIM-UMBRELLA]
+    deliverables: [milestone_quality_decision]
+    proof: [denominator_reconciliation, quality_gate_validation]
   - id: TAIL-02
     lane: release_tail
     title: Documentation review and external-review handoff
     issue: null
     depends_on: [TAIL-01]
+    deliverables: [external_review_handoff]
+    proof: [documentation_review, handoff_structure_validation]
   - id: TAIL-03
     lane: release_tail
     title: Publication finalization
     issue: null
     depends_on: [TAIL-02]
+    deliverables: [finalized_publication_packet]
+    proof: [artifact_manifest_validation, candidate_binding]
   - id: TAIL-04
     lane: release_tail
     title: Internal milestone review
     issue: null
     depends_on: [TAIL-03]
+    deliverables: [internal_review_record]
+    proof: [exact_candidate_review, finding_register]
   - id: TAIL-05
     lane: release_tail
     title: External or third-party review
     issue: null
     depends_on: [TAIL-04]
+    deliverables: [external_review_record]
+    proof: [context_free_external_review, exact_candidate_binding]
   - id: TAIL-06
     lane: release_tail
     title: Accepted-findings remediation or explicit deferral capture
     issue: null
     depends_on: [TAIL-05]
+    deliverables: [findings_disposition_record]
+    proof: [remediation_validation, deferral_ownership_check]
   - id: TAIL-07
     lane: release_tail
     title: Next-milestone planning
     issue: null
     depends_on: [TAIL-06]
+    deliverables: [successor_planning_package]
+    proof: [source_reconciliation, planning_validation]
   - id: TAIL-08
     lane: release_tail
     title: Next-milestone closeout planning
     issue: null
     depends_on: [TAIL-07]
+    deliverables: [successor_closeout_plan]
+    proof: [release_tail_validation, asynchronous_closeout_check]
   - id: TAIL-09
     lane: release_tail
     title: Next-milestone planning review
     issue: null
     depends_on: [TAIL-08]
+    deliverables: [successor_planning_review]
+    proof: [independent_review, finding_disposition]
   - id: TAIL-10
     lane: release_tail
     title: Release ceremony and milestone close
     issue: null
     depends_on: [TAIL-09]
+    deliverables: [milestone_close_record]
+    proof: [human_release_authority, terminal_reconciliation]
 canonical_release_tail: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
 deferred_tracks: [jira, linear, slack, broad_workspace, autonomous_mutation, public_customer_scale, security_tournaments, ate, oci_model_packaging, optional_openrewrite, runtime_v4]

@@ -25,10 +25,20 @@ def check(wave, specs):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 39 or len(set(ids)) != 39:
-        failures.append("Expected 39 unique work packages")
+    if len(ids) != 41 or len(set(ids)) != 41:
+        failures.append("Expected 41 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
+    atomic_results = wave.get("atomic_results", {})
+    if set(atomic_results) != set(ids):
+        failures.append("Atomic-result register must cover every work package exactly once")
+    if len(set(atomic_results.values())) != len(ids):
+        failures.append("Every work package must have a distinct primary result")
+    if any(not re.fullmatch(r"[a-z0-9]+(?:_[a-z0-9]+)*", str(result)) for result in atomic_results.values()):
+        failures.append("Atomic results must be one normalized result identifier, not a compound work list")
+    for row in rows:
+        if not row.get("deliverables") or not row.get("proof"):
+            failures.append(f"{row['id']} must name implementation output and proving evidence")
     expected_existing = {"OBS-LIVE": 720}
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
     if actual_existing != expected_existing:
@@ -77,7 +87,11 @@ def check(wave, specs):
     product = {r for r in ids if r.startswith("CF-")} - {"CF-INTEGRATE"}
     if set(by_id["CF-INTEGRATE"]["depends_on"]) != product | {"PLAT-PROVIDER", "PLAT-MEMORY"}:
         failures.append("Product integration prerequisites differ")
-    support = {"PLAT-MLX", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
+    if by_id.get("PLAT-PAIR", {}).get("depends_on") != ["PLAT-PROVIDER"]:
+        failures.append("PLAT-PAIR must consume the canonical provider-definition contract")
+    if by_id.get("OPS-GCP", {}).get("depends_on") != ["WP-01"]:
+        failures.append("OPS-GCP must remain a separately owned post-opening foundation track")
+    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
     if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
     obligations = {
@@ -97,6 +111,12 @@ def negative_checks(wave, specs):
     broken = copy.deepcopy(wave)
     broken["work_packages"] = [r for r in broken["work_packages"] if r["id"] != "OBS-LIVE"]
     cases.append(("missing admitted existing issue", broken, specs))
+    broken = copy.deepcopy(wave)
+    del broken["atomic_results"]["CF-SHELL"]
+    cases.append(("missing atomic result", broken, specs))
+    broken = copy.deepcopy(wave)
+    broken["atomic_results"]["CF-SHELL"] = broken["atomic_results"]["CF-ADAPTER"]
+    cases.append(("duplicate atomic result", broken, specs))
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "OBS-LIVE")["depends_on"] = ["WP-01"]
     cases.append(("existing issue waits for new wave", broken, specs))

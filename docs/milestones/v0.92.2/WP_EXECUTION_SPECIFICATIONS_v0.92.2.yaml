@@ -93,6 +93,13 @@ specifications:
     pvf: [mlx_metal_smoke, unsupported_platform_failure]
     stop_conditions: [provider_contract_bypass, unsupported_platform_claim]
     non_goals: [general_local_model_rewrite, public_benchmark_marketing]
+  - id: PLAT-PAIR
+    outcome: A bounded experiment determines whether NVIDIA PAIR improves multi-node local inference for ADL without becoming a provider type.
+    owned_surfaces: [pair_experiment_harness, result_packet, disposition]
+    acceptance: [canonical_provider_definition_consumed, raw_pair_route_proven, runtime_path_compared, concurrency_and_failure_behavior_measured, no_provider_type_added]
+    pvf: [raw_pair_smoke, runtime_v3_pair_smoke, concurrent_request_comparison, node_loss_fallback, null_benefit_detection]
+    stop_conditions: [provider_contract_bypass, paid_or_network_mutation_without_authority, unsupported_performance_claim]
+    non_goals: [model_sharding, pooled_vram, production_rollout]
   - id: PLAT-UTS
     outcome: One canonical UTS package is usable by declared supported consumers.
     owned_surfaces: [uts_schema, package, migration_notes]
@@ -114,6 +121,13 @@ specifications:
     pvf: [baseline_comparison, account_readback, inventory_validator, redaction_scan]
     stop_conditions: [personal_account, mutation_required, credential_exposure]
     non_goals: [resource_migration, deployment]
+  - id: OPS-GCP
+    outcome: One apply-ready company GCP move-in execution packet reconciles current state, reviewed Terraform, ordered apply and rollback steps, and residual routing without performing cloud mutations.
+    owned_surfaces: [gcp_move_in_execution_packet]
+    acceptance: [company_identity_verified, prior_work_reused, terraform_package_reviewed, apply_and_rollback_order_explicit, billing_and_cleanup_controls_explicit, residuals_routed]
+    pvf: [readonly_inventory, terraform_fmt_validate_plan, packet_structure, redaction_scan]
+    stop_conditions: [personal_project_selected, mutation_without_operator_authority, credential_exposure, duplicate_v0921_scope]
+    non_goals: [runtime_deployment, paid_gpu_launch, six_resident_requalification]
   - id: PUB-MEDIUM
     outcome: One reviewable Medium article packet is ready for a human editorial decision.
     owned_surfaces: [medium_packet]
