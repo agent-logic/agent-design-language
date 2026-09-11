@@ -1,0 +1,170 @@
+{
+  "schema": "adl.v0921.candidate_validation.v2",
+  "candidate_sha": "64b08fa52c14911d6e5fda772a798966841e133a",
+  "producer": ".csdlc/prepared/issues/522/run-candidate-validation.rb",
+  "producer_sha256": "bcb9af81c1728d2db5e4188a65b3620a8b58727518a201f6acb766d0c4ec16c3",
+  "outcome": "passed",
+  "failures": [
+
+  ],
+  "commands": [
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/prepared/issues/833/validate-external-review-handoff.rb",
+        "--all"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "negative_cases_plus_success",
+      "denominator": 8,
+      "semantic_output_sha256": "3a2777cde09bad08090e4f8b786758c4be7b27ae1dd49bb6b9c53d1a99a43233",
+      "stdout_sha256": "3a2777cde09bad08090e4f8b786758c4be7b27ae1dd49bb6b9c53d1a99a43233",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 58,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/prepared/issues/833/test-issue-818-candidate-current-supersession.rb"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "fraction",
+      "denominator": 8,
+      "semantic_output_sha256": "3f65c54d1b2b46a524f2cd897688062adc10cbcdc5ec1b1c1491a0fdcaefb724",
+      "stdout_sha256": "3f65c54d1b2b46a524f2cd897688062adc10cbcdc5ec1b1c1491a0fdcaefb724",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 82,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "python3",
+        "docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/validate.py"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "json_findings",
+      "denominator": 14,
+      "semantic_output_sha256": "7e06f1aef36baee6e74ad20b30f4a51186e837c50f6b1ab6b342c88697305f3f",
+      "stdout_sha256": "7e06f1aef36baee6e74ad20b30f4a51186e837c50f6b1ab6b342c88697305f3f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 135,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "ruby",
+        ".csdlc/prepared/issues/522/validate-release-lock-matrix.rb"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "json_validated",
+      "denominator": 11,
+      "semantic_output_sha256": "c91f2da029cfd654d7708a075f31c8b64c3b84b31cf02163330326f588c377c5",
+      "stdout_sha256": "c91f2da029cfd654d7708a075f31c8b64c3b84b31cf02163330326f588c377c5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 1096,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v3/Cargo.toml",
+        "--all-targets"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "cargo_tests",
+      "denominator": 241,
+      "semantic_output_sha256": "744fdfde60d7524016dcea1083952778a34aaec70f8658e4f3365b23d2148f55",
+      "stdout_sha256": "1f88560c29105c2c645e6a611954fb87a93a5ddccf2348818e1895e72376494e",
+      "stderr_sha256": "3f75c4083753a66b3efd7fee82ea09189933268af414550bdb38294a862f3885",
+      "stdout_bytes": 20961,
+      "stderr_bytes": 2582
+    },
+    {
+      "argv": [
+        "bash",
+        "adl/tools/test_release_ceremony.sh"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "shell_assertions",
+      "denominator": 1,
+      "semantic_output_sha256": "f1509f6a6bd3db058a3f99c520446097e081fb3edc061d6c088b333c311388b4",
+      "stdout_sha256": "f1509f6a6bd3db058a3f99c520446097e081fb3edc061d6c088b333c311388b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 70,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "bash",
+        "adl/tools/test_owner_binary_install.sh"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "shell_assertions",
+      "denominator": 2,
+      "semantic_output_sha256": "952a331cc03f79b133e537c15dadea0a92c2f94d328c94b63082770187f8bc46",
+      "stdout_sha256": "952a331cc03f79b133e537c15dadea0a92c2f94d328c94b63082770187f8bc46",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 73,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "bash",
+        "adl/tools/test_check_milestone_closed_issue_sor_truth.sh"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "shell_assertions",
+      "denominator": 1,
+      "semantic_output_sha256": "b9289bce33609963564712652d989053c20704880db0d761d0f2f55d389e3d51",
+      "stdout_sha256": "b9289bce33609963564712652d989053c20704880db0d761d0f2f55d389e3d51",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 49,
+      "stderr_bytes": 0
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "card_identity"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "cargo_tests",
+      "denominator": 22,
+      "semantic_output_sha256": "79b9453e24caedb4a8b05e615e29897cd07d459f6afebf8b9c382f023c799495",
+      "stdout_sha256": "ab9b4918be4b53bc7c5f3ab8517d56f9f8d5918d4bc3c947cc6e9aa0ba48353f",
+      "stderr_sha256": "ce36f1f5ef696390459c5b3386f5da15760be4ae6251ec42e1b12c1f1e79fd67",
+      "stdout_bytes": 1705,
+      "stderr_bytes": 6888
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--manifest-path",
+        "csdlc-v2/Cargo.toml",
+        "--test",
+        "gate9"
+      ],
+      "exit_code": 0,
+      "denominator_parser": "cargo_tests",
+      "denominator": 11,
+      "semantic_output_sha256": "0b064cac0b49901381ddd5a72e165a1cd75974f24bf958b7b7cde79b3152f597",
+      "stdout_sha256": "b6ef701cc7c1c167e1db3b2d478f6b693eca2901f0c71237ce5f3b17c7543717",
+      "stderr_sha256": "cfe36c710fe508f557e063f98f33680f0c7b9894a66690ef1fb03a64354ba463",
+      "stdout_bytes": 951,
+      "stderr_bytes": 271
+    }
+  ],
+  "observations": [
+
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "issue": 522,
+  "title": "[v0.92.1][TAIL-06] Review findings remediation",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/522-third-party-review-remediation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-522-third-party-review-remediation",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "4df13e9172df2572fb2c1828eb9b38686b0c0149cf4b17e99dd1cb00abcac350",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "card_updates": {
+    "spp": {
+      "plan_summary": "Ingest the terminal #520/#521 sources as the immutable 19-row source denominator; separately consume all six findings returned by merged #833 review evidence; verify 25 total dispositions; preserve operator-authorized v0.92.2 residuals without calling them passes; require #856 native-v3 release-preflight repair; then validate and review the terminal ledger."
+    }
+  }
+}

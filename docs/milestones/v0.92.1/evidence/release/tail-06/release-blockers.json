@@ -1,0 +1,18 @@
+{
+  "schema": "adl.v0921.release_blockers.v1",
+  "unresolved": [],
+  "resolved": [
+    {
+      "finding_id": "D833-EXEC-002",
+      "owner_issue": 856,
+      "pull_request": 858,
+      "status": "merged_and_consumed",
+      "head_sha": "f4ea095afda84c32adbb100cce423092a1141c36",
+      "merge_sha": "c58001391924622b5fbb0417441bb45a03f0cb59",
+      "merged_at": "2026-09-11T19:41:53Z",
+      "consumed_by_issue": 833,
+      "consumed_at": "2026-09-11T19:44:35Z",
+      "release_consequence": "The release-preflight blocker is resolved; this does not itself authorize release publication."
+    }
+  ]
+}

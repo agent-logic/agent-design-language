@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 522,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/522-third-party-review-remediation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-522-third-party-review-remediation",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "124817c2af33939702aee3128389909bb64137630bca29241e5714b73d17cad2"
+}

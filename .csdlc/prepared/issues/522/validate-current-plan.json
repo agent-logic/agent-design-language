@@ -1,0 +1,20 @@
+{
+  "issue": 522,
+  "title": "[v0.92.1][TAIL-06] Review findings remediation",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/522-third-party-review-remediation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-522-third-party-review-remediation",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "124817c2af33939702aee3128389909bb64137630bca29241e5714b73d17cad2",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "card_updates": {}
+}
