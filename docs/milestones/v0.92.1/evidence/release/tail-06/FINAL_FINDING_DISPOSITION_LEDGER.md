@@ -1,6 +1,6 @@
 # v0.92.1 final finding-disposition ledger
 
-Status: **blocked pending #856 / PR #858 and terminal #833 reconciliation**
+Status: **all dependency blockers resolved; final exact-head review and publication pending**
 
 This ledger preserves two denominators instead of collapsing them:
 
@@ -44,7 +44,7 @@ source records are `source-findings.json` and `returned-findings.json`.
 | `D833-REPORT-002` | Fixed | #833 and #834 / PR #853 | Candidate-current #834 revalidation is retained without rewriting the historical packet. |
 | `D833-REPORT-003` | Fixed by explicit historical-state clarification | #833 and #835 / PR #853 | Consumers use the later terminal projection; historical proposal fields remain immutable. |
 | `D833-EXEC-001` | Fixed by narrow candidate-current supersession proof | #833 / PR #853 | Only the exact #818 17-row proposal/approval scope is superseded; no wider release claim is made. |
-| `D833-EXEC-002` | **Blocking** | #856 / PR #858 | #522 cannot close until release versions and native-v3 preflight are reviewed, green, and merged. |
+| `D833-EXEC-002` | Fixed | #856 / PR #858 | PR #858 merged at reviewed head `f4ea095a`; #833 consumed the repair in its later native terminal reconciliation. |
 | `D833-EXEC-003` | Fixed | #833 and #834 / PR #853 | #834 remains historical ancestral evidence plus an explicit candidate revalidation, not exact-candidate execution proof. |
 
 ## Explicit residuals that are not passes
@@ -63,10 +63,10 @@ release approval and not evidence that the omitted behavior passed.
 
 ## Closure boundary
 
-This draft must remain blocked until all of the following are true:
+Final publication remains pending until all of the following are true:
 
-1. PR #858 is green, reviewed, and merged at its exact final head;
-2. #833 is terminally reconciled after the #856 repair;
+1. PR #858 is green, reviewed, and merged at its exact final head (**satisfied**);
+2. #833 is terminally reconciled after the #856 repair (**satisfied**);
 3. the machine-readable disposition and blocker records validate all 25 rows;
 4. an independent exact-head review finds no unresolved ledger defect; and
 5. the packet manifest binds every source, disposition, validation, and review
