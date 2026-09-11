@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Freeze candidate and authority snapshots; join complete denominator with exact approved removals and bounded execution evidence; derive projections; adversarial validation and independent review; publish with truthful residual gates."
+plan_summary: "Frozen candidate and merged authority inputs retained; full393-row projection derived with143 approved removals,51 prior execution refresh obligations and4 final821 obligations. Complete focused refusal validation and independent review, then publish truthful blocked release projection."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -74,15 +74,15 @@ proposed_steps:
     allowed_mode: "execution_after_approval"
 codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
-    status: "in_progress"
+    status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "release-gate-projection"
 invariants_to_preserve:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `Recompute v0.92.1 release-gate projection`.
 
-Freeze candidate and authority snapshots; join complete denominator with exact approved removals and bounded execution evidence; derive projections; adversarial validation and independent review; publish with truthful residual gates.
+Frozen candidate and merged authority inputs retained; full393-row projection derived with143 approved removals,51 prior execution refresh obligations and4 final821 obligations. Complete focused refusal validation and independent review, then publish truthful blocked release projection.
 
 ## PVF Lane Plan
 
@@ -142,11 +142,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Codex Plan
 
-1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+1. [completed] Confirm dependencies and starting state from the source issue prompt.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 

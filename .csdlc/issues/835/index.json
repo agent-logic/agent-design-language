@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 835,
   "phase": "bound",
-  "generation": 3,
+  "generation": 7,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/835-release-gate-projection",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-835-release-gate-projection",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "97069789baca573c712a5d8d2556ad98d70a8674ca56c88b2843930231f8fc2c"
+  "digest": "cb3fb84affe2828ea0037c9b5da9a69b9ba975102c60b4724d2595a49df4704e"
 }

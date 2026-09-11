@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "release-gate-projection-review-prompt"
 issue: 835
 task_id: "issue-0835"
 version: "1.0.5"
 title: "Recompute v0.92.1 release-gate projection"
 branch: "codex/835-release-gate-projection"
-generated_at: "<timestamp>"
+generated_at: "2026-09-11"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/835"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/835/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/835/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/835/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/835/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/835/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/835/cards/stp.md"
+  - ".csdlc/issues/835/cards/sip.md"
+  - ".csdlc/issues/835/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/835/cards/stp.md"
+  - ".csdlc/issues/835/cards/sip.md"
+  - ".csdlc/issues/835/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "review_835 independently checked393 rows/143 removals/14 negative cases. Final source review at f5bf3cce7d84f5ad72fc9a3e213728338c369f0b; only truthful card recording follows. No Rust/cloud tests run."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/835/cards/stp.md
+- .csdlc/issues/835/cards/sip.md
+- .csdlc/issues/835/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- Two P2: evidence-map links/anchors lost; all27 stage rows assigned ceremony owner526.
 
 ### Dispositions
 
-- <review_dispositions>
+- Both P2 findings fixed in f5bf3cce7d. Independent re-review reports no remaining actionable findings.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pass
 
 ## Notes
 
-<review_notes>
+review_835 independently checked393 rows/143 removals/14 negative cases. Final source review at f5bf3cce7d84f5ad72fc9a3e213728338c369f0b; only truthful card recording follows. No Rust/cloud tests run.
