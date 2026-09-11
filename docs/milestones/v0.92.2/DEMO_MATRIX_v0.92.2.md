@@ -15,11 +15,13 @@ Status: planned demonstrations; none are yet claimed as passing.
 | D9 ADL self-review | Complete bounded Beta 1 review of ADL | CF-PROOF | Does not certify the entire repository defect-free |
 | D10 External OSS review | Complete bounded review of one licensed open-source repository | CF-PROOF | Does not establish customer-scale generality |
 | D11 Integrated failure | Provider/input/renderer failure remains explicit and non-proving | CF-INTEGRATE | Does not simulate every infrastructure failure |
+| D12 Static Observatory sidecar | Open the exact deployed Observatory revision over HTTPS and connect it to the Runtime over WSS | OBS-S3 | Proves one bounded static edge deployment, not customer-scale or multi-tenant hosting |
+| D13 ADR traceability | Select milestone decisions and trace each ADR to sources, alternatives, consequences, status, owner, and supersession | ARCH-ADR | Does not accept a candidate ADR or prove its implementation |
 
 ## Existing issue demonstrations
 
 | Demo | Owner | Proof | Non-claim |
 |---|---|---|---|
-| D12 Canonical peer addressing predecessor | v0.92.1 #718 | Consume reviewed merged proof that two ordinary agents exchange governed model-generated replies by canonical name | Do not rerun or recreate #718 as v0.92.2 work |
-| D13 Capability orientation predecessor | v0.92.1 #717 | Consume reviewed merged proof that an admitted test agent receives the capability map and exact receipt before first turn | Orientation grants no authority; do not recreate #717 |
-| D14 Live-only Observatory | #720 | Startup/navigation cannot expose retained historical telemetry as live | Historical evidence remains intact |
+| D14 Canonical peer addressing predecessor | v0.92.1 #718 | Consume reviewed merged proof that two ordinary agents exchange governed model-generated replies by canonical name | Do not rerun or recreate #718 as v0.92.2 work |
+| D15 Capability orientation predecessor | v0.92.1 #717 | Consume reviewed merged proof that an admitted test agent receives the capability map and exact receipt before first turn | Orientation grants no authority; do not recreate #717 |
+| D16 Live-only Observatory | #720 | Startup/navigation cannot expose retained historical telemetry as live | Historical evidence remains intact |

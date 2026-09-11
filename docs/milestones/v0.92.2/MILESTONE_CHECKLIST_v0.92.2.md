@@ -22,6 +22,8 @@ Status: planned.
 - [ ] Human publication controls complete
 - [ ] Markdown, HTML, and PDF outputs complete
 - [ ] Documentation, examples, and fixtures complete
+- [ ] Static Observatory sidecar deployed and verified from the existing #679/PR #685 Terraform design
+- [ ] Required milestone ADR set generated, source-grounded, status-explicit, and reconciled
 
 ## Proof
 
@@ -48,9 +50,9 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
-- [ ] All 43 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
-- [ ] All 43 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
-- [ ] The denominator contains the original 30 rows, newly admitted PLAT-PAIR and OPS-GCP, ten SIM rows, and reused #720 exactly once; #717/#718 remain predecessor inputs rather than extra rows
+- [ ] All 45 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 45 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] The denominator contains the prior 43 rows plus OBS-S3 and ARCH-ADR; reused #720 appears exactly once and #717/#718 remain predecessor inputs rather than extra rows
 - [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
@@ -64,6 +66,7 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] Every newly discovered active source is admitted, completed provenance, routed to an existing issue or milestone, or explicitly backlog/deferred
 - [ ] Polis Music Studio remains a visible unadmitted candidate unless separately authorized
 - [ ] PLAT-PAIR and OPS-GCP retain their admitted source paths, bounded outcomes, and non-goals
+- [ ] OBS-S3 remains a bounded static deployment of #679/PR #685 rather than customer-scale hosting, and ARCH-ADR does not silently accept candidate decisions
 - [ ] v0.92.1 cloud plans remain existing-work/provenance inputs rather than duplicate successor rows
 - [ ] Runtime v4 remains routed to v0.93
 - [ ] No evidence packet, review output, or local concept silently expands the v0.92.2 denominator

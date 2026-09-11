@@ -30,3 +30,5 @@ The result is `pass`, `fail`, or `not proven`. Partial success is recorded by tr
 ## Freshness and convergence
 
 A remediation changing the candidate or published claims invalidates affected review/proof/manifests. Record new candidate and manifest digests, rerun affected lanes, and refresh internal/external review before the release decision. All admitted supporting and existing issues converge here, rather than gating early product integration.
+
+Supporting-track convergence includes OBS-S3 deployment evidence from the Agent Logic business AWS account and the ARCH-ADR inventory/status/supersession record. Neither track may be inferred from product CI: missing authenticated deployment proof or an unresolved required architecture decision remains a milestone-quality failure, while neither track gates CF-INTEGRATE itself.

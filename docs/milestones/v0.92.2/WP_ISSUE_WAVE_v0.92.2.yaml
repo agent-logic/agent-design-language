@@ -29,6 +29,8 @@ atomic_results:
   PLAT-MEMORY: production_memory_palace_consumer
   SPEC-RETEST: speculative_decoding_disposition
   OBS-LIVE: live_only_observatory
+  OBS-S3: deployed_observatory_static_edge
+  ARCH-ADR: milestone_architecture_decision_set
   SIM-UMBRELLA: simplification_sprint_scorecard
   SIM-01: non_mutating_diagnostic_baseline
   SIM-02: installed_command_contract
@@ -217,6 +219,21 @@ work_packages:
     creation_policy: reuse_existing
     deliverables: [live_only_controls, retained_polling_isolation, obsolete_assignment_removal]
     proof: [live_startup_navigation, no_retained_routes_or_timer, historical_evidence_preserved]
+  - id: OBS-S3
+    lane: observatory_deployment_sidecar
+    title: Deploy the existing Observatory S3 and CloudFront sidecar
+    issue: null
+    depends_on: [WP-01, OBS-LIVE]
+    external_dependencies: [completed-v0.92.1-issue-679, merged-v0.92.1-pr-685]
+    deliverables: [deployed_observatory_static_edge]
+    proof: [terraform_plan_and_apply, authenticated_aws_readback, browser_https_and_runtime_wss, rollback_and_cost_record]
+  - id: ARCH-ADR
+    lane: architecture_decisions
+    title: Generate and reconcile the ADRs required by v0.92.2
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [milestone_architecture_decision_set]
+    proof: [decision_inventory, source_traceability, adr_structure_validation, supersession_and_status_check]
   - id: SIM-UMBRELLA
     lane: "csdlc_simplification_sprint"
     title: "Coordinate the first C-SDLC simplification sprint"
@@ -312,7 +329,7 @@ work_packages:
     lane: release_tail
     title: Quality gate
     issue: null
-    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, SIM-UMBRELLA]
+    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, OBS-S3, ARCH-ADR, SIM-UMBRELLA]
     deliverables: [milestone_quality_decision]
     proof: [denominator_reconciliation, quality_gate_validation]
   - id: TAIL-02

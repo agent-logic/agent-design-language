@@ -37,6 +37,8 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 21 | PLAT-MEMORY | Bounded Memory Palace production integration | After CF-EVIDENCE and CF-MEMORY |
 | 22 | SPEC-RETEST | Speculative-decoding requalification | After WP-01 |
 | 22c | OBS-LIVE (#720) | Remove retained-mode live demo hazards | Reuse existing #720; independent of CodeFriend build |
+| 22d | OBS-S3 | Deploy the existing Observatory S3 and CloudFront sidecar | After WP-01 and OBS-LIVE; consume completed #679 / merged PR #685 |
+| 22e | ARCH-ADR | Generate and reconcile the ADRs required by v0.92.2 | After WP-01; operator acceptance remains explicit |
 | 23 | TAIL-01 | Quality gate | After CF-INTEGRATE and all admitted supporting tracks |
 | 24 | TAIL-02 | Documentation review and external-review handoff | After TAIL-01 |
 | 25 | TAIL-03 | Publication finalization | After TAIL-02 |
@@ -48,10 +50,10 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 31 | TAIL-09 | Next-milestone planning review | After TAIL-08 |
 | 32 | TAIL-10 | Release ceremony and milestone close | After TAIL-09 |
 
-WP-01 reuses existing #720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. Closed merged #717/#718 are consumed here as v0.92.1 predecessor capabilities. Other backlog is excluded. CodeFriend new-wave creation retains its prior-milestone closure gate. The operator-selected SIM sprint can launch first through its dedicated authority and own readiness, without WP-01 or unrelated closeout. Creating its ten issue identities is a separate launch operation; #523 creates none.
+WP-01 reuses existing #720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. This includes one issue for the `OBS-S3` deployment sidecar and one for the `ARCH-ADR` work package; neither is created by #525. Closed merged #717/#718 are consumed here as v0.92.1 predecessor capabilities. Other backlog is excluded. CodeFriend new-wave creation retains its prior-milestone closure gate. The operator-selected SIM sprint can launch first through its dedicated authority and own readiness, without WP-01 or unrelated closeout. Creating its ten issue identities is a separate launch operation; #525 creates none.
 
 Each catalog row owns one primary result. Lists of supporting artifacts or proof do not authorize additional independently valuable work; WP-01 must split any row whose execution contract cannot preserve that boundary before creating its issue.
 
 ## Deferred, Not Missing
 
-Jira, Linear, Slack, broad Workspace integrations, autonomous mutation, public customer-scale deployment, security tournaments, ATE, OCI packaging, optional OpenRewrite/modernization, and Runtime v4 are intentionally outside this catalog. NVIDIA PAIR and GCP move-in residuals are admitted only through `PLAT-PAIR` and `OPS-GCP`.
+Jira, Linear, Slack, broad Workspace integrations, autonomous mutation, public customer-scale or multi-tenant deployment, security tournaments, ATE, OCI packaging, optional OpenRewrite/modernization, and Runtime v4 are intentionally outside this catalog. The bounded static Observatory sidecar is admitted only through `OBS-S3`; NVIDIA PAIR and GCP move-in residuals are admitted only through `PLAT-PAIR` and `OPS-GCP`.

@@ -29,5 +29,7 @@ None of these decisions claims implementation, review approval, or release readi
 - CF-D18: Independent supporting work converges at the milestone quality gate; only actual product prerequisites block integration.
 - CF-D19: The operator admitted the bounded NVIDIA PAIR experiment as PLAT-PAIR after PLAT-PROVIDER; it is an experiment with a retained decision, not a production-provider claim.
 - CF-D20: The operator admitted the company GCP move-in reconciliation as OPS-GCP after WP-01; it is read-only planning and inventory work that consumes merged v0.92.1 foundations and does not repeat six-resident qualification or authorize cloud mutation.
+- CF-D21: The operator admitted OBS-S3 as a non-product-gating deployment sidecar. It consumes the completed #679/merged PR #685 Terraform design, waits for OBS-LIVE, uses the Agent Logic business AWS account, and does not authorize customer-scale hosting or an apply during #525.
+- CF-D22: The operator admitted ARCH-ADR as a distinct milestone work package. WP-01 creates its issue; it generates and reconciles the ADR set needed by v0.92.2 without implementing decisions or treating candidate prose as accepted authority.
 
-These corrections do not accept ADRs, create issues, approve Beta implementation, or complete #524/#525.
+These corrections do not accept ADRs, create issues, apply cloud infrastructure, approve Beta implementation, or complete #524/#525.
