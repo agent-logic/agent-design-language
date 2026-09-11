@@ -12,7 +12,7 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
   "timestamp": "2026-09-11T21:51:25.506803+00:00",
   "slug": "v0922-wp01",
-  "status": "in_progress",
+  "status": "complete",
   "activation_state": "executed",
   "initial_pvf_lane": "docs",
   "planned_pvf_lane": "docs",
@@ -38,12 +38,12 @@
   "repo_inputs_inline": "planning package and authenticated GitHub issue readback",
   "deliverables_inline": "69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.",
   "acceptance_criteria_inline": "Both required completion edges and acceptance obligations are validator-enforced; regression mutations fail; tracked review records actual reviewer and revision without stale pending status; current independent review before publication.",
-  "notes_risks_inline": "Operator review supersedes prior PASS at 3fc16781. Preserve 69 tasks and all seven planning tasks; no merge or child creation.",
+  "notes_risks_inline": "P1 remediation independently reviewed at 9de70e4e064076487379a11a98af087fa8ba484c; P2 records that completed review through native editing. Final tip review and publication receipts bind the subsequent card-recording revision. Concrete per-task selections remain before-child-creation gates.",
   "validation_plan_inline": "validate_planning.py --self-test; native validate; diff check; semantic and docs subagents.",
   "risks_inline": "stale denominator or duplicate issue binding",
   "step_1_status": "complete",
   "step_2_status": "complete",
   "step_3_status": "complete",
-  "step_4_status": "in_progress",
-  "step_5_status": "pending"
+  "step_4_status": "complete",
+  "step_5_status": "in_progress"
 }

@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Status: implementation_complete_pending_exact_review
+Status: reviewed_implementation
 Generated: 2026-09-11T21:51:25.506803+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Split eight bundles into 69 complete tasks (nine existing, 60 prospective), tightened eleven contracts, updated all active planning docs and reconciled four existing issue bodies via native v3.
+Preserved the 69-task planning wave and corrected both review findings: validator-enforced OBS-S3/ARCH-ADR final completion gates and native tracked review truth.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs`
@@ -57,7 +57,7 @@ Split eight bundles into 69 complete tasks (nine existing, 60 prospective), tigh
 - Goal metrics source ref: `Planning #1.1 issue-864 goal; no final timing or usage snapshot recorded.`
 - Data-source confidence: `not_collected`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed_revision_pending_publication`
+- Completion state: `reviewed_implementation_handoff`
 - Issue goal ref: `issue-864-reconciliation-goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -76,22 +76,22 @@ Split eight bundles into 69 complete tasks (nine existing, 60 prospective), tigh
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/864/cards/sor.md`
 - Tracked implementation artifacts: `docs/milestones/v0.92.2 planning projections and validator`
-- Additional proof artifacts: `.csdlc/evidence/864/task-scope-revision; atomic-task manifest and independent reviews`
+- Additional proof artifacts: `.csdlc/evidence/864/review-remediation; native typed exact-tip receipt under resolved Git csdlc-v3/reviews/864; atomic manifest and 89-case validator`
 
 ## Actions taken
-- `Split eight families while retaining all previous requirements and nine existing issue identities.`
-- `Tightened eleven complete-result contracts and reconciled all active planning documents using subagents.`
-- `Reconciled existing issue scopes through native v3 with authenticated readbacks; no child created.`
+- `Added both final completion dependencies and acceptance obligations in wave/specification with enforced projection parity.`
+- `Reconciled affected planning projections and added 14 fail-closed regression fixtures.`
+- `Recorded operator FAIL and corrected implementation PASS through native review card editing.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `current #864 correction`
 - Integration state: `pr_open`
 - Verification scope: `planning contracts only`
-- Integration method used: `existing PR #865; exact revision update follows review`
+- Integration method used: `Existing PR #865; reviewed correction publication uses native GitHub route.`
 - Verification performed:
-  - `native github-issue authenticated reconciliation and exact body readback; final PR update remains pending`
-    `#852/#855/#862/#864 scope readbacks match reviewed bodies`
+  - `native github-pr authenticated reconciliation and native publish --observe-github for the final reviewed tip`
+    `PR #865 was observed open on main base at 3fc16781 before correction. Final-tip publication and CI evidence is recorded separately after this source-time record.`
 - Result: `open_unmerged`
 
 Rules:
@@ -108,7 +108,7 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check`
-    `75 negative planning fixtures, current six-card validation and diff hygiene passed; semantic/docs subagents passed precommit review.`
+    `89 negative planning fixtures and diff hygiene passed. Native six-card validation passed at generation 9 before this result recording; final card validation is required for this native edit. Independent implementation review passed at 9de70e4e064076487379a11a98af087fa8ba484c.`
 - Results:
   - `passed`
 
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `75 negative planning mutations rejected`
+- Determinism tests executed: `89 negative planning mutations rejected, including 14 final-completion regression cases.`
 - Fixtures or scripts used: `validate_planning.py negative fixtures`
 - Replay verification (same inputs -> same artifacts/order): `repeatable local CPU validation`
-- Ordering guarantees (sorting / tie-break rules used): `TAIL-01 through TAIL-10 preserved in exact sequence`
-- Artifact stability notes: `This committed SOR is prepublication evidence; final exact-head review and publication receipts are retained by the native remote owner.`
+- Ordering guarantees (sorting / tie-break rules used): `Ten-step tail sequence preserved; TAIL-10 additionally requires OBS-S3 and ARCH-ADR acceptance completion.`
+- Artifact stability notes: `The tracked SRP records completed implementation review at 9de70e4e064076487379a11a98af087fa8ba484c. The subsequent card-only commit receives independent exact-tip review and a native typed receipt outside tracked source to avoid self-reference.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable; no secrets handled`
@@ -174,5 +174,5 @@ verification_summary:
 - `The cited TBD split-plan path is absent and remains #848 recovery work.`
 
 ## Follow-ups / Deferred work
-- `Exact-head review and update PR #865; stop before merge or child creation.`
+- `Verify the card-recording commit at its exact tip, then publish the reviewed correction to PR #865 for operator review.`
 - `No child creation, merge, milestone close or implementation execution authorized by this result.`

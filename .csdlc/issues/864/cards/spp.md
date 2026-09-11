@@ -10,7 +10,7 @@ title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execut
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
 card_status: "ready"
-status: "in_progress"
+status: "complete"
 activation_state: "executed"
 plan_revision: 1
 initial_pvf_lane: "docs"
@@ -80,9 +80,9 @@ codex_plan:
   - step: "Implement the bounded deliverables only."
     status: "complete"
   - step: "Run focused validation and proof gates."
-    status: "in_progress"
+    status: "complete"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "v0922-wp01"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Operator review supersedes prior PASS at 3fc16781. Preserve 69 tasks and all seven planning tasks; no merge or child creation."
+notes: "P1 remediation independently reviewed at 9de70e4e064076487379a11a98af087fa8ba484c; P2 records that completed review through native editing. Final tip review and publication receipts bind the subsequent card-recording revision. Concrete per-task selections remain before-child-creation gates."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -145,8 +145,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 1. [complete] Confirm dependencies and starting state from the source issue prompt.
 2. [complete] Inspect repo inputs and target surfaces before editing.
 3. [complete] Implement the bounded deliverables only.
-4. [in_progress] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+4. [complete] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Operator review supersedes prior PASS at 3fc16781. Preserve 69 tasks and all seven planning tasks; no merge or child creation.
+P1 remediation independently reviewed at 9de70e4e064076487379a11a98af087fa8ba484c; P2 records that completed review through native editing. Final tip review and publication receipts bind the subsequent card-recording revision. Concrete per-task selections remain before-child-creation gates.

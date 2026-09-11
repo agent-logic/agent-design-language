@@ -7,7 +7,7 @@
   "branch": "codex/864-v0922-wp01",
   "version": "1.0.5",
   "card": "srp",
-  "card_status": "blocked",
+  "card_status": "completed",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
   "timestamp": "2026-09-11T21:51:25.506803+00:00",
@@ -17,9 +17,9 @@
   "spp_card": ".csdlc/issues/864/cards/spp.md",
   "vpp_card": ".csdlc/issues/864/cards/vpp.md",
   "sor_card": ".csdlc/issues/864/cards/sor.md",
-  "findings_status": "changes_required",
-  "recommended_outcome": "block",
-  "review_findings": "Operator exact-head review of 3fc16781e3779bca99866693aa37169d385a0233 found P1: TAIL-10 can bypass required OBS-S3/ARCH-ADR work; P2: tracked SRP still says exact-head review pending. This supersedes the earlier no-findings review of that revision.",
-  "review_dispositions": "Both findings accepted for correction in issue #864. No merge or child creation permitted by this remediation.",
-  "review_notes": "Prior /root/task_contract_review PASS at 3fc16781 was followed by the operator FAIL on the same revision. Preserve both events; review the corrected implementation before recording a new PASS."
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "/root/task_contract_review completed independent implementation review at 9de70e4e064076487379a11a98af087fa8ba484c: PASS, no actionable findings. Operator FAIL at 3fc16781e3779bca99866693aa37169d385a0233 superseded the earlier PASS at that revision and is retained as the source of this remediation.",
+  "review_dispositions": "P1 corrected: TAIL-10 explicitly depends on OBS-S3 and ARCH-ADR and requires their own acceptance completion; 14 added negative cases reject weakened edges, criteria and projections. P2 corrected: this native-rendered SRP records the completed review, reviewer and exact implementation revision with no_findings/pass; the obsolete pending state is removed.",
+  "review_notes": "Reviewed implementation revision: 9de70e4e064076487379a11a98af087fa8ba484c. Reviewer: /root/task_contract_review. 89 negative fixtures and diff hygiene passed. This subsequent card-only recording commit does not claim its own self-referential SHA; a separate exact-tip review and typed receipt bind the published head. No merge, release approval or child creation is implied."
 }

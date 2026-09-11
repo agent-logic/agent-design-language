@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
-card_status: "blocked"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/864/cards/sip.md"
   - ".csdlc/issues/864/cards/vpp.md"
 review_results:
-  findings_status: "changes_required"
-  recommended_outcome: "block"
-notes: "Prior /root/task_contract_review PASS at 3fc16781 was followed by the operator FAIL on the same revision. Preserve both events; review the corrected implementation before recording a new PASS."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Reviewed implementation revision: 9de70e4e064076487379a11a98af087fa8ba484c. Reviewer: /root/task_contract_review. 89 negative fixtures and diff hygiene passed. This subsequent card-only recording commit does not claim its own self-referential SHA; a separate exact-tip review and typed receipt bind the published head. No merge, release approval or child creation is implied."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Operator exact-head review of 3fc16781e3779bca99866693aa37169d385a0233 found P1: TAIL-10 can bypass required OBS-S3/ARCH-ADR work; P2: tracked SRP still says exact-head review pending. This supersedes the earlier no-findings review of that revision.
+- /root/task_contract_review completed independent implementation review at 9de70e4e064076487379a11a98af087fa8ba484c: PASS, no actionable findings. Operator FAIL at 3fc16781e3779bca99866693aa37169d385a0233 superseded the earlier PASS at that revision and is retained as the source of this remediation.
 
 ### Dispositions
 
-- Both findings accepted for correction in issue #864. No merge or child creation permitted by this remediation.
+- P1 corrected: TAIL-10 explicitly depends on OBS-S3 and ARCH-ADR and requires their own acceptance completion; 14 added negative cases reject weakened edges, criteria and projections. P2 corrected: this native-rendered SRP records the completed review, reviewer and exact implementation revision with no_findings/pass; the obsolete pending state is removed.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 
-Prior /root/task_contract_review PASS at 3fc16781 was followed by the operator FAIL on the same revision. Preserve both events; review the corrected implementation before recording a new PASS.
+Reviewed implementation revision: 9de70e4e064076487379a11a98af087fa8ba484c. Reviewer: /root/task_contract_review. 89 negative fixtures and diff hygiene passed. This subsequent card-only recording commit does not claim its own self-referential SHA; a separate exact-tip review and typed receipt bind the published head. No merge, release approval or child creation is implied.
