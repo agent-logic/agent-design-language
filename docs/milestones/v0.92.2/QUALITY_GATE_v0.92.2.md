@@ -29,4 +29,6 @@ The result is `pass`, `fail`, or `not proven`. Partial success is recorded by tr
 
 ## Freshness and convergence
 
-A remediation changing the candidate or published claims invalidates affected review/proof/manifests. Record new candidate and manifest digests, rerun affected lanes, and refresh internal/external review before the release decision. All admitted supporting and existing issues converge here, rather than gating early product integration.
+A remediation changing the candidate or published claims invalidates affected review/proof/manifests. Record new candidate and manifest digests, rerun affected lanes, and refresh internal/external review before the release decision. The declared release-gating supporting and existing issues converge here, rather than gating early product integration.
+
+OBS-S3 and ARCH-ADR are required, independently deliverable milestone issues with their own acceptance. They are not closeout-tail dependencies and may not be inferred from product CI: OBS-S3 cannot close without authenticated deployment proof, and ARCH-ADR cannot close without its source-grounded decision inventory and status/supersession record. Neither blocks CF-INTEGRATE or TAIL-01.

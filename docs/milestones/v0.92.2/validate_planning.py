@@ -12,9 +12,87 @@ import re
 import subprocess
 
 
+REQUIRED_OBS_S3_ACCEPTANCE = {
+    "agent_logic_admin_profile_resolves_business_account",
+    "terraform_plan_reviewed_before_apply",
+    "private_s3_origin_uses_oac",
+    "cloudfront_acm_route53_converged",
+    "access_logging_configured",
+    "security_headers_configured",
+    "exact_observatory_revision_deployed",
+    "cache_invalidation_completed",
+    "browser_https_and_runtime_wss_pass",
+    "rollback_and_cost_recorded",
+}
+
+
 def read_yaml(path):
     script = "require 'yaml'; require 'json'; puts JSON.generate(YAML.safe_load(File.read(ARGV[0]), aliases: false))"
     return json.loads(subprocess.check_output(["ruby", "-e", script, str(path)], text=True))
+
+
+def markdown_table_column(path, column):
+    values = []
+    for line in path.read_text().splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if len(cells) <= column or cells[column].startswith(("---", ":--")):
+            continue
+        values.append(cells[column])
+    return values
+
+
+def markdown_table_rows(path):
+    rows = []
+    for line in path.read_text().splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if not cells or all(cell.startswith(("---", ":--")) for cell in cells):
+            continue
+        rows.append(cells)
+    return rows
+
+
+def normalized_planned_id(value):
+    return re.sub(r"\s+\(#\d+\)$", "", value)
+
+
+def projected_dependency_ids(text, expected_ids):
+    return {
+        planned_id
+        for planned_id in expected_ids
+        if re.search(rf"(?<![A-Z0-9-]){re.escape(planned_id)}(?![A-Z0-9-])", text)
+    }
+
+
+def projection_failures(catalog_rows, wbs_rows, expected_ids, wave_by_id):
+    failures = []
+    catalog_ids = [normalized_planned_id(row[1]) for row in catalog_rows if len(row) > 3 and row[1] != "Planned ID"]
+    if len(catalog_ids) != len(set(catalog_ids)):
+        failures.append("Planned issue catalog contains duplicate identifiers")
+    if set(catalog_ids) != expected_ids:
+        failures.append("Planned issue catalog and issue wave identifiers differ")
+
+    raw_wbs_ids = [normalized_planned_id(row[0]) for row in wbs_rows if len(row) > 3 and row[0] != "WP"]
+    if len(raw_wbs_ids) != len(set(raw_wbs_ids)):
+        failures.append("WBS contains duplicate identifiers")
+    expanded_wbs_ids = set(raw_wbs_ids)
+    if "TAIL-01..10" in expanded_wbs_ids:
+        expanded_wbs_ids.remove("TAIL-01..10")
+        expanded_wbs_ids.update(f"TAIL-{n:02}" for n in range(1, 11))
+    if expanded_wbs_ids != expected_ids:
+        failures.append("WBS and issue wave identifiers differ")
+
+    expected_obs_dependencies = set(wave_by_id["OBS-S3"]["depends_on"])
+    catalog_obs = [row for row in catalog_rows if len(row) > 3 and normalized_planned_id(row[1]) == "OBS-S3"]
+    wbs_obs = [row for row in wbs_rows if len(row) > 3 and normalized_planned_id(row[0]) == "OBS-S3"]
+    if len(catalog_obs) != 1 or projected_dependency_ids(catalog_obs[0][3], expected_ids) != expected_obs_dependencies:
+        failures.append("OBS-S3 catalog dependencies differ from the issue wave")
+    if len(wbs_obs) != 1 or projected_dependency_ids(wbs_obs[0][3], expected_ids) != expected_obs_dependencies:
+        failures.append("OBS-S3 WBS dependencies differ from the issue wave")
+    return failures
 
 
 def check(wave, specs, source_manifest=None, reconciliation=None):
@@ -25,8 +103,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 43 or len(set(ids)) != 43:
-        failures.append("Expected 43 unique work packages")
+    if len(ids) != 45 or len(set(ids)) != 45:
+        failures.append("Expected 45 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
     atomic_results = wave.get("atomic_results", {})
@@ -104,11 +182,27 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("PLAT-PAIR must consume the canonical provider-definition contract")
     if by_id.get("OPS-GCP", {}).get("depends_on") != ["WP-01"]:
         failures.append("OPS-GCP must remain a separately owned post-opening foundation track")
+    if by_id.get("OBS-S3", {}).get("depends_on") != ["WP-01", "OBS-LIVE"]:
+        failures.append("OBS-S3 must wait for issue creation and the live Observatory baseline")
+    if by_id.get("OBS-S3", {}).get("issue") is not None:
+        failures.append("OBS-S3 must remain unassigned until WP-01 creates its issue")
+    if set(by_id.get("OBS-S3", {}).get("external_dependencies", [])) != {"completed-v0.92.1-issue-679", "merged-v0.92.1-pr-685"}:
+        failures.append("OBS-S3 must consume completed #679 and merged PR #685")
+    if by_id.get("ARCH-ADR", {}).get("depends_on") != ["WP-01"]:
+        failures.append("ARCH-ADR must remain a post-opening milestone work package")
+    if by_id.get("ARCH-ADR", {}).get("issue") is not None:
+        failures.append("ARCH-ADR must remain unassigned until WP-01 creates its issue")
     if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
         failures.append("OPS-AWS title lost its complete #484-bound atomic result")
     support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
     if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
+    additional = {"OBS-S3", "ARCH-ADR"}
+    if additional & set(by_id["CF-INTEGRATE"]["depends_on"]) or additional & set(by_id["TAIL-01"]["depends_on"]):
+        failures.append("OBS-S3 and ARCH-ADR must not gate product integration or the release tail")
+    obs_s3_acceptance = set(spec_by_id.get("OBS-S3", {}).get("acceptance", []))
+    if not REQUIRED_OBS_S3_ACCEPTANCE <= obs_s3_acceptance:
+        failures.append("OBS-S3 lost one or more required deployment acceptance obligations")
     obligations = {
         "CF-EVIDENCE": {"finding_run_contract_merged_before_consumers"},
         "CF-REVIEW": {"isolated_pre_synthesis_inputs", "disagreement_preserved"},
@@ -156,6 +250,22 @@ def negative_checks(wave, specs, source_manifest, reconciliation):
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].remove("SIM-UMBRELLA")
     cases.append(("SIM result omitted from milestone convergence", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "OBS-S3")["depends_on"] = ["WP-01"]
+    cases.append(("Observatory deployment loses live baseline", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].append("OBS-S3")
+    cases.append(("Observatory deployment gates release tail", broken, specs))
+    for obligation in sorted(REQUIRED_OBS_S3_ACCEPTANCE):
+        broken = copy.deepcopy(specs)
+        next(r for r in broken["specifications"] if r["id"] == "OBS-S3")["acceptance"].remove(obligation)
+        cases.append((f"Observatory deployment loses {obligation}", wave, broken))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "ARCH-ADR")["issue"] = 999998
+    cases.append(("ADR work package assigned before WP-01", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].append("ARCH-ADR")
+    cases.append(("ADR issue is folded into release tail", broken, specs))
     missed = [name for name, w, s in cases if not check(w, s, source_manifest, reconciliation)]
     admitted = next(
         row["planning_source"]
@@ -183,6 +293,21 @@ def main():
     }
     reconciliation = (root / "TBD_SCHEDULING_RECONCILIATION_v0.92.2.md").read_text()
     failures = check(wave, specs, source_manifest, reconciliation)
+    expected_ids = {row["id"] for row in wave["work_packages"]}
+    catalog_rows = markdown_table_rows(root / "PLANNED_ISSUE_CATALOG_v0.92.2.md")
+    wbs_rows = markdown_table_rows(root / "WBS_v0.92.2.md")
+    failures.extend(projection_failures(catalog_rows, wbs_rows, expected_ids, {row["id"]: row for row in wave["work_packages"]}))
+    coverage = (root / "FEATURE_PROOF_COVERAGE_v0.92.2.md").read_text()
+    supporting = (root / "features/SUPPORTING_PLATFORM_TRACKS_v0.92.2.md").read_text()
+    adr_plan = (root / "ADR_PLAN_v0.92.2.md").read_text()
+    readme = (root / "README.md").read_text()
+    for required in ("OBS-S3", "ARCH-ADR"):
+        if required not in coverage or required not in supporting:
+            failures.append(f"{required} missing from proof or supporting-track projection")
+    if "owned by the `ARCH-ADR` work package" not in adr_plan:
+        failures.append("ADR plan is not explicitly owned by ARCH-ADR")
+    if "complete work denominator is 45 rows" not in readme:
+        failures.append("README denominator does not match the 45-row issue wave")
     for path in root.rglob("*.md"):
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http:", "https:", "#")):
@@ -199,6 +324,23 @@ def main():
     if args.self_test:
         missed, rejected = negative_checks(wave, specs, source_manifest, reconciliation)
         failures.extend("Negative fixture not rejected: " + x for x in missed)
+        projection_cases = []
+        broken_catalog = copy.deepcopy(catalog_rows)
+        broken_catalog.append(copy.deepcopy(next(row for row in catalog_rows if len(row) > 3 and normalized_planned_id(row[1]) == "OBS-S3")))
+        projection_cases.append(("duplicate catalog row", broken_catalog, wbs_rows))
+        broken_wbs = copy.deepcopy(wbs_rows)
+        broken_wbs.append(copy.deepcopy(next(row for row in wbs_rows if len(row) > 3 and normalized_planned_id(row[0]) == "OBS-S3")))
+        projection_cases.append(("duplicate WBS row", catalog_rows, broken_wbs))
+        broken_wbs = copy.deepcopy(wbs_rows)
+        next(row for row in broken_wbs if len(row) > 3 and normalized_planned_id(row[0]) == "OBS-S3")[3] = "WP-01; completed #679 / merged PR #685"
+        projection_cases.append(("WBS bypasses OBS-LIVE", catalog_rows, broken_wbs))
+        broken_catalog = copy.deepcopy(catalog_rows)
+        next(row for row in broken_catalog if len(row) > 3 and normalized_planned_id(row[1]) == "OBS-S3")[3] = "After WP-01; consume completed #679 / merged PR #685"
+        projection_cases.append(("catalog bypasses OBS-LIVE", broken_catalog, wbs_rows))
+        for name, catalog_case, wbs_case in projection_cases:
+            if not projection_failures(catalog_case, wbs_case, expected_ids, {row["id"]: row for row in wave["work_packages"]}):
+                failures.append("Negative fixture not rejected: " + name)
+        rejected += len(projection_cases)
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
                       "existing_issues": [720], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))

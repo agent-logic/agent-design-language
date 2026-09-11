@@ -21,7 +21,7 @@ CodeFriend Beta 1 provides a governed repository-review product with portable in
 
 ## Not Included
 
-The release is not planned to include Jira, Linear, Slack, broad Workspace integration, autonomous source mutation, public customer-scale hosting, security tournaments, ATE, OCI model packaging, optional general modernization, or Runtime v4. MLX/Metal support is bounded to the admitted provider-platform track and does not imply broad platform coverage.
+The release is not planned to include Jira, Linear, Slack, broad Workspace integration, autonomous source mutation, public customer-scale or multi-tenant hosting, security tournaments, ATE, OCI model packaging, optional general modernization, or Runtime v4. MLX/Metal support is bounded to the admitted provider-platform track and does not imply broad platform coverage. The admitted Observatory hosting work is one static edge sidecar based on #679/PR #685; it does not expand the product into a hosted customer platform. Required milestone ADRs are generated and reconciled through ARCH-ADR, with acceptance remaining explicit.
 
 ## Evidence Note
 
