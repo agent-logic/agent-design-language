@@ -25,16 +25,15 @@ The supported adapter surface is intentionally copy-only:
 
 - supported adapter action:
   - `adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]`
-- canonical C-SDLC v2 control-plane mapping:
-  - `csdlc-install resolve`
-  - `csdlc-issue --root <repo> create --request <bootstrap-request.json>`
-  - `csdlc-doctor --repo <repo> --issue <issue>`
-  - `csdlc-bind --root <worktree> --request <bind-request.json>`
-  - `csdlc-validate --root <worktree> finalize --request <finalize-request.json>`
-  - `csdlc-review record --request <review-request.json>`
-  - `csdlc-publish publish --request <publication-request.json>`
-  - `csdlc-finish --root <worktree> --request <finish-request.json>`
-  - `csdlc-clean cleanup --root <worktree> --request <cleanup-request.json>`
+- canonical native C-SDLC v3 control-plane mapping:
+  - `csdlc issue --request <request.json> --registry <registry.json> --registrations <registrations.json>`
+  - `csdlc doctor --request <request.json> --registry <registry.json> --registrations <registrations.json>`
+  - `csdlc bind --request <request.json> --registry <registry.json> --registrations <registrations.json>`
+  - `csdlc validate --request <request.json> --registry <registry.json> --registrations <registrations.json>`
+  - `csdlc review --request <review-request.json>`
+  - `csdlc publish --request <publication-request.json>`
+  - `csdlc finish --request <finish-request.json>`
+  - `csdlc clean --request <cleanup-request.json>`
 - adapter mode:
   - browser-prepared, human-run command handoff
 
@@ -47,15 +46,15 @@ The browser/editor may:
 
 The browser/editor may not claim direct browser invocation of:
 
-- `csdlc-issue create`
-- `csdlc-doctor`
-- `csdlc-bind`
-- `csdlc-validate`
-- `csdlc-review`
-- `csdlc-publish`
-- `csdlc-shepherd`
-- `csdlc-finish`
-- `csdlc-clean`
+- `csdlc issue`
+- `csdlc doctor`
+- `csdlc bind`
+- `csdlc validate`
+- `csdlc review`
+- `csdlc publish`
+- `csdlc shepherd`
+- `csdlc finish`
+- `csdlc clean`
 
 Those commands exist in the repo control plane and related operational skills. They are not browser-direct actions.
 
@@ -68,21 +67,21 @@ That means:
 - browser code should not recreate lifecycle behavior in JavaScript
 - browser code should not imply hidden direct execution paths
 - browser docs should distinguish implemented repo commands from browser-prepared command handoff
-- editor output should remain compatible with the typed C-SDLC v2 operator skills and the card editor route
+- editor output should remain compatible with native C-SDLC v3 and the card editor route
 
 ## Truth Table
 
 | Lifecycle command | Exists in repo | Browser-direct adapter support | Truthful editor status |
 | --- | --- | --- | --- |
-| `csdlc-issue create` | yes | no | copy-only prepared handoff |
-| `csdlc-doctor` | yes | no | copy-only prepared handoff |
-| `csdlc-bind` | yes | no | copy-only prepared handoff |
-| `csdlc-validate finalize` | yes | no | copy-only prepared handoff |
-| `csdlc-review record` | yes | no | copy-only prepared handoff |
-| `csdlc-publish publish` | yes | no | copy-only prepared handoff |
-| `csdlc-shepherd` | yes | no | out of browser scope |
-| `csdlc-finish` | yes | no | terminal observation handoff |
-| `csdlc-clean cleanup` | yes | no | post-terminal cleanup handoff |
+| `csdlc issue` | yes | no | copy-only prepared handoff |
+| `csdlc doctor` | yes | no | copy-only prepared handoff |
+| `csdlc bind` | yes | no | copy-only prepared handoff |
+| `csdlc validate` | yes | no | copy-only prepared handoff |
+| `csdlc review` | yes | no | copy-only prepared handoff |
+| `csdlc publish` | yes | no | copy-only prepared handoff |
+| `csdlc shepherd` | yes | no | out of browser scope |
+| `csdlc finish` | yes | no | terminal observation handoff |
+| `csdlc clean` | yes | no | post-terminal cleanup handoff |
 
 ## Proof Surface
 

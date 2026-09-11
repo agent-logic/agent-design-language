@@ -11,8 +11,8 @@ The goal of this directory is to make ADL’s tooling surfaces understandable an
 - Structured prompt contracts: `structured-prompt-contracts.md`
 - Session coordination and root checkout policy:
   `SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md`
-- Claim-free C-SDLC v2 issue creation and binding:
-  `C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md`
+- [Current subsystem boot paths](ACTIVE_BOOT_PATHS.md), including the sole
+  ordinary native v3 lifecycle entrypoint and retained rollback boundary
 - Default contributor workflow: `../default_workflow.md`
 - Editor and authoring proof surfaces: `editor/README.md`
 - Root project overview: `../README.md`
@@ -113,12 +113,11 @@ These docs describe worktree governance, large-module tracking, and related main
 
 Important repo-local tooling surfaces include:
 
-- `csdlc-doctor` — typed PR readiness and drift diagnostics
-- `csdlc-issue create` and `csdlc-bind` — claim-free typed issue creation and
-  Git-topology binding; see the
-  [creation and binding runbook](C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md)
-- `csdlc-validate`, `csdlc-review`, and `csdlc-publish` — typed finalization,
-  exact-revision review, and publication path
+- `.adl/bin/native-v3/csdlc doctor` — typed readiness and drift diagnostics
+- `csdlc issue` and `csdlc bind` — typed issue preparation and exact
+  Git-topology binding
+- `csdlc validate`, `review`, and `publish` — typed validation,
+  exact-revision review, and publication routes
 - `adl-lint-prompt-spec` — direct Prompt Spec lint and validation binary
 - `adl-prompt-template` — direct prompt-card editor and renderer binary
 - `adl-validate-structured-prompt` — direct structured prompt contract validator
@@ -126,7 +125,8 @@ Important repo-local tooling surfaces include:
 - CI log archival is not exposed through the removed tooling multiplexer; see
   [CI Log Archive To S3](CI_LOG_ARCHIVE_S3.md) for historical context.
 - `adl/tools/validation_manager.py --run` — emit durable `adl.build_action_log.v1` packets for local validation actions; see [Build Action Logs](BUILD_ACTION_LOGS.md)
-- `csdlc-validate` — current typed C-SDLC v2 lifecycle/card validation; see [structured prompt validation boundary](structured-prompt-validator-binary-resolution.md)
+- `csdlc validate` — current native v3 lifecycle/card validation; see
+  [structured prompt validation boundary](structured-prompt-validator-binary-resolution.md)
 - current direct owner binaries and typed skills own planning, provenance, and
   review validation; the removed `adl tooling` multiplexer is not an
   operational route.

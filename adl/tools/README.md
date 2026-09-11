@@ -20,7 +20,8 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `archive_run_artifacts.sh`: dry-run/apply helper that inventories local run roots, copies unique run artifacts into `.adl/trace-archive/milestones/<milestone>/runs/`, and can move archived active `.adl/runs` entries into `.adl/trace-archive/source-roots/`.
 - `release_ceremony.sh`: canonical release-tail preflight and ceremony wrapper for milestone tag and GitHub Release execution, safe by default and only mutating release state when explicit flags are passed.
 - `demo_v089_quality_gate.sh`: canonical `v0.89` D11 quality-gate walkthrough that aggregates the bounded local gate and proof-package checks into one reviewer-facing manifest.
-- `csdlc-edit` and `csdlc-validate` own typed card edits and validation.
+- Native v3 `csdlc edit` and `csdlc validate` own current typed card edits and
+  validation.
 - `burst_worktree.sh`, `burst_continue.sh`: burst lane/worktree helpers.
 - `batched_checks.sh`, `preflight_review.sh`: quality/preflight checks, including the repo-code-review skill contract guard.
 - `check_repo_quality_staleness.py`: focused reviewer-facing docs and tracked-junk audit for the current milestone package and root repo status surfaces.
@@ -68,15 +69,13 @@ python3 adl/tools/validate_multi_agent_transcript.py artifacts/v0871/multi_agent
 # run the current v0.87.1 milestone demo-suite proof package
 bash adl/tools/demo_v0871_suite.sh
 
-# resolve the sole active C-SDLC generation
-.adl/bin/csdlc-v2/csdlc-install resolve --repo . --issue <issue_num>
-
-# initialize and inspect readiness through typed request contracts
-.adl/bin/csdlc-v2/csdlc-issue --root <repo> create --request <bootstrap-request.json>
-.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue <issue_num>
+# initialize, validate, and inspect readiness through native v3 typed requests
+.adl/bin/native-v3/csdlc issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+.adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+.adl/bin/native-v3/csdlc doctor --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 
 # bind execution context at the last responsible moment
-.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>
+.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 
 # inspect worktree status/fate across managed, stale, orphan, and Codex-ephemeral namespaces
 ./adl/tools/worktree_doctor.sh
@@ -154,7 +153,8 @@ are not the preferred public workflow:
 - Root project entrypoint: `../../README.md`
 - Runtime/CLI usage: `../README.md`
 - Operational skills guide: `skills/docs/OPERATIONAL_SKILLS_GUIDE.md`
-  - includes concrete typed v2 lifecycle and helper card-editor usage patterns
+  - includes operational skill and helper card-editor usage patterns; native v3
+    authority remains defined by `../../docs/csdlc-v3/CURRENT_AUTHORITY.md`
   - includes the full skill documentation matrix, install/resync guidance, and
     deployed-copy verification recipe for `$CODEX_HOME/skills`
   - when touching `stp.md`, `sip.md`, or `sor.md`, use the matching editor

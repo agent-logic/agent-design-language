@@ -422,22 +422,97 @@ fn github_read_only_curl_invocation(
     };
     if !matches!(
         operation.as_str(),
-        "pull-request" | "pull-requests-by-head" | "issue" | "issue-comments" | "issues-by-marker"
+        "pull-request"
+            | "pull-request-merge-state"
+            | "branch-merge-rules"
+            | "pull-requests-by-head"
+            | "issue"
+            | "issue-comments"
+            | "issues-by-marker"
     ) || (!matches!(
         operation.as_str(),
-        "issues-by-marker" | "pull-requests-by-head"
+        "issues-by-marker" | "pull-requests-by-head" | "branch-merge-rules"
     ) && number.parse::<u64>().is_err())
         || (operation == "issues-by-marker"
             && (number.is_empty()
                 || number
                     .chars()
                     .any(|ch| !(ch.is_ascii_alphanumeric() || ch == '-'))))
-        || (operation == "pull-requests-by-head" && !supported_pr_branch(number))
+        || (matches!(
+            operation.as_str(),
+            "pull-requests-by-head" | "branch-merge-rules"
+        ) && !supported_pr_branch(number))
     {
         return Err(ProcessOutput {
             status: ProcessStatus::Exit(2),
             stdout: String::new(),
             stderr: "github read-only adapter received unsupported request".into(),
+            truncated: false,
+        });
+    }
+    if operation == "branch-merge-rules" {
+        let parts: Vec<_> = repository.split('/').collect();
+        if parts.len() != 2
+            || parts.iter().any(|s| {
+                s.is_empty()
+                    || s.chars()
+                        .any(|c| !(c.is_ascii_alphanumeric() || matches!(c, '-' | '_' | '.')))
+            })
+        {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "invalid repository".into(),
+                truncated: false,
+            });
+        }
+        return CommandInvocation::new("curl", [
+            "--fail-with-body".to_owned(), "--silent".to_owned(), "--show-error".to_owned(),
+            "--header".to_owned(), "Accept: application/vnd.github+json".to_owned(),
+            "--header".to_owned(), "X-GitHub-Api-Version: 2022-11-28".to_owned(),
+            format!("https://api.github.com/repos/{repository}/rules/branches/{}?per_page=100&page=1", encode_query_value(number)),
+        ]).map_err(|_| ProcessOutput { status: ProcessStatus::Exit(2), stdout: String::new(), stderr: "invalid rule observation".into(), truncated: false });
+    }
+    if operation == "pull-request-merge-state" {
+        let Some((owner, name)) = repository.split_once('/') else {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "invalid repository".into(),
+                truncated: false,
+            });
+        };
+        if ![owner, name].iter().all(|s| {
+            !s.is_empty()
+                && s.chars()
+                    .all(|c| c.is_ascii_alphanumeric() || matches!(c, '-' | '_' | '.'))
+        }) {
+            return Err(ProcessOutput {
+                status: ProcessStatus::Exit(2),
+                stdout: String::new(),
+                stderr: "invalid repository".into(),
+                truncated: false,
+            });
+        }
+        let query = crate::commands::remote::merge_state_query(owner, name, number);
+        return CommandInvocation::new(
+            "curl",
+            [
+                "--fail-with-body".to_owned(),
+                "--silent".to_owned(),
+                "--show-error".to_owned(),
+                "--get".to_owned(),
+                "--data-urlencode".to_owned(),
+                format!("query={query}"),
+                "--header".to_owned(),
+                "Accept: application/vnd.github+json".to_owned(),
+                "https://api.github.com/graphql".to_owned(),
+            ],
+        )
+        .map_err(|_| ProcessOutput {
+            status: ProcessStatus::Exit(2),
+            stdout: String::new(),
+            stderr: "invalid merge observation".into(),
             truncated: false,
         });
     }
@@ -540,9 +615,17 @@ fn github_operational_curl_invocation(
             truncated: false,
         });
     };
+    let parts: Vec<_> = endpoint.split('/').collect();
+    let merge_put = method == "PUT"
+        && parts.len() == 6
+        && parts[0] == "repos"
+        && parts[3] == "pulls"
+        && parts[4].parse::<u64>().is_ok_and(|n| n > 0)
+        && parts[5] == "merge";
     let graphql_ready = method == "GRAPHQL" && endpoint == "mark-pull-request-ready";
     if (!endpoint.starts_with("repos/") || !matches!(method.as_str(), "POST" | "PATCH"))
         && !graphql_ready
+        && !merge_put
         || endpoint.contains("..")
         || endpoint
             .chars()
@@ -1096,5 +1179,62 @@ mod tests {
         assert!(!output.stdout.contains("HTTPS_PROXY="));
         assert!(output.stdout.contains("LC_ALL=C"));
         assert!(output.stdout.contains("PATH="));
+    }
+}
+
+#[cfg(test)]
+mod merge_adapter_tests {
+    use super::*;
+    // PVF: required deterministic owner adapter contract, small local CPU/filesystem.
+    #[test]
+    fn merge_put_is_narrow_and_readback_cannot_supply_arbitrary_query() {
+        let path =
+            std::env::temp_dir().join(format!("csdlc-merge-adapter-{}.json", std::process::id()));
+        std::fs::write(&path, b"{}").unwrap();
+        for (endpoint, allowed) in [
+            (
+                "repos/agent-logic/agent-design-language/pulls/844/merge",
+                true,
+            ),
+            ("repos/agent-logic/agent-design-language/issues/844", false),
+            ("repos/agent-logic/agent-design-language/pulls/844", false),
+            (
+                "repos/agent-logic/agent-design-language/pulls/0/merge",
+                false,
+            ),
+            (
+                "repos/agent-logic/agent-design-language/pulls/844/merge/other",
+                false,
+            ),
+        ] {
+            let invocation = CommandInvocation::new(
+                GITHUB_OPERATIONAL_ADAPTER,
+                ["PUT", endpoint, path.to_str().unwrap()],
+            )
+            .unwrap();
+            let result = github_operational_curl_invocation(&invocation);
+            assert_eq!(result.is_ok(), allowed, "{endpoint}");
+        }
+        for (target, allowed) in [("844", true), ("844) { viewer { login } }", false)] {
+            let invocation = CommandInvocation::new(
+                GITHUB_READ_ONLY_ADAPTER,
+                [
+                    "pull-request-merge-state",
+                    "agent-logic/agent-design-language",
+                    target,
+                ],
+            )
+            .unwrap();
+            let result = github_read_only_curl_invocation(&invocation);
+            assert_eq!(result.is_ok(), allowed);
+            if let Ok(invocation) = result {
+                assert!(invocation
+                    .argv()
+                    .iter()
+                    .any(|v| v.starts_with("query=query")));
+                assert!(!invocation.argv().iter().any(|v| v.contains("mutation ")));
+            }
+        }
+        std::fs::remove_file(path).unwrap();
     }
 }

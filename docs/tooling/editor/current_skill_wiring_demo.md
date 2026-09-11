@@ -19,7 +19,7 @@ The editor should display:
 
 - current local bundle root: `.adl/v0.90/tasks/issue-2053__backlog-tools-refresh-web-task-editor-current-skills/`
 - current local card target for the active STP, SIP, or SOR card
-- a copy-only workflow action for the `csdlc-bind` handoff
+- a copy-only workflow action for the native v3 `csdlc bind` handoff
 - an ADL language contract panel listing `providers`, `tools`, `agents`, `tasks`, `workflows`, and `run`
 
 ## Command Proof
@@ -30,7 +30,7 @@ The adapter command used by the editor is:
 
 Expected output:
 
-- `.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>`
+- `.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
 
 Additional supported handoffs:
 
@@ -44,12 +44,12 @@ The browser editor is a preparation surface only.
 
 It can help prepare commands for:
 
-- `csdlc-issue create`
-- `csdlc-doctor`
-- `csdlc-bind`
-- `csdlc-validate`
-- `csdlc-review`
-- `csdlc-publish`
+- `csdlc issue`
+- `csdlc doctor`
+- `csdlc bind`
+- `csdlc validate`
+- `csdlc review`
+- `csdlc publish`
 
 It must not take over:
 

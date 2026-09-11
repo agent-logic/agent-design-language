@@ -1,0 +1,8 @@
+   Compiling csdlc-v3 v0.1.0 ([issue-worktree]/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.66s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+
+running 1 test
+test commands::remote::tests::legacy_ready_intent_recovers_without_rewriting_original_intent ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 65 filtered out; finished in 0.19s

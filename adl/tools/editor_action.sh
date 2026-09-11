@@ -17,7 +17,7 @@ Purpose:
 
 Current actions:
   contract Print the supported near-term editor adapter surface.
-  prepare  Validate fields and print one current typed C-SDLC v2 lifecycle command for a human to run from the repo root.
+  prepare  Validate fields and print one current native C-SDLC v3 lifecycle command for a human to run from the repo root.
 USAGE
 }
 
@@ -27,7 +27,7 @@ editor_adapter_schema: editor.command_adapter.v2
 supported_actions:
   - action: prepare
     adapter_entry: adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]
-    maps_to: copy-only typed C-SDLC v2 lifecycle command
+    maps_to: copy-only native C-SDLC v3 lifecycle command
     invocation_mode: browser_prepared_human_run
     browser_direct: false
     status: supported
@@ -37,18 +37,18 @@ supported_actions:
       - run
       - finish
 unsupported_browser_direct_actions:
-  - csdlc-issue create
-  - csdlc-doctor
-  - csdlc-bind
-  - csdlc-validate
-  - csdlc-review
-  - csdlc-publish
-  - csdlc-shepherd
-  - csdlc-finish
-  - csdlc-clean
+  - csdlc issue
+  - csdlc doctor
+  - csdlc bind
+  - csdlc validate
+  - csdlc review
+  - csdlc publish
+  - csdlc shepherd
+  - csdlc finish
+  - csdlc clean
 notes:
   - Browser/editor surfaces may prepare or copy lifecycle commands, but must not claim direct browser execution.
-  - The current taught path resolves through csdlc-install and typed csdlc-* binaries under .adl/bin/csdlc-v2.
+  - The current taught path uses the one native v3 executable at .adl/bin/native-v3/csdlc.
 language_contract:
   primitives:
     - providers
@@ -74,7 +74,7 @@ emit_contract_json() {
     {
       "action": "prepare",
       "adapter_entry": "adl/tools/editor_action.sh prepare --phase init|doctor-ready|run|finish --issue <number> --slug <slug> [--version <vN.N[.P]>] [--title <title>] [--paths <paths>]",
-      "maps_to": "copy-only typed C-SDLC v2 lifecycle command",
+      "maps_to": "copy-only native C-SDLC v3 lifecycle command",
       "invocation_mode": "browser_prepared_human_run",
       "browser_direct": false,
       "status": "supported",
@@ -83,19 +83,19 @@ emit_contract_json() {
   ],
   "legacy_compatibility_actions": [],
   "unsupported_browser_direct_actions": [
-    "csdlc-issue create",
-    "csdlc-doctor",
-    "csdlc-bind",
-    "csdlc-validate",
-    "csdlc-review",
-    "csdlc-publish",
-    "csdlc-shepherd",
-    "csdlc-finish",
-    "csdlc-clean"
+    "csdlc issue",
+    "csdlc doctor",
+    "csdlc bind",
+    "csdlc validate",
+    "csdlc review",
+    "csdlc publish",
+    "csdlc shepherd",
+    "csdlc finish",
+    "csdlc clean"
   ],
   "notes": [
     "Browser/editor surfaces may prepare or copy lifecycle commands, but must not claim direct browser execution.",
-    "The current taught path resolves through csdlc-install and typed csdlc-* binaries under .adl/bin/csdlc-v2."
+    "The current taught path uses the one native v3 executable at .adl/bin/native-v3/csdlc."
   ],
   "language_contract": {
     "primitives": ["providers", "tools", "agents", "tasks", "workflows", "run"],
@@ -129,16 +129,16 @@ emit_prepare_command() {
   local phase="$1" issue="$2" slug="$3" version="$4" title="$5" paths="$6"
   case "$phase" in
     init)
-      printf '.adl/bin/csdlc-v2/csdlc-issue --root <repo> create --request <bootstrap-request.json>\n'
+      printf '.adl/bin/native-v3/csdlc issue --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
       ;;
     doctor-ready)
-      printf '.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue %s\n' "$issue"
+      printf '.adl/bin/native-v3/csdlc doctor --request <request-%s.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n' "$issue"
       ;;
     run)
-      printf '.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>\n'
+      printf '.adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
       ;;
     finish)
-      printf '.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>\n'
+      printf '.adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>\n'
       ;;
     *) die "--phase must be one of: init, doctor-ready, run, finish" ;;
   esac

@@ -1,0 +1,17 @@
+   Compiling csdlc-v3 v0.1.0 (<worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.63s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+
+running 10 tests
+test commands::remote::tests::merge_cases::merge_already_merged_and_wrong_parent_or_result ... ok
+test commands::remote::tests::merge_cases::merge_checks_base_again_and_rejects_postmerge_parent_drift ... ok
+test commands::remote::tests::merge_cases::merge_eligibility_negative_matrix_never_writes_intent_or_dispatches ... ok
+test commands::remote::tests::merge_cases::merge_lock_blocks_concurrent_dispatch ... ok
+test commands::remote::tests::merge_cases::merge_partial_response_reconciles_from_authenticated_state ... ok
+test commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation ... ok
+test commands::remote::tests::merge_cases::merge_response_disagreement_stays_blocked_on_replay ... ok
+test commands::remote::tests::merge_cases::merge_result_is_consumed_by_existing_finish_observation_without_mutation ... ok
+test commands::remote::tests::merge_cases::merge_review_and_method_guards_before_network ... ok
+test commands::remote::tests::merge_cases::merge_uncertain_transport_is_reconciliation_only ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 66 filtered out; finished in 5.08s

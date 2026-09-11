@@ -1,0 +1,32 @@
+{
+  "schema": "adl.issue836.validation.v1",
+  "pvf": "local_contract; deterministic temp Git and immutable blobs; small local CPU/disk; required issue proof",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/test_measure.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ".fatal: Needed a single revision\n..\n----------------------------------------------------------------------\nRan 3 tests in 1.033s\n\nOK\n"
+    },
+    {
+      "argv": [
+        "python3",
+        "docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measure.py",
+        "--check",
+        "docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measurement.json"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS recursive inventory, revision identity, all totals and Markdown claims\n",
+      "stderr": ""
+    },
+    {
+      "check": "two independent recomputations byte-identical to retained JSON",
+      "status": "pass",
+      "sha256": "241834ff92f543a0f2b05981bed4fcde73b51280650f3e5508cd2d9df0a4b3e2"
+    }
+  ],
+  "runtime_tests": "not run; no runtime source changed"
+}

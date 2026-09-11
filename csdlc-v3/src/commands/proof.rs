@@ -17,6 +17,7 @@ use std::{
 use serde::{Deserialize, Serialize};
 
 pub const PROOF_ROUTE_NAMES: [&str; 4] = ["proof", "shadow", "soak", "install"];
+pub const CANONICAL_INSTALL_DESTINATION: &str = ".adl/bin/csdlc";
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct ProofRouteRequest {
@@ -1051,7 +1052,7 @@ fn validate_install(
             "install destination must be stable and outside Cargo target output",
         ));
     }
-    if install.executes_install && install.destination != ".adl/bin/csdlc" {
+    if install.executes_install && install.destination != CANONICAL_INSTALL_DESTINATION {
         findings.push(finding(
             "install_destination_not_canonical",
             "executing install requires the canonical .adl/bin/csdlc destination",

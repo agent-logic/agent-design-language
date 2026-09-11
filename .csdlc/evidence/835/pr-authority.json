@@ -1,0 +1,46 @@
+[
+  {
+    "body": "Closes #818\n\nPart of #522\n\n## Outcome\n\nReconciles exactly the 17 corporate/Runtime rows from the #764 D520-RET-001 denominator against frozen candidate `add8f48867e55be9256244767758abba6f348091`. All 17 source rows are non-proving, so each carries a closed-schema, canonical-digest proposal to remove only that exact criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No row is promoted to a behavioral pass.\n- Source artifacts, ownership, issue closure, and PR closure are context only, never execution proof.\n- No private instrument, counsel advice, signature, credential, or provider state was inspected.\n- All 17 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR approves only the exact proposal objects and digests reviewed here; it does not claim the associated product behavior was implemented or removed.\n\n## Validation\n\n- 17/17 rows unique and reconciled: 17 exact removal proposals, 0 behavioral passes, 0 unclassified\n- closed proposal, row, evidence, and packet schemas validated\n- candidate source SHA-256 and Git blob identities rederived\n- byte-for-byte deterministic receipt replay passed\n- 22/22 adversarial packet and authority mutations rejected\n- native six-card validation passed at generation 6 / digest `ea4c5c6dbd75e73e9683bb528df439a7f8ba50e18c638543ffeb7fa5cbe8a813`\n- independent exact-head review passed at `2c9623f82759811e05fe51558303fa198af7a84c`\n\n\n<!-- csdlc-v3-operation:743f5895f9078bfb2f2579f554352c97fc7c027f5a4f27c48bbacc27685052a3 -->",
+    "headRefOid": "2c9623f82759811e05fe51558303fa198af7a84c",
+    "mergeCommit": {
+      "oid": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4"
+    },
+    "mergedAt": "2026-09-11T02:32:37Z",
+    "number": 832,
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/832"
+  },
+  {
+    "body": "Closes #819\n\nPart of #522\n\n## Outcome\n\nReconciles all 152 retained C-SDLC v3 review rows against frozen candidate `fb6cbc7f619daa54f901fd2d12f480add682ace3`. The 51 source-supported rows are joined to complete candidate execution and exact candidate evidence. Each of the remaining 101 non-proving rows carries a criterion-specific, digest-bound proposal to remove only that criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No non-proving row is promoted to a behavioral pass.\n- The 101 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR is explicit operator approval of the exact proposal digests; it does not claim the associated product behavior was implemented or removed.\n\n## Validation\n\n- 152/152 rows unique and reconciled: 51 candidate-executed, 101 exact removal proposals, 0 unclassified\n- complete 211-test C-SDLC v3 suite passed\n- all-target C-SDLC v3 clippy passed\n- current V3-A contract validator passed\n- 18/18 adversarial receipt and authority mutations rejected\n- native six-card validation passed at generation 11 / digest `b3a4982498b2991d3aee1ac455a0c3b0a5b10aaa12bbbe69edc60f22810460df`\n- independent exact-head review passed at `32581b03b57135167e789c6fe9b74b1a63cf929c`\n\n\n<!-- csdlc-v3-operation:46f1f9db35a6cf2dc04d0dea051445cb5247d074ad3741ac34043e82f8abbd0b -->",
+    "headRefOid": "32581b03b57135167e789c6fe9b74b1a63cf929c",
+    "mergeCommit": {
+      "oid": "1e9b543e40e0e4c980878384d64ab368717b0091"
+    },
+    "mergedAt": "2026-09-10T22:17:15Z",
+    "number": 827,
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/827"
+  },
+  {
+    "body": "Closes #820\n\nPart of #522\n\n## Outcome\n\nReconciles exactly the 25 DRT-prefixed non-proving rows from the #764 retained-proof denominator against frozen candidate `fb6cbc7f619daa54f901fd2d12f480add682ace3`. Candidate-bound execution confirms the retained fixture contract, and every row carries a criterion-specific, digest-bound proposal to remove only that criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No row is promoted to a behavioral pass.\n- All 25 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR approves the exact proposal digests only; it does not claim live multi-node, cloud, partition, soak, security, replay, or cleanup behavior.\n\n## Validation\n\n- 25/25 unique DRT rows reconciled; zero missing or duplicated\n- focused distributed contract and failure suites passed\n- positive reconciliation validator passed\n- 13 adversarial mutations rejected, including coordinated governance-semantic mutations\n- diff and absolute-path hygiene passed\n- independent exact-head review passed at `d7eb57913913f780d7dc0a965629202c76ec32a8`\n\n\n<!-- csdlc-v3-operation:9a8fde1d919d96c4318b060c6c9ffb673c353997e9174106301c68174d858e79 -->",
+    "headRefOid": "d7eb57913913f780d7dc0a965629202c76ec32a8",
+    "mergeCommit": {
+      "oid": "803047812d09984a6df09cbb1e2cf0957c29d547"
+    },
+    "mergedAt": "2026-09-11T01:54:01Z",
+    "number": 828,
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/828"
+  },
+  {
+    "body": "Draft: final quality-gate proof is in progress. Do not merge until the outstanding requirements below are satisfied.\n\nPrepare the exact four TAIL-01 current-gate rows and the second review's 12 P1/P2 finding inputs. Record merged prerequisite identities, criterion digests, and source freshness. Keep 51 executed C-SDLC criteria separate from 101 operator-approved criterion removals.\n\nCompleted: native binding and six-card validation; four-row identity checks; retained gate, corrections and #819 receipt validators; independent preparation review at 8b408532b450ee6f6f5015b24ba7297140e08a55. Main remains unchanged. These checks are preparation evidence, not final release proof.\n\nRemaining before ready: integrate #818 and #820 proof; pin final remediation candidate; refresh changed proof surfaces; independently recompute required lanes; reconcile all four obligations and P1/P2 dispositions; obtain final exact-head review and required CI.\n\nCloses #821\n\nPart of #522\n\n\n<!-- csdlc-v3-operation:e39130d2d9db028cc7ebd742362da60d5b118be169bb4614a56ff1f0bc722f2b -->",
+    "headRefOid": "8b408532b450ee6f6f5015b24ba7297140e08a55",
+    "mergeCommit": {
+      "oid": "44e05e694a6e8c6b74f3cc012946bd77c9442df2"
+    },
+    "mergedAt": "2026-09-11T01:54:31Z",
+    "number": 829,
+    "state": "MERGED",
+    "url": "https://github.com/agent-logic/agent-design-language/pull/829"
+  }
+]

@@ -1,6 +1,5 @@
 {
-  "schema": "adl.v3f.detached_suite.v1",
-  "source_sha": "c0a9edef5b2d8d755d4b56d1b5456058b13db1d9",
+  "source_sha": "a32cc903e12375690613b8a4bf003e985390a221",
   "argv": [
     "cargo",
     "test",
@@ -8,20 +7,20 @@
     "--manifest-path",
     "csdlc-v3/Cargo.toml"
   ],
-  "started_at": "2026-09-09T22:39:36Z",
-  "duration_seconds": 41.29,
-  "exit_code": 0,
-  "passed": 211,
-  "failed": 0,
   "detached": true,
   "clean_before": true,
   "clean_after": true,
-  "head_after": "c0a9edef5b2d8d755d4b56d1b5456058b13db1d9",
   "external_target": true,
+  "head_after": "a32cc903e12375690613b8a4bf003e985390a221",
   "log": "suite.log",
-  "log_sha256": "b3a96bdaee6e92e30c94dbe0fdbf8d6c12c52e1c600053e400140f6563cfb466",
+  "log_sha256": "d1342646a4d5edf78ab8681e3f09c9c8d6c481392ea3be0747495b0ff23b6ae8",
   "log_redacted": true,
-  "log_redaction": "Exact checkout and Cargo target roots are replaced by [v3f-checkout] and [cargo-target]; test names, results, counts, and timing are unchanged.",
-  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
-  "checkout_method": "Clean detached linked proof checkout beneath the bound FastWork issue worktree, with an external Cargo target beneath the approved FastWork root; identical source bytes and unmodified test command."
+  "exit_code": 0,
+  "passed": 225,
+  "failed": 0,
+  "started_at": "2026-09-11T15:44:12.387179+00:00",
+  "completed_at": "2026-09-11T15:44:47.749207+00:00",
+  "schema": "adl.v3f.detached_suite.v1",
+  "checkout_method": "Clean detached shared-object proof clone, external Cargo target; original locked test command unchanged.",
+  "log_redaction": "Checkout and target roots replaced; trailing empty lines normalized. Test names/counts/results unchanged."
 }

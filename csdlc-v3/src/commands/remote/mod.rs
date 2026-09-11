@@ -1,5 +1,8 @@
 #![allow(dead_code)]
 
+mod merge;
+pub use merge::{merge_state_query, MergeMethod};
+
 use crate::adapters::{CommandInvocation, ProcessAdapter, ProcessStatus};
 use crate::publication::{
     classify_cleanup, derive_finish, publish, CleanupCandidate, CleanupClassification,
@@ -199,6 +202,12 @@ pub enum GithubMutation {
         body: Option<String>,
     },
     PullRequestReady,
+    PullRequestMerge {
+        base: String,
+        method: merge::MergeMethod,
+        review_receipt_path: String,
+        review_receipt_digest: String,
+    },
 }
 
 fn explicit_metadata<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
@@ -298,6 +307,8 @@ struct GithubMutationRecoveryReceipt {
     issue: u64,
     pull_request: Option<u64>,
     expected_head_sha: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    resolved_ready_target: Option<GithubReadyTarget>,
 }
 
 struct GithubMutationDispatchContext<'a> {
@@ -321,6 +332,8 @@ pub struct GithubMutationReconciliationReceipt {
     pub readback_digest: String,
     pub observed_by: String,
     pub authenticated: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub merge: Option<merge::MergedIdentity>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -1028,6 +1041,10 @@ pub fn execute_github_mutation(
     validate_mutation(request)?;
     let authority = verify_canonical_v3_authority(repo_root, None, &request.expected_head_sha)?;
 
+    if matches!(request.mutation, GithubMutation::PullRequestMerge { .. }) {
+        return merge::execute(repo_root, request, process, &authority.selector_digest);
+    }
+
     let operation_digest = github_mutation_operation_digest(request);
     let operation_marker = github_mutation_operation_marker(&operation_digest);
     let mut intent_request = request.clone();
@@ -1108,19 +1125,37 @@ pub fn execute_github_mutation(
                     && request.recovery
                         == Some(GithubMutationRecovery::RetryAfterAuthenticatedAbsence) =>
             {
-                let (response_digest, invocation) = dispatch_github_mutation_after_intent(
-                    repo_root,
-                    request,
-                    GithubMutationDispatchContext {
-                        operation_digest: &operation_digest,
-                        operation_marker: &operation_marker,
-                        credential_name: &credential_name,
-                        ready_target: intent.resolved_ready_target.as_ref(),
-                        recovery_intent_digest: Some(&intent_digest),
-                    },
-                    process,
-                )?;
-                let (reconciliation, _) =
+                // Legacy intents are immutable. Resolve their missing target only
+                // for an explicitly authorized retry after authenticated absence.
+                ensure_recovery_available(repo_root, &operation_digest)?;
+                let ready_target = match &intent.resolved_ready_target {
+                    None if matches!(request.mutation, GithubMutation::PullRequestReady) => {
+                        Some(resolve_ready_target(request, process)?)
+                    }
+                    target => target.clone(),
+                };
+                if ready_target.as_ref().is_some_and(|target| !target.draft) {
+                    let (reconciliation, invocation) = reconcile_github_mutation(
+                        request,
+                        &operation_digest,
+                        &operation_marker,
+                        process,
+                    )?;
+                    (reconciliation, invocation, None, true)
+                } else {
+                    let (response_digest, invocation) = dispatch_github_mutation_after_intent(
+                        repo_root,
+                        request,
+                        GithubMutationDispatchContext {
+                            operation_digest: &operation_digest,
+                            operation_marker: &operation_marker,
+                            credential_name: &credential_name,
+                            ready_target: ready_target.as_ref(),
+                            recovery_intent_digest: Some(&intent_digest),
+                        },
+                        process,
+                    )?;
+                    let (reconciliation, _) =
                     reconcile_github_mutation(request, &operation_digest, &operation_marker, process)
                         .map_err(|finding| {
                             remote_finding(
@@ -1131,7 +1166,8 @@ pub fn execute_github_mutation(
                                 ),
                             )
                         })?;
-                (reconciliation, invocation, response_digest, false)
+                    (reconciliation, invocation, response_digest, false)
+                }
             }
             Err(finding) => return Err(finding),
         };
@@ -1396,7 +1432,13 @@ fn dispatch_github_mutation_after_intent(
                 )
             })?;
         if let Some(intent_digest) = context.recovery_intent_digest {
-            persist_recovery_receipt(repo_root, request, context.operation_digest, intent_digest)?;
+            persist_recovery_receipt(
+                repo_root,
+                request,
+                context.operation_digest,
+                intent_digest,
+                context.ready_target,
+            )?;
         }
         Ok(invocation)
     })();
@@ -1724,6 +1766,12 @@ fn github_mutation_invocation(
             request.repository,
             request.pull_request.unwrap_or_default()
         ),
+        GithubMutation::PullRequestMerge { .. } => {
+            return Err(remote_finding(
+                "github_merge_route_required",
+                "merge requires its guarded owner",
+            ))
+        }
         GithubMutation::PullRequestReady => {
             return CommandInvocation::new(
                 GITHUB_OPERATIONAL_ADAPTER,
@@ -1879,6 +1927,12 @@ fn write_mutation_input(
                 "body": body_with_operation_marker(body, operation_marker),
                 "draft": draft
             })
+        }
+        GithubMutation::PullRequestMerge { .. } => {
+            return Err(remote_finding(
+                "github_merge_route_required",
+                "merge requires its guarded owner",
+            ))
         }
         GithubMutation::PullRequestReady => {
             let target = ready_target.ok_or_else(|| {
@@ -2046,6 +2100,7 @@ fn persist_recovery_receipt(
     request: &GithubMutationRequest,
     operation_digest: &str,
     intent_digest: &str,
+    ready_target: Option<&GithubReadyTarget>,
 ) -> Result<(), RemoteRouteFinding> {
     let path = ensure_recovery_available(repo_root, operation_digest)?;
     let receipt = GithubMutationRecoveryReceipt {
@@ -2057,6 +2112,7 @@ fn persist_recovery_receipt(
         issue: request.issue,
         pull_request: request.pull_request,
         expected_head_sha: request.expected_head_sha.clone(),
+        resolved_ready_target: ready_target.cloned(),
     };
     persist_json_create_new(&path, &receipt)
 }
@@ -2153,6 +2209,7 @@ fn reconcile_github_mutation(
             readback_digest: stable_digest(&[&canonical]),
             observed_by: GITHUB_READ_ONLY_ADAPTER.into(),
             authenticated: true,
+            merge: None,
         },
         invocation,
     ))
@@ -2207,6 +2264,12 @@ fn github_mutation_reconciliation_invocation(
             request.repository.clone(),
             head.clone(),
         ],
+        GithubMutation::PullRequestMerge { .. } => {
+            return Err(remote_finding(
+                "github_merge_route_required",
+                "merge requires its guarded owner",
+            ))
+        }
         GithubMutation::PullRequestUpdate { .. } | GithubMutation::PullRequestReady => vec![
             "pull-request".into(),
             request.repository.clone(),
@@ -2230,6 +2293,7 @@ fn match_reconciled_mutation(
     let mut matches = candidates
         .into_iter()
         .filter(|candidate| match &request.mutation {
+            GithubMutation::PullRequestMerge { .. } => false,
             GithubMutation::IssueCreate {
                 title,
                 body,

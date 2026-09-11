@@ -14,15 +14,15 @@ fail() {
 }
 
 out="$(bash adl/tools/editor_action.sh prepare --phase run --issue 2053 --slug backlog-tools-refresh-web-task-editor-current-skills --version v0.90)"
-[[ "$out" == ".adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>" ]] || fail "prepare should emit the current csdlc-bind command"
+[[ "$out" == ".adl/bin/native-v3/csdlc bind --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>" ]] || fail "prepare should emit the current csdlc bind command"
 pass "prepare emits current csdlc-bind command"
 
 out="$(bash adl/tools/editor_action.sh prepare --phase doctor-ready --issue 2053 --slug backlog-tools-refresh-web-task-editor-current-skills --version v0.90)"
-[[ "$out" == ".adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue 2053" ]] || fail "prepare should emit the ready csdlc-doctor command"
+[[ "$out" == ".adl/bin/native-v3/csdlc doctor --request <request-2053.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>" ]] || fail "prepare should emit the ready csdlc doctor command"
 pass "prepare emits ready csdlc-doctor command"
 
 out="$(bash adl/tools/editor_action.sh prepare --phase finish --issue 2053 --slug backlog-tools-refresh-web-task-editor-current-skills --version v0.90 --title "[v0.90][tools] Refresh editor" --paths "docs/tooling/editor/README.md")"
-[[ "$out" == ".adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>" ]] || fail "prepare should emit the finalize validation command"
+[[ "$out" == ".adl/bin/native-v3/csdlc validate --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>" ]] || fail "prepare should emit the finalize validation command"
 pass "prepare emits finalize validation command"
 
 out="$(bash adl/tools/editor_action.sh contract)"

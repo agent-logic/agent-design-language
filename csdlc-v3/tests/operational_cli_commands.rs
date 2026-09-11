@@ -1048,3 +1048,44 @@ fn proof_and_rollback_commands_reach_real_handlers() {
     assert_eq!(rollback_json["result"]["status"], "blocked");
     assert_eq!(rollback_json["performed_mutation"], false);
 }
+
+// PVF: required deterministic local CLI routing; small CPU, no network dispatch.
+#[test]
+fn executable_merge_is_owned_only_by_github_pr() {
+    let fixture = operational_fixture("merge-route-family");
+    let head = git(&fixture.root, &["rev-parse", "HEAD"]);
+    let dispatch = serde_json::json!({
+        "expected_lifecycle_digest": canonical_authority_selector_digest(&fixture.root).unwrap(),
+        "exact_review_sha": head,
+        "operation": {"kind":"github_mutation","request":{
+            "repository":"agent-logic/agent-design-language","issue":505,"pull_request":591,
+            "expected_head_sha":head,"credential_names":["GITHUB_TOKEN"],
+            "mutation":{"action":"pull_request_merge","base":"main","method":"merge","review_receipt_path":"missing-review.json","review_receipt_digest":"missing"}
+        }}
+    });
+    let path = fixture.root.join("merge-dispatch.json");
+    fs::write(&path, serde_json::to_vec(&dispatch).unwrap()).unwrap();
+    for route in ["github", "github-issue", "publish", "review"] {
+        let output = run(
+            &[route, "--request", path.to_str().unwrap(), "--execute"],
+            &fixture.root,
+        );
+        assert!(!output.status.success());
+        assert!(
+            String::from_utf8_lossy(&output.stderr).contains("operational_remote_route_mismatch"),
+            "{route}: {output:?}"
+        );
+        assert!(output.stdout.is_empty());
+    }
+    let output = run(
+        &[
+            "github-pr",
+            "--request",
+            path.to_str().unwrap(),
+            "--execute",
+        ],
+        &fixture.root,
+    );
+    assert!(!output.status.success());
+    assert!(!String::from_utf8_lossy(&output.stderr).contains("operational_remote_route_mismatch"));
+}

@@ -1530,7 +1530,7 @@ fn execute_cutover_platform(
         "executing cutover requires a rollback receipt output path",
         "rollback_receipt",
     )?;
-    if destination != repository_root.join(".adl/bin/csdlc") {
+    if destination != repository_root.join(crate::commands::proof::CANONICAL_INSTALL_DESTINATION) {
         return Err(finding(
             "install_destination_not_stable_csdlc_binary",
             "cutover installs only the stable repo-local .adl/bin/csdlc binary",
