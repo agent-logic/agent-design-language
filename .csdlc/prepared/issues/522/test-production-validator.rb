@@ -32,18 +32,19 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   fix_digest=Digest::SHA256.hexdigest(`git show #{head}:remediation/fix.txt`)
   validation_path=File.join(root,"validation.json"); wj(validation_path,{"outcome"=>"passed","head_sha"=>head,"failures"=>[],"observations"=>[{"artifact_path"=>"remediation/fix.txt","artifact_sha256"=>fix_digest,"result"=>"verified","behavior"=>"remediation output is present at exact head"}]})
   source_path=File.join(root,"source-findings.json"); wj(source_path,{"ledger_candidate_sha"=>ledger,"source_bindings"=>{"520"=>internal_candidate,"521"=>nil},"reports"=>reports,"findings"=>findings})
-  remediation={"issue"=>700,"pull_request"=>902,"head_sha"=>head,"merge_sha"=>head,"artifacts"=>[{"path"=>"remediation/fix.txt","sha256"=>fix_digest}]}
   review={
     "reviewer"=>"reviewer", "reviewed_sha"=>head, "observed_pr_head_sha"=>head,
     "observed_at"=>"now", "outcome"=>"passed", "findings"=>[], "blockers"=>[], "report_path"=>review_path,
     "sha256"=>Digest::SHA256.file(review_path).hexdigest
   }
-  remediation["review"]=review
-  remediation["validation"]=[{"evidence"=>validation_path,"sha256"=>Digest::SHA256.file(validation_path).hexdigest,"outcome"=>"passed"}]
-  disposition={"kind"=>"fixed","source_finding_ids"=>INTERNAL_FINDING_IDS + EXTERNAL_FINDING_IDS,"remediations"=>[remediation]}
+  remediation_issues=EXPECTED_REMEDIATION_ISSUES.values.flatten.uniq.sort
+  remediations=remediation_issues.map do |remediation_issue|
+    {"issue"=>remediation_issue,"pull_request"=>remediation_issue + 1000,"head_sha"=>head,"merge_sha"=>head,"artifacts"=>[{"path"=>"remediation/fix.txt","sha256"=>fix_digest}],"review"=>review,"validation"=>[{"evidence"=>validation_path,"sha256"=>Digest::SHA256.file(validation_path).hexdigest,"outcome"=>"passed"}]}
+  end
+  disposition={"kind"=>"fixed","source_finding_ids"=>INTERNAL_FINDING_IDS + EXTERNAL_FINDING_IDS,"remediations"=>remediations}
   disposition_path=File.join(root,"dispositions.json"); wj(disposition_path,{"dispositions"=>[disposition]}); blockers_path=File.join(root,"release-blockers.json"); wj(blockers_path,{"unresolved"=>[]})
   paths=[source_path,disposition_path,blockers_path,review_path,validation_path]; manifest_path=File.join(root,"packet-manifest.json"); wj(manifest_path,{"entries"=>paths.map{|p|{"path"=>p,"sha256"=>Digest::SHA256.file(p).hexdigest}}})
-  bin=File.join(repo,"bin"); FileUtils.mkdir_p(bin); gh=File.join(bin,"gh"); File.write(gh,"#!/usr/bin/env ruby\nrequire 'json'; n=ARGV[2].to_i; if ARGV[0]=='issue'; puts JSON.generate(state:'CLOSED',closedByPullRequestsReferences:[{number:{520=>900,521=>901,700=>902}[n]}]); else; sha={900=>'#{reports[0]["merge_sha"]}',901=>'#{reports[1]["merge_sha"]}',902=>'#{head}'}[n]; puts JSON.generate(state:'MERGED',mergeCommit:{oid:sha},headRefOid:sha); end\n"); FileUtils.chmod(0755,gh); ENV["PATH"]="#{bin}:#{ENV["PATH"]}"; ENV["ADL_REMEDIATION_HEAD_SHA"]=head
+  bin=File.join(repo,"bin"); FileUtils.mkdir_p(bin); gh=File.join(bin,"gh"); File.write(gh,"#!/usr/bin/env ruby\nrequire 'json'; n=ARGV[2].to_i; if ARGV[0]=='issue'; pr={520=>900,521=>901}.fetch(n,n+1000); puts JSON.generate(state:'CLOSED',closedByPullRequestsReferences:[{number:pr}]); else; sha={900=>'#{reports[0]["merge_sha"]}',901=>'#{reports[1]["merge_sha"]}'}.fetch(n,'#{head}'); puts JSON.generate(state:'MERGED',mergeCommit:{oid:sha},headRefOid:sha); end\n"); FileUtils.chmod(0755,gh); ENV["PATH"]="#{bin}:#{ENV["PATH"]}"; ENV["ADL_REMEDIATION_HEAD_SHA"]=head
   abort("valid fixed production packet failed") unless validate_packet!(root:root)[:status]=="passed"
   reject=lambda do |name,files,&mutation|
    originals=files.to_h{|p|[p,File.binread(p)]}; mutation.call; pm=JSON.parse(File.read(manifest_path)); pm["entries"].each{|e|e["sha256"]=Digest::SHA256.file(e["path"]).hexdigest}; wj(manifest_path,pm)
@@ -52,6 +53,7 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   end
   reject.call("stale_review_identity",[disposition_path,manifest_path]){d=JSON.parse(File.read(disposition_path));d["dispositions"][0]["remediations"][0]["review"]["reviewed_sha"]=internal_candidate;wj(disposition_path,d)}
   reject.call("empty_remediation_list",[disposition_path,manifest_path]){d=JSON.parse(File.read(disposition_path));d["dispositions"][0]["remediations"]=[];wj(disposition_path,d)}
+  reject.call("dropped_contributing_remediation",[disposition_path,manifest_path]){d=JSON.parse(File.read(disposition_path));d["dispositions"][0]["remediations"].reject!{|r|r["issue"]==821};wj(disposition_path,d)}
   reject.call("pass_with_findings",[review_path,manifest_path]){d=JSON.parse(File.read(review_path));d["findings"]=[{"id"=>"still-open"}];wj(review_path,d)}
   reject.call("invented_twentieth_finding",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["findings"] << d["findings"].last.merge("id"=>"TPR-006");wj(source_path,d)}
   reject.call("invented_external_binding",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["source_bindings"]["521"]=internal_candidate;wj(source_path,d)}
@@ -60,7 +62,7 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   empty_tree=`git mktree </dev/null`.strip; other,err,status=Open3.capture3("git","commit-tree",empty_tree,stdin_data:"unrelated\n"); abort(err) unless status.success?; other=other.strip
   reject.call("non_ancestral_merge",[disposition_path,gh,manifest_path]) do
    d=JSON.parse(File.read(disposition_path)); d["dispositions"][0]["remediations"][0]["merge_sha"]=other; wj(disposition_path,d)
-   File.write(gh,"#!/usr/bin/env ruby\nrequire 'json'; n=ARGV[2].to_i; if ARGV[0]=='issue'; puts JSON.generate(state:'CLOSED',closedByPullRequestsReferences:[{number:{520=>900,521=>901,700=>902}[n]}]); else; pair={900=>['#{reports[0]["merge_sha"]}','#{reports[0]["merge_sha"]}'],901=>['#{reports[1]["merge_sha"]}','#{reports[1]["merge_sha"]}'],902=>['#{head}','#{other}']}[n]; puts JSON.generate(state:'MERGED',mergeCommit:{oid:pair[1]},headRefOid:pair[0]); end\n"); FileUtils.chmod(0755,gh)
+   File.write(gh,"#!/usr/bin/env ruby\nrequire 'json'; n=ARGV[2].to_i; if ARGV[0]=='issue'; pr={520=>900,521=>901}.fetch(n,n+1000); puts JSON.generate(state:'CLOSED',closedByPullRequestsReferences:[{number:pr}]); else; pair={900=>['#{reports[0]["merge_sha"]}','#{reports[0]["merge_sha"]}'],901=>['#{reports[1]["merge_sha"]}','#{reports[1]["merge_sha"]}']}.fetch(n,['#{head}','#{head}']); pair=['#{head}','#{other}'] if n==1814; puts JSON.generate(state:'MERGED',mergeCommit:{oid:pair[1]},headRefOid:pair[0]); end\n"); FileUtils.chmod(0755,gh)
   end
  end
 end

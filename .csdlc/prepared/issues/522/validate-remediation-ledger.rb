@@ -20,6 +20,27 @@ INTERNAL_FINDING_IDS = %w[
   D520-SEC-004
   D520-TEST-001
 ].freeze
+EXPECTED_REMEDIATION_ISSUES = {
+  "D520-RET-001" => [818, 819, 820, 821],
+  "D520-V3F-001" => [817],
+  "D520-REL-001" => [817],
+  "D520-DOC-003" => [817],
+  "D520-DOC-004" => [817],
+  "D520-EVID-001" => [817],
+  "D520-EVID-002" => [817],
+  "D520-RUNTIME-001" => [814],
+  "D520-RUNTIME-002" => [814],
+  "D520-SEC-001" => [815],
+  "D520-SEC-002" => [815],
+  "D520-SEC-003" => [816],
+  "D520-SEC-004" => [814],
+  "D520-TEST-001" => [816],
+  "TPR-001" => [833],
+  "TPR-002" => [834],
+  "TPR-003" => [835],
+  "TPR-004" => [836],
+  "TPR-005" => [837]
+}.freeze
 
 def fail!(message)
   abort(message)
@@ -135,6 +156,9 @@ dispositions.each do |row|
   when "fixed"
     remediations = row.fetch("remediations")
     fail!("fixed disposition has no remediation") if remediations.empty?
+    expected_issues = row.fetch("source_finding_ids").flat_map { |id| EXPECTED_REMEDIATION_ISSUES.fetch(id) }.uniq.sort
+    actual_issues = remediations.map { |remediation| remediation.fetch("issue") }.uniq.sort
+    fail!("finding disposition does not match its remediation issue graph") unless actual_issues == expected_issues
     remediations.each do |remediation|
     remediation_issue = remediation.fetch("issue")
     remediation_pr = remediation.fetch("pull_request")
