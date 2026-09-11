@@ -125,7 +125,9 @@ fail!("nonempty finding census has no dispositions") if source.any? && dispositi
 dispositions.each do |row|
   case row.fetch("kind")
   when "fixed"
-    remediation = row.fetch("remediation")
+    remediations = row.fetch("remediations")
+    fail!("fixed disposition has no remediation") if remediations.empty?
+    remediations.each do |remediation|
     remediation_issue = remediation.fetch("issue")
     remediation_pr = remediation.fetch("pull_request")
     head_sha = remediation.fetch("head_sha")
@@ -146,15 +148,15 @@ dispositions.each do |row|
       blob = git_blob(head_sha, artifact.fetch("path"))
       fail!("remediation head artifact digest mismatch") unless Digest::SHA256.hexdigest(blob) == artifact.fetch("sha256")
     end
-    review = row.fetch("review")
+    review = remediation.fetch("review")
     fail!("fix lacks passing exact-head review identity") unless review.fetch("reviewed_sha") == head_sha && review.fetch("observed_pr_head_sha") == head_sha && review.fetch("outcome") == "passed" && review.fetch("findings") == [] && review.fetch("blockers") == [] && nonempty?(review.fetch("reviewer")) && nonempty?(review.fetch("observed_at"))
     review_path = review.fetch("report_path")
     fail!("exact-head review report is outside remediation packet") unless review_path.start_with?(root + "/") && File.file?(review_path)
     fail!("exact-head review digest mismatch") unless Digest::SHA256.file(review_path).hexdigest == review.fetch("sha256")
     review_doc = read_json(review_path)
     fail!("review report does not prove canonical passing exact-head result") unless review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && review_doc.fetch("blockers") == [] && (review_doc["candidate_sha"] || review_doc["head_sha"]) == head_sha
-    fail!("review report does not prove these findings resolved") unless review_doc.fetch("resolved_finding_ids").sort == row.fetch("source_finding_ids").sort
-    validations = row.fetch("validation")
+    fail!("review report does not prove these findings resolved") unless (row.fetch("source_finding_ids") - review_doc.fetch("resolved_finding_ids")).empty?
+    validations = remediation.fetch("validation")
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
     validations.each do |validation|
       evidence_path = validation.fetch("evidence")
@@ -169,6 +171,7 @@ dispositions.each do |row|
         Digest::SHA256.hexdigest(blob) == observation.fetch("artifact_sha256") && %w[verified passed].include?(observation.fetch("result")) && nonempty?(observation.fetch("behavior"))
       end
       fail!("validation evidence does not prove behavior at fixed head") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && evidence_sha == head_sha && behavior_bound
+    end
     end
   when "deferred"
     fail!("deferral metadata is incomplete") unless %w[owner rationale target_milestone release_consequence].all? { |key| nonempty?(row.fetch(key)) }
@@ -191,9 +194,10 @@ entries.each do |entry|
 end
 paths = entries.map { |entry| entry.fetch("path") }
 fail!("packet manifest omits required artifacts") unless (required - ["packet-manifest.json"]).all? { |name| paths.include?(File.join(root, name)) }
-fixed_review_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.map { |row| row.fetch("review").fetch("report_path") }
+fixed_remediations = dispositions.select { |row| row.fetch("kind") == "fixed" }.flat_map { |row| row.fetch("remediations") }
+fixed_review_paths = fixed_remediations.map { |remediation| remediation.fetch("review").fetch("report_path") }
 fail!("packet manifest omits fixed-disposition review reports") unless fixed_review_paths.all? { |path| paths.include?(path) }
-fixed_validation_paths = dispositions.select { |row| row.fetch("kind") == "fixed" }.flat_map { |row| row.fetch("validation").map { |validation| validation.fetch("evidence") } }
+fixed_validation_paths = fixed_remediations.flat_map { |remediation| remediation.fetch("validation").map { |validation| validation.fetch("evidence") } }
 fail!("packet manifest omits fixed-disposition validation receipts") unless fixed_validation_paths.all? { |path| paths.include?(path) }
   {schema: "adl.v0921.remediation_validation.v2", mode: mode, status: "passed", source_findings: source.length, dispositions: dispositions.length}
 end
