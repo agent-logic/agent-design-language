@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/844/cards/sip.md"
   - ".csdlc/issues/844/cards/vpp.md"
 review_results:
-  findings_status: "review_unavailable"
+  findings_status: "findings_present"
   recommended_outcome: "block"
-notes: "Independent design review by review_771_routes; no implementation approval yet."
+notes: "Read-only independent review of1bdb3e783289a997bba664a93c4a4981f811a073 by review_771_core and review_771_routes."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Design review identified policy completeness, base race and concurrency guards; implemented with focused proof. Exact-head implementation review pending.
+- 844-REV-1 through4: principal normalization,strict policy booleans,uncertain target identity and durable directory ancestry. See .csdlc/evidence/844/REVIEW_REMEDIATION.md.
 
 ### Dispositions
 
-- Implementation review pending.
+- All four implemented with focused passing regressions; independent rereview pending.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent design review by review_771_routes; no implementation approval yet.
+Read-only independent review of1bdb3e783289a997bba664a93c4a4981f811a073 by review_771_core and review_771_routes.

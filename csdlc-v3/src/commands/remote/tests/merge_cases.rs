@@ -445,3 +445,83 @@ fn merge_partial_response_reconciles_from_authenticated_state() {
         std::fs::remove_dir_all(root).unwrap();
     }
 }
+
+#[test]
+fn merge_same_principal_and_malformed_review_policy_rejected() {
+    for reviewer in ["implementer", "IMPLEMENTER", " implementer "] {
+        let root = mutation_repo("merge-same-reviewer", true);
+        let mut r = request(&root);
+        if let GithubMutation::PullRequestMerge {
+            review_receipt_path,
+            review_receipt_digest,
+            ..
+        } = &mut r.mutation
+        {
+            let path = std::path::Path::new(review_receipt_path);
+            let mut receipt: TypedReviewReceipt =
+                serde_json::from_slice(&std::fs::read(path).unwrap()).unwrap();
+            receipt.reviewer = reviewer.into();
+            std::fs::write(path, serde_json::to_vec(&receipt).unwrap()).unwrap();
+            *review_receipt_digest = super::super::typed_review_receipt_payload_digest(&receipt);
+        }
+        let mut p = adapter(&root, &r, vec![]);
+        assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+        assert!(p.invocations.is_empty());
+        std::fs::remove_dir_all(root).unwrap();
+    }
+    for field in ["require_code_owner_review", "require_last_push_approval"] {
+        for value in [None, Some(Value::Null), Some(json!("false"))] {
+            let root = mutation_repo("merge-malformed-policy", true);
+            let r = request(&root);
+            let mut params = json!({"required_approving_review_count":0,"require_code_owner_review":false,"require_last_push_approval":false});
+            if let Some(value) = value {
+                params[field] = value;
+            } else {
+                params.as_object_mut().unwrap().remove(field);
+            }
+            let mut p = adapter(
+                &root,
+                &r,
+                vec![
+                    out(state(&r, false)),
+                    out(json!([{"type":"pull_request","parameters":params}])),
+                ],
+            );
+            assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+            assert_eq!(put_count(&p), 0);
+            std::fs::remove_dir_all(root).unwrap();
+        }
+    }
+}
+#[test]
+fn merge_alternate_review_path_cannot_bypass_uncertain_target_guard() {
+    let root = mutation_repo("merge-path-alias", true);
+    let mut r = request(&root);
+    let before = state(&r, false);
+    let mut p = adapter(
+        &root,
+        &r,
+        vec![
+            out(before.clone()),
+            out(rules()),
+            out(rules()),
+            out(before.clone()),
+            process_output(crate::adapters::ProcessStatus::Exit(28), json!({})),
+            out(before),
+        ],
+    );
+    assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+    assert_eq!(put_count(&p), 1);
+    if let GithubMutation::PullRequestMerge {
+        review_receipt_path,
+        ..
+    } = &mut r.mutation
+    {
+        *review_receipt_path = ".csdlc/evidence/505/merge-review.json".into();
+    }
+    let mut p = adapter(&root, &r, vec![]);
+    assert!(super::super::execute_github_mutation(&root, &r, &mut p).is_err());
+    assert_eq!(put_count(&p), 0);
+    assert!(p.invocations.is_empty());
+    std::fs::remove_dir_all(root).unwrap();
+}

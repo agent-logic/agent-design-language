@@ -205,9 +205,13 @@ fn eligibility(
                 let count = params["required_approving_review_count"]
                     .as_u64()
                     .ok_or_else(|| reject("review count missing"))?;
-                review_required |= count > 0
-                    || params["require_code_owner_review"] == true
-                    || params["require_last_push_approval"] == true;
+                let code_owner = params["require_code_owner_review"]
+                    .as_bool()
+                    .ok_or_else(|| reject("code owner policy missing or malformed"))?;
+                let last_push = params["require_last_push_approval"]
+                    .as_bool()
+                    .ok_or_else(|| reject("last push policy missing or malformed"))?;
+                review_required |= count > 0 || code_owner || last_push;
                 if let Some(methods) = params.get("allowed_merge_methods") {
                     ensure(
                         methods
@@ -347,7 +351,7 @@ pub(super) fn execute(
             && !review.evidence_digest.trim().is_empty()
             && !review.implementer.trim().is_empty()
             && !review.reviewer.trim().is_empty()
-            && review.implementer != review.reviewer
+            && !same_principal(Some(&review.implementer), Some(&review.reviewer))
             && typed_review_receipt_payload_digest(&review) == *review_receipt_digest,
         "stale or invalid exact-head review",
     )?;
@@ -356,6 +360,8 @@ pub(super) fn execute(
     let control = git_control_dir(root).ok_or_else(|| reject("Git receipt directory missing"))?;
     let dir = control.join("csdlc-v3/remote/merges");
     fs::create_dir_all(&dir).map_err(|_| reject("merge receipt directory unavailable"))?;
+    sync_directory_ancestry(&dir, &control, |path| fs::File::open(path)?.sync_all())
+        .map_err(|_| reject("merge directory ancestry not durable"))?;
     let lock_path = dir.join(format!(
         "{}.lock",
         stable_digest(&[
@@ -376,6 +382,27 @@ pub(super) fn execute(
     let reconciliation_path = dir.join(format!("{digest}.reconciliation.json"));
     let receipt_path = github_mutation_receipt_path(root, &digest)?;
     let replay = intent_path.exists();
+    let target_path = dir.join(format!(
+        "{}.target.json",
+        stable_digest(&[
+            &request.repository,
+            &request.pull_request.unwrap_or_default().to_string()
+        ])
+    ));
+    let target = json!({"schema":"csdlc.v3.merge_target.v1","repository":request.repository,"pull_request":request.pull_request,"operation_digest":digest});
+    if target_path.exists() {
+        let existing: Value = serde_json::from_slice(
+            &fs::read(&target_path).map_err(|_| reject("merge target guard unavailable"))?,
+        )
+        .map_err(|_| reject("merge target guard invalid"))?;
+        ensure(
+            existing == target,
+            "PR already has a durable merge attempt; replay the original request",
+        )?;
+    } else {
+        ensure(!replay, "retained intent is missing its target guard")?;
+    }
+
     let (observation, mut invocation) = observe(
         request,
         "pull-request-merge-state",
@@ -414,6 +441,9 @@ pub(super) fn execute(
             rules,
             base_sha,
         };
+        if !target_path.exists() {
+            persist_json_create_new(&target_path, &target)?;
+        }
         persist_json_create_new(&intent_path, &saved)?;
         saved
     };
@@ -560,4 +590,61 @@ pub(super) fn execute(
         reconciliation,
         invocation,
     })
+}
+
+// Sync the new directory and each linking ancestor, through existing Git control.
+fn sync_directory_ancestry(
+    path: &Path,
+    boundary: &Path,
+    mut sync: impl FnMut(&Path) -> std::io::Result<()>,
+) -> std::io::Result<()> {
+    if !path.starts_with(boundary) {
+        return Err(std::io::Error::other("directory outside Git control"));
+    }
+    for parent in path.ancestors() {
+        sync(parent)?;
+        if parent == boundary {
+            return Ok(());
+        }
+    }
+    Err(std::io::Error::other("Git control boundary missing"))
+}
+
+#[cfg(test)]
+mod directory_tests {
+    use super::*;
+    #[test]
+    fn directory_sync_orders_every_link_and_propagates_faults() {
+        let boundary = Path::new("control");
+        let leaf = boundary.join("csdlc-v3/remote/merges");
+        let mut visited = vec![];
+        sync_directory_ancestry(&leaf, boundary, |p| {
+            visited.push(p.to_path_buf());
+            Ok(())
+        })
+        .unwrap();
+        assert_eq!(
+            visited,
+            vec![
+                leaf.clone(),
+                boundary.join("csdlc-v3/remote"),
+                boundary.join("csdlc-v3"),
+                boundary.to_path_buf()
+            ]
+        );
+        for fail_at in 0..4 {
+            let mut count = 0;
+            assert!(sync_directory_ancestry(&leaf, boundary, |_| {
+                let current = count;
+                count += 1;
+                if current == fail_at {
+                    Err(std::io::Error::other("sync fault"))
+                } else {
+                    Ok(())
+                }
+            })
+            .is_err());
+            assert_eq!(count, fail_at + 1);
+        }
+    }
 }

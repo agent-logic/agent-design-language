@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 844,
   "phase": "bound",
-  "generation": 4,
+  "generation": 5,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/844-native-pr-merge",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-844-native-pr-merge",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "ce0c058a5263e3b69935e5a4b22e1f036718dff515538b8e526bd00d0a375bb5"
+  "digest": "38068b594dc245b1095dc2f0478b7de96eb74660d894c59856af11d8166a3d6b"
 }

@@ -81,7 +81,7 @@ Implemented typed merge-only github-pr mutation, exact review and authenticated 
 ## Actions taken
 - `Implemented explicit merge-only request and authenticated complete eligibility.`
 - `Bound durable intent and two-parent merged readback; excluded concurrent or repeated mutation.`
-- `Ran focused negatives, native suite and clippy; verified read-only GraphQL schema against GitHub.`
+- `Repaired all four independent findings and passed targeted regressions; refreshed full suite and rereview pending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; root main remains clean`

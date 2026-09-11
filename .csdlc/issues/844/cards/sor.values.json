@@ -61,7 +61,7 @@
   "run_artifact_root": ".csdlc/evidence/844",
   "actions_taken_line_1": "Implemented explicit merge-only request and authenticated complete eligibility.",
   "actions_taken_line_2": "Bound durable intent and two-parent merged readback; excluded concurrent or repeated mutation.",
-  "actions_taken_line_3": "Ran focused negatives, native suite and clippy; verified read-only GraphQL schema against GitHub.",
+  "actions_taken_line_3": "Repaired all four independent findings and passed targeted regressions; refreshed full suite and rereview pending.",
   "main_repo_paths_updated": "none; root main remains clean",
   "worktree_only_paths_remaining": "Issue844 tracked work awaiting PR publication",
   "integration_state": "not_published",

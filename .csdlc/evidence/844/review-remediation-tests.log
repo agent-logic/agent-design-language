@@ -1,0 +1,24 @@
+   Compiling csdlc-v3 v0.1.0 (<worktree>/csdlc-v3)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.75s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-f2fcf677a6169b1b)
+
+running 16 tests
+test adapters::merge_adapter_tests::merge_put_is_narrow_and_readback_cannot_supply_arbitrary_query ... ok
+test authority::tests::checked_in_authority_artifacts_activate_in_post_merge_equivalent_clone ... fatal: Not a valid object name 1111111111111111111111111111111111111111^{commit}
+ok
+test commands::remote::merge::directory_tests::directory_sync_orders_every_link_and_propagates_faults ... ok
+test commands::remote::tests::merge_cases::merge_already_merged_and_wrong_parent_or_result ... ok
+test commands::remote::tests::merge_cases::merge_alternate_review_path_cannot_bypass_uncertain_target_guard ... ok
+test commands::remote::tests::merge_cases::merge_checks_base_again_and_rejects_postmerge_parent_drift ... ok
+test commands::remote::tests::merge_cases::merge_eligibility_negative_matrix_never_writes_intent_or_dispatches ... ok
+test commands::remote::tests::merge_cases::merge_lock_blocks_concurrent_dispatch ... ok
+test commands::remote::tests::merge_cases::merge_partial_response_reconciles_from_authenticated_state ... ok
+test commands::remote::tests::merge_cases::merge_positive_binds_result_and_replays_without_second_mutation ... ok
+test commands::remote::tests::merge_cases::merge_response_disagreement_stays_blocked_on_replay ... ok
+test commands::remote::tests::merge_cases::merge_result_is_consumed_by_existing_finish_observation_without_mutation ... ok
+test commands::remote::tests::merge_cases::merge_review_and_method_guards_before_network ... ok
+test commands::remote::tests::merge_cases::merge_same_principal_and_malformed_review_policy_rejected ... ok
+test commands::remote::tests::merge_cases::merge_uncertain_transport_is_reconciliation_only ... ok
+test commands::terminal::tests::terminal_verified_readback_denies_stale_nonmerged_and_open_issue ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 63 filtered out; finished in 17.25s
