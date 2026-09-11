@@ -1,0 +1,22 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 7,
+  "issues": [
+    {
+      "task": "PLAT-RUST",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "acaa276c034339e61f2b1b08219cdabf48a9a823786d594d9b7597867f5dc170"
+    },
+    {
+      "task": "CSDLC-REMOTE",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "4b1e37610696a8e06f01f677114ddb51f2d7208832f9ede03024a6e5a33dfae5"
+    }
+  ]
+}
