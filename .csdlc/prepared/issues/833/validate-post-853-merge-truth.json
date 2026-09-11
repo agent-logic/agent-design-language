@@ -1,0 +1,20 @@
+{
+  "issue": 833,
+  "title": "[v0.92.1][TAIL-06.18][review] Re-run external review at immutable candidate",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/833-external-review-immutable-candidate",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-833-external-review-immutable-candidate",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "417966acd02e237089bf2e99c768b3ad54e4e9994b0c8e9c27265fcb951eb82f",
+  "commands": [
+    "prepare_issue",
+    "bind_worktree",
+    "edit_cards",
+    "plan_pvf",
+    "doctor",
+    "schedule",
+    "shepherd",
+    "eligibility"
+  ],
+  "card_updates": {}
+}

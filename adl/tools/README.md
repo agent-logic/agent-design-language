@@ -18,7 +18,7 @@ Keep behavioral and milestone narrative in canonical docs, not here.
 - `validate_multi_agent_transcript.py`: validates the bounded multi-agent transcript artifact contract for the D13 discussion demo.
 - `worktree_doctor.sh`, `worktree_prune.sh`: deterministic worktree governance and safe cleanup helpers.
 - `archive_run_artifacts.sh`: dry-run/apply helper that inventories local run roots, copies unique run artifacts into `.adl/trace-archive/milestones/<milestone>/runs/`, and can move archived active `.adl/runs` entries into `.adl/trace-archive/source-roots/`.
-- `release_ceremony.sh`: canonical release-tail preflight and ceremony wrapper for milestone tag and GitHub Release execution, safe by default and only mutating release state when explicit flags are passed.
+- `release_ceremony.sh`: nonmutating native v3 release candidate preflight; requires an exact typed candidate request and stable owner. See `docs/csdlc-v3/RELEASE_PREFLIGHT.md`.
 - `demo_v089_quality_gate.sh`: canonical `v0.89` D11 quality-gate walkthrough that aggregates the bounded local gate and proof-package checks into one reviewer-facing manifest.
 - Native v3 `csdlc edit` and `csdlc validate` own current typed card edits and
   validation.
@@ -98,14 +98,9 @@ bash adl/tools/demo_v0871_suite.sh
 # copy unique run artifacts, then clear active .adl/runs by preserving source dirs under .adl/trace-archive/source-roots/
 ./adl/tools/archive_run_artifacts.sh --include-worktrees --apply --prune-active-runs
 
-# run release-ceremony preflight for a milestone without mutating tags/releases
-./adl/tools/release_ceremony.sh --version v0.87.1
-
-# create and push the milestone tag after the preflight gates are truly green
-./adl/tools/release_ceremony.sh --version v0.87.1 --create-tag --push-tag
-
-# create a draft GitHub Release from the milestone release notes
-./adl/tools/release_ceremony.sh --version v0.87.1 --draft-release
+# install the reviewed native v3 owner, then check an exact candidate request
+./adl/tools/install_owner_binaries.sh --bin csdlc
+./adl/tools/release_ceremony.sh --request /absolute/path/to/release-preflight.json
 
 # run standard checks
 ./adl/tools/batched_checks.sh

@@ -32,7 +32,7 @@ use serde::Serialize;
 const AUTHORITY_HELP: &str = "C-SDLC v3 is operational after #505 / PR #591; authenticated canonical selector and reconciliation receipt validation are required. Missing or stale proof suspends authority.";
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue close --repo <owner/name> --issue <number> --disposition <duplicate|superseded|no-op> --rationale <text> (--body <current-body>|--body-file <path>) --expected-head <sha> [--duplicate-of <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  bind --request <path> --registry <path> --registrations <path>\n  clean --request <path>\n  cutover --request <path>\n  doctor --request <path> --registry <path> --registrations <path>\n  edit --request <path> --registry <path> --registrations <path>\n  eligibility --request <path> --registry <path> --registrations <path>\n  finish --request <path>\n  github --request <path> [--observe-github] [--execute]\n  github-issue create --repo <owner/name> --title <title> (--body <body>|--body-file <path>) --expected-head <sha> [--label <label>] [--assignee <login>] [--milestone <number>] [--execute]\n  github-issue close --repo <owner/name> --issue <number> --disposition <duplicate|superseded|no-op> --rationale <text> (--body <current-body>|--body-file <path>) --expected-head <sha> [--duplicate-of <number>] [--execute]\n  github-issue --request <path> [--observe-github] [--execute]\n  github-pr --request <path> [--observe-github] [--execute]\n  install --request <path>\n  issue --request <path> --registry <path> --registrations <path>\n  pr-state --request <path> [--observe-github]\n  proof --request <path>\n  publish --request <path> [--observe-github]\n  release-preflight --request <path>\n  remote --help\n  review --request <path>\n  schedule --request <path> --registry <path> --registrations <path>\n  shadow --request <path>\n  shepherd --request <path> --registry <path> --registrations <path>\n  soak --request <path>\n  sprint --repo-root <path> --request <path>\n  validate --request <path> --registry <path> --registrations <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
@@ -50,11 +50,14 @@ fn main() {
             }
         }
         Err(error) => {
-            if serde_json::from_str::<serde_json::Value>(&error)
-                .is_ok_and(|value| value["schema"] == "csdlc.v3.proof_route.v1")
-            {
+            if serde_json::from_str::<serde_json::Value>(&error).is_ok_and(|value| {
+                matches!(
+                    value["schema"].as_str(),
+                    Some("csdlc.v3.proof_route.v1" | "csdlc.v3.release_preflight.v1")
+                )
+            }) {
                 println!("{error}");
-                eprintln!("csdlc: proof route blocked; see structured stdout findings");
+                eprintln!("csdlc: read-only route blocked; see structured stdout findings");
             } else {
                 eprintln!("csdlc: {error}");
             }
@@ -73,6 +76,7 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "local" => run_local(rest),
         "remote" => run_remote_overview(rest),
         "sprint" => run_sprint(rest),
+        "release-preflight" => run_release_preflight(rest),
         route if PROOF_ROUTE_NAMES.contains(&route) => run_proof_route(route, rest),
         route if LOCAL_ROUTE_NAMES.contains(&route) => run_local_route(route, rest),
         "github-issue" if rest.first().is_some_and(|arg| arg == "create") => {
@@ -1090,5 +1094,25 @@ impl LocalArgs {
             repo_root,
             v3_state_root,
         })
+    }
+}
+
+fn run_release_preflight(args: &[String]) -> Result<String, String> {
+    if args == ["--help"] || args == ["-h"] {
+        return Ok("usage: csdlc release-preflight --request <path>\nRead-only candidate consistency; never release authorization.".into());
+    }
+    let args = RequestOnlyArgs::parse("release-preflight", args)?;
+    let request =
+        serde_json::from_slice(&fs::read(args.request).map_err(|_| "release request unreadable")?)
+            .map_err(|_| "release request malformed")?;
+    let report = csdlc_v3::commands::release::preflight(
+        &env::current_dir().map_err(|_| "repository root unavailable")?,
+        &request,
+    );
+    let output = serde_json::to_string(&report).map_err(|_| "report serialization failed")?;
+    if report.eligible {
+        Ok(output)
+    } else {
+        Err(output)
     }
 }
