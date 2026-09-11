@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Assemble live prerequisite and canonical evidence inputs; record exact missing gates, notes hash and proposed tag; prepare execution/readback checklist; review preparation and stop before operator release approval."
+plan_summary: "Consume merged #856 version/native-preflight repairs; preserve original findings; integrate reviewed final #522 and #525 evidence; pin candidate and notes; execute native preflight in a clean validation checkout; obtain independent review and retain exact remaining operator approval prerequisites."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -76,13 +76,13 @@ codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
     status: "completed"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "completed"
+    status: "in_progress"
   - step: "Implement the bounded deliverables only."
-    status: "completed"
+    status: "pending"
   - step: "Run focused validation and proof gates."
-    status: "completed"
+    status: "pending"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "completed"
+    status: "pending"
 affected_areas:
   - "<slug>"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Merged preparation PRs do not discharge final proof; current status may be stale; docs CI is not full release coverage."
 test_strategy:
-  - "Native card validation, source hash/path checks, live issue/PR/tag/release readback, deterministic prerequisite census and bounded independent preparation review."
+  - "Focused native release_preflight positive/negative matrix and shell routing passed at 2674f00c; independently review parity and stable v3 routing; validate final candidate gate after final #522 evidence integration. Do not substitute fixture success for release acceptance."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Preparation complete; actual ceremony awaits #522/#525, final proof, version/authority preflight repair and exact operator approval."
+notes: "#856 repairs merged and locally verified. #522 has passing candidate validation at 64b08fa52c14911d6e5fda772a798966841e133a with final review subject99b4a1850b, but remains unmerged/open at inspection. #525 closed. No final gate or release authorization exists."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.1][TAIL-10] Release ceremony`.
 
-Assemble live prerequisite and canonical evidence inputs; record exact missing gates, notes hash and proposed tag; prepare execution/readback checklist; review preparation and stop before operator release approval.
+Consume merged #856 version/native-preflight repairs; preserve original findings; integrate reviewed final #522 and #525 evidence; pin candidate and notes; execute native preflight in a clean validation checkout; obtain independent review and retain exact remaining operator approval prerequisites.
 
 ## PVF Lane Plan
 
@@ -143,10 +143,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 ## Codex Plan
 
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
-2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [completed] Implement the bounded deliverables only.
-4. [completed] Run focused validation and proof gates.
-5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
+2. [in_progress] Inspect repo inputs and target surfaces before editing.
+3. [pending] Implement the bounded deliverables only.
+4. [pending] Run focused validation and proof gates.
+5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Native card validation, source hash/path checks, live issue/PR/tag/release readback, deterministic prerequisite census and bounded independent preparation review.
+- Focused native release_preflight positive/negative matrix and shell routing passed at 2674f00c; independently review parity and stable v3 routing; validate final candidate gate after final #522 evidence integration. Do not substitute fixture success for release acceptance.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Preparation complete; actual ceremony awaits #522/#525, final proof, version/authority preflight repair and exact operator approval.
+#856 repairs merged and locally verified. #522 has passing candidate validation at 64b08fa52c14911d6e5fda772a798966841e133a with final review subject99b4a1850b, but remains unmerged/open at inspection. #525 closed. No final gate or release authorization exists.
