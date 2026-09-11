@@ -2613,6 +2613,8 @@ fn comment_pagination_allows_explicit_retry_only_after_complete_absence() {
     assert_eq!(process.invocations[4].argv()[3], "2");
 }
 
+#[path = "tests/merge_cases.rs"]
+mod merge_cases;
 // PVF: required deterministic local recovery negatives; fake transport, small CPU.
 #[test]
 fn legacy_ready_intent_rejects_unverified_recovery_before_mutation() {

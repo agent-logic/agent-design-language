@@ -9,6 +9,10 @@ cannot grant it. Use `.adl/bin/native-v3/csdlc` and the declared typed requests.
 Native `issue`, `edit`, `validate`, `doctor` and `bind` own local preparation;
 `github-issue` and `github-pr` own remote operations; `review` precedes `publish`;
 `finish` establishes terminal truth and `clean` separately guards cleanup.
+Authorized exact-head PR merge uses the native `github-pr` `pull_request_merge`
+request documented in [Native pull-request merge](PULL_REQUEST_MERGE.md). It
+requires authenticated review/policy/check admission and durable reconciliation;
+`finish --observe-github` then observes terminal truth without a second mutation.
 Retained construction and proof routes do not independently authorize mutation.
 V2 is permitted only for an explicitly authorized rollback or bounded transition
 remediation, never as an automatic fallback for missing v3 proof.
