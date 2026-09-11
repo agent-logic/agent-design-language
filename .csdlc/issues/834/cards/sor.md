@@ -20,7 +20,7 @@ Run ID: issue-0834
 Version: v0.92.1
 Title: [v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor
 Branch: codex/834-internal-review-reconciliation
-Card Status: in_progress
+Card Status: reviewed
 Status: in_progress
 Generated: 2026-09-11T02:59:50.407672+00:00
 
@@ -57,7 +57,7 @@ Reconciled closed #520 / merged #831 and all14 findings to8 merged owner PRs wit
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_validated; independent review and publication pending`
+- Completion state: `implementation_validated_and_reviewed; publication and hosted CI pending`
 - Issue goal ref: `Planning #7 issue834 active session goal`
 - Sprint goal ref: `not_applicable; issue-local goal under522`
 - Goal metrics rollup ref: `not_collected`
@@ -110,7 +110,7 @@ Rules:
   - `python3 docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/validate.py --live; python3 docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/test_validate.py; native csdlc validate using issue834 request`
     `Verified closure topology, ancestry, historical bytes,14 unique finding IDs and8 owners; rejected17 mutations; validated six rendered cards.`
 - Results:
-  - `PASS; hosted CI pending publication`
+  - `PASS: local contract,17 negative cases,live readback,native six-card validation; independent review accepted79336fc345429a39a700577d4e943e77c4f69bc0. Hosted CI pending publication.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: true
     schema_changes:
       present: true
-      approved: false
+      approved: true
 ```
 
 ## Determinism Evidence

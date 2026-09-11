@@ -7,7 +7,7 @@
   "branch": "codex/834-internal-review-reconciliation",
   "version": "v0.92.1",
   "card": "srp",
-  "card_status": "ready",
+  "card_status": "reviewed",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-834-internal-review-reconciliation",
   "slug": "issue-834-internal-review-reconciliation",
@@ -17,9 +17,9 @@
   "stp_card": ".csdlc/issues/834/cards/stp.md",
   "sor_card": ".csdlc/issues/834/cards/sor.md",
   "sip_card": ".csdlc/issues/834/cards/sip.md",
-  "findings_status": "one card-rendering finding under repair",
-  "recommended_outcome": "BLOCK pending rereview",
-  "review_findings": "P2: rendered SOR omitted validation and artifact fields despite values content.",
-  "review_dispositions": "Supported typed fields normalized; independent rereview pending.",
-  "review_notes": "Independent reviewer review_771_core inspected7d4360f4f2; packet checks passed. Final exact-head acceptance pending."
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "Initial P2: SOR values did not render validation and artifacts. No remaining actionable findings.",
+  "review_dispositions": "Resolved through native typed supported fields. Independent rereview accepted79336fc345429a39a700577d4e943e77c4f69bc0.",
+  "review_notes": "review_771_core reviewed all21 initial paths at7d4360f4f2 and accepted card repair at79336fc345429a39a700577d4e943e77c4f69bc0. Packet unchanged;17 negatives and positive pass. Final metadata delta review recorded in native publication evidence."
 }
