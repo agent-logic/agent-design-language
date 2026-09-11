@@ -8,8 +8,8 @@ version: "v0.92.1"
 title: "[v0.92.1][TAIL-06.18][review] Re-run external review at immutable candidate"
 branch: "codex/833-external-review-immutable-candidate"
 generated_at: "2026-09-11T17:24:00Z"
-card_status: "ready"
-status: "needs_followup"
+card_status: "changes_requested"
+status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/833"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/833/cards/sip.md"
   - ".csdlc/issues/833/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "needs_followup"
-notes: "Review at bb33c5a found publication-synchronization findings: push PR #853 to the reviewed head, update the PR body to close #833 while leaving #522 open, and retain this SRP finding record before final live-state review."
+  findings_status: "two_publication_truth_findings_resolved_pending_fresh_review"
+  recommended_outcome: "fresh_exact_head_review_required_do_not_close_833"
+notes: "Reviewer: subagent /root/review_833_release_fixes. Reviewed revision: 2dfd01343816beb5cac6df2f644141be973f6fc2. Scope otherwise passed: no product code or #856-owned version/ceremony files remain; all focused validators and diff hygiene passed. #522 and #833 remain open."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -66,7 +66,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
 
 ## Review Summary
 
-Use this prompt to govern the independent review for this issue. The review record below captures the current publication-synchronization findings; final PR settlement still requires a live review after the branch and PR body are updated.
+Use this prompt to govern the independent pre-PR review for this issue. Review results are intentionally absent before implementation exists and must be finalized before PR publication.
 
 ## Scope Basis
 
@@ -113,22 +113,26 @@ Use this prompt to govern the independent review for this issue. The review reco
 
 ## Review Results
 
+When finalizing review, record the machine-readable review result in frontmatter:
+
+```yaml
+review_results:
+  findings_status: "no_findings | findings_present | review_unavailable | review_timeout | review_cancelled | review_failed"
+  recommended_outcome: "pass | block | needs_followup"
+```
+
 ### Findings
 
-- P1 — PR #853 was not yet at the reviewed local head `bb33c5a748cd971d8d12337aa845c0f5c910c4a0`; live GitHub still pointed to `3edc76dbda55169d0d229f41bbec150ac8bea374`, so live PR checks and PR state did not yet cover the truth-repair commits.
-- P1 — The live PR body still described the earlier phase-one boundary and said it did not close #833, while the issue-local SOR/remediation truth now supports publication that closes #833 and explicitly leaves #522 open.
-- P2 — This SRP still contained pending-review placeholders at the reviewed head.
+- Independent exact-head review of 2dfd01343816beb5cac6df2f644141be973f6fc2 found P1: PR #853 incorrectly used Closes #833 despite unresolved #821 and #856 blockers; P2: SRP and SOR were stale and did not record current validation or review truth.
 
 ### Dispositions
 
-- P1 PR-head drift: to be resolved by pushing `codex/833-external-review-immutable-candidate` to the reviewed head and rechecking live PR #853.
-- P1 PR-body drift: to be resolved through the typed v3 `github-pr` route after the branch is pushed, with `Closes #833` and no `Closes #522`.
-- P2 SRP placeholder drift: resolved by this SRP truth update; final live-state review remains required after publication synchronization.
+- P1 resolved through authenticated native-v3 github-pr mutation: PR #853 now uses Part of #833 and explicitly does not auto-close #833. P2 resolved by this typed card update. A fresh exact-head review is required after committing these lifecycle changes.
 
 ### Recommended Outcome
 
-- needs_followup
+- fresh_exact_head_review_required_do_not_close_833
 
 ## Notes
 
-The failed external report remains retained as non-proving evidence. The executable addendum and #818 supersession proof remain bounded support for #833 publication only; they do not approve the release and do not close #522.
+Reviewer: subagent /root/review_833_release_fixes. Reviewed revision: 2dfd01343816beb5cac6df2f644141be973f6fc2. Scope otherwise passed: no product code or #856-owned version/ceremony files remain; all focused validators and diff hygiene passed. #522 and #833 remain open.

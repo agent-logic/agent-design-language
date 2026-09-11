@@ -1,0 +1,23 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "2dfd01343816beb5cac6df2f644141be973f6fc2",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 833,
+      "pull_request": 853,
+      "cutover_issue": null,
+      "operator_approval": "Operator directed #833 to remain open until all release blockers are resolved; remove the incorrect closing keyword from PR #853 and preserve #522 as the final ledger gate.",
+      "expected_head_sha": "2dfd01343816beb5cac6df2f644141be973f6fc2",
+      "credential_names": [
+        "GITHUB_TOKEN"
+      ],
+      "mutation": {
+        "action": "pull_request_update",
+        "title": "[v0.92.1][TAIL-06.18] Retain immutable-candidate external review",
+        "body": "Part of #833\n\n## Summary\n\n- retain the failed immutable-candidate external-review report as non-proving evidence bound to candidate `9c7e57d412d61898bd44ab00d53e31afbb779e5c`\n- retain the executable-review addendum and remediation disposition record without turning either artifact into release approval\n- add narrow #818 supersession proof showing only the exact 17-row proposal approval via PR #832; release approval remains out of scope\n- keep Sprint 10 ledger issue 522 open for the complete TAIL-06 finding-disposition ledger and final release-blocker denominator\n\n## Validation\n\n- `ruby -c .csdlc/prepared/issues/833/validate-external-review-handoff.rb`\n- `ruby .csdlc/prepared/issues/833/validate-external-review-handoff.rb --all` \u2014 pass; handoff/report candidate binding plus seven negative cases\n- `ISSUE818_SUPERSESSION=.csdlc/prepared/issues/833/issue-818-candidate-current-supersession.json ruby .csdlc/prepared/issues/833/validate-issue-818-candidate-current-supersession.rb` \u2014 pass; exact #818 17-row supersession scope\n- `ruby .csdlc/prepared/issues/833/test-issue-818-candidate-current-supersession.rb` \u2014 pass; eight malformed, forged, or scope-widened receipts rejected\n- `python3 -m json.tool .csdlc/issues/833/cards/sor.values.json`\n- `python3 -m json.tool .csdlc/issues/833/cards/srp.values.json`\n- `git diff --check origin/main...HEAD`\n\n## Boundaries\n\n- This PR does not auto-close issue 833 after merge.\n- Sprint 10 ledger issue 522 remains open after this PR.\n- This PR is not release approval and does not claim the failed external review became a pass.\n- Issue 522 remains the final ledger gate for every retained and newly returned finding."
+      }
+    }
+  }
+}
