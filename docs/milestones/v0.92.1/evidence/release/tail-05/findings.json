@@ -1,0 +1,88 @@
+{
+  "schema": "adl.v0921.third_party_review_findings.v1",
+  "review_issue": 521,
+  "reviewed_at": "2026-09-10",
+  "candidate_sha": null,
+  "outcome": "failed",
+  "non_proving": true,
+  "verdict": "changes_required",
+  "reviewer": {
+    "recorded_identity": "Independent technical review",
+    "identity_verified": false,
+    "independence": {
+      "status": "asserted_partial",
+      "scope": "Independent of the C-SDLC pipeline, not independent of the operator",
+      "operator_independent": false
+    },
+    "basis": [
+      "PDF author metadata records Independent technical review.",
+      "The document subtitle records Independent, findings-first, read-only.",
+      "The PDF states that reviewer independence is partial: the lane is independent of the pipeline, not of the operator."
+    ]
+  },
+  "source": {
+    "name": "ADL_v0.92.1_Third_Party_Review.pdf",
+    "sha256": "12fb267b0d956f667fca83c1443aa87c65ddf276d536252371f4cfc39806779b",
+    "pages": 5,
+    "repository_copy": false
+  },
+  "findings": [
+    {
+      "id": "TPR-001",
+      "severity": "P1",
+      "status": "blocking",
+      "title": "Assignment cannot be bound because no candidate SHA was supplied",
+      "evidence": "Third-party review page 1: candidate identity was absent and the reviewer had no Git access to infer or monitor a revision.",
+      "impact": "No finding or verdict can be bound to immutable reviewed bytes.",
+      "remediation": "Supply the finalized immutable candidate SHA and rerun the independent review at that exact revision.",
+      "remediation_issue": 833
+    },
+    {
+      "id": "TPR-002",
+      "severity": "P1",
+      "status": "blocking",
+      "title": "Required predecessor #520 was not finalized and had changes required",
+      "evidence": "Third-party review pages 1-2: the supplied #520 summary retained 14 findings and five P1 findings with remediation #814-#821 still open.",
+      "impact": "TAIL-05 could not review a finalized predecessor or discharge already-open internal findings.",
+      "remediation": "Complete the internal remediation wave, finalize #520, and reconcile the exact merged predecessor.",
+      "remediation_issue": 834
+    },
+    {
+      "id": "TPR-003",
+      "severity": "P1",
+      "status": "blocking",
+      "title": "Every release-gating row in the milestone projection was blocked",
+      "evidence": "Third-party review page 2: all 14 feature rows and TAIL-05, TAIL-06, and TAIL-10 were blocked, with 198 remediation rows unproved.",
+      "impact": "The requested closeout contradicted the milestone's own release projection.",
+      "remediation": "Recompute the complete release projection only after all remediation proof is current.",
+      "remediation_issue": 835
+    },
+    {
+      "id": "TPR-004",
+      "severity": "P2",
+      "status": "open",
+      "title": "Code-reduction claim was not verifiable and visible decrease included decomposition",
+      "evidence": "Third-party review page 2: top-level-only measurements counted moved code as reduction and could not distinguish deletion from relocation.",
+      "impact": "The recorded metric could prove neither reduction nor its absence.",
+      "remediation": "Publish a recursive before/after measurement with commands and separate deleted from relocated lines.",
+      "remediation_issue": 836
+    },
+    {
+      "id": "TPR-005",
+      "severity": "P2",
+      "status": "open",
+      "title": "Triple control-plane coexistence persisted without a current boot-path map",
+      "evidence": "Third-party review pages 2-3: csdlc-v2, csdlc-v3, and legacy adl surfaces coexisted alongside runtime generations without a per-subsystem execution map.",
+      "impact": "A fix can land in one generation while the active path continues using another.",
+      "remediation": "Publish the active per-subsystem boot-path table and retire superseded guidance against parity evidence.",
+      "remediation_issue": 837
+    }
+  ],
+  "limitations": [
+    "No candidate SHA or Git access; worktree cleanliness and drift were unknown.",
+    "No live GitHub state was inspected.",
+    "No builds, tests, validators, doctor commands, or cloud operations were executed.",
+    "The review covered a narrow supplied document and directory surface rather than the complete mandatory review denominator.",
+    "The code-size metric was explicitly non-proving."
+  ]
+}
