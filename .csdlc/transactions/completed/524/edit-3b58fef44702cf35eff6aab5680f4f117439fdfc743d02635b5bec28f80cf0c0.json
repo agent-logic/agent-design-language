@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.local_mutation_completion.v1",
+  "issue": 524,
+  "route": "edit",
+  "request_digest": "3b58fef44702cf35eff6aab5680f4f117439fdfc743d02635b5bec28f80cf0c0",
+  "result": {
+    "route": "edit",
+    "issue": 524,
+    "mutated": true,
+    "phase": "bound",
+    "generation": 5,
+    "digest": "019a889e3d966ccb20caf793ddede58442fa0fc4a4093983733a7fe1729e30be",
+    "next_route": "validate",
+    "findings": []
+  }
+}

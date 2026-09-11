@@ -25,14 +25,14 @@ specifications:
     non_goals: [jira, linear, slack, broad_workspace]
   - id: CF-EVIDENCE
     outcome: Every review claim traces to stable, provenance-bound, redacted, policy-retained evidence.
-    owned_surfaces: [artifact_identity, provenance, redaction, retention, shared_finding_run_contract, consumer_conformance_fixtures]
+    owned_surfaces: [governed_evidence_core_contract]
     acceptance: [stable_identity, immutable_provenance, fail_closed_redaction, explicit_retention, finding_run_contract_merged_before_consumers]
     pvf: [determinism, tamper_detection, redaction_negative_suite, retention_contract, cross_consumer_conformance]
     stop_conditions: [unredacted_secret, mutable_identity, unverifiable_provenance]
     non_goals: [public_evidence_hosting]
   - id: CF-COG
     outcome: Architecture and change-risk findings are explainable and evidence grounded.
-    owned_surfaces: [dependencies, boundaries, coupling, connascence, drift, blast_radius, architectural_quanta, adr_rationale]
+    owned_surfaces: [architecture_cognition_reporter]
     acceptance: [finding_to_evidence_trace, confidence_or_unknowns, explicit_boundary_model, actionable_risk]
     pvf: [known_fixture, reviewer_calibration, false_positive_sample]
     stop_conditions: [unsupported_architecture_claim, opaque_score_only]
@@ -67,7 +67,7 @@ specifications:
     non_goals: [public_customer_scale]
   - id: CF-PROOF
     outcome: Documentation and realistic proof show Beta 1 can be operated on ADL and one bounded external open-source repository.
-    owned_surfaces: [docs, examples, fixtures, self_review, external_oss_review]
+    owned_surfaces: [beta1_qualification_evidence_packet]
     acceptance: [fresh_operator_success, reproducible_fixtures, bounded_external_scope, explicit_nonclaims]
     pvf: [docs_walkthrough, adl_packet_review, external_packet_review, privacy_audit]
     stop_conditions: [unlicensed_fixture, private_data_leak, synthetic_only_acceptance]
@@ -93,6 +93,13 @@ specifications:
     pvf: [mlx_metal_smoke, unsupported_platform_failure]
     stop_conditions: [provider_contract_bypass, unsupported_platform_claim]
     non_goals: [general_local_model_rewrite, public_benchmark_marketing]
+  - id: PLAT-PAIR
+    outcome: A bounded experiment determines whether NVIDIA PAIR improves multi-node local inference for ADL without becoming a provider type.
+    owned_surfaces: [pair_experiment_harness, result_packet, disposition]
+    acceptance: [canonical_provider_definition_consumed, raw_pair_route_proven, runtime_path_compared, concurrency_and_failure_behavior_measured, no_provider_type_added]
+    pvf: [raw_pair_smoke, runtime_v3_pair_smoke, concurrent_request_comparison, node_loss_fallback, null_benefit_detection]
+    stop_conditions: [provider_contract_bypass, paid_or_network_mutation_without_authority, unsupported_performance_claim]
+    non_goals: [model_sharding, pooled_vram, production_rollout]
   - id: PLAT-UTS
     outcome: One canonical UTS package is usable by declared supported consumers.
     owned_surfaces: [uts_schema, package, migration_notes]
@@ -114,6 +121,13 @@ specifications:
     pvf: [baseline_comparison, account_readback, inventory_validator, redaction_scan]
     stop_conditions: [personal_account, mutation_required, credential_exposure]
     non_goals: [resource_migration, deployment]
+  - id: OPS-GCP
+    outcome: One apply-ready company GCP move-in execution packet reconciles current state, reviewed Terraform, ordered apply and rollback steps, and residual routing without performing cloud mutations.
+    owned_surfaces: [gcp_move_in_execution_packet]
+    acceptance: [company_identity_verified, prior_work_reused, terraform_package_reviewed, apply_and_rollback_order_explicit, billing_and_cleanup_controls_explicit, residuals_routed]
+    pvf: [readonly_inventory, terraform_fmt_validate_plan, packet_structure, redaction_scan]
+    stop_conditions: [personal_project_selected, mutation_without_operator_authority, credential_exposure, duplicate_v0921_scope]
+    non_goals: [runtime_deployment, paid_gpu_launch, six_resident_requalification]
   - id: PUB-MEDIUM
     outcome: One reviewable Medium article packet is ready for a human editorial decision.
     owned_surfaces: [medium_packet]
@@ -151,7 +165,7 @@ specifications:
     non_goals: [observatory_redesign, delaying_issue_512]
     issue: 720
   - id: SIM-UMBRELLA
-    outcome: "Own disjoint assignment, dependency ordering, scorecard and final evidence aggregation; complete after SIM-07."
+    outcome: "One sprint scorecard reconciles every independently owned SIM result after SIM-09."
     owned_surfaces: ["csdlc_v3_simplification/sim-umbrella"]
     acceptance: ["Every SIM result is accounted for and the sprint closes without duplicating implementation scope.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
     pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
@@ -159,7 +173,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-01
-    outcome: "Reproduce S1 using isolated fixtures, then separate observation from mutation/recovery. Move state-directory creation and mutation locks out of read-only paths. Freeze the installed baseline and historical public-journey corpus; introduce attempt/outcome measurement here."
+    outcome: "Diagnostics observe healthy, interrupted, missing, and corrupt state without mutating it."
     owned_surfaces: ["csdlc_v3_simplification/sim-01"]
     acceptance: ["Diagnostics leave issue files, journals, registrations, and projections unchanged for healthy, interrupted, missing, and corrupt state. They report recovery-required explicitly. Retain baseline traces, environment identity, manual inputs and outcome denominators; exercise root and genuine non-primary worktree entrypoints.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
     pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
@@ -175,7 +189,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-03
-    outcome: "Add validated evidence types and canonical context resolution; implement the intent-oriented CLI against the existing operational behavior first."
+    outcome: "One intent-oriented CLI resolves canonical context and emits validated evidence against existing operational behavior."
     owned_surfaces: ["csdlc_v3_simplification/sim-03"]
     acceptance: ["New callers supply intent and changed content rather than hand-built context/receipt chains; stale requests, ambiguous topology, wrong repository, and stale review are rejected.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
     pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
@@ -199,7 +213,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-06
-    outcome: "Implement explicit conversion, transition manifest, writer fencing, and restore tooling. Rehearse the coordinated breaking change on copies of representative active records."
+    outcome: "One fenced, restorable conversion rehearsal succeeds on representative copied records."
     owned_surfaces: ["csdlc_v3_simplification/sim-06"]
     acceptance: ["Exact census, lossless semantic mapping, old/new revision evidence, interrupted-conversion recovery, and pre-resume restore all pass. Unsupported records stop conversion with an issue-specific disposition.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
     pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
@@ -207,12 +221,28 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-07
-    outcome: "Independently review the complete candidate, qualify the journey evidence accumulated since SIM-01, and prepare the deployment runbook and prospective measurement protocol. Activate only in the separately authorized pause."
+    outcome: "One independent qualification records pass, fail, or not-proven for the complete candidate."
     owned_surfaces: ["csdlc_v3_simplification/sim-07"]
-    acceptance: ["No unresolved actionable review findings; required aggregate CI settled; conversion/readback and all pre-resume acceptance gates pass before writers resume. After authorized activation, report a consecutive-issue pilot including failures and abandonment; keep reliability claims bounded by exposure.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "pre_resume_qualification_before_activation", "separately_authorized_writer_pause", "post_activation_consecutive_journey_pilot_before_sprint_completion"]
+    acceptance: ["No unresolved actionable review findings; required aggregate CI settled; conversion/readback and all pre-resume acceptance gates have an explicit result.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "pre_resume_qualification_before_activation"]
     pvf: ["deterministic_local_cpu_contract", "installed_public_journey", "failure_recovery_and_negative_guards"]
     stop_conditions: ["unresolved_owned_path_collision", "missing_execution_authority", "missing_explicit_pause_authorization_for_activation"]
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+  - id: SIM-08
+    outcome: "One reviewed transition operations packet defines deployment, rollback, and prospective measurement without activating writers."
+    owned_surfaces: ["csdlc_v3_simplification/sim-08"]
+    acceptance: ["Deployment and rollback steps are executable and the measurement denominator is explicit.", "preserve_authority_review_and_cleanup_guards"]
+    pvf: ["runbook_rehearsal", "rollback_check", "measurement_protocol_review"]
+    stop_conditions: ["missing_qualification", "implicit_activation"]
+    non_goals: ["live_activation", "Runtime_implementation"]
+    planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
+  - id: SIM-09
+    outcome: "One separately authorized consecutive-issue pilot records every attempt, failure, abandonment, and final disposition."
+    owned_surfaces: ["csdlc_v3_simplification/sim-09"]
+    acceptance: ["Separate pause and activation authority exists; the consecutive denominator is complete; reliability claims remain bounded by exposure."]
+    pvf: ["explicit_activation_authority", "consecutive_issue_denominator", "failure_and_abandonment_accounting"]
+    stop_conditions: ["missing_explicit_pause_authorization_for_activation", "incomplete_attempt_denominator"]
+    non_goals: ["unbounded_rollout", "Runtime_implementation"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: TAIL-01
     outcome: Integrated quality evidence is reconciled into an explicit pass, fail, or not-proven result.

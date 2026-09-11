@@ -17,7 +17,7 @@ def read_yaml(path):
     return json.loads(subprocess.check_output(["ruby", "-e", script, str(path)], text=True))
 
 
-def check(wave, specs):
+def check(wave, specs, source_manifest=None, reconciliation=None):
     failures = []
     rows = wave["work_packages"]
     ids = [r["id"] for r in rows]
@@ -25,10 +25,33 @@ def check(wave, specs):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 39 or len(set(ids)) != 39:
-        failures.append("Expected 39 unique work packages")
+    if len(ids) != 43 or len(set(ids)) != 43:
+        failures.append("Expected 43 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
+    atomic_results = wave.get("atomic_results", {})
+    if set(atomic_results) != set(ids):
+        failures.append("Atomic-result register must cover every work package exactly once")
+    if len(set(atomic_results.values())) != len(ids):
+        failures.append("Every work package must have a distinct primary result")
+    if any(not re.fullmatch(r"[a-z0-9]+(?:_[a-z0-9]+)*", str(result)) for result in atomic_results.values()):
+        failures.append("Atomic results must be one normalized result identifier, not a compound work list")
+    for row in rows:
+        if not row.get("deliverables") or not row.get("proof"):
+            failures.append(f"{row['id']} must name implementation output and proving evidence")
+    admitted_tbd_sources = {
+        row.get("planning_source")
+        for row in rows
+        if str(row.get("planning_source", "")).startswith(".adl/docs/TBD/")
+    }
+    if source_manifest is not None:
+        missing = sorted(admitted_tbd_sources - source_manifest)
+        if missing:
+            failures.append("Admitted TBD sources missing from audit manifest: " + ", ".join(missing))
+    if reconciliation is not None:
+        missing = sorted(path for path in admitted_tbd_sources if f"`{path}`" not in reconciliation)
+        if missing:
+            failures.append("Admitted TBD sources missing a reconciliation disposition: " + ", ".join(missing))
     expected_existing = {"OBS-LIVE": 720}
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
     if actual_existing != expected_existing:
@@ -39,14 +62,14 @@ def check(wave, specs):
             failures.append(f"{key} must reuse existing authority without new-wave dependencies")
         if spec_by_id.get(key, {}).get("issue") != issue:
             failures.append(f"{key} specification lost existing identity")
-    for n in range(1, 8):
+    for n in range(1, 10):
         key = f"SIM-{n:02}"
         expected = [] if n == 1 else [f"SIM-{n-1:02}"]
         row = by_id.get(key, {})
         if row.get("depends_on") != expected or row.get("startup_policy") != "dedicated_sprint_own_readiness_parallel_runtime":
             failures.append(f"{key} must preserve first-sprint ordering and independent Runtime-parallel startup")
-    if by_id.get("SIM-UMBRELLA", {}).get("depends_on") != ["SIM-07"]:
-        failures.append("SIM umbrella completion must follow SIM-07")
+    if by_id.get("SIM-UMBRELLA", {}).get("depends_on") != ["SIM-09"]:
+        failures.append("SIM umbrella completion must follow SIM-09")
     if "SIM-UMBRELLA" in by_id["CF-INTEGRATE"]["depends_on"]:
         failures.append("SIM sprint must not gate product integration")
     visiting, visited = set(), set()
@@ -77,7 +100,13 @@ def check(wave, specs):
     product = {r for r in ids if r.startswith("CF-")} - {"CF-INTEGRATE"}
     if set(by_id["CF-INTEGRATE"]["depends_on"]) != product | {"PLAT-PROVIDER", "PLAT-MEMORY"}:
         failures.append("Product integration prerequisites differ")
-    support = {"PLAT-MLX", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
+    if by_id.get("PLAT-PAIR", {}).get("depends_on") != ["PLAT-PROVIDER"]:
+        failures.append("PLAT-PAIR must consume the canonical provider-definition contract")
+    if by_id.get("OPS-GCP", {}).get("depends_on") != ["WP-01"]:
+        failures.append("OPS-GCP must remain a separately owned post-opening foundation track")
+    if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
+        failures.append("OPS-AWS title lost its complete #484-bound atomic result")
+    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
     if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
     obligations = {
@@ -92,11 +121,17 @@ def check(wave, specs):
     return failures
 
 
-def negative_checks(wave, specs):
+def negative_checks(wave, specs, source_manifest, reconciliation):
     cases = []
     broken = copy.deepcopy(wave)
     broken["work_packages"] = [r for r in broken["work_packages"] if r["id"] != "OBS-LIVE"]
     cases.append(("missing admitted existing issue", broken, specs))
+    broken = copy.deepcopy(wave)
+    del broken["atomic_results"]["CF-SHELL"]
+    cases.append(("missing atomic result", broken, specs))
+    broken = copy.deepcopy(wave)
+    broken["atomic_results"]["CF-SHELL"] = broken["atomic_results"]["CF-ADAPTER"]
+    cases.append(("duplicate atomic result", broken, specs))
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "OBS-LIVE")["depends_on"] = ["WP-01"]
     cases.append(("existing issue waits for new wave", broken, specs))
@@ -121,7 +156,17 @@ def negative_checks(wave, specs):
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].remove("SIM-UMBRELLA")
     cases.append(("SIM result omitted from milestone convergence", broken, specs))
-    return [name for name, w, s in cases if not check(w, s)], len(cases)
+    missed = [name for name, w, s in cases if not check(w, s, source_manifest, reconciliation)]
+    admitted = next(
+        row["planning_source"]
+        for row in wave["work_packages"]
+        if str(row.get("planning_source", "")).startswith(".adl/docs/TBD/")
+    )
+    if not check(wave, specs, source_manifest - {admitted}, reconciliation):
+        missed.append("source omitted from audit manifest")
+    if not check(wave, specs, source_manifest, reconciliation.replace(f"`{admitted}`", "`omitted-source`")):
+        missed.append("source omitted from reconciliation")
+    return missed, len(cases) + 2
 
 
 def main():
@@ -131,7 +176,13 @@ def main():
     root = Path(__file__).resolve().parent
     wave = read_yaml(root / "WP_ISSUE_WAVE_v0.92.2.yaml")
     specs = read_yaml(root / "WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml")
-    failures = check(wave, specs)
+    source_manifest = {
+        line.strip()
+        for line in (root / "TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt").read_text().splitlines()
+        if line.strip()
+    }
+    reconciliation = (root / "TBD_SCHEDULING_RECONCILIATION_v0.92.2.md").read_text()
+    failures = check(wave, specs, source_manifest, reconciliation)
     for path in root.rglob("*.md"):
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http:", "https:", "#")):
@@ -146,7 +197,7 @@ def main():
         failures.append("Current release lost remediation or successor-review gate")
     rejected = 0
     if args.self_test:
-        missed, rejected = negative_checks(wave, specs)
+        missed, rejected = negative_checks(wave, specs, source_manifest, reconciliation)
         failures.extend("Negative fixture not rejected: " + x for x in missed)
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
                       "existing_issues": [720], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,

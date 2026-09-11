@@ -17,7 +17,7 @@ The successor receives:
 
 ## Candidate Successor Work
 
-Runtime v4 remains scheduled for v0.93 under the recorded operator disposition. ATE remains targeted separately, currently no earlier than v0.94 planning. Public/customer-scale CodeFriend deployment is prioritized for the first milestone after qualified Beta 1; its exact successor version remains undecided. OCI model packaging, enterprise connectors and optional modernization remain deferred until explicitly admitted. MLX/Metal is admitted only through the bounded v0.92.2 PLAT-MLX track after PLAT-PROVIDER.
+Runtime v4 remains scheduled for v0.93 under the recorded operator disposition. ATE remains targeted separately, currently no earlier than v0.94 planning. Public/customer-scale CodeFriend deployment is prioritized for the first milestone after qualified Beta 1; its exact successor version remains undecided. OCI model packaging, enterprise connectors and optional modernization remain deferred until explicitly admitted. MLX/Metal and the NVIDIA PAIR experiment are admitted only through bounded v0.92.2 PLAT-MLX and PLAT-PAIR tracks after PLAT-PROVIDER. Company GCP move-in planning is admitted as the read-only OPS-GCP track; cloud mutation and stronger six-resident requalification remain outside that result.
 
 ## Non-Gating Rule
 

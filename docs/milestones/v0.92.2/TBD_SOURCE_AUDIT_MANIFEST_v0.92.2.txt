@@ -4,6 +4,7 @@
 .adl/docs/TBD/PROVIDER_INFERENCE_PROFILES_PLAN_v0.92.1.md
 .adl/docs/TBD/provider_model/ADL_PROFILES_PROVIDERS_V2.MD
 .adl/docs/TBD/provider_model/MLX_APPLE_METAL_PROVIDER_PLAN.md
+.adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md
 .adl/docs/TBD/provider_model/LOCAL_MODEL_SUBAGENT_SHADOW_MODE_PLAN.md
 .adl/docs/TBD/provider_model/V0917_LOCAL_MODEL_SHADOW_MODE_EXECUTION_PLAN.md
 .adl/docs/TBD/provider_model/OCI_MODEL_PACKAGING_METHOD_PLAN.md
@@ -25,6 +26,7 @@
 .adl/docs/TBD/aws_local_ops/ADL_RUNTIME_AWS_ACM_CERTIFICATE_MANAGEMENT_PLAN.md
 .adl/docs/TBD/aws_local_ops/AWS_DYNAMIC_IP.md
 .adl/docs/TBD/aws_local_ops/LOCAL_POLIS_SSM_OPERATIONS_BRIDGE.md
+.adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md
 .adl/docs/TBD/publication/ADL_MEDIUM_ARTICLE_LIST.md
 .adl/docs/TBD/publication/MEDIUM_ARTICLE_SERIES_PLAN.md
 .adl/docs/TBD/publication/ALL_PAPERS_WRITING_PROGRAM_PLAN.md

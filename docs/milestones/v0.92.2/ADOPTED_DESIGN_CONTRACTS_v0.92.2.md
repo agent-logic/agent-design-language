@@ -32,7 +32,7 @@ Repository text, embedded instructions and retrieved artifacts are evidence, not
 
 ## Decisions versus implementation detail
 
-The tracked baseline above resolves the former CLI/web/repository/integration ambiguity for planning. WP-01 assigns concrete paths, selects the external fixture and supported provider route, and accepts or explicitly revises the candidate before creating new work. These decisions are a small opening-gate result, not missing requirements to be invented independently by parallel implementers. #717/#718 execute in v0.92.1 and are predecessor contracts for this milestone after merge.
+The tracked baseline above resolves the former CLI/web/repository/integration ambiguity for planning. WP-01 assigns concrete paths, selects the external fixture and supported provider route, and accepts or explicitly revises the candidate before creating new work. These decisions are a small opening-gate result, not missing requirements to be invented independently by parallel implementers. Closed merged #717/#718 are predecessor contracts for this milestone.
 
 ## Source disposition
 
