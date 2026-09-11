@@ -91,6 +91,37 @@ def git_blob(revision, path)
   output
 end
 
+def blake3_file(path)
+  common, common_error, common_status = Open3.capture3("git", "rev-parse", "--git-common-dir")
+  fail!("cannot resolve Git metadata for BLAKE3 verifier: #{common_error.strip}") unless common_status.success?
+  target = File.expand_path("csdlc-v3/target/issue522-blake3", common.strip)
+  manifest = File.join(__dir__, "blake3-file/Cargo.toml")
+  output, error, status = Open3.capture3(
+    {"CARGO_TARGET_DIR" => target},
+    "cargo", "run", "--quiet", "--offline", "--locked", "--manifest-path", manifest, "--", path
+  )
+  fail!("BLAKE3 verifier failed: #{error.strip}") unless status.success?
+  digest = output.strip
+  fail!("BLAKE3 verifier returned an invalid digest") unless digest.match?(/\A[0-9a-f]{64}\z/)
+  digest
+end
+
+def native_terminal_pair_valid?(state:, receipt:, expected_head:, closed_at:, state_blake3:)
+  no_pr = state["no_pr_closeout"]
+  state_valid = state["schema"] == "csdlc.v3.terminal_state.v1" &&
+    state["repository"] == "agent-logic/agent-design-language" && state["issue"] == 833 &&
+    state["pull_request"].nil? && state["head_sha"] == expected_head && state["disposition"] == "closed_out" &&
+    no_pr.is_a?(Hash) && no_pr["disposition"] == "coordination_completed" &&
+    no_pr["expected_issue_closed_at"] == closed_at &&
+    no_pr.fetch("evidence_refs", []).include?("https://github.com/agent-logic/agent-design-language/pull/858")
+  receipt_valid = receipt["schema"] == "csdlc.v3.terminal_receipt.v1" &&
+    receipt["repository"] == state["repository"] && receipt["issue"] == state["issue"] &&
+    receipt["pull_request"].nil? && receipt["head_sha"] == state["head_sha"] &&
+    receipt["disposition"] == state["disposition"] && receipt["no_pr_closeout"] == no_pr &&
+    receipt["state_digest"] == state_blake3
+  state_valid && receipt_valid
+end
+
 def validate_packet!(root:, mode: "all")
 fail!("unsupported mode: #{mode}") unless %w[all census dispositions].include?(mode)
 required = %w[source-findings.json returned-findings.json]
@@ -237,16 +268,24 @@ dispositions.each do |row|
       dependency = JSON.parse(dependency_out)
       reconciliation_path = File.join(root, "833-terminal-reconciliation.json")
       receipt_path = File.join(root, "833-native-terminal-receipt.json")
-      fail!("#833 native terminal reconciliation artifacts are missing") unless File.file?(reconciliation_path) && File.file?(receipt_path)
+      state_path = File.join(root, "833-native-terminal-state.json")
+      fail!("#833 native terminal reconciliation artifacts are missing") unless [reconciliation_path, receipt_path, state_path].all? { |path| File.file?(path) }
       reconciliation = read_json(reconciliation_path)
       receipt_blob = File.binread(receipt_path)
       receipt = JSON.parse(receipt_blob)
+      state_blob = File.binread(state_path)
+      state = JSON.parse(state_blob)
+      lifecycle_out, lifecycle_err, lifecycle_status = Open3.capture3("gh", "pr", "view", "859", "--repo", "agent-logic/agent-design-language", "--json", "state,headRefOid,mergeCommit,mergedAt")
+      fail!("cannot verify #833 lifecycle reconciliation PR: #{lifecycle_err.strip}") unless lifecycle_status.success?
+      lifecycle = JSON.parse(lifecycle_out)
       dependency_identity = reconciliation.fetch("dependency")
       receipt_identity = reconciliation.fetch("native_terminal_receipt")
-      receipt_valid = receipt.fetch("schema") == "csdlc.v3.terminal_receipt.v1" && receipt.fetch("repository") == "agent-logic/agent-design-language" && receipt.fetch("issue") == 833 && receipt.fetch("disposition") == "closed_out" && nonempty?(receipt.fetch("state_digest"))
-      reconciliation_valid = reconciliation.fetch("schema") == "adl.v0921.issue833_terminal_reconciliation.v1" && reconciliation.fetch("issue") == 833 && reconciliation.fetch("outcome") == "terminal_reconciled" && reconciliation.fetch("closed_at") == issue_doc.fetch("closedAt") && receipt_identity.fetch("path") == receipt_path && receipt_identity.fetch("sha256") == Digest::SHA256.hexdigest(receipt_blob)
+      state_identity = reconciliation.fetch("native_terminal_state")
+      terminal_pair_valid = native_terminal_pair_valid?(state: state, receipt: receipt, expected_head: lifecycle.fetch("headRefOid"), closed_at: issue_doc.fetch("closedAt"), state_blake3: blake3_file(state_path))
+      lifecycle_valid = lifecycle.fetch("state") == "MERGED" && lifecycle.fetch("headRefOid") == state.fetch("head_sha") && lifecycle.dig("mergeCommit", "oid") && lifecycle.fetch("mergedAt") < issue_doc.fetch("closedAt")
+      reconciliation_valid = reconciliation.fetch("schema") == "adl.v0921.issue833_terminal_reconciliation.v1" && reconciliation.fetch("issue") == 833 && reconciliation.fetch("outcome") == "terminal_reconciled" && reconciliation.fetch("closed_at") == issue_doc.fetch("closedAt") && receipt_identity.fetch("path") == receipt_path && receipt_identity.fetch("sha256") == Digest::SHA256.hexdigest(receipt_blob) && state_identity.fetch("path") == state_path && state_identity.fetch("sha256") == Digest::SHA256.hexdigest(state_blob) && state_identity.fetch("blake3") == receipt.fetch("state_digest")
       dependency_valid = dependency.fetch("state") == "MERGED" && dependency_identity.fetch("issue") == 856 && dependency_identity.fetch("pull_request") == dependency_pr && dependency_identity.fetch("head_sha") == dependency.fetch("headRefOid") && dependency_identity.fetch("merge_sha") == dependency.dig("mergeCommit", "oid") && dependency_identity.fetch("merged_at") == dependency.fetch("mergedAt")
-      receipt_valid && reconciliation_valid && dependency_valid && issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedAt") > dependency.fetch("mergedAt")
+      terminal_pair_valid && lifecycle_valid && reconciliation_valid && dependency_valid && issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedAt") > dependency.fetch("mergedAt")
     else
       issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
     end
@@ -363,7 +402,7 @@ fail!("packet manifest omits fixed-disposition review reports") unless fixed_rev
 fixed_validation_paths = fixed_remediations.flat_map { |remediation| remediation.fetch("validation").map { |validation| validation.fetch("evidence") } }
 fail!("packet manifest omits fixed-disposition validation receipts") unless fixed_validation_paths.all? { |path| paths.include?(path) }
 if fixed_remediations.any? { |remediation| remediation["closure_kind"] == "native_review_close" }
-  terminal_paths = %w[833-terminal-reconciliation.json 833-native-terminal-receipt.json].map { |name| File.join(root, name) }
+  terminal_paths = %w[833-terminal-reconciliation.json 833-native-terminal-receipt.json 833-native-terminal-state.json].map { |name| File.join(root, name) }
   fail!("packet manifest omits #833 native terminal reconciliation") unless terminal_paths.all? { |path| paths.include?(path) }
 end
   {schema: "adl.v0921.remediation_validation.v3", mode: mode, status: "passed", source_findings: source.length, original_source_findings: 19, returned_findings: returned.length, dispositions: dispositions.length}

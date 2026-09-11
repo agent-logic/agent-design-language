@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.v3.terminal_receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 833,
+  "pull_request": null,
+  "head_sha": "198b39daad2726c60095d28ec2400c65acda2629",
+  "disposition": "closed_out",
+  "no_pr_closeout": {
+    "disposition": "coordination_completed",
+    "operator": "Operator authorization: finish #833 after all blockers resolved",
+    "rationale": "Issue #833 completed the immutable-candidate external-review coordination. Evidence delivery merged in PR #853, exact-head lifecycle reconciliation merged in PR #859, and the final dependent release repair PR #858 merged before this closure. This terminal record does not replace the merged delivery evidence or approve release independently.",
+    "evidence_refs": [
+      "https://github.com/agent-logic/agent-design-language/pull/853",
+      "https://github.com/agent-logic/agent-design-language/pull/859",
+      "https://github.com/agent-logic/agent-design-language/pull/858",
+      "https://github.com/agent-logic/agent-design-language/issues/833"
+    ],
+    "expected_issue_updated_at": "2026-09-11T19:44:35Z",
+    "expected_issue_closed_at": "2026-09-11T19:44:35Z"
+  },
+  "state_digest": "2aaafa9a3a114025cd46e7fdc7e5a61e92a882d63db1d52faa125568ba4f5c7e"
+}

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require_relative "run-candidate-validation"
+require_relative "validate-remediation-ledger"
 
 samples = {
   "negative_cases_plus_success" => ["PASS: handoff; 7 negative cases rejected\n", 8],
@@ -38,6 +39,24 @@ required_856_commands = [
 missing_commands = required_856_commands.reject { |argv| COMMANDS.any? { |actual, _| actual == argv } }
 abort("#856 validation commands omitted: #{missing_commands.inspect}") unless missing_commands.empty?
 
+terminal_root = "docs/milestones/v0.92.1/evidence/release/tail-06"
+state_path = File.join(terminal_root, "833-native-terminal-state.json")
+receipt_path = File.join(terminal_root, "833-native-terminal-receipt.json")
+if File.file?(state_path) && File.file?(receipt_path)
+  state = JSON.parse(File.read(state_path))
+  receipt = JSON.parse(File.read(receipt_path))
+  args = {state: state, receipt: receipt, expected_head: "198b39daad2726c60095d28ec2400c65acda2629", closed_at: "2026-09-11T19:44:35Z", state_blake3: blake3_file(state_path)}
+  abort("valid native terminal pair rejected") unless native_terminal_pair_valid?(**args)
+  terminal_tampers = [
+    args.merge(receipt: receipt.merge("pull_request" => 853)),
+    args.merge(receipt: receipt.merge("head_sha" => "0" * 40)),
+    args.merge(receipt: receipt.merge("state_digest" => "0" * 64)),
+    args.merge(state: state.merge("head_sha" => "0" * 40)),
+    args.merge(state: state.merge("no_pr_closeout" => state.fetch("no_pr_closeout").merge("expected_issue_closed_at" => "2026-09-11T00:00:00Z")))
+  ]
+  abort("forged native terminal evidence accepted") unless terminal_tampers.none? { |tamper| native_terminal_pair_valid?(**tamper) }
+end
+
 validator = File.read(File.join(__dir__, "validate-remediation-ledger.rb"))
 required_guards = [
   "reviewed_subject_digest", "executed_candidate", "fixed_with_deferred_proof",
@@ -47,4 +66,4 @@ required_guards = [
 missing = required_guards.reject { |guard| validator.include?(guard) }
 abort("validator omits repaired proof branches: #{missing.join(', ')}") unless missing.empty?
 
-puts({status: "passed", denominator_parsers: samples.length, replay_tamper_cases: 2, required_856_commands: required_856_commands.length, guarded_repair_branches: required_guards.length}.to_json)
+puts({status: "passed", denominator_parsers: samples.length, replay_tamper_cases: 2, terminal_tamper_cases: 5, required_856_commands: required_856_commands.length, guarded_repair_branches: required_guards.length}.to_json)
