@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Independent semantic and docs subagents found no remaining actionable findings after corrections.
+- Independent semantic/docs review passed; exact-head check found stale SOR timing attribution, corrected through native edit. Narrow amended-head verification follows.
 
 ### Dispositions
 
-- Restored all inherited obligations; fixed stop-condition semantics; integration precedes qualification; retained complete #855/#852 requirements; aligned eleven task titles and corrected SIM count.
+- All task/doc findings corrected; old opening-phase timing removed from revision metrics.
 
 ### Recommended Outcome
 

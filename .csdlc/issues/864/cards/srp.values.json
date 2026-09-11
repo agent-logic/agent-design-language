@@ -19,7 +19,7 @@
   "sor_card": ".csdlc/issues/864/cards/sor.md",
   "findings_status": "pass_precommit_exact_review_pending",
   "recommended_outcome": "exact_head_review_then_update_pr",
-  "review_findings": "Independent semantic and docs subagents found no remaining actionable findings after corrections.",
-  "review_dispositions": "Restored all inherited obligations; fixed stop-condition semantics; integration precedes qualification; retained complete #855/#852 requirements; aligned eleven task titles and corrected SIM count.",
+  "review_findings": "Independent semantic/docs review passed; exact-head check found stale SOR timing attribution, corrected through native edit. Narrow amended-head verification follows.",
+  "review_dispositions": "All task/doc findings corrected; old opening-phase timing removed from revision metrics.",
   "review_notes": "task_contract_review and docs_final_review reviewed the completed working revision. Exact-commit verification follows. Seven planning tasks retained; no children created."
 }

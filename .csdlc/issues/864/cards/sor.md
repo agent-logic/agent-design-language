@@ -28,8 +28,8 @@ Execution:
 - Actor: `Codex`
 - Model: `gpt-5`
 - Provider: `OpenAI`
-- Start Time: `2026-09-11T21:14:00Z`
-- End Time: `2026-09-11T21:26:03Z`
+- Start Time: `2026-09-11T21:40:36+00:00`
+- End Time: `not_collected_for_revision`
 
 ## Summary
 
@@ -43,19 +43,19 @@ Split eight bundles into 69 complete tasks (nine existing, 60 prospective), tigh
 
 ## Issue Metrics Truth
 - Expected runtime class: `short`
-- Estimated elapsed seconds: `900`
-- Actual elapsed seconds: `718`
-- Actual active work seconds: `unknown`
+- Estimated elapsed seconds: `not_estimated_for_revision`
+- Actual elapsed seconds: `not_collected_for_revision`
+- Actual active work seconds: `not_collected_for_revision`
 - Estimated total tokens: `unknown`
 - Actual total tokens: `not_collected_for_revision`
-- Estimated validation seconds: `30`
-- Actual validation seconds: `1`
-- Actual PR wait seconds: `0`
-- Actual CI wait seconds: `0`
+- Estimated validation seconds: `not_estimated_for_revision`
+- Actual validation seconds: `not_collected_for_revision`
+- Actual PR wait seconds: `not_collected_for_revision`
+- Actual CI wait seconds: `not_collected_for_revision`
 - Budget source: `unbounded_issue_goal`
-- Goal metrics data source: `Codex goal receipt`
-- Goal metrics source ref: `Planning #1.1 issue-864 goal`
-- Data-source confidence: `partial`
+- Goal metrics data source: `Revision metrics not finalized; inherited opening-phase timing is not attributed to this correction.`
+- Goal metrics source ref: `Planning #1.1 issue-864 goal; no final timing or usage snapshot recorded.`
+- Data-source confidence: `not_collected`
 - Estimate error percent: `unknown`
 - Completion state: `reviewed_revision_pending_publication`
 - Issue goal ref: `issue-864-reconciliation-goal`
@@ -70,7 +70,7 @@ Split eight bundles into 69 complete tasks (nine existing, 60 prospective), tigh
 - Variance analysis required: `unknown`
 - Variance analysis completed: `not_applicable`
 - Variance category: `unknown`
-- Variance note: `Initial token estimate was unavailable.`
+- Variance note: `Opening-phase estimates and timings are historical and excluded from revision metrics.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
