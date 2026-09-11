@@ -123,9 +123,9 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: passed
     checks_run:
-      - "Full C-SDLC v3 tests, focused ready matrix, strict clippy, formatting, native card validation, and diff hygiene passed."
+      - "225 locked detached C-SDLC tests;45 focused remote tests;Clippy;current V3-F binding and15 negative cases passed."
   determinism:
     status: not_run
     replay_verified: false
