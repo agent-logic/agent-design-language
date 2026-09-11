@@ -29,6 +29,11 @@ remediation, while #521 reviews the later frozen candidate. Both source-report
 merges and every remediation merge must be ancestral to the final ledger
 candidate.
 
+A finding may require more than one reviewed remediation PR. The disposition
+still owns the source finding exactly once, while its `remediations` list binds
+every contributing merged fix. This is required for `D520-RET-001`, whose
+accepted remediation spans #818 through #821.
+
 Every fixed disposition resolves its remediation issue and merged PR live,
 binds the exact PR head and merge commit, proves the merge is ancestral to the
 ledger, and reads validation/remediation artifacts with `git show` from the
