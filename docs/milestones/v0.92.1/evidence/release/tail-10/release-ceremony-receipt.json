@@ -1,0 +1,37 @@
+{
+  "schema": "adl.v0921.release_ceremony_receipt.v1",
+  "issue": 526,
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.1",
+  "candidate_sha": "c9cdb2f13ff77a06dcc79ad4e4c332f444b2e14f",
+  "notes": {
+    "path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+    "blake3": "603f025fc64fce625f87e4810073bc281952dfffb91d79b485baebb054aa8b49"
+  },
+  "native_preflight": {
+    "eligible": true,
+    "findings": [],
+    "gate_blake3": "84e88404d368899cce7013741da0377a3af84fd69ef122be30e6d18cc3c801fa"
+  },
+  "operator_authorization": {
+    "channel": "active_operator_session",
+    "instruction": "perform the ceremony now",
+    "retained_at": "2026-09-11T20:12:00Z"
+  },
+  "tag_readback": {
+    "name": "v0.92.1",
+    "annotated_tag_object_sha": "2b85838f4ee3cb1a8750d71e95f6d25267a1b643",
+    "peeled_candidate_sha": "c9cdb2f13ff77a06dcc79ad4e4c332f444b2e14f",
+    "remote": "origin"
+  },
+  "release_readback": {
+    "github_release_id": 387308409,
+    "name": "ADL v0.92.1",
+    "url": "https://github.com/agent-logic/agent-design-language/releases/tag/v0.92.1",
+    "tag_name": "v0.92.1",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-09-11T20:12:57Z"
+  },
+  "status": "released"
+}
