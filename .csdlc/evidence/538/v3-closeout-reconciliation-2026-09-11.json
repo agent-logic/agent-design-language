@@ -1,0 +1,28 @@
+{
+  "schema": "adl.issue538.v3_closeout_reconciliation.v1",
+  "issue": 538,
+  "repository": "agent-logic/agent-design-language",
+  "observed_at": "2026-09-11T20:16:59Z",
+  "status": "closed",
+  "raw_close_transport_note": "The operator requested immediate closeout. The GitHub issue was closed, then reconciled with a native v3 authenticated github-issue comment because native v3 currently exposes issue comment/edit mutations and authenticated reconciliation but not an issue-close mutation.",
+  "native_v3_reconciliation": {
+    "command": "csdlc github-issue --request .csdlc/prepared/issues/538/v3-closeout-reconciliation-comment.json --execute",
+    "selector_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+    "exact_review_sha": "7bf940d8bec630bcb15384970414bca867f1799e",
+    "operation_digest": "c63fabfb34d7855f2ec6cc6698ea045b2bb0e95fe37748d6671167dffba4020b",
+    "remote_object_id": 5640160293,
+    "authenticated": true,
+    "observed_by": "github-api-read-only"
+  },
+  "closeout_comment_url": "https://github.com/agent-logic/agent-design-language/issues/538#issuecomment-5640133772",
+  "v3_reconciliation_comment_url": "https://github.com/agent-logic/agent-design-language/issues/538#issuecomment-5640160293",
+  "child_issue_truth": {
+    "closed_children": [516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526],
+    "open_children": []
+  },
+  "non_claims": [
+    "This record does not perform tag or release work.",
+    "This record does not reopen or absorb child implementation.",
+    "This record does not create a new release approval beyond the closed child issue records."
+  ]
+}

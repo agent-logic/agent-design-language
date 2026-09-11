@@ -1,0 +1,22 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "7bf940d8bec630bcb15384970414bca867f1799e",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 538,
+      "pull_request": null,
+      "cutover_issue": null,
+      "operator_approval": "Operator requested immediate #538 closeout after #526 closed; this native v3 reconciliation comment records the closeout boundary and typed receipt after the GitHub issue close.",
+      "expected_head_sha": "7bf940d8bec630bcb15384970414bca867f1799e",
+      "credential_names": [
+        "GITHUB_TOKEN"
+      ],
+      "mutation": {
+        "action": "issue_comment",
+        "body": "Native v3 closeout reconciliation for Sprint 10 umbrella #538.\n\nLive readback after operator-requested close shows #538 is closed, and every declared child #516 through #526 is closed. This v3 comment records reconciliation only; it does not perform tag/release work, reopen child scope, or claim new release approval beyond the closed child issue records.\n\nRetained #538 branch evidence: `codex/538-sprint10-readiness` at `7388e3244fe19026a5441153b902938484224521`."
+      }
+    }
+  }
+}
