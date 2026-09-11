@@ -2,9 +2,8 @@
 
 Candidate commit: 9c7e57d412d61898bd44ab00d53e31afbb779e5c
 
-> Convenience copy at repository root. The canonical artifact required by the
-> handoff is `docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md`.
-> Both files are byte-identical apart from this note. If one is edited, they diverge.
+This is the canonical artifact required by the handoff at
+`docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md`.
 
 ## 1. Reviewer identity and independence
 
