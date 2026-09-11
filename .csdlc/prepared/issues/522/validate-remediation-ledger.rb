@@ -233,12 +233,24 @@ dispositions.each do |row|
       fail!("remediation head artifact digest mismatch") unless Digest::SHA256.hexdigest(blob) == artifact.fetch("sha256")
     end
     review = remediation.fetch("review")
-    fail!("fix lacks passing exact-head review identity") unless review.fetch("reviewed_sha") == head_sha && review.fetch("observed_pr_head_sha") == head_sha && review.fetch("outcome") == "passed" && review.fetch("findings") == [] && review.fetch("blockers") == [] && nonempty?(review.fetch("reviewer")) && nonempty?(review.fetch("observed_at"))
+    review_basis = review.fetch("basis", "exact_implementation_head")
+    reviewed_sha = review.fetch("reviewed_sha")
+    case review_basis
+    when "exact_implementation_head"
+      fail!("exact-head review does not match remediation head") unless reviewed_sha == head_sha && review.fetch("observed_pr_head_sha") == head_sha
+    when "candidate_current"
+      fail!("candidate-current review is not immutable") unless reviewed_sha.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{reviewed_sha}^{commit}")
+      system("git", "merge-base", "--is-ancestor", merge_sha, reviewed_sha) or fail!("candidate-current review predates remediation merge")
+      system("git", "merge-base", "--is-ancestor", reviewed_sha, ledger_candidate) or fail!("candidate-current review is not ancestral to ledger candidate")
+    else
+      fail!("unsupported remediation review basis")
+    end
+    fail!("fix lacks passing review identity") unless review.fetch("outcome") == "passed" && review.fetch("findings") == [] && review.fetch("blockers") == [] && nonempty?(review.fetch("reviewer")) && nonempty?(review.fetch("observed_at"))
     review_path = review.fetch("report_path")
     fail!("exact-head review report is outside remediation packet") unless review_path.start_with?(root + "/") && File.file?(review_path)
     fail!("exact-head review digest mismatch") unless Digest::SHA256.file(review_path).hexdigest == review.fetch("sha256")
     review_doc = read_json(review_path)
-    fail!("review report does not prove canonical passing exact-head result") unless review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && review_doc.fetch("blockers") == [] && (review_doc["candidate_sha"] || review_doc["head_sha"]) == head_sha
+    fail!("review report does not prove canonical passing reviewed-candidate result") unless review_doc.fetch("outcome") == "passed" && review_doc.fetch("findings") == [] && review_doc.fetch("blockers") == [] && (review_doc["candidate_sha"] || review_doc["head_sha"]) == reviewed_sha
     fail!("review report does not prove these findings resolved") unless (row.fetch("source_finding_ids") - review_doc.fetch("resolved_finding_ids")).empty?
     validations = remediation.fetch("validation")
     fail!("fixed disposition lacks passing validation evidence") unless validations.any?
@@ -249,12 +261,28 @@ dispositions.each do |row|
       fail!("validation evidence digest mismatch") unless Digest::SHA256.hexdigest(evidence_blob) == validation.fetch("sha256")
       validation_doc = JSON.parse(evidence_blob)
       evidence_sha = validation_doc["candidate_sha"] || validation_doc["head_sha"] || validation_doc["revision"]
+      validation_basis = validation.fetch("basis", "exact_implementation_head")
+      case validation_basis
+      when "exact_implementation_head"
+        fail!("validation evidence is not bound to remediation head") unless evidence_sha == head_sha
+      when "candidate_current"
+        fail!("candidate-current validation is not immutable") unless evidence_sha&.match?(/\A[0-9a-f]{40}\z/) && system("git", "cat-file", "-e", "#{evidence_sha}^{commit}")
+        system("git", "merge-base", "--is-ancestor", merge_sha, evidence_sha) or fail!("candidate-current validation predates remediation merge")
+        system("git", "merge-base", "--is-ancestor", evidence_sha, ledger_candidate) or fail!("candidate-current validation is not ancestral to ledger candidate")
+      else
+        fail!("unsupported validation basis")
+      end
       observations = validation_doc.fetch("observations")
+      commands = validation_doc.fetch("commands")
+      commands_bound = commands.is_a?(Array) && commands.any? && commands.all? do |command|
+        nonempty?(command.fetch("argv")) && command.fetch("exit_code") == 0 && command.fetch("denominator") > 0
+      end
       behavior_bound = observations.is_a?(Array) && observations.any? && observations.all? do |observation|
-        blob = git_blob(head_sha, observation.fetch("artifact_path"))
+        artifact_revision = observation.fetch("artifact_revision", head_sha)
+        blob = git_blob(artifact_revision, observation.fetch("artifact_path"))
         Digest::SHA256.hexdigest(blob) == observation.fetch("artifact_sha256") && %w[verified passed].include?(observation.fetch("result")) && nonempty?(observation.fetch("behavior"))
       end
-      fail!("validation evidence does not prove behavior at fixed head") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && evidence_sha == head_sha && behavior_bound
+      fail!("validation evidence does not prove behavior at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && behavior_bound
     end
     end
   when "deferred"

@@ -34,7 +34,7 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   root=File.join(repo,"packet"); FileUtils.mkdir_p(root)
   review_path=File.join(root,"review.json"); wj(review_path,{"outcome"=>"passed","candidate_sha"=>head,"findings"=>[],"blockers"=>[],"resolved_finding_ids"=>INTERNAL_FINDING_IDS + EXTERNAL_FINDING_IDS + RETURNED_FINDING_IDS})
   fix_digest=Digest::SHA256.hexdigest(`git show #{head}:remediation/fix.txt`)
-  validation_path=File.join(root,"validation.json"); wj(validation_path,{"outcome"=>"passed","head_sha"=>head,"failures"=>[],"observations"=>[{"artifact_path"=>"remediation/fix.txt","artifact_sha256"=>fix_digest,"result"=>"verified","behavior"=>"remediation output is present at exact head"}]})
+  validation_path=File.join(root,"validation.json"); wj(validation_path,{"outcome"=>"passed","head_sha"=>head,"failures"=>[],"commands"=>[{"argv"=>["fixture-validator"],"exit_code"=>0,"denominator"=>1}],"observations"=>[{"artifact_path"=>"remediation/fix.txt","artifact_sha256"=>fix_digest,"result"=>"verified","behavior"=>"remediation output is present at exact head"}]})
   source_path=File.join(root,"source-findings.json"); wj(source_path,{"ledger_candidate_sha"=>ledger,"source_bindings"=>{"520"=>internal_candidate,"521"=>nil},"reports"=>reports,"findings"=>findings})
   returned_path=File.join(root,"returned-findings.json"); wj(returned_path,{"review_issue"=>833,"review_pull_request"=>853,"review_head_sha"=>head,"review_merge_sha"=>head,"artifacts"=>[{"path"=>"review/returned.md","sha256"=>Digest::SHA256.hexdigest(`git show #{head}:review/returned.md`)}],"findings"=>returned_findings})
   review={

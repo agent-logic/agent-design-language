@@ -1,0 +1,12 @@
+{
+  "schema": "adl.v0921.release_blockers.v1",
+  "unresolved": [
+    {
+      "finding_id": "D833-EXEC-002",
+      "owner_issue": 856,
+      "pull_request": 858,
+      "status": "hosted_ci_in_progress",
+      "release_consequence": "Do not close #522 until the exact reviewed final PR head is green and merged, and #833 has consumed that repair."
+    }
+  ]
+}
