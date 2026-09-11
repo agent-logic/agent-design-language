@@ -1,5 +1,17 @@
 # Release Notes — v0.92.1
 
+## Final ceremony handoff — 2026-09-11
+
+TAIL-01 through TAIL-09 are closed by merged, green pull requests through
+PR #860. The final #522 disposition packet accounts for all 25 accepted review
+findings and its release-blocker register contains no unresolved blocker. The
+frozen projection below predates that final merge and is retained as historical
+evidence; its old blocker text does not override the later #522 ledger.
+
+This handoff does not authorize publication. TAIL-10 still requires a native
+exact-candidate preflight and explicit operator approval for the exact candidate,
+notes bytes, tag, visibility, and release mutation.
+
 ## Current release projection
 
 **Release decision: blocked.** Frozen candidate: `64a99fd71b9770e15cb0dc393d669450d3a5f5b4`.

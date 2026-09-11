@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 526,
+  "issue_padded": "0526",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/526",
+  "title": "[v0.92.1][TAIL-10] Release ceremony",
+  "branch": "codex/526-release-ceremony",
+  "version": "v0.92.1",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-526-release-ceremony",
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "Independent review_526_preparation found no actionable preparation defects.",
+  "review_dispositions": "Verified source hashes, eight merge ancestries, nine-tail live census and preflight gap source. Actual ceremony prerequisites remain unmet.",
+  "review_notes": "Preparation-only review, not final-candidate acceptance or operator approval."
+}
