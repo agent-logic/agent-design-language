@@ -20,7 +20,7 @@ internal review plus the five findings from the #521 third-party review.
 | --- | --- | --- | --- |
 | `TPR-001` | P1 | #833 | In progress; must run last against the immutable post-remediation candidate. |
 | `TPR-002` | P1 | #834 | Merged in PR #841. |
-| `TPR-003` | P1 | #835, #846 | PR #840 merged and exposed the late lifecycle gap; #846 owns the immutable repaired-candidate projection. |
+| `TPR-003` | P1 | #835 | PR #840 merged; repaired-candidate verification remains part of the final #833 review after #843 and #844. |
 | `TPR-004` | P2 | #836 | Merged in PR #839. |
 | `TPR-005` | P2 | #837 | Merged in PR #842. |
 
@@ -32,9 +32,9 @@ internal review plus the five findings from the #521 third-party review.
 - #844 adds the missing native v3 PR merge operation. It is not one of the 19
   source-review findings, but native lifecycle self-sufficiency cannot be
   claimed until it is resolved.
-- #846 owns the release projection after #844 merges. It must bind the new
-  immutable candidate containing PR #845 and the #844 repair before #833
-  performs the final third-party review.
+- After #844 merges, #833 must bind the new immutable candidate containing PR
+  #845 and the #844 repair, verify the repaired projection, and perform the
+  final third-party review.
 
 Final publication is fail-closed until #520 and #521 supply their merged
 exact-revision source reports, all 19 findings have exactly one reviewed
