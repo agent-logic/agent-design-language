@@ -3,6 +3,14 @@
   "version": "v0.92.1",
   "packages": [
     {
+      "manifest": ".csdlc/prepared/issues/522/blake3-file/Cargo.toml",
+      "package": "issue522-blake3-file",
+      "version": "0.1.0",
+      "workspace": null,
+      "policy": "independent",
+      "rationale": "Standalone release-evidence digest helper; not a published ADL package"
+    },
+    {
       "manifest": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml",
       "package": "issue467-terminal-digest-verifier",
       "version": "0.1.0",
@@ -201,6 +209,10 @@
     "tools/remote_validation/Cargo.lock"
   ],
   "historical_lockfiles": [
+    {
+      "path": ".csdlc/prepared/issues/522/blake3-file/Cargo.lock",
+      "rationale": "Release-evidence digest helper lockfile"
+    },
     {
       "path": ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.lock",
       "rationale": "Historical proof helper snapshot"
