@@ -535,7 +535,7 @@ fn validate_operational_remote_route(
 
 fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bool {
     match command {
-        "github" => true,
+        "github" => !matches!(mutation, GithubMutation::PullRequestMerge { .. }),
         "github-issue" => matches!(
             mutation,
             GithubMutation::IssueCreate { .. }
@@ -548,6 +548,7 @@ fn github_mutation_route_matches(command: &str, mutation: &GithubMutation) -> bo
             GithubMutation::PullRequestCreate { .. }
                 | GithubMutation::PullRequestUpdate { .. }
                 | GithubMutation::PullRequestReady
+                | GithubMutation::PullRequestMerge { .. }
         ),
         _ => false,
     }
