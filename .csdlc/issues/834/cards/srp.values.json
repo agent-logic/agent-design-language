@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 834,
+  "issue_padded": "0834",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/834",
+  "title": "[v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor",
+  "branch": "codex/834-internal-review-reconciliation",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-834-internal-review-reconciliation"
+}

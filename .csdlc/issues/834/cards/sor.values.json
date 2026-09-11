@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 834,
+  "issue_padded": "0834",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/834",
+  "title": "[v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor",
+  "branch": "codex/834-internal-review-reconciliation",
+  "version": "v0.92.1",
+  "card": "sor",
+  "card_status": "in_progress",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-834-internal-review-reconciliation",
+  "summary": "Reconciled closed #520 / merged #831 and all14 findings to8 merged owner PRs with exact Git evidence. Historical source report preserved. #835 final gate correction and #833 external report remain separately owned. No release approval claim.",
+  "validation_results": "Offline validator passed; positive and17 adversarial mutation cases passed. Live refresh and independent review pending.",
+  "artifacts": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/",
+  "risks": "Owner PR829 is preparation only. Merged removal proposals are not behavioral passes. External report retention belongs to833;834 uses the quoted finding in its source issue.",
+  "integration_state": "not_published"
+}

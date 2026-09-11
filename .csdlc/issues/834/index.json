@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 834,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/834-internal-review-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-834-internal-review-reconciliation",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "ff90ee106bf23e223c0f8b377a777e2d58add13405e19ae77f0d161dc067e085"
+}
