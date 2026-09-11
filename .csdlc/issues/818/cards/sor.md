@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Resolved all independent-review findings and revalidated the exact 17-row corporate/Runtime governed-disposition packet; fresh exact-head re-review remains pending.
+The exact 17-row corporate/Runtime governed-disposition packet is implemented, focused validation is green, and independent review passed; native publication remains pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `review_tests`
@@ -57,7 +57,7 @@ Resolved all independent-review findings and revalidated the exact 17-row corpor
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `implementation_complete_review_pending`
+- Completion state: `review_passed_publication_pending`
 - Issue goal ref: `Issue #818 active session goal`
 - Sprint goal ref: `Parent #522`
 - Goal metrics rollup ref: `not_collected`
@@ -81,7 +81,7 @@ Resolved all independent-review findings and revalidated the exact 17-row corpor
 ## Actions taken
 - `Consumed exactly the 17 corporate/Runtime rows from the #764 denominator.`
 - `Generated 17 exact governed removal proposals with zero behavioral pass claims and candidate-bound public context.`
-- `Resolved all three independent-review findings; deterministic replay and 22-case negative matrix pass; exact-head re-review pending.`
+- `Resolved all three review findings; deterministic replay and 22-case negative matrix pass; independent re-review passed.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none before PR merge`
@@ -174,5 +174,5 @@ verification_summary:
 - `Bound canonical inputs and public context to the issue base without promoting references into execution proof.`
 
 ## Follow-ups / Deferred work
-- `Fresh independent exact-head re-review after review-finding fixes.`
+- `Final exact-head confirmation for the lifecycle-recording-only commit.`
 - `Native publication and CI shepherding.`

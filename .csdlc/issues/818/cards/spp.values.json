@@ -53,7 +53,7 @@
   "step_2_status": "completed",
   "step_3_status": "completed",
   "step_4_status": "completed",
-  "step_5_status": "pending",
+  "step_5_status": "completed",
   "planned_pvf_lane_source": "docs/validation/pvf_lanes.json",
   "validation_plan_inline": "Focused deterministic packet validation and negative matrix.",
   "target_files_surfaces_inline": "Issue-local corporate/Runtime reconciliation packet only.",

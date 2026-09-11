@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/818/cards/sip.md"
   - ".csdlc/issues/818/cards/vpp.md"
 review_results:
-  findings_status: "findings_present"
-  recommended_outcome: "needs_followup"
-notes: "Initial independent review failed at 351dea41b033027f73dae364700af3f345b0a7b5; all actionable findings are fixed and focused validation passes."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Independent findings-first re-review by Euler passed at d829ea44213095643e9d6adad0a39def6e2a8967. A final exact-head confirmation covers this lifecycle-recording-only delta before publication."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- P1 proposal digest/schema coverage; P2 packet identity/count coverage; P2 nondeterministic generated_at.
+- No actionable findings at the remediated implementation head.
 
 ### Dispositions
 
-- Resolved all findings by canonical hashing of the complete closed-schema proposal, exact packet identity/count validation, removal of wall-clock output, deterministic replay proof, and seven new adversarial fixtures. Fresh exact-head re-review pending.
+- Prior P1 complete-proposal digest/schema finding resolved; prior P2 packet identity/count finding resolved; prior P2 deterministic artifact finding resolved.
 
 ### Recommended Outcome
 
-- needs_followup
+- pass
 
 ## Notes
 
-Initial independent review failed at 351dea41b033027f73dae364700af3f345b0a7b5; all actionable findings are fixed and focused validation passes.
+Independent findings-first re-review by Euler passed at d829ea44213095643e9d6adad0a39def6e2a8967. A final exact-head confirmation covers this lifecycle-recording-only delta before publication.
