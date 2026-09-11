@@ -8,11 +8,16 @@
   "verdict": "changes_required",
   "reviewer": {
     "recorded_identity": "Independent technical review",
-    "independent": true,
     "identity_verified": false,
+    "independence": {
+      "status": "asserted_partial",
+      "scope": "Independent of the C-SDLC pipeline, not independent of the operator",
+      "operator_independent": false
+    },
     "basis": [
       "PDF author metadata records Independent technical review.",
-      "The document subtitle records Independent, findings-first, read-only."
+      "The document subtitle records Independent, findings-first, read-only.",
+      "The PDF states that reviewer independence is partial: the lane is independent of the pipeline, not of the operator."
     ]
   },
   "source": {

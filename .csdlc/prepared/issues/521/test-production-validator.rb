@@ -13,12 +13,14 @@ def reject_mutation!(name)
     FileUtils.mkdir_p(fixture_root)
     FileUtils.cp_r(Dir.glob(File.join(ROOT, "*")), fixture_root)
     yield fixture_root
+    rejected = false
     begin
       validate_packet!(root: fixture_root)
-      abort("negative mutation passed: #{name}")
     rescue SystemExit, KeyError, TypeError
-      puts JSON.generate(status: "passed", production_negative: name)
+      rejected = true
     end
+    abort("negative mutation passed: #{name}") unless rejected
+    puts JSON.generate(status: "passed", production_negative: name)
   end
 end
 
@@ -55,6 +57,35 @@ end
 
 reject_mutation!("digest_mismatch") do |root|
   File.write(File.join(root, "README.md"), "tampered\n")
+end
+
+reject_mutation!("changed_source_digest_with_recomputed_manifest") do |root|
+  findings_path = File.join(root, "findings.json")
+  manifest_path = File.join(root, "packet-manifest.json")
+  document = JSON.parse(File.read(findings_path))
+  document.fetch("source")["sha256"] = "0" * 64
+  File.write(findings_path, JSON.pretty_generate(document) + "\n")
+  manifest = JSON.parse(File.read(manifest_path))
+  manifest.fetch("entries").find { |entry| entry.fetch("path").end_with?("findings.json") }["sha256"] = Digest::SHA256.file(findings_path).hexdigest
+  File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
+end
+
+reject_mutation!("changed_finding_with_recomputed_manifest") do |root|
+  findings_path = File.join(root, "findings.json")
+  manifest_path = File.join(root, "packet-manifest.json")
+  document = JSON.parse(File.read(findings_path))
+  document.fetch("findings").first["title"] = "Substantive finding silently replaced"
+  File.write(findings_path, JSON.pretty_generate(document) + "\n")
+  manifest = JSON.parse(File.read(manifest_path))
+  manifest.fetch("entries").find { |entry| entry.fetch("path").end_with?("findings.json") }["sha256"] = Digest::SHA256.file(findings_path).hexdigest
+  File.write(manifest_path, JSON.pretty_generate(manifest) + "\n")
+end
+
+reject_mutation!("overstated_reviewer_independence") do |root|
+  findings_path = File.join(root, "findings.json")
+  document = JSON.parse(File.read(findings_path))
+  document.fetch("reviewer").fetch("independence")["status"] = "independent"
+  File.write(findings_path, JSON.pretty_generate(document) + "\n")
 end
 
 puts JSON.generate(result)

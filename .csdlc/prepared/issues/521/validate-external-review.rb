@@ -3,6 +3,12 @@
 require "digest"
 require "json"
 
+EXPECTED_SOURCE_SHA256 = "12fb267b0d956f667fca83c1443aa87c65ddf276d536252371f4cfc39806779b"
+EXPECTED_ARTIFACT_SHA256 = {
+  "docs/milestones/v0.92.1/evidence/release/tail-05/README.md" => "f1cbf00e9a4b30efdf199144d2f71fee66bbc5bed44fb92c0135fbb1f5ce017d",
+  "docs/milestones/v0.92.1/evidence/release/tail-05/findings.json" => "f39a52eef6398b77141d76dd3b1dd87d21aa1e92333fd1032ff977d4446d31c0"
+}.freeze
+
 def fail!(message)
   abort(message)
 end
@@ -33,10 +39,15 @@ def validate_packet!(root:)
   fail!("review outcome must remain failed and non-proving") unless findings_doc["outcome"] == "failed" && findings_doc["non_proving"] == true && findings_doc["verdict"] == "changes_required"
 
   reviewer = findings_doc.fetch("reviewer")
-  fail!("reviewer independence is not recorded truthfully") unless reviewer["independent"] == true && reviewer["identity_verified"] == false && nonempty_string?(reviewer["recorded_identity"]) && reviewer.fetch("basis").is_a?(Array) && reviewer.fetch("basis").all? { |value| nonempty_string?(value) }
+  independence = reviewer.fetch("independence")
+  fail!("reviewer independence is not recorded truthfully") unless !reviewer.key?("independent") && reviewer["identity_verified"] == false && nonempty_string?(reviewer["recorded_identity"]) && independence == {
+    "status" => "asserted_partial",
+    "scope" => "Independent of the C-SDLC pipeline, not independent of the operator",
+    "operator_independent" => false
+  } && reviewer.fetch("basis").is_a?(Array) && reviewer.fetch("basis").all? { |value| nonempty_string?(value) }
 
   source = findings_doc.fetch("source")
-  fail!("source identity is incomplete") unless source["name"] == "ADL_v0.92.1_Third_Party_Review.pdf" && source["sha256"].match?(/\A[0-9a-f]{64}\z/) && source["pages"] == 5 && source["repository_copy"] == false
+  fail!("source identity is incomplete") unless source["name"] == "ADL_v0.92.1_Third_Party_Review.pdf" && source["sha256"] == EXPECTED_SOURCE_SHA256 && source["pages"] == 5 && source["repository_copy"] == false
 
   findings = findings_doc.fetch("findings")
   expected_ids = (1..5).map { |number| format("TPR-%03d", number) }
@@ -70,6 +81,8 @@ def validate_packet!(root:)
   expected_paths = %w[README.md findings.json].map { |name| File.join(packet_relative_root, name) }.sort
   actual_paths = entries.map { |entry| entry.fetch("path") }.sort
   fail!("manifest must bind exactly README.md and findings.json") unless actual_paths == expected_paths
+  declared_digests = entries.to_h { |entry| [entry.fetch("path"), entry.fetch("sha256")] }
+  fail!("manifest differs from canonical retained source bytes") unless declared_digests == EXPECTED_ARTIFACT_SHA256
   entries.each do |entry|
     path = File.join(root, File.basename(entry.fetch("path")))
     fail!("manifested artifact is missing: #{entry.fetch('path')}") unless File.file?(path)

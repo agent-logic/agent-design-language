@@ -8,9 +8,11 @@ The packet records exactly five findings (`TPR-001` through `TPR-005`): three
 P1 findings and two P2 findings. It does not infer a revision, convert the
 review to a pass, or hide the review's stated limitations.
 
-Reviewer independence is retained as asserted by the PDF author metadata and
-document subtitle. The reviewer's real-world identity was not independently
-verified, and the packet says so rather than manufacturing provenance.
+Reviewer independence is retained as **partial and asserted**, exactly within
+the PDF's stated boundary: the lane was independent of the C-SDLC pipeline,
+but not independent of the operator. The reviewer's real-world identity was
+not independently verified, and the packet says so rather than manufacturing
+provenance.
 
 Remediation is owned by #522. A later exact-candidate re-review is owned by
 #833 and must remain distinct from this historical failed result.
