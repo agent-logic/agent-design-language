@@ -85,14 +85,14 @@ Immutable external-review evidence and executable ledger are retained; focused p
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
-- Worktree-only paths remaining: `Issue #833 lifecycle and evidence changes in open PR #853`
-- Integration state: `pr_open_changes_repaired_review_pending`
+- Worktree-only paths remaining: `Generation-6 lifecycle review repair at 77ae9280b9b11c6c74d3bc7266a8d5ed1c6e954d requires a separate small follow-up PR.`
+- Integration state: `evidence_merged_lifecycle_followup_branch_only`
 - Verification scope: `Immutable handoff/report binding, seven malformed handoff negatives, exact 17-row #818 supersession receipt, eight malformed or scope-widened supersession negatives, and diff hygiene.`
-- Integration method used: `Open PR #853 aligned with current main; authenticated native-v3 PR-body mutation removed auto-close of #833.`
+- Integration method used: `PR #853 merged the bounded #833 evidence at 2dfd01343816beb5cac6df2f644141be973f6fc2; authenticated native-v3 mutation kept its body at Part of #833. The later lifecycle repair remains branch-only.`
 - Verification performed:
-  - `gh pr view 853 --json body,headRefOid,state; gh issue view 833 --json state; gh issue view 522 --json state`
-    `Confirmed PR #853 references rather than closes #833 and both #833/#522 remain open.`
-- Result: `PR open; not merged; #833 and #522 open; release approval not claimed.`
+  - `gh pr view 853 --json state,mergedAt,mergeCommit,headRefOid,body; gh issue view 833 --json state; gh issue view 522 --json state`
+    `Confirmed PR #853 merged at evidence head 2dfd0134, its body does not close #833, and #833/#522 remain open.`
+- Result: `Evidence merged through PR #853; lifecycle repair is not merged; #833 and #522 remain open; release approval is not claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: bounded_local_proof_passed_fresh_review_pending
+    status: bounded_proof_passed_post_merge_truth_corrected_fresh_review_pending
     checks_run:
       - "focused #833 validators and diff hygiene passed at 2dfd0134 before lifecycle-only repair"
   determinism:
@@ -174,5 +174,5 @@ verification_summary:
 - `Candidate frozen before administrative #522 closure; remediation state and ledger closure are distinct.`
 
 ## Follow-ups / Deferred work
-- `Obtain fresh exact-head review of the lifecycle-only repair.`
-- `Do not merge or close #833/#522 while #821/#856/final-ledger blockers remain.`
+- `Obtain fresh exact-head review of the post-merge lifecycle truth correction.`
+- `Publish only the small lifecycle follow-up; do not close #833 or #522.`

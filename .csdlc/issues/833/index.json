@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 833,
   "phase": "bound",
-  "generation": 6,
+  "generation": 7,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/833-external-review-immutable-candidate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-833-external-review-immutable-candidate",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "f30c93865661ede47b8fadcdae0484ae2bbdb1eb027643367fad853d289bc4ed"
+  "digest": "417966acd02e237089bf2e99c768b3ad54e4e9994b0c8e9c27265fcb951eb82f"
 }

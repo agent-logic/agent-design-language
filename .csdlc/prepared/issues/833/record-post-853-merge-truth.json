@@ -1,0 +1,28 @@
+{
+  "issue": 833,
+  "title": "[v0.92.1][TAIL-06.18][review] Re-run external review at immutable candidate",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/833-external-review-immutable-candidate",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-833-external-review-immutable-candidate",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "f30c93865661ede47b8fadcdae0484ae2bbdb1eb027643367fad853d289bc4ed",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "card_updates": {
+    "sor": {
+      "integration_state": "evidence_merged_lifecycle_followup_branch_only",
+      "worktree_only_paths_remaining": "Generation-6 lifecycle review repair at 77ae9280b9b11c6c74d3bc7266a8d5ed1c6e954d requires a separate small follow-up PR.",
+      "integration_method_used": "PR #853 merged the bounded #833 evidence at 2dfd01343816beb5cac6df2f644141be973f6fc2; authenticated native-v3 mutation kept its body at Part of #833. The later lifecycle repair remains branch-only.",
+      "integration_verification_command": "gh pr view 853 --json state,mergedAt,mergeCommit,headRefOid,body; gh issue view 833 --json state; gh issue view 522 --json state",
+      "integration_verification_effect": "Confirmed PR #853 merged at evidence head 2dfd0134, its body does not close #833, and #833/#522 remain open.",
+      "integration_result": "Evidence merged through PR #853; lifecycle repair is not merged; #833 and #522 remain open; release approval is not claimed.",
+      "review_result": "Review of 77ae9280 found one stale post-merge SOR statement; corrected through this typed update; fresh exact-head review pending.",
+      "review_findings_summary": "Prior P1/P2 publication-truth findings repaired; post-merge review found SOR still called PR #853 open.",
+      "unresolved_review_findings": "none after this typed SOR correction; fresh exact-head confirmation pending",
+      "follow_up_items": "Commit this lifecycle truth repair, obtain fresh exact-head review, publish a small follow-up PR, and keep #522/#833 open until #821/#856/final-ledger blockers are terminally resolved.",
+      "known_gaps": "#821 final gates incomplete; #856 underway; final TAIL-06 ledger incomplete; generation-7 lifecycle correction not yet merged.",
+      "verification_validation_status": "bounded_proof_passed_post_merge_truth_corrected_fresh_review_pending",
+      "follow_up_1": "Obtain fresh exact-head review of the post-merge lifecycle truth correction.",
+      "follow_up_2": "Publish only the small lifecycle follow-up; do not close #833 or #522."
+    }
+  }
+}
