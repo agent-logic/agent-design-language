@@ -1,0 +1,39 @@
+{
+  "schema": "adl.v0921.release_ceremony_handoff.v1",
+  "issue": 526,
+  "repository": "agent-logic/agent-design-language",
+  "version": "v0.92.1",
+  "proposed_tag": "v0.92.1",
+  "status": "prerequisites_resolved_preflight_pending",
+  "release_authorized": false,
+  "prior_tail": [
+    {"issue": 517, "state": "CLOSED", "pull_requests": [{"number": 748, "head": "09e120c0496441215b33a6ccd51c07f2beb98dc1", "merge": "e734438b5fdba099ed607e0604254430ddd7d091"}, {"number": 752, "head": "92d1317c83e4d49d95daa5f9a490e3730928bf55", "merge": "7b66e5159c0bbccac3725832a8f876f5b820152d"}]},
+    {"issue": 518, "state": "CLOSED", "pull_requests": [{"number": 753, "head": "4db787bd9e14f42411435e9bbc3c57af6fa5664b", "merge": "d0907106e1202710586b34317eaf98ddc8b4cb8a"}]},
+    {"issue": 519, "state": "CLOSED", "pull_requests": [{"number": 756, "head": "c24f8fa65ce445b03ce6cd69007307291d78b60c", "merge": "9252ec0c87a309a802dfa11ce9188a859e106607"}]},
+    {"issue": 520, "state": "CLOSED", "pull_requests": [{"number": 831, "head": "b4e4139a933941e198511541290ae192ee27f25c", "merge": "e058412611eff0975148ba9ed8e40bbd20ecb985"}]},
+    {"issue": 521, "state": "CLOSED", "pull_requests": [{"number": 850, "head": "6cd97a2bb67d70a9ee6860962e1b2790662a187f", "merge": "9c7e57d412d61898bd44ab00d53e31afbb779e5c"}]},
+    {"issue": 522, "state": "CLOSED", "pull_requests": [{"number": 860, "head": "2ac68070ff165bbbcdc3259b70db34fdb3e30e3e", "merge": "9121537c2245e945667da34d3a79c37b7f853cb6"}]},
+    {"issue": 523, "state": "CLOSED", "pull_requests": [{"number": 743, "head": "9d9306ba9073b9e8225f9f38fc8daf7ea393c5a8", "merge": "1670cb03fa42aacb7c3b7ff81a53582f2187434c"}]},
+    {"issue": 524, "state": "CLOSED", "pull_requests": [{"number": 838, "head": "95823e79e9146eca1c8a63798a42078cff925345", "merge": "06d866012864c86f75f631b3da651dc659bad656"}]},
+    {"issue": 525, "state": "CLOSED", "pull_requests": [{"number": 857, "head": "9b8d902e8d36b52545171ea816f0f9140ac0e2a3", "merge": "8c2443ea9f4870727c709531624ea63fbbf0ee16"}]}
+  ],
+  "pr_gate": {
+    "all_merged": true,
+    "all_ancestral_to_handoff": true,
+    "all_observed_checks_success_or_skipped": true
+  },
+  "finding_disposition": {
+    "source": "docs/milestones/v0.92.1/evidence/release/tail-06/FINAL_FINDING_DISPOSITION_LEDGER.md",
+    "blocker_register": "docs/milestones/v0.92.1/evidence/release/tail-06/release-blockers.json",
+    "accepted_findings": 25,
+    "unresolved_release_blockers": 0
+  },
+  "notes_path": "docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md",
+  "inventory_path": "docs/milestones/v0.92.1/RELEASE_ARTIFACTS.json",
+  "remaining": [
+    "merge this handoff into the exact release candidate",
+    "run native exact-candidate preflight",
+    "retain explicit operator authorization",
+    "create and read back the exact tag and GitHub release"
+  ]
+}
