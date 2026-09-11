@@ -9,19 +9,60 @@
     "version": "v0.92.1",
     "generation": 4
   },
-  "status": "pre_phase",
+  "status": "ready",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
-      "integration_state": "not_started",
+      "summary": "Sprint 10 umbrella reconciliation refreshed the current #833/#835/#836/#837 release-tail truth under #522. #835, #836, and #837 are closed; #833 remains open behind clean PR #853; #522 and #538 remain open. No release approval, PR merge, terminal issue closeout, or sprint closeout is claimed.",
+      "actual_changes": [
+        "Recorded bounded umbrella reconciliation evidence for the #833/#835/#836/#837 tail.",
+        "Verified PR #853 now closes only #833 and preserves #522 as the open final TAIL-06 ledger.",
+        "Preserved the truth boundary that #538 is not terminal while #522/#833 remain open."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/538/tail-06-reconciliation-2026-09-11.json"
+      ],
+      "actual_validation": [
+        {
+          "command": "gh pr view 853 --repo agent-logic/agent-design-language --json number,state,mergedAt,headRefOid,mergeStateStatus,statusCheckRollup,title,body,url,closingIssuesReferences",
+          "outcome": "passed",
+          "evidence_ref": "PR #853 is open at 56e802f5d97d43ca8e67f25e968773358053ffef, merge state CLEAN, with closing issue references limited to #833."
+        },
+        {
+          "command": "gh pr checks 853 --repo agent-logic/agent-design-language",
+          "outcome": "passed",
+          "evidence_ref": "Required aggregate checks passed and skipped jobs remained skipped by workflow configuration."
+        },
+        {
+          "command": "gh issue view 522/833/835/836/837/538 --repo agent-logic/agent-design-language",
+          "outcome": "passed",
+          "evidence_ref": "#522, #833, and #538 are open; #835, #836, and #837 are closed."
+        },
+        {
+          "command": "bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh membership && bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh all && git diff --check",
+          "outcome": "passed",
+          "evidence_ref": "Scoped readiness remains ready while full sprint status is incomplete, so closeout is not claimed."
+        },
+        {
+          "command": "python3 .csdlc/prepared/issues/835/project_release.py --check",
+          "outcome": "passed",
+          "evidence_ref": "release_decision=blocked."
+        },
+        {
+          "command": "python3 .csdlc/prepared/issues/835/project_release.py --require-ready",
+          "outcome": "expected_fail_closed",
+          "evidence_ref": "Release readiness refused because final proof/review blockers remain."
+        }
+      ],
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
-      "closeout_state": "not_started",
-      "follow_ups": []
+      "closeout_state": "not_started; #522, #833, and #538 remain open",
+      "follow_ups": [
+        "Route PR #853 through the normal reviewed merge path before #833 finish/closeout.",
+        "Keep #522 open until the final TAIL-06 ledger gate is complete.",
+        "Do not close #538 until all child closeout and sprint review requirements are proven."
+      ]
     }
   }
 }

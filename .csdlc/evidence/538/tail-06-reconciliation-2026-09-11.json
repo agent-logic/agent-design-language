@@ -1,0 +1,77 @@
+{
+  "schema": "adl.issue538.tail06_reconciliation.v1",
+  "sprint_issue": 538,
+  "observed_at": "2026-09-11T18:22:51Z",
+  "repository": "agent-logic/agent-design-language",
+  "scope": "Sprint 10 umbrella reconciliation for the #833/#835/#836/#837 release-tail remediation set under #522.",
+  "live_truth": {
+    "sprint_issue_538": {
+      "state": "OPEN",
+      "truth_boundary": "umbrella remains open; no sprint terminal closeout is claimed"
+    },
+    "parent_issue_522": {
+      "state": "OPEN",
+      "truth_boundary": "final TAIL-06 ledger gate remains open; no release approval is claimed"
+    },
+    "issue_833": {
+      "state": "OPEN",
+      "pull_request": 853,
+      "pull_request_state": "OPEN",
+      "pull_request_head": "56e802f5d97d43ca8e67f25e968773358053ffef",
+      "pull_request_merge_state": "CLEAN",
+      "closing_issues": [833],
+      "truth_boundary": "PR #853 is clean and mergeable, closes only #833, and awaits merge/review decision"
+    },
+    "issue_835": {
+      "state": "CLOSED",
+      "truth_boundary": "release projection remains blocked, not approved"
+    },
+    "issue_836": {
+      "state": "CLOSED",
+      "truth_boundary": "recursive source accounting evidence is closed, not release approval"
+    },
+    "issue_837": {
+      "state": "CLOSED",
+      "truth_boundary": "active boot-path guidance evidence is closed, not release approval"
+    }
+  },
+  "validation": [
+    {
+      "command": "gh pr view 853 --repo agent-logic/agent-design-language --json number,state,mergedAt,headRefOid,mergeStateStatus,statusCheckRollup,title,body,url,closingIssuesReferences",
+      "result": "pass",
+      "evidence": "PR #853 is OPEN, head 56e802f5d97d43ca8e67f25e968773358053ffef, mergeStateStatus CLEAN, mergedAt null, closingIssuesReferences contains only #833."
+    },
+    {
+      "command": "gh pr checks 853 --repo agent-logic/agent-design-language",
+      "result": "pass",
+      "evidence": "adl-path-policy, adl-ci, and adl-coverage passed; remaining configured jobs were skipped."
+    },
+    {
+      "command": "gh issue view 522/833/835/836/837/538 --repo agent-logic/agent-design-language",
+      "result": "pass",
+      "evidence": "#522, #833, and #538 are OPEN; #835, #836, and #837 are CLOSED."
+    },
+    {
+      "command": "bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh membership && bash .csdlc/prepared/issues/538/validate-sprint10-readiness.sh all && git diff --check",
+      "result": "pass",
+      "evidence": "membership and scoped readiness validation passed; scoped readiness reports full_sprint_status=incomplete with absent_full_sprint_records [516,520,521,522], so no #538 closeout is claimed."
+    },
+    {
+      "command": "python3 .csdlc/prepared/issues/835/project_release.py --check",
+      "result": "pass",
+      "evidence": "release_decision=blocked with 393 rows, 143 approved removals, and 14 negative cases."
+    },
+    {
+      "command": "python3 .csdlc/prepared/issues/835/project_release.py --require-ready",
+      "result": "expected_fail_closed",
+      "evidence": "exited 1 with release readiness refused: unresolved final proof and review blockers."
+    }
+  ],
+  "non_claims": [
+    "This record does not merge PR #853.",
+    "This record does not close #833, #522, or #538.",
+    "This record does not approve release.",
+    "This record does not claim full Sprint 10 closeout."
+  ],
+  "next_lifecycle_boundary": "PR #853 is clean and mergeable at exact head 56e802f5d97d43ca8e67f25e968773358053ffef, but merge/finish/closeout require the normal operator-reviewed lifecycle path."
+}
