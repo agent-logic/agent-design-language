@@ -1,0 +1,20 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "9c7e57d412d61898bd44ab00d53e31afbb779e5c",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 522,
+      "pull_request": null,
+      "cutover_issue": null,
+      "operator_approval": "Operator explicitly directed that #522 remain open until #833 completes and all new review findings are fixed.",
+      "expected_head_sha": "9c7e57d412d61898bd44ab00d53e31afbb779e5c",
+      "credential_names": ["GITHUB_TOKEN"],
+      "mutation": {
+        "action": "issue_edit",
+        "body": "## Outcome\n\nProduce one complete finding-disposition ledger for the accepted-finding denominator, including the immutable-candidate external review owned by #833 and every finding it returns.\n\n## Primary deliverable\n\nOne finding-disposition ledger binding each accepted finding to a reviewed fix or explicit owned deferral.\n\n## Verification result\n\nThe finding census reports every accepted finding exactly once with evidence, owner, disposition, and review identity.\n\n## Unit boundary\n\nIssue completion is exactly one complete finding-disposition ledger; individual remediations remain separately reviewable evidence.\n\n## Dependencies and closure gate\n\n- TAIL-05 retained review record: #521\n- Immutable-candidate external review: #833\n- #522 must remain open until #833 is complete, every new finding has exactly one disposition, every release-blocking finding is fixed and independently reviewed at its exact implementation head, and the final ledger proves the complete denominator.\n- A successful #833 review with no findings does not close #522 automatically; the final ledger is still required.\n\n## Retained predecessor scope\n\n- #188\n\n## Acceptance criteria\n\n- [ ] #833 reviews the explicit immutable candidate and records reviewer identity, limitations, validation, findings, and drift result.\n- [ ] Every retained and newly returned finding has exactly one disposition.\n- [ ] Every substantive fix has exact-head review.\n- [ ] Every deferral names owner, rationale, and target milestone.\n- [ ] No release-blocking finding remains unresolved when #522 closes.\n\n## Owned paths\n\n- docs/milestones/v0.92.1/evidence/release/tail-06/**\n\n## PVF lanes\n\n- finding-census\n- remediation-proof\n- deferral-truth\n\n## Stop conditions\n\n- #833 is incomplete.\n- A release-blocking finding remains.\n- The final finding denominator is incomplete or stale.\n\n## Non-goals\n\n- Silent deferral.\n- Closing #522 merely because #833 completed.\n- Ceremony.\n\n## Canonical planning identity\n\n- Planned ID: TAIL-06\n- Canonical title: [v0.92.1][TAIL-06] Review findings remediation\n- Planning digest: f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251\n- Execution specification: docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-06\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-06:create -->"
+      }
+    }
+  }
+}
