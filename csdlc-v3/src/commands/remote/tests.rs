@@ -2523,3 +2523,6 @@ fn comment_pagination_allows_explicit_retry_only_after_complete_absence() {
     assert_eq!(process.invocations[3].argv()[3], "1");
     assert_eq!(process.invocations[4].argv()[3], "2");
 }
+
+#[path = "tests/merge_cases.rs"]
+mod merge_cases;
