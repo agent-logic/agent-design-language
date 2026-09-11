@@ -22,7 +22,7 @@ canonical_files: []
 demo_required: false
 demo_names: []
 issue_graph_notes:
-  - "69 tasks retained; this batch assigns exactly ten previously prospective SIM identities."
+  - "69 tasks: nine original bindings, ten newly created first-sprint bindings,50 unassigned."
 pr_start:
   enabled: true
   slug: "v0922-wp01"
@@ -67,7 +67,7 @@ docs/milestones/v0.92.2/**; native #864 cards; .csdlc/evidence/864/sprint01-laun
 
 ## Validation Plan
 
-Focused planning and issue identity/body/obligation validation; native six-card validation; precreation and postcreation independent review.
+109 planning negatives plus31 launch negatives; native six-card validation; exact-head and live-issue review.
 
 ## Demo Expectations
 

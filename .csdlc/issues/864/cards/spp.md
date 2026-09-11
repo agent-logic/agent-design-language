@@ -10,7 +10,7 @@ title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execut
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
 card_status: "ready"
-status: "in_progress"
+status: "complete"
 activation_state: "executed"
 plan_revision: 1
 initial_pvf_lane: "docs"
@@ -76,13 +76,13 @@ codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
     status: "complete"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "in_progress"
+    status: "complete"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "complete"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "complete"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "v0922-wp01"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Issue creation is newly authorized; prior no-child boundary is historical. Execution and live activation remain separate. Stop for duplicate identity, scope collision or uncertain write until reconciled."
+notes: "First sprint created/reviewed; subsequent batches are authorized one at a time. Creation-time selections must be resolved before each applicable issue."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -143,10 +143,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 ## Codex Plan
 
 1. [complete] Confirm dependencies and starting state from the source issue prompt.
-2. [in_progress] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+2. [complete] Inspect repo inputs and target surfaces before editing.
+3. [complete] Implement the bounded deliverables only.
+4. [complete] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Issue creation is newly authorized; prior no-child boundary is historical. Execution and live activation remain separate. Stop for duplicate identity, scope collision or uncertain write until reconciled.
+First sprint created/reviewed; subsequent batches are authorized one at a time. Creation-time selections must be resolved before each applicable issue.

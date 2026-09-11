@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
-card_status: "ready"
+card_status: "completed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/864/cards/sip.md"
   - ".csdlc/issues/864/cards/vpp.md"
 review_results:
-  findings_status: "not_reviewed"
-  recommended_outcome: "block"
-notes: "Scope is ten first-sprint issues and their planning/identity projections; no execution review claimed."
+  findings_status: "no_findings"
+  recommended_outcome: "pass"
+notes: "Exact reviewed launch revision 9f0971c5988341e887d1290f6d462e9d799d4c5d; 109 planning and 31 launch negative fixtures pass. Native card-only result recording is separately reviewed at final tip before publication. No implementation or activation proof claimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Prior correction PASS at ace209ad remains historical. First-sprint launch issue drafts require independent precreation and postcreation review.
+- First-sprint launch review PASS at 9f0971c5988341e887d1290f6d462e9d799d4c5d by /root/planning_docs. All ten draft contracts passed cross-review before creation; /root/task_contract_review independently reread all ten live issues and reported individual PASS results.
 
 ### Dispositions
 
-- Review creation contracts before any new issue write; resolve all actionable findings.
+- Two P2 launch-validator findings fixed: exact allowed body reconstruction rejects unreviewed suffixes; receipt/review identity and digest binding rejects mismatches. Reviewer reverified both corrections. Earlier P1 final-closeout and P2 tracked-review fixes remain preserved.
 
 ### Recommended Outcome
 
-- block
+- pass
 
 ## Notes
 
-Scope is ten first-sprint issues and their planning/identity projections; no execution review claimed.
+Exact reviewed launch revision 9f0971c5988341e887d1290f6d462e9d799d4c5d; 109 planning and 31 launch negative fixtures pass. Native card-only result recording is separately reviewed at final tip before publication. No implementation or activation proof claimed.

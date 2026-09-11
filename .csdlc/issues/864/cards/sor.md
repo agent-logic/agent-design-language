@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Status: in_progress
+Status: reviewed_first_sprint_launch
 Generated: 2026-09-11T21:51:25.506803+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Operator authorized sprint-at-a-time creation; first batch is SIM-UMBRELLA and SIM01-09. No child creation result recorded yet.
+Created first sprint #866 umbrella and #867-#875 SIM01-09 through native v3; all ten live issue contracts independently reviewed; planning now has 69 tasks,19 bindings,50 unassigned.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs`
@@ -54,10 +54,10 @@ Operator authorized sprint-at-a-time creation; first batch is SIM-UMBRELLA and S
 - Actual CI wait seconds: `not_collected_for_revision`
 - Budget source: `unbounded_issue_goal`
 - Goal metrics data source: `Revision metrics not finalized; inherited opening-phase timing is not attributed to this correction.`
-- Goal metrics source ref: `Planning #1.1 issue-864 goal; no final timing or usage snapshot recorded.`
+- Goal metrics source ref: `First-sprint creation goal for #864; no final source-time usage snapshot recorded.`
 - Data-source confidence: `not_collected`
 - Estimate error percent: `unknown`
-- Completion state: `sprint_issue_creation_in_progress`
+- Completion state: `reviewed_launch_handoff`
 - Issue goal ref: `issue-864-reconciliation-goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -76,12 +76,12 @@ Operator authorized sprint-at-a-time creation; first batch is SIM-UMBRELLA and S
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/864/cards/sor.md`
 - Tracked implementation artifacts: `docs/milestones/v0.92.2 planning projections and validator`
-- Additional proof artifacts: `.csdlc/evidence/864/review-remediation; native typed exact-tip receipt under resolved Git csdlc-v3/reviews/864; atomic manifest and 89-case validator`
+- Additional proof artifacts: `.csdlc/evidence/864/sprint01-launch including drafts, native receipts, identities, live readbacks and launch validator.`
 
 ## Actions taken
-- `Added both final completion dependencies and acceptance obligations in wave/specification with enforced projection parity.`
-- `Reconciled affected planning projections and added 14 fail-closed regression fixtures.`
-- `Recorded operator FAIL and corrected implementation PASS through native review card editing.`
+- `Reviewed complete task bodies and froze full SIM03 inventory before creation.`
+- `Created ten issues with authenticated native receipts and reconciled exact numeric dependencies and milestone metadata.`
+- `Independently reviewed all ten live bodies, reconciled all planning projections and fixed validator findings.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
@@ -91,7 +91,7 @@ Operator authorized sprint-at-a-time creation; first batch is SIM-UMBRELLA and S
 - Integration method used: `Existing PR #865; reviewed correction publication uses native GitHub route.`
 - Verification performed:
   - `native github-pr authenticated reconciliation and native publish --observe-github for the final reviewed tip`
-    `PR #865 was observed open on main base at 3fc16781 before correction. Final-tip publication and CI evidence is recorded separately after this source-time record.`
+    `All ten live issue bodies, titles, milestone2 and version:v0.92.2 labels match reviewed contracts and native receipts.`
 - Result: `open_unmerged`
 
 Rules:
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check`
-    `Prior 89-fixture planning baseline passed. New launch validation and remote issue readback results are not yet recorded.`
+    `109 planning and31 launch negative fixtures passed; native six-card validation generation11 passed before result recording; independent exact source review passed at9f0971c5988341e887d1290f6d462e9d799d4c5d.`
 - Results:
-  - `pending`
+  - `passed`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `89 negative planning mutations rejected, including 14 final-completion regression cases.`
+- Determinism tests executed: `109 planning negative variants and31 issue-body/identity/metadata/receipt/review negative variants rejected.`
 - Fixtures or scripts used: `validate_planning.py negative fixtures`
 - Replay verification (same inputs -> same artifacts/order): `repeatable local CPU validation`
 - Ordering guarantees (sorting / tie-break rules used): `Ten-step tail sequence preserved; TAIL-10 additionally requires OBS-S3 and ARCH-ADR acceptance completion.`
-- Artifact stability notes: `The tracked SRP records completed implementation review at 9de70e4e064076487379a11a98af087fa8ba484c. The subsequent card-only commit receives independent exact-tip review and a native typed receipt outside tracked source to avoid self-reference.`
+- Artifact stability notes: `SRP records completed launch review at 9f0971c5988341e887d1290f6d462e9d799d4c5d; final card-only tip receives a separate exact-head typed receipt outside tracked source.`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `not_applicable; no secrets handled`
@@ -174,5 +174,5 @@ verification_summary:
 - `The cited TBD split-plan path is absent and remains #848 recovery work.`
 
 ## Follow-ups / Deferred work
-- `Review drafts, create and reconcile first sprint, independently review final launch record and publish PR update.`
-- `Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.`
+- `Publish the reviewed first batch, then continue remaining sprint batches under the operator instruction.`
+- `No implementation, writer pause/activation, merge or release approval is implied.`

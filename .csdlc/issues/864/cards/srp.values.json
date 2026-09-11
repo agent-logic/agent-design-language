@@ -7,7 +7,7 @@
   "branch": "codex/864-v0922-wp01",
   "version": "1.0.5",
   "card": "srp",
-  "card_status": "ready",
+  "card_status": "completed",
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
   "timestamp": "2026-09-11T21:51:25.506803+00:00",
@@ -17,9 +17,9 @@
   "spp_card": ".csdlc/issues/864/cards/spp.md",
   "vpp_card": ".csdlc/issues/864/cards/vpp.md",
   "sor_card": ".csdlc/issues/864/cards/sor.md",
-  "findings_status": "not_reviewed",
-  "recommended_outcome": "block",
-  "review_findings": "Prior correction PASS at ace209ad remains historical. First-sprint launch issue drafts require independent precreation and postcreation review.",
-  "review_dispositions": "Review creation contracts before any new issue write; resolve all actionable findings.",
-  "review_notes": "Scope is ten first-sprint issues and their planning/identity projections; no execution review claimed."
+  "findings_status": "no_findings",
+  "recommended_outcome": "pass",
+  "review_findings": "First-sprint launch review PASS at 9f0971c5988341e887d1290f6d462e9d799d4c5d by /root/planning_docs. All ten draft contracts passed cross-review before creation; /root/task_contract_review independently reread all ten live issues and reported individual PASS results.",
+  "review_dispositions": "Two P2 launch-validator findings fixed: exact allowed body reconstruction rejects unreviewed suffixes; receipt/review identity and digest binding rejects mismatches. Reviewer reverified both corrections. Earlier P1 final-closeout and P2 tracked-review fixes remain preserved.",
+  "review_notes": "Exact reviewed launch revision 9f0971c5988341e887d1290f6d462e9d799d4c5d; 109 planning and 31 launch negative fixtures pass. Native card-only result recording is separately reviewed at final tip before publication. No implementation or activation proof claimed."
 }

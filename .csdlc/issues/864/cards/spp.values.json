@@ -12,7 +12,7 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-864-v0922-wp01",
   "timestamp": "2026-09-11T21:51:25.506803+00:00",
   "slug": "v0922-wp01",
-  "status": "in_progress",
+  "status": "complete",
   "activation_state": "executed",
   "initial_pvf_lane": "docs",
   "planned_pvf_lane": "docs",
@@ -38,12 +38,12 @@
   "repo_inputs_inline": "planning package and authenticated GitHub issue readback",
   "deliverables_inline": "69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.",
   "acceptance_criteria_inline": "Ten reviewed first-sprint issues with complete execution contracts; all 69 planning tasks retained, no later batch issue created.",
-  "notes_risks_inline": "Issue creation is newly authorized; prior no-child boundary is historical. Execution and live activation remain separate. Stop for duplicate identity, scope collision or uncertain write until reconciled.",
+  "notes_risks_inline": "First sprint created/reviewed; subsequent batches are authorized one at a time. Creation-time selections must be resolved before each applicable issue.",
   "validation_plan_inline": "validate_planning.py --self-test; native validate; diff check; semantic and docs subagents.",
   "risks_inline": "stale denominator or duplicate issue binding",
   "step_1_status": "complete",
-  "step_2_status": "in_progress",
-  "step_3_status": "pending",
-  "step_4_status": "pending",
-  "step_5_status": "pending"
+  "step_2_status": "complete",
+  "step_3_status": "complete",
+  "step_4_status": "complete",
+  "step_5_status": "in_progress"
 }
