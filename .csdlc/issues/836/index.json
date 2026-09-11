@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 836,
   "phase": "bound",
-  "generation": 5,
+  "generation": 6,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/836-recursive-rust-size",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-836-recursive-rust-size",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "d5a96be35738535fb3490efe9a4f73358c4d79704c46fadf9874861d5436121a"
+  "digest": "cc5541cea4b7a5312fbbf0946d1a4730f87f47d8ca526be8ca5117fdfd71a636"
 }

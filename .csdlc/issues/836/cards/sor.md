@@ -57,7 +57,7 @@ Implemented reproducible recursive Rust size/relocation evidence and corrected i
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `implementation_complete_publication_pending`
+- Completion state: `published_pending_ci_and_merge`
 - Issue goal ref: `issue-836-active-session-goal`
 - Sprint goal ref: `not collected`
 - Goal metrics rollup ref: `not collected`
@@ -85,14 +85,14 @@ Implemented reproducible recursive Rust size/relocation evidence and corrected i
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
-- Worktree-only paths remaining: `All #836 changes pending publication`
-- Integration state: `worktree_only`
+- Worktree-only paths remaining: `No unpublished product changes; PR839 carries issue836 work. Operational receipts remain local.`
+- Integration state: `pr_open`
 - Verification scope: `Source accounting and bounded document audit only.`
-- Integration method used: `not yet integrated`
+- Integration method used: `Native v3 github-pr and publish; authenticated exact-head readback.`
 - Verification performed:
   - `git status --short --branch; gh pr view after publication`
     `Confirms bound feature branch; PR and CI verification pending.`
-- Result: `not merged; publication pending`
+- Result: `Non-draft PR #839 open against main; native publication ready at reviewed implementation head 30b4e8086cd05159433a7bd53917d18030de85a7. Required CI is separate external evidence; merge remains pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -174,5 +174,5 @@ verification_summary:
 - `Gross additions/deletions retain matching lines; possible relocation is separately labeled and cannot prove semantic movement.`
 
 ## Follow-ups / Deferred work
-- `Obtain final exact-head review and publish Closes #836 PR.`
-- `Hosted CI provides integration checks; merge remains asynchronous.`
+- `Check required CI at current PR head before asynchronous merge handoff.`
+- `Merge and native terminal finish/cleanup remain separately authorized closeout actions.`

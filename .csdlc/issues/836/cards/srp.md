@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "no_findings"
   recommended_outcome: "pass"
-notes: "review_836 independently verified inventories, all relocation runs and document hashes. No runtime behavior approval claimed."
+notes: "No actionable findings. Product evidence, source accounting and validation unchanged after exact-head review; final metadata head is re-reviewed before publication update."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -127,7 +127,7 @@ review_results:
 
 ### Dispositions
 
-- Filled declared inline aliases, source/card references, validation registry, execution and result fields through native edit. Metadata-only final re-review pending.
+- P2 card-readiness finding fixed. Independent exact-head review passed at 30b4e8086cd05159433a7bd53917d18030de85a7; this subsequent change records publication metadata only.
 
 ### Recommended Outcome
 
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-review_836 independently verified inventories, all relocation runs and document hashes. No runtime behavior approval claimed.
+No actionable findings. Product evidence, source accounting and validation unchanged after exact-head review; final metadata head is re-reviewed before publication update.
