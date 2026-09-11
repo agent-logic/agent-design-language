@@ -168,7 +168,7 @@ PR #829 merged preparation only. Its four final #821 obligations remain unresolv
             text+='\n## Bounded feature and demo evidence\n\n'
             for f in data['features']:
                 text+=f"### {f['name']}\n\nRetained demo status: {f['bounded_demo_status']}. {f['demo_scope']}\n\n"
-        outputs[f'{BASE}/{key}_v0.92.1.md']=text.encode()
+        outputs[f'{BASE}/{key}_v0.92.1.md']=(text.rstrip()+'\n').encode()
     evidence='# Complete release-gate evidence map\n\nCandidate: `'+data['candidate']+'`. No rows omitted or removals called passes.\n\n| ID | Current disposition | Historical result | Source issue |\n|---|---|---|---|\n'
     for r in data['rows']:
         evidence+=f"| {r['id']} | {r['disposition']} | {r['historical_result']} | {r.get('source_issue','retained inventory')} |\n"

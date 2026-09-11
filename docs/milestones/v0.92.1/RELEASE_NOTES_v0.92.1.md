@@ -110,4 +110,3 @@ Retained demo status: blocked. Retained implementation/validation artifacts are 
 ### Rust resilience refactoring
 
 Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
-
