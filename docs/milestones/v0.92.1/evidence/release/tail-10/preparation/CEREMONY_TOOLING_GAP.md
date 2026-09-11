@@ -7,7 +7,7 @@ Status: unresolved; source inspection only. No release mutation or retired lifec
 
 Safe reproduction: inspect these tracked functions, the manifest version, and absence of the milestone gate at the preparation SHA recorded in `ceremony-preparation.json`. The control flow is version check, typed closeout gate, then plan. No resource or credential access is needed to establish these gaps.
 
-Repair owner: [#856](https://github.com/agent-logic/agent-design-language/issues/856), created and authenticated by native v3 on 2026-09-11. The issue covers coordinated release versions and current v3 preflight, including focused positive and negative proof. These findings remain unresolved until that repair is reviewed and integrated. #833 and its review worktree are outside this repair scope.
+These are local durable findings, not newly created GitHub issues or completed fixes. They must receive an execution owner before the ceremony is considered ready. #526's requested preparation does not silently widen into implementation of shared tooling.
 
 ## Where the version obligation was lost
 
@@ -21,3 +21,9 @@ The existing review scope already includes this check:
 This establishes a lost handoff obligation, rather than an absent manifest inventory. It does not establish what an external reviewer read or why that reviewer missed the consequence. Closing #519 supplies no evidence that this inherited obligation was resolved.
 
 Required acceptance evidence before candidate approval: an explicit release-artifact inventory; coordinated manifest/lockfile versions for those artifacts; and a successful non-mutating ceremony preflight for `v0.92.1` at the exact proposed candidate using current v3 authority. Keep independently versioned helpers separate where justified. A recorded version, a manifest parse, or a closed issue is insufficient.
+
+## Routing update — 2026-09-11
+
+The original findings and discovery-time status above are preserved verbatim. Subsequent routing does not resolve either finding.
+
+Repair owner: [#856](https://github.com/agent-logic/agent-design-language/issues/856), created and authenticated through native v3. It covers coordinated release versions and current v3 preflight, including focused positive and negative proof. Both findings remain OPEN until the repair is reviewed, integrated and verified. #833 and its review worktree are outside this repair scope.
