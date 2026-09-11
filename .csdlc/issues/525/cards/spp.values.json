@@ -24,7 +24,7 @@
   "step_2_status": "completed",
   "step_3_status": "completed",
   "step_4_status": "completed",
-  "step_5_status": "in_progress",
+  "step_5_status": "completed",
   "initial_pvf_lane": "docs_only",
   "planned_pvf_lane": "docs_only",
   "planned_pvf_lane_source": "docs/validation/pvf_lanes.json",

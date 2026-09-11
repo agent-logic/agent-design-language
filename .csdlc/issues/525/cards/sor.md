@@ -21,19 +21,19 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-09] Next milestone review pass
 Branch: codex/525-next-milestone-review
 Card Status: ready
-Status: IN_PROGRESS
-Generated: 2026-09-11T00:00:00Z
+Status: DONE
+Generated: 2026-09-11T18:21:06Z
 
 Execution:
 - Actor: `codex`
 - Model: `gpt-5`
 - Provider: `OpenAI`
 - Start Time: `2026-09-11T00:00:00Z`
-- End Time: `not_finished`
+- End Time: `2026-09-11T18:21:06Z`
 
 ## Summary
 
-The v0.92.2 planning corpus now contains 45 reconciled issue rows, including ordinary unassigned OBS-S3 and ARCH-ADR issues, and focused validation passes; final exact-head review and publication remain pending.
+The v0.92.2 planning corpus contains 45 reconciled issue rows, including ordinary unassigned OBS-S3 and ARCH-ADR issues; focused validation and independent exact-head review pass, and only PR publication remains.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs_only`
@@ -57,7 +57,7 @@ The v0.92.2 planning corpus now contains 45 reconciled issue rows, including ord
 - Goal metrics source ref: `Issue #525 session goal`
 - Data-source confidence: `low`
 - Estimate error percent: `not_applicable`
-- Completion state: `awaiting_final_review`
+- Completion state: `implementation_complete_pending_publication`
 - Issue goal ref: `Issue #525 session goal`
 - Sprint goal ref: `v0.92.1 release tail`
 - Goal metrics rollup ref: `not_collected`
@@ -76,7 +76,7 @@ The v0.92.2 planning corpus now contains 45 reconciled issue rows, including ord
 ## Artifacts produced
 - Local ignored output-card scaffold at `not_applicable; this tracked SOR is the canonical output record, not a local ignored scaffold`
 - Tracked implementation artifacts: `docs/milestones/v0.92.2 planning corpus, validator, and .csdlc/issues/525 cards`
-- Additional proof artifacts: `Native v3 validation results and two bounded pre-PR reviews; current findings are being remediated before final rereview.`
+- Additional proof artifacts: `Native v3 validation results and final independent exact-head review at cad5ff95a9ba243b909411cb7c70d2efd203e679.`
 
 ## Actions taken
 - `Bound issue #525 to its FastWork worktree and replaced placeholder design cards through native v3 edit.`
