@@ -1,0 +1,287 @@
+{
+  "schema": "adl.v0921.predecessor_reconciliation.v1",
+  "issue": 834,
+  "source_candidate": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+  "predecessor_issue": 520,
+  "closing_pr": 831,
+  "external_finding": "TPR-002",
+  "historical_observation": "Required predecessor #520 was not finalized and had returned changes required when the external review ran.",
+  "historical_observation_source": "https://github.com/agent-logic/agent-design-language/issues/834",
+  "historical_report_retention_owner": 833,
+  "release_ready": false,
+  "historical_sources": [
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+      "revision": "e058412611eff0975148ba9ed8e40bbd20ecb985",
+      "sha256": "9dd57d38d85db5d2a6519d7ae52a5fa59d7dd55f8419775111985576dc078b92"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/release/tail-04/SECOND_REVIEW_SUMMARY.md",
+      "revision": "e058412611eff0975148ba9ed8e40bbd20ecb985",
+      "sha256": "f2a2ad2ba848f8ab0a07d7382770e63579f9d22c18471523887b91874b211823"
+    }
+  ],
+  "owners": [
+    {
+      "issue": 814,
+      "closing_pr": 822,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/814/cards/sor.values.json",
+          "revision": "025893137021c963e752f53935268e7d8834d1ac",
+          "sha256": "1fcebc7a6b4ac5758e556f4eeab242dbdc8435b810ee54b5494cda897cd75748"
+        },
+        {
+          "path": "adl-runtime-kernel/src/control.rs",
+          "revision": "025893137021c963e752f53935268e7d8834d1ac",
+          "sha256": "a8dba095d562fa1a5e515fba54c53410e3a309e5bf61a1e0e38a554a701a179f"
+        },
+        {
+          "path": "adl-runtime/tests/shepherd_local_model.rs",
+          "revision": "025893137021c963e752f53935268e7d8834d1ac",
+          "sha256": "226ac7f15833eb190a5123241560f2f5ba256ff138047a57538acff1ee81d90b"
+        }
+      ]
+    },
+    {
+      "issue": 815,
+      "closing_pr": 825,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/815/cards/sor.values.json",
+          "revision": "8e51b1b15c8257a6522cda041e4aed4eb3348016",
+          "sha256": "f66c6f67f5417ccf5cf4330d9fd5ea2e479412505373f748db4009793760e8d5"
+        },
+        {
+          "path": ".csdlc/prepared/issues/815/test_cloud_authorization.py",
+          "revision": "8e51b1b15c8257a6522cda041e4aed4eb3348016",
+          "sha256": "57e70508eb80de7534859cde04fde2373f8f96bd789942576b9e99bf8ffd3415"
+        }
+      ]
+    },
+    {
+      "issue": 816,
+      "closing_pr": 823,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/816/cards/sor.values.json",
+          "revision": "5981d90e71808b70a801520d86bd4e648a56d0a6",
+          "sha256": "ee8f0d652e7ee2bdd66504b4606b746340e95633cb91d71f34f8e3880e6a3cc0"
+        },
+        {
+          "path": ".csdlc/prepared/issues/816/validate-publication-manifest.py",
+          "revision": "5981d90e71808b70a801520d86bd4e648a56d0a6",
+          "sha256": "123000b0f40b2adad7c9d02b2672706938b28838230cf9d4992a2b7345a63410"
+        },
+        {
+          "path": "adl-runtime/tests/config_reload.rs",
+          "revision": "5981d90e71808b70a801520d86bd4e648a56d0a6",
+          "sha256": "e944c99daff441390d92860a5bed5a6a13add80d3f409cac7c53b15771fedb40"
+        }
+      ]
+    },
+    {
+      "issue": 817,
+      "closing_pr": 826,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/817/cards/sor.values.json",
+          "revision": "add8f48867e55be9256244767758abba6f348091",
+          "sha256": "5714844a66a3aea3303ebd60b64950942330b9346fdf79efc3bdf94f0365d81b"
+        },
+        {
+          "path": ".csdlc/prepared/issues/817/validate-release-truth.py",
+          "revision": "add8f48867e55be9256244767758abba6f348091",
+          "sha256": "ddceb469a951d96d8e259a5e065f4b61d027b4cc11bcedcf4725c5f98b36a1e2"
+        }
+      ]
+    },
+    {
+      "issue": 818,
+      "closing_pr": 832,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/818/cards/sor.values.json",
+          "revision": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+          "sha256": "f2df96d260a7ddb9c853f6f5b3f252e5a6f6c05554ae96a4b4bb4d7df65e5b29"
+        },
+        {
+          "path": ".csdlc/evidence/818/retained-corporate-runtime/reconciliation.json",
+          "revision": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+          "sha256": "bbd0b884f7673bfafa8007d027ff24b392a61de0ac1b0c1d00d866e5723f9de9"
+        }
+      ]
+    },
+    {
+      "issue": 819,
+      "closing_pr": 827,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/819/cards/sor.values.json",
+          "revision": "1e9b543e40e0e4c980878384d64ab368717b0091",
+          "sha256": "d5e8a4ae835f463bea242a12a00b6f16f4fa58160d804859a1a70560b1582c55"
+        },
+        {
+          "path": ".csdlc/evidence/819/retained-v3/reconciliation.json",
+          "revision": "1e9b543e40e0e4c980878384d64ab368717b0091",
+          "sha256": "3553d99285a70cc1827b9a5569f0a4a737ec11d64a96048cad962539e709e3c8"
+        }
+      ]
+    },
+    {
+      "issue": 820,
+      "closing_pr": 828,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/820/cards/sor.values.json",
+          "revision": "803047812d09984a6df09cbb1e2cf0957c29d547",
+          "sha256": "c12d72f1da2d8b24732448028155b4719a42b26c7d0195d8e76eddd8b0aef025"
+        },
+        {
+          "path": ".csdlc/evidence/820/distributed-runtime/reconciliation.json",
+          "revision": "803047812d09984a6df09cbb1e2cf0957c29d547",
+          "sha256": "6a9cfb7e1ad5a815f9dda50cbf0ef4c52b98e86ac631f6cbdbb3f03cd61057cb"
+        }
+      ]
+    },
+    {
+      "issue": 821,
+      "closing_pr": 829,
+      "evidence": [
+        {
+          "path": ".csdlc/issues/821/cards/sor.values.json",
+          "revision": "44e05e694a6e8c6b74f3cc012946bd77c9442df2",
+          "sha256": "865b10cca29992fd4b213f70aea783a7c04054f7fd456944c78c2c4e96b8afea"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-821/preparation.json",
+          "revision": "44e05e694a6e8c6b74f3cc012946bd77c9442df2",
+          "sha256": "3974b08b948d63c133701cb73b536411d9e94657589945885556097a5df43358"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "D520-RET-001",
+      "owners": [
+        818,
+        819,
+        820,
+        821
+      ],
+      "disposition": "merged_retained_packets_and_preparation; final_gate_correction_owned_by_835",
+      "correction_owners": [
+        835
+      ]
+    },
+    {
+      "id": "D520-V3F-001",
+      "owners": [
+        817
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": [
+        835
+      ]
+    },
+    {
+      "id": "D520-REL-001",
+      "owners": [
+        817
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": [
+        835
+      ]
+    },
+    {
+      "id": "D520-DOC-003",
+      "owners": [
+        817
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-DOC-004",
+      "owners": [
+        817
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-EVID-001",
+      "owners": [
+        817
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-EVID-002",
+      "owners": [
+        817
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-RUNTIME-001",
+      "owners": [
+        814
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-RUNTIME-002",
+      "owners": [
+        814
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-SEC-001",
+      "owners": [
+        815
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-SEC-002",
+      "owners": [
+        815
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-SEC-003",
+      "owners": [
+        816
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-SEC-004",
+      "owners": [
+        814
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    },
+    {
+      "id": "D520-TEST-001",
+      "owners": [
+        816
+      ],
+      "disposition": "merged_remediation_evidence",
+      "correction_owners": []
+    }
+  ]
+}
