@@ -26,3 +26,7 @@ For the future successor of v0.92.2, final handoff uses TAIL-06 dispositions and
 ## Atomic completion accounting
 
 Carry forward the final 69-row issue mapping, eight family splits and eleven strengthened contracts from the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). Record separately the seven required planning deliverables and each implemented consumer's success/failure proof. A missing Beta 1 behavior is an unresolved current-milestone blocker, not an implied successor task. TAIL-07 and TAIL-08 produce complete successor planning and closeout-planning results without authorizing future milestones or issue creation; the canonical TAIL-01 through TAIL-10 sequence remains unchanged. Final TAIL-10 closure explicitly requires OBS-S3 and ARCH-ADR completion and their separate acceptance records.
+
+## Sidecar handoff
+
+Report existing #671 podcast-sidecar state separately from the 69 core task results. Preserve its explicit future publication/submission approvals and route any remaining work truthfully without claiming that core Beta completion performed those actions.

@@ -22,7 +22,7 @@ canonical_files: []
 demo_required: false
 demo_names: []
 issue_graph_notes:
-  - "69 tasks: nine original bindings, ten newly created first-sprint bindings,50 unassigned."
+  - "69 core tasks: nine original identities plus 60 planned issue births across eleven creation batches; #671 is outside the core graph/startup denominator."
 pr_start:
   enabled: true
   slug: "v0922-wp01"
@@ -35,19 +35,19 @@ Generated: 2026-09-11T21:51:25.506803+00:00
 
 ## Summary
 
-Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions.
+Create and independently review all 69 core task issues in sequential sprint batches, reconcile every planning projection, and publish consolidated launch evidence. Retain #671 as a separate milestone sidecar.
 
 ## Goal
 
-Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions.
+Create and independently review all 69 core task issues in sequential sprint batches, reconcile every planning projection, and publish consolidated launch evidence. Retain #671 as a separate milestone sidecar.
 
 ## Required Outcome
 
-All69 task identities present; every newly created issue independently reviewed before and after creation; existing identities preserved.
+Every one of the 69 core task identities is present and independently reviewed; existing scopes preserved; #671 sidecar metadata reconciled.
 
 ## Deliverables
 
-Ten issue bodies and native creation/readback receipts; frozen command inventory; updated wave/specs/catalog/WBS/sprint/readiness; launch review.
+All 60 reviewed issue births and nine reconciled existing issues; authenticated receipts/readbacks; complete updated planning package and final launch review.
 
 ## Acceptance Criteria
 
@@ -63,11 +63,11 @@ Merged v0.92.1 planning package and opened v0.92.2 milestone.
 
 ## Target Files / Surfaces
 
-docs/milestones/v0.92.2/**; native #864 cards; .csdlc/evidence/864/sprint01-launch/**.
+docs/milestones/v0.92.2/**; native #864 cards; .csdlc/evidence/864/**.
 
 ## Validation Plan
 
-109 planning negatives plus31 launch negatives; native six-card validation; exact-head and live-issue review.
+python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review.
 
 ## Demo Expectations
 
@@ -79,7 +79,7 @@ Implementation, live activation, merge, release approval.
 
 ## Issue-Graph Notes
 
-#855 RT-PROVIDER; #852 failure-event repair with four separately planned proof/consumer tasks; #862 local with separate remote refactor.
+Integration precedes independent qualification. TAIL-10 requires TAIL-09, OBS-S3 and ARCH-ADR. All 69 identities and reviews are required before new implementation admission, without adding task dependency edges.
 
 ## Notes
 

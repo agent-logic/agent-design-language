@@ -101,7 +101,7 @@ The umbrella owns dependency ordering, the release scorecard, adjudication of fa
 | SIM-08 | Produce one transition operations packet. | Deployment, rollback, and prospective-measurement instructions are reviewed without activating writers. |
 | SIM-09 | Run one authorized consecutive-issue pilot. | Separate pause/activation authority exists and every pilot attempt, failure, abandonment, and disposition is retained. |
 
-Scheduling: this is the first coherent v0.92.2 sprint, authorized to proceed in parallel with Runtime work. Its own issue readiness and disjoint ownership govern startup; it does not wait for WP-01, the CodeFriend build or unrelated prior closeout. SIM-UMBRELLA opens and coordinates the sprint, and completes only after SIM-09.
+Scheduling: this is the first coherent v0.92.2 sprint, authorized to proceed in parallel with Runtime work. The later operator instruction requires all 69 core issue identities and creation reviews before implementation. After that global startup gate, its own issue readiness and disjoint ownership govern execution; no WP-01, CodeFriend-build or unrelated-closeout dependency is added. SIM-UMBRELLA opens and coordinates the sprint, and completes only after SIM-09.
 
 Order: SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM-05 → SIM-06 → SIM-07 → SIM-08 → SIM-09. Preparation may overlap only with disjoint ownership. Earlier correctness repairs may ship separately; the incompatible CLI/state replacement activates once, after the full transition proof. No intermediate deployment may introduce two writers for one issue.
 
@@ -179,7 +179,7 @@ Final acceptance requires the journey and measurement scorecard above, one opera
 
 ## Planning status and next boundary
 
-The operator has selected v0.92.2 and authorized creation of the first ten-issue sprint. SIM-UMBRELLA is #866; SIM-01 through SIM-09 are #867 through #875 respectively. Other v0.92.2 work exists outside this program; reconcile overlaps before assigning owners. This tracked planning document is not a C-SDLC card, execution binding, approved architecture decision, or operational authority. Native creation is complete; readiness and bound execution ownership must still be resolved for each issue.
+The operator has selected v0.92.2 and authorized creation of the first ten-issue sprint. SIM-UMBRELLA is #866; SIM-01 through SIM-09 are #867 through #875 respectively. Other v0.92.2 work exists outside this program; reconcile overlaps before assigning owners. The global all-69-created-and-reviewed startup gate applies before SIM implementation. This tracked planning document is not a C-SDLC card, execution binding, approved architecture decision, or operational authority. Native creation is complete; readiness and bound execution ownership must still be resolved for each issue.
 
 Source review, document checks and authorized native first-sprint issue creation have been performed. Failure reproduction, runtime tests, performance measurements, compatibility conversion, independent implementation review, and transition rehearsal remain future work. The principal residual risks are preserving evidence invalidation semantics, fencing existing writers, and reconciling a remote success across a local crash.
 
@@ -187,7 +187,7 @@ The original promotion authorized a bounded planning change. The later first-spr
 
 ## #864 complete-task clarification
 
-The current [atomic task contracts](../ATOMIC_TASK_CONTRACTS_v0.92.2.md) tighten SIM-03 and SIM-04 without changing this sprint's ordering or activation authority. SIM-03 freezes the supported local/remote command inventory before creation and runs that inventory through the installed intent CLI against production operations. SIM-04 routes every local transition and verified remote/terminal outcome through the semantic owner and proves crash/concurrency behavior at actual application entrypoints. A CLI scaffold, unused transaction library or model-only proof cannot close either task.
+The current [atomic task contracts](../ATOMIC_TASK_CONTRACTS_v0.92.2.md) tighten SIM-03 and SIM-04 without changing this sprint's ordering or activation authority. SIM-03 uses its frozen supported local/remote command inventory and runs that inventory through the installed intent CLI against production operations. SIM-04 routes every local transition and verified remote/terminal outcome through the semantic owner and proves crash/concurrency behavior at actual application entrypoints. A CLI scaffold, unused transaction library or model-only proof cannot close either task.
 
 SIM-08 remains a required planning/operations deliverable with complete deployment/recovery instructions and the authorized rehearsal evidence defined by its execution contract; it does not activate writers. CSDLC-DECOMPOSE/#862 owns local command decomposition, and the separate CSDLC-REMOTE task owns remote decomposition after CSDLC-MERGE. Reconcile their shared paths with SIM ownership before writes. Original statistical reports and promoted-source provenance remain historical evidence.
 
@@ -206,4 +206,4 @@ SIM-08 remains a required planning/operations deliverable with complete deployme
 | SIM-08 | [#874](https://github.com/agent-logic/agent-design-language/issues/874) |
 | SIM-09 | [#875](https://github.com/agent-logic/agent-design-language/issues/875) |
 
-The [native launch mapping](../../../../.csdlc/evidence/864/sprint01-launch/issues.json) records canonical identities. SIM-03/#869 includes the resolved command inventory in its self-contained body; the [launch inventory](../../../../.csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md) is its retained source. The original source-promotion manifest and statistical reports remain historical evidence. The milestone still has 69 tasks: nine preexisting plus ten newly created bindings and 50 unassigned later tasks. No later sprint is created by this launch.
+The [native launch mapping](../../../../.csdlc/evidence/864/sprint01-launch/issues.json) records canonical identities. SIM-03/#869 includes the resolved command inventory in its self-contained body; the [launch inventory](../../../../.csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md) is its retained source. The original source-promotion manifest and statistical reports remain historical evidence. The final core milestone map has 69 assigned tasks: nine preexisting and 60 newly created bindings, with zero unassigned tasks. The first-sprint record remains evidence for its own ten identities.

@@ -56,4 +56,10 @@ PLAT-UTS must ship an installable package consumed by Runtime ACC/UTS dispatch. 
 
 ## First sprint creation readback
 
-The ten already-admitted SIM rows are now created as umbrella #866 and SIM-01 through SIM-09 #867–#875. The source-audit history above is unchanged. Current accounting remains 69 tasks, with nine preexisting and ten newly created issue identities plus 50 unassigned later tasks. This launch does not admit new scope or authorize later sprint creation.
+The ten already-admitted SIM rows are now created as umbrella #866 and SIM-01 through SIM-09 #867–#875. The source-audit history above is unchanged. Final accounting is 69 assigned core tasks: nine preexisting and 60 newly created identities, with zero unassigned tasks. The complete authorized creation wave preserves the admitted scope.
+
+## Additional existing sidecar
+
+The operator separately admitted existing #671 podcast public launch/provider submission as a v0.92.2 sidecar. This is not a new atomic task, a changed core startup denominator or a new dependency edge. Retain the original sidecar action approvals and independent status accounting; no source audit or milestone assignment authorizes public effects.
+
+The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

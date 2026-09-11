@@ -90,19 +90,19 @@ review_surfaces:
 
 ## Goal
 
-Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions.
+Create and independently review all 69 core task issues in sequential sprint batches, reconcile every planning projection, and publish consolidated launch evidence. Retain #671 as a separate milestone sidecar.
 
 ## Required Outcome
 
-All69 tasks have unique canonical issues and reviewed complete task contracts; all planning projections and native readbacks agree.
+All 69 core tasks have unique canonical issues and complete reviewed task contracts; all planning projections and authenticated readbacks agree.
 
 ## Acceptance Criteria
 
-Every issue owns one complete task and explicit paths, dependencies, success/failure acceptance and PVF; no duplicate existing issue; ten bodies reviewed before and after creation.
+Every task owns one complete result with explicit paths, dependencies, success/failure acceptance and PVF. All 60 new issues are reviewed before and after creation; all nine existing issues receive final live review. No omissions or duplicates.
 
 ## Inputs
 
-Operator authorization: create the issues one sprint at a time and carefully review them all; reviewed PR #865 at ace209ad; canonical SIM plan/specs.
+Operator authorization to create every sprint and review all issues before implementation; canonical wave/specifications; reviewed creation selections; #671 separately assigned as a sidecar.
 
 ## Target Files / Surfaces
 
@@ -110,7 +110,7 @@ docs/milestones/v0.92.2/**; issue #864 native cards and bounded scope-reconcilia
 
 ## Validation Plan
 
-Planning self-test with atomic/baseline/dependency negatives; native six-card validation; diff hygiene; independent semantic and docs review.
+python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review.
 
 ## Demo / Proof Requirements
 
@@ -166,7 +166,7 @@ Implementation, writer pause/live activation, merge, release approval.
 
 ## Notes / Risks
 
-Concrete product/proof selections remain explicit before-child-creation gates; no product implementation is claimed.
+Creation selections are recorded in CREATION_SELECTIONS_v0.92.2.md. PUB-CSDLC feedback is handled during ordinary iterative revision. No product implementation is claimed.
 
 ## Instructions to the Agent
 - Read this file.

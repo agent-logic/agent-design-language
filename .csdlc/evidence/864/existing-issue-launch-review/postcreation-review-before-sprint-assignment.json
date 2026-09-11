@@ -1,0 +1,46 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "reviewer": "/root/docs_final_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "89438789975169b78d31f60130a16f2f19500159aedb4919d198f374697afdf0",
+  "issues": {
+    "WP-01": {
+      "number": 864,
+      "result": "pass"
+    },
+    "RT-PROVIDER": {
+      "number": 855,
+      "result": "pass"
+    },
+    "ARCH-SPLIT": {
+      "number": 848,
+      "result": "pass"
+    },
+    "CSDLC-MERGE": {
+      "number": 849,
+      "result": "pass"
+    },
+    "QUAL-RUNTIME": {
+      "number": 852,
+      "result": "pass"
+    },
+    "RT-COST": {
+      "number": 854,
+      "result": "pass"
+    },
+    "CSDLC-MAN": {
+      "number": 861,
+      "result": "pass"
+    },
+    "CSDLC-DECOMPOSE": {
+      "number": 862,
+      "result": "pass"
+    },
+    "OBS-LIVE": {
+      "number": 720,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, metadata and native authenticated receipts independently verified for all nine existing core tasks against the reviewed final proposals and current milestone contracts. Narrowed #852/#862 scopes retain all separate task obligations and verified numeric follow-ons; #720 preserves existing owner authority with no WP-01 edge while enforcing the global launch gate for new admission. #864 owns complete 69-task creation/review reconciliation. No implementation, qualification, activation or release proof."
+}

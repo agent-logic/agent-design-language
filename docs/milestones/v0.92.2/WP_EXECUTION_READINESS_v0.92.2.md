@@ -1,6 +1,6 @@
 # v0.92.2 Execution Readiness
 
-Status: the new execution wave remains gated. Existing admitted issue #720 uses its own typed readiness. Closed merged #717 and #718 are predecessor inputs rather than new-wave rows.
+Status: the new execution wave remains gated. Existing admitted issue #720 retains its own typed readiness after the global core startup gate. Closed merged #717 and #718 are predecessor inputs rather than new-wave rows.
 
 ## Opening Gates
 
@@ -25,10 +25,16 @@ OBS-S3 additionally pauses for an `agent-logic-admin` identity mismatch, an unex
 
 ## Early contract and existing-issue gates
 
-CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #720 remains independently executable. Closed merged #717 and #718 retain their v0.92.1 acceptance evidence, including #718 model-generated reply proof and separately bounded provider authorization; v0.92.2 consumes only those reviewed merged outcomes.
+CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer conformance fixtures before CF-REVIEW, CF-MEMORY or CF-UX executes against it. #720 retains independent task readiness after the global core startup gate. Closed merged #717 and #718 retain their v0.92.1 acceptance evidence, including #718 model-generated reply proof and separately bounded provider authorization; v0.92.2 consumes only those reviewed merged outcomes.
 
 ## First SIM sprint
 
-SIM-01 has its own readiness and can start alongside Runtime without WP-01 or unrelated prior closeout. SIM-02 through SIM-09 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-09. Dedicated sprint issue creation is complete as #866–#875; native execution readiness, binding and disjoint owner assignment still precede execution. The CodeFriend opening gates above do not apply to this independently admitted sprint. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.
+After all 69 core identities are created and all creation reviews pass, SIM-01 can start alongside Runtime through its own readiness; its graph has no WP-01 or unrelated prior-closeout dependency. SIM-02 through SIM-09 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-09. Dedicated sprint issue creation is complete as #866–#875; native execution readiness, binding and disjoint owner assignment still precede execution. Its independent admission does not exempt it from the global core startup gate. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.
 
 TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately verifies authenticated Observatory deployment and the completed, source-grounded ADR set with explicit decision status. These obligations do not block CF-INTEGRATE or the early TAIL-01 quality gate, and do not change the canonical ten-step sequence.
+
+## Global implementation startup gate
+
+The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
+
+Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 70 issue memberships, comprising the 69 core-plan identities and this one sidecar.

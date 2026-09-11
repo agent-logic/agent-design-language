@@ -1,6 +1,6 @@
 # v0.92.2 ADR Plan
 
-Status: planned candidates owned by the `ARCH-ADR` work package; this file does not accept ADRs. WP-01 creates the work-package issue and assigns its canonical identity.
+Status: planned candidates owned by the `ARCH-ADR` work package; this file does not accept ADRs. WP-01 records its canonical identity in the issue wave and verified creation map. Issue assignment does not accept the ADR set.
 
 | Candidate | Decision surface | Owner | Trigger |
 |---|---|---|---|

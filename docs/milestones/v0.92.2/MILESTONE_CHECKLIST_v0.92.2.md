@@ -8,6 +8,8 @@ Status: planned.
 - [ ] Operator authorizes issue creation
 - [ ] Number-free IDs mapped once to canonical issues
 - [ ] Dependencies and parallel lanes preserved
+- [ ] All 69 core issue identities are created and every creation-batch review passes before implementation
+- [ ] Sidecar #671 is separately accounted for without adding it to the core startup gate or graph
 
 ## Product
 
@@ -52,7 +54,7 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 - [ ] All 69 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
 - [ ] All 69 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
-- [ ] Nineteen assigned issues appear exactly once: nine preexisting bindings and ten newly created SIM issues; the remaining 50 rows stay number-free until separately authorized creation
+- [ ] All 69 assigned core issues appear exactly once: nine preexisting bindings and 60 newly created identities, with zero unassigned rows
 - [ ] #848 is reconciled as the ARCH-SPLIT decision row, not split-implementation authority; v0.92.1 #717/#718 remain predecessor inputs
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven

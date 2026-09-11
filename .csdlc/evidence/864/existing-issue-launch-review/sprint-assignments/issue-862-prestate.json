@@ -1,0 +1,38 @@
+{
+  "body": "## Outcome\n\nDecompose the C-SDLC v3 local command owner into cohesive internal components while preserving all public behavior.\n\n## Complete task\n\n- Extract local binding, editing, validation, registry/registration, transaction and state-persistence responsibilities into cohesive modules.\n- Leave `csdlc-v3/src/commands/local/mod.rs` as thin module wiring and stable dispatch.\n- Preserve CLI behavior, request/receipt schemas, durable paths, authority checks, operation digests, error codes, idempotency and fail-closed semantics.\n- Retain focused regressions and boundary tests; record a recursive before/after responsibility and source-size inventory.\n\n## Acceptance\n\n1. Every extracted local module has one named responsibility and no command-domain cycles.\n2. All local production routes use the decomposition; moving code into a replacement god module does not qualify.\n3. Public and serialized contracts, digests, error codes and paths remain compatible.\n4. Local/native authority, mutation, terminal and negative-path regression proof passes at the reviewed revision.\n\n## Remote decomposition routing\n\n`CSDLC-REMOTE` separately completes the remote command owner, after this local extraction and CSDLC-MERGE/#849. It retains authority/credentials, GitHub issue/PR operations, publication/readback, mutation reconciliation, receipts and validation decomposition plus its own unchanged-contract proof. No remote work is discarded when #862 closes, and no child is created by this scope correction.\n\n## Non-goals\n\nRemote command decomposition in this issue, lifecycle feature changes, schema redesign, weakened guards, or unrelated cleanup. Coordinate shared paths and installed-binary ownership with the SIM sprint before implementation.\n\n\n## Operator-authorized task split\n\nThe operator requested one complete task per issue in the #864 / PR #865 planning review. Additional work is preserved in `docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md`. The earlier scope-only edit created no follow-on issues; the operator subsequently authorized their creation and independent review through #864. All implementation tasks include their required tests, failure handling and documentation.\n\n\n<!-- csdlc-v3-operation:59c2d9609840f5ff7993e765cb441904734af432a3c34d4eb8dc388d7c4012e9 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\nSeparate complete tasks: CSDLC-REMOTE / #907. Their scopes and acceptance remain separate from this issue.\n\n\n<!-- csdlc-v3-operation:cecdae1f02b944b3a812c800f49cd9f1fb7d479564a19c8b70a40a18186201b9 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACv_Z2xw",
+      "name": "type:tooling",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACwrlbBA",
+      "name": "area:csdlc",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0rB5Mg",
+      "name": "v0.92.2",
+      "description": "",
+      "color": "ededed"
+    }
+  ],
+  "milestone": {
+    "number": 2,
+    "title": "v0.92.2",
+    "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+    "dueOn": null
+  },
+  "number": 862,
+  "state": "OPEN",
+  "title": "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner"
+}

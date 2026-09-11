@@ -43,8 +43,20 @@ The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope
 
 Reuse #720, #848, #849, #852, #854, #855, #861, and #862 for their mapped execution rows; #864 is WP-01. #848 delivers the repository-decomposition decision only and does not itself authorize split implementation. #717 capability orientation and #718 canonical-name A2A are v0.92.1 predecessor inputs. Other backlog is excluded. See [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) and [adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md).
 
-The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It does not wait for CodeFriend startup. The complete work denominator is 69 rows: 19 assigned issues (nine preexisting plus ten newly created SIM issues #866–#875) and 50 prospective creations. The first sprint is created; implementation and live activation are not claimed. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It has no CodeFriend implementation prerequisite, but all 69 core identities and creation reviews must be complete before it starts. The complete work denominator is 69 rows: 69 assigned core issues (nine preexisting and 60 newly created), with zero unassigned tasks. All eleven creation batches are complete and reviewed; implementation and live activation are not claimed. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
 
 ## Complete-task delivery
 
 The eight task families are split into independently usable ingestion routes, architecture analyses, local/CI fitness execution, review/synthesis/action planning, approval/rendering, provider configuration/lifecycle, Runtime repair/qualification, and local/remote C-SDLC refactors. The eleven tightened contracts require working consumers or finished named writing deliverables. All seven planning tasks remain required; their completion never substitutes for the integrated Beta 1 product. The [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) define these boundaries across the full 69-row wave.
+
+## Global implementation startup gate
+
+The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
+
+Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 70 issue memberships, comprising the 69 core-plan identities and this one sidecar.
+
+The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.
+
+The milestone description retains its original separate-creation-authorization boundary. The operator supplied that authorization for all eleven batches; the verified launch map records the resulting identities. That retained description is not a claim that tasks remain uncreated.
+
+The [execution sprint assignments](SPRINT_v0.92.2.md#execution-sprint-assignments) place all 69 core issues, including every preexisting issue, in eleven explicit scheduling groups. The creation-batch evidence remains unchanged; #671 is separately scheduled sidecar work.

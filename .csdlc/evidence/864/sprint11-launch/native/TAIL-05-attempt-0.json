@@ -1,0 +1,5 @@
+{
+  "diagnostic": "csdlc: {\"code\":\"github_mutation_reconciliation_pending\",\"message\":\"mutation outcome is uncertain; durable intent forbids replay until authenticated reconciliation succeeds: github_mutation_not_reconciled\"}",
+  "exit_code": 2,
+  "request_file": "sprint11-TAIL-05-create.json"
+}

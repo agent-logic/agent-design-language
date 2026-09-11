@@ -8,7 +8,7 @@ CF-INTEGRATE first forms the installed integrated candidate from complete, merge
 
 ## Release denominator
 
-The release denominator is exactly the 69 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). Nine rows reuse #720, #848, #849, #852, #854, #855, #861, #862, and #864. Ten SIM rows are now created as #866–#875, yielding 19 assigned issues and 50 prospective tasks. Issues #717 and #718 are merged v0.92.1 predecessor inputs. TAIL-01 must account for all 69 rows, but merge/review completion is a no-go condition only for its declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues outside the early TAIL-01 gate and are explicit TAIL-10 completion dependencies. #848 delivers the split decision but no split implementation authority.
+The release denominator is exactly the 69 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). Nine rows reuse #720, #848, #849, #852, #854, #855, #861, #862, and #864. Eleven reviewed creation batches added 60 new identities, beginning with SIM #866–#875; all 69 core issues are assigned, with zero unassigned tasks. Issues #717 and #718 are merged v0.92.1 predecessor inputs. TAIL-01 must account for all 69 rows, but merge/review completion is a no-go condition only for its declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues outside the early TAIL-01 gate and are explicit TAIL-10 completion dependencies. #848 delivers the split decision but no split implementation authority.
 
 ## Canonical Tail
 
@@ -53,8 +53,14 @@ The independently launched SIM sprint runs first. TAIL-01 consumes completed SIM
 
 The [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) control the eight split families and eleven strengthened completion criteria. Candidate formation requires actual installed-product qualification, not merely authored review packets. Every implementation row must identify its production consumer and executed success/failure evidence. Article and manuscript rows deliver their complete selected writing outputs; the seven planning rows finish their declared decisions, documents or rehearsal. None may substitute for a missing Beta 1 feature, and integration must not absorb partial upstream work.
 
-Before issue execution, reconcile the narrowed #852 failure-event task, #855 provider-lifecycle task and #862 local-decomposition task with typed issue authority and their prospective successors. Child creation remains separately authorized; this documentation correction creates none.
+The narrowed #852 failure-event task, #855 provider-lifecycle task and #862 local-decomposition task are reconciled with native authority and independently reviewed alongside their assigned successors. All creation batches have operator authorization; execution still requires current issue readiness and scope authority.
 
 ## Final milestone completion
 
 OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE and TAIL-01. They are still required milestone work: TAIL-10 explicitly depends on OBS-S3 and ARCH-ADR and must verify their completed deployment and decision-set acceptance, together with every other required row, before claiming the milestone closed. This final accounting does not change the canonical ten-stage order or add early product gates.
+
+## Separate milestone sidecar
+
+Existing #671 is the separately admitted podcast public-launch/provider-submission sidecar. Account for its milestone membership and independently observed status alongside the 69 core-plan identities; do not add it to the atomic plan, startup denominator or dependency graph. Its retained explicit action approvals govern any future launch/submission. This sidecar does not supply CodeFriend proof or authorize publication.
+
+The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

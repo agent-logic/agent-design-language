@@ -39,8 +39,8 @@ selected_lanes:
 parallel_groups:
   - "none"
 validation_commands:
-  - "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check"
-failure_policy: "Fail on missing split tasks, inherited requirements, invalid stop semantics, graph or projection mismatch, and partial-work acceptance."
+  - "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review."
+failure_policy: "Fail on missing/duplicate issue identities, stale or non-independent reviews/readbacks, native receipt mismatch, missing inherited requirements, graph/projection drift, weakened final completion gates or partial-work acceptance."
 notes: "No Runtime/provider/cloud execution applies to this planning correction."
 ---
 
@@ -50,7 +50,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/vpp.md`
 
 ## Validation Planning Summary
 
-Validate the complete task graph, inherited acceptance, partial-work rejection, planning projections and native card truth.
+Validate all 69 core issue bindings, 60 birth and nine existing review/native-evidence records, separate sidecar membership, complete task contracts and current card truth.
 
 ## Lane Registry Inputs
 
@@ -86,11 +86,11 @@ Validate the complete task graph, inherited acceptance, partial-work rejection, 
 
 ## Validation Commands
 
-- python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check
+- python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review.
 
 ## Failure Semantics
 
-- Fail on missing split tasks, inherited requirements, invalid stop semantics, graph or projection mismatch, and partial-work acceptance.
+- Fail on missing/duplicate issue identities, stale or non-independent reviews/readbacks, native receipt mismatch, missing inherited requirements, graph/projection drift, weakened final completion gates or partial-work acceptance.
 
 ## Handoff
 

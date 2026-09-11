@@ -14,6 +14,9 @@ import sys
 
 sys.dont_write_bytecode = True
 from validate_atomic_tasks import atomic_failures, atomic_negative_checks
+from validate_launch_bindings import load_births, binding_failures, binding_negative_checks, load_existing_proof, existing_review_negative_checks, execution_sprint_failures, execution_sprint_negative_checks, execution_sprint_projection_failures
+
+FINAL_BIRTHS = None
 
 
 REQUIRED_OBS_S3_ACCEPTANCE = {
@@ -159,7 +162,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
     }
     created_sprint01 = {'SIM-UMBRELLA': 866, 'SIM-01': 867, 'SIM-02': 868, 'SIM-03': 869, 'SIM-04': 870, 'SIM-05': 871, 'SIM-06': 872, 'SIM-07': 873, 'SIM-08': 874, 'SIM-09': 875}
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
-    if actual_existing != expected_existing | created_sprint01:
+    expected_births = created_sprint01 if FINAL_BIRTHS is None else {k: v["number"] for k, v in FINAL_BIRTHS.items()}
+    if actual_existing != expected_existing | expected_births:
         failures.append("Existing issue bindings differ from the reconciled v0.92.2 inventory")
     for key, issue in expected_existing.items():
         row = by_id.get(key, {})
@@ -215,13 +219,13 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("OPS-GCP must remain a separately owned post-opening foundation track")
     if by_id.get("OBS-S3", {}).get("depends_on") != ["WP-01", "OBS-LIVE"]:
         failures.append("OBS-S3 must wait for issue creation and the live Observatory baseline")
-    if by_id.get("OBS-S3", {}).get("issue") is not None:
+    if FINAL_BIRTHS is None and by_id.get("OBS-S3", {}).get("issue") is not None:
         failures.append("OBS-S3 must remain unassigned until WP-01 creates its issue")
     if set(by_id.get("OBS-S3", {}).get("external_dependencies", [])) != {"completed-v0.92.1-issue-679", "merged-v0.92.1-pr-685"}:
         failures.append("OBS-S3 must consume completed #679 and merged PR #685")
     if by_id.get("ARCH-ADR", {}).get("depends_on") != ["WP-01"]:
         failures.append("ARCH-ADR must remain a post-opening milestone work package")
-    if by_id.get("ARCH-ADR", {}).get("issue") is not None:
+    if FINAL_BIRTHS is None and by_id.get("ARCH-ADR", {}).get("issue") is not None:
         failures.append("ARCH-ADR must remain unassigned until WP-01 creates its issue")
     if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
         failures.append("OPS-AWS title lost its complete #484-bound atomic result")
@@ -348,9 +352,20 @@ def main():
         if line.strip()
     }
     reconciliation = (root / "TBD_SCHEDULING_RECONCILIATION_v0.92.2.md").read_text()
-    failures = check(wave, specs, source_manifest, reconciliation)
+    global FINAL_BIRTHS
+    config = json.loads((root / "ISSUE_CREATION_BATCHES_v0.92.2.json").read_text())
+    launch_errors = []
+    if config.get("startup_gate") is not None:
+        FINAL_BIRTHS, launch_errors = load_births(root.parents[2], config, prove=True)
+        launch_errors.extend(load_existing_proof(root.parents[2], prove=True))
+    failures = launch_errors + check(wave, specs, source_manifest, reconciliation)
+    failures.extend(execution_sprint_failures(config, wave))
+    sprint_text = (root / "SPRINT_v0.92.2.md").read_text()
+    failures.extend(execution_sprint_projection_failures(sprint_text, config, wave))
     atomic = json.loads((root / "ATOMIC_TASK_CONTRACTS_v0.92.2.json").read_text())
     failures.extend(atomic_failures(wave, specs, atomic))
+    if FINAL_BIRTHS is not None:
+        failures.extend(binding_failures(wave, specs, atomic, config, FINAL_BIRTHS))
     expected_ids = {row["id"] for row in wave["work_packages"]}
     catalog_rows = markdown_table_rows(root / "PLANNED_ISSUE_CATALOG_v0.92.2.md")
     wbs_rows = markdown_table_rows(root / "WBS_v0.92.2.md")
@@ -408,6 +423,20 @@ def main():
         atomic_missed, atomic_count = atomic_negative_checks(wave, specs, atomic)
         failures.extend(atomic_missed)
         rejected += atomic_count
+        sprint_missed, sprint_count = execution_sprint_negative_checks(config, wave)
+        failures.extend("Negative fixture not rejected: " + x for x in sprint_missed)
+        rejected += sprint_count
+        for name, text in [('missing existing execution row', sprint_text.replace('WP-01 (#864)', '')), ('wrong execution issue', sprint_text.replace('CSDLC-MAN (#861)', 'CSDLC-MAN (#999999)')), ('missing execution table', sprint_text.replace('## Execution sprint assignments', '## Removed execution assignments'))]:
+            if not execution_sprint_projection_failures(text, config, wave):
+                failures.append('Negative fixture not rejected: ' + name)
+            rejected += 1
+        if FINAL_BIRTHS is not None:
+            launch_missed, launch_count = binding_negative_checks(wave, specs, atomic, config, FINAL_BIRTHS)
+            failures.extend("Negative fixture not rejected: " + x for x in launch_missed)
+            rejected += launch_count
+            existing_missed, existing_count = existing_review_negative_checks()
+            failures.extend("Negative fixture not rejected: " + x for x in existing_missed)
+            rejected += existing_count
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
                       "existing_issues": sorted(r["issue"] for r in wave["work_packages"] if r.get("issue") is not None), "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))

@@ -1,0 +1,38 @@
+{
+  "body": "## Outcome\n\nEmit one correlated, redacted Runtime-owned failure event when canonical ingress dispatch fails, and prove its relationship to the authenticated WSS error response.\n\n## Complete task\n\n- Implement failure-event emission on the real Runtime ingress dispatch path while preserving success behavior.\n- Bind the event to the same authenticated request/correlation identity as its WSS failure response.\n- Prove actual dispatch failure, response/event correlation and redaction through production paths.\n- Reject forged or mismatched event evidence; retain current focused validation and independent exact-head review.\n\nA synthetic event, caller-set failure flag, reference trace or unexecuted test is not completion.\n\n## Scope preserved in separate tasks\n\nThe previous consolidated five-row work is split by the operator's newer one-task instruction:\n\n| Task | Complete result |\n|---|---|\n| QUAL-RUNTIME / #852 | Runtime dispatch failure-event repair and its WSS/redaction regressions |\n| QUAL-RESIDENT | Six distinct production resident workloads plus signed dehydration/restore and resumed-work qualification |\n| QUAL-PROVIDER | Actual provider subprocess loss, timeout/interruption and healthy recovery qualification |\n| QUAL-INVENTORY | Immutable before/after Cargo-registered validation inventories |\n| QUAL-EVIDENCE | Exact criterion/source/producer/execution binding and independent-review admission for all five rows |\n\nQUAL-EVIDENCE preserves RUST-01-ac-4, DRT-B-ac-2/ac-3 and DRT-C-ac-2/ac-3, the original 19-finding denominator, and the separate five cloud-control/two execution-proof gaps. Closed #522/#833 remain historical consumers; this issue does not reopen or close them. The operator authorized creation and review of all milestone tasks through #864; these separate tasks cannot disappear when #852 closes. Their creation does not establish execution or qualification.\n\n## Preserved partial work\n\nThe previous #851 worktree and branch `codex/851-reconcile-five-proof-links` contain unreviewed partial implementation and evidence. Preserve all bytes and inspect actual ownership before reuse. Neither the partial code nor this scope edit proves delivery. The pre-split source issue body is retained by #864's review evidence.\n\n## Acceptance\n\n1. Real canonical dispatch failure emits its correlated Runtime-owned event.\n2. Authenticated WSS failure response and event correlate without exposing secrets.\n3. Forged, mismatched and redaction-negative cases are rejected.\n4. Existing success semantics remain intact and focused proof/required CI pass at the reviewed implementation revision.\n\n## Non-goals\n\nNo paid cloud/GPU mutation, broad Runtime refactor, five-row aggregate qualification inside this repair, release approval, or automatic closure of #522/#833. The historical instruction to keep all five rows consolidated is superseded by the operator-authorized split above.\n\n\n## Operator-authorized task split\n\nThe operator requested one complete task per issue in the #864 / PR #865 planning review. Additional work is preserved in `docs/milestones/v0.92.2/ATOMIC_TASK_CONTRACTS_v0.92.2.md`. The earlier scope-only edit created no follow-on issues; the operator subsequently authorized their creation and independent review through #864. All implementation tasks include their required tests, failure handling and documentation.\n\n\n<!-- csdlc-v3-operation:00f3b0642c6414ce252e13a7fd0502844582cb1d7e7b657b65e0051419cb1db9 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\nSeparate complete tasks: QUAL-RESIDENT / #900, QUAL-PROVIDER / #901, QUAL-INVENTORY / #899, QUAL-EVIDENCE / #902. Their scopes and acceptance remain separate from this issue.\n\n\n<!-- csdlc-v3-operation:f96fcaa7808817bf9db27a339e75e01e1bd838b285ee98f295e73a2508ae2e63 -->\n\n## Execution sprint assignment\n\n**Sprint 5** in `docs/milestones/v0.92.2/SPRINT_v0.92.2.md`. This assignment includes the existing issue in the complete 69-task execution schedule. It creates no new issue or dependency edge; existing prerequisites, same-sprint dependency order, native readiness and the all-69 creation/review startup gate remain in force.\n\n\n<!-- csdlc-v3-operation:80f6ca01811e583c0db7b6e5731c73987dbc1c5190d6dc40e29c41625cb26529 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+      "name": "type:bug",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACvgLwWg",
+      "name": "area:tooling",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAACviQhAg",
+      "name": "area:runtime",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    }
+  ],
+  "milestone": {
+    "number": 2,
+    "title": "v0.92.2",
+    "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+    "dueOn": null
+  },
+  "number": 852,
+  "state": "OPEN",
+  "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events"
+}

@@ -4,9 +4,9 @@ Status: tracked design candidate assembled by #523; implementation and formal de
 
 ## Product boundary and early decisions
 
-The baseline is a local operator-controlled product: a CLI entrypoint with local artifact browsing, consuming shared ADL Runtime/provider contracts. No hosted customer service, separate authentication platform, multi-tenant system, or customer-scale deployment is implied. OBS-S3 may host the existing Observatory web client as one bounded static S3/CloudFront sidecar without changing this product boundary. Plan the first implementation within this repository; a separate product repository is a later explicit boundary decision, not an unrecorded bootstrap choice. CF-SHELL and WP-01 confirm the concrete entrypoint and owned paths before execution; any change to this baseline is a tracked design revision.
+The baseline is a local operator-controlled product: a CLI entrypoint with local artifact browsing, consuming shared ADL Runtime/provider contracts. No hosted customer service, separate authentication platform, multi-tenant system, or customer-scale deployment is implied. OBS-S3 may host the existing Observatory web client as one bounded static S3/CloudFront sidecar without changing this product boundary. Plan the first implementation within this repository; a separate product repository is a later explicit boundary decision, not an unrecorded bootstrap choice. The [creation selections](CREATION_SELECTIONS_v0.92.2.md) bind `adl codefriend` and concrete source ownership paths; issue owners recheck those paths and ownership before execution. Any change to this baseline is a tracked design revision.
 
-Local checkout, GitHub revision/PR and CI inputs normalize to the same immutable repository packet. The initial proving language is Rust on ADL and one bounded licensed external Rust repository selected at WP-01; unsupported language-specific analysis reports unknown rather than inventing architectural certainty. Generic inventory may include other text formats without implying equivalent analysis coverage. WP-01 pins the external repository revision, license, limits and fixture subset before proof execution. No external fixture download or provider use is authorized by this plan.
+Local checkout, GitHub revision/PR and CI inputs normalize to the same immutable repository packet. The initial proving language is Rust on ADL and the bounded licensed Vector Rust fixture selected in [creation selections](CREATION_SELECTIONS_v0.92.2.md); unsupported language-specific analysis reports unknown rather than inventing architectural certainty. Generic inventory may include other text formats without implying equivalent analysis coverage. The creation selections pin the external revision, license, limits and fixture subset; qualification must verify those exact inputs before execution. No external fixture download or provider use is authorized by this plan.
 
 ## Shared finding and run contract — CF-EVIDENCE owner
 
@@ -32,7 +32,7 @@ Repository text, embedded instructions and retrieved artifacts are evidence, not
 
 ## Decisions versus implementation detail
 
-The tracked baseline above resolves the former CLI/web/repository/integration ambiguity for planning. WP-01 assigns concrete paths, selects the external fixture and supported provider route, and accepts or explicitly revises the candidate before creating new work. These decisions are a small opening-gate result, not missing requirements to be invented independently by parallel implementers. Closed merged #717/#718 are predecessor contracts for this milestone.
+The tracked baseline above resolves the former CLI/web/repository/integration ambiguity for planning. WP-01 recorded concrete paths, the external fixture and supported provider route in [creation selections](CREATION_SELECTIONS_v0.92.2.md). The created issue contracts consume these selections; parallel implementers must preserve them or record an explicit revision. Selection resolves creation scope but does not prove the installed product or authorize live provider use. Closed merged #717/#718 are predecessor contracts for this milestone.
 
 ## Source disposition
 

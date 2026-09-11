@@ -1,6 +1,6 @@
 # v0.92.2 Atomic Task Contracts
 
-Status: operator-requested planning correction under #864 with the separately authorized first SIM sprint created as #866–#875; no product completion is claimed.
+Status: all 69 core issues are assigned and reviewed under #864; no product completion is claimed.
 
 ## One complete task
 
@@ -19,7 +19,7 @@ An implementation issue closes only when its one named behavior works through it
 | QUAL-RUNTIME | QUAL-RUNTIME, QUAL-RESIDENT, QUAL-PROVIDER, QUAL-INVENTORY, QUAL-EVIDENCE |
 | CSDLC-DECOMPOSE | CSDLC-DECOMPOSE, CSDLC-REMOTE |
 
-All nine preexisting issue identities are retained. The wave has 69 tasks: 19 assigned issues (nine preexisting plus ten newly created SIM issues #866–#875) and 50 number-free prospective tasks. The original correction had nine bindings and 60 prospective tasks before the separately authorized first sprint launch. #855 belongs to RT-PROVIDER; #852 retains the failure-event repair; #862 retains local decomposition. The first SIM sprint is created; the remaining 50 tasks require separate authorization.
+All nine preexisting issue identities are retained. The wave has 69 tasks: 69 assigned core issues (nine preexisting and 60 newly created), with zero unassigned tasks. The original correction had nine bindings and 60 prospective tasks before the separately authorized first sprint launch. #855 belongs to RT-PROVIDER; #852 retains the failure-event repair; #862 retains local decomposition. All 60 new issues are created under the operator's authorization for every batch; all 69 core identities retain independent issue-level execution requirements.
 
 ## Eleven tightened completion contracts
 
@@ -43,7 +43,7 @@ WP-01, ARCH-SPLIT, OPS-GCP, ARCH-ADR, SIM-08, TAIL-07 and TAIL-08 all remain req
 
 ## Execution selection gates
 
-Before child creation, WP-01 binds the concrete product command and source ownership paths, external repository/revision/license/scope, and supported provider route. PLAT-RUST additionally selects the exact production responsibility and invariant; PUB-MEDIUM selects its article; PUB-CSDLC names the current manuscript and tracks feedback/revision dispositions during execution; SIM-03 freezes its supported command inventory. These gates prevent unspecified slices from being opened as ready tasks.
+The [creation selections](CREATION_SELECTIONS_v0.92.2.md) bind the concrete product command and ownership paths, external repository/revision/license/scope, supported provider route, PLAT-RUST responsibility and invariants, and PUB-MEDIUM article. PUB-CSDLC names the current manuscript and tracks feedback/revision dispositions during execution; SIM-03 has frozen its supported command inventory. Created issues preserve those selections. Before implementation, owners recheck exact source and authority and resolve recorded collisions; changed selections require explicit revision. These decisions define complete tasks and do not establish execution or acceptance.
 
 ## Evidence and dependency authority
 
@@ -61,4 +61,12 @@ TAIL-10 wave/specification dependency and acceptance parity is validated explici
 
 ## Resolved first-sprint selection
 
-SIM-03/#869 carries its complete supported command inventory in the created issue body. The [launch command inventory](../../../.csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md) records the resolved selection; this first-sprint gate is satisfied for creation, not proof of implementation. All product and later-task selection gates remain in force.
+SIM-03/#869 carries its complete supported command inventory in the created issue body. The [launch command inventory](../../../.csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md) records the resolved selection; this first-sprint gate is satisfied for creation, not proof of implementation. Product and later-task selections are recorded in [creation selections](CREATION_SELECTIONS_v0.92.2.md); their execution-time authority and ownership checks remain in force.
+
+## Global implementation startup gate
+
+The operator requires all 69 core-plan issue identities to be created and all creation-batch reviews to pass before any implementation begins, including the independently scheduled SIM sprint. Once that global gate is satisfied, the declared task dependencies, native readiness, bound ownership and issue-level authority still govern execution. Creation batches add no dependency edges and confer no paid/cloud/provider, publication or writer-activation authority.
+
+Existing podcast issue [#671](https://github.com/agent-logic/agent-design-language/issues/671) is a separately admitted v0.92.2 sidecar. It is outside the 69-task atomic plan, core startup denominator and dependency graph. Its own retained public-launch/provider-submission approval gates remain in force; milestone membership does not authorize those effects. The milestone has 70 issue memberships, comprising the 69 core-plan identities and this one sidecar.
+
+The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

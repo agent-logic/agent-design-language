@@ -87,165 +87,188 @@ work_packages:
   - id: CF-SHELL
     lane: "product_shell"
     title: "Operate a real repository review through the installed CodeFriend shell"
-    issue: null
+    issue: 891
     depends_on: ["WP-01", "CF-REVIEW"]
     deliverables: ["setup_flow", "onboarding", "run_controls", "status_and_artifact_browser"]
     proof: ["operator_journey_tests", "failure_state_tests", "accessibility_review", "fresh_operator_real_review", "actual_artifacts_opened", "cancel_retry_recovery", "mock_runner_rejected", "placeholder_status_rejected"]
+    creation_policy: created_sprint04
   - id: CF-ADAPTER
     lane: "repository_adapter"
     title: "Ingest a local checkout into a portable repository packet"
-    issue: null
+    issue: 878
     depends_on: ["WP-01"]
     deliverables: ["local_repository_ingestion"]
     proof: ["local_checkout_packet_consumed", "revision_and_scope_bound", "outside_root_rejected", "partial_input_explicit"]
+    creation_policy: created_sprint02
   - id: CF-ADAPTER-GITHUB
     lane: "repository_adapter"
     title: "Ingest a pinned GitHub revision or PR into a repository packet"
-    issue: null
+    issue: 879
     depends_on: ["CF-ADAPTER"]
     deliverables: ["github_repository_ingestion"]
     proof: ["pinned_revision_packet_consumed", "local_contract_parity", "wrong_revision_rejected", "credential_capture_rejected"]
+    creation_policy: created_sprint02
   - id: CF-ADAPTER-CI
     lane: "repository_adapter"
     title: "Ingest CI repository inputs into a repository packet"
-    issue: null
+    issue: 880
     depends_on: ["CF-ADAPTER"]
     deliverables: ["ci_repository_ingestion"]
     proof: ["ci_packet_consumed", "local_contract_parity", "missing_revision_rejected", "partial_input_explicit"]
+    creation_policy: created_sprint02
   - id: CF-EVIDENCE
     lane: "evidence_core"
     title: "Admit and retain governed evidence through the production adapter"
-    issue: null
+    issue: 881
     depends_on: ["CF-ADAPTER"]
     deliverables: ["governed_evidence_core_contract"]
     proof: ["identity_determinism", "provenance_integrity", "redaction_negative_tests", "retention_tests", "review_memory_renderer_conformance", "adapter_packet_admitted", "durable_evidence_readback", "retention_delete_executed", "consumer_conformance", "schema_only_rejected", "secret_before_retention_rejected", "tampered_provenance_rejected"]
+    creation_policy: created_sprint02
   - id: CF-COG
     lane: "architecture_cognition"
     title: "Report repository dependency and boundary structure"
-    issue: null
+    issue: 882
     depends_on: ["CF-EVIDENCE"]
     deliverables: ["repository_structure_reporter"]
     proof: ["known_graph_findings", "evidence_to_explanation_trace", "unsupported_language_unknown", "false_positive_sample"]
+    creation_policy: created_sprint03
   - id: CF-COG-DRIFT
     lane: "architecture_cognition"
     title: "Report architecture drift between compatible revisions"
-    issue: null
+    issue: 886
     depends_on: ["CF-COG", "CF-MEMORY"]
     deliverables: ["architecture_drift_reporter"]
     proof: ["known_structural_delta", "stable_baseline_comparison", "incompatible_baseline_rejected", "partial_coverage_not_resolved"]
+    creation_policy: created_sprint03
   - id: CF-COG-IMPACT
     lane: "architecture_cognition"
     title: "Report the impact of a scoped repository change"
-    issue: null
+    issue: 883
     depends_on: ["CF-COG"]
     deliverables: ["change_impact_reporter"]
     proof: ["known_change_blast_radius", "evidence_linked_impact", "unknown_edge_explicit", "opaque_score_rejected"]
+    creation_policy: created_sprint03
   - id: CF-COG-RATIONALE
     lane: "architecture_cognition"
     title: "Explain architectural quanta against recorded rationale"
-    issue: null
+    issue: 884
     depends_on: ["CF-COG"]
     deliverables: ["architecture_rationale_reporter"]
     proof: ["quanta_boundary_fixture", "adr_rationale_trace", "missing_rationale_unknown", "unsupported_claim_rejected"]
+    creation_policy: created_sprint03
   - id: CF-GOV
     lane: "executable_governance"
     title: "Execute local architecture fitness functions"
-    issue: null
+    issue: 887
     depends_on: ["CF-EVIDENCE"]
     deliverables: ["local_fitness_runner"]
     proof: ["passing_invariant_executes", "failing_invariant_executes", "human_judgment_not_machine_pass", "hidden_policy_rejected"]
+    creation_policy: created_sprint03
   - id: CF-GOV-CI
     lane: "executable_governance"
     title: "Execute architecture fitness functions as a CI gate"
-    issue: null
+    issue: 888
     depends_on: ["CF-GOV"]
     deliverables: ["ci_fitness_adapter"]
     proof: ["ci_pass_exit", "ci_fail_exit", "local_result_parity", "runner_error_not_success", "missing_artifact_rejected"]
+    creation_policy: created_sprint03
   - id: CF-REVIEW
     lane: "review_engine"
     title: "Execute isolated four-perspective repository review"
-    issue: null
+    issue: 890
     depends_on: ["CF-EVIDENCE", "RT-PROVIDER"]
     deliverables: ["isolated_review_runner"]
     proof: ["four_lanes_execute", "attributed_evidence_findings", "provider_route_consumed", "peer_output_in_input_rejected", "partial_lane_not_complete", "no_source_mutation"]
+    creation_policy: created_sprint04
   - id: CF-SYNTHESIS
     lane: "review_engine"
     title: "Synthesize completed review perspectives"
-    issue: null
+    issue: 892
     depends_on: ["CF-REVIEW"]
     deliverables: ["review_synthesis"]
     proof: ["duplicate_control", "severity_rationale", "disagreement_retained", "incomplete_lane_set_rejected", "unsupported_finding_rejected"]
+    creation_policy: created_sprint04
   - id: CF-REMEDIATE
     lane: "review_engine"
     title: "Generate a bounded remediation plan from review findings"
-    issue: null
+    issue: 893
     depends_on: ["CF-SYNTHESIS"]
     deliverables: ["remediation_planner"]
     proof: ["findings_to_actions_trace", "bounded_action_acceptance", "unrelated_action_rejected", "source_mutation_rejected"]
+    creation_policy: created_sprint04
   - id: CF-TESTPLAN
     lane: "review_engine"
     title: "Generate a bounded test plan from review findings"
-    issue: null
+    issue: 894
     depends_on: ["CF-SYNTHESIS"]
     deliverables: ["test_planner"]
     proof: ["finding_to_behavior_trace", "concrete_test_plan_consumed", "implementation_mirroring_rejected", "source_mutation_rejected"]
+    creation_policy: created_sprint04
   - id: CF-MEMORY
     lane: longitudinal_memory
     title: Stable second-run comparison and longitudinal review memory
-    issue: null
+    issue: 885
     depends_on: [CF-EVIDENCE]
     deliverables: [baseline_store, comparison_engine, compatibility_policy, delta_report]
     proof: [two_run_fixture, schema_compatibility_tests, missing_baseline_behavior]
+    creation_policy: created_sprint03
   - id: CF-UX
     lane: "publication"
     title: "Enforce exact-artifact publication approval"
-    issue: null
+    issue: 895
     depends_on: ["CF-SHELL", "CF-EVIDENCE"]
     deliverables: ["publication_approval_control"]
     proof: ["approval_binding", "withheld_state", "manifest_complete", "changed_artifact_invalidates", "unapproved_publish_denied"]
+    creation_policy: created_sprint04
   - id: CF-RENDER-MD
     lane: "publication"
     title: "Render an approved review as Markdown"
-    issue: null
+    issue: 896
     depends_on: ["CF-UX", "CF-SYNTHESIS", "CF-REMEDIATE", "CF-TESTPLAN"]
     deliverables: ["markdown_report_renderer"]
     proof: ["markdown_report_rendered", "manifest_binding", "claim_parity", "unapproved_render_denied", "redaction_rechecked"]
+    creation_policy: created_sprint04
   - id: CF-RENDER-HTML
     lane: "publication"
     title: "Render an approved review as HTML"
-    issue: null
+    issue: 897
     depends_on: ["CF-RENDER-MD"]
     deliverables: ["html_report_renderer"]
     proof: ["html_report_opened", "markdown_claim_parity", "manifest_binding", "unsafe_markup_escaped", "unapproved_render_denied"]
+    creation_policy: created_sprint04
   - id: CF-RENDER-PDF
     lane: "publication"
     title: "Render an approved review as a verified PDF"
-    issue: null
+    issue: 898
     depends_on: ["CF-RENDER-MD"]
     deliverables: ["pdf_report_renderer"]
     proof: ["pdf_rendered_and_inspected", "markdown_claim_parity", "manifest_binding", "clipped_content_rejected", "unapproved_render_denied"]
+    creation_policy: created_sprint04
   - id: CF-PROOF
     lane: "proof_and_documentation"
     title: "Execute independent installed Beta 1 qualification on ADL and an external repository"
-    issue: null
+    issue: 915
     depends_on: ["CF-INTEGRATE"]
     deliverables: ["beta1_qualification_evidence_packet"]
     proof: ["fresh_operator_run", "self_review_packet", "external_review_packet", "nonclaim_audit", "adl_actual_product_run", "external_actual_product_run", "fresh_operator_walkthrough", "exports_and_second_run", "authored_packet_without_execution_rejected", "synthetic_only_acceptance_rejected"]
+    creation_policy: created_sprint10
   - id: CF-INTEGRATE
     lane: "integration"
     title: "Connect the complete installed CodeFriend Beta 1 journey"
-    issue: null
+    issue: 914
     depends_on: ["CF-SHELL", "CF-ADAPTER", "CF-ADAPTER-GITHUB", "CF-ADAPTER-CI", "CF-EVIDENCE", "CF-COG", "CF-COG-DRIFT", "CF-COG-IMPACT", "CF-COG-RATIONALE", "CF-GOV", "CF-GOV-CI", "CF-REVIEW", "CF-SYNTHESIS", "CF-REMEDIATE", "CF-TESTPLAN", "CF-MEMORY", "CF-UX", "CF-RENDER-MD", "CF-RENDER-HTML", "CF-RENDER-PDF", "PLAT-PROVIDER", "RT-PROVIDER", "PLAT-MEMORY"]
     deliverables: ["integrated_beta", "acceptance_packet", "residual_risk_register"]
     proof: ["end_to_end_beta_run", "failure_path_matrix", "package_validator", "all_exit_bar_items_executed", "exact_candidate_manifest", "complete_operator_journey", "unfinished_feature_absorption_rejected", "missing_exit_bar_item_rejected", "unresolved_p1_rejected"]
+    creation_policy: created_sprint10
   - id: PLAT-PROVIDER
     lane: "provider_platform"
     title: "Consume validated editable provider definitions"
-    issue: null
+    issue: 876
     depends_on: ["WP-01", "RT-COST"]
     deliverables: ["provider_definition_loader"]
     proof: ["editable_definition_consumed", "endpoint_profile_parity", "last_known_good", "secret_value_in_config_rejected", "invalid_reload_rejected"]
     external_dependencies: ["v0.92.1-issue-622"]
+    creation_policy: created_sprint02
   - id: RT-PROVIDER
     lane: "provider_platform"
     title: "Run dynamic agent lifecycle through registered providers"
@@ -253,7 +276,7 @@ work_packages:
     depends_on: ["PLAT-PROVIDER"]
     deliverables: ["registered_provider_agent_lifecycle"]
     proof: ["new_fixture_provider_works_without_match_edits", "local_and_hosted_lifecycle_matrix", "generated_operator_and_a2a_replies", "truthful_roster_projection", "unknown_provider_rejected", "capability_mismatch_rejected", "credentials_never_serialized", "recurring_paid_probe_absent"]
-    creation_policy: "reuse_existing"
+    creation_policy: reuse_existing
   - id: ARCH-SPLIT
     lane: architecture_decisions
     title: Decide repository decomposition and public/private product boundaries
@@ -277,35 +300,39 @@ work_packages:
     depends_on: ["WP-01"]
     deliverables: ["runtime_failure_event_repair"]
     proof: ["actual_dispatch_failure_event", "authenticated_wss_correlation", "forged_event_rejected", "mismatched_correlation_rejected", "secret_redaction"]
-    creation_policy: "reuse_existing"
+    creation_policy: reuse_existing
   - id: QUAL-RESIDENT
     lane: "runtime_quality"
     title: "Execute resident workload and signed restore qualification"
-    issue: null
+    issue: 900
     depends_on: ["QUAL-RUNTIME", "RT-PROVIDER"]
     deliverables: ["resident_restore_qualification"]
     proof: ["six_distinct_workload_effects", "production_signed_restore", "resumed_work_effects", "tamper_rejected", "omission_rejected", "substitution_rejected", "mock_vs_live_explicit"]
+    creation_policy: created_sprint05
   - id: QUAL-PROVIDER
     lane: "runtime_quality"
     title: "Execute real provider failure and recovery qualification"
-    issue: null
+    issue: 901
     depends_on: ["RT-PROVIDER"]
     deliverables: ["provider_recovery_qualification"]
     proof: ["actual_process_loss", "actual_timeout_interrupt", "healthy_recovery", "caller_failure_flags_not_proof", "reference_trace_not_execution"]
+    creation_policy: created_sprint05
   - id: QUAL-INVENTORY
     lane: "runtime_quality"
     title: "Measure the registered before and after validation inventory"
-    issue: null
+    issue: 899
     depends_on: ["WP-01"]
     deliverables: ["registered_validation_inventory"]
     proof: ["both_exact_revisions_measured", "cargo_registered_inventory", "source_count_not_execution", "lexical_relocation_not_reduction"]
+    creation_policy: created_sprint05
   - id: QUAL-EVIDENCE
     lane: "runtime_quality"
     title: "Validate criterion-bound Runtime qualification evidence"
-    issue: null
+    issue: 902
     depends_on: ["QUAL-RUNTIME", "QUAL-RESIDENT", "QUAL-PROVIDER", "QUAL-INVENTORY"]
     deliverables: ["criterion_evidence_validator"]
     proof: ["five_criterion_mappings_complete", "producer_revision_and_criterion_digest_bound", "independent_review_bound", "synthetic_metadata_rejected", "cross_criterion_substitution_rejected", "stale_or_partial_evidence_rejected"]
+    creation_policy: created_sprint05
   - id: RT-COST
     lane: runtime_cost_control
     title: Stop metered cloud inference health-probe loops
@@ -329,88 +356,99 @@ work_packages:
     depends_on: ["WP-01"]
     deliverables: ["local_command_decomposition"]
     proof: ["local_thin_dispatch", "local_regression_parity", "before_after_responsibility_inventory", "public_contract_drift_rejected", "replacement_god_module_rejected", "domain_cycle_rejected"]
-    creation_policy: "reuse_existing"
+    creation_policy: reuse_existing
   - id: CSDLC-REMOTE
     lane: "csdlc_refactoring"
     title: "Decompose the remote C-SDLC command owner"
-    issue: null
+    issue: 907
     depends_on: ["CSDLC-DECOMPOSE", "CSDLC-MERGE"]
     deliverables: ["remote_command_decomposition"]
     proof: ["remote_thin_dispatch", "remote_regression_parity", "before_after_responsibility_inventory", "public_contract_drift_rejected", "replacement_god_module_rejected", "domain_cycle_rejected"]
+    creation_policy: created_sprint07
   - id: PLAT-MLX
     lane: provider_platform
     title: Bounded MLX and Apple Metal provider adapter
-    issue: null
+    issue: 903
     depends_on: [PLAT-PROVIDER]
     deliverables: [mlx_metal_adapter]
     proof: [mlx_metal_smoke, unsupported_platform_failure]
+    creation_policy: created_sprint06
   - id: PLAT-PAIR
     lane: provider_platform_experiment
     title: NVIDIA PAIR multi-node local-inference experiment
-    issue: null
+    issue: 904
     depends_on: [PLAT-PROVIDER]
     planning_source: .adl/docs/TBD/provider_model/NVIDIA_PAIR_EXPERIMENT_PLAN_v0.92.2.md
     deliverables: [pair_experiment_packet, keep_repair_or_retire_decision]
     proof: [raw_pair_routing, runtime_v3_pair_path, concurrency_and_failure_comparison, no_provider_type_added]
+    creation_policy: created_sprint06
   - id: PLAT-UTS
     lane: "uts_productization"
     title: "Install a versioned UTS package consumed by Runtime tool dispatch"
-    issue: null
+    issue: 877
     depends_on: ["WP-01"]
     deliverables: ["canonical_uts_contract", "supported_consumer_package", "migration_notes"]
     proof: ["schema_conformance", "consumer_fixture", "compatibility_check", "package_installed", "runtime_consumer_executes_tool", "version_compatibility_checked", "document_only_standard_rejected", "fixture_only_consumer_rejected"]
+    creation_policy: created_sprint02
   - id: PLAT-RUST
     lane: "rust_reduction"
     title: "Complete one selected production Rust responsibility refactor"
-    issue: null
+    issue: 906
     depends_on: ["WP-01"]
     deliverables: ["bounded_refactor", "before_after_measurement"]
     proof: ["behavior_parity", "focused_tests", "size_or_complexity_reduction", "exact_module_and_invariant_selected_before_creation", "production_callers_preserved", "recursive_before_after_inventory", "unselected_surface_rejected", "facade_only_reduction_claim_rejected"]
+    creation_policy: created_sprint07
   - id: OPS-AWS
     lane: aws_inventory
     title: "Produce one current AWS inventory packet from the #484 baseline"
-    issue: null
+    issue: 908
     depends_on: [WP-01]
     external_dependencies: [completed-issue-484-baseline]
     deliverables: [inventory_delta_from_484, staleness_register, maintenance_runbook]
     proof: [readonly_readbacks, baseline_comparison, account_identity_check, redaction_check]
+    creation_policy: created_sprint08
   - id: OPS-GCP
     lane: gcp_foundation
     title: Produce one apply-ready company GCP move-in execution packet
-    issue: null
+    issue: 909
     depends_on: [WP-01]
     external_dependencies: [merged-v0.92.1-gcp-foundations]
     planning_source: .adl/docs/TBD/GCP_ACCOUNT_MOVE_IN_PLAN.md
     deliverables: [apply_ready_gcp_move_in_execution_packet]
     proof: [company_project_identity, prior_work_reconciliation, terraform_package_validation, ordered_apply_and_rollback_steps, redaction_check]
+    creation_policy: created_sprint08
   - id: PUB-MEDIUM
     lane: "publication_preparation"
     title: "Write one complete selected Medium article manuscript"
-    issue: null
+    issue: 912
     depends_on: ["WP-01"]
     deliverables: ["medium_article_packet"]
     proof: ["source_traceability", "citation_check", "nonpublication_check", "article_selected_before_creation", "complete_manuscript", "source_and_citation_check", "outline_only_rejected", "unspecified_article_rejected"]
+    creation_policy: created_sprint09
   - id: PUB-CSDLC
     lane: "publication_preparation"
     title: "Complete one named C-SDLC manuscript revision"
-    issue: null
+    issue: 913
     depends_on: ["WP-01"]
     deliverables: ["csdlc_paper_packet"]
     proof: ["source_traceability", "citation_check", "nonsubmission_check", "revision_checklist_frozen_before_creation", "complete_revised_manuscript", "source_and_citation_check", "advance_packet_only_rejected", "unspecified_increment_rejected"]
+    creation_policy: created_sprint09
   - id: PLAT-MEMORY
     lane: "memory_palace"
     title: "Retrieve a compatible prior CodeFriend review through Memory Palace"
-    issue: null
+    issue: 889
     depends_on: ["CF-EVIDENCE", "CF-MEMORY"]
     deliverables: ["production_consumer", "retrieval_contract", "privacy_boundary"]
     proof: ["production_path_test", "deterministic_retrieval", "redaction_negative_test", "production_second_review_retrieval", "deterministic_compatible_baseline", "redaction_and_deletion_enforced", "test_only_integration_rejected", "unspecified_slice_rejected", "incompatible_baseline_rejected"]
+    creation_policy: created_sprint03
   - id: SPEC-RETEST
     lane: speculative_decoding
     title: Speculative-decoding requalification
-    issue: null
+    issue: 905
     depends_on: [WP-01]
     deliverables: [current_retest_packet, keep_repair_or_retire_decision]
     proof: [reproducible_benchmark, correctness_check, fallback_check]
+    creation_policy: created_sprint06
   - id: OBS-LIVE
     lane: observatory
     title: Remove retained-mode demo hazards
@@ -422,18 +460,20 @@ work_packages:
   - id: OBS-S3
     lane: observatory_deployment_sidecar
     title: Deploy the existing Observatory S3 and CloudFront sidecar
-    issue: null
+    issue: 910
     depends_on: [WP-01, OBS-LIVE]
     external_dependencies: [completed-v0.92.1-issue-679, merged-v0.92.1-pr-685]
     deliverables: [deployed_observatory_static_edge, cloudfront_logging_headers_and_invalidation]
     proof: [agent_logic_admin_identity, terraform_plan_and_apply, authenticated_aws_readback, security_header_and_logging_readback, cache_invalidation, browser_https_and_runtime_wss, rollback_and_cost_record]
+    creation_policy: created_sprint08
   - id: ARCH-ADR
     lane: architecture_decisions
     title: Generate and reconcile the ADRs required by v0.92.2
-    issue: null
+    issue: 911
     depends_on: [WP-01]
     deliverables: [milestone_architecture_decision_set]
     proof: [decision_inventory, source_traceability, adr_structure_validation, supersession_and_status_check]
+    creation_policy: created_sprint09
   - id: SIM-UMBRELLA
     lane: "csdlc_simplification_sprint"
     title: "Coordinate the first C-SDLC simplification sprint"
@@ -538,73 +578,83 @@ work_packages:
   - id: TAIL-01
     lane: "release_tail"
     title: "Quality gate"
-    issue: null
+    issue: 916
     depends_on: ["CF-INTEGRATE", "CF-PROOF", "PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST", "OBS-LIVE", "ARCH-SPLIT", "CSDLC-MERGE", "QUAL-RUNTIME", "QUAL-RESIDENT", "QUAL-PROVIDER", "QUAL-INVENTORY", "QUAL-EVIDENCE", "RT-COST", "CSDLC-MAN", "CSDLC-DECOMPOSE", "CSDLC-REMOTE", "SIM-UMBRELLA"]
     deliverables: ["milestone_quality_decision"]
     proof: ["denominator_reconciliation", "quality_gate_validation"]
+    creation_policy: created_sprint11
   - id: TAIL-02
     lane: release_tail
     title: Documentation review and external-review handoff
-    issue: null
+    issue: 917
     depends_on: [TAIL-01]
     deliverables: [external_review_handoff]
     proof: [documentation_review, handoff_structure_validation]
+    creation_policy: created_sprint11
   - id: TAIL-03
     lane: release_tail
     title: Publication finalization
-    issue: null
+    issue: 918
     depends_on: [TAIL-02]
     deliverables: [finalized_publication_packet]
     proof: [artifact_manifest_validation, candidate_binding]
+    creation_policy: created_sprint11
   - id: TAIL-04
     lane: release_tail
     title: Internal milestone review
-    issue: null
+    issue: 919
     depends_on: [TAIL-03]
     deliverables: [internal_review_record]
     proof: [exact_candidate_review, finding_register]
+    creation_policy: created_sprint11
   - id: TAIL-05
     lane: release_tail
     title: External or third-party review
-    issue: null
+    issue: 920
     depends_on: [TAIL-04]
     deliverables: [external_review_record]
     proof: [context_free_external_review, exact_candidate_binding]
+    creation_policy: created_sprint11
   - id: TAIL-06
     lane: release_tail
     title: Accepted-findings remediation or explicit deferral capture
-    issue: null
+    issue: 921
     depends_on: [TAIL-05]
     deliverables: [findings_disposition_record]
     proof: [remediation_validation, deferral_ownership_check]
+    creation_policy: created_sprint11
   - id: TAIL-07
     lane: release_tail
     title: Next-milestone planning
-    issue: null
+    issue: 922
     depends_on: [TAIL-06]
     deliverables: [successor_planning_package]
     proof: [source_reconciliation, planning_validation]
+    creation_policy: created_sprint11
   - id: TAIL-08
     lane: release_tail
     title: Next-milestone closeout planning
-    issue: null
+    issue: 923
     depends_on: [TAIL-07]
     deliverables: [successor_closeout_plan]
     proof: [release_tail_validation, asynchronous_closeout_check]
+    creation_policy: created_sprint11
   - id: TAIL-09
     lane: release_tail
     title: Next-milestone planning review
-    issue: null
+    issue: 924
     depends_on: [TAIL-08]
     deliverables: [successor_planning_review]
     proof: [independent_review, finding_disposition]
+    creation_policy: created_sprint11
   - id: TAIL-10
     lane: release_tail
     title: Release ceremony and milestone close
-    issue: null
+    issue: 925
     depends_on: [TAIL-09, OBS-S3, ARCH-ADR]
     acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1, obs_s3_deployment_acceptance_complete, arch_adr_decision_set_acceptance_complete]
     deliverables: [milestone_close_record]
     proof: [human_release_authority, terminal_reconciliation, obs_s3_deployment_acceptance_complete, arch_adr_decision_set_acceptance_complete]
+    creation_policy: created_sprint11
 canonical_release_tail: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
 deferred_tracks: [jira, linear, slack, broad_workspace, autonomous_mutation, public_customer_scale, security_tournaments, ate, oci_model_packaging, optional_openrewrite, runtime_v4]

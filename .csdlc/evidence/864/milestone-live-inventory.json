@@ -1,0 +1,359 @@
+{
+  "milestone": 2,
+  "core_count": 69,
+  "sidecars": [
+    671
+  ],
+  "issues": [
+    {
+      "number": 925,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-10] Release ceremony and milestone close"
+    },
+    {
+      "number": 924,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-09] Next-milestone planning review"
+    },
+    {
+      "number": 923,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-08] Next-milestone closeout planning"
+    },
+    {
+      "number": 922,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-07] Next-milestone planning"
+    },
+    {
+      "number": 921,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-06] Accepted-findings remediation or explicit deferral capture"
+    },
+    {
+      "number": 920,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-05] External or third-party review"
+    },
+    {
+      "number": 919,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-04] Internal milestone review"
+    },
+    {
+      "number": 918,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-03] Publication finalization"
+    },
+    {
+      "number": 917,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-02] Documentation review and external-review handoff"
+    },
+    {
+      "number": 916,
+      "state": "OPEN",
+      "title": "[v0.92.2][TAIL-01] Quality gate"
+    },
+    {
+      "number": 915,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-PROOF] Execute independent installed Beta 1 qualification on ADL and an external repository"
+    },
+    {
+      "number": 914,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-INTEGRATE] Connect the complete installed CodeFriend Beta 1 journey"
+    },
+    {
+      "number": 913,
+      "state": "OPEN",
+      "title": "[v0.92.2][PUB-CSDLC] Complete one named C-SDLC manuscript revision"
+    },
+    {
+      "number": 912,
+      "state": "OPEN",
+      "title": "[v0.92.2][PUB-MEDIUM] Write one complete selected Medium article manuscript"
+    },
+    {
+      "number": 911,
+      "state": "OPEN",
+      "title": "[v0.92.2][ARCH-ADR] Generate and reconcile the ADRs required by v0.92.2"
+    },
+    {
+      "number": 910,
+      "state": "OPEN",
+      "title": "[v0.92.2][OBS-S3] Deploy the existing Observatory S3 and CloudFront sidecar"
+    },
+    {
+      "number": 909,
+      "state": "OPEN",
+      "title": "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet"
+    },
+    {
+      "number": 908,
+      "state": "OPEN",
+      "title": "[v0.92.2][OPS-AWS] Produce one current AWS inventory packet from the #484 baseline"
+    },
+    {
+      "number": 907,
+      "state": "OPEN",
+      "title": "[v0.92.2][CSDLC-REMOTE] Decompose the remote C-SDLC command owner"
+    },
+    {
+      "number": 906,
+      "state": "OPEN",
+      "title": "[v0.92.2][PLAT-RUST] Complete one selected production Rust responsibility refactor"
+    },
+    {
+      "number": 905,
+      "state": "OPEN",
+      "title": "[v0.92.2][SPEC-RETEST] Speculative-decoding requalification"
+    },
+    {
+      "number": 904,
+      "state": "OPEN",
+      "title": "[v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment"
+    },
+    {
+      "number": 903,
+      "state": "OPEN",
+      "title": "[v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter"
+    },
+    {
+      "number": 902,
+      "state": "OPEN",
+      "title": "[v0.92.2][QUAL-EVIDENCE] Validate criterion-bound Runtime qualification evidence"
+    },
+    {
+      "number": 901,
+      "state": "OPEN",
+      "title": "[v0.92.2][QUAL-PROVIDER] Execute real provider failure and recovery qualification"
+    },
+    {
+      "number": 900,
+      "state": "OPEN",
+      "title": "[v0.92.2][QUAL-RESIDENT] Execute resident workload and signed restore qualification"
+    },
+    {
+      "number": 899,
+      "state": "OPEN",
+      "title": "[v0.92.2][QUAL-INVENTORY] Measure the registered before and after validation inventory"
+    },
+    {
+      "number": 898,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-RENDER-PDF] Render an approved review as a verified PDF"
+    },
+    {
+      "number": 897,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-RENDER-HTML] Render an approved review as HTML"
+    },
+    {
+      "number": 896,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-RENDER-MD] Render an approved review as Markdown"
+    },
+    {
+      "number": 895,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-UX] Enforce exact-artifact publication approval"
+    },
+    {
+      "number": 894,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-TESTPLAN] Generate a bounded test plan from review findings"
+    },
+    {
+      "number": 893,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-REMEDIATE] Generate a bounded remediation plan from review findings"
+    },
+    {
+      "number": 892,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-SYNTHESIS] Synthesize completed review perspectives"
+    },
+    {
+      "number": 891,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-SHELL] Operate a real repository review through the installed CodeFriend shell"
+    },
+    {
+      "number": 890,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-REVIEW] Execute isolated four-perspective repository review"
+    },
+    {
+      "number": 889,
+      "state": "OPEN",
+      "title": "[v0.92.2][PLAT-MEMORY] Retrieve a compatible prior CodeFriend review through Memory Palace"
+    },
+    {
+      "number": 888,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-GOV-CI] Execute architecture fitness functions as a CI gate"
+    },
+    {
+      "number": 887,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-GOV] Execute local architecture fitness functions"
+    },
+    {
+      "number": 886,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-COG-DRIFT] Report architecture drift between compatible revisions"
+    },
+    {
+      "number": 885,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-MEMORY] Stable second-run comparison and longitudinal review memory"
+    },
+    {
+      "number": 884,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-COG-RATIONALE] Explain architectural quanta against recorded rationale"
+    },
+    {
+      "number": 883,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-COG-IMPACT] Report the impact of a scoped repository change"
+    },
+    {
+      "number": 882,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-COG] Report repository dependency and boundary structure"
+    },
+    {
+      "number": 881,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-EVIDENCE] Admit and retain governed evidence through the production adapter"
+    },
+    {
+      "number": 880,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-ADAPTER-CI] Ingest CI repository inputs into a repository packet"
+    },
+    {
+      "number": 879,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet"
+    },
+    {
+      "number": 878,
+      "state": "OPEN",
+      "title": "[v0.92.2][CF-ADAPTER] Ingest a local checkout into a portable repository packet"
+    },
+    {
+      "number": 877,
+      "state": "OPEN",
+      "title": "[v0.92.2][PLAT-UTS] Install a versioned UTS package consumed by Runtime tool dispatch"
+    },
+    {
+      "number": 876,
+      "state": "OPEN",
+      "title": "[v0.92.2][PLAT-PROVIDER] Consume validated editable provider definitions"
+    },
+    {
+      "number": 875,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-09] Run one authorized consecutive-issue pilot"
+    },
+    {
+      "number": 874,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-08] Produce one transition operations packet"
+    },
+    {
+      "number": 873,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-07] Produce one independent transition qualification"
+    },
+    {
+      "number": 872,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-06] Deliver one safe conversion rehearsal"
+    },
+    {
+      "number": 871,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-05] Derived cards and precise evidence invalidation"
+    },
+    {
+      "number": 870,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-04] Route operational mutations through one semantic transaction owner"
+    },
+    {
+      "number": 869,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-03] Execute the supported installed intent-command inventory"
+    },
+    {
+      "number": 868,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-02] One current installed command contract"
+    },
+    {
+      "number": 867,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-01] Make diagnostics observably read-only"
+    },
+    {
+      "number": 866,
+      "state": "OPEN",
+      "title": "[v0.92.2][SIM-UMBRELLA] Coordinate the first C-SDLC simplification sprint"
+    },
+    {
+      "number": 864,
+      "state": "OPEN",
+      "title": "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
+    },
+    {
+      "number": 862,
+      "state": "OPEN",
+      "title": "[v0.92.2][C-SDLC v3][refactor] Decompose the local command owner"
+    },
+    {
+      "number": 861,
+      "state": "OPEN",
+      "title": "[v0.92.2][C-SDLC v3][docs] Write complete operator man pages"
+    },
+    {
+      "number": 855,
+      "state": "OPEN",
+      "title": "[v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle"
+    },
+    {
+      "number": 854,
+      "state": "OPEN",
+      "title": "[v0.92.2][runtime][cost] Stop metered cloud inference health-probe loops"
+    },
+    {
+      "number": 852,
+      "state": "OPEN",
+      "title": "[v0.92.2][runtime] Emit correlated canonical ingress failure events"
+    },
+    {
+      "number": 849,
+      "state": "OPEN",
+      "title": "[v0.92.2][C-SDLC v3][P2] Preserve publication linkage during native PR merge"
+    },
+    {
+      "number": 848,
+      "state": "OPEN",
+      "title": "[v0.92.2][planning] Decide repository decomposition and public/private product boundaries"
+    },
+    {
+      "number": 720,
+      "state": "OPEN",
+      "title": "[v0.92.2][Observatory] Remove retained-mode demo hazards"
+    },
+    {
+      "number": 671,
+      "state": "OPEN",
+      "title": "[v0.92.2][sidecar][podcast] Register The Cognitive Stack after approval"
+    }
+  ]
+}

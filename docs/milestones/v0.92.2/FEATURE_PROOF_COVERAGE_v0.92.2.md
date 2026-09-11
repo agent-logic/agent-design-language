@@ -75,4 +75,6 @@ The eleven strengthened contracts also require a complete selected Rust responsi
 
 ## First sprint creation state
 
-SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectively. The [verified mapping](../../../.csdlc/evidence/864/sprint01-launch/issues.json) records native creation. These ten issues join nine preexisting bindings: 19 assigned issues and 50 unassigned tasks in the unchanged 69-row milestone. Creation does not claim implementation or authorize live activation. Later sprint creation remains separately authorized.
+SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectively. The [verified mapping](../../../.csdlc/evidence/864/sprint01-launch/issues.json) records native creation. Together with the ten later creation batches, the final wave has 69 assigned core issues: nine preexisting and 60 newly created identities, with zero unassigned tasks. Creation does not claim implementation or authorize live activation. The operator authorized all eleven creation batches; the final launch map records their created identities and independent reviews.
+
+The [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json) binds all 69 core task IDs to verified issue numbers and independent creation reviews. This establishes issue inventory and review truth, not implementation or Beta 1 qualification.

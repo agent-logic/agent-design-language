@@ -30,3 +30,5 @@ No capability above should remain in final release notes unless the release pack
 ## Evidence granularity
 
 Final notes must map each claim to the separate implementation owners in the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md): three ingestion routes; structure, drift, impact and rationale analysis; local and CI fitness execution; review, synthesis and the two action planners; publication approval and three renderers; provider configuration and lifecycle. Runtime repair/qualification and local/remote C-SDLC refactors retain separate evidence. All seven planning tasks remain required, but their completed documents must not be presented as implemented product capabilities. The eleven tightened completion criteria apply before any corresponding capability is claimed.
+
+Planning state: all 69 core issues are assigned and independently reviewed in the [complete reviewed launch map](../../../.csdlc/evidence/864/all-issue-launch.json). The separate #671 podcast sidecar is outside the core plan and retains its own publication approval gates. Neither issue creation nor its review establishes delivery of the intended capabilities above.

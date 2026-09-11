@@ -1,0 +1,26 @@
+{
+  "body": "## Problem\n\nAt reviewed revision `25498d7709cb5fe13242aac81988ecdb344db968` (PR #847, issue #844), native PR merge admission does not bind or validate the PR's current closing/non-closing relation to the reviewed `PublicationLinkage`.\n\nA `PartOf` PR body can change to `Closes #<parent>` without a head change. Exact-head review and check admission can still succeed, allowing merge to close the parent. Conversely, removing the closing relation from a `Closing` PR can leave its target open. Later `finish` validation cannot undo the merge or issue closure.\n\nIndependent reviewer: `review_835`; severity P2; finding `MERGE-LINKAGE-001`. Discovered during #835 release proof and handed to #522/#833. Operator explicitly allocated this repair to **v0.92.2**. This allocation is not a behavioral pass or v0.92.1 release approval.\n\n## Evidence\n\n- `csdlc-v3/src/commands/remote/mod.rs:205`: `PullRequestMerge` lacks `PublicationLinkage` and mode.\n- `csdlc-v3/src/commands/remote/merge.rs:38`: authenticated query omits PR body/closing relation.\n- `csdlc-v3/src/commands/remote/merge.rs:345`: review admission binds repository, issue and revision, but not the current PR relation.\n\nExisting publication and finish guards retain their prior guarantees; the defect is the new merge path. The exact merged revision passed 240 unfiltered C-SDLC tests, strict all-target Clippy and the V3-A contract check; these checks do not cover this missing guard.\n\n## Required change\n\nBind the reviewed, qualified `PublicationLinkage` and publication mode into merge admission and durable intent. Authenticate and validate the current PR relation before dispatch. Reject absent, mixed, ambiguous, wrong-target, wrong-repository and mode-incompatible relations. Reconciliation must preserve truthful linkage and issue-state observations.\n\n## Acceptance criteria\n\n- [ ] Merge consumes the reviewed linkage value bound to the exact source revision and qualified target issue.\n- [ ] Same-head body drift from `PartOf` to a closing relation is rejected before mutation; the parent remains open.\n- [ ] A `Closing` PR with its closing relation removed or changed is rejected before mutation.\n- [ ] Missing, mixed, wrong-target, wrong-repository and split-repository unqualified linkage are rejected.\n- [ ] A valid non-closing merge proves checkpoint completion while its parent remains open; a valid closing merge preserves the existing terminal contract.\n- [ ] Durable intent, uncertain replay and exact authenticated reconciliation retain their existing safeguards.\n- [ ] Documentation retains the remote CAS limitation: head CAS does not atomically freeze body, base or policy. Do not claim that preflight alone eliminates a later remote race.\n- [ ] Independent exact-head review accepts the repair and the affected release mappings are updated without rewriting historical failed evidence.\n\n## Focused validation\n\nPVF: required deterministic native C-SDLC owner contract; local Git/filesystem and fake authenticated transport; small CPU; no paid cloud resources or live destructive merge required. Add same-head body-drift negative cases and valid Closing/PartOf cases in the existing merge tests. Assert no mutation dispatch for rejected inputs. Run focused remote tests and the native C-SDLC suite appropriate to the final diff; keep live GitHub proof separate from fake-transport proof.\n\nAffected retained criteria: `V3-A:retained-161-ac-8`, `V3-E:retained-175-ac-10`, `V3-E:retained-175-ac-11`, `V3-E:retained-177-ac-3`. Historical `V3-E:V3-E-ac-2` remains qualified when extended to merge admission.\n\n## Scope\n\nRepair merge linkage only. No authority-generation change, blanket release approval, unrelated runtime work, or rewriting closed #835/#844 records. Preserve the findings in #522/#833 until verified correction or an explicit release disposition.\n\n\n<!-- csdlc-v3-operation:f0a15a8a92ffa124a512ee54c3246d60fa3d4eb397e090dda82b504d93ae4aa0 -->\n\n## Current milestone execution links\n\nPlanning owner: #864. Execution prerequisite: #864 (WP-01). Accepted prerequisite output is required before dependent execution.\n\nThe operator requires all 69 milestone task identities to be created and reviewed before this launch admits new implementation. Each issue then uses its own native readiness and bound execution route; creation/review grouping adds no dependency edge.\n\n\n<!-- csdlc-v3-operation:76c0d44480c5fb6746b512506b460e87b5aa661efa56ce18ad11fc33b94ffcf2 -->",
+  "labels": [
+    {
+      "id": "LA_kwDOTvc2y88AAAACvcT0gQ",
+      "name": "type:bug",
+      "description": "",
+      "color": "ededed"
+    },
+    {
+      "id": "LA_kwDOTvc2y88AAAAC0fjQGA",
+      "name": "version:v0.92.2",
+      "description": "ADL v0.92.2 milestone work",
+      "color": "ededed"
+    }
+  ],
+  "milestone": {
+    "number": 2,
+    "title": "v0.92.2",
+    "description": "CodeFriend Beta 1 and supporting platform work. Opened by WP-01; child issue creation remains separately authorized.",
+    "dueOn": null
+  },
+  "number": 849,
+  "state": "OPEN",
+  "title": "[v0.92.2][C-SDLC v3][P2] Preserve publication linkage during native PR merge"
+}

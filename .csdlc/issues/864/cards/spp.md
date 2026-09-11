@@ -38,17 +38,17 @@ source_refs:
     ref: ".csdlc/issues/864/cards/sip.md"
 scope:
   files:
-    - "docs/milestones/v0.92.2 planning projections"
+    - "docs/milestones/v0.92.2/**; native #864 cards; .csdlc/evidence/864/**"
   components:
     - "v0922-wp01"
   out_of_scope:
-    - "child issue creation, implementation, merge, release"
+    - "Product implementation, live activation, paid execution, merge and release acceptance."
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions. Use ISSUE_CREATION_BATCHES grouping without adding execution gates; complete draft/review/create/readback per batch before next creation."
+plan_summary: "Create and independently review all 69 core task issues in sequential sprint batches, reconcile every planning projection, and publish consolidated launch evidence. Retain #671 as a separate milestone sidecar."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -61,11 +61,11 @@ proposed_steps:
     expected_output: ".csdlc/issues/864/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: 69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved."
+    description: "Implement only the bounded deliverables: 69 uniquely assigned and reviewed complete tasks: nine existing and 60 new; eight bundles split; eleven tightened contracts; seven planning tasks; final closeout gates preserved."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: Ten reviewed first-sprint issues with complete execution contracts; all 69 planning tasks retained, no later batch issue created."
+    description: "Run focused proof gates for acceptance: Each batch is independently reviewed before creation and live-reviewed before the next batch. All 69 core issues and their reviews exist before new implementation; #671 remains a separate sidecar."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "stale denominator or duplicate issue binding"
 test_strategy:
-  - "validate_planning.py --self-test; native validate; diff check; semantic and docs subagents."
+  - "python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Operator requires no issue gaps. Author feedback for PUB-CSDLC arrives during ordinary iterative execution; this does not block issue creation."
+notes: "No omissions. PUB-CSDLC is ordinary iterative manuscript revision. Each task retains its own native readiness and prerequisites."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave`.
 
-Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions. Use ISSUE_CREATION_BATCHES grouping without adding execution gates; complete draft/review/create/readback per batch before next creation.
+Create and independently review all 69 core task issues in sequential sprint batches, reconcile every planning projection, and publish consolidated launch evidence. Retain #671 as a separate milestone sidecar.
 
 ## PVF Lane Plan
 
@@ -156,8 +156,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. Confirm dependency readiness and starting state: v0.92.1 closed and v0.92.2 milestone open
 2. Review repo inputs and scoped surfaces before editing: planning package and authenticated GitHub issue readback
-3. Implement only the bounded deliverables: 69 complete tasks, nine existing bindings, 60 prospective tasks; eight bundles split; eleven completion contracts tightened; seven planning tasks and canonical tail preserved.
-4. Run focused proof gates for acceptance: Ten reviewed first-sprint issues with complete execution contracts; all 69 planning tasks retained, no later batch issue created.
+3. Implement only the bounded deliverables: 69 uniquely assigned and reviewed complete tasks: nine existing and 60 new; eight bundles split; eleven tightened contracts; seven planning tasks; final closeout gates preserved.
+4. Run focused proof gates for acceptance: Each batch is independently reviewed before creation and live-reviewed before the next batch. All 69 core issues and their reviews exist before new implementation; #671 remains a separate sidecar.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- validate_planning.py --self-test; native validate; diff check; semantic and docs subagents.
+- python3 docs/milestones/v0.92.2/validate_planning.py --self-test; all eleven retained issue-launch validators; native six-card validate; relative-link and diff checks; independent live and exact-head review.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Operator requires no issue gaps. Author feedback for PUB-CSDLC arrives during ordinary iterative execution; this does not block issue creation.
+No omissions. PUB-CSDLC is ordinary iterative manuscript revision. Each task retains its own native readiness and prerequisites.

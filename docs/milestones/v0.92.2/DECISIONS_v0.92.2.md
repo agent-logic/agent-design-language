@@ -30,15 +30,19 @@ None of these decisions claims implementation, review approval, or release readi
 - CF-D19: The operator admitted the bounded NVIDIA PAIR experiment as PLAT-PAIR after PLAT-PROVIDER; it is an experiment with a retained decision, not a production-provider claim.
 - CF-D20: The operator admitted the company GCP move-in reconciliation as OPS-GCP after WP-01; it is read-only planning and inventory work that consumes merged v0.92.1 foundations and does not repeat six-resident qualification or authorize cloud mutation.
 - CF-D21: The operator admitted OBS-S3 as a non-product-gating deployment sidecar. It consumes the completed #679/merged PR #685 Terraform design, waits for OBS-LIVE, uses the Agent Logic business AWS account, and does not authorize customer-scale hosting or an apply during #525.
-- CF-D22: The operator admitted ARCH-ADR as a distinct milestone work package. WP-01 creates its issue; it generates and reconciles the ADR set needed by v0.92.2 without implementing decisions or treating candidate prose as accepted authority.
+- CF-D22: The operator admitted ARCH-ADR as a distinct milestone work package. ARCH-ADR is now #911; it generates and reconciles the ADR set needed by v0.92.2 without implementing decisions or treating candidate prose as accepted authority.
 
 These corrections do not accept ADRs, create issues, apply cloud infrastructure, approve Beta implementation, or complete #524/#525.
 
 ## #864 operator-requested task correction
 
-- CF-D23: Split all eight mixed task families as defined by the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). The original correction contained 69 tasks, nine existing bindings and 60 prospective identities and created no children. The subsequent authorized first sprint created #866–#875, leaving 19 assigned issues and 50 prospective identities without changing scope.
+- CF-D23: Split all eight mixed task families as defined by the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). The original correction contained 69 tasks, nine existing bindings and 60 prospective identities and created no children. The first sprint then created #866–#875. The operator subsequently authorized every remaining batch; final accounting is 69 assigned core identities and zero unassigned tasks without changing scope.
 - CF-D24: Each implementation closes on one complete production behavior with success and failure proof. The eleven tightened contracts reject schemas, scaffolds, unspecified slices, outline-only writing and zero-scenario qualification.
 - CF-D25: Retain all seven planning tasks: WP-01, ARCH-SPLIT, OPS-GCP, ARCH-ADR, SIM-08, TAIL-07 and TAIL-08. Each finishes its named result without claiming Beta implementation.
-- CF-D26: Preserve existing issue identities: #855 owns RT-PROVIDER lifecycle, #852 owns QUAL-RUNTIME failure-event repair, and #862 owns local CSDLC-DECOMPOSE. Their separately scoped successors remain prospective until authorized creation and typed reconciliation.
+- CF-D26: Preserve existing issue identities: #855 owns RT-PROVIDER lifecycle, #852 owns QUAL-RUNTIME failure-event repair, and #862 owns local CSDLC-DECOMPOSE. Their separately scoped successors now have distinct native-created identities in the final launch map; creation is not execution proof.
 
 These are planning corrections authorized by the operator, not execution, ADR acceptance or publication approval. The canonical ten-step order is unchanged; TAIL-10 additionally requires OBS-S3 and ARCH-ADR completion and acceptance.
+
+## Creation and sidecar direction
+
+The operator requires all 69 core-plan identities and all creation-batch reviews before any implementation, including SIM. This global startup gate adds no task dependency edges. Existing #671 is separately admitted as a podcast sidecar outside that core gate/graph; its retained public-action approvals remain independent.

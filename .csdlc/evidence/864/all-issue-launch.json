@@ -1,0 +1,403 @@
+{
+  "schema": "adl.complete-issue-launch.v1",
+  "core_task_count": 69,
+  "new_issue_count": 60,
+  "existing_issue_count": 9,
+  "unassigned_count": 0,
+  "preexisting_bindings": {
+    "WP-01": 864,
+    "RT-PROVIDER": 855,
+    "ARCH-SPLIT": 848,
+    "CSDLC-MERGE": 849,
+    "QUAL-RUNTIME": 852,
+    "RT-COST": 854,
+    "CSDLC-MAN": 861,
+    "CSDLC-DECOMPOSE": 862,
+    "OBS-LIVE": 720
+  },
+  "created_bindings": {
+    "SIM-UMBRELLA": 866,
+    "SIM-01": 867,
+    "SIM-02": 868,
+    "SIM-03": 869,
+    "SIM-04": 870,
+    "SIM-05": 871,
+    "SIM-06": 872,
+    "SIM-07": 873,
+    "SIM-08": 874,
+    "SIM-09": 875,
+    "PLAT-PROVIDER": 876,
+    "PLAT-UTS": 877,
+    "CF-ADAPTER": 878,
+    "CF-ADAPTER-GITHUB": 879,
+    "CF-ADAPTER-CI": 880,
+    "CF-EVIDENCE": 881,
+    "CF-COG": 882,
+    "CF-COG-IMPACT": 883,
+    "CF-COG-RATIONALE": 884,
+    "CF-MEMORY": 885,
+    "CF-COG-DRIFT": 886,
+    "CF-GOV": 887,
+    "CF-GOV-CI": 888,
+    "PLAT-MEMORY": 889,
+    "CF-REVIEW": 890,
+    "CF-SHELL": 891,
+    "CF-SYNTHESIS": 892,
+    "CF-REMEDIATE": 893,
+    "CF-TESTPLAN": 894,
+    "CF-UX": 895,
+    "CF-RENDER-MD": 896,
+    "CF-RENDER-HTML": 897,
+    "CF-RENDER-PDF": 898,
+    "QUAL-INVENTORY": 899,
+    "QUAL-RESIDENT": 900,
+    "QUAL-PROVIDER": 901,
+    "QUAL-EVIDENCE": 902,
+    "PLAT-MLX": 903,
+    "PLAT-PAIR": 904,
+    "SPEC-RETEST": 905,
+    "PLAT-RUST": 906,
+    "CSDLC-REMOTE": 907,
+    "OPS-AWS": 908,
+    "OPS-GCP": 909,
+    "OBS-S3": 910,
+    "ARCH-ADR": 911,
+    "PUB-MEDIUM": 912,
+    "PUB-CSDLC": 913,
+    "CF-INTEGRATE": 914,
+    "CF-PROOF": 915,
+    "TAIL-01": 916,
+    "TAIL-02": 917,
+    "TAIL-03": 918,
+    "TAIL-04": 919,
+    "TAIL-05": 920,
+    "TAIL-06": 921,
+    "TAIL-07": 922,
+    "TAIL-08": 923,
+    "TAIL-09": 924,
+    "TAIL-10": 925
+  },
+  "all_bindings": {
+    "WP-01": 864,
+    "RT-PROVIDER": 855,
+    "ARCH-SPLIT": 848,
+    "CSDLC-MERGE": 849,
+    "QUAL-RUNTIME": 852,
+    "RT-COST": 854,
+    "CSDLC-MAN": 861,
+    "CSDLC-DECOMPOSE": 862,
+    "OBS-LIVE": 720,
+    "SIM-UMBRELLA": 866,
+    "SIM-01": 867,
+    "SIM-02": 868,
+    "SIM-03": 869,
+    "SIM-04": 870,
+    "SIM-05": 871,
+    "SIM-06": 872,
+    "SIM-07": 873,
+    "SIM-08": 874,
+    "SIM-09": 875,
+    "PLAT-PROVIDER": 876,
+    "PLAT-UTS": 877,
+    "CF-ADAPTER": 878,
+    "CF-ADAPTER-GITHUB": 879,
+    "CF-ADAPTER-CI": 880,
+    "CF-EVIDENCE": 881,
+    "CF-COG": 882,
+    "CF-COG-IMPACT": 883,
+    "CF-COG-RATIONALE": 884,
+    "CF-MEMORY": 885,
+    "CF-COG-DRIFT": 886,
+    "CF-GOV": 887,
+    "CF-GOV-CI": 888,
+    "PLAT-MEMORY": 889,
+    "CF-REVIEW": 890,
+    "CF-SHELL": 891,
+    "CF-SYNTHESIS": 892,
+    "CF-REMEDIATE": 893,
+    "CF-TESTPLAN": 894,
+    "CF-UX": 895,
+    "CF-RENDER-MD": 896,
+    "CF-RENDER-HTML": 897,
+    "CF-RENDER-PDF": 898,
+    "QUAL-INVENTORY": 899,
+    "QUAL-RESIDENT": 900,
+    "QUAL-PROVIDER": 901,
+    "QUAL-EVIDENCE": 902,
+    "PLAT-MLX": 903,
+    "PLAT-PAIR": 904,
+    "SPEC-RETEST": 905,
+    "PLAT-RUST": 906,
+    "CSDLC-REMOTE": 907,
+    "OPS-AWS": 908,
+    "OPS-GCP": 909,
+    "OBS-S3": 910,
+    "ARCH-ADR": 911,
+    "PUB-MEDIUM": 912,
+    "PUB-CSDLC": 913,
+    "CF-INTEGRATE": 914,
+    "CF-PROOF": 915,
+    "TAIL-01": 916,
+    "TAIL-02": 917,
+    "TAIL-03": 918,
+    "TAIL-04": 919,
+    "TAIL-05": 920,
+    "TAIL-06": 921,
+    "TAIL-07": 922,
+    "TAIL-08": 923,
+    "TAIL-09": 924,
+    "TAIL-10": 925
+  },
+  "creation_batches": {
+    "1": {
+      "issues": {
+        "SIM-UMBRELLA": 866,
+        "SIM-01": 867,
+        "SIM-02": 868,
+        "SIM-03": 869,
+        "SIM-04": 870,
+        "SIM-05": 871,
+        "SIM-06": 872,
+        "SIM-07": 873,
+        "SIM-08": 874,
+        "SIM-09": 875
+      },
+      "reviewer": "/root/final_launch_audit",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint01-launch"
+    },
+    "2": {
+      "issues": {
+        "PLAT-PROVIDER": 876,
+        "PLAT-UTS": 877,
+        "CF-ADAPTER": 878,
+        "CF-ADAPTER-GITHUB": 879,
+        "CF-ADAPTER-CI": 880,
+        "CF-EVIDENCE": 881
+      },
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint02-launch"
+    },
+    "3": {
+      "issues": {
+        "CF-COG": 882,
+        "CF-COG-IMPACT": 883,
+        "CF-COG-RATIONALE": 884,
+        "CF-MEMORY": 885,
+        "CF-COG-DRIFT": 886,
+        "CF-GOV": 887,
+        "CF-GOV-CI": 888,
+        "PLAT-MEMORY": 889
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint03-launch"
+    },
+    "4": {
+      "issues": {
+        "CF-REVIEW": 890,
+        "CF-SHELL": 891,
+        "CF-SYNTHESIS": 892,
+        "CF-REMEDIATE": 893,
+        "CF-TESTPLAN": 894,
+        "CF-UX": 895,
+        "CF-RENDER-MD": 896,
+        "CF-RENDER-HTML": 897,
+        "CF-RENDER-PDF": 898
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint04-launch"
+    },
+    "5": {
+      "issues": {
+        "QUAL-INVENTORY": 899,
+        "QUAL-RESIDENT": 900,
+        "QUAL-PROVIDER": 901,
+        "QUAL-EVIDENCE": 902
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint05-launch"
+    },
+    "6": {
+      "issues": {
+        "PLAT-MLX": 903,
+        "PLAT-PAIR": 904,
+        "SPEC-RETEST": 905
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint06-launch"
+    },
+    "7": {
+      "issues": {
+        "PLAT-RUST": 906,
+        "CSDLC-REMOTE": 907
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint07-launch"
+    },
+    "8": {
+      "issues": {
+        "OPS-AWS": 908,
+        "OPS-GCP": 909,
+        "OBS-S3": 910
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint08-launch"
+    },
+    "9": {
+      "issues": {
+        "ARCH-ADR": 911,
+        "PUB-MEDIUM": 912,
+        "PUB-CSDLC": 913
+      },
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint09-launch"
+    },
+    "10": {
+      "issues": {
+        "CF-INTEGRATE": 914,
+        "CF-PROOF": 915
+      },
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint10-launch"
+    },
+    "11": {
+      "issues": {
+        "TAIL-01": 916,
+        "TAIL-02": 917,
+        "TAIL-03": 918,
+        "TAIL-04": 919,
+        "TAIL-05": 920,
+        "TAIL-06": 921,
+        "TAIL-07": 922,
+        "TAIL-08": 923,
+        "TAIL-09": 924,
+        "TAIL-10": 925
+      },
+      "reviewer": "/root/planning_docs",
+      "result": "pass",
+      "evidence_directory": ".csdlc/evidence/864/sprint11-launch"
+    }
+  },
+  "sidecars": [
+    {
+      "issue": 671,
+      "milestone": 2,
+      "core_task": false,
+      "blocks_core_startup": false,
+      "evidence_directory": ".csdlc/evidence/864/sidecar-671"
+    }
+  ],
+  "startup_gate": {
+    "require_all_core_issues_created": true,
+    "require_all_core_issue_reviews_pass": true,
+    "implementation_started": false
+  },
+  "existing_review": {
+    "path": ".csdlc/evidence/864/existing-issue-launch-review/postcreation-review.json",
+    "reviewer": "/root/docs_final_review",
+    "readbacks_sha256": "b948cc2d1eb966fd30779a9cd1dfbd309bac346407b69def37d35032fd365acd"
+  },
+  "nonclaim": "Issue creation and review do not establish implementation, Beta 1 qualification, merge or release acceptance.",
+  "execution_sprints": {
+    "1": {
+      "WP-01": 864,
+      "CSDLC-MAN": 861,
+      "SIM-UMBRELLA": 866,
+      "SIM-01": 867,
+      "SIM-02": 868,
+      "SIM-03": 869,
+      "SIM-04": 870,
+      "SIM-05": 871,
+      "SIM-06": 872,
+      "SIM-07": 873,
+      "SIM-08": 874,
+      "SIM-09": 875
+    },
+    "2": {
+      "ARCH-SPLIT": 848,
+      "RT-COST": 854,
+      "RT-PROVIDER": 855,
+      "PLAT-PROVIDER": 876,
+      "PLAT-UTS": 877,
+      "CF-ADAPTER": 878,
+      "CF-ADAPTER-GITHUB": 879,
+      "CF-ADAPTER-CI": 880,
+      "CF-EVIDENCE": 881
+    },
+    "3": {
+      "CF-COG": 882,
+      "CF-COG-IMPACT": 883,
+      "CF-COG-RATIONALE": 884,
+      "CF-MEMORY": 885,
+      "CF-COG-DRIFT": 886,
+      "CF-GOV": 887,
+      "CF-GOV-CI": 888,
+      "PLAT-MEMORY": 889
+    },
+    "4": {
+      "CF-REVIEW": 890,
+      "CF-SHELL": 891,
+      "CF-SYNTHESIS": 892,
+      "CF-REMEDIATE": 893,
+      "CF-TESTPLAN": 894,
+      "CF-UX": 895,
+      "CF-RENDER-MD": 896,
+      "CF-RENDER-HTML": 897,
+      "CF-RENDER-PDF": 898
+    },
+    "5": {
+      "QUAL-RUNTIME": 852,
+      "QUAL-INVENTORY": 899,
+      "QUAL-RESIDENT": 900,
+      "QUAL-PROVIDER": 901,
+      "QUAL-EVIDENCE": 902
+    },
+    "6": {
+      "PLAT-MLX": 903,
+      "PLAT-PAIR": 904,
+      "SPEC-RETEST": 905
+    },
+    "7": {
+      "CSDLC-MERGE": 849,
+      "CSDLC-DECOMPOSE": 862,
+      "PLAT-RUST": 906,
+      "CSDLC-REMOTE": 907
+    },
+    "8": {
+      "OBS-LIVE": 720,
+      "OPS-AWS": 908,
+      "OPS-GCP": 909,
+      "OBS-S3": 910
+    },
+    "9": {
+      "ARCH-ADR": 911,
+      "PUB-MEDIUM": 912,
+      "PUB-CSDLC": 913
+    },
+    "10": {
+      "CF-INTEGRATE": 914,
+      "CF-PROOF": 915
+    },
+    "11": {
+      "TAIL-01": 916,
+      "TAIL-02": 917,
+      "TAIL-03": 918,
+      "TAIL-04": 919,
+      "TAIL-05": 920,
+      "TAIL-06": 921,
+      "TAIL-07": 922,
+      "TAIL-08": 923,
+      "TAIL-09": 924,
+      "TAIL-10": 925
+    }
+  }
+}
