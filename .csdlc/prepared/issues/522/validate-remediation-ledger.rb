@@ -204,6 +204,7 @@ fail!("nonempty finding census has no dispositions") if source.any? && dispositi
 dispositions.each do |row|
   case row.fetch("kind")
   when "fixed"
+    fail!("fixed disposition lacks resolution or release consequence") unless %w[resolution release_consequence].all? { |key| nonempty?(row.fetch(key)) }
     remediations = row.fetch("remediations")
     fail!("fixed disposition has no remediation") if remediations.empty?
     expected_issues = row.fetch("source_finding_ids").flat_map { |id| EXPECTED_REMEDIATION_ISSUES.fetch(id) }.uniq.sort
@@ -282,7 +283,9 @@ dispositions.each do |row|
         blob = git_blob(artifact_revision, observation.fetch("artifact_path"))
         Digest::SHA256.hexdigest(blob) == observation.fetch("artifact_sha256") && %w[verified passed].include?(observation.fetch("result")) && nonempty?(observation.fetch("behavior"))
       end
-      fail!("validation evidence does not prove behavior at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && behavior_bound
+      observed_artifacts = observations.map { |observation| [observation.fetch("artifact_revision", head_sha), observation.fetch("artifact_path"), observation.fetch("artifact_sha256")] }
+      remediation_artifacts_bound = artifacts.all? { |artifact| observed_artifacts.include?([head_sha, artifact.fetch("path"), artifact.fetch("sha256")]) }
+      fail!("validation evidence does not prove behavior at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && behavior_bound && remediation_artifacts_bound
     end
     end
   when "deferred"
