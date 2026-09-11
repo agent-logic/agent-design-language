@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 856,
   "phase": "bound",
-  "generation": 7,
+  "generation": 8,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/856-native-release-preflight",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-856-native-release-preflight",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "ab07fe09f255eb26a5d674db7bbb7eadb1a393027cf77af1ba0a246b6f79d9ff"
+  "digest": "0518e6339418c6faaa9705fda1e9044ee3b2d1ea20cfdd6a92e36aa06d8122fd"
 }

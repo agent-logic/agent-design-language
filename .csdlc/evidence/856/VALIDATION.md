@@ -15,6 +15,11 @@ Local results:
 - All 23 package manifests passed `cargo metadata --offline --locked --no-deps`;
   the 24th manifest is the virtual ADL workspace. This is manifest validation,
   not full compilation or complete dependency-resolution proof.
+- After CI exposed inherited ADL workspace dependency-edge drift, Cargo reconciled
+  `adl-v2/Cargo.lock` (existing kernel fs2/rustls/X.509 dependencies and ten
+  transitive package entries). All 11 active lockfiles then passed full
+  `cargo metadata --locked --format-version 1`, without `--no-deps`.
+  This proves locked resolution; it is still not compilation proof.
 - Shell wrapper routing and retired-helper guard passed.
 - Stable owner installer regression suite passed, including native source
   provenance, no-op reuse and mixed-manifest rejection.

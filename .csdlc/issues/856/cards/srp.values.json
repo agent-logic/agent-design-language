@@ -27,6 +27,6 @@
   "review_dispositions": "Require root/workspace owners per active lock; empty, missing and source-tagged owner negatives pass.",
   "sor_card": ".csdlc/issues/856/cards/sor.md",
   "vpp_card": ".csdlc/issues/856/cards/vpp.md",
-  "review_findings": "One P2 lock owner omission, resolved. No remaining actionable findings at 769f20e134e7e9f385d0650ab745c058670b7656.",
+  "review_findings": "Resolved P2 lock owner omission. CI then found workspace dependency-edge drift; bounded Cargo lock reconciliation requires renewed review.",
   "spp_card": ".csdlc/issues/856/cards/spp.md"
 }

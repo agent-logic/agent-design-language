@@ -123,7 +123,7 @@ review_results:
 
 ### Findings
 
-- One P2 lock owner omission, resolved. No remaining actionable findings at 769f20e134e7e9f385d0650ab745c058670b7656.
+- Resolved P2 lock owner omission. CI then found workspace dependency-edge drift; bounded Cargo lock reconciliation requires renewed review.
 
 ### Dispositions
 

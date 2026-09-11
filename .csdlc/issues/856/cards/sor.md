@@ -110,7 +110,7 @@ Rules:
   - `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_release_ceremony.sh; bash adl/tools/test_owner_binary_install.sh`
     `Exercise exact identities, fail-closed guards, version/lock coverage, no mutation and stdout/stderr separation`
 - Results:
-  - `Local native241 initial tests and expanded final matrix PASS;23 manifest metadata checks PASS; shell installer/routing and strict clippy/fmt PASS. Hosted CI result is the live PR858 check rollup, separate from these local proofs.`
+  - `Native241 initial tests and expanded final matrix PASS;23 no-deps metadata checks PASS; all11 active locks subsequently pass FULL locked Cargo metadata after CI exposed and Cargo corrected existing workspace dependency drift; shell installer/routing and strict clippy/fmt PASS. Hosted CI is the live PR858 check rollup.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -171,7 +171,7 @@ verification_summary:
 
 ## Decisions / Deviations
 - `Preflight consistency does not authenticate local gate prose or grant release approval`
-- `Replace combined mutation wrapper with preflight-only request; publication remains separate`
+- `CI found existing workspace lock missing kernel dependency edges. Cargo reconciled them; all11 active lockfiles pass full locked dependency resolution.`
 
 ## Follow-ups / Deferred work
 - `Require final-head hosted checks before handoff; remote publication receipt in resolved Git metadata`
