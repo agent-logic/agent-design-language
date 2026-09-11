@@ -63,6 +63,7 @@ Dir.mktmpdir("issue-522-production-",File.expand_path("../../../../.adl",__dir__
   end
   reject.call("pass_with_findings",[review_path,manifest_path]){d=JSON.parse(File.read(review_path));d["findings"]=[{"id"=>"still-open"}];wj(review_path,d)}
   reject.call("invented_twentieth_finding",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["findings"] << d["findings"].last.merge("id"=>"TPR-006");wj(source_path,d)}
+  reject.call("collapsed_source_candidates",[source_path,manifest_path]){d=JSON.parse(File.read(source_path));d["reviewed_candidate_shas"]["521"]=internal_candidate;wj(source_path,d)}
   reject.call("digest_mismatch",[validation_path,manifest_path]){File.write(validation_path,"{}")}
   reject.call("stale_head",[disposition_path,manifest_path]){d=JSON.parse(File.read(disposition_path));d["dispositions"][0]["remediation"]["head_sha"]=internal_candidate;wj(disposition_path,d)}
   empty_tree=`git mktree </dev/null`.strip; other,err,status=Open3.capture3("git","commit-tree",empty_tree,stdin_data:"unrelated\n"); abort(err) unless status.success?; other=other.strip

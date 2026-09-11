@@ -66,7 +66,7 @@ fail!("ledger candidate is not an immutable commit") unless ledger_candidate.mat
 
 source_doc = docs.fetch("source-findings.json")
 reports = source_doc.fetch("reports")
-fail!("#520/#521 source report denominator is incomplete") unless reports.map { |row| row.fetch("issue") }.sort == [520, 521]
+fail!("#520/#521 source reports must appear once in deterministic order") unless reports.map { |row| row.fetch("issue") } == [520, 521]
 reports.each do |report|
   fail!("source report is not #520 or #521") unless [520, 521].include?(report.fetch("issue"))
   pr_number = report.fetch("pull_request")
@@ -89,6 +89,7 @@ reports.each do |report|
   source_manifest = JSON.parse(source_manifest_blob)
   fail!("source report is not a manifested merged output") unless source_manifest.fetch("entries").any? { |entry| entry.fetch("path") == path && entry.fetch("sha256") == report.fetch("sha256") }
   fail!("source report lacks exact reviewed revision") unless report.fetch("reviewed_revision").match?(/\A[0-9a-f]{40}\z/)
+  fail!("source reviewed revision is not an immutable commit") unless system("git", "cat-file", "-e", "#{report.fetch('reviewed_revision')}^{commit}")
   report_doc = JSON.parse(report_blob)
   fail!("source report is not exact-head bound") unless report_doc.fetch("candidate_sha") == report.fetch("reviewed_revision")
   outcome = report_doc.fetch("outcome")
