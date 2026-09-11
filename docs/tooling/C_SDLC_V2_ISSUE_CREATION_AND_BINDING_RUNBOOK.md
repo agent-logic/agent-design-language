@@ -1,8 +1,14 @@
-# C-SDLC v2 Issue Creation and Binding
+# Retained C-SDLC v2 Issue Creation and Binding
 
-This is the active operator path for creating an execution-ready C-SDLC v2
-issue and binding it to a worktree. It has no preparation generation, claim,
-lease, heartbeat, protected-path ledger, or claim-recovery step.
+> **Retained exception path only.** This runbook is historical compatibility
+> guidance for an explicitly authorized rollback or bounded transition
+> remediation. It is not the ordinary lifecycle entrypoint. Current work uses
+> `.adl/bin/native-v3/csdlc`; see [Active Boot Paths](ACTIVE_BOOT_PATHS.md).
+
+When an authorized exception explicitly selects C-SDLC v2, this path creates
+an execution-ready issue and binds it to a worktree. It has no preparation
+generation, claim, lease, heartbeat, protected-path ledger, or claim-recovery
+step.
 
 ## 1. Create
 

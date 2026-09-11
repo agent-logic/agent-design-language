@@ -466,6 +466,7 @@ fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
         "docs/tooling/structured-prompt-contracts.md",
         "docs/tooling/structured-prompt-validator-binary-resolution.md",
         "docs/tooling/card-lifecycle.md",
+        "docs/tooling/C_SDLC_V2_ISSUE_CREATION_AND_BINDING_RUNBOOK.md",
         "docs/tooling/editor/command_adapter.md",
         "docs/tooling/editor/current_skill_wiring_demo.md",
         "adl/tools/README.md",
