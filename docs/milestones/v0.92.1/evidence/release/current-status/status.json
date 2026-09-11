@@ -23,12 +23,12 @@
     },
     {
       "path": ".csdlc/evidence/835/pr-authority.json",
-      "revision": "0aa227619f",
+      "revision": "0aa227619f5549bebcdfa802d95351c3079fb89e",
       "sha256": "25609ed0808f7d71b444528adf1509ea7b60df207703d3a925ff2cd59cf7a1cf"
     },
     {
       "path": ".csdlc/evidence/835/issue-observation.json",
-      "revision": "0aa227619f",
+      "revision": "0aa227619f5549bebcdfa802d95351c3079fb89e",
       "sha256": "b182026a9180157134964f0eaa5e7e944889f41b9782077116242f2b7bf325b9"
     },
     {
@@ -60,6 +60,11 @@
       "path": ".csdlc/evidence/820/distributed-runtime/reconciliation.json",
       "revision": "d7eb57913913f780d7dc0a965629202c76ec32a8",
       "sha256": "6a9cfb7e1ad5a815f9dda50cbf0ef4c52b98e86ac631f6cbdbb3f03cd61057cb"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/integration/release-tail-admission.json",
+      "revision": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+      "sha256": "d5133e8045d55d773f42afe407669918165e0e602e9ae0f68df6f260811ad42d"
     }
   ],
   "inventory_count": 393,
@@ -71,7 +76,8 @@
   "excluded_accounting_count": 15,
   "disposition_counts": {
     "approved_removal": 143,
-    "downstream_stage_obligation": 27,
+    "awaiting_final_gate": 24,
+    "ceremony_not_run": 3,
     "execution_refresh_required": 51,
     "final_gate_proof_required": 4,
     "historical_evidence_retained": 136,
@@ -2431,8 +2437,10 @@
       "work_package": "INT-01",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 516,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2440,8 +2448,10 @@
       "work_package": "INT-01",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 516,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2449,8 +2459,10 @@
       "work_package": "INT-01",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 516,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2626,8 +2638,10 @@
       "work_package": "TAIL-01",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 517,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2635,8 +2649,10 @@
       "work_package": "TAIL-01",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 517,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2684,8 +2700,10 @@
       "work_package": "TAIL-02",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 518,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2693,8 +2711,10 @@
       "work_package": "TAIL-02",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 518,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2702,8 +2722,10 @@
       "work_package": "TAIL-02",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 518,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2711,8 +2733,10 @@
       "work_package": "TAIL-03",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 519,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2720,8 +2744,10 @@
       "work_package": "TAIL-03",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 519,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2729,8 +2755,10 @@
       "work_package": "TAIL-04",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 520,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2738,8 +2766,10 @@
       "work_package": "TAIL-04",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 520,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2747,8 +2777,10 @@
       "work_package": "TAIL-05",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 521,
+      "source_issue": 521,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2756,8 +2788,10 @@
       "work_package": "TAIL-05",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 521,
+      "source_issue": 521,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2765,8 +2799,10 @@
       "work_package": "TAIL-06",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 522,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2774,8 +2810,10 @@
       "work_package": "TAIL-06",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 522,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2783,8 +2821,10 @@
       "work_package": "TAIL-06",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 522,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2792,8 +2832,10 @@
       "work_package": "TAIL-07",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 523,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2801,8 +2843,10 @@
       "work_package": "TAIL-07",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 523,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2810,8 +2854,10 @@
       "work_package": "TAIL-07",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 522,
+      "source_issue": 523,
+      "observed_issue_state": "CLOSED",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2855,8 +2901,10 @@
       "work_package": "TAIL-08",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 524,
+      "source_issue": 524,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2864,8 +2912,10 @@
       "work_package": "TAIL-08",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 524,
+      "source_issue": 524,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2873,8 +2923,10 @@
       "work_package": "TAIL-09",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 525,
+      "source_issue": 525,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2882,8 +2934,10 @@
       "work_package": "TAIL-09",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
-      "owner": 526,
+      "disposition": "awaiting_final_gate",
+      "owner": 525,
+      "source_issue": 525,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2891,8 +2945,10 @@
       "work_package": "TAIL-10",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
+      "disposition": "ceremony_not_run",
       "owner": 526,
+      "source_issue": 526,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2900,8 +2956,10 @@
       "work_package": "TAIL-10",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
+      "disposition": "ceremony_not_run",
       "owner": 526,
+      "source_issue": 526,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -2909,8 +2967,10 @@
       "work_package": "TAIL-10",
       "historical_result": "not_applicable",
       "behavioral_pass": false,
-      "disposition": "downstream_stage_obligation",
+      "disposition": "ceremony_not_run",
       "owner": 526,
+      "source_issue": 526,
+      "observed_issue_state": "OPEN",
       "evidence": "docs/milestones/v0.92.1/evidence/release/tail-01/required-lane-denominator.json"
     },
     {
@@ -7940,6 +8000,7 @@
         "WP-01"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Execution-wave creation receipt and repository planning delivered.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -7958,6 +8019,7 @@
         "CORP-D"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -7980,6 +8042,7 @@
         "V3-F"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Native command implementation and authenticated #505/PR591 cutover delivered.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8000,6 +8063,7 @@
         "DRT-C"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Distributed contract, continuity qualification and failure-mode implementation retained.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8015,6 +8079,7 @@
       "name": "Podcast",
       "work_packages": [],
       "delivery_status": "implemented",
+      "delivered_scope": "Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained.",
       "bounded_demo_status": "proved",
       "demo_scope": "Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch.",
       "retained_gate_counts": {},
@@ -8028,6 +8093,7 @@
         "HOT-01"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Config reload implementation and retained validation supplied by #510.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8044,6 +8110,7 @@
         "OBS-B"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8059,6 +8126,7 @@
         "DEC-01"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Runtime authority topology and generation ownership migration package retained.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8075,6 +8143,7 @@
         "PROV-B"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Shared profile implementation and isolated comparison/shadow implementation retained.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8090,6 +8159,7 @@
         "DRT-D"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Governed six-resident replay wrapper and retained run evidence delivered by #509.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8111,6 +8181,7 @@
         "AWS-G"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Seven phase implementation and receipt packages retained.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8130,6 +8201,7 @@
         "GCP-E"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Five phase packages plus #740 private/versioned backend recovery proof retained.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8145,6 +8217,7 @@
         "XCL-01"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Portable workload contract and AWS/GCP Terraform implementation retained.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8160,6 +8233,7 @@
         "RUST-01"
       ],
       "delivery_status": "implemented",
+      "delivered_scope": "Resilience owner-boundary refactoring and retained behavior checks supplied by #499.",
       "bounded_demo_status": "blocked",
       "demo_scope": "Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.",
       "retained_gate_counts": {
@@ -8175,8 +8249,15 @@
       "issue": 480,
       "implementation_revision": "23856abbc7cde90dd9d1c6467dd6c61aca1bc274",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 5
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8185,8 +8266,15 @@
       "issue": 482,
       "implementation_revision": "2070d1b4ff269c2571a2077ae00d9f7fbb0ac67c",
       "implementation_evidence": [
-        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+        {
+          "path": "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8195,8 +8283,15 @@
       "issue": 483,
       "implementation_revision": "a0fae2fca6d802ae3f7ab987cc81c0bd36dd5239",
       "implementation_evidence": [
-        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json"
+        {
+          "path": "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proof_gap": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8205,11 +8300,27 @@
       "issue": 484,
       "implementation_revision": "e9fdf5b07bdcbde235511c52c40fb8c626cc95a7",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json",
-        "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/account-identity.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/command-manifest.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/regions.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8218,13 +8329,35 @@
       "issue": 485,
       "implementation_revision": "2a5d25239853499b6ac73b37d968d2b97e75a586",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md",
-        "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-activity-audit.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-iam-guardrails.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/agent-toolkit-configuration.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/billing-readback.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/identity-census.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-b/readbacks/root-recovery.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 7
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8233,8 +8366,15 @@
       "issue": 486,
       "implementation_revision": "cfd5f0edabfde2e380a5534d619e7832f484bb8c",
       "implementation_evidence": [
-        "infra/aws/bootstrap/main.tf"
+        {
+          "path": "infra/aws/bootstrap/main.tf",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8243,8 +8383,16 @@
       "issue": 487,
       "implementation_revision": "79be6b5b0327be752817197738887d25335e71a9",
       "implementation_evidence": [
-        "infra/aws/account-foundation/main.tf"
+        {
+          "path": "infra/aws/account-foundation/main.tf",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "implementation_gap": 3,
+        "proven": 1
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8253,8 +8401,15 @@
       "issue": 488,
       "implementation_revision": "4e904b6629ff3060094dbef3613388e6e5245b8d",
       "implementation_evidence": [
-        "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+        {
+          "path": "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8263,9 +8418,19 @@
       "issue": 489,
       "implementation_revision": "485b4197908231bb2065e1e29c7c5013536e1975",
       "implementation_evidence": [
-        "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
-        "infra/aws/runtime/private-node/main.tf"
+        {
+          "path": "docs/operations/cloud/aws/runtime-platform/run-disposable-proof.sh",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "infra/aws/runtime/private-node/main.tf",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8274,8 +8439,15 @@
       "issue": 490,
       "implementation_revision": "f0be8c8d1a2f12df8b2d8169997583dd66a9a521",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8284,8 +8456,17 @@
       "issue": 491,
       "implementation_revision": "695ca0f6cec62357349390afda3952e39cd92337",
       "implementation_evidence": [
-        "infra/gcp/bootstrap/main.tf"
+        {
+          "path": "infra/gcp/bootstrap/main.tf",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proof_gap": 2,
+        "implementation_gap": 1,
+        "proven": 1
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8294,8 +8475,15 @@
       "issue": 492,
       "implementation_revision": "179fbc9fb2b1affc68577b8e94b66bc5ac5c49aa",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8304,9 +8492,19 @@
       "issue": 493,
       "implementation_revision": "d5b1584bb55e92974e6d3481b59d2e28a17db441",
       "implementation_evidence": [
-        ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
-        "infra/gcp/platform/main.tf"
+        {
+          "path": ".csdlc/prepared/issues/731/run-gcp-d1-disposable-workload-proof.sh",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "infra/gcp/platform/main.tf",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8315,8 +8513,15 @@
       "issue": 494,
       "implementation_revision": "de959c6263f671fa8fe1df851ea6ae1d25686831",
       "implementation_evidence": [
-        "infra/gcp/workloads/gpu-smoke-instance/main.tf"
+        {
+          "path": "infra/gcp/workloads/gpu-smoke-instance/main.tf",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8325,8 +8530,15 @@
       "issue": 495,
       "implementation_revision": "6177249dfb46fe3cf95fbcc996469517928f525d",
       "implementation_evidence": [
-        "infra/runtime-portable/runtime-workload-contract.v1.json"
+        {
+          "path": "infra/runtime-portable/runtime-workload-contract.v1.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 5
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8335,8 +8547,15 @@
       "issue": 496,
       "implementation_revision": "59a3d0bd106f8bdd0def53dbe1564667ee6adac4",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8345,8 +8564,24 @@
       "issue": 497,
       "implementation_revision": null,
       "implementation_evidence": [
-        ".csdlc/evidence/497/corp-c-operational-control-acceptance.log"
+        {
+          "path": ".csdlc/evidence/497/corp-c-operational-control-acceptance.log",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "accepted_recordless": 4
+      },
+      "delivery_basis": {
+        "kind": "recordless_acceptance",
+        "acceptance_checked": true,
+        "acceptance_log": ".csdlc/evidence/497/corp-c-operational-control-acceptance.log",
+        "acceptance_log_sha256": "c744cd34768a30e8b4f9d1785b88e47b689d6f03576803606bc6dedbfd3a2652",
+        "sidecar_issue": 624,
+        "sidecar_url": "https://github.com/agent-logic/agent-design-language/issues/624",
+        "sidecar_state": "closed",
+        "sidecar_body_sha256": "df9a29ad73d443581986e96cd450797d0667503c789983bb1b6339ff68a9280f"
+      },
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8355,8 +8590,15 @@
       "issue": 498,
       "implementation_revision": "dc17d8c9ccdef3b65f3d2f7371dd3c2b8f48c7c8",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/corporate/corp-d/corporate-diligence-acceptance.v1.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8365,8 +8607,15 @@
       "issue": 499,
       "implementation_revision": "940c42d246be5d54f34b7b300526a644cc881580",
       "implementation_evidence": [
-        "adl/src/resilience.rs"
+        {
+          "path": "adl/src/resilience.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 5
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8375,8 +8624,15 @@
       "issue": 500,
       "implementation_revision": "d02f90008acadcc10df048b7f089cc4b98ef608f",
       "implementation_evidence": [
-        "docs/csdlc-v3/CONTRACT.md"
+        {
+          "path": "docs/csdlc-v3/CONTRACT.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8385,8 +8641,15 @@
       "issue": 501,
       "implementation_revision": "9056f19245f93bc9efa3b55561671a8f002c6536",
       "implementation_evidence": [
-        "csdlc-v3/src/repository/mod.rs"
+        {
+          "path": "csdlc-v3/src/repository/mod.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8395,8 +8658,15 @@
       "issue": 502,
       "implementation_revision": "ed6f01c1e33b8057142491fca3028641ce5efc74",
       "implementation_evidence": [
-        "csdlc-v3/src/lifecycle/mod.rs"
+        {
+          "path": "csdlc-v3/src/lifecycle/mod.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8405,8 +8675,15 @@
       "issue": 503,
       "implementation_revision": "974abc520454690f0b392162b9ced783e8584017",
       "implementation_evidence": [
-        "csdlc-v3/src/commands/local/mod.rs"
+        {
+          "path": "csdlc-v3/src/commands/local/mod.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8415,8 +8692,15 @@
       "issue": 504,
       "implementation_revision": "9ef650bc174a81849ffb09ae4d21b699fee1368d",
       "implementation_evidence": [
-        "csdlc-v3/src/review/mod.rs"
+        {
+          "path": "csdlc-v3/src/review/mod.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8425,10 +8709,23 @@
       "issue": 505,
       "implementation_revision": "74ddb31702482172eea4ba3d74700536eab32e49",
       "implementation_evidence": [
-        "csdlc-v3/Cargo.toml",
-        "csdlc-v3/src/authority.rs",
-        "csdlc-v3/src/commands/remote/mod.rs"
+        {
+          "path": "csdlc-v3/Cargo.toml",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "csdlc-v3/src/authority.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        },
+        {
+          "path": "csdlc-v3/src/commands/remote/mod.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8437,8 +8734,15 @@
       "issue": 506,
       "implementation_revision": "4676aef4189376b3f64d17efdb717732274e3240",
       "implementation_evidence": [
-        "adl-runtime/tests/distributed_contract/main.rs"
+        {
+          "path": "adl-runtime/tests/distributed_contract/main.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8447,8 +8751,16 @@
       "issue": 507,
       "implementation_revision": "cca85d6fd4976e2b2358d0d130b8291a88cb1c95",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime/drt-b/qualification-contract.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3,
+        "proof_gap": 1
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8457,8 +8769,15 @@
       "issue": 508,
       "implementation_revision": "cca4f7f675241a0a473b38006c8be2eb95165028",
       "implementation_evidence": [
-        "adl-runtime/tests/distributed_failure/drt_c_qualification.rs"
+        {
+          "path": "adl-runtime/tests/distributed_failure/drt_c_qualification.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8467,8 +8786,15 @@
       "issue": 509,
       "implementation_revision": "c89a584e53f152ed499a5d56d479296590044714",
       "implementation_evidence": [
-        "adl/tools/run_issue509_gcp_drt_d_qualification.sh"
+        {
+          "path": "adl/tools/run_issue509_gcp_drt_d_qualification.sh",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8477,8 +8803,15 @@
       "issue": 510,
       "implementation_revision": "fac5eaa63a82eaf50fe455df14cc22ebb08a2678",
       "implementation_evidence": [
-        "adl-runtime-kernel/src/config_reload.rs"
+        {
+          "path": "adl-runtime-kernel/src/config_reload.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8487,8 +8820,22 @@
       "issue": 511,
       "implementation_revision": null,
       "implementation_evidence": [
-        ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md"
+        {
+          "path": ".csdlc/evidence/512/CLAUDE_REVIEW_HANDOFF.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proof_gap": 4
+      },
+      "delivery_basis": {
+        "kind": "captured_absorption_closeout",
+        "comment_url": "https://github.com/agent-logic/agent-design-language/issues/511#issuecomment-5554002940",
+        "comment_body_sha256": "1fa565177d5686266d3dd6a5fd14c2b24036ef0b24704cfc83ba19b185856c4e",
+        "target_issue": 512,
+        "target_state": "closed",
+        "authority_marker": "csdlc-github-operation"
+      },
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8497,8 +8844,16 @@
       "issue": 512,
       "implementation_revision": "e8a0e0b9bb6a18687a5a2dc9e85b8130bbb182b4",
       "implementation_evidence": [
-        ".csdlc/evidence/512/exact-browser-operator-proof.md"
+        {
+          "path": ".csdlc/evidence/512/exact-browser-operator-proof.md",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 3,
+        "proof_gap": 1
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8507,8 +8862,15 @@
       "issue": 513,
       "implementation_revision": "489bc0f3af68b059e5c26ff22600d945b3d21db8",
       "implementation_evidence": [
-        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json"
+        {
+          "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8517,8 +8879,15 @@
       "issue": 514,
       "implementation_revision": "1b0fd87496bb09200a5cb1bbb0529e8730be1b20",
       "implementation_evidence": [
-        "adl/src/provider/profiles.rs"
+        {
+          "path": "adl/src/provider/profiles.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     },
@@ -8527,8 +8896,15 @@
       "issue": 515,
       "implementation_revision": "9e6a8bd104d79f77edc4460ee5424cea83ef9cdc",
       "implementation_evidence": [
-        "adl/src/provider/mod.rs"
+        {
+          "path": "adl/src/provider/mod.rs",
+          "revision": "80e5961a7537f833ce676bb244fd574da4504a29"
+        }
       ],
+      "retained_classifications": {
+        "proven": 4
+      },
+      "delivery_basis": "Merged implementation revision, not blanket acceptance.",
       "release_status": "awaiting_final_gate",
       "owner": 522
     }
@@ -9003,17 +9379,79 @@
   ],
   "release_tail": [
     {
-      "id": "TAIL-05",
+      "id": "INT-01",
+      "source_issue": 516,
+      "observed_issue_state": "CLOSED",
       "status": "awaiting_final_gate",
       "owner": 522
+    },
+    {
+      "id": "TAIL-01",
+      "source_issue": 517,
+      "observed_issue_state": "CLOSED",
+      "status": "awaiting_final_gate",
+      "owner": 522
+    },
+    {
+      "id": "TAIL-02",
+      "source_issue": 518,
+      "observed_issue_state": "CLOSED",
+      "status": "awaiting_final_gate",
+      "owner": 522
+    },
+    {
+      "id": "TAIL-03",
+      "source_issue": 519,
+      "observed_issue_state": "CLOSED",
+      "status": "awaiting_final_gate",
+      "owner": 522
+    },
+    {
+      "id": "TAIL-04",
+      "source_issue": 520,
+      "observed_issue_state": "CLOSED",
+      "status": "awaiting_final_gate",
+      "owner": 522
+    },
+    {
+      "id": "TAIL-05",
+      "source_issue": 521,
+      "observed_issue_state": "OPEN",
+      "status": "awaiting_final_gate",
+      "owner": 521
     },
     {
       "id": "TAIL-06",
+      "source_issue": 522,
+      "observed_issue_state": "OPEN",
       "status": "awaiting_final_gate",
       "owner": 522
     },
     {
+      "id": "TAIL-07",
+      "source_issue": 523,
+      "observed_issue_state": "CLOSED",
+      "status": "awaiting_final_gate",
+      "owner": 522
+    },
+    {
+      "id": "TAIL-08",
+      "source_issue": 524,
+      "observed_issue_state": "OPEN",
+      "status": "awaiting_final_gate",
+      "owner": 524
+    },
+    {
+      "id": "TAIL-09",
+      "source_issue": 525,
+      "observed_issue_state": "OPEN",
+      "status": "awaiting_final_gate",
+      "owner": 525
+    },
+    {
       "id": "TAIL-10",
+      "source_issue": 526,
+      "observed_issue_state": "OPEN",
       "status": "ceremony_not_run",
       "owner": 526
     }

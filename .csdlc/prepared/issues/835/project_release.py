@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[4]
 BASE = 'docs/milestones/v0.92.1'
 PACKET = BASE + '/evidence/release/current-status'
 CANDIDATE = '64a99fd71b9770e15cb0dc393d669450d3a5f5b4'
-AUTHORITY_REVISION = '0aa227619f'
+AUTHORITY_REVISION = '0aa227619f5549bebcdfa802d95351c3079fb89e'
 DENOM = BASE + '/evidence/release/tail-01/required-lane-denominator.json'
 GAPS = BASE + '/evidence/release/tail-06/issue-764/retained-proof-gap-denominator.json'
 PREPARATION = BASE + '/evidence/release/tail-06/issue-821/preparation.json'
@@ -101,6 +101,19 @@ def derive():
     pending = {r['row_id'] for r in prep['rows']}
     assert len(pending) == 4 and pending == set(gap_rows) - set(resolutions)
     assert prep['status'] == 'preparation_only' and prs[829]['state'] == 'MERGED'
+    admission_path = BASE + '/evidence/integration/release-tail-admission.json'
+    admission = load(CANDIDATE, admission_path)
+    source(admission_path)
+    observations = {r['number']:r for r in load(AUTHORITY_REVISION,'.csdlc/evidence/835/issue-observation.json')}
+    stages = {}
+    for stage in admission['release_tail_stages']:
+        ident = stage['planned_id']
+        source_issue = stage['issue']
+        observed_state = observations.get(source_issue, {}).get('state', 'unobserved')
+        owner = source_issue if observed_state == 'OPEN' else 522
+        stages[ident] = {'id':ident, 'source_issue':source_issue, 'observed_issue_state':observed_state,
+                         'status':'ceremony_not_run' if ident == 'TAIL-10' else 'awaiting_final_gate',
+                         'owner':526 if ident == 'TAIL-10' else owner}
     rows = []
     seen = set()
     preserved = {r['row_id']: r for r in gaps['preserved_rows'] + gaps['accounted_non_764_eligible_rows']}
@@ -116,7 +129,8 @@ def derive():
             elif ident in preserved:
                 row.update(disposition='preserved_review_disposition', source_disposition=preserved[ident]['reconciliation_class'], evidence=GAPS)
             elif historic == 'not_applicable':
-                row.update(disposition='downstream_stage_obligation', owner=526, evidence=DENOM)
+                stage = stages[row['work_package']]
+                row.update(disposition=stage['status'], owner=stage['owner'], source_issue=stage['source_issue'], observed_issue_state=stage['observed_issue_state'], evidence=DENOM)
             else:
                 row.update(disposition='historical_evidence_retained', evidence=DENOM)
             rows.append(row)
@@ -125,7 +139,7 @@ def derive():
     features = []
     for feature in old['features']:
         members = [r for r in rows if r['work_package'] in feature['work_packages']]
-        features.append({'id': feature['id'], 'name': feature['name'], 'work_packages': feature['work_packages'], 'delivery_status': feature['delivery_status'], 'bounded_demo_status': feature['demo_status'], 'demo_scope': feature['demo_scope'], 'retained_gate_counts': dict(sorted(Counter(r['disposition'] for r in members).items())), 'release_status': 'awaiting_final_gate', 'owner': 522})
+        features.append({'id': feature['id'], 'name': feature['name'], 'work_packages': feature['work_packages'], 'delivery_status': feature['delivery_status'], 'delivered_scope':feature['delivered'], 'bounded_demo_status': feature['demo_status'], 'demo_scope': feature['demo_scope'], 'retained_gate_counts': dict(sorted(Counter(r['disposition'] for r in members).items())), 'release_status': 'awaiting_final_gate', 'owner': 522})
     blockers = [
         {'id': 'FINAL-GATE-821', 'owner': 522, 'rows': sorted(pending), 'status': 'unresolved', 'reason': 'PR829 merged preparation only. No final candidate proof exists for these four obligations.'},
         {'id': 'CURRENT-CANDIDATE-PROOF', 'owner': 835, 'rows': sorted(r['id'] for r in rows if r['disposition'] == 'execution_refresh_required'), 'status': 'unresolved', 'reason': 'The 51 #819 execution receipts target an older candidate; changed proof producers require explicit refresh.'},
@@ -133,7 +147,7 @@ def derive():
     checklist = []
     for r in old['checklist']:
         checklist.append({'id': r['id'], 'obligation': r['obligation'], 'retained_status': r['status'], 'retained_evidence': r['evidence'], 'retained_disposition': r['disposition'], 'current_disposition': 'retained_bounded_evidence' if r['status'] in ('proved', 'not_applicable', 'deferred') else 'final_gate_review_required', 'owner': None if r['status'] in ('proved', 'not_applicable', 'deferred') else 522})
-    return {'schema': 'adl.v0921.release_status_projection.v2', 'issue': 835, 'candidate': CANDIDATE, 'authority_snapshot_revision': subprocess.check_output(['git','rev-parse',AUTHORITY_REVISION],cwd=ROOT,text=True).strip(), 'release_decision': 'blocked', 'release_authorized': False, 'sources': sources, 'inventory_count': len(rows), 'original_required_count': denom['required_lane_count'], 'approved_removal_count': 143, 'remaining_required_count': denom['required_lane_count'] - 143, 'remediation_count': 198, 'preserved_and_separately_accounted_count': 32, 'excluded_accounting_count': 15, 'disposition_counts': dict(sorted(Counter(r['disposition'] for r in rows).items())), 'rows': sorted(rows,key=lambda r:r['id']), 'features': features, 'work_packages': [{'id': w['id'], 'issue': w['issue'], 'implementation_revision': w['implementation_revision'], 'implementation_evidence': w['implementation_evidence'], 'release_status': 'awaiting_final_gate', 'owner': 522} for w in old['work_packages']], 'checklist': checklist, 'exclusions': old['exclusions'], 'blockers': blockers, 'release_tail': [{'id': x, 'status': 'awaiting_final_gate' if x != 'TAIL-10' else 'ceremony_not_run', 'owner': 522 if x != 'TAIL-10' else 526} for x in ['TAIL-05','TAIL-06','TAIL-10']]}
+    return {'schema': 'adl.v0921.release_status_projection.v2', 'issue': 835, 'candidate': CANDIDATE, 'authority_snapshot_revision': subprocess.check_output(['git','rev-parse',AUTHORITY_REVISION],cwd=ROOT,text=True).strip(), 'release_decision': 'blocked', 'release_authorized': False, 'sources': sources, 'inventory_count': len(rows), 'original_required_count': denom['required_lane_count'], 'approved_removal_count': 143, 'remaining_required_count': denom['required_lane_count'] - 143, 'remediation_count': 198, 'preserved_and_separately_accounted_count': 32, 'excluded_accounting_count': 15, 'disposition_counts': dict(sorted(Counter(r['disposition'] for r in rows).items())), 'rows': sorted(rows,key=lambda r:r['id']), 'features': features, 'work_packages': [{'id': w['id'], 'issue': w['issue'], 'implementation_revision': w['implementation_revision'], 'implementation_evidence': [{'path':path, 'revision':next(x['revision'] for x in old['sources'] if x['path']==path)} for path in w['implementation_evidence']], 'retained_classifications':w['retained_classifications'], 'delivery_basis':w['delivery_basis'], 'release_status': 'awaiting_final_gate', 'owner': 522} for w in old['work_packages']], 'checklist': checklist, 'exclusions': old['exclusions'], 'blockers': blockers, 'release_tail':list(stages.values())}
 
 
 def render(data):
@@ -161,17 +175,32 @@ PR #829 merged preparation only. Its four final #821 obligations remain unresolv
     for key,title in DOC_TITLES.items():
         text=f'# {title} — v0.92.1\n\n'+intro
         if key=='MILESTONE_CHECKLIST':
-            text+='\n## Complete checklist denominator\n\nRetained status describes its bounded historical evidence, not a new candidate pass.\n\n| ID | Obligation | Current disposition | Retained status | Owner |\n|---|---|---|---|---|\n'
+            text+='\n## Complete checklist denominator\n\nRetained status describes its bounded historical evidence, not a new candidate pass.\n\n| ID | Obligation | Current disposition | Retained status | Owner | Evidence and retained rationale |\n|---|---|---|---|---|---|\n'
             for r in data['checklist']:
-                text+=f"| {r['id']} | {r['obligation']} | {r['current_disposition']} | {r['retained_status']} | {r['owner'] or 'none'} |\n"
+                text+=f"| {r['id']} | {r['obligation']} | {r['current_disposition']} | {r['retained_status']} | {r['owner'] or 'none'} | [Evidence]({r['retained_evidence']}) — {r['retained_disposition']} |\n"
         else:
             text+='\n## Bounded feature and demo evidence\n\n'
             for f in data['features']:
-                text+=f"### {f['name']}\n\nRetained demo status: {f['bounded_demo_status']}. {f['demo_scope']}\n\n"
+                text+=f"### {f['name']}\n\n{f['delivered_scope']}\n\nRetained demo status: {f['bounded_demo_status']}. {f['demo_scope'].replace('are linked below', 'are linked in the evidence map')} [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#{f['id'].lower()}).\n\n"
         outputs[f'{BASE}/{key}_v0.92.1.md']=(text.rstrip()+'\n').encode()
     evidence='# Complete release-gate evidence map\n\nCandidate: `'+data['candidate']+'`. No rows omitted or removals called passes.\n\n| ID | Current disposition | Historical result | Source issue |\n|---|---|---|---|\n'
     for r in data['rows']:
         evidence+=f"| {r['id']} | {r['disposition']} | {r['historical_result']} | {r.get('source_issue','retained inventory')} |\n"
+    for feature in data['features']:
+        evidence += f"\n## {feature['id']}\n\n**{feature['name']}** — {feature['delivered_scope']}\n\nThe links below retain their source-time revision and scope; they do not establish a new candidate pass.\n"
+        for work in data['work_packages']:
+            if work['id'] not in feature['work_packages']: continue
+            evidence += f"\n### {work['id']} — [#{work['issue']}](https://github.com/agent-logic/agent-design-language/issues/{work['issue']})\n\n{work['delivery_basis']} Retained classifications: `{json.dumps(work['retained_classifications'], sort_keys=True)}`.\n\n"
+            if work['implementation_revision']:
+                evidence += f"Implementation revision: `{work['implementation_revision']}`.\n\n"
+            for ref in work['implementation_evidence']:
+                evidence += f"- [{ref['path']}](https://github.com/agent-logic/agent-design-language/blob/{ref['revision']}/{ref['path']})\n"
+        if not feature['work_packages']:
+            # Podcast is retained outside the numbered execution wave.
+            old = load(CANDIDATE, PACKET + '/status.json')
+            for ref in old['sources']:
+                if '/262/' in ref['path'] or '/264/' in ref['path']:
+                    evidence += f"- [{ref['path']}](https://github.com/agent-logic/agent-design-language/blob/{ref['revision']}/{ref['path']})\n"
     outputs[PACKET+'/EVIDENCE_MAP.md']=evidence.encode()
     outputs[PACKET+'/status.json']=encoded(data)
     outputs[PACKET+'/issue-observation.json']=encoded({'schema':'adl.release_issue_observation.v2','repository':'agent-logic/agent-design-language','candidate':CANDIDATE,'snapshot_revision':data['authority_snapshot_revision'],'issues':load(AUTHORITY_REVISION,'.csdlc/evidence/835/issue-observation.json')})
@@ -205,10 +234,13 @@ def main():
     for field,value in [('proposal_digest','0'*64),('behavioral_pass',True),('disposition','behavioral_pass')]:
         m=copy.deepcopy(data);next(r for r in m['rows'] if r['disposition']=='approved_removal')[field]=value;mutants.append(m)
     m=copy.deepcopy(data);m['blockers']=[];mutants.append(m)
+    m=copy.deepcopy(data);next(r for r in m['rows'] if r['disposition']=='approved_removal')['authority']['pr']=829;mutants.append(m)
+    m=copy.deepcopy(data);next(r for r in m['rows'] if r['work_package']=='INT-01' and r.get('owner'))['owner']=526;mutants.append(m)
     for m in mutants:
         assert validate(m,render(m)), 'coordinated invalid projection accepted'
     changed=dict(files);changed[next(p for p in files if p.endswith('.md'))]+=b'\nContradictory extra projection\n';assert validate(data,changed)
-    print(json.dumps({'status':'pass','candidate':CANDIDATE,'rows':len(data['rows']),'approved_removals':143,'negative_cases':len(mutants)+1,'release_decision':data['release_decision']}))
+    missing_links=dict(files);missing_links[PACKET+'/EVIDENCE_MAP.md']=b'# Evidence map without feature anchors or links\n';assert validate(data,missing_links)
+    print(json.dumps({'status':'pass','candidate':CANDIDATE,'rows':len(data['rows']),'approved_removals':143,'negative_cases':len(mutants)+2,'release_decision':data['release_decision']}))
     if args.require_ready and (data['release_decision']!='ready' or any(b['status']=='unresolved' for b in data['blockers'])):
         raise SystemExit('release readiness refused: unresolved final proof and review blockers')
 

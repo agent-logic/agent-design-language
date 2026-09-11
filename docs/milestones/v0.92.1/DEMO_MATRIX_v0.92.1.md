@@ -13,7 +13,8 @@ PR #829 merged preparation only. Its four final #821 obligations remain unresolv
 | Disposition | Rows |
 |---|---:|
 | approved_removal | 143 |
-| downstream_stage_obligation | 27 |
+| awaiting_final_gate | 24 |
+| ceremony_not_run | 3 |
 | execution_refresh_required | 51 |
 | final_gate_proof_required | 4 |
 | historical_evidence_retained | 136 |
@@ -40,8 +41,16 @@ PR #829 merged preparation only. Its four final #821 obligations remain unresolv
 
 ### Release-tail stages
 
-- TAIL-05: awaiting_final_gate (#522).
+- INT-01: awaiting_final_gate (#522).
+- TAIL-01: awaiting_final_gate (#522).
+- TAIL-02: awaiting_final_gate (#522).
+- TAIL-03: awaiting_final_gate (#522).
+- TAIL-04: awaiting_final_gate (#522).
+- TAIL-05: awaiting_final_gate (#521).
 - TAIL-06: awaiting_final_gate (#522).
+- TAIL-07: awaiting_final_gate (#522).
+- TAIL-08: awaiting_final_gate (#524).
+- TAIL-09: awaiting_final_gate (#525).
 - TAIL-10: ceremony_not_run (#526).
 
 ### Scope exclusions
@@ -57,56 +66,84 @@ Validate with `python3 .csdlc/prepared/issues/835/project_release.py --check`. `
 
 ### Repository and milestone opening
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Execution-wave creation receipt and repository planning delivered.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#repo).
 
 ### Corporate and IP
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Inventory, ownership transfer, operating-control acceptance and diligence packet retained. CORP-C has governed recordless acceptance.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#corp).
 
 ### C-SDLC v3
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Native command implementation and authenticated #505/PR591 cutover delivered.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#csdlc).
 
 ### Distributed multi-agent Runtime
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Distributed contract, continuity qualification and failure-mode implementation retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#drt).
 
 ### Podcast
 
-Retained demo status: proved. Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch.
+Episode/Studio package, feed hosting, HTTP feed/enclosure/range checks and public-hosting receipt retained.
+
+Retained demo status: proved. Only retained HTTP feed/enclosure/range compatibility and public-hosting artifact checks; actual browser/player playback remains unproved; not directory submission or public launch. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#pod).
 
 ### Axum configuration hot reload
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Config reload implementation and retained validation supplied by #510.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#hot).
 
 ### Observatory redesign
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+OBS-A captured absorption into OBS-B; authentic-browser proof retained under #512.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#obs).
 
 ### Runtime v2/v3 decoupling
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Runtime authority topology and generation ownership migration package retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#dec).
 
 ### Provider inference profiles
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Shared profile implementation and isolated comparison/shadow implementation retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#prov).
 
 ### GCP qualification sidecar
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Governed six-resident replay wrapper and retained run evidence delivered by #509.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#gcp-drt).
 
 ### AWS account move-in
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Seven phase implementation and receipt packages retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#aws).
 
 ### GCP account move-in
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Five phase packages plus #740 private/versioned backend recovery proof retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#gcp).
 
 ### Cross-cloud Terraform conversion
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Portable workload contract and AWS/GCP Terraform implementation retained.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#xcl).
 
 ### Rust resilience refactoring
 
-Retained demo status: blocked. Retained implementation/validation artifacts are linked below; a complete current candidate-bound demonstration is not established by this projection.
+Resilience owner-boundary refactoring and retained behavior checks supplied by #499.
+
+Retained demo status: blocked. Retained implementation/validation artifacts are linked in the evidence map; a complete current candidate-bound demonstration is not established by this projection. [Evidence map](evidence/release/current-status/EVIDENCE_MAP.md#rust).
