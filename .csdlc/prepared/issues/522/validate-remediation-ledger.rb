@@ -221,20 +221,24 @@ dispositions.each do |row|
     head_sha = remediation.fetch("head_sha")
     merge_sha = remediation.fetch("merge_sha")
     fail!("remediation head/merge identity is invalid") unless head_sha.match?(/\A[0-9a-f]{40}\z/) && merge_sha.match?(/\A[0-9a-f]{40}\z/)
-    issue_out, issue_err, issue_status = Open3.capture3("gh", "issue", "view", remediation_issue.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,closedByPullRequestsReferences")
+    issue_out, issue_err, issue_status = Open3.capture3("gh", "issue", "view", remediation_issue.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,closedAt,closedByPullRequestsReferences")
     fail!("cannot verify remediation issue: #{issue_err.strip}") unless issue_status.success?
     issue_doc = JSON.parse(issue_out)
     native_review_close = remediation["closure_kind"] == "native_review_close" && remediation_issue == 833 && remediation["closure_dependency_issue"] == 522
-    issue_matches = if native_review_close
-      issue_doc.fetch("state") == "OPEN"
-    else
-      issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
-    end
-    fail!("remediation issue closure does not match declared authority") unless issue_matches
     pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", remediation_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,headRefOid,mergeCommit")
     fail!("cannot verify remediation PR: #{pr_err.strip}") unless pr_status.success?
     pr_doc = JSON.parse(pr_out)
     fail!("remediation PR/head/merge identity is false") unless pr_doc.fetch("state") == "MERGED" && pr_doc.fetch("headRefOid") == head_sha && pr_doc.dig("mergeCommit", "oid") == merge_sha
+    issue_matches = if native_review_close
+      dependency_pr = 858
+      dependency_out, dependency_err, dependency_status = Open3.capture3("gh", "pr", "view", dependency_pr.to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,mergedAt")
+      fail!("cannot verify #833 closure dependency: #{dependency_err.strip}") unless dependency_status.success?
+      dependency = JSON.parse(dependency_out)
+      issue_doc.fetch("state") == "CLOSED" && dependency.fetch("state") == "MERGED" && issue_doc.fetch("closedAt") > dependency.fetch("mergedAt")
+    else
+      issue_doc.fetch("state") == "CLOSED" && issue_doc.fetch("closedByPullRequestsReferences").any? { |pr| pr.fetch("number") == remediation_pr }
+    end
+    fail!("remediation issue closure does not match declared post-dependency authority") unless issue_matches
     system("git", "merge-base", "--is-ancestor", merge_sha, ledger_candidate) or fail!("remediation merge is not ancestral to immutable ledger candidate")
     artifacts = remediation.fetch("artifacts")
     fail!("remediation has no immutable head artifacts") if artifacts.empty?
@@ -308,10 +312,13 @@ dispositions.each do |row|
       residuals.each do |residual|
         fail!("residual metadata is incomplete") unless %w[id owner_issue target_milestone status proof_rows rationale release_consequence].all? { |key| residual.key?(key) && !residual[key].to_s.empty? }
         fail!("residual is not explicitly operator-deferred to v0.92.2") unless residual.fetch("status") == "operator_deferred" && residual.fetch("target_milestone") == "v0.92.2" && residual.fetch("proof_rows") > 0
-        owner_out, owner_err, owner_status = Open3.capture3("gh", "issue", "view", residual.fetch("owner_issue").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,title")
+        owner_out, owner_err, owner_status = Open3.capture3("gh", "issue", "view", residual.fetch("owner_issue").to_s, "--repo", "agent-logic/agent-design-language", "--json", "state,title,author,body,createdAt,url")
         fail!("cannot verify residual owner: #{owner_err.strip}") unless owner_status.success?
         owner = JSON.parse(owner_out)
         fail!("residual owner must remain open and explicitly target v0.92.2") unless owner.fetch("state") == "OPEN" && owner.fetch("title").include?("v0.92.2")
+        authorization = residual.fetch("operator_authorization")
+        fail!("residual operator authorization identity is false") unless authorization.fetch("source") == "github_issue" && authorization.fetch("issue") == residual.fetch("owner_issue") && authorization.fetch("url") == owner.fetch("url") && authorization.fetch("author") == "danielbaustin" && owner.dig("author", "login") == "danielbaustin" && authorization.fetch("created_at") == owner.fetch("createdAt")
+        fail!("residual operator authorization digest or scope is false") unless Digest::SHA256.hexdigest(owner.fetch("body")) == authorization.fetch("body_sha256") && owner.fetch("body").include?(authorization.fetch("required_scope"))
       end
     end
     end

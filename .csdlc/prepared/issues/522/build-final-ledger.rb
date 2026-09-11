@@ -55,6 +55,14 @@ def pr_identity(number)
   [doc.fetch("headRefOid"), doc.dig("mergeCommit", "oid")]
 end
 
+def operator_authorization(issue, scope)
+  doc = JSON.parse(run!("gh", "issue", "view", issue.to_s, "--repo", REPOSITORY, "--json", "state,title,author,body,createdAt,url"))
+  body = doc.fetch("body")
+  abort("issue ##{issue} does not contain the required operator allocation") unless doc.dig("author", "login") == "danielbaustin" && body.include?(scope)
+  {"source" => "github_issue", "issue" => issue, "url" => doc.fetch("url"), "author" => doc.dig("author", "login"),
+   "created_at" => doc.fetch("createdAt"), "body_sha256" => Digest::SHA256.hexdigest(body), "required_scope" => scope}
+end
+
 review_path = File.join(ROOT, "candidate-review.json")
 validation_path = File.join(ROOT, "candidate-validation.json")
 identity_rows = ISSUES.to_h do |issue, (pull_request, paths)|
@@ -71,13 +79,16 @@ abort("candidate validation did not pass") unless validation_doc["outcome"] == "
 residuals = [
   {"id" => "MERGE-LINKAGE-001", "owner_issue" => 849, "target_milestone" => "v0.92.2", "status" => "operator_deferred", "proof_rows" => 4,
    "rationale" => "Publication-linkage proof remains explicitly deferred; it is not a behavioral pass.",
-   "release_consequence" => "The four affected criteria remain unproved in v0.92.1."},
+   "release_consequence" => "The four affected criteria remain unproved in v0.92.1.",
+   "operator_authorization" => operator_authorization(849, "Operator explicitly allocated this repair to **v0.92.2**")},
   {"id" => "EXECUTABLE-PROOF-ROWS", "owner_issue" => 852, "target_milestone" => "v0.92.2", "status" => "operator_deferred", "proof_rows" => 5,
    "rationale" => "Five evidence-linkage rows were moved by operator decision from superseded #851.",
-   "release_consequence" => "The five rows remain unproved and must not be represented as passes."},
+   "release_consequence" => "The five rows remain unproved and must not be represented as passes.",
+   "operator_authorization" => operator_authorization(852, "Deferred from #851 by operator instruction")},
   {"id" => "PROOF-INSUFFICIENT-ROWS", "owner_issue" => 852, "target_milestone" => "v0.92.2", "status" => "operator_deferred", "proof_rows" => 7,
    "rationale" => "Five cloud-control and two execution-proof rows lack sufficient proof.",
-   "release_consequence" => "The seven rows remain limitations, not behavioral passes."}
+   "release_consequence" => "The seven rows remain limitations, not behavioral passes.",
+   "operator_authorization" => operator_authorization(852, "separate five cloud-control and two execution-proof gaps")}
 ]
 
 semantic_dispositions = GROUPS.map do |ids, issues, resolution|
