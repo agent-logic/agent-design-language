@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.1][TAIL-04] Internal review"
 branch: "codex/520-internal-review"
 generated_at: "2026-09-09T19:19:55Z"
-card_status: "candidate_findings_captured"
+card_status: "exact_head_packet_review_passed"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/520/cards/sip.md"
   - ".csdlc/issues/520/cards/vpp.md"
 review_results:
-  findings_status: "fourteen_findings_routed_remediation_in_progress"
-  recommended_outcome: "changes_required_release_blocked"
-notes: "This records specialist-review results, not the still-pending independent exact-head review of the assembled #520 packet. Release remains blocked while any required remediation or retained proof is unresolved."
+  findings_status: "no_actionable_packet_findings_fourteen_candidate_findings_retained"
+  recommended_outcome: "packet_approved_for_publication_release_remains_blocked"
+notes: "Reviewer task: 01a08d62-1aa2-77c3-9ceb-ef803a85147e. Exact revision: 770980ccb68d06753f8b6b275bd7dffca4038889. Production suite: 20/20 negative cases. Full packet validator: PASS for 6,098 paths, 119 issues, 176 acceptance surfaces, nine assignments, and 14 retained candidate findings."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- The complete nine-lane second review found 14 unique defects: 5 P1, 7 P2, and 2 P3. Exact evidence and ownership are recorded in docs/milestones/v0.92.1/evidence/release/tail-04/findings.json and SECOND_REVIEW_SUMMARY.md.
+- Fresh independent exact-head review of 770980ccb68d06753f8b6b275bd7dffca4038889 found no additional actionable P0-P3 packet or lifecycle findings. The review packet itself passes. Its separate release-candidate verdict remains changes required for the 14 accepted product findings routed under #522.
 
 ### Dispositions
 
-- All 14 findings are accepted and routed under #522: runtime #814; cloud authorization #815; validation integrity #816; release truth and evidence hygiene #817; retained-proof execution #818-#821. No finding is waived or silently deferred.
+- All four prior exact-head packet findings were repaired: independent certification, packet-wide machine-local path redaction, exact manifest completeness, and truthful 74-artifact SOR count. The final context-aware portability repair also rejects bare filesystem /root paths while preserving logical actor identifiers. No packet finding is waived.
 
 ### Recommended Outcome
 
-- changes_required_release_blocked
+- packet_approved_for_publication_release_remains_blocked
 
 ## Notes
 
-This records specialist-review results, not the still-pending independent exact-head review of the assembled #520 packet. Release remains blocked while any required remediation or retained proof is unresolved.
+Reviewer task: 01a08d62-1aa2-77c3-9ceb-ef803a85147e. Exact revision: 770980ccb68d06753f8b6b275bd7dffca4038889. Production suite: 20/20 negative cases. Full packet validator: PASS for 6,098 paths, 119 issues, 176 acceptance surfaces, nine assignments, and 14 retained candidate findings.

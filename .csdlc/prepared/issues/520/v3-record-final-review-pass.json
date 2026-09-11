@@ -1,0 +1,33 @@
+{
+  "issue": 520,
+  "title": "[v0.92.1][TAIL-04] Internal review",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/520-internal-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-520-internal-review",
+  "registry_version": "1.0.5",
+  "expected_lifecycle_digest": "b18d76eb10bfeeb82a5a3bd064b25ee808d21065d988382f1c9a24c2a939f9c5",
+  "commands": ["prepare_issue", "bind_worktree", "edit_cards", "plan_pvf", "doctor", "schedule", "shepherd", "eligibility"],
+  "card_updates": {
+    "spp": {
+      "step_5_status": "exact_head_review_passed_publication_in_progress",
+      "notes_risks_inline": "Independent exact-head packet review passed at 770980ccb68d06753f8b6b275bd7dffca4038889 with no actionable packet findings. The packet truthfully retains 14 accepted candidate-product findings routed under #522. PR publication and hosted CI remain pending."
+    },
+    "srp": {
+      "status": "review_complete",
+      "card_status": "exact_head_packet_review_passed",
+      "findings_status": "no_actionable_packet_findings_fourteen_candidate_findings_retained",
+      "recommended_outcome": "packet_approved_for_publication_release_remains_blocked",
+      "review_findings": "Fresh independent exact-head review of 770980ccb68d06753f8b6b275bd7dffca4038889 found no additional actionable P0-P3 packet or lifecycle findings. The review packet itself passes. Its separate release-candidate verdict remains changes required for the 14 accepted product findings routed under #522.",
+      "review_dispositions": "All four prior exact-head packet findings were repaired: independent certification, packet-wide machine-local path redaction, exact manifest completeness, and truthful 74-artifact SOR count. The final context-aware portability repair also rejects bare filesystem /root paths while preserving logical actor identifiers. No packet finding is waived.",
+      "review_notes": "Reviewer task: 01a08d62-1aa2-77c3-9ceb-ef803a85147e. Exact revision: 770980ccb68d06753f8b6b275bd7dffca4038889. Production suite: 20/20 negative cases. Full packet validator: PASS for 6,098 paths, 119 issues, 176 acceptance surfaces, nine assignments, and 14 retained candidate findings."
+    },
+    "sor": {
+      "integration_state": "bound_worktree_exact_head_review_passed_publication_pending",
+      "integration_result": "Independent exact-head review passed commit 770980ccb68d06753f8b6b275bd7dffca4038889 with no actionable packet findings; publication and hosted CI remain pending.",
+      "validation_result": "Twenty production negative cases, full exact-candidate packet validation, 74-artifact manifest verification, JSON parsing, path portability, and diff hygiene pass.",
+      "verification_validation_status": "local_packet_and_exact_head_review_pass_hosted_ci_pending",
+      "replay_result": "passed at exact reviewed head 770980ccb68d06753f8b6b275bd7dffca4038889",
+      "follow_up_2": "Publish the reviewed exact head, shepherd required hosted CI green, and reconcile terminal truth without changing the reviewed packet bytes."
+    }
+  }
+}

@@ -86,13 +86,13 @@ Completed the complete nine-lane second review of frozen candidate fb6cbc7f619da
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `None; preparation is committed only on the bound #520 branch until review execution and publication.`
 - Worktree-only paths remaining: `All #520 preparation and future review artifacts remain on the bound branch until publication.`
-- Integration state: `bound_worktree_review_complete_publication_pending`
+- Integration state: `bound_worktree_exact_head_review_passed_publication_pending`
 - Verification scope: `exact frozen candidate and complete TAIL-04 second-review packet`
 - Integration method used: `native C-SDLC v3 lifecycle and authenticated typed GitHub issue mutations`
 - Verification performed:
   - `ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check; jq parse of every packet JSON file`
     `Proves 20 fail-closed negative cases, exact manifest coverage, context-aware packet-wide path portability, exact-candidate packet structure and counts, patch hygiene, and JSON readability.`
-- Result: `Local review packet validation passes; independent exact-head review and PR publication remain pending.`
+- Result: `Independent exact-head review passed commit 770980ccb68d06753f8b6b275bd7dffca4038889 with no actionable packet findings; publication and hosted CI remain pending.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/test-production-validator.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb; git diff --check`
     `Assembles deterministic review artifacts and rejects candidate drift, missing denominators, omitted packet artifacts, machine-local paths, non-proving lanes, unsupported findings, count mismatches, and malformed packet truth.`
 - Results:
-  - `Fourteen findings captured; production negative suite and full packet validator pass at the frozen candidate.`
+  - `Twenty production negative cases, full exact-candidate packet validation, 74-artifact manifest verification, JSON parsing, path portability, and diff hygiene pass.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: local_packet_pass_exact_head_review_pending
+    status: local_packet_and_exact_head_review_pass_hosted_ci_pending
     checks_run:
       - "production negative fixtures and exact-candidate full packet validator pass"
   determinism:
@@ -160,7 +160,7 @@ verification_summary:
 - Trace bundle path(s): `docs/milestones/v0.92.1/evidence/release/tail-04`
 - Run artifact root: `docs/milestones/v0.92.1/evidence/release/tail-04`
 - Replay command used for verification: `ruby docs/milestones/v0.92.1/evidence/release/tail-04/assemble-review.rb; ruby .csdlc/prepared/issues/520/validate-internal-review.rb`
-- Replay result: `passed before exact-head packet review`
+- Replay result: `passed at exact reviewed head 770980ccb68d06753f8b6b275bd7dffca4038889`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-04/findings.json`
@@ -175,4 +175,4 @@ verification_summary:
 
 ## Follow-ups / Deferred work
 - `Complete and verify all #814-#821 remediation, with #821 dependency-last.`
-- `Obtain independent exact-head #520 packet review, fix any packet findings, publish, shepherd CI, and reconcile terminal truth.`
+- `Publish the reviewed exact head, shepherd required hosted CI green, and reconcile terminal truth without changing the reviewed packet bytes.`

@@ -82,7 +82,7 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress_exact_head_review_and_publication"
+    status: "exact_head_review_passed_publication_in_progress"
 affected_areas:
   - "tail-04-internal-review"
 invariants_to_preserve:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Fourteen unique defects are captured and routed to #814-#821. #520 remains open until independent exact-head packet review, publication, and truthful terminal reconciliation complete."
+notes: "Independent exact-head packet review passed at 770980ccb68d06753f8b6b275bd7dffca4038889 with no actionable packet findings. The packet truthfully retains 14 accepted candidate-product findings routed under #522. PR publication and hosted CI remain pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress_exact_head_review_and_publication] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [exact_head_review_passed_publication_in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Fourteen unique defects are captured and routed to #814-#821. #520 remains open until independent exact-head packet review, publication, and truthful terminal reconciliation complete.
+Independent exact-head packet review passed at 770980ccb68d06753f8b6b275bd7dffca4038889 with no actionable packet findings. The packet truthfully retains 14 accepted candidate-product findings routed under #522. PR publication and hosted CI remain pending.
