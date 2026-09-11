@@ -890,7 +890,7 @@ Structured schema:
 ### Preferred Commands
 
 - `csdlc github-issue --request <issue-create-request.json> --execute`
-- `csdlc issue --request <bootstrap-request.json> --registry docs/templates/prompts/current.json`
+- `csdlc issue --request <bootstrap-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>`
 
 For `create_and_bootstrap`, the expected machine-safe path is:
 

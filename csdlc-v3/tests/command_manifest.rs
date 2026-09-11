@@ -515,6 +515,15 @@ fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
         ".adl/bin/csdlc",
         "native install and cutover must share one stable destination"
     );
+    let operational_guide =
+        fs::read_to_string(root.join("adl/tools/skills/docs/OPERATIONAL_SKILLS_GUIDE.md"))
+            .expect("operational skills guide");
+    assert!(
+        operational_guide.contains(
+            "csdlc issue --request <bootstrap-request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>"
+        ),
+        "documented native issue route must include its required registrations input"
+    );
 }
 
 #[test]
