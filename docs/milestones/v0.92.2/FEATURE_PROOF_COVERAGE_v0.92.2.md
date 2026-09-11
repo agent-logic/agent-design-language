@@ -72,3 +72,7 @@ Every implementation owner named above must exercise its real consumer, success 
 | Remote command decomposition | CSDLC-REMOTE | Remote behavior parity, transport failure handling and recursive source accounting |
 
 The eleven strengthened contracts also require a complete selected Rust responsibility, finished selected article/manuscript revision, installed SIM-03 command inventory and production SIM-04 transaction-owner proof. Planning outputs remain separate evidence categories.
+
+## First sprint creation state
+
+SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectively. The [verified mapping](../../../.csdlc/evidence/864/sprint01-launch/issues.json) records native creation. These ten issues join nine preexisting bindings: 19 assigned issues and 50 unassigned tasks in the unchanged 69-row milestone. Creation does not claim implementation or authorize live activation. Later sprint creation remains separately authorized.

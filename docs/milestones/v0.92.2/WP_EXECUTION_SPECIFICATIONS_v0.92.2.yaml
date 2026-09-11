@@ -5,7 +5,7 @@ specifications:
   - id: WP-01
     outcome: A reviewed canonical package and bounded, dependency-correct execution wave.
     owned_surfaces: [docs/milestones/v0.92.2]
-    acceptance: [inventory_complete, issue_wave_number_free, no_unapproved_issue_creation, release_tail_exact]
+    acceptance: [inventory_complete, uncreated_rows_number_free, no_unapproved_issue_creation, release_tail_exact]
     pvf: [docs_contract, yaml_contract, link_integrity]
     stop_conditions: [missing_authority, unresolved_scope_conflict]
     non_goals: [implementation, release_approval]
@@ -398,6 +398,7 @@ specifications:
     stop_conditions: [unsupported_architecture_claim, missing_decision_owner, hidden_implementation_scope, accidental_acceptance_of_candidate]
     non_goals: [implementing_architecture, approving_adrs_without_operator_authority, rewriting_historical_adrs]
   - id: SIM-UMBRELLA
+    issue: 866
     outcome: "One sprint scorecard reconciles every independently owned SIM result after SIM-09."
     owned_surfaces: ["csdlc_v3_simplification/sim-umbrella"]
     acceptance: ["Every SIM result is accounted for and the sprint closes without duplicating implementation scope.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -406,6 +407,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-01
+    issue: 867
     outcome: "Diagnostics observe healthy, interrupted, missing, and corrupt state without mutating it."
     owned_surfaces: ["csdlc_v3_simplification/sim-01"]
     acceptance: ["Diagnostics leave issue files, journals, registrations, and projections unchanged for healthy, interrupted, missing, and corrupt state. They report recovery-required explicitly. Retain baseline traces, environment identity, manual inputs and outcome denominators; exercise root and genuine non-primary worktree entrypoints.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -414,6 +416,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-02
+    issue: 868
     outcome: "Define the single current command contract and separate historical construction fixtures/guidance from operational discovery. Preserve historical bytes where they are retained proof."
     owned_surfaces: ["csdlc_v3_simplification/sim-02"]
     acceptance: ["Installed executable provenance, help, schemas, nested guidance, command descriptors, and tests agree about current authority and effects; no automatic construction fallback on operational errors.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -422,6 +425,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-03
+    issue: 869
     outcome: "The installed intent CLI executes the declared local and remote command inventory against production operations, resolving context and evidence internally while preserving guards."
     owned_surfaces: ["csdlc_v3_simplification/sim-03"]
     acceptance: ["New callers supply intent and changed content rather than hand-built context/receipt chains; stale requests, ambiguous topology, wrong repository, and stale review are rejected.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "command_inventory_frozen_before_creation", "installed_public_journeys_execute", "context_resolved_internally"]
@@ -431,7 +435,9 @@ specifications:
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     completion_contract: {"task": "The installed intent CLI executes the declared local and remote command inventory against production operations, resolving context and evidence internally while preserving guards.", "consumer": "installed_csdlc_intent_commands", "success_evidence": ["command_inventory_frozen_before_creation", "installed_public_journeys_execute", "context_resolved_internally"], "failure_evidence": ["schema_only_rejected", "unimplemented_route_rejected", "stale_review_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
     selection_gates: ["supported_installed_command_inventory"]
+    selection_resolution: {status: resolved_before_creation, issue: 869, source: ".csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md", consumer: "self_contained_issue_869_body"}
   - id: SIM-04
+    issue: 870
     outcome: "The operational application routes every local transition and verified remote/terminal outcome through one semantic issue transaction owner, proven at actual entrypoints under crash and concurrency."
     owned_surfaces: ["csdlc_v3_simplification/sim-04"]
     acceptance: ["Every mutating journey is visible in one issue generation/audit history; no command writes an independent lifecycle phase or terminal truth. Crash and concurrent-writer proofs cover real application entrypoints. Recommended transitions remain admissible against unchanged relevant facts; supported amendments and interruptions have finite legal recovery.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "all_mutating_paths_use_owner", "production_crash_recovery", "generation_conflict_rejected"]
@@ -441,6 +447,7 @@ specifications:
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     completion_contract: {"task": "The operational application routes every local transition and verified remote/terminal outcome through one semantic issue transaction owner, proven at actual entrypoints under crash and concurrency.", "consumer": "csdlc_application_transaction_owner", "success_evidence": ["all_mutating_paths_use_owner", "production_crash_recovery", "generation_conflict_rejected"], "failure_evidence": ["unused_library_rejected", "independent_shadow_phase_rejected", "unfenced_activation_rejected"], "reject_completion": ["plan_only", "schema_only", "scaffold_only", "unspecified_slice", "zero_executed_scenarios"], "result_type": "implementation"}
   - id: SIM-05
+    issue: 871
     outcome: "Derive the six cards and separate semantic versus projection integrity. Provide explicit projection rebuild through the transaction/application owner."
     owned_surfaces: ["csdlc_v3_simplification/sim-05"]
     acceptance: ["Projection-only drift is classified independently; semantic changes invalidate the right evidence; regeneration is deterministic and cannot invent acceptance or completion. Classify scope/acceptance, plan, proof, binding, implementation, review and display changes; declare source states, prerequisites, resulting state and affected evidence with causal invalidation records.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -449,6 +456,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-06
+    issue: 872
     outcome: "One fenced, restorable conversion rehearsal succeeds on representative copied records."
     owned_surfaces: ["csdlc_v3_simplification/sim-06"]
     acceptance: ["Exact census, lossless semantic mapping, old/new revision evidence, interrupted-conversion recovery, and pre-resume restore all pass. Unsupported records stop conversion with an issue-specific disposition.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution"]
@@ -457,6 +465,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-07
+    issue: 873
     outcome: "One independent qualification records pass, fail, or not-proven for the complete candidate."
     owned_surfaces: ["csdlc_v3_simplification/sim-07"]
     acceptance: ["No unresolved actionable review findings; required aggregate CI settled; conversion/readback and all pre-resume acceptance gates have an explicit result.", "preserve_authority_review_and_cleanup_guards", "reconcile_current_owners_before_execution", "pre_resume_qualification_before_activation"]
@@ -465,6 +474,7 @@ specifications:
     non_goals: ["Runtime_implementation", "unrelated_backlog", "unapproved_live_conversion"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-08
+    issue: 874
     outcome: "One reviewed transition operations packet defines deployment, rollback, and prospective measurement without activating writers."
     owned_surfaces: ["csdlc_v3_simplification/sim-08"]
     acceptance: ["Deployment and rollback steps are executable and the measurement denominator is explicit.", "preserve_authority_review_and_cleanup_guards"]
@@ -473,6 +483,7 @@ specifications:
     non_goals: ["live_activation", "Runtime_implementation"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
   - id: SIM-09
+    issue: 875
     outcome: "One separately authorized consecutive-issue pilot records every attempt, failure, abandonment, and final disposition."
     owned_surfaces: ["csdlc_v3_simplification/sim-09"]
     acceptance: ["Separate pause and activation authority exists; the consecutive denominator is complete; reliability claims remain bounded by exposure."]

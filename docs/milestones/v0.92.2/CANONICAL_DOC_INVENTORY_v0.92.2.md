@@ -59,6 +59,6 @@ The package validator should require every inventory row, parse both YAML files,
 
 ## Current scope and historical evidence
 
-Active Markdown projections, both execution YAML files and the atomic-task manifest must agree on the 69-task wave, nine existing bindings, 60 prospective tasks, eight splits, eleven completion contracts and seven retained planning tasks. Feature owner tables and release proof must use the split consumers rather than the former bundled owners.
+Active Markdown projections, both execution YAML files and the atomic-task manifest must agree on the 69-task wave, 19 assigned issues (nine preexisting plus ten newly created SIM issues), 50 prospective tasks, eight splits, eleven completion contracts and seven retained planning tasks. Feature owner tables and release proof must use the split consumers rather than the former bundled owners.
 
 The statistical study directory and `evidence/issue-523/` preserve historical observations and source provenance. Their original counts and recommendations are not the current task denominator and are not rewritten by this correction. The tracked simplification plan remains active planning; its source-promotion manifest identifies the original promoted bytes rather than certifying later edits.

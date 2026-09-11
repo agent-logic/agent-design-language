@@ -43,7 +43,7 @@ The earlier v0.93-v0.95 CodeFriend alpha schedule is superseded for Beta 1 scope
 
 Reuse #720, #848, #849, #852, #854, #855, #861, and #862 for their mapped execution rows; #864 is WP-01. #848 delivers the repository-decomposition decision only and does not itself authorize split implementation. #717 capability orientation and #718 canonical-name A2A are v0.92.1 predecessor inputs. Other backlog is excluded. See [existing issue reconciliation](EXISTING_ISSUE_RECONCILIATION_v0.92.2.md) and [adopted design contracts](ADOPTED_DESIGN_CONTRACTS_v0.92.2.md).
 
-The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It does not wait for CodeFriend startup. The complete work denominator is 69 rows: nine existing bindings and 60 prospective creations. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
+The first coherent sprint is the ten-issue C-SDLC simplification program: one umbrella plus SIM-01 through SIM-09 in dependency order. It does not wait for CodeFriend startup. The complete work denominator is 69 rows: 19 assigned issues (nine preexisting plus ten newly created SIM issues #866–#875) and 50 prospective creations. The first sprint is created; implementation and live activation are not claimed. v0.92.2 delivers Beta 1; v0.95 integrates and hardens it toward MVP convergence, not first implementation.
 
 ## Complete-task delivery
 

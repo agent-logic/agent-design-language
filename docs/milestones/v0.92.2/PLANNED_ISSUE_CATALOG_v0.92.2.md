@@ -53,16 +53,16 @@ Status: planned catalog reconciled to the existing v0.92.2 issue inventory. Uncr
 | 47 | OBS-LIVE (#720) | Remove retained-mode demo hazards | Reuse existing; Own readiness |
 | 48 | OBS-S3 | Deploy the existing Observatory S3 and CloudFront sidecar | Separate creation authorization; WP-01, OBS-LIVE; completed-v0.92.1-issue-679, merged-v0.92.1-pr-685 |
 | 49 | ARCH-ADR | Generate and reconcile the ADRs required by v0.92.2 | Separate creation authorization; WP-01 |
-| 50 | SIM-UMBRELLA | Coordinate the first C-SDLC simplification sprint | Separate creation authorization; SIM-09 |
-| 51 | SIM-01 | Make diagnostics observably read-only | Separate creation authorization; Own readiness |
-| 52 | SIM-02 | One current installed command contract | Separate creation authorization; SIM-01 |
-| 53 | SIM-03 | Execute the supported installed intent-command inventory | Separate creation authorization; SIM-02 |
-| 54 | SIM-04 | Route operational mutations through one semantic transaction owner | Separate creation authorization; SIM-03 |
-| 55 | SIM-05 | Derived cards and precise evidence invalidation | Separate creation authorization; SIM-04 |
-| 56 | SIM-06 | Deliver one safe conversion rehearsal | Separate creation authorization; SIM-05 |
-| 57 | SIM-07 | Produce one independent transition qualification | Separate creation authorization; SIM-06 |
-| 58 | SIM-08 | Produce one transition operations packet | Separate creation authorization; SIM-07 |
-| 59 | SIM-09 | Run one authorized consecutive-issue pilot | Separate creation authorization; SIM-08 |
+| 50 | SIM-UMBRELLA (#866) | Coordinate the first C-SDLC simplification sprint | Created first sprint; SIM-09 |
+| 51 | SIM-01 (#867) | Make diagnostics observably read-only | Created first sprint; Own readiness |
+| 52 | SIM-02 (#868) | One current installed command contract | Created first sprint; SIM-01 |
+| 53 | SIM-03 (#869) | Execute the supported installed intent-command inventory | Created first sprint; SIM-02 |
+| 54 | SIM-04 (#870) | Route operational mutations through one semantic transaction owner | Created first sprint; SIM-03 |
+| 55 | SIM-05 (#871) | Derived cards and precise evidence invalidation | Created first sprint; SIM-04 |
+| 56 | SIM-06 (#872) | Deliver one safe conversion rehearsal | Created first sprint; SIM-05 |
+| 57 | SIM-07 (#873) | Produce one independent transition qualification | Created first sprint; SIM-06 |
+| 58 | SIM-08 (#874) | Produce one transition operations packet | Created first sprint; SIM-07 |
+| 59 | SIM-09 (#875) | Run one authorized consecutive-issue pilot | Created first sprint; SIM-08 |
 | 60 | TAIL-01 | Quality gate | Separate creation authorization; CF-INTEGRATE, CF-PROOF, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, ARCH-SPLIT, CSDLC-MERGE, QUAL-RUNTIME, QUAL-RESIDENT, QUAL-PROVIDER, QUAL-INVENTORY, QUAL-EVIDENCE, RT-COST, CSDLC-MAN, CSDLC-DECOMPOSE, CSDLC-REMOTE, SIM-UMBRELLA |
 | 61 | TAIL-02 | Documentation review and external-review handoff | Separate creation authorization; TAIL-01 |
 | 62 | TAIL-03 | Publication finalization | Separate creation authorization; TAIL-02 |
@@ -81,3 +81,7 @@ Each catalog row owns one primary result. Lists of supporting artifacts or proof
 ## Deferred, Not Missing
 
 Jira, Linear, Slack, broad Workspace integrations, autonomous mutation, public customer-scale or multi-tenant deployment, security tournaments, ATE, OCI packaging, optional OpenRewrite/modernization, and Runtime v4 are intentionally outside this catalog. The bounded static Observatory sidecar is admitted only through `OBS-S3`; NVIDIA PAIR and GCP move-in residuals are admitted only through `PLAT-PAIR` and `OPS-GCP`.
+
+## First sprint creation state
+
+SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectively. The [verified mapping](../../../.csdlc/evidence/864/sprint01-launch/issues.json) records native creation. These ten issues join nine preexisting bindings: 19 assigned issues and 50 unassigned tasks in the unchanged 69-row milestone. Creation does not claim implementation or authorize live activation. Later sprint creation remains separately authorized.

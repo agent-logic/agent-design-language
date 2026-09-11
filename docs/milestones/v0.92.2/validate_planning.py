@@ -157,8 +157,9 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         "CSDLC-MAN": ["WP-01"],
         "CSDLC-DECOMPOSE": ["WP-01"],
     }
+    created_sprint01 = {'SIM-UMBRELLA': 866, 'SIM-01': 867, 'SIM-02': 868, 'SIM-03': 869, 'SIM-04': 870, 'SIM-05': 871, 'SIM-06': 872, 'SIM-07': 873, 'SIM-08': 874, 'SIM-09': 875}
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
-    if actual_existing != expected_existing:
+    if actual_existing != expected_existing | created_sprint01:
         failures.append("Existing issue bindings differ from the reconciled v0.92.2 inventory")
     for key, issue in expected_existing.items():
         row = by_id.get(key, {})
@@ -166,6 +167,9 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
             failures.append(f"{key} lost its existing-authority dependency contract")
         if spec_by_id.get(key, {}).get("issue") != issue:
             failures.append(f"{key} specification lost existing identity")
+    for key, issue in created_sprint01.items():
+        if by_id.get(key, {}).get("creation_policy") != "created_sprint01" or spec_by_id.get(key, {}).get("issue") != issue:
+            failures.append(f"{key} lost its reviewed first-sprint issue identity")
     for n in range(1, 10):
         key = f"SIM-{n:02}"
         expected = [] if n == 1 else [f"SIM-{n-1:02}"]
@@ -311,6 +315,13 @@ def negative_checks(wave, specs, source_manifest, reconciliation):
                 if mutation in ("both", "spec"):
                     next(r for r in s["specifications"] if r["id"] == "TAIL-10")[field].remove(item)
                 cases.append((f"final closeout loses {item} in {mutation}", w, s))
+    for key in ["SIM-UMBRELLA"] + [f"SIM-{n:02}" for n in range(1, 10)]:
+        broken = copy.deepcopy(wave)
+        next(r for r in broken["work_packages"] if r["id"] == key)["issue"] = None
+        cases.append((f"lost first-sprint identity {key}", broken, specs))
+        broken = copy.deepcopy(specs)
+        next(r for r in broken["specifications"] if r["id"] == key)["issue"] = 999999
+        cases.append((f"incorrect first-sprint specification identity {key}", wave, broken))
     missed = [name for name, w, s in cases if not check(w, s, source_manifest, reconciliation)]
     admitted = next(
         row["planning_source"]
@@ -398,7 +409,7 @@ def main():
         failures.extend(atomic_missed)
         rejected += atomic_count
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
-                      "existing_issues": [720, 848, 849, 852, 854, 855, 861, 862, 864], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
+                      "existing_issues": sorted(r["issue"] for r in wave["work_packages"] if r.get("issue") is not None), "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))
     return bool(failures)
 

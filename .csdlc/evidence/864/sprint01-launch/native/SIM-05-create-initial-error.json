@@ -1,0 +1,6 @@
+{
+  "status": "reconciliation_pending",
+  "exit_code": 2,
+  "diagnostic": "csdlc: {\"code\":\"github_mutation_reconciliation_pending\",\"message\":\"mutation outcome is uncertain; durable intent forbids replay until authenticated reconciliation succeeds: github_mutation_not_reconciled\"}",
+  "request_file": "sprint01-SIM-05-create.json"
+}

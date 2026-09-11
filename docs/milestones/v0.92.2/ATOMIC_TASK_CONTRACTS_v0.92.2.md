@@ -1,6 +1,6 @@
 # v0.92.2 Atomic Task Contracts
 
-Status: operator-requested planning correction under #864; no child issue creation or product completion is claimed.
+Status: operator-requested planning correction under #864 with the separately authorized first SIM sprint created as #866–#875; no product completion is claimed.
 
 ## One complete task
 
@@ -19,7 +19,7 @@ An implementation issue closes only when its one named behavior works through it
 | QUAL-RUNTIME | QUAL-RUNTIME, QUAL-RESIDENT, QUAL-PROVIDER, QUAL-INVENTORY, QUAL-EVIDENCE |
 | CSDLC-DECOMPOSE | CSDLC-DECOMPOSE, CSDLC-REMOTE |
 
-All nine existing issue identities are retained. The wave now has 69 tasks: nine existing bindings and 60 number-free prospective tasks. #855 belongs to RT-PROVIDER; #852 retains the failure-event repair; #862 retains local decomposition. Additional tasks are not created by this correction.
+All nine preexisting issue identities are retained. The wave has 69 tasks: 19 assigned issues (nine preexisting plus ten newly created SIM issues #866–#875) and 50 number-free prospective tasks. The original correction had nine bindings and 60 prospective tasks before the separately authorized first sprint launch. #855 belongs to RT-PROVIDER; #852 retains the failure-event repair; #862 retains local decomposition. The first SIM sprint is created; the remaining 50 tasks require separate authorization.
 
 ## Eleven tightened completion contracts
 
@@ -58,3 +58,7 @@ PVF: deterministic local planning-contract proof, local CPU/Ruby/Python, require
 CF-INTEGRATE consumes complete feature implementations and produces the installed candidate. CF-PROOF follows CF-INTEGRATE and independently runs the ADL/external acceptance suite. TAIL-01 consumes both; CF-INTEGRATE never depends on CF-PROOF. Required independent OBS-S3 and ARCH-ADR remain outside those dependency sets but are explicit TAIL-10 dependencies with separate deployment and ADR acceptance obligations before truthful milestone closure.
 
 TAIL-10 wave/specification dependency and acceptance parity is validated explicitly. Negative fixtures remove each required OBS-S3/ARCH-ADR closeout dependency and acceptance obligation from both projections, and from either projection alone. Planning validation remains deterministic local proof, not deployment or ADR completion evidence.
+
+## Resolved first-sprint selection
+
+SIM-03/#869 carries its complete supported command inventory in the created issue body. The [launch command inventory](../../../.csdlc/evidence/864/sprint01-launch/drafts/command-inventory.md) records the resolved selection; this first-sprint gate is satisfied for creation, not proof of implementation. All product and later-task selection gates remain in force.

@@ -29,6 +29,6 @@ CF-EVIDENCE merges the shared finding/run contract and review/memory/renderer co
 
 ## First SIM sprint
 
-SIM-01 has its own readiness and can start alongside Runtime without WP-01 or unrelated prior closeout. SIM-02 through SIM-09 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-09. Dedicated sprint issue creation and disjoint owner assignment precede execution. The CodeFriend opening gates above do not apply to this independently admitted sprint. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.
+SIM-01 has its own readiness and can start alongside Runtime without WP-01 or unrelated prior closeout. SIM-02 through SIM-09 follow in order; SIM-UMBRELLA coordinates from startup and completes after SIM-09. Dedicated sprint issue creation is complete as #866–#875; native execution readiness, binding and disjoint owner assignment still precede execution. The CodeFriend opening gates above do not apply to this independently admitted sprint. Writer-pause activation requires separate explicit authorization. TAIL-01 requires the completed umbrella; CF-INTEGRATE does not.
 
 TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately verifies authenticated Observatory deployment and the completed, source-grounded ADR set with explicit decision status. These obligations do not block CF-INTEGRATE or the early TAIL-01 quality gate, and do not change the canonical ten-step sequence.

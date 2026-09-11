@@ -437,7 +437,8 @@ work_packages:
   - id: SIM-UMBRELLA
     lane: "csdlc_simplification_sprint"
     title: "Coordinate the first C-SDLC simplification sprint"
-    issue: null
+    issue: 866
+    creation_policy: created_sprint01
     depends_on: ["SIM-09"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -447,7 +448,8 @@ work_packages:
   - id: SIM-01
     lane: "csdlc_simplification_sprint"
     title: "Make diagnostics observably read-only"
-    issue: null
+    issue: 867
+    creation_policy: created_sprint01
     depends_on: []
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -456,7 +458,8 @@ work_packages:
   - id: SIM-02
     lane: "csdlc_simplification_sprint"
     title: "One current installed command contract"
-    issue: null
+    issue: 868
+    creation_policy: created_sprint01
     depends_on: ["SIM-01"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -465,7 +468,8 @@ work_packages:
   - id: SIM-03
     lane: "csdlc_simplification_sprint"
     title: "Execute the supported installed intent-command inventory"
-    issue: null
+    issue: 869
+    creation_policy: created_sprint01
     depends_on: ["SIM-02"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -474,7 +478,8 @@ work_packages:
   - id: SIM-04
     lane: "csdlc_simplification_sprint"
     title: "Route operational mutations through one semantic transaction owner"
-    issue: null
+    issue: 870
+    creation_policy: created_sprint01
     depends_on: ["SIM-03"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -483,7 +488,8 @@ work_packages:
   - id: SIM-05
     lane: "csdlc_simplification_sprint"
     title: "Derived cards and precise evidence invalidation"
-    issue: null
+    issue: 871
+    creation_policy: created_sprint01
     depends_on: ["SIM-04"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -492,7 +498,8 @@ work_packages:
   - id: SIM-06
     lane: "csdlc_simplification_sprint"
     title: "Deliver one safe conversion rehearsal"
-    issue: null
+    issue: 872
+    creation_policy: created_sprint01
     depends_on: ["SIM-05"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -501,7 +508,8 @@ work_packages:
   - id: SIM-07
     lane: "csdlc_simplification_sprint"
     title: "Produce one independent transition qualification"
-    issue: null
+    issue: 873
+    creation_policy: created_sprint01
     depends_on: ["SIM-06"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -510,7 +518,8 @@ work_packages:
   - id: SIM-08
     lane: "csdlc_simplification_sprint"
     title: "Produce one transition operations packet"
-    issue: null
+    issue: 874
+    creation_policy: created_sprint01
     depends_on: ["SIM-07"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"
@@ -519,7 +528,8 @@ work_packages:
   - id: SIM-09
     lane: "csdlc_simplification_sprint"
     title: "Run one authorized consecutive-issue pilot"
-    issue: null
+    issue: 875
+    creation_policy: created_sprint01
     depends_on: ["SIM-08"]
     planning_source: "cognitive-sdlc/C_SDLC_V3_SIMPLIFICATION_PLAN.md"
     startup_policy: "dedicated_sprint_own_readiness_parallel_runtime"

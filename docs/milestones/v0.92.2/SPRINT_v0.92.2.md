@@ -25,3 +25,7 @@ Deferred connectors, autonomous mutation, public customer-scale or multi-tenant 
 Closed merged #717 and #718 are v0.92.1 predecessor inputs. #720 uses its own independent authority; #848, #849, #852, #854, #855, #861, and #862 use their mapped existing authority after WP-01. #848 is a decision row rather than split implementation. This schedules existing v0.92.2 work; #523 does not implement it.
 
 TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately verifies authenticated Observatory deployment and the completed, source-grounded ADR set with explicit decision status. These obligations do not block CF-INTEGRATE or the early TAIL-01 quality gate, and do not change the canonical ten-step sequence.
+
+## First sprint creation state
+
+SIM-UMBRELLA is #866 and SIM-01 through SIM-09 are #867 through #875 respectively. The [verified mapping](../../../.csdlc/evidence/864/sprint01-launch/issues.json) records native creation. These ten issues join nine preexisting bindings: 19 assigned issues and 50 unassigned tasks in the unchanged 69-row milestone. Creation does not claim implementation or authorize live activation. Later sprint creation remains separately authorized.

@@ -53,16 +53,16 @@ Status: planned. Uncreated rows use number-free planning identifiers; existing #
 | OBS-LIVE (#720) | observatory | Remove retained-mode demo hazards | Own readiness |
 | OBS-S3 | observatory_deployment_sidecar | Deploy the existing Observatory S3 and CloudFront sidecar | WP-01, OBS-LIVE; completed-v0.92.1-issue-679, merged-v0.92.1-pr-685 |
 | ARCH-ADR | architecture_decisions | Generate and reconcile the ADRs required by v0.92.2 | WP-01 |
-| SIM-UMBRELLA | csdlc_simplification_sprint | Coordinate the first C-SDLC simplification sprint | SIM-09 |
-| SIM-01 | csdlc_simplification_sprint | Make diagnostics observably read-only | Own readiness |
-| SIM-02 | csdlc_simplification_sprint | One current installed command contract | SIM-01 |
-| SIM-03 | csdlc_simplification_sprint | Execute the supported installed intent-command inventory | SIM-02 |
-| SIM-04 | csdlc_simplification_sprint | Route operational mutations through one semantic transaction owner | SIM-03 |
-| SIM-05 | csdlc_simplification_sprint | Derived cards and precise evidence invalidation | SIM-04 |
-| SIM-06 | csdlc_simplification_sprint | Deliver one safe conversion rehearsal | SIM-05 |
-| SIM-07 | csdlc_simplification_sprint | Produce one independent transition qualification | SIM-06 |
-| SIM-08 | csdlc_simplification_sprint | Produce one transition operations packet | SIM-07 |
-| SIM-09 | csdlc_simplification_sprint | Run one authorized consecutive-issue pilot | SIM-08 |
+| SIM-UMBRELLA (#866) | csdlc_simplification_sprint | Coordinate the first C-SDLC simplification sprint | SIM-09 (#875) |
+| SIM-01 (#867) | csdlc_simplification_sprint | Make diagnostics observably read-only | Own readiness |
+| SIM-02 (#868) | csdlc_simplification_sprint | One current installed command contract | SIM-01 (#867) |
+| SIM-03 (#869) | csdlc_simplification_sprint | Execute the supported installed intent-command inventory | SIM-02 (#868) |
+| SIM-04 (#870) | csdlc_simplification_sprint | Route operational mutations through one semantic transaction owner | SIM-03 (#869) |
+| SIM-05 (#871) | csdlc_simplification_sprint | Derived cards and precise evidence invalidation | SIM-04 (#870) |
+| SIM-06 (#872) | csdlc_simplification_sprint | Deliver one safe conversion rehearsal | SIM-05 (#871) |
+| SIM-07 (#873) | csdlc_simplification_sprint | Produce one independent transition qualification | SIM-06 (#872) |
+| SIM-08 (#874) | csdlc_simplification_sprint | Produce one transition operations packet | SIM-07 (#873) |
+| SIM-09 (#875) | csdlc_simplification_sprint | Run one authorized consecutive-issue pilot | SIM-08 (#874) |
 | TAIL-01 | release_tail | Quality gate | CF-INTEGRATE, CF-PROOF, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, ARCH-SPLIT, CSDLC-MERGE, QUAL-RUNTIME, QUAL-RESIDENT, QUAL-PROVIDER, QUAL-INVENTORY, QUAL-EVIDENCE, RT-COST, CSDLC-MAN, CSDLC-DECOMPOSE, CSDLC-REMOTE, SIM-UMBRELLA |
 | TAIL-02 | release_tail | Documentation review and external-review handoff | TAIL-01 |
 | TAIL-03 | release_tail | Publication finalization | TAIL-02 |
@@ -82,7 +82,7 @@ CF-ADAPTER opens local ingestion; CF-ADAPTER-GITHUB and CF-ADAPTER-CI follow it.
 
 Each implementation issue delivers one usable behavior through its production consumer, including supporting code, tests, failure handling and documentation. A schema, scaffold or authored packet alone is not delivery. Independent ingestion routes, analysis behaviors, review/action-planning stages and renderers are separate tasks. Evidence admission keeps identity, provenance and redaction as inseparable safety invariants. See [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) for the eight splits and eleven strengthened completion contracts.
 
-The milestone inventory reconciles one bounded issue per expanded row. Every row must produce one named primary result. Supporting code, documentation, fixtures, and tests may travel with that result only when they are necessary to implement or prove it; independently useful results require separate rows before issue creation. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched ten-issue sprint. Reuse #720, #848, #849, #852, #854, #855, #861, and #862; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. WP-01 is resolved as #864 and cannot create itself. The denominator is 69 rows. Nine rows have existing authority, leaving 60 prospective creations. Ten prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority.
+The milestone inventory reconciles one bounded issue per expanded row. Every row must produce one named primary result. Supporting code, documentation, fixtures, and tests may travel with that result only when they are necessary to implement or prove it; independently useful results require separate rows before issue creation. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched ten-issue sprint. Reuse #720, #848, #849, #852, #854, #855, #861, and #862; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. WP-01 is resolved as #864 and cannot create itself. The denominator is 69 rows. Nineteen rows have canonical issue identities: nine preexisting and ten newly created through the dedicated SIM sprint launch (#866–#875). Fifty rows remain prospective; later creation requires separate operator authority. Issue creation does not establish implementation readiness or live activation authority.
 
 ## Immediate existing work
 

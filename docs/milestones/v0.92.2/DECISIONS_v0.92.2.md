@@ -36,7 +36,7 @@ These corrections do not accept ADRs, create issues, apply cloud infrastructure,
 
 ## #864 operator-requested task correction
 
-- CF-D23: Split all eight mixed task families as defined by the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). The wave contains 69 tasks, nine existing bindings and 60 prospective identities; this correction creates no children.
+- CF-D23: Split all eight mixed task families as defined by the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md). The original correction contained 69 tasks, nine existing bindings and 60 prospective identities and created no children. The subsequent authorized first sprint created #866–#875, leaving 19 assigned issues and 50 prospective identities without changing scope.
 - CF-D24: Each implementation closes on one complete production behavior with success and failure proof. The eleven tightened contracts reject schemas, scaffolds, unspecified slices, outline-only writing and zero-scenario qualification.
 - CF-D25: Retain all seven planning tasks: WP-01, ARCH-SPLIT, OPS-GCP, ARCH-ADR, SIM-08, TAIL-07 and TAIL-08. Each finishes its named result without claiming Beta implementation.
 - CF-D26: Preserve existing issue identities: #855 owns RT-PROVIDER lifecycle, #852 owns QUAL-RUNTIME failure-event repair, and #862 owns local CSDLC-DECOMPOSE. Their separately scoped successors remain prospective until authorized creation and typed reconciliation.
