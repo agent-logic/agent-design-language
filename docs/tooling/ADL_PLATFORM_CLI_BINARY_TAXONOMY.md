@@ -8,56 +8,49 @@ validation surface.
 | Owner surface | Command family | Current status |
 |---|---|---|
 | ADL language and compiler | `adl` | canonical |
-| C-SDLC workflow lifecycle | typed `csdlc-*` binaries under `csdlc-v2/` | canonical under Gate 10D2 |
+| C-SDLC workflow lifecycle | `.adl/bin/native-v3/csdlc` | sole ordinary authority after #505 / PR #591 |
 | Cognitive Spacetime runtime | `csm` | canonical |
 | CSM administration | `csmctl` | planned; no C-SDLC commands belong here |
-| Runtime compatibility | `adl-runtime` | compatibility surface outside C-SDLC v2 |
-| Review compatibility | `adl-review` | compatibility surface outside C-SDLC v2 |
+| Runtime compatibility | `adl-runtime` | compatibility product surface outside C-SDLC authority |
+| Review compatibility | `adl-review` | compatibility product surface outside C-SDLC authority |
 
-## C-SDLC V2 Authority
+## C-SDLC lifecycle authority
 
-Gate 10D2 records `v1_sunset`. The sole current C-SDLC operational authority is
-the independent Rust binary set in `csdlc-v2/`, routed through the eleven typed
-skills in `csdlc-v2/operator/skills/`.
+PR #591 completed the #505 cutover. The sole ordinary C-SDLC operational
+authority is the native Rust executable `.adl/bin/native-v3/csdlc`, subject to
+the canonical selector and authenticated receipt.
 
-Current lifecycle owners are:
+Current lifecycle routes include:
 
-- `csdlc-issue create`
-- `csdlc-bind`
-- `csdlc-edit`
-- `csdlc-doctor`
-- `csdlc-validate`
-- `csdlc-review`
-- `csdlc-publish`
-- `csdlc-finish`
-- `csdlc-clean`
-- `csdlc-shepherd`
+- `csdlc issue`, `bind`, `edit`, `doctor`, `validate`, and `shepherd`
+- `csdlc github-issue`, `github-pr`, `review`, and `publish`
+- `csdlc finish` and `clean`
 
-Resolve the selected generation through `csdlc-install resolve`, then invoke
-the typed owner selected by the matching operator skill. Stable generated v2
-binaries belong under `.adl/bin/csdlc-v2/`; Cargo target directories are build
-output, not operational authority.
+Missing or stale v3 proof suspends authority. It never selects v2 automatically.
+The `csdlc-v2/` source and `.adl/bin/csdlc-v2/` generated binaries are retained
+only for explicitly authorized rollback or bounded transition remediation.
 
-There is no canonical monolithic `csdlc` lifecycle command. The removed v1
+The removed v1
 `pr.sh` wrappers, prompt-template wrappers, `csdlc-import`, and `adl-csdlc`
-compatibility route are not valid operator paths.
+compatibility route are not valid operator paths. See
+[`ACTIVE_BOOT_PATHS.md`](ACTIVE_BOOT_PATHS.md) for the complete subsystem table.
 
 ## Validation Boundary
 
-Validate the typed owner and contract touched by a change. Use the focused
-C-SDLC owner lane when broader integration proof is required:
+Validate the native v3 command manifest and the contract touched by a change:
 
 ```bash
-bash adl/tools/run_owner_validation_lane.sh csdlc
+cargo test --manifest-path csdlc-v3/Cargo.toml --test command_manifest
 git diff --check
 ```
 
-Do not restore sunset commands to make historical examples pass. Historical
-Gate 10A-C artifacts remain evidence and do not override Gate 10D2 authority.
+Do not rewrite historical evidence to make it look current. Gate 10A-D2
+artifacts retain their source-time meaning but do not override the completed
+native v3 cutover.
 
 ## Non-Claims
 
 - This taxonomy does not make `csmctl` ready.
-- It does not move runtime or review compatibility commands into C-SDLC v2.
+- It does not move Runtime or review compatibility commands into C-SDLC.
 - It does not authorize direct card Markdown mutation; typed card edits remain
-  governed by `csdlc-edit` and `csdlc-validate`.
+  governed by native v3 `csdlc edit` and `csdlc validate`.
