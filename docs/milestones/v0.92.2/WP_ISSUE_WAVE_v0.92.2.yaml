@@ -225,8 +225,8 @@ work_packages:
     issue: null
     depends_on: [WP-01, OBS-LIVE]
     external_dependencies: [completed-v0.92.1-issue-679, merged-v0.92.1-pr-685]
-    deliverables: [deployed_observatory_static_edge]
-    proof: [terraform_plan_and_apply, authenticated_aws_readback, browser_https_and_runtime_wss, rollback_and_cost_record]
+    deliverables: [deployed_observatory_static_edge, cloudfront_logging_headers_and_invalidation]
+    proof: [agent_logic_admin_identity, terraform_plan_and_apply, authenticated_aws_readback, security_header_and_logging_readback, cache_invalidation, browser_https_and_runtime_wss, rollback_and_cost_record]
   - id: ARCH-ADR
     lane: architecture_decisions
     title: Generate and reconcile the ADRs required by v0.92.2
@@ -329,7 +329,7 @@ work_packages:
     lane: release_tail
     title: Quality gate
     issue: null
-    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, OBS-S3, ARCH-ADR, SIM-UMBRELLA]
+    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, SIM-UMBRELLA]
     deliverables: [milestone_quality_decision]
     proof: [denominator_reconciliation, quality_gate_validation]
   - id: TAIL-02

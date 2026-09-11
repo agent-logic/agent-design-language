@@ -15,13 +15,13 @@ Status: the new execution wave remains gated. Existing admitted issue #720 uses 
 
 CF-SHELL and CF-ADAPTER become ready after WP-01. CF-COG, CF-GOV, CF-REVIEW, and CF-MEMORY become ready after the evidence contract merges and may run in parallel. No track waits for individual closeout bookkeeping; it waits only for its declared merged authority.
 
-PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, and ARCH-ADR become ready after WP-01. PLAT-PROVIDER additionally waits for merged v0.92.1 issue #622; PLAT-MLX and PLAT-PAIR wait for PLAT-PROVIDER. OBS-S3 waits for WP-01 issue creation and completed OBS-LIVE, and additionally requires later operator authorization for an Agent Logic business-account Terraform apply. PLAT-MEMORY waits for CF-EVIDENCE and CF-MEMORY. CF-INTEGRATE waits for the product tracks, shared provider definitions and the admitted production memory consumer. TAIL-01 separately converges all other admitted supporting and existing issues; deployment, ADR, experiment, article, paper, and inventory completion does not block product integration.
+PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, and ARCH-ADR become ready after WP-01. PLAT-PROVIDER additionally waits for merged v0.92.1 issue #622; PLAT-MLX and PLAT-PAIR wait for PLAT-PROVIDER. OBS-S3 waits for WP-01 issue creation and completed OBS-LIVE, and additionally requires later operator authorization for an `agent-logic-admin` business-account Terraform apply. PLAT-MEMORY waits for CF-EVIDENCE and CF-MEMORY. CF-INTEGRATE waits for the product tracks, shared provider definitions and the admitted production memory consumer. TAIL-01 separately converges its declared supporting and existing issues. OBS-S3 and ARCH-ADR gate neither product integration nor the release tail.
 
 ## Fail-Closed Conditions
 
 Execution pauses for missing issue authority, scope conflict, unavailable evidence/privacy controls, provider or Runtime contract ambiguity, or a required planning surface that cannot be resolved context-free. A deferred track is not a blocker unless explicitly admitted.
 
-OBS-S3 additionally pauses for the wrong AWS account, an unexpected destructive Terraform plan, missing DNS/certificate authority, missing Runtime HTTPS/WSS reachability, or absent apply authorization. ARCH-ADR pauses rather than inventing a decision owner, source, status, or acceptance.
+OBS-S3 additionally pauses for an `agent-logic-admin` identity mismatch, an unexpected destructive Terraform plan, missing DNS/certificate authority, missing logging or security headers, failed invalidation, missing Runtime HTTPS/WSS reachability, or absent apply authorization. ARCH-ADR pauses rather than inventing a decision owner, source, status, or acceptance.
 
 ## Early contract and existing-issue gates
 

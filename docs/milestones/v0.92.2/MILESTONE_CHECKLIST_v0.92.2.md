@@ -56,7 +56,7 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
-- [ ] Every admitted supporting track converged at TAIL-01
+- [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the closeout tail
 - [ ] Any changed candidate received refreshed artifacts, affected proof and current internal/external review
 - [ ] Release candidate and manifest exactly match the reviewed and approved digests
 

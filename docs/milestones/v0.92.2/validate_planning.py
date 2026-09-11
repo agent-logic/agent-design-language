@@ -128,9 +128,21 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("ARCH-ADR must remain unassigned until WP-01 creates its issue")
     if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
         failures.append("OPS-AWS title lost its complete #484-bound atomic result")
-    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST", "OBS-S3", "ARCH-ADR"}
+    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
     if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
+    additional = {"OBS-S3", "ARCH-ADR"}
+    if additional & set(by_id["CF-INTEGRATE"]["depends_on"]) or additional & set(by_id["TAIL-01"]["depends_on"]):
+        failures.append("OBS-S3 and ARCH-ADR must not gate product integration or the release tail")
+    obs_s3_acceptance = set(spec_by_id.get("OBS-S3", {}).get("acceptance", []))
+    required_obs_s3 = {
+        "agent_logic_admin_profile_resolves_business_account",
+        "access_logging_configured",
+        "security_headers_configured",
+        "cache_invalidation_completed",
+    }
+    if not required_obs_s3 <= obs_s3_acceptance:
+        failures.append("OBS-S3 lost required profile, logging, headers, or invalidation acceptance")
     obligations = {
         "CF-EVIDENCE": {"finding_run_contract_merged_before_consumers"},
         "CF-REVIEW": {"isolated_pre_synthesis_inputs", "disagreement_preserved"},
@@ -182,8 +194,17 @@ def negative_checks(wave, specs, source_manifest, reconciliation):
     next(r for r in broken["work_packages"] if r["id"] == "OBS-S3")["depends_on"] = ["WP-01"]
     cases.append(("Observatory deployment loses live baseline", broken, specs))
     broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].append("OBS-S3")
+    cases.append(("Observatory deployment gates release tail", broken, specs))
+    broken = copy.deepcopy(specs)
+    next(r for r in broken["specifications"] if r["id"] == "OBS-S3")["acceptance"].remove("security_headers_configured")
+    cases.append(("Observatory deployment loses security headers", wave, broken))
+    broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "ARCH-ADR")["issue"] = 999998
     cases.append(("ADR work package assigned before WP-01", broken, specs))
+    broken = copy.deepcopy(wave)
+    next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].append("ARCH-ADR")
+    cases.append(("ADR issue is folded into release tail", broken, specs))
     missed = [name for name, w, s in cases if not check(w, s, source_manifest, reconciliation)]
     admitted = next(
         row["planning_source"]

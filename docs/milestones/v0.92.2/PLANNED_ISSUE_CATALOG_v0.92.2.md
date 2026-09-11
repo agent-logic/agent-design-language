@@ -39,7 +39,7 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 22c | OBS-LIVE (#720) | Remove retained-mode live demo hazards | Reuse existing #720; independent of CodeFriend build |
 | 22d | OBS-S3 | Deploy the existing Observatory S3 and CloudFront sidecar | After WP-01 and OBS-LIVE; consume completed #679 / merged PR #685 |
 | 22e | ARCH-ADR | Generate and reconcile the ADRs required by v0.92.2 | After WP-01; operator acceptance remains explicit |
-| 23 | TAIL-01 | Quality gate | After CF-INTEGRATE and all admitted supporting tracks |
+| 23 | TAIL-01 | Quality gate | After CF-INTEGRATE and the declared release-gating support set; excludes OBS-S3 and ARCH-ADR |
 | 24 | TAIL-02 | Documentation review and external-review handoff | After TAIL-01 |
 | 25 | TAIL-03 | Publication finalization | After TAIL-02 |
 | 26 | TAIL-04 | Internal milestone review | After TAIL-03 |

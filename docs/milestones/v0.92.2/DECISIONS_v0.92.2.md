@@ -26,7 +26,7 @@ None of these decisions claims implementation, review approval, or release readi
 - CF-D15: Candidate-changing remediation refreshes affected artifacts, proof and internal/external review before release.
 - CF-D16: Existing #720 is reused. Operator direction on 2026-09-09 promoted #717/#718 into v0.92.1; v0.92.2 consumes their merged results as predecessors and does not recreate them. Other backlog is excluded.
 - CF-D17: Local CLI with artifact browsing in this repository is the bounded product design candidate; shared ADL contracts are consumed, not forked. WP-01 accepts or explicitly revises it before new-wave execution.
-- CF-D18: Independent supporting work converges at the milestone quality gate; only actual product prerequisites block integration.
+- CF-D18: The declared release-gating support set converges at the milestone quality gate; only actual product prerequisites block integration. Independently deliverable required issues such as OBS-S3 and ARCH-ADR retain their own acceptance outside the closeout tail.
 - CF-D19: The operator admitted the bounded NVIDIA PAIR experiment as PLAT-PAIR after PLAT-PROVIDER; it is an experiment with a retained decision, not a production-provider claim.
 - CF-D20: The operator admitted the company GCP move-in reconciliation as OPS-GCP after WP-01; it is read-only planning and inventory work that consumes merged v0.92.1 foundations and does not repeat six-resident qualification or authorize cloud mutation.
 - CF-D21: The operator admitted OBS-S3 as a non-product-gating deployment sidecar. It consumes the completed #679/merged PR #685 Terraform design, waits for OBS-LIVE, uses the Agent Logic business AWS account, and does not authorize customer-scale hosting or an apply during #525.

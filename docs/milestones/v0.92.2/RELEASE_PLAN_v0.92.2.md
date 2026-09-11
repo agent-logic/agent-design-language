@@ -37,7 +37,7 @@ The release candidate is a normal Git revision and published artifacts are versi
 
 TAIL-06 records the candidate revision and complete artifact-manifest digest before and after each remediation. Any substantive candidate or claim/artifact change rebuilds affected artifacts, reruns affected proof, refreshes TAIL-01 quality truth, and obtains current internal and external review against the revised candidate. Repeat within the remediation gate until findings, evidence and review agree. Earlier review remains immutable historical evidence, never approval of new bytes. TAIL-10 requires exact equality among release candidate, reviewed candidate, approved manifest and release authorization. Deferral cannot waive unresolved P1 or privacy/provenance failures. The outer ten-step order stays unchanged.
 
-Product integration may finish before independent supporting work. TAIL-01 converges every admitted v0.92.2 support issue, including #720, OBS-S3 and ARCH-ADR, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval.
+Product integration may finish before independent supporting work. TAIL-01 converges the declared release-gating support set, including #720, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval. OBS-S3 and ARCH-ADR are explicitly excluded from both CF-INTEGRATE and TAIL-01 dependencies; they remain ordinary required additional issues with their own acceptance rather than closeout-tail work.
 
 ## TBD disposition checkpoint
 

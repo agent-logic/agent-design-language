@@ -39,7 +39,7 @@ Status: planned. Uncreated rows use number-free planning identifiers; #720 is th
 | SIM-07 | C-SDLC first sprint | Produce one independent transition qualification | SIM-06 |
 | SIM-08 | C-SDLC first sprint | Produce one transition operations packet | SIM-07 |
 | SIM-09 | C-SDLC first sprint | Run one authorized consecutive-issue pilot | SIM-08; separate activation authority |
-| TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | TAIL-01 converges integration plus all admitted supporting/existing tracks |
+| TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | TAIL-01 converges integration plus the declared release-gating support set; OBS-S3 and ARCH-ADR are excluded |
 
 ## Parallelism
 

@@ -166,9 +166,9 @@ specifications:
     issue: 720
   - id: OBS-S3
     outcome: The existing issue 679 Terraform package is applied as a bounded static Observatory sidecar at observatory.csm.agent-logic.ai and verified against the live Runtime.
-    owned_surfaces: [terraform_apply_evidence, deployed_revision_record, browser_and_wss_acceptance, rollback_cost_and_monitoring_record]
-    acceptance: [agent_logic_business_account_verified, terraform_plan_reviewed_before_apply, private_s3_origin_uses_oac, cloudfront_acm_route53_converged, exact_observatory_revision_deployed, browser_https_and_runtime_wss_pass, rollback_and_cost_recorded]
-    pvf: [terraform_validate_and_plan, authenticated_aws_resource_readback, browser_https_smoke, runtime_wss_smoke, rollback_rehearsal_or_dry_run]
+    owned_surfaces: [terraform_apply_evidence, deployed_revision_record, browser_and_wss_acceptance, cloudfront_logging_headers_and_invalidation, rollback_cost_and_monitoring_record]
+    acceptance: [agent_logic_admin_profile_resolves_business_account, terraform_plan_reviewed_before_apply, private_s3_origin_uses_oac, cloudfront_acm_route53_converged, access_logging_configured, security_headers_configured, exact_observatory_revision_deployed, cache_invalidation_completed, browser_https_and_runtime_wss_pass, rollback_and_cost_recorded]
+    pvf: [agent_logic_admin_identity_readback, terraform_validate_and_plan, authenticated_aws_resource_readback, logging_and_security_header_readback, cache_invalidation_readback, browser_https_smoke, runtime_wss_smoke, rollback_rehearsal_or_dry_run]
     stop_conditions: [wrong_aws_account, unexpected_destructive_plan, credential_or_secret_exposure, runtime_origin_unavailable, architecture_redesign_required]
     non_goals: [customer_scale_hosting, runtime_compute_deployment, terraform_architecture_redesign, multi_tenant_observatory]
     planning_source: completed v0.92.1 issue 679 and merged PR 685

@@ -17,7 +17,7 @@ These tracks support CodeFriend Beta 1 without being folded into one oversized p
 | PUB-CSDLC | One reviewable C-SDLC paper packet | Grounded claims and citations; no submission |
 | PLAT-MEMORY | One production Memory Palace consumer | Real caller, deterministic retrieval, privacy failure tests |
 | SPEC-RETEST | Keep, repair, or retire decision | Current reproducible correctness and performance evidence |
-| OBS-S3 | One deployed static Observatory edge sidecar | Apply existing #679 Terraform after OBS-LIVE; verify business account, private S3/OAC, CloudFront/ACM/Route53, browser HTTPS, Runtime WSS, cost, and rollback |
+| OBS-S3 | One deployed static Observatory edge sidecar | Apply existing #679 Terraform with `agent-logic-admin` after OBS-LIVE; verify business account, private S3/OAC, CloudFront/ACM/Route53, logging, security headers, invalidation, browser HTTPS, Runtime WSS, cost, and rollback; never gate CF-INTEGRATE or TAIL-01 |
 | ARCH-ADR | One reconciled milestone ADR set | Inventory required decisions, draft source-grounded ADRs, retain explicit status/ownership, and verify supersession without implementing or silently accepting decisions |
 
 Each unassigned row becomes a separate bounded issue through WP-01. OCI packaging, ATE, Runtime v4, customer-scale or multi-tenant deployment, OpenRewrite services, and other deferred programs remain outside v0.92.2. `OBS-S3` is only the bounded static sidecar already designed by #679/PR #685.
