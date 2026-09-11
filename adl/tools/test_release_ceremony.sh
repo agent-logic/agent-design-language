@@ -18,7 +18,7 @@ assert_contains() {
   local text="$1"
   local pattern="$2"
   local label="$3"
-  grep -Fq -- "$pattern" <<<"$text" || {
+  grep -Fq "$pattern" <<<"$text" || {
     echo "assertion failed: $label; expected '$pattern'" >&2
     echo "output:" >&2
     echo "$text" >&2
@@ -30,7 +30,7 @@ assert_not_contains() {
   local text="$1"
   local pattern="$2"
   local label="$3"
-  if grep -Fq -- "$pattern" <<<"$text"; then
+  if grep -Fq "$pattern" <<<"$text"; then
     echo "assertion failed: $label; unexpected '$pattern'" >&2
     echo "$text" >&2
     exit 1
@@ -200,7 +200,7 @@ run_closeout_gate_case() {
 
   local output
   set +e
-  output="$(cd "$FIXTURE" && GATE_MODE="$mode" \
+  output="$(cd "$FIXTURE" && DOCTOR_MODE="$mode" \
     "$BASH_BIN" adl/tools/release_ceremony.sh --version "$VERSION" \
     --target-branch main --allow-dirty 2>&1)"
   local status=$?
@@ -215,23 +215,26 @@ run_closeout_gate_case() {
 }
 
 setup_closeout_gate_fixture() {
-  mkdir -p "$FIXTURE/.csdlc/prepared/issues/999"
-  cat >"$FIXTURE/.csdlc/prepared/issues/999/validate-release-evidence.rb" <<'EOF_INNER'
-#!/usr/bin/env ruby
-case ENV.fetch("GATE_MODE")
-when "closed" then exit 0
-when "open" then warn "release evidence is not ready"; exit 1
-when "error" then warn "native v3 gate failed"; exit 7
-when "malformed" then warn "malformed native v3 gate"; exit 1
-else exit 2
-end
+  mkdir -p "$FIXTURE/.csdlc/issues/123/cards" "$FIXTURE/.csdlc/issues/456/cards"
+  mkdir -p "$FIXTURE/.adl/bin/csdlc-v2"
+  cat >"$FIXTURE/.csdlc/issues/123/cards/sip.values.json" <<EOF_INNER
+{"identity":{"issue":123,"version":"$VERSION"}}
 EOF_INNER
-  chmod +x "$FIXTURE/.csdlc/prepared/issues/999/validate-release-evidence.rb"
-  local validator_sha
-  validator_sha="$(shasum -a 256 "$FIXTURE/.csdlc/prepared/issues/999/validate-release-evidence.rb" | awk '{print $1}')"
-  cat >"$FIXTURE/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json" <<EOF_INNER
-{"validator":".csdlc/prepared/issues/999/validate-release-evidence.rb","authority_input_sha256":{"gate_validator":"$validator_sha"}}
+  cat >"$FIXTURE/.csdlc/issues/456/cards/sip.values.json" <<'EOF_INNER'
+{"identity":{"issue":456,"version":"v9.9.9"}}
 EOF_INNER
+  cat >"$FIXTURE/.adl/bin/csdlc-v2/csdlc-doctor" <<'EOF_INNER'
+#!/usr/bin/env bash
+set -euo pipefail
+case "${DOCTOR_MODE:?missing DOCTOR_MODE}" in
+  closed) printf '{"phase":"closed_out"}\n' ;;
+  open) printf '{"phase":"implemented"}\n' ;;
+  error) echo "doctor failed" >&2; exit 7 ;;
+  malformed) printf 'not-json\n' ;;
+  *) exit 2 ;;
+esac
+EOF_INNER
+  chmod +x "$FIXTURE/.adl/bin/csdlc-v2/csdlc-doctor"
 }
 
 assert_remote_tag_absent() {
@@ -267,26 +270,14 @@ make_fixture
 setup_fake_gh
 setup_closeout_gate_fixture
 
-# The v0.92.1 release may never bypass its native evidence gate, even when the
-# caller asks for the legacy compatibility escape hatch.
-mkdir -p "$FIXTURE/docs/milestones/v0.92.1"
-for kind in RELEASE_PLAN RELEASE_NOTES MILESTONE_CHECKLIST; do
-  echo "# v0.92.1 fixture" >"$FIXTURE/docs/milestones/v0.92.1/${kind}_v0.92.1.md"
-done
-sed -i.bak 's/version = "0.90.2"/version = "0.92.1"/' "$FIXTURE/adl/Cargo.toml"
-skip_output="$(cd "$FIXTURE" && "$BASH_BIN" adl/tools/release_ceremony.sh \
-  --version v0.92.1 --skip-sor-gate --target-branch main --allow-dirty 2>&1 || true)"
-assert_contains "$skip_output" "--skip-sor-gate is prohibited for v0.92.1" "v0.92.1 skip prohibition"
-mv "$FIXTURE/adl/Cargo.toml.bak" "$FIXTURE/adl/Cargo.toml"
-
 run_closeout_gate_case "all milestone records closed out" closed 0 "preflight checks passed"
-run_closeout_gate_case "non-ready milestone gate fails" open 1 "release evidence is not ready"
-run_closeout_gate_case "native v3 gate error fails closed" error 7 "native v3 gate failed"
-run_closeout_gate_case "malformed native v3 gate fails closed" malformed 1 "malformed native v3 gate"
+run_closeout_gate_case "non-closed milestone record fails" open 1 "issue 123 is not closed_out"
+run_closeout_gate_case "doctor error fails closed" error 1 "csdlc-doctor rejected issue 123"
+run_closeout_gate_case "malformed doctor JSON fails closed" malformed 1 "csdlc-doctor returned malformed JSON for issue 123"
 
-mv "$FIXTURE/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json" "$FIXTURE/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json.saved"
-run_closeout_gate_case "missing native v3 gate fails" closed 1 "native v3 release ceremony gate is missing"
-mv "$FIXTURE/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json.saved" "$FIXTURE/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json"
+mv "$FIXTURE/.csdlc" "$FIXTURE/.csdlc.saved"
+run_closeout_gate_case "no milestone records fails" closed 1 "no typed C-SDLC records found for $VERSION"
+mv "$FIXTURE/.csdlc.saved" "$FIXTURE/.csdlc"
 
 # Create/tag preconditions: missing local and remote tags should pass for create-tag and tag mutation.
 reset_git_state

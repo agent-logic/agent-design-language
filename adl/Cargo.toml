@@ -1,6 +1,6 @@
 [package]
 name = "adl"
-version = "0.92.1"
+version = "0.92.0"
 edition = "2021"
 rust-version = "1.92"
 default-run = "adl"

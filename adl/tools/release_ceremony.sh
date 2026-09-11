@@ -185,11 +185,21 @@ check_cargo_version() {
   fail "adl/Cargo.toml version mismatch: expected $expected, found $actual"
 }
 
+run_csdlc_doctor() {
+  local issue="$1"
+  local installed="$ROOT/.adl/bin/csdlc-v2/csdlc-doctor"
+  if [[ -x "$installed" ]]; then
+    "$installed" --repo "$ROOT" --issue "$issue"
+    return
+  fi
+
+  require_cmd cargo
+  cargo run --quiet --locked --manifest-path "$ROOT/csdlc-v2/Cargo.toml" \
+    --bin csdlc-doctor -- --repo "$ROOT" --issue "$issue"
+}
+
 check_typed_closeout_gate() {
   if [[ "$SKIP_SOR_GATE" == "1" ]]; then
-    if [[ "$VERSION" == "v0.92.1" ]]; then
-      fail "--skip-sor-gate is prohibited for v0.92.1"
-    fi
     info "skipping typed local closeout gate by explicit request"
     return 0
   fi
@@ -198,36 +208,47 @@ check_typed_closeout_gate() {
   if [[ -f "$milestone_gate" ]]; then
     require_cmd python3
     require_cmd ruby
-    local validator validator_digest actual_validator_digest actual_gate_digest
-    read -r validator validator_digest < <(python3 - "$milestone_gate" <<'PY'
+    local validator
+    validator="$(python3 - "$milestone_gate" <<'PY'
 import json, pathlib, sys
-gate = json.loads(pathlib.Path(sys.argv[1]).read_text())
-print(gate.get("validator", ""), gate.get("authority_input_sha256", {}).get("gate_validator", ""))
+print(json.loads(pathlib.Path(sys.argv[1]).read_text()).get("validator", ""))
 PY
-    )
+)"
     [[ "$validator" == .csdlc/prepared/issues/*/validate-release-evidence.rb ]] || fail "milestone ceremony gate has an invalid validator path"
     [[ -f "$ROOT/$validator" ]] || fail "milestone ceremony validator is missing: $validator"
-    actual_validator_digest="$(python3 - "$ROOT/$validator" <<'PY'
-import hashlib, pathlib, sys
-print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())
-PY
-)"
-    [[ "$actual_validator_digest" == "$validator_digest" ]] || fail "milestone ceremony validator digest mismatch"
-    if [[ "$VERSION" == "v0.92.1" ]]; then
-      actual_gate_digest="$(python3 - "$milestone_gate" <<'PY'
-import hashlib, pathlib, sys
-print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())
-PY
-)"
-      [[ "$actual_gate_digest" == "4a65c8921eafbb4d577815c392653a7a37f3c8ab0d2fcd3753d2f56e196a7861" ]] \
-        || fail "v0.92.1 milestone ceremony gate digest mismatch"
-    fi
     info "running merge-based milestone ceremony gate for $VERSION"
     ruby "$ROOT/$validator" gate "$milestone_gate"
     return 0
   fi
 
-  fail "native v3 release ceremony gate is missing for $VERSION: ${milestone_gate#$ROOT/}"
+  require_cmd python3
+  local issues
+  issues="$(python3 - "$ROOT" "$VERSION" <<'PY'
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+version = sys.argv[2]
+issues = []
+for values_path in sorted((root / ".csdlc" / "issues").glob("*/cards/sip.values.json")):
+    values = json.loads(values_path.read_text())
+    identity = values.get("identity", {})
+    if identity.get("version") == version:
+        issues.append(int(identity["issue"]))
+print(" ".join(str(issue) for issue in issues))
+PY
+)"
+  [[ -n "$issues" ]] || fail "no typed C-SDLC records found for $VERSION; closeout truth is unproven"
+
+  info "running typed local closeout gate for $VERSION"
+  local issue report phase
+  for issue in $issues; do
+    report="$(run_csdlc_doctor "$issue")" || fail "csdlc-doctor rejected issue $issue"
+    phase="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("phase") or "")' <<<"$report")" \
+      || fail "csdlc-doctor returned malformed JSON for issue $issue"
+    [[ "$phase" == "closed_out" ]] || fail "issue $issue is not closed_out (phase: ${phase:-unknown})"
+  done
 }
 
 print_plan() {

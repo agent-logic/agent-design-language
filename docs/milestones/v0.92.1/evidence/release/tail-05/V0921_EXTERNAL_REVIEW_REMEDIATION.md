@@ -30,11 +30,13 @@ finding remains unresolved.
    while `V0921_EXECUTABLE_REVIEW_LEDGER.md` now supplies the per-lane review
    ledger. The four #821 final-gate obligations remain incomplete, so the
    release projection must remain fail-closed.
-3. Release-bearing Cargo manifests and lockfiles were still at `0.92.0`; they
-   are updated together to `0.92.1` and checked by a focused validator.
+3. Release-bearing Cargo manifests and lockfiles were still at `0.92.0`.
+   Issue #856 owns the coordinated version reconciliation; #833 does not claim
+   that repair as complete.
 4. Release ceremony preflight previously fell back to retired C-SDLC v2 when a
-   milestone gate was absent. The fallback is removed. The new native-v3 gate
-   fails closed when its evidence is missing, stale, blocked, or contradictory.
+   milestone gate was absent. Issue #856 owns the native-v3, fail-closed
+   ceremony repair and its positive and negative proof. Until that work is
+   reviewed and merged, this remains a release blocker.
 
 No Runtime or product implementation change is required by these findings.
 
