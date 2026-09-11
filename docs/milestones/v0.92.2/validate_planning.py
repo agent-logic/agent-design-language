@@ -91,6 +91,8 @@ def check(wave, specs):
         failures.append("PLAT-PAIR must consume the canonical provider-definition contract")
     if by_id.get("OPS-GCP", {}).get("depends_on") != ["WP-01"]:
         failures.append("OPS-GCP must remain a separately owned post-opening foundation track")
+    if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
+        failures.append("OPS-AWS title lost its complete #484-bound atomic result")
     support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
     if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")

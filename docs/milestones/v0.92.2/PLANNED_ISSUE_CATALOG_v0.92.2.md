@@ -28,7 +28,7 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 14 | PLAT-PAIR | NVIDIA PAIR multi-node local-inference experiment | After PLAT-PROVIDER |
 | 15 | PLAT-UTS | UTS standardization and productization | After WP-01 |
 | 16 | PLAT-RUST | Milestone Rust reduction slice | After WP-01 |
-| 17 | OPS-AWS | Refresh AWS SCR, S3, and model inventory from completed #484 baseline | After WP-01 |
+| 17 | OPS-AWS | Produce one current AWS inventory packet from completed #484 baseline | After WP-01 |
 | 18 | OPS-GCP | Produce one apply-ready company GCP move-in execution packet | After WP-01 and merged v0.92.1 GCP foundations |
 | 19 | PUB-MEDIUM | Prepare one Medium article packet | After WP-01 |
 | 20 | PUB-CSDLC | Advance one C-SDLC paper packet | After WP-01 |

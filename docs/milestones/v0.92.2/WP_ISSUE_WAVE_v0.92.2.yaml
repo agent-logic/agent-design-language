@@ -164,7 +164,7 @@ work_packages:
     proof: [behavior_parity, focused_tests, size_or_complexity_reduction]
   - id: OPS-AWS
     lane: aws_inventory
-    title: Refresh AWS SCR, S3, and model inventory from the #484 ownership baseline
+    title: "Produce one current AWS inventory packet from the #484 baseline"
     issue: null
     depends_on: [WP-01]
     external_dependencies: [completed-issue-484-baseline]
