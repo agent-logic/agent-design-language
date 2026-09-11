@@ -18,7 +18,7 @@ internal review plus the five findings from the #521 third-party review.
 
 | Finding | Severity | Remediation issue | Disposition state |
 | --- | --- | --- | --- |
-| `TPR-001` | P1 | #833 | In progress; must run last against the immutable post-remediation candidate. |
+| `TPR-001` | P1 | #833 | Ready after #521 / PR #850 merges; must run last against the immutable post-remediation candidate. |
 | `TPR-002` | P1 | #834 | Merged in PR #841. |
 | `TPR-003` | P1 | #835 | PR #840 merged; repaired-candidate verification remains part of the final #833 review after #843 and #844. |
 | `TPR-004` | P2 | #836 | Merged in PR #839. |
@@ -29,12 +29,17 @@ internal review plus the five findings from the #521 third-party review.
 - #843 / PR #845 repairs the retained legacy ready-intent target gap and is now
   merged. It contributes to the existing `D520-V3F-001` disposition rather
   than adding a new finding.
-- #844 adds the missing native v3 PR merge operation. It is not one of the 19
-  source-review findings, but native lifecycle self-sufficiency cannot be
-  claimed until it is resolved.
-- After #844 merges, #833 must bind the new immutable candidate containing PR
-  #845 and the #844 repair, verify the repaired projection, and perform the
-  final third-party review.
+- #844 / PR #847 added the native v3 PR merge operation and is merged at
+  `25498d7709cb5fe13242aac81988ecdb344db968`.
+- The post-merge reassessment found `MERGE-LINKAGE-001`: merge admission does
+  not bind the reviewed closing/part-of relation. The operator explicitly
+  deferred that repair to v0.92.2 as #849. This disposition is a residual risk,
+  not a behavioral pass and not v0.92.1 release approval; four affected release
+  criteria remain unproved until #833 classifies the final candidate.
+- After #521 / PR #850 merges, #833 must bind the resulting immutable candidate,
+  incorporate the complete 121-row historical and 51-row current reassessments,
+  preserve #849 as a v0.92.2 deferred residual, and perform the final
+  third-party review.
 
 Final publication is fail-closed until #520 and #521 supply their merged
 exact-revision source reports, all 19 findings have exactly one reviewed
