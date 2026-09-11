@@ -19,10 +19,20 @@ internal review plus the five findings from the #521 third-party review.
 | Finding | Severity | Remediation issue | Disposition state |
 | --- | --- | --- | --- |
 | `TPR-001` | P1 | #833 | In progress; must run last against the immutable post-remediation candidate. |
-| `TPR-002` | P1 | #834 | In progress. |
-| `TPR-003` | P1 | #835 | In progress. |
-| `TPR-004` | P2 | #836 | In progress. |
-| `TPR-005` | P2 | #837 | In progress. |
+| `TPR-002` | P1 | #834 | Merged in PR #841. |
+| `TPR-003` | P1 | #835 | PR #840 merged, but its final current-candidate rerun exposed #843; disposition remains open pending the repaired projection. |
+| `TPR-004` | P2 | #836 | Merged in PR #839. |
+| `TPR-005` | P2 | #837 | Merged in PR #842. |
+
+## Additional release blockers exposed during remediation
+
+- #843 repairs the retained legacy ready-intent target gap. It contributes to
+  the existing `D520-V3F-001` disposition rather than adding a new finding.
+- #844 adds the missing native v3 PR merge operation. It is not one of the 19
+  source-review findings, but native lifecycle self-sufficiency cannot be
+  claimed until it is resolved.
+- After #843 and #844 merge, the release projection must be rerun at the new
+  immutable candidate before #833 performs the final third-party review.
 
 Final publication is fail-closed until #520 and #521 supply their merged
 exact-revision source reports, all 19 findings have exactly one reviewed
