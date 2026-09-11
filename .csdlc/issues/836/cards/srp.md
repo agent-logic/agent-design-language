@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "recursive-rust-size-review-prompt"
 issue: 836
 task_id: "issue-0836"
 version: "v0.92.1"
 title: "[v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence"
 branch: "codex/836-recursive-rust-size"
-generated_at: "<timestamp>"
-card_status: "draft"
+generated_at: "2026-09-11T02:59:11.281951+00:00"
+card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/836"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/836/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/836/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/836/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/836/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/836/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/836/cards/stp.md"
+  - ".csdlc/issues/836/cards/sip.md"
+  - ".csdlc/issues/836/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/836/cards/stp.md"
+  - ".csdlc/issues/836/cards/sip.md"
+  - ".csdlc/issues/836/cards/vpp.md"
 review_results:
   findings_status: "no_findings"
-  recommended_outcome: "needs_followup"
-notes: "Reviewer independently validated both source inventories and all 1501 relocation runs (2786 unique pairs). Scope is accounting evidence, not runtime behavior."
+  recommended_outcome: "pass"
+notes: "review_836 independently verified inventories, all relocation runs and document hashes. No runtime behavior approval claimed."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/836/cards/stp.md
+- .csdlc/issues/836/cards/sip.md
+- .csdlc/issues/836/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent review_836 found no actionable findings in recursive inventory, counts, relocation locators/digests and ten-surface document audit.
+- Independent review at 52818573ab5ed855253cea60bfb664a3305613f6 passed substantive evidence; one P2 found incomplete rendered cards.
 
 ### Dispositions
 
-- No implementation findings; exact-head publication review remains pending final commit.
+- Filled declared inline aliases, source/card references, validation registry, execution and result fields through native edit. Metadata-only final re-review pending.
 
 ### Recommended Outcome
 
-- needs_followup
+- pass
 
 ## Notes
 
-Reviewer independently validated both source inventories and all 1501 relocation runs (2786 unique pairs). Scope is accounting evidence, not runtime behavior.
+review_836 independently verified inventories, all relocation runs and document hashes. No runtime behavior approval claimed.

@@ -28,5 +28,14 @@
   "estimate_elapsed_seconds": "unknown",
   "estimate_total_tokens": "unknown",
   "estimate_validation_seconds": "unknown",
-  "issue_goal_token_budget": "unknown"
+  "issue_goal_token_budget": "unknown",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/836",
+  "docs_context": "docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/README.md",
+  "demo_proof_requirements": "No demo required; deterministic Git fixture and evidence checks prove this accounting change.",
+  "timestamp": "2026-09-11T02:59:11.281951+00:00",
+  "inputs": "unknown",
+  "slug": "recursive-rust-size",
+  "notes_risks": "Current native binding and SOR supersede pre-execution prompt wording; no runtime edits and no release approval.",
+  "output_card": "unknown",
+  "demo_required": "false"
 }

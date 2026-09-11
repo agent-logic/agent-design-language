@@ -1,4 +1,4 @@
-# <slug>
+# recursive-rust-size
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -20,61 +20,61 @@ Run ID: issue-0836
 Version: v0.92.1
 Title: [v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence
 Branch: codex/836-recursive-rust-size
-Card Status: draft
+Card Status: ready
 Status: in_progress
-Generated: <timestamp>
+Generated: 2026-09-11T02:59:11.281951+00:00
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Planning #5`
+- Model: `not recorded`
+- Provider: `OpenAI`
+- Start Time: `not collected`
+- End Time: `not collected`
 
 ## Summary
 
 Implemented reproducible recursive Rust size/relocation evidence and corrected interpretation of facade reduction. Required issue goal created before implementation.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `local_contract`
+- Planned PVF lane: `local_contract`
+- Final PVF lane: `local_contract`
+- Lane change reason: `No lane change.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
+- Expected runtime class: `local_contract`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `unknown`
+- Actual PR wait seconds: `unknown`
+- Actual CI wait seconds: `unknown`
+- Budget source: `unknown`
+- Goal metrics data source: `not collected`
+- Goal metrics source ref: `unknown`
+- Data-source confidence: `unknown`
+- Estimate error percent: `unknown`
 - Completion state: `implementation_complete_publication_pending`
 - Issue goal ref: `issue-836-active-session-goal`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Sprint goal ref: `not collected`
+- Goal metrics rollup ref: `not collected`
+- Validation planning prompt: `.csdlc/issues/836/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown`
+- Variance analysis completed: `false`
+- Variance category: `unknown`
+- Variance note: `No numerical estimate or usage measurements retained; no fabricated metrics.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
+- Local ignored output-card scaffold at `unknown`
 - Tracked implementation artifacts: `docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/**; docs/milestones/v0.92.1/features/RUST_RESILIENCE_REFACTORING_v0.92.1.md`
 - Additional proof artifacts: `docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/document-audit.json; docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/validation.json`
 
@@ -87,11 +87,11 @@ Implemented reproducible recursive Rust size/relocation evidence and corrected i
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `All #836 changes pending publication`
 - Integration state: `worktree_only`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Verification scope: `Source accounting and bounded document audit only.`
+- Integration method used: `not yet integrated`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
+  - `git status --short --branch; gh pr view after publication`
+    `Confirms bound feature branch; PR and CI verification pending.`
 - Result: `not merged; publication pending`
 
 Rules:
@@ -125,49 +125,49 @@ verification_summary:
   validation:
     status: local_proof_passed
     checks_run:
-      - "<verification_check_1>"
+      - "Fixture tests, retained measurement check and two independent recomputations passed."
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: No provider calls or secrets used in measurement; source hashes and relative paths only.
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: present
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: true
+      approved: Issue836 explicitly requires retained JSON evidence.
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Two complete immutable-Git recomputations produced identical bytes.`
+- Fixtures or scripts used: `docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/test_measure.py; docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measure.py`
+- Replay verification (same inputs -> same artifacts/order): `passed`
+- Ordering guarantees (sorting / tie-break rules used): `Sorted paths, lexical line pairing and sorted output keys.`
+- Artifact stability notes: `Pinned revision inputs; no timestamps or host paths in measurement.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `No automated secret scan claimed; packet inspected for credentials and local paths.`
+- Prompt / tool argument redaction verified: `No provider prompts or credentials in evidence.`
+- Absolute path leakage check: `Retained artifact fields use repository-relative paths.`
+- Sandbox / policy invariants preserved: `Bound worktree only; main unchanged.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not applicable`
+- Run artifact root: `docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836`
+- Replay command used for verification: `python3 docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measure.py --check docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measurement.json`
+- Replay result: `passed`
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/measurement.json`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Required artifacts present: `Measurement JSON/Markdown, generator, fixtures, document audit, README and validation JSON present.`
+- Artifact schema/version checks: `Recomputed full JSON equality and Markdown equality.`
+- Hash/byte-stability checks: `Two independent encoded reports byte-identical to retained output.`
+- Missing/optional artifacts and rationale: `Rust coverage and runtime tests not run: no runtime changes.`
 
 ## Decisions / Deviations
 - `Resilience family grew 5278 to5995 lines; no code-reduction or behavior-proof claim. Historical #499 cards/validator preserved.`

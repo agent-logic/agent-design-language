@@ -37,5 +37,19 @@
   "validation_size_split": "focused",
   "parallel_groups_inline": "Independent documentation audit and algorithm review; serialized evidence generation.",
   "failure_policy": "Reject top-level-only inventory, unresolved revisions, missing scope and unsupported reduction claims. Do not equate size deltas or moved lines with behavioral proof.",
-  "notes_risks_inline": "Three focused tests, seven corrupted-report cases and two independent byte-identical recomputations. Exact-head review and hosted CI pending; no Rust compilation."
+  "notes_risks_inline": "Three focused tests, seven corrupted-report cases and two independent byte-identical recomputations. Exact-head review and hosted CI pending; no Rust compilation.",
+  "expected_proof_cost": "small local CPU and temp Git repositories",
+  "goal_metrics_rollup_ref": "not collected",
+  "stp_card": ".csdlc/issues/836/cards/stp.md",
+  "timestamp": "2026-09-11T02:59:11.281951+00:00",
+  "planned_validation_tokens": "unknown",
+  "issue_goal_ref": "issue-836-active-session-goal",
+  "status": "in_progress",
+  "lane_registry_template_set": "1.0.5",
+  "slug": "recursive-rust-size",
+  "lane_registry_path": "docs/templates/prompts/1.0.5/pvf_lane_policy.json",
+  "spp_card": ".csdlc/issues/836/cards/spp.md",
+  "sprint_goal_ref": "not collected",
+  "planned_validation_seconds": "unknown",
+  "sip_card": ".csdlc/issues/836/cards/sip.md"
 }

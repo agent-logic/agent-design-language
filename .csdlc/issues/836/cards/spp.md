@@ -1,17 +1,17 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_planning_prompt"
-name: "<slug>-execution-plan"
+name: "recursive-rust-size-execution-plan"
 issue: 836
 task_id: "issue-0836"
 run_id: "issue-0836"
 version: "v0.92.1"
 title: "[v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence"
 branch: "codex/836-recursive-rust-size"
-generated_at: "<timestamp>"
+generated_at: "2026-09-11T02:59:11.281951+00:00"
 card_status: "ready"
-status: "<status>"
-activation_state: "<activation_state>"
+status: "in_progress"
+activation_state: "bound"
 plan_revision: 1
 initial_pvf_lane: "local_contract"
 planned_pvf_lane: "local_contract"
@@ -20,29 +20,29 @@ estimate_elapsed_seconds: "unknown"
 estimate_total_tokens: "unknown"
 estimate_validation_seconds: "unknown"
 issue_goal_token_budget: "unknown"
-variance_threshold_percent: "<variance_threshold_percent>"
-estimate_confidence: "<estimate_confidence>"
-estimate_data_source: "<estimate_data_source>"
-estimate_source_ref: "<estimate_source_ref>"
-issue_goal_ref: "<issue_goal_ref>"
-sprint_goal_ref: "<sprint_goal_ref>"
-goal_metrics_rollup_ref: "<goal_metrics_rollup_ref>"
+variance_threshold_percent: "10"
+estimate_confidence: "unknown"
+estimate_data_source: "not collected"
+estimate_source_ref: "not collected"
+issue_goal_ref: "issue-836-active-session-goal"
+sprint_goal_ref: "not collected"
+goal_metrics_rollup_ref: "not collected"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/836"
   - kind: "source_issue_prompt"
-    ref: "<source_issue_prompt>"
+    ref: "https://github.com/agent-logic/agent-design-language/issues/836"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/836/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/836/cards/sip.md"
 scope:
   files:
-    - "<target_files_surfaces_inline>"
+    - "Issue-836 measurement script and focused tests; docs/milestones/v0.92.1/evidence/refactoring/rust-01/**; narrowly corrected current release documentation."
   components:
-    - "<slug>"
+    - "recursive-rust-size"
   out_of_scope:
-    - "<non_goals_inline>"
+    - "No LoC quota; no Rust runtime behavior changes; source size does not prove behavior; no broad validation suite."
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
@@ -53,19 +53,19 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: <dependencies_inline>"
-    expected_output: "<sip_card>"
+    description: "Confirm dependency readiness and starting state: #499 closed; PR547 merged as e986de6d06aacd385de93dd033def77a718c1581. Use its first parent as pre-refactor baseline and merged revision as retained post-refactor candidate, resolved to full SHAs."
+    expected_output: ".csdlc/issues/836/cards/sip.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
-    description: "Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>"
-    expected_output: "<stp_card>"
+    description: "Review repo inputs and scoped surfaces before editing: #836 TPR-004; #499 and merged PR547; retained validation-impact validator; v0.92.1 Rust refactoring feature and planning docs."
+    expected_output: ".csdlc/issues/836/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: <deliverables_inline>"
+    description: "Implement only the bounded deliverables: Recursive tracked .rs inventory at both exact revisions; byte-stable size/diff report; rename and line-relocation evidence; current-doc claims audit; negative guardrails."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: <acceptance_criteria_inline>"
+    description: "Run focused proof gates for acceptance: All tracked Rust files under declared recursive scope included at both revisions; additions and deletions separate from relocation; exact revisions and deterministic output; unsupported claims corrected; focused validator and independent exact-head review pass."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -82,16 +82,16 @@ codex_plan:
   - step: "Run focused validation and proof gates."
     status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "in_progress"
+    status: "completed"
 affected_areas:
-  - "<slug>"
+  - "recursive-rust-size"
 invariants_to_preserve:
   - "Keep SPP issue-local; do not turn it into sprint orchestration."
   - "Keep VPP as validation-planning truth, SRP as review-result truth, and SOR as output truth."
 risks_and_edge_cases:
-  - "<risks_inline>"
+  - "Identical lines are relocation candidates, not proof of semantic movement; rename heuristics must disclose threshold; blank/comment lines must be defined; missing revisions and narrowed scope must fail closed."
 test_strategy:
-  - "<validation_plan_inline>"
+  - "Small deterministic temporary-Git fixtures for nested files, additions/deletions, renames, partial relocation and revision identity; repeat-byte output check; source inventory cross-check; current-document claim audit."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "<notes_risks_inline>"
+notes: "Current native binding and SOR supersede pre-execution prompt wording; no runtime edits and no release approval."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -130,10 +130,10 @@ Freeze PR547 baseline/candidate and recursive resilience source plus declared te
 - Estimated total tokens: `unknown`
 - Estimated validation seconds: `unknown`
 - Issue goal token budget: `unknown`
-- Variance threshold percent: `<variance_threshold_percent>`
-- Estimate confidence: `<estimate_confidence>`
-- Estimate data source: `<estimate_data_source>`
-- Estimate source ref: `<estimate_source_ref>`
+- Variance threshold percent: `10`
+- Estimate confidence: `unknown`
+- Estimate data source: `not collected`
+- Estimate source ref: `not collected`
 - Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
 
 ## Goal Accounting Plan
@@ -146,7 +146,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 2. [completed] Inspect repo inputs and target surfaces before editing.
 3. [completed] Implement the bounded deliverables only.
 4. [completed] Run focused validation and proof gates.
-5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
+5. [completed] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -154,15 +154,15 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: <dependencies_inline>
-2. Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>
-3. Implement only the bounded deliverables: <deliverables_inline>
-4. Run focused proof gates for acceptance: <acceptance_criteria_inline>
+1. Confirm dependency readiness and starting state: #499 closed; PR547 merged as e986de6d06aacd385de93dd033def77a718c1581. Use its first parent as pre-refactor baseline and merged revision as retained post-refactor candidate, resolved to full SHAs.
+2. Review repo inputs and scoped surfaces before editing: #836 TPR-004; #499 and merged PR547; retained validation-impact validator; v0.92.1 Rust refactoring feature and planning docs.
+3. Implement only the bounded deliverables: Recursive tracked .rs inventory at both exact revisions; byte-stable size/diff report; rename and line-relocation evidence; current-doc claims audit; negative guardrails.
+4. Run focused proof gates for acceptance: All tracked Rust files under declared recursive scope included at both revisions; additions and deletions separate from relocation; exact revisions and deterministic output; unsupported claims corrected; focused validator and independent exact-head review pass.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
 
-- <slug>
+- recursive-rust-size
 
 ## Invariants To Preserve
 
@@ -171,11 +171,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Risks And Edge Cases
 
-- <risks_inline>
+- Identical lines are relocation candidates, not proof of semantic movement; rename heuristics must disclose threshold; blank/comment lines must be defined; missing revisions and narrowed scope must fail closed.
 
 ## Test Strategy
 
-- <validation_plan_inline>
+- Small deterministic temporary-Git fixtures for nested files, additions/deletions, renames, partial relocation and revision identity; repeat-byte output check; source inventory cross-check; current-document claim audit.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-<notes_risks_inline>
+Current native binding and SOR supersede pre-execution prompt wording; no runtime edits and no release approval.

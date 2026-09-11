@@ -28,5 +28,16 @@
   "estimate_elapsed_seconds": "unknown",
   "estimate_total_tokens": "unknown",
   "estimate_validation_seconds": "unknown",
-  "issue_goal_token_budget": "unknown"
+  "issue_goal_token_budget": "unknown",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/836",
+  "demo_proof_requirements": "No demo required; deterministic Git fixture and evidence checks prove this accounting change.",
+  "timestamp": "2026-09-11T02:59:11.281951+00:00",
+  "summary": "Recursive exact-revision source-size and relocation accounting for RUST-01; no behavioral or LoC-quota claim.",
+  "wp": "TAIL-06.21",
+  "slug": "recursive-rust-size",
+  "notes_risks": "Current native binding and SOR supersede pre-execution prompt wording; no runtime edits and no release approval.",
+  "issue_graph_note": "Part of #522; depends on closed #499 / merged PR547.",
+  "issue_graph_notes": "Part of #522; #499 dependency satisfied; #835 owns separate release-gate projection.",
+  "demo_required": "false",
+  "tooling_notes": "Native v3 issue/edit/validate/bind; local Python/Git evidence tool."
 }

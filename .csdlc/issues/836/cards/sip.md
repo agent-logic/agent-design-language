@@ -9,13 +9,13 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence
 Branch: codex/836-recursive-rust-size
 Card Status: ready
-Generated: <timestamp>
+Generated: 2026-09-11T02:59:11.281951+00:00
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/836
 - PR:
-- Source Issue Prompt: <source_issue_prompt>
-- Docs: <docs_context>
+- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/836
+- Docs: docs/milestones/v0.92.1/evidence/refactoring/rust-01/issue-836/README.md
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: <output_card>
+  output_card: unknown
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,9 +84,9 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: <slug>
+- Source issue-prompt slug: recursive-rust-size
 - Required outcome type: tooling-evidence
-- Demo required: <demo_required>
+- Demo required: false
 
 ## Goal
 
@@ -102,7 +102,7 @@ All tracked Rust files under declared recursive scope included at both revisions
 
 ## Inputs
 
-<inputs>
+unknown
 
 ## Target Files / Surfaces
 
@@ -114,7 +114,7 @@ Small deterministic temporary-Git fixtures for nested files, additions/deletions
 
 ## Demo / Proof Requirements
 
-<demo_proof_requirements>
+No demo required; deterministic Git fixture and evidence checks prove this accounting change.
 
 ## Constraints / Policies
 
@@ -166,7 +166,7 @@ No LoC quota; no Rust runtime behavior changes; source size does not prove behav
 
 ## Notes / Risks
 
-<notes_risks>
+Current native binding and SOR supersede pre-execution prompt wording; no runtime edits and no release approval.
 
 ## Instructions to the Agent
 - Read this file.

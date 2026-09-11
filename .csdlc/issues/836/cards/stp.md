@@ -1,12 +1,12 @@
 ---
 issue_card_schema: adl.issue.v1
-wp: "<wp>"
-slug: "<slug>"
+wp: "TAIL-06.21"
+slug: "recursive-rust-size"
 title: "[v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence"
 labels:
   - "track:roadmap"
 issue_number: 836
-generated_at: "<timestamp>"
+generated_at: "2026-09-11T02:59:11.281951+00:00"
 card_status: "ready"
 status: "draft"
 action: "edit"
@@ -17,25 +17,25 @@ milestone_sprint: "v0.92.1"
 required_outcome_type:
   - "tooling-evidence"
 repo_inputs:
-  - "<source_issue_prompt>"
+  - "https://github.com/agent-logic/agent-design-language/issues/836"
 canonical_files: []
-demo_required: <demo_required>
+demo_required: false
 demo_names: []
 issue_graph_notes:
-  - "<issue_graph_note>"
+  - "Part of #522; depends on closed #499 / merged PR547."
 pr_start:
   enabled: true
-  slug: "<slug>"
+  slug: "recursive-rust-size"
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
-Generated: <timestamp>
+Generated: 2026-09-11T02:59:11.281951+00:00
 
 # Structured Task Prompt
 
 ## Summary
 
-<summary>
+Recursive exact-revision source-size and relocation accounting for RUST-01; no behavioral or LoC-quota claim.
 
 ## Goal
 
@@ -71,7 +71,7 @@ Small deterministic temporary-Git fixtures for nested files, additions/deletions
 
 ## Demo Expectations
 
-<demo_proof_requirements>
+No demo required; deterministic Git fixture and evidence checks prove this accounting change.
 
 ## Non-goals
 
@@ -79,12 +79,12 @@ No LoC quota; no Rust runtime behavior changes; source size does not prove behav
 
 ## Issue-Graph Notes
 
-<issue_graph_notes>
+Part of #522; #499 dependency satisfied; #835 owns separate release-gate projection.
 
 ## Notes
 
-<notes_risks>
+Current native binding and SOR supersede pre-execution prompt wording; no runtime edits and no release approval.
 
 ## Tooling Notes
 
-<tooling_notes>
+Native v3 issue/edit/validate/bind; local Python/Git evidence tool.
