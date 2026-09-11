@@ -68,8 +68,9 @@ Save the returned report as
 
 Return one findings-first report containing:
 
-1. reviewer identity, provider/model where applicable, and independence;
-2. the exact candidate SHA above;
+1. a single metadata line in exactly this form:
+   `Candidate commit: 9c7e57d412d61898bd44ab00d53e31afbb779e5c`;
+2. reviewer identity, provider/model where applicable, and independence;
 3. confirmation of clean detached checkout and candidate-drift result;
 4. findings ordered P0 through P3, each with exact file/line evidence, impact,
    and bounded remediation;

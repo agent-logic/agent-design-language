@@ -26,6 +26,10 @@ def validate_report_binding(assignment_sha, report_sha)
   ["assignment/report candidate SHA mismatch"]
 end
 
+def report_candidate_shas(text)
+  text.scan(/^Candidate commit:\s*`?([0-9a-f]{40})`?\s*$/).flatten
+end
+
 abort("handoff missing") unless File.file?(HANDOFF)
 text = File.read(HANDOFF)
 failures = validate(text, EXPECTED)
@@ -45,19 +49,23 @@ end
 
 abort("matching assignment/report SHA was rejected") unless validate_report_binding(EXPECTED, EXPECTED).empty?
 abort("drifting assignment/report SHA was accepted") if validate_report_binding(EXPECTED, "2" * 40).empty?
+parser_positive = "Evidence commit: #{'2' * 40}\nCandidate commit: #{EXPECTED}\n"
+abort("explicit candidate parser selected unrelated SHA") unless report_candidate_shas(parser_positive) == [EXPECTED]
+parser_conflict = "Candidate commit: #{EXPECTED}\nCandidate commit: #{'2' * 40}\n"
+abort("conflicting candidate fields were accepted") unless report_candidate_shas(parser_conflict).length != 1
 
 if File.file?(REPORT)
   report_text = File.read(REPORT)
-  report_sha = report_text[/\b[0-9a-f]{40}\b/]
-  failures << "returned report does not name a 40-character candidate SHA" unless report_sha
-  failures.concat(validate_report_binding(EXPECTED, report_sha)) if report_sha
+  report_shas = report_candidate_shas(report_text)
+  failures << "returned report must contain exactly one explicit Candidate commit field" unless report_shas.length == 1
+  failures.concat(validate_report_binding(EXPECTED, report_shas.first)) if report_shas.length == 1
 elsif ENV["CSDLC_REQUIRE_EXTERNAL_REPORT"] == "1"
   failures << "required external review report is missing"
 end
 
 if failures.empty?
   phase = File.file?(REPORT) ? "handoff and report bound" : "phase-one handoff; report pending"
-  puts "PASS: #{phase}; 5 negative cases rejected"
+  puts "PASS: #{phase}; 7 negative cases rejected"
 else
   abort(failures.join("\n"))
 end
