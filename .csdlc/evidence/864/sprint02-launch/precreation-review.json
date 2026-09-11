@@ -1,0 +1,54 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 2,
+  "issues": [
+    {
+      "task": "PLAT-PROVIDER",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "452b3f61787f3f64a899c0ea8c4bfc59c27e3a5c8e9414328c3154f9e72f2369"
+    },
+    {
+      "task": "PLAT-UTS",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "18e8bbc92de06dfd058be53a6f0f09e624736134c1f04c0e21ad17a537fb6cf0"
+    },
+    {
+      "task": "CF-ADAPTER",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "5517ebfc8bdc8cc9f8d21f17bc410e04d5b46b1991cc86c86a6c6191a1c28ab9"
+    },
+    {
+      "task": "CF-ADAPTER-GITHUB",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "4bee840d8cfd37b7a1f4a6289b730b40351c932da945c0802fc64c3eb694abfe"
+    },
+    {
+      "task": "CF-ADAPTER-CI",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "76f9a1af504c60014083da8ce51f72e1a61d3fb720fe867f4f7a52293c5a212a"
+    },
+    {
+      "task": "CF-EVIDENCE",
+      "author": "/root/docs_final_review",
+      "reviewer": "/root/task_contract_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "4a7adcd7840cdecba7faf38b08711c7ca36c4df7516bfa83d9e01c7f23fa324c"
+    }
+  ]
+}

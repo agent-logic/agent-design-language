@@ -35,15 +35,15 @@ Generated: 2026-09-11T21:51:25.506803+00:00
 
 ## Summary
 
-Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.
+Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions.
 
 ## Goal
 
-Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.
+Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions.
 
 ## Required Outcome
 
-First-sprint issue launch: one umbrella plus nine SIM tasks, reviewed and linked to canonical planning IDs.
+All69 task identities present; every newly created issue independently reviewed before and after creation; existing identities preserved.
 
 ## Deliverables
 
@@ -75,7 +75,7 @@ Not applicable; docs-only planning proof.
 
 ## Non-goals
 
-Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.
+Implementation, live activation, merge, release approval.
 
 ## Issue-Graph Notes
 

@@ -21,7 +21,7 @@ Version: 1.0.5
 Title: [v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave
 Branch: codex/864-v0922-wp01
 Card Status: ready
-Status: reviewed_first_sprint_launch
+Status: in_progress
 Generated: 2026-09-11T21:51:25.506803+00:00
 
 Execution:
@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Created first sprint #866 umbrella and #867-#875 SIM01-09 through native v3; all ten live issue contracts independently reviewed; planning now has 69 tasks,19 bindings,50 unassigned.
+First10 new issues created/reviewed and published; proceeding through all50 remaining tasks under explicit operator instruction.
 
 ## PVF Lane Truth
 - Initial PVF lane: `docs`
@@ -57,7 +57,7 @@ Created first sprint #866 umbrella and #867-#875 SIM01-09 through native v3; all
 - Goal metrics source ref: `First-sprint creation goal for #864; no final source-time usage snapshot recorded.`
 - Data-source confidence: `not_collected`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed_launch_handoff`
+- Completion state: `remaining_sprint_creation_in_progress`
 - Issue goal ref: `issue-864-reconciliation-goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -110,7 +110,7 @@ Rules:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; native csdlc validate; git diff --check`
     `109 planning and31 launch negative fixtures passed; native six-card validation generation11 passed before result recording; independent exact source review passed at9f0971c5988341e887d1290f6d462e9d799d4c5d.`
 - Results:
-  - `passed`
+  - `pending`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `The cited TBD split-plan path is absent and remains #848 recovery work.`
 
 ## Follow-ups / Deferred work
-- `Publish the reviewed first batch, then continue remaining sprint batches under the operator instruction.`
+- `Complete every remaining issue without gaps, review every batch and publish consolidated launch truth.`
 - `No implementation, writer pause/activation, merge or release approval is implied.`

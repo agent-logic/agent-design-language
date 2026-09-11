@@ -1,0 +1,89 @@
+{
+  "schema": "adl.issue-creation-batches.v1",
+  "purpose": "Sequential creation and independent review groups, not additional execution dependencies or new umbrella issues.",
+  "first_sprint": [
+    "SIM-UMBRELLA",
+    "SIM-01",
+    "SIM-02",
+    "SIM-03",
+    "SIM-04",
+    "SIM-05",
+    "SIM-06",
+    "SIM-07",
+    "SIM-08",
+    "SIM-09"
+  ],
+  "remaining_batches": {
+    "2": [
+      "PLAT-PROVIDER",
+      "PLAT-UTS",
+      "CF-ADAPTER",
+      "CF-ADAPTER-GITHUB",
+      "CF-ADAPTER-CI",
+      "CF-EVIDENCE"
+    ],
+    "3": [
+      "CF-COG",
+      "CF-COG-IMPACT",
+      "CF-COG-RATIONALE",
+      "CF-MEMORY",
+      "CF-COG-DRIFT",
+      "CF-GOV",
+      "CF-GOV-CI",
+      "PLAT-MEMORY"
+    ],
+    "4": [
+      "CF-REVIEW",
+      "CF-SHELL",
+      "CF-SYNTHESIS",
+      "CF-REMEDIATE",
+      "CF-TESTPLAN",
+      "CF-UX",
+      "CF-RENDER-MD",
+      "CF-RENDER-HTML",
+      "CF-RENDER-PDF"
+    ],
+    "5": [
+      "QUAL-INVENTORY",
+      "QUAL-RESIDENT",
+      "QUAL-PROVIDER",
+      "QUAL-EVIDENCE"
+    ],
+    "6": [
+      "PLAT-MLX",
+      "PLAT-PAIR",
+      "SPEC-RETEST"
+    ],
+    "7": [
+      "PLAT-RUST",
+      "CSDLC-REMOTE"
+    ],
+    "8": [
+      "OPS-AWS",
+      "OPS-GCP",
+      "OBS-S3"
+    ],
+    "9": [
+      "ARCH-ADR",
+      "PUB-MEDIUM",
+      "PUB-CSDLC"
+    ],
+    "10": [
+      "CF-INTEGRATE",
+      "CF-PROOF"
+    ],
+    "11": [
+      "TAIL-01",
+      "TAIL-02",
+      "TAIL-03",
+      "TAIL-04",
+      "TAIL-05",
+      "TAIL-06",
+      "TAIL-07",
+      "TAIL-08",
+      "TAIL-09",
+      "TAIL-10"
+    ]
+  },
+  "operator_direction": "Create and carefully review every sprint; all69 tasks must have identities with no omissions. PUB-CSDLC is an ordinary iterative manuscript revision issue."
+}

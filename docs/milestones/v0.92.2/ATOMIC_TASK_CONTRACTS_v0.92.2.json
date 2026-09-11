@@ -1102,10 +1102,10 @@
       "result_type": "document"
     },
     "PUB-CSDLC": {
-      "task": "One named C-SDLC manuscript revision completes its frozen revision checklist and source/citation checks, ready for a human research decision without submission.",
+      "task": "The current C-SDLC manuscript is iteratively revised through author feedback to deliver this milestone's complete reviewed version, with synchronized manuscript and citation sources and no submission.",
       "consumer": "named_csdlc_manuscript_revision",
       "success_evidence": [
-        "revision_checklist_frozen_before_creation",
+        "feedback_items_dispositioned",
         "complete_revised_manuscript",
         "source_and_citation_check"
       ],

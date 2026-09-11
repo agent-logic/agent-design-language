@@ -32,7 +32,7 @@ All nine preexisting issue identities are retained. The wave has 69 tasks: 19 as
 | PLAT-UTS | One versioned installable UTS package is consumed by the Runtime ACC/UTS tool-dispatch path with a declared compatibility contract. | plan_only, schema_only, scaffold_only, unspecified_slice, zero_executed_scenarios |
 | PLAT-RUST | One selected production Rust responsibility is fully extracted or simplified while preserving observable behavior, with recursive source accounting and focused regressions. | plan_only, schema_only, scaffold_only, unspecified_slice, zero_executed_scenarios |
 | PUB-MEDIUM | One selected v0.92.2 article is fully written, source checked and ready for editorial decision without publishing. | outline_only, unspecified_revision, future_work_list |
-| PUB-CSDLC | One named C-SDLC manuscript revision completes its frozen revision checklist and source/citation checks, ready for a human research decision without submission. | outline_only, unspecified_revision, future_work_list |
+| PUB-CSDLC | The current C-SDLC manuscript is iteratively revised through author feedback to deliver this milestone's complete reviewed version, with synchronized manuscript and citation sources and no submission. | outline_only, unspecified_revision, future_work_list |
 | PLAT-MEMORY | The CodeFriend second-review comparison path retrieves its prior compatible run from Memory Palace through the production retrieval boundary with enforced privacy and deletion behavior. | plan_only, schema_only, scaffold_only, unspecified_slice, zero_executed_scenarios |
 | SIM-03 | The installed intent CLI executes the declared local and remote command inventory against production operations, resolving context and evidence internally while preserving guards. | plan_only, schema_only, scaffold_only, unspecified_slice, zero_executed_scenarios |
 | SIM-04 | The operational application routes every local transition and verified remote/terminal outcome through one semantic issue transaction owner, proven at actual entrypoints under crash and concurrency. | plan_only, schema_only, scaffold_only, unspecified_slice, zero_executed_scenarios |
@@ -43,7 +43,7 @@ WP-01, ARCH-SPLIT, OPS-GCP, ARCH-ADR, SIM-08, TAIL-07 and TAIL-08 all remain req
 
 ## Execution selection gates
 
-Before child creation, WP-01 binds the concrete product command and source ownership paths, external repository/revision/license/scope, and supported provider route. PLAT-RUST additionally selects the exact production responsibility and invariant; PUB-MEDIUM selects its article; PUB-CSDLC freezes a manuscript revision checklist; SIM-03 freezes its supported command inventory. These gates prevent unspecified slices from being opened as ready tasks.
+Before child creation, WP-01 binds the concrete product command and source ownership paths, external repository/revision/license/scope, and supported provider route. PLAT-RUST additionally selects the exact production responsibility and invariant; PUB-MEDIUM selects its article; PUB-CSDLC names the current manuscript and tracks feedback/revision dispositions during execution; SIM-03 freezes its supported command inventory. These gates prevent unspecified slices from being opened as ready tasks.
 
 ## Evidence and dependency authority
 

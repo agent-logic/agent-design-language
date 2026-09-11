@@ -90,11 +90,11 @@ review_surfaces:
 
 ## Goal
 
-Create and independently review SIM-UMBRELLA and SIM-01 through SIM-09 as the first authorized sprint; bind canonical identities and dependency links without executing implementation.
+Create and carefully review all remaining50 planned tasks in sequential sprint batches, including ordinary iterative PUB-CSDLC manuscript work; reconcile all69 identities with no omissions.
 
 ## Required Outcome
 
-Ten complete and reviewed first-sprint GitHub issues with authenticated native readbacks, command inventory frozen before SIM-03 creation, and reconciled planning documents.
+All69 tasks have unique canonical issues and reviewed complete task contracts; all planning projections and native readbacks agree.
 
 ## Acceptance Criteria
 
@@ -162,7 +162,7 @@ ci_validation_required: true
 
 ## Non-goals / Out of scope
 
-Later-sprint creation in this batch; implementation execution; writer pause or conversion activation; merge; release approval.
+Implementation, writer pause/live activation, merge, release approval.
 
 ## Notes / Risks
 

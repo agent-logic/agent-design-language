@@ -351,14 +351,15 @@ specifications:
     completion_contract: {"task": "One selected v0.92.2 article is fully written, source checked and ready for editorial decision without publishing.", "consumer": "selected_medium_manuscript", "success_evidence": ["article_selected_before_creation", "complete_manuscript", "source_and_citation_check"], "failure_evidence": ["outline_only_rejected", "unspecified_article_rejected"], "reject_completion": ["outline_only", "unspecified_revision", "future_work_list"], "result_type": "document"}
     selection_gates: ["named_article_brief"]
   - id: PUB-CSDLC
-    outcome: "One named C-SDLC manuscript revision completes its frozen revision checklist and source/citation checks, ready for a human research decision without submission."
+    outcome: "The current C-SDLC manuscript is iteratively revised through author feedback to deliver this milestone's complete reviewed version, with synchronized manuscript and citation sources and no submission."
     owned_surfaces: ["csdlc_paper_packet"]
-    acceptance: ["claims_source_grounded", "citations_resolvable", "submission_not_claimed", "revision_checklist_frozen_before_creation", "complete_revised_manuscript", "source_and_citation_check"]
-    pvf: ["source_traceability", "citation_check", "nonsubmission_check", "revision_checklist_frozen_before_creation", "complete_revised_manuscript", "source_and_citation_check", "advance_packet_only_rejected", "unspecified_increment_rejected"]
+    acceptance: ["claims_source_grounded", "citations_resolvable", "submission_not_claimed", "feedback_items_dispositioned", "complete_revised_manuscript", "source_and_citation_check"]
+    pvf: ["source_traceability", "citation_check", "nonsubmission_check", "feedback_items_dispositioned", "complete_revised_manuscript", "source_and_citation_check", "advance_packet_only_rejected", "unspecified_increment_rejected"]
     stop_conditions: ["unsupported_claim", "invented_citation", "silent_submission", "partial_artifact_claimed_complete", "named_document_incomplete", "revision_checklist_missing", "incomplete_manuscript_revision"]
     non_goals: ["arxiv_submission", "publication"]
-    completion_contract: {"task": "One named C-SDLC manuscript revision completes its frozen revision checklist and source/citation checks, ready for a human research decision without submission.", "consumer": "named_csdlc_manuscript_revision", "success_evidence": ["revision_checklist_frozen_before_creation", "complete_revised_manuscript", "source_and_citation_check"], "failure_evidence": ["advance_packet_only_rejected", "unspecified_increment_rejected"], "reject_completion": ["outline_only", "unspecified_revision", "future_work_list"], "result_type": "document"}
-    selection_gates: ["named_manuscript_revision_checklist"]
+    completion_contract: {"task": "The current C-SDLC manuscript is iteratively revised through author feedback to deliver this milestone's complete reviewed version, with synchronized manuscript and citation sources and no submission.", "consumer": "named_csdlc_manuscript_revision", "success_evidence": ["feedback_items_dispositioned", "complete_revised_manuscript", "source_and_citation_check"], "failure_evidence": ["advance_packet_only_rejected", "unspecified_increment_rejected"], "reject_completion": ["outline_only", "unspecified_revision", "future_work_list"], "result_type": "document"}
+    selection_gates: ["current_named_manuscript"]
+    execution_inputs: ["author_feedback", "tracked_revision_and_feedback_dispositions"]
   - id: PLAT-MEMORY
     outcome: "The CodeFriend second-review comparison path retrieves its prior compatible run from Memory Palace through the production retrieval boundary with enforced privacy and deletion behavior."
     owned_surfaces: ["production_consumer", "retrieval_contract", "privacy_policy"]
