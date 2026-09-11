@@ -5,7 +5,6 @@ require "digest"
 require "fileutils"
 require "json"
 require "open3"
-require "time"
 
 PLAN = ".csdlc/prepared/issues/818/retained-corporate-runtime-resolution-plan.json"
 OUT = ".csdlc/evidence/818/retained-corporate-runtime"
@@ -53,7 +52,6 @@ receipt = {
   "parent_issue" => 522,
   "finding" => "D520-RET-001",
   "candidate" => EXPECTED_CANDIDATE,
-  "generated_at" => Time.now.utc.iso8601(6),
   "row_count" => rows.length,
   "candidate_execution_passed" => 0,
   "governed_disposition_proposals" => rows.length,

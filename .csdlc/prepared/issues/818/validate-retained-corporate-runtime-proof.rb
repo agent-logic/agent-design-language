@@ -29,6 +29,24 @@ def git_bytes(*args)
   stdout
 end
 
+def canonical(value)
+  case value
+  when Hash then value.keys.sort.to_h { |key| [key, canonical(value.fetch(key))] }
+  when Array then value.map { |entry| canonical(entry) }
+  else value
+  end
+end
+
+def category(row_id)
+  case row_id
+  when /retained-153-/ then "corporate-inventory-contract"
+  when /retained-154-|retained-155-|retained-160-/ then "private-legal-and-use-rights-proof"
+  when /retained-157-/ then "repository-migration-safeguards"
+  when /retained-158-|retained-159-/ then "corporate-bootstrap-and-runbook-boundary"
+  else raise "unclassified corporate row #{row_id}"
+  end
+end
+
 plan = JSON.parse(File.read(PLAN))
 receipt = JSON.parse(File.read(RECEIPT))
 denominator_bytes = git_bytes("show", "#{EXPECTED_CANDIDATE}:#{DENOMINATOR}")
@@ -45,6 +63,13 @@ expected_ids = denominator.map { |row| row.fetch("row_id") }.sort
 plan_ids = plan.fetch("rows").map { |row| row.fetch("row_id") }
 receipt_ids = receipt.fetch("rows").map { |row| row.fetch("row_id") }
 
+assert(plan.keys.sort == %w[candidate candidate_execution_count denominator finding governed_disposition_proposal_count issue parent_issue row_count rows rows_digest schema source_mapping].sort, "plan top-level schema drift")
+assert(receipt.keys.sort == %w[candidate candidate_execution_passed finding governed_disposition_proposals issue non_claims operator_approval_pending parent_issue release_ready row_count rows schema unclassified].sort, "receipt top-level schema drift")
+assert(plan.fetch("schema") == "adl.v0921.issue818.retained_corporate_runtime_resolution_plan.v1", "plan schema drift")
+assert(receipt.fetch("schema") == "adl.v0921.issue818.retained_corporate_runtime_reconciliation.v1", "receipt schema drift")
+assert(plan.fetch("issue") == 818 && receipt.fetch("issue") == 818, "issue identity drift")
+assert(plan.fetch("parent_issue") == 522 && receipt.fetch("parent_issue") == 522, "parent identity drift")
+assert(plan.fetch("finding") == "D520-RET-001" && receipt.fetch("finding") == "D520-RET-001", "finding identity drift")
 assert(plan.fetch("denominator") == DENOMINATOR, "plan denominator pointer drift")
 assert(plan.fetch("source_mapping") == SOURCE, "plan source pointer drift")
 assert(plan.fetch("candidate") == EXPECTED_CANDIDATE, "plan candidate drift")
@@ -54,6 +79,7 @@ assert(plan_ids.length == plan_ids.uniq.length && plan_ids.sort == expected_ids,
 assert(receipt_ids.length == receipt_ids.uniq.length && receipt_ids.sort == expected_ids, "receipt must consume all 17 rows exactly once")
 assert(plan.fetch("row_count") == 17 && receipt.fetch("row_count") == 17, "row count drift")
 assert(plan.fetch("candidate_execution_count") == 0, "unsupported candidate execution claim")
+assert(plan.fetch("governed_disposition_proposal_count") == 17, "plan proposal count drift")
 assert(receipt.fetch("candidate_execution_passed") == 0, "unsupported execution pass")
 assert(receipt.fetch("governed_disposition_proposals") == 17, "proposal count drift")
 assert(receipt.fetch("operator_approval_pending") == 17, "operator-review denominator drift")
@@ -77,11 +103,15 @@ plan.fetch("rows").each do |row|
   assert(row.fetch("source_remaining_action") == source.fetch("remaining_action"), "remaining action drift")
   expected_paths = ([source.fetch("source_path")] + source.fetch("evidence_refs").reject { |ref| ref.start_with?("http://", "https://") }).uniq.sort
   expected_refs = source.fetch("evidence_refs").select { |ref| ref.start_with?("http://", "https://") }.sort
+  assert(row.keys.sort == %w[criterion_id criterion_text criterion_text_digest owner reference_only_evidence resolution row_id source_assessment source_rationale source_remaining_action source_repository_paths].sort, "plan row schema drift")
   assert(row.fetch("source_repository_paths") == expected_paths, "source path drift")
   assert(row.fetch("reference_only_evidence") == expected_refs, "reference-only evidence drift")
 
   resolution = row.fetch("resolution")
+  proposal_keys = %w[approval_state behavioral_pass_claim category criterion_specific_basis operator_review_effect operator_review_target preexisting_evidence_context proposal_digest proposed_disposition removal_scope replacement_text source_proof_boundary type]
+  assert(resolution.keys.sort == proposal_keys.sort, "proposal schema drift")
   assert(resolution.fetch("type") == "governed_disposition_proposal", "unknown resolution type")
+  assert(resolution.fetch("category") == category(row.fetch("row_id")), "proposal category drift")
   assert(resolution.fetch("behavioral_pass_claim") == false, "proposal may not claim behavioral pass")
   assert(resolution.fetch("approval_state") == "pending_operator_review", "plan fabricates approval")
   assert(resolution.fetch("proposed_disposition") == "remove_from_v0.92.1_retained_release_gate", "disposition action drift")
@@ -90,16 +120,19 @@ plan.fetch("rows").each do |row|
   assert(resolution.fetch("replacement_text").nil?, "implicit replacement text denied")
   expected_boundary = "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred."
   assert(resolution.fetch("source_proof_boundary") == expected_boundary, "proof boundary drift")
-  expected_digest = Digest::SHA256.hexdigest([
-    row.fetch("row_id"), row.fetch("criterion_text_digest"), resolution.fetch("proposed_disposition"),
-    expected_scope, row.fetch("source_rationale"), row.fetch("source_remaining_action"), expected_boundary
-  ].join("\0"))
+  assert(resolution.fetch("criterion_specific_basis") == source.fetch("rationale"), "criterion-specific basis drift")
+  expected_target = "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission."
+  expected_effect = "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking."
+  expected_context = "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+  assert(resolution.fetch("operator_review_target") == expected_target, "operator-review target drift")
+  assert(resolution.fetch("operator_review_effect") == expected_effect, "operator-review effect drift")
+  assert(resolution.fetch("preexisting_evidence_context") == expected_context, "source proof context drift")
+  expected_digest = Digest::SHA256.hexdigest(JSON.generate(canonical(resolution.reject { |key, _| key == "proposal_digest" })))
   assert(resolution.fetch("proposal_digest") == expected_digest, "proposal digest drift")
-  assert(resolution.fetch("operator_review_target").include?("exact removal proposal and digest"), "operator-review target is not exact")
-  assert(resolution.fetch("operator_review_effect").include?("before merge it remains pending and release-blocking"), "pre-merge authority boundary missing")
-  assert(resolution.fetch("preexisting_evidence_context").include?("not treated as execution proof"), "source reference was promoted to proof")
 
   observed = receipt_by_id.fetch(row.fetch("row_id"))
+  assert(observed.keys.sort == (row.keys + ["candidate_evidence"]).sort, "receipt row schema drift")
+  assert(observed.fetch("resolution").keys.sort == (proposal_keys + %w[candidate status]).sort, "receipt proposal schema drift")
   expected_observed = row.merge(
     "resolution" => resolution.merge("status" => "pending_operator_review", "candidate" => EXPECTED_CANDIDATE)
   )
@@ -108,6 +141,7 @@ plan.fetch("rows").each do |row|
   evidence = observed.fetch("candidate_evidence")
   assert(evidence.map { |entry| entry.fetch("path") }.sort == expected_paths, "candidate evidence path drift")
   evidence.each do |entry|
+    assert(entry.keys.sort == %w[git_blob path proof_role sha256 status].sort, "candidate evidence schema drift")
     assert(entry.fetch("status") == "present", "candidate evidence missing")
     assert(entry.fetch("proof_role") == "candidate_bound_context_not_behavioral_proof", "evidence proof role drift")
     candidate_bytes = git_bytes("show", "#{EXPECTED_CANDIDATE}:#{entry.fetch('path')}")

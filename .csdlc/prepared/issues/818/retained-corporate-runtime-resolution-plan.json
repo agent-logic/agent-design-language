@@ -34,14 +34,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-153-ac-2 (222e275a97effb36759cb9d49c0c6f146f91304f9c7bde9401651975bb50869e) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "e1429d32d9b66c7a51b41f900d7de8accd5c0e020c939995ac2d2814a65081be",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Schedule records owner/custodian/disposition and receipts, but does not record per-row current versus target control, transfer dependency and rollback posture required here.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "b9d74f5de812b2a3e9d36a2e538e94d142ab7183c10cf06cf793bf2ad32a49f7"
       }
     },
     {
@@ -68,14 +68,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-153-ac-3 (ca40aa895a984a8ddf0c0f61b7731dda8c0ad2a7c39a045c75515631b76f27ff) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "266fdf3d2917b499459070698f6c1a4887cb2103eb9c9542069d433074200880",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Validator rejects duplicate identifiers, missing owners and forbidden secret markers; no recovery-authority field is required, so the full negative denominator is not proven.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "ccbb4b3f54424495688a23c74d74c7cd85b563adbbb033a87366957630d71812"
       }
     },
     {
@@ -101,14 +101,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-154-ac-1 (ca3976b4d0428be9c4eb77452bd7968e9fa57425975c7ee745293c124b0b29c3) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "baeb753fb94e6fc05b0ea567bb83ed83754a3b85876f9a362e4ba250527af1cc",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Public corporate-operator-role acceptance does not attest that qualified counsel approved a specific instrument set before execution.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "814096d53a0fbf78fb519f51f19f3e7df4cdb49990cd438147312551c60c648b"
       }
     },
     {
@@ -133,14 +133,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-154-ac-2 (e5bdbbaf0d7b717c45635902cc346143a8305d23069a1aa51a8c091cfc66b00d) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "32f80da540184e220855428d3b7d9599a89dd01fb9831976b608ff6b4dfdc16b",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "No required-party/execution denominator is recorded; operator custody acceptance alone does not prove all required signatures or blocking dispositions.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "466377e14fe59259118453d173f8e0cce5e49f9d302d2bb977ae95237cf0ed30"
       }
     },
     {
@@ -166,14 +166,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-154-ac-3 (e287f7708a6ea1a74677c45e4c92eee2e486bfb06ad711947e7673353ce28375) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "ef65b2d47818f6a4a3bf759088e15b5a983bd37f2067167cd0a6567806b6f09a",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Private material is excluded from inspected Git surfaces, but company-controlled private custody is only an operator-held-envelope reference, and the483 amendment sends private-vault custody to704.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "271b108459b6bab2df6909ccdafc1dc8b8efd54b50bcfaa097ec1f85481c28d5"
       }
     },
     {
@@ -199,14 +199,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-154-ac-4 (bada2f880722358d51a5e907e4ce42d6850ada9501e1e63db6ee8c28d4d69413) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "dc09296982a7cefe3af77198454f9a4e6766fa5972c46bf5f9cb01745aca176e",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Each redacted receipt binds a schedule row through a recomputable public tuple; this is not a digest or accepted attestation of each executed instrument.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "5f384baf01c042fd64d980904e8c309140e21370b37ca771db5e38b1bd411226"
       }
     },
     {
@@ -231,14 +231,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-155-ac-1 (055ce901e1dd92bd689b65f909ed29558b0ec81e521ea1e49bd3c1793866be82) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "fbd5efb5c2712c77f72231572d444380168c71bfa5f5a7572cba0b883990969e",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Class-level source/model/data/media rows contain provenance and review routes, but no complete per-asset use-rights denominator.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "14605bec09f0f8f6d9f67b9dfdb53365e3537175151b7d9a9d6ad1769ed06e7a"
       }
     },
     {
@@ -263,14 +263,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-155-ac-2 (15ff9c44a13407d7213716d18bd6b7f7a370b5d637496b47048ee4284e507974) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "d608556dd8a5331b20b90f16308489d0aeed2c7200f1d4f1bc16e5e8b00714fb",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Rows cite broad repository/docs paths and LICENSE, while dependency licensing conclusions are deferred to later review; no manifest-bound conclusion set.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "ddc68bc30da9d652a5ce6fc1c048b1728c001669fc276c993a3dc5f4252fa94f"
       }
     },
     {
@@ -295,14 +295,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-A:retained-155-ac-3 (e2881ebd0873bc4cff6d6e4e7638bd25d99df249d5a5d041797df3f5bd92a1f5) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "a9bf831a116f92f37fa4769b1acad38dea971611dfb8fd266ea881e1cfc64782",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "All rows are accepted-for-corporate-schedule even where licensing/counsel review remains required; no explicit release exclusion enforcement is shown.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "358e957c5e93a350d656511bea8d2de0aee540941cf8db3784b43fd545fae208"
       }
     },
     {
@@ -327,14 +327,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-C:retained-157-ac-1 (25d2236f0b6611f0661f5166d4a0a4e9b9ff87b9534bc7eb823bbd576bf58aa3) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "c5147bc1c3dd7d0fbc0574a52a68d0517e188b86a247d4d5ef9d8bd7613fbb8c",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "497 amendment explicitly defers operational hardening but does not explicitly waive original seven-repository scope, visibility safeguards or nondestructive history preservation. IP-transfer acceptance is not per-repository proof of these safeguards.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "d350de91defe8e5f70d5084382e88c1fc09a7e012cdf89f46f07a69e91bdd687"
       }
     },
     {
@@ -359,14 +359,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-C:retained-157-ac-2 (0f905797b5a61fd7174689f8990abc484ebe0e33264a148ccaee74b728050cc6) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "54f720aa5f3bffd9b1301dbc37b616801510c9699abd02cc2263896ede909e60",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "497 amendment explicitly defers operational hardening but does not explicitly waive original seven-repository scope, visibility safeguards or nondestructive history preservation. IP-transfer acceptance is not per-repository proof of these safeguards.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "2356fad89c5a2b72b1e87c3bbbe8054965c921ed066be9c7b2095f638d739471"
       }
     },
     {
@@ -391,14 +391,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-C:retained-157-ac-3 (3dcf8200c3266e29ec916967f7363aac45dca1287cc76bb01dc71511876e3d63) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "b69d83b4ff0d23bb38e50e77ea226f5fe546da741e4064efdc6e333a4f54bcd0",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "497 amendment explicitly defers operational hardening but does not explicitly waive original seven-repository scope, visibility safeguards or nondestructive history preservation. IP-transfer acceptance is not per-repository proof of these safeguards.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "92aa5b6ca99211046aa0f93403cef9f1d9fbfd43fc5a0dd59c6ad36d0417ce42"
       }
     },
     {
@@ -424,14 +424,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-C:retained-158-ac-4 (3f0889ef158b1921a566431dcafcfd3d8da702e478504d28eb72c700cf49a6a3) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "743fb884c8406f7c29cda96c9603d29bf36818b715d135ee9b3bc7ddd2df253f",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "497 authorizes persistent Terraform foundation resources; retained packet contains no per-phase temporary-resource inventory and deletion readback satisfying this general criterion.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "70c3215316f0e44fed4beb33b82bb0fcbd09c9a62418ac1d71bea60b2cf7d900"
       }
     },
     {
@@ -457,14 +457,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-C:retained-159-ac-1 (a2a2be9ebddd548f9454593a95ec36b28101b2691c71c14395b30e5bbba24a96) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "bb19471bebcacf8909d83f0f8517f6841ca1f13d927608bd7434e332890340f8",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "497 proves bootstrap backend state migration with bucket controls and locking; complete plan/apply/recovery custody is broader than the retained readback.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "672e92f3c99be81542d3a70ffe2a56ec9b108a9df2a0ca8fe45975dab063d163"
       }
     },
     {
@@ -490,14 +490,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-C:retained-159-ac-4 (ab9a7a8716af01ebb9ba72e1dd36f349f8777da799ffcdcc9e3b32e4b8ca494d) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "1853ceda41cd414ec6b0c89b9998b3bd66eeb9a94da9fea811c507534c969bcf",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Bootstrap runbook covers prerequisites, init/plan/apply and cleanup boundaries; full operational deployment rollback/escalation command denominator was routed to624.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "145c0ac66b1cf42d55a8212632b80c00ba98112df0e536e7c09d0a2a45982920"
       }
     },
     {
@@ -524,14 +524,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-D:retained-160-ac-1 (d3bbfdbb029344120aac085ee66b5de2a3cf00194b9e039e510633491d0ae486) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "7e78b58a5983306f4647cc782aaf5c4236af6856e0b50b7c5facb1a43329f784",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Diligence index records three successor issue dispositions, not every critical asset/service terminal transferred/retained/excluded/blocked disposition.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "b8328b97fa3c0a14dc95bcc2c3777719213e8d5ff29f8dd7ead3ee3ae9e253b1"
       }
     },
     {
@@ -557,14 +557,14 @@
         "proposed_disposition": "remove_from_v0.92.1_retained_release_gate",
         "removal_scope": "Remove only CORP-D:retained-160-ac-2 (4d337b4ea0131d30c0d9bc20e444224e97f2e444d0b14b74485640be65b7ea6d) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed.",
         "replacement_text": null,
-        "proposal_digest": "987c8701203bcee0b4773b4c1a7fc363c152d83f658766c1311594ea002d94d3",
         "behavioral_pass_claim": false,
         "approval_state": "pending_operator_review",
         "criterion_specific_basis": "Counsel-boundary receipts are issue/PR closure links; no counsel approval or executed-instrument attestation is supplied.",
         "source_proof_boundary": "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred.",
         "operator_review_target": "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
         "operator_review_effect": "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+        "preexisting_evidence_context": "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval.",
+        "proposal_digest": "0f9c8a2df24076335f0cb7c4fbce639782b8760f4e4521eeff1fdbf866300baa"
       }
     }
   ]

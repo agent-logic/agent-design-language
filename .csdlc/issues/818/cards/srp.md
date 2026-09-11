@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/818/cards/sip.md"
   - ".csdlc/issues/818/cards/vpp.md"
 review_results:
-  findings_status: "pending_review"
-  recommended_outcome: "pending"
-notes: "Reviewer must verify all 17 rows are consumed once, proposals remain approval-pending, and no source reference is promoted into behavioral proof."
+  findings_status: "findings_present"
+  recommended_outcome: "needs_followup"
+notes: "Initial independent review failed at 351dea41b033027f73dae364700af3f345b0a7b5; all actionable findings are fixed and focused validation passes."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Review not yet performed.
+- P1 proposal digest/schema coverage; P2 packet identity/count coverage; P2 nondeterministic generated_at.
 
 ### Dispositions
 
-- Pending implementation and exact-head review.
+- Resolved all findings by canonical hashing of the complete closed-schema proposal, exact packet identity/count validation, removal of wall-clock output, deterministic replay proof, and seven new adversarial fixtures. Fresh exact-head re-review pending.
 
 ### Recommended Outcome
 
-- pending
+- needs_followup
 
 ## Notes
 
-Reviewer must verify all 17 rows are consumed once, proposals remain approval-pending, and no source reference is promoted into behavioral proof.
+Initial independent review failed at 351dea41b033027f73dae364700af3f345b0a7b5; all actionable findings are fixed and focused validation passes.

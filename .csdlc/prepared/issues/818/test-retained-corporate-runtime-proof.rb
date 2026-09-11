@@ -9,6 +9,7 @@ PLAN = ".csdlc/prepared/issues/818/retained-corporate-runtime-resolution-plan.js
 SOURCE = ".csdlc/evidence/818/retained-corporate-runtime/reconciliation.json"
 TMP = ".csdlc/evidence/818/retained-corporate-runtime-negative-tmp"
 VALIDATOR = ".csdlc/prepared/issues/818/validate-retained-corporate-runtime-proof.rb"
+RUNNER = ".csdlc/prepared/issues/818/run-retained-corporate-runtime-proof.rb"
 
 def reject_mutation(plan, receipt, name)
   plan_copy = Marshal.load(Marshal.dump(plan))
@@ -31,6 +32,10 @@ plan = JSON.parse(File.read(PLAN))
 receipt = JSON.parse(File.read(SOURCE))
 reference_index = plan.fetch("rows").index { |row| !row.fetch("reference_only_evidence").empty? }
 raise "reference-only fixture row missing" unless reference_index
+before_replay = File.binread(SOURCE)
+replay_output, replay_status = Open3.capture2e("ruby", RUNNER)
+raise "deterministic replay failed: #{replay_output}" unless replay_status.success?
+raise "replay changed tracked receipt bytes" unless File.binread(SOURCE) == before_replay
 
 reject_mutation(plan, receipt, "missing-row") { |_, copy| copy.fetch("rows").pop }
 reject_mutation(plan, receipt, "duplicate-row") { |_, copy| copy.fetch("rows")[-1] = copy.fetch("rows").first }
@@ -57,6 +62,19 @@ end
 reject_mutation(plan, receipt, "private-proof-claim") { |_, copy| copy.fetch("non_claims")[1] = "Private instruments were inspected." }
 reject_mutation(plan, receipt, "sibling-bucket-row") { |_, copy| copy.fetch("rows").first["row_id"] = "DRT-A:retained-181-ac-4" }
 reject_mutation(plan, receipt, "unclassified") { |_, copy| copy["unclassified"] = 1 }
+reject_mutation(plan, receipt, "unknown-proposal-field") do |copy, observed|
+  [copy, observed].each { |document| document.fetch("rows").first.fetch("resolution")["expanded_scope"] = true }
+end
+reject_mutation(plan, receipt, "widened-operator-effect") do |copy, observed|
+  [copy, observed].each { |document| document.fetch("rows").first.fetch("resolution")["operator_review_effect"] += " Also approve all related removals." }
+end
+reject_mutation(plan, receipt, "category-drift") do |copy, observed|
+  [copy, observed].each { |document| document.fetch("rows").first.fetch("resolution")["category"] = "unbounded" }
+end
+reject_mutation(plan, receipt, "plan-schema") { |copy, _| copy["schema"] = "forged" }
+reject_mutation(plan, receipt, "receipt-issue") { |_, copy| copy["issue"] = 820 }
+reject_mutation(plan, receipt, "receipt-finding") { |_, copy| copy["finding"] = "OTHER" }
+reject_mutation(plan, receipt, "proposal-count") { |copy, _| copy["governed_disposition_proposal_count"] = 16 }
 
 FileUtils.rm_rf(TMP)
-puts "PASS issue #818 negative matrix: 15/15 invalid packets rejected"
+puts "PASS issue #818 deterministic replay and negative matrix: stable bytes, 22/22 invalid packets rejected"

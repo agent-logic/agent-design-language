@@ -27,6 +27,14 @@ def category(row_id)
   end
 end
 
+def canonical(value)
+  case value
+  when Hash then value.keys.sort.to_h { |key| [key, canonical(value.fetch(key))] }
+  when Array then value.map { |entry| canonical(entry) }
+  else value
+  end
+end
+
 denominator = candidate_json(DENOMINATOR).fetch("remediation_rows").select do |row|
   row.fetch("mapping_file") == "retained-corporate-runtime.json" && row.fetch("row_id").start_with?("CORP-")
 end
@@ -41,10 +49,21 @@ rows = denominator.map do |denom|
   disposition = "remove_from_v0.92.1_retained_release_gate"
   removal_scope = "Remove only #{source.fetch('row_id')} (#{denom.fetch('criterion_text_digest')}) from the v0.92.1 D520-RET-001 corporate/Runtime retained release gate; no product behavior, private approval, execution, or provider state is claimed implemented or removed."
   proof_boundary = "The source assessment is non-proving. Public repository artifacts and issue links are context only; no private approval, instrument execution, provider readback, or behavioral pass is inferred."
-  proposal_digest = Digest::SHA256.hexdigest([
-    source.fetch("row_id"), denom.fetch("criterion_text_digest"), disposition,
-    removal_scope, source.fetch("rationale"), source.fetch("remaining_action"), proof_boundary
-  ].join("\0"))
+  proposal = {
+    "type" => "governed_disposition_proposal",
+    "category" => category(source.fetch("row_id")),
+    "proposed_disposition" => disposition,
+    "removal_scope" => removal_scope,
+    "replacement_text" => nil,
+    "behavioral_pass_claim" => false,
+    "approval_state" => "pending_operator_review",
+    "criterion_specific_basis" => source.fetch("rationale"),
+    "source_proof_boundary" => proof_boundary,
+    "operator_review_target" => "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
+    "operator_review_effect" => "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
+    "preexisting_evidence_context" => "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
+  }
+  proposal["proposal_digest"] = Digest::SHA256.hexdigest(JSON.generate(canonical(proposal)))
 
   {
     "row_id" => source.fetch("row_id"),
@@ -57,21 +76,7 @@ rows = denominator.map do |denom|
     "source_remaining_action" => source.fetch("remaining_action"),
     "source_repository_paths" => repository_paths,
     "reference_only_evidence" => reference_only,
-    "resolution" => {
-      "type" => "governed_disposition_proposal",
-      "category" => category(source.fetch("row_id")),
-      "proposed_disposition" => disposition,
-      "removal_scope" => removal_scope,
-      "replacement_text" => nil,
-      "proposal_digest" => proposal_digest,
-      "behavioral_pass_claim" => false,
-      "approval_state" => "pending_operator_review",
-      "criterion_specific_basis" => source.fetch("rationale"),
-      "source_proof_boundary" => proof_boundary,
-      "operator_review_target" => "The closing PR for issue #818 must explicitly approve this exact removal proposal and digest before release admission.",
-      "operator_review_effect" => "Merging the closing PR for issue #818 approves only this exact proposal_digest; before merge it remains pending and release-blocking.",
-      "preexisting_evidence_context" => "Source support, ownership, and issue or PR closure are not treated as execution proof or criterion-specific approval."
-    }
+    "resolution" => proposal
   }
 end
 

@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Built and validated the exact 17-row corporate/Runtime governed-disposition packet; independent exact-head review remains pending.
+Resolved all independent-review findings and revalidated the exact 17-row corporate/Runtime governed-disposition packet; fresh exact-head re-review remains pending.
 
 ## PVF Lane Truth
 - Initial PVF lane: `review_tests`
@@ -81,7 +81,7 @@ Built and validated the exact 17-row corporate/Runtime governed-disposition pack
 ## Actions taken
 - `Consumed exactly the 17 corporate/Runtime rows from the #764 denominator.`
 - `Generated 17 exact governed removal proposals with zero behavioral pass claims and candidate-bound public context.`
-- `Validated the packet and rejected 15 adversarial mutations; exact-head review pending.`
+- `Resolved all three independent-review findings; deterministic replay and 22-case negative matrix pass; exact-head re-review pending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none before PR merge`
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `ruby build-retained-corporate-runtime-plan.rb; ruby run-retained-corporate-runtime-proof.rb; ruby validate-retained-corporate-runtime-proof.rb; ruby test-retained-corporate-runtime-proof.rb`
-    `Proved exact 17-row consumption, proposal integrity, candidate source binding, and fail-closed rejection of 15 invalid packets.`
+    `Proved exact 17-row consumption, closed proposal and packet schemas, canonical complete-proposal digests, deterministic receipt bytes, candidate source binding, and fail-closed rejection of 22 invalid packets.`
 - Results:
-  - `PASS: 17/17 unique; 17 proposals pending operator review; 0 behavioral passes; 0 unclassified; 15/15 invalid packets rejected.`
+  - `PASS: 17/17 unique; 17 proposals pending operator review; 0 behavioral passes; 0 unclassified; byte-stable replay; 22/22 invalid packets rejected.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -125,7 +125,7 @@ verification_summary:
   validation:
     status: pass
     checks_run:
-      - "17-row packet validator and 15-case negative matrix"
+      - "17-row closed-schema packet validator, byte-stable replay, and 22-case negative matrix"
   determinism:
     status: pass
     replay_verified: true
@@ -144,11 +144,11 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `15-case negative mutation matrix plus exact validator replay`
+- Determinism tests executed: `byte-for-byte receipt replay plus 22-case negative mutation matrix`
 - Fixtures or scripts used: `issue #818 builder, runner, validator, and negative matrix`
-- Replay verification (same inputs -> same artifacts/order): `same canonical inputs reproduce the same ordered plan semantics and proposal digests`
+- Replay verification (same inputs -> same artifacts/order): `same canonical inputs reproduce byte-identical reconciliation bytes and the same ordered proposal semantics and digests`
 - Ordering guarantees (sorting / tie-break rules used): `denominator order retained; row digest uses sorted row identifiers; repository paths and URL references sorted`
-- Artifact stability notes: `generated_at is observational; governed proposal semantics and digests are deterministic`
+- Artifact stability notes: `receipt contains no wall-clock field; canonical proposal hashing and sorted identities make tracked bytes replay-stable`
 
 ## Security / Privacy Checks
 - Secret leakage scan performed: `packet does not read private files and validator enforces explicit private-data non-claims`
@@ -174,5 +174,5 @@ verification_summary:
 - `Bound canonical inputs and public context to the issue base without promoting references into execution proof.`
 
 ## Follow-ups / Deferred work
-- `Independent exact-head review.`
+- `Fresh independent exact-head re-review after review-finding fixes.`
 - `Native publication and CI shepherding.`
