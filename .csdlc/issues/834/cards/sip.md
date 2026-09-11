@@ -9,13 +9,13 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor
 Branch: codex/834-internal-review-reconciliation
 Card Status: ready
-Generated: <timestamp>
+Generated: 2026-09-11T02:59:50.407672+00:00
 
 Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/834
 - PR:
-- Source Issue Prompt: <source_issue_prompt>
-- Docs: <docs_context>
+- Source Issue Prompt: https://github.com/agent-logic/agent-design-language/issues/834
+- Docs: docs/milestones/v0.92.1/evidence/release/tail-06/issue-834
 - Other: none
 
 ## Agent Execution Rules
@@ -61,7 +61,7 @@ inputs:
     - notes_risks
     - instructions_to_agent
 outputs:
-  output_card: <output_card>
+  output_card: .csdlc/issues/834/cards/sor.md
   summary_style: concise_structured
 constraints:
   include_system_invariants: true
@@ -84,9 +84,9 @@ review_surfaces:
 - Provider:
 - Tools allowed:
 - Sandbox / approvals:
-- Source issue-prompt slug: <slug>
+- Source issue-prompt slug: issue-834-internal-review-reconciliation
 - Required outcome type: release-evidence
-- Demo required: <demo_required>
+- Demo required: false
 
 ## Goal
 
@@ -102,7 +102,7 @@ Observe closed520 and merged closing831 ancestral to candidate; all14 IDs exactl
 
 ## Inputs
 
-<inputs>
+Issue834, tail-04 findings and summary, live520/831 closure, owners814-821 and correcting833/835.
 
 ## Target Files / Surfaces
 
@@ -114,7 +114,7 @@ Focused deterministic local Python/Git contract validation with captured live Gi
 
 ## Demo / Proof Requirements
 
-<demo_proof_requirements>
+not_applicable; focused evidence validator is the proving surface
 
 ## Constraints / Policies
 
@@ -166,7 +166,7 @@ No historical report rewrite, runtime changes, closure-only semantic proof, merg
 
 ## Notes / Risks
 
-<notes_risks>
+#833 owns external report retention; #835 owns final gate correction. No release approval.
 
 ## Instructions to the Agent
 - Read this file.

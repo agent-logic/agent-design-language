@@ -35,5 +35,21 @@
   "validation_runtime_class": "small",
   "validation_resource_profile": "Small local CPU/disk; deterministic captured readbacks and local Git; no credentials in artifacts.",
   "planned_validation_seconds": "300",
-  "planned_validation_tokens": "4000"
+  "planned_validation_tokens": "4000",
+  "slug": "issue-834-internal-review-reconciliation",
+  "issue_goal_ref": "Planning #7 issue834 active session goal",
+  "sip_card": ".csdlc/issues/834/cards/sip.md",
+  "spp_card": ".csdlc/issues/834/cards/spp.md",
+  "goal_metrics_rollup_ref": "not_collected",
+  "timestamp": "2026-09-11T02:59:50.407672+00:00",
+  "stp_card": ".csdlc/issues/834/cards/stp.md",
+  "status": "in_progress",
+  "sprint_goal_ref": "not_applicable; issue-local goal under522",
+  "expected_proof_cost": "small CPU; local JSON/Git plus explicit GitHub readback",
+  "lane_registry_path": "docs/validation/pvf_lanes.json",
+  "lane_registry_template_set": "1.0.5",
+  "validation_family": "release-evidence",
+  "validation_size_split": "small",
+  "parallel_groups_inline": "none; focused sequential proof",
+  "notes_risks_inline": "#833 owns external report retention; #835 owns final gate correction. No release approval."
 }

@@ -1,12 +1,12 @@
 ---
 issue_card_schema: adl.issue.v1
-wp: "<wp>"
-slug: "<slug>"
+wp: "TAIL-06.19"
+slug: "issue-834-internal-review-reconciliation"
 title: "[v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor"
 labels:
   - "track:roadmap"
 issue_number: 834
-generated_at: "<timestamp>"
+generated_at: "2026-09-11T02:59:50.407672+00:00"
 card_status: "ready"
 status: "draft"
 action: "edit"
@@ -17,25 +17,25 @@ milestone_sprint: "v0.92.1"
 required_outcome_type:
   - "release-evidence"
 repo_inputs:
-  - "<source_issue_prompt>"
+  - "https://github.com/agent-logic/agent-design-language/issues/834"
 canonical_files: []
-demo_required: <demo_required>
+demo_required: false
 demo_names: []
 issue_graph_notes:
-  - "<issue_graph_note>"
+  - "Child of522; predecessor520/831; follow-ons833/835 separately underway."
 pr_start:
   enabled: true
-  slug: "<slug>"
+  slug: "issue-834-internal-review-reconciliation"
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/stp.md`
-Generated: <timestamp>
+Generated: 2026-09-11T02:59:50.407672+00:00
 
 # Structured Task Prompt
 
 ## Summary
 
-<summary>
+Reconcile finalized520 predecessor and all14 finding owners.
 
 ## Goal
 
@@ -71,7 +71,7 @@ Focused deterministic local Python/Git contract validation with captured live Gi
 
 ## Demo Expectations
 
-<demo_proof_requirements>
+not_applicable; focused evidence validator is the proving surface
 
 ## Non-goals
 
@@ -79,12 +79,12 @@ No historical report rewrite, runtime changes, closure-only semantic proof, merg
 
 ## Issue-Graph Notes
 
-<issue_graph_notes>
+No dependency closure or release authorization.
 
 ## Notes
 
-<notes_risks>
+#833 owns external report retention; #835 owns final gate correction. No release approval.
 
 ## Tooling Notes
 
-<tooling_notes>
+Native v3; bound FastWork issue branch; typed card rendering.

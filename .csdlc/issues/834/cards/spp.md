@@ -1,17 +1,17 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_planning_prompt"
-name: "<slug>-execution-plan"
+name: "issue-834-internal-review-reconciliation-execution-plan"
 issue: 834
 task_id: "issue-0834"
 run_id: "issue-0834"
 version: "v0.92.1"
 title: "[v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor"
 branch: "codex/834-internal-review-reconciliation"
-generated_at: "<timestamp>"
+generated_at: "2026-09-11T02:59:50.407672+00:00"
 card_status: "ready"
-status: "<status>"
-activation_state: "<activation_state>"
+status: "in_progress"
+activation_state: "bound"
 plan_revision: 1
 initial_pvf_lane: "release-evidence"
 planned_pvf_lane: "release-evidence"
@@ -20,29 +20,29 @@ estimate_elapsed_seconds: "3600"
 estimate_total_tokens: "30000"
 estimate_validation_seconds: "300"
 issue_goal_token_budget: "unknown"
-variance_threshold_percent: "<variance_threshold_percent>"
-estimate_confidence: "<estimate_confidence>"
-estimate_data_source: "<estimate_data_source>"
-estimate_source_ref: "<estimate_source_ref>"
-issue_goal_ref: "<issue_goal_ref>"
-sprint_goal_ref: "<sprint_goal_ref>"
-goal_metrics_rollup_ref: "<goal_metrics_rollup_ref>"
+variance_threshold_percent: "10"
+estimate_confidence: "planning_estimate"
+estimate_data_source: "issue scope estimate"
+estimate_source_ref: "Issue834"
+issue_goal_ref: "Planning #7 issue834 active session goal"
+sprint_goal_ref: "not_applicable; issue-local goal under522"
+goal_metrics_rollup_ref: "not_collected"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/834"
   - kind: "source_issue_prompt"
-    ref: "<source_issue_prompt>"
+    ref: "https://github.com/agent-logic/agent-design-language/issues/834"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/834/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/834/cards/sip.md"
 scope:
   files:
-    - "<target_files_surfaces_inline>"
+    - "docs/milestones/v0.92.1/evidence/release/tail-06/issue-834 and narrowly scoped current external-review/remediation links."
   components:
-    - "<slug>"
+    - "issue-834-internal-review-reconciliation"
   out_of_scope:
-    - "<non_goals_inline>"
+    - "No historical report rewrite, runtime changes, closure-only semantic proof, merge or release authorization."
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
@@ -53,19 +53,19 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: <dependencies_inline>"
-    expected_output: "<sip_card>"
+    description: "Confirm dependency readiness and starting state: #520 closed by merged PR831 observed live; verify merged remediation issues814 through821 and correcting follow-ons."
+    expected_output: ".csdlc/issues/834/cards/sip.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
-    description: "Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>"
-    expected_output: "<stp_card>"
+    description: "Review repo inputs and scoped surfaces before editing: #834; #520 second review; #831; historical third-party finding TPR-002; remediation owners814-821."
+    expected_output: ".csdlc/issues/834/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: <deliverables_inline>"
+    description: "Implement only the bounded deliverables: Current predecessor reconciliation JSON and narrative;14-row exact finding ownership map; live closure/ancestry evidence; rejecting validator and focused negative tests."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: <acceptance_criteria_inline>"
+    description: "Run focused proof gates for acceptance: Observe closed520 and merged closing831 ancestral to candidate; all14 IDs exactly once with owners/evidence; preserve historical text; reject stale state/wrong closingPR/nonancestor/dropped or duplicatedIDs; independent exact-head review."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -84,14 +84,14 @@ codex_plan:
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
     status: "pending"
 affected_areas:
-  - "<slug>"
+  - "issue-834-internal-review-reconciliation"
 invariants_to_preserve:
   - "Keep SPP issue-local; do not turn it into sprint orchestration."
   - "Keep VPP as validation-planning truth, SRP as review-result truth, and SOR as output truth."
 risks_and_edge_cases:
-  - "<risks_inline>"
+  - "Historical source-time report must remain immutable; live closure alone cannot discharge findings; successor evidence must be merged and ancestral."
 test_strategy:
-  - "<validation_plan_inline>"
+  - "Focused deterministic local Python/Git contract validation with captured live GitHub readbacks. Explicit negatives for every required rejection. Required local evidence proof plus independent review; hosted CI integration."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "<notes_risks_inline>"
+notes: "#833 owns external report retention; #835 owns final gate correction. No release approval."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -130,10 +130,10 @@ Reconcile closed predecessor and all14 merged owners; preserve source-time histo
 - Estimated total tokens: `30000`
 - Estimated validation seconds: `300`
 - Issue goal token budget: `unknown`
-- Variance threshold percent: `<variance_threshold_percent>`
-- Estimate confidence: `<estimate_confidence>`
-- Estimate data source: `<estimate_data_source>`
-- Estimate source ref: `<estimate_source_ref>`
+- Variance threshold percent: `10`
+- Estimate confidence: `planning_estimate`
+- Estimate data source: `issue scope estimate`
+- Estimate source ref: `Issue834`
 - Unknown-value rule: record `unknown`, never `0`, when the estimate is unavailable or intentionally deferred.
 
 ## Goal Accounting Plan
@@ -154,15 +154,15 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: <dependencies_inline>
-2. Review repo inputs and scoped surfaces before editing: <repo_inputs_inline>
-3. Implement only the bounded deliverables: <deliverables_inline>
-4. Run focused proof gates for acceptance: <acceptance_criteria_inline>
+1. Confirm dependency readiness and starting state: #520 closed by merged PR831 observed live; verify merged remediation issues814 through821 and correcting follow-ons.
+2. Review repo inputs and scoped surfaces before editing: #834; #520 second review; #831; historical third-party finding TPR-002; remediation owners814-821.
+3. Implement only the bounded deliverables: Current predecessor reconciliation JSON and narrative;14-row exact finding ownership map; live closure/ancestry evidence; rejecting validator and focused negative tests.
+4. Run focused proof gates for acceptance: Observe closed520 and merged closing831 ancestral to candidate; all14 IDs exactly once with owners/evidence; preserve historical text; reject stale state/wrong closingPR/nonancestor/dropped or duplicatedIDs; independent exact-head review.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
 
-- <slug>
+- issue-834-internal-review-reconciliation
 
 ## Invariants To Preserve
 
@@ -171,11 +171,11 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Risks And Edge Cases
 
-- <risks_inline>
+- Historical source-time report must remain immutable; live closure alone cannot discharge findings; successor evidence must be merged and ancestral.
 
 ## Test Strategy
 
-- <validation_plan_inline>
+- Focused deterministic local Python/Git contract validation with captured live GitHub readbacks. Explicit negatives for every required rejection. Required local evidence proof plus independent review; hosted CI integration.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-<notes_risks_inline>
+#833 owns external report retention; #835 owns final gate correction. No release approval.

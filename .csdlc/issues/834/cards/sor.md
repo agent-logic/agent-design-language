@@ -1,4 +1,4 @@
-# <slug>
+# issue-834-internal-review-reconciliation
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -21,78 +21,78 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor
 Branch: codex/834-internal-review-reconciliation
 Card Status: in_progress
-Status: <status>
-Generated: <timestamp>
+Status: in_progress
+Generated: 2026-09-11T02:59:50.407672+00:00
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Planning #7`
+- Model: `GPT-6`
+- Provider: `OpenAI`
+- Start Time: `unknown`
+- End Time: `unknown`
 
 ## Summary
 
 Reconciled closed #520 / merged #831 and all14 findings to8 merged owner PRs with exact Git evidence. Historical source report preserved. #835 final gate correction and #833 external report remain separately owned. No release approval claim.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `release-evidence`
+- Planned PVF lane: `release-evidence`
+- Final PVF lane: `release-evidence`
+- Lane change reason: `unchanged`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `small`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `unknown`
+- Actual PR wait seconds: `unknown`
+- Actual CI wait seconds: `unknown`
+- Budget source: `issue-scoped session goal; no explicit token budget`
+- Goal metrics data source: `unknown`
+- Goal metrics source ref: `unknown`
+- Data-source confidence: `unknown`
+- Estimate error percent: `unknown`
+- Completion state: `implementation_validated; independent review and publication pending`
+- Issue goal ref: `Planning #7 issue834 active session goal`
+- Sprint goal ref: `not_applicable; issue-local goal under522`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/834/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown`
+- Variance analysis completed: `false`
+- Variance category: `not_collected`
+- Variance note: `No complete actual telemetry; no inferred precision.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/834/cards/sor.md`
+- Tracked implementation artifacts: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-834`
+- Additional proof artifacts: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/github-readback.json and reconciliation.json`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Captured live520/831 and eight merged owner closure edges.`
+- `Mapped exactly14 original IDs to merged semantic evidence and correcting835.`
+- `Preserved history and implemented rejecting validator with17 negative mutations.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
+- Main-repo paths updated: `none; primary main remains inspection-only`
+- Worktree-only paths remaining: `Issue834 branch changes pending PR publication`
 - Integration state: `not_published`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Verification scope: `bound issue834 worktree`
+- Integration method used: `bound branch commit; merge deferred to operator`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git diff --check`
+    `Verified bound issue branch and diff hygiene.`
+- Result: `committed; not merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `python3 docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/validate.py --live; python3 docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/test_validate.py; native csdlc validate using issue834 request`
+    `Verified closure topology, ancestry, historical bytes,14 unique finding IDs and8 owners; rejected17 mutations; validated six rendered cards.`
 - Results:
-  - `<validation_result>`
+  - `PASS; hosted CI pending publication`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed
     checks_run:
-      - "<verification_check_1>"
+      - "local positive,17 negatives,live readback,and native six-card validation"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: reviewed
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: present
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: true
+      approved: false
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Repeated local validator and17 adversarial mutations`
+- Fixtures or scripts used: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/test_validate.py`
+- Replay verification (same inputs -> same artifacts/order): `Repeated same-input validation passed; live observation is explicitly separate.`
+- Ordering guarantees (sorting / tie-break rules used): `Exact source finding and owner arrays, duplicate rejection.`
+- Artifact stability notes: `Historical bytes compared with predecessor merge; all owner artifacts hash-checked at their merges.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Reviewed retained GitHub issue/PR metadata and packet text; no credentials captured.`
+- Prompt / tool argument redaction verified: `Only public repository metadata; no provider or credential payload.`
+- Absolute path leakage check: `Packet paths repository-relative; generated binding identity deliberately records authorized worktree.`
+- Sandbox / policy invariants preserved: `Issue artifacts only in bound worktree; typed native lifecycle.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/github-readback.json`
+- Run artifact root: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-834`
+- Replay command used for verification: `python3 docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/validate.py`
+- Replay result: `PASS`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-834/reconciliation.json`
+- Required artifacts present: `true`
+- Artifact schema/version checks: `adl.v0921.predecessor_reconciliation.v1 validated; native six-card structure passed`
+- Hash/byte-stability checks: `SHA256 and Git object bytes rederived for historical and owner proof.`
+- Missing/optional artifacts and rationale: `Original external report retained by833; this packet cites the source issue quoted finding.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `Keep historical changes-required result; current predecessor is closed with owned findings.`
+- `PR829 is preparation only; no finalgate or behavioral-pass promotion.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `#835 complete final gate and criterion-removal reconciliation.`
+- `#833 retain source external report and freeze/review final candidate.`

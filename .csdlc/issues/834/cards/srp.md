@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "issue-834-internal-review-reconciliation-review-prompt"
 issue: 834
 task_id: "issue-0834"
-version: "1.0.5"
+version: "v0.92.1"
 title: "[v0.92.1][TAIL-06.19][review] Reconcile finalized internal-review predecessor"
 branch: "codex/834-internal-review-reconciliation"
-generated_at: "<timestamp>"
+generated_at: "2026-09-11T02:59:50.407672+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/834"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/834/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/834/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/834/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/834/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/834/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/834/cards/stp.md"
+  - ".csdlc/issues/834/cards/sip.md"
+  - ".csdlc/issues/834/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/834/cards/stp.md"
+  - ".csdlc/issues/834/cards/sip.md"
+  - ".csdlc/issues/834/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "one card-rendering finding under repair"
+  recommended_outcome: "BLOCK pending rereview"
+notes: "Independent reviewer review_771_core inspected7d4360f4f2; packet checks passed. Final exact-head acceptance pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/834/cards/stp.md
+- .csdlc/issues/834/cards/sip.md
+- .csdlc/issues/834/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- <review_findings>
+- P2: rendered SOR omitted validation and artifact fields despite values content.
 
 ### Dispositions
 
-- <review_dispositions>
+- Supported typed fields normalized; independent rereview pending.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- BLOCK pending rereview
 
 ## Notes
 
-<review_notes>
+Independent reviewer review_771_core inspected7d4360f4f2; packet checks passed. Final exact-head acceptance pending.

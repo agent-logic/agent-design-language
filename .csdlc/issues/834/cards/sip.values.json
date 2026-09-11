@@ -28,5 +28,14 @@
   "estimate_elapsed_seconds": "3600",
   "estimate_total_tokens": "30000",
   "estimate_validation_seconds": "300",
-  "issue_goal_token_budget": "unknown"
+  "issue_goal_token_budget": "unknown",
+  "output_card": ".csdlc/issues/834/cards/sor.md",
+  "slug": "issue-834-internal-review-reconciliation",
+  "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/834",
+  "demo_proof_requirements": "not_applicable; focused evidence validator is the proving surface",
+  "notes_risks": "#833 owns external report retention; #835 owns final gate correction. No release approval.",
+  "demo_required": "false",
+  "timestamp": "2026-09-11T02:59:50.407672+00:00",
+  "inputs": "Issue834, tail-04 findings and summary, live520/831 closure, owners814-821 and correcting833/835.",
+  "docs_context": "docs/milestones/v0.92.1/evidence/release/tail-06/issue-834"
 }
