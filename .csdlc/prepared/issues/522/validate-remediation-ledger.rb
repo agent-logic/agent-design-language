@@ -297,6 +297,8 @@ dispositions.each do |row|
         fail!("validation producer is not the issue-owned runner") unless producer == ".csdlc/prepared/issues/522/run-candidate-validation.rb"
         fail!("validation producer digest mismatch") unless validation_doc.fetch("producer_sha256") == Digest::SHA256.hexdigest(git_blob(evidence_sha, producer))
         output_bound = commands.all? { |command| %w[stdout_sha256 stderr_sha256 stdout_bytes stderr_bytes].all? { |key| command.key?(key) } }
+        replay_bound = commands.all? { |command| system(*command.fetch("argv"), out: File::NULL, err: File::NULL) }
+        fail!("executed validation receipt is not reproducible") unless replay_bound
       end
       fail!("validation evidence does not prove executed commands at its declared immutable revision") unless validation.fetch("outcome") == "passed" && validation_doc.fetch("outcome") == "passed" && validation_doc.fetch("failures", []) == [] && commands_bound && output_bound
     end
