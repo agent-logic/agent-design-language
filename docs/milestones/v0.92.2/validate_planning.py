@@ -17,7 +17,7 @@ def read_yaml(path):
     return json.loads(subprocess.check_output(["ruby", "-e", script, str(path)], text=True))
 
 
-def check(wave, specs):
+def check(wave, specs, source_manifest=None, reconciliation=None):
     failures = []
     rows = wave["work_packages"]
     ids = [r["id"] for r in rows]
@@ -39,6 +39,19 @@ def check(wave, specs):
     for row in rows:
         if not row.get("deliverables") or not row.get("proof"):
             failures.append(f"{row['id']} must name implementation output and proving evidence")
+    admitted_tbd_sources = {
+        row.get("planning_source")
+        for row in rows
+        if str(row.get("planning_source", "")).startswith(".adl/docs/TBD/")
+    }
+    if source_manifest is not None:
+        missing = sorted(admitted_tbd_sources - source_manifest)
+        if missing:
+            failures.append("Admitted TBD sources missing from audit manifest: " + ", ".join(missing))
+    if reconciliation is not None:
+        missing = sorted(path for path in admitted_tbd_sources if f"`{path}`" not in reconciliation)
+        if missing:
+            failures.append("Admitted TBD sources missing a reconciliation disposition: " + ", ".join(missing))
     expected_existing = {"OBS-LIVE": 720}
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
     if actual_existing != expected_existing:
@@ -108,7 +121,7 @@ def check(wave, specs):
     return failures
 
 
-def negative_checks(wave, specs):
+def negative_checks(wave, specs, source_manifest, reconciliation):
     cases = []
     broken = copy.deepcopy(wave)
     broken["work_packages"] = [r for r in broken["work_packages"] if r["id"] != "OBS-LIVE"]
@@ -143,7 +156,17 @@ def negative_checks(wave, specs):
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].remove("SIM-UMBRELLA")
     cases.append(("SIM result omitted from milestone convergence", broken, specs))
-    return [name for name, w, s in cases if not check(w, s)], len(cases)
+    missed = [name for name, w, s in cases if not check(w, s, source_manifest, reconciliation)]
+    admitted = next(
+        row["planning_source"]
+        for row in wave["work_packages"]
+        if str(row.get("planning_source", "")).startswith(".adl/docs/TBD/")
+    )
+    if not check(wave, specs, source_manifest - {admitted}, reconciliation):
+        missed.append("source omitted from audit manifest")
+    if not check(wave, specs, source_manifest, reconciliation.replace(f"`{admitted}`", "`omitted-source`")):
+        missed.append("source omitted from reconciliation")
+    return missed, len(cases) + 2
 
 
 def main():
@@ -153,7 +176,13 @@ def main():
     root = Path(__file__).resolve().parent
     wave = read_yaml(root / "WP_ISSUE_WAVE_v0.92.2.yaml")
     specs = read_yaml(root / "WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml")
-    failures = check(wave, specs)
+    source_manifest = {
+        line.strip()
+        for line in (root / "TBD_SOURCE_AUDIT_MANIFEST_v0.92.2.txt").read_text().splitlines()
+        if line.strip()
+    }
+    reconciliation = (root / "TBD_SCHEDULING_RECONCILIATION_v0.92.2.md").read_text()
+    failures = check(wave, specs, source_manifest, reconciliation)
     for path in root.rglob("*.md"):
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http:", "https:", "#")):
@@ -168,7 +197,7 @@ def main():
         failures.append("Current release lost remediation or successor-review gate")
     rejected = 0
     if args.self_test:
-        missed, rejected = negative_checks(wave, specs)
+        missed, rejected = negative_checks(wave, specs, source_manifest, reconciliation)
         failures.extend("Negative fixture not rejected: " + x for x in missed)
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
                       "existing_issues": [720], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
