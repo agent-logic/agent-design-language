@@ -110,7 +110,7 @@ Rules:
   - `python3 docs/milestones/v0.92.2/validate_planning.py --self-test; git diff --check; targeted stale-denominator scans`
     `Verifies row/spec parity, dependency and tail invariants, negative fixtures, and diff hygiene.`
 - Results:
-  - `Passed: 43 unique work packages, 43 unique atomic results, eleven negative fixtures, complete deliverable/proof presence, and clean diff hygiene.`
+  - `Passed: 43 unique work packages, 43 unique atomic results, thirteen negative fixtures, complete deliverable/proof presence, and clean diff hygiene.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -144,7 +144,7 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `Planning validator self-test with eleven intended-rejection fixtures.`
+- Determinism tests executed: `Planning validator self-test with thirteen intended-rejection fixtures.`
 - Fixtures or scripts used: `docs/milestones/v0.92.2/validate_planning.py`
 - Replay verification (same inputs -> same artifacts/order): `Repeated focused execution is deterministic for unchanged package bytes.`
 - Ordering guarantees (sorting / tie-break rules used): `Validator enforces exact canonical release-tail order and dependency graph.`
