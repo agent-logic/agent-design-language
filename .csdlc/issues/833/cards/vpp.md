@@ -40,7 +40,7 @@ parallel_groups:
   - "None."
 validation_commands:
   - "Focused shell assertions; git cat-file; git diff --check."
-failure_policy: "Missing, malformed, substituted, or drifting SHA blocks publication."
+failure_policy: "Missing, malformed, substituted, or assignment/report-mismatched SHA blocks publication."
 notes: "No mutable inference."
 ---
 
@@ -90,7 +90,7 @@ Small deterministic docs proof.
 
 ## Failure Semantics
 
-- Missing, malformed, substituted, or drifting SHA blocks publication.
+- Missing, malformed, substituted, or assignment/report-mismatched SHA blocks publication.
 
 ## Handoff
 

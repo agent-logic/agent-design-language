@@ -45,7 +45,7 @@
   "selected_lanes_inline": "documentation",
   "parallel_groups_inline": "None.",
   "validation_commands_inline": "Focused shell assertions; git cat-file; git diff --check.",
-  "failure_policy": "Missing, malformed, substituted, or drifting SHA blocks publication.",
+  "failure_policy": "Missing, malformed, substituted, or assignment/report-mismatched SHA blocks publication.",
   "notes_risks_inline": "No mutable inference.",
   "source_issue_prompt": "https://github.com/agent-logic/agent-design-language/issues/833",
   "deliverables": "Validation result.",

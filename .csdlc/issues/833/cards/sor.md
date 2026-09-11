@@ -43,20 +43,20 @@ Immutable-candidate handoff drafted; validation and review pending.
 
 ## Issue Metrics Truth
 - Expected runtime class: `small`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
+- Estimated elapsed seconds: `not_collected`
+- Actual elapsed seconds: `not_collected`
+- Actual active work seconds: `not_collected`
+- Estimated total tokens: `not_collected`
+- Actual total tokens: `not_collected`
+- Estimated validation seconds: `not_collected`
+- Actual validation seconds: `not_collected`
+- Actual PR wait seconds: `not_collected`
+- Actual CI wait seconds: `not_collected`
 - Budget source: `No explicit token budget`
 - Goal metrics data source: `not_collected`
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
-- Estimate error percent: `<estimate_error_percent>`
+- Estimate error percent: `not_collected`
 - Completion state: `in_progress`
 - Issue goal ref: `Issue #833 session goal`
 - Sprint goal ref: `#522`
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: in_progress
     checks_run:
-      - "<verification_check_1>"
+      - "focused handoff validator pending rerun"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: in_progress
+    replay_verified: not_applicable
+    ordering_guarantees_verified: not_applicable
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: in_progress
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: in_progress
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: false
+      approved: not_applicable
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Focused deterministic handoff validator.`
+- Fixtures or scripts used: `.csdlc/prepared/issues/833/validate-external-review-handoff.rb`
+- Replay verification (same inputs -> same artifacts/order): `not applicable to documentation handoff`
+- Ordering guarantees (sorting / tie-break rules used): `not applicable`
+- Artifact stability notes: `Candidate SHA is literal and immutable.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `pending final scan`
+- Prompt / tool argument redaction verified: `not applicable`
+- Absolute path leakage check: `pending final scan`
+- Sandbox / policy invariants preserved: `yes`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `not applicable`
+- Run artifact root: `.csdlc/prepared/issues/833`
+- Replay command used for verification: `not applicable`
+- Replay result: `not applicable`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md`
+- Required artifacts present: `handoff present; external report pending`
+- Artifact schema/version checks: `native six-card validation passed`
+- Hash/byte-stability checks: `candidate commit resolves locally`
+- Missing/optional artifacts and rationale: `External report is a later phase of #833.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `#522 stays open through #833 and resulting remediation.`
+- `Candidate frozen before administrative #522 closure; remediation state and ledger closure are distinct.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Obtain independent external review.`
+- `Route every returned finding to #522.`

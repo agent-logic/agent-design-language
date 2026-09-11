@@ -35,19 +35,19 @@ Generated: 2026-09-11T17:24:00Z
 
 ## Summary
 
-Bind the review assignment to immutable candidate 9c7e57d412d61898bd44ab00d53e31afbb779e5c.
+Phase one binds the assignment to immutable candidate 9c7e57d412d61898bd44ab00d53e31afbb779e5c; later phases receive and validate the review report.
 
 ## Goal
 
-Publish one exact-SHA external-review handoff.
+Prepare the exact-SHA handoff, obtain the independent report, and retain its complete findings for #522.
 
 ## Required Outcome
 
-A context-free reviewer can check out and review exactly the named candidate.
+A context-free reviewer reviews exactly the named candidate and returns a provenance-preserving report.
 
 ## Deliverables
 
-Single handoff file.
+Canonical handoff, independent report, and provenance-preserving finding intake.
 
 ## Acceptance Criteria
 
@@ -67,7 +67,7 @@ docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.m
 
 ## Validation Plan
 
-Focused content assertions, SHA verification, secret/local-path scan, diff hygiene, independent review.
+Focused handoff assertions, assignment/report SHA equality, secret/local-path scan, diff hygiene, and report completeness validation.
 
 ## Demo Expectations
 
@@ -75,7 +75,7 @@ None.
 
 ## Non-goals
 
-No review execution or finding remediation in this handoff issue.
+No product remediation inside #833; fixes and dispositions remain owned by #522.
 
 ## Issue-Graph Notes
 

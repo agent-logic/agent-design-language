@@ -19,6 +19,12 @@ def validate(text, expected)
   failures
 end
 
+def validate_report_binding(assignment_sha, report_sha)
+  return [] if assignment_sha == report_sha
+
+  ["assignment/report candidate SHA mismatch"]
+end
+
 abort("handoff missing") unless File.file?(HANDOFF)
 text = File.read(HANDOFF)
 failures = validate(text, EXPECTED)
@@ -36,8 +42,11 @@ negative_cases.each do |name, candidate_text|
   abort("negative case #{name} was accepted") if validate(candidate_text, EXPECTED).empty?
 end
 
+abort("matching assignment/report SHA was rejected") unless validate_report_binding(EXPECTED, EXPECTED).empty?
+abort("drifting assignment/report SHA was accepted") if validate_report_binding(EXPECTED, "2" * 40).empty?
+
 if failures.empty?
-  puts "PASS: immutable external-review handoff; 4 negative cases rejected"
+  puts "PASS: immutable external-review handoff; 5 negative cases rejected"
 else
   abort(failures.join("\n"))
 end

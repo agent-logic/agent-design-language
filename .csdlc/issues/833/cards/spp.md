@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Freeze canonical candidate, write context-free assignment, prove required fields and safety, review exact head, publish."
+plan_summary: "Freeze canonical candidate, write context-free assignment, prove required fields and safety, obtain report, validate assignment/report SHA identity, retain findings, then publish final #833 truth."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.1][TAIL-06.18][review] Re-run external review at immutable candidate`.
 
-Freeze canonical candidate, write context-free assignment, prove required fields and safety, review exact head, publish.
+Freeze canonical candidate, write context-free assignment, prove required fields and safety, obtain report, validate assignment/report SHA identity, retain findings, then publish final #833 truth.
 
 ## PVF Lane Plan
 

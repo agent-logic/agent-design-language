@@ -39,6 +39,28 @@ documentation that overstates delivered behavior.
 Green CI, issue closure, a merged PR, a validator exit code, or a retained
 receipt is not by itself semantic proof.
 
+## Canonical inputs and coverage denominator
+
+Start with these repository-relative inputs at the candidate commit:
+
+- `AGENTS.md`
+- `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml`
+- `docs/milestones/v0.92.1/MILESTONE_CHECKLIST_v0.92.1.md`
+- `docs/milestones/v0.92.1/FEATURE_PROOF_COVERAGE_v0.92.1.md`
+- `docs/milestones/v0.92.1/evidence/release/current-status/EVIDENCE_MAP.md`
+- `docs/milestones/v0.92.1/evidence/release/tail-04/findings.json`
+- `docs/milestones/v0.92.1/evidence/release/tail-05/README.md`
+- `docs/milestones/v0.92.1/evidence/release/tail-05/findings.json`
+- `docs/milestones/v0.92.1/evidence/release/tail-05/packet-manifest.json`
+
+The last three paths are the retained failed-review packet referenced below.
+Use the execution specification and evidence map as the acceptance and proof
+denominators. Report coverage separately for implementation, tests,
+documentation, security, dependencies, retained proof, Runtime,
+provider/cloud, C-SDLC v3, and release truth. For each lane, state the paths or
+rows inspected and what was omitted. Do not imply complete coverage from a
+sample.
+
 ## Required report
 
 Return one findings-first report containing:
@@ -58,9 +80,10 @@ provenance-preserving normalized record.
 
 ## Lifecycle and dependency truth
 
-The earlier retained external report remains `FAIL` and non-proving because
-it lacked an immutable candidate SHA. This handoff does not rewrite or upgrade
-that result.
+The retained report at
+`docs/milestones/v0.92.1/evidence/release/tail-05/{README.md,findings.json,packet-manifest.json}`
+remains `FAIL` and non-proving because it lacked an immutable candidate SHA.
+This handoff does not rewrite or upgrade that result.
 
 Issue #833 owns this immutable-candidate review. Issue #522 must remain open
 until:
