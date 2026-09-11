@@ -1,6 +1,6 @@
 {
   "schema": "adl.v0921.source_finding_census.v2",
-  "ledger_candidate_sha": "1a8d1a76e0cfe4e85362624e61b9aae45dafb01c",
+  "ledger_candidate_sha": "4a370a8c94daeb2f8af98a6c8a39a47e0ed30260",
   "source_bindings": {
     "520": "fb6cbc7f619daa54f901fd2d12f480add682ace3",
     "521": null
