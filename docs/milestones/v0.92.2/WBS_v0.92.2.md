@@ -1,10 +1,10 @@
 # v0.92.2 Work Breakdown Structure
 
-Status: planned. Uncreated rows use number-free planning identifiers; #720 is the sole reused existing issue. No GitHub issues are created by this document.
+Status: planned. Uncreated rows use number-free planning identifiers; existing #720, #848, #849, #852, #854, #855, #861, #862, and conductor #864 are reused. No GitHub issues are created by this document.
 
 | WP | Work track | Primary outcome | Depends on |
 |---|---|---|---|
-| WP-01 | Milestone opening | Validate package and create the authorized execution wave | none |
+| WP-01 (#864) | Milestone opening | Validate package and create only a separately authorized execution wave | Existing authority; none |
 | CF-SHELL | Product shell | One operable CodeFriend shell | WP-01 |
 | CF-ADAPTER | Adapter v2 | Portable local/GitHub/CI repository ingestion | WP-01 |
 | CF-EVIDENCE | Evidence core | Stable identity, provenance, redaction, retention, shared finding/run contract and consumer fixtures | CF-ADAPTER |
@@ -15,7 +15,13 @@ Status: planned. Uncreated rows use number-free planning identifiers; #720 is th
 | CF-UX | Publication and outputs | One governed publication bundle | CF-SHELL, CF-EVIDENCE |
 | CF-PROOF | Qualification evidence | One Beta 1 qualification evidence packet | CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX |
 | CF-INTEGRATE | Beta 1 integration | One coherent product path and acceptance packet | all other CF tracks, PLAT-PROVIDER, PLAT-MEMORY |
-| PLAT-PROVIDER | Provider configuration | Separate provider behavior from editable endpoint/profile data | WP-01; merged v0.92.1 issue #622 |
+| PLAT-PROVIDER (#855) | Provider configuration | Separate provider behavior from editable endpoint/profile data | WP-01, RT-COST; merged v0.92.1 issue #622 |
+| ARCH-SPLIT (#848) | Repository decomposition decision | Decide ownership, dependency, migration, and public/private boundaries without moving code | WP-01 |
+| CSDLC-MERGE (#849) | C-SDLC merge correctness | Preserve reviewed publication linkage during native PR merge | WP-01 |
+| QUAL-RUNTIME (#852) | Runtime qualification | Complete five-row executable proof and correlated Runtime failure events | WP-01 |
+| RT-COST (#854) | Runtime inference cost control | Eliminate recurring metered health inference and expose request accounting | WP-01 |
+| CSDLC-MAN (#861) | C-SDLC operator documentation | Install complete command and recovery man pages | WP-01 |
+| CSDLC-DECOMPOSE (#862) | C-SDLC structure | Decompose local and remote command modules without behavior change | WP-01 |
 | PLAT-MLX | MLX/Metal provider | Add one bounded Apple MLX/Metal adapter over the canonical provider-definition contract | PLAT-PROVIDER |
 | PLAT-PAIR | NVIDIA PAIR experiment | Determine whether PAIR improves bounded multi-node local inference without becoming a provider type | PLAT-PROVIDER |
 | PLAT-UTS | UTS productization | Standardize and package the UTS contract for supported consumers | WP-01 |
@@ -39,7 +45,7 @@ Status: planned. Uncreated rows use number-free planning identifiers; #720 is th
 | SIM-07 | C-SDLC first sprint | Produce one independent transition qualification | SIM-06 |
 | SIM-08 | C-SDLC first sprint | Produce one transition operations packet | SIM-07 |
 | SIM-09 | C-SDLC first sprint | Run one authorized consecutive-issue pilot | SIM-08; separate activation authority |
-| TAIL-01..10 | Canonical release tail | Quality through ceremony in standard order | TAIL-01 converges integration plus the declared release-gating support set; OBS-S3 and ARCH-ADR are excluded |
+| TAIL-01..10 | Canonical release tail | Quality through ceremony in the same ten-stage order used for v0.92.1 | TAIL-01 converges integration plus the declared release-gating support set; OBS-S3 and ARCH-ADR are excluded |
 
 ## Parallelism
 
@@ -49,8 +55,8 @@ CF-SHELL, CF-ADAPTER, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSD
 
 For the three broadest product rows, cohesion is explicit: CF-EVIDENCE owns one admissible-evidence contract whose identity, provenance, redaction, retention, and consumer clauses cannot ship independently; CF-COG owns one reporter whose analysis facets share one evidence-to-explanation contract; CF-PROOF owns one release-gate packet whose documentation and two repository runs are required evidence sections, not separately accepted products. SIM-08 and SIM-09 are separate because operations preparation and live pilot exposure remain independently valuable and separately authorized.
 
-The milestone inventory reconciles one bounded issue per expanded row. Every row must produce one named primary result. Supporting code, documentation, fixtures, and tests may travel with that result only when they are necessary to implement or prove it; independently useful results require separate rows before issue creation. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched ten-issue sprint. Reuse #720; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. Resolve the separate WP-01 conductor first; it cannot create itself. The denominator is 45 rows: the prior 43-row inventory plus `OBS-S3` and `ARCH-ADR`. With WP-01 resolved, 43 rows remain prospective creations and one reuses an existing issue. Ten prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority and is outside #525.
+The milestone inventory reconciles one bounded issue per expanded row. Every row must produce one named primary result. Supporting code, documentation, fixtures, and tests may travel with that result only when they are necessary to implement or prove it; independently useful results require separate rows before issue creation. WP-01 opens the CodeFriend wave; SIM-UMBRELLA coordinates its independently launched ten-issue sprint. Reuse #720, #848, #849, #852, #854, #855, #861, and #862; consume #717 and #718 as v0.92.1 predecessors; do not recreate completed #620 or predecessor #439. WP-01 is resolved as #864 and cannot create itself. The denominator is 51 rows. Nine rows have existing authority, leaving 42 prospective creations. Ten prospective rows belong to the dedicated SIM sprint launch rather than WP-01 creation. Creation requires separate operator authority.
 
 ## Immediate existing work
 
-#717 and #718 are closed merged v0.92.1 predecessors and are consumed here as completed inputs. #720 remains independently admitted under its existing authority. Other backlog issues are not admitted by this package.
+#717 and #718 are closed merged v0.92.1 predecessors and are consumed here as completed inputs. Existing #720, #848, #849, #852, #854, #855, #861, and #862 retain their own authority; #864 conducts planning. #848 delivers the decomposition decision only, not split implementation. Other backlog issues are not admitted by this package.

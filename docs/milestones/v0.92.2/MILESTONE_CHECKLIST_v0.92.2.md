@@ -50,10 +50,10 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 
 ## Reconciliation and final-candidate checks
 
-- [ ] All 45 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
-- [ ] All 45 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
-- [ ] The denominator contains the prior 43 rows plus OBS-S3 and ARCH-ADR; reused #720 appears exactly once and #717/#718 remain predecessor inputs rather than extra rows
-- [ ] Existing #720 reused exactly once; v0.92.1 #717/#718 consumed as merged predecessors; other backlog excluded
+- [ ] All 51 canonical work-package rows reconcile exactly across the catalog, WBS, issue wave, execution specifications, canonical issue mapping, and merged/reviewed truth
+- [ ] All 51 rows retain one distinct primary result in the atomic-result register; supporting artifacts and tests remain implementation/proof of that result rather than hidden independent work
+- [ ] Nine existing bindings appear exactly once and the remaining 42 rows stay number-free until separately authorized creation
+- [ ] #848 is reconciled as the ARCH-SPLIT decision row, not split-implementation authority; v0.92.1 #717/#718 remain predecessor inputs
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
 - [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the closeout tail

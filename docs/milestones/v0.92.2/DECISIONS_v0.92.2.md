@@ -24,7 +24,7 @@ None of these decisions claims implementation, review approval, or release readi
 - CF-D13: CF-EVIDENCE owns the shared finding/run contract and conformance fixtures before parallel consumers.
 - CF-D14: Pre-synthesis lane outputs are isolated; synthesis preserves disagreement.
 - CF-D15: Candidate-changing remediation refreshes affected artifacts, proof and internal/external review before release.
-- CF-D16: Existing #720 is reused. Operator direction on 2026-09-09 promoted #717/#718 into v0.92.1; v0.92.2 consumes their merged results as predecessors and does not recreate them. Other backlog is excluded.
+- CF-D16: Existing #720, #848, #849, #852, #854, #855, #861, #862, and conductor #864 are reused. #848 is the ARCH-SPLIT decision row and does not authorize split implementation. Operator direction on 2026-09-09 promoted #717/#718 into v0.92.1; v0.92.2 consumes their merged results as predecessors and does not recreate them. Other backlog is excluded.
 - CF-D17: Local CLI with artifact browsing in this repository is the bounded product design candidate; shared ADL contracts are consumed, not forked. WP-01 accepts or explicitly revises it before new-wave execution.
 - CF-D18: The declared release-gating support set converges at the milestone quality gate; only actual product prerequisites block integration. Independently deliverable required issues such as OBS-S3 and ARCH-ADR retain their own acceptance outside the closeout tail.
 - CF-D19: The operator admitted the bounded NVIDIA PAIR experiment as PLAT-PAIR after PLAT-PROVIDER; it is an experiment with a retained decision, not a production-provider claim.

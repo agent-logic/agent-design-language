@@ -1,7 +1,7 @@
 schema: adl.milestone.issue-wave.v1
 milestone: v0.92.2
 status: planned
-conductor_issue: null
+conductor_issue: 864
 issue_creation_authority: WP-01
 issue_creation_exceptions:
   dedicated_SIM_sprint_launch: [SIM-UMBRELLA, SIM-01, SIM-02, SIM-03, SIM-04, SIM-05, SIM-06, SIM-07, SIM-08, SIM-09]
@@ -18,6 +18,12 @@ atomic_results:
   CF-PROOF: beta1_qualification_evidence_packet
   CF-INTEGRATE: integrated_beta1_candidate
   PLAT-PROVIDER: config_driven_provider_contract
+  ARCH-SPLIT: repository_decomposition_decision
+  CSDLC-MERGE: publication_linkage_merge_guard
+  QUAL-RUNTIME: executable_runtime_proof_packet
+  RT-COST: zero_waste_metered_probe_control
+  CSDLC-MAN: complete_csdlc_operator_manual
+  CSDLC-DECOMPOSE: decomposed_csdlc_command_modules
   PLAT-MLX: mlx_metal_provider_adapter
   PLAT-PAIR: nvidia_pair_experiment_decision
   PLAT-UTS: supported_uts_package
@@ -55,8 +61,9 @@ work_packages:
   - id: WP-01
     lane: milestone_opening
     title: Publish and open the v0.92.2 CodeFriend Beta 1 execution wave
-    issue: null
+    issue: 864
     depends_on: []
+    creation_policy: reuse_existing
     deliverables: [validated_planning_package, authorized_issue_wave]
     proof: [canonical_inventory_check, yaml_parse, link_check]
   - id: CF-SHELL
@@ -132,11 +139,60 @@ work_packages:
   - id: PLAT-PROVIDER
     lane: provider_platform
     title: Config-driven provider definitions
-    issue: null
-    depends_on: [WP-01]
+    issue: 855
+    depends_on: [WP-01, RT-COST]
+    creation_policy: reuse_existing
     external_dependencies: [v0.92.1-issue-622]
     deliverables: [provider_definition_schema, external_profile_files]
     proof: [schema_negative_tests, profile_parity]
+  - id: ARCH-SPLIT
+    lane: architecture_decisions
+    title: Decide repository decomposition and public/private product boundaries
+    issue: 848
+    depends_on: [WP-01]
+    creation_policy: reuse_existing
+    deliverables: [repository_decomposition_decision]
+    proof: [source_inventory, dependency_direction_review, public_private_boundary_review]
+  - id: CSDLC-MERGE
+    lane: csdlc_correctness
+    title: Preserve publication linkage during native PR merge
+    issue: 849
+    depends_on: [WP-01]
+    creation_policy: reuse_existing
+    deliverables: [publication_linkage_merge_guard]
+    proof: [same_head_body_drift_negatives, closing_and_partof_cases, exact_head_review]
+  - id: QUAL-RUNTIME
+    lane: runtime_quality
+    title: Complete five-row executable proof and Runtime failure-event repair
+    issue: 852
+    depends_on: [WP-01]
+    creation_policy: reuse_existing
+    deliverables: [executable_runtime_proof_packet]
+    proof: [resident_execution_receipts, failure_event_correlation, criterion_integrity_validation]
+  - id: RT-COST
+    lane: runtime_cost_control
+    title: Stop metered cloud inference health-probe loops
+    issue: 854
+    depends_on: [WP-01]
+    creation_policy: reuse_existing
+    deliverables: [zero_waste_metered_probe_control]
+    proof: [counting_fixture_soak, failure_recovery_backoff, provider_call_attribution]
+  - id: CSDLC-MAN
+    lane: csdlc_documentation
+    title: Write complete C-SDLC v3 operator man pages
+    issue: 861
+    depends_on: [WP-01]
+    creation_policy: reuse_existing
+    deliverables: [complete_csdlc_operator_manual]
+    proof: [command_option_parity, render_lint, installed_lookup]
+  - id: CSDLC-DECOMPOSE
+    lane: csdlc_refactoring
+    title: Decompose local and remote command god modules
+    issue: 862
+    depends_on: [WP-01]
+    creation_policy: reuse_existing
+    deliverables: [decomposed_csdlc_command_modules]
+    proof: [behavior_compatibility, module_dependency_check, before_after_inventory]
   - id: PLAT-MLX
     lane: provider_platform
     title: Bounded MLX and Apple Metal provider adapter
@@ -329,7 +385,7 @@ work_packages:
     lane: release_tail
     title: Quality gate
     issue: null
-    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, SIM-UMBRELLA]
+    depends_on: [CF-INTEGRATE, PLAT-MLX, PLAT-PAIR, PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, OBS-LIVE, ARCH-SPLIT, CSDLC-MERGE, QUAL-RUNTIME, RT-COST, CSDLC-MAN, CSDLC-DECOMPOSE, SIM-UMBRELLA]
     deliverables: [milestone_quality_decision]
     proof: [denominator_reconciliation, quality_gate_validation]
   - id: TAIL-02

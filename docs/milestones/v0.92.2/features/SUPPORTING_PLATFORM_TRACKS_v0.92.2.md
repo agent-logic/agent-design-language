@@ -1,6 +1,6 @@
 # v0.92.2 Supporting Platform and Publication Tracks
 
-Status: new work remains planned until WP-01 opens the wave. Existing #720 retains its own issue authority. Closed merged #717/#718 are consumed here as v0.92.1 predecessor inputs.
+Status: new work remains planned until WP-01 opens the wave. Existing #720, #848, #849, #852, #854, #855, #861, and #862 retain mapped authority; #848 is the bounded repository-split decision row. Closed merged #717/#718 are v0.92.1 predecessor inputs.
 
 These tracks support CodeFriend Beta 1 without being folded into one oversized product issue.
 
@@ -24,4 +24,4 @@ Each unassigned row becomes a separate bounded issue through WP-01. OCI packagin
 
 ## Existing admitted tracks
 
-Reuse #720 for retained-mode hazard removal. Consume the reviewed merged #717 capability-orientation and #718 canonical-name A2A results from v0.92.1; do not create replacements. #720 converges at TAIL-01, not at CF-INTEGRATE.
+Reuse the existing issues listed in the reconciliation rather than creating replacements. Consume the reviewed merged #717 capability-orientation and #718 canonical-name A2A results from v0.92.1. #720 and the declared release-gating existing lanes converge at TAIL-01; #848 decides split routing and is not itself split implementation.

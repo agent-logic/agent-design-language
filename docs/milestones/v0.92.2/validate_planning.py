@@ -103,8 +103,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
     spec_rows = specs["specifications"]
     spec_ids = [r["id"] for r in spec_rows]
     spec_by_id = {r["id"]: r for r in spec_rows}
-    if len(ids) != 45 or len(set(ids)) != 45:
-        failures.append("Expected 45 unique work packages")
+    if len(ids) != 51 or len(set(ids)) != 51:
+        failures.append("Expected 51 unique work packages")
     if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != set(ids):
         failures.append("Specification and wave denominators differ")
     atomic_results = wave.get("atomic_results", {})
@@ -130,14 +130,35 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         missing = sorted(path for path in admitted_tbd_sources if f"`{path}`" not in reconciliation)
         if missing:
             failures.append("Admitted TBD sources missing a reconciliation disposition: " + ", ".join(missing))
-    expected_existing = {"OBS-LIVE": 720}
+    expected_existing = {
+        "WP-01": 864,
+        "OBS-LIVE": 720,
+        "ARCH-SPLIT": 848,
+        "CSDLC-MERGE": 849,
+        "QUAL-RUNTIME": 852,
+        "RT-COST": 854,
+        "PLAT-PROVIDER": 855,
+        "CSDLC-MAN": 861,
+        "CSDLC-DECOMPOSE": 862,
+    }
+    expected_existing_dependencies = {
+        "WP-01": [],
+        "OBS-LIVE": [],
+        "ARCH-SPLIT": ["WP-01"],
+        "CSDLC-MERGE": ["WP-01"],
+        "QUAL-RUNTIME": ["WP-01"],
+        "RT-COST": ["WP-01"],
+        "PLAT-PROVIDER": ["WP-01", "RT-COST"],
+        "CSDLC-MAN": ["WP-01"],
+        "CSDLC-DECOMPOSE": ["WP-01"],
+    }
     actual_existing = {r["id"]: r["issue"] for r in rows if r.get("issue") is not None}
     if actual_existing != expected_existing:
-        failures.append("Existing issue bindings must be exactly OBS-LIVE=720")
+        failures.append("Existing issue bindings differ from the reconciled v0.92.2 inventory")
     for key, issue in expected_existing.items():
         row = by_id.get(key, {})
-        if row.get("depends_on") != [] or row.get("creation_policy") != "reuse_existing":
-            failures.append(f"{key} must reuse existing authority without new-wave dependencies")
+        if row.get("depends_on") != expected_existing_dependencies[key] or row.get("creation_policy") != "reuse_existing":
+            failures.append(f"{key} lost its existing-authority dependency contract")
         if spec_by_id.get(key, {}).get("issue") != issue:
             failures.append(f"{key} specification lost existing identity")
     for n in range(1, 10):
@@ -194,8 +215,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("ARCH-ADR must remain unassigned until WP-01 creates its issue")
     if by_id.get("OPS-AWS", {}).get("title") != "Produce one current AWS inventory packet from the #484 baseline":
         failures.append("OPS-AWS title lost its complete #484-bound atomic result")
-    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST"}
-    if set(by_id["TAIL-01"]["depends_on"]) != support | set(expected_existing) | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
+    support = {"PLAT-MLX", "PLAT-PAIR", "PLAT-UTS", "PLAT-RUST", "OPS-AWS", "OPS-GCP", "PUB-MEDIUM", "PUB-CSDLC", "SPEC-RETEST", "OBS-LIVE", "ARCH-SPLIT", "CSDLC-MERGE", "QUAL-RUNTIME", "RT-COST", "CSDLC-MAN", "CSDLC-DECOMPOSE"}
+    if set(by_id["TAIL-01"]["depends_on"]) != support | {"CF-INTEGRATE", "SIM-UMBRELLA"}:
         failures.append("Milestone support convergence differs")
     additional = {"OBS-S3", "ARCH-ADR"}
     if additional & set(by_id["CF-INTEGRATE"]["depends_on"]) or additional & set(by_id["TAIL-01"]["depends_on"]):
@@ -306,8 +327,8 @@ def main():
             failures.append(f"{required} missing from proof or supporting-track projection")
     if "owned by the `ARCH-ADR` work package" not in adr_plan:
         failures.append("ADR plan is not explicitly owned by ARCH-ADR")
-    if "complete work denominator is 45 rows" not in readme:
-        failures.append("README denominator does not match the 45-row issue wave")
+    if "complete work denominator is 51 rows" not in readme:
+        failures.append("README denominator does not match the 51-row issue wave")
     for path in root.rglob("*.md"):
         for target in re.findall(r"\]\(([^)]+)\)", path.read_text()):
             if target.startswith(("http:", "https:", "#")):
@@ -342,7 +363,7 @@ def main():
                 failures.append("Negative fixture not rejected: " + name)
         rejected += len(projection_cases)
     print(json.dumps({"status": "fail" if failures else "pass", "work_packages": len(wave["work_packages"]),
-                      "existing_issues": [720], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
+                      "existing_issues": [720, 848, 849, 852, 854, 855, 861, 862, 864], "v0921_predecessor_issues": [717, 718], "negative_fixtures": rejected,
                       "failures": failures, "nonclaim": "No runtime, lifecycle-publication or release proof"}, indent=2))
     return bool(failures)
 

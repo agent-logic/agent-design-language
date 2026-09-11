@@ -9,6 +9,7 @@ specifications:
     pvf: [docs_contract, yaml_contract, link_integrity]
     stop_conditions: [missing_authority, unresolved_scope_conflict]
     non_goals: [implementation, release_approval]
+    issue: 864
   - id: CF-SHELL
     outcome: An operator can configure, start, inspect, and control a review without hidden state.
     owned_surfaces: [product_shell, onboarding, operator_controls]
@@ -86,6 +87,55 @@ specifications:
     pvf: [schema_negative_suite, provider_fixture_parity]
     stop_conditions: [hardcoded_instance_data, credential_in_config, missing_v0921_hotload_authority]
     non_goals: [provider_rewrite, public_benchmark_marketing]
+    issue: 855
+  - id: ARCH-SPLIT
+    outcome: A reviewed decision defines repository ownership, dependency direction, migration order, and public/private boundaries without moving code.
+    owned_surfaces: [repository_decomposition_plan]
+    acceptance: [one_owner_per_boundary, independent_public_products, versioned_cross_repo_contracts, explicit_visibility_rules, bounded_first_step]
+    pvf: [source_inventory, dependency_direction_review, public_private_boundary_review]
+    stop_conditions: [implementation_scope, hidden_private_dependency, unsupported_completion_claim]
+    non_goals: [repository_extraction, private_repository_creation, v093_implementation]
+    issue: 848
+  - id: CSDLC-MERGE
+    outcome: Native PR merge preserves reviewed publication linkage and rejects same-head relation drift before mutation.
+    owned_surfaces: [native_merge_admission, publication_linkage_intent]
+    acceptance: [closing_linkage_preserved, partof_linkage_preserved, ambiguous_relation_rejected, reconciliation_truth_preserved]
+    pvf: [same_head_body_drift_negatives, closing_and_partof_cases, exact_head_review]
+    stop_conditions: [unqualified_remote_relation, weakened_merge_guard]
+    non_goals: [authority_generation_change, unrelated_runtime_work]
+    issue: 849
+  - id: QUAL-RUNTIME
+    outcome: Five retained acceptance rows receive executable evidence and Runtime failures emit correlated redacted failure events.
+    owned_surfaces: [five_row_evidence_packet, runtime_failure_events]
+    acceptance: [actual_execution_receipts, failure_event_correlation, exact_criterion_binding, independent_review]
+    pvf: [resident_execution, provider_failure_recovery, wss_redaction, evidence_integrity_negatives]
+    stop_conditions: [synthetic_only_proof, stale_revision, missing_scenario]
+    non_goals: [paid_cloud_mutation, broad_runtime_refactor, release_approval]
+    issue: 852
+  - id: RT-COST
+    outcome: Healthy agents remain ready without recurring metered inference and provider calls are reason-attributed and countable.
+    owned_surfaces: [resident_readiness_recovery, provider_call_accounting]
+    acceptance: [zero_steady_state_inference_probes, event_driven_readiness, bounded_failure_recovery, request_reason_counters]
+    pvf: [counting_fixture_soak, failure_recovery_backoff, cloud_provider_zero_polling]
+    stop_conditions: [recurring_metered_probe, hidden_provider_request]
+    non_goals: [subscription_changes, disabling_conversations, supervision_redesign]
+    issue: 854
+  - id: CSDLC-MAN
+    outcome: Installable C-SDLC v3 man pages cover every supported command and recovery path without requiring source inspection.
+    owned_surfaces: [csdlc_man_pages, installation_and_parity_checks]
+    acceptance: [all_commands_documented, mutation_boundaries_explicit, topology_and_recovery_documented, installed_lookup_works]
+    pvf: [command_option_parity, render_lint, installed_lookup]
+    stop_conditions: [retired_command_presented_as_current, undocumented_supported_command]
+    non_goals: [lifecycle_semantics_change, cli_redesign]
+    issue: 861
+  - id: CSDLC-DECOMPOSE
+    outcome: C-SDLC local and remote command modules become cohesive internal components while preserving every public contract.
+    owned_surfaces: [csdlc_local_commands, csdlc_remote_commands]
+    acceptance: [thin_entrypoints, no_command_domain_cycles, public_contract_compatible, decomposition_inventory_complete]
+    pvf: [native_v3_regression, serialized_contract_goldens, module_dependency_check, before_after_inventory]
+    stop_conditions: [behavior_change, replacement_god_module, weakened_guard]
+    non_goals: [new_lifecycle_features, schema_redesign, unrelated_cleanup]
+    issue: 862
   - id: PLAT-MLX
     outcome: One bounded MLX and Apple Metal adapter consumes the canonical provider-definition contract.
     owned_surfaces: [mlx_metal_adapter]

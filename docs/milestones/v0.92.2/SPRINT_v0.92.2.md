@@ -9,6 +9,7 @@ SIM-UMBRELLA opens coordination; SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM
 ## CodeFriend wave 1 — Open and Establish Contracts
 
 - WP-01 validates the package and opens only the approved work wave.
+- Existing #848, #849, #852, #854, #855, #861, and #862 retain their mapped work-package authority; #848 decides whether repository-split implementation is admitted at all.
 - CF-SHELL and CF-ADAPTER begin in parallel.
 - CF-EVIDENCE establishes artifact identity, provenance, redaction, and retention contracts.
 - PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, and ARCH-ADR begin as independent bounded tracks.
@@ -36,4 +37,4 @@ Deferred connectors, autonomous mutation, public customer-scale or multi-tenant 
 
 ## Existing issues outside new-wave startup
 
-Closed merged #717 and #718 are v0.92.1 predecessor inputs. #720 uses its own existing authority and does not wait for WP-01. This schedules existing v0.92.2 work; #523 does not implement it.
+Closed merged #717 and #718 are v0.92.1 predecessor inputs. #720 uses its own independent authority; #848, #849, #852, #854, #855, #861, and #862 use their mapped existing authority after WP-01. #848 is a decision row rather than split implementation. This schedules existing v0.92.2 work; #523 does not implement it.

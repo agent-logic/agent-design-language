@@ -1,6 +1,6 @@
 # v0.92.2 Planned Issue Catalog
 
-Status: planned catalog with one existing issue binding. Uncreated rows remain number-free. This file does not create or authorize new GitHub issues. v0.92.1 issues #717 and #718 are predecessor inputs, not catalog rows.
+Status: planned catalog reconciled to the existing v0.92.2 issue inventory. Uncreated rows remain number-free. This file does not create or authorize new GitHub issues. v0.92.1 issues #717 and #718 are predecessor inputs, not catalog rows.
 
 | Order | Planned ID | Title | Creation boundary |
 |---:|---|---|---|
@@ -14,7 +14,7 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | S7 | SIM-07 | Produce one independent transition qualification | Dedicated first sprint; after SIM-06 |
 | S8 | SIM-08 | Produce one transition operations packet | Dedicated first sprint; after SIM-07 |
 | S9 | SIM-09 | Run one authorized consecutive-issue pilot | Dedicated first sprint; after SIM-08 and separate activation authority |
-| 1 | WP-01 | Publish and open the v0.92.2 CodeFriend Beta 1 execution wave | Milestone setup authority |
+| 1 | WP-01 (#864) | Publish and open the v0.92.2 CodeFriend Beta 1 execution wave | Existing milestone setup authority; no child creation without separate authorization |
 | 2 | CF-SHELL | Deliver one operable CodeFriend shell | After WP-01 |
 | 3 | CF-ADAPTER | Portable Adapter v2 and repository ingestion | After WP-01; parallel with CF-SHELL |
 | 4 | CF-EVIDENCE | Evidence identity, provenance, redaction, and retention | After CF-ADAPTER |
@@ -25,7 +25,13 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 9 | CF-UX | Produce one governed publication bundle | After CF-SHELL and CF-EVIDENCE |
 | 10 | CF-PROOF | Produce one Beta 1 qualification evidence packet | After analysis/publication tracks |
 | 11 | CF-INTEGRATE | Complete Beta 1 integration and qualification | After all product tracks, PLAT-PROVIDER and PLAT-MEMORY |
-| 12 | PLAT-PROVIDER | Config-driven provider definitions | After WP-01 and merged v0.92.1 issue #622 |
+| 12 | PLAT-PROVIDER (#855) | Config-driven provider definitions | Reuse existing #855; after WP-01, RT-COST, and merged v0.92.1 issue #622 |
+| 12a | ARCH-SPLIT (#848) | Decide repository decomposition and public/private product boundaries | Reuse existing #848; decision only, no repository extraction |
+| 12b | CSDLC-MERGE (#849) | Preserve publication linkage during native PR merge | Reuse existing #849 |
+| 12c | QUAL-RUNTIME (#852) | Complete five-row executable proof and Runtime failure-event repair | Reuse existing #852 |
+| 12d | RT-COST (#854) | Stop metered cloud inference health-probe loops | Reuse existing #854; precedes PLAT-PROVIDER |
+| 12e | CSDLC-MAN (#861) | Write complete C-SDLC v3 operator man pages | Reuse existing #861 |
+| 12f | CSDLC-DECOMPOSE (#862) | Decompose local and remote command god modules | Reuse existing #862 |
 | 13 | PLAT-MLX | Bounded MLX and Apple Metal provider adapter | After PLAT-PROVIDER |
 | 14 | PLAT-PAIR | NVIDIA PAIR multi-node local-inference experiment | After PLAT-PROVIDER |
 | 15 | PLAT-UTS | UTS standardization and productization | After WP-01 |
@@ -50,7 +56,7 @@ Status: planned catalog with one existing issue binding. Uncreated rows remain n
 | 31 | TAIL-09 | Next-milestone planning review | After TAIL-08 |
 | 32 | TAIL-10 | Release ceremony and milestone close | After TAIL-09 |
 
-WP-01 reuses existing #720 and creates only the separately authorized unassigned child rows after reconciling its own conductor identity. This includes one issue for the `OBS-S3` deployment sidecar and one for the `ARCH-ADR` work package; neither is created by #525. Closed merged #717/#718 are consumed here as v0.92.1 predecessor capabilities. Other backlog is excluded. CodeFriend new-wave creation retains its prior-milestone closure gate. The operator-selected SIM sprint can launch first through its dedicated authority and own readiness, without WP-01 or unrelated closeout. Creating its ten issue identities is a separate launch operation; #525 creates none.
+WP-01 is existing issue #864. It reuses #720, #848, #849, #852, #854, #855, #861, and #862 and creates only separately authorized unassigned child rows. #848 owns the decomposition decision only; any split implementation requires the resulting reviewed plan. This includes one issue for `OBS-S3` and one for `ARCH-ADR`; neither is created by this reconciliation. Closed merged #717/#718 are v0.92.1 predecessor capabilities. Other backlog is excluded. The operator-selected SIM sprint retains its dedicated launch authority.
 
 Each catalog row owns one primary result. Lists of supporting artifacts or proof do not authorize additional independently valuable work; WP-01 must split any row whose execution contract cannot preserve that boundary before creating its issue.
 
