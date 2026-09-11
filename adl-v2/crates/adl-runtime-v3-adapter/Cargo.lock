@@ -48,7 +48,7 @@ dependencies = [
 
 [[package]]
 name = "adl-runtime-kernel"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "async-trait",
  "axum",
