@@ -38,11 +38,11 @@ source_refs:
     ref: ".csdlc/issues/833/cards/sip.md"
 scope:
   files:
-    - "Single handoff file."
+    - "Canonical handoff, returned external-review report, finding intake, and report-aware validator."
   components:
     - "external-review-immutable-candidate"
   out_of_scope:
-    - "No review execution or remediation."
+    - "No product remediation inside #833; #522 owns fixes and dispositions."
 constraints:
   - "design_time_plan_must_be_reviewed_before_execution"
   - "runtime_execution_must_update_spp_if_plan_changes"
@@ -53,7 +53,7 @@ assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
   - id: "step-1"
-    description: "Confirm dependency readiness and starting state: #522."
+    description: "Confirm dependency readiness and starting state: #521 is closed; #522 remains open through #833, returned findings, and final ledger closure."
     expected_output: ".csdlc/issues/833/cards/sip.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-2"
@@ -61,11 +61,11 @@ proposed_steps:
     expected_output: ".csdlc/issues/833/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: Handoff."
+    description: "Implement only the bounded deliverables: Write and validate the handoff; obtain and ingest the external report; require assignment/report SHA equality; preserve every finding for #522."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
-    description: "Run focused proof gates for acceptance: Immutable context-free assignment."
+    description: "Run focused proof gates for acceptance: Immutable assignment, received report, matching candidate SHA, complete finding preservation, and explicit limitations."
     expected_output: "validation evidence recorded in VPP/SOR"
     allowed_mode: "execution_after_approval"
   - id: "step-5"
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Candidate drift."
 test_strategy:
-  - "Content assertions, SHA check, safety scan, diff check."
+  - "Validate the handoff first; then require, parse, and compare the returned report SHA before #833 completion."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -154,10 +154,10 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Proposed Steps
 
-1. Confirm dependency readiness and starting state: #522.
+1. Confirm dependency readiness and starting state: #521 is closed; #522 remains open through #833, returned findings, and final ledger closure.
 2. Review repo inputs and scoped surfaces before editing: Issue and release evidence.
-3. Implement only the bounded deliverables: Handoff.
-4. Run focused proof gates for acceptance: Immutable context-free assignment.
+3. Implement only the bounded deliverables: Write and validate the handoff; obtain and ingest the external report; require assignment/report SHA equality; preserve every finding for #522.
+4. Run focused proof gates for acceptance: Immutable assignment, received report, matching candidate SHA, complete finding preservation, and explicit limitations.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
 ## Affected Areas
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Content assertions, SHA check, safety scan, diff check.
+- Validate the handoff first; then require, parse, and compare the returned report SHA before #833 completion.
 
 ## Execution Handoff
 

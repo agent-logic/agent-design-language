@@ -17,7 +17,7 @@
   "summary": "Phase one binds the assignment to immutable candidate 9c7e57d412d61898bd44ab00d53e31afbb779e5c; later phases receive and validate the review report.",
   "required_outcome": "A context-free reviewer reviews exactly the named candidate and returns a provenance-preserving report.",
   "required_outcome_type": "review_documentation",
-  "target_files_surfaces": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md",
+  "target_files_surfaces": "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md; docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md; .csdlc/prepared/issues/833/validate-external-review-handoff.rb",
   "repo_inputs": "Issue #833, #521 retained failure, #522 closure gate, PR #850 merge.",
   "acceptance_criteria": "Exact SHA, checkout instructions, scope, report contract, limitations, non-claims, and #522 dependency truth are explicit.",
   "non_goals": "No product remediation inside #833; fixes and dispositions remain owned by #522.",

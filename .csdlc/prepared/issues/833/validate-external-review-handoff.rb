@@ -5,6 +5,7 @@ require "open3"
 
 ROOT = File.expand_path("../../../..", __dir__)
 HANDOFF = File.join(ROOT, "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md")
+REPORT = File.join(ROOT, "docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md")
 EXPECTED = "9c7e57d412d61898bd44ab00d53e31afbb779e5c"
 
 def validate(text, expected)
@@ -45,8 +46,18 @@ end
 abort("matching assignment/report SHA was rejected") unless validate_report_binding(EXPECTED, EXPECTED).empty?
 abort("drifting assignment/report SHA was accepted") if validate_report_binding(EXPECTED, "2" * 40).empty?
 
+if File.file?(REPORT)
+  report_text = File.read(REPORT)
+  report_sha = report_text[/\b[0-9a-f]{40}\b/]
+  failures << "returned report does not name a 40-character candidate SHA" unless report_sha
+  failures.concat(validate_report_binding(EXPECTED, report_sha)) if report_sha
+elsif ENV["CSDLC_REQUIRE_EXTERNAL_REPORT"] == "1"
+  failures << "required external review report is missing"
+end
+
 if failures.empty?
-  puts "PASS: immutable external-review handoff; 5 negative cases rejected"
+  phase = File.file?(REPORT) ? "handoff and report bound" : "phase-one handoff; report pending"
+  puts "PASS: #{phase}; 5 negative cases rejected"
 else
   abort(failures.join("\n"))
 end

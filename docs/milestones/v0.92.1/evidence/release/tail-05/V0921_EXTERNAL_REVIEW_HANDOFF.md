@@ -63,6 +63,9 @@ sample.
 
 ## Required report
 
+Save the returned report as
+`docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md`.
+
 Return one findings-first report containing:
 
 1. reviewer identity, provider/model where applicable, and independence;

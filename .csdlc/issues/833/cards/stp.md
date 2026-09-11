@@ -63,7 +63,7 @@ Issue #833, #521 retained failure, #522 closure gate, PR #850 merge.
 
 ## Target Files / Surfaces
 
-docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md
+docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md; docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_REPORT.md; .csdlc/prepared/issues/833/validate-external-review-handoff.rb
 
 ## Validation Plan
 
