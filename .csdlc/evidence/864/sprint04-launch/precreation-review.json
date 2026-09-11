@@ -1,0 +1,78 @@
+{
+  "schema": "adl.sprint.issue-review.v1",
+  "batch": 4,
+  "issues": [
+    {
+      "task": "CF-REVIEW",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "f8d3e197c6c1de184bb5979b3a9a435594ec7ac14e3872be0ea782364ad4b0ec"
+    },
+    {
+      "task": "CF-SHELL",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "f4a8a55486a25325c87bc47bbe781f2c3156e846678ad8b6dec81bc8aa51c0dc"
+    },
+    {
+      "task": "CF-SYNTHESIS",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "a00715462a61530333d460810ad25d164187de644c1af5dd29d736f425aa7303"
+    },
+    {
+      "task": "CF-REMEDIATE",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "6bc81cb7ad6f1c75f5db432ead329e49fe8c160731c6addd2b81ac27a474e739"
+    },
+    {
+      "task": "CF-TESTPLAN",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "4f6acfee3869edb4b09d2b6ba44615c0507c71d102937c4b42bf59fa34ce6129"
+    },
+    {
+      "task": "CF-UX",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "d634bfc30b5f1c594aeba2cbaec7c7d32b88ad5cb650d601db8de8ee36058ab3"
+    },
+    {
+      "task": "CF-RENDER-MD",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "0a1f512f85c932d4f9e43ab0abeccf76ca1d9817a07316158144aa3ecdcff5ec"
+    },
+    {
+      "task": "CF-RENDER-HTML",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "29ae3f1102a945e748359663e2c54ae24f229457178db1e0cbbcf38ad75472b3"
+    },
+    {
+      "task": "CF-RENDER-PDF",
+      "author": "/root/task_contract_review",
+      "reviewer": "/root/docs_final_review",
+      "result": "pass",
+      "findings": [],
+      "draft_sha256": "3287add7ab22ace6e7bd82651155b9d0acee8598e2bb9feebe94916c62a75d3e"
+    }
+  ]
+}
