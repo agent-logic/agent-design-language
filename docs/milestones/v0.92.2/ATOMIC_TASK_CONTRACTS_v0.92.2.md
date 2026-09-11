@@ -55,4 +55,6 @@ PVF: deterministic local planning-contract proof, local CPU/Ruby/Python, require
 
 ## Integration before independent qualification
 
-CF-INTEGRATE consumes complete feature implementations and produces the installed candidate. CF-PROOF follows CF-INTEGRATE and independently runs the ADL/external acceptance suite. TAIL-01 consumes both; CF-INTEGRATE never depends on CF-PROOF. Required independent OBS-S3 and ARCH-ADR remain outside those dependency sets but must complete before truthful milestone closure.
+CF-INTEGRATE consumes complete feature implementations and produces the installed candidate. CF-PROOF follows CF-INTEGRATE and independently runs the ADL/external acceptance suite. TAIL-01 consumes both; CF-INTEGRATE never depends on CF-PROOF. Required independent OBS-S3 and ARCH-ADR remain outside those dependency sets but are explicit TAIL-10 dependencies with separate deployment and ADR acceptance obligations before truthful milestone closure.
+
+TAIL-10 wave/specification dependency and acceptance parity is validated explicitly. Negative fixtures remove each required OBS-S3/ARCH-ADR closeout dependency and acceptance obligation from both projections, and from either projection alone. Planning validation remains deterministic local proof, not deployment or ADR completion evidence.

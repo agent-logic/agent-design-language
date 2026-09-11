@@ -374,7 +374,9 @@
       "TAIL-08"
     ],
     "TAIL-10": [
-      "TAIL-09"
+      "TAIL-09",
+      "OBS-S3",
+      "ARCH-ADR"
     ]
   },
   "completion_contracts": {

@@ -8,7 +8,7 @@ CF-INTEGRATE first forms the installed integrated candidate from complete, merge
 
 ## Release denominator
 
-The release denominator is exactly the 69 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). Nine rows reuse #720, #848, #849, #852, #854, #855, #861, #862, and #864; 60 remain prospective. Issues #717 and #718 are merged v0.92.1 predecessor inputs. TAIL-01 must account for all 69 rows, but merge/review completion is a no-go condition only for its declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues outside the closeout-tail gate. #848 delivers the split decision but no split implementation authority.
+The release denominator is exactly the 69 work-package rows in the canonical [planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.2.md), with structure and dependencies defined by the [WBS](WBS_v0.92.2.md), [issue wave](WP_ISSUE_WAVE_v0.92.2.yaml), and [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml). Nine rows reuse #720, #848, #849, #852, #854, #855, #861, #862, and #864; 60 remain prospective. Issues #717 and #718 are merged v0.92.1 predecessor inputs. TAIL-01 must account for all 69 rows, but merge/review completion is a no-go condition only for its declared dependencies. OBS-S3 and ARCH-ADR remain required milestone issues outside the early TAIL-01 gate and are explicit TAIL-10 completion dependencies. #848 delivers the split decision but no split implementation authority.
 
 ## Canonical Tail
 
@@ -37,7 +37,7 @@ The release candidate is a normal Git revision and published artifacts are versi
 
 TAIL-06 records the candidate revision and complete artifact-manifest digest before and after each remediation. Any substantive candidate or claim/artifact change rebuilds affected artifacts, reruns affected proof, refreshes TAIL-01 quality truth, and obtains current internal and external review against the revised candidate. Repeat within the remediation gate until findings, evidence and review agree. Earlier review remains immutable historical evidence, never approval of new bytes. TAIL-10 requires exact equality among release candidate, reviewed candidate, approved manifest and release authorization. Deferral cannot waive unresolved P1 or privacy/provenance failures. The outer ten-step order stays unchanged.
 
-Product integration may finish before independent supporting work. TAIL-01 converges the declared release-gating support set, including #720, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval. OBS-S3 and ARCH-ADR are explicitly excluded from both CF-INTEGRATE and TAIL-01 dependencies; they remain ordinary required additional issues with their own acceptance rather than closeout-tail work.
+Product integration may finish before independent supporting work. TAIL-01 converges the declared release-gating support set, including #720, and verifies that the merged v0.92.1 #717/#718 predecessor contracts are consumed before milestone quality approval. OBS-S3 and ARCH-ADR are explicitly excluded from both CF-INTEGRATE and TAIL-01 dependencies; they remain ordinary required additional issues with their own acceptance and are explicit completion prerequisites for TAIL-10.
 
 ## TBD disposition checkpoint
 
@@ -57,4 +57,4 @@ Before issue execution, reconcile the narrowed #852 failure-event task, #855 pro
 
 ## Final milestone completion
 
-OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE and TAIL-01. They are still required milestone work: TAIL-10 must account for their completed acceptance, together with every other required row, before claiming the milestone closed. This final accounting does not change the canonical ten-stage order or add early product gates.
+OBS-S3 and ARCH-ADR keep their explicit non-dependency status for CF-INTEGRATE and TAIL-01. They are still required milestone work: TAIL-10 explicitly depends on OBS-S3 and ARCH-ADR and must verify their completed deployment and decision-set acceptance, together with every other required row, before claiming the milestone closed. This final accounting does not change the canonical ten-stage order or add early product gates.

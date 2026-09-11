@@ -72,7 +72,7 @@ Status: planned. Uncreated rows use number-free planning identifiers; existing #
 | TAIL-07 | release_tail | Next-milestone planning | TAIL-06 |
 | TAIL-08 | release_tail | Next-milestone closeout planning | TAIL-07 |
 | TAIL-09 | release_tail | Next-milestone planning review | TAIL-08 |
-| TAIL-10 | release_tail | Release ceremony and milestone close | TAIL-09 |
+| TAIL-10 | release_tail | Release ceremony and milestone close | TAIL-09, OBS-S3, ARCH-ADR |
 
 ## Parallelism
 

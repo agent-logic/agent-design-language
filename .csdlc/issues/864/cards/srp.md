@@ -8,7 +8,7 @@ version: "1.0.5"
 title: "[v0.92.2][WP-01][planning] Publish and open the CodeFriend Beta 1 execution wave"
 branch: "codex/864-v0922-wp01"
 generated_at: "2026-09-11T21:51:25.506803+00:00"
-card_status: "ready"
+card_status: "blocked"
 status: "draft"
 source_refs:
   - kind: "issue"
@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/864/cards/sip.md"
   - ".csdlc/issues/864/cards/vpp.md"
 review_results:
-  findings_status: "pass_precommit_exact_review_pending"
-  recommended_outcome: "exact_head_review_then_update_pr"
-notes: "task_contract_review and docs_final_review reviewed the completed working revision. Exact-commit verification follows. Seven planning tasks retained; no children created."
+  findings_status: "changes_required"
+  recommended_outcome: "block"
+notes: "Prior /root/task_contract_review PASS at 3fc16781 was followed by the operator FAIL on the same revision. Preserve both events; review the corrected implementation before recording a new PASS."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- Independent semantic/docs review passed; exact-head check found stale SOR timing attribution, corrected through native edit. Narrow amended-head verification follows.
+- Operator exact-head review of 3fc16781e3779bca99866693aa37169d385a0233 found P1: TAIL-10 can bypass required OBS-S3/ARCH-ADR work; P2: tracked SRP still says exact-head review pending. This supersedes the earlier no-findings review of that revision.
 
 ### Dispositions
 
-- All task/doc findings corrected; old opening-phase timing removed from revision metrics.
+- Both findings accepted for correction in issue #864. No merge or child creation permitted by this remediation.
 
 ### Recommended Outcome
 
-- exact_head_review_then_update_pr
+- block
 
 ## Notes
 
-task_contract_review and docs_final_review reviewed the completed working revision. Exact-commit verification follows. Seven planning tasks retained; no children created.
+Prior /root/task_contract_review PASS at 3fc16781 was followed by the operator FAIL on the same revision. Preserve both events; review the corrected implementation before recording a new PASS.

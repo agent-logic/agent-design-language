@@ -72,7 +72,7 @@ Status: planned catalog reconciled to the existing v0.92.2 issue inventory. Uncr
 | 66 | TAIL-07 | Next-milestone planning | Separate creation authorization; TAIL-06 |
 | 67 | TAIL-08 | Next-milestone closeout planning | Separate creation authorization; TAIL-07 |
 | 68 | TAIL-09 | Next-milestone planning review | Separate creation authorization; TAIL-08 |
-| 69 | TAIL-10 | Release ceremony and milestone close | Separate creation authorization; TAIL-09 |
+| 69 | TAIL-10 | Release ceremony and milestone close | Separate creation authorization; TAIL-09, OBS-S3, ARCH-ADR |
 
 WP-01 is existing issue #864. It reuses #720, #848, #849, #852, #854, #855, #861, and #862 and creates only separately authorized unassigned child rows. #848 owns the decomposition decision only; any split implementation requires the resulting reviewed plan. This includes one issue for `OBS-S3` and one for `ARCH-ADR`; neither is created by this reconciliation. Closed merged #717/#718 are v0.92.1 predecessor capabilities. Other backlog is excluded. The operator-selected SIM sprint retains its dedicated launch authority.
 

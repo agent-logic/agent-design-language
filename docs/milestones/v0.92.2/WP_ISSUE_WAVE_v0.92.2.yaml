@@ -592,8 +592,9 @@ work_packages:
     lane: release_tail
     title: Release ceremony and milestone close
     issue: null
-    depends_on: [TAIL-09]
+    depends_on: [TAIL-09, OBS-S3, ARCH-ADR]
+    acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1, obs_s3_deployment_acceptance_complete, arch_adr_decision_set_acceptance_complete]
     deliverables: [milestone_close_record]
-    proof: [human_release_authority, terminal_reconciliation]
+    proof: [human_release_authority, terminal_reconciliation, obs_s3_deployment_acceptance_complete, arch_adr_decision_set_acceptance_complete]
 canonical_release_tail: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
 deferred_tracks: [jira, linear, slack, broad_workspace, autonomous_mutation, public_customer_scale, security_tournaments, ate, oci_model_packaging, optional_openrewrite, runtime_v4]

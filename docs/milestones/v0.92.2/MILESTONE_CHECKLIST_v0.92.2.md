@@ -56,7 +56,7 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] #848 is reconciled as the ARCH-SPLIT decision row, not split-implementation authority; v0.92.1 #717/#718 remain predecessor inputs
 - [ ] Shared finding/run contract merged before its parallel consumers
 - [ ] Independent perspective inputs and retained disagreement proven
-- [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the closeout tail
+- [ ] Every declared release-gating supporting track converged at TAIL-01; OBS-S3 and ARCH-ADR remain independently accepted required issues outside the early TAIL-01 gate and must satisfy TAIL-10 completion dependencies
 - [ ] Any changed candidate received refreshed artifacts, affected proof and current internal/external review
 - [ ] Release candidate and manifest exactly match the reviewed and approved digests
 
@@ -83,3 +83,5 @@ Individual issue closeout remains asynchronous and does not block otherwise read
 - [ ] CF-INTEGRATE delivered the installed candidate before independent CF-PROOF qualification.
 - [ ] TAIL-01 consumed both integration and qualification results.
 - [ ] TAIL-10 reconciles completion of every required row, including OBS-S3 and ARCH-ADR under their own acceptance, without making either an early integration or TAIL-01 dependency.
+
+TAIL-10 waits for TAIL-09, OBS-S3 and ARCH-ADR. Final acceptance separately verifies authenticated Observatory deployment and the completed, source-grounded ADR set with explicit decision status. These obligations do not block CF-INTEGRATE or the early TAIL-01 quality gate, and do not change the canonical ten-step sequence.

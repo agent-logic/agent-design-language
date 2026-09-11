@@ -18,3 +18,5 @@ Each candidate must cite alternatives, consequences, reversibility, and evidence
 `ARCH-ADR` must begin by reconciling this seed list against the final WP-01 issue wave. It may add, combine, retire, or defer candidates only with source-grounded rationale, explicit ownership, and status truth. Its primary result is one milestone ADR set and supersession map—not implementation of the decisions and not automatic acceptance of candidate text.
 
 The owner sets above are participating implementation tasks, not bundled implementation issues. ARCH-ADR remains one required planning deliverable: the completed source-grounded decision set and supersession map. Reconcile provider configuration versus lifecycle, action-planner consumers, Runtime evidence ownership and local/remote command decomposition against the [atomic task contracts](ATOMIC_TASK_CONTRACTS_v0.92.2.md) when selecting necessary ADRs. A candidate record cannot close an implementation task.
+
+ARCH-ADR completion and its decision-set acceptance explicitly gate TAIL-10 milestone closure. It remains outside CF-INTEGRATE and the early TAIL-01 quality gate; the ten-step release order is preserved.

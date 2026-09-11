@@ -517,9 +517,10 @@ specifications:
     acceptance: [successor_plan_reviewed, findings_dispositioned]
     pvf: [planning_review]
   - id: TAIL-10
-    outcome: Human release authority records ceremony and milestone-close truth.
-    acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1]
-    pvf: [release_authority_check]
+    outcome: Human release authority records ceremony and milestone-close truth only after Observatory deployment and the milestone ADR set satisfy their own acceptance.
+    depends_on: [TAIL-09, OBS-S3, ARCH-ADR]
+    acceptance: [release_decision_recorded, milestone_state_truthful, final_candidate_and_manifest_match_review, no_unresolved_p1, obs_s3_deployment_acceptance_complete, arch_adr_decision_set_acceptance_complete]
+    pvf: [release_authority_check, required_independent_work_acceptance_check]
 release_tail:
   order: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
   merge_dependency_rule: Downstream execution depends on merged authority and explicit gates, never individual closeout bookkeeping.

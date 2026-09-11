@@ -89,6 +89,7 @@ def atomic_failures(wave, specs, manifest):
         "CF-RENDER-MD": {"CF-UX", "CF-SYNTHESIS", "CF-REMEDIATE", "CF-TESTPLAN"},
         "CF-RENDER-HTML": {"CF-RENDER-MD"}, "CF-RENDER-PDF": {"CF-RENDER-MD"},
         "CF-PROOF": {"CF-INTEGRATE"}, "TAIL-01": {"CF-PROOF"},
+        "TAIL-10": {"TAIL-09", "OBS-S3", "ARCH-ADR"},
         "RT-PROVIDER": {"PLAT-PROVIDER"}, "PLAT-PROVIDER": {"RT-COST"},
         "QUAL-EVIDENCE": {"QUAL-RUNTIME", "QUAL-RESIDENT", "QUAL-PROVIDER", "QUAL-INVENTORY"},
         "CSDLC-REMOTE": {"CSDLC-DECOMPOSE", "CSDLC-MERGE"},
@@ -122,6 +123,12 @@ def atomic_negative_checks(wave, specs, manifest):
     next(r for r in w["work_packages"] if r["id"] == "CF-PROOF")["depends_on"].remove("CF-INTEGRATE")
     m["expected_dependencies"]["CF-PROOF"].remove("CF-INTEGRATE")
     cases.append(("proof before integration even with edited manifest", w, specs, m))
+    for dependency in ("OBS-S3", "ARCH-ADR"):
+        w, s, m = copy.deepcopy(wave), copy.deepcopy(specs), copy.deepcopy(manifest)
+        next(r for r in w["work_packages"] if r["id"] == "TAIL-10")["depends_on"].remove(dependency)
+        next(r for r in s["specifications"] if r["id"] == "TAIL-10")["depends_on"].remove(dependency)
+        m["expected_dependencies"]["TAIL-10"].remove(dependency)
+        cases.append((f"final closeout loses {dependency} even with edited manifest", w, s, m))
     w = copy.deepcopy(wave)
     next(r for r in w["work_packages"] if r["id"] == "RT-PROVIDER")["issue"] = None
     cases.append(("lost existing provider identity", w, specs, manifest))

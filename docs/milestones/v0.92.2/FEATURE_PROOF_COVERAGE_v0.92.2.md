@@ -36,7 +36,7 @@ Status: planned ownership map.
 | C-SDLC paper preparation | PUB-CSDLC | Source/citation traceability and non-submission check |
 | Memory Palace second-review integration | PLAT-MEMORY | Actual second-review prior-run retrieval, deterministic comparison, privacy and deletion negatives |
 | Speculative-decoding decision | SPEC-RETEST | Current benchmark, equivalence, and fallback proof |
-| Static Observatory edge deployment | OBS-S3 | `agent-logic-admin` identity, Terraform plan/apply, authenticated AWS readback, logging, security headers, invalidation, browser HTTPS and Runtime WSS, rollback and cost record; non-gating for integration and release tail |
+| Static Observatory edge deployment | OBS-S3 | `agent-logic-admin` identity, Terraform plan/apply, authenticated AWS readback, logging, security headers, invalidation, browser HTTPS and Runtime WSS, rollback and cost record; non-gating for integration and TAIL-01; required for TAIL-10 |
 | Milestone architecture decisions | ARCH-ADR | Decision inventory, source traceability, ADR structure, explicit status, and supersession checks |
 
 No row may be marked proven from a planned demo, a zero-test invocation, or green CI that does not cover the stated behavior.

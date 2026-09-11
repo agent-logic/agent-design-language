@@ -199,7 +199,8 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
     if wave.get("canonical_release_tail") != tail or specs["release_tail"]["order"] != tail:
         failures.append("Canonical tail order differs")
     for previous, current in zip(tail, tail[1:]):
-        if by_id.get(current, {}).get("depends_on") != [previous]:
+        expected = [previous, "OBS-S3", "ARCH-ADR"] if current == "TAIL-10" else [previous]
+        if by_id.get(current, {}).get("depends_on") != expected:
             failures.append(f"Tail edge {previous} -> {current} missing")
     product = {r for r in ids if r.startswith("CF-")} - {"CF-INTEGRATE", "CF-PROOF"}
     if set(by_id["CF-INTEGRATE"]["depends_on"]) != product | {"PLAT-PROVIDER", "RT-PROVIDER", "PLAT-MEMORY"}:
@@ -225,7 +226,13 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         failures.append("Milestone support convergence differs")
     additional = {"OBS-S3", "ARCH-ADR"}
     if additional & set(by_id["CF-INTEGRATE"]["depends_on"]) or additional & set(by_id["TAIL-01"]["depends_on"]):
-        failures.append("OBS-S3 and ARCH-ADR must not gate product integration or the release tail")
+        failures.append("OBS-S3 and ARCH-ADR must not gate product integration or the early TAIL-01 quality gate")
+    final_wave = by_id.get("TAIL-10", {})
+    final_spec = spec_by_id.get("TAIL-10", {})
+    if final_spec.get("depends_on") != final_wave.get("depends_on"):
+        failures.append("TAIL-10 specification/wave dependencies differ")
+    if final_spec.get("acceptance") != final_wave.get("acceptance"):
+        failures.append("TAIL-10 specification/wave acceptance differs")
     obs_s3_acceptance = set(spec_by_id.get("OBS-S3", {}).get("acceptance", []))
     if not REQUIRED_OBS_S3_ACCEPTANCE <= obs_s3_acceptance:
         failures.append("OBS-S3 lost one or more required deployment acceptance obligations")
@@ -234,7 +241,7 @@ def check(wave, specs, source_manifest=None, reconciliation=None):
         "CF-REVIEW": {"isolated_pre_synthesis_inputs"},
         "CF-SYNTHESIS": {"disagreement_preserved"},
         "TAIL-06": {"changed_candidate_artifacts_rebuilt", "affected_proof_rerun", "current_internal_external_review"},
-        "TAIL-10": {"final_candidate_and_manifest_match_review", "no_unresolved_p1"},
+        "TAIL-10": {"final_candidate_and_manifest_match_review", "no_unresolved_p1", "obs_s3_deployment_acceptance_complete", "arch_adr_decision_set_acceptance_complete"},
     }
     for key, required in obligations.items():
         if not required <= set(spec_by_id.get(key, {}).get("acceptance", [])):
@@ -282,7 +289,7 @@ def negative_checks(wave, specs, source_manifest, reconciliation):
     cases.append(("Observatory deployment loses live baseline", broken, specs))
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].append("OBS-S3")
-    cases.append(("Observatory deployment gates release tail", broken, specs))
+    cases.append(("Observatory deployment gates early TAIL-01", broken, specs))
     for obligation in sorted(REQUIRED_OBS_S3_ACCEPTANCE):
         broken = copy.deepcopy(specs)
         next(r for r in broken["specifications"] if r["id"] == "OBS-S3")["acceptance"].remove(obligation)
@@ -292,7 +299,18 @@ def negative_checks(wave, specs, source_manifest, reconciliation):
     cases.append(("ADR work package assigned before WP-01", broken, specs))
     broken = copy.deepcopy(wave)
     next(r for r in broken["work_packages"] if r["id"] == "TAIL-01")["depends_on"].append("ARCH-ADR")
-    cases.append(("ADR issue is folded into release tail", broken, specs))
+    cases.append(("ADR issue gates early TAIL-01", broken, specs))
+    # Mutate both projections to prove substantive obligations, then one side
+    # independently to prove parity. These are final-closeout, not early gates.
+    for dependency, obligation in (("OBS-S3", "obs_s3_deployment_acceptance_complete"), ("ARCH-ADR", "arch_adr_decision_set_acceptance_complete")):
+        for field, item in (("depends_on", dependency), ("acceptance", obligation)):
+            for mutation in ("both", "wave", "spec"):
+                w, s = copy.deepcopy(wave), copy.deepcopy(specs)
+                if mutation in ("both", "wave"):
+                    next(r for r in w["work_packages"] if r["id"] == "TAIL-10")[field].remove(item)
+                if mutation in ("both", "spec"):
+                    next(r for r in s["specifications"] if r["id"] == "TAIL-10")[field].remove(item)
+                cases.append((f"final closeout loses {item} in {mutation}", w, s))
     missed = [name for name, w, s in cases if not check(w, s, source_manifest, reconciliation)]
     admitted = next(
         row["planning_source"]
