@@ -41,3 +41,12 @@ candidate gate intentionally blocks the live preflight. #522 remediation,
 #525 semantic review, exact candidate approval and separately authorized release
 operations remain gates. A passing fixture or consistency report grants no
 release authorization. No actual release gate, tag or release was created.
+
+## Operator-approved registry compatibility expansion
+
+CI also exposed retained `csdlc-v2` registry rejection of the active top-level
+prompt template1.0.5. Operator approval and exact failure evidence are in
+`retained-registry-defect.md`. The bounded repair accepts1.0.5 alongside1.0.3/1.0.4,
+extends positive and incompatibility cases, and rejects unsupported1.0.6.
+It does not change native family1.0.0, shape validation, selectors or operational
+authority. Test execution results are recorded in the SOR and final PR checks.

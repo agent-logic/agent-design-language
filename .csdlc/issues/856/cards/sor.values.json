@@ -18,9 +18,9 @@
   "goal_metrics_rollup_ref": "not_collected",
   "demo_required": "false",
   "demo_proof_requirements": "Nonmutating local candidate fixtures; no release publication",
-  "summary": "Reconciled17 coordinated package versions, inventoried23 packages and21 locks, implemented native candidate consistency gate and stable owner install. One independent finding fixed; exact source-head review has no remaining findings.",
+  "summary": "Native release preflight and17-package version reconciliation complete; workspace dependency graph repaired; operator-approved retained1.0.5 compatibility fixed with33 focused tests passing. PR858 open, not merged.",
   "integration_state": "pr_open",
-  "validation_result": "Native241 initial tests and expanded final matrix PASS;23 no-deps metadata checks PASS; all11 active locks subsequently pass FULL locked Cargo metadata after CI exposed and Cargo corrected existing workspace dependency drift; shell installer/routing and strict clippy/fmt PASS. Hosted CI is the live PR858 check rollup.",
+  "validation_result": "Native241 initial tests plus final matrix PASS; all11 active lockfiles pass full locked metadata; shell/installer and native clippy/fmt PASS; retained registry card_identity22 plus gate9 tests11 PASS. Full retained suite and hosted integration are checked separately against final PR head.",
   "completion_state": "Implementation and independent review complete; published PR858; hosted CI evaluated on live final head",
   "budget_source": "issue goal; no explicit token budget",
   "validation_effect": "Exercise exact identities, fail-closed guards, version/lock coverage, no mutation and stdout/stderr separation",
@@ -80,7 +80,7 @@
   "actual_validation_seconds": "unknown",
   "actual_ci_wait_seconds": "unknown",
   "actual_metrics_source_ref": "unknown",
-  "follow_up_1": "Require final-head hosted checks before handoff; remote publication receipt in resolved Git metadata",
+  "follow_up_1": "Verify final exact-head hosted CI and retained full suite before green handoff; evidence in Git metadata/PR rollup.",
   "variance_analysis_completed": "false",
   "verification_scope": "Issue856 bound worktree and isolated local candidate fixtures",
   "replay_result": "PASS including empty, omitted and source-tagged lock owner negatives",
@@ -100,5 +100,5 @@
   "ordering_guarantees": "Identity and authority admission precede eligibility; final checkout recheck",
   "verification_ordering_guarantees_verified": "true",
   "determinism_tests_executed": "csdlc-v3/tests/release_preflight.rs",
-  "decision_or_deviation_1": "Preflight consistency does not authenticate local gate prose or grant release approval"
+  "decision_or_deviation_1": "Operator explicitly approved retained1.0.5 registry compatibility repair after CI exposed rejection. Native v3 lifecycle remains authority; no v2 workflow used."
 }

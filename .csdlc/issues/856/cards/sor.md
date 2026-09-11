@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Reconciled17 coordinated package versions, inventoried23 packages and21 locks, implemented native candidate consistency gate and stable owner install. One independent finding fixed; exact source-head review has no remaining findings.
+Native release preflight and17-package version reconciliation complete; workspace dependency graph repaired; operator-approved retained1.0.5 compatibility fixed with33 focused tests passing. PR858 open, not merged.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_release_ceremony.sh; bash adl/tools/test_owner_binary_install.sh`
     `Exercise exact identities, fail-closed guards, version/lock coverage, no mutation and stdout/stderr separation`
 - Results:
-  - `Native241 initial tests and expanded final matrix PASS;23 no-deps metadata checks PASS; all11 active locks subsequently pass FULL locked Cargo metadata after CI exposed and Cargo corrected existing workspace dependency drift; shell installer/routing and strict clippy/fmt PASS. Hosted CI is the live PR858 check rollup.`
+  - `Native241 initial tests plus final matrix PASS; all11 active lockfiles pass full locked metadata; shell/installer and native clippy/fmt PASS; retained registry card_identity22 plus gate9 tests11 PASS. Full retained suite and hosted integration are checked separately against final PR head.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -170,9 +170,9 @@ verification_summary:
 - Missing/optional artifacts and rationale: `No actual release gate or authorization manufactured`
 
 ## Decisions / Deviations
-- `Preflight consistency does not authenticate local gate prose or grant release approval`
+- `Operator explicitly approved retained1.0.5 registry compatibility repair after CI exposed rejection. Native v3 lifecycle remains authority; no v2 workflow used.`
 - `CI found existing workspace lock missing kernel dependency edges. Cargo reconciled them; all11 active lockfiles pass full locked dependency resolution.`
 
 ## Follow-ups / Deferred work
-- `Require final-head hosted checks before handoff; remote publication receipt in resolved Git metadata`
+- `Verify final exact-head hosted CI and retained full suite before green handoff; evidence in Git metadata/PR rollup.`
 - `#526 consumes final merged revision and RELEASE_PREFLIGHT.md; no release approval implied`

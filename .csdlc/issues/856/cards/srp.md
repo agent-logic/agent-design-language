@@ -123,11 +123,11 @@ review_results:
 
 ### Findings
 
-- Resolved P2 lock owner omission. CI then found workspace dependency-edge drift; bounded Cargo lock reconciliation requires renewed review.
+- P2 lock owner omission fixed; CI workspace lock graph corrected; operator-approved retained1.0.5 whitelist and positive/negative tests reviewed without findings.
 
 ### Dispositions
 
-- Require root/workspace owners per active lock; empty, missing and source-tagged owner negatives pass.
+- All actionable findings resolved; final exact-commit review receipt is retained in resolved Git metadata.
 
 ### Recommended Outcome
 

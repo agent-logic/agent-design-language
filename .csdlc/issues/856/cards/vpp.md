@@ -35,11 +35,11 @@ source_refs:
   - kind: "spp"
     ref: ".csdlc/issues/856/cards/spp.md"
 selected_lanes:
-  - "Local native-owner correctness, shell routing/install, manifest metadata; hosted integration CI"
+  - "Native contract proof; retained registry compatibility contract proof; hosted integrationCI"
 parallel_groups:
   - "Independent metadata and shell checks; native build commands serialized"
 validation_commands:
-  - "cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_release_ceremony.sh; bash adl/tools/test_owner_binary_install.sh"
+  - "Native preflight suite and shell/metadata checks; retained v2 card_identity/gate9 and standalone suite plus strict clippy/fmt; hostedCI"
 failure_policy: "Fail closed on any candidate, version, notes or authority mismatch"
 notes: "Local gate hashes prove consistency, not semantic review/authentication; candidate release approval remains separate."
 ---
@@ -61,7 +61,7 @@ Inventory package versions; implement exact-candidate native preflight; prove re
 
 ## Selected Validation Lanes
 
-- Local native-owner correctness, shell routing/install, manifest metadata; hosted integration CI
+- Native contract proof; retained registry compatibility contract proof; hosted integrationCI
 
 ## Parallelization Plan
 
@@ -86,7 +86,7 @@ Inventory package versions; implement exact-candidate native preflight; prove re
 
 ## Validation Commands
 
-- cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_release_ceremony.sh; bash adl/tools/test_owner_binary_install.sh
+- Native preflight suite and shell/metadata checks; retained v2 card_identity/gate9 and standalone suite plus strict clippy/fmt; hostedCI
 
 ## Failure Semantics
 

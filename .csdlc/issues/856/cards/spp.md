@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Inventory package versions; implement exact-candidate native preflight; prove rejection/nonmutation; independent review; publish and resolve CI."
+plan_summary: "Original native preflight/version repair plus operator-approved retained registry1.0.5 compatibility repair; prove guards, review final head and keep PR858 green."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -61,7 +61,7 @@ proposed_steps:
     expected_output: ".csdlc/issues/856/cards/stp.md"
     allowed_mode: "design_review_then_execution"
   - id: "step-3"
-    description: "Implement only the bounded deliverables: Explicit release artifact inventory, coordinated manifests/locks, native release-preflight, shell routing and stable installer, regression fixtures and operator documentation."
+    description: "Implement only the bounded deliverables: Original release inventory/native gate/install deliverables; additionally explicit retained top-level1.0.5 compatibility and rejection regression cases."
     expected_output: "tracked issue work product"
     allowed_mode: "execution_after_approval"
   - id: "step-4"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Local gate hashes prove consistency, not semantic review/authentication; candidate release approval remains separate."
+notes: "Operator approved bounded compatibility expansion; do not use v2 lifecycle or alter native authority."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.1][release] Reconcile release versions and restore native v3 ceremony preflight`.
 
-Inventory package versions; implement exact-candidate native preflight; prove rejection/nonmutation; independent review; publish and resolve CI.
+Original native preflight/version repair plus operator-approved retained registry1.0.5 compatibility repair; prove guards, review final head and keep PR858 green.
 
 ## PVF Lane Plan
 
@@ -156,7 +156,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. Confirm dependency readiness and starting state: Repair needed before #526 candidate approval; #522 remediation and #525 review remain semantic release gates; #833 untouched.
 2. Review repo inputs and scoped surfaces before editing: Issue856, release_ceremony.sh, canonical v3 authority, tail-02 manifest inventory, current release plan/notes.
-3. Implement only the bounded deliverables: Explicit release artifact inventory, coordinated manifests/locks, native release-preflight, shell routing and stable installer, regression fixtures and operator documentation.
+3. Implement only the bounded deliverables: Original release inventory/native gate/install deliverables; additionally explicit retained top-level1.0.5 compatibility and rejection regression cases.
 4. Run focused proof gates for acceptance: All release package/lock identities agree; missing/stale native authority or candidate gate rejects; commit/notes/evidence hashes bind exact inputs; positive/negative fixtures are nonmutating; stable owners and channel contract proven; #526 receives repair handoff.
 5. Record issue-specific review findings in SRP, validation-planning truth in VPP, issue outcome truth in SOR, and refresh this SPP if execution diverges.
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Local gate hashes prove consistency, not semantic review/authentication; candidate release approval remains separate.
+Operator approved bounded compatibility expansion; do not use v2 lifecycle or alter native authority.

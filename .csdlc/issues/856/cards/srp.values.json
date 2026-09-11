@@ -24,9 +24,9 @@
   "review_notes": "Independent reviewer subagent:review_856_design approved769f20e134e7e9f385d0650ab745c058670b7656 and metadata-only4300915ce1410c48867f32b95a9082f96fa9341f. Final publication metadata renewal recorded in Git metadata.",
   "sip_card": ".csdlc/issues/856/cards/sip.md",
   "recommended_outcome": "approve",
-  "review_dispositions": "Require root/workspace owners per active lock; empty, missing and source-tagged owner negatives pass.",
+  "review_dispositions": "All actionable findings resolved; final exact-commit review receipt is retained in resolved Git metadata.",
   "sor_card": ".csdlc/issues/856/cards/sor.md",
   "vpp_card": ".csdlc/issues/856/cards/vpp.md",
-  "review_findings": "Resolved P2 lock owner omission. CI then found workspace dependency-edge drift; bounded Cargo lock reconciliation requires renewed review.",
+  "review_findings": "P2 lock owner omission fixed; CI workspace lock graph corrected; operator-approved retained1.0.5 whitelist and positive/negative tests reviewed without findings.",
   "spp_card": ".csdlc/issues/856/cards/spp.md"
 }
