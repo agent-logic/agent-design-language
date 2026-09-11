@@ -20,3 +20,7 @@ RUST-01 deliberately owns only the resilience owner-boundary slice. The other in
 | Streaming substrate consolidation | Deferred | v0.93 planning intake | Streaming ownership spans Runtime and transport surfaces and requires a separate migration contract. |
 
 These are explicit planning dispositions, not completion claims or newly created issues.
+
+## Measured source-size boundary
+
+The [recursive source audit](../evidence/refactoring/rust-01/issue-836/README.md) compares the exact pre-refactor and merged revisions. The complete resilience family grew from 5,278 to 5,995 physical lines (+717); the 64-line facade reflects decomposition, not overall code reduction. Added/deleted lines, unchanged files and possible relocations are reported separately. This measurement is not behavior or validation-impact proof, and it introduces no LoC quota.

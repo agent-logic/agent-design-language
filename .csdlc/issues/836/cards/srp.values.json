@@ -1,0 +1,18 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 836,
+  "issue_padded": "0836",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/836",
+  "title": "[v0.92.1][TAIL-06.21][quality] Publish recursive code-size and relocation evidence",
+  "branch": "codex/836-recursive-rust-size",
+  "version": "v0.92.1",
+  "card": "srp",
+  "card_status": "draft",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-836-recursive-rust-size",
+  "findings_status": "no_findings",
+  "recommended_outcome": "needs_followup",
+  "review_findings": "Independent review_836 found no actionable findings in recursive inventory, counts, relocation locators/digests and ten-surface document audit.",
+  "review_dispositions": "No implementation findings; exact-head publication review remains pending final commit.",
+  "review_notes": "Reviewer independently validated both source inventories and all 1501 relocation runs (2786 unique pairs). Scope is accounting evidence, not runtime behavior."
+}
