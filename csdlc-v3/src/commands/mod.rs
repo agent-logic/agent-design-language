@@ -3,6 +3,7 @@
 
 pub mod local;
 pub mod proof;
+pub mod release;
 pub mod remote;
 pub mod sprint;
 pub mod terminal;

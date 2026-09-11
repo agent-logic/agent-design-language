@@ -1,0 +1,20 @@
+{
+  "expected_lifecycle_digest": "4fdf2fac44f6597c224e99adcd8b339e9a51e82003bf3a410759300f7d1e6da8",
+  "exact_review_sha": "3a22de2a460d9db9f1ff25087184c33ed60c07dd",
+  "operation": {
+    "kind": "github_mutation",
+    "request": {
+      "repository": "agent-logic/agent-design-language",
+      "issue": 833,
+      "pull_request": null,
+      "cutover_issue": null,
+      "operator_approval": "Operator directed the handoff to name the SHA and clarified that #522 closes only after #833 and all resulting findings are fixed.",
+      "expected_head_sha": "3a22de2a460d9db9f1ff25087184c33ed60c07dd",
+      "credential_names": ["GITHUB_TOKEN"],
+      "mutation": {
+        "action": "issue_edit",
+        "body": "Part of #522. Repairs the first P1 finding in the retained v0.92.1 third-party review.\n\n## Outcome\n\nRetain the failed external report as non-proving evidence, bind the replacement assignment to immutable candidate 9c7e57d412d61898bd44ab00d53e31afbb779e5c, and obtain one independent external review whose assignment, report, limitations, and drift checks all bind that revision.\n\n## Source finding\n\nTPR-001 — Assignment cannot be bound because no candidate SHA was supplied. The reviewer correctly rejected the mutable assignment.\n\n## Deliverables\n\n- Retained failed-review artifact and normalized source metadata under the TAIL-05 evidence root.\n- A replacement handoff naming one full 40-character candidate SHA; no inference from main or a working tree.\n- Independent reviewer report recording reviewer identity/independence, exact SHA, clean checkout observation, drift result, validation performed, validation omitted, findings, and limitations.\n- Candidate-integrity validator with negative cases for missing, malformed, substituted, or assignment/report-mismatched SHA.\n\n## Acceptance criteria\n\n- [ ] The failed review remains visibly FAIL/non-proving and is never rewritten into a pass.\n- [ ] The replacement assignment and report bind the same immutable 40-character SHA.\n- [ ] The reviewer confirms clean checkout and no candidate drift.\n- [ ] Review limitations and every finding are retained verbatim or through a provenance-preserving normalized record.\n- [ ] Focused validator and independent exact-head review pass.\n\n## Dependencies and closure sequencing\n\n- #521 owns the retained external-review report and is closed.\n- #833 may freeze and review the explicit candidate while #522 remains administratively open.\n- #522 owns all findings returned by #833 and must not close until #833 completes, every new finding is dispositioned, every release blocker is fixed and exactly reviewed, and the final ledger proves the complete denominator.\n- Candidate freezing and #522 ledger closure are distinct events; #522 closure is not a prerequisite for freezing this review candidate.\n\n## Non-goals\n\n- Inferring a candidate SHA from the current branch.\n- Treating this issue's setup, handoff-only PR, or a failed report as release approval.\n- Remediating product findings inside the review artifact.\n\n<!-- csdlc-v3-operation:6fa1ad06ac7371e7871520091a38a26e4721fad86821f3a778014f58ffbf1c41 -->"
+      }
+    }
+  }
+}

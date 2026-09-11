@@ -4,7 +4,7 @@ version = 4
 
 [[package]]
 name = "adl"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "adl-runtime",
  "adl-runtime-kernel",
@@ -77,7 +77,7 @@ dependencies = [
 
 [[package]]
 name = "adl-resilience"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "schemars 0.8.22",
  "serde",
@@ -85,7 +85,7 @@ dependencies = [
 
 [[package]]
 name = "adl-runtime"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "adl-resilience",
  "adl-runtime-kernel",
@@ -122,7 +122,7 @@ dependencies = [
 
 [[package]]
 name = "adl-runtime-kernel"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "async-trait",
  "axum 0.8.9",

@@ -1,0 +1,58 @@
+{
+  "schema": "adl.v0921.issue833.issue818_candidate_current_supersession.v1",
+  "issue": 833,
+  "source_issue": 818,
+  "parent_issue": 522,
+  "finding": "D520-RET-001",
+  "review_candidate": "9c7e57d412d61898bd44ab00d53e31afbb779e5c",
+  "source_candidate": "add8f48867e55be9256244767758abba6f348091",
+  "closing_pr": 832,
+  "closing_pr_head": "2c9623f82759811e05fe51558303fa198af7a84c",
+  "merge_commit": "64a99fd71b9770e15cb0dc393d669450d3a5f5b4",
+  "merged_by": "danielbaustin",
+  "merged_at": "2026-09-11T02:32:37Z",
+  "approval_basis": "The closing PR states that merging approves only the exact proposal objects and digests reviewed there. The operator merged that exact head. This receipt therefore supersedes only the historical pending_operator_review projection for those 17 immutable proposals.",
+  "source_artifacts": [
+    {
+      "path": ".csdlc/evidence/818/retained-corporate-runtime/reconciliation.json",
+      "git_blob_at_pr_head": "f3747237a82c9daed90f0fad7b6d844376e2e478",
+      "git_blob_at_review_candidate": "f3747237a82c9daed90f0fad7b6d844376e2e478",
+      "sha256_at_review_candidate": "bbd0b884f7673bfafa8007d027ff24b392a61de0ac1b0c1d00d866e5723f9de9"
+    },
+    {
+      "path": ".csdlc/prepared/issues/818/retained-corporate-runtime-resolution-plan.json",
+      "git_blob_at_pr_head": "0935dc8cc2a0ec44f6b45d594a9a1dc11857f904",
+      "git_blob_at_review_candidate": "0935dc8cc2a0ec44f6b45d594a9a1dc11857f904",
+      "sha256_at_review_candidate": "dc003ca983e97f68c266ddcaf6b7085abecb9daf5c4ba70abe85c4d3db7b19c9"
+    }
+  ],
+  "row_count": 17,
+  "proposal_digest_set_sha256": "b786620fd75c6446b0247009d0e2d6ed7faa9e3974791f75d3f13d48a44855d8",
+  "rows": [
+    {"row_id":"CORP-A:retained-153-ac-2","proposal_digest":"b9d74f5de812b2a3e9d36a2e538e94d142ab7183c10cf06cf793bf2ad32a49f7"},
+    {"row_id":"CORP-A:retained-153-ac-3","proposal_digest":"ccbb4b3f54424495688a23c74d74c7cd85b563adbbb033a87366957630d71812"},
+    {"row_id":"CORP-A:retained-154-ac-1","proposal_digest":"814096d53a0fbf78fb519f51f19f3e7df4cdb49990cd438147312551c60c648b"},
+    {"row_id":"CORP-A:retained-154-ac-2","proposal_digest":"466377e14fe59259118453d173f8e0cce5e49f9d302d2bb977ae95237cf0ed30"},
+    {"row_id":"CORP-A:retained-154-ac-3","proposal_digest":"271b108459b6bab2df6909ccdafc1dc8b8efd54b50bcfaa097ec1f85481c28d5"},
+    {"row_id":"CORP-A:retained-154-ac-4","proposal_digest":"5f384baf01c042fd64d980904e8c309140e21370b37ca771db5e38b1bd411226"},
+    {"row_id":"CORP-A:retained-155-ac-1","proposal_digest":"14605bec09f0f8f6d9f67b9dfdb53365e3537175151b7d9a9d6ad1769ed06e7a"},
+    {"row_id":"CORP-A:retained-155-ac-2","proposal_digest":"ddc68bc30da9d652a5ce6fc1c048b1728c001669fc276c993a3dc5f4252fa94f"},
+    {"row_id":"CORP-A:retained-155-ac-3","proposal_digest":"358e957c5e93a350d656511bea8d2de0aee540941cf8db3784b43fd545fae208"},
+    {"row_id":"CORP-C:retained-157-ac-1","proposal_digest":"d350de91defe8e5f70d5084382e88c1fc09a7e012cdf89f46f07a69e91bdd687"},
+    {"row_id":"CORP-C:retained-157-ac-2","proposal_digest":"2356fad89c5a2b72b1e87c3bbbe8054965c921ed066be9c7b2095f638d739471"},
+    {"row_id":"CORP-C:retained-157-ac-3","proposal_digest":"92aa5b6ca99211046aa0f93403cef9f1d9fbfd43fc5a0dd59c6ad36d0417ce42"},
+    {"row_id":"CORP-C:retained-158-ac-4","proposal_digest":"70c3215316f0e44fed4beb33b82bb0fcbd09c9a62418ac1d71bea60b2cf7d900"},
+    {"row_id":"CORP-C:retained-159-ac-1","proposal_digest":"672e92f3c99be81542d3a70ffe2a56ec9b108a9df2a0ca8fe45975dab063d163"},
+    {"row_id":"CORP-C:retained-159-ac-4","proposal_digest":"145c0ac66b1cf42d55a8212632b80c00ba98112df0e536e7c09d0a2a45982920"},
+    {"row_id":"CORP-D:retained-160-ac-1","proposal_digest":"b8328b97fa3c0a14dc95bcc2c3777719213e8d5ff29f8dd7ead3ee3ae9e253b1"},
+    {"row_id":"CORP-D:retained-160-ac-2","proposal_digest":"0f9c8a2df24076335f0cb7c4fbce639782b8760f4e4521eeff1fdbf866300baa"}
+  ],
+  "disposition": "approved_by_exact_operator_merge",
+  "supersedes": "Only the 17 nested pending_operator_review and release_ready=false pre-merge projections in the issue #818 proposal packet.",
+  "bucket_release_gate_unresolved": 0,
+  "non_claims": [
+    "No product behavior is claimed implemented or removed.",
+    "No private instrument, counsel advice, signature, credential, or provider state was inspected.",
+    "This receipt does not approve the milestone release or close issues #522 or #833."
+  ]
+}

@@ -57,7 +57,7 @@ pub fn validate_native_registry(root: &Path) -> Result<()> {
     if registry.schema != "adl.csdlc.prompt_template_registry.v1"
         || !matches!(
             registry.csdlc_prompt_template_set.as_str(),
-            "1.0.3" | "1.0.4"
+            "1.0.3" | "1.0.4" | "1.0.5"
         )
         || registry.semver != registry.csdlc_prompt_template_set
         || registry.status != "active"

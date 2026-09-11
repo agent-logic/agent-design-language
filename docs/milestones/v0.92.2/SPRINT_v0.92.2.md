@@ -11,8 +11,9 @@ SIM-UMBRELLA opens coordination; SIM-01 → SIM-02 → SIM-03 → SIM-04 → SIM
 - WP-01 validates the package and opens only the approved work wave.
 - CF-SHELL and CF-ADAPTER begin in parallel.
 - CF-EVIDENCE establishes artifact identity, provenance, redaction, and retention contracts.
-- PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, and SPEC-RETEST begin as independent bounded tracks.
+- PLAT-UTS, PLAT-RUST, OPS-AWS, OPS-GCP, PUB-MEDIUM, PUB-CSDLC, SPEC-RETEST, and ARCH-ADR begin as independent bounded tracks.
 - PLAT-PROVIDER begins only after v0.92.1 issue #622 is merged; PLAT-MLX and the bounded PLAT-PAIR experiment follow the provider-definition contract.
+- OBS-S3 begins only after WP-01 creates its issue and OBS-LIVE is complete; it applies the existing #679/PR #685 design and remains non-gating for product integration.
 
 ## CodeFriend wave 2 — Parallel Analysis Surfaces
 
@@ -31,7 +32,7 @@ Run TAIL-01 through TAIL-10 in exact order. Individual issue closeout is asynchr
 
 ## Scope Control
 
-Deferred connectors, autonomous mutation, public customer-scale deployment, ATE, OCI model packaging, optional modernization, and Runtime v4 require separate admission.
+Deferred connectors, autonomous mutation, public customer-scale or multi-tenant deployment, ATE, OCI model packaging, optional modernization, and Runtime v4 require separate admission. The bounded static Observatory sidecar does not authorize those broader deployment programs.
 
 ## Existing issues outside new-wave startup
 

@@ -44,7 +44,7 @@ fn native_sample_authority_resolves_distinct_native_and_import_families() {
 }
 
 // PVF: deterministic local filesystem contract proof; small resource profile.
-// Required for #754 acceptance and the C-SDLC v2 standalone CI lane.
+// Required for #754 and #856 explicit registry compatibility and retained v2 CI.
 fn registry_fixture(version: &str) -> (tempfile::TempDir, serde_json::Value) {
     let root = tempfile::tempdir().expect("registry fixture");
     let mut registry: serde_json::Value =
@@ -73,7 +73,7 @@ fn write_registry(root: &std::path::Path, registry: &serde_json::Value) {
 
 #[test]
 fn native_registry_accepts_explicit_legacy_registry_versions() {
-    for version in ["1.0.3", "1.0.4"] {
+    for version in ["1.0.3", "1.0.4", "1.0.5"] {
         let (root, registry) = registry_fixture(version);
         write_registry(root.path(), &registry);
         csdlc_v2::registry::validate_native_registry(root.path())
@@ -83,7 +83,7 @@ fn native_registry_accepts_explicit_legacy_registry_versions() {
 
 #[test]
 fn native_registry_rejects_incompatible_authority_before_sample_writes() {
-    for version in ["1.0.3", "1.0.4"] {
+    for version in ["1.0.3", "1.0.4", "1.0.5"] {
         let other = if version == "1.0.3" { "1.0.4" } else { "1.0.3" };
         let other_path = format!("docs/templates/prompts/{other}");
         for (pointer, replacement) in [
@@ -113,7 +113,7 @@ fn native_registry_rejects_incompatible_authority_before_sample_writes() {
             assert!(!output.exists(), "{version}: {pointer} wrote output");
         }
     }
-    let (root, registry) = registry_fixture("1.0.5");
+    let (root, registry) = registry_fixture("1.0.6");
     write_registry(root.path(), &registry);
     let output = root.path().join("samples");
     assert_eq!(

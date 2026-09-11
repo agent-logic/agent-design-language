@@ -8,8 +8,8 @@
   "one_binary": "csdlc",
   "denominator": {
     "v2_entrypoints": 21,
-    "current_v3_commands": 25,
-    "implemented_commands": 25,
+    "current_v3_commands": 26,
+    "implemented_commands": 26,
     "partial_commands": 0,
     "fail_closed_commands": 0,
     "implemented_replacement_routes": 21,
@@ -234,6 +234,13 @@
       "owner_issue": 628,
       "implementation_status": "implemented",
       "authority_status": "authenticated_v3"
+    },
+    {
+      "command": "release-preflight",
+      "replaces": [],
+      "owner_issue": 856,
+      "implementation_status": "implemented",
+      "authority_status": "read_only_helper"
     }
   ],
   "invariants": [
