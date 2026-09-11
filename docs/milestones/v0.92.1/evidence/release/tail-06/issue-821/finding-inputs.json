@@ -1,0 +1,204 @@
+{
+  "schema": "adl.v0921.tail06.issue821.finding_inputs.v1",
+  "issue": 821,
+  "observed_at": "2026-09-10T22:31:15.143498+00:00",
+  "status": "preparation_only",
+  "source": {
+    "path": "docs/milestones/v0.92.1/evidence/release/tail-04/findings.json",
+    "origin": "issue-520 local review worktree snapshot; not present in preparation base",
+    "sha256": "9dd57d38d85db5d2a6519d7ae52a5fa59d7dd55f8419775111985576dc078b92",
+    "candidate_sha": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+  },
+  "p1_p2_count": 12,
+  "findings": [
+    {
+      "finding_id": "D520-RET-001",
+      "severity": "P1",
+      "owner": "#818, #819, #820, and #821 under #522",
+      "title": "The retained-proof denominator still contains 198 unproved required rows",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-V3F-001",
+      "severity": "P1",
+      "owner": "#817 under #522",
+      "title": "V3-F exact-head proof is stale at the frozen release candidate",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-REL-001",
+      "severity": "P1",
+      "owner": "#817 under #522",
+      "title": "The canonical current release-status projection is stale and invalid",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-DOC-003",
+      "severity": "P2",
+      "owner": "#817 under #522",
+      "title": "Issue 519 lifecycle cards contradict its completed publication state",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-DOC-004",
+      "severity": "P2",
+      "owner": "#817 under #522",
+      "title": "Feature-proof coverage contains fourteen corrupted ownership-link suffixes",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-RUNTIME-001",
+      "severity": "P1",
+      "owner": "#814 under #522",
+      "title": "Max-attempt greeting recovery exceeds its retry bound and can poison the durable store",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-RUNTIME-002",
+      "severity": "P2",
+      "owner": "#814 under #522",
+      "title": "Greeting retries replace the stable ledger work identity with attempt-specific IDs",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-SEC-001",
+      "severity": "P1",
+      "owner": "#815 under #522",
+      "title": "GCP mutation approval is self-asserted by the local mutation principal",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-SEC-002",
+      "severity": "P2",
+      "owner": "#815 under #522",
+      "title": "AWS authorization is not cryptographically bound to the saved Terraform plan",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-SEC-003",
+      "severity": "P2",
+      "owner": "#816 under #522",
+      "title": "The OBS-B redaction validation lane is vacuous",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-SEC-004",
+      "severity": "P2",
+      "owner": "#814 under #522",
+      "title": "The real-local Shepherd proof accepts off-host Ollama URLs",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    },
+    {
+      "finding_id": "D520-TEST-001",
+      "severity": "P2",
+      "owner": "#816 under #522",
+      "title": "Hot-reload cancellation tests can pass without observing a pending reload",
+      "status": "pending_final_candidate_verification",
+      "source_revision": "fb6cbc7f619daa54f901fd2d12f480add682ace3"
+    }
+  ],
+  "merged_pr_observations": {
+    "814": {
+      "body": "Repair crash recovery so admission greetings retain one stable logical provider identity while retry transport uses a private attempt identity. Fail closed at the configured attempt ceiling and preserve terminal durable truth.\n\nHarden Shepherd local-model admission to exact loopback HTTP origins, refuse redirects, and prove redirect denial against an executed source/target fixture. Focused Runtime tests, strict clippy, formatting, diff hygiene, and the Runtime owner lane pass. Independent exact-head rereview passed after both initial P2 findings were resolved.\n\nCloses #814\n\n<!-- csdlc-v3-operation:c8761390da131fee0bdb2121fb3d29a9d9b596247a592a00ab371d3e811c40fd -->",
+      "headRefOid": "184f5479146cf76c278e5a00c70d41c278f1671c",
+      "mergeCommit": {
+        "oid": "025893137021c963e752f53935268e7d8834d1ac"
+      },
+      "mergedAt": "2026-09-10T22:16:35Z",
+      "mergedBy": {
+        "id": "MDQ6VXNlcjYwNTc3Mw==",
+        "is_bot": false,
+        "login": "danielbaustin",
+        "name": "Daniel B. Austin"
+      },
+      "number": 822,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/822",
+      "ancestor_of_preparation_base": true
+    },
+    "815": {
+      "body": "Closes #815\n\nPart of #522\n\nRepairs D520-SEC-001 and D520-SEC-002 by requiring detached operator signatures, binding authorization to exact Terraform plan bytes and derived JSON projections, freezing verified GCP mutation inputs against replacement, enforcing system-clock expiry, and checking exact AWS account/GCP project replay boundaries.\n\nValidation: cloud-authorization positive proof; forged/unsigned approval, plan and sidecar mutation, projection drift, expiry, and account/project replay negatives; read-only GCP/AWS proof; Python compilation, shell syntax, and diff hygiene. No paid cloud mutation was performed.\n\nIndependent exact-head review: PASS at c3e8ce91ecf4ae02a34611dc7225b84843087c1f with no actionable findings.\n\n<!-- csdlc-v3-operation:0ce2c2352e1a71e1e82a2246cdd9114b78c410d8998e63ec66190b958226624d -->",
+      "headRefOid": "c3e8ce91ecf4ae02a34611dc7225b84843087c1f",
+      "mergeCommit": {
+        "oid": "8e51b1b15c8257a6522cda041e4aed4eb3348016"
+      },
+      "mergedAt": "2026-09-10T22:17:51Z",
+      "mergedBy": {
+        "id": "MDQ6VXNlcjYwNTc3Mw==",
+        "is_bot": false,
+        "login": "danielbaustin",
+        "name": "Daniel B. Austin"
+      },
+      "number": 825,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/825",
+      "ancestor_of_preparation_base": true
+    },
+    "816": {
+      "body": "Closes #816\n\nPart of #522\n\nRepairs D520-SEC-003 by validating production-derived Runtime JSON plus every declared UI/evidence publication, structurally rejecting duplicate keys and unredacted sensitive fields. Repairs D520-TEST-001 by synchronizing hot-reload cancellation tests on observed pending and cancellation state instead of timing sleeps.\n\nValidation: OBS-B production/manifest proof with 10 negative classes; 8 Runtime config-reload integration tests; 2 kernel config-reload unit tests; repeated causal cancellation runs; strict clippy, fmt, Python compile, diff hygiene, and native six-card validation.\n\nIndependent exact-head review: PASS at f6b93fd399cd54f40d3ae442aca4614c0810c84a with no P0-P3 findings.\n\n<!-- csdlc-v3-operation:b7b44016b42bfab41590c13c1c272dbe6677d422f9368dc3868d715bd70939d8 -->",
+      "headRefOid": "edc2e0646d9e80dbff1f1d13281afb4aa8ba5eb6",
+      "mergeCommit": {
+        "oid": "5981d90e71808b70a801520d86bd4e648a56d0a6"
+      },
+      "mergedAt": "2026-09-10T22:18:16Z",
+      "mergedBy": {
+        "id": "MDQ6VXNlcjYwNTc3Mw==",
+        "is_bot": false,
+        "login": "danielbaustin",
+        "name": "Daniel B. Austin"
+      },
+      "number": 823,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/823",
+      "ancestor_of_preparation_base": true
+    },
+    "817": {
+      "body": "Closes #817\n\nPart of #522\n\nRepairs D520-V3F-001, D520-REL-001, D520-DOC-003, D520-DOC-004, D520-EVID-001, and D520-EVID-002 with candidate-bound V3-F proof, live canonical status, authenticated #519 terminal projection, corrected ownership links, valid retained GCP-E JSON, and byte-bound structured failure evidence.\n\nValidation: release-truth positive, 10 negative cases, and live GitHub readback; current-status positive and 9 negatives; V3-F positive and 15 negatives; detached locked suite 211/211; native six-card validation; Python compilation and diff/path hygiene. No paid cloud mutation was performed.\n\nIndependent exact-head review: PASS at c25c7639593958eb0eb4b90d0fc21a815d5e078d with no actionable findings.\n\n<!-- csdlc-v3-operation:0295753400ec51d417d0d50ad73125c18baef0930a9a2155cea31600b863af83 -->",
+      "headRefOid": "c25c7639593958eb0eb4b90d0fc21a815d5e078d",
+      "mergeCommit": {
+        "oid": "add8f48867e55be9256244767758abba6f348091"
+      },
+      "mergedAt": "2026-09-10T22:18:57Z",
+      "mergedBy": {
+        "id": "MDQ6VXNlcjYwNTc3Mw==",
+        "is_bot": false,
+        "login": "danielbaustin",
+        "name": "Daniel B. Austin"
+      },
+      "number": 826,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/826",
+      "ancestor_of_preparation_base": true
+    },
+    "819": {
+      "body": "Closes #819\n\nPart of #522\n\n## Outcome\n\nReconciles all 152 retained C-SDLC v3 review rows against frozen candidate `fb6cbc7f619daa54f901fd2d12f480add682ace3`. The 51 source-supported rows are joined to complete candidate execution and exact candidate evidence. Each of the remaining 101 non-proving rows carries a criterion-specific, digest-bound proposal to remove only that criterion from the v0.92.1 retained release gate.\n\n## Truth boundary\n\n- No non-proving row is promoted to a behavioral pass.\n- The 101 removal proposals remain `pending_operator_review`.\n- `release_ready` remains `false` before merge.\n- Merging this PR is explicit operator approval of the exact proposal digests; it does not claim the associated product behavior was implemented or removed.\n\n## Validation\n\n- 152/152 rows unique and reconciled: 51 candidate-executed, 101 exact removal proposals, 0 unclassified\n- complete 211-test C-SDLC v3 suite passed\n- all-target C-SDLC v3 clippy passed\n- current V3-A contract validator passed\n- 18/18 adversarial receipt and authority mutations rejected\n- native six-card validation passed at generation 11 / digest `b3a4982498b2991d3aee1ac455a0c3b0a5b10aaa12bbbe69edc60f22810460df`\n- independent exact-head review passed at `32581b03b57135167e789c6fe9b74b1a63cf929c`\n\n\n<!-- csdlc-v3-operation:46f1f9db35a6cf2dc04d0dea051445cb5247d074ad3741ac34043e82f8abbd0b -->",
+      "headRefOid": "32581b03b57135167e789c6fe9b74b1a63cf929c",
+      "mergeCommit": {
+        "oid": "1e9b543e40e0e4c980878384d64ab368717b0091"
+      },
+      "mergedAt": "2026-09-10T22:17:15Z",
+      "mergedBy": {
+        "id": "MDQ6VXNlcjYwNTc3Mw==",
+        "is_bot": false,
+        "login": "danielbaustin",
+        "name": "Daniel B. Austin"
+      },
+      "number": 827,
+      "state": "MERGED",
+      "url": "https://github.com/agent-logic/agent-design-language/pull/827",
+      "ancestor_of_preparation_base": true
+    }
+  },
+  "non_claim": "PR merge and ancestry observations do not establish finding-specific proof or final-candidate review."
+}

@@ -1,0 +1,178 @@
+# <slug>
+
+Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
+
+Authority notice: C-SDLC v3 is operational after V3-F/#505 and merged PR #591.
+Authority requires the authenticated canonical native selector and reconciliation
+receipt; missing or stale proof suspends authority. Retained typed v2 requires
+explicit issue-scoped rollback or remediation approval.
+Legacy `pr` editor routes are historical/retired compatibility orientation,
+not current lifecycle authority.
+
+Execution Record Requirements:
+- The output card is a machine-auditable execution record.
+- All sections must be fully populated. Empty sections, placeholders, or implicit claims are not allowed.
+- Every command listed must include both what was run and what it verified.
+- If something is not applicable, include a one-line justification.
+
+Task ID: issue-0821
+Run ID: issue-0821
+Version: v0.92.1
+Title: [v0.92.1][TAIL-06.08d][quality] Re-prove current TAIL-01 quality-gate obligations
+Branch: codex/821-current-quality-gate
+Card Status: draft
+Status: in_progress
+Generated: <timestamp>
+
+Execution:
+- Actor: `<execution_actor>`
+- Model: `<model>`
+- Provider: `<provider>`
+- Start Time: `<start_time>`
+- End Time: `<end_time>`
+
+## Summary
+
+Prepared exact four-row proof map and 12-finding P1/P2 input census. Native issue-bound goal active. Final candidate proof awaits #818/#820 integration.
+
+## PVF Lane Truth
+- Initial PVF lane: `<initial_pvf_lane>`
+- Planned PVF lane: `<planned_pvf_lane>`
+- Final PVF lane: `<final_pvf_lane>`
+- Lane change reason: `<lane_change_reason>`
+
+## Issue Metrics Truth
+- Expected runtime class: `<expected_runtime_class>`
+- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
+- Actual elapsed seconds: `<actual_elapsed_seconds>`
+- Actual active work seconds: `<actual_active_work_seconds>`
+- Estimated total tokens: `<estimated_total_tokens>`
+- Actual total tokens: `<actual_total_tokens>`
+- Estimated validation seconds: `<estimated_validation_seconds>`
+- Actual validation seconds: `<actual_validation_seconds>`
+- Actual PR wait seconds: `<actual_pr_wait_seconds>`
+- Actual CI wait seconds: `<actual_ci_wait_seconds>`
+- Budget source: `<budget_source>`
+- Goal metrics data source: `<actual_metrics_data_source>`
+- Goal metrics source ref: `<actual_metrics_source_ref>`
+- Data-source confidence: `<actual_metrics_confidence>`
+- Estimate error percent: `<estimate_error_percent>`
+- Completion state: `in_progress`
+- Issue goal ref: `issue-821-active-session-goal`
+- Sprint goal ref: `<sprint_goal_ref>`
+- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
+- Validation planning prompt: `<vpp_card>`
+- Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
+- Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
+
+## Variance Analysis
+- Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
+- Variance analysis required: `<variance_analysis_required>`
+- Variance analysis completed: `<variance_analysis_completed>`
+- Variance category: `<variance_category>`
+- Variance note: `<variance_note>`
+- Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
+
+## Artifacts produced
+- Local ignored output-card scaffold at `<output_card>`
+- Tracked implementation artifacts: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-821/`
+- Additional proof artifacts: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-821/finding-inputs.json; EXECUTION_PLAN.md in the same directory.`
+
+## Actions taken
+- `Bound #821 through native v3 after six-card validation and created the issue-bound goal.`
+- `Verified four unique criterion identities and source digests; reviewed preparation and corrected #819 ancestry.`
+- `Captured five merged PR identities with Git ancestry; validated historical gate, corrections and #819 retained proof.`
+
+## Main Repo Integration (REQUIRED)
+- Main-repo paths updated: `none`
+- Worktree-only paths remaining: `Issue #821 preparation; draft publication being prepared. Final proof not executed.`
+- Integration state: `worktree_only`
+- Verification scope: `<verification_scope>`
+- Integration method used: `<integration_method_used>`
+- Verification performed:
+  - `<integration_verification_command>`
+    `<integration_verification_effect>`
+- Result: `<integration_result>`
+
+Rules:
+- Final artifacts must exist in the main repository, not only in a worktree.
+- Do not leave docs, code, or generated artifacts only under a `adl-wp-*` worktree.
+- Prefer git-aware transfer into the main repo (`git checkout BRANCH -- PATH` or commit + cherry-pick).
+- If artifacts exist only in the worktree, the task is NOT complete.
+- Integration state describes lifecycle state of the integrated artifact set, not where verification happened.
+- Verification scope describes where the verification commands were run.
+- worktree_only means at least one required path still exists only outside the main repository path.
+- Completed output records must not leave `Status` as `NOT_STARTED`.
+- By native v3 `csdlc finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure).
+
+## Validation
+- Validation commands and their purpose:
+  - `ruby .csdlc/prepared/issues/517/validate-quality-gate.rb; python3 docs/milestones/v0.92.1/evidence/release/tail-01/reconciliation/validate.py; ruby .csdlc/prepared/issues/819/validate-retained-v3-proof.rb`
+    `Validates retained historical inputs and receipt integrity only; no final-candidate acceptance or cloud execution.`
+- Results:
+  - `All three retained validators passed. Historical gate remains blocked; #819 receipt has 51 executed rows and 101 removal proposals, with separate PR #827 merge approval evidence.`
+
+Validation command/path rules:
+- Prefer repository-relative paths in recorded commands and artifact references.
+- Do not record absolute host paths in output records unless they are explicitly required and justified.
+- `absolute_path_leakage_detected: false` means the final recorded artifact does not contain unjustified absolute host paths.
+- Do not list commands without describing their effect.
+
+## Verification Summary
+
+```yaml
+verification_summary:
+  validation:
+    status: preparation_checks_pass_final_candidate_pending
+    checks_run:
+      - "<verification_check_1>"
+  determinism:
+    status: <verification_determinism_status>
+    replay_verified: <verification_replay_verified>
+    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+  security_privacy:
+    status: <verification_security_privacy_status>
+    secrets_leakage_detected: <verification_secrets_leakage_detected>
+    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
+    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+  artifacts:
+    status: <verification_artifacts_status>
+    required_artifacts_present: <verification_required_artifacts_present>
+    schema_changes:
+      present: <verification_schema_changes_present>
+      approved: <verification_schema_changes_approved>
+```
+
+## Determinism Evidence
+- Determinism tests executed: `<determinism_tests_executed>`
+- Fixtures or scripts used: `<fixtures_or_scripts_used>`
+- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
+- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
+- Artifact stability notes: `<artifact_stability_notes>`
+
+## Security / Privacy Checks
+- Secret leakage scan performed: `<secret_leakage_scan_performed>`
+- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
+- Absolute path leakage check: `<absolute_path_leakage_check>`
+- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+
+## Replay Artifacts
+- Trace bundle path(s): `<trace_bundle_paths>`
+- Run artifact root: `<run_artifact_root>`
+- Replay command used for verification: `<replay_command>`
+- Replay result: `<replay_result>`
+
+## Artifact Verification
+- Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-06/issue-821/preparation.json`
+- Required artifacts present: `<required_artifacts_present>`
+- Artifact schema/version checks: `<artifact_schema_checks>`
+- Hash/byte-stability checks: `<hash_byte_stability_checks>`
+- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+
+## Decisions / Deviations
+- `Keep historical blocked gate immutable during preparation; do not regenerate from stale admission input.`
+- `Operator requested draft publication before prerequisite completion; final review and non-draft promotion remain pending. Approved criterion removals remain separate from behavioral passes.`
+
+## Follow-ups / Deferred work
+- `Integrate #818/#820 proof and verify final candidate inputs and all P1/P2 dispositions.`
+- `Regenerate final quality gate, obtain exact-head review, and publish with required CI green.`
