@@ -315,6 +315,34 @@ fn current_authority_text_is_consistent(text: &str) -> bool {
         && !obsolete.iter().any(|phrase| normalized.contains(phrase))
 }
 
+fn ordinary_lifecycle_guidance_is_unambiguous(text: &str) -> bool {
+    let normalized = text.to_lowercase();
+    let names_v2_route = [
+        ".adl/bin/csdlc-v2/",
+        "csdlc-install resolve",
+        "csdlc-doctor",
+        "csdlc-issue",
+        "csdlc-bind",
+    ]
+    .iter()
+    .any(|needle| normalized.contains(needle));
+    if !names_v2_route {
+        return true;
+    }
+    let explicitly_bounded = normalized.contains("explicitly authorized rollback")
+        || normalized.contains("bounded transition remediation")
+        || normalized.contains("historical evidence");
+    let stale_current_claim = [
+        "sole current c-sdlc operational authority is the independent rust binary set in `csdlc-v2/`",
+        "canonical under gate 10d2",
+        "resolve the sole active c-sdlc generation",
+        "workflow commands should resolve through `.adl/bin/csdlc-v2/`",
+    ]
+    .iter()
+    .any(|needle| normalized.contains(needle));
+    explicitly_bounded && !stale_current_claim
+}
+
 #[test]
 fn current_surfaces_agree_with_authenticated_post_cutover_authority() {
     let root = repo_root();
@@ -386,5 +414,83 @@ fn authority_fitness_rejects_obsolete_policy_help_and_automatic_v2_fallback() {
     }
     assert!(current_authority_text_is_consistent(
         "C-SDLC v3 is operational; authenticated canonical selector and receipt are required."
+    ));
+}
+
+// PVF: review_docs; release-gating deterministic local contract; small CPU and
+// filesystem profile; validates TPR-005 without network or cloud resources.
+#[test]
+fn active_boot_path_inventory_is_complete_source_backed_and_unambiguous() {
+    let root = repo_root();
+    let inventory_path = root.join("docs/tooling/ACTIVE_BOOT_PATHS.md");
+    let inventory = fs::read_to_string(&inventory_path).expect("active boot-path inventory");
+    assert_eq!(
+        inventory
+            .matches("ordinary_lifecycle_entrypoint: .adl/bin/native-v3/csdlc")
+            .count(),
+        1,
+        "inventory must declare exactly one ordinary lifecycle entrypoint"
+    );
+    for required in [
+        "csdlc-v3/operator/authority-selector.json",
+        "csdlc-v3/src/main.rs",
+        "adl/src/main.rs",
+        "adl/src/bin/csm.rs",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "retained rollback/transition-only source",
+        "product/runtime control surface, not C-SDLC authority",
+    ] {
+        assert!(inventory.contains(required), "inventory missing {required}");
+    }
+    for source in [
+        "csdlc-v3/operator/authority-selector.json",
+        "csdlc-v3/src/main.rs",
+        "adl/src/main.rs",
+        "adl/src/bin/csm.rs",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    ] {
+        assert!(
+            root.join(source).exists(),
+            "inventory source missing: {source}"
+        );
+    }
+    for current_doc in [
+        "docs/tooling/ACTIVE_BOOT_PATHS.md",
+        "docs/tooling/OWNER_BINARY_INSTALLATION.md",
+        "docs/tooling/ADL_PLATFORM_CLI_BINARY_TAXONOMY.md",
+        "docs/tooling/README.md",
+        "docs/tooling/structured-prompt-contracts.md",
+        "docs/tooling/structured-prompt-validator-binary-resolution.md",
+        "docs/tooling/card-lifecycle.md",
+        "docs/tooling/editor/command_adapter.md",
+        "docs/tooling/editor/current_skill_wiring_demo.md",
+        "adl/tools/README.md",
+        "adl/tools/editor_action.sh",
+    ] {
+        let text = fs::read_to_string(root.join(current_doc)).expect("current tooling doc");
+        assert!(
+            ordinary_lifecycle_guidance_is_unambiguous(&text),
+            "stale ordinary v2 guidance in {current_doc}"
+        );
+    }
+}
+
+#[test]
+fn active_boot_path_guard_rejects_stale_v2_current_guidance_but_allows_history() {
+    assert!(!ordinary_lifecycle_guidance_is_unambiguous(
+        "Resolve the sole active C-SDLC generation with csdlc-install resolve, then use .adl/bin/csdlc-v2/csdlc-doctor."
+    ));
+    assert!(!ordinary_lifecycle_guidance_is_unambiguous(
+        "C-SDLC workflow lifecycle: canonical under Gate 10D2; run csdlc-bind."
+    ));
+    assert!(ordinary_lifecycle_guidance_is_unambiguous(
+        "Historical evidence: csdlc-doctor was the source-time v2 command."
+    ));
+    assert!(ordinary_lifecycle_guidance_is_unambiguous(
+        "The .adl/bin/csdlc-v2/ surface is retained only for explicitly authorized rollback or bounded transition remediation."
     ));
 }

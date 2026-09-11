@@ -176,7 +176,7 @@ In `bootstrap`, some machine-readable fields may remain blank while the artifact
 
 This is especially important for:
 
-- SIPs generated before typed C-SDLC v2 bind creates an issue worktree
+- SIPs generated before native C-SDLC v3 bind creates an issue worktree
 - SORs generated before execution has happened
 
 The phase model is intentionally narrow. It is not a full workflow state machine.
@@ -203,7 +203,7 @@ card-lifecycle migration.
 
 ## Doctor Lifecycle Readiness
 
-The current typed C-SDLC v2 validation and doctor surfaces report lifecycle
+The current native C-SDLC v3 validation and doctor routes report lifecycle
 readiness separately from ordinary card existence. Their `card_lifecycle` JSON
 object, mirrored by retained `CARD_LIFECYCLE_*` text lines, includes:
 
@@ -218,7 +218,7 @@ object, mirrored by retained `CARD_LIFECYCLE_*` text lines, includes:
 
 Freshly bootstrapped issues may report `SIP` and `SPP` as `pre_run` while the
 branch/worktree is still unbound. That state is not an editor-fixable defect by
-itself; it records that the issue is structurally ready for typed C-SDLC v2
+itself; it records that the issue is structurally ready for native C-SDLC v3
 binding, where the execution branch and worktree make those cards concrete.
 
 The bootstrapped `SPP` should still be useful design-time plan truth. It should
@@ -229,7 +229,7 @@ triggers before work starts. In contrast, branch-bound SPP/SRP drift with a
 matching editor skill.
 
 Legacy SRP policy scaffolds are not valid new SRP prompt artifacts. The
-structured-prompt validator should fail them closed, while typed C-SDLC v2
+structured-prompt validator should fail them closed, while native C-SDLC v3
 readiness checks may still classify retained historical scaffolds as
 `legacy_compatible` so they can be routed through `srp-editor` instead of being
 mistaken for final review readiness.

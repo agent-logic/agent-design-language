@@ -1,54 +1,45 @@
-# ADL Owner Binary Installation
+# ADL owner binary installation
 
 ADL operational owner binaries are generated tools. They are not committed to
-Git, and they are not owned by Cargo `target/` directories.
+Git, and Cargo `target/` directories are disposable build/cache output rather
+than operational authority.
 
-The stable local install location is:
+## ADL product owners
+
+ADL product owner binaries use the stable generated directory `.adl/bin/`.
+Install commands such as `adl`, `csm`, `csmctl`, `adl-review`, and the
+provider/remote helpers with:
+
+```sh
+bash adl/tools/install_owner_binaries.sh
+```
+
+That script installs product commands from reviewed `adl/` source. It does not
+install or select C-SDLC lifecycle authority.
+
+## C-SDLC lifecycle owner
+
+The sole ordinary C-SDLC lifecycle executable is generated separately at:
 
 ```text
-.adl/bin/csdlc-v2/
+.adl/bin/native-v3/csdlc
 ```
 
-For C-SDLC v2, use the reviewed installer:
+Its authority is conditional on the canonical v3 selector, authenticated
+receipt, reconciliation, and exact typed request evidence described in
+[`../csdlc-v3/CURRENT_AUTHORITY.md`](../csdlc-v3/CURRENT_AUTHORITY.md) and
+[`ACTIVE_BOOT_PATHS.md`](ACTIVE_BOOT_PATHS.md). Never select lifecycle authority
+from a Cargo target directory.
 
-```sh
-csdlc-install install --repo . --destination .adl/bin/csdlc-v2
-```
+## Retained v2 exception surface
 
-Then verify the installed generation against the checked-in coexistence
-inventory:
+The `csdlc-v2/` source and generated `.adl/bin/csdlc-v2/` directory are retained
+only for an explicitly authorized rollback or bounded transition remediation.
+They are not an ordinary installation or fallback path. Historical owner names
+include `csdlc-github`, `csdlc-github-issue`, `csdlc-github-pr`,
+`csdlc-pr-state`, `csdlc-finish`, and `csdlc-clean`.
 
-```sh
-csdlc-install verify --repo . --bin-dir .adl/bin/csdlc-v2 --inventory csdlc-v2/operator/coexistence.json
-```
-
-The v2 installer builds from reviewed source into a disposable Cargo target and
-copies only the manifest-required binaries into the dedicated generation
-directory. It fails closed when source inputs are dirty, required binaries are
-missing, the destination is not named `csdlc-v2`, or the coexistence inventory is
-not the embedded reviewed inventory.
-
-Current C-SDLC v2 GitHub owner binaries include:
-
-- `csdlc-github`
-- `csdlc-github-issue`
-- `csdlc-github-pr`
-- `csdlc-pr-state`
-- `csdlc-finish`
-- `csdlc-clean`
-
-`csdlc-github` remains a compatibility facade. New issue actions should route
-through `csdlc-github-issue`; PR observation should route through
-`csdlc-github-pr` or the dedicated `csdlc-pr-state` observer. `csdlc-finish` is
-the sole terminal operator route: it recognizes an already-terminal issue or
-performs the exact-head merge, then retains only a rebuildable derived terminal
-cache.
-
-`csdlc-clean` is the independent safe-cleanup and legacy compatibility route.
-It never supplies merge or issue-closure authority, and it never force-removes
-a dirty, missing, relocated, primary, or identity-drifted worktree.
-
-Cargo `target/` directories remain build/cache output only. They may be deleted
-or pruned without taking the operational command surface with them. C-SDLC v2
-workflow commands should resolve through `.adl/bin/csdlc-v2/` before considering
-Cargo `target/debug` output.
+Current issue and PR actions use `csdlc github-issue` and `csdlc github-pr`;
+current review, publication, finish, and cleanup use their corresponding routes
+on the one native v3 `csdlc` executable. Missing v3 proof suspends authority; it
+does not authorize automatic fallback to v2.

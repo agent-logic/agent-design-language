@@ -213,7 +213,7 @@ The normal gate order is:
 Validators and doctor output should report both file existence and stage
 readiness. Existing file presence is not enough.
 
-The current typed C-SDLC v2 validation and doctor surfaces expose bounded
+The current native C-SDLC v3 validation and doctor routes expose bounded
 lifecycle-readiness summaries in machine-readable output:
 
 - `CARD_LIFECYCLE_ACTIVE_STAGE` / `card_lifecycle.active_stage`
