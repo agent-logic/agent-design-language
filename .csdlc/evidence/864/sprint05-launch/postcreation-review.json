@@ -1,0 +1,27 @@
+{
+  "schema": "adl.live-issue-review.v1",
+  "batch": 5,
+  "reviewer": "/root/docs_final_review",
+  "result": "pass",
+  "findings": [],
+  "readbacks_sha256": "aacb44452b01cf314d5641b130e5cbc1c794cbad499d5c3f58160bc9b9ee987c",
+  "issues": {
+    "QUAL-INVENTORY": {
+      "number": 899,
+      "result": "pass"
+    },
+    "QUAL-RESIDENT": {
+      "number": 900,
+      "result": "pass"
+    },
+    "QUAL-PROVIDER": {
+      "number": 901,
+      "result": "pass"
+    },
+    "QUAL-EVIDENCE": {
+      "number": 902,
+      "result": "pass"
+    }
+  },
+  "scope": "Fresh live full bodies, numeric dependencies, metadata, complete task scopes and native receipts independently verified against reviewed draft source. Historical five criteria and 19/5/2 evidence categories preserved; actual execution required. Global all-69 creation/review startup gate retained; no implementation or activation proof."
+}
