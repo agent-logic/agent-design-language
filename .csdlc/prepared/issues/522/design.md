@@ -44,6 +44,11 @@ that the #835 current-candidate proof found after #840 had merged. This does not
 add a twentieth finding; it records two reviewed remediations for one accepted
 internal finding.
 
+`TPR-003` likewise requires both #835 and #846: #835 delivered the first
+complete projection and exposed the late lifecycle defect; #846 owns the new
+immutable-candidate rerun after #843 and #844 land. The original projection
+remains historical evidence rather than being rewritten in place.
+
 Every fixed disposition resolves its remediation issue and merged PR live,
 binds the exact PR head and merge commit, proves the merge is ancestral to the
 ledger, and reads validation/remediation artifacts with `git show` from the
