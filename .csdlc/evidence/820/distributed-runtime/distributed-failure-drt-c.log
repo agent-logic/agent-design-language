@@ -1,0 +1,8 @@
+   Compiling adl-runtime v0.92.0 (<worktree>/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+     Running tests/distributed_failure/drt_c_qualification.rs (adl-runtime/target/debug/deps/distributed_failure_drt_c-48d60db0a653bfcf)
+
+running 1 test
+test drt_c_final_qualification_decision_is_exact ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
