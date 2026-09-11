@@ -57,7 +57,7 @@ Reconciled17 coordinated package versions, inventoried23 packages and21 locks, i
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `reviewed; publication and CI pending`
+- Completion state: `Implementation and independent review complete; published PR858; hosted CI evaluated on live final head`
 - Issue goal ref: `Planning #7 issue856 goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -86,13 +86,13 @@ Reconciled17 coordinated package versions, inventoried23 packages and21 locks, i
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `Issue856 implementation and cards`
-- Integration state: `worktree_only`
+- Integration state: `pr_open`
 - Verification scope: `Issue856 bound worktree and isolated local candidate fixtures`
-- Integration method used: `bound issue branch; PR publication pending`
+- Integration method used: `Native v3 github-pr create; PR https://github.com/agent-logic/agent-design-language/pull/858 targeting main`
 - Verification performed:
   - `git status --short --branch; git diff --check`
     `Verified worktree isolation and whitespace`
-- Result: `not merged`
+- Result: `Published and open; not merged`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -110,7 +110,7 @@ Rules:
   - `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets; cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings; bash adl/tools/test_release_ceremony.sh; bash adl/tools/test_owner_binary_install.sh`
     `Exercise exact identities, fail-closed guards, version/lock coverage, no mutation and stdout/stderr separation`
 - Results:
-  - `241 initial native tests PASS; final expanded candidate matrix PASS;23 metadata checks and shell/installer suites PASS; CI pending`
+  - `Local native241 initial tests and expanded final matrix PASS;23 manifest metadata checks PASS; shell installer/routing and strict clippy/fmt PASS. Hosted CI result is the live PR858 check rollup, separate from these local proofs.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -174,5 +174,5 @@ verification_summary:
 - `Replace combined mutation wrapper with preflight-only request; publication remains separate`
 
 ## Follow-ups / Deferred work
-- `Publish reviewed PR and verify required CI; current issue remains open`
-- `#526 and #522 consume repair PR; merge/release approval is separate`
+- `Require final-head hosted checks before handoff; remote publication receipt in resolved Git metadata`
+- `#526 consumes final merged revision and RELEASE_PREFLIGHT.md; no release approval implied`

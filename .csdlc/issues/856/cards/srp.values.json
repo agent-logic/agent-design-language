@@ -21,7 +21,7 @@
   "summary": "Review pending: validate version coverage, exact commit/notes/gate binding, authority checks, absence of bypasses, and nonmutating tests.",
   "stp_card": ".csdlc/issues/856/cards/stp.md",
   "findings_status": "resolved",
-  "review_notes": "Independent reviewer subagent:review_856_design reviewed769f20e134e7e9f385d0650ab745c058670b7656 against origin/main. Reviewer inspected source; implementer ran validation. Metadata-only final review renewal stored in Git metadata.",
+  "review_notes": "Independent reviewer subagent:review_856_design approved769f20e134e7e9f385d0650ab745c058670b7656 and metadata-only4300915ce1410c48867f32b95a9082f96fa9341f. Final publication metadata renewal recorded in Git metadata.",
   "sip_card": ".csdlc/issues/856/cards/sip.md",
   "recommended_outcome": "approve",
   "review_dispositions": "Require root/workspace owners per active lock; empty, missing and source-tagged owner negatives pass.",

@@ -57,7 +57,7 @@ policy_refs:
 review_results:
   findings_status: "resolved"
   recommended_outcome: "approve"
-notes: "Independent reviewer subagent:review_856_design reviewed769f20e134e7e9f385d0650ab745c058670b7656 against origin/main. Reviewer inspected source; implementer ran validation. Metadata-only final review renewal stored in Git metadata."
+notes: "Independent reviewer subagent:review_856_design approved769f20e134e7e9f385d0650ab745c058670b7656 and metadata-only4300915ce1410c48867f32b95a9082f96fa9341f. Final publication metadata renewal recorded in Git metadata."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -135,4 +135,4 @@ review_results:
 
 ## Notes
 
-Independent reviewer subagent:review_856_design reviewed769f20e134e7e9f385d0650ab745c058670b7656 against origin/main. Reviewer inspected source; implementer ran validation. Metadata-only final review renewal stored in Git metadata.
+Independent reviewer subagent:review_856_design approved769f20e134e7e9f385d0650ab745c058670b7656 and metadata-only4300915ce1410c48867f32b95a9082f96fa9341f. Final publication metadata renewal recorded in Git metadata.
