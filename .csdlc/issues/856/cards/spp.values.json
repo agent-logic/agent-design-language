@@ -37,7 +37,7 @@
   "initial_pvf_lane": "tooling",
   "notes_risks_inline": "Local gate hashes prove consistency, not semantic review/authentication; candidate release approval remains separate.",
   "estimate_elapsed_seconds": "unknown",
-  "step_5_status": "in_progress",
+  "step_5_status": "completed",
   "estimate_total_tokens": "unknown",
   "stp_card": ".csdlc/issues/856/cards/stp.md",
   "estimate_source_ref": ".csdlc/evidence/856/source-issue.md",

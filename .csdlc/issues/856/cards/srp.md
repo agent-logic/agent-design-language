@@ -55,9 +55,9 @@ policy_refs:
   - ".csdlc/issues/856/cards/sip.md"
   - ".csdlc/issues/856/cards/vpp.md"
 review_results:
-  findings_status: "one_actionable_finding_fixed"
-  recommended_outcome: "pending_exact_head_review"
-notes: "Independent subagent review_856_design; renewed exact-head review pending."
+  findings_status: "resolved"
+  recommended_outcome: "approve"
+notes: "Independent reviewer subagent:review_856_design reviewed769f20e134e7e9f385d0650ab745c058670b7656 against origin/main. Reviewer inspected source; implementer ran validation. Metadata-only final review renewal stored in Git metadata."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- P2 lock owner omission could pass preflight.
+- One P2 lock owner omission, resolved. No remaining actionable findings at 769f20e134e7e9f385d0650ab745c058670b7656.
 
 ### Dispositions
 
-- Require expected root/workspace package identities in each active lockfile; add empty, omitted and source-tagged owner negatives.
+- Require root/workspace owners per active lock; empty, missing and source-tagged owner negatives pass.
 
 ### Recommended Outcome
 
-- pending_exact_head_review
+- approve
 
 ## Notes
 
-Independent subagent review_856_design; renewed exact-head review pending.
+Independent reviewer subagent:review_856_design reviewed769f20e134e7e9f385d0650ab745c058670b7656 against origin/main. Reviewer inspected source; implementer ran validation. Metadata-only final review renewal stored in Git metadata.

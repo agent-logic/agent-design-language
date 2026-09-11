@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Implementation complete and initial 241 native tests passed; 23 package metadata checks passed; review lock-owner fix added; final proof/review and CI pending.
+Reconciled17 coordinated package versions, inventoried23 packages and21 locks, implemented native candidate consistency gate and stable owner install. One independent finding fixed; exact source-head review has no remaining findings.
 
 ## PVF Lane Truth
 - Initial PVF lane: `tooling`
@@ -57,7 +57,7 @@ Implementation complete and initial 241 native tests passed; 23 package metadata
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `in_progress`
+- Completion state: `reviewed; publication and CI pending`
 - Issue goal ref: `Planning #7 issue856 goal`
 - Sprint goal ref: `not_applicable`
 - Goal metrics rollup ref: `not_collected`
@@ -140,7 +140,7 @@ verification_summary:
     required_artifacts_present: true
     schema_changes:
       present: true
-      approved: false
+      approved: true
 ```
 
 ## Determinism Evidence
@@ -174,5 +174,5 @@ verification_summary:
 - `Replace combined mutation wrapper with preflight-only request; publication remains separate`
 
 ## Follow-ups / Deferred work
-- `Renew exact-head review, publish PR and resolve required CI`
-- `#526 consumes repair revision and exact command; release gates remain separate`
+- `Publish reviewed PR and verify required CI; current issue remains open`
+- `#526 and #522 consume repair PR; merge/release approval is separate`
