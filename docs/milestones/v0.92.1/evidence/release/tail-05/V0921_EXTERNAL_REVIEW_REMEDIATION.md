@@ -2,27 +2,39 @@
 
 External report candidate: `9c7e57d412d61898bd44ab00d53e31afbb779e5c`
 
+## Current disposition
+
+The immutable-candidate external-review lane has completed enough work to close
+#833 after PR publication: the failed reviewer report is retained as
+non-proving evidence, the executable addendum records a clean detached review at
+the candidate, and every finding returned by this lane is either resolved by an
+already-closed remediation issue or explicitly retained for the #522 final
+finding-disposition ledger.
+
+This remains **not release approval**. Issue #522 stays open until the complete
+TAIL-06 ledger proves the final finding denominator and no release-blocking
+finding remains unresolved.
+
 ## Finding dispositions
 
 | Finding | Disposition | Evidence |
 |---|---|---|
-| P1 — mandated denominator not exercised | Partially remediated; remains open | A clean detached review at `9c7e57d412d61898bd44ab00d53e31afbb779e5c` executed the focused surfaces listed in `V0921_EXECUTABLE_REVIEW_ADDENDUM.md`. The retained artifact does not yet contain a complete per-lane command/output ledger, so it does not certify the full mandated denominator. It found #818 retained-proof drift and a non-current, blocked #835 release projection. These are evidence/projection blockers, not product-code defects. |
+| P1 — mandated denominator not exercised | Dispositioned for #833; final denominator remains owned by #522 | A clean detached review at `9c7e57d412d61898bd44ab00d53e31afbb779e5c` executed the focused surfaces listed in `V0921_EXECUTABLE_REVIEW_ADDENDUM.md`. The retained failed report remains non-proving for full release certification. The executable addendum identified #818 retained-proof drift and a non-current #835 release projection; #818 is closed by PR #832 and #835 is closed by PR #840. The final complete finding denominator remains a #522 closure requirement, not a #833 release-approval claim. |
 | P2 — #834 packet bound to an earlier source candidate | Resolved | `ISSUE_834_CANDIDATE_REVALIDATION.md` records a successful explicit validation at the review candidate: 14 findings, 8 merged owners, and two negative cases. The source candidate is an ancestral evidence floor, not a claim that the later candidate has identical bytes. |
-| P3 — approved removals expose historical pending state | Clarified without rewriting historical packets | The nested `pending_operator_review` values are immutable pre-merge proposal evidence. Their closing PR merges are the terminal approval authority, as #834 records. Consumers must use the later reconciliation/projection rather than reinterpret the historical proposal field as current state. |
+| P3 — approved removals expose historical pending state | Clarified without rewriting historical packets | The nested `pending_operator_review` values are immutable pre-merge proposal evidence. Their closing PR merges are the terminal approval authority, as #834 records. Consumers must use the later reconciliation/projection rather than reinterpret the historical proposal field as current state; the release projection refresh is closed by #835 / PR #840. |
 
 ## Executable-review blockers
 
-1. Refresh or supersede #818's 17-row retained corporate/Runtime packet at the
-   immutable candidate. Its historical packet remains bound to `add8f488…` and
-   correctly refuses a current-candidate claim.
-2. Regenerate the release projection at the immutable candidate after all
-   final-gate evidence is present. Its current `--require-ready` refusal is
-   truthful and must remain fail-closed until that work is complete.
+1. #818's 17-row retained corporate/Runtime packet was refreshed or superseded
+   through #818 / PR #832.
+2. The release projection was regenerated through #835 / PR #840.
 
 No Runtime or product implementation change is required by these findings.
 
 ## Closure boundary
 
-This is not release approval. Issue #522 and issue #833 remain open until the
-executable review completes, every returned release-blocking finding is fixed,
-and the resulting exact head receives a current independent review.
+This is not release approval. Issue #833 may close with the retained report,
+executable addendum, candidate validator, and current exact-head review. Issue
+#522 remains open until the complete final ledger proves every retained and
+newly returned finding has exactly one disposition and no release-blocking
+finding remains unresolved.

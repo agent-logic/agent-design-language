@@ -21,7 +21,7 @@ Version: v0.92.1
 Title: [v0.92.1][TAIL-06.18][review] Re-run external review at immutable candidate
 Branch: codex/833-external-review-immutable-candidate
 Card Status: ready
-Status: IN_PROGRESS
+Status: READY_FOR_PUBLICATION
 Generated: 2026-09-11T17:24:00Z
 
 Execution:
@@ -29,11 +29,14 @@ Execution:
 - Model: `not_collected`
 - Provider: `OpenAI`
 - Start Time: `2026-09-11T17:24:00Z`
-- End Time: `not_finished`
+- End Time: `2026-09-11T18:24:00Z`
 
 ## Summary
 
-Immutable-candidate handoff drafted; validation and review pending.
+Immutable-candidate external-review report, executable-review addendum, and
+finding-disposition remediation record are retained. PR #853 is open for #833
+publication and intentionally leaves #522 open for the complete TAIL-06 final
+ledger.
 
 ## PVF Lane Truth
 - Initial PVF lane: `documentation`
@@ -57,7 +60,7 @@ Immutable-candidate handoff drafted; validation and review pending.
 - Goal metrics source ref: `not_collected`
 - Data-source confidence: `unknown`
 - Estimate error percent: `not_collected`
-- Completion state: `in_progress`
+- Completion state: `completed_with_follow_on`
 - Issue goal ref: `Issue #833 session goal`
 - Sprint goal ref: `#522`
 - Goal metrics rollup ref: `not_collected`
@@ -70,29 +73,31 @@ Immutable-candidate handoff drafted; validation and review pending.
 - Variance analysis required: `unknown`
 - Variance analysis completed: `not_applicable`
 - Variance category: `not_collected`
-- Variance note: `Ongoing.`
+- Variance note: `No precise session metrics were collected; unknown values are preserved instead of estimated.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `.csdlc/issues/833/cards/sor.md`
-- Tracked implementation artifacts: `V0921_EXTERNAL_REVIEW_HANDOFF.md`
-- Additional proof artifacts: `pending`
+- Issue-local lifecycle cards under `.csdlc/issues/833/cards/`
+- Tracked implementation artifacts: `V0921_EXTERNAL_REVIEW_HANDOFF.md`, `V0921_EXTERNAL_REVIEW_REPORT.md`, `V0921_EXECUTABLE_REVIEW_ADDENDUM.md`, `ISSUE_834_CANDIDATE_REVALIDATION.md`, and `V0921_EXTERNAL_REVIEW_REMEDIATION.md`
+- Additional proof artifacts: `.csdlc/prepared/issues/833/validate-external-review-handoff.rb`
 
 ## Actions taken
 - `Bound issue #833 in its FastWork worktree.`
 - `Pinned canonical candidate 9c7e57d412d61898bd44ab00d53e31afbb779e5c.`
 - `Corrected #522 closure dependency through authenticated native v3.`
+- `Retained the failed external report as non-proving evidence and added executable-review/remediation disposition records.`
+- `Preserved #522 as the final ledger and release-readiness gate.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `none`
-- Worktree-only paths remaining: `issue #833 handoff and lifecycle files`
-- Integration state: `worktree_only`
-- Verification scope: `pending`
-- Integration method used: `not_started`
+- Main-repo paths updated: `.csdlc/issues/833/**`, `.csdlc/prepared/issues/833/**`, `docs/milestones/v0.92.1/evidence/release/tail-05/**`
+- Worktree-only paths remaining: `none after PR #853 merge; PR remains open before merge`
+- Integration state: `pr_open`
+- Verification scope: `issue worktree at PR #853 head`
+- Integration method used: `committed branch publication through PR #853`
 - Verification performed:
-  - `not_run`
-    `not_run`
-- Result: `not_started`
+  - `ruby .csdlc/prepared/issues/833/validate-external-review-handoff.rb --all`
+    `Proves the handoff/report candidate binding and seven negative cases.`
+- Result: `pass`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +112,12 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `not_run`
+  - `ruby -c .csdlc/prepared/issues/833/validate-external-review-handoff.rb`
+    `Proves the focused validator syntax.`
+  - `ruby .csdlc/prepared/issues/833/validate-external-review-handoff.rb --all`
+    `Proves the handoff/report candidate binding and seven negative cases.`
 - Results:
-  - `not_run`
+  - `pass`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,20 +130,20 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: in_progress
+    status: pass
     checks_run:
-      - "focused handoff validator pending rerun"
+      - "focused handoff validator passed"
   determinism:
-    status: in_progress
+    status: pass
     replay_verified: not_applicable
     ordering_guarantees_verified: not_applicable
   security_privacy:
-    status: in_progress
+    status: pass
     secrets_leakage_detected: false
     prompt_or_tool_arg_leakage_detected: false
     absolute_path_leakage_detected: false
   artifacts:
-    status: in_progress
+    status: pass
     required_artifacts_present: true
     schema_changes:
       present: false
@@ -151,9 +158,9 @@ verification_summary:
 - Artifact stability notes: `Candidate SHA is literal and immutable.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `pending final scan`
+- Secret leakage scan performed: `focused artifact review; no matched secret value is retained by validator output`
 - Prompt / tool argument redaction verified: `not applicable`
-- Absolute path leakage check: `pending final scan`
+- Absolute path leakage check: `focused artifact review; no unjustified absolute path added by this repair`
 - Sandbox / policy invariants preserved: `yes`
 
 ## Replay Artifacts
@@ -164,15 +171,16 @@ verification_summary:
 
 ## Artifact Verification
 - Primary proof surface: `docs/milestones/v0.92.1/evidence/release/tail-05/V0921_EXTERNAL_REVIEW_HANDOFF.md`
-- Required artifacts present: `handoff present; external report pending`
+- Required artifacts present: `handoff, failed report, executable addendum, #834 candidate revalidation, and remediation disposition records present`
 - Artifact schema/version checks: `native six-card validation passed`
 - Hash/byte-stability checks: `candidate commit resolves locally`
-- Missing/optional artifacts and rationale: `External report is a later phase of #833.`
+- Missing/optional artifacts and rationale: `none for #833 publication; #522 final ledger remains a separate open parent gate.`
 
 ## Decisions / Deviations
 - `#522 stays open through #833 and resulting remediation.`
 - `Candidate frozen before administrative #522 closure; remediation state and ledger closure are distinct.`
+- `#833 publication may close #833 but must not close #522.`
 
 ## Follow-ups / Deferred work
-- `Obtain independent external review.`
-- `Route every returned finding to #522.`
+- `Merge PR #853 after operator approval/review settlement to close #833.`
+- `Continue #522 final finding-disposition ledger after #833 is settled.`
