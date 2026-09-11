@@ -10,7 +10,8 @@ internal review plus the five findings from the #521 third-party review.
 | `D520-RUNTIME-001`, `D520-RUNTIME-002`, `D520-SEC-004` | #814 | Merged; exact-head reconciliation is part of #834. |
 | `D520-SEC-001`, `D520-SEC-002` | #815 | Merged; exact-head reconciliation is part of #834. |
 | `D520-SEC-003`, `D520-TEST-001` | #816 | Merged; exact-head reconciliation is part of #834. |
-| `D520-V3F-001`, `D520-REL-001`, `D520-DOC-003`, `D520-DOC-004`, `D520-EVID-001`, `D520-EVID-002` | #817 | Merged; exact-head reconciliation is part of #834. |
+| `D520-V3F-001` | #817, #843 | #817 merged; #843 is the required follow-on for the retained legacy ready-intent gap exposed by the #835 current-candidate proof. |
+| `D520-REL-001`, `D520-DOC-003`, `D520-DOC-004`, `D520-EVID-001`, `D520-EVID-002` | #817 | Merged; exact-head reconciliation is part of #834. |
 | `D520-RET-001` | #818, #819, #820, #821 | Merged remediation inputs; final projection is part of #835. |
 
 ## Third-party findings

@@ -37,6 +37,13 @@ still owns the source finding exactly once, while its `remediations` list binds
 every contributing merged fix. This is required for `D520-RET-001`, whose
 accepted remediation spans #818 through #821.
 
+The same rule applies when final proof exposes an incomplete earlier fix.
+`D520-V3F-001` requires both #817 and #843: #817 reconciles the finalized
+predecessor evidence, while #843 repairs the retained legacy ready-intent path
+that the #835 current-candidate proof found after #840 had merged. This does not
+add a twentieth finding; it records two reviewed remediations for one accepted
+internal finding.
+
 Every fixed disposition resolves its remediation issue and merged PR live,
 binds the exact PR head and merge commit, proves the merge is ancestral to the
 ledger, and reads validation/remediation artifacts with `git show` from the
