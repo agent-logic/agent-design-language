@@ -1,6 +1,8 @@
 # #909 isolated platform-state recovery proposal
 
-Status: **proposal only; not authorized or executed**. This would produce a
+Historical proposal, subsequently explicitly approved and executed: exactly
+three local imports and a20-no-op read-only plan. See `local-recovery-receipt.json`.
+The remaining text preserves the reviewed pre-approval boundary. This would produce a
 reconciled candidate for a real platform plan, subject to no unexpected drift;
 authoritative state custody/adoption remains separately unresolved. It would
 not change cloud resources or a remote backend. It is a state mutation in an isolated local candidate and requires

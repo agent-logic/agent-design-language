@@ -24,6 +24,6 @@
   "validation_resource_profile": "Read-only GCP and Terraform plan; local consistency/redaction checks; no apply or state changes",
   "planned_validation_seconds": "1800",
   "planned_validation_tokens": "12000",
-  "validation_command": "Read-only GCP and Terraform plan; local consistency/redaction checks; no apply or state changes",
+  "validation_command": "Nine Terraform static checks; verified company census/policy/quota reads; bootstrap and organization saved plans; approved isolated3localimports; fresh20resource pre/postverification; platform saved plan20noops; focused hash/link/redaction and independent acceptance review.",
   "failure_policy": "Missing or failed proof blocks acceptance; read failure is not resource absence; local checks do not prove live deployment."
 }

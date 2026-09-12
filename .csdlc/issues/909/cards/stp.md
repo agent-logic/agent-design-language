@@ -35,7 +35,7 @@ Generated: <timestamp>
 
 ## Summary
 
-Produce the complete apply-ready company GCP move-in packet from existing reviewed Terraform foundations.
+Complete #909 apply-ready planning packet using reviewed foundations. Operator explicitly approved RECOVERY_PROPOSAL.md via yes carry on: isolated private candidate from immutable17resource state, exactly3existing-resource local imports, then read-only plan. No cloud resource edits, remote state writes, backend migration, authoritative adoption or apply.
 
 ## Goal
 

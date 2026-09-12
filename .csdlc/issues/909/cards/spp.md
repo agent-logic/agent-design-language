@@ -78,11 +78,11 @@ codex_plan:
   - step: "Inspect repo inputs and target surfaces before editing."
     status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "in_progress"
+    status: "completed"
   - step: "Run focused validation and proof gates."
-    status: "pending"
+    status: "completed"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
-    status: "pending"
+    status: "in_progress"
 affected_areas:
   - "909-gcp-move-in"
 invariants_to_preserve:
@@ -91,7 +91,7 @@ invariants_to_preserve:
 risks_and_edge_cases:
   - "Missing company credentials or state, drift, wrong identity, resource ownership collision, irreversible data movement."
 test_strategy:
-  - "Terraform fmt/validate; approved company read-only inventory and plan; document/source/link/redaction checks. No apply, import, backend creation or state mutation."
+  - "Read-only company identity/resource census; exactly3approved isolated local imports only; Terraform validate and real saved plan; source/link/redaction checks and independent review. No cloud or remote-state changes."
 execution_handoff: "Use this SPP as the design-time plan-of-record, then hand validation-planning specifics into VPP and update both cards whenever the real execution path diverges."
 required_permissions:
   - "workspace-write after execution approval"
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "No platform state found in bounded inspected locations; no import/recovery authority. Target corporate group lookup unresolved because CLI conflates403/404. Company auth works; missing custody/group evidence blocks complete acceptance."
+notes: "Approved exact3localimports succeeded; reconstructed private serial36 yields20noops. Original authoritative state unavailable; future adoption/custody/application requires separate approval. Operator confirmed corporate group. Final independent acceptance review pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -144,9 +144,9 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 1. [completed] Confirm dependencies and starting state from the source issue prompt.
 2. [completed] Inspect repo inputs and target surfaces before editing.
-3. [in_progress] Implement the bounded deliverables only.
-4. [pending] Run focused validation and proof gates.
-5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
+3. [completed] Implement the bounded deliverables only.
+4. [completed] Run focused validation and proof gates.
+5. [in_progress] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
 ## Assumptions
 
@@ -175,7 +175,7 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 
 ## Test Strategy
 
-- Terraform fmt/validate; approved company read-only inventory and plan; document/source/link/redaction checks. No apply, import, backend creation or state mutation.
+- Read-only company identity/resource census; exactly3approved isolated local imports only; Terraform validate and real saved plan; source/link/redaction checks and independent review. No cloud or remote-state changes.
 
 ## Execution Handoff
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-No platform state found in bounded inspected locations; no import/recovery authority. Target corporate group lookup unresolved because CLI conflates403/404. Company auth works; missing custody/group evidence blocks complete acceptance.
+Approved exact3localimports succeeded; reconstructed private serial36 yields20noops. Original authoritative state unavailable; future adoption/custody/application requires separate approval. Operator confirmed corporate group. Final independent acceptance review pending.

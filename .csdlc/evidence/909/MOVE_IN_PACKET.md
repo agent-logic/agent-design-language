@@ -1,9 +1,12 @@
 # Company GCP move-in packet — #909 / Sprint 8 #934
 
-Status: **incomplete; not apply-ready**. This packet retains useful preparation
-while authoritative platform state and remaining plan gates are resolved. It does not satisfy #909's
-required inventory/plan gates, does not authorize application, and must not be
-used to close #909. No GCP mutation has been performed by this work.
+Status: **complete planning candidate, pending final independent review**.
+Actual plans cover all three selected packages: bootstrap two no-ops, platform
+20 no-ops, organization five creates. The platform plan uses an explicitly
+approved reconstructed private candidate; custody/adoption remains a separately
+approved prerequisite before future application. No cloud resource change,
+remote state write or apply was performed. Local state changed only through the
+three approved imports recorded in `local-recovery-receipt.json`.
 
 ## Source and prior-work disposition
 
@@ -76,7 +79,7 @@ The live census confirms the selected network and five platform buckets. It does
 bootstrap Terraform backend bucket. Never delete either based on a similar name.
 The platform contains no VM, GPU, NAT, load balancer or public listener.
 
-## Validation and missing plan
+## Validation and actual plans
 
 Terraform 1.15.3 on darwin_arm64 ran `fmt -check`, `init -backend=false
 -input=false`, and `validate -no-color` for all three packages successfully.
@@ -85,7 +88,7 @@ issue-local directories. `static-checks.json` records exact commands and exits;
 local logs are `.adl/runs/909/{organization,bootstrap,platform}-*.log`.
 These checks prove formatting/schema consistency only. During these static checks, no backend configuration or existing state was copied, initialized, migrated, locked or changed. Subsequent bootstrap planning separately downloaded a private read-only copy of the existing state.
 
-**Bootstrap has a real state-backed plan; platform plan remains unresolved.** `bootstrap-plan-summary.json` records exit 0 and no-op for both bootstrap resources, using a private local copy of the existing remote state (serial 4). This did not initialize, lock or modify the remote backend. The live platform exists, but its authoritative Terraform state has not been located. The platform state bucket is empty and the accepted backend lists bootstrap/canary state only. An empty-state platform plan would misleadingly propose recreation and is not a replacement. Organization live readbacks found no budget, no dataset and no corporate-group IAM memberships, so a fresh local plan is valid for those absent managed identities. `organization-plan-summary.json` records exit 2 with exactly five creates and no update/delete/replacement; no existing state was overwritten.
+**All three packages have real plans.** Bootstrap uses a private read-only copy of remote serial 4 and has two no-ops. Organization has exactly five creates and no update/delete/replacement, justified by live absence of its managed memberships/budget/dataset. Platform uses the approved reconstructed local serial 36 and has 20 no-ops; all 20 identities were verified before and after recovery and all readback values were unchanged. Eight historical-state refresh entries are empty-collection normalization, IAM etag and bucket update timestamps; none proposes a configuration change. Exact actions/values and provenance are retained in `platform-plan-summary.json` and `local-recovery-receipt.json`. No remote backend was initialized, locked or changed. The original post-apply platform state remains unavailable; the candidate is explicitly reconstructed, not asserted to be that original state.
 
 To finish the remaining platform plan gate:
 
@@ -168,7 +171,7 @@ record storage/logging/retention costs and a separate approved cost envelope;
 resource-count limits are the exact accepted plan, with zero VM/GPU additions.
 The old #730 USD 5/90-minute authorization and later workload caps are historical,
 not reusable authority. Billing owner must resolve coverage beyond `issue=492`
-and select notification recipients before an apply-ready acceptance claim.
+and verify notification delivery/recipients before application; Daniel is the named billing approval contact. These are explicit future application gates, not claims of deployed controls.
 
 Preserve source/plan digests, resource readbacks, identity checks, approvals,
 state generation comparisons and redacted audit evidence. Terraform raw state,
@@ -186,11 +189,11 @@ non-selected workloads are outside cleanup scope. Do not invoke the historical
 
 | Obligation | Evidence | Status / owner |
 | --- | --- | --- |
-| Current company identity and complete inventory | `live-inventory.json` | Company hierarchy/billing verified; resource/state/data-owner reconciliation remains #909 |
-| Prior reviewed work reused | `source-inventory.json`, source matrix above | Source inspected; live prior-resource disposition remains #909 |
+| Current company identity and complete inventory | `live-inventory.json`, `local-recovery-receipt.json` | Verified company hierarchy/billing and all20 selected platform identities; Daniel owns future custody decisions |
+| Prior reviewed work reused | `source-inventory.json`, source matrix above | Unchanged source/locks reused; existing bootstrap/platform retained |
 | Terraform fmt/validate | `static-checks.json` | All nine commands passed |
-| Real plan and exact application/rollback consistency | `bootstrap-plan-summary.json`, `organization-plan-summary.json` | Bootstrap no-op and organization five-create plan; platform state/plan unresolved; custodian / #909 |
-| Billing and cleanup controls | Source gaps recorded above | Named owners, actual charges/filters/readbacks pending #909 |
+| Real plan and exact application/rollback consistency | Three package plan summaries and `APPLICATION_CHECKLIST.md` | Bootstrap2noops, platform20noops, organization5creates; exact rollback and custody prerequisite explicit |
+| Billing and cleanup controls | Source gaps recorded above | Daniel owns approval/cleanup; exact filter limitations, no-launch limits and future charge/readback gates explicit |
 | Independent review and source/link/redaction checks | Local checks pass; first review found null policy projection | Repaired with constraint identities and20 effective readbacks; final delta review pending |
 
 Umbrella #934 owns sprint routing; #864 remains the accepted planning dependency.
@@ -198,10 +201,10 @@ Preserve all seven milestone planning tasks. This gap report does not defer or
 waive any #909 obligation. Other cloud billing, Runtime deployment, GPU launch,
 six-resident qualification and Observatory work remain separate owners/issues.
 
-## Concrete remaining platform recovery gate
+## Platform recovery provenance and future custody
 
 See `PLATFORM_STATE_GAP.md` for inspected locations, the native historical cleanup lead, and non-mutating recovery options. Cleanup loss is only a hypothesis. The current live POC has one instance and one disk; the host has zero instances/disks but its foundation remains. Preserve both projects and all data. `foundation-controls.json` records supplementary bucket/IAM/OS Login/logging/policy/dataset metadata.
 
-`APPLICATION_CHECKLIST.md` provides exact completed-plan decisions, responsible approval contacts, ordered saved-plan commands and rollback/cost boundaries. The operator confirmed the intended `gcp-admins` identity; `corporate-group-check.json` still records unproven directory API visibility for verification before a future application. No group is created or replaced here. `RECOVERY_PROPOSAL.md` describes a separately authorized local-state recovery option; it has not run.
+`APPLICATION_CHECKLIST.md` provides exact completed-plan decisions, responsible approval contacts, ordered saved-plan commands and rollback/cost boundaries. The operator confirmed the intended `gcp-admins` identity; `corporate-group-check.json` still records unproven directory API visibility for verification before a future application. No group is created or replaced here. `RECOVERY_PROPOSAL.md` preserves the reviewed proposal; its exact three local imports were later approved and executed as `local-recovery-receipt.json` records. Adoption or upload is not included.
 
 Policy projection now retains actual constraint names; `effective-policies.json` contains all20 effective host-policy readbacks for the observed organization constraints. Region quota values are retained in `live-inventory.json`. Both are current metadata evidence, not workload launch capacity or authorization.

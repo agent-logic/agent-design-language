@@ -15,7 +15,7 @@ Context:
 - Issue: https://github.com/agent-logic/agent-design-language/issues/909
 - PR:
 - Source Issue Prompt: <source_issue_prompt>
-- Docs: docs/milestones/v0.92.2/SPRINT_v0.92.2.md; WP_EXECUTION_SPECIFICATIONS_v0.92.2.yaml
+- Docs: Operator explicitly approved RECOVERY_PROPOSAL.md via yes carry on: isolated private candidate from immutable17resource state, exactly3existing-resource local imports, then read-only plan. No cloud resource edits, remote state writes, backend migration, authoritative adoption or apply.
 - Other: none
 
 ## Agent Execution Rules

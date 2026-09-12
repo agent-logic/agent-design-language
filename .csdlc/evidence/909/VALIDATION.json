@@ -1,22 +1,15 @@
 {
   "issue": 909,
   "umbrella": 934,
-  "observed_at": "2026-09-12T00:30:21.800236+00:00",
+  "observed_at": "2026-09-12T01:30:18.294546+00:00",
   "source_hash_check": "passed",
   "source_links": "passed",
   "focused_redaction_scan": "passed",
   "static_commands_passed": 9,
   "bootstrap_plan_exit": 0,
   "organization_plan_exit": 2,
-  "platform_plan": "not_run_missing_authoritative_state",
+  "platform_plan": "exit0_20_noops_reconstructed_private_candidate",
   "apply_ready": false,
-  "independent_review": {
-    "reviewer": "subagent:sprint8_908",
-    "revision": "e7cd268a71cd9b5b99143c5dbdc997473196e68c",
-    "result": "no_actionable_findings_in_incomplete_packet",
-    "scope": "source/lock hashes; actual private plan hashes/actions/projected values; bootstrap source state and remote-content comparison;20effective policies;113quotas per project; group CLI error semantics; source/privacy/packet consistency",
-    "acceptance_complete": false
-  },
   "lanes": [
     {
       "name": "static_and_packet",
@@ -33,6 +26,17 @@
       "release_gate": false
     }
   ],
-  "corporate_group": "unresolved existence/visibility; CLI conflates403and404",
-  "effective_policy_readbacks": 20
+  "corporate_group": "operator-confirmed intended identity; API visibility deferred to application preflight",
+  "effective_policy_readbacks": 20,
+  "local_recovery": "exactly3approvedimports; all20pre/postidentitiesverified; readbacks unchanged; no cloud/remote state changes",
+  "previous_independent_review": {
+    "reviewer": "subagent:sprint8_908",
+    "revision": "e7cd268a71cd9b5b99143c5dbdc997473196e68c",
+    "result": "no_actionable_findings_in_incomplete_packet",
+    "scope": "source/lock hashes; actual private plan hashes/actions/projected values; bootstrap source state and remote-content comparison;20effective policies;113quotas per project; group CLI error semantics; source/privacy/packet consistency",
+    "acceptance_complete": false
+  },
+  "independent_review": {
+    "result": "pending_final_acceptance_review"
+  }
 }

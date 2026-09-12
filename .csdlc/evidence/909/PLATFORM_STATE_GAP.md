@@ -1,6 +1,8 @@
 # #909 platform state location gap
 
-Status: required acceptance blocker; **cause unproven**. Company authentication
+Historical status: original final state remains unavailable; **cause unproven**.
+The approved local reconstruction now produced a20-no-op platform plan; see
+`local-recovery-receipt.json`. Future custody/adoption is separately gated. Company authentication
 is working. Do not confuse this gap with the superseded stale login cache.
 
 Current live readbacks find the #731 private VPC, subnet, workload identity and

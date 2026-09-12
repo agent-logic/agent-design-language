@@ -1,7 +1,8 @@
 # Exact application preparation for #909
 
 Status: **not executable yet**. This is a reviewable procedure, not an approval.
-`PLATFORM_STATE_GAP.md` is the outstanding platform-plan gate. The operator
+The platform-plan gate is satisfied by `platform-plan-summary.json`;
+`PLATFORM_STATE_GAP.md` preserves historical missing-state provenance. The operator
 confirmed the intended `gcp-admins` group; directory API visibility remains
 unproven and must be checked before any separately approved application.
 No command in this document has been executed unless explicitly listed as a
@@ -19,9 +20,11 @@ completed read-only check in the evidence JSON.
   by reviewed #492 source and now explicitly confirmed by the operator ("gcp-admins is fine"). Directory lookup did not resolve it; the installed CLI maps both HTTP403 and404 to the same message, so absence is not proven. A verified
   existing replacement or group creation requires explicit owner direction;
   #909 does not create groups or silently substitute an individual binding.
-- State/data cleanup custodian: must be identified with the retained #731 state.
-  The company operator owns resolving this missing custody. IAM permission alone
-  does not establish data-deletion authority.
+- State/data custody and cleanup approval owner: Daniel, `daniel@agent-logic.ai`.
+  Before application, he must approve durable custody/adoption of the private
+  reconstructed candidate, named backup location and executor. No upload or
+  adoption is authorized by this planning packet. IAM permission alone does not
+  authorize deletion.
 - Billing approval and incident contact: company operator until a verified
   billing owner is explicitly delegated. No credit is included in cost basis.
 
@@ -35,7 +38,7 @@ objects and all cloud credentials are outside application and cleanup scope.
 | --- | --- | --- |
 | Bootstrap | Exit 0, two no-op addresses; private local copy of remote serial 4 | No apply is needed. Retain existing adopted backend and bucket IAM. Never recreate it from an empty state. |
 | Organization | Exit 2, exactly five creates, no update/delete/replacement | Intended group is operator-confirmed; verify API visibility and obtain operator approval for the plan/control limitations before application. Refresh plan after any input or identity correction. |
-| Platform | No plan; live resources exist and state is not located | Hold; do not create/import/reconstruct state under this issue. |
+| Platform | Exit0,20no-ops from approved reconstructed local serial36 | No cloud apply or rollback needed. Future adoption/custody requires separate approval; preserve existing resources. |
 
 The organization plan's five addresses are:
 
@@ -50,11 +53,13 @@ was empty, and the host dataset list was empty during this capture. Those
 observations justified a fresh organization plan; they do not resolve the
 unproven directory API visibility. Planned values are in `organization-plan-summary.json`.
 
-## Ordered procedure once missing evidence is supplied
+## Ordered procedure for separately approved future application
 
-1. State custodian supplies the authoritative platform state/location and its
-   provenance; directory owner resolves the exact target group. Run read-only
-   verification against both. Stop on mismatch, inaccessible state, unknown
+1. Daniel approves durable state custody/adoption and backup of the reconstructed
+   candidate (or a verified original state if subsequently found), with exact
+   lineage/serial/hash and executor; no migration/upload runs under #909. Verify
+   the operator-confirmed corporate group remains usable. Run read-only
+   identity/state verification. Stop on mismatch, inaccessible state, unknown
    ownership or any requirement for unauthorized import/backend mutation.
 2. Refresh identity, inventory, source/lock hashes and all three plans in an
    isolated directory. Bootstrap stays no-op unless a separately reviewed drift
@@ -88,15 +93,13 @@ unproven directory API visibility. Planned values are in `organization-plan-summ
    thresholds/notification recipients, and dataset ownership/location. Enable
    billing export only through an explicitly approved separate exact operation;
    creating a dataset does not turn export on. Stop dependent steps on mismatch.
-7. Apply the independently approved platform saved plan only after its state is
-   reconciled. The command has the same shape with the platform working directory
-   and its own approved plan; no plan is available to authorize today. Read back
-   each selected network, subnet, rule, metadata key, identity/grant, bucket and
-   metric. Resource limits are the reviewed module's exact denominator, with zero
-   compute launches and no POC changes.
+7. Bootstrap and platform plans are no-op: execute no apply for either. Preserve
+   the existing 2 bootstrap and 20 platform resources. If fresh planning changes
+   any action, stop for new review/approval; the current packet supplies no
+   permission to act on that drift. Read back selected resources and preserve
+   zero compute launches and no POC changes.
 8. Preserve post-apply state generation, audit identity/time and readback
-   comparison; report unexpected residue or failures to the operator. Keep the
-   issue incomplete until accepted final evidence is linked. Application itself
+   comparison; report unexpected residue or failures to the operator. Keep future execution incomplete until its readback evidence is accepted. Application itself
    is outside #909's current authorized work.
 
 ## Rollback decisions tied to actual plan
@@ -115,12 +118,13 @@ Never remove the last independent administrator. Produce and review a rollback
 saved plan; apply that exact plan only with separate rollback authority. No
 blind destroy, targeted delete-by-name or state push is allowed here.
 
-Platform: exact rollback is blocked by missing state/plan. The dependency order
-in `MOVE_IN_PACKET.md` constrains it but cannot authorize it. Once supplied,
-classify every planned action as create/update/delete/no-op and record the exact
-inverse or recovery method; existing retained resources must survive rollback.
-Preserve bucket generations and workload dependencies before reviewing deletion.
-Never claim that restoring Terraform state alone restores cloud resources.
+Platform: all20 configuration actions are no-op, so no cloud rollback action
+is required or authorized. The only performed mutation was three imports into
+an isolated private candidate; rollback of that local experiment means retiring
+that candidate while preserving the immutable historical snapshot and receipts.
+Never delete or recreate the live foundation to undo local recovery. A later
+non-no-op plan requires a newly reviewed exact inverse/recovery procedure.
+
 
 ## Cost, expiry and maintenance controls
 
@@ -144,3 +148,20 @@ Never claim that restoring Terraform state alone restores cloud resources.
   further changes and execute only the approved recovery path. Afterward the
   operator reviews actual spend and owned residue. No ongoing watcher, scheduled
   cleanup, budget mutation or cloud API enablement is created by this packet.
+
+## Custody and data-retention decisions before execution
+
+Daniel is the approval contact for the selected state, artifacts, models,
+continuity-evidence and logs buckets. Preserve all existing objects, versions,
+soft-deleted generations and retention settings. This packet authorizes no
+expiry/deletion schedule. State and continuity evidence remain retained until
+an independently verified backup and explicit disposition; models/artifacts/logs
+remain retained until their data owner explicitly approves removal. Existing
+lifecycle rules are recorded inventory, not new cleanup instructions.
+
+The exact planned organization changes add IAM memberships, a budget and an
+empty dataset; they add no compute, export feed, data ingestion or data copy.
+Usage-driven storage/query/log charges remain outside this plan. Before any
+future application, Daniel approves a fresh cost envelope and verifies the
+limited issue492 budget and notification behavior; do not infer a whole-estate
+hard cap. Changes enabling export, ingestion or retention are separately scoped.

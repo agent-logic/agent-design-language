@@ -20,7 +20,7 @@ Run ID: issue-0909
 Version: v0.92.2
 Title: [v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet
 Branch: codex/909-gcp-move-in
-Card Status: blocked
+Card Status: in_progress
 Status: IN_PROGRESS
 Generated: <timestamp>
 
@@ -57,7 +57,7 @@ Company identity/inventory captured; bootstrap no-op and organization five-creat
 - Goal metrics source ref: `<actual_metrics_source_ref>`
 - Data-source confidence: `<actual_metrics_confidence>`
 - Estimate error percent: `<estimate_error_percent>`
-- Completion state: `incomplete_platform_state_and_group_identity_required`
+- Completion state: `implementation_complete_review_pending`
 - Issue goal ref: `Issue #909 active session goal created before implementation`
 - Sprint goal ref: `Sprint 8 umbrella #934`
 - Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
@@ -79,14 +79,14 @@ Company identity/inventory captured; bootstrap no-op and organization five-creat
 - Additional proof artifacts: `<additional_proof_artifacts>`
 
 ## Actions taken
-- `Normalized SPP/VPP umbrella references with native edit; validated and doctored bound issue`
-- `Inspected existing source and historical decision; ran nine static Terraform checks`
-- `Resolved stale gcloud context by explicit company identity; collected read-only inventory and two actual plans. Recorded suspected platform-state location gap without claiming cleanup loss.`
+- `Reused unchanged source/locks; verified company organization/project/billing plus32census/20effectivepolicy observations and113quotas per project.`
+- `Produced2bootstrapnoops and5organizationcreates; approved isolated recovery serial33→36 produced20platformnoops; no cloud or remote state changes.`
+- `Completed exact future apply/rollback/cost/cleanup/custody controls; final independent review pending; no PR/apply/merge yet.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `.csdlc/evidence/909; .csdlc/issues/909; .csdlc/transactions/completed/909`
-- Integration state: `worktree_only`
+- Integration state: `not_published`
 - Verification scope: `bound issue worktree and approved company identity readback attempt`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
@@ -108,9 +108,9 @@ Rules:
 ## Validation
 - Validation commands and their purpose:
   - `Terraform fmt/init-backend-false/validate for three packages; read-only gcloud company census; isolated bootstrap and organization plans; focused source/hash/link/redaction checks`
-    `Proves static consistency, company identity/current metadata and two exact plan action sets; does not prove platform plan or apply-ready completeness.`
+    `Proves actual company inventory and all3package plans:2bootstrapnoops,20platformnoops,5organizationcreates. Platform candidate reconstructed under explicit approval; future adoption/application separate.`
 - Results:
-  - `Nine static checks,32 first-census reads and20effective policy reads pass. Bootstrap plan exit0; organization plan exit2; source/redaction checks and independent incomplete-packet review pass. Platform state/plan and directory group identity remain missing; no PR or apply-ready claim.`
+  - `All focused local checks PASS; exactly3localimports exit0, platform plan exit0 with20noops, pre/post20identity values unchanged. Historical state refresh8entries documented. Independent final review pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,7 +123,7 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: partial
+    status: local_pass_review_pending
     checks_run:
       - "<verification_check_1>"
   determinism:
