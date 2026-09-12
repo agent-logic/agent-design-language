@@ -1,0 +1,30 @@
+{
+  "issue": 909,
+  "umbrella": 934,
+  "observed_at": "2026-09-12T00:30:21.800236+00:00",
+  "source_hash_check": "passed",
+  "source_links": "passed",
+  "focused_redaction_scan": "passed",
+  "static_commands_passed": 9,
+  "bootstrap_plan_exit": 0,
+  "organization_plan_exit": 2,
+  "platform_plan": "not_run_missing_authoritative_state",
+  "apply_ready": false,
+  "independent_review": "pending",
+  "lanes": [
+    {
+      "name": "static_and_packet",
+      "determinism": "local deterministic",
+      "resource": "local CPU",
+      "issue_gate": true,
+      "release_gate": false
+    },
+    {
+      "name": "company_inventory_and_plan",
+      "determinism": "external mutable state",
+      "resource": "read-only GCP API and isolated local Terraform planning",
+      "issue_gate": true,
+      "release_gate": false
+    }
+  ]
+}

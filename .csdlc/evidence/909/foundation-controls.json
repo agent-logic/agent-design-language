@@ -1,0 +1,719 @@
+{
+  "schema": "adl.issue909.foundation_controls.v1",
+  "scope": "Read-only metadata; no data objects or credentials retained",
+  "observations": [
+    {
+      "surface": "bucket-adl-tf-state-cs-host-377d41e71a824f92802120",
+      "observation": {
+        "label": "bucket-adl-tf-state-cs-host-377d41e71a824f92802120",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "describe",
+          "gs://adl-tf-state-cs-host-377d41e71a824f92802120",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:13.453312+00:00"
+      },
+      "controls": {
+        "name": "adl-tf-state-cs-host-377d41e71a824f92802120",
+        "location": "US-WEST2",
+        "versioning_enabled": true,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "enforced",
+        "soft_delete_policy": {
+          "effectiveTime": "2026-09-08T09:34:04.395000+00:00",
+          "retentionDurationSeconds": "604800"
+        },
+        "labels": {
+          "app": "adl",
+          "goog-terraform-provisioned": "true",
+          "issue": "730",
+          "lane": "gcp-b1",
+          "milestone": "v0-92-1"
+        }
+      }
+    },
+    {
+      "surface": "bucket-iam-adl-tf-state-cs-host-377d41e71a824f92802120",
+      "observation": {
+        "label": "bucket-iam-adl-tf-state-cs-host-377d41e71a824f92802120",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "get-iam-policy",
+          "gs://adl-tf-state-cs-host-377d41e71a824f92802120",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:14.094718+00:00"
+      },
+      "bindings": [
+        {
+          "role": "roles/storage.admin",
+          "members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-state",
+      "observation": {
+        "label": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "describe",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-state",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:14.668381+00:00"
+      },
+      "controls": {
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "location": "US-WEST2",
+        "versioning_enabled": true,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "inherited",
+        "soft_delete_policy": {
+          "effectiveTime": "2026-09-08T09:36:57.760000+00:00",
+          "retentionDurationSeconds": "604800"
+        },
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "state",
+          "ttl": "disposable"
+        }
+      }
+    },
+    {
+      "surface": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-state",
+      "observation": {
+        "label": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-state",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "get-iam-policy",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-state",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:15.298236+00:00"
+      },
+      "bindings": [
+        {
+          "role": "roles/storage.legacyBucketOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+      "observation": {
+        "label": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "describe",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:15.900581+00:00"
+      },
+      "controls": {
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "location": "US-WEST2",
+        "versioning_enabled": true,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "inherited",
+        "soft_delete_policy": {
+          "effectiveTime": "2026-09-08T09:36:57.195000+00:00",
+          "retentionDurationSeconds": "604800"
+        },
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "artifacts",
+          "ttl": "disposable"
+        }
+      }
+    },
+    {
+      "surface": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+      "observation": {
+        "label": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "get-iam-policy",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:16.507872+00:00"
+      },
+      "bindings": [
+        {
+          "role": "roles/storage.legacyBucketOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.objectUser",
+          "members": [
+            "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-models",
+      "observation": {
+        "label": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "describe",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-models",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:17.085635+00:00"
+      },
+      "controls": {
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "location": "US-WEST2",
+        "versioning_enabled": true,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "inherited",
+        "soft_delete_policy": {
+          "effectiveTime": "2026-09-08T09:36:58.040000+00:00",
+          "retentionDurationSeconds": "604800"
+        },
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "models",
+          "ttl": "disposable"
+        }
+      }
+    },
+    {
+      "surface": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-models",
+      "observation": {
+        "label": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-models",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "get-iam-policy",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-models",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:17.805778+00:00"
+      },
+      "bindings": [
+        {
+          "role": "roles/storage.legacyBucketOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.objectViewer",
+          "members": [
+            "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+      "observation": {
+        "label": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "describe",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:20.825729+00:00"
+      },
+      "controls": {
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "location": "US-WEST2",
+        "versioning_enabled": true,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "inherited",
+        "soft_delete_policy": {
+          "effectiveTime": "2026-09-08T09:36:57.926000+00:00",
+          "retentionDurationSeconds": "604800"
+        },
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "continuity-evidence",
+          "ttl": "disposable"
+        }
+      }
+    },
+    {
+      "surface": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+      "observation": {
+        "label": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "get-iam-policy",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:21.524455+00:00"
+      },
+      "bindings": [
+        {
+          "role": "roles/storage.legacyBucketOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.objectCreator",
+          "members": [
+            "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-logs",
+      "observation": {
+        "label": "bucket-cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "describe",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-logs",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:22.145816+00:00"
+      },
+      "controls": {
+        "name": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "location": "US-WEST2",
+        "versioning_enabled": true,
+        "uniform_bucket_level_access": true,
+        "public_access_prevention": "inherited",
+        "soft_delete_policy": {
+          "effectiveTime": "2026-09-08T09:36:56.973000+00:00",
+          "retentionDurationSeconds": "604800"
+        },
+        "labels": {
+          "app": "adl",
+          "csm": "axioma",
+          "env": "dev",
+          "goog-terraform-provisioned": "true",
+          "issue": "493",
+          "lane": "gcp-d",
+          "milestone": "v0-92-1",
+          "owner": "logs",
+          "ttl": "disposable"
+        }
+      }
+    },
+    {
+      "surface": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-logs",
+      "observation": {
+        "label": "bucket-iam-cs-host-377d41e71a824f92802120-dev-axioma-logs",
+        "argv": [
+          "gcloud",
+          "storage",
+          "buckets",
+          "get-iam-policy",
+          "gs://cs-host-377d41e71a824f92802120-dev-axioma-logs",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:22.826239+00:00"
+      },
+      "bindings": [
+        {
+          "role": "roles/storage.legacyBucketOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyBucketReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectOwner",
+          "members": [
+            "other_member_redacted",
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.legacyObjectReader",
+          "members": [
+            "other_member_redacted"
+          ]
+        },
+        {
+          "role": "roles/storage.objectCreator",
+          "members": [
+            "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ]
+        }
+      ]
+    },
+    {
+      "surface": "bootstrap-state-generation-after",
+      "observation": {
+        "label": "bootstrap-state-generation-after",
+        "argv": [
+          "gcloud",
+          "storage",
+          "objects",
+          "describe",
+          "gs://adl-tf-state-cs-host-377d41e71a824f92802120/bootstrap/default.tfstate",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:23.455735+00:00"
+      },
+      "object": {
+        "name": "bootstrap/default.tfstate",
+        "generation": "1788860115181967",
+        "metageneration": 1,
+        "size": 5156,
+        "md5_hash": "z4bw+pjp5EuktdfNuNSsRQ==",
+        "crc32c_hash": "nBwhxQ==",
+        "update_time": "2026-09-08T09:35:15+0000"
+      }
+    },
+    {
+      "surface": "host-project-metadata",
+      "observation": {
+        "label": "host-project-metadata",
+        "argv": [
+          "gcloud",
+          "compute",
+          "project-info",
+          "describe",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:24.434264+00:00"
+      },
+      "metadata": {
+        "enable-oslogin": "TRUE"
+      }
+    },
+    {
+      "surface": "host-log-metric",
+      "observation": {
+        "label": "host-log-metric",
+        "argv": [
+          "gcloud",
+          "logging",
+          "metrics",
+          "describe",
+          "csm_dev_disposable_without_deadline",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:25.083931+00:00"
+      },
+      "metric": {
+        "name": "csm_dev_disposable_without_deadline",
+        "filter": "resource.type=\"gce_instance\" AND labels.issue=\"493\" AND labels.ttl=\"disposable\" AND -labels.deadline:*",
+        "metricDescriptor": {
+          "description": "Watchdog/readback command support: counts disposable workload log entries missing deadline labels.",
+          "metricKind": "DELTA",
+          "name": "projects/cs-host-377d41e71a824f92802120/metricDescriptors/logging.googleapis.com/user/csm_dev_disposable_without_deadline",
+          "type": "logging.googleapis.com/user/csm_dev_disposable_without_deadline",
+          "unit": "1",
+          "valueType": "INT64"
+        }
+      }
+    },
+    {
+      "surface": "host-log-sinks",
+      "observation": {
+        "label": "host-log-sinks",
+        "argv": [
+          "gcloud",
+          "logging",
+          "sinks",
+          "list",
+          "--account=daniel@agent-logic.ai",
+          "--project=cs-host-377d41e71a824f92802120",
+          "--format=json",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:25.865738+00:00"
+      },
+      "sinks": [
+        {
+          "name": "_Required",
+          "destination": "logging.googleapis.com/projects/cs-host-377d41e71a824f92802120/locations/global/buckets/_Required",
+          "disabled": false
+        },
+        {
+          "name": "_Default",
+          "destination": "logging.googleapis.com/projects/cs-host-377d41e71a824f92802120/locations/global/buckets/_Default",
+          "disabled": false
+        }
+      ]
+    },
+    {
+      "surface": "org-policies",
+      "observation": {
+        "argv": [
+          "gcloud",
+          "org-policies",
+          "list",
+          "--organization=321515087273",
+          "--account=daniel@agent-logic.ai",
+          "--format=json"
+        ],
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:29:14.193768+00:00",
+        "supersedes": "initial invalid mutually exclusive project/org flag attempt"
+      },
+      "policies": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "surface": "host-bq-datasets",
+      "observation": {
+        "label": "host-bq-datasets",
+        "method": "GET",
+        "url": "https://bigquery.googleapis.com/bigquery/v2/projects/cs-host-377d41e71a824f92802120/datasets?all=true",
+        "exit_code": 0,
+        "observed_at": "2026-09-12T00:25:26.871080+00:00"
+      },
+      "dataset_ids": []
+    }
+  ]
+}

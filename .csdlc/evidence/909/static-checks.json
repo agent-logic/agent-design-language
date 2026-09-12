@@ -1,0 +1,52 @@
+{
+  "observed_at": "2026-09-12T00:10:15.639438+00:00",
+  "commands": [
+    {
+      "package": "infra/gcp/organization",
+      "command": "terraform -chdir=.adl/runs/909/organization fmt -check",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/organization",
+      "command": "terraform -chdir=.adl/runs/909/organization init -backend=false -input=false",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/organization",
+      "command": "terraform -chdir=.adl/runs/909/organization validate -no-color",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/bootstrap",
+      "command": "terraform -chdir=.adl/runs/909/bootstrap fmt -check",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/bootstrap",
+      "command": "terraform -chdir=.adl/runs/909/bootstrap init -backend=false -input=false",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/bootstrap",
+      "command": "terraform -chdir=.adl/runs/909/bootstrap validate -no-color",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/platform",
+      "command": "terraform -chdir=.adl/runs/909/platform fmt -check",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/platform",
+      "command": "terraform -chdir=.adl/runs/909/platform init -backend=false -input=false",
+      "exit_code": 0
+    },
+    {
+      "package": "infra/gcp/platform",
+      "command": "terraform -chdir=.adl/runs/909/platform validate -no-color",
+      "exit_code": 0
+    }
+  ],
+  "scope": "Unmodified .tf files and tracked provider locks copied into ignored issue-local directories; backend disabled; no state or cloud resources written.",
+  "terraform_version": "1.15.3 darwin_arm64"
+}

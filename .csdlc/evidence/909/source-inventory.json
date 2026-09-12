@@ -1,0 +1,200 @@
+{
+  "schema": "adl.issue909.source_inventory.v1",
+  "source_revision": "f1c4e2a915c215797f0d2708cb8b0568f2b80b32",
+  "classification": "source_only_not_live_inventory",
+  "packages": [
+    {
+      "package": "infra/gcp/organization",
+      "files": [
+        {
+          "path": "infra/gcp/organization/main.tf",
+          "sha256": "5ca2e13ba92bffb8d2cbb37853e8bc9ddc29de5f363a5f21ad59ee17aaa658de"
+        },
+        {
+          "path": "infra/gcp/organization/outputs.tf",
+          "sha256": "785b7a0af41e6d7ccaf510b858bfd65c30a2f19926b7da81fb0eea642562b6e3"
+        },
+        {
+          "path": "infra/gcp/organization/provider.tf",
+          "sha256": "a0184fec655ef5d85828d1654944da9c0cdd29eab5a8bca7fd02304c573e1f75"
+        },
+        {
+          "path": "infra/gcp/organization/variables.tf",
+          "sha256": "e883ed963fc34734d8bd80e818f2ee937adeaef23f84f5dd21d2b60e4312a393"
+        },
+        {
+          "path": "infra/gcp/organization/versions.tf",
+          "sha256": "bbedaf98085c4190d33a11baf78371a4b093ca0a0ecf65cdfbd94f185d563529"
+        },
+        {
+          "path": "infra/gcp/organization/.terraform.lock.hcl",
+          "sha256": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+        }
+      ],
+      "resource_declarations": [
+        [
+          "google_project_iam_member",
+          "corporate_owner_project_roles"
+        ],
+        [
+          "google_billing_budget",
+          "host_project_guardrail"
+        ],
+        [
+          "google_bigquery_dataset",
+          "billing_export"
+        ]
+      ]
+    },
+    {
+      "package": "infra/gcp/bootstrap",
+      "files": [
+        {
+          "path": "infra/gcp/bootstrap/main.tf",
+          "sha256": "77d2e115c5fafed2b8e5f3dd51724df3005ef8b765686f5582940c5474363293"
+        },
+        {
+          "path": "infra/gcp/bootstrap/outputs.tf",
+          "sha256": "3fd8cb50dcba63df353c71935cdbdce7c3dd8e03e037f9db5d74223a2138707e"
+        },
+        {
+          "path": "infra/gcp/bootstrap/provider.tf",
+          "sha256": "66e26d6a2a9503643007bc4ae644e2378a0898f61ffa5119b33836f6604ec96a"
+        },
+        {
+          "path": "infra/gcp/bootstrap/variables.tf",
+          "sha256": "00646f2777a1029e04efb5721e432d971b482d321684b15f1b5184338af66978"
+        },
+        {
+          "path": "infra/gcp/bootstrap/versions.tf",
+          "sha256": "bbedaf98085c4190d33a11baf78371a4b093ca0a0ecf65cdfbd94f185d563529"
+        },
+        {
+          "path": "infra/gcp/bootstrap/.terraform.lock.hcl",
+          "sha256": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+        }
+      ],
+      "resource_declarations": [
+        [
+          "google_storage_bucket",
+          "terraform_state"
+        ],
+        [
+          "google_storage_bucket_iam_member",
+          "terraform_state_admin"
+        ]
+      ]
+    },
+    {
+      "package": "infra/gcp/platform",
+      "files": [
+        {
+          "path": "infra/gcp/platform/main.tf",
+          "sha256": "64a5e7a767209d2aff3722c9aa76bee197434657a549f32ab5739b6fdfe6b5ac"
+        },
+        {
+          "path": "infra/gcp/platform/outputs.tf",
+          "sha256": "7c6539c9b62584f658f86055550a768648db2ca4f36fe8c7c12f3adf5c5c49ea"
+        },
+        {
+          "path": "infra/gcp/platform/provider.tf",
+          "sha256": "a60a038a12ff8ab17621dfdeb9672da47b12eff2a860d94eae560caba1ae27d5"
+        },
+        {
+          "path": "infra/gcp/platform/variables.tf",
+          "sha256": "9e6b1a69621bfe377c40d2b47aad51de14ea3e6144049b56ca7b021c3b8eba45"
+        },
+        {
+          "path": "infra/gcp/platform/versions.tf",
+          "sha256": "bbedaf98085c4190d33a11baf78371a4b093ca0a0ecf65cdfbd94f185d563529"
+        },
+        {
+          "path": "infra/gcp/platform/.terraform.lock.hcl",
+          "sha256": "f893effefb1da5c524026e8d2988e832a0cf0c59b33076b4579a67d05daeb4b9"
+        }
+      ],
+      "resource_declarations": [
+        [
+          "google_compute_network",
+          "private"
+        ],
+        [
+          "google_compute_subnetwork",
+          "private"
+        ],
+        [
+          "google_compute_firewall",
+          "iap_operator_access"
+        ],
+        [
+          "google_compute_firewall",
+          "explicit_private_egress"
+        ],
+        [
+          "google_compute_firewall",
+          "deny_unapproved_egress"
+        ],
+        [
+          "google_compute_project_metadata_item",
+          "os_login"
+        ],
+        [
+          "google_project_iam_member",
+          "operator_iap_tunnel"
+        ],
+        [
+          "google_project_iam_member",
+          "operator_os_login"
+        ],
+        [
+          "google_service_account",
+          "workload"
+        ],
+        [
+          "google_storage_bucket",
+          "state"
+        ],
+        [
+          "google_storage_bucket",
+          "artifacts"
+        ],
+        [
+          "google_storage_bucket",
+          "models"
+        ],
+        [
+          "google_storage_bucket",
+          "continuity_evidence"
+        ],
+        [
+          "google_storage_bucket",
+          "logs"
+        ],
+        [
+          "google_storage_bucket_iam_member",
+          "workload_artifacts_object_user"
+        ],
+        [
+          "google_storage_bucket_iam_member",
+          "workload_models_object_viewer"
+        ],
+        [
+          "google_storage_bucket_iam_member",
+          "workload_evidence_object_creator"
+        ],
+        [
+          "google_storage_bucket_iam_member",
+          "workload_logs_object_creator"
+        ],
+        [
+          "google_project_iam_member",
+          "workload_log_writer"
+        ],
+        [
+          "google_logging_metric",
+          "disposable_without_deadline"
+        ]
+      ]
+    }
+  ]
+}

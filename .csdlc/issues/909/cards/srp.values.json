@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 909,
+  "issue_padded": "0909",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/909",
+  "title": "[v0.92.2][OPS-GCP] Produce one apply-ready company GCP move-in execution packet",
+  "branch": "codex/909-gcp-move-in",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-909-gcp-move-in"
+}

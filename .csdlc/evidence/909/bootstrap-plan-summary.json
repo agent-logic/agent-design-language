@@ -1,0 +1,29 @@
+{
+  "schema": "adl.issue909.plan_summary.v1",
+  "package": "infra/gcp/bootstrap",
+  "source_state": "verified company backend bootstrap/default.tfstate read-only download",
+  "state_sha256": "0cb3d26207e00f88205cb7d89e21bb734cb9eb9aeec129b035a7fc50eb05baba",
+  "state_serial": 4,
+  "plan_sha256": "70b57f163fecec936a623d7e64035fa4d994e5594a3ee44a17ba5edcb2ed379f",
+  "observed_at": "2026-09-12T00:21:15.843766+00:00",
+  "changes": [
+    {
+      "address": "google_storage_bucket.terraform_state",
+      "actions": [
+        "no-op"
+      ]
+    },
+    {
+      "address": "google_storage_bucket_iam_member.terraform_state_admin",
+      "actions": [
+        "no-op"
+      ]
+    }
+  ],
+  "remote_state_mutation": false,
+  "apply_authorized": false,
+  "command": "terraform -chdir=.adl/runs/909/bootstrap plan -input=false -lock=false -no-color -out=.adl/runs/909/bootstrap.tfplan -detailed-exitcode",
+  "path_note": "Invocation supplied absolute paths to ignored local plan outputs; recorded paths are repository-relative.",
+  "exit_code": 0,
+  "credential_handling": "Explicit company gcloud account; access token process-local only, not persisted"
+}
