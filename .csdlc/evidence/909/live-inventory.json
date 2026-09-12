@@ -1,0 +1,3314 @@
+{
+  "schema": "adl.issue909.live_inventory.v1",
+  "scope": "Approved company organization, billing and accepted POC/host projects; metadata only",
+  "identity_verified": true,
+  "source": "Normal company gcloud context; explicit account daniel@agent-logic.ai; stale Git-common context not used",
+  "mutation": false,
+  "observations": [
+    {
+      "surface": "organization",
+      "observed_at": "2026-09-12T00:15:27.971785+00:00",
+      "command": [
+        "gcloud",
+        "organizations",
+        "describe",
+        "321515087273",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "organizations/321515087273",
+        "displayName": "agent-logic.ai",
+        "lifecycleState": "ACTIVE"
+      }
+    },
+    {
+      "surface": "host-project",
+      "observed_at": "2026-09-12T00:15:28.533403+00:00",
+      "command": [
+        "gcloud",
+        "projects",
+        "describe",
+        "cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "Cloud Setup Host Project",
+        "parent": {
+          "id": "929563862525",
+          "type": "folder"
+        },
+        "projectId": "cs-host-377d41e71a824f92802120",
+        "projectNumber": "27581932047",
+        "lifecycleState": "ACTIVE"
+      }
+    },
+    {
+      "surface": "foundation-folder",
+      "observed_at": "2026-09-12T00:15:29.360309+00:00",
+      "command": [
+        "gcloud",
+        "resource-manager",
+        "folders",
+        "describe",
+        "929563862525",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "folders/929563862525",
+        "displayName": "gcp-internal-cloud-setup",
+        "parent": "organizations/321515087273",
+        "lifecycleState": "ACTIVE"
+      }
+    },
+    {
+      "surface": "host-billing",
+      "observed_at": "2026-09-12T00:15:29.928305+00:00",
+      "command": [
+        "gcloud",
+        "billing",
+        "projects",
+        "describe",
+        "cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "projects/cs-host-377d41e71a824f92802120/billingInfo",
+        "projectId": "cs-host-377d41e71a824f92802120",
+        "billingAccountName": "billingAccounts/01FA88-CC4968-ADF817",
+        "billingEnabled": true
+      }
+    },
+    {
+      "surface": "billing-account",
+      "observed_at": "2026-09-12T00:15:30.726101+00:00",
+      "command": [
+        "gcloud",
+        "billing",
+        "accounts",
+        "describe",
+        "01FA88-CC4968-ADF817",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "billingAccounts/01FA88-CC4968-ADF817",
+        "displayName": "My Billing Account",
+        "parent": "organizations/321515087273",
+        "currencyCode": "USD",
+        "open": true
+      }
+    },
+    {
+      "surface": "poc-folder",
+      "observed_at": "2026-09-12T00:15:31.487748+00:00",
+      "command": [
+        "gcloud",
+        "resource-manager",
+        "folders",
+        "describe",
+        "726824330959",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "folders/726824330959",
+        "displayName": "Proof of Concept",
+        "parent": "organizations/321515087273",
+        "lifecycleState": "ACTIVE"
+      }
+    },
+    {
+      "surface": "poc-project",
+      "observed_at": "2026-09-12T00:15:32.052806+00:00",
+      "command": [
+        "gcloud",
+        "projects",
+        "describe",
+        "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "Agent Logic Shared Services",
+        "parent": {
+          "id": "726824330959",
+          "type": "folder"
+        },
+        "projectId": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "projectNumber": "1034406986020",
+        "lifecycleState": "ACTIVE"
+      }
+    },
+    {
+      "surface": "poc-billing",
+      "observed_at": "2026-09-12T00:15:32.825074+00:00",
+      "command": [
+        "gcloud",
+        "billing",
+        "projects",
+        "describe",
+        "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/billingInfo",
+        "projectId": "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "billingAccountName": "billingAccounts/01FA88-CC4968-ADF817",
+        "billingEnabled": true
+      }
+    },
+    {
+      "surface": "organization-iam",
+      "observed_at": "2026-09-12T00:15:33.656319+00:00",
+      "command": [
+        "gcloud",
+        "organizations",
+        "get-iam-policy",
+        "321515087273",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "bindings": [
+        {
+          "role": "roles/billing.admin",
+          "company_members": [
+            "group:gcp-billing-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/billing.creator",
+          "company_members": [
+            "group:gcp-billing-admins@agent-logic.ai"
+          ],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/billing.user",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/cloudkms.admin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/cloudsecuritycompliance.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/cloudsupport.admin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.networkAdmin",
+          "company_members": [
+            "group:gcp-hybrid-connectivity-admins@agent-logic.ai",
+            "group:gcp-vpc-network-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.securityAdmin",
+          "company_members": [
+            "group:gcp-vpc-network-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.viewer",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.xpnAdmin",
+          "company_members": [
+            "group:gcp-vpc-network-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/container.viewer",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/containerthreatdetection.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/dspm.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/externalexposure.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/iam.organizationRoleAdmin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iam.organizationRoleViewer",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iam.securityAdmin",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iam.securityReviewer",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iam.serviceAccountCreator",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/logging.admin",
+          "company_members": [
+            "group:gcp-logging-monitoring-admins@agent-logic.ai",
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/logging.configWriter",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/logging.privateLogViewer",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/logging.viewer",
+          "company_members": [
+            "group:gcp-logging-monitoring-viewers@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/monitoring.admin",
+          "company_members": [
+            "group:gcp-logging-monitoring-admins@agent-logic.ai",
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/monitoring.viewer",
+          "company_members": [
+            "group:gcp-logging-monitoring-viewers@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/orgpolicy.policyAdmin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/pubsub.admin",
+          "company_members": [
+            "group:gcp-logging-monitoring-admins@agent-logic.ai",
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/resourcemanager.folderAdmin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/resourcemanager.folderIamAdmin",
+          "company_members": [
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/resourcemanager.folderViewer",
+          "company_members": [
+            "group:gcp-devops@agent-logic.ai",
+            "group:gcp-hybrid-connectivity-admins@agent-logic.ai",
+            "group:gcp-vpc-network-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/resourcemanager.organizationAdmin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "user:daniel@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/resourcemanager.organizationViewer",
+          "company_members": [
+            "group:gcp-billing-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/resourcemanager.projectCreator",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/securitycenter.admin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "group:gcp-security-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/securitycenter.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        }
+      ]
+    },
+    {
+      "surface": "budgets",
+      "observed_at": "2026-09-12T00:15:34.616175+00:00",
+      "command": [
+        "gcloud",
+        "billing",
+        "budgets",
+        "list",
+        "--billing-account=01FA88-CC4968-ADF817",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 0,
+      "resources": []
+    },
+    {
+      "surface": "host-iam",
+      "observed_at": "2026-09-12T00:15:35.351648+00:00",
+      "command": [
+        "gcloud",
+        "projects",
+        "get-iam-policy",
+        "cs-host-377d41e71a824f92802120",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "bindings": [
+        {
+          "role": "roles/aiplatform.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/aiplatform.user",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/billing.projectManager",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/cloudbuild.builds.builder",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/cloudbuild.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/compute.instanceGroupManagerServiceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/compute.osLogin",
+          "company_members": [
+            "user:daniel@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/config.admin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/container.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/containerregistry.ServiceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/file.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/iam.serviceAccountAdmin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iam.serviceAccountUser",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iap.tunnelResourceAccessor",
+          "company_members": [
+            "user:daniel@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/logging.logWriter",
+          "company_members": [
+            "serviceAccount:axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/logging.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/owner",
+          "company_members": [
+            "user:daniel@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/pubsub.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/resourcemanager.projectIamAdmin",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/run.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/serviceusage.serviceUsageAdmin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/storage.admin",
+          "company_members": [
+            "group:gcp-organization-admins@agent-logic.ai",
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        }
+      ]
+    },
+    {
+      "surface": "host-apis",
+      "observed_at": "2026-09-12T00:15:40.228747+00:00",
+      "command": [
+        "gcloud",
+        "services",
+        "list",
+        "--enabled",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 48,
+      "resources": [
+        {
+          "name": "projects/27581932047/services/aiplatform.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/analyticshub.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/anthosconfigmanagement.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/anthospolicycontroller.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/artifactregistry.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/autoscaling.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigquery.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigqueryconnection.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigquerydatapolicy.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigquerydatatransfer.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigquerymigration.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigqueryreservation.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/bigquerystorage.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/billingbudgets.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/cloudbilling.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/cloudbuild.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/cloudidentity.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/cloudkms.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/cloudresourcemanager.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/compute.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/config.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/container.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/containeranalysis.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/containerfilesystem.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/containerregistry.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/dataform.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/dataplex.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/dns.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/file.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/gkebackup.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/gkeconnect.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/gkehub.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/iam.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/iamcredentials.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/krmapihosting.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/logging.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/monitoring.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/multiclustermetering.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/networkconnectivity.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/orgpolicy.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/oslogin.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/pubsub.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/run.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/serviceusage.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/storage-api.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/storage-component.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/storage.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/27581932047/services/telemetry.googleapis.com",
+          "state": "ENABLED"
+        }
+      ]
+    },
+    {
+      "surface": "host-networks",
+      "observed_at": "2026-09-12T00:15:41.697411+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "networks",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 2,
+      "resources": [
+        {
+          "name": "axioma-dev-csm-private",
+          "id": "7386400375461538263"
+        },
+        {
+          "name": "default",
+          "id": "6921060296939625369"
+        }
+      ]
+    },
+    {
+      "surface": "host-subnets",
+      "observed_at": "2026-09-12T00:15:42.962488+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "networks",
+        "subnets",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 43,
+      "resources": [
+        {
+          "name": "default",
+          "id": "2370400751561563027",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-central1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.128.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5187555592979700627",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.132.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7599728600734325651",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.138.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "514398559502949266",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-east1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.140.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5649165561123658643",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-east1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.142.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8232708837730507666",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-northeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.146.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8910832342103579538",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-southeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.148.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6015985089943788435",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-east4",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.150.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "3915466445469080466",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/australia-southeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.152.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8154126453930548115",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.154.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "1184757183911648147",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.156.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2738702576674757521",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/southamerica-east1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.158.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7813286426369678226",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.160.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2279640159792487314",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/northamerica-northeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.162.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "4192469570950618003",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west4",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.164.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "815181737786432402",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-north1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.166.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "axioma-dev-csm-private-us-west2",
+          "id": "7305592550062188967",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private",
+          "ipCidrRange": "10.42.0.0/24",
+          "privateIpGoogleAccess": true
+        },
+        {
+          "name": "default",
+          "id": "7356037237305596818",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.168.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2412259485648509841",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-east2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.170.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6155580546495110035",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west6",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.172.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "9217821799669390226",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-northeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.174.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2465036443213716370",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-northeast3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.178.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "1504589147743280019",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.180.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6263783644698336147",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-west4",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.182.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "3566121738417036176",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-southeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.184.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2947106896821443473",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-central2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.186.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5532704546480282514",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/northamerica-northeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.188.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "3999333872426113938",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-south2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.190.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "4612900908783983506",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/australia-southeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.192.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "259676014956075921",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/southamerica-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.194.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2891568137845955473",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west8",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.198.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5655613423726451603",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west9",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.200.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "3439722762156202899",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-east5",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.202.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "3733601965194959762",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-southwest1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.204.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "851279980131605395",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/us-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.206.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8358982864802765714",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/me-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.208.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6233376753711405971",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west12",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.210.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "219125240144681874",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/me-central1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.212.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "4492753437811104659",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-west10",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.214.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2427678864917748626",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/africa-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.218.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8290914633957858195",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/northamerica-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.224.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8741072462649056147",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/europe-north2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.226.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7153462115492518802",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/regions/asia-southeast3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default",
+          "ipCidrRange": "10.232.0.0/20",
+          "privateIpGoogleAccess": false
+        }
+      ]
+    },
+    {
+      "surface": "host-firewalls",
+      "observed_at": "2026-09-12T00:15:43.866274+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "firewall-rules",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 7,
+      "resources": [
+        {
+          "name": "axioma-dev-csm-private-deny-unapproved-egress",
+          "id": "6055180819754019138",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private"
+        },
+        {
+          "name": "axioma-dev-csm-private-explicit-private-egress",
+          "id": "7450829948667980200",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private"
+        },
+        {
+          "name": "axioma-dev-csm-private-iap-operator-access",
+          "id": "3483570396814535080",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/axioma-dev-csm-private"
+        },
+        {
+          "name": "default-allow-icmp",
+          "id": "33208273543191418",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default"
+        },
+        {
+          "name": "default-allow-internal",
+          "id": "3198743086459345786",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default"
+        },
+        {
+          "name": "default-allow-rdp",
+          "id": "4348292981609290618",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default"
+        },
+        {
+          "name": "default-allow-ssh",
+          "id": "2867296126605024122",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-host-377d41e71a824f92802120/global/networks/default"
+        }
+      ]
+    },
+    {
+      "surface": "host-instances",
+      "observed_at": "2026-09-12T00:15:45.222138+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "instances",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 0,
+      "resources": []
+    },
+    {
+      "surface": "host-disks",
+      "observed_at": "2026-09-12T00:15:46.403914+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "disks",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 0,
+      "resources": []
+    },
+    {
+      "surface": "host-addresses",
+      "observed_at": "2026-09-12T00:15:47.475464+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "addresses",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 0,
+      "resources": []
+    },
+    {
+      "surface": "host-buckets",
+      "observed_at": "2026-09-12T00:15:48.438477+00:00",
+      "command": [
+        "gcloud",
+        "storage",
+        "buckets",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 7,
+      "resources": [
+        {
+          "name": "adl-issue509-artifacts-cs-host-377d41e71a824f92802120",
+          "location": "US-WEST1"
+        },
+        {
+          "name": "adl-tf-state-cs-host-377d41e71a824f92802120",
+          "location": "US-WEST2"
+        },
+        {
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-artifacts",
+          "location": "US-WEST2"
+        },
+        {
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-continuity-evidence",
+          "location": "US-WEST2"
+        },
+        {
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-logs",
+          "location": "US-WEST2"
+        },
+        {
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-models",
+          "location": "US-WEST2"
+        },
+        {
+          "name": "cs-host-377d41e71a824f92802120-dev-axioma-state",
+          "location": "US-WEST2"
+        }
+      ]
+    },
+    {
+      "surface": "host-service-accounts",
+      "observed_at": "2026-09-12T00:15:49.274009+00:00",
+      "command": [
+        "gcloud",
+        "iam",
+        "service-accounts",
+        "list",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 3,
+      "resources": [
+        {
+          "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+          "projectId": "cs-host-377d41e71a824f92802120"
+        },
+        {
+          "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/axioma-dev-workload@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+          "projectId": "cs-host-377d41e71a824f92802120"
+        },
+        {
+          "name": "projects/cs-host-377d41e71a824f92802120/serviceAccounts/27581932047-compute@developer.gserviceaccount.com",
+          "projectId": "cs-host-377d41e71a824f92802120"
+        }
+      ]
+    },
+    {
+      "surface": "host-region",
+      "observed_at": "2026-09-12T00:15:50.070537+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "regions",
+        "describe",
+        "us-west2",
+        "--project=cs-host-377d41e71a824f92802120",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "us-west2"
+      },
+      "quotas": [
+        {
+          "metric": "CPUS",
+          "limit": 200.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "DISKS_TOTAL_GB",
+          "limit": 4096.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SNAPSHOTS",
+          "limit": 1000.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "STATIC_ADDRESSES",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "IN_USE_ADDRESSES",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SSD_TOTAL_GB",
+          "limit": 500.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCE_TEMPLATES",
+          "limit": 300.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "LOCAL_SSD_TOTAL_GB",
+          "limit": 9.223372036854776e+18,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCE_GROUPS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCE_GROUP_MANAGERS",
+          "limit": 150.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCES",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "AUTOSCALERS",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_AUTOSCALERS",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INSTANCE_GROUP_MANAGERS",
+          "limit": 150.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "TARGET_TCP_PROXIES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_K80_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_LOCAL_SSD_TOTAL_GB",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITMENTS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NETWORK_ENDPOINT_GROUPS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INTERNAL_ADDRESSES",
+          "limit": 200.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_LOCAL_SSD_GB",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SSL_POLICIES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_K80_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P100_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_V100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NODE_GROUPS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NODE_TEMPLATES",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_V100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P100_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INTERCONNECT_ATTACHMENTS_PER_REGION",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INTERCONNECT_ATTACHMENTS_TOTAL_MBPS",
+          "limit": 80000.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "RESOURCE_POLICIES",
+          "limit": 250.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "IN_USE_SNAPSHOT_SCHEDULES",
+          "limit": 20.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_T4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_T4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_T4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_T4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "IN_USE_BACKUP_SCHEDULES",
+          "limit": 20.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PUBLIC_DELEGATED_PREFIXES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_K80_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_P100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_P4_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_V100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_T4_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "C2_CPUS",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "N2_CPUS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_N2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_C2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "RESERVATIONS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_LICENSES",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "N2D_CPUS",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_N2D_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SERVICE_ATTACHMENTS",
+          "limit": 400.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "STATIC_BYOIP_ADDRESSES",
+          "limit": 128.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "AFFINITY_GROUPS",
+          "limit": 9.223372036854776e+18,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_A100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_A100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_A100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "M1_CPUS",
+          "limit": 640.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "M2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "A2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_A2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_MEMORY_OPTIMIZED_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NETWORK_FIREWALL_POLICIES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PSC_INTERNAL_LB_FORWARDING_RULES",
+          "limit": 400.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "EXTERNAL_NETWORK_LB_FORWARDING_RULES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "EXTERNAL_PROTOCOL_FORWARDING_RULES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PD_EXTREME_TOTAL_PROVISIONED_IOPS",
+          "limit": 120000.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "E2_CPUS",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_E2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "EXTERNAL_MANAGED_FORWARDING_RULES",
+          "limit": 15.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "C2D_CPUS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_C2D_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "N2A_CPUS",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SECURITY_POLICIES_PER_REGION",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SECURITY_POLICY_RULES_PER_REGION",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "T2D_CPUS",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_T2D_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "C3_CPUS",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_C3_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "T2A_CPUS",
+          "limit": 96.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "M3_CPUS",
+          "limit": 248.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_M3_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_A100_80GB_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_A100_80GB_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_A100_80GB_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NETWORK_ATTACHMENTS",
+          "limit": 400.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INTERNAL_MANAGED_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_EXTERNAL_MANAGED_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_EXTERNAL_NETWORK_LB_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INTERNAL_LB_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INTERNAL_TRAFFIC_DIRECTOR_BACKEND_SERVICES",
+          "limit": 250.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NET_LB_SECURITY_POLICIES_PER_REGION",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NET_LB_SECURITY_POLICY_RULES_PER_REGION",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NET_LB_SECURITY_POLICY_RULE_ATTRIBUTES_PER_REGION",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "TPU_LITE_DEVICE_V5",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_TPU_LITE_DEVICE_V5",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "TPU_LITE_PODSLICE_V5",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_L4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_L4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_L4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "STATIC_EXTERNAL_IPV6_ADDRESS_RANGES",
+          "limit": 200.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SECURITY_POLICY_ADVANCED_RULES_PER_REGION",
+          "limit": 20.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_TPU_LITE_PODSLICE_V5",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "VARIABLE_IPV6_PUBLIC_DELEGATED_PREFIXES",
+          "limit": 0.0,
+          "usage": 0.0
+        }
+      ]
+    },
+    {
+      "surface": "poc-iam",
+      "observed_at": "2026-09-12T00:15:50.852711+00:00",
+      "command": [
+        "gcloud",
+        "projects",
+        "get-iam-policy",
+        "cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "bindings": [
+        {
+          "role": "roles/aiplatform.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/aiplatform.user",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.admin",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.instanceGroupManagerServiceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/compute.osLogin",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/compute.serviceAgent",
+          "company_members": [],
+          "other_member_count": 1
+        },
+        {
+          "role": "roles/iam.serviceAccountAdmin",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iam.serviceAccountUser",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/iap.tunnelResourceAccessor",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/owner",
+          "company_members": [
+            "user:daniel@agent-logic.ai"
+          ],
+          "other_member_count": 0
+        },
+        {
+          "role": "roles/serviceusage.serviceUsageViewer",
+          "company_members": [
+            "serviceAccount:tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+          ],
+          "other_member_count": 0
+        }
+      ]
+    },
+    {
+      "surface": "poc-apis",
+      "observed_at": "2026-09-12T00:15:55.385842+00:00",
+      "command": [
+        "gcloud",
+        "services",
+        "list",
+        "--enabled",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 28,
+      "resources": [
+        {
+          "name": "projects/1034406986020/services/aiplatform.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/analyticshub.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigquery.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigqueryconnection.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigquerydatapolicy.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigquerydatatransfer.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigquerymigration.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigqueryreservation.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/bigquerystorage.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/billingbudgets.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/cloudapis.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/cloudquotas.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/cloudtrace.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/compute.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/containeranalysis.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/dataform.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/dataplex.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/datastore.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/logging.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/monitoring.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/oslogin.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/servicemanagement.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/serviceusage.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/sql-component.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/storage-api.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/storage-component.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/storage.googleapis.com",
+          "state": "ENABLED"
+        },
+        {
+          "name": "projects/1034406986020/services/telemetry.googleapis.com",
+          "state": "ENABLED"
+        }
+      ]
+    },
+    {
+      "surface": "poc-networks",
+      "observed_at": "2026-09-12T00:15:56.384912+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "networks",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 1,
+      "resources": [
+        {
+          "name": "default",
+          "id": "5497027760685662069"
+        }
+      ]
+    },
+    {
+      "surface": "poc-subnets",
+      "observed_at": "2026-09-12T00:15:57.628029+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "networks",
+        "subnets",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 42,
+      "resources": [
+        {
+          "name": "default",
+          "id": "5060110921031040846",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-central1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.128.0.0/20",
+          "privateIpGoogleAccess": true
+        },
+        {
+          "name": "default",
+          "id": "1743470963844005710",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.132.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "1123730650732511054",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.138.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "462053022812421966",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-east1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.140.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8083944661089075022",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-east1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.142.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5070592664162877260",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-northeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.146.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7619577701898207053",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-southeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.148.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8841051299775594318",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-east4",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.150.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6250420803144335182",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/australia-southeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.152.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6638268350111760205",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.154.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2455797367264329550",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.156.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "955232581129944907",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/southamerica-east1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.158.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8299277334714859341",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.160.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5165439659616059212",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/northamerica-northeast1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.162.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5537219265777712974",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west4",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.164.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "1700708641652424524",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-north1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.166.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "1024115335342669646",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.168.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "4211638022877298507",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-east2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.170.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7836282338402189132",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west6",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.172.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7744032599867211598",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-northeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.174.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5816163312750116684",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-northeast3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.178.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8559410344053784398",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.180.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2252620645087133518",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-west4",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.182.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5415738705675632459",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-southeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.184.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7190397176380473166",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-central2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.186.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "4050503026163662669",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/northamerica-northeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.188.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5877553655428759369",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-south2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.190.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5336412549504122699",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/australia-southeast2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.192.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7588591862204677966",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/southamerica-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.194.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7566003134546394955",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west8",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.198.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7185312596526972748",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west9",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.200.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "1336278909945200462",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-east5",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.202.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "7095662713365413708",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-southwest1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.204.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6077770818721496910",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.206.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "2386896518354386766",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/me-west1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.208.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8120574027680005966",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west12",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.210.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "5540618337255505742",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/me-central1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.212.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "548621902594260814",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-west10",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.214.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "4507400727989141325",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/africa-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.218.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "6588441274869694286",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/northamerica-south1",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.224.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "9079420850832228174",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/europe-north2",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.226.0.0/20",
+          "privateIpGoogleAccess": false
+        },
+        {
+          "name": "default",
+          "id": "8373152966934347598",
+          "region": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/asia-southeast3",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+          "ipCidrRange": "10.232.0.0/20",
+          "privateIpGoogleAccess": false
+        }
+      ]
+    },
+    {
+      "surface": "poc-firewalls",
+      "observed_at": "2026-09-12T00:15:58.472750+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "firewall-rules",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 5,
+      "resources": [
+        {
+          "name": "adl-494-gpu-smoke-iap-ssh",
+          "id": "4712920311878213467",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default"
+        },
+        {
+          "name": "default-allow-icmp",
+          "id": "256949200349118291",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default"
+        },
+        {
+          "name": "default-allow-internal",
+          "id": "8731735624654077779",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default"
+        },
+        {
+          "name": "default-allow-rdp",
+          "id": "700277511348633427",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default"
+        },
+        {
+          "name": "default-allow-ssh",
+          "id": "597235181423771475",
+          "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default"
+        }
+      ]
+    },
+    {
+      "surface": "poc-instances",
+      "observed_at": "2026-09-12T00:15:59.402393+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "instances",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 1,
+      "resources": [
+        {
+          "name": "adl-509-artifact-relay",
+          "status": "TERMINATED",
+          "id": "8884570030134162310"
+        }
+      ]
+    },
+    {
+      "surface": "poc-disks",
+      "observed_at": "2026-09-12T00:16:00.909528+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "disks",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 1,
+      "resources": [
+        {
+          "name": "adl-509-artifact-relay",
+          "status": "READY",
+          "id": "5571451194510570374"
+        }
+      ]
+    },
+    {
+      "surface": "poc-addresses",
+      "observed_at": "2026-09-12T00:16:01.796237+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "addresses",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 0,
+      "resources": []
+    },
+    {
+      "surface": "poc-buckets",
+      "observed_at": "2026-09-12T00:16:02.576961+00:00",
+      "command": [
+        "gcloud",
+        "storage",
+        "buckets",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 0,
+      "resources": []
+    },
+    {
+      "surface": "poc-service-accounts",
+      "observed_at": "2026-09-12T00:16:03.296196+00:00",
+      "command": [
+        "gcloud",
+        "iam",
+        "service-accounts",
+        "list",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "count": 2,
+      "resources": [
+        {
+          "name": "projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/serviceAccounts/1034406986020-compute@developer.gserviceaccount.com",
+          "projectId": "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+        },
+        {
+          "name": "projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/serviceAccounts/adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com",
+          "projectId": "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+        }
+      ]
+    },
+    {
+      "surface": "poc-region",
+      "observed_at": "2026-09-12T00:16:04.197708+00:00",
+      "command": [
+        "gcloud",
+        "compute",
+        "regions",
+        "describe",
+        "us-west2",
+        "--project=cs-poc-cha8mmii0xk0iaw5vpf8mxf",
+        "--account=daniel@agent-logic.ai",
+        "--format=json",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "identity": {
+        "name": "us-west2"
+      },
+      "quotas": [
+        {
+          "metric": "CPUS",
+          "limit": 200.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "DISKS_TOTAL_GB",
+          "limit": 4096.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SNAPSHOTS",
+          "limit": 1000.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "STATIC_ADDRESSES",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "IN_USE_ADDRESSES",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SSD_TOTAL_GB",
+          "limit": 500.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCE_TEMPLATES",
+          "limit": 300.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "LOCAL_SSD_TOTAL_GB",
+          "limit": 9.223372036854776e+18,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCE_GROUPS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCE_GROUP_MANAGERS",
+          "limit": 150.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INSTANCES",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "AUTOSCALERS",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_AUTOSCALERS",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INSTANCE_GROUP_MANAGERS",
+          "limit": 150.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "TARGET_TCP_PROXIES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_K80_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_LOCAL_SSD_TOTAL_GB",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITMENTS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NETWORK_ENDPOINT_GROUPS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INTERNAL_ADDRESSES",
+          "limit": 200.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_LOCAL_SSD_GB",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SSL_POLICIES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_K80_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P100_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_V100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_P4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NODE_GROUPS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NODE_TEMPLATES",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_V100_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P100_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_P4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INTERCONNECT_ATTACHMENTS_PER_REGION",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "INTERCONNECT_ATTACHMENTS_TOTAL_MBPS",
+          "limit": 80000.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "RESOURCE_POLICIES",
+          "limit": 250.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "IN_USE_SNAPSHOT_SCHEDULES",
+          "limit": 20.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_T4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_T4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_T4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_T4_VWS_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "IN_USE_BACKUP_SCHEDULES",
+          "limit": 20.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PUBLIC_DELEGATED_PREFIXES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_K80_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_P100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_P4_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_V100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_T4_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "C2_CPUS",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "N2_CPUS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_N2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_C2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "RESERVATIONS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_LICENSES",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "N2D_CPUS",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_N2D_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SERVICE_ATTACHMENTS",
+          "limit": 400.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "STATIC_BYOIP_ADDRESSES",
+          "limit": 128.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "AFFINITY_GROUPS",
+          "limit": 9.223372036854776e+18,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_A100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_A100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_A100_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "M1_CPUS",
+          "limit": 640.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "M2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "A2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_A2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_MEMORY_OPTIMIZED_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NETWORK_FIREWALL_POLICIES",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PSC_INTERNAL_LB_FORWARDING_RULES",
+          "limit": 400.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "EXTERNAL_NETWORK_LB_FORWARDING_RULES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "EXTERNAL_PROTOCOL_FORWARDING_RULES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PD_EXTREME_TOTAL_PROVISIONED_IOPS",
+          "limit": 120000.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "E2_CPUS",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_E2_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "EXTERNAL_MANAGED_FORWARDING_RULES",
+          "limit": 15.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "C2D_CPUS",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_C2D_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "N2A_CPUS",
+          "limit": 8.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SECURITY_POLICIES_PER_REGION",
+          "limit": 10.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SECURITY_POLICY_RULES_PER_REGION",
+          "limit": 100.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "T2D_CPUS",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_T2D_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "C3_CPUS",
+          "limit": 24.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_C3_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "T2A_CPUS",
+          "limit": 96.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "M3_CPUS",
+          "limit": 248.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_M3_CPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_A100_80GB_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_A100_80GB_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_A100_80GB_GPUS",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NETWORK_ATTACHMENTS",
+          "limit": 400.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INTERNAL_MANAGED_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_EXTERNAL_MANAGED_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_EXTERNAL_NETWORK_LB_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INTERNAL_LB_BACKEND_SERVICES",
+          "limit": 50.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "REGIONAL_INTERNAL_TRAFFIC_DIRECTOR_BACKEND_SERVICES",
+          "limit": 250.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NET_LB_SECURITY_POLICIES_PER_REGION",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NET_LB_SECURITY_POLICY_RULES_PER_REGION",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NET_LB_SECURITY_POLICY_RULE_ATTRIBUTES_PER_REGION",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "TPU_LITE_DEVICE_V5",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_TPU_LITE_DEVICE_V5",
+          "limit": 0.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "TPU_LITE_PODSLICE_V5",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "NVIDIA_L4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_NVIDIA_L4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "COMMITTED_NVIDIA_L4_GPUS",
+          "limit": 1.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "STATIC_EXTERNAL_IPV6_ADDRESS_RANGES",
+          "limit": 200.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "SECURITY_POLICY_ADVANCED_RULES_PER_REGION",
+          "limit": 20.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "PREEMPTIBLE_TPU_LITE_PODSLICE_V5",
+          "limit": 16.0,
+          "usage": 0.0
+        },
+        {
+          "metric": "VARIABLE_IPV6_PUBLIC_DELEGATED_PREFIXES",
+          "limit": 0.0,
+          "usage": 0.0
+        }
+      ]
+    }
+  ]
+}

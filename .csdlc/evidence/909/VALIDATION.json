@@ -1,0 +1,51 @@
+{
+  "issue": 909,
+  "umbrella": 934,
+  "observed_at": "2026-09-12T01:30:18.294546+00:00",
+  "source_hash_check": "passed",
+  "source_links": "passed",
+  "focused_redaction_scan": "passed",
+  "static_commands_passed": 9,
+  "bootstrap_plan_exit": 0,
+  "organization_plan_exit": 2,
+  "platform_plan": "exit0_20_noops_reconstructed_private_candidate",
+  "apply_ready": false,
+  "lanes": [
+    {
+      "name": "static_and_packet",
+      "determinism": "local deterministic",
+      "resource": "local CPU",
+      "issue_gate": true,
+      "release_gate": false
+    },
+    {
+      "name": "company_inventory_and_plan",
+      "determinism": "external mutable state",
+      "resource": "read-only GCP API and isolated local Terraform planning",
+      "issue_gate": true,
+      "release_gate": false
+    }
+  ],
+  "corporate_group": "operator-confirmed intended identity; API visibility deferred to application preflight",
+  "effective_policy_readbacks": 20,
+  "local_recovery": "exactly3approvedimports; all20pre/postidentitiesverified; readbacks unchanged; no cloud/remote state changes",
+  "previous_independent_review": {
+    "reviewer": "subagent:sprint8_908",
+    "revision": "e7cd268a71cd9b5b99143c5dbdc997473196e68c",
+    "result": "no_actionable_findings_in_incomplete_packet",
+    "scope": "source/lock hashes; actual private plan hashes/actions/projected values; bootstrap source state and remote-content comparison;20effective policies;113quotas per project; group CLI error semantics; source/privacy/packet consistency",
+    "acceptance_complete": false
+  },
+  "independent_review": {
+    "reviewer": "subagent:sprint8_908 raw proof plus parent:/root final documentation delta",
+    "revision": "6113e7ff94",
+    "result": "pass_after_fixes",
+    "scope": "all20actual plan actions, rawplan/state hashes, threeimports, pre/postreadback equality, exact application/rollback/billing/custody decisions; final tail independently reviewed",
+    "acceptance_complete": true,
+    "fixed_findings": [
+      "Separate source17addresses from candidate20addresses in receipt",
+      "Replace stale missing-plan/genericapply text with current exact no-op decisions"
+    ]
+  },
+  "planning_complete": true
+}
