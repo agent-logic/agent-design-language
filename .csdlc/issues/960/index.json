@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.v3.local_state.v1",
+  "issue": 960,
+  "phase": "bound",
+  "generation": 4,
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/960-shutdown-barrier",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-960-shutdown-barrier",
+  "template_registry_version": "1.0.5",
+  "operational_authority": true,
+  "digest": "1c5da021aa18d983eda8a0bbcd708f41c49eaedc75cdd79b616c88e5a6e43639"
+}

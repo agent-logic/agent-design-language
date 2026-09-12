@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 960,
+  "issue_padded": "0960",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/960",
+  "title": "Fix Runtime shutdown barrier acknowledgment race (v0.92.2)",
+  "branch": "codex/960-shutdown-barrier",
+  "version": "1.0.5",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-960-shutdown-barrier",
+  "summary": "Preparation only. No implementation review yet.",
+  "summary_inline": "Preparation only. No implementation review yet.",
+  "findings_status": "Confirmed P2 shutdown acknowledgment race remains open; original CI causation unknown.",
+  "findings_status_inline": "Confirmed P2 shutdown acknowledgment race remains open; original CI causation unknown.",
+  "recommended_outcome": "Implement and independently review before publication.",
+  "recommended_outcome_inline": "Implement and independently review before publication."
+}

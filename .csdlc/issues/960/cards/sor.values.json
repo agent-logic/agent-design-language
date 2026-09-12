@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 960,
+  "issue_padded": "0960",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/960",
+  "title": "Fix Runtime shutdown barrier acknowledgment race (v0.92.2)",
+  "branch": "codex/960-shutdown-barrier",
+  "version": "1.0.5",
+  "card": "sor",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-960-shutdown-barrier",
+  "summary": "Diagnostic reproduction and separate issue routing complete; implementation and validation pending.",
+  "summary_inline": "Diagnostic reproduction and separate issue routing complete; implementation and validation pending.",
+  "validation": "Diagnostic baseline passes15.67s; 1ms heartbeat probe childexit1; no repair proof yet.",
+  "validation_inline": "Diagnostic baseline passes15.67s; 1ms heartbeat probe childexit1; no repair proof yet."
+}
