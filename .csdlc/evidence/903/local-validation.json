@@ -22,13 +22,19 @@
     {
       "command": "cargo clippy --manifest-path adl/Cargo.toml --lib --test mlx_provider -- -D warnings",
       "result": "pass"
+    },
+    {
+      "command": "cargo test --manifest-path adl/Cargo.toml --test mlx_provider mlx_actual_hardware_production_workflow -- --ignored --exact --nocapture (explicit ADL_MLX_* inputs)",
+      "passed": 1,
+      "failed": 0,
+      "proof": "actual-hardware.json"
     }
   ],
-  "actual_hardware": "not_run",
+  "actual_hardware": "pass: actual-hardware.json",
   "ci": "not_run",
   "review": "bounded corrected source pass; integration separately reviewed/executed by root",
   "remaining": [
-    "Metal smoke approval and actual execution",
+    "successful-review matched provider comparison requested by operator",
     "required CI",
     "native PR and operator merge"
   ]

@@ -48,7 +48,7 @@ constraints:
   - "runtime_execution_must_update_spp_if_plan_changes"
   - "no_hidden_scope_expansion"
 confidence: "medium"
-plan_summary: "Implement bounded registered MLX adapter using canonical provider definition and HTTP substrate, then focused negatives and real Runtime Metal smoke; preserve shared extraction/reload/cost boundaries."
+plan_summary: "Complete real Metal evidence, successful-review matched-provider validation, independent exact-head review and green PR; operator merge then native closeout."
 assumptions:
   - "The linked source issue prompt, STP, and SIP remain the canonical design-time inputs."
 proposed_steps:
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "User authorized Sprint6 implementation after reviewed setup. Root Planning #7 owns903; dedicated child goal active. Implement dedicated mlx HTTP adapter over canonical ProviderInvocationTargetV1 with literal loopback endpoint, strict model and request limits, no redirect/proxy/fallback, explicit Apple-silicon platform gate. Reuse existing profile/reload/cost controls. #855 concurrently extracts provider core in separate worktree; narrow registration changes coordinated with owner and must reconcile before final integration. Real Metal proof remains mandatory and separate from deterministic HTTP fixture proof; select/pin local serving version/model/resource bound before experiment."
+notes: "Root Planning #7 owns903; adapter and real canonical workflow Metal smoke passed. Operator expanded bounded validation to apples-to-apples MLX/non-MLX real code-review comparison with larger budgets; both reviews must succeed before speed comparison is accepted. Llama3.2-3B failed review quality at512 and2048 token ceilings, so those timings are non-proving for successful reviews. Qualify stronger matched weights/tokenizer/settings and independent correctness assessment. Preserve #855 shared provider extraction coordination and no resident-kernel claim."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -115,7 +115,7 @@ Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
 
 Design-time operative plan for `[v0.92.2][PLAT-MLX] Bounded MLX and Apple Metal provider adapter`.
 
-Implement bounded registered MLX adapter using canonical provider definition and HTTP substrate, then focused negatives and real Runtime Metal smoke; preserve shared extraction/reload/cost boundaries.
+Complete real Metal evidence, successful-review matched-provider validation, independent exact-head review and green PR; operator merge then native closeout.
 
 ## PVF Lane Plan
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-User authorized Sprint6 implementation after reviewed setup. Root Planning #7 owns903; dedicated child goal active. Implement dedicated mlx HTTP adapter over canonical ProviderInvocationTargetV1 with literal loopback endpoint, strict model and request limits, no redirect/proxy/fallback, explicit Apple-silicon platform gate. Reuse existing profile/reload/cost controls. #855 concurrently extracts provider core in separate worktree; narrow registration changes coordinated with owner and must reconcile before final integration. Real Metal proof remains mandatory and separate from deterministic HTTP fixture proof; select/pin local serving version/model/resource bound before experiment.
+Root Planning #7 owns903; adapter and real canonical workflow Metal smoke passed. Operator expanded bounded validation to apples-to-apples MLX/non-MLX real code-review comparison with larger budgets; both reviews must succeed before speed comparison is accepted. Llama3.2-3B failed review quality at512 and2048 token ceilings, so those timings are non-proving for successful reviews. Qualify stronger matched weights/tokenizer/settings and independent correctness assessment. Preserve #855 shared provider extraction coordination and no resident-kernel claim.

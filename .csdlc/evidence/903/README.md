@@ -55,10 +55,11 @@ is not that proof.
 - Twelve deterministic internal protocol/negative tests passed.
 - Public profile and supported-host loopback production-workflow tests passed.
   Unsupported-platform test is declared for non-Apple CI; not run on this Mac.
-  Actual hardware smoke remains explicitly ignored and unrun.
+  The explicitly selected real Metal smoke passed (1 test); see
+  [the sanitized receipt](actual-hardware.json). Its default CI skip remains a skip.
 - Corrected adapter source review passed; root separately reviewed and ran the
-  reviewer-authored integration fixture. Real Metal smoke and required CI remain pending.
-- Resident-kernel conversation support, general local-model support, comparative
+  reviewer-authored integration fixture. Required CI and exact-head publication review remain pending.
+- Resident-kernel conversation support, general local-model support, successful-review comparative
   performance, and remote users' access to this machine are not claimed.
 
 PVF: internal adapter tests are deterministic local protocol/negative proof,

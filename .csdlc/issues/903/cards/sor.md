@@ -28,21 +28,21 @@ Execution:
 - Actor: `Planning #7: #903 implementation; sibling908 bounded design review and workflow test authoring`
 - Model: `unknown`
 - Provider: `unknown`
-- Start Time: `not_started`
-- End Time: `not_started`
+- Start Time: `not recorded; session is in progress`
+- End Time: `in_progress`
 
 ## Summary
 
-MLX adapter and canonical registration implemented with reviewed local proof: 15 passing checks and strict Clippy. Actual Metal smoke approval/execution and required CI remain outstanding; no PR or full acceptance claim.
+Adapter and actual canonical-reload production-workflow Metal proof passed locally. Sanitized hardware receipt retained. Operator-requested successful-review comparison, updated exact-head review, CI/publication and merge remain outstanding.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
 - Planned PVF lane: `provider`
-- Final PVF lane: `not_run`
-- Lane change reason: `not_run; implementation has not started`
+- Final PVF lane: `provider`
+- Lane change reason: `unchanged`
 
 ## Issue Metrics Truth
-- Expected runtime class: `not_run; implementation has not started`
+- Expected runtime class: `local CPU fixtures plus observational Apple Metal GPU smoke`
 - Estimated elapsed seconds: `unknown`
 - Actual elapsed seconds: `unknown`
 - Actual active work seconds: `unknown`
@@ -57,10 +57,10 @@ MLX adapter and canonical registration implemented with reviewed local proof: 15
 - Goal metrics source ref: `unknown`
 - Data-source confidence: `unknown`
 - Estimate error percent: `unknown`
-- Completion state: `not_started`
+- Completion state: `in_progress`
 - Issue goal ref: `Active issue903 implementation goal under Sprint6 #932, created before source edits`
 - Sprint goal ref: `issue-932; Sprint 6 setup and coordination`
-- Goal metrics rollup ref: `.csdlc/evidence/903/goal-metrics.json (planned; absent until execution)`
+- Goal metrics rollup ref: `active issue903 goal; no fabricated per-phase accounting`
 - Validation planning prompt: `.csdlc/issues/903/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
@@ -70,28 +70,28 @@ MLX adapter and canonical registration implemented with reviewed local proof: 15
 - Variance analysis required: `unknown`
 - Variance analysis completed: `not_applicable`
 - Variance category: `not_applicable`
-- Variance note: `No measured execution or estimate pair exists`
+- Variance note: `No comparable estimate/actual timing pair recorded for the complete issue`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/903/cards/sor.md`
-- Tracked implementation artifacts: `none; implementation not started`
-- Additional proof artifacts: `none; acceptance proof not started`
+- Tracked implementation artifacts: `adl/src/provider/mlx.rs; mlx_tests.rs; provider/substrate/profile/dispatch registration; adl/tests/mlx_provider.rs; evidence903`
+- Additional proof artifacts: `.csdlc/evidence/903/actual-hardware.json; local-validation.json; source-review.json`
 
 ## Actions taken
 - `Implemented mlx adapter and narrow canonical dispatch/profile/substrate registration in903worktree; coordinated #855 extraction seam.`
-- `12 focused protocol/negative tests, 2 public/production-workflow fixture tests and 1 inherited atomic reload regression passed. Actual Metal test ignored and not proved. Strict Clippy passed.`
-- `Independent corrected adapter source review passed; root reviewed and executed reviewer-authored workflow fixture, repaired schema/admission issues and redundant lint assertion.`
+- `12 protocol negatives,2 public/workflow fixtures,1 inherited reload regression passed; explicit real Metal workflow test also passed1/1 at3374315d3 with immutable local output/sidecar hashes. Strict Clippy passed.`
+- `Corrected adapter source independently reviewed; source unchanged during comparison. Real review trials with matched Llama3.2 learned weights failed quality on both engines and are not evidence of successful-review performance. Stronger model qualification underway.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation remains in resolved Git metadata`
-- Worktree-only paths remaining: `.csdlc/issues/903/cards; native bound setup only`
+- Worktree-only paths remaining: `All903 implementation, cards and evidence; not integrated`
 - Integration state: `worktree_only`
-- Verification scope: `not_run`
-- Integration method used: `not_run; implementation has not started`
+- Verification scope: `bounded adapter and canonical production-workflow route`
+- Integration method used: `pending native publication and operator merge`
 - Verification performed:
-  - `not_run; implementation has not started`
-    `not_run; implementation has not started`
+  - `pending PR and operator merge`
+    `not integrated`
 - Result: `not_integrated`
 
 Rules:
@@ -107,8 +107,8 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `not_run`
-    `No implementation proof attempted`
+  - `See .csdlc/evidence/903/local-validation.json for focused Rust and explicit actual Metal commands`
+    `Local protocol, profile, reload and actual production-workflow Metal behavior proved; CI and successful-review benchmark outstanding.`
 - Results:
   - `partial`
 
@@ -123,11 +123,11 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: not_run
+    status: partial
     checks_run:
       - "not_run"
   determinism:
-    status: not_run
+    status: partial
     replay_verified: not_run
     ordering_guarantees_verified: not_run
   security_privacy:
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: not_run
     absolute_path_leakage_detected: not_run
   artifacts:
-    status: not_run
+    status: partial
     required_artifacts_present: not_run
     schema_changes:
       present: not_run
@@ -144,35 +144,35 @@ verification_summary:
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `not_run; implementation has not started`
-- Fixtures or scripts used: `not_run; implementation has not started`
-- Replay verification (same inputs -> same artifacts/order): `not_run; implementation has not started`
-- Ordering guarantees (sorting / tie-break rules used): `not_run; implementation has not started`
-- Artifact stability notes: `not_run; implementation has not started`
+- Determinism tests executed: `12 deterministic protocol negatives,2 public/workflow fixtures,1 inherited reload regression; observational live smoke separately passed1/1`
+- Fixtures or scripts used: `adl/src/provider/mlx_tests.rs; adl/tests/mlx_provider.rs; .csdlc/evidence/903/start_mlx_smoke_server.py`
+- Replay verification (same inputs -> same artifacts/order): `not independently verified as replay proof`
+- Ordering guarantees (sorting / tie-break rules used): `Canonical reload snapshot consumed before execute_sequential_with_provider_reload_handle invocation; no broader concurrency claim`
+- Artifact stability notes: `Private original hardware receipt SHA256 retained; no deterministic generation claim`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `not_run; implementation has not started`
-- Prompt / tool argument redaction verified: `not_run; implementation has not started`
-- Absolute path leakage check: `not_run; implementation has not started`
-- Sandbox / policy invariants preserved: `not_run; implementation has not started`
+- Secret leakage scan performed: `No broad repository scan; credential-free loopback smoke`
+- Prompt / tool argument redaction verified: `Adapter protocol tests cover bounded generic errors; no broad repository leakage audit claimed`
+- Absolute path leakage check: `Sanitized public hardware receipt replaces private absolute model path with pinned repository revision`
+- Sandbox / policy invariants preserved: `Source changes remain in native bound issue worktree. Real Metal needed explicit sandbox escalation; isolated owned servers used bounded lifetime.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `not_run; implementation has not started`
-- Run artifact root: `.csdlc/evidence/903 (planned)`
-- Replay command used for verification: `not_run; implementation has not started`
-- Replay result: `not_run; implementation has not started`
+- Trace bundle path(s): `.csdlc/evidence/903/actual-hardware.json; private .adl/runs/903/actual-smoke receipt`
+- Run artifact root: `.csdlc/evidence/903`
+- Replay command used for verification: `Explicit ignored real-hardware test with approved local server and pinned ADL_MLX inputs; see adl/tests/mlx_provider.rs`
+- Replay result: `single real production-workflow smoke passed; repeat/restart replay not separately claimed`
 
 ## Artifact Verification
-- Primary proof surface: `.csdlc/evidence/903 (planned)`
-- Required artifacts present: `not_run; implementation has not started`
-- Artifact schema/version checks: `not_run; implementation has not started`
-- Hash/byte-stability checks: `not_run; implementation has not started`
-- Missing/optional artifacts and rationale: `No actual Metal run or CI/PR exists yet; missing real execution proof remains mandatory and explicitly unproved.`
+- Primary proof surface: `.csdlc/evidence/903`
+- Required artifacts present: `implementation and local evidence present; CI/publication pending`
+- Artifact schema/version checks: `Native generation9 six-card values/render/structure/digest validation passed`
+- Hash/byte-stability checks: `Actual receipt records exact sidecar, snapshot and output hashes; generation text is observational, not byte-stability proof`
+- Missing/optional artifacts and rationale: `CI/PR not yet run; successful-review comparison unresolved. Actual Metal smoke now proved locally.`
 
 ## Decisions / Deviations
 - `#876 CLOSED; PR #953 MERGED at b6d110c84e11253b392d0bb078f2fb33a36b9a0c, ancestor of selected main`
-- `Preparation ended when user authorized Sprint6 implementation. Real smoke plan selects cached 3B model/offline isolated server; bounded local hardware approval requested and pending.`
+- `Operator approved local execution and matching-model download. Real Metal workflow smoke passed. Additional successful-review comparison remains in progress; failed model reviews are non-proving for useful-review acceleration.`
 
 ## Follow-ups / Deferred work
-- `Finish final deterministic validation/review; execute approved real workflow Metal smoke after resource approval; then required CI/native PR before operator merge.`
-- `Execute VPP and independent exact-head review, then native publication, terminal finish and separate cleanup`
+- `Complete successful-review matched-provider experiment, correct remaining review findings and publish only after current exact-head review.`
+- `Updated independent exact-head review, CI, operator merge, native finish and exact cleanup`

@@ -2,7 +2,8 @@
 
 The implementation consumes #876's canonical provider definition and registered
 ADL workflow Runtime dispatch. Resident-kernel MLX conversation routing is not
-part of this result. No actual Metal proof has run yet.
+part of this result. The selected real Metal workflow smoke passed; see actual-hardware.json.
+The following records its executed configuration.
 
 ## Selected local smoke
 
@@ -11,7 +12,8 @@ part of this result. No actual Metal proof has run yet.
 - Existing cached model: mlx-community/Llama-3.2-3B-Instruct-4bit at
   7f0dc925e0d0afb0322d96f9255cfddf2ba5636e (1,807,496,278 weight bytes).
 - HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1; use exact existing local snapshot.
-  No model download. The server is separately owned by this smoke, on
+  No model download for this smoke. Separate operator-requested comparisons
+  may download models in isolated issue-local storage. The server is separately owned by this smoke, on
   127.0.0.1:18093, and is terminated after proof or a 180-second lifetime.
 - One request, short fixed greeting prompt, 16 output tokens, 60-second client
   deadline; one prompt/decode worker, one prompt cache, 64 MiB KV cache limit.
