@@ -1,0 +1,17 @@
+2026-09-12T01:55:37.6052617Z test adapters::tests::observational_curl_disables_default_config_before_other_arguments ... ok
+2026-09-12T01:55:41.5071726Z test result: ok. 86 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.92s
+2026-09-12T01:55:41.5084304Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-12T01:55:41.5570884Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+2026-09-12T01:55:41.6051839Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+2026-09-12T01:55:42.1797505Z test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.57s
+2026-09-12T01:55:47.1487387Z test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.97s
+2026-09-12T01:55:47.1873114Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+2026-09-12T01:55:47.1922725Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-09-12T01:55:56.3758885Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.18s
+2026-09-12T01:55:56.4881225Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+2026-09-12T01:56:00.0438419Z test exact_candidate_preflight_and_negative_matrix ... FAILED
+2026-09-12T01:56:00.0439053Z ---- exact_candidate_preflight_and_negative_matrix stdout ----
+2026-09-12T01:56:00.0439588Z thread 'exact_candidate_preflight_and_negative_matrix' (11539) panicked at tests/release_preflight.rs:157:9:
+2026-09-12T01:56:00.0441548Z assertion `left == right` failed: {"schema":"csdlc.v3.release_preflight.v1","eligible":false,"read_only":true,"mutation_allowed":false,"release_authorized":false,"candidate_sha":"8d8bf148589d154e0013d200af1afc67e6c15977","notes_digest":"603f025fc64fce625f87e4810073bc281952dfffb91d79b485baebb054aa8b49","gate_digest":"f23adfffa3274d7b10eb4811d959638c0df8e2e728f75626aeeb52ea0d63c4d7","findings":["release_inventory_omits_manifest: adl-uts/Cargo.toml"]}
+2026-09-12T01:56:00.0443947Z     exact_candidate_preflight_and_negative_matrix
+2026-09-12T01:56:00.0444328Z test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.56s
