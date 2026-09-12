@@ -1,0 +1,174 @@
+{
+  "schema": "adl.issue967.exact_head_zero_paid_proof.v1",
+  "status": "pass_zero_paid_hosted_acceptance_pending",
+  "source_revision": "4d28de627cffc7c529de5082f0b883f9ab8f083c",
+  "source_boundary": "Runtime source, harness, OpenAPI contract, and regression tests are exact at source_revision. This proof summary is a subsequent evidence-only addition.",
+  "focused_validation": [
+    {
+      "command": "CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --lib control::layer8_conversation_ingress_tests::sixth_registered_provider_uses_real_canonical_a2a_dispatch",
+      "result": "pass",
+      "passed": 1,
+      "failed": 0,
+      "filtered_out": 231
+    },
+    {
+      "command": "CARGO_TARGET_DIR=adl/target cargo test --locked --offline --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract",
+      "result": "pass",
+      "passed": 11,
+      "failed": 0,
+      "filtered_out": 0
+    }
+  ],
+  "independent_review": {
+    "source_revision": "4d28de627cffc7c529de5082f0b883f9ab8f083c",
+    "result": "pass",
+    "actionable_findings": 0
+  },
+  "runs": [
+    {
+      "schema": "adl.issue855.installed_provider_lifecycle.v1",
+      "mode": "five_provider_fixture",
+      "result": "pass",
+      "source_revision": "4d28de627cffc7c529de5082f0b883f9ab8f083c",
+      "source_checkout_dirty": false,
+      "fixture_only": true,
+      "paid_calls": 0,
+      "provider_request_count": 31,
+      "maximum_complete_prompt_bytes": 9950,
+      "binary_sha256": {
+        "csm": "756bc4a7f79a3d98f57c7292cedbbd2ac22b4eacbb93a34ceba2d16fde880624",
+        "csmctl": "3b931751d938e3b8bee1c2fb5e34064e3d88216ed9dc8aa7cc75c44e6b213ea5",
+        "kernel": "d265f08c1fe9c85e8938ce1053e7e25538c5605c5ae71b77db6ff62ab4f9f031",
+        "guardian": "4e9f1cc79e710f401b109aa877de88b7b7f912f805d065cea4207f8b69dedea8",
+        "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+      },
+      "raw_report_location": ".adl/issue967/installed-run-01/report.json",
+      "raw_report_sha256": "b2a0c430578a1936f5cd03441e95b7683ba88acf3dfbd1e85544a7ae9c654bc0",
+      "rows": [
+        {
+          "provider": "openai",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.fixture0",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        },
+        {
+          "provider": "anthropic",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.fixture1",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        },
+        {
+          "provider": "vertex_ai",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.fixture2",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        },
+        {
+          "provider": "ollama",
+          "result": "pass",
+          "runtime_provider_request_count": 7,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.fixture3",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        },
+        {
+          "provider": "openai-compatible",
+          "result": "pass",
+          "runtime_provider_request_count": 6,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.fixture4",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        }
+      ]
+    },
+    {
+      "schema": "adl.issue855.installed_provider_lifecycle.v1",
+      "mode": "hosted_fixture",
+      "result": "pass",
+      "source_revision": "4d28de627cffc7c529de5082f0b883f9ab8f083c",
+      "source_checkout_dirty": false,
+      "fixture_only": true,
+      "paid_calls": 0,
+      "provider_request_count": 19,
+      "maximum_complete_prompt_bytes": 9938,
+      "binary_sha256": {
+        "csm": "756bc4a7f79a3d98f57c7292cedbbd2ac22b4eacbb93a34ceba2d16fde880624",
+        "csmctl": "3b931751d938e3b8bee1c2fb5e34064e3d88216ed9dc8aa7cc75c44e6b213ea5",
+        "kernel": "d265f08c1fe9c85e8938ce1053e7e25538c5605c5ae71b77db6ff62ab4f9f031",
+        "guardian": "4e9f1cc79e710f401b109aa877de88b7b7f912f805d065cea4207f8b69dedea8",
+        "vector": "efe1b8ca5ec22587e62d1772413dbd54d9131a30a0b6a5791c3e8977b9108f89"
+      },
+      "raw_report_location": ".adl/issue967/hosted-fixture-01/report.json",
+      "raw_report_sha256": "75b237976ba5891f1faf628fd4a5c53a10e007ae0efe41f5b577742fe2b10740",
+      "rows": [
+        {
+          "provider": "openai",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.axioma",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        },
+        {
+          "provider": "anthropic",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.axioma",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        },
+        {
+          "provider": "vertex_ai",
+          "result": "pass",
+          "runtime_provider_request_count": 5,
+          "operator_status": "delivered",
+          "a2a_status": "delivered",
+          "a2a_recipient_name": "beacon.axioma",
+          "a2a_reply_present": true,
+          "post_restore_status": "delivered",
+          "replacement_status": "delivered",
+          "stable_identity": true
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "No paid hosted-provider acceptance run was performed for #967.",
+    "The failed #855 hosted-live-03 report remains historical evidence and was not overwritten.",
+    "CI and merge are not claimed by this packet."
+  ]
+}
