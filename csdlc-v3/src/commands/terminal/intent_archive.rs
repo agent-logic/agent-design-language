@@ -423,6 +423,42 @@ pub(super) fn execute(
                 "archive manifest durability failed",
             )
         })?;
+    // File fsync does not persist intermediate directory entries. Establish
+    // reachability of every archived byte, including resumed archive paths,
+    // bottom-up through the existing native state parent before any removal.
+    let boundary = state.parent().ok_or_else(|| {
+        finding(
+            "cleanup_archive_state_root_invalid",
+            "native archive parent is missing",
+        )
+    })?;
+    let mut directories = BTreeSet::new();
+    for relative in archive.entries.keys() {
+        let parent = destination
+            .join("files")
+            .join(relative)
+            .parent()
+            .unwrap()
+            .to_path_buf();
+        for directory in parent.ancestors() {
+            if !directory.starts_with(boundary) {
+                break;
+            }
+            directories.insert(directory.to_path_buf());
+        }
+    }
+    let mut directories: Vec<_> = directories.into_iter().collect();
+    directories.sort_by_key(|path| std::cmp::Reverse(path.components().count()));
+    for directory in directories {
+        fs::File::open(&directory)
+            .and_then(|directory| directory.sync_all())
+            .map_err(|_| {
+                finding(
+                    "cleanup_archive_sync_failed",
+                    "archive ancestor durability failed; all originals retained",
+                )
+            })?;
+    }
     if preview(candidate, issue)?.digest != archive.digest {
         return Err(finding(
             "cleanup_archive_preview_stale",

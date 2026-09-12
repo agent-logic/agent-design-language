@@ -670,7 +670,36 @@ fn installed_publication_pr_mutations_and_uncertain_ready_retry_use_native_recei
             assert_same_inventory!(before, intent_fixture::inventory(&primary));
         }
         if ordinary_publication {
-            success(fixture.run(cwd, &["publish", "505"]));
+            fixture.remote_flag("drop-publication-readback", true);
+            let failed_readback = fixture.run(cwd, &["publish", "505"]);
+            assert!(!failed_readback.status.success());
+            let payload: Value = serde_json::from_slice(&failed_readback.stdout).unwrap();
+            assert_eq!(payload["status"], "recovery_required");
+            assert!(
+                payload["findings"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .all(|finding| {
+                        let code = finding["code"].as_str().unwrap();
+                        !code.contains("recovery_required")
+                            && !code.contains("reconciliation_required")
+                            && !code.contains("reconciliation_pending")
+                    }),
+                "fixture must exercise explicit owner status rather than code-substring inference"
+            );
+            assert_eq!(payload["envelope"]["status"], "recovery_required");
+            assert_eq!(payload["envelope"]["process_status"], "failed");
+            assert_eq!(payload["envelope"]["effects"]["outcome"], "performed");
+            assert_eq!(fixture.remote_effects(), 1);
+            fixture.remote_flag("drop-publication-readback", false);
+            fixture.remote_flag("drop-readback", false);
+            observation(&mut fixture, cwd, "pr-state");
+            assert_eq!(
+                fixture.remote_effects(),
+                1,
+                "authenticated observation duplicated publication effect"
+            );
         } else {
             let operation = json!({"action":"pull_request_create","base":"main","head":git(&linked,&["symbolic-ref","--short","HEAD"]),"title":"Installed intent fixture","body":"Closes #505","draft":true});
             let mut invalid = operation.clone();
@@ -1692,5 +1721,60 @@ fn installed_proof_accounts_for_build_scripts_and_nested_automatic_targets() {
         .unwrap();
         assert_eq!(retained["validators"], value["proof"]["validators"]);
         assert_eq!(retained["status"], "failed");
+    }
+}
+
+#[test]
+fn installed_proof_refuses_external_workspace_inheritance_and_patch_inputs() {
+    for patched in [false, true] {
+        let mut fixture = Fixture::new(if patched {
+            "external-patch"
+        } else {
+            "external-inherited"
+        });
+        let primary = fixture.root.clone();
+        prepare(&mut fixture);
+        success(fixture.run(&primary, &["bind", "505"]));
+        let linked = linked_worktree(&primary);
+        let external = linked.parent().unwrap().join("external-helper");
+        fs::create_dir_all(external.join("src")).unwrap();
+        fs::write(
+            external.join("Cargo.toml"),
+            "[package]\nname='external-helper'\nversion='0.1.0'\nedition='2021'\n",
+        )
+        .unwrap();
+        fs::write(external.join("src/lib.rs"), "pub fn value() -> u8 { 1 }\n").unwrap();
+        let workspace = if patched {
+            "[workspace]\nmembers=['fixture-proof']\n[patch.crates-io]\nexternal-helper={path='../external-helper'}\n"
+        } else {
+            "[workspace]\nmembers=['fixture-proof']\n[workspace.dependencies]\nexternal-helper={path='../external-helper'}\n"
+        };
+        fs::write(linked.join("Cargo.toml"), workspace).unwrap();
+        let manifest = linked.join("fixture-proof/Cargo.toml");
+        let mut content = fs::read_to_string(&manifest).unwrap();
+        content.push_str(if patched {
+            "\n[dependencies]\nexternal-helper='0.1.0'\n"
+        } else {
+            "\n[dependencies]\nexternal-helper={workspace=true}\n"
+        });
+        fs::write(manifest, content).unwrap();
+        git(&linked, &["add", "Cargo.toml", "fixture-proof/Cargo.toml"]);
+        git(
+            &linked,
+            &["commit", "-m", "Declare external workspace validator input"],
+        );
+        let output = fixture.run(&linked, &["proof", "505"]);
+        assert!(!output.status.success());
+        let value: Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert!(
+            value
+                .to_string()
+                .contains("intent_validator_input_outside_repository"),
+            "{value}"
+        );
+        assert!(
+            !linked.join("target/intent-validation").exists(),
+            "admission must reject before executing validator"
+        );
     }
 }

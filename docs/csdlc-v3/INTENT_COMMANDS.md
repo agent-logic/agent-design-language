@@ -95,7 +95,10 @@ candidate inputs, including ignored files outside native `.csdlc/` artifacts and
 the explicit disposable cache roots `target/`, `csdlc-v3/target/`, and
 `adl/target/`; commit the candidate before its proving run. Those artifact
 exemptions do not admit executable source: manifests, declared target files and
-repository path dependencies must be tracked. Compiler dependency records for
+repository path dependencies must be tracked. Ancestor workspace manifests, inherited
+dependencies and patch paths receive the same admission. External local or unknown
+compiler packages are refused; only Cargo-identified external registry packages
+remain within the disclosed cached-dependency limitation. Compiler dependency records for
 repository crates also reject untracked `include!`, `include_bytes!`, `include_str!`
 and module-path inputs, including inputs beneath exempt directories. Unsupported
 generated repository source is refused rather than counted as tracked proof.
@@ -244,6 +247,12 @@ one-shot authenticated-absence retry may dispatch another write; merge and
 unsupported mutation retries remain reconciliation-only. Multiple pending
 operations or simultaneous local and remote uncertainty are refused explicitly.
 With no pending operation the owner reports the appropriate no-op outcome.
+
+Native issue creation uses target issue zero and does not retain its coordinating
+issue. These unattributable operations are excluded from `recover ISSUE` and
+issue-local pending status. Reconcile an uncertain creation by explicitly
+repeating its identical `github-issue ISSUE --operation FILE --execute` request;
+shared checkout HEAD identity is not sufficient to assign it to an issue.
 
 `clean ISSUE` returns `preview_token`. Execute with
 `clean ISSUE --execute --preview TOKEN`. The token binds the current issue

@@ -498,7 +498,9 @@ impl Fixture {
   data=$(cat "$payload")
   data=$(printf '%s' "$data" | sed 's#"head":"[^"]*"#"head":{"sha":"@HEAD@","ref":"@BRANCH@"}#;s#"base":"main"#"base":{"ref":"main"}#')
   printf '{"number":639,"id":639,"node_id":"PR_ready639","state":"open","merged":false,%s' "${data#\{}" > "$base/remote-pr.json"
-  printf 'pr-create\n' >> "$base/remote-effects"; cat "$base/remote-pr.json" ;;
+  printf 'pr-create\n' >> "$base/remote-effects"
+  if test -f "$base/drop-publication-readback"; then touch "$base/drop-readback"; fi
+  cat "$base/remote-pr.json" ;;
  PATCH:https://api.github.com/repos/agent-logic/agent-design-language/pulls/639)
   data=$(cat "$payload"); previous=$(cat "$base/remote-pr.json")
   printf '%s,%s' "${previous%\}}" "${data#\{}" > "$base/remote-pr.json"

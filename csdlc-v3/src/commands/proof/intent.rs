@@ -506,6 +506,17 @@ fn manifest_inputs(root: &Path, validators: &[Validator]) -> Result<(), String> 
             .map(|pair| root.join(&pair[1]))
             .unwrap_or_else(|| root.join("Cargo.toml"));
         queue.push(require(&manifest)?);
+        // Cargo resolves inherited dependencies and patches from ancestor
+        // workspace manifests, even when --manifest-path selects one member.
+        for ancestor in manifest.parent().into_iter().flat_map(Path::ancestors) {
+            if !ancestor.starts_with(root) {
+                break;
+            }
+            let workspace = ancestor.join("Cargo.toml");
+            if workspace.is_file() {
+                queue.push(require(&workspace)?);
+            }
+        }
     }
     let mut seen = std::collections::BTreeSet::new();
     while let Some(manifest) = queue.pop() {
@@ -579,6 +590,17 @@ fn compiler_artifacts(root: &Path, stdout: &str) -> Value {
             continue;
         };
         let Ok(manifest) = manifest.strip_prefix(root) else {
+            // Cargo's actual package source identity distinguishes registry
+            // packages from local paths; outside is not itself provenance.
+            // Unknown and external local/git inputs fail closed below.
+            if value["package_id"].as_str().is_some_and(|id| {
+                id.starts_with("registry+https://")
+                    || id.starts_with("registry+http://")
+                    || id.starts_with("sparse+https://")
+            }) {
+                continue;
+            }
+            artifacts.push(json!({"external_input_denied":true}));
             continue;
         };
         let source = value["target"]["src_path"]
@@ -613,6 +635,9 @@ fn compiler_inputs_tracked(root: &Path, artifacts: &Value) -> Result<(), String>
         .map(|v| root.join(v))
         .collect();
     for artifact in artifacts {
+        if artifact["external_input_denied"] == true {
+            return Err("intent_validator_input_outside_repository".into());
+        }
         let manifest = root
             .join(
                 artifact["manifest"]

@@ -121,7 +121,7 @@ pub fn envelope(mut payload: Value, invocation: &Invocation, failed: bool) -> Va
     let noop = select(&payload, &["/result/cleanup/decision"])
         .and_then(Value::as_str)
         .is_some_and(|decision| matches!(decision, "already_removed" | "absent"));
-    let mut status = if recovery {
+    let mut status = if raw_status == Some("recovery_required") || recovery {
         "recovery_required"
     } else if raw_status == Some("failed") {
         "failed"

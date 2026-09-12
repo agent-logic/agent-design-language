@@ -107,7 +107,12 @@ pub fn pending_operations(
                 })?]);
                 (request, hash)
             };
-            if request.repository != repository || (request.issue != issue && request.issue != 0) {
+            // IssueCreate's native target is zero: it does not retain the
+            // coordinating issue. Shared Git metadata cannot establish that
+            // attribution, even when two issue worktrees have the same HEAD.
+            // Such operations require explicit replay of the original request;
+            // never offer them through an unrelated issue's recovery preview.
+            if request.repository != repository || request.issue == 0 || request.issue != issue {
                 continue;
             }
             let receipt_path = github_mutation_receipt_path(root, digest)?;
