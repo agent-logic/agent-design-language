@@ -1389,6 +1389,8 @@ fn executable_github_pr_ready_uses_graphql_and_authenticated_readback() {
     let curl_path = fake_bin.join("curl");
     let script = format!(
         r#"#!/bin/sh
+# Complete the adapter's stdin configuration write before returning a response.
+case "$*" in *'--config -'*) cat >/dev/null;; esac
 case "$*" in
   *api.github.com/graphql*)
     : > {marker}
