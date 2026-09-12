@@ -21,6 +21,14 @@
     {
       "path": "adl/examples/uts_package_runtime.rs",
       "role": "production governed dispatch, ACC gate/binding/policy/replay denial before actual readonly adapter effects; 11 scenarios"
+    },
+    {
+      "path": "adl-uts/tools/test_ci_contract.rb",
+      "lane": "tooling",
+      "role": "actual CI aggregation shell accepts selected success and unselected skip; rejects failed/missing/skipped-required proof; verifies gate declaration scope",
+      "determinism": "deterministic local shell",
+      "resources": "bounded local CPU",
+      "release_gate": "required #877 publication regression"
     }
   ]
 }

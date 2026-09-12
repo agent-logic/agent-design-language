@@ -449,6 +449,8 @@ jobs:
           cargo test --locked --manifest-path adl-uts/Cargo.toml
           cargo fmt --manifest-path adl-uts/Cargo.toml -- --check
           cargo clippy --locked --manifest-path adl-uts/Cargo.toml --all-targets -- -D warnings
+      - name: UTS CI aggregation contract
+        run: ruby adl-uts/tools/test_ci_contract.rb
       - name: Clean artifact and isolated UTS consumer
         run: python3 adl-uts/tools/verify_install.py
 
