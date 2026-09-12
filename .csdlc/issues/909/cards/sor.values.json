@@ -12,11 +12,11 @@
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-909-gcp-move-in",
   "slug": "909-gcp-move-in",
   "status": "IN_PROGRESS",
-  "summary": "Complete reviewed#909companyGCP planning packet: verified companyinventory; bootstrap2noops, platform20noops from approved reconstructedprivatecandidate, organization5creates. Futureadoption/freshplan/applicationapproval remain prerequisites. No cloud/remote-statechanges; publication/CIpending.",
+  "summary": "Complete reviewed#909 companyGCP planning packet published as PR#949. Bootstrap2noops, platform20noops from approved reconstructedprivatecandidate, organization5creates. Futurecustody/adoption/freshplan/application approvals separate; no cloud or remote-statechanges.",
   "sprint_goal_ref": "Sprint 8 umbrella #934",
   "issue_goal_ref": "Issue #909 active session goal created before implementation",
   "completion_state": "implementation_complete",
-  "integration_state": "ready_for_publication",
+  "integration_state": "pr_open",
   "main_repo_paths_updated": "none",
   "worktree_only_paths_remaining": ".csdlc/evidence/909; .csdlc/issues/909; .csdlc/transactions/completed/909",
   "tracked_implementation_artifacts": ".csdlc/evidence/909/MOVE_IN_PACKET.md; APPLICATION_CHECKLIST.md; platform-plan-summary.json; local-recovery-receipt.json; bootstrap-plan-summary.json; organization-plan-summary.json; source-inventory.json; live-inventory.json; foundation-controls.json; effective-policies.json; VALIDATION.json; historicalrecoveryproposal/gap.",
@@ -25,8 +25,8 @@
   "validation_result": "Nine static checks and all company readbacks passed. Bootstrap2noops, platform20noops, organization5creates. Exactly3approvedlocalimports; pre/postvaluesunchanged. Independent final acceptance review PASS after precisionfixes.",
   "verification_validation_status": "passed_local_and_independent_review",
   "verification_scope": "bound issue worktree and approved company identity readback attempt",
-  "integration_result": "Not published yet; native closingPR publication and liveCI pending.",
+  "integration_result": "Published native PR#949 targeting main with Closes#909. Native authenticated publication/readback passed. Current CI and merge status must be read live from PR#949; no merge or terminal closeout claimed.",
   "actions_taken_line_1": "Reused unchanged source/locks; verified company organization/project/billing plus32census/20effectivepolicy observations and113quotas per project.",
   "actions_taken_line_2": "Produced2bootstrapnoops and5organizationcreates; approved isolated recovery serial33→36 produced20platformnoops; no cloud or remote state changes.",
-  "actions_taken_line_3": "Complete reviewed packet includes exact application/rollback/cost/cleanup and futurecustody prerequisites. No cloud changes/remote state writes/apply/merge."
+  "actions_taken_line_3": "Native review, PR#949 creation and authenticated publication reconciliation passed. Hosted check and merge state remain live PRtruth; no apply/merge performed."
 }

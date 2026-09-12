@@ -2,11 +2,11 @@
   "schema": "csdlc.v3.local_state.v1",
   "issue": 909,
   "phase": "bound",
-  "generation": 12,
+  "generation": 13,
   "repository": "agent-logic/agent-design-language",
   "branch": "codex/909-gcp-move-in",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-909-gcp-move-in",
   "template_registry_version": "1.0.5",
   "operational_authority": true,
-  "digest": "b368d81834c7bf2f255a5d1ae8aad75feff46c5f29a03f5262669c0cca2962b6"
+  "digest": "6d0219b616f40460204535b85a2d1759297c2d1737bbf07b6621f48990485ac2"
 }

@@ -33,7 +33,7 @@ Execution:
 
 ## Summary
 
-Complete reviewed#909companyGCP planning packet: verified companyinventory; bootstrap2noops, platform20noops from approved reconstructedprivatecandidate, organization5creates. Futureadoption/freshplan/applicationapproval remain prerequisites. No cloud/remote-statechanges; publication/CIpending.
+Complete reviewed#909 companyGCP planning packet published as PR#949. Bootstrap2noops, platform20noops from approved reconstructedprivatecandidate, organization5creates. Futurecustody/adoption/freshplan/application approvals separate; no cloud or remote-statechanges.
 
 ## PVF Lane Truth
 - Initial PVF lane: `<initial_pvf_lane>`
@@ -81,18 +81,18 @@ Complete reviewed#909companyGCP planning packet: verified companyinventory; boot
 ## Actions taken
 - `Reused unchanged source/locks; verified company organization/project/billing plus32census/20effectivepolicy observations and113quotas per project.`
 - `Produced2bootstrapnoops and5organizationcreates; approved isolated recovery serial33→36 produced20platformnoops; no cloud or remote state changes.`
-- `Complete reviewed packet includes exact application/rollback/cost/cleanup and futurecustody prerequisites. No cloud changes/remote state writes/apply/merge.`
+- `Native review, PR#949 creation and authenticated publication reconciliation passed. Hosted check and merge state remain live PRtruth; no apply/merge performed.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none`
 - Worktree-only paths remaining: `.csdlc/evidence/909; .csdlc/issues/909; .csdlc/transactions/completed/909`
-- Integration state: `ready_for_publication`
+- Integration state: `pr_open`
 - Verification scope: `bound issue worktree and approved company identity readback attempt`
 - Integration method used: `<integration_method_used>`
 - Verification performed:
   - `<integration_verification_command>`
     `<integration_verification_effect>`
-- Result: `Not published yet; native closingPR publication and liveCI pending.`
+- Result: `Published native PR#949 targeting main with Closes#909. Native authenticated publication/readback passed. Current CI and merge status must be read live from PR#949; no merge or terminal closeout claimed.`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
