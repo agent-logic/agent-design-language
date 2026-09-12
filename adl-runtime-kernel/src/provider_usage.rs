@@ -235,10 +235,10 @@ pub struct ProviderUsageRequest {
 }
 impl ProviderUsageRequest {
     pub fn failure(&self, error: &str) {
-        if error != "operation cancelled" {
+        if !matches!(error, "operation cancelled" | "provider_cancelled") {
             self.usage.observe_inference(&self.key, false);
         }
-        if error != "operation cancelled"
+        if !matches!(error, "operation cancelled" | "provider_cancelled")
             && matches!(
                 self.key.3,
                 ProviderRequestReason::OperatorConversation | ProviderRequestReason::AgentToAgent

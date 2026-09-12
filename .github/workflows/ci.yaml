@@ -428,6 +428,30 @@ jobs:
       - name: Runtime v3 Observatory proof
         run: bash adl/tools/test_v0917_html_observatory_integrated_proof.sh
 
+  adl_provider_core:
+    name: adl-provider-core
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.rust_required == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: clippy
+      - name: Provider core cache
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+        with:
+          workspaces: |
+            adl-provider-core -> target
+      - name: Provider adapter and validated definition proof
+        run: cargo test --locked --manifest-path adl-provider-core/Cargo.toml
+      - name: Provider core clippy
+        run: cargo clippy --locked --manifest-path adl-provider-core/Cargo.toml --all-targets -- -D warnings
+
   adl_uts_package:
     name: adl-uts-package
     needs: adl_path_policy
@@ -719,6 +743,7 @@ jobs:
       - adl_uts_package
       - adl_rust_fmt_clippy
       - adl_rust_tests
+      - adl_provider_core
       - adl_demo_proof
       - adl_spot_ci_and_coverage
     if: always()
@@ -744,11 +769,17 @@ jobs:
           CSDLC_V3_STANDALONE_RESULT: ${{ needs.csdlc_v3_standalone.result }}
           ADL_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_v2_standalone_required }}
           ADL_V2_STANDALONE_RESULT: ${{ needs.adl_v2_standalone.result }}
+          PROVIDER_CORE_RESULT: ${{ needs.adl_provider_core.result }}
           UTS_PACKAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' }}
           UTS_PACKAGE_RESULT: ${{ needs.adl_uts_package.result }}
           DEMO_REQUIRED: ${{ needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}
         run: |
           set -euo pipefail
+          if [ "$RUST_REQUIRED" = true ]; then
+            [ "$PROVIDER_CORE_RESULT" = success ] || { echo "::error::Provider core proof did not pass"; exit 1; }
+          else
+            [ "$PROVIDER_CORE_RESULT" = skipped ] || { echo "::error::unselected provider core lane was not skipped"; exit 1; }
+          fi
           if [ "$UTS_PACKAGE_REQUIRED" = true ]; then
             [ "$UTS_PACKAGE_RESULT" = success ] || { echo "::error::UTS package proof did not pass"; exit 1; }
           else

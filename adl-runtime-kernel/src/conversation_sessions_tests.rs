@@ -325,6 +325,7 @@ async fn resident_agent_conversation_uses_canonical_agent_runtime_wss_ingress() 
             "1111111111111111111111111111111111111111",
         ));
         population.sample.push(AgentSample {
+            provider_binding: None,
             id: agent_id.clone(),
             name: format!("{agent_id}.runtime"),
             label: format!("Agent {index:04}"),

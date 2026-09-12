@@ -49,7 +49,12 @@ struct AgentIdentityConfig {
 struct AgentProviderConfig {
     kind: String,
     model: String,
+    #[serde(default)]
     endpoint: String,
+    #[serde(default)]
+    credential_ref: Option<String>,
+    #[serde(default)]
+    required_capabilities: Vec<String>,
 }
 
 pub(crate) fn real_csmctl(args: &[String]) -> Result<()> {
@@ -242,7 +247,9 @@ fn csmctl_agent_add(args: &[String]) -> Result<()> {
             "office": config.office,
             "provider": config.provider.kind,
             "model": config.provider.model,
-            "endpoint": config.provider.endpoint
+            "endpoint": config.provider.endpoint,
+            "credential_ref": config.provider.credential_ref,
+            "required_capabilities": config.provider.required_capabilities
         })),
     )?;
     println!("{}", serde_json::to_string_pretty(&value)?);
@@ -266,11 +273,24 @@ fn load_agent_add_config(path: &std::path::Path) -> Result<AgentAddConfig> {
         ("office", config.office.as_str()),
         ("provider.kind", config.provider.kind.as_str()),
         ("provider.model", config.provider.model.as_str()),
-        ("provider.endpoint", config.provider.endpoint.as_str()),
     ] {
         if value.trim().is_empty() || value.chars().any(char::is_control) {
             return Err(anyhow!("agent config {field} is invalid"));
         }
+    }
+    if let Some(reference) = config.provider.credential_ref.as_deref() {
+        adl_provider_core::registry::credential_env(reference).map_err(|_| {
+            anyhow!("agent provider credential_ref must name an approved environment reference")
+        })?;
+    }
+    if config.provider.endpoint.chars().any(char::is_control)
+        || config.provider.required_capabilities.iter().any(|c| {
+            c.is_empty() || c.len() > 64 || !c.bytes().all(|b| b.is_ascii_lowercase() || b == b'_')
+        })
+    {
+        return Err(anyhow!(
+            "agent provider endpoint or capability requirement is invalid"
+        ));
     }
     if config.runtime.init.is_relative() {
         let parent = path.parent().unwrap_or_else(|| std::path::Path::new("."));
@@ -1036,6 +1056,21 @@ provider:
         assert_eq!(config.provider.model, "gemma4:e4b-mlx");
         assert_eq!(config.runtime.init, root.join("runtime-init.toml"));
 
+        let mut provider_definition_config = fs::read_to_string(&config_path).unwrap()
+            .replace("  kind: ollama", "  kind: configured-provider")
+            .replace("  endpoint: http://nessus.local:11434\n", "  credential_ref: env:ISSUE855_TEST_TOKEN\n  required_capabilities: [conversation]\n");
+        fs::write(&config_path, &provider_definition_config).unwrap();
+        let configured = load_agent_add_config(&config_path).expect("definition supplies endpoint");
+        assert!(configured.provider.endpoint.is_empty());
+        assert_eq!(configured.provider.required_capabilities, ["conversation"]);
+        provider_definition_config =
+            provider_definition_config.replace("env:ISSUE855_TEST_TOKEN", "raw-secret-value");
+        fs::write(&config_path, provider_definition_config).unwrap();
+        assert!(load_agent_add_config(&config_path)
+            .unwrap_err()
+            .to_string()
+            .contains("credential_ref"));
+
         fs::write(
             &config_path,
             r#"schema: adl.csm.agent_config.v1
@@ -1159,9 +1194,9 @@ provider: { kind: ollama, model: gemma4:e4b-mlx, endpoint: http://localhost:1143
                     "assistant",
                     "ollama",
                     "gemma",
-                    "",
+                    "https://example.test/\n",
                 ),
-                "provider.endpoint",
+                "endpoint or capability",
             ),
         ] {
             fs::write(&config_path, contents).expect("write invalid config");

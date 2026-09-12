@@ -667,6 +667,49 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            // A sibling provider sidecar is independently reloadable; agent lifecycle
+            // operations never rewrite the initialization file.
+            let api_shutdown = tokio_util::sync::CancellationToken::new();
+            let provider_sidecar = init_path.with_file_name("providers.yaml");
+            let provider_reload = if provider_sidecar.exists() {
+                let parser: ConfigParser<adl_provider_core::candidate::ValidatedProviderCandidate> =
+                    Arc::new(|raw| {
+                        adl_provider_core::candidate::parse_validated_provider_sidecar(raw).map_err(
+                            |_| {
+                                ConfigReloadError::validation(
+                                    "provider definitions rejected; details redacted",
+                                )
+                            },
+                        )
+                    });
+                let providers = Arc::clone(&recorder.providers);
+                let applier: ConfigApplier<
+                    adl_provider_core::candidate::ValidatedProviderCandidate,
+                > = Arc::new(move |next| {
+                    providers
+                        .replace_definitions(next.providers.clone(), next.digest.clone())
+                        .map_err(|_| {
+                            ConfigReloadError::validation("provider registry candidate rejected")
+                        })
+                });
+                match start_config_reload_with_applier_and_shutdown(
+                    provider_sidecar,
+                    parser,
+                    Some(applier),
+                    ConfigReloadOptions::default(),
+                    api_shutdown.child_token(),
+                )
+                .await
+                {
+                    Ok(owner) => Some(owner),
+                    Err(_) => {
+                        eprintln!("provider definition reload unavailable; details redacted");
+                        return ExitCode::from(78);
+                    }
+                }
+            } else {
+                None
+            };
             let mut service = ControlService::new_with_observatory_config_and_agents(
                 instance_id.clone(),
                 recorder.clone(),
@@ -804,7 +847,6 @@ async fn main() -> ExitCode {
             service.set_weather_stale_after(std::time::Duration::from_millis(
                 init.kernel.weather_stale_after_millis,
             ));
-            let api_shutdown = tokio_util::sync::CancellationToken::new();
             for (shepherd_index, shepherd) in init.resident_shepherd.iter().cloned().enumerate() {
                 let orientation_service = Arc::clone(&service);
                 let provider_usage = recorder.provider_usage.clone();
@@ -1358,6 +1400,9 @@ async fn main() -> ExitCode {
                 break 'serve terminal;
             };
             let mut observability_shutdown_error = None;
+            if let Some(provider_reload) = provider_reload {
+                let _ = provider_reload.shutdown().await;
+            }
             if let Err(error) = config_reload.shutdown().await {
                 eprintln!("runtime config reload shutdown failed: {error}");
             }

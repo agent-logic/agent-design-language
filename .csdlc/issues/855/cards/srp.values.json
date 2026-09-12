@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.v3.card_values.v1",
+  "issue": 855,
+  "issue_padded": "0855",
+  "issue_url": "https://github.com/agent-logic/agent-design-language/issues/855",
+  "title": "[v0.92.2][RT-PROVIDER] Provider-neutral dynamic agent lifecycle",
+  "branch": "codex/855-provider-neutral-lifecycle",
+  "version": "v0.92.2",
+  "card": "srp",
+  "card_status": "ready",
+  "repository": "agent-logic/agent-design-language",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-855-provider-neutral-lifecycle",
+  "version_inline": "v0.92.2",
+  "review_summary": "Execution readiness preparation only; implementation review has not run.",
+  "review_summary_inline": "Execution readiness preparation only; implementation review has not run."
+}

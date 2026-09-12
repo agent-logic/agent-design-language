@@ -146,6 +146,10 @@ pub struct AgentAdmissionRequest {
     pub provider: String,
     pub model: String,
     pub endpoint: String,
+    #[serde(default)]
+    pub credential_ref: Option<String>,
+    #[serde(default)]
+    pub required_capabilities: Vec<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1620,6 +1624,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         provider: config.provider.clone(),
                         model: config.model.clone(),
                         endpoint: config.endpoint.clone(),
+                        credential_ref: None,
+                        required_capabilities: Vec::new(),
                     },
                 )
             })
@@ -1650,6 +1656,51 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Err(ControlError::InvalidBounds) => Ok(None),
             Err(error) => Err(error),
         }
+    }
+
+    // An authenticated operator may explicitly retry failed dynamic inference.
+    // This does not change public health or allow unsolicited A2A recovery.
+    fn conversation_dispatch_eligibility(
+        &self,
+        recipient_id: &str,
+        operator_requested: bool,
+    ) -> Result<Option<bool>, ControlError> {
+        let eligible = self.conversation_recipient_eligibility(recipient_id)?;
+        if eligible != Some(false) || !operator_requested {
+            return Ok(eligible);
+        }
+        if self
+            .pending_agent_migrations
+            .lock()
+            .expect("pending migration state poisoned")
+            .contains_key(recipient_id)
+        {
+            return Ok(eligible);
+        }
+        let binding = self
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .iter()
+            .find(|d| d.id == recipient_id)
+            .cloned();
+        let Some(binding) = binding else {
+            return Ok(eligible);
+        };
+        let agent = self.agent_roster_detail(recipient_id)?;
+        let failed_inference = agent.inference_readiness == InferenceReadinessState::Failed
+            && self
+                .recorder
+                .provider_usage
+                .health_snapshot()
+                .iter()
+                .any(|h| {
+                    (h.agent == binding.name || h.agent == binding.id)
+                        && h.provider == binding.provider
+                        && h.model == binding.model
+                        && h.inference_ready == Some(false)
+                });
+        Ok(Some(failed_inference))
     }
 
     fn governed_room_refusal(
@@ -2944,16 +2995,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .to_hex()[..32]
             )
         });
-        let recipient = match self.conversation_recipient_eligibility(&intent.recipient_id) {
-            Ok(recipient) => recipient,
-            Err(_) => {
-                return ConversationAcceptance::Response(outcome(
-                    "failed",
-                    "agent_roster_unavailable",
-                    None,
-                ));
-            }
-        };
+        let recipient =
+            match self.conversation_dispatch_eligibility(&intent.recipient_id, !is_initiated) {
+                Ok(recipient) => recipient,
+                Err(_) => {
+                    return ConversationAcceptance::Response(outcome(
+                        "failed",
+                        "agent_roster_unavailable",
+                        None,
+                    ));
+                }
+            };
         match recipient {
             None => {
                 return ConversationAcceptance::Response(outcome(
@@ -3519,6 +3571,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "provider": agent.provider,
                 "model": agent.model,
                 "endpoint": agent.endpoint,
+                "credential_ref": agent.credential_ref,
+                "required_capabilities": agent.required_capabilities,
             }),
             None => serde_json::json!({
                 "op": "conversation_message",
@@ -3561,7 +3615,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 outcome("timed_out", "conversation_timed_out")
             }
         } else if !matches!(
-            self.conversation_recipient_eligibility(&dispatch.intent.recipient_id),
+            self.conversation_dispatch_eligibility(
+                &dispatch.intent.recipient_id,
+                dispatch.initiation.is_none()
+            ),
             Ok(Some(true))
         ) {
             outcome("refused", "recipient_unavailable")
@@ -3887,19 +3944,31 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if dispatch.cancellation.is_cancelled() {
             return Err("operation cancelled");
         };
-        let output = crate::control::invoke_provider_conversation(
-            &binding.provider,
-            &binding.endpoint,
-            &binding.model,
-            &prompt,
+        let accounting = crate::provider_usage::ProviderCallContext {
+            usage: &self.recorder.provider_usage,
+            agent: &dispatch.intent.recipient_id,
+            reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
+        };
+        let usage = accounting.begin(&binding.provider, &binding.model, &prompt);
+        let message = match crate::provider_registry::complete(
+            Arc::clone(&self.recorder.providers),
+            provider_binding(binding),
+            prompt,
             &dispatch.cancellation,
-            crate::provider_usage::ProviderCallContext {
-                usage: &self.recorder.provider_usage,
-                agent: &dispatch.intent.recipient_id,
-                reason: crate::provider_usage::ProviderRequestReason::OperatorConversation,
-            },
         )
-        .await?;
+        .await
+        {
+            Ok(message) => message,
+            Err(error) => {
+                usage.failure(error.code());
+                return Err(error.code());
+            }
+        };
+        usage.success(&message);
+        let output = ProviderConversationOutput {
+            message,
+            agent_to_agent: None,
+        };
         if output.agent_to_agent.is_some() || output.message.trim().is_empty() {
             return Err("agent_result_continuation_invalid");
         }
@@ -4081,6 +4150,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     let declaration = entry.declaration().clone();
                     let orientation = entry.orientation().cloned();
                     validate_persisted_agent_admission(&declaration)?;
+                    self.recorder
+                        .providers
+                        .validate_reference(&provider_binding(&declaration))
+                        .map_err(|_| ControlError::InvalidIdentifier)?;
                     if !seen.insert(declaration.id.clone()) {
                         return Err(ControlError::InvalidIdentifier);
                     }
@@ -4112,6 +4185,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .map_err(|_| ControlError::InvalidIdentifier)?;
             }
             let mut sample = agent_sample(agent);
+            sample.provider_binding = self
+                .recorder
+                .providers
+                .project(&provider_binding(agent))
+                .ok();
             sample.name = persisted_agent_canonical_name(agent);
             let resource = persisted_orientation
                 .clone()
@@ -4587,6 +4665,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     fn decorate_agent_continuity(&self, agents: &mut AgentPopulationFeed) {
+        let bindings = self
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .clone();
+        for agent in &mut agents.sample {
+            if let Some(binding) = bindings.iter().find(|b| b.id == agent.id) {
+                agent.provider_binding = self
+                    .recorder
+                    .providers
+                    .project(&provider_binding(binding))
+                    .ok();
+                if let Some(projection) = &agent.provider_binding {
+                    agent.capabilities = projection.capabilities.names();
+                    agent.model = Some(projection.provider_model_id.clone());
+                }
+            }
+        }
         let store = self
             .agent_partial_store
             .read()
@@ -4607,6 +4703,23 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     fn decorate_agent_detail(&self, agent: &mut AgentRosterEntry) {
+        if let Some(binding) = self
+            .dynamic_agents
+            .lock()
+            .expect("dynamic agents state poisoned")
+            .iter()
+            .find(|b| b.id == agent.id)
+        {
+            agent.provider_binding = self
+                .recorder
+                .providers
+                .project(&provider_binding(binding))
+                .ok();
+            if let Some(projection) = &agent.provider_binding {
+                agent.capabilities = projection.capabilities.names();
+                agent.model = Some(projection.provider_model_id.clone());
+            }
+        }
         let store = self
             .agent_partial_store
             .read()
@@ -4642,6 +4755,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 continue;
             }
             let task_declaration = declaration.clone();
+            let providers = Arc::clone(&self.recorder.providers);
+            let inference = self
+                .recorder
+                .provider_usage
+                .health_snapshot()
+                .iter()
+                .find(|h| {
+                    (h.agent == declaration.name || h.agent == declaration.id)
+                        && h.provider == declaration.provider
+                        && h.model == declaration.model
+                })
+                .and_then(|h| h.inference_ready);
+            let observed_failure = inference == Some(false);
             #[cfg(test)]
             let forced_failure = self
                 .dynamic_agent_health_task_failures
@@ -4660,13 +4786,26 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     }
                     None => {}
                 }
-                let (readiness, failure_reason) = match verify_ollama_model(&declaration).await {
-                    Ok(()) => (InferenceReadinessState::Ready, None),
-                    Err(failure) => (
-                        inference_readiness_from_agent_admission_failure(&failure),
-                        Some(agent_admission_failure_reason(&failure).to_owned()),
-                    ),
-                };
+                let (readiness, failure_reason) =
+                    match verify_registered_provider(providers, provider_binding(&declaration))
+                        .await
+                    {
+                        Ok(_) if observed_failure => (
+                            InferenceReadinessState::Failed,
+                            Some("inference_failure_requires_generated_recovery".to_owned()),
+                        ),
+                        Ok(projection)
+                            if inference != Some(true)
+                                && !projection.capabilities.model_validation =>
+                        {
+                            (InferenceReadinessState::Configured, None)
+                        }
+                        Ok(_) => (InferenceReadinessState::Ready, None),
+                        Err(failure) => (
+                            inference_readiness_from_agent_admission_failure(&failure),
+                            Some(agent_admission_failure_reason(&failure).to_owned()),
+                        ),
+                    };
                 (declaration, readiness, failure_reason, now_unix_millis())
             });
             declarations_by_task.insert(handle.id(), task_declaration);
@@ -4730,11 +4869,16 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             sample.communication_eligible = projection.communication_eligible;
             sample.activity = projection.activity.map(str::to_owned);
             sample.detail = if readiness == InferenceReadinessState::Ready {
-                format!("ollama model {} verified", declaration.model)
+                format!(
+                    "{} model {} metadata verified; generated inference status is separate",
+                    declaration.provider, declaration.model
+                )
+            } else if readiness == InferenceReadinessState::Configured {
+                "Provider configuration validated; generated inference unverified".to_owned()
             } else if let Some(reason) = failure_reason {
-                format!("Ollama provider health verification failed: {reason}")
+                format!("Provider metadata verification failed: {reason}")
             } else {
-                "Ollama provider health verification failed".to_owned()
+                "Provider metadata verification failed".to_owned()
             };
         }
     }
@@ -4757,7 +4901,11 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     ) -> Result<AgentAdmissionResponse, AgentAdmissionFailure> {
         validate_agent_admission(&request)
             .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
-        verify_agent_provider_route(&request).await?;
+        let provider_projection = verify_registered_provider(
+            Arc::clone(&self.recorder.providers),
+            provider_binding(&request),
+        )
+        .await?;
         let _transaction = self
             .dynamic_agent_admission
             .lock()
@@ -4793,8 +4941,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         {
             return Err(AgentAdmissionFailure::Conflict("agent_name_conflict"));
         }
+        let replacing = agents
+            .iter()
+            .any(|agent| agent.id == request.id && agent != &request);
         let is_new = match agents.iter().find(|agent| agent.id == request.id) {
             Some(existing) if existing == &request => false,
+            Some(existing) if existing.name == request.name => {
+                let slot = agents
+                    .iter_mut()
+                    .find(|agent| agent.id == request.id)
+                    .expect("existing binding");
+                *slot = request.clone();
+                true
+            }
             Some(_) => return Err(AgentAdmissionFailure::Conflict("agent_id_conflict")),
             None => {
                 agents.push(request.clone());
@@ -4848,6 +5007,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .expect("admission greeting state poisoned") = greetings;
         if is_new {
             let mut sample = agent_sample(&request);
+            sample.capabilities = provider_projection.capabilities.names();
+            sample.model = Some(provider_projection.provider_model_id.clone());
+            sample.provider_binding = Some(provider_projection.clone());
             sample.orientation = Some(orientation.delivery());
             self.agent_orientation_deliveries
                 .lock()
@@ -4861,7 +5023,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
         Ok(AgentAdmissionResponse {
             schema: AGENT_ADMISSION_SCHEMA.to_owned(),
-            status: if is_new {
+            status: if replacing {
+                "replaced"
+            } else if is_new {
                 "admitted"
             } else {
                 "already_present"
@@ -6198,6 +6362,7 @@ where
         .route(RUNTIME_METRICS_PATH, get(runtime_metrics_handler::<C>))
         .route("/v1/metrics/providers", get(provider_metrics_handler::<C>))
         .route("/v1/health/providers", get(provider_health_handler::<C>))
+        .route("/v1/providers", get(provider_catalog_handler::<C>))
         .route(ACIP_WS_PATH, get(acip_ws_handler::<C>))
         .route(RUNTIME_OPENAPI_PATH, get(runtime_openapi_handler))
         .route(OBSERVATORY_OPENAPI_PATH, get(observatory_openapi_handler))
@@ -6322,6 +6487,12 @@ async fn runtime_ready_handler<C: LifecycleControl + 'static>(
         StatusCode::SERVICE_UNAVAILABLE
     };
     observatory_json(status, report, allowed_origin)
+}
+
+async fn provider_catalog_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+) -> Response {
+    Json(serde_json::json!({"schema":"adl.runtime.provider_registry.v1","providers":service.recorder.providers.catalog()})).into_response()
 }
 
 async fn provider_health_handler<C: LifecycleControl + 'static>(
@@ -8192,6 +8363,7 @@ mod layer8_conversation_ingress_tests {
                 "1111111111111111111111111111111111111111",
             ));
             population.sample.push(AgentSample {
+                provider_binding: None,
                 id: id.to_owned(),
                 name: format!("{id}.runtime"),
                 label: label.to_owned(),
@@ -8709,6 +8881,7 @@ mod layer8_conversation_ingress_tests {
             let inference_readiness = InferenceReadinessState::Ready;
             let projection = inference_readiness.projection();
             population.sample.push(AgentSample {
+                provider_binding: None,
                 id: id.to_owned(),
                 name: format!("{id}.runtime"),
                 label: label.to_owned(),
@@ -8806,6 +8979,8 @@ mod layer8_conversation_ingress_tests {
                 provider: "ollama".to_owned(),
                 model: "gemma3-local".to_owned(),
                 endpoint: "http://127.0.0.1:11434".to_owned(),
+                credential_ref: None,
+                required_capabilities: Vec::new(),
             });
         service
             .dynamic_agents
@@ -8821,6 +8996,8 @@ mod layer8_conversation_ingress_tests {
                 provider: "ollama".to_owned(),
                 model: "gemma3-local".to_owned(),
                 endpoint: "http://127.0.0.1:11434".to_owned(),
+                credential_ref: None,
+                required_capabilities: Vec::new(),
             });
         service
             .dynamic_agents
@@ -8836,6 +9013,8 @@ mod layer8_conversation_ingress_tests {
                 provider: "ollama".to_owned(),
                 model: "gemma3-local".to_owned(),
                 endpoint: "http://127.0.0.1:11434".to_owned(),
+                credential_ref: None,
+                required_capabilities: Vec::new(),
             });
         let mut registry = crate::ComponentRegistry::new();
         registry.register(operation);
@@ -8916,61 +9095,22 @@ mod layer8_conversation_ingress_tests {
                     .lock()
                     .expect("fixture requests poisoned")
                     .push(serde_json::json!({"request_line": request_line, "body": body}));
-                let response_body = if request_line.starts_with("POST /api/chat ") {
-                    let closes_loop =
-                        body["messages"][0]["content"]
-                            .as_str()
-                            .is_some_and(|prompt| {
-                                prompt.contains("A governed agent-to-agent action you initiated")
-                            });
-                    if closes_loop {
-                        serde_json::json!({
-                            "model": "beacon-model",
-                            "message": {
-                                "role": "assistant",
-                                "content": "Ember returned a governed response, so the loop is closed."
-                            },
-                            "done": true
-                        })
-                    } else {
-                        serde_json::json!({
-                            "model": "beacon-model",
-                            "message": {
-                                "role": "assistant",
-                                "content": "I can ask Ember through the governed action channel.",
-                                "tool_calls": [{
-                                    "function": {
-                                        "name": "initiate_agent",
-                                        "arguments": {
-                                            "recipient_name": "ember.runtime",
-                                            "message_parts": [
-                                                "Multipart governed handoff follows.",
-                                                "Ember, please answer Beacon through governed A2A.",
-                                                "Include the welcome-package orientation receipt in your reasoning context."
-                                            ]
-                                        }
-                                    }
-                                }]
-                            },
-                            "done": true
-                        })
-                    }
+                let response_body = if request_line.starts_with("GET /api/tags ") {
+                    serde_json::json!({"models":[{"name":"beacon-model"},{"name":"ember-model"}]})
                 } else if request_line.starts_with("POST /api/generate ") {
-                    if body["model"] == "beacon-model" {
-                        serde_json::json!({
-                            "model": "beacon-model",
-                            "response": "Ember returned a governed response, so the loop is closed.",
-                            "done": true
-                        })
+                    let prompt = body["prompt"].as_str().unwrap_or("");
+                    let response = if body["model"] == "beacon-model"
+                        && !prompt.contains("A governed agent-to-agent action you initiated")
+                    {
+                        serde_json::json!({"schema":"adl.runtime.provider_agent_action.v1","message":"I can ask Ember through the governed action channel.","action":{"recipient_name":"ember.runtime","message":"","message_parts":["Multipart governed handoff follows.","Ember, please answer Beacon through governed A2A.","Include the welcome-package orientation receipt in your reasoning context."]}}).to_string()
+                    } else if body["model"] == "beacon-model" {
+                        "Ember returned a governed response, so the loop is closed.".into()
                     } else {
-                        serde_json::json!({
-                            "model": "ember-model",
-                            "response": "Ember generated a governed response for Beacon.",
-                            "done": true
-                        })
-                    }
+                        "Ember generated a governed response for Beacon.".into()
+                    };
+                    serde_json::json!({"model":body["model"],"response":response,"done":true})
                 } else {
-                    serde_json::json!({"error": "unexpected fixture route"})
+                    serde_json::json!({"error":"unexpected fixture route"})
                 };
                 let encoded = serde_json::to_vec(&response_body).expect("encode fixture response");
                 let headers = format!(
@@ -9787,10 +9927,13 @@ mod layer8_conversation_ingress_tests {
         let fixture_root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/tmp");
         std::fs::create_dir_all(&fixture_root).expect("create repository-local fixture root");
         let state = tempfile::tempdir_in(fixture_root).expect("create production executor state");
-        let agent_executor = Arc::new(crate::assembly::InProcessOperationExecutor::with_state_dir(
-            crate::AdapterKind::Agent,
+        let agent_executor = crate::assembly::build_production_operation_executors_with_recorder(
             state.path(),
-        ));
+            recorder.clone(),
+        )
+        .unwrap()
+        .remove(&crate::AdapterKind::Agent)
+        .unwrap();
         let adapter = Arc::new(
             crate::OperationalAdapter::new(
                 crate::AdapterKind::Agent,
@@ -10098,26 +10241,27 @@ mod layer8_conversation_ingress_tests {
             let requests = provider_requests
                 .lock()
                 .expect("provider request fixture poisoned");
+            let requests = requests
+                .iter()
+                .filter(|r| {
+                    r["request_line"]
+                        .as_str()
+                        .is_some_and(|s| s.starts_with("POST "))
+                })
+                .collect::<Vec<_>>();
             assert_eq!(
                 requests.len(),
                 3,
-                "initiator, recipient, and initiating-agent follow-up must execute"
+                "initiator, recipient and continuation each execute once"
             );
-            assert_eq!(requests[0]["request_line"], "POST /api/chat HTTP/1.1");
-            assert_eq!(
-                requests[0]["body"]["tools"][0]["function"]["name"],
-                "initiate_agent"
-            );
-            assert_eq!(
-                requests[0]["body"]["tools"][0]["function"]["parameters"]["required"],
-                serde_json::json!(["recipient_name"])
-            );
-            assert!(requests[0]["body"]["messages"][0]["content"]
+            assert_eq!(requests[0]["request_line"], "POST /api/generate HTTP/1.1");
+            assert!(requests[0]["body"].get("tools").is_none());
+            assert!(requests[0]["body"]["prompt"]
                 .as_str()
                 .is_some_and(|prompt| {
                     prompt.starts_with("Axioma Polis agent orientation package")
                         && prompt.contains("Runtime-delivered task content follows")
-                        && prompt.contains("provided `initiate_agent` tool")
+                        && prompt.contains("governed `initiate_agent` action")
                         && prompt.contains("ember.runtime")
                         && prompt.contains(
                             "never by model, provider, deployment, or internal Runtime id",
@@ -10162,9 +10306,9 @@ mod layer8_conversation_ingress_tests {
                 1,
                 "second multipart chunk must not be duplicated: {recipient_prompt}"
             );
-            assert_eq!(requests[2]["request_line"], "POST /api/chat HTTP/1.1");
+            assert_eq!(requests[2]["request_line"], "POST /api/generate HTTP/1.1");
             assert_eq!(requests[2]["body"]["model"], "beacon-model");
-            let follow_up_prompt = requests[2]["body"]["messages"][0]["content"]
+            let follow_up_prompt = requests[2]["body"]["prompt"]
                 .as_str()
                 .expect("initiator continuation prompt should be a string");
             assert!(follow_up_prompt.contains(
@@ -11208,6 +11352,261 @@ mod layer8_conversation_ingress_tests {
             "served acknowledgement route must not echo the raw correlation id"
         );
     }
+    // PVF provider lane: production ingress, signatures and operation executor;
+    // registered sixth adapter with deterministic generated text, no network.
+    #[tokio::test]
+    async fn sixth_registered_provider_uses_real_canonical_a2a_dispatch() {
+        use adl_provider_core::registry::*;
+        struct Sixth(Arc<std::sync::atomic::AtomicUsize>);
+        impl adl_provider_core::Provider for Sixth {
+            fn complete(&self, prompt: &str) -> anyhow::Result<String> {
+                let call = self.0.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+                if call == 0 || prompt.contains("fail budget") {
+                    return Err(ProviderFailure::Credentials.into());
+                }
+                if call == 1 {
+                    return Ok("Recovered by explicit operator request.".into());
+                }
+                if prompt.contains("A governed agent-to-agent action you initiated") {
+                    return Ok("Operator received the verified peer response.".into());
+                }
+                if prompt.contains("You are resident agent `ember.runtime`") {
+                    return Ok("Ember generated the canonical peer response.".into());
+                }
+                Ok(serde_json::json!({"schema":"adl.runtime.provider_agent_action.v1","message":"I will contact Ember.","action":{"recipient_name":"ember.runtime","message":"Please answer Beacon.","message_parts":[]}}).to_string())
+            }
+        }
+        impl RuntimeProviderAdapter for Sixth {
+            fn capabilities(&self) -> AdapterCapabilities {
+                AdapterCapabilities::text(false)
+            }
+            fn prepare(
+                &self,
+                id: &str,
+                _: &adl_provider_core::ProviderSpec,
+                b: &ProviderBinding,
+            ) -> Result<PreparedProvider, ProviderFailure> {
+                Ok(PreparedProvider {
+                    executor: Box::new(Sixth(self.0.clone())),
+                    projection: ProviderProjection {
+                        provider: id.into(),
+                        adapter: "sixth".into(),
+                        model_ref: b.model.clone(),
+                        provider_model_id: b.model.clone(),
+                        endpoint_class: "fixture".into(),
+                        capabilities: self.capabilities(),
+                        definition_generation: 0,
+                        definition_digest: String::new(),
+                        health: "fixture".into(),
+                    },
+                })
+            }
+        }
+        let (mut service, old_kernel, recorder, _, _layer8_root) =
+            agent_initiation_service(false, Duration::ZERO).await;
+        old_kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+        let actual_calls = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+        recorder
+            .providers
+            .register("sixth", Arc::new(Sixth(actual_calls.clone())))
+            .unwrap();
+        for binding in service.dynamic_agents.lock().unwrap().iter_mut() {
+            binding.provider = "sixth".into();
+            binding.endpoint = String::new();
+        }
+        for sample in service.agent_population.write().unwrap().sample.iter_mut() {
+            if sample.id == "beacon" || sample.id == "ember" {
+                sample.provider = Some("sixth".into());
+            }
+        }
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join(".adl/issue855");
+        fs::create_dir_all(&root).unwrap();
+        let state = tempfile::tempdir_in(root).unwrap();
+        let executors = crate::assembly::build_production_operation_executors_with_recorder(
+            state.path(),
+            recorder.clone(),
+        )
+        .unwrap();
+        let adapter = Arc::new(
+            crate::OperationalAdapter::new(
+                crate::AdapterKind::Agent,
+                crate::AdapterPolicy {
+                    capacity: 4,
+                    max_in_flight: 2,
+                    shutdown_grace_millis: 1000,
+                    max_attempts: 1,
+                    idempotency_entries: 16,
+                    authority: AuthorityMode::Internal,
+                },
+                executors[&crate::AdapterKind::Agent].clone(),
+            )
+            .unwrap(),
+        );
+        let operation = crate::OperationalFactory::new(adapter, vec![]);
+        let ingress = CanonicalIngress::new(
+            4,
+            recorder.clone(),
+            BTreeMap::from([("agent_runtime".into(), operation.clone())]),
+        );
+        Arc::get_mut(&mut service).unwrap().canonical_ingress = Some(ingress.clone());
+        let mut components = crate::ComponentRegistry::new();
+        components.register(operation);
+        components.register(ingress);
+        let kernel = crate::Kernel::new(components.validate().unwrap(), recorder.clone())
+            .start()
+            .await
+            .unwrap();
+        let mut intent = ObservatoryConversationIntent {
+            schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.into(),
+            conversation_id: "sixth-conversation".into(),
+            turn_id: "sixth-turn".into(),
+            recipient_id: "beacon".into(),
+            correlation_id: "efefefefefefefefefefefefefefefef".into(),
+            message: Some("Ask Ember for a canonical reply.".into()),
+            message_parts: vec![],
+        };
+        let first = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("unexpected initial refusal {:?}", response.error)
+            }
+        };
+        assert_ne!(first.status, "delivered");
+        service.refresh_dynamic_agent_health().await;
+        assert_eq!(
+            service
+                .agent_roster_detail("beacon")
+                .unwrap()
+                .inference_readiness,
+            InferenceReadinessState::Failed
+        );
+        assert_eq!(
+            service
+                .conversation_dispatch_eligibility("beacon", false)
+                .unwrap(),
+            Some(false),
+            "A2A cannot initiate recovery"
+        );
+        assert_eq!(
+            service
+                .conversation_dispatch_eligibility("beacon", true)
+                .unwrap(),
+            Some(true),
+            "explicit operator retry remains possible"
+        );
+        intent.conversation_id = "sixth-recovery".into();
+        intent.turn_id = "sixth-recovery".into();
+        let recovered = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("unexpected recovery refusal {:?}", response.error)
+            }
+        };
+        assert_eq!(recovered.status, "delivered");
+        service.refresh_dynamic_agent_health().await;
+        assert_eq!(
+            service
+                .agent_roster_detail("beacon")
+                .unwrap()
+                .inference_readiness,
+            InferenceReadinessState::Ready
+        );
+        intent.conversation_id = "sixth-after-recovery".into();
+        intent.turn_id = "sixth-after-recovery".into();
+        let response = match service.accept_conversation_intent(&intent) {
+            ConversationAcceptance::Dispatch { dispatch, .. } => {
+                service.complete_conversation_dispatch(dispatch).await
+            }
+            ConversationAcceptance::Response(response) => {
+                panic!("unexpected refusal {:?}", response.error)
+            }
+        };
+        assert_eq!(response.status, "delivered", "{response:?}");
+        assert_eq!(
+            response.initiated_recipient_name.as_deref(),
+            Some("ember.runtime")
+        );
+        assert_eq!(
+            response.initiated_reply.as_deref(),
+            Some("Ember generated the canonical peer response.")
+        );
+        assert_eq!(
+            response.reply.as_deref(),
+            Some("Operator received the verified peer response.")
+        );
+        let counters = recorder.provider_usage.snapshot();
+        assert_eq!(counters.iter().map(|c| c.requests).sum::<u64>(), 5);
+        assert!(counters.iter().all(|c| c.provider == "sixth"));
+        service.refresh_dynamic_agent_health().await;
+        assert_eq!(
+            service
+                .agent_roster_detail("beacon")
+                .unwrap()
+                .inference_readiness,
+            InferenceReadinessState::Ready
+        );
+        recorder
+            .providers
+            .replace_definitions(
+                std::collections::HashMap::from([(
+                    "sixth".into(),
+                    adl_provider_core::ProviderSpec {
+                        id: None,
+                        profile: None,
+                        kind: "sixth".into(),
+                        base_url: None,
+                        default_model: None,
+                        config: std::collections::HashMap::from([
+                            ("runtime_max_calls".into(), 6.into()),
+                            ("runtime_max_input_bytes".into(), 32000.into()),
+                            ("runtime_stop_after_failure".into(), true.into()),
+                        ]),
+                    },
+                )]),
+                "bounded-recovery-fixture".into(),
+            )
+            .unwrap();
+        for index in 0..2 {
+            intent.conversation_id = format!("budget-recovery-{index}");
+            intent.turn_id = format!("budget-recovery-{index}");
+            intent.message = Some(
+                if index == 0 {
+                    "fail budget"
+                } else {
+                    "retry explicitly"
+                }
+                .into(),
+            );
+            let response = match service.accept_conversation_intent(&intent) {
+                ConversationAcceptance::Dispatch { dispatch, .. } => {
+                    service.complete_conversation_dispatch(dispatch).await
+                }
+                ConversationAcceptance::Response(response) => panic!(
+                    "operator retry should reach governed budget: {:?}",
+                    response.error
+                ),
+            };
+            assert_ne!(response.status, "delivered");
+            service.refresh_dynamic_agent_health().await;
+            assert_eq!(
+                service
+                    .agent_roster_detail("beacon")
+                    .unwrap()
+                    .inference_readiness,
+                InferenceReadinessState::Failed
+            );
+        }
+        assert_eq!(
+            actual_calls.load(std::sync::atomic::Ordering::SeqCst),
+            6,
+            "first failed bounded call prevents an explicit operator retry from dispatching again"
+        );
+        kernel.shutdown(Duration::from_secs(1)).await.unwrap();
+    }
 }
 
 pub fn write_payload(
@@ -11260,6 +11659,8 @@ mod agent_lifecycle {
             provider: "ollama".to_owned(),
             model: "test-model".to_owned(),
             endpoint: "http://127.0.0.1:11434".to_owned(),
+            credential_ref: None,
+            required_capabilities: Vec::new(),
         }
     }
 
@@ -11789,6 +12190,8 @@ mod agent_lifecycle {
             provider: "ollama".to_owned(),
             model: "gemma4:e4b-mlx".to_owned(),
             endpoint,
+            credential_ref: None,
+            required_capabilities: Vec::new(),
         }
     }
 
@@ -11803,6 +12206,8 @@ mod agent_lifecycle {
             provider: "vertex_ai".to_owned(),
             model: "gemini-2.5-flash".to_owned(),
             endpoint: "https://us-central1-aiplatform.googleapis.com/v1/projects/agent-logic-dev/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent".to_owned(),
+            credential_ref: None,
+            required_capabilities: Vec::new(),
         }
     }
 
@@ -11815,22 +12220,38 @@ mod agent_lifecycle {
     }
 
     #[test]
-    fn vertex_ai_agent_admission_uses_explicit_provider_route() {
-        let request = vertex_declaration();
-        assert!(validate_agent_admission(&request).is_ok());
-
-        let mut ambient = request.clone();
-        ambient.endpoint =
-            "https://aiplatform.googleapis.com/v1/models/gemini-2.5-flash".to_owned();
-        assert!(validate_agent_admission(&ambient).is_err());
-
-        let mut mismatched_model = request.clone();
-        mismatched_model.model = "gemini-2.5-pro".to_owned();
-        assert!(validate_agent_admission(&mismatched_model).is_err());
-
-        let mut credentialish = request.clone();
-        credentialish.endpoint = format!("{}?access_token=secret", credentialish.endpoint);
-        assert!(validate_agent_admission(&credentialish).is_err());
+    fn vertex_ai_validation_is_owned_by_registered_adapter() {
+        let registry = adl_provider_core::registry::ProviderRegistry::standard();
+        let spec = adl_provider_core::ProviderSpec {
+            id: None,
+            profile: None,
+            kind: "vertex_ai".into(),
+            base_url: None,
+            default_model: Some("gemini-2.5-flash".into()),
+            config: std::collections::HashMap::from([
+                ("project".into(), "fixture-project".into()),
+                ("location".into(), "us-central1".into()),
+                ("provider_model_id".into(), "gemini-2.5-flash".into()),
+                (
+                    "auth".into(),
+                    serde_json::json!({"type":"bearer","env":"FIXTURE_VERTEX_TOKEN"}),
+                ),
+            ]),
+        };
+        registry
+            .replace_definitions(
+                std::collections::HashMap::from([("vertex_ai".into(), spec)]),
+                "fixture".into(),
+            )
+            .unwrap();
+        let mut request = vertex_declaration();
+        request.endpoint.clear();
+        assert!(registry.prepare(&provider_binding(&request)).is_ok());
+        request.model = "conflicting-model".into();
+        assert!(registry.prepare(&provider_binding(&request)).is_err());
+        request.model = "gemini-2.5-flash".into();
+        request.endpoint="https://us-central1-aiplatform.googleapis.com/v1/projects/fixture-project/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent?access_token=secret".into();
+        assert!(registry.prepare(&provider_binding(&request)).is_err());
     }
 
     #[tokio::test]
@@ -12245,14 +12666,18 @@ fn validate_agent_admission_base(request: &AgentAdmissionRequest) -> Result<(), 
     {
         return Err(ControlError::InvalidIdentifier);
     }
-    match request.provider.as_str() {
-        "ollama" | "openai-compatible" => {
-            validate_private_provider_binding(&request.model, &request.endpoint)?;
-        }
-        "vertex_ai" => {
-            validate_vertex_ai_provider_endpoint(&request.endpoint, &request.model)?;
-        }
-        _ => return Err(ControlError::InvalidIdentifier),
+    if request.model.is_empty()
+        || request.model.len() > 256
+        || request.model.chars().any(char::is_control)
+    {
+        return Err(ControlError::InvalidIdentifier);
+    }
+    if request
+        .credential_ref
+        .as_deref()
+        .is_some_and(|r| adl_provider_core::registry::credential_env(r).is_err())
+    {
+        return Err(ControlError::InvalidIdentifier);
     }
     Ok(())
 }
@@ -12422,6 +12847,8 @@ pub async fn preload_resident_shepherd_model(
         provider: config.provider.clone(),
         model: config.model.clone(),
         endpoint: config.endpoint.clone(),
+        credential_ref: None,
+        required_capabilities: Vec::new(),
     };
     if config.provider == "ollama" {
         verify_ollama_model(&request)
@@ -12456,18 +12883,74 @@ pub(crate) async fn invoke_resident_shepherd_provider(
     }
 }
 
-async fn verify_agent_provider_route(
-    request: &AgentAdmissionRequest,
-) -> Result<(), AgentAdmissionFailure> {
-    match request.provider.as_str() {
-        "ollama" => verify_ollama_model(request).await,
-        "vertex_ai" => {
-            validate_vertex_ai_provider_endpoint(&request.endpoint, &request.model)
-                .map_err(|_| AgentAdmissionFailure::Invalid("invalid_agent_declaration"))?;
-            Ok(())
+pub(crate) fn normalize_registered_conversation(
+    message: String,
+) -> Result<ProviderConversationOutput, &'static str> {
+    let value: serde_json::Value = match serde_json::from_str(&message) {
+        Ok(value) => value,
+        Err(_) => {
+            return Ok(ProviderConversationOutput {
+                message,
+                agent_to_agent: None,
+            })
         }
-        _ => Err(AgentAdmissionFailure::Invalid("invalid_agent_declaration")),
+    };
+    if value.get("schema").and_then(|v| v.as_str()) != Some("adl.runtime.provider_agent_action.v1")
+    {
+        return Ok(ProviderConversationOutput {
+            message,
+            agent_to_agent: None,
+        });
     }
+    let action: ProviderAgentToAgentAction = serde_json::from_value(
+        value
+            .get("action")
+            .cloned()
+            .ok_or("agent_provider_action_invalid")?,
+    )
+    .map_err(|_| "agent_provider_action_invalid")?;
+    if !is_canonical_agent_name(&action.recipient_name)
+        || assemble_agent_conversation_message(Some(&action.message), &action.message_parts)
+            .is_none()
+    {
+        return Err("agent_provider_action_invalid");
+    }
+    let message = value
+        .get("message")
+        .and_then(|v| v.as_str())
+        .filter(|s| !s.trim().is_empty())
+        .ok_or("agent_provider_action_invalid")?
+        .to_owned();
+    Ok(ProviderConversationOutput {
+        message,
+        agent_to_agent: Some(action),
+    })
+}
+
+fn provider_binding(
+    request: &AgentAdmissionRequest,
+) -> adl_provider_core::registry::ProviderBinding {
+    adl_provider_core::registry::ProviderBinding {
+        provider: request.provider.clone(),
+        model: request.model.clone(),
+        endpoint: request.endpoint.clone(),
+        credential_ref: request.credential_ref.clone(),
+        required_capabilities: request.required_capabilities.clone(),
+    }
+}
+async fn verify_registered_provider(
+    registry: Arc<adl_provider_core::registry::ProviderRegistry>,
+    binding: adl_provider_core::registry::ProviderBinding,
+) -> Result<adl_provider_core::registry::ProviderProjection, AgentAdmissionFailure> {
+    crate::provider_registry::validate(registry, binding)
+        .await
+        .map_err(|error| {
+            use adl_provider_core::registry::ProviderFailure::*;
+            match error {
+                Transport | Timeout => AgentAdmissionFailure::Unavailable(error.code()),
+                _ => AgentAdmissionFailure::Invalid(error.code()),
+            }
+        })
 }
 
 fn decode_http_chunked_body(encoded: &[u8]) -> Option<Vec<u8>> {
@@ -12528,6 +13011,8 @@ pub(crate) async fn invoke_ollama_model(
         provider: "ollama".to_owned(),
         model: model.to_owned(),
         endpoint: endpoint.to_owned(),
+        credential_ref: None,
+        required_capabilities: Vec::new(),
     };
     validate_agent_admission(&request).map_err(|_| "agent_provider_binding_invalid")?;
     let operation = async {
@@ -12620,6 +13105,7 @@ pub(crate) struct ProviderAgentToAgentAction {
     pub message_parts: Vec<String>,
 }
 
+#[cfg(test)]
 pub(crate) async fn invoke_provider_conversation(
     provider: &str,
     endpoint: &str,
@@ -12670,6 +13156,7 @@ pub(crate) async fn invoke_provider_conversation(
     }
 }
 
+#[cfg(test)]
 async fn invoke_ollama_conversation(
     endpoint: &str,
     model: &str,
@@ -12686,6 +13173,8 @@ async fn invoke_ollama_conversation(
         provider: "ollama".to_owned(),
         model: model.to_owned(),
         endpoint: endpoint.to_owned(),
+        credential_ref: None,
+        required_capabilities: Vec::new(),
     };
     validate_agent_admission(&request).map_err(|_| "agent_provider_binding_invalid")?;
     let operation = async {
@@ -12785,6 +13274,7 @@ async fn invoke_ollama_conversation(
     }
 }
 
+#[cfg(test)]
 fn normalize_ollama_conversation_response(
     response: &serde_json::Value,
 ) -> Result<ProviderConversationOutput, &'static str> {
@@ -13284,6 +13774,7 @@ async fn invoke_openai_compatible_model(
     }
 }
 
+#[cfg(test)]
 pub(crate) async fn invoke_provider_model(
     provider: &str,
     endpoint: &str,
@@ -13324,6 +13815,7 @@ fn parse_private_provider_endpoint(endpoint: &str) -> Result<(String, u16), Cont
     Ok((host.to_owned(), port))
 }
 
+#[cfg(test)]
 fn validate_vertex_ai_provider_endpoint(endpoint: &str, model: &str) -> Result<(), ControlError> {
     let without_scheme = endpoint
         .strip_prefix("https://")
@@ -13353,6 +13845,7 @@ fn agent_sample(request: &AgentAdmissionRequest) -> AgentSample {
     let readiness = InferenceReadinessState::ModelLoading;
     let projection = readiness.projection();
     AgentSample {
+        provider_binding: None,
         id: request.id.clone(),
         name: request.name.clone(),
         label: if request.display_name.is_empty() {
@@ -13569,6 +14062,8 @@ mod orientation_tests {
             provider: "ollama".to_owned(),
             model: "gemma4:e4b-mlx".to_owned(),
             endpoint: "http://127.0.0.1:11434".to_owned(),
+            credential_ref: None,
+            required_capabilities: Vec::new(),
         }
     }
 
@@ -14514,3 +15009,7 @@ mod acip_replay_tests {
         );
     }
 }
+
+#[cfg(test)]
+#[path = "control/provider_registry_tests.rs"]
+mod provider_registry_tests;

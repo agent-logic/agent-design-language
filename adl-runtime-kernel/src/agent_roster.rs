@@ -46,6 +46,8 @@ pub enum InferenceReadinessState {
     #[default]
     Unimplemented,
     Unavailable,
+    /// Configuration is usable, but no generated readiness has been observed.
+    Configured,
     ModelLoading,
     Failed,
     Ready,
@@ -64,6 +66,7 @@ impl InferenceReadinessState {
     pub fn from_projection_state(state: &str) -> Self {
         match state {
             "ready" => Self::Ready,
+            "configured" => Self::Configured,
             "model_loading" | "loading" | "starting" => Self::ModelLoading,
             "failed" | "unhealthy" => Self::Failed,
             "unavailable" | "degraded" | "recovering" | "unreachable" => Self::Unavailable,
@@ -79,6 +82,7 @@ impl InferenceReadinessState {
             Self::ModelLoading => "model_loading",
             Self::Failed => "failed",
             Self::Ready => "ready",
+            Self::Configured => "configured",
         }
     }
 
@@ -111,6 +115,13 @@ impl InferenceReadinessState {
                 availability: "unavailable",
                 activity: Some("inference_probe_failed"),
                 communication_eligible: false,
+            },
+            Self::Configured => InferenceReadinessProjection {
+                presence: AgentPresence::Unknown,
+                health: "unverified",
+                availability: "available",
+                activity: Some("inference_unverified"),
+                communication_eligible: true,
             },
             Self::Ready => InferenceReadinessProjection {
                 presence: AgentPresence::Ready,
@@ -170,6 +181,8 @@ impl AgentRosterPolicy {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct AgentRosterEntry {
+    #[serde(default)]
+    pub provider_binding: Option<adl_provider_core::registry::ProviderProjection>,
     pub schema: String,
     pub id: String,
     #[serde(default)]
@@ -577,6 +590,7 @@ fn project_entry(
 ) -> AgentRosterEntry {
     let stale = now_unix_millis > item.freshness_deadline_unix_millis;
     AgentRosterEntry {
+        provider_binding: None,
         schema: AGENT_ROSTER_ENTRY_SCHEMA.to_owned(),
         id: item.agent_id.clone(),
         name: item.name.clone(),
