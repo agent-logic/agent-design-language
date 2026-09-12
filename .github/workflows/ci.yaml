@@ -128,6 +128,11 @@ jobs:
         env:
           CSDLC_V2_STANDALONE_REQUIRED: ${{ steps.path-policy.outputs.csdlc_v2_standalone_required }}
         run: |
+          if [ "$UTS_PACKAGE_REQUIRED" = true ]; then
+            [ "$UTS_PACKAGE_RESULT" = success ] || { echo "::error::UTS package proof did not pass"; exit 1; }
+          else
+            [ "$UTS_PACKAGE_RESULT" = skipped ] || { echo "::error::unselected UTS package lane was not skipped"; exit 1; }
+          fi
           case "$CSDLC_V2_STANDALONE_REQUIRED" in
             true|false) ;;
             *)
@@ -428,6 +433,30 @@ jobs:
       - name: Runtime v3 Observatory proof
         run: bash adl/tools/test_v0917_html_observatory_integrated_proof.sh
 
+  adl_uts_package:
+    name: adl-uts-package
+    needs: adl_path_policy
+    if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # 1.92.0
+        with:
+          toolchain: 1.92.0
+          components: rustfmt, clippy
+      - name: UTS package tests and strict checks
+        run: |
+          cargo test --locked --manifest-path adl-uts/Cargo.toml
+          cargo fmt --manifest-path adl-uts/Cargo.toml -- --check
+          cargo clippy --locked --manifest-path adl-uts/Cargo.toml --all-targets -- -D warnings
+      - name: Clean artifact and isolated UTS consumer
+        run: python3 adl-uts/tools/verify_install.py
+
   adl_rust_fmt_clippy:
     name: adl-rust-fmt-clippy
     needs: adl_path_policy
@@ -592,6 +621,9 @@ jobs:
           echo "Reason: ${{ needs.adl_path_policy.outputs.validation_profile_primary_reason }}"
         working-directory: .
 
+      - name: UTS production governed dispatch
+        run: cargo run --locked --example uts_package_runtime
+
       - name: doc test
         if: needs.adl_path_policy.outputs.full_coverage_required != 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'
         run: cargo test --doc
@@ -687,6 +719,7 @@ jobs:
       - adl_v2_standalone
       - adl_tooling_contracts
       - adl_runtime_v3_fast
+      - adl_uts_package
       - adl_rust_fmt_clippy
       - adl_rust_tests
       - adl_demo_proof
@@ -714,6 +747,8 @@ jobs:
           CSDLC_V3_STANDALONE_RESULT: ${{ needs.csdlc_v3_standalone.result }}
           ADL_V2_STANDALONE_REQUIRED: ${{ needs.adl_path_policy.outputs.adl_v2_standalone_required }}
           ADL_V2_STANDALONE_RESULT: ${{ needs.adl_v2_standalone.result }}
+          UTS_PACKAGE_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' }}
+          UTS_PACKAGE_RESULT: ${{ needs.adl_uts_package.result }}
           DEMO_REQUIRED: ${{ needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}
         run: |
           set -euo pipefail

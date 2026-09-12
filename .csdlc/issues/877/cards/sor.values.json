@@ -11,6 +11,12 @@
   "repository": "agent-logic/agent-design-language",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-877-uts-package",
   "version_inline": "v0.92.2",
-  "execution_summary": "Not executed; Sprint 2 preparation only.",
-  "execution_summary_inline": "Not executed; Sprint 2 preparation only."
+  "execution_summary": "Implemented adl-uts 0.1.0 canonical types/validators/assets and adl::uts reexport; production registry uses package version-aware loader. Actual Runtime governed observation proof passed 11 scenarios including 2 successful readonly executions and 9 denial-before-effect cases. Clean Git package artifact built and consumed offline in isolated Cargo consumer. Independent review and PR publication pending; no merge claimed.",
+  "execution_summary_inline": "Implemented adl-uts 0.1.0 canonical types/validators/assets and adl::uts reexport; production registry uses package version-aware loader. Actual Runtime governed observation proof passed 11 scenarios including 2 successful readonly executions and 9 denial-before-effect cases. Clean Git package artifact built and consumed offline in isolated Cargo consumer. Independent review and PR publication pending; no merge claimed.",
+  "validation": "Passed: 20 package tests; 70 retained ADL UTS-filtered tests plus 18 unchanged package tests preserve 88 baseline; 10 registry, 25 governed executor, 8 resident tool tests; one actual Runtime resident tick; 11 scenario production-dispatch example; package and consumer strict clippy; installed artifact proof .csdlc/evidence/877/install-proof.json. Hosted CI not yet run.",
+  "validation_inline": "Passed: 20 package tests; 70 retained ADL UTS-filtered tests plus 18 unchanged package tests preserve 88 baseline; 10 registry, 25 governed executor, 8 resident tool tests; one actual Runtime resident tick; 11 scenario production-dispatch example; package and consumer strict clippy; installed artifact proof .csdlc/evidence/877/install-proof.json. Hosted CI not yet run.",
+  "artifacts": "adl-uts/; adl/src/uts.rs; adl/src/tool_registry.rs; adl/src/resident_tool_execution.rs; adl/examples/uts_package_runtime.rs; docs/specs/uts/PACKAGE.md; docs/validation/issue877_uts_package.json; .csdlc/evidence/877/",
+  "artifacts_inline": "adl-uts/; adl/src/uts.rs; adl/src/tool_registry.rs; adl/src/resident_tool_execution.rs; adl/examples/uts_package_runtime.rs; docs/specs/uts/PACKAGE.md; docs/validation/issue877_uts_package.json; .csdlc/evidence/877/",
+  "integration_state": "worktree_only",
+  "integration_state_inline": "worktree_only"
 }

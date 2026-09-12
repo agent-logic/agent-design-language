@@ -86,7 +86,7 @@ Execution:
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `<main_repo_paths_updated>`
 - Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
+- Integration state: `worktree_only`
 - Verification scope: `<verification_scope>`
 - Integration method used: `<integration_method_used>`
 - Verification performed:

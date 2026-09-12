@@ -31,9 +31,9 @@
   "deliverables_inline": "Install one versioned UTS package and use it in actual Runtime ACC/UTS tool dispatch with explicit supported-version compatibility. Depends on WP-01/#864. This is one working package/consumer delivery; docs, schema and migration notes support that result. Include production proof, failure handling and operator documentation required by the source issue.",
   "plan_summary": "Extract unchanged UTS types/validators into adl-uts 0.1.0 with schema assets; retain adl::uts compatibility reexport and route registry loading through package validation; prove isolated artifact consumption, before/after conformance and actual Runtime governed observation including denial before effects; document supported semantics; independent review and native PR.",
   "step_1_status": "completed",
-  "step_2_status": "in_progress",
-  "step_3_status": "pending",
-  "step_4_status": "pending",
+  "step_2_status": "completed",
+  "step_3_status": "completed",
+  "step_4_status": "in_progress",
   "step_5_status": "pending",
   "estimate_confidence": "unestimated",
   "estimate_confidence_inline": "unestimated",
@@ -81,5 +81,8 @@
   "estimate_data_source_inline": "No child execution baseline measured",
   "plan_summary_inline": "Extract unchanged UTS types/validators into adl-uts 0.1.0 with schema assets; retain adl::uts compatibility reexport and route registry loading through package validation; prove isolated artifact consumption, before/after conformance and actual Runtime governed observation including denial before effects; document supported semantics; independent review and native PR.",
   "step_1_status_inline": "completed",
-  "step_2_status_inline": "in_progress"
+  "step_2_status_inline": "completed",
+  "step_3_status_inline": "completed",
+  "step_4_status_inline": "in_progress",
+  "step_5_status_inline": "pending"
 }
