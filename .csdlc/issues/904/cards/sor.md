@@ -26,14 +26,14 @@ Generated: 2026-09-12T00:18:16.017452+00:00
 
 Execution:
 - Actor: `Planning #7 / sprint8_720`
-- Model: `unknown`
-- Provider: `unknown`
+- Model: `llama3.2:3b; blob sha256 dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff`
+- Provider: `ollama through NVIDIA PAIR v0.1.1 loopback proxy`
 - Start Time: `unknown; implementation began under active child goal`
 - End Time: `in_progress`
 
 ## Summary
 
-Partial accounting and bounded raw Ollama collector implemented and independently reviewed. All3review findings corrected; hardware, current Runtime comparison and final experiment disposition remain incomplete.
+PAIR and the canonical Runtime route work on the approved local Apple M4 Pro node. The warm single-node proxy result was performance-neutral: 1.0403x baseline at concurrency one and 0.9830x at concurrency two. This does not establish multi-node benefit. A second approved trusted node and controlled node-loss run are still required before the keep/repair/retire decision.
 
 ## PVF Lane Truth
 - Initial PVF lane: `provider`
@@ -75,19 +75,19 @@ Partial accounting and bounded raw Ollama collector implemented and independentl
 
 ## Artifacts produced
 - Local ignored output-card scaffold at `.csdlc/issues/904/cards/sor.md`
-- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md`
-- Additional proof artifacts: `.csdlc/evidence/904/IMPLEMENTATION_STATUS.md`
+- Tracked implementation artifacts: `adl/tools/pair_experiment.py; adl/tools/test_pair_experiment.py; adl/tests/pair_provider.rs; .csdlc/evidence/904/IMPLEMENTATION_STATUS.md; .csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node.json`
+- Additional proof artifacts: `.csdlc/evidence/904/LOCAL_PREFLIGHT.json; .csdlc/evidence/904/local-runtime-single-node.json`
 
 ## Actions taken
 - `Verified native bound context, current issue and accepted #876; created child #904 implementation goal under #932.`
-- `Implemented pair_experiment.py accounting component and focused deterministic tests; verified upstream PAIR0.1.1 identity and macOS support.`
-- `Real collector integration, two approved nodes, model/license/resource choices and experiment remain incomplete.`
+- `Verified NVIDIA-signed PAIR v0.1.1, ran all workers, pinned Ollama 0.32.14 and llama3.2:3b, and completed same-corpus direct/raw PAIR measurements.`
+- `Added and executed a create-only content-redacted Runtime live probe through canonical provider definitions; second-node pairing, node loss, resource proof and final decision remain pending.`
 
 ## Main Repo Integration (REQUIRED)
 - Main-repo paths updated: `none; native preparation is in resolved Git metadata`
 - Worktree-only paths remaining: `.csdlc/issues/904/cards; native bound setup only`
 - Integration state: `worktree_only`
-- Verification scope: `Partial local accounting and loopback collector only`
+- Verification scope: `Actual single-node direct Ollama, raw PAIR and canonical Runtime-through-PAIR routes plus deterministic accounting and negative contracts; multi-node and node-loss gates remain pending`
 - Integration method used: `Local commits in exact bound #904 worktree; no push or PR`
 - Verification performed:
   - `git status --short --branch; git rev-parse HEAD`
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `python3 adl/tools/test_pair_experiment.py; git diff --check; native csdlc validate for #904`
+  - `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_workflow_shape_is_bounded_and_concurrent -- --exact; cargo test --manifest-path adl/Cargo.toml --test pair_provider pair_actual_runtime_workflow -- --ignored --exact --nocapture with pinned ADL_PAIR inputs; cargo clippy --manifest-path adl/Cargo.toml --test pair_provider -- -D warnings; git diff --check`
     `Partial accounting and loopback transport correctness established; no actual PAIR/Runtime/hardware qualification.`
 - Results:
-  - `At8356bf4ee:14 local deterministic accounting and loopback transport tests passed; reviewer independently reran14 PASS. Native cards validate. No actual PAIR/Runtime/two-node/node-loss experiment, server cancellation proof or final disposition.`
+  - `Fourteen deterministic Python tests passed. One deterministic Rust workflow-shape test passed. The ignored live Runtime test passed 2 of 2 concurrent exact-output requests at source f7e57a0856f7f71d932ba4eb6f092811df44a173. Strict Clippy and diff checks passed. The raw local preflight passed 24 of 24 requests. Two-node routing, node loss, complete resource comparison, CI and final review remain unproved.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -136,7 +136,7 @@ verification_summary:
     prompt_or_tool_arg_leakage_detected: not_run
     absolute_path_leakage_detected: not_run
   artifacts:
-    status: partial_source_and_local_proof_present
+    status: partial_actual_single_node_and_runtime_proof_present
     required_artifacts_present: partial; hardware and Runtime experiment artifacts missing
     schema_changes:
       present: not_run
@@ -145,7 +145,7 @@ verification_summary:
 
 ## Determinism Evidence
 - Determinism tests executed: `14 tests including20receipt mutation subcases, matrix allocation bound, two-node/concurrency/context drift, raw loopback HTTP, deadline/body cap, explicit sampling/residency and redacted CLI failures.`
-- Fixtures or scripts used: `adl/tools/test_pair_experiment.py; deterministic matrix and local HTTP server fixtures`
+- Fixtures or scripts used: `python3 adl/tools/test_pair_experiment.py; cargo test --manifest-path adl/Cargo.toml --test pair_provider; operator-attended verified NVIDIA PAIR v0.1.1 service; exact two-request local corpus`
 - Replay verification (same inputs -> same artifacts/order): `Local fixture only; no actual Runtime replay`
 - Ordering guarantees (sorting / tie-break rules used): `not separately verified; partial implementation and local tests exist, full experiment remains unrun`
 - Artifact stability notes: `not separately verified; partial implementation and local tests exist, full experiment remains unrun`

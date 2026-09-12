@@ -10,8 +10,8 @@ title: "[v0.92.2][PLAT-PAIR] NVIDIA PAIR multi-node local-inference experiment"
 branch: "codex/904-v0922-pair-multinode-experiment"
 generated_at: "2026-09-12T00:18:16.017452+00:00"
 card_status: "ready"
-status: "planned"
-activation_state: "prepared_not_bound"
+status: "in_progress"
+activation_state: "bound_in_progress"
 plan_revision: 1
 initial_pvf_lane: "provider"
 planned_pvf_lane: "provider"
@@ -24,7 +24,7 @@ variance_threshold_percent: "10"
 estimate_confidence: "low"
 estimate_data_source: "local harness/negative-test estimate only; two-node experiment profile duration and cost must be separately approved after prerequisites are available"
 estimate_source_ref: "https://github.com/agent-logic/agent-design-language/issues/904"
-issue_goal_ref: "Sprint #932 child #904 active implementation goal"
+issue_goal_ref: "Active goal: execute Sprint #932 child #904 through complete two-node experiment, review, green PR and native closeout"
 sprint_goal_ref: "issue-932; Sprint 6 setup and coordination"
 goal_metrics_rollup_ref: ".csdlc/evidence/904/goal-metrics.json (planned, absent until execution)"
 source_refs:
@@ -76,9 +76,9 @@ codex_plan:
   - step: "Confirm dependencies and starting state from the source issue prompt."
     status: "in_progress"
   - step: "Inspect repo inputs and target surfaces before editing."
-    status: "pending"
+    status: "completed"
   - step: "Implement the bounded deliverables only."
-    status: "pending"
+    status: "in_progress"
   - step: "Run focused validation and proof gates."
     status: "pending"
   - step: "Record issue-specific SRP findings and VPP/SOR outcome truth."
@@ -104,7 +104,7 @@ alternatives_considered:
     reason_not_chosen: "Chat-only planning is not durable or reviewable enough for this workflow surface."
 review_hooks:
   - "Check dependency truth, scope truthfulness, touched-file truthfulness, validation sufficiency, and re-plan triggers."
-notes: "Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized."
+notes: "PAIR v0.1.1, Ollama 0.32.14, the llama3.2:3b model blob, loopback transport, corpus, concurrency 1 and 2, bounded timeouts and zero cloud cost are pinned for the local preflight. Direct and raw PAIR routes completed 24 of 24 correct warm requests. The canonical provider reload owner and production concurrent workflow executor completed 2 of 2 exact-output Runtime requests through the existing ollama provider kind and PAIR. One node is approved and healthy. A second trusted node, pairing, complete resource samples, controlled node loss and the final reviewed decision remain pending. Do not infer multi-node benefit from the single-node result. No paid or cloud resources are authorized or used."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/spp.md`
@@ -143,8 +143,8 @@ Carry `issue_goal_ref`, `sprint_goal_ref`, and `goal_metrics_rollup_ref` in fron
 ## Codex Plan
 
 1. [in_progress] Confirm dependencies and starting state from the source issue prompt.
-2. [pending] Inspect repo inputs and target surfaces before editing.
-3. [pending] Implement the bounded deliverables only.
+2. [completed] Inspect repo inputs and target surfaces before editing.
+3. [in_progress] Implement the bounded deliverables only.
 4. [pending] Run focused validation and proof gates.
 5. [pending] Record issue-specific SRP findings and VPP/SOR outcome truth.
 
@@ -189,4 +189,4 @@ Use this SPP as the design-time plan-of-record, then hand validation-planning sp
 
 ## Notes
 
-Implementation of bounded harness/accounting and deterministic negatives authorized under #932. Native bound goal active for #904. Real experiment remains blocked on two approved compatible nodes, installed PAIR version/model and current Runtime route. Upstream PAIR supports macOS as well as Windows/Linux; NVIDIA-only node restriction is not part of issue acceptance. No paid provisioning, downloads or service mutation authorized.
+PAIR v0.1.1, Ollama 0.32.14, the llama3.2:3b model blob, loopback transport, corpus, concurrency 1 and 2, bounded timeouts and zero cloud cost are pinned for the local preflight. Direct and raw PAIR routes completed 24 of 24 correct warm requests. The canonical provider reload owner and production concurrent workflow executor completed 2 of 2 exact-output Runtime requests through the existing ollama provider kind and PAIR. One node is approved and healthy. A second trusted node, pairing, complete resource samples, controlled node loss and the final reviewed decision remain pending. Do not infer multi-node benefit from the single-node result. No paid or cloud resources are authorized or used.
