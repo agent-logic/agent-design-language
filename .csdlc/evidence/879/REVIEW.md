@@ -1,6 +1,6 @@
 # #879 review record
 
-Independent exact-head review pending. Source candidate: `b91ace4be5c67e00455df62dd6ea4f3b5afb5787`.
+At initial recording, independent exact-head review was pending. Source candidate: `b91ace4be5c67e00455df62dd6ea4f3b5afb5787`.
 
 ## Preserved early root finding R1 — cumulative metadata memory bound
 
@@ -11,3 +11,11 @@ Disposition: fixed. Production Transport now counts all response bytes against a
 ## Local validation corrections
 
 The first test run exposed inherited nonblocking accepted sockets in the macOS fixture. The fixture explicitly restores blocking sockets; all cases then passed. Clippy found a test assertion using len()>0; corrected to !is_empty(), and focused clippy passed. These are retained execution corrections, not independent approval.
+
+## Independent source review and R2 publication-card P2
+
+Reviewer `review_836` approved source at `edc4d0a7df7b3c55c20f65d6a08c9a53affaa502` with no actionable production findings.
+
+Original R2 finding: rendered SOR retained summary, execution, PVF and verification placeholders; SRP review result and source references were unfilled. The summary aliases previously edited were not the actual template semantic fields.
+
+Disposition: native semantic fields and matching inline fields now carry concrete execution/validation/review truth, repository-relative references, explicit unknown metrics and pending publication/CI. No rendered Markdown was hand-edited. All six cards must pass native validation and literal-placeholder inspection. Record-only acknowledgement remains pending; source proof is unchanged and has not been rerun.

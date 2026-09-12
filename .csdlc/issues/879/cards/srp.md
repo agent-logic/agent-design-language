@@ -1,34 +1,34 @@
 ---
 schema_version: "0.1"
 artifact_type: "structured_review_prompt"
-name: "<slug>-review-prompt"
+name: "879-github-ingestion-review-prompt"
 issue: 879
 task_id: "issue-0879"
 version: "v0.92.2"
 title: "[v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet"
 branch: "codex/879-github-ingestion"
-generated_at: "<timestamp>"
+generated_at: "2026-09-12T05:03:33.504300+00:00"
 card_status: "ready"
 status: "draft"
 source_refs:
   - kind: "issue"
     ref: "https://github.com/agent-logic/agent-design-language/issues/879"
   - kind: "stp"
-    ref: "<stp_card>"
+    ref: ".csdlc/issues/879/cards/stp.md"
   - kind: "sip"
-    ref: "<sip_card>"
+    ref: ".csdlc/issues/879/cards/sip.md"
   - kind: "spp"
-    ref: "<spp_card>"
+    ref: ".csdlc/issues/879/cards/spp.md"
   - kind: "vpp"
-    ref: "<vpp_card>"
+    ref: ".csdlc/issues/879/cards/vpp.md"
   - kind: "sor"
-    ref: "<sor_card>"
+    ref: ".csdlc/issues/879/cards/sor.md"
 review_mode: "pre_pr_independent_review"
 timing: "before_pr_open"
 scope_basis:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/879/cards/stp.md"
+  - ".csdlc/issues/879/cards/sip.md"
+  - ".csdlc/issues/879/cards/vpp.md"
 in_scope_surfaces:
   - "tracked changes for this issue branch"
 evidence_policy:
@@ -51,13 +51,13 @@ non_claims:
   - "This prompt does not claim review has already run."
   - "This prompt does not guarantee review quality by itself."
 policy_refs:
-  - "<stp_card>"
-  - "<sip_card>"
-  - "<vpp_card>"
+  - ".csdlc/issues/879/cards/stp.md"
+  - ".csdlc/issues/879/cards/sip.md"
+  - ".csdlc/issues/879/cards/vpp.md"
 review_results:
-  findings_status: "<findings_status>"
-  recommended_outcome: "<recommended_outcome>"
-notes: "<review_notes>"
+  findings_status: "findings_present"
+  recommended_outcome: "pass"
+notes: "Independent reviewer review_836 approved source at edc4d0a7df7b3c55c20f65d6a08c9a53affaa502 with no actionable production findings. R2 publication-card placeholders corrected in this record-only revision; final metadata acknowledgement is required before native publication. Source proof unchanged; CI pending."
 ---
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/srp.md`
@@ -70,9 +70,9 @@ Use this prompt to govern the independent pre-PR review for this issue. Review r
 
 ## Scope Basis
 
-- <stp_card>
-- <sip_card>
-- <vpp_card>
+- .csdlc/issues/879/cards/stp.md
+- .csdlc/issues/879/cards/sip.md
+- .csdlc/issues/879/cards/vpp.md
 
 ## In-Scope Surfaces
 
@@ -123,16 +123,16 @@ review_results:
 
 ### Findings
 
-- R1: cumulative tree metadata could exceed practical bounds. Fixed with8MiB aggregate response cap and actual HTTP regression; independent disposition pending. See .csdlc/evidence/879/REVIEW.md.
+- R1 cumulative metadata resource bound: fixed and regression passed. R2 P2: rendered SOR execution/PVF/verification placeholders and SRP result/source refs were not populated by summary aliases; corrected using native actual semantic fields and inline pairs. Original findings preserved in .csdlc/evidence/879/REVIEW.md.
 
 ### Dispositions
 
-- <review_dispositions>
+- R1 resolved by8MiB aggregate response cap and executed HTTP regression. R2 correction submitted for record-only acknowledgement; all six rendered cards scanned for literal placeholders and native validation required. Source approval remains exact-head edc4d0a7df.
 
 ### Recommended Outcome
 
-- <recommended_outcome>
+- pass
 
 ## Notes
 
-<review_notes>
+Independent reviewer review_836 approved source at edc4d0a7df7b3c55c20f65d6a08c9a53affaa502 with no actionable production findings. R2 publication-card placeholders corrected in this record-only revision; final metadata acknowledgement is required before native publication. Source proof unchanged; CI pending.

@@ -1,4 +1,4 @@
-# <slug>
+# 879-github-ingestion
 
 Canonical Template Source: `docs/templates/prompts/1.0.5/sor.md`
 
@@ -21,78 +21,78 @@ Version: v0.92.2
 Title: [v0.92.2][CF-ADAPTER-GITHUB] Ingest a pinned GitHub revision or PR into a repository packet
 Branch: codex/879-github-ingestion
 Card Status: ready
-Status: implemented; independent review pending
-Generated: <timestamp>
+Status: source reviewed; publication-card acknowledgement and CI pending
+Generated: 2026-09-12T05:03:33.504300+00:00
 
 Execution:
-- Actor: `<execution_actor>`
-- Model: `<model>`
-- Provider: `<provider>`
-- Start Time: `<start_time>`
-- End Time: `<end_time>`
+- Actor: `Codex subagent execute_877`
+- Model: `not_collected`
+- Provider: `not_collected`
+- Start Time: `not_collected`
+- End Time: `not_collected; publication and CI remain pending`
 
 ## Summary
 
-<summary>
+Delivered production GET-only GitHub Git-data acquisition for pinned commits and PR heads, including fork repository provenance, exact local packet parity, inherited path/redaction/object guards, aggregate transport bounds and sanitized failures. Eight GitHub tests, ten inherited local tests and eight installed-candidate tests passed; focused clippy and formatting passed. Independent source review approved edc4d0a7df7b3c55c20f65d6a08c9a53affaa502. Record-only publication-card correction awaits acknowledgement; native publication and required CI remain pending.
 
 ## PVF Lane Truth
-- Initial PVF lane: `<initial_pvf_lane>`
-- Planned PVF lane: `<planned_pvf_lane>`
-- Final PVF lane: `<final_pvf_lane>`
-- Lane change reason: `<lane_change_reason>`
+- Initial PVF lane: `runtime`
+- Planned PVF lane: `runtime`
+- Final PVF lane: `runtime`
+- Lane change reason: `No lane change; runtime acquisition behavior with installed-command HTTP proof.`
 
 ## Issue Metrics Truth
-- Expected runtime class: `<expected_runtime_class>`
-- Estimated elapsed seconds: `<estimated_elapsed_seconds>`
-- Actual elapsed seconds: `<actual_elapsed_seconds>`
-- Actual active work seconds: `<actual_active_work_seconds>`
-- Estimated total tokens: `<estimated_total_tokens>`
-- Actual total tokens: `<actual_total_tokens>`
-- Estimated validation seconds: `<estimated_validation_seconds>`
-- Actual validation seconds: `<actual_validation_seconds>`
-- Actual PR wait seconds: `<actual_pr_wait_seconds>`
-- Actual CI wait seconds: `<actual_ci_wait_seconds>`
-- Budget source: `<budget_source>`
-- Goal metrics data source: `<actual_metrics_data_source>`
-- Goal metrics source ref: `<actual_metrics_source_ref>`
-- Data-source confidence: `<actual_metrics_confidence>`
-- Estimate error percent: `<estimate_error_percent>`
-- Completion state: `<completion_state>`
-- Issue goal ref: `<issue_goal_ref>`
-- Sprint goal ref: `<sprint_goal_ref>`
-- Goal metrics rollup ref: `<goal_metrics_rollup_ref>`
-- Validation planning prompt: `<vpp_card>`
+- Expected runtime class: `bounded local CPU/disk/loopback integration; full CI pending`
+- Estimated elapsed seconds: `unknown`
+- Actual elapsed seconds: `unknown`
+- Actual active work seconds: `unknown`
+- Estimated total tokens: `unknown`
+- Actual total tokens: `unknown`
+- Estimated validation seconds: `unknown`
+- Actual validation seconds: `unknown`
+- Actual PR wait seconds: `unknown`
+- Actual CI wait seconds: `unknown`
+- Budget source: `No explicit token or elapsed budget supplied for this issue goal.`
+- Goal metrics data source: `not_collected; no issue-scoped metrics summary artifact available`
+- Goal metrics source ref: `not_collected`
+- Data-source confidence: `unknown`
+- Estimate error percent: `unknown`
+- Completion state: `source_reviewed_publication_and_ci_pending`
+- Issue goal ref: `Active #879 execution goal: reviewed passing PR; no merge or cleanup.`
+- Sprint goal ref: `Sprint 2 umbrella #928`
+- Goal metrics rollup ref: `not_collected`
+- Validation planning prompt: `.csdlc/issues/879/cards/vpp.md`
 - Missing-telemetry rule: record `unknown` or `not_collected`; do not invent precision from chat memory or broad timestamp guesses.
 - Goal-metrics substrate note: consume the `#4264` issue-goal metrics summary when available and record `unknown` instead of duplicating raw session logs here.
 
 ## Variance Analysis
 - Threshold policy: require variance analysis when any known estimated/actual pair for elapsed seconds, total tokens, or validation seconds differs by more than 10 percent.
-- Variance analysis required: `<variance_analysis_required>`
-- Variance analysis completed: `<variance_analysis_completed>`
-- Variance category: `<variance_category>`
-- Variance note: `<variance_note>`
+- Variance analysis required: `unknown`
+- Variance analysis completed: `not_applicable`
+- Variance category: `not_applicable`
+- Variance note: `No comparable measured estimate/actual pairs were collected; unknown metrics are not zero variance.`
 - Sprint rollup guidance: count only completed variance analyses by `Variance category`; keep `not_applicable` out of category totals and never treat unknown metrics as zero variance.
 
 ## Artifacts produced
-- Local ignored output-card scaffold at `<output_card>`
-- Tracked implementation artifacts: `<tracked_implementation_artifacts>`
-- Additional proof artifacts: `<additional_proof_artifacts>`
+- Local ignored output-card scaffold at `.csdlc/issues/879/cards/sor.md`
+- Tracked implementation artifacts: `adl/src/codefriend/ingestion/github.rs; adl/src/codefriend/ingestion/mod.rs; adl/src/cli/codefriend_github_cmd.rs; adl/src/cli/codefriend_cmd.rs; adl/tests/codefriend_github_ingestion.rs; docs/codefriend/GITHUB_INGESTION.md`
+- Additional proof artifacts: `.csdlc/evidence/879/PROOF.json; .csdlc/evidence/879/REVIEW.md`
 
 ## Actions taken
-- `<actions_taken_line_1>`
-- `<actions_taken_line_2>`
-- `<actions_taken_line_3>`
+- `Verified merged #878 predecessor at the bound baseline, created the issue goal, and implemented in codex/879-github-ingestion; primary main remained clean.`
+- `Executed actual controlled Git-data HTTP acquisition and packet/receipt readers, commit/PR/fork local parity, seventeen transport failures, secret/path/symlink/partial/aggregate-budget cases, and installed CLI/logging proof.`
+- `Recorded early metadata-budget finding and its fix; independent source review approved edc4d0a7df. Corrected publication-card P2 through native semantic edits; record-only acknowledgement pending.`
 
 ## Main Repo Integration (REQUIRED)
-- Main-repo paths updated: `<main_repo_paths_updated>`
-- Worktree-only paths remaining: `<worktree_only_paths_remaining>`
-- Integration state: `<integration_state>`
-- Verification scope: `<verification_scope>`
-- Integration method used: `<integration_method_used>`
+- Main-repo paths updated: `none; issue implementation is committed only on its bound branch`
+- Worktree-only paths remaining: `All issue implementation and proof paths listed above await PR integration.`
+- Integration state: `worktree_only`
+- Verification scope: `Bound issue branch; local candidate and stable installed candidate on macOS.`
+- Integration method used: `Native PR publication pending; no merge or manual transfer performed.`
 - Verification performed:
-  - `<integration_verification_command>`
-    `<integration_verification_effect>`
-- Result: `<integration_result>`
+  - `git status --short --branch; git rev-parse HEAD; git merge-base --is-ancestor 3fa601a888a8ba90541fd2d092802a9291b78ae9 HEAD`
+    `Confirmed clean bound branch and accepted prerequisite ancestry; no claim of merge or primary-tree integration.`
+- Result: `not_integrated; publication and required CI pending`
 
 Rules:
 - Final artifacts must exist in the main repository, not only in a worktree.
@@ -107,10 +107,10 @@ Rules:
 
 ## Validation
 - Validation commands and their purpose:
-  - `<validation_command>`
-    `<validation_effect>`
+  - `cargo test --manifest-path adl/Cargo.toml --test codefriend_github_ingestion --test codefriend_ingestion; final GitHub target rerun; installed .adl/bin/adl repeat via ADL_CODEFRIEND_TEST_BINARY; cargo clippy --manifest-path adl/Cargo.toml --lib --bin adl --test codefriend_github_ingestion -- -D warnings; cargo fmt --manifest-path adl/Cargo.toml --check; native csdlc validate.`
+    `Proved actual HTTP and installed command/reader execution, packet and evidence identity parity, bounded and sanitized failures, compatibility logging, existing local contract preservation and native six-card structural validity.`
 - Results:
-  - `<validation_result>`
+  - `Final8 GitHub tests passed;10 inherited local tests passed;8 tests repeated against installed candidate passed. Focused clippy/fmt/native validation passed. Full CI andLinux qualification pending.`
 
 Validation command/path rules:
 - Prefer repository-relative paths in recorded commands and artifact references.
@@ -123,56 +123,56 @@ Validation command/path rules:
 ```yaml
 verification_summary:
   validation:
-    status: <verification_validation_status>
+    status: passed_local_ci_pending
     checks_run:
-      - "<verification_check_1>"
+      - "8 GitHub +10 inherited tests;8 installed repeat; focused clippy/fmt/native cards"
   determinism:
-    status: <verification_determinism_status>
-    replay_verified: <verification_replay_verified>
-    ordering_guarantees_verified: <verification_ordering_guarantees_verified>
+    status: passed
+    replay_verified: true
+    ordering_guarantees_verified: true
   security_privacy:
-    status: <verification_security_privacy_status>
-    secrets_leakage_detected: <verification_secrets_leakage_detected>
-    prompt_or_tool_arg_leakage_detected: <verification_prompt_or_tool_arg_leakage_detected>
-    absolute_path_leakage_detected: <verification_absolute_path_leakage_detected>
+    status: passed_bounded_fixture_checks
+    secrets_leakage_detected: false
+    prompt_or_tool_arg_leakage_detected: false
+    absolute_path_leakage_detected: false
   artifacts:
-    status: <verification_artifacts_status>
-    required_artifacts_present: <verification_required_artifacts_present>
+    status: present_locally
+    required_artifacts_present: true
     schema_changes:
-      present: <verification_schema_changes_present>
-      approved: <verification_schema_changes_approved>
+      present: true
+      approved: true
 ```
 
 ## Determinism Evidence
-- Determinism tests executed: `<determinism_tests_executed>`
-- Fixtures or scripts used: `<fixtures_or_scripts_used>`
-- Replay verification (same inputs -> same artifacts/order): `<replay_verification>`
-- Ordering guarantees (sorting / tie-break rules used): `<ordering_guarantees>`
-- Artifact stability notes: `<artifact_stability_notes>`
+- Determinism tests executed: `Exact commit/PR/fork packet equality with local ingestion, omitted-object parity, repeated candidate and installed fixture runs.`
+- Fixtures or scripts used: `adl/tests/codefriend_github_ingestion.rs creates actual isolated Git objects and controlled loopback HTTP; inherited adl/tests/codefriend_ingestion.rs.`
+- Replay verification (same inputs -> same artifacts/order): `Same revision/scope/content yields identical full Packet including object and packet identities across local, GitHub commit and PR paths.`
+- Ordering guarantees (sorting / tie-break rules used): `Shared sorted unique Scope paths and deterministic packet/object serialization; no timestamps or host paths in packet identity.`
+- Artifact stability notes: `Transport/PR provenance remains separate from unchanged repository_packet.v1 identity. Source proof is pinned in PROOF.json; record-only card corrections do not change source bytes.`
 
 ## Security / Privacy Checks
-- Secret leakage scan performed: `<secret_leakage_scan_performed>`
-- Prompt / tool argument redaction verified: `<prompt_tool_arg_redaction_verified>`
-- Absolute path leakage check: `<absolute_path_leakage_check>`
-- Sandbox / policy invariants preserved: `<sandbox_policy_invariants_preserved>`
+- Secret leakage scan performed: `Fixture source redaction, URL/userinfo rejection, token sentinel assertions on request headers/stdout/stderr/compatibility logs and omitted content passed.`
+- Prompt / tool argument redaction verified: `Hostile source instructions remain inert; no provider/tool calls; transport errors use static sanitized codes.`
+- Absolute path leakage check: `Shared portable packet and separate receipt omit checkout/output/cache paths; tests check error/log privacy and full packet parity.`
+- Sandbox / policy invariants preserved: `Read-only GET transport; no repository code execution, GitHub mutation, paid provider use, main edits, merge or cleanup.`
 
 ## Replay Artifacts
-- Trace bundle path(s): `<trace_bundle_paths>`
-- Run artifact root: `<run_artifact_root>`
-- Replay command used for verification: `<replay_command>`
-- Replay result: `<replay_result>`
+- Trace bundle path(s): `No retained raw traces; deterministic tests recreate their isolated Git/HTTP fixtures. Safe summary retained in .csdlc/evidence/879/PROOF.json.`
+- Run artifact root: `.csdlc/evidence/879`
+- Replay command used for verification: `cargo test --manifest-path adl/Cargo.toml --test codefriend_github_ingestion; set ADL_CODEFRIEND_TEST_BINARY to the stable installed candidate for installed CLI repeat.`
+- Replay result: `8 tests passed in both candidate and installed-candidate runs.`
 
 ## Artifact Verification
-- Primary proof surface: `<primary_proof_surface>`
-- Required artifacts present: `<required_artifacts_present>`
-- Artifact schema/version checks: `<artifact_schema_checks>`
-- Hash/byte-stability checks: `<hash_byte_stability_checks>`
-- Missing/optional artifacts and rationale: `<missing_optional_artifacts_rationale>`
+- Primary proof surface: `adl/tests/codefriend_github_ingestion.rs and .csdlc/evidence/879/PROOF.json`
+- Required artifacts present: `true; source, tests, docs, native cards and safe proof/review records are committed on the issue branch.`
+- Artifact schema/version checks: `Unchanged codefriend.repository_packet.v1 consumed by AdmissionInput; new codefriend.github_acquisition.v1 receipt association validated by Acquisition::read. Schema-bearing source included in approved source review.`
+- Hash/byte-stability checks: `Full local/GitHub Packet equality; actual Git blob SHA-1 verification; inherited SHA-1/SHA-256 reader tests; installed binary hash recorded in PROOF.json.`
+- Missing/optional artifacts and rationale: `Live GitHub corroboration is optional and not run; no Vector download or paid call. Linux/full integration belongs to pending required CI.`
 
 ## Decisions / Deviations
-- `<decision_or_deviation_1>`
-- `<decision_or_deviation_2>`
+- `Use existing shared GitHub credential resolver only for fixed production API host; controlled literal-loopback fixture mode never resolves or forwards credentials.`
+- `Preserved R1 cumulative metadata finding and R2 rendered publication-card P2 with dispositions. Corrected native semantic fields rather than hand-editing Markdown or weakening source proof.`
 
 ## Follow-ups / Deferred work
-- `<follow_up_1>`
-- `<follow_up_2>`
+- `Obtain record-only acknowledgement, then native review and PR publication with Closes #879.`
+- `Shepherd required CI to passing; do not merge or clean this issue worktree.`

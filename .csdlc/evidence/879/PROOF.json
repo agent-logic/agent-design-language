@@ -33,7 +33,7 @@
     "live_github_executed": false,
     "vector_downloaded_or_executed": false,
     "linux_qualification": "deferred to required CI",
-    "independent_review": "pending",
+    "independent_review": "source approved by review_836 at edc4d0a7df7b3c55c20f65d6a08c9a53affaa502; publication-card correction awaiting record-only acknowledgement",
     "ci": "not yet published"
   },
   "obligations": {
